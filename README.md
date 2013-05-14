@@ -7,15 +7,16 @@ generates pure Dart library to deal with protobufs.
 Please, do not forget that generated libraries depend on runtime
 support library which can be found [here](https://github.com/dart-lang/protobuf).
 
-How to build
-------------
+How to build and use
+--------------------
 
-TBD
+*Note:* currently the workflow is POSIX-oriented.
 
-How to use
-----------
-
-TBD
+To build standalone `protc` plugin, please, run `tools/make-plugin.sh`. That will
+create a file `out/protoc-gen-dart` which is a plugin. Now you can use it either
+by adding into `PATH` or passing directly with `protoc`'s `--plugin` option.
+Please, remember that the plugin is pure Dart script and requires the presence
+of `dart` executable in your `PATH`.
 
 Hacking
 -------
