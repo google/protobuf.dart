@@ -5,7 +5,6 @@
 
 library message_generator_test;
 
-import 'dart:io';
 import 'package:protoc-plugin/src/descriptor.pb.dart';
 import 'package:protoc-plugin/protoc.dart';
 import 'package:unittest/unittest.dart';
@@ -104,8 +103,8 @@ class PhoneNumber extends GeneratedMessage {
         ..enumType.add(ed);
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
-    MessageGenerator mg = new MessageGenerator(md, null,
-        new GenerationContext(new OutputStreamWriter(stderr)));
+    MessageGenerator mg =
+        new MessageGenerator(md, null, new GenerationContext());
     mg.initializeFields();
     mg.generate(writer);
     expect(buffer.toString(), expected);

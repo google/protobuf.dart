@@ -23,20 +23,3 @@ class MemoryWriter implements Writer {
 
   String toString() => _buffer.toString();
 }
-
-class OutputStreamWriter implements Writer {
-  static final List<int> NEWLINE_CHARS = NEWLINE.codeUnits;
-
-  final IOSink _outStream;
-
-  OutputStreamWriter(this._outStream);
-
-  void print(String str) {
-    _outStream.writeBytes(str.codeUnits);
-  }
-
-  void println([String out]) {
-    if (null != out) print(out);
-    _outStream.writeBytes(NEWLINE_CHARS);
-  }
-}

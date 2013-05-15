@@ -20,7 +20,7 @@ class CodeGenerator implements ProtobufContainer {
     _streamIn
         .fold(<int>[], (bytes, data) => bytes..addAll(data))
         .then((List<int> bytes) {
-            var ctx = new GenerationContext(new OutputStreamWriter(_streamErr));
+            var ctx = new GenerationContext();
             var request = new CodeGeneratorRequest.fromBuffer(bytes);
 
             List<FileGenerator> generators = <FileGenerator>[];

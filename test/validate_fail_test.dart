@@ -5,8 +5,6 @@
 
 library validate_fail_test;
 
-import 'dart:io';
-
 import 'package:protobuf/protobuf.dart';
 import 'package:unittest/unittest.dart';
 

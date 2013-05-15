@@ -102,11 +102,8 @@ class FileGenerator implements ProtobufContainer {
 }
 
 class GenerationContext {
-  final Writer err;
   final Map<String, ProtobufContainer> _registry =
       <String, ProtobufContainer>{};
-
-  GenerationContext(this.err);
 
   void register(ProtobufContainer container) {
     _registry[container.fqname] = container;

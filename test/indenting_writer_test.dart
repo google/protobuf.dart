@@ -5,7 +5,6 @@
 
 library indenting_writer_test;
 
-import 'dart:math';
 import 'package:protoc-plugin/protoc.dart';
 import 'package:unittest/unittest.dart';
 
