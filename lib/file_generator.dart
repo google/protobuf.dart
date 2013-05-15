@@ -36,15 +36,17 @@ class FileGenerator implements ProtobufContainer {
     MemoryWriter writer = new MemoryWriter();
     IndentingWriter out = new IndentingWriter('  ', writer);
 
-    String pathWithoutExtension = _fileDescriptor.name;
-    if (pathWithoutExtension.endsWith('.proto')) {
-      pathWithoutExtension =
-          pathWithoutExtension.substring(0, pathWithoutExtension.length - 6);
+    generatedFilePath(Path path) {
+      Path withoutExtension = path.directoryPath
+          .join(new Path(path.filenameWithoutExtension));
+      return '${withoutExtension.toNativePath()}.pb.dart';
     }
-    String filename = pathWithoutExtension
-        .substring(pathWithoutExtension.lastIndexOf('/') + 1)
-        .replaceAll('-', '_');
-    filename = '${filename[0].toUpperCase()}${filename.substring(1)}';
+
+    Path filePath = new Path(_fileDescriptor.name);
+    Path directoryPath = filePath.directoryPath.canonicalize();
+
+    String className = filePath.filenameWithoutExtension.replaceAll('-', '_');
+    className = '${className[0].toUpperCase()}${className.substring(1)}';
 
     // TODO(antonm): generate some proper library name.
     out.println(
@@ -53,13 +55,13 @@ class FileGenerator implements ProtobufContainer {
       '///\n'
       'library library;\n'
       '\n'
-      'import '
-          "'package:net/proto2/contrib/dart/protobuf_lib/src/protobuf.dart';"
+      "import 'package:protobuf/protobuf.dart';"
     );
 
     for (String import in _fileDescriptor.dependency) {
-      import = import.replaceFirst(new RegExp(r'.proto$'), '.pb.dart');
-      out.println("import 'package:$import';");
+      Path relativeProtoPath =
+          new Path(import).relativeTo(directoryPath).canonicalize();
+      out.println("import '${generatedFilePath(relativeProtoPath)}';");
     }
     out.println('');
 
@@ -80,7 +82,7 @@ class FileGenerator implements ProtobufContainer {
     // name derived from the file name.
     if (!extensionGenerators.isEmpty) {
       // TODO(antonm): do not generate a class.
-      out.addBlock('class $filename {', '}\n', () {
+      out.addBlock('class $className {', '}\n', () {
         for (ExtensionGenerator x in extensionGenerators) {
           x.generate(out);
         }
@@ -94,7 +96,7 @@ class FileGenerator implements ProtobufContainer {
     }
 
     return new CodeGeneratorResponse_File()
-        ..name = '$pathWithoutExtension.pb.dart'
+        ..name = generatedFilePath(filePath)
         ..content = writer.toString();
   }
 }
