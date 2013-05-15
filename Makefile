@@ -42,8 +42,11 @@ $(GENERATED_PB_LIBS): $(PLUGIN_PATH) $(SRC_PROTOS)
 	[ -d $(OUTPUT_PROTOS_DIR) ] || mkdir $(OUTPUT_PROTOS_DIR)
 	protoc --dart_out=$(OUTPUT_PROTOS_DIR) -I$(SRC_PROTOS_DIR) --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(SRC_PROTOS)
 
-.PHONY: build-plugin build-protos
+.PHONY: build-plugin build-protos run-tests
 
 build-plugin: $(PLUGIN_PATH)
 
 build-protos: $(GENERATED_PB_LIBS)
+
+run-tests: build-protos
+	dart --checked --package-root=packages/ test/all_tests.dart

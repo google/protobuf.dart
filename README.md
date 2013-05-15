@@ -21,12 +21,7 @@ of `dart` executable in your `PATH`.
 Hacking
 -------
 
-So far to hack on the library the main thing you should be aware of is how
-to run unittests.  The easiest way would be to use DartEditor and run
-**all_tests.dart** file which is the whole suite.
-
-If you'd like to run test from command line, please, do not pass proper
-package root.
+The main thing to remember is to run the tests. That is as easy as `make run-tests`.
 
 Useful references
 -----------------
