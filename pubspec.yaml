@@ -5,9 +5,10 @@ authors:
 description: Protoc compile to generate Dart code
 homepage: https://github.com/dart-lang/protoc-plugin
 environment:
-  sdk: '>=0.4.1+0.r19425'
+  sdk: '>=0.5.13'
 dependencies:
   protobuf:
-    path: /usr/local/google/home/antonm/protobuf/
+    git: git://github.com/dart-lang/dart-protobuf.git
+    version: '>=0.0.0'
 dev_dependencies:
   unittest: any
