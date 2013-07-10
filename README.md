@@ -5,7 +5,7 @@ This application provides a plugin for protoc compiler which
 generates pure Dart library to deal with protobufs.
 
 Please, do not forget that generated libraries depend on runtime
-support library which can be found [here](https://github.com/dart-lang/protobuf).
+support library which can be found [here](https://github.com/dart-lang/dart-protobuf).
 
 How to build and use
 --------------------
@@ -28,6 +28,6 @@ Useful references
 
 * [Main Dart site](http://www.dartlang.org)
 * [Main protobuf site](https://code.google.com/p/protobuf)
-* [Protobuf runtime support project](https://github.com/dart-lang/protobuf) 
+* [Protobuf runtime support project](https://github.com/dart-lang/dart-protobuf)
 * [DartEditor download](http://www.dartlang.org)
 * [Pub documentation](http://pub.dartlang.org/doc)
