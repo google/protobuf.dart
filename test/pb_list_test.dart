@@ -8,6 +8,8 @@ library pb_list_tests;
 import 'package:protobuf/protobuf.dart';
 import 'package:unittest/unittest.dart';
 
+import 'test_util.dart';
+
 void main() {
   test('testPbList', () {
     PbList<int> lb1 = new PbList();
@@ -60,13 +62,8 @@ void main() {
 
     lb2.removeRange(5, 8);
     expect(lb2, [1, 2, 3, 9, 8, 9]);
-    
-    // [ArgumentError] in production mode, [TypeError] in checked.
-    final invalidArgumentException = predicate(
-        (e) => e is ArgumentError || e is TypeError);
-    final badArgument = throwsA(invalidArgumentException); 
 
-    expect(() { new PbList<int>().add('hello'); }, badArgument);
+    expect(() { new PbList<int>().add('hello'); }, throwsArgumentError);
 
     PbSint32List listSint32 = new PbSint32List();
 
@@ -95,34 +92,6 @@ void main() {
     expect(() { listUint32.add(4294967295); },
         returnsNormally,
         reason: 'could not add max_uint32 to PbUint32List');
-
-    PbSint64List listSint64 = new PbSint64List();
-
-    expect(() { listSint64.add(-9223372036854775809); }, throwsArgumentError);
-
-    expect(() { listSint64.add(-9223372036854775808); },
-        returnsNormally,
-        reason: 'could not add min_sint64 to PbSint64List');
-
-    expect(() { listSint64.add(9223372036854775808); }, throwsArgumentError);
-
-    expect(() { listSint64.add(9223372036854775807); },
-        returnsNormally,
-        reason: 'could not add max_sint64 to PbSint64List');
-
-    PbUint64List listUint64 = new PbUint64List();
-
-    expect(() { listUint64.add(-1); }, throwsArgumentError);
-
-    expect(() { listUint64.add(0); },
-        returnsNormally,
-        reason: 'could not add 0 PbSint64List');
-
-    expect(() { listUint64.add(18446744073709551616); }, throwsArgumentError);
-
-    expect(() { listUint64.add(18446744073709551615); },
-        returnsNormally,
-        reason: 'could not add max_uint64 to PbUint64List');
 
     PbFloatList listFloat = new PbFloatList();
 

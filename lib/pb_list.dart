@@ -165,8 +165,8 @@ class PbUint32List extends PbList<int> {
  * A [PbList] that requires its elements to be [int]s in the range
  * [:2^-63, 2^63 - 1:].
  */
-class PbSint64List extends PbList {
-  void _validateElement(int val) {
+class PbSint64List extends PbList<ByteData> {
+  void _validateElement(ByteData val) {
     if (!_isSigned64(val)) {
       throw new ArgumentError('Illegal to add value (${val}):'
           ' out of range for sint64');
@@ -178,8 +178,8 @@ class PbSint64List extends PbList {
  * A [PbList] that requires its elements to be [int]s in the range
  * [:0, 2^64 - 1:].
  */
-class PbUint64List extends PbList {
-  void _validateElement(int val) {
+class PbUint64List extends PbList<ByteData> {
+  void _validateElement(ByteData val) {
     if (!_isUnsigned64(val)) {
       throw new ArgumentError('Illegal to add value (${val}):'
           ' out of range for uint64');

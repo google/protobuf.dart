@@ -92,7 +92,7 @@ class UnknownFieldSet {
     _getField(number).addFixed32(value);
   }
 
-  void mergeFixed64Field(int number, int value) {
+  void mergeFixed64Field(int number, ByteData value) {
     _getField(number).addFixed64(value);
   }
 
@@ -104,7 +104,7 @@ class UnknownFieldSet {
     _getField(number).addLengthDelimited(value);
   }
 
-  void mergeVarintField(int number, int value) {
+  void mergeVarintField(int number, ByteData value) {
     _getField(number).addVarint(value);
   }
 
@@ -134,6 +134,10 @@ class UnknownFieldSet {
               ..write(value._toString('$indent  '))
               ..write('${indent}}\n');
         } else {
+          if (value is ByteData) {
+          // TODO(antonm): fix for longs.
+            value = value.getUint64(0, Endianness.LITTLE_ENDIAN);
+          }
           stringBuffer.write('${indent}${tag}: ${value}\n');
         }
       }
@@ -152,9 +156,9 @@ class UnknownFieldSet {
 class UnknownFieldSetField {
 
   final List<List<int>> lengthDelimited = <List<int>>[];
-  final List<int> varints = <int>[];
+  final List<ByteData> varints = <ByteData>[];
   final List<int> fixed32s = <int>[];
-  final List<int> fixed64s = <int>[];
+  final List<ByteData> fixed64s = <ByteData>[];
   final List<UnknownFieldSet> groups = <UnknownFieldSet>[];
 
   bool operator ==(other) {
@@ -207,11 +211,11 @@ class UnknownFieldSetField {
     fixed32s.add(value);
   }
 
-  void addFixed64(int value) {
+  void addFixed64(ByteData value) {
     fixed64s.add(value);
   }
 
-  void addVarint(int value) {
+  void addVarint(ByteData value) {
     varints.add(value);
   }
 

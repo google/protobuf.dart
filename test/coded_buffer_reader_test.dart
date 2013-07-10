@@ -8,6 +8,8 @@ library coded_buffer_reader_tests;
 import 'package:protobuf/protobuf.dart';
 import 'package:unittest/unittest.dart';
 
+import 'test_util.dart';
+
 void main() {
   final throwsInvalidProtocolBufferException =
       throwsA(new isInstanceOf<InvalidProtocolBufferException>());
@@ -40,31 +42,31 @@ void main() {
     expect(cis.readInt32(), 32);
 
     expect(cis.readTag(), makeTag(104, WIRETYPE_VARINT));
-    expect(cis.readInt64(), 64);
+    expect(cis.readInt64(), expect64(64));
 
     expect(cis.readTag(), makeTag(105, WIRETYPE_VARINT));
     expect(cis.readUint32(), 32);
 
     expect(cis.readTag(), makeTag(106, WIRETYPE_VARINT));
-    expect(cis.readUint64(), 64);
+    expect(cis.readUint64(), expect64(64));
 
     expect(cis.readTag(), makeTag(107, WIRETYPE_VARINT));
     expect(cis.readSint32(), 32);
 
     expect(cis.readTag(), makeTag(108, WIRETYPE_VARINT));
-    expect(cis.readSint64(), 64);
+    expect(cis.readSint64(), expect64(64));
 
     expect(cis.readTag(), makeTag(109, WIRETYPE_FIXED32));
     expect(cis.readFixed32(), 32);
 
     expect(cis.readTag(), makeTag(110, WIRETYPE_FIXED64));
-    expect(cis.readFixed64(), 64);
+    expect(cis.readFixed64(), expect64(64));
 
     expect(cis.readTag(), makeTag(111, WIRETYPE_FIXED32));
     expect(cis.readSfixed32(), 32);
 
     expect(cis.readTag(), makeTag(112, WIRETYPE_FIXED64));
-    expect(cis.readSfixed64(), 64);
+    expect(cis.readSfixed64(), expect64(64));
 
     expect(cis.readTag(), makeTag(113, WIRETYPE_VARINT));
     expect(cis.readBool(), isTrue);

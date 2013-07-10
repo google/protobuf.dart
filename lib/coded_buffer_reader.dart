@@ -96,17 +96,17 @@ class CodedBufferReader {
   }
 
   int readEnum() => readInt32();
-  int readInt32() => _unsigned32ToSigned(_readRawVarint());
-  int readInt64() => _unsigned64ToSigned(_readRawVarint());
-  int readUint32() => _readRawVarint();
-  int readUint64() => _readRawVarint();
-  int readSint32() => _decodeZigZag(readUint32());
-  int readSint64() => _decodeZigZag(readUint64());
+  int readInt32() => _readRawVarint64().getInt32(0, Endianness.LITTLE_ENDIAN);
+  ByteData readInt64() => _readRawVarint64();
+  int readUint32() => _readRawVarint32();
+  ByteData readUint64() => _readRawVarint64();
+  int readSint32() => _decodeZigZag32(readUint32());
+  ByteData readSint64() => _decodeZigZag64(readUint64());
   int readFixed32() => _readByteData(4).getUint32(0, Endianness.LITTLE_ENDIAN);
-  int readFixed64() => _readByteData(8).getUint64(0, Endianness.LITTLE_ENDIAN);
+  ByteData readFixed64() => readSfixed64();
   int readSfixed32() => _readByteData(4).getInt32(0, Endianness.LITTLE_ENDIAN);
-  int readSfixed64() => _readByteData(8).getInt64(0, Endianness.LITTLE_ENDIAN);
-  bool readBool() => _readRawVarint() != 0;
+  ByteData readSfixed64() => _readByteData(8);
+  bool readBool() => _readRawVarint32() != 0;
   List<int> readBytes() {
     int length = readInt32();
     _checkLimit(length);
@@ -131,35 +131,69 @@ class CodedBufferReader {
     return _lastTag;
   }
 
-  static int _unsigned32ToSigned(int x) =>
-      (new ByteData(4)..setUint32(0, x, Endianness.LITTLE_ENDIAN))
-      .getInt32(0, Endianness.LITTLE_ENDIAN);
-
-  static int _unsigned64ToSigned(int x) =>
-      (new ByteData(8)..setUint64(0, x, Endianness.LITTLE_ENDIAN))
-      .getInt64(0, Endianness.LITTLE_ENDIAN);
-
-  static int _decodeZigZag(int value) {
-    return (value & 0x01) == 0 ? value ~/ 2 : -((value + 1) ~/2);
+  static int _decodeZigZag32(int value) {
+    if ((value & 0x1) == 1) value = -value;
+    return value >> 1;
   }
 
-  // TODO(antonm): there is a bug actually: if we expect 32bit value, there
-  // should be at most 5 bytes ahead, fix it.
-  int _readRawVarint() {
-    const int MAX_SHIFT = 7 * 10;
-    int result = 0;
-    int shift = 0;
-    while (true) {
-      _checkLimit(1);
-      int byte = _buffer[_bufferPos - 1];
-      result |= (byte & 0x7f) << shift;
-      shift += 7;
-
-      if ((byte & 0x80) == 0) return result;
-      if (shift == MAX_SHIFT) {
-        throw new InvalidProtocolBufferException.malformedVarint();
-      }
+  static ByteData _decodeZigZag64(ByteData value) {
+    int lo = value.getUint32(0, Endianness.LITTLE_ENDIAN);
+    int hi = value.getUint32(4, Endianness.LITTLE_ENDIAN);
+    int newHi = hi >> 1;
+    int newLo = (lo >> 1) | ((hi & 0x1) << 31);
+    if ((lo & 0x1) == 1) {
+      newHi ^= 0xffffffff;
+      newLo ^= 0xffffffff;
     }
+    return new ByteData(8)
+        ..setUint32(0, newLo, Endianness.LITTLE_ENDIAN)
+        ..setUint32(4, newHi, Endianness.LITTLE_ENDIAN);
+  }
+
+  int _readRawVarintByte() {
+    _checkLimit(1);
+    return _buffer[_bufferPos - 1];
+  }
+
+  int _readRawVarint32() {
+    int result = 0;
+    for (int i = 0; i < 5; i++) {
+      int byte = _readRawVarintByte();
+      result |= (byte & 0x7f) << (i * 7);
+      if ((byte & 0x80) == 0) return result;
+    }
+    throw new InvalidProtocolBufferException.malformedVarint();
+  }
+
+  ByteData _readRawVarint64() {
+    final result = new ByteData(8);
+
+    setPart(index, value) =>
+        result..setUint32(index, value, Endianness.LITTLE_ENDIAN);
+
+    int lo = 0;
+
+    // Read low 28 bits.
+    for (int i = 0; i < 4; i++) {
+      int byte = _readRawVarintByte();
+      lo |= (byte & 0x7f) << (i * 7);
+      if ((byte & 0x80) == 0) return setPart(0, lo);
+    }
+
+    // Read middle 7 bits: 4 low belong to low part above,
+    // 3 remaining belong to hi.
+    int byte = _readRawVarintByte();
+    setPart(0, lo | (byte & 0xf) << 28);
+    int hi = (byte >> 4) & 0x7;
+    if ((byte & 0x80) == 0) return setPart(4, hi);
+
+    // Read remaining bits of hi.
+    for (int i = 0; i < 5; i++) {
+      int byte = _readRawVarintByte();
+      hi |= (byte & 0x7f) << ((i * 7) + 3);
+      if ((byte & 0x80) == 0) return setPart(4, hi);
+    }
+    throw new InvalidProtocolBufferException.malformedVarint();
   }
 
   ByteData _readByteData(int sizeInBytes) {

@@ -12,9 +12,8 @@ _inRange(min, value, max) => (min <= value) && (value <= max);
 
 _isSigned32(int value) => _inRange(-2147483648, value, 2147483647);
 _isUnsigned32(int value) => _inRange(0, value, 4294967295);
-_isSigned64(int value) =>
-    _inRange(-9223372036854775808, value, 9223372036854775807);
-_isUnsigned64(int value) => _inRange(0, value, 18446744073709551615);
+_isSigned64(ByteData value) => _isUnsigned64(value);
+_isUnsigned64(ByteData value) => value is ByteData && value.lengthInBytes == 8;
 _isFloat32(double value) => value.isNaN || value.isInfinite ||
     _inRange(-3.4028234663852886E38, value, 3.4028234663852886E38);
 
@@ -298,7 +297,11 @@ class GeneratedMessage {
     for (FieldInfo field in fields) {
       if (hasField(field.tagNumber)) {
         var fieldValue = _fieldValues[field.tagNumber];
-        if (fieldValue is List) {
+        if (fieldValue is ByteData) {
+          // TODO(antonm): fix for longs.
+          final value = fieldValue.getUint64(0, Endianness.LITTLE_ENDIAN);
+          renderValue(field.name, value);
+        } else if (fieldValue is List) {
           for (var value in fieldValue) {
             renderValue(field.name, value);
           }
@@ -446,7 +449,7 @@ class GeneratedMessage {
           int rawValue = input.readEnum();
           var value = _getValueOfFunc(tagNumber, extensionRegistry)(rawValue);
           if (value == null) {
-            unknownFields.mergeVarintField(tagNumber, rawValue);
+            unknownFields.mergeVarintField(tagNumber, makeLongInt(rawValue));
           } else {
             _fieldValues[tagNumber] = value;
           }
@@ -521,7 +524,7 @@ class GeneratedMessage {
             int rawValue = input.readEnum();
             var value = _getValueOfFunc(tagNumber, extensionRegistry)(rawValue);
             if (value == null) {
-              unknownFields.mergeVarintField(tagNumber, rawValue);
+              unknownFields.mergeVarintField(tagNumber, makeLongInt(rawValue));
             } else {
               assigner(value);
             }
@@ -616,7 +619,11 @@ class GeneratedMessage {
       case _UINT64_BIT:
       case _FIXED64_BIT:
       case _SFIXED64_BIT:
-        return "$fieldValue";
+        // TODO(antonm): fix for longs.
+        final asInt = scalarType == _UINT64_BIT ?
+            fieldValue.getUint64(0, Endianness.LITTLE_ENDIAN) :
+            fieldValue.getInt64(0, Endianness.LITTLE_ENDIAN);
+        return "$asInt";
       case _GROUP_BIT:
       case _MESSAGE_BIT:
         return fieldValue._toMap();
@@ -712,11 +719,12 @@ class GeneratedMessage {
       case _UINT32_BIT:
       case _FIXED32_BIT:
       case _SFIXED32_BIT:
-        // Allow quoted values, although we don't emit them.
+        if (value is String) {
+          value = int.parse(value);
+        }
+        // Allow unquoted values, although we don't emit them.
         if (value is int) {
           return value;
-        } else if (value is String) {
-          return int.parse(value);
         }
         expectedType = 'int or stringified int';
         break;
@@ -725,11 +733,15 @@ class GeneratedMessage {
       case _UINT64_BIT:
       case _FIXED64_BIT:
       case _SFIXED64_BIT:
-        // Allow unquoted values, although we don't emit them.
+        // Allow quoted values, although we don't emit them.
         if (value is String) {
-          return int.parse(value);
-        } else if (value is int) {
-          return value;
+          value = int.parse(value);
+        }
+        if (value is int) {
+          const lowPart = ((1 << 31) * 2); // 2^32 which works in dart2js.
+          return new ByteData(8)
+              ..setUint32(0, value % lowPart, Endianness.LITTLE_ENDIAN)
+              ..setUint32(4, value ~/ lowPart, Endianness.LITTLE_ENDIAN);
         }
         expectedType = 'int or stringified int';
         break;
@@ -1071,9 +1083,9 @@ class GeneratedMessage {
         }
         break;
       case _INT64_BIT:
-        if (value is !int) {
+        if (value is !ByteData) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not int'));
+              _generateMessage(tagNumber, value, 'not ByteData'));
         }
         if (!_isSigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
@@ -1091,9 +1103,9 @@ class GeneratedMessage {
         }
         break;
       case _SINT64_BIT:
-        if (value is !int) {
+        if (value is !ByteData) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not int'));
+              _generateMessage(tagNumber, value, 'not ByteData'));
         }
         if (!_isSigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
@@ -1111,9 +1123,9 @@ class GeneratedMessage {
         }
         break;
       case _UINT64_BIT:
-        if (value is !int) {
+        if (value is !ByteData) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not int'));
+              _generateMessage(tagNumber, value, 'not ByteData'));
         }
         if (!_isUnsigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
@@ -1131,9 +1143,9 @@ class GeneratedMessage {
         }
         break;
       case _FIXED64_BIT:
-        if (value is !int) {
+        if (value is !ByteData) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not int'));
+              _generateMessage(tagNumber, value, 'not ByteData'));
         }
         if (!_isUnsigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
@@ -1151,9 +1163,9 @@ class GeneratedMessage {
         }
         break;
       case _SFIXED64_BIT:
-        if (value is !int) {
+        if (value is !ByteData) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not int'));
+              _generateMessage(tagNumber, value, 'not ByteData'));
         }
         if (!_isSigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
