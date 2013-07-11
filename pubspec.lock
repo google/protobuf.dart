@@ -12,10 +12,10 @@ packages:
   protobuf:
     description:
       ref: null
-      resolved-ref: d6b192352a4816810b7f5688bd30cc16f05cd57a
+      resolved-ref: "4b0b3930f7cc84e564eee860ec6b8485322578b8"
       url: "git://github.com/dart-lang/dart-protobuf.git"
     source: git
-    version: "0.0.0"
+    version: "0.1.0"
   unittest:
     description: unittest
     source: hosted

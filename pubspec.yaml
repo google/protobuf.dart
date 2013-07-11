@@ -1,5 +1,5 @@
 name: protoc-plugin
-version: 0.0.0
+version: 0.1.0
 authors:
 - Dart Team <misc@dartlang.org>
 description: Protoc compile to generate Dart code
@@ -9,6 +9,6 @@ environment:
 dependencies:
   protobuf:
     git: git://github.com/dart-lang/dart-protobuf.git
-    version: '>=0.0.0'
+    version: '>=0.1.0'
 dev_dependencies:
   unittest: any
