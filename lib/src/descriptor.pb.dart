@@ -1,7 +1,9 @@
 ///
 //  Generated code. Do not modify.
 ///
-library library;
+library Descriptor.pb;
+
+import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
 
@@ -923,8 +925,8 @@ class MethodOptions extends GeneratedMessage {
 
 class StreamOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('StreamOptions')
-    ..a(1, 'clientInitialTokens', GeneratedMessage.O6, () => 100)
-    ..a(2, 'serverInitialTokens', GeneratedMessage.O6, () => 100)
+    ..a(1, 'clientInitialTokens', GeneratedMessage.O6, () => makeLongInt(100))
+    ..a(2, 'serverInitialTokens', GeneratedMessage.O6, () => makeLongInt(100))
     ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
     ..hasExtensions = true
   ;
@@ -935,13 +937,13 @@ class StreamOptions extends GeneratedMessage {
   StreamOptions clone() => new StreamOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
 
-  int get clientInitialTokens => getField(1);
-  void set clientInitialTokens(int v) { setField(1, v); }
+  ByteData get clientInitialTokens => getField(1);
+  void set clientInitialTokens(ByteData v) { setField(1, v); }
   bool hasClientInitialTokens() => hasField(1);
   void clearClientInitialTokens() => clearField(1);
 
-  int get serverInitialTokens => getField(2);
-  void set serverInitialTokens(int v) { setField(2, v); }
+  ByteData get serverInitialTokens => getField(2);
+  void set serverInitialTokens(ByteData v) { setField(2, v); }
   bool hasServerInitialTokens() => hasField(2);
   void clearServerInitialTokens() => clearField(2);
 
@@ -975,8 +977,8 @@ class UninterpretedOption extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('UninterpretedOption')
     ..m(2, 'name', () => new UninterpretedOption_NamePart(), () => new PbList<UninterpretedOption_NamePart>())
     ..a(3, 'identifierValue', GeneratedMessage.OS)
-    ..a(4, 'positiveIntValue', GeneratedMessage.OU6)
-    ..a(5, 'negativeIntValue', GeneratedMessage.O6)
+    ..a(4, 'positiveIntValue', GeneratedMessage.OU6, () => makeLongInt(0))
+    ..a(5, 'negativeIntValue', GeneratedMessage.O6, () => makeLongInt(0))
     ..a(6, 'doubleValue', GeneratedMessage.OD)
     ..a(7, 'stringValue', GeneratedMessage.OY)
     ..a(8, 'aggregateValue', GeneratedMessage.OS)
@@ -995,13 +997,13 @@ class UninterpretedOption extends GeneratedMessage {
   bool hasIdentifierValue() => hasField(3);
   void clearIdentifierValue() => clearField(3);
 
-  int get positiveIntValue => getField(4);
-  void set positiveIntValue(int v) { setField(4, v); }
+  ByteData get positiveIntValue => getField(4);
+  void set positiveIntValue(ByteData v) { setField(4, v); }
   bool hasPositiveIntValue() => hasField(4);
   void clearPositiveIntValue() => clearField(4);
 
-  int get negativeIntValue => getField(5);
-  void set negativeIntValue(int v) { setField(5, v); }
+  ByteData get negativeIntValue => getField(5);
+  void set negativeIntValue(ByteData v) { setField(5, v); }
   bool hasNegativeIntValue() => hasField(5);
   void clearNegativeIntValue() => clearField(5);
 

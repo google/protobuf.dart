@@ -1,7 +1,9 @@
 ///
 //  Generated code. Do not modify.
 ///
-library library;
+library Plugin.pb;
+
+import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
 import 'descriptor.pb.dart';

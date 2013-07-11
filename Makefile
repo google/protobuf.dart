@@ -17,18 +17,19 @@ OUTPUT_DIR=out
 PLUGIN_NAME=protoc-gen-dart
 PLUGIN_PATH=$(OUTPUT_DIR)/$(PLUGIN_NAME)
 
-PROTO_LIST = \
+TEST_PROTO_LIST = \
 						 google/protobuf/unittest_import \
 						 google/protobuf/unittest_optimize_for \
 						 google/protobuf/unittest \
 						 multiple_files_test \
 						 nested_extension \
 						 non_nested_extension
+TEST_PROTO_DIR=$(OUTPUT_DIR)/protos
+TEST_PROTO_LIBS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_DIR)/$(proto).pb.dart)
+TEST_PROTO_SRC_DIR=test/protos
+TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_SRC_DIR)/$(proto).proto)
 
-OUTPUT_PROTOS_DIR=$(OUTPUT_DIR)/protos
-SRC_PROTOS_DIR=test/protos
-GENERATED_PB_LIBS = $(foreach proto, $(PROTO_LIST), $(OUTPUT_PROTOS_DIR)/$(proto).pb.dart)
-SRC_PROTOS = $(foreach proto, $(PROTO_LIST), $(SRC_PROTOS_DIR)/$(proto).proto)
+PREGENERATED_SRCS=lib/descriptor.proto lib/plugin.proto
 
 
 $(PLUGIN_PATH): $(PLUGIN_SRC)
@@ -38,17 +39,24 @@ $(PLUGIN_PATH): $(PLUGIN_SRC)
 	sed -i '1i #!/usr/bin/env dart' $(PLUGIN_PATH)
 	chmod +x $(PLUGIN_PATH)
 
-$(GENERATED_PB_LIBS): $(PLUGIN_PATH) $(SRC_PROTOS)
-	[ -d $(OUTPUT_PROTOS_DIR) ] || mkdir $(OUTPUT_PROTOS_DIR)
-	protoc --dart_out=$(OUTPUT_PROTOS_DIR) -I$(SRC_PROTOS_DIR) --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(SRC_PROTOS)
+$(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
+	[ -d $(TEST_PROTO_DIR) ] || mkdir $(TEST_PROTO_DIR)
+	protoc\
+		--dart_out=$(TEST_PROTO_DIR)\
+		-I$(TEST_PROTO_SRC_DIR)\
+		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
+		$(TEST_PROTO_SRCS)
 
-.PHONY: build-plugin build-protos run-tests clean
+.PHONY: build-plugin update-pregenerated build-test-protos run-tests clean
 
 build-plugin: $(PLUGIN_PATH)
 
-build-protos: $(GENERATED_PB_LIBS)
+update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
+	protoc --dart_out=lib/src -Ilib --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
 
-run-tests: build-protos
+build-test-protos: $(TEST_PROTO_LIBS)
+
+run-tests: build-test-protos
 	dart --checked --package-root=packages/ test/all_tests.dart
 
 clean:
