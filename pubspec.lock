@@ -12,8 +12,8 @@ packages:
   protobuf:
     description:
       ref: null
-      resolved-ref: "4b0b3930f7cc84e564eee860ec6b8485322578b8"
-      url: "git://github.com/dart-lang/dart-protobuf.git"
+      resolved-ref: "47f1a59cd0a3c6bf638e30f9067ffda091c3c7cc"
+      url: "https://github.com/dart-lang/dart-protobuf.git"
     source: git
     version: "0.1.0"
   unittest:

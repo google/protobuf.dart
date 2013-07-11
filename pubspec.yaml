@@ -8,7 +8,7 @@ environment:
   sdk: '>=0.5.13'
 dependencies:
   protobuf:
-    git: git://github.com/dart-lang/dart-protobuf.git
+    git: https://github.com/dart-lang/dart-protobuf.git
     version: '>=0.1.0'
 dev_dependencies:
   unittest: any
