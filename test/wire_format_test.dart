@@ -68,7 +68,7 @@ void main() {
     // Make sure we can parse a message that contains multiple extensions
     // ranges.
     TestFieldOrderings source = new TestFieldOrderings()
-        ..myInt = 1
+        ..myInt = make64(1)
         ..myString = 'foo'
         ..myFloat = 1.0
         ..setExtension(Unittest.myExtensionInt, 23)

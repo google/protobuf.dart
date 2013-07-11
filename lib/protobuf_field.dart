@@ -79,7 +79,7 @@ class ProtobufField {
       case 'SFIXED64': return '${prefix}SF6';
       case 'MESSAGE': return '${prefix}M';
     }
-    return type;
+    throw 'Unknown type';
   }
 
   ProtobufField._(
@@ -157,15 +157,10 @@ class ProtobufField {
         }
         break;
       case FieldDescriptorProto_Type.TYPE_INT32:
-      case FieldDescriptorProto_Type.TYPE_INT64:
       case FieldDescriptorProto_Type.TYPE_UINT32:
-      case FieldDescriptorProto_Type.TYPE_UINT64:
       case FieldDescriptorProto_Type.TYPE_SINT32:
-      case FieldDescriptorProto_Type.TYPE_SINT64:
       case FieldDescriptorProto_Type.TYPE_FIXED32:
-      case FieldDescriptorProto_Type.TYPE_FIXED64:
       case FieldDescriptorProto_Type.TYPE_SFIXED32:
-      case FieldDescriptorProto_Type.TYPE_SFIXED64:
         baseType = 'int';
         typeString = write('int');
         packable = true;
@@ -173,38 +168,54 @@ class ProtobufField {
           case FieldDescriptorProto_Type.TYPE_INT32:
             codedStreamType = 'Int32';
             break;
-          case FieldDescriptorProto_Type.TYPE_INT64:
-            codedStreamType = 'Int64';
-            break;
           case FieldDescriptorProto_Type.TYPE_UINT32:
             codedStreamType = 'Uint32';
-            break;
-          case FieldDescriptorProto_Type.TYPE_UINT64:
-            codedStreamType = 'Uint64';
             break;
           case FieldDescriptorProto_Type.TYPE_SINT32:
             codedStreamType = 'Sint32';
             break;
-          case FieldDescriptorProto_Type.TYPE_SINT64:
-            codedStreamType = 'Sint64';
-            break;
           case FieldDescriptorProto_Type.TYPE_FIXED32:
             codedStreamType = 'Fixed32';
             break;
-          case FieldDescriptorProto_Type.TYPE_FIXED64:
-            codedStreamType = 'Fixed64';
-            break;
           case FieldDescriptorProto_Type.TYPE_SFIXED32:
             codedStreamType = 'Sfixed32';
-            break;
-          case FieldDescriptorProto_Type.TYPE_SFIXED64:
-            codedStreamType = 'Sfixed64';
             break;
         }
         if (!repeats) {
           if (field.hasDefaultValue() && '0' != field.defaultValue) {
             initialization = '()${SP}=>${SP}${field.defaultValue}';
           }
+        }
+        break;
+      case FieldDescriptorProto_Type.TYPE_INT64:
+      case FieldDescriptorProto_Type.TYPE_UINT64:
+      case FieldDescriptorProto_Type.TYPE_SINT64:
+      case FieldDescriptorProto_Type.TYPE_FIXED64:
+      case FieldDescriptorProto_Type.TYPE_SFIXED64:
+        baseType = 'ByteData';
+        typeString = write('ByteData');
+        packable = true;
+        switch (field.type) {
+          case FieldDescriptorProto_Type.TYPE_INT64:
+            codedStreamType = 'Int64';
+            break;
+          case FieldDescriptorProto_Type.TYPE_UINT64:
+            codedStreamType = 'Uint64';
+            break;
+          case FieldDescriptorProto_Type.TYPE_SINT64:
+            codedStreamType = 'Sint64';
+            break;
+          case FieldDescriptorProto_Type.TYPE_FIXED64:
+            codedStreamType = 'Fixed64';
+            break;
+          case FieldDescriptorProto_Type.TYPE_SFIXED64:
+            codedStreamType = 'Sfixed64';
+            break;
+        }
+        if (!repeats) {
+          final defaultValue = field.hasDefaultValue() ?
+              field.defaultValue : '0';
+          initialization = '()${SP}=>${SP}makeLongInt($defaultValue)';
         }
         break;
       case FieldDescriptorProto_Type.TYPE_STRING:

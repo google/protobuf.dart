@@ -8,6 +8,8 @@ library message_test;
 import 'package:protobuf/protobuf.dart';
 import 'package:unittest/unittest.dart';
 
+import 'test_util.dart';
+
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
 void main() {
@@ -26,7 +28,7 @@ void main() {
         ..repeatedString.add('bar');
 
     TestAllTypes mergeDest = new TestAllTypes()
-        ..optionalInt64 = 2
+        ..optionalInt64 = make64(2)
         ..optionalString = 'baz'
         ..optionalForeignMessage = new ForeignMessage()
         ..optionalForeignMessage = (new ForeignMessage()..c = 3)

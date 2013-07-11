@@ -5,11 +5,18 @@
 
 library validate_fail_test;
 
+import 'dart:typed_data';
+
 import 'package:protobuf/protobuf.dart';
 import 'package:unittest/unittest.dart';
 
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
+
+// [ArgumentError] in production mode, [TypeError] in checked.
+final invalidArgumentException = predicate(
+    (e) => e is ArgumentError || e is TypeError);
+final badArgument = throwsA(invalidArgumentException);
 
 void main() {
   test('testValidatePbListTypes', () {
@@ -22,13 +29,13 @@ void main() {
     expect(() { lUint32.add(-1); }, throwsArgumentError);
     expect(() { lUint32.add(4294967296); }, throwsArgumentError);
 
-    PbList<int> lSint64 = new PbSint64List();
-    expect(() { lSint64.add(-9223372036854775809); }, throwsArgumentError);
-    expect(() { lSint64.add(9223372036854775808); }, throwsArgumentError);
+    PbList<ByteData> lSint64 = new PbSint64List();
+    expect(() { lSint64.add(-9223372036854775809); }, badArgument);
+    expect(() { lSint64.add(9223372036854775808); }, badArgument);
 
-    PbList<int> lUint64 = new PbUint64List();
-    expect(() { lUint64.add(-1); }, throwsArgumentError);
-    expect(() { lUint64.add(18446744073709551616); }, throwsArgumentError);
+    PbList<ByteData> lUint64 = new PbUint64List();
+    expect(() { lUint64.add(-1); }, badArgument);
+    expect(() { lUint64.add(18446744073709551616); }, badArgument);
 
     PbList<double> lFloat = new PbFloatList();
     expect(() { lFloat.add(-3.4028234663852886E39); }, throwsArgumentError);
@@ -36,11 +43,6 @@ void main() {
   });
 
   test('testValidationFailureMessages', () {
-    // [ArgumentError] in production mode, [TypeError] in checked.
-    final invalidArgumentException = predicate(
-        (e) => e is ArgumentError || e is TypeError);
-    final badArgument = throwsA(invalidArgumentException);
-
     TestAllTypes builder = new TestAllTypes();
 
     expect(() { builder.optionalInt32 = null; }, throwsArgumentError);
@@ -51,18 +53,18 @@ void main() {
 
     expect(() { builder.optionalInt64 = '102'; }, badArgument);
     expect(() { builder.optionalInt64 = -9223372036854775809; },
-           throwsArgumentError);
+           badArgument);
     expect(() { builder.optionalInt64 = 9223372036854775808; },
-           throwsArgumentError);
+           badArgument);
 
     expect(() { builder.optionalUint32 = '103'; }, badArgument);
     expect(() { builder.optionalUint32 = -1; }, throwsArgumentError);
     expect(() { builder.optionalUint32 = 4294967296; }, throwsArgumentError);
 
     expect(() { builder.optionalUint64 = '104'; }, badArgument);
-    expect(() { builder.optionalUint64 = -1; }, throwsArgumentError);
+    expect(() { builder.optionalUint64 = -1; }, badArgument);
     expect(() { builder.optionalUint64 = 18446744073709551616; },
-           throwsArgumentError);
+           badArgument);
 
     expect(() { builder.optionalSint32 = '105'; }, badArgument);
     expect(() { builder.optionalSint32 = -2147483649; }, throwsArgumentError);
@@ -70,18 +72,18 @@ void main() {
 
     expect(() { builder.optionalSint64 = '106'; }, badArgument);
     expect(() { builder.optionalSint64 = -9223372036854775809; },
-           throwsArgumentError);
+           badArgument);
     expect(() { builder.optionalSint64 = 9223372036854775808; },
-           throwsArgumentError);
+           badArgument);
 
     expect(() { builder.optionalFixed32 = '107'; }, badArgument);
     expect(() { builder.optionalFixed32 = -1; }, throwsArgumentError);
     expect(() { builder.optionalFixed32 = 4294967296; }, throwsArgumentError);
 
     expect(() { builder.optionalFixed64 = '108'; }, badArgument);
-    expect(() { builder.optionalFixed64 = -1; }, throwsArgumentError);
+    expect(() { builder.optionalFixed64 = -1; }, badArgument);
     expect(() { builder.optionalFixed64 = 18446744073709551616; },
-           throwsArgumentError);
+           badArgument);
 
     expect(() { builder.optionalSfixed32 = '109'; }, badArgument);
     expect(() { builder.optionalSfixed32 = -2147483649; }, throwsArgumentError);
@@ -89,9 +91,9 @@ void main() {
 
     expect(() { builder.optionalSfixed64 = '110'; }, badArgument);
     expect(() { builder.optionalSfixed64 = -9223372036854775809; },
-           throwsArgumentError);
+           badArgument);
     expect(() { builder.optionalSfixed64 = 9223372036854775808; },
-           throwsArgumentError);
+           badArgument);
 
     expect(() { builder.optionalFloat = '111'; }, badArgument);
     expect(() { builder.optionalFloat = -3.4028234663852886E39; },

@@ -34,7 +34,7 @@ class CodeGenerator implements ProtobufContainer {
             var response = new CodeGeneratorResponse()
                 ..file.addAll(generators.map((filegen) => filegen.generate()));
             _streamOut.add(response.writeToBuffer());
-    });
+        });
   }
 
   String get fqname => '';

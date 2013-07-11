@@ -4,11 +4,30 @@
 
 library test_util;
 
+import 'dart:typed_data';
+
 import 'package:protobuf/protobuf.dart';
 import 'package:unittest/unittest.dart';
 
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
+
+
+make64(lo, [hi = null]) {
+  if (hi == null) hi = lo < 0 ? -1 : 0;
+  return new ByteData(8)
+      ..setUint32(0, lo, Endianness.LITTLE_ENDIAN)
+      ..setUint32(4, hi, Endianness.LITTLE_ENDIAN);
+}
+
+expect64(lo, [hi = null]) {
+  final expected = make64(lo, hi);
+  return predicate((actual) {
+    get(data, offset) => data.getUint32(offset, Endianness.LITTLE_ENDIAN);
+    return get(actual, 0) == get(expected, 0) &&
+        get(actual, 4) == get(expected, 4);
+  });
+}
 
 void assertAllExtensionsSet(TestAllExtensions message) {
   // TODO(antonm): introduce hasExtension matcher and other domain
@@ -51,15 +70,17 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.optionalCordExtension), isTrue);
 
   expect(message.getExtension(Unittest.optionalInt32Extension), 101);
-  expect(message.getExtension(Unittest.optionalInt64Extension), 102);
+  expect(message.getExtension(Unittest.optionalInt64Extension), expect64(102));
   expect(message.getExtension(Unittest.optionalUint32Extension), 103);
-  expect(message.getExtension(Unittest.optionalUint64Extension), 104);
+  expect(message.getExtension(Unittest.optionalUint64Extension), expect64(104));
   expect(message.getExtension(Unittest.optionalSint32Extension), 105);
-  expect(message.getExtension(Unittest.optionalSint64Extension), 106);
+  expect(message.getExtension(Unittest.optionalSint64Extension), expect64(106));
   expect(message.getExtension(Unittest.optionalFixed32Extension), 107);
-  expect(message.getExtension(Unittest.optionalFixed64Extension), 108);
+  expect(message.getExtension(Unittest.optionalFixed64Extension),
+         expect64(108));
   expect(message.getExtension(Unittest.optionalSfixed32Extension), 109);
-  expect(message.getExtension(Unittest.optionalSfixed64Extension), 110);
+  expect(message.getExtension(Unittest.optionalSfixed64Extension),
+         expect64(110));
   expect(message.getExtension(Unittest.optionalFloatExtension), 111.0);
   expect(message.getExtension(Unittest.optionalDoubleExtension), 112.0);
   expect(message.getExtension(Unittest.optionalBoolExtension), true);
@@ -117,15 +138,20 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedCordExtension).length, 2);
 
   expect(message.getExtension(Unittest.repeatedInt32Extension)[0], 201);
-  expect(message.getExtension(Unittest.repeatedInt64Extension)[0], 202);
+  expect(message.getExtension(Unittest.repeatedInt64Extension)[0],
+         expect64(202));
   expect(message.getExtension(Unittest.repeatedUint32Extension)[0], 203);
-  expect(message.getExtension(Unittest.repeatedUint64Extension)[0], 204);
+  expect(message.getExtension(Unittest.repeatedUint64Extension)[0],
+         expect64(204));
   expect(message.getExtension(Unittest.repeatedSint32Extension)[0], 205);
-  expect(message.getExtension(Unittest.repeatedSint64Extension)[0], 206);
+  expect(message.getExtension(Unittest.repeatedSint64Extension)[0],
+         expect64(206));
   expect(message.getExtension(Unittest.repeatedFixed32Extension)[0], 207);
-  expect(message.getExtension(Unittest.repeatedFixed64Extension)[0], 208);
+  expect(message.getExtension(Unittest.repeatedFixed64Extension)[0],
+         expect64(208));
   expect(message.getExtension(Unittest.repeatedSfixed32Extension)[0], 209);
-  expect(message.getExtension(Unittest.repeatedSfixed64Extension)[0], 210);
+  expect(message.getExtension(Unittest.repeatedSfixed64Extension)[0],
+         expect64(210));
   expect(message.getExtension(Unittest.repeatedFloatExtension)[0], 211.0);
   expect(message.getExtension(Unittest.repeatedDoubleExtension)[0], 212.0);
   expect(message.getExtension(Unittest.repeatedBoolExtension)[0], true);
@@ -152,15 +178,20 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedCordExtension)[0], '225');
 
   expect(message.getExtension(Unittest.repeatedInt32Extension)[1], 301);
-  expect(message.getExtension(Unittest.repeatedInt64Extension)[1], 302);
+  expect(message.getExtension(Unittest.repeatedInt64Extension)[1],
+         expect64(302));
   expect(message.getExtension(Unittest.repeatedUint32Extension)[1], 303);
-  expect(message.getExtension(Unittest.repeatedUint64Extension)[1], 304);
+  expect(message.getExtension(Unittest.repeatedUint64Extension)[1],
+         expect64(304));
   expect(message.getExtension(Unittest.repeatedSint32Extension)[1], 305);
-  expect(message.getExtension(Unittest.repeatedSint64Extension)[1], 306);
+  expect(message.getExtension(Unittest.repeatedSint64Extension)[1],
+         expect64(306));
   expect(message.getExtension(Unittest.repeatedFixed32Extension)[1], 307);
-  expect(message.getExtension(Unittest.repeatedFixed64Extension)[1], 308);
+  expect(message.getExtension(Unittest.repeatedFixed64Extension)[1],
+         expect64(308));
   expect(message.getExtension(Unittest.repeatedSfixed32Extension)[1], 309);
-  expect(message.getExtension(Unittest.repeatedSfixed64Extension)[1], 310);
+  expect(message.getExtension(Unittest.repeatedSfixed64Extension)[1],
+         expect64(310));
   expect(message.getExtension(Unittest.repeatedFloatExtension)[1], 311.0);
   expect(message.getExtension(Unittest.repeatedDoubleExtension)[1], 312.0);
   expect(message.getExtension(Unittest.repeatedBoolExtension)[1], false);
@@ -211,15 +242,20 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.defaultStringPieceExtension), isTrue);
   expect(message.hasExtension(Unittest.defaultCordExtension), isTrue);
   expect(message.getExtension(Unittest.defaultInt32Extension), 401);
-  expect(message.getExtension(Unittest.defaultInt64Extension), 402);
+  expect(message.getExtension(Unittest.defaultInt64Extension),
+         expect64(402));
   expect(message.getExtension(Unittest.defaultUint32Extension), 403);
-  expect(message.getExtension(Unittest.defaultUint64Extension), 404);
+  expect(message.getExtension(Unittest.defaultUint64Extension),
+         expect64(404));
   expect(message.getExtension(Unittest.defaultSint32Extension), 405);
-  expect(message.getExtension(Unittest.defaultSint64Extension), 406);
+  expect(message.getExtension(Unittest.defaultSint64Extension),
+         expect64(406));
   expect(message.getExtension(Unittest.defaultFixed32Extension), 407);
-  expect(message.getExtension(Unittest.defaultFixed64Extension), 408);
+  expect(message.getExtension(Unittest.defaultFixed64Extension),
+         expect64(408));
   expect(message.getExtension(Unittest.defaultSfixed32Extension), 409);
-  expect(message.getExtension(Unittest.defaultSfixed64Extension), 410);
+  expect(message.getExtension(Unittest.defaultSfixed64Extension),
+         expect64(410));
   expect(message.getExtension(Unittest.defaultFloatExtension), 411.0);
   expect(message.getExtension(Unittest.defaultDoubleExtension), 412.0);
   expect(message.getExtension(Unittest.defaultBoolExtension), false);
@@ -272,15 +308,15 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.hasOptionalCord(), isTrue);
 
   expect(message.optionalInt32, 101);
-  expect(message.optionalInt64, 102);
+  expect(message.optionalInt64, expect64(102));
   expect(message.optionalUint32, 103);
-  expect(message.optionalUint64, 104);
+  expect(message.optionalUint64, expect64(104));
   expect(message.optionalSint32, 105);
-  expect(message.optionalSint64, 106);
+  expect(message.optionalSint64, expect64(106));
   expect(message.optionalFixed32, 107);
-  expect(message.optionalFixed64, 108);
+  expect(message.optionalFixed64, expect64(108));
   expect(message.optionalSfixed32, 109);
-  expect(message.optionalSfixed64, 110);
+  expect(message.optionalSfixed64, expect64(110));
   expect(message.optionalFloat, 111.0);
   expect(message.optionalDouble, 112.0);
   expect(message.optionalBool, true);
@@ -329,15 +365,15 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.repeatedCord.length, 2);
 
   expect(message.repeatedInt32[0], 201);
-  expect(message.repeatedInt64[0], 202);
+  expect(message.repeatedInt64[0], expect64(202));
   expect(message.repeatedUint32[0], 203);
-  expect(message.repeatedUint64[0], 204);
+  expect(message.repeatedUint64[0], expect64(204));
   expect(message.repeatedSint32[0], 205);
-  expect(message.repeatedSint64[0], 206);
+  expect(message.repeatedSint64[0], expect64(206));
   expect(message.repeatedFixed32[0], 207);
-  expect(message.repeatedFixed64[0], 208);
+  expect(message.repeatedFixed64[0], expect64(208));
   expect(message.repeatedSfixed32[0], 209);
-  expect(message.repeatedSfixed64[0], 210);
+  expect(message.repeatedSfixed64[0], expect64(210));
   expect(message.repeatedFloat[0], 211.0);
   expect(message.repeatedDouble[0], 212.0);
   expect(message.repeatedBool[0], true);
@@ -357,15 +393,15 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.repeatedCord[0], '225');
 
   expect(message.repeatedInt32[1], 301);
-  expect(message.repeatedInt64[1], 302);
+  expect(message.repeatedInt64[1], expect64(302));
   expect(message.repeatedUint32[1], 303);
-  expect(message.repeatedUint64[1], 304);
+  expect(message.repeatedUint64[1], expect64(304));
   expect(message.repeatedSint32[1], 305);
-  expect(message.repeatedSint64[1], 306);
+  expect(message.repeatedSint64[1], expect64(306));
   expect(message.repeatedFixed32[1], 307);
-  expect(message.repeatedFixed64[1], 308);
+  expect(message.repeatedFixed64[1], expect64(308));
   expect(message.repeatedSfixed32[1], 309);
-  expect(message.repeatedSfixed64[1], 310);
+  expect(message.repeatedSfixed64[1], expect64(310));
   expect(message.repeatedFloat[1], 311.0);
   expect(message.repeatedDouble[1], 312.0);
   expect(message.repeatedBool[1], false);
@@ -410,15 +446,15 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.hasDefaultCord(), isTrue);
 
   expect(message.defaultInt32, 401);
-  expect(message.defaultInt64, 402);
+  expect(message.defaultInt64, expect64(402));
   expect(message.defaultUint32, 403);
-  expect(message.defaultUint64, 404);
+  expect(message.defaultUint64, expect64(404));
   expect(message.defaultSint32, 405);
-  expect(message.defaultSint64, 406);
+  expect(message.defaultSint64, expect64(406));
   expect(message.defaultFixed32, 407);
-  expect(message.defaultFixed64, 408);
+  expect(message.defaultFixed64, expect64(408));
   expect(message.defaultSfixed32, 409);
-  expect(message.defaultSfixed64, 410);
+  expect(message.defaultSfixed64, expect64(410));
   expect(message.defaultFloat, 411.0);
   expect(message.defaultDouble, 412.0);
   expect(message.defaultBool, false);
@@ -465,15 +501,15 @@ void assertClear(TestAllTypes message) {
 
   // Optional fields without defaults are set to zero or something like it.
   expect(message.optionalInt32, 0);
-  expect(message.optionalInt64, 0);
+  expect(message.optionalInt64, expect64(0));
   expect(message.optionalUint32, 0);
-  expect(message.optionalUint64, 0);
+  expect(message.optionalUint64, expect64(0));
   expect(message.optionalSint32, 0);
-  expect(message.optionalSint64, 0);
+  expect(message.optionalSint64, expect64(0));
   expect(message.optionalFixed32, 0);
-  expect(message.optionalFixed64, 0);
+  expect(message.optionalFixed64, expect64(0));
   expect(message.optionalSfixed32, 0);
-  expect(message.optionalSfixed64, 0);
+  expect(message.optionalSfixed64, expect64(0));
   expect(message.optionalFloat, 0);
   expect(message.optionalDouble, 0);
   expect(message.optionalBool, false);
@@ -553,15 +589,15 @@ void assertClear(TestAllTypes message) {
 
   // Fields with defaults have their default values(duh).
   expect(message.defaultInt32, 41);
-  expect(message.defaultInt64, 42);
+  expect(message.defaultInt64, expect64(42));
   expect(message.defaultUint32, 43);
-  expect(message.defaultUint64, 44);
+  expect(message.defaultUint64, expect64(44));
   expect(message.defaultSint32, -45);
-  expect(message.defaultSint64, 46);
+  expect(message.defaultSint64, expect64(46));
   expect(message.defaultFixed32, 47);
-  expect(message.defaultFixed64, 48);
+  expect(message.defaultFixed64, expect64(48));
   expect(message.defaultSfixed32, 49);
-  expect(message.defaultSfixed64, -50);
+  expect(message.defaultSfixed64, expect64(-50));
   expect(message.defaultFloat, 51.5);
   expect(message.defaultDouble, 52e3);
   expect(message.defaultBool, isTrue);
@@ -611,15 +647,16 @@ void assertExtensionsClear(TestAllExtensions message) {
 
   // Optional fields without defaults are set to zero or something like it.
   expect(message.getExtension(Unittest.optionalInt32Extension), 0);
-  expect(message.getExtension(Unittest.optionalInt64Extension), 0);
+  expect(message.getExtension(Unittest.optionalInt64Extension), expect64(0));
   expect(message.getExtension(Unittest.optionalUint32Extension), 0);
-  expect(message.getExtension(Unittest.optionalUint64Extension), 0);
+  expect(message.getExtension(Unittest.optionalUint64Extension), expect64(0));
   expect(message.getExtension(Unittest.optionalSint32Extension), 0);
-  expect(message.getExtension(Unittest.optionalSint64Extension), 0);
+  expect(message.getExtension(Unittest.optionalSint64Extension), expect64(0));
   expect(message.getExtension(Unittest.optionalFixed32Extension), 0);
-  expect(message.getExtension(Unittest.optionalFixed64Extension), 0);
+  expect(message.getExtension(Unittest.optionalFixed64Extension), expect64(0));
   expect(message.getExtension(Unittest.optionalSfixed32Extension), 0);
-  expect(message.getExtension(Unittest.optionalSfixed64Extension), 0);
+  expect(message.getExtension(Unittest.optionalSfixed64Extension),
+         expect64(0));
   expect(message.getExtension(Unittest.optionalFloatExtension), 0.0);
   expect(message.getExtension(Unittest.optionalDoubleExtension), 0.0);
   expect(message.getExtension(Unittest.optionalBoolExtension), false);
@@ -739,15 +776,15 @@ void assertExtensionsClear(TestAllExtensions message) {
 
   // Fields with defaults have their default values (duh).
   expect(message.getExtension(Unittest.defaultInt32Extension), 41);
-  expect(message.getExtension(Unittest.defaultInt64Extension), 42);
+  expect(message.getExtension(Unittest.defaultInt64Extension), expect64(42));
   expect(message.getExtension(Unittest.defaultUint32Extension), 43);
-  expect(message.getExtension(Unittest.defaultUint64Extension), 44);
+  expect(message.getExtension(Unittest.defaultUint64Extension), expect64(44));
   expect(message.getExtension(Unittest.defaultSint32Extension), -45);
-  expect(message.getExtension(Unittest.defaultSint64Extension), 46);
+  expect(message.getExtension(Unittest.defaultSint64Extension), expect64(46));
   expect(message.getExtension(Unittest.defaultFixed32Extension), 47);
-  expect(message.getExtension(Unittest.defaultFixed64Extension), 48);
+  expect(message.getExtension(Unittest.defaultFixed64Extension), expect64(48));
   expect(message.getExtension(Unittest.defaultSfixed32Extension), 49);
-  expect(message.getExtension(Unittest.defaultSfixed64Extension), -50);
+  expect(message.getExtension(Unittest.defaultSfixed64Extension), expect64(-50));
   expect(message.getExtension(Unittest.defaultFloatExtension), 51.5);
   expect(message.getExtension(Unittest.defaultDoubleExtension), 52e3);
   expect(message.getExtension(Unittest.defaultBoolExtension), true);
@@ -782,30 +819,40 @@ void assertPackedExtensionsSet(TestPackedExtensions message) {
   expect(message.getExtension(Unittest.packedBoolExtension).length, 2);
   expect(message.getExtension(Unittest.packedEnumExtension).length, 2);
   expect(message.getExtension(Unittest.packedInt32Extension)[0], 601);
-  expect(message.getExtension(Unittest.packedInt64Extension)[0], 602);
+  expect(message.getExtension(Unittest.packedInt64Extension)[0],
+         expect64(602));
   expect(message.getExtension(Unittest.packedUint32Extension)[0], 603);
-  expect(message.getExtension(Unittest.packedUint64Extension)[0], 604);
+  expect(message.getExtension(Unittest.packedUint64Extension)[0],
+         expect64(604));
   expect(message.getExtension(Unittest.packedSint32Extension)[0], 605);
-  expect(message.getExtension(Unittest.packedSint64Extension)[0], 606);
+  expect(message.getExtension(Unittest.packedSint64Extension)[0],
+         expect64(606));
   expect(message.getExtension(Unittest.packedFixed32Extension)[0], 607);
-  expect(message.getExtension(Unittest.packedFixed64Extension)[0], 608);
+  expect(message.getExtension(Unittest.packedFixed64Extension)[0],
+         expect64(608));
   expect(message.getExtension(Unittest.packedSfixed32Extension)[0], 609);
-  expect(message.getExtension(Unittest.packedSfixed64Extension)[0], 610);
+  expect(message.getExtension(Unittest.packedSfixed64Extension)[0],
+         expect64(610));
   expect(message.getExtension(Unittest.packedFloatExtension)[0], 611.0);
   expect(message.getExtension(Unittest.packedDoubleExtension)[0], 612.0);
   expect(message.getExtension(Unittest.packedBoolExtension)[0], true);
   expect(message.getExtension(Unittest.packedEnumExtension)[0],
          ForeignEnum.FOREIGN_BAR);
   expect(message.getExtension(Unittest.packedInt32Extension)[1], 701);
-  expect(message.getExtension(Unittest.packedInt64Extension)[1], 702);
+  expect(message.getExtension(Unittest.packedInt64Extension)[1],
+         expect64(702));
   expect(message.getExtension(Unittest.packedUint32Extension)[1], 703);
-  expect(message.getExtension(Unittest.packedUint64Extension)[1], 704);
+  expect(message.getExtension(Unittest.packedUint64Extension)[1],
+         expect64(704));
   expect(message.getExtension(Unittest.packedSint32Extension)[1], 705);
-  expect(message.getExtension(Unittest.packedSint64Extension)[1], 706);
+  expect(message.getExtension(Unittest.packedSint64Extension)[1],
+         expect64(706));
   expect(message.getExtension(Unittest.packedFixed32Extension)[1], 707);
-  expect(message.getExtension(Unittest.packedFixed64Extension)[1], 708);
+  expect(message.getExtension(Unittest.packedFixed64Extension)[1],
+         expect64(708));
   expect(message.getExtension(Unittest.packedSfixed32Extension)[1], 709);
-  expect(message.getExtension(Unittest.packedSfixed64Extension)[1], 710);
+  expect(message.getExtension(Unittest.packedSfixed64Extension)[1],
+         expect64(710));
   expect(message.getExtension(Unittest.packedFloatExtension)[1], 711.0);
   expect(message.getExtension(Unittest.packedDoubleExtension)[1], 712.0);
   expect(message.getExtension(Unittest.packedBoolExtension)[1], false);
@@ -833,29 +880,29 @@ void assertPackedFieldsSet(TestPackedTypes message) {
   expect(message.packedBool.length, 2);
   expect(message.packedEnum.length, 2);
   expect(message.packedInt32[0], 601);
-  expect(message.packedInt64[0], 602);
+  expect(message.packedInt64[0], expect64(602));
   expect(message.packedUint32[0], 603);
-  expect(message.packedUint64[0], 604);
+  expect(message.packedUint64[0], expect64(604));
   expect(message.packedSint32[0], 605);
-  expect(message.packedSint64[0], 606);
+  expect(message.packedSint64[0], expect64(606));
   expect(message.packedFixed32[0], 607);
-  expect(message.packedFixed64[0], 608);
+  expect(message.packedFixed64[0], expect64(608));
   expect(message.packedSfixed32[0], 609);
-  expect(message.packedSfixed64[0], 610);
+  expect(message.packedSfixed64[0], expect64(610));
   expect(message.packedFloat[0], 611.0);
   expect(message.packedDouble[0], 612.0);
   expect(message.packedBool[0], true);
   expect(message.packedEnum[0], ForeignEnum.FOREIGN_BAR);
   expect(message.packedInt32[1], 701);
-  expect(message.packedInt64[1], 702);
+  expect(message.packedInt64[1], expect64(702));
   expect(message.packedUint32[1], 703);
-  expect(message.packedUint64[1], 704);
+  expect(message.packedUint64[1], expect64(704));
   expect(message.packedSint32[1], 705);
-  expect(message.packedSint64[1], 706);
+  expect(message.packedSint64[1], expect64(706));
   expect(message.packedFixed32[1], 707);
-  expect(message.packedFixed64[1], 708);
+  expect(message.packedFixed64[1], expect64(708));
   expect(message.packedSfixed32[1], 709);
-  expect(message.packedSfixed64[1], 710);
+  expect(message.packedSfixed64[1], expect64(710));
   expect(message.packedFloat[1], 711.0);
   expect(message.packedDouble[1], 712.0);
   expect(message.packedBool[1], false);
@@ -901,15 +948,19 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.optionalCordExtension), isTrue);
 
   expect(message.getExtension(Unittest.optionalInt32Extension), 101);
-  expect(message.getExtension(Unittest.optionalInt64Extension), 102);
+  expect(message.getExtension(Unittest.optionalInt64Extension), expect64(102));
   expect(message.getExtension(Unittest.optionalUint32Extension), 103);
-  expect(message.getExtension(Unittest.optionalUint64Extension), 104);
+  expect(message.getExtension(Unittest.optionalUint64Extension),
+         expect64(104));
   expect(message.getExtension(Unittest.optionalSint32Extension), 105);
-  expect(message.getExtension(Unittest.optionalSint64Extension), 106);
+  expect(message.getExtension(Unittest.optionalSint64Extension),
+         expect64(106));
   expect(message.getExtension(Unittest.optionalFixed32Extension), 107);
-  expect(message.getExtension(Unittest.optionalFixed64Extension), 108);
+  expect(message.getExtension(Unittest.optionalFixed64Extension),
+         expect64(108));
   expect(message.getExtension(Unittest.optionalSfixed32Extension), 109);
-  expect(message.getExtension(Unittest.optionalSfixed64Extension), 110);
+  expect(message.getExtension(Unittest.optionalSfixed64Extension),
+         expect64(110));
   expect(message.getExtension(Unittest.optionalFloatExtension), 111.0);
   expect(message.getExtension(Unittest.optionalDoubleExtension), 112.0);
   expect(message.getExtension(Unittest.optionalBoolExtension), true);
@@ -965,15 +1016,20 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedCordExtension).length, 2);
 
   expect(message.getExtension(Unittest.repeatedInt32Extension)[0], 201);
-  expect(message.getExtension(Unittest.repeatedInt64Extension)[0], 202);
+  expect(message.getExtension(Unittest.repeatedInt64Extension)[0],
+         expect64(202));
   expect(message.getExtension(Unittest.repeatedUint32Extension)[0], 203);
-  expect(message.getExtension(Unittest.repeatedUint64Extension)[0], 204);
+  expect(message.getExtension(Unittest.repeatedUint64Extension)[0],
+         expect64(204));
   expect(message.getExtension(Unittest.repeatedSint32Extension)[0], 205);
-  expect(message.getExtension(Unittest.repeatedSint64Extension)[0], 206);
+  expect(message.getExtension(Unittest.repeatedSint64Extension)[0],
+         expect64(206));
   expect(message.getExtension(Unittest.repeatedFixed32Extension)[0], 207);
-  expect(message.getExtension(Unittest.repeatedFixed64Extension)[0], 208);
+  expect(message.getExtension(Unittest.repeatedFixed64Extension)[0],
+         expect64(208));
   expect(message.getExtension(Unittest.repeatedSfixed32Extension)[0], 209);
-  expect(message.getExtension(Unittest.repeatedSfixed64Extension)[0], 210);
+  expect(message.getExtension(Unittest.repeatedSfixed64Extension)[0],
+         expect64(210));
   expect(message.getExtension(Unittest.repeatedFloatExtension)[0], 211.0);
   expect(message.getExtension(Unittest.repeatedDoubleExtension)[0], 212.0);
   expect(message.getExtension(Unittest.repeatedBoolExtension)[0], true);
@@ -1000,15 +1056,20 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedCordExtension)[0], '225');
 
   expect(message.getExtension(Unittest.repeatedInt32Extension)[1], 501);
-  expect(message.getExtension(Unittest.repeatedInt64Extension)[1], 502);
+  expect(message.getExtension(Unittest.repeatedInt64Extension)[1],
+         expect64(502));
   expect(message.getExtension(Unittest.repeatedUint32Extension)[1], 503);
-  expect(message.getExtension(Unittest.repeatedUint64Extension)[1], 504);
+  expect(message.getExtension(Unittest.repeatedUint64Extension)[1],
+         expect64(504));
   expect(message.getExtension(Unittest.repeatedSint32Extension)[1], 505);
-  expect(message.getExtension(Unittest.repeatedSint64Extension)[1], 506);
+  expect(message.getExtension(Unittest.repeatedSint64Extension)[1],
+         expect64(506));
   expect(message.getExtension(Unittest.repeatedFixed32Extension)[1], 507);
-  expect(message.getExtension(Unittest.repeatedFixed64Extension)[1], 508);
+  expect(message.getExtension(Unittest.repeatedFixed64Extension)[1],
+         expect64(508));
   expect(message.getExtension(Unittest.repeatedSfixed32Extension)[1], 509);
-  expect(message.getExtension(Unittest.repeatedSfixed64Extension)[1], 510);
+  expect(message.getExtension(Unittest.repeatedSfixed64Extension)[1],
+         expect64(510));
   expect(message.getExtension(Unittest.repeatedFloatExtension)[1], 511.0);
   expect(message.getExtension(Unittest.repeatedDoubleExtension)[1], 512.0);
   expect(message.getExtension(Unittest.repeatedBoolExtension)[1], true);
@@ -1060,15 +1121,20 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.defaultCordExtension), isTrue);
 
   expect(message.getExtension(Unittest.defaultInt32Extension), 401);
-  expect(message.getExtension(Unittest.defaultInt64Extension), 402);
+  expect(message.getExtension(Unittest.defaultInt64Extension),
+         expect64(402));
   expect(message.getExtension(Unittest.defaultUint32Extension), 403);
-  expect(message.getExtension(Unittest.defaultUint64Extension), 404);
+  expect(message.getExtension(Unittest.defaultUint64Extension),
+         expect64(404));
   expect(message.getExtension(Unittest.defaultSint32Extension), 405);
-  expect(message.getExtension(Unittest.defaultSint64Extension), 406);
+  expect(message.getExtension(Unittest.defaultSint64Extension),
+         expect64(406));
   expect(message.getExtension(Unittest.defaultFixed32Extension), 407);
-  expect(message.getExtension(Unittest.defaultFixed64Extension), 408);
+  expect(message.getExtension(Unittest.defaultFixed64Extension),
+         expect64(408));
   expect(message.getExtension(Unittest.defaultSfixed32Extension), 409);
-  expect(message.getExtension(Unittest.defaultSfixed64Extension), 410);
+  expect(message.getExtension(Unittest.defaultSfixed64Extension),
+         expect64(410));
   expect(message.getExtension(Unittest.defaultFloatExtension), 411.0);
   expect(message.getExtension(Unittest.defaultDoubleExtension), 412.0);
   expect(message.getExtension(Unittest.defaultBoolExtension), false);
@@ -1118,15 +1184,15 @@ void assertRepeatedFieldsModified(TestAllTypes message) {
   expect(message.repeatedCord.length, 2);
 
   expect(message.repeatedInt32[0], 201);
-  expect(message.repeatedInt64[0], 202);
+  expect(message.repeatedInt64[0], expect64(202));
   expect(message.repeatedUint32[0], 203);
-  expect(message.repeatedUint64[0], 204);
+  expect(message.repeatedUint64[0], expect64(204));
   expect(message.repeatedSint32[0], 205);
-  expect(message.repeatedSint64[0], 206);
+  expect(message.repeatedSint64[0], expect64(206));
   expect(message.repeatedFixed32[0], 207);
-  expect(message.repeatedFixed64[0], 208);
+  expect(message.repeatedFixed64[0], expect64(208));
   expect(message.repeatedSfixed32[0], 209);
-  expect(message.repeatedSfixed64[0], 210);
+  expect(message.repeatedSfixed64[0], expect64(210));
   expect(message.repeatedFloat[0], 211.0);
   expect(message.repeatedDouble[0], 212.0);
   expect(message.repeatedBool[0], true);
@@ -1147,15 +1213,15 @@ void assertRepeatedFieldsModified(TestAllTypes message) {
 
   // Actually verify the second(modified) elements now.
   expect(message.repeatedInt32[1], 501);
-  expect(message.repeatedInt64[1], 502);
+  expect(message.repeatedInt64[1], expect64(502));
   expect(message.repeatedUint32[1], 503);
-  expect(message.repeatedUint64[1], 504);
+  expect(message.repeatedUint64[1], expect64(504));
   expect(message.repeatedSint32[1], 505);
-  expect(message.repeatedSint64[1], 506);
+  expect(message.repeatedSint64[1], expect64(506));
   expect(message.repeatedFixed32[1], 507);
-  expect(message.repeatedFixed64[1], 508);
+  expect(message.repeatedFixed64[1], expect64(508));
   expect(message.repeatedSfixed32[1], 509);
-  expect(message.repeatedSfixed64[1], 510);
+  expect(message.repeatedSfixed64[1], expect64(510));
   expect(message.repeatedFloat[1], 511.0);
   expect(message.repeatedDouble[1], 512.0);
   expect(message.repeatedBool[1], true);
@@ -1195,29 +1261,29 @@ void assertUnpackedFieldsSet(TestUnpackedTypes message) {
   expect(message.unpackedBool.length, 2);
   expect(message.unpackedEnum.length, 2);
   expect(message.unpackedInt32[0], 601);
-  expect(message.unpackedInt64[0], 602);
+  expect(message.unpackedInt64[0], expect64(602));
   expect(message.unpackedUint32[0], 603);
-  expect(message.unpackedUint64[0], 604);
+  expect(message.unpackedUint64[0], expect64(604));
   expect(message.unpackedSint32[0], 605);
-  expect(message.unpackedSint64[0], 606);
+  expect(message.unpackedSint64[0], expect64(606));
   expect(message.unpackedFixed32[0], 607);
-  expect(message.unpackedFixed64[0], 608);
+  expect(message.unpackedFixed64[0], expect64(608));
   expect(message.unpackedSfixed32[0], 609);
-  expect(message.unpackedSfixed64[0], 610);
+  expect(message.unpackedSfixed64[0], expect64(610));
   expect(message.unpackedFloat[0], 611.0);
   expect(message.unpackedDouble[0], 612.0);
   expect(message.unpackedBool[0], true);
   expect(message.unpackedEnum[0], ForeignEnum.FOREIGN_BAR);
   expect(message.unpackedInt32[1], 701);
-  expect(message.unpackedInt64[1], 702);
+  expect(message.unpackedInt64[1], expect64(702));
   expect(message.unpackedUint32[1], 703);
-  expect(message.unpackedUint64[1], 704);
+  expect(message.unpackedUint64[1], expect64(704));
   expect(message.unpackedSint32[1], 705);
-  expect(message.unpackedSint64[1], 706);
+  expect(message.unpackedSint64[1], expect64(706));
   expect(message.unpackedFixed32[1], 707);
-  expect(message.unpackedFixed64[1], 708);
+  expect(message.unpackedFixed64[1], expect64(708));
   expect(message.unpackedSfixed32[1], 709);
-  expect(message.unpackedSfixed64[1], 710);
+  expect(message.unpackedSfixed64[1], expect64(710));
   expect(message.unpackedFloat[1], 711.0);
   expect(message.unpackedDouble[1], 712.0);
   expect(message.unpackedBool[1], false);
@@ -1266,15 +1332,15 @@ TestUnpackedTypes getUnpackedSet() {
 
 void modifyRepeatedExtensions(TestAllExtensions message) {
   message.getExtension(Unittest.repeatedInt32Extension)[1] = 501;
-  message.getExtension(Unittest.repeatedInt64Extension)[1] = 502;
+  message.getExtension(Unittest.repeatedInt64Extension)[1] = make64(502);
   message.getExtension(Unittest.repeatedUint32Extension)[1] = 503;
-  message.getExtension(Unittest.repeatedUint64Extension)[1] = 504;
+  message.getExtension(Unittest.repeatedUint64Extension)[1] = make64(504);
   message.getExtension(Unittest.repeatedSint32Extension)[1] = 505;
-  message.getExtension(Unittest.repeatedSint64Extension)[1] = 506;
+  message.getExtension(Unittest.repeatedSint64Extension)[1] = make64(506);
   message.getExtension(Unittest.repeatedFixed32Extension)[1] = 507;
-  message.getExtension(Unittest.repeatedFixed64Extension)[1] = 508;
+  message.getExtension(Unittest.repeatedFixed64Extension)[1] = make64(508);
   message.getExtension(Unittest.repeatedSfixed32Extension)[1] = 509;
-  message.getExtension(Unittest.repeatedSfixed64Extension)[1] = 510;
+  message.getExtension(Unittest.repeatedSfixed64Extension)[1] = make64(510);
   message.getExtension(Unittest.repeatedFloatExtension)[1] = 511.0;
   message.getExtension(Unittest.repeatedDoubleExtension)[1] = 512.0;
   message.getExtension(Unittest.repeatedBoolExtension)[1] = true;
@@ -1316,15 +1382,15 @@ void modifyRepeatedExtensions(TestAllExtensions message) {
  */
 void modifyRepeatedFields(TestAllTypes message) {
   message.repeatedInt32[1] = 501;
-  message.repeatedInt64[1] = 502;
+  message.repeatedInt64[1] = make64(502);
   message.repeatedUint32[1] = 503;
-  message.repeatedUint64[1] = 504;
+  message.repeatedUint64[1] = make64(504);
   message.repeatedSint32[1] = 505;
-  message.repeatedSint64[1] = 506;
+  message.repeatedSint64[1] = make64(506);
   message.repeatedFixed32[1] = 507;
-  message.repeatedFixed64[1] = 508;
+  message.repeatedFixed64[1] = make64(508);
   message.repeatedSfixed32[1] = 509;
-  message.repeatedSfixed64[1] = 510;
+  message.repeatedSfixed64[1] = make64(510);
   message.repeatedFloat[1] = 511.0;
   message.repeatedDouble[1] = 512.0;
   message.repeatedBool[1] = true;
@@ -1366,15 +1432,15 @@ void registerAllExtensions(ExtensionRegistry registry) {
 
 void setAllExtensions(TestAllExtensions message) {
   message.setExtension(Unittest.optionalInt32Extension, 101);
-  message.setExtension(Unittest.optionalInt64Extension, 102);
+  message.setExtension(Unittest.optionalInt64Extension, make64(102));
   message.setExtension(Unittest.optionalUint32Extension, 103);
-  message.setExtension(Unittest.optionalUint64Extension, 104);
+  message.setExtension(Unittest.optionalUint64Extension, make64(104));
   message.setExtension(Unittest.optionalSint32Extension, 105);
-  message.setExtension(Unittest.optionalSint64Extension, 106);
+  message.setExtension(Unittest.optionalSint64Extension, make64(106));
   message.setExtension(Unittest.optionalFixed32Extension, 107);
-  message.setExtension(Unittest.optionalFixed64Extension, 108);
+  message.setExtension(Unittest.optionalFixed64Extension, make64(108));
   message.setExtension(Unittest.optionalSfixed32Extension, 109);
-  message.setExtension(Unittest.optionalSfixed64Extension, 110);
+  message.setExtension(Unittest.optionalSfixed64Extension, make64(110));
   message.setExtension(Unittest.optionalFloatExtension, 111.0);
   message.setExtension(Unittest.optionalDoubleExtension, 112.0);
   message.setExtension(Unittest.optionalBoolExtension, true);
@@ -1413,15 +1479,15 @@ void setAllExtensions(TestAllExtensions message) {
   // -----------------------------------------------------------------
 
   message.addExtension(Unittest.repeatedInt32Extension, 201);
-  message.addExtension(Unittest.repeatedInt64Extension, 202);
+  message.addExtension(Unittest.repeatedInt64Extension, make64(202));
   message.addExtension(Unittest.repeatedUint32Extension, 203);
-  message.addExtension(Unittest.repeatedUint64Extension, 204);
+  message.addExtension(Unittest.repeatedUint64Extension, make64(204));
   message.addExtension(Unittest.repeatedSint32Extension, 205);
-  message.addExtension(Unittest.repeatedSint64Extension, 206);
+  message.addExtension(Unittest.repeatedSint64Extension, make64(206));
   message.addExtension(Unittest.repeatedFixed32Extension, 207);
-  message.addExtension(Unittest.repeatedFixed64Extension, 208);
+  message.addExtension(Unittest.repeatedFixed64Extension, make64(208));
   message.addExtension(Unittest.repeatedSfixed32Extension, 209);
-  message.addExtension(Unittest.repeatedSfixed64Extension, 210);
+  message.addExtension(Unittest.repeatedSfixed64Extension, make64(210));
   message.addExtension(Unittest.repeatedFloatExtension, 211.0);
   message.addExtension(Unittest.repeatedDoubleExtension, 212.0);
   message.addExtension(Unittest.repeatedBoolExtension, true);
@@ -1457,15 +1523,15 @@ void setAllExtensions(TestAllExtensions message) {
 
   // Add a second one of each field.
   message.addExtension(Unittest.repeatedInt32Extension, 301);
-  message.addExtension(Unittest.repeatedInt64Extension, 302);
+  message.addExtension(Unittest.repeatedInt64Extension, make64(302));
   message.addExtension(Unittest.repeatedUint32Extension, 303);
-  message.addExtension(Unittest.repeatedUint64Extension, 304);
+  message.addExtension(Unittest.repeatedUint64Extension, make64(304));
   message.addExtension(Unittest.repeatedSint32Extension, 305);
-  message.addExtension(Unittest.repeatedSint64Extension, 306);
+  message.addExtension(Unittest.repeatedSint64Extension, make64(306));
   message.addExtension(Unittest.repeatedFixed32Extension, 307);
-  message.addExtension(Unittest.repeatedFixed64Extension, 308);
+  message.addExtension(Unittest.repeatedFixed64Extension, make64(308));
   message.addExtension(Unittest.repeatedSfixed32Extension, 309);
-  message.addExtension(Unittest.repeatedSfixed64Extension, 310);
+  message.addExtension(Unittest.repeatedSfixed64Extension, make64(310));
   message.addExtension(Unittest.repeatedFloatExtension, 311.0);
   message.addExtension(Unittest.repeatedDoubleExtension, 312.0);
   message.addExtension(Unittest.repeatedBoolExtension, false);
@@ -1502,15 +1568,15 @@ void setAllExtensions(TestAllExtensions message) {
   // -----------------------------------------------------------------
 
   message.setExtension(Unittest.defaultInt32Extension, 401);
-  message.setExtension(Unittest.defaultInt64Extension, 402);
+  message.setExtension(Unittest.defaultInt64Extension, make64(402));
   message.setExtension(Unittest.defaultUint32Extension, 403);
-  message.setExtension(Unittest.defaultUint64Extension, 404);
+  message.setExtension(Unittest.defaultUint64Extension, make64(404));
   message.setExtension(Unittest.defaultSint32Extension, 405);
-  message.setExtension(Unittest.defaultSint64Extension, 406);
+  message.setExtension(Unittest.defaultSint64Extension, make64(406));
   message.setExtension(Unittest.defaultFixed32Extension, 407);
-  message.setExtension(Unittest.defaultFixed64Extension, 408);
+  message.setExtension(Unittest.defaultFixed64Extension, make64(408));
   message.setExtension(Unittest.defaultSfixed32Extension, 409);
-  message.setExtension(Unittest.defaultSfixed64Extension, 410);
+  message.setExtension(Unittest.defaultSfixed64Extension, make64(410));
   message.setExtension(Unittest.defaultFloatExtension, 411.0);
   message.setExtension(Unittest.defaultDoubleExtension, 412.0);
   message.setExtension(Unittest.defaultBoolExtension, false);
@@ -1534,15 +1600,15 @@ void setAllExtensions(TestAllExtensions message) {
  */
 void setAllFields(TestAllTypes message) {
   message.optionalInt32 = 101;
-  message.optionalInt64 = 102;
+  message.optionalInt64 = make64(102);
   message.optionalUint32 = 103;
-  message.optionalUint64 = 104;
+  message.optionalUint64 = make64(104);
   message.optionalSint32 = 105;
-  message.optionalSint64 = 106;
+  message.optionalSint64 = make64(106);
   message.optionalFixed32 = 107;
-  message.optionalFixed64 = 108;
+  message.optionalFixed64 = make64(108);
   message.optionalSfixed32 = 109;
-  message.optionalSfixed64 = 110;
+  message.optionalSfixed64 = make64(110);
   message.optionalFloat = 111.0;
   message.optionalDouble = 112.0;
   message.optionalBool = true;
@@ -1578,15 +1644,15 @@ void setAllFields(TestAllTypes message) {
   // -----------------------------------------------------------------
 
   message.repeatedInt32.add(201);
-  message.repeatedInt64.add(202);
+  message.repeatedInt64.add(make64(202));
   message.repeatedUint32.add(203);
-  message.repeatedUint64.add(204);
+  message.repeatedUint64.add(make64(204));
   message.repeatedSint32.add(205);
-  message.repeatedSint64.add(206);
+  message.repeatedSint64.add(make64(206));
   message.repeatedFixed32.add(207);
-  message.repeatedFixed64.add(208);
+  message.repeatedFixed64.add(make64(208));
   message.repeatedSfixed32.add(209);
-  message.repeatedSfixed64.add(210);
+  message.repeatedSfixed64.add(make64(210));
   message.repeatedFloat.add(211.0);
   message.repeatedDouble.add(212.0);
   message.repeatedBool.add(true);
@@ -1621,15 +1687,15 @@ void setAllFields(TestAllTypes message) {
 
   // Add a second one of each field.
   message.repeatedInt32.add(301);
-  message.repeatedInt64.add(302);
+  message.repeatedInt64.add(make64(302));
   message.repeatedUint32.add(303);
-  message.repeatedUint64.add(304);
+  message.repeatedUint64.add(make64(304));
   message.repeatedSint32.add(305);
-  message.repeatedSint64.add(306);
+  message.repeatedSint64.add(make64(306));
   message.repeatedFixed32.add(307);
-  message.repeatedFixed64.add(308);
+  message.repeatedFixed64.add(make64(308));
   message.repeatedSfixed32.add(309);
-  message.repeatedSfixed64.add(310);
+  message.repeatedSfixed64.add(make64(310));
   message.repeatedFloat.add(311.0);
   message.repeatedDouble.add(312.0);
   message.repeatedBool.add(false);
@@ -1662,15 +1728,15 @@ void setAllFields(TestAllTypes message) {
   // -----------------------------------------------------------------
 
   message.defaultInt32 = 401;
-  message.defaultInt64 = 402;
+  message.defaultInt64 = make64(402);
   message.defaultUint32 = 403;
-  message.defaultUint64 = 404;
+  message.defaultUint64 = make64(404);
   message.defaultSint32 = 405;
-  message.defaultSint64 = 406;
+  message.defaultSint64 = make64(406);
   message.defaultFixed32 = 407;
-  message.defaultFixed64 = 408;
+  message.defaultFixed64 = make64(408);
   message.defaultSfixed32 = 409;
-  message.defaultSfixed64 = 410;
+  message.defaultSfixed64 = make64(410);
   message.defaultFloat = 411.0;
   message.defaultDouble = 412.0;
   message.defaultBool = false;
@@ -1687,15 +1753,15 @@ void setAllFields(TestAllTypes message) {
 
 void setPackedExtensions(TestPackedExtensions message) {
   message.addExtension(Unittest.packedInt32Extension, 601);
-  message.addExtension(Unittest.packedInt64Extension, 602);
+  message.addExtension(Unittest.packedInt64Extension, make64(602));
   message.addExtension(Unittest.packedUint32Extension, 603);
-  message.addExtension(Unittest.packedUint64Extension, 604);
+  message.addExtension(Unittest.packedUint64Extension, make64(604));
   message.addExtension(Unittest.packedSint32Extension, 605);
-  message.addExtension(Unittest.packedSint64Extension, 606);
+  message.addExtension(Unittest.packedSint64Extension, make64(606));
   message.addExtension(Unittest.packedFixed32Extension, 607);
-  message.addExtension(Unittest.packedFixed64Extension, 608);
+  message.addExtension(Unittest.packedFixed64Extension, make64(608));
   message.addExtension(Unittest.packedSfixed32Extension, 609);
-  message.addExtension(Unittest.packedSfixed64Extension, 610);
+  message.addExtension(Unittest.packedSfixed64Extension, make64(610));
   message.addExtension(Unittest.packedFloatExtension, 611.0);
   message.addExtension(Unittest.packedDoubleExtension, 612.0);
   message.addExtension(Unittest.packedBoolExtension, true);
@@ -1703,15 +1769,15 @@ void setPackedExtensions(TestPackedExtensions message) {
       ForeignEnum.FOREIGN_BAR);
   // Add a second one of each field.
   message.addExtension(Unittest.packedInt32Extension, 701);
-  message.addExtension(Unittest.packedInt64Extension, 702);
+  message.addExtension(Unittest.packedInt64Extension, make64(702));
   message.addExtension(Unittest.packedUint32Extension, 703);
-  message.addExtension(Unittest.packedUint64Extension, 704);
+  message.addExtension(Unittest.packedUint64Extension, make64(704));
   message.addExtension(Unittest.packedSint32Extension, 705);
-  message.addExtension(Unittest.packedSint64Extension, 706);
+  message.addExtension(Unittest.packedSint64Extension, make64(706));
   message.addExtension(Unittest.packedFixed32Extension, 707);
-  message.addExtension(Unittest.packedFixed64Extension, 708);
+  message.addExtension(Unittest.packedFixed64Extension, make64(708));
   message.addExtension(Unittest.packedSfixed32Extension, 709);
-  message.addExtension(Unittest.packedSfixed64Extension, 710);
+  message.addExtension(Unittest.packedSfixed64Extension, make64(710));
   message.addExtension(Unittest.packedFloatExtension, 711.0);
   message.addExtension(Unittest.packedDoubleExtension, 712.0);
   message.addExtension(Unittest.packedBoolExtension, false);
@@ -1725,30 +1791,30 @@ void setPackedExtensions(TestPackedExtensions message) {
  */
 void setPackedFields(TestPackedTypes message) {
   message.packedInt32.add(601);
-  message.packedInt64.add(602);
+  message.packedInt64.add(make64(602));
   message.packedUint32.add(603);
-  message.packedUint64.add(604);
+  message.packedUint64.add(make64(604));
   message.packedSint32.add(605);
-  message.packedSint64.add(606);
+  message.packedSint64.add(make64(606));
   message.packedFixed32.add(607);
-  message.packedFixed64.add(608);
+  message.packedFixed64.add(make64(608));
   message.packedSfixed32.add(609);
-  message.packedSfixed64.add(610);
+  message.packedSfixed64.add(make64(610));
   message.packedFloat.add(611.0);
   message.packedDouble.add(612.0);
   message.packedBool.add(true);
   message.packedEnum.add(ForeignEnum.FOREIGN_BAR);
   // Add a second one of each field.
   message.packedInt32.add(701);
-  message.packedInt64.add(702);
+  message.packedInt64.add(make64(702));
   message.packedUint32.add(703);
-  message.packedUint64.add(704);
+  message.packedUint64.add(make64(704));
   message.packedSint32.add(705);
-  message.packedSint64.add(706);
+  message.packedSint64.add(make64(706));
   message.packedFixed32.add(707);
-  message.packedFixed64.add(708);
+  message.packedFixed64.add(make64(708));
   message.packedSfixed32.add(709);
-  message.packedSfixed64.add(710);
+  message.packedSfixed64.add(make64(710));
   message.packedFloat.add(711.0);
   message.packedDouble.add(712.0);
   message.packedBool.add(false);
@@ -1761,30 +1827,30 @@ void setPackedFields(TestPackedTypes message) {
  */
 void setUnpackedFields(TestUnpackedTypes message) {
   message.unpackedInt32.add(601);
-  message.unpackedInt64.add(602);
+  message.unpackedInt64.add(make64(602));
   message.unpackedUint32.add(603);
-  message.unpackedUint64.add(604);
+  message.unpackedUint64.add(make64(604));
   message.unpackedSint32.add(605);
-  message.unpackedSint64.add(606);
+  message.unpackedSint64.add(make64(606));
   message.unpackedFixed32.add(607);
-  message.unpackedFixed64.add(608);
+  message.unpackedFixed64.add(make64(608));
   message.unpackedSfixed32.add(609);
-  message.unpackedSfixed64.add(610);
+  message.unpackedSfixed64.add(make64(610));
   message.unpackedFloat.add(611.0);
   message.unpackedDouble.add(612.0);
   message.unpackedBool.add(true);
   message.unpackedEnum.add(ForeignEnum.FOREIGN_BAR);
   // Add a second one of each field.
   message.unpackedInt32.add(701);
-  message.unpackedInt64.add(702);
+  message.unpackedInt64.add(make64(702));
   message.unpackedUint32.add(703);
-  message.unpackedUint64.add(704);
+  message.unpackedUint64.add(make64(704));
   message.unpackedSint32.add(705);
-  message.unpackedSint64.add(706);
+  message.unpackedSint64.add(make64(706));
   message.unpackedFixed32.add(707);
-  message.unpackedFixed64.add(708);
+  message.unpackedFixed64.add(make64(708));
   message.unpackedSfixed32.add(709);
-  message.unpackedSfixed64.add(710);
+  message.unpackedSfixed64.add(make64(710));
   message.unpackedFloat.add(711.0);
   message.unpackedDouble.add(712.0);
   message.unpackedBool.add(false);

@@ -48,13 +48,15 @@ class FileGenerator implements ProtobufContainer {
     String className = filePath.filenameWithoutExtension.replaceAll('-', '_');
     className = '${className[0].toUpperCase()}${className.substring(1)}';
 
-    // TODO(antonm): generate some proper library name.
+    String libraryName = className + '.pb';
+
     out.println(
       '///\n'
       '//  Generated code. Do not modify.\n'
       '///\n'
-      'library library;\n'
+      'library $libraryName;\n'
       '\n'
+      "import 'dart:typed_data';\n\n"
       "import 'package:protobuf/protobuf.dart';"
     );
 

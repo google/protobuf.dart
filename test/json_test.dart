@@ -51,7 +51,7 @@ void main() {
            expectedJson(':101,', ':-1234567,'));
 
     // 64-bit numbers are quoted.
-    expect(getAllSet()..optionalInt64 = 9007199254740992,
+    expect(getAllSet()..optionalInt64 = make64(0, 0x200000),
            expectedJson(':"102",', ':"9007199254740992",'));
 
     // Quotes, backslashes, and control characters in strings are quoted.
