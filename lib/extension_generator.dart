@@ -23,7 +23,7 @@ class ExtensionGenerator implements ProtobufContainer {
 
   String get classname {
     String name = new ProtobufField(_descriptor, _context).externalFieldName;
-    return _parent is MessageGenerator ? '${mg.classname}.$name' : name;
+    return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
   }
 
   void generate(IndentingWriter out) {
