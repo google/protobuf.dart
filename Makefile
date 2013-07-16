@@ -36,7 +36,7 @@ $(PLUGIN_PATH): $(PLUGIN_SRC)
 	[ -d $(OUTPUT_DIR) ] || mkdir $(OUTPUT_DIR)
 	# --categories=all is a hack, it should be --categories=Server once dart2dart bug is fixed.
 	dart2js --output-type=dart --package-root=packages --categories=all -o$(PLUGIN_PATH) bin/protoc_plugin.dart
-	sed -i '1i #!/usr/bin/env dart' $(PLUGIN_PATH)
+	dart prepend.dart $(PLUGIN_PATH)
 	chmod +x $(PLUGIN_PATH)
 
 $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
