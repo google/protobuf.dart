@@ -416,23 +416,6 @@ class StreamDescriptorProto extends GeneratedMessage {
   void clearOptions() => clearField(4);
 }
 
-class FileOptions_CompatibilityLevel extends ProtobufEnum {
-  static const FileOptions_CompatibilityLevel NO_COMPATIBILITY = const FileOptions_CompatibilityLevel._(0, 'NO_COMPATIBILITY');
-  static const FileOptions_CompatibilityLevel PROTO1_COMPATIBLE = const FileOptions_CompatibilityLevel._(100, 'PROTO1_COMPATIBLE');
-  static const FileOptions_CompatibilityLevel DEPRECATED_PROTO1_COMPATIBLE = const FileOptions_CompatibilityLevel._(50, 'DEPRECATED_PROTO1_COMPATIBLE');
-
-  static const List<FileOptions_CompatibilityLevel> values = const <FileOptions_CompatibilityLevel> [
-    NO_COMPATIBILITY,
-    PROTO1_COMPATIBLE,
-    DEPRECATED_PROTO1_COMPATIBLE,
-  ];
-
-  static final Map<int, FileOptions_CompatibilityLevel> _byValue = ProtobufEnum.initByValue(values);
-  static FileOptions_CompatibilityLevel valueOf(int value) => _byValue[value];
-
-  const FileOptions_CompatibilityLevel._(int v, String n) : super(v, n);
-}
-
 class FileOptions_OptimizeMode extends ProtobufEnum {
   static const FileOptions_OptimizeMode SPEED = const FileOptions_OptimizeMode._(1, 'SPEED');
   static const FileOptions_OptimizeMode CODE_SIZE = const FileOptions_OptimizeMode._(2, 'CODE_SIZE');
@@ -452,23 +435,11 @@ class FileOptions_OptimizeMode extends ProtobufEnum {
 
 class FileOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FileOptions')
-    ..a(2, 'ccApiVersion', GeneratedMessage.O3, () => 2)
-    ..e(15, 'ccApiCompatibility', GeneratedMessage.OE, () => FileOptions_CompatibilityLevel.NO_COMPATIBILITY, (var v) => FileOptions_CompatibilityLevel.valueOf(v))
     ..a(1, 'javaPackage', GeneratedMessage.OS)
-    ..a(4, 'pyApiVersion', GeneratedMessage.O3, () => 2)
-    ..a(5, 'javaApiVersion', GeneratedMessage.O3, () => 2)
-    ..a(6, 'javaUseJavaproto2', GeneratedMessage.OB, () => true)
-    ..a(7, 'javaJava5Enums', GeneratedMessage.OB, () => true)
-    ..a(13, 'javaGenerateRpcBaseimpl', GeneratedMessage.OB)
-    ..a(21, 'javaUseJavastrings', GeneratedMessage.OB)
-    ..a(19, 'javaAltApiPackage', GeneratedMessage.OS)
     ..a(8, 'javaOuterClassname', GeneratedMessage.OS)
     ..a(10, 'javaMultipleFiles', GeneratedMessage.OB)
     ..a(20, 'javaGenerateEqualsAndHash', GeneratedMessage.OB)
     ..e(9, 'optimizeFor', GeneratedMessage.OE, () => FileOptions_OptimizeMode.SPEED, (var v) => FileOptions_OptimizeMode.valueOf(v))
-    ..a(11, 'goPackage', GeneratedMessage.OS)
-    ..a(12, 'javascriptPackage', GeneratedMessage.OS)
-    ..a(14, 'szlApiVersion', GeneratedMessage.O3, () => 1)
     ..a(16, 'ccGenericServices', GeneratedMessage.OB)
     ..a(17, 'javaGenericServices', GeneratedMessage.OB)
     ..a(18, 'pyGenericServices', GeneratedMessage.OB)
@@ -482,55 +453,10 @@ class FileOptions extends GeneratedMessage {
   FileOptions clone() => new FileOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
 
-  int get ccApiVersion => getField(2);
-  void set ccApiVersion(int v) { setField(2, v); }
-  bool hasCcApiVersion() => hasField(2);
-  void clearCcApiVersion() => clearField(2);
-
-  FileOptions_CompatibilityLevel get ccApiCompatibility => getField(15);
-  void set ccApiCompatibility(FileOptions_CompatibilityLevel v) { setField(15, v); }
-  bool hasCcApiCompatibility() => hasField(15);
-  void clearCcApiCompatibility() => clearField(15);
-
   String get javaPackage => getField(1);
   void set javaPackage(String v) { setField(1, v); }
   bool hasJavaPackage() => hasField(1);
   void clearJavaPackage() => clearField(1);
-
-  int get pyApiVersion => getField(4);
-  void set pyApiVersion(int v) { setField(4, v); }
-  bool hasPyApiVersion() => hasField(4);
-  void clearPyApiVersion() => clearField(4);
-
-  int get javaApiVersion => getField(5);
-  void set javaApiVersion(int v) { setField(5, v); }
-  bool hasJavaApiVersion() => hasField(5);
-  void clearJavaApiVersion() => clearField(5);
-
-  bool get javaUseJavaproto2 => getField(6);
-  void set javaUseJavaproto2(bool v) { setField(6, v); }
-  bool hasJavaUseJavaproto2() => hasField(6);
-  void clearJavaUseJavaproto2() => clearField(6);
-
-  bool get javaJava5Enums => getField(7);
-  void set javaJava5Enums(bool v) { setField(7, v); }
-  bool hasJavaJava5Enums() => hasField(7);
-  void clearJavaJava5Enums() => clearField(7);
-
-  bool get javaGenerateRpcBaseimpl => getField(13);
-  void set javaGenerateRpcBaseimpl(bool v) { setField(13, v); }
-  bool hasJavaGenerateRpcBaseimpl() => hasField(13);
-  void clearJavaGenerateRpcBaseimpl() => clearField(13);
-
-  bool get javaUseJavastrings => getField(21);
-  void set javaUseJavastrings(bool v) { setField(21, v); }
-  bool hasJavaUseJavastrings() => hasField(21);
-  void clearJavaUseJavastrings() => clearField(21);
-
-  String get javaAltApiPackage => getField(19);
-  void set javaAltApiPackage(String v) { setField(19, v); }
-  bool hasJavaAltApiPackage() => hasField(19);
-  void clearJavaAltApiPackage() => clearField(19);
 
   String get javaOuterClassname => getField(8);
   void set javaOuterClassname(String v) { setField(8, v); }
@@ -551,21 +477,6 @@ class FileOptions extends GeneratedMessage {
   void set optimizeFor(FileOptions_OptimizeMode v) { setField(9, v); }
   bool hasOptimizeFor() => hasField(9);
   void clearOptimizeFor() => clearField(9);
-
-  String get goPackage => getField(11);
-  void set goPackage(String v) { setField(11, v); }
-  bool hasGoPackage() => hasField(11);
-  void clearGoPackage() => clearField(11);
-
-  String get javascriptPackage => getField(12);
-  void set javascriptPackage(String v) { setField(12, v); }
-  bool hasJavascriptPackage() => hasField(12);
-  void clearJavascriptPackage() => clearField(12);
-
-  int get szlApiVersion => getField(14);
-  void set szlApiVersion(int v) { setField(14, v); }
-  bool hasSzlApiVersion() => hasField(14);
-  void clearSzlApiVersion() => clearField(14);
 
   bool get ccGenericServices => getField(16);
   void set ccGenericServices(bool v) { setField(16, v); }
@@ -614,13 +525,9 @@ class MessageOptions extends GeneratedMessage {
 
 class FieldOptions_CType extends ProtobufEnum {
   static const FieldOptions_CType STRING = const FieldOptions_CType._(0, 'STRING');
-  static const FieldOptions_CType CORD = const FieldOptions_CType._(1, 'CORD');
-  static const FieldOptions_CType STRING_PIECE = const FieldOptions_CType._(2, 'STRING_PIECE');
 
   static const List<FieldOptions_CType> values = const <FieldOptions_CType> [
     STRING,
-    CORD,
-    STRING_PIECE,
   ];
 
   static final Map<int, FieldOptions_CType> _byValue = ProtobufEnum.initByValue(values);
@@ -629,48 +536,13 @@ class FieldOptions_CType extends ProtobufEnum {
   const FieldOptions_CType._(int v, String n) : super(v, n);
 }
 
-class FieldOptions_JType extends ProtobufEnum {
-  static const FieldOptions_JType NORMAL = const FieldOptions_JType._(0, 'NORMAL');
-  static const FieldOptions_JType BYTES = const FieldOptions_JType._(1, 'BYTES');
-
-  static const List<FieldOptions_JType> values = const <FieldOptions_JType> [
-    NORMAL,
-    BYTES,
-  ];
-
-  static final Map<int, FieldOptions_JType> _byValue = ProtobufEnum.initByValue(values);
-  static FieldOptions_JType valueOf(int value) => _byValue[value];
-
-  const FieldOptions_JType._(int v, String n) : super(v, n);
-}
-
-class FieldOptions_JSType extends ProtobufEnum {
-  static const FieldOptions_JSType JS_NORMAL = const FieldOptions_JSType._(0, 'JS_NORMAL');
-  static const FieldOptions_JSType JS_STRING = const FieldOptions_JSType._(1, 'JS_STRING');
-  static const FieldOptions_JSType JS_NUMBER = const FieldOptions_JSType._(2, 'JS_NUMBER');
-
-  static const List<FieldOptions_JSType> values = const <FieldOptions_JSType> [
-    JS_NORMAL,
-    JS_STRING,
-    JS_NUMBER,
-  ];
-
-  static final Map<int, FieldOptions_JSType> _byValue = ProtobufEnum.initByValue(values);
-  static FieldOptions_JSType valueOf(int value) => _byValue[value];
-
-  const FieldOptions_JSType._(int v, String n) : super(v, n);
-}
-
 class FieldOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FieldOptions')
     ..e(1, 'ctype', GeneratedMessage.OE, () => FieldOptions_CType.STRING, (var v) => FieldOptions_CType.valueOf(v))
     ..a(2, 'packed', GeneratedMessage.OB)
-    ..e(4, 'jtype', GeneratedMessage.OE, () => FieldOptions_JType.NORMAL, (var v) => FieldOptions_JType.valueOf(v))
-    ..e(6, 'jstype', GeneratedMessage.OE, () => FieldOptions_JSType.JS_NORMAL, (var v) => FieldOptions_JSType.valueOf(v))
     ..a(5, 'lazy', GeneratedMessage.OB)
     ..a(3, 'deprecated', GeneratedMessage.OB)
     ..a(9, 'experimentalMapKey', GeneratedMessage.OS)
-    ..a(10, 'weak', GeneratedMessage.OB)
     ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
     ..hasExtensions = true
   ;
@@ -691,16 +563,6 @@ class FieldOptions extends GeneratedMessage {
   bool hasPacked() => hasField(2);
   void clearPacked() => clearField(2);
 
-  FieldOptions_JType get jtype => getField(4);
-  void set jtype(FieldOptions_JType v) { setField(4, v); }
-  bool hasJtype() => hasField(4);
-  void clearJtype() => clearField(4);
-
-  FieldOptions_JSType get jstype => getField(6);
-  void set jstype(FieldOptions_JSType v) { setField(6, v); }
-  bool hasJstype() => hasField(6);
-  void clearJstype() => clearField(6);
-
   bool get lazy => getField(5);
   void set lazy(bool v) { setField(5, v); }
   bool hasLazy() => hasField(5);
@@ -716,17 +578,11 @@ class FieldOptions extends GeneratedMessage {
   bool hasExperimentalMapKey() => hasField(9);
   void clearExperimentalMapKey() => clearField(9);
 
-  bool get weak => getField(10);
-  void set weak(bool v) { setField(10, v); }
-  bool hasWeak() => hasField(10);
-  void clearWeak() => clearField(10);
-
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
 
 class EnumOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumOptions')
-    ..a(1, 'proto1Name', GeneratedMessage.OS)
     ..a(2, 'allowAlias', GeneratedMessage.OB, () => true)
     ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
     ..hasExtensions = true
@@ -737,11 +593,6 @@ class EnumOptions extends GeneratedMessage {
   EnumOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   EnumOptions clone() => new EnumOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-
-  String get proto1Name => getField(1);
-  void set proto1Name(String v) { setField(1, v); }
-  bool hasProto1Name() => hasField(1);
-  void clearProto1Name() => clearField(1);
 
   bool get allowAlias => getField(2);
   void set allowAlias(bool v) { setField(2, v); }
@@ -768,8 +619,6 @@ class EnumValueOptions extends GeneratedMessage {
 
 class ServiceOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ServiceOptions')
-    ..a(20, 'multicastStub', GeneratedMessage.OB)
-    ..a(16, 'failureDetectionDelay', GeneratedMessage.OD, () => -1.0)
     ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
     ..hasExtensions = true
   ;
@@ -780,81 +629,11 @@ class ServiceOptions extends GeneratedMessage {
   ServiceOptions clone() => new ServiceOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
 
-  bool get multicastStub => getField(20);
-  void set multicastStub(bool v) { setField(20, v); }
-  bool hasMulticastStub() => hasField(20);
-  void clearMulticastStub() => clearField(20);
-
-  double get failureDetectionDelay => getField(16);
-  void set failureDetectionDelay(double v) { setField(16, v); }
-  bool hasFailureDetectionDelay() => hasField(16);
-  void clearFailureDetectionDelay() => clearField(16);
-
   List<UninterpretedOption> get uninterpretedOption => getField(999);
-}
-
-class MethodOptions_Protocol extends ProtobufEnum {
-  static const MethodOptions_Protocol TCP = const MethodOptions_Protocol._(0, 'TCP');
-  static const MethodOptions_Protocol UDP = const MethodOptions_Protocol._(1, 'UDP');
-
-  static const List<MethodOptions_Protocol> values = const <MethodOptions_Protocol> [
-    TCP,
-    UDP,
-  ];
-
-  static final Map<int, MethodOptions_Protocol> _byValue = ProtobufEnum.initByValue(values);
-  static MethodOptions_Protocol valueOf(int value) => _byValue[value];
-
-  const MethodOptions_Protocol._(int v, String n) : super(v, n);
-}
-
-class MethodOptions_SecurityLevel extends ProtobufEnum {
-  static const MethodOptions_SecurityLevel NONE = const MethodOptions_SecurityLevel._(0, 'NONE');
-  static const MethodOptions_SecurityLevel INTEGRITY = const MethodOptions_SecurityLevel._(1, 'INTEGRITY');
-  static const MethodOptions_SecurityLevel PRIVACY_AND_INTEGRITY = const MethodOptions_SecurityLevel._(2, 'PRIVACY_AND_INTEGRITY');
-  static const MethodOptions_SecurityLevel STRONG_PRIVACY_AND_INTEGRITY = const MethodOptions_SecurityLevel._(3, 'STRONG_PRIVACY_AND_INTEGRITY');
-
-  static const List<MethodOptions_SecurityLevel> values = const <MethodOptions_SecurityLevel> [
-    NONE,
-    INTEGRITY,
-    PRIVACY_AND_INTEGRITY,
-    STRONG_PRIVACY_AND_INTEGRITY,
-  ];
-
-  static final Map<int, MethodOptions_SecurityLevel> _byValue = ProtobufEnum.initByValue(values);
-  static MethodOptions_SecurityLevel valueOf(int value) => _byValue[value];
-
-  const MethodOptions_SecurityLevel._(int v, String n) : super(v, n);
-}
-
-class MethodOptions_Format extends ProtobufEnum {
-  static const MethodOptions_Format UNCOMPRESSED = const MethodOptions_Format._(0, 'UNCOMPRESSED');
-  static const MethodOptions_Format ZIPPY_COMPRESSED = const MethodOptions_Format._(1, 'ZIPPY_COMPRESSED');
-
-  static const List<MethodOptions_Format> values = const <MethodOptions_Format> [
-    UNCOMPRESSED,
-    ZIPPY_COMPRESSED,
-  ];
-
-  static final Map<int, MethodOptions_Format> _byValue = ProtobufEnum.initByValue(values);
-  static MethodOptions_Format valueOf(int value) => _byValue[value];
-
-  const MethodOptions_Format._(int v, String n) : super(v, n);
 }
 
 class MethodOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MethodOptions')
-    ..e(7, 'protocol', GeneratedMessage.OE, () => MethodOptions_Protocol.TCP, (var v) => MethodOptions_Protocol.valueOf(v))
-    ..a(8, 'deadline', GeneratedMessage.OD, () => -1.0)
-    ..a(9, 'duplicateSuppression', GeneratedMessage.OB)
-    ..a(10, 'failFast', GeneratedMessage.OB)
-    ..a(11, 'clientLogging', GeneratedMessage.OS3, () => 256)
-    ..a(12, 'serverLogging', GeneratedMessage.OS3, () => 256)
-    ..e(13, 'securityLevel', GeneratedMessage.OE, () => MethodOptions_SecurityLevel.NONE, (var v) => MethodOptions_SecurityLevel.valueOf(v))
-    ..e(15, 'responseFormat', GeneratedMessage.OE, () => MethodOptions_Format.UNCOMPRESSED, (var v) => MethodOptions_Format.valueOf(v))
-    ..e(17, 'requestFormat', GeneratedMessage.OE, () => MethodOptions_Format.UNCOMPRESSED, (var v) => MethodOptions_Format.valueOf(v))
-    ..a(18, 'streamType', GeneratedMessage.OS)
-    ..a(19, 'securityLabel', GeneratedMessage.OS)
     ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
     ..hasExtensions = true
   ;
@@ -865,68 +644,11 @@ class MethodOptions extends GeneratedMessage {
   MethodOptions clone() => new MethodOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
 
-  MethodOptions_Protocol get protocol => getField(7);
-  void set protocol(MethodOptions_Protocol v) { setField(7, v); }
-  bool hasProtocol() => hasField(7);
-  void clearProtocol() => clearField(7);
-
-  double get deadline => getField(8);
-  void set deadline(double v) { setField(8, v); }
-  bool hasDeadline() => hasField(8);
-  void clearDeadline() => clearField(8);
-
-  bool get duplicateSuppression => getField(9);
-  void set duplicateSuppression(bool v) { setField(9, v); }
-  bool hasDuplicateSuppression() => hasField(9);
-  void clearDuplicateSuppression() => clearField(9);
-
-  bool get failFast => getField(10);
-  void set failFast(bool v) { setField(10, v); }
-  bool hasFailFast() => hasField(10);
-  void clearFailFast() => clearField(10);
-
-  int get clientLogging => getField(11);
-  void set clientLogging(int v) { setField(11, v); }
-  bool hasClientLogging() => hasField(11);
-  void clearClientLogging() => clearField(11);
-
-  int get serverLogging => getField(12);
-  void set serverLogging(int v) { setField(12, v); }
-  bool hasServerLogging() => hasField(12);
-  void clearServerLogging() => clearField(12);
-
-  MethodOptions_SecurityLevel get securityLevel => getField(13);
-  void set securityLevel(MethodOptions_SecurityLevel v) { setField(13, v); }
-  bool hasSecurityLevel() => hasField(13);
-  void clearSecurityLevel() => clearField(13);
-
-  MethodOptions_Format get responseFormat => getField(15);
-  void set responseFormat(MethodOptions_Format v) { setField(15, v); }
-  bool hasResponseFormat() => hasField(15);
-  void clearResponseFormat() => clearField(15);
-
-  MethodOptions_Format get requestFormat => getField(17);
-  void set requestFormat(MethodOptions_Format v) { setField(17, v); }
-  bool hasRequestFormat() => hasField(17);
-  void clearRequestFormat() => clearField(17);
-
-  String get streamType => getField(18);
-  void set streamType(String v) { setField(18, v); }
-  bool hasStreamType() => hasField(18);
-  void clearStreamType() => clearField(18);
-
-  String get securityLabel => getField(19);
-  void set securityLabel(String v) { setField(19, v); }
-  bool hasSecurityLabel() => hasField(19);
-  void clearSecurityLabel() => clearField(19);
-
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
 
 class StreamOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('StreamOptions')
-    ..a(1, 'clientInitialTokens', GeneratedMessage.O6, () => makeLongInt(100))
-    ..a(2, 'serverInitialTokens', GeneratedMessage.O6, () => makeLongInt(100))
     ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
     ..hasExtensions = true
   ;
@@ -936,16 +658,6 @@ class StreamOptions extends GeneratedMessage {
   StreamOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   StreamOptions clone() => new StreamOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-
-  ByteData get clientInitialTokens => getField(1);
-  void set clientInitialTokens(ByteData v) { setField(1, v); }
-  bool hasClientInitialTokens() => hasField(1);
-  void clearClientInitialTokens() => clearField(1);
-
-  ByteData get serverInitialTokens => getField(2);
-  void set serverInitialTokens(ByteData v) { setField(2, v); }
-  bool hasServerInitialTokens() => hasField(2);
-  void clearServerInitialTokens() => clearField(2);
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
