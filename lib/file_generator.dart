@@ -32,15 +32,25 @@ class FileGenerator implements ProtobufContainer {
   String get fqname => _fileDescriptor.package == null
       ? '' : '.${_fileDescriptor.package}';
 
-  CodeGeneratorResponse_File generate() {
+  _generatedFilePath(Path path) {
+    Path withoutExtension = path.directoryPath
+        .join(new Path(path.filenameWithoutExtension));
+    return '${withoutExtension.toNativePath()}.pb.dart';
+  }
+
+  CodeGeneratorResponse_File generateResponse() {
     MemoryWriter writer = new MemoryWriter();
     IndentingWriter out = new IndentingWriter('  ', writer);
 
-    generatedFilePath(Path path) {
-      Path withoutExtension = path.directoryPath
-          .join(new Path(path.filenameWithoutExtension));
-      return '${withoutExtension.toNativePath()}.pb.dart';
-    }
+    generate(out);
+
+    Path filePath = new Path(_fileDescriptor.name);
+    return new CodeGeneratorResponse_File()
+        ..name = _generatedFilePath(filePath)
+        ..content = writer.toString();
+  }
+
+  void generate(IndentingWriter out) {
 
     Path filePath = new Path(_fileDescriptor.name);
     Path directoryPath = filePath.directoryPath.canonicalize();
@@ -63,7 +73,7 @@ class FileGenerator implements ProtobufContainer {
     for (String import in _fileDescriptor.dependency) {
       Path relativeProtoPath =
           new Path(import).relativeTo(directoryPath).canonicalize();
-      out.println("import '${generatedFilePath(relativeProtoPath)}';");
+      out.println("import '${_generatedFilePath(relativeProtoPath)}';");
     }
     out.println('');
 
@@ -96,20 +106,20 @@ class FileGenerator implements ProtobufContainer {
         out.println('}');
       });
     }
-
-    return new CodeGeneratorResponse_File()
-        ..name = generatedFilePath(filePath)
-        ..content = writer.toString();
   }
 }
 
 class GenerationContext {
+  final GenerationOptions options;
   final Map<String, ProtobufContainer> _registry =
       <String, ProtobufContainer>{};
+
+  GenerationContext(this.options);
 
   void register(ProtobufContainer container) {
     _registry[container.fqname] = container;
   }
 
   ProtobufContainer operator [](String fqname) => _registry[fqname];
+
 }

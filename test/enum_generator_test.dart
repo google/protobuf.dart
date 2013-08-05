@@ -49,7 +49,9 @@ class PhoneType extends ProtobufEnum {
                 ..number = 2]);
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
-    EnumGenerator eg = new EnumGenerator(ed, null, new GenerationContext());
+    EnumGenerator eg =
+        new EnumGenerator(
+            ed, null, new GenerationContext(new GenerationOptions()));
     eg.generate(writer);
     expect(buffer.toString(), expected);
   });

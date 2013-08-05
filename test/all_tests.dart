@@ -10,6 +10,7 @@ import 'generated_message_test.dart' as gmt;
 import 'indenting_writer_test.dart' as iwt;
 import 'json_test.dart' as jt;
 import 'message_generator_test.dart' as mgt;
+import 'file_generator_test.dart' as fgt;
 import 'message_test.dart' as mt;
 import 'unknown_field_set_test.dart' as ufst;
 import 'validate_fail_test.dart' as vft;
@@ -21,6 +22,7 @@ void main() {
   iwt.main();
   jt.main();
   mgt.main();
+  fgt.main();
   mt.main();
   ufst.main();
   vft.main();
