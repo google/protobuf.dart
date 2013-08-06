@@ -42,7 +42,7 @@ class MessageGenerator implements ProtobufContainer {
   void initializeFields() {
     _fieldList.clear();
     for (FieldDescriptorProto field in _descriptor.field) {
-      _fieldList.add(new ProtobufField(field, _context));
+      _fieldList.add(new ProtobufField(field, this, _context));
     }
     for (MessageGenerator m in _messageGenerators) {
       m.initializeFields();

@@ -16,6 +16,9 @@ class ProtobufField {
                  caseSensitive: false);
 
   final FieldDescriptorProto _field;
+  final ProtobufContainer parent;
+  final GenerationContext context;
+  final String fqname;
   final String baseType;
   final String typeString;
   final String codedStreamType;
@@ -83,11 +86,17 @@ class ProtobufField {
   }
 
   ProtobufField._(
-      this._field, this.baseType, this.typeString, this.codedStreamType,
-      this.repeats, this.initialization, this.required,
-      this.packed, this.packable);
+      field, parent, this.context, this.baseType, this.typeString,
+      this.codedStreamType, this.repeats, this.initialization, this.required,
+      this.packed, this.packable) :
+          this._field = field,
+          this.parent = parent,
+          fqname = '${parent.fqname}.${field.name}';
 
-  factory ProtobufField(FieldDescriptorProto field, GenerationContext context) {
+
+  factory ProtobufField(FieldDescriptorProto field,
+                        MessageGenerator parent,
+                        GenerationContext context) {
     bool required = field.label == FieldDescriptorProto_Label.LABEL_REQUIRED;
     bool repeats = field.label == FieldDescriptorProto_Label.LABEL_REPEATED;
     bool packed = false;
@@ -295,7 +304,7 @@ class ProtobufField {
     }
 
     return new ProtobufField._(
-        field, baseType, typeString, codedStreamType, repeats,
+        field, parent, context, baseType, typeString, codedStreamType, repeats,
         initialization, required, packed, packable);
   }
 
@@ -321,7 +330,8 @@ class ProtobufField {
       }
       return underscoresToCamelCase(name);
     }
-    return underscoresToCamelCase(_field.name);
+    var name = context.options.fieldNameOption(fqname);
+    return (name != null) ? name : underscoresToCamelCase(_field.name);
   }
 
   int get wireType {
