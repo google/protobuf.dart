@@ -26,7 +26,7 @@ When both the `dart` executable and `out/protoc-gen-dart` are in the
 ### Options to control the generated Dart code
 
 The protocol buffer compiler accepts options for each plugin. For the
-Dart plugin These options are passed together with the `--dart_out`
+Dart plugin, these options are passed together with the `--dart_out`
 option. The individial options are separated using comma, and the
 final output directive is separated from the options using colon. Pass
 options `<option 1>` and `<option 2>` like this:
@@ -45,7 +45,7 @@ This poses the problem, that the Dart class will have a getter and a
 setter called `hasField`. This conflicts with the method `hasField`
 which is already defined on the superclass `GeneratedMessage`.
 
-To work around this problem the option `field_name` and be
+To work around this problem the option `field_name` can be
 used. Option `field_name` takes two values separated by the vertical
 bar. The first value is the full name of the field and the second
 value is the name of the field in the generated Dart code. Passing the

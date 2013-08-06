@@ -91,9 +91,7 @@ class ProtobufField {
       this.packed, this.packable) :
           this._field = field,
           this.parent = parent,
-          fqname = parent.fqname == '.' ?
-              '.${field.name}' :
-              '${parent.fqname}.${field.name}';
+          fqname = '${parent.fqname}.${field.name}';
 
 
   factory ProtobufField(FieldDescriptorProto field,
@@ -333,8 +331,7 @@ class ProtobufField {
       return underscoresToCamelCase(name);
     }
     var name = context.options.fieldNameOption(fqname);
-    if (name != null) return name;
-    return underscoresToCamelCase(_field.name);
+    return (name != null) ? name : underscoresToCamelCase(_field.name);
   }
 
   int get wireType {

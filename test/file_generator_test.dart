@@ -6,26 +6,12 @@
 library file_generator_test;
 
 import 'package:protoc-plugin/src/descriptor.pb.dart';
+import 'package:protoc-plugin/src/plugin.pb.dart';
 import 'package:protoc-plugin/protoc.dart';
 import 'package:unittest/unittest.dart';
 
 
 FileDescriptorProto buildFileDescriptor() {
-  EnumDescriptorProto ed = new EnumDescriptorProto()
-      ..name = 'PhoneType'
-      ..value.addAll([
-          new EnumValueDescriptorProto()
-              ..name = 'MOBILE'
-              ..number = 0,
-          new EnumValueDescriptorProto()
-              ..name = 'HOME'
-              ..number = 1,
-          new EnumValueDescriptorProto()
-              ..name = 'WORK'
-              ..number = 2,
-          new EnumValueDescriptorProto()
-              ..name = 'BUSINESS'
-              ..number = 2]);
   DescriptorProto md = new DescriptorProto()
       ..name = 'PhoneNumber'
       ..field.addAll([
@@ -35,21 +21,21 @@ FileDescriptorProto buildFileDescriptor() {
               ..number = 1
               ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
               ..type = FieldDescriptorProto_Type.TYPE_STRING,
-          // optional PhoneType type = 2 [default = HOME];
+          // optional int32 type = 2;
           new FieldDescriptorProto()
               ..name = 'type'
               ..number = 2
               ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
-              ..type = FieldDescriptorProto_Type.TYPE_ENUM
+              ..type = FieldDescriptorProto_Type.TYPE_INT32
               ..typeName = '.PhoneNumber.PhoneType',
+          // optional string name = 3 [default = "$"];
           new FieldDescriptorProto()
               ..name = 'name'
               ..number = 3
               ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
               ..type = FieldDescriptorProto_Type.TYPE_STRING
               ..defaultValue = r'$'
-          ])
-      ..enumType.add(ed);
+          ]);
   FileDescriptorProto fd = new FileDescriptorProto()
       ..name = 'test'
       ..messageType.add(md);
@@ -69,29 +55,10 @@ import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
 
-class PhoneNumber_PhoneType extends ProtobufEnum {
-  static const PhoneNumber_PhoneType MOBILE = const PhoneNumber_PhoneType._(0, 'MOBILE');
-  static const PhoneNumber_PhoneType HOME = const PhoneNumber_PhoneType._(1, 'HOME');
-  static const PhoneNumber_PhoneType WORK = const PhoneNumber_PhoneType._(2, 'WORK');
-
-  static const PhoneNumber_PhoneType BUSINESS = WORK;
-
-  static const List<PhoneNumber_PhoneType> values = const <PhoneNumber_PhoneType> [
-    MOBILE,
-    HOME,
-    WORK,
-  ];
-
-  static final Map<int, PhoneNumber_PhoneType> _byValue = ProtobufEnum.initByValue(values);
-  static PhoneNumber_PhoneType valueOf(int value) => _byValue[value];
-
-  const PhoneNumber_PhoneType._(int v, String n) : super(v, n);
-}
-
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
     ..a(1, 'number', GeneratedMessage.QS)
-    ..e(2, 'type', GeneratedMessage.OE, () => PhoneNumber_PhoneType.MOBILE, (var v) => PhoneNumber_PhoneType.valueOf(v))
+    ..a(2, 'type', GeneratedMessage.O3)
     ..a(3, 'name', GeneratedMessage.OS, () => '\$')
   ;
 
@@ -106,8 +73,8 @@ class PhoneNumber extends GeneratedMessage {
   bool hasNumber() => hasField(1);
   void clearNumber() => clearField(1);
 
-  PhoneNumber_PhoneType get type => getField(2);
-  void set type(PhoneNumber_PhoneType v) { setField(2, v); }
+  int get type => getField(2);
+  void set type(int v) { setField(2, v); }
   bool hasType() => hasField(2);
   void clearType() => clearField(2);
 
@@ -121,9 +88,11 @@ class PhoneNumber extends GeneratedMessage {
     FileDescriptorProto fd = buildFileDescriptor();
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
+    var options =
+        new GenerationOptions(new CodeGeneratorRequest(),
+                              new CodeGeneratorResponse());
     FileGenerator fg =
-        new FileGenerator(
-            fd, null, new GenerationContext(new GenerationOptions()));
+        new FileGenerator(fd, null, new GenerationContext(options));
     fg.generate(writer);
     expect(buffer.toString(), expected);
   });
@@ -140,29 +109,10 @@ import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
 
-class PhoneNumber_PhoneType extends ProtobufEnum {
-  static const PhoneNumber_PhoneType MOBILE = const PhoneNumber_PhoneType._(0, 'MOBILE');
-  static const PhoneNumber_PhoneType HOME = const PhoneNumber_PhoneType._(1, 'HOME');
-  static const PhoneNumber_PhoneType WORK = const PhoneNumber_PhoneType._(2, 'WORK');
-
-  static const PhoneNumber_PhoneType BUSINESS = WORK;
-
-  static const List<PhoneNumber_PhoneType> values = const <PhoneNumber_PhoneType> [
-    MOBILE,
-    HOME,
-    WORK,
-  ];
-
-  static final Map<int, PhoneNumber_PhoneType> _byValue = ProtobufEnum.initByValue(values);
-  static PhoneNumber_PhoneType valueOf(int value) => _byValue[value];
-
-  const PhoneNumber_PhoneType._(int v, String n) : super(v, n);
-}
-
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
     ..a(1, 'no', GeneratedMessage.QS)
-    ..e(2, 'the_type', GeneratedMessage.OE, () => PhoneNumber_PhoneType.MOBILE, (var v) => PhoneNumber_PhoneType.valueOf(v))
+    ..a(2, 'the_type', GeneratedMessage.O3)
     ..a(3, 'name_', GeneratedMessage.OS, () => '\$')
   ;
 
@@ -177,8 +127,8 @@ class PhoneNumber extends GeneratedMessage {
   bool hasNo() => hasField(1);
   void clearNo() => clearField(1);
 
-  PhoneNumber_PhoneType get the_type => getField(2);
-  void set the_type(PhoneNumber_PhoneType v) { setField(2, v); }
+  int get the_type => getField(2);
+  void set the_type(int v) { setField(2, v); }
   bool hasThe_type() => hasField(2);
   void clearThe_type() => clearField(2);
 
@@ -192,13 +142,16 @@ class PhoneNumber extends GeneratedMessage {
     FileDescriptorProto fd = buildFileDescriptor();
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
+    var request = new CodeGeneratorRequest();
+    request.parameter = 'field_name=PhoneNumber.number|No,'
+                        'field_name=PhoneNumber.name|Name_,'
+                        'field_name=PhoneNumber.type|The_type';
+    var options =
+        new GenerationOptions(request,
+                              new CodeGeneratorResponse());
     FileGenerator fg =
         new FileGenerator(
-            fd, null, new GenerationContext(
-                new GenerationOptions(
-                    'field_name=PhoneNumber.number|No,'
-                    'field_name=PhoneNumber.name|Name_,'
-                    'field_name=PhoneNumber.type|The_type')));
+            fd, null, new GenerationContext(options));
     fg.generate(writer);
     expect(buffer.toString(), expected);
   });

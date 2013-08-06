@@ -6,52 +6,10 @@
 library message_generator_test;
 
 import 'package:protoc-plugin/src/descriptor.pb.dart';
+import 'package:protoc-plugin/src/plugin.pb.dart';
 import 'package:protoc-plugin/protoc.dart';
 import 'package:unittest/unittest.dart';
 
-
-DescriptorProto buildMessageDescriptor() {
-  EnumDescriptorProto ed = new EnumDescriptorProto()
-      ..name = 'PhoneType'
-      ..value.addAll([
-          new EnumValueDescriptorProto()
-              ..name = 'MOBILE'
-              ..number = 0,
-          new EnumValueDescriptorProto()
-              ..name = 'HOME'
-              ..number = 1,
-          new EnumValueDescriptorProto()
-              ..name = 'WORK'
-              ..number = 2,
-          new EnumValueDescriptorProto()
-              ..name = 'BUSINESS'
-              ..number = 2]);
-  DescriptorProto md = new DescriptorProto()
-      ..name = 'PhoneNumber'
-      ..field.addAll([
-          // required string number = 1;
-          new FieldDescriptorProto()
-              ..name = 'number'
-              ..number = 1
-              ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
-              ..type = FieldDescriptorProto_Type.TYPE_STRING,
-          // optional PhoneType type = 2 [default = HOME];
-          new FieldDescriptorProto()
-              ..name = 'type'
-              ..number = 2
-              ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
-              ..type = FieldDescriptorProto_Type.TYPE_ENUM
-              ..typeName = 'PhoneNumber.PhoneType',
-          new FieldDescriptorProto()
-              ..name = 'name'
-              ..number = 3
-              ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
-              ..type = FieldDescriptorProto_Type.TYPE_STRING
-              ..defaultValue = r'$'
-          ])
-      ..enumType.add(ed);
-  return md;
-}
 
 void main() {
   test('testMessageGenerator', () {
@@ -106,12 +64,53 @@ class PhoneNumber extends GeneratedMessage {
 }
 
 ''';
-    DescriptorProto md = buildMessageDescriptor();
+    EnumDescriptorProto ed = new EnumDescriptorProto()
+        ..name = 'PhoneType'
+        ..value.addAll([
+            new EnumValueDescriptorProto()
+                ..name = 'MOBILE'
+                ..number = 0,
+            new EnumValueDescriptorProto()
+                ..name = 'HOME'
+                ..number = 1,
+            new EnumValueDescriptorProto()
+                ..name = 'WORK'
+                ..number = 2,
+            new EnumValueDescriptorProto()
+                ..name = 'BUSINESS'
+                ..number = 2]);
+    DescriptorProto md = new DescriptorProto()
+        ..name = 'PhoneNumber'
+        ..field.addAll([
+            // required string number = 1;
+            new FieldDescriptorProto()
+                ..name = 'number'
+                ..number = 1
+                ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
+                ..type = FieldDescriptorProto_Type.TYPE_STRING,
+            // optional PhoneType type = 2 [default = HOME];
+            new FieldDescriptorProto()
+                ..name = 'type'
+                ..number = 2
+                ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+                ..type = FieldDescriptorProto_Type.TYPE_ENUM
+                ..typeName = 'PhoneNumber.PhoneType',
+            new FieldDescriptorProto()
+                ..name = 'name'
+                ..number = 3
+                ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+                ..type = FieldDescriptorProto_Type.TYPE_STRING
+                ..defaultValue = r'$'
+            ])
+        ..enumType.add(ed);
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
+    var options =
+        new GenerationOptions(new CodeGeneratorRequest(),
+                              new CodeGeneratorResponse());
     MessageGenerator mg =
         new MessageGenerator(
-            md, null, new GenerationContext(new GenerationOptions()));
+            md, null, new GenerationContext(options));
     mg.initializeFields();
     mg.generate(writer);
     expect(buffer.toString(), expected);

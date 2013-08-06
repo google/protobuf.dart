@@ -121,5 +121,4 @@ class GenerationContext {
   }
 
   ProtobufContainer operator [](String fqname) => _registry[fqname];
-
 }
