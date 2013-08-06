@@ -10,7 +10,6 @@ import 'package:protoc-plugin/src/plugin.pb.dart';
 import 'package:protoc-plugin/protoc.dart';
 import 'package:unittest/unittest.dart';
 
-
 void main() {
   test('testMessageGenerator', () {
     // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
@@ -106,8 +105,8 @@ class PhoneNumber extends GeneratedMessage {
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options =
-        new GenerationOptions(new CodeGeneratorRequest(),
-                              new CodeGeneratorResponse());
+        new GenerationOptions(
+            new CodeGeneratorRequest(), new CodeGeneratorResponse());
     MessageGenerator mg =
         new MessageGenerator(
             md, null, new GenerationContext(options));

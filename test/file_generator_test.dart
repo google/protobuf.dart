@@ -89,8 +89,8 @@ class PhoneNumber extends GeneratedMessage {
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options =
-        new GenerationOptions(new CodeGeneratorRequest(),
-                              new CodeGeneratorResponse());
+        new GenerationOptions(
+            new CodeGeneratorRequest(), new CodeGeneratorResponse());
     FileGenerator fg =
         new FileGenerator(fd, null, new GenerationContext(options));
     fg.generate(writer);
@@ -147,8 +147,8 @@ class PhoneNumber extends GeneratedMessage {
                         'field_name=PhoneNumber.name|Name_,'
                         'field_name=PhoneNumber.type|The_type';
     var options =
-        new GenerationOptions(request,
-                              new CodeGeneratorResponse());
+        new GenerationOptions(
+            request, new CodeGeneratorResponse());
     FileGenerator fg =
         new FileGenerator(
             fd, null, new GenerationContext(options));

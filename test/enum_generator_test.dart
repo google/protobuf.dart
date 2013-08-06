@@ -51,8 +51,8 @@ class PhoneType extends ProtobufEnum {
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options =
-        new GenerationOptions(new CodeGeneratorRequest(),
-                              new CodeGeneratorResponse());
+        new GenerationOptions(
+            new CodeGeneratorRequest(), new CodeGeneratorResponse());
     EnumGenerator eg =
         new EnumGenerator(
             ed, null, new GenerationContext(options));

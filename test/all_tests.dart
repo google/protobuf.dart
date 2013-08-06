@@ -12,6 +12,7 @@ import 'json_test.dart' as jt;
 import 'message_generator_test.dart' as mgt;
 import 'file_generator_test.dart' as fgt;
 import 'message_test.dart' as mt;
+import 'protoc_options_test.dart' as pot;
 import 'unknown_field_set_test.dart' as ufst;
 import 'validate_fail_test.dart' as vft;
 import 'wire_format_test.dart' as wft;
@@ -24,6 +25,7 @@ void main() {
   mgt.main();
   fgt.main();
   mt.main();
+  pot.main();
   ufst.main();
   vft.main();
   wft.main();
