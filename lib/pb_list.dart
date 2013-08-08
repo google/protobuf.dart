@@ -13,6 +13,8 @@ class PbList<E> extends Object with ListMixin<E> implements List<E> {
   bool operator ==(other) =>
       (other is PbList) && _areListsEqual(other, this);
 
+  int get hashCode => _wrappedList.hashCode;
+
   /**
    * Returns an [Iterator] for the list.
    */

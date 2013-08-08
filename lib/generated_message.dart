@@ -275,6 +275,8 @@ class GeneratedMessage {
     return true;
   }
 
+  int get hashCode => _fieldValues.hashCode;
+
   String toString() => _toString('');
 
   String _toString(String indent) {

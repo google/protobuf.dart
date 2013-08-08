@@ -120,6 +120,8 @@ class UnknownFieldSet {
     return _areMapsEqual(o._fields, _fields);
   }
 
+  int get hashCode => _fields.hashCode;
+
   String toString() => _toString('');
 
   String _toString(String indent) {
@@ -179,6 +181,7 @@ class UnknownFieldSetField {
     return true;
   }
 
+  int get hashCode => lengthDelimited.hashCode;
 
   List get values => []
       ..addAll(lengthDelimited)
