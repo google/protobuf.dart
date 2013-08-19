@@ -32,10 +32,57 @@ class FileGenerator implements ProtobufContainer {
   String get fqname => _fileDescriptor.package == null
       ? '' : '.${_fileDescriptor.package}';
 
-  _generatedFilePath(Path path) {
-    Path withoutExtension = path.directoryPath
-        .join(new Path(path.filenameWithoutExtension));
-    return '${withoutExtension.toNativePath()}.pb.dart';
+  // Extract the filename from a URI and remove the extension.
+  String _fileNameWithoutExtension(Uri filePath) {
+    String fileName = filePath.pathSegments.last;
+    int index = fileName.lastIndexOf(".");
+    return index == -1 ? fileName : fileName.substring(0, index);
+  }
+
+  // Create the URI for the generated Dart file from the URI of the
+  // .proto file.
+  Uri _generatedFilePath(Uri protoFilePath) {
+    var dartFileName = _fileNameWithoutExtension(protoFilePath) + ".pb.dart";
+    return protoFilePath.resolve(dartFileName);
+  }
+
+  String _generateClassName(Uri protoFilePath) {
+    String s = _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
+    return '${s[0].toUpperCase()}${s.substring(1)}';
+  }
+
+  Uri _relative(Uri target, Uri base) {
+    // Ignore the last segment of the base.
+    List<String> baseSegments =
+        base.pathSegments.sublist(0, base.pathSegments.length - 1);
+    List<String> targetSegments = target.pathSegments;
+    if (baseSegments.length == 1 && baseSegments[0] == '.') {
+      baseSegments = [];
+    }
+    if (targetSegments.length == 1 && targetSegments[0] == '.') {
+      targetSegments = [];
+    }
+    int common = 0;
+    int length = min(targetSegments.length, baseSegments.length);
+    while (common < length && targetSegments[common] == baseSegments[common]) {
+      common++;
+    }
+
+    final segments = <String>[];
+    if (common < baseSegments.length && baseSegments[common] == '..') {
+      throw new ArgumentError(
+          "Cannot create a relative path from $base to $target");
+    }
+    for (int i = common; i < baseSegments.length; i++) {
+      segments.add('..');
+    }
+    for (int i = common; i < targetSegments.length; i++) {
+      segments.add('${targetSegments[i]}');
+    }
+    if (segments.isEmpty) {
+      segments.add('.');
+    }
+    return new Uri(pathSegments: segments);
   }
 
   CodeGeneratorResponse_File generateResponse() {
@@ -44,19 +91,20 @@ class FileGenerator implements ProtobufContainer {
 
     generate(out);
 
-    Path filePath = new Path(_fileDescriptor.name);
+    Uri filePath = new Uri(scheme: 'file', path: _fileDescriptor.name);
     return new CodeGeneratorResponse_File()
-        ..name = _generatedFilePath(filePath)
+        ..name = _generatedFilePath(filePath).path
         ..content = writer.toString();
   }
 
   void generate(IndentingWriter out) {
+    Uri filePath = new Uri.file(_fileDescriptor.name);
+    if (filePath.isAbsolute) {
+        // protoc should never generate an file descriptor an absolute path.
+        throw("FAILURE: file with absolute path is not supported");
+    }
 
-    Path filePath = new Path(_fileDescriptor.name);
-    Path directoryPath = filePath.directoryPath.canonicalize();
-
-    String className = filePath.filenameWithoutExtension.replaceAll('-', '_');
-    className = '${className[0].toUpperCase()}${className.substring(1)}';
+    String className = _generateClassName(filePath);
 
     String libraryName = className + '.pb';
 
@@ -71,8 +119,13 @@ class FileGenerator implements ProtobufContainer {
     );
 
     for (String import in _fileDescriptor.dependency) {
-      Path relativeProtoPath =
-          new Path(import).relativeTo(directoryPath).canonicalize();
+      Uri importPath = new Uri.file(import);
+      if (importPath.isAbsolute) {
+        // protoc should never generate an import with an absolute path.
+        throw("FAILURE: Import with absolute path is not supported");
+      }
+      // Create a relative path from the current file to the import.
+      Uri relativeProtoPath = _relative(importPath, filePath);
       out.println("import '${_generatedFilePath(relativeProtoPath)}';");
     }
     out.println('');
