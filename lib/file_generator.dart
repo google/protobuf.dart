@@ -100,8 +100,8 @@ class FileGenerator implements ProtobufContainer {
   void generate(IndentingWriter out) {
     Uri filePath = new Uri.file(_fileDescriptor.name);
     if (filePath.isAbsolute) {
-        // protoc should never generate an file descriptor an absolute path.
-        throw("FAILURE: file with absolute path is not supported");
+        // protoc should never generate a file descriptor with an absolute path.
+        throw("FAILURE: File with an absolute path is not supported");
     }
 
     String className = _generateClassName(filePath);
