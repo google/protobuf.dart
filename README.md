@@ -25,7 +25,7 @@ of `dart` executable in your `PATH`.
 When both the `dart` executable and `out/protoc-gen-dart` are in the
 `PATH` the protocol buffer compiler can be invoked to generate like this:
 
-    $ protoc --out_dart=. test.proto
+    $ protoc --dart_out=. test.proto
 
 ### Options to control the generated Dart code
 
