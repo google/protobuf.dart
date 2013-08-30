@@ -12,16 +12,20 @@ How to build and use
 
 *Note:* currently the workflow is POSIX-oriented.
 
-To build standalone `protoc` plugin, please, run `make build-plugin`. That will
-create a file `out/protoc-gen-dart` which is a plugin. Now you can use it either
-by adding into `PATH` or passing directly with `protoc`'s `--plugin` option.
+To build standalone `protoc` plugin:
+- run `pub install` to install all dependecies
+- run `make build-plugin`. That will create a file `out/protoc-gen-dart` which
+  is a plugin
+- Now you can use it either by adding into `PATH` or passing directly with
+  `protoc`'s `--plugin` option.
+
 Please, remember that the plugin is pure Dart script and requires the presence
 of `dart` executable in your `PATH`.
 
 When both the `dart` executable and `out/protoc-gen-dart` are in the
 `PATH` the protocol buffer compiler can be invoked to generate like this:
 
-    $ protoc --out_dart=. test.proto
+    $ protoc --dart_out=. test.proto
 
 ### Options to control the generated Dart code
 
