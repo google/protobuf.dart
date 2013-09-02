@@ -137,30 +137,23 @@ class ProtobufField {
         if (!repeats) {
           if (field.hasDefaultValue() &&
               ('0.0' != field.defaultValue || '0' != field.defaultValue)) {
-            switch (true) {
-              case field.defaultValue == 'inf':
-                initialization = '()${SP}=>${SP}double.INFINITY';
-                break;
-              case field.defaultValue == '-inf':
-                initialization = '()${SP}=>${SP}double.NEGATIVE_INFINITY';
-                break;
-              case field.defaultValue == 'nan':
-                initialization = '()${SP}=>${SP}double.NAN';
-                break;
-              case HEX_LITERAL_REGEX.hasMatch(field.defaultValue):
-                initialization = '()${SP}=>${SP}(${field.defaultValue})'
-                    '.toDouble()';
-                break;
-              case INTEGER_LITERAL_REGEX.hasMatch(field.defaultValue):
-                initialization = '()${SP}=>${SP}${field.defaultValue}.0';
-                break;
-              case DECIMAL_LITERAL_REGEX_A.hasMatch(field.defaultValue):
-              case DECIMAL_LITERAL_REGEX_B.hasMatch(field.defaultValue):
-                initialization = '()${SP}=>${SP}${field.defaultValue}';
-                break;
-              default:
-                throw new InvalidDefaultValue.double(
-                    field.name, field.defaultValue);
+            if (field.defaultValue == 'inf') {
+              initialization = '()${SP}=>${SP}double.INFINITY';
+            } else if (field.defaultValue == '-inf') {
+              initialization = '()${SP}=>${SP}double.NEGATIVE_INFINITY';
+            } else if (field.defaultValue == 'nan') {
+              initialization = '()${SP}=>${SP}double.NAN';
+            } else if (HEX_LITERAL_REGEX.hasMatch(field.defaultValue)) {
+              initialization = '()${SP}=>${SP}(${field.defaultValue})'
+                  '.toDouble()';
+            } else if (INTEGER_LITERAL_REGEX.hasMatch(field.defaultValue)) {
+              initialization = '()${SP}=>${SP}${field.defaultValue}.0';
+            } else if (DECIMAL_LITERAL_REGEX_A.hasMatch(field.defaultValue)
+                      || DECIMAL_LITERAL_REGEX_B.hasMatch(field.defaultValue)) {
+              initialization = '()${SP}=>${SP}${field.defaultValue}';
+            } else {
+              throw new InvalidDefaultValue.double(
+                  field.name, field.defaultValue);
             }
           }
         }
