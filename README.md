@@ -67,7 +67,28 @@ Will generate the following message field accessors:
 Hacking
 -------
 
-The main thing to remember is to run the tests. That is as easy as `make run-tests`.
+Remember to run the tests. That is as easy as `make run-tests`.
+
+The default way of running the Dart protoc plugin is through the
+generated `out/protoc-gen-dart` script. However when run this way the
+Dart code is assembled into one large Dart file using dart2dart. To
+run with the actual source in the repository create an executable
+script called `protoc-gen-dart` with the following content:
+
+    #! /bin/bash
+    dart bin/protoc_plugin.dart
+
+When running protoc just ensure that this script is first when PATH is
+searched. If the script is in the current directory run `protoc` like
+this:
+
+    $ PATH=.:$PATH protoc --dart_out=. test.proto
+
+It is also possible to call the script something else than
+`protoc-gen-dart` and then refer directly to it using the `--plugin`
+option. If the script is called `dart-plugin` run `protoc` like this:
+
+    $ protoc --plugin=protoc-gen-dart=./plugin --dart_out=. test.proto
 
 Useful references
 -----------------
