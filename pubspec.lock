@@ -4,19 +4,27 @@ packages:
   crypto:
     description: crypto
     source: hosted
-    version: "0.5.13"
+    version: "0.7.0"
   meta:
     description: meta
     source: hosted
-    version: "0.5.13"
+    version: "0.7.0"
+  path:
+    description: path
+    source: hosted
+    version: "0.7.0"
   protobuf:
     description:
       ref: null
-      resolved-ref: "47f1a59cd0a3c6bf638e30f9067ffda091c3c7cc"
+      resolved-ref: "276c06ba054f169da35d001ebf0623bb41674aa1"
       url: "https://github.com/dart-lang/dart-protobuf.git"
     source: git
     version: "0.1.0"
+  stack_trace:
+    description: stack_trace
+    source: hosted
+    version: "0.7.0"
   unittest:
     description: unittest
     source: hosted
-    version: "0.5.13"
+    version: "0.7.0"
