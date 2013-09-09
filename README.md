@@ -64,6 +64,46 @@ Will generate the following message field accessors:
     bool hasHasFld() => hasField(1);
     void clearHasFld() => clearField(1);
 
+Using protocol buffer libraries to build new libraries
+------------------------------------------------------
+
+The protocol buffer compiler produces one library for each `.proto` file
+it compiles. In some cases this is not exactly what is needed, e.g one
+would like to create new libraries which exposes the objects in these
+libraries or create new librares combining object definitions from
+several `.proto` libraries into one.
+
+The best way to aproach this is to create the new libraries needed and
+re-export the relevant protocol buffer classes.
+
+Say we have the file `m1.proto` with the following content
+
+    message M1 {
+      optional string a;
+    }
+
+and `m2.proto` containing
+
+    message M2 {
+      optional string b;
+    }
+
+Compiling these to Dart will produce two libraries in `m1.pb.dart` and
+`m2.pb.dart`. The following code shows a library M which combines
+these two protocol buffer libraries, exposes the classes `M1` and `M2` and
+adds som additional methods.
+
+    library M;
+
+    import "m1.pb.dart";
+    import "m2.pb.dart";
+
+    export "m1.pb.dart" show M1;
+    export "m2.pb.dart" show M2;
+
+    M1 createM1() => new M1();
+    M2 createM2() => new M2();
+
 Hacking
 -------
 
