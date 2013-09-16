@@ -49,7 +49,7 @@ void main() {
 ///
 //  Generated code. Do not modify.
 ///
-library Test.pb;
+library test;
 
 import 'dart:typed_data';
 
@@ -97,13 +97,68 @@ class PhoneNumber extends GeneratedMessage {
     expect(buffer.toString(), expected);
   });
 
+  test('testMessageGeneratorPackage', () {
+    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
+    String expected = r'''
+///
+//  Generated code. Do not modify.
+///
+library pb_library;
+
+import 'dart:typed_data';
+
+import 'package:protobuf/protobuf.dart';
+
+class PhoneNumber extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
+    ..a(1, 'number', GeneratedMessage.QS)
+    ..a(2, 'type', GeneratedMessage.O3)
+    ..a(3, 'name', GeneratedMessage.OS, () => '\$')
+  ;
+
+  PhoneNumber() : super();
+  PhoneNumber.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+
+  String get number => getField(1);
+  void set number(String v) { setField(1, v); }
+  bool hasNumber() => hasField(1);
+  void clearNumber() => clearField(1);
+
+  int get type => getField(2);
+  void set type(int v) { setField(2, v); }
+  bool hasType() => hasField(2);
+  void clearType() => clearField(2);
+
+  String get name => getField(3);
+  void set name(String v) { setField(3, v); }
+  bool hasName() => hasField(3);
+  void clearName() => clearField(3);
+}
+
+''';
+    FileDescriptorProto fd = buildFileDescriptor();
+    fd.package = "pb_library";
+    MemoryWriter buffer = new MemoryWriter();
+    IndentingWriter writer = new IndentingWriter('  ', buffer);
+    var options =
+        new GenerationOptions(
+            new CodeGeneratorRequest(), new CodeGeneratorResponse());
+    FileGenerator fg =
+        new FileGenerator(fd, null, new GenerationContext(options));
+    fg.generate(writer);
+    expect(buffer.toString(), expected);
+  });
+
   test('testMessageGeneratorFieldNameOption', () {
     // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
     String expected = r'''
 ///
 //  Generated code. Do not modify.
 ///
-library Test.pb;
+library test;
 
 import 'dart:typed_data';
 

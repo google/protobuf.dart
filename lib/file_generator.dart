@@ -29,8 +29,7 @@ class FileGenerator implements ProtobufContainer {
   }
 
   String get classname => '';
-  String get fqname => _fileDescriptor.package == null
-      ? '' : '.${_fileDescriptor.package}';
+  String get fqname => '.${_fileDescriptor.package}';
 
   // Extract the filename from a URI and remove the extension.
   String _fileNameWithoutExtension(Uri filePath) {
@@ -49,6 +48,11 @@ class FileGenerator implements ProtobufContainer {
   String _generateClassName(Uri protoFilePath) {
     String s = _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
     return '${s[0].toUpperCase()}${s.substring(1)}';
+  }
+
+  String _generateLibraryName(Uri protoFilePath) {
+    if (_fileDescriptor.package != '') return _fileDescriptor.package;
+    return _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
   }
 
   Uri _relative(Uri target, Uri base) {
@@ -104,9 +108,7 @@ class FileGenerator implements ProtobufContainer {
         throw("FAILURE: File with an absolute path is not supported");
     }
 
-    String className = _generateClassName(filePath);
-
-    String libraryName = className + '.pb';
+    String libraryName = _generateLibraryName(filePath);
 
     out.println(
       '///\n'
@@ -147,6 +149,7 @@ class FileGenerator implements ProtobufContainer {
     // name derived from the file name.
     if (!extensionGenerators.isEmpty) {
       // TODO(antonm): do not generate a class.
+      String className = _generateClassName(filePath);
       out.addBlock('class $className {', '}\n', () {
         for (ExtensionGenerator x in extensionGenerators) {
           x.generate(out);
