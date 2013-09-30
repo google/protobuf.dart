@@ -23,8 +23,9 @@ class EnumGenerator implements ProtobufContainer {
       GenerationContext context)
     : classname = (parent == null || parent is FileGenerator) ?
           descriptor.name : '${parent.classname}_${descriptor.name}',
-      fqname = parent == null ?
-          descriptor.name : '${parent.fqname}.${descriptor.name}' {
+      fqname = (parent == null || parent.fqname == null) ? descriptor.name :
+          (parent.fqname == '.' ?
+              '.${descriptor.name}' : '${parent.fqname}.${descriptor.name}') {
     for (EnumValueDescriptorProto value in descriptor.value) {
       EnumValueDescriptorProto canonicalValue =
           descriptor.value.firstWhere((v) => v.number == value.number);
