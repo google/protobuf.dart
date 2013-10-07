@@ -155,7 +155,7 @@ class CodedBufferReader {
     for (int i = 0; i < 5; i++) {
       int byte = _readRawVarintByte();
       result |= (byte & 0x7f) << (i * 7);
-      if ((byte & 0x80) == 0) return result;
+      if ((byte & 0x80) == 0) return result - 2 * (0x80000000 & result);
     }
     throw new InvalidProtocolBufferException.malformedVarint();
   }
@@ -176,7 +176,10 @@ class CodedBufferReader {
     int byte = _readRawVarintByte();
     lo |= (byte & 0xf) << 28;
     hi = (byte >> 4) & 0x7;
-    if ((byte & 0x80) == 0) return new Int64.fromInts(hi, lo);
+    if ((byte & 0x80) == 0) {
+      if (lo & 0x8000000 != 0) hi = 0xffffffff;
+      return new Int64.fromInts(hi, lo);
+    }
 
     // Read remaining bits of hi.
     for (int i = 0; i < 5; i++) {
