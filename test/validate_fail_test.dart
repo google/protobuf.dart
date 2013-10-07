@@ -29,11 +29,11 @@ void main() {
     expect(() { lUint32.add(-1); }, throwsArgumentError);
     expect(() { lUint32.add(4294967296); }, throwsArgumentError);
 
-    PbList<ByteData> lSint64 = new PbSint64List();
+    PbList<Int64> lSint64 = new PbSint64List();
     expect(() { lSint64.add(-9223372036854775809); }, badArgument);
     expect(() { lSint64.add(9223372036854775808); }, badArgument);
 
-    PbList<ByteData> lUint64 = new PbUint64List();
+    PbList<Int64> lUint64 = new PbUint64List();
     expect(() { lUint64.add(-1); }, badArgument);
     expect(() { lUint64.add(18446744073709551616); }, badArgument);
 

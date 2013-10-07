@@ -76,6 +76,7 @@ library test;
 
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {
@@ -130,6 +131,7 @@ library test;
 
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 class PhoneType extends ProtobufEnum {
@@ -203,6 +205,7 @@ library pb_library;
 
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {
@@ -258,6 +261,7 @@ library test;
 
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {

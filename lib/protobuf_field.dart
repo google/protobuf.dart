@@ -194,8 +194,8 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_SINT64:
       case FieldDescriptorProto_Type.TYPE_FIXED64:
       case FieldDescriptorProto_Type.TYPE_SFIXED64:
-        baseType = 'ByteData';
-        typeString = write('ByteData');
+        baseType = 'Int64';
+        typeString = write('Int64');
         packable = true;
         switch (field.type) {
           case FieldDescriptorProto_Type.TYPE_INT64:

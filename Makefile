@@ -1,4 +1,5 @@
 PLUGIN_SRC = \
+						 prepend.dart \
 						 bin/protoc_plugin.dart \
 						 lib/code_generator.dart \
 						 lib/enum_generator.dart \

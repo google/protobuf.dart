@@ -69,10 +69,7 @@ void main() {
 
   test('testFixed64', () {
     UnknownFieldSetField optionalFixed64 = getField('optionalFixed64');
-    expect(optionalFixed64.fixed64s[0].getUint32(0),
-           testAllTypes.optionalFixed64.getUint32(0));
-    expect(optionalFixed64.fixed64s[0].getUint32(4),
-           testAllTypes.optionalFixed64.getUint32(4));
+    expect(optionalFixed64.fixed64s[0], testAllTypes.optionalFixed64);
   });
 
   test('testLengthDelimited', () {

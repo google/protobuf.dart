@@ -20,7 +20,6 @@ import 'test_util.dart';
 void main() {
   final throwsInvalidProtocolBufferException =
       throwsA(new isInstanceOf<InvalidProtocolBufferException>());
-
   test('testProtosShareRepeatedArraysIfDidntChange', () {
     TestAllTypes value1 = new TestAllTypes()
         ..repeatedInt32.add(100)
