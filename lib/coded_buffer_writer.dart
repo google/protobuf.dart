@@ -24,12 +24,14 @@ class CodedBufferWriter {
     return new ByteData.view(result.buffer, 0, i);
   }
 
-  static ByteData _toVarint64(ByteData value) {
+  static ByteData _toVarint64(Int64 value) {
     // Varint encoding always fits into 10 bytes.
     Uint8List result = new Uint8List(10);
     int i = 0;
-    int lo = value.getUint32(0, Endianness.LITTLE_ENDIAN);
-    int hi = value.getUint32(4, Endianness.LITTLE_ENDIAN);
+    ByteData bytes =
+        new ByteData.view(new Uint8List.fromList(value.toBytes()).buffer, 0, 8);
+    int lo = bytes.getUint32(0, Endianness.LITTLE_ENDIAN);
+    int hi = bytes.getUint32(4, Endianness.LITTLE_ENDIAN);
     while (hi > 0 || lo >= 0x80) {
       result[i++] = 0x80 | (lo & 0x7f);
       lo = (lo >> 7) | ((hi & 0x7f) << 25);
@@ -55,23 +57,15 @@ class CodedBufferWriter {
 
     int _encodeZigZag32(int value) => (value << 1) ^ (value >> 31);
 
-    ByteData _encodeZigZag64(ByteData value) {
-      int lo = value.getUint32(0, Endianness.LITTLE_ENDIAN);
-      int hi = value.getUint32(4, Endianness.LITTLE_ENDIAN);
-      int newHi = (hi << 1) | (lo >> 31);
-      int newLo = (lo << 1);
-      if ((hi >> 31) == 1) {
-        newHi ^= 0xffffffff;
-        newLo ^= 0xffffffff;
-      }
-      return new ByteData(8)
-          ..setUint32(0, newLo, Endianness.LITTLE_ENDIAN)
-          ..setUint32(4, newHi, Endianness.LITTLE_ENDIAN);
-    }
+    Int64 _encodeZigZag64(Int64 value) => (value << 1) ^ (value >> 63);
 
-
-    makeByteData32(int value) =>
+    ByteData makeByteData32(int value) =>
         new ByteData(4)..setUint32(0, value, Endianness.LITTLE_ENDIAN);
+
+    ByteData makeByteData64(Int64 value) {
+      var data = new Uint8List.fromList(value.toBytes());
+      return new ByteData.view(data.buffer, 0, 8);
+    }
 
     return new Map<int, dynamic>()
         ..[GeneratedMessage._BOOL_BIT] = makeWriter(
@@ -113,13 +107,13 @@ class CodedBufferWriter {
         ..[GeneratedMessage._SINT32_BIT] = makeWriter(
             (int value) => _int32ToBytes(_encodeZigZag32(value)))
         ..[GeneratedMessage._SINT64_BIT] = makeWriter(
-            (ByteData value) => _toVarint64(_encodeZigZag64(value)))
+            (Int64 value) => _toVarint64(_encodeZigZag64(value)))
         ..[GeneratedMessage._UINT32_BIT] = makeWriter(_toVarint32)
         ..[GeneratedMessage._UINT64_BIT] = makeWriter(_toVarint64)
         ..[GeneratedMessage._FIXED32_BIT] = makeWriter(makeByteData32)
-        ..[GeneratedMessage._FIXED64_BIT] = makeWriter((x) => x)
+        ..[GeneratedMessage._FIXED64_BIT] = makeWriter(makeByteData64)
         ..[GeneratedMessage._SFIXED32_BIT] = makeWriter(makeByteData32)
-        ..[GeneratedMessage._SFIXED64_BIT] = makeWriter((x) => x)
+        ..[GeneratedMessage._SFIXED64_BIT] = makeWriter(makeByteData64)
         ..[GeneratedMessage._MESSAGE_BIT] = (output, value) {
             output._withDeferredSizeCalculation(() {
               value.writeToCodedBufferWriter(output);

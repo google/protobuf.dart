@@ -92,7 +92,7 @@ class UnknownFieldSet {
     _getField(number).addFixed32(value);
   }
 
-  void mergeFixed64Field(int number, ByteData value) {
+  void mergeFixed64Field(int number, Int64 value) {
     _getField(number).addFixed64(value);
   }
 
@@ -104,7 +104,7 @@ class UnknownFieldSet {
     _getField(number).addLengthDelimited(value);
   }
 
-  void mergeVarintField(int number, ByteData value) {
+  void mergeVarintField(int number, Int64 value) {
     _getField(number).addVarint(value);
   }
 
@@ -158,9 +158,9 @@ class UnknownFieldSet {
 class UnknownFieldSetField {
 
   final List<List<int>> lengthDelimited = <List<int>>[];
-  final List<ByteData> varints = <ByteData>[];
+  final List<Int64> varints = <Int64>[];
   final List<int> fixed32s = <int>[];
-  final List<ByteData> fixed64s = <ByteData>[];
+  final List<Int64> fixed64s = <Int64>[];
   final List<UnknownFieldSet> groups = <UnknownFieldSet>[];
 
   bool operator ==(other) {
@@ -214,11 +214,11 @@ class UnknownFieldSetField {
     fixed32s.add(value);
   }
 
-  void addFixed64(ByteData value) {
+  void addFixed64(Int64 value) {
     fixed64s.add(value);
   }
 
-  void addVarint(ByteData value) {
+  void addVarint(Int64 value) {
     varints.add(value);
   }
 

@@ -12,6 +12,7 @@ import 'dart:typed_data';
 import 'dart:utf';
 
 import 'package:crypto/crypto.dart';
+import 'package:fixnum/fixnum.dart';
 
 part 'coded_buffer_reader.dart';
 part 'coded_buffer_writer.dart';
@@ -27,7 +28,4 @@ part 'unknown_field_set.dart';
 part 'utils.dart';
 part 'wire_format.dart';
 
-makeLongInt(n) =>
-    new ByteData(8)
-        ..setUint32(0, n & 0xffffffff, Endianness.LITTLE_ENDIAN)
-        ..setUint32(4, (n >> 32) & 0xffffffff, Endianness.LITTLE_ENDIAN);
+makeLongInt(n) => new Int64.fromInt(n);

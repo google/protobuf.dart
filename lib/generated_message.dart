@@ -12,8 +12,8 @@ _inRange(min, value, max) => (min <= value) && (value <= max);
 
 _isSigned32(int value) => _inRange(-2147483648, value, 2147483647);
 _isUnsigned32(int value) => _inRange(0, value, 4294967295);
-_isSigned64(ByteData value) => _isUnsigned64(value);
-_isUnsigned64(ByteData value) => value is ByteData && value.lengthInBytes == 8;
+_isSigned64(Int64 value) => _isUnsigned64(value);
+_isUnsigned64(Int64 value) => value is Int64;
 _isFloat32(double value) => value.isNaN || value.isInfinite ||
     _inRange(-3.4028234663852886E38, value, 3.4028234663852886E38);
 
@@ -192,6 +192,10 @@ class GeneratedMessage {
   static const int KF6 = _PACKED_FIXED64;
   static const int KSF3 = _PACKED_SFIXED32;
   static const int KSF6 = _PACKED_SFIXED64;
+
+  // Range of integers in JSON (53-bit integers).
+  static Int64 MAX_JSON_INT = new Int64.fromInts(0x200000, 0);
+  static Int64 MIN_JSON_INT = -MAX_JSON_INT;
 
   // Closures commonly used by initializers.
   static String _STRING_EMPTY() => '';
@@ -621,11 +625,12 @@ class GeneratedMessage {
       case _UINT64_BIT:
       case _FIXED64_BIT:
       case _SFIXED64_BIT:
-        // TODO(antonm): fix for longs.
-        final asInt = scalarType == _UINT64_BIT ?
-            fieldValue.getUint64(0, Endianness.LITTLE_ENDIAN) :
-            fieldValue.getInt64(0, Endianness.LITTLE_ENDIAN);
-        return "$asInt";
+        // Use strings for 64-bit integers which cannot fit in doubles.
+        if (MIN_JSON_INT <= fieldValue && fieldValue <= MAX_JSON_INT) {
+          return fieldValue.toInt();
+        } else {
+          return fieldValue.toString();
+        }
       case _GROUP_BIT:
       case _MESSAGE_BIT:
         return fieldValue._toMap();
@@ -737,13 +742,10 @@ class GeneratedMessage {
       case _SFIXED64_BIT:
         // Allow quoted values, although we don't emit them.
         if (value is String) {
-          value = int.parse(value);
+          return Int64.parseRadix(value, 10);
         }
         if (value is int) {
-          const lowPart = ((1 << 31) * 2); // 2^32 which works in dart2js.
-          return new ByteData(8)
-              ..setUint32(0, value % lowPart, Endianness.LITTLE_ENDIAN)
-              ..setUint32(4, value ~/ lowPart, Endianness.LITTLE_ENDIAN);
+          return new Int64.fromInt(value);
         }
         expectedType = 'int or stringified int';
         break;
@@ -1085,9 +1087,9 @@ class GeneratedMessage {
         }
         break;
       case _INT64_BIT:
-        if (value is !ByteData) {
+        if (value is !Int64) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not ByteData'));
+              _generateMessage(tagNumber, value, 'not Int64'));
         }
         if (!_isSigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
@@ -1105,9 +1107,9 @@ class GeneratedMessage {
         }
         break;
       case _SINT64_BIT:
-        if (value is !ByteData) {
+        if (value is !Int64) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not ByteData'));
+              _generateMessage(tagNumber, value, 'not Int64'));
         }
         if (!_isSigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
@@ -1125,9 +1127,9 @@ class GeneratedMessage {
         }
         break;
       case _UINT64_BIT:
-        if (value is !ByteData) {
+        if (value is !Int64) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not ByteData'));
+              _generateMessage(tagNumber, value, 'not Int64'));
         }
         if (!_isUnsigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
@@ -1145,9 +1147,9 @@ class GeneratedMessage {
         }
         break;
       case _FIXED64_BIT:
-        if (value is !ByteData) {
+        if (value is !Int64) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not ByteData'));
+              _generateMessage(tagNumber, value, 'not Int64'));
         }
         if (!_isUnsigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
@@ -1165,9 +1167,9 @@ class GeneratedMessage {
         }
         break;
       case _SFIXED64_BIT:
-        if (value is !ByteData) {
+        if (value is !Int64) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not ByteData'));
+              _generateMessage(tagNumber, value, 'not Int64'));
         }
         if (!_isSigned64(value)) {
           throw new ArgumentError(_generateMessage(tagNumber, value,
