@@ -1,10 +1,11 @@
 ///
 //  Generated code. Do not modify.
 ///
-library Plugin.pb;
+library proto2.compiler;
 
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'descriptor.pb.dart';
 
@@ -13,6 +14,7 @@ class CodeGeneratorRequest extends GeneratedMessage {
     ..p(1, 'fileToGenerate', GeneratedMessage.PS)
     ..a(2, 'parameter', GeneratedMessage.OS)
     ..m(15, 'protoFile', () => new FileDescriptorProto(), () => new PbList<FileDescriptorProto>())
+    ..hasRequiredFields = false
   ;
 
   CodeGeneratorRequest() : super();

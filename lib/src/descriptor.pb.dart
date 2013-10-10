@@ -1,10 +1,11 @@
 ///
 //  Generated code. Do not modify.
 ///
-library Descriptor.pb;
+library proto2;
 
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 class FileDescriptorSet extends GeneratedMessage {
@@ -709,13 +710,13 @@ class UninterpretedOption extends GeneratedMessage {
   bool hasIdentifierValue() => hasField(3);
   void clearIdentifierValue() => clearField(3);
 
-  ByteData get positiveIntValue => getField(4);
-  void set positiveIntValue(ByteData v) { setField(4, v); }
+  Int64 get positiveIntValue => getField(4);
+  void set positiveIntValue(Int64 v) { setField(4, v); }
   bool hasPositiveIntValue() => hasField(4);
   void clearPositiveIntValue() => clearField(4);
 
-  ByteData get negativeIntValue => getField(5);
-  void set negativeIntValue(ByteData v) { setField(5, v); }
+  Int64 get negativeIntValue => getField(5);
+  void set negativeIntValue(Int64 v) { setField(5, v); }
   bool hasNegativeIntValue() => hasField(5);
   void clearNegativeIntValue() => clearField(5);
 
