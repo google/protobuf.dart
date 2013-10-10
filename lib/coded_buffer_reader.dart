@@ -98,7 +98,7 @@ class CodedBufferReader {
   int readEnum() => readInt32();
   int readInt32() => _readRawVarint32();
   Int64 readInt64() => _readRawVarint64();
-  int readUint32() => _readRawVarint32();
+  int readUint32() => _readRawVarint32(false);
   Int64 readUint64() => _readRawVarint64();
   int readSint32() => _decodeZigZag32(readUint32());
   Int64 readSint64() => _decodeZigZag64(readUint64());
@@ -150,12 +150,15 @@ class CodedBufferReader {
     return _buffer[_bufferPos - 1];
   }
 
-  int _readRawVarint32() {
+  int _readRawVarint32([bool signed = true]) {
     int result = 0;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 10; i++) {
       int byte = _readRawVarintByte();
       result |= (byte & 0x7f) << (i * 7);
-      if ((byte & 0x80) == 0) return result - 2 * (0x80000000 & result);
+      if ((byte & 0x80) == 0) {
+        result &= 0xffffffff;
+        return signed ? result - 2 * (0x80000000 & result) : result;
+      }
     }
     throw new InvalidProtocolBufferException.malformedVarint();
   }
