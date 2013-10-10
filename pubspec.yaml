@@ -1,5 +1,5 @@
 name: protobuf
-version: 0.2.0
+version: 0.2.0+1
 authors:
 - Dart Team <misc@dartlang.org>
 description: Runtime library for protobuf support.
