@@ -180,7 +180,6 @@ class CodedBufferReader {
     lo |= (byte & 0xf) << 28;
     hi = (byte >> 4) & 0x7;
     if ((byte & 0x80) == 0) {
-      if (lo & 0x8000000 != 0) hi = 0xffffffff;
       return new Int64.fromInts(hi, lo);
     }
 

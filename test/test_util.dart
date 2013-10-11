@@ -4,22 +4,15 @@
 
 library test_util;
 
-import 'dart:typed_data';
-
+import 'package:fixnum/fixnum.dart';
 import 'package:unittest/unittest.dart';
 
-make64(lo, [hi = null]) {
+Int64 make64(lo, [hi = null]) {
   if (hi == null) hi = lo < 0 ? -1 : 0;
-  return new ByteData(8)
-      ..setUint32(0, lo, Endianness.LITTLE_ENDIAN)
-      ..setUint32(4, hi, Endianness.LITTLE_ENDIAN);
+  return new Int64.fromInts(hi, lo);
 }
 
 expect64(lo, [hi = null]) {
-  final expected = make64(lo, hi);
-  return predicate((actual) {
-    get(data, offset) => data.getUint32(offset, Endianness.LITTLE_ENDIAN);
-    return get(actual, 0) == get(expected, 0) &&
-        get(actual, 4) == get(expected, 4);
-  });
+  final Int64 expected = make64(lo, hi);
+  return predicate((Int64 actual) => actual == expected);
 }
