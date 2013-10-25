@@ -14,6 +14,7 @@ import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
 import '../out/protos/multiple_files_test.pb.dart';
 import '../out/protos/nested_extension.pb.dart';
 import '../out/protos/non_nested_extension.pb.dart';
+import '../out/protos/reserved_names.pb.dart';
 
 import 'test_util.dart';
 
@@ -458,5 +459,130 @@ void main() {
         new SparseEnumMessage.fromBuffer(message.writeToBuffer());
     expect(message2.sparseEnum, TestSparseEnum.SPARSE_E,
            reason: 'should resolve back to SPARSE_E');
+  });
+
+  test('testReservedNamesOptional', () {
+    ReservedNamesOptional message = new ReservedNamesOptional();
+    message.hashCode_1 = 1;
+    expect(message.hashCode_1, 1);
+    expect(message.hasHashCode_1(), isTrue);
+    message.clearHashCode_1();
+
+    message.noSuchMethod_2 = 1;
+    message.runtimeType_3 = 1;
+    message.toString_4 = 1;
+    message.fromBuffer_10 = 1;
+    message.fromJson_11 = 1;
+    message.hasRequiredFields_12 = 1;
+    message.isInitialized_13 = 1;
+    message.clear_14 = 1;
+    message.getTagNumber_15 = 1;
+    message.check_16 = 1;
+    message.writeToBuffer_17 = 1;
+    message.writeToCodedBufferWriter_18 = 1;
+    message.mergeFromCodedBufferReader_19 = 1;
+    message.mergeFromBuffer_20 = 1;
+    message.writeToJson_21 = 1;
+    message.mergeFromJson_22 = 1;
+    message.addExtension_23 = 1;
+    message.getExtension_24 = 1;
+    message.setExtension_25 = 1;
+    message.hasExtension_26 = 1;
+    message.clearExtension_27 = 1;
+    message.getField_28 = 1;
+    message.setField_29 = 1;
+    message.hasField_30 = 1;
+    message.clearField_31 = 1;
+    message.extensionsAreInitialized_32 = 1;
+    message.mergeFromMessage_33 = 1;
+    message.mergeUnknownFields_34 = 1;
+    message.hashCode1 = 1;
+    message.x = 1;
+    message.hasX_51 = 1;
+    message.clearX_53 = 1;
+    message.hasX51 = 1;
+    message.clearX53 = 1;
+  });
+
+  test('testReservedNamesRepeated', () {
+    ReservedNamesRepeated message = new ReservedNamesRepeated();
+    message.hashCode_1.clear();
+    message.noSuchMethod_2.clear();
+    message.runtimeType_3.clear();
+    message.toString_4.clear();
+    message.fromBuffer_10.clear();
+    message.fromJson_11.clear();
+    message.hasRequiredFields_12.clear();
+    message.isInitialized_13.clear();
+    message.clear_14.clear();
+    message.getTagNumber_15.clear();
+    message.check_16.clear();
+    message.writeToBuffer_17.clear();
+    message.writeToCodedBufferWriter_18.clear();
+    message.mergeFromCodedBufferReader_19.clear();
+    message.mergeFromBuffer_20.clear();
+    message.writeToJson_21.clear();
+    message.mergeFromJson_22.clear();
+    message.addExtension_23.clear();
+    message.getExtension_24.clear();
+    message.setExtension_25.clear();
+    message.hasExtension_26.clear();
+    message.clearExtension_27.clear();
+    message.getField_28.clear();
+    message.setField_29.clear();
+    message.hasField_30.clear();
+    message.clearField_31.clear();
+    message.extensionsAreInitialized_32.clear();
+    message.mergeFromMessage_33.clear();
+    message.mergeUnknownFields_34.clear();
+    message.hashCode1.clear();
+    message.x.clear();
+    message.hasX.clear();
+    message.clearX.clear();
+    message.hasX51.clear();
+    message.clearX53.clear();
+  });
+
+  test('testReservedNamesRequired', () {
+    ReservedNamesRequired message = new ReservedNamesRequired();
+    message.hashCode_1 = 1;
+    expect(message.hashCode_1, 1);
+    expect(message.hasHashCode_1(), isTrue);
+    message.clearHashCode_1();
+
+    message.noSuchMethod_2 = 1;
+    message.runtimeType_3 = 1;
+    message.toString_4 = 1;
+    message.fromBuffer_10 = 1;
+    message.fromJson_11 = 1;
+    message.hasRequiredFields_12 = 1;
+    message.isInitialized_13 = 1;
+    message.clear_14 = 1;
+    message.getTagNumber_15 = 1;
+    message.check_16 = 1;
+    message.writeToBuffer_17 = 1;
+    message.writeToCodedBufferWriter_18 = 1;
+    message.mergeFromCodedBufferReader_19 = 1;
+    message.mergeFromBuffer_20 = 1;
+    message.writeToJson_21 = 1;
+    message.mergeFromJson_22 = 1;
+    message.addExtension_23 = 1;
+    message.getExtension_24 = 1;
+    message.setExtension_25 = 1;
+    message.hasExtension_26 = 1;
+    message.clearExtension_27 = 1;
+    message.getField_28 = 1;
+    message.setField_29 = 1;
+    message.hasField_30 = 1;
+    message.clearField_31 = 1;
+    message.extensionsAreInitialized_32 = 1;
+    message.mergeFromMessage_33 = 1;
+    message.mergeUnknownFields_34 = 1;
+    message.hashCode1 = 1;
+    message.x = 1;
+    message.hasX_51 = 1;
+    message.clearX_53 = 1;
+    message.hasX51 = 1;
+    message.clearX53 = 1;
   });
 }

@@ -7,6 +7,20 @@ part of protoc;
 const String SP = ' ';
 
 class MessageGenerator implements ProtobufContainer {
+  // List of names which cannot be used in a subclass of GeneratedMessage.
+  static final List<String> reservedNames =
+    ['hashCode', 'noSuchMethod','runtimeType', 'toString',
+     'fromBuffer', 'fromJson', 'hasRequiredFields', 'isInitialized',
+     'clear', 'getTagNumber', 'check',
+     'writeToBuffer', 'writeToCodedBufferWriter',
+     'mergeFromCodedBufferReader', 'mergeFromBuffer',
+     'writeToJson', 'mergeFromJson',
+     'addExtension', 'getExtension', 'setExtension',
+     'hasExtension', 'clearExtension',
+     'getField', 'setField', 'hasField', 'clearField',
+     'extensionsAreInitialized', 'mergeFromMessage', 'mergeUnknownFields',
+     '==', 'info_', 'GeneratedMessage', 'Object'];
+
   final String classname;
   final String fqname;
   final GenerationContext _context;
@@ -15,6 +29,7 @@ class MessageGenerator implements ProtobufContainer {
   final List<ProtobufField> _fieldList = <ProtobufField>[];
   final List<MessageGenerator> _messageGenerators = <MessageGenerator>[];
   final List<ExtensionGenerator> _extensionGenerators = <ExtensionGenerator>[];
+  final Set<String> _methodNames = new Set<String>();
 
   MessageGenerator(DescriptorProto descriptor, ProtobufContainer parent,
                    this._context)
@@ -50,6 +65,9 @@ class MessageGenerator implements ProtobufContainer {
   }
 
   void generate(IndentingWriter out) {
+    _methodNames.clear();
+    _methodNames.addAll(reservedNames);
+
     for (EnumGenerator e in _enumGenerators) {
       e.generate(out);
     }
@@ -189,15 +207,35 @@ class MessageGenerator implements ProtobufContainer {
   void generateFieldsAccessorsMutators(IndentingWriter out) {
     for (ProtobufField field in _fieldList) {
       out.println();
-      out.println('${field.typeString} get ${field.externalFieldName}'
+      String identifier = field.externalFieldName;
+      String hasIdentifier = "has" + field.titlecaseFieldName;
+      String clearIdentifier = "clear" + field.titlecaseFieldName;
+      if (field.single) {
+        while (_methodNames.contains(identifier) ||
+               _methodNames.contains(hasIdentifier) ||
+               _methodNames.contains(clearIdentifier)) {
+          identifier += '_' + field.number.toString();
+          hasIdentifier += '_' + field.number.toString();
+          clearIdentifier += '_' + field.number.toString();
+        }
+        _methodNames.add(identifier);
+        _methodNames.add(hasIdentifier);
+        _methodNames.add(clearIdentifier);
+      } else {
+        while (_methodNames.contains(identifier)) {
+          identifier += '_' + field.number.toString();
+        }
+        _methodNames.add(identifier);
+      }
+      out.println('${field.typeString} get ${identifier}'
           '${SP}=>${SP}getField(${field.number});');
       if (field.single) {
-        out.println('void set ${field.externalFieldName}'
+        out.println('void set ${identifier}'
             '(${field.typeString} v)${SP}'
             '{${SP}setField(${field.number},${SP}v);${SP}}');
-        out.println('bool has${field.titlecaseFieldName}()${SP}=>'
+        out.println('bool $hasIdentifier()${SP}=>'
             '${SP}hasField(${field.number});');
-        out.println('void clear${field.titlecaseFieldName}()${SP}=>'
+        out.println('void $clearIdentifier()${SP}=>'
             '${SP}clearField(${field.number});');
       }
     }

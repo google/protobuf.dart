@@ -24,7 +24,8 @@ TEST_PROTO_LIST = \
 						 google/protobuf/unittest \
 						 multiple_files_test \
 						 nested_extension \
-						 non_nested_extension
+						 non_nested_extension \
+						 reserved_names
 TEST_PROTO_DIR=$(OUTPUT_DIR)/protos
 TEST_PROTO_LIBS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_DIR)/$(proto).pb.dart)
 TEST_PROTO_SRC_DIR=test/protos
