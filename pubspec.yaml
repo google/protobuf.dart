@@ -3,7 +3,7 @@ version: 0.2.0+3
 authors:
 - Dart Team <misc@dartlang.org>
 description: Runtime library for protobuf support.
-homepage: https://github.com/dart-lang/protobuf
+homepage: https://github.com/dart-lang/dart-protobuf
 environment:
   sdk: '>=0.7.5'
 dependencies:
