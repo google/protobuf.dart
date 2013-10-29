@@ -662,7 +662,7 @@ class GeneratedMessage {
    * actual runtime value) are represented as strings.  Enumerated values are
    * represented as their integer value.
    */
-  String writeToJson() => json.stringify(_toMap());
+  String writeToJson() => JSON.encode(_toMap());
 
   // Merge fields from a previously decoded JSON object.
   GeneratedMessage _mergeFromJson(
@@ -804,7 +804,7 @@ class GeneratedMessage {
   void mergeFromJson(
       String data,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    _mergeFromJson(json.parse(data), extensionRegistry);
+    _mergeFromJson(JSON.decode(data), extensionRegistry);
   }
 
   /**
