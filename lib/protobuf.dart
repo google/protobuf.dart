@@ -28,4 +28,4 @@ part 'unknown_field_set.dart';
 part 'utils.dart';
 part 'wire_format.dart';
 
-makeLongInt(n) => new Int64.fromInts(0, n);
+makeLongInt(n) => new Int64(n);
