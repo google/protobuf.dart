@@ -6,10 +6,9 @@ library protobuf;
 
 import 'dart:async';
 import 'dart:collection';
-import 'dart:json' as json;
+import 'dart:convert' show JSON, UTF8;
 import 'dart:math';
 import 'dart:typed_data';
-import 'dart:utf';
 
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
@@ -28,4 +27,4 @@ part 'unknown_field_set.dart';
 part 'utils.dart';
 part 'wire_format.dart';
 
-makeLongInt(n) => new Int64.fromInt(n);
+makeLongInt(n) => new Int64(n);
