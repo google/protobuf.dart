@@ -6,10 +6,9 @@ library protobuf;
 
 import 'dart:async';
 import 'dart:collection';
-import 'dart:convert' show JSON;
+import 'dart:convert' show JSON, UTF8;
 import 'dart:math';
 import 'dart:typed_data';
-import 'dart:utf';
 
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';

@@ -116,7 +116,7 @@ class CodedBufferReader {
     _checkLimit(length);
     return new Uint8List.view(_buffer.buffer, _bufferPos - length, length);
   }
-  String readString() => decodeUtf8(readBytes());
+  String readString() => UTF8.decode(readBytes());
   double readFloat() =>
       _readByteData(4).getFloat32(0, Endianness.LITTLE_ENDIAN);
   double readDouble() =>
