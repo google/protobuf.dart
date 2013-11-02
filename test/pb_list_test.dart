@@ -8,8 +8,6 @@ library pb_list_tests;
 import 'package:protobuf/protobuf.dart';
 import 'package:unittest/unittest.dart';
 
-import 'test_util.dart';
-
 void main() {
   test('testPbList', () {
     PbList<int> lb1 = new PbList();
@@ -63,7 +61,7 @@ void main() {
     lb2.removeRange(5, 8);
     expect(lb2, [1, 2, 3, 9, 8, 9]);
 
-    expect(() { new PbList<int>().add('hello'); }, throwsArgumentError);
+    expect(() { (new PbList<int>() as dynamic).add('hello'); }, throws);
 
     PbSint32List listSint32 = new PbSint32List();
 

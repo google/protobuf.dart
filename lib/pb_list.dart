@@ -120,12 +120,7 @@ class PbList<E> extends Object with ListMixin<E> implements List<E> {
     if (val == null) {
       throw new ArgumentError('Value is null');
     }
-    // Note: the generic parameter [E] is not preserved by the dart2js compiler.
-    // For this reason, in that context both `val is E` and `val is! E` return
-    // true. We write this condition as `!(val isE)` so that the check is done
-    // at least on the dartvm.
-    // TODO(rice,sigmund): remove this trick.
-    if (!(val is E)) {
+    if (val is! E) {
       throw new ArgumentError(
           'Value ($val) is not of the correct type');
     }

@@ -4,9 +4,8 @@
 
 library protobuf;
 
-import 'dart:async';
 import 'dart:collection';
-import 'dart:convert' show JSON, UTF8;
+import 'dart:convert' show JSON, Utf8Codec;
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -28,3 +27,5 @@ part 'utils.dart';
 part 'wire_format.dart';
 
 makeLongInt(n) => new Int64(n);
+
+final _utf8 = new Utf8Codec(allowMalformed: true);

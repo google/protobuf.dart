@@ -330,7 +330,7 @@ class GeneratedMessage {
   }
 
   // Overriden by subclasses.
-  BuilderInfo get info_;
+  BuilderInfo get info_ => null;
 
   Uint8List writeToBuffer() {
     CodedBufferWriter out = new CodedBufferWriter();
@@ -631,6 +631,7 @@ class GeneratedMessage {
         } else {
           return fieldValue.toString();
         }
+        break;
       case _GROUP_BIT:
       case _MESSAGE_BIT:
         return fieldValue._toMap();
@@ -707,7 +708,7 @@ class GeneratedMessage {
         } else if (value is num) {
           return value.toDouble();
         } else if (value is String) {
-          return parseDouble(value);
+          return double.parse(value);
         }
         expectedType = 'num or stringified num';
         break;
@@ -745,7 +746,7 @@ class GeneratedMessage {
           return Int64.parseRadix(value, 10);
         }
         if (value is int) {
-          return new Int64.fromInt(value);
+          return new Int64(value);
         }
         expectedType = 'int or stringified int';
         break;

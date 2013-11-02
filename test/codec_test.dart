@@ -15,13 +15,13 @@ import 'test_util.dart';
 void main() {
   makeData(List<int> bytes) {
     bytes = new Uint8List(bytes.length)..setRange(0, bytes.length, bytes);
-    return new ByteData.view(bytes.buffer);
+    return new ByteData.view((bytes as TypedData).buffer);
   }
 
   convertToBytes(fieldType) => (value) {
     var writer = new CodedBufferWriter()..writeField(0, fieldType, value);
     return writer.toBuffer().sublist(1);
-  }
+  };
 
   final int32ToBytes = convertToBytes(GeneratedMessage.O3);
 

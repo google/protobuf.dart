@@ -39,6 +39,9 @@ class ExtensionRegistry {
 class _EmptyExtensionRegistry implements ExtensionRegistry {
   const _EmptyExtensionRegistry();
 
+  // needed to quite missing member warning
+  get _extensions => null;
+
   void add(Extension extension) {
     throw new UnsupportedError('Immutable ExtensionRegistry');
   }
