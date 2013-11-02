@@ -72,7 +72,7 @@ class CodedBufferWriter {
             (value) => _int32ToBytes(value ? 1 : 0))
         ..[GeneratedMessage._BYTES_BIT] = writeBytesNoTag
         ..[GeneratedMessage._STRING_BIT] = (output, value) {
-            writeBytesNoTag(output, encodeUtf8(value));
+            writeBytesNoTag(output, _utf8.encode(value));
         }
         ..[GeneratedMessage._DOUBLE_BIT] = makeWriter((double value) {
             if (value.isNaN) return new ByteData(8)

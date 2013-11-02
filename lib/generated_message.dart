@@ -17,7 +17,7 @@ _isUnsigned64(Int64 value) => value is Int64;
 _isFloat32(double value) => value.isNaN || value.isInfinite ||
     _inRange(-3.4028234663852886E38, value, 3.4028234663852886E38);
 
-class GeneratedMessage {
+abstract class GeneratedMessage {
   static const int _REQUIRED_BIT      = 0x1;
   static const int _REPEATED_BIT      = 0x2;
   static const int _PACKED_BIT        = 0x4;
@@ -631,6 +631,7 @@ class GeneratedMessage {
         } else {
           return fieldValue.toString();
         }
+        break;
       case _GROUP_BIT:
       case _MESSAGE_BIT:
         return fieldValue._toMap();
@@ -662,7 +663,7 @@ class GeneratedMessage {
    * actual runtime value) are represented as strings.  Enumerated values are
    * represented as their integer value.
    */
-  String writeToJson() => json.stringify(_toMap());
+  String writeToJson() => JSON.encode(_toMap());
 
   // Merge fields from a previously decoded JSON object.
   GeneratedMessage _mergeFromJson(
@@ -707,7 +708,7 @@ class GeneratedMessage {
         } else if (value is num) {
           return value.toDouble();
         } else if (value is String) {
-          return parseDouble(value);
+          return double.parse(value);
         }
         expectedType = 'num or stringified num';
         break;
@@ -745,7 +746,7 @@ class GeneratedMessage {
           return Int64.parseRadix(value, 10);
         }
         if (value is int) {
-          return new Int64.fromInt(value);
+          return new Int64(value);
         }
         expectedType = 'int or stringified int';
         break;
@@ -804,7 +805,7 @@ class GeneratedMessage {
   void mergeFromJson(
       String data,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    _mergeFromJson(json.parse(data), extensionRegistry);
+    _mergeFromJson(JSON.decode(data), extensionRegistry);
   }
 
   /**
