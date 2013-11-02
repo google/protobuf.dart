@@ -17,7 +17,7 @@ _isUnsigned64(Int64 value) => value is Int64;
 _isFloat32(double value) => value.isNaN || value.isInfinite ||
     _inRange(-3.4028234663852886E38, value, 3.4028234663852886E38);
 
-class GeneratedMessage {
+abstract class GeneratedMessage {
   static const int _REQUIRED_BIT      = 0x1;
   static const int _REPEATED_BIT      = 0x2;
   static const int _PACKED_BIT        = 0x4;
@@ -330,7 +330,7 @@ class GeneratedMessage {
   }
 
   // Overriden by subclasses.
-  BuilderInfo get info_ => null;
+  BuilderInfo get info_;
 
   Uint8List writeToBuffer() {
     CodedBufferWriter out = new CodedBufferWriter();
