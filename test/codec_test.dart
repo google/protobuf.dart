@@ -13,10 +13,7 @@ import 'package:unittest/unittest.dart';
 import 'test_util.dart';
 
 void main() {
-  makeData(List<int> bytes) {
-    bytes = new Uint8List(bytes.length)..setRange(0, bytes.length, bytes);
-    return new ByteData.view((bytes as TypedData).buffer);
-  }
+  ByteData makeData(Uint8List bytes) => new ByteData.view(bytes.buffer);
 
   convertToBytes(fieldType) => (value) {
     var writer = new CodedBufferWriter()..writeField(0, fieldType, value);
