@@ -279,7 +279,41 @@ abstract class GeneratedMessage {
     return true;
   }
 
-  int get hashCode => _fieldValues.hashCode;
+  int get hashCode {
+    int hash;
+
+    void hashEnumList(PbList enums) {
+      enums.forEach((enum) {
+        hash = (31 * hash + enum.value) & 0x3fffffff;
+      });
+    }
+
+    void hashFields() {
+      for (int tagNumber in sorted(_fieldValues.keys)) {
+        if (!hasField(tagNumber)) continue;
+        var value = _fieldValues[tagNumber];
+        hash = ((37 * hash) + tagNumber) & 0x3fffffff;
+        int fieldType = _getFieldType(tagNumber);
+        if (_toBaseFieldType(fieldType) != _ENUM_BIT) {
+          hash = ((53 * hash) + value.hashCode) & 0x3fffffff;
+        } else if ((fieldType & _REPEATED_BIT) != 0) {
+          hashEnumList(value);
+        } else {
+          hash = ((53 * hash) + value.value) & 0x3fffffff;
+        }
+      }
+    }
+
+    // Generate hash.
+    hash = 41;
+    // Hash with descriptor.
+    hash = ((19 * hash) + info_.hashCode) & 0x3fffffff;
+    // Hash with fields.
+    hashFields();
+    // Hash with unknown fields.
+    hash = ((29 * hash) + unknownFields.hashCode) & 0x3fffffff;
+    return hash;
+  }
 
   String toString() => _toString('');
 
@@ -372,9 +406,7 @@ abstract class GeneratedMessage {
     }
 
     bool wireTypeMatch(int tagNumber, int fieldType, int wireType) {
-      int fieldDataType = fieldType &
-          ~(_REQUIRED_BIT | _REPEATED_BIT | _PACKED_BIT);
-      switch (fieldDataType) {
+      switch (_toBaseFieldType(fieldType)) {
         case _BOOL_BIT:
         case _ENUM_BIT:
         case _INT32_BIT:
@@ -671,11 +703,8 @@ abstract class GeneratedMessage {
       ExtensionRegistry extensionRegistry) {
     // Extract a value from its JSON representation.
     convertJsonValue(var value, int tagNumber, int fieldType) {
-      // Mask off 'required', 'repeated' and 'packed' bits to obtain base type.
-      fieldType &= ~(_REQUIRED_BIT | _REPEATED_BIT | _PACKED_BIT);
-
       String expectedType; // for exception message
-      switch (fieldType) {
+      switch (_toBaseFieldType(fieldType)) {
       case _BOOL_BIT:
         if (value is bool) {
           return value;
@@ -995,6 +1024,27 @@ abstract class GeneratedMessage {
       type = _extensions[tagNumber].type;
     }
     return type;
+  }
+
+  /**
+   * Returns the type associated with a given tag number, either from the
+   * [BuilderInfo] associated with this [GeneratedMessage],
+   * or from a known extension.  If the type is unknown, [null] is returned.
+   */
+  int _getBaseFieldType(int tagNumber) {
+    int type = info_.fieldType(tagNumber);
+    if (type == null && _extensions.containsKey(tagNumber)) {
+      type = _extensions[tagNumber].type;
+    }
+    return type;
+  }
+
+  /*
+   * Returns the base field type without any of the required, repeated
+   * and packed bits.
+   */
+  int _toBaseFieldType(int fieldType) {
+    return fieldType & ~(_REQUIRED_BIT | _REPEATED_BIT | _PACKED_BIT);
   }
 
   GeneratedMessage _getEmptyMessage(

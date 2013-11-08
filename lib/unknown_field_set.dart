@@ -120,7 +120,14 @@ class UnknownFieldSet {
     return _areMapsEqual(o._fields, _fields);
   }
 
-  int get hashCode => _fields.hashCode;
+  int get hashCode {
+    int hash = 0;
+    _fields.forEach((number, value) {
+      hash = ((37 * hash) + number) & 0x3fffffff;
+      hash = ((53 * hash) + value.hashCode) & 0x3fffffff;
+    });
+    return hash;
+  }
 
   String toString() => _toString('');
 
@@ -181,7 +188,28 @@ class UnknownFieldSetField {
     return true;
   }
 
-  int get hashCode => lengthDelimited.hashCode;
+  int get hashCode {
+    int hash = 0;
+    lengthDelimited.forEach((value) {
+      for (int i = 0; i < value.length; i++) {
+        hash = (hash + value[i]) & 0x3fffffff;
+        hash = (hash + hash << 10) & 0x3fffffff;
+        hash = (hash ^ hash >> 6) & 0x3fffffff;
+      }
+      hash = (hash + hash << 3) & 0x3fffffff;
+      hash = (hash ^ hash >> 11) & 0x3fffffff;
+      hash = (hash + hash << 15) & 0x3fffffff;
+    });
+    varints.forEach(
+        (value) => hash = (hash + 7 * value.hashCode) & 0x3fffffff);
+    fixed32s.forEach(
+        (value) => hash = (hash + 37 * value.hashCode) & 0x3fffffff);
+    fixed64s.forEach(
+        (value) => hash = (hash + 53 * value.hashCode) & 0x3fffffff);
+    groups.forEach(
+        (value) => hash = (hash + value.hashCode) & 0x3fffffff);
+    return hash;
+  }
 
   List get values => []
       ..addAll(lengthDelimited)
