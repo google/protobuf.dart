@@ -7,6 +7,6 @@ homepage: https://github.com/dart-lang/protoc-plugin
 environment:
   sdk: '>=0.7.5'
 dependencies:
-  protobuf: '>=0.2.0+2'
+  protobuf: '>=0.3.1'
 dev_dependencies:
   unittest: any

@@ -17,6 +17,7 @@ import 'unknown_field_set_test.dart' as ufst;
 import 'validate_fail_test.dart' as vft;
 import 'wire_format_test.dart' as wft;
 import 'reserved_names_test.dart' as rnt;
+import 'hash_code_test.dart' as hct;
 
 void main() {
   egt.main();
@@ -31,4 +32,5 @@ void main() {
   vft.main();
   wft.main();
   rnt.main();
+  hct.main();
 }
