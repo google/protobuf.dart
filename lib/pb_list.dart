@@ -15,7 +15,7 @@ class PbList<E> extends Object with ListMixin<E> implements List<E> {
 
   int get hashCode {
     int hash = 0;
-    _wrappedList.forEach((value) {
+    _wrappedList.forEach((E value) {
       hash = (hash + value.hashCode) & 0x3fffffff;
       hash = (hash + hash << 10) & 0x3fffffff;
       hash = (hash ^ hash >> 6) & 0x3fffffff;

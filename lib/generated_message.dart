@@ -283,7 +283,7 @@ abstract class GeneratedMessage {
     int hash;
 
     void hashEnumList(PbList enums) {
-      enums.forEach((enum) {
+      enums.forEach((ProtobufEnum enum) {
         hash = (31 * hash + enum.value) & 0x3fffffff;
       });
     }
@@ -295,11 +295,13 @@ abstract class GeneratedMessage {
         hash = ((37 * hash) + tagNumber) & 0x3fffffff;
         int fieldType = _getFieldType(tagNumber);
         if (_toBaseFieldType(fieldType) != _ENUM_BIT) {
-          hash = ((53 * hash) + value.hashCode) & 0x3fffffff;
+          // TODO(sgjesse): Remove 'as Object' here when issue 14951 is fixed.
+          hash = ((53 * hash) + (value as Object).hashCode) & 0x3fffffff;
         } else if ((fieldType & _REPEATED_BIT) != 0) {
           hashEnumList(value);
         } else {
-          hash = ((53 * hash) + value.value) & 0x3fffffff;
+          ProtobufEnum enum = value;
+          hash = ((53 * hash) + enum.value) & 0x3fffffff;
         }
       }
     }
