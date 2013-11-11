@@ -1,6 +1,8 @@
 Protobuf runtime support library
 ================================
 
+[![Build Status](https://drone.io/github.com/dart-lang/dart-protobuf/status.png)](https://drone.io/github.com/dart-lang/dart-protobuf/latest)
+
 This library provides runtime support library for Dart implementation
 of protobufs.
 
