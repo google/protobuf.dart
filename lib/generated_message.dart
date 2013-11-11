@@ -283,8 +283,8 @@ abstract class GeneratedMessage {
     int hash;
 
     void hashEnumList(PbList enums) {
-      enums.forEach((ProtobufEnum enum) {
-        hash = (31 * hash + enum.value) & 0x3fffffff;
+      enums.forEach((ProtobufEnum protobufEnum) {
+        hash = (31 * hash + protobufEnum.value) & 0x3fffffff;
       });
     }
 
@@ -300,8 +300,8 @@ abstract class GeneratedMessage {
         } else if ((fieldType & _REPEATED_BIT) != 0) {
           hashEnumList(value);
         } else {
-          ProtobufEnum enum = value;
-          hash = ((53 * hash) + enum.value) & 0x3fffffff;
+          ProtobufEnum protobufEnum = value;
+          hash = ((53 * hash) + protobufEnum.value) & 0x3fffffff;
         }
       }
     }
