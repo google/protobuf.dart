@@ -9,10 +9,10 @@ class ProtobufField {
       new RegExp(r'^0x[0-9a-f]+$', multiLine: false, caseSensitive: false);
   static final RegExp INTEGER_LITERAL_REGEX = new RegExp(r'^[+-]?[0-9]+$');
   static final RegExp DECIMAL_LITERAL_REGEX_A =
-      new RegExp(r'^[+-]?([0-9]*)\.[0-9]+(e[+-]?[0-9]+)?$', 
+      new RegExp(r'^[+-]?([0-9]*)\.[0-9]+(e[+-]?[0-9]+)?$',
                  multiLine: false, caseSensitive: false);
   static final RegExp DECIMAL_LITERAL_REGEX_B =
-      new RegExp(r'^[+-]?[0-9]+e[+-]?[0-9]+$', multiLine: false, 
+      new RegExp(r'^[+-]?[0-9]+e[+-]?[0-9]+$', multiLine: false,
                  caseSensitive: false);
 
   final FieldDescriptorProto _field;
@@ -34,7 +34,7 @@ class ProtobufField {
 
   bool get group => type == FieldDescriptorProto_Type.TYPE_GROUP;
   bool get message => type == FieldDescriptorProto_Type.TYPE_MESSAGE;
-  bool get enum => type == FieldDescriptorProto_Type.TYPE_ENUM;
+  bool get enm => type == FieldDescriptorProto_Type.TYPE_ENUM;
   bool get primitive => !group && !message;
 
   bool get hasInitialization => initialization != null;

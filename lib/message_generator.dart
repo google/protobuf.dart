@@ -94,7 +94,7 @@ class MessageGenerator implements ProtobufContainer {
             subBuilder = '()${SP}=>${SP}new ${field.baseType}()';
           }
           String valueOf = null;
-          if (field.enum) {
+          if (field.enm) {
             valueOf = '(var v)${SP}=>${SP}${field.baseType}.valueOf(v)';
           }
           if ('PM' == type) {

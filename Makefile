@@ -37,7 +37,7 @@ PREGENERATED_SRCS=lib/descriptor.proto lib/plugin.proto
 $(PLUGIN_PATH): $(PLUGIN_SRC)
 	[ -d $(OUTPUT_DIR) ] || mkdir $(OUTPUT_DIR)
 	# --categories=all is a hack, it should be --categories=Server once dart2dart bug is fixed.
-	dart2js --output-type=dart --package-root=packages --categories=all -o$(PLUGIN_PATH) bin/protoc_plugin.dart
+	dart2js --checked --output-type=dart --package-root=packages --categories=all -o$(PLUGIN_PATH) bin/protoc_plugin.dart
 	dart prepend.dart $(PLUGIN_PATH)
 	chmod +x $(PLUGIN_PATH)
 

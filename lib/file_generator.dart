@@ -116,8 +116,6 @@ class FileGenerator implements ProtobufContainer {
       '///\n'
       'library $libraryName;\n'
       '\n'
-      "import 'dart:typed_data';\n"
-      '\n'
       "import 'package:fixnum/fixnum.dart';\n"
       "import 'package:protobuf/protobuf.dart';"
     );

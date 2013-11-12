@@ -4,7 +4,7 @@
 
 part of protoc;
 
-class Writer {
+abstract class Writer {
   void print(String out);
   void println([String out]);
 }
