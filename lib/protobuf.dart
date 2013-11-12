@@ -4,13 +4,13 @@
 
 library protobuf;
 
-import 'dart:collection';
+import 'dart:collection' show ListMixin;
 import 'dart:convert' show JSON, Utf8Codec;
-import 'dart:math';
-import 'dart:typed_data';
+import 'dart:math' as math;
+import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endianness;
 
-import 'package:crypto/crypto.dart';
-import 'package:fixnum/fixnum.dart';
+import 'package:crypto/crypto.dart' show CryptoUtils;
+import 'package:fixnum/fixnum.dart' show Int64;
 
 part 'coded_buffer_reader.dart';
 part 'coded_buffer_writer.dart';
