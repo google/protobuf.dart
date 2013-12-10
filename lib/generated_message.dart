@@ -874,18 +874,6 @@ abstract class GeneratedMessage {
 
   void clearField(int tagNumber) {
     _fieldValues.remove(tagNumber);
-    // Restore the default value for the field.
-    // For repeated fields, the default is an empty list.
-    // For required/optional fields, the BuilderInfo contains the initializer.
-    int fieldType = _getFieldType(tagNumber);
-    if ((fieldType & _REPEATED_BIT) != 0) {
-      _fieldValues[tagNumber] = new PbList();
-    } else {
-      var defaultValue = info_.defaultValue(tagNumber);
-      if (defaultValue != null) {
-        _fieldValues[tagNumber] = defaultValue;
-      }
-    }
   }
 
   bool extensionsAreInitialized() {
