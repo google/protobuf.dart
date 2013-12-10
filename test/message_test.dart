@@ -195,4 +195,41 @@ repeatedString: qux
           'repeatedMessage[1].c');
     }
   });
+
+  test('testClearField', () {
+      int fieldNo;
+      TestAllTypes message = new TestAllTypes();
+
+      // Singular field with no default.
+      fieldNo = 1;
+      expect(message.hasField(fieldNo), isFalse);
+      expect(message.getField(fieldNo), 0);
+      message.clearField(fieldNo);
+      expect(message.hasField(fieldNo), isFalse);
+      message.setField(fieldNo, 0);
+      expect(message.getField(fieldNo), 0);
+      expect(message.hasField(fieldNo), isTrue);
+      message.clearField(fieldNo);
+      expect(message.hasField(fieldNo), isFalse);
+
+      // Repeated field.
+      fieldNo = 31;
+      expect(message.hasField(fieldNo), isFalse);
+      message.getField(fieldNo).add(1);
+      expect(message.hasField(fieldNo), isTrue);
+
+      // Singular field with default.
+      fieldNo = 61;
+      expect(message.hasField(fieldNo), isFalse);
+      expect(message.getField(fieldNo), 41);
+      message.clearField(fieldNo);
+      message.setField(fieldNo, 41);
+      expect(message.hasField(fieldNo), isTrue);
+      message.setField(fieldNo, 42);
+      expect(message.hasField(fieldNo), isTrue);
+      expect(message.getField(fieldNo), 42);
+      message.clearField(fieldNo);
+      expect(message.hasField(fieldNo), isFalse);
+      expect(message.getField(fieldNo), 41);
+  });
 }
