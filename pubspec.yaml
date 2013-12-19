@@ -1,5 +1,5 @@
 name: protoc-plugin
-version: 0.2.3
+version: 0.2.4
 authors:
 - Dart Team <misc@dartlang.org>
 description: Protoc compiler plugin to generate Dart code

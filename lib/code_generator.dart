@@ -18,7 +18,8 @@ class CodeGenerator implements ProtobufContainer {
 
   void generate() {
     _streamIn
-        .fold(<int>[], (bytes, data) => bytes..addAll(data))
+        .fold(new BytesBuilder(), (builder, data) => builder..add(data))
+        .then((builder) => builder.takeBytes())
         .then((List<int> bytes) {
             var request = new CodeGeneratorRequest.fromBuffer(bytes);
             var response = new CodeGeneratorResponse();
