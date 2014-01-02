@@ -5,8 +5,9 @@
 part of protoc;
 
 abstract class ProtobufContainer {
-  String get fqname;
+  String get package;
   String get classname;
+  String get fqname;
 }
 
 class CodeGenerator implements ProtobufContainer {
@@ -46,8 +47,9 @@ class CodeGenerator implements ProtobufContainer {
         });
   }
 
-  String get fqname => '';
+  String get package => '';
   String get classname => null;
+  String get fqname => '';
 }
 
 

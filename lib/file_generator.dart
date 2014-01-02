@@ -28,6 +28,7 @@ class FileGenerator implements ProtobufContainer {
     }
   }
 
+  String get package => _fileDescriptor.package;
   String get classname => '';
   String get fqname => '.${_fileDescriptor.package}';
 
@@ -128,7 +129,14 @@ class FileGenerator implements ProtobufContainer {
       }
       // Create a relative path from the current file to the import.
       Uri relativeProtoPath = _relative(importPath, filePath);
-      out.println("import '${_generatedFilePath(relativeProtoPath)}';");
+      // Find the file generator for this import as it contains the
+      // package name.
+      FileGenerator fileGenerator = _context.lookupFile(import);
+      out.print("import '${_generatedFilePath(relativeProtoPath)}'");
+      if (package != fileGenerator.package) {
+        out.print(' as ${fileGenerator.package}');
+      }
+      out.println(';');
     }
     out.println('');
 
@@ -169,12 +177,19 @@ class GenerationContext {
   final GenerationOptions options;
   final Map<String, ProtobufContainer> _registry =
       <String, ProtobufContainer>{};
+  final Map<String, FileGenerator> _files =
+      <String, FileGenerator>{};
 
   GenerationContext(this.options);
 
   void register(ProtobufContainer container) {
     _registry[container.fqname] = container;
+    if (container is FileGenerator) {
+      _files[container._fileDescriptor.name] = container;
+    }
   }
 
   ProtobufContainer operator [](String fqname) => _registry[fqname];
+
+  FileGenerator lookupFile(String name) => _files[name];
 }

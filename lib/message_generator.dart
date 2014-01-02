@@ -23,6 +23,7 @@ class MessageGenerator implements ProtobufContainer {
 
   final String classname;
   final String fqname;
+  final ProtobufContainer _parent;
   final GenerationContext _context;
   final DescriptorProto _descriptor;
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
@@ -31,10 +32,11 @@ class MessageGenerator implements ProtobufContainer {
   final List<ExtensionGenerator> _extensionGenerators = <ExtensionGenerator>[];
   final Set<String> _methodNames = new Set<String>();
 
-  MessageGenerator(DescriptorProto descriptor, ProtobufContainer parent,
-                   this._context)
+  MessageGenerator(
+      DescriptorProto descriptor, ProtobufContainer parent, this._context)
       : _descriptor = descriptor,
-        classname = (parent == null || parent.classname == '') ?
+        _parent = parent,
+        classname = (parent.classname == '') ?
             descriptor.name : '${parent.classname}_${descriptor.name}',
         fqname = (parent == null || parent.fqname == null) ? descriptor.name :
             (parent.fqname == '.' ?
@@ -53,6 +55,8 @@ class MessageGenerator implements ProtobufContainer {
       _extensionGenerators.add(new ExtensionGenerator(x, this, _context));
     }
   }
+
+  String get package => _parent.package;
 
   void initializeFields() {
     _fieldList.clear();
@@ -84,24 +88,25 @@ class MessageGenerator implements ProtobufContainer {
           ';', () {
         for (ProtobufField field in _fieldList) {
           String type = field.shortTypeName;
+          String fieldType = field.baseTypeForPackage(package);
 
           String makeDefault = null;
           if (field.hasInitialization) {
-            makeDefault = '${field.initialization}';
+            makeDefault = field.initializationForPackage(package);
           }
           String subBuilder = null;
           if (field.message || field.group) {
-            subBuilder = '()${SP}=>${SP}new ${field.baseType}()';
+            subBuilder = '()${SP}=>${SP}new ${fieldType}()';
           }
           String valueOf = null;
           if (field.enm) {
-            valueOf = '(var v)${SP}=>${SP}${field.baseType}.valueOf(v)';
+            valueOf = '(var v)${SP}=>${SP}${fieldType}.valueOf(v)';
           }
           if ('PM' == type) {
             // Repeated message: default is an empty list
             out.println('..m(${field.number},${SP}'
                 '\'${field.externalFieldName}\',${SP}$subBuilder,'
-                '${SP}()${SP}=>${SP}new PbList<${field.baseType}>())');
+                '${SP}()${SP}=>${SP}new PbList<${fieldType}>())');
           } else if (type[0] == 'P' && type != 'PG' && type != 'PE') {
             // Repeated, not a message or enum: default is an empty list,
             // subBuilder is null, valueOf is null.
@@ -227,11 +232,12 @@ class MessageGenerator implements ProtobufContainer {
         }
         _methodNames.add(identifier);
       }
-      out.println('${field.typeString} get ${identifier}'
+      var fieldTypeString = field.typeStringForPackage(package);
+      out.println('${fieldTypeString} get ${identifier}'
           '${SP}=>${SP}getField(${field.number});');
       if (field.single) {
         out.println('void set ${identifier}'
-            '(${field.typeString} v)${SP}'
+            '(${fieldTypeString} v)${SP}'
             '{${SP}setField(${field.number},${SP}v);${SP}}');
         out.println('bool $hasIdentifier()${SP}=>'
             '${SP}hasField(${field.number});');

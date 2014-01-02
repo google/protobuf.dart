@@ -19,11 +19,15 @@ class ProtobufField {
   final ProtobufContainer parent;
   final GenerationContext context;
   final String fqname;
+  final String typePackage;
   final String baseType;
   final String typeString;
+  final String prefixedBaseType;
+  final String prefixedTypeString;
   final String codedStreamType;
   final bool repeats;
   final String initialization;
+  final String prefixedInitialization;
   final bool required;
   // True if the field is to be encoded with [packed=true] encoding.
   final bool packed;
@@ -48,6 +52,13 @@ class ProtobufField {
   FieldDescriptorProto_Type get type => _field.type;
   FieldOptions get options => _field.options;
   String get typeName => _field.typeName;
+
+  String baseTypeForPackage(String package) =>
+      package == typePackage ? baseType : prefixedBaseType;
+  String typeStringForPackage(String package) =>
+      package == typePackage ? typeString : prefixedTypeString;
+  String initializationForPackage(String package) =>
+      package == typePackage ? initialization : prefixedInitialization;
 
   String get shortTypeName {
     String prefix;
@@ -86,8 +97,10 @@ class ProtobufField {
   }
 
   ProtobufField._(
-      field, parent, this.context, this.baseType, this.typeString,
-      this.codedStreamType, this.repeats, this.initialization, this.required,
+      field, parent, this.context, this.typePackage, this.baseType,
+      this.typeString, this.prefixedBaseType, this.prefixedTypeString,
+      this.codedStreamType, this.repeats,
+      this.initialization, this.prefixedInitialization, this.required,
       this.packed, this.packable) :
           this._field = field,
           this.parent = parent,
@@ -109,11 +122,15 @@ class ProtobufField {
       write = (String typeString) => typeString;
     }
 
+    String typePackage = '';
     String baseType;
     String typeString;
+    String prefixedBaseType;
+    String prefixedTypeString;
     bool packable = false;
     String codedStreamType;
     String initialization;
+    String prefixedInitialization;
     switch (field.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
         baseType = 'bool';
@@ -247,39 +264,55 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_GROUP:
         ProtobufContainer groupType = context[field.typeName];
         if (groupType != null) {
+          typePackage = groupType.package;
           baseType = groupType.classname;
           typeString = write(groupType.classname);
+          prefixedBaseType = groupType.package + '.' + baseType;
+          prefixedTypeString = write(prefixedBaseType);
           codedStreamType = 'Group';
         } else {
           throw 'FAILURE: Unknown group type reference ${field.typeName}';
         }
         initialization = '()${SP}=>${SP}new ${baseType}()';
+        prefixedInitialization = '()${SP}=>${SP}new ${prefixedBaseType}()';
         break;
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
         ProtobufContainer messageType = context[field.typeName];
         if (messageType != null) {
+          typePackage = messageType.package;
           baseType = messageType.classname;
-          typeString = write(messageType.classname);
+          typeString = write(baseType);
+          prefixedBaseType = messageType.package + '.' + baseType;
+          prefixedTypeString = write(prefixedBaseType);
           codedStreamType = 'Message';
         } else {
           throw 'FAILURE: Unknown message type reference ${field.typeName}';
         }
         initialization = '()${SP}=>${SP}new ${baseType}()';
+        prefixedInitialization = '()${SP}=>${SP}new ${prefixedBaseType}()';
         break;
       case FieldDescriptorProto_Type.TYPE_ENUM:
         EnumGenerator enumType = context[field.typeName];
         if (enumType != null) {
+          typePackage = enumType.package;
           baseType = enumType.classname;
           typeString = write(enumType.classname);
           codedStreamType = 'Enum';
+          prefixedBaseType = enumType.package + '.' + baseType;
+          prefixedTypeString = write(prefixedBaseType);
           packable = true;
           if (!repeats) {
             if (field.hasDefaultValue() && !field.defaultValue.isEmpty) {
               initialization =
-                  '()${SP}=>${SP}${enumType.classname}.${field.defaultValue}';
+                  '()${SP}=>${SP}${baseType}.${field.defaultValue}';
+              prefixedInitialization =
+                  '()${SP}=>${SP}${prefixedBaseType}.${field.defaultValue}';
             } else if (!enumType._canonicalValues.isEmpty) {
               initialization =
-                  '()${SP}=>${SP}${enumType.classname}.'
+                  '()${SP}=>${SP}${baseType}.'
+                  '${enumType._canonicalValues[0].name}';
+              prefixedInitialization =
+                  '()${SP}=>${SP}${prefixedBaseType}.'
                   '${enumType._canonicalValues[0].name}';
             }
           }
@@ -296,9 +329,13 @@ class ProtobufField {
       initialization = '()${SP}=>${SP}new PbList()';
     }
 
+    if (prefixedBaseType == null) prefixedBaseType = baseType;
+    if (prefixedTypeString == null) prefixedTypeString = typeString;
+    if (prefixedInitialization == null) prefixedInitialization = initialization;
     return new ProtobufField._(
-        field, parent, context, baseType, typeString, codedStreamType, repeats,
-        initialization, required, packed, packable);
+        field, parent, context, typePackage, baseType, typeString,
+        prefixedBaseType, prefixedTypeString, codedStreamType, repeats,
+        initialization, prefixedInitialization, required, packed, packable);
   }
 
   // camelCase field name.

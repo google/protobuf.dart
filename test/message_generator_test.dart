@@ -63,6 +63,7 @@ class PhoneNumber extends GeneratedMessage {
 }
 
 ''';
+    FileDescriptorProto fd = new FileDescriptorProto();
     EnumDescriptorProto ed = new EnumDescriptorProto()
         ..name = 'PhoneType'
         ..value.addAll([
@@ -93,7 +94,7 @@ class PhoneNumber extends GeneratedMessage {
                 ..number = 2
                 ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
                 ..type = FieldDescriptorProto_Type.TYPE_ENUM
-                ..typeName = 'PhoneNumber.PhoneType',
+                ..typeName = '.PhoneNumber.PhoneType',
             new FieldDescriptorProto()
                 ..name = 'name'
                 ..number = 3
@@ -107,9 +108,9 @@ class PhoneNumber extends GeneratedMessage {
     var options =
         new GenerationOptions(
             new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    MessageGenerator mg =
-        new MessageGenerator(
-            md, null, new GenerationContext(options));
+    var context = new GenerationContext(options);
+    FileGenerator fg = new FileGenerator(fd, null, context);
+    MessageGenerator mg = new MessageGenerator(md, fg, context);
     mg.initializeFields();
     mg.generate(writer);
     expect(buffer.toString(), expected);

@@ -11,6 +11,7 @@ class EnumAlias {
 }
 
 class EnumGenerator implements ProtobufContainer {
+  final ProtobufContainer _parent;
   final String classname;
   final String fqname;
   final List<EnumValueDescriptorProto> _canonicalValues =
@@ -21,7 +22,8 @@ class EnumGenerator implements ProtobufContainer {
       EnumDescriptorProto descriptor,
       ProtobufContainer parent,
       GenerationContext context)
-    : classname = (parent == null || parent is FileGenerator) ?
+    : _parent = parent,
+      classname = (parent == null || parent is FileGenerator) ?
           descriptor.name : '${parent.classname}_${descriptor.name}',
       fqname = (parent == null || parent.fqname == null) ? descriptor.name :
           (parent.fqname == '.' ?
@@ -37,6 +39,8 @@ class EnumGenerator implements ProtobufContainer {
     }
     context.register(this);
   }
+
+  String get package => _parent.package;
 
   void generate(IndentingWriter out) {
     out.addBlock('class ${classname} extends ProtobufEnum {', '}\n', () {
