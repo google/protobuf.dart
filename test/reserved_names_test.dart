@@ -20,19 +20,13 @@ void main() {
       String className = mirrors.MirrorSystem.getName(cls.simpleName);
       names.addAll(
           cls
-          .constructors
+          .declarations
           .values
-          .where((ctor) => !ctor.isPrivate)
+          .where((decl) => !decl.isPrivate && decl is !mirrors.VariableMirror)
           .map((m) => mirrors.MirrorSystem.getName(m.simpleName))
           .map((n) => n.startsWith(className + '.')
                       ? n.substring(className.length + 1) : n)
           .toList());
-      names.addAll(
-          cls
-          .members
-          .values
-          .where((_) => !_.isPrivate && _ is !mirrors.VariableMirror)
-          .map((m) => mirrors.MirrorSystem.getName(m.simpleName)).toList());
     }
 
     var cls = mirrors.currentMirrorSystem()
