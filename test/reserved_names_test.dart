@@ -31,7 +31,7 @@ void main() {
 
     var cls = mirrors.currentMirrorSystem()
         .libraries[Uri.parse('package:protobuf/protobuf.dart')]
-        .classes[#GeneratedMessage];
+        .declarations[#GeneratedMessage];
     do {
       fillConflictingNames(cls);
       cls = cls.superclass;
