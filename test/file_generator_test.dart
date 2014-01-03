@@ -179,7 +179,7 @@ class PhoneNumber extends GeneratedMessage {
 }
 
 ''';
-      FileDescriptorProto fd = buildFileDescriptor(topLevelEnum: true);
+    FileDescriptorProto fd = buildFileDescriptor(topLevelEnum: true);
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options =
@@ -299,6 +299,155 @@ class PhoneNumber extends GeneratedMessage {
     FileGenerator fg =
         new FileGenerator(
             fd, null, new GenerationContext(options));
+    fg.generate(writer);
+    expect(buffer.toString(), expected);
+  });
+
+  test('testMessageGeneratorFieldNameOption', () {
+    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
+    String expected = r'''
+///
+//  Generated code. Do not modify.
+///
+library test;
+
+import 'package:fixnum/fixnum.dart';
+import 'package:protobuf/protobuf.dart';
+import 'package1.pb.dart' as p1;
+import 'package2.pb.dart' as p2;
+
+class M extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('M')
+    ..a(1, 'm', GeneratedMessage.OM, () => new M(), () => new M())
+    ..a(2, 'm1', GeneratedMessage.OM, () => new p1.M(), () => new p1.M())
+    ..a(3, 'm2', GeneratedMessage.OM, () => new p2.M(), () => new p2.M())
+    ..hasRequiredFields = false
+  ;
+
+  M() : super();
+  M.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  M.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  M clone() => new M()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+
+  M get m => getField(1);
+  void set m(M v) { setField(1, v); }
+  bool hasM() => hasField(1);
+  void clearM() => clearField(1);
+
+  p1.M get m1 => getField(2);
+  void set m1(p1.M v) { setField(2, v); }
+  bool hasM1() => hasField(2);
+  void clearM1() => clearField(2);
+
+  p2.M get m2 => getField(3);
+  void set m2(p2.M v) { setField(3, v); }
+  bool hasM2() => hasField(3);
+  void clearM2() => clearField(3);
+}
+
+''';
+
+    // This defines three .proto files package1.proto, package2.proto and
+    // test.proto with the following content:
+    //
+    // package1.proto:
+    // ---------------
+    // package p1;
+    // message M {
+    //   optional M m = 2;
+    // }
+    //
+    // package2.proto:
+    // ---------------
+    // package p2;
+    // message M {
+    //   optional M m = 2;
+    // }
+    //
+    // test.proto:
+    // ---------------
+    // package test;
+    // import "package1.proto";
+    // import "package2.proto";
+    // message M {
+    //   optional M m = 1;
+    //   optional p1.M m1 = 2;
+    //   optional p2.M m2 = 3;
+    // }
+
+    // Description of package1.proto.
+    DescriptorProto md1 = new DescriptorProto()
+        ..name = 'M'
+        ..field.addAll([
+            // optional M m = 1;
+            new FieldDescriptorProto()
+                ..name = 'm'
+                ..number = 1
+                ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+                ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
+                ..typeName = ".p1.M",
+            ]);
+    FileDescriptorProto fd1 = new FileDescriptorProto()
+        ..package = 'p1'
+        ..name = 'package1.proto'
+        ..messageType.add(md1);
+
+    // Description of package1.proto.
+    DescriptorProto md2 = new DescriptorProto()
+        ..name = 'M'
+        ..field.addAll([
+            // optional M m = 1;
+            new FieldDescriptorProto()
+                ..name = 'x'
+                ..number = 1
+                ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+                ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
+                ..typeName = ".p2.M",
+            ]);
+    FileDescriptorProto fd2 = new FileDescriptorProto()
+        ..package = 'p2'
+        ..name = 'package2.proto'
+        ..messageType.add(md2);
+
+    // Description of test.proto.
+    DescriptorProto md = new DescriptorProto()
+        ..name = 'M'
+        ..field.addAll([
+            // optional M m = 1;
+            new FieldDescriptorProto()
+                ..name = 'm'
+                ..number = 1
+                ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+                ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
+                ..typeName = ".M",
+            // optional p1.M m1 = 2;
+            new FieldDescriptorProto()
+                ..name = 'm1'
+                ..number = 2
+                ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+                ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
+                ..typeName = ".p1.M",
+            // optional p2.M m2 = 3;
+            new FieldDescriptorProto()
+                ..name = 'm2'
+                ..number = 3
+                ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+                ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
+                ..typeName = ".p2.M",
+            ]);
+    FileDescriptorProto fd = new FileDescriptorProto()
+        ..name = 'test.proto'
+        ..messageType.add(md);
+    fd.dependency.addAll(['package1.proto', 'package2.proto']);
+    MemoryWriter buffer = new MemoryWriter();
+    IndentingWriter writer = new IndentingWriter('  ', buffer);
+    var request = new CodeGeneratorRequest();
+    var options = new GenerationOptions(request, new CodeGeneratorResponse());
+    var context = new GenerationContext(options);
+    new FileGenerator(fd1, null, context);
+    new FileGenerator(fd2, null, context);
+    FileGenerator fg = new FileGenerator(fd, null, context);
     fg.generate(writer);
     expect(buffer.toString(), expected);
   });
