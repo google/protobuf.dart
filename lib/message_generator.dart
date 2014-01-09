@@ -6,7 +6,7 @@ part of protoc;
 
 const String SP = ' ';
 
-class MessageGenerator implements ProtobufContainer {
+class MessageGenerator extends ProtobufContainer {
   // List of names which cannot be used in a subclass of GeneratedMessage.
   static final List<String> reservedNames =
     ['hashCode', 'noSuchMethod','runtimeType', 'toString',

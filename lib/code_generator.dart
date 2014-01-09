@@ -8,9 +8,10 @@ abstract class ProtobufContainer {
   String get package;
   String get classname;
   String get fqname;
+  String get packageImportPrefix => package.replaceAll('.', r'$');
 }
 
-class CodeGenerator implements ProtobufContainer {
+class CodeGenerator extends ProtobufContainer {
   final Stream<List<int>> _streamIn;
   final IOSink _streamOut;
   final IOSink _streamErr;

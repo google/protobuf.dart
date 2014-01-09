@@ -10,7 +10,7 @@ class EnumAlias {
   EnumAlias(this.value, this.canonicalValue);
 }
 
-class EnumGenerator implements ProtobufContainer {
+class EnumGenerator extends ProtobufContainer {
   final ProtobufContainer _parent;
   final String classname;
   final String fqname;

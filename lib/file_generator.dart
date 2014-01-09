@@ -4,7 +4,7 @@
 
 part of protoc;
 
-class FileGenerator implements ProtobufContainer {
+class FileGenerator extends ProtobufContainer {
   final FileDescriptorProto _fileDescriptor;
   final ProtobufContainer _parent;
   final GenerationContext _context;
@@ -134,7 +134,7 @@ class FileGenerator implements ProtobufContainer {
       FileGenerator fileGenerator = _context.lookupFile(import);
       out.print("import '${_generatedFilePath(relativeProtoPath)}'");
       if (package != fileGenerator.package) {
-        out.print(' as ${fileGenerator.package}');
+        out.print(' as ${fileGenerator.packageImportPrefix}');
       }
       out.println(';');
     }

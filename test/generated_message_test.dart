@@ -15,6 +15,10 @@ import '../out/protos/multiple_files_test.pb.dart';
 import '../out/protos/nested_extension.pb.dart';
 import '../out/protos/non_nested_extension.pb.dart';
 import '../out/protos/reserved_names.pb.dart';
+import '../out/protos/duplicate_names_import.pb.dart';
+import '../out/protos/package1.pb.dart' as p1;
+import '../out/protos/package2.pb.dart' as p2;
+import '../out/protos/package3.pb.dart' as p3;
 
 import 'test_util.dart';
 
@@ -584,5 +588,15 @@ void main() {
     message.clearX_53 = 1;
     message.hasX51 = 1;
     message.clearX53 = 1;
+  });
+
+  test('testImportDuplicatenames', () {
+    M message = new M();
+    message.m1 = new p1.M();
+    message.m1M = new p1.M_M();
+    message.m2 = new p2.M();
+    message.m2M = new p2.M_M();
+    message.m3 = new p3.M();
+    message.m3M = new p3.M_M();
   });
 }

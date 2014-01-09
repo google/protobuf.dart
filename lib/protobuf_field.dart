@@ -267,7 +267,7 @@ class ProtobufField {
           typePackage = groupType.package;
           baseType = groupType.classname;
           typeString = write(groupType.classname);
-          prefixedBaseType = groupType.package + '.' + baseType;
+          prefixedBaseType = groupType.packageImportPrefix + '.' + baseType;
           prefixedTypeString = write(prefixedBaseType);
           codedStreamType = 'Group';
         } else {
@@ -282,7 +282,7 @@ class ProtobufField {
           typePackage = messageType.package;
           baseType = messageType.classname;
           typeString = write(baseType);
-          prefixedBaseType = messageType.package + '.' + baseType;
+          prefixedBaseType = messageType.packageImportPrefix + '.' + baseType;
           prefixedTypeString = write(prefixedBaseType);
           codedStreamType = 'Message';
         } else {
@@ -298,7 +298,7 @@ class ProtobufField {
           baseType = enumType.classname;
           typeString = write(enumType.classname);
           codedStreamType = 'Enum';
-          prefixedBaseType = enumType.package + '.' + baseType;
+          prefixedBaseType = enumType.packageImportPrefix + '.' + baseType;
           prefixedTypeString = write(prefixedBaseType);
           packable = true;
           if (!repeats) {

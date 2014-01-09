@@ -4,7 +4,7 @@
 
 part of protoc;
 
-class ExtensionGenerator implements ProtobufContainer {
+class ExtensionGenerator extends ProtobufContainer {
   final String fqname;
   final FieldDescriptorProto _descriptor;
   final ProtobufContainer _parent;
