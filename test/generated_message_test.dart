@@ -19,6 +19,8 @@ import '../out/protos/duplicate_names_import.pb.dart';
 import '../out/protos/package1.pb.dart' as p1;
 import '../out/protos/package2.pb.dart' as p2;
 import '../out/protos/package3.pb.dart' as p3;
+import '../out/protos/toplevel_import.pb.dart' as t;
+import '../out/protos/toplevel.pb.dart';
 
 import 'test_util.dart';
 
@@ -598,5 +600,10 @@ void main() {
     message.m2M = new p2.M_M();
     message.m3 = new p3.M();
     message.m3M = new p3.M_M();
+  });
+
+  test('testToplevel', () {
+    t.M message = new t.M();
+    message.t = new T();
   });
 }

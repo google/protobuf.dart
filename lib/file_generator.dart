@@ -133,7 +133,7 @@ class FileGenerator extends ProtobufContainer {
       // package name.
       FileGenerator fileGenerator = _context.lookupFile(import);
       out.print("import '${_generatedFilePath(relativeProtoPath)}'");
-      if (package != fileGenerator.package) {
+      if (package != fileGenerator.package && !fileGenerator.package.isEmpty) {
         out.print(' as ${fileGenerator.packageImportPrefix}');
       }
       out.println(';');

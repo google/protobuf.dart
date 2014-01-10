@@ -29,7 +29,9 @@ TEST_PROTO_LIST = \
 						 duplicate_names_import \
 						 package1 \
 						 package2 \
-						 package3
+						 package3 \
+						 toplevel_import \
+						 toplevel
 TEST_PROTO_DIR=$(OUTPUT_DIR)/protos
 TEST_PROTO_LIBS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_DIR)/$(proto).pb.dart)
 TEST_PROTO_SRC_DIR=test/protos
