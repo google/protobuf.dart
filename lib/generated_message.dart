@@ -630,7 +630,7 @@ abstract class GeneratedMessage {
 
   // JSON support.
 
-  Map<String, dynamic> _toMap() {
+  Map<String, dynamic> _toMap({ bool useNames: false }) {
     convertToMap(fieldValue, fieldType) {
       int scalarType = fieldType & ~(_REPEATED_BIT | _PACKED_BIT);
 
@@ -677,7 +677,7 @@ abstract class GeneratedMessage {
     var result = <String, dynamic>{};
     for (int tagNumber in sorted(_fieldValues.keys)) {
       if (!hasField(tagNumber)) continue;
-      String key = '$tagNumber';
+      String key = useNames ? info_.fieldInfo[tagNumber].name : '$tagNumber';
       var fieldValue = _fieldValues[tagNumber];
       int fieldType = _getFieldType(tagNumber) & ~_REQUIRED_BIT;
       result[key] = convertToMap(fieldValue, fieldType);
@@ -688,7 +688,8 @@ abstract class GeneratedMessage {
   /**
    * Return a JSON string that encodes this message.  Each message (top level
    * or nested) is represented as an object delimited by curly braces.  Within
-   * a message, elements are indexed by tag number (surrounded by quotes).
+   * a message, elements are indexed by tag number (surrounded by quotes) or
+   * their name (if useNames is set).
    * Repeated elements are represented as arrays.
    *
    * Boolean values, strings, and floating-point values are represented as
@@ -697,7 +698,8 @@ abstract class GeneratedMessage {
    * actual runtime value) are represented as strings.  Enumerated values are
    * represented as their integer value.
    */
-  String writeToJson() => JSON.encode(_toMap());
+  String writeToJson({ bool useNames: false }) =>
+      JSON.encode(_toMap(useNames: useNames));
 
   // Merge fields from a previously decoded JSON object.
   GeneratedMessage _mergeFromJson(
@@ -797,19 +799,26 @@ abstract class GeneratedMessage {
       throw new ArgumentError('Expected type $expectedType, got $value');
     }
 
-    for (int tagNumber in sorted(json.keys.map(int.parse))) {
-      var fieldValue = json[tagNumber.toString()];
+    json.forEach((String key, fieldValue) {
+      int tagNumber = int.parse(key, onError: (_) => null);
       int fieldType = -1;
-
+      FieldInfo fieldInfo;
+      if (tagNumber == null) {
+        fieldInfo = info_.byName[key];
+        tagNumber = fieldInfo.tagNumber;
+      } else {
+        fieldInfo = info_.fieldInfo[tagNumber];
+      }
       Extension extension = null;
-      if (info_.containsTagNumber(tagNumber)) {
-        fieldType = info_.fieldType(tagNumber);
+
+      if (fieldInfo != null) {
+        fieldType = fieldInfo.type;
       } else if (extensionRegistry != null) {
         extension = extensionRegistry.getExtension(info_.messageName,
             tagNumber);
         if (extension == null) {
           // Unknown extensions can be skipped.
-          continue;
+          return; // continue on the forEach
         }
         _addExtensionToMap(extension);
         fieldType = extension.type;
@@ -826,7 +835,7 @@ abstract class GeneratedMessage {
         var value = convertJsonValue(fieldValue, tagNumber, fieldType);
         setField(tagNumber, value, fieldType);
       }
-    }
+    });
   }
 
   /**
