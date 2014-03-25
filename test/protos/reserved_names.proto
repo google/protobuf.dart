@@ -137,3 +137,111 @@ message ReservedNamesRequired {
   required int32 has_x_51 = 54;
   required int32 clear_x_53 = 55;
 }
+
+message ReservedWordsOptional {
+  optional int32 assert = 1;
+  optional int32 break = 2;
+  optional int32 case = 3;
+  optional int32 catch = 4;
+  optional int32 class = 5;
+  optional int32 const = 6;
+  optional int32 continue = 7;
+  optional int32 default = 8;
+  optional int32 do = 9;
+  optional int32 else = 10;
+  optional int32 enum = 11;
+  optional int32 extends = 12;
+  optional int32 false = 13;
+  optional int32 final = 14;
+  optional int32 finally = 15;
+  optional int32 for = 16;
+  optional int32 if = 17;
+  optional int32 in = 18;
+  optional int32 is = 19;
+  optional int32 new = 20;
+  optional int32 null = 21;
+  optional int32 rethrow = 22;
+  optional int32 return = 23;
+  optional int32 super = 24;
+  optional int32 switch = 25;
+  optional int32 this = 26;
+  optional int32 throw = 27;
+  optional int32 true = 28;
+  optional int32 try = 29;
+  optional int32 var = 30;
+  optional int32 void = 31;
+  optional int32 while = 32;
+  optional int32 with = 33;
+}
+
+message ReservedWordsRepeated {
+  repeated int32 assert = 1;
+  repeated int32 break = 2;
+  repeated int32 case = 3;
+  repeated int32 catch = 4;
+  repeated int32 class = 5;
+  repeated int32 const = 6;
+  repeated int32 continue = 7;
+  repeated int32 default = 8;
+  repeated int32 do = 9;
+  repeated int32 else = 10;
+  repeated int32 enum = 11;
+  repeated int32 extends = 12;
+  repeated int32 false = 13;
+  repeated int32 final = 14;
+  repeated int32 finally = 15;
+  repeated int32 for = 16;
+  repeated int32 if = 17;
+  repeated int32 in = 18;
+  repeated int32 is = 19;
+  repeated int32 new = 20;
+  repeated int32 null = 21;
+  repeated int32 rethrow = 22;
+  repeated int32 return = 23;
+  repeated int32 super = 24;
+  repeated int32 switch = 25;
+  repeated int32 this = 26;
+  repeated int32 throw = 27;
+  repeated int32 true = 28;
+  repeated int32 try = 29;
+  repeated int32 var = 30;
+  repeated int32 void = 31;
+  repeated int32 while = 32;
+  repeated int32 with = 33;
+}
+
+message ReservedWordsRequired {
+  required int32 assert = 1;
+  required int32 break = 2;
+  required int32 case = 3;
+  required int32 catch = 4;
+  required int32 class = 5;
+  required int32 const = 6;
+  required int32 continue = 7;
+  required int32 default = 8;
+  required int32 do = 9;
+  required int32 else = 10;
+  required int32 enum = 11;
+  required int32 extends = 12;
+  required int32 false = 13;
+  required int32 final = 14;
+  required int32 finally = 15;
+  required int32 for = 16;
+  required int32 if = 17;
+  required int32 in = 18;
+  required int32 is = 19;
+  required int32 new = 20;
+  required int32 null = 21;
+  required int32 rethrow = 22;
+  required int32 return = 23;
+  required int32 super = 24;
+  required int32 switch = 25;
+  required int32 this = 26;
+  required int32 throw = 27;
+  required int32 true = 28;
+  required int32 try = 29;
+  required int32 var = 30;
+  required int32 void = 31;
+  required int32 while = 32;
+  required int32 with = 33;
+}

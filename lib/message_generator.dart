@@ -7,6 +7,15 @@ part of protoc;
 const String SP = ' ';
 
 class MessageGenerator extends ProtobufContainer {
+  // List of Dart language reserved words in names which cannot be used in a
+  // subclass of GeneratedMessage.
+  static final List<String> reservedWords =
+      ['assert', 'break', 'case', 'catch', 'class', 'const', 'continue',
+       'default', 'do', 'else', 'enum', 'extends', 'false', 'final',
+       'finally', 'for', 'if', 'in', 'is', 'new', 'null', 'rethrow', 'return',
+       'super', 'switch', 'this', 'throw', 'true', 'try', 'var', 'void',
+       'while', 'with'];
+
   // List of names which cannot be used in a subclass of GeneratedMessage.
   static final List<String> reservedNames =
     ['hashCode', 'noSuchMethod','runtimeType', 'toString',
@@ -70,6 +79,7 @@ class MessageGenerator extends ProtobufContainer {
 
   void generate(IndentingWriter out) {
     _methodNames.clear();
+    _methodNames.addAll(reservedWords);
     _methodNames.addAll(reservedNames);
 
     for (EnumGenerator e in _enumGenerators) {
