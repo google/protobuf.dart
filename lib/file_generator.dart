@@ -39,13 +39,6 @@ class FileGenerator extends ProtobufContainer {
     return index == -1 ? fileName : fileName.substring(0, index);
   }
 
-  // Create the URI for the generated Dart file from the URI of the
-  // .proto file.
-  Uri _generatedFilePath(Uri protoFilePath) {
-    var dartFileName = _fileNameWithoutExtension(protoFilePath) + ".pb.dart";
-    return protoFilePath.resolve(dartFileName);
-  }
-
   String _generateClassName(Uri protoFilePath) {
     String s = _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
     return '${s[0].toUpperCase()}${s.substring(1)}';
@@ -56,49 +49,15 @@ class FileGenerator extends ProtobufContainer {
     return _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
   }
 
-  Uri _relative(Uri target, Uri base) {
-    // Ignore the last segment of the base.
-    List<String> baseSegments =
-        base.pathSegments.sublist(0, base.pathSegments.length - 1);
-    List<String> targetSegments = target.pathSegments;
-    if (baseSegments.length == 1 && baseSegments[0] == '.') {
-      baseSegments = [];
-    }
-    if (targetSegments.length == 1 && targetSegments[0] == '.') {
-      targetSegments = [];
-    }
-    int common = 0;
-    int length = min(targetSegments.length, baseSegments.length);
-    while (common < length && targetSegments[common] == baseSegments[common]) {
-      common++;
-    }
-
-    final segments = <String>[];
-    if (common < baseSegments.length && baseSegments[common] == '..') {
-      throw new ArgumentError(
-          "Cannot create a relative path from $base to $target");
-    }
-    for (int i = common; i < baseSegments.length; i++) {
-      segments.add('..');
-    }
-    for (int i = common; i < targetSegments.length; i++) {
-      segments.add('${targetSegments[i]}');
-    }
-    if (segments.isEmpty) {
-      segments.add('.');
-    }
-    return new Uri(pathSegments: segments);
-  }
-
   CodeGeneratorResponse_File generateResponse() {
     MemoryWriter writer = new MemoryWriter();
     IndentingWriter out = new IndentingWriter('  ', writer);
 
     generate(out);
 
-    Uri filePath = new Uri(scheme: 'file', path: _fileDescriptor.name);
+    Uri filePath = new Uri.file(_fileDescriptor.name);
     return new CodeGeneratorResponse_File()
-        ..name = _generatedFilePath(filePath).path
+        ..name = _context.outputConfiguration.outputPathFor(filePath).path
         ..content = writer.toString();
   }
 
@@ -127,12 +86,13 @@ class FileGenerator extends ProtobufContainer {
         // protoc should never generate an import with an absolute path.
         throw("FAILURE: Import with absolute path is not supported");
       }
-      // Create a relative path from the current file to the import.
-      Uri relativeProtoPath = _relative(importPath, filePath);
+      // Create a path from the current file to the imported proto.
+      Uri resolvedImport = _context.outputConfiguration.resolveImport(
+          importPath, filePath);
       // Find the file generator for this import as it contains the
       // package name.
       FileGenerator fileGenerator = _context.lookupFile(import);
-      out.print("import '${_generatedFilePath(relativeProtoPath)}'");
+      out.print("import '$resolvedImport'");
       if (package != fileGenerator.package && !fileGenerator.package.isEmpty) {
         out.print(' as ${fileGenerator.packageImportPrefix}');
       }
@@ -175,12 +135,13 @@ class FileGenerator extends ProtobufContainer {
 
 class GenerationContext {
   final GenerationOptions options;
+  final OutputConfiguration outputConfiguration;
   final Map<String, ProtobufContainer> _registry =
       <String, ProtobufContainer>{};
   final Map<String, FileGenerator> _files =
       <String, FileGenerator>{};
 
-  GenerationContext(this.options);
+  GenerationContext(this.options, this.outputConfiguration);
 
   void register(ProtobufContainer container) {
     _registry[container.fqname] = container;

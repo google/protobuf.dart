@@ -4,7 +4,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
-import 'package:protoc-plugin/protoc.dart';
+import 'package:protoc_plugin/protoc.dart';
 
 void main() {
   new CodeGenerator(stdin, stdout, stderr).generate();

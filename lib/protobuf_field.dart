@@ -108,7 +108,7 @@ class ProtobufField {
 
 
   factory ProtobufField(FieldDescriptorProto field,
-                        MessageGenerator parent,
+                        ProtobufContainer parent,
                         GenerationContext context) {
     bool required = field.label == FieldDescriptorProto_Label.LABEL_REQUIRED;
     bool repeats = field.label == FieldDescriptorProto_Label.LABEL_REPEATED;
@@ -372,8 +372,8 @@ class ProtobufField {
       }
       return underscoresToCamelCase(name);
     }
-    var name = context.options.fieldNameOption(fqname);
-    return (name != null) ? name : underscoresToCamelCase(_field.name);
+    var name = context.options.fieldNameOverrides[fqname];
+    return name != null ? name : underscoresToCamelCase(_field.name);
   }
 
   int get wireType {

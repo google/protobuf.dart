@@ -8,6 +8,8 @@ PLUGIN_SRC = \
 						 lib/file_generator.dart \
 						 lib/indenting_writer.dart \
 						 lib/message_generator.dart \
+						 lib/options.dart \
+						 lib/output_config.dart \
 						 lib/protobuf_field.dart \
 						 lib/protoc.dart \
 						 lib/src/descriptor.pb.dart \
@@ -43,7 +45,7 @@ PREGENERATED_SRCS=lib/descriptor.proto lib/plugin.proto
 $(PLUGIN_PATH): $(PLUGIN_SRC)
 	[ -d $(OUTPUT_DIR) ] || mkdir $(OUTPUT_DIR)
 	# --categories=all is a hack, it should be --categories=Server once dart2dart bug is fixed.
-	dart2js --checked --output-type=dart --package-root=packages --categories=all -o$(PLUGIN_PATH) bin/protoc_plugin.dart
+	dart2js --checked --output-type=dart --show-package-warnings --categories=all -o$(PLUGIN_PATH) bin/protoc_plugin.dart
 	dart prepend.dart $(PLUGIN_PATH)
 	chmod +x $(PLUGIN_PATH)
 
@@ -65,7 +67,7 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 build-test-protos: $(TEST_PROTO_LIBS)
 
 run-tests: build-test-protos
-	dart --checked --package-root=packages/ test/all_tests.dart
+	dart --checked test/all_tests.dart
 
 clean:
 	rm -rf $(OUTPUT_DIR)

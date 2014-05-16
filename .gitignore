@@ -4,3 +4,4 @@ packages
 .project
 .buildlog
 out
+*.sw?

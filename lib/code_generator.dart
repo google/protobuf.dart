@@ -18,7 +18,14 @@ class CodeGenerator extends ProtobufContainer {
 
   CodeGenerator(this._streamIn, this._streamOut, this._streamErr);
 
-  void generate() {
+  /// Runs the code generator. The optional [optionParsers] can be used to
+  /// change how command line options are parsed (see [parseGenerationOptions]
+  /// for details), and [outputConfiguration] can be used to override where
+  /// generated files are created and how imports between generated files are
+  /// constructed (see [OutputConfiguration] for details).
+  void generate({
+      Map<String, SingleOptionParser> optionParsers,
+      OutputConfiguration outputConfiguration}) {
     _streamIn
         .fold(new BytesBuilder(), (builder, data) => builder..add(data))
         .then((builder) => builder.takeBytes())
@@ -27,13 +34,15 @@ class CodeGenerator extends ProtobufContainer {
             var response = new CodeGeneratorResponse();
 
             // Parse the options in the request. Return the errors is any.
-            var options = new GenerationOptions(request, response);
+            var options = parseGenerationOptions(
+                request, response, optionParsers);
             if (options == null) {
               _streamOut.add(response.writeToBuffer());
               return;
             }
 
-            var ctx = new GenerationContext(options);
+            var ctx = new GenerationContext(options, outputConfiguration == null
+                ? new DefaultOutputConfiguration() : outputConfiguration);
             List<FileGenerator> generators = <FileGenerator>[];
             for (FileDescriptorProto file in request.protoFile) {
               var generator = new FileGenerator(file, this, ctx);
@@ -51,60 +60,4 @@ class CodeGenerator extends ProtobufContainer {
   String get package => '';
   String get classname => null;
   String get fqname => '';
-}
-
-
-class GenerationOptions {
-  final Map<String, String> fieldNameOptions;
-
-  GenerationOptions._(this.fieldNameOptions);
-
-  // Parse the options in the request. If there was an error in the
-  // options null is returned and the error is set on the response.
-  factory GenerationOptions(request, response) {
-    var fieldNameOptions = <String, String>{};
-    var parameter = request.parameter != null ? request.parameter : '';
-    List<String> options = parameter.trim().split(',');
-    List<String> errors = [];
-    for (var option in options) {
-      option = option.trim();
-      if (option.isEmpty) continue;
-      List<String> nameValue = option.split('=');
-      if (nameValue.length != 1 && nameValue.length != 2) {
-        errors.add('Illegal option: $option');
-        continue;
-      }
-      String name = nameValue[0].trim();
-      String value;
-      if (nameValue.length > 1) value = nameValue[1].trim();
-      if (name == 'field_name') {
-        if (value == null) {
-          errors.add('Illegal option: $option');
-          continue;
-        }
-        List<String> fromTo = value.split('|');
-        if (fromTo.length != 2) {
-          errors.add('Illegal option: $option');
-          continue;
-        }
-        var fromName = fromTo[0].trim();
-        var toName = fromTo[1].trim();
-        if (fromName.length == 0 || toName.length == 0) {
-          errors.add('Illegal option: $option');
-          continue;
-        }
-        fieldNameOptions['.$fromName'] = toName;
-      } else {
-        errors.add('Illegal option: $option');
-      }
-    }
-    if (errors.length > 0) {
-      response.error = errors.join('\n');
-      return null;
-    } else {
-      return new GenerationOptions._(fieldNameOptions);
-    }
-  }
-
-  String fieldNameOption(String fqname) => fieldNameOptions[fqname];
 }

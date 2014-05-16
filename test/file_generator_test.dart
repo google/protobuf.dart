@@ -5,9 +5,9 @@
 
 library file_generator_test;
 
-import 'package:protoc-plugin/src/descriptor.pb.dart';
-import 'package:protoc-plugin/src/plugin.pb.dart';
-import 'package:protoc-plugin/protoc.dart';
+import 'package:protoc_plugin/src/descriptor.pb.dart';
+import 'package:protoc_plugin/src/plugin.pb.dart';
+import 'package:protoc_plugin/protoc.dart';
 import 'package:unittest/unittest.dart';
 
 
@@ -110,11 +110,10 @@ class PhoneNumber extends GeneratedMessage {
     FileDescriptorProto fd = buildFileDescriptor();
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
-    var options =
-        new GenerationOptions(
-            new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    FileGenerator fg =
-        new FileGenerator(fd, null, new GenerationContext(options));
+    var options = parseGenerationOptions(
+        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+    FileGenerator fg = new FileGenerator(fd, null,
+        new GenerationContext(options, new DefaultOutputConfiguration()));
     fg.generate(writer);
     expect(buffer.toString(), expected);
   });
@@ -182,11 +181,10 @@ class PhoneNumber extends GeneratedMessage {
     FileDescriptorProto fd = buildFileDescriptor(topLevelEnum: true);
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
-    var options =
-        new GenerationOptions(
-            new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    FileGenerator fg =
-        new FileGenerator(fd, null, new GenerationContext(options));
+    var options = parseGenerationOptions(
+        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+    FileGenerator fg = new FileGenerator(fd, null,
+        new GenerationContext(options, new DefaultOutputConfiguration()));
     fg.generate(writer);
     expect(buffer.toString(), expected);
   });
@@ -236,11 +234,10 @@ class PhoneNumber extends GeneratedMessage {
     fd.package = "pb_library";
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
-    var options =
-        new GenerationOptions(
-            new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    FileGenerator fg =
-        new FileGenerator(fd, null, new GenerationContext(options));
+    var options = parseGenerationOptions(
+        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+    FileGenerator fg = new FileGenerator(fd, null,
+        new GenerationContext(options, new DefaultOutputConfiguration()));
     fg.generate(writer);
     expect(buffer.toString(), expected);
   });
@@ -293,12 +290,10 @@ class PhoneNumber extends GeneratedMessage {
     request.parameter = 'field_name=PhoneNumber.number|No,'
                         'field_name=PhoneNumber.name|Name_,'
                         'field_name=PhoneNumber.type|The_type';
-    var options =
-        new GenerationOptions(
-            request, new CodeGeneratorResponse());
-    FileGenerator fg =
-        new FileGenerator(
-            fd, null, new GenerationContext(options));
+    var options = parseGenerationOptions(
+        request, new CodeGeneratorResponse());
+    FileGenerator fg = new FileGenerator(fd, null,
+        new GenerationContext(options, new DefaultOutputConfiguration()));
     fg.generate(writer);
     expect(buffer.toString(), expected);
   });
@@ -443,8 +438,10 @@ class M extends GeneratedMessage {
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var request = new CodeGeneratorRequest();
-    var options = new GenerationOptions(request, new CodeGeneratorResponse());
-    var context = new GenerationContext(options);
+    var response = new CodeGeneratorResponse();
+    var options = parseGenerationOptions(request, response);
+    var context = new GenerationContext(options,
+        new DefaultOutputConfiguration());
     new FileGenerator(fd1, null, context);
     new FileGenerator(fd2, null, context);
     FileGenerator fg = new FileGenerator(fd, null, context);

@@ -5,9 +5,9 @@
 
 library file_generator_test;
 
-import 'package:protoc-plugin/src/descriptor.pb.dart';
-import 'package:protoc-plugin/src/plugin.pb.dart';
-import 'package:protoc-plugin/protoc.dart';
+import 'package:protoc_plugin/src/descriptor.pb.dart';
+import 'package:protoc_plugin/src/plugin.pb.dart';
+import 'package:protoc_plugin/protoc.dart';
 import 'package:unittest/unittest.dart';
 
 
@@ -17,10 +17,10 @@ void main() {
       var request = new CodeGeneratorRequest();
       if (parameter != null) request.parameter = parameter;
       var response = new CodeGeneratorResponse();
-      var options = new GenerationOptions(request, response);
+      var options = parseGenerationOptions(request, response);
       expect(options, new isInstanceOf<GenerationOptions>());
       expect(response.error, '');
-      expect(options.fieldNameOptions, equals(expected));
+      expect(options.fieldNameOverrides, equals(expected));
     }
 
     checkValid(null, {});
@@ -41,7 +41,7 @@ void main() {
       var request = new CodeGeneratorRequest();
       if (parameter != null) request.parameter = parameter;
       var response = new CodeGeneratorResponse();
-      var options = new GenerationOptions(request, response);
+      var options = parseGenerationOptions(request, response);
       expect(options, isNull);
     }
 

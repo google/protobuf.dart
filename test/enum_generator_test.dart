@@ -5,9 +5,9 @@
 
 library enum_generator_test;
 
-import 'package:protoc-plugin/src/descriptor.pb.dart';
-import 'package:protoc-plugin/src/plugin.pb.dart';
-import 'package:protoc-plugin/protoc.dart';
+import 'package:protoc_plugin/src/descriptor.pb.dart';
+import 'package:protoc_plugin/src/plugin.pb.dart';
+import 'package:protoc_plugin/protoc.dart';
 import 'package:unittest/unittest.dart';
 
 void main() {
@@ -50,12 +50,10 @@ class PhoneType extends ProtobufEnum {
                 ..number = 2]);
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
-    var options =
-        new GenerationOptions(
-            new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    EnumGenerator eg =
-        new EnumGenerator(
-            ed, null, new GenerationContext(options));
+    var options = parseGenerationOptions(
+        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+    EnumGenerator eg = new EnumGenerator(ed, null,
+        new GenerationContext(options, new DefaultOutputConfiguration()));
     eg.generate(writer);
     expect(buffer.toString(), expected);
   });
