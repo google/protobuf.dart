@@ -51,7 +51,7 @@ class CodedBufferReader {
     _currentLimit = oldLimit;
   }
 
-  int _checkLimit(int increment) {
+  void _checkLimit(int increment) {
     _bufferPos += increment;
     if ((_currentLimit != -1 && _bufferPos > _currentLimit) ||
         _bufferPos > _sizeLimit) {
@@ -117,7 +117,7 @@ class CodedBufferReader {
     _checkLimit(length);
     return new Uint8List.view(_buffer.buffer, _bufferPos - length, length);
   }
-  String readString() => _utf8.decode(readBytes());
+  String readString() => _UTF8.decode(readBytes());
   double readFloat() =>
       _readByteData(4).getFloat32(0, Endianness.LITTLE_ENDIAN);
   double readDouble() =>

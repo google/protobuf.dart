@@ -8,13 +8,13 @@ typedef GeneratedMessage CreateBuilderFunc();
 typedef Object MakeDefaultFunc();
 typedef ProtobufEnum ValueOfFunc(int value);
 
-_inRange(min, value, max) => (min <= value) && (value <= max);
+bool _inRange(min, value, max) => (min <= value) && (value <= max);
 
-_isSigned32(int value) => _inRange(-2147483648, value, 2147483647);
-_isUnsigned32(int value) => _inRange(0, value, 4294967295);
-_isSigned64(Int64 value) => _isUnsigned64(value);
-_isUnsigned64(Int64 value) => value is Int64;
-_isFloat32(double value) => value.isNaN || value.isInfinite ||
+bool _isSigned32(int value) => _inRange(-2147483648, value, 2147483647);
+bool _isUnsigned32(int value) => _inRange(0, value, 4294967295);
+bool _isSigned64(Int64 value) => _isUnsigned64(value);
+bool _isUnsigned64(Int64 value) => value is Int64;
+bool _isFloat32(double value) => value.isNaN || value.isInfinite ||
     _inRange(-3.4028234663852886E38, value, 3.4028234663852886E38);
 
 abstract class GeneratedMessage {
@@ -700,102 +700,10 @@ abstract class GeneratedMessage {
   String writeToJson() => JSON.encode(_toMap());
 
   // Merge fields from a previously decoded JSON object.
-  GeneratedMessage _mergeFromJson(
+  void _mergeFromJson(
       Map<String, dynamic> json,
       ExtensionRegistry extensionRegistry) {
     // Extract a value from its JSON representation.
-    convertJsonValue(var value, int tagNumber, int fieldType) {
-      String expectedType; // for exception message
-      switch (_toBaseFieldType(fieldType)) {
-      case _BOOL_BIT:
-        if (value is bool) {
-          return value;
-        } else if (value is String) {
-          if (value == 'true') {
-            return true;
-          } else if (value == 'false') {
-            return false;
-          }
-        }
-        expectedType = 'bool, "true", or "false"';
-        break;
-      case _BYTES_BIT:
-        if (value is String) {
-          return CryptoUtils.base64StringToBytes(value);
-        }
-        expectedType = 'Base64 String';
-        break;
-      case _STRING_BIT:
-        if (value is String) {
-          return value;
-        }
-        expectedType = 'String';
-        break;
-      case _FLOAT_BIT:
-      case _DOUBLE_BIT:
-        // Allow quoted values, although we don't emit them.
-        if (value is double) {
-          return value;
-        } else if (value is num) {
-          return value.toDouble();
-        } else if (value is String) {
-          return double.parse(value);
-        }
-        expectedType = 'num or stringified num';
-        break;
-      case _ENUM_BIT:
-        // Allow quoted values, although we don't emit them.
-        if (value is String) {
-          value = int.parse(value);
-        }
-        if (value is int) {
-          return _getValueOfFunc(tagNumber, extensionRegistry)(value);
-        }
-        expectedType = 'int or stringified int';
-        break;
-      case _INT32_BIT:
-      case _SINT32_BIT:
-      case _UINT32_BIT:
-      case _FIXED32_BIT:
-      case _SFIXED32_BIT:
-        if (value is String) {
-          value = int.parse(value);
-        }
-        // Allow unquoted values, although we don't emit them.
-        if (value is int) {
-          return value;
-        }
-        expectedType = 'int or stringified int';
-        break;
-      case _INT64_BIT:
-      case _SINT64_BIT:
-      case _UINT64_BIT:
-      case _FIXED64_BIT:
-      case _SFIXED64_BIT:
-        // Allow quoted values, although we don't emit them.
-        if (value is String) {
-          return Int64.parseRadix(value, 10);
-        }
-        if (value is int) {
-          return new Int64(value);
-        }
-        expectedType = 'int or stringified int';
-        break;
-      case _GROUP_BIT:
-      case _MESSAGE_BIT:
-        if (value is Map<String, Object>) {
-          GeneratedMessage subMessage =
-              _getEmptyMessage(tagNumber, extensionRegistry);
-          subMessage._mergeFromJson(value, extensionRegistry);
-          return subMessage;
-        }
-        expectedType = 'nested message or group';
-        break;
-      default:
-        throw new ArgumentError('Unknown type $fieldType');
-      }
-      throw new ArgumentError('Expected type $expectedType, got $value');
-    }
 
     for (int tagNumber in sorted(json.keys.map(int.parse))) {
       var fieldValue = json[tagNumber.toString()];
@@ -820,14 +728,111 @@ abstract class GeneratedMessage {
       if ((fieldType & _REPEATED_BIT) != 0) {
         List thisList = getField(tagNumber);
         for (var value in fieldValue) {
-          thisList.add(convertJsonValue(value, tagNumber, fieldType));
+          thisList.add(_convertJsonValue(value, tagNumber, fieldType,
+                                         extensionRegistry));
         }
       } else {
-        var value = convertJsonValue(fieldValue, tagNumber, fieldType);
+        var value = _convertJsonValue(fieldValue, tagNumber, fieldType,
+            extensionRegistry);
         setField(tagNumber, value, fieldType);
       }
     }
   }
+
+  _convertJsonValue(value, int tagNumber, int fieldType,
+                   ExtensionRegistry extensionRegistry) {
+    String expectedType; // for exception message
+    switch (_toBaseFieldType(fieldType)) {
+    case _BOOL_BIT:
+      if (value is bool) {
+        return value;
+      } else if (value is String) {
+        if (value == 'true') {
+          return true;
+        } else if (value == 'false') {
+          return false;
+        }
+      }
+      expectedType = 'bool, "true", or "false"';
+      break;
+    case _BYTES_BIT:
+      if (value is String) {
+        return CryptoUtils.base64StringToBytes(value);
+      }
+      expectedType = 'Base64 String';
+      break;
+    case _STRING_BIT:
+      if (value is String) {
+        return value;
+      }
+      expectedType = 'String';
+      break;
+    case _FLOAT_BIT:
+    case _DOUBLE_BIT:
+      // Allow quoted values, although we don't emit them.
+      if (value is double) {
+        return value;
+      } else if (value is num) {
+        return value.toDouble();
+      } else if (value is String) {
+        return double.parse(value);
+      }
+      expectedType = 'num or stringified num';
+      break;
+    case _ENUM_BIT:
+      // Allow quoted values, although we don't emit them.
+      if (value is String) {
+        value = int.parse(value);
+      }
+      if (value is int) {
+        return _getValueOfFunc(tagNumber, extensionRegistry)(value);
+      }
+      expectedType = 'int or stringified int';
+      break;
+    case _INT32_BIT:
+    case _SINT32_BIT:
+    case _UINT32_BIT:
+    case _FIXED32_BIT:
+    case _SFIXED32_BIT:
+      if (value is String) {
+        value = int.parse(value);
+      }
+      // Allow unquoted values, although we don't emit them.
+      if (value is int) {
+        return value;
+      }
+      expectedType = 'int or stringified int';
+      break;
+    case _INT64_BIT:
+    case _SINT64_BIT:
+    case _UINT64_BIT:
+    case _FIXED64_BIT:
+    case _SFIXED64_BIT:
+      // Allow quoted values, although we don't emit them.
+      if (value is String) {
+        return Int64.parseRadix(value, 10);
+      }
+      if (value is int) {
+        return new Int64(value);
+      }
+      expectedType = 'int or stringified int';
+      break;
+    case _GROUP_BIT:
+    case _MESSAGE_BIT:
+      if (value is Map<String, Object>) {
+        GeneratedMessage subMessage =
+            _getEmptyMessage(tagNumber, extensionRegistry);
+        subMessage._mergeFromJson(value, extensionRegistry);
+        return subMessage;
+      }
+      expectedType = 'nested message or group';
+      break;
+    default:
+      throw new ArgumentError('Unknown type $fieldType');
+    }
+    throw new ArgumentError('Expected type $expectedType, got $value');
+  }
+
 
   /**
    * Merge field values from a JSON object, encoded as described by

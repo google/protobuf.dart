@@ -12,20 +12,20 @@ import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endianness;
 import 'package:crypto/crypto.dart' show CryptoUtils;
 import 'package:fixnum/fixnum.dart' show Int64;
 
-part 'coded_buffer_reader.dart';
-part 'coded_buffer_writer.dart';
-part 'builder_info.dart';
-part 'exceptions.dart';
-part 'extension.dart';
-part 'extension_registry.dart';
-part 'field_info.dart';
-part 'generated_message.dart';
-part 'pb_list.dart';
-part 'protobuf_enum.dart';
-part 'unknown_field_set.dart';
-part 'utils.dart';
-part 'wire_format.dart';
+part 'src/protobuf/coded_buffer_reader.dart';
+part 'src/protobuf/coded_buffer_writer.dart';
+part 'src/protobuf/builder_info.dart';
+part 'src/protobuf/exceptions.dart';
+part 'src/protobuf/extension.dart';
+part 'src/protobuf/extension_registry.dart';
+part 'src/protobuf/field_info.dart';
+part 'src/protobuf/generated_message.dart';
+part 'src/protobuf/pb_list.dart';
+part 'src/protobuf/protobuf_enum.dart';
+part 'src/protobuf/unknown_field_set.dart';
+part 'src/protobuf/utils.dart';
+part 'src/protobuf/wire_format.dart';
 
-makeLongInt(n) => new Int64(n);
+Int64 makeLongInt(int n) => new Int64(n);
 
-final _utf8 = new Utf8Codec(allowMalformed: true);
+const _UTF8 = const Utf8Codec(allowMalformed: true);
