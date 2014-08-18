@@ -752,7 +752,7 @@ abstract class GeneratedMessage {
         } else if (value == 'false') {
           return false;
         }
-      expectedType = 'bool, "true", or "false"';
+      	expectedType = 'bool, "true", or "false"';
       } else if (value is num) {
         if (value == 1) {
           return true;
