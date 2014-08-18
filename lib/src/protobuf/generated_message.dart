@@ -752,8 +752,15 @@ abstract class GeneratedMessage {
         } else if (value == 'false') {
           return false;
         }
-      }
       expectedType = 'bool, "true", or "false"';
+      } else if (value is num) {
+        if (value == 1) {
+          return true;
+        } else if (value == 0) {
+          return false;
+        }
+        expectedType = 'num, 0, or 1';
+      }
       break;
     case _BYTES_BIT:
       if (value is String) {
