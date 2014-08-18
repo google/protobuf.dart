@@ -759,7 +759,7 @@ abstract class GeneratedMessage {
         } else if (value == 0) {
           return false;
         }
-        expectedType = 'num, 0, or 1';
+        expectedType = 'bool, 0, or 1';
       }
       break;
     case _BYTES_BIT:
