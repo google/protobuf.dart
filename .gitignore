@@ -1,3 +1,4 @@
 .children
+build/
 packages
 pubspec.lock
