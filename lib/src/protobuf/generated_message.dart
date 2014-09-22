@@ -365,6 +365,8 @@ abstract class GeneratedMessage {
     }
   }
 
+  dynamic clone();
+
   // Overriden by subclasses.
   BuilderInfo get info_;
 
