@@ -81,7 +81,7 @@ class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
     ..a(1, 'number', GeneratedMessage.QS)
     ..a(2, 'type', GeneratedMessage.O3)
-    ..a(3, 'name', GeneratedMessage.OS, () => '\$')
+    ..a(3, 'name', GeneratedMessage.OS, '\$')
   ;
 
   PhoneNumber() : super();
@@ -89,6 +89,8 @@ class PhoneNumber extends GeneratedMessage {
   PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static PhoneNumber create() => new PhoneNumber();
+  static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }
@@ -151,8 +153,8 @@ class PhoneType extends ProtobufEnum {
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
     ..a(1, 'number', GeneratedMessage.QS)
-    ..e(2, 'type', GeneratedMessage.OE, () => PhoneType.MOBILE, (var v) => PhoneType.valueOf(v))
-    ..a(3, 'name', GeneratedMessage.OS, () => '\$')
+    ..e(2, 'type', GeneratedMessage.OE, PhoneType.MOBILE, (var v) => PhoneType.valueOf(v))
+    ..a(3, 'name', GeneratedMessage.OS, '\$')
   ;
 
   PhoneNumber() : super();
@@ -160,6 +162,8 @@ class PhoneNumber extends GeneratedMessage {
   PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static PhoneNumber create() => new PhoneNumber();
+  static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }
@@ -204,7 +208,7 @@ class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
     ..a(1, 'number', GeneratedMessage.QS)
     ..a(2, 'type', GeneratedMessage.O3)
-    ..a(3, 'name', GeneratedMessage.OS, () => '\$')
+    ..a(3, 'name', GeneratedMessage.OS, '\$')
   ;
 
   PhoneNumber() : super();
@@ -212,6 +216,8 @@ class PhoneNumber extends GeneratedMessage {
   PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static PhoneNumber create() => new PhoneNumber();
+  static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }
@@ -257,7 +263,7 @@ class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
     ..a(1, 'no', GeneratedMessage.QS)
     ..a(2, 'the_type', GeneratedMessage.O3)
-    ..a(3, 'name_', GeneratedMessage.OS, () => '\$')
+    ..a(3, 'name_', GeneratedMessage.OS, '\$')
   ;
 
   PhoneNumber() : super();
@@ -265,6 +271,8 @@ class PhoneNumber extends GeneratedMessage {
   PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static PhoneNumber create() => new PhoneNumber();
+  static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
 
   String get no => getField(1);
   void set no(String v) { setField(1, v); }
@@ -313,9 +321,9 @@ import 'package2.pb.dart' as p2;
 
 class M extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('M')
-    ..a(1, 'm', GeneratedMessage.OM, () => new M(), () => new M())
-    ..a(2, 'm1', GeneratedMessage.OM, () => new p1.M(), () => new p1.M())
-    ..a(3, 'm2', GeneratedMessage.OM, () => new p2.M(), () => new p2.M())
+    ..a(1, 'm', GeneratedMessage.OM, M.create, M.create)
+    ..a(2, 'm1', GeneratedMessage.OM, p1.M.create, p1.M.create)
+    ..a(3, 'm2', GeneratedMessage.OM, p2.M.create, p2.M.create)
     ..hasRequiredFields = false
   ;
 
@@ -324,6 +332,8 @@ class M extends GeneratedMessage {
   M.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   M clone() => new M()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static M create() => new M();
+  static PbList<M> createRepeated() => new PbList<M>();
 
   M get m => getField(1);
   void set m(M v) { setField(1, v); }

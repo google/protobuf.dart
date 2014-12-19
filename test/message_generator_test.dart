@@ -36,8 +36,8 @@ class PhoneNumber_PhoneType extends ProtobufEnum {
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
     ..a(1, 'number', GeneratedMessage.QS)
-    ..e(2, 'type', GeneratedMessage.OE, () => PhoneNumber_PhoneType.MOBILE, (var v) => PhoneNumber_PhoneType.valueOf(v))
-    ..a(3, 'name', GeneratedMessage.OS, () => '\$')
+    ..e(2, 'type', GeneratedMessage.OE, PhoneNumber_PhoneType.MOBILE, (var v) => PhoneNumber_PhoneType.valueOf(v))
+    ..a(3, 'name', GeneratedMessage.OS, '\$')
   ;
 
   PhoneNumber() : super();
@@ -45,6 +45,8 @@ class PhoneNumber extends GeneratedMessage {
   PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static PhoneNumber create() => new PhoneNumber();
+  static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }

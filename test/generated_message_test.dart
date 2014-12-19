@@ -147,6 +147,8 @@ void main() {
     expect(message.negInfFloat, same(double.NEGATIVE_INFINITY));
     expect(message.nanFloat, same(double.NAN));
     expect(message.cppTrigraph, '? ? ?? ?? ??? ??/ ??-');
+    expect(message.smallInt64.toRadixString(16).toUpperCase(),
+        '-7FFFFFFFFFFFFFFF');
   });
 
   test('testClear', () {

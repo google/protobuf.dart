@@ -105,8 +105,10 @@ class MessageGenerator extends ProtobufContainer {
             makeDefault = field.initializationForPackage(package);
           }
           String subBuilder = null;
+          String subBuilderRepeated = null;
           if (field.message || field.group) {
-            subBuilder = '()${SP}=>${SP}new ${fieldType}()';
+            subBuilder = '${fieldType}.create';
+            subBuilderRepeated = '${fieldType}.createRepeated';
           }
           String valueOf = null;
           if (field.enm) {
@@ -116,7 +118,7 @@ class MessageGenerator extends ProtobufContainer {
             // Repeated message: default is an empty list
             out.println('..m(${field.number},${SP}'
                 '\'${field.externalFieldName}\',${SP}$subBuilder,'
-                '${SP}()${SP}=>${SP}new PbList<${fieldType}>())');
+                '${SP}$subBuilderRepeated)');
           } else if (type[0] == 'P' && type != 'PG' && type != 'PE') {
             // Repeated, not a message or enum: default is an empty list,
             // subBuilder is null, valueOf is null.
@@ -171,6 +173,12 @@ class MessageGenerator extends ProtobufContainer {
           '${SP}new ${classname}()..mergeFromMessage(this);');
 
       out.println('BuilderInfo get info_${SP}=>${SP}_i;');
+
+      // Factory functions which can be used as default value closures.
+      out.println('static ${classname}${SP}create()${SP}=>'
+          '${SP}new ${classname}();');
+      out.println('static PbList<${classname}>${SP}createRepeated()${SP}=>'
+          '${SP}new PbList<${classname}>();');
 
       generateFieldsAccessorsMutators(out);
     });

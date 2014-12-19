@@ -8,7 +8,7 @@ import 'package:protobuf/protobuf.dart';
 
 class FileDescriptorSet extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FileDescriptorSet')
-    ..m(1, 'file', () => new FileDescriptorProto(), () => new PbList<FileDescriptorProto>())
+    ..m(1, 'file', FileDescriptorProto.create, FileDescriptorProto.createRepeated)
   ;
 
   FileDescriptorSet() : super();
@@ -16,6 +16,8 @@ class FileDescriptorSet extends GeneratedMessage {
   FileDescriptorSet.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   FileDescriptorSet clone() => new FileDescriptorSet()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static FileDescriptorSet create() => new FileDescriptorSet();
+  static PbList<FileDescriptorSet> createRepeated() => new PbList<FileDescriptorSet>();
 
   List<FileDescriptorProto> get file => getField(1);
 }
@@ -27,12 +29,12 @@ class FileDescriptorProto extends GeneratedMessage {
     ..p(3, 'dependency', GeneratedMessage.PS)
     ..p(10, 'publicDependency', GeneratedMessage.P3)
     ..p(11, 'weakDependency', GeneratedMessage.P3)
-    ..m(4, 'messageType', () => new DescriptorProto(), () => new PbList<DescriptorProto>())
-    ..m(5, 'enumType', () => new EnumDescriptorProto(), () => new PbList<EnumDescriptorProto>())
-    ..m(6, 'service', () => new ServiceDescriptorProto(), () => new PbList<ServiceDescriptorProto>())
-    ..m(7, 'extension', () => new FieldDescriptorProto(), () => new PbList<FieldDescriptorProto>())
-    ..a(8, 'options', GeneratedMessage.OM, () => new FileOptions(), () => new FileOptions())
-    ..a(9, 'sourceCodeInfo', GeneratedMessage.OM, () => new SourceCodeInfo(), () => new SourceCodeInfo())
+    ..m(4, 'messageType', DescriptorProto.create, DescriptorProto.createRepeated)
+    ..m(5, 'enumType', EnumDescriptorProto.create, EnumDescriptorProto.createRepeated)
+    ..m(6, 'service', ServiceDescriptorProto.create, ServiceDescriptorProto.createRepeated)
+    ..m(7, 'extension', FieldDescriptorProto.create, FieldDescriptorProto.createRepeated)
+    ..a(8, 'options', GeneratedMessage.OM, FileOptions.create, FileOptions.create)
+    ..a(9, 'sourceCodeInfo', GeneratedMessage.OM, SourceCodeInfo.create, SourceCodeInfo.create)
   ;
 
   FileDescriptorProto() : super();
@@ -40,6 +42,8 @@ class FileDescriptorProto extends GeneratedMessage {
   FileDescriptorProto.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   FileDescriptorProto clone() => new FileDescriptorProto()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static FileDescriptorProto create() => new FileDescriptorProto();
+  static PbList<FileDescriptorProto> createRepeated() => new PbList<FileDescriptorProto>();
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -88,6 +92,8 @@ class DescriptorProto_ExtensionRange extends GeneratedMessage {
   DescriptorProto_ExtensionRange.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   DescriptorProto_ExtensionRange clone() => new DescriptorProto_ExtensionRange()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static DescriptorProto_ExtensionRange create() => new DescriptorProto_ExtensionRange();
+  static PbList<DescriptorProto_ExtensionRange> createRepeated() => new PbList<DescriptorProto_ExtensionRange>();
 
   int get start => getField(1);
   void set start(int v) { setField(1, v); }
@@ -103,12 +109,12 @@ class DescriptorProto_ExtensionRange extends GeneratedMessage {
 class DescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
-    ..m(2, 'field', () => new FieldDescriptorProto(), () => new PbList<FieldDescriptorProto>())
-    ..m(6, 'extension', () => new FieldDescriptorProto(), () => new PbList<FieldDescriptorProto>())
-    ..m(3, 'nestedType', () => new DescriptorProto(), () => new PbList<DescriptorProto>())
-    ..m(4, 'enumType', () => new EnumDescriptorProto(), () => new PbList<EnumDescriptorProto>())
-    ..m(5, 'extensionRange', () => new DescriptorProto_ExtensionRange(), () => new PbList<DescriptorProto_ExtensionRange>())
-    ..a(7, 'options', GeneratedMessage.OM, () => new MessageOptions(), () => new MessageOptions())
+    ..m(2, 'field', FieldDescriptorProto.create, FieldDescriptorProto.createRepeated)
+    ..m(6, 'extension', FieldDescriptorProto.create, FieldDescriptorProto.createRepeated)
+    ..m(3, 'nestedType', DescriptorProto.create, DescriptorProto.createRepeated)
+    ..m(4, 'enumType', EnumDescriptorProto.create, EnumDescriptorProto.createRepeated)
+    ..m(5, 'extensionRange', DescriptorProto_ExtensionRange.create, DescriptorProto_ExtensionRange.createRepeated)
+    ..a(7, 'options', GeneratedMessage.OM, MessageOptions.create, MessageOptions.create)
   ;
 
   DescriptorProto() : super();
@@ -116,6 +122,8 @@ class DescriptorProto extends GeneratedMessage {
   DescriptorProto.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   DescriptorProto clone() => new DescriptorProto()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static DescriptorProto create() => new DescriptorProto();
+  static PbList<DescriptorProto> createRepeated() => new PbList<DescriptorProto>();
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -206,12 +214,12 @@ class FieldDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FieldDescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
     ..a(3, 'number', GeneratedMessage.O3)
-    ..e(4, 'label', GeneratedMessage.OE, () => FieldDescriptorProto_Label.LABEL_OPTIONAL, (var v) => FieldDescriptorProto_Label.valueOf(v))
-    ..e(5, 'type', GeneratedMessage.OE, () => FieldDescriptorProto_Type.TYPE_DOUBLE, (var v) => FieldDescriptorProto_Type.valueOf(v))
+    ..e(4, 'label', GeneratedMessage.OE, FieldDescriptorProto_Label.LABEL_OPTIONAL, (var v) => FieldDescriptorProto_Label.valueOf(v))
+    ..e(5, 'type', GeneratedMessage.OE, FieldDescriptorProto_Type.TYPE_DOUBLE, (var v) => FieldDescriptorProto_Type.valueOf(v))
     ..a(6, 'typeName', GeneratedMessage.OS)
     ..a(2, 'extendee', GeneratedMessage.OS)
     ..a(7, 'defaultValue', GeneratedMessage.OS)
-    ..a(8, 'options', GeneratedMessage.OM, () => new FieldOptions(), () => new FieldOptions())
+    ..a(8, 'options', GeneratedMessage.OM, FieldOptions.create, FieldOptions.create)
   ;
 
   FieldDescriptorProto() : super();
@@ -219,6 +227,8 @@ class FieldDescriptorProto extends GeneratedMessage {
   FieldDescriptorProto.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   FieldDescriptorProto clone() => new FieldDescriptorProto()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static FieldDescriptorProto create() => new FieldDescriptorProto();
+  static PbList<FieldDescriptorProto> createRepeated() => new PbList<FieldDescriptorProto>();
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -264,8 +274,8 @@ class FieldDescriptorProto extends GeneratedMessage {
 class EnumDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumDescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
-    ..m(2, 'value', () => new EnumValueDescriptorProto(), () => new PbList<EnumValueDescriptorProto>())
-    ..a(3, 'options', GeneratedMessage.OM, () => new EnumOptions(), () => new EnumOptions())
+    ..m(2, 'value', EnumValueDescriptorProto.create, EnumValueDescriptorProto.createRepeated)
+    ..a(3, 'options', GeneratedMessage.OM, EnumOptions.create, EnumOptions.create)
   ;
 
   EnumDescriptorProto() : super();
@@ -273,6 +283,8 @@ class EnumDescriptorProto extends GeneratedMessage {
   EnumDescriptorProto.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   EnumDescriptorProto clone() => new EnumDescriptorProto()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static EnumDescriptorProto create() => new EnumDescriptorProto();
+  static PbList<EnumDescriptorProto> createRepeated() => new PbList<EnumDescriptorProto>();
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -291,7 +303,7 @@ class EnumValueDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumValueDescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
     ..a(2, 'number', GeneratedMessage.O3)
-    ..a(3, 'options', GeneratedMessage.OM, () => new EnumValueOptions(), () => new EnumValueOptions())
+    ..a(3, 'options', GeneratedMessage.OM, EnumValueOptions.create, EnumValueOptions.create)
   ;
 
   EnumValueDescriptorProto() : super();
@@ -299,6 +311,8 @@ class EnumValueDescriptorProto extends GeneratedMessage {
   EnumValueDescriptorProto.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   EnumValueDescriptorProto clone() => new EnumValueDescriptorProto()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static EnumValueDescriptorProto create() => new EnumValueDescriptorProto();
+  static PbList<EnumValueDescriptorProto> createRepeated() => new PbList<EnumValueDescriptorProto>();
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -319,9 +333,9 @@ class EnumValueDescriptorProto extends GeneratedMessage {
 class ServiceDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ServiceDescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
-    ..m(2, 'method', () => new MethodDescriptorProto(), () => new PbList<MethodDescriptorProto>())
-    ..m(4, 'stream', () => new StreamDescriptorProto(), () => new PbList<StreamDescriptorProto>())
-    ..a(3, 'options', GeneratedMessage.OM, () => new ServiceOptions(), () => new ServiceOptions())
+    ..m(2, 'method', MethodDescriptorProto.create, MethodDescriptorProto.createRepeated)
+    ..m(4, 'stream', StreamDescriptorProto.create, StreamDescriptorProto.createRepeated)
+    ..a(3, 'options', GeneratedMessage.OM, ServiceOptions.create, ServiceOptions.create)
   ;
 
   ServiceDescriptorProto() : super();
@@ -329,6 +343,8 @@ class ServiceDescriptorProto extends GeneratedMessage {
   ServiceDescriptorProto.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   ServiceDescriptorProto clone() => new ServiceDescriptorProto()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static ServiceDescriptorProto create() => new ServiceDescriptorProto();
+  static PbList<ServiceDescriptorProto> createRepeated() => new PbList<ServiceDescriptorProto>();
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -350,7 +366,7 @@ class MethodDescriptorProto extends GeneratedMessage {
     ..a(1, 'name', GeneratedMessage.OS)
     ..a(2, 'inputType', GeneratedMessage.OS)
     ..a(3, 'outputType', GeneratedMessage.OS)
-    ..a(4, 'options', GeneratedMessage.OM, () => new MethodOptions(), () => new MethodOptions())
+    ..a(4, 'options', GeneratedMessage.OM, MethodOptions.create, MethodOptions.create)
   ;
 
   MethodDescriptorProto() : super();
@@ -358,6 +374,8 @@ class MethodDescriptorProto extends GeneratedMessage {
   MethodDescriptorProto.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   MethodDescriptorProto clone() => new MethodDescriptorProto()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static MethodDescriptorProto create() => new MethodDescriptorProto();
+  static PbList<MethodDescriptorProto> createRepeated() => new PbList<MethodDescriptorProto>();
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -385,7 +403,7 @@ class StreamDescriptorProto extends GeneratedMessage {
     ..a(1, 'name', GeneratedMessage.OS)
     ..a(2, 'clientMessageType', GeneratedMessage.OS)
     ..a(3, 'serverMessageType', GeneratedMessage.OS)
-    ..a(4, 'options', GeneratedMessage.OM, () => new StreamOptions(), () => new StreamOptions())
+    ..a(4, 'options', GeneratedMessage.OM, StreamOptions.create, StreamOptions.create)
   ;
 
   StreamDescriptorProto() : super();
@@ -393,6 +411,8 @@ class StreamDescriptorProto extends GeneratedMessage {
   StreamDescriptorProto.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   StreamDescriptorProto clone() => new StreamDescriptorProto()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static StreamDescriptorProto create() => new StreamDescriptorProto();
+  static PbList<StreamDescriptorProto> createRepeated() => new PbList<StreamDescriptorProto>();
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -438,11 +458,11 @@ class FileOptions extends GeneratedMessage {
     ..a(8, 'javaOuterClassname', GeneratedMessage.OS)
     ..a(10, 'javaMultipleFiles', GeneratedMessage.OB)
     ..a(20, 'javaGenerateEqualsAndHash', GeneratedMessage.OB)
-    ..e(9, 'optimizeFor', GeneratedMessage.OE, () => FileOptions_OptimizeMode.SPEED, (var v) => FileOptions_OptimizeMode.valueOf(v))
+    ..e(9, 'optimizeFor', GeneratedMessage.OE, FileOptions_OptimizeMode.SPEED, (var v) => FileOptions_OptimizeMode.valueOf(v))
     ..a(16, 'ccGenericServices', GeneratedMessage.OB)
     ..a(17, 'javaGenericServices', GeneratedMessage.OB)
     ..a(18, 'pyGenericServices', GeneratedMessage.OB)
-    ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
+    ..m(999, 'uninterpretedOption', UninterpretedOption.create, UninterpretedOption.createRepeated)
     ..hasExtensions = true
   ;
 
@@ -451,6 +471,8 @@ class FileOptions extends GeneratedMessage {
   FileOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   FileOptions clone() => new FileOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static FileOptions create() => new FileOptions();
+  static PbList<FileOptions> createRepeated() => new PbList<FileOptions>();
 
   String get javaPackage => getField(1);
   void set javaPackage(String v) { setField(1, v); }
@@ -499,7 +521,7 @@ class MessageOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MessageOptions')
     ..a(1, 'messageSetWireFormat', GeneratedMessage.OB)
     ..a(2, 'noStandardDescriptorAccessor', GeneratedMessage.OB)
-    ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
+    ..m(999, 'uninterpretedOption', UninterpretedOption.create, UninterpretedOption.createRepeated)
     ..hasExtensions = true
   ;
 
@@ -508,6 +530,8 @@ class MessageOptions extends GeneratedMessage {
   MessageOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   MessageOptions clone() => new MessageOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static MessageOptions create() => new MessageOptions();
+  static PbList<MessageOptions> createRepeated() => new PbList<MessageOptions>();
 
   bool get messageSetWireFormat => getField(1);
   void set messageSetWireFormat(bool v) { setField(1, v); }
@@ -537,12 +561,12 @@ class FieldOptions_CType extends ProtobufEnum {
 
 class FieldOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FieldOptions')
-    ..e(1, 'ctype', GeneratedMessage.OE, () => FieldOptions_CType.STRING, (var v) => FieldOptions_CType.valueOf(v))
+    ..e(1, 'ctype', GeneratedMessage.OE, FieldOptions_CType.STRING, (var v) => FieldOptions_CType.valueOf(v))
     ..a(2, 'packed', GeneratedMessage.OB)
     ..a(5, 'lazy', GeneratedMessage.OB)
     ..a(3, 'deprecated', GeneratedMessage.OB)
     ..a(9, 'experimentalMapKey', GeneratedMessage.OS)
-    ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
+    ..m(999, 'uninterpretedOption', UninterpretedOption.create, UninterpretedOption.createRepeated)
     ..hasExtensions = true
   ;
 
@@ -551,6 +575,8 @@ class FieldOptions extends GeneratedMessage {
   FieldOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   FieldOptions clone() => new FieldOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static FieldOptions create() => new FieldOptions();
+  static PbList<FieldOptions> createRepeated() => new PbList<FieldOptions>();
 
   FieldOptions_CType get ctype => getField(1);
   void set ctype(FieldOptions_CType v) { setField(1, v); }
@@ -582,8 +608,8 @@ class FieldOptions extends GeneratedMessage {
 
 class EnumOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumOptions')
-    ..a(2, 'allowAlias', GeneratedMessage.OB, () => true)
-    ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
+    ..a(2, 'allowAlias', GeneratedMessage.OB, true)
+    ..m(999, 'uninterpretedOption', UninterpretedOption.create, UninterpretedOption.createRepeated)
     ..hasExtensions = true
   ;
 
@@ -592,6 +618,8 @@ class EnumOptions extends GeneratedMessage {
   EnumOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   EnumOptions clone() => new EnumOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static EnumOptions create() => new EnumOptions();
+  static PbList<EnumOptions> createRepeated() => new PbList<EnumOptions>();
 
   bool get allowAlias => getField(2);
   void set allowAlias(bool v) { setField(2, v); }
@@ -603,7 +631,7 @@ class EnumOptions extends GeneratedMessage {
 
 class EnumValueOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumValueOptions')
-    ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
+    ..m(999, 'uninterpretedOption', UninterpretedOption.create, UninterpretedOption.createRepeated)
     ..hasExtensions = true
   ;
 
@@ -612,13 +640,15 @@ class EnumValueOptions extends GeneratedMessage {
   EnumValueOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   EnumValueOptions clone() => new EnumValueOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static EnumValueOptions create() => new EnumValueOptions();
+  static PbList<EnumValueOptions> createRepeated() => new PbList<EnumValueOptions>();
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
 
 class ServiceOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ServiceOptions')
-    ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
+    ..m(999, 'uninterpretedOption', UninterpretedOption.create, UninterpretedOption.createRepeated)
     ..hasExtensions = true
   ;
 
@@ -627,13 +657,15 @@ class ServiceOptions extends GeneratedMessage {
   ServiceOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   ServiceOptions clone() => new ServiceOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static ServiceOptions create() => new ServiceOptions();
+  static PbList<ServiceOptions> createRepeated() => new PbList<ServiceOptions>();
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
 
 class MethodOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MethodOptions')
-    ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
+    ..m(999, 'uninterpretedOption', UninterpretedOption.create, UninterpretedOption.createRepeated)
     ..hasExtensions = true
   ;
 
@@ -642,13 +674,15 @@ class MethodOptions extends GeneratedMessage {
   MethodOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   MethodOptions clone() => new MethodOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static MethodOptions create() => new MethodOptions();
+  static PbList<MethodOptions> createRepeated() => new PbList<MethodOptions>();
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
 
 class StreamOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('StreamOptions')
-    ..m(999, 'uninterpretedOption', () => new UninterpretedOption(), () => new PbList<UninterpretedOption>())
+    ..m(999, 'uninterpretedOption', UninterpretedOption.create, UninterpretedOption.createRepeated)
     ..hasExtensions = true
   ;
 
@@ -657,6 +691,8 @@ class StreamOptions extends GeneratedMessage {
   StreamOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   StreamOptions clone() => new StreamOptions()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static StreamOptions create() => new StreamOptions();
+  static PbList<StreamOptions> createRepeated() => new PbList<StreamOptions>();
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
@@ -672,6 +708,8 @@ class UninterpretedOption_NamePart extends GeneratedMessage {
   UninterpretedOption_NamePart.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   UninterpretedOption_NamePart clone() => new UninterpretedOption_NamePart()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static UninterpretedOption_NamePart create() => new UninterpretedOption_NamePart();
+  static PbList<UninterpretedOption_NamePart> createRepeated() => new PbList<UninterpretedOption_NamePart>();
 
   String get namePart => getField(1);
   void set namePart(String v) { setField(1, v); }
@@ -686,10 +724,10 @@ class UninterpretedOption_NamePart extends GeneratedMessage {
 
 class UninterpretedOption extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('UninterpretedOption')
-    ..m(2, 'name', () => new UninterpretedOption_NamePart(), () => new PbList<UninterpretedOption_NamePart>())
+    ..m(2, 'name', UninterpretedOption_NamePart.create, UninterpretedOption_NamePart.createRepeated)
     ..a(3, 'identifierValue', GeneratedMessage.OS)
-    ..a(4, 'positiveIntValue', GeneratedMessage.OU6, () => makeLongInt(0))
-    ..a(5, 'negativeIntValue', GeneratedMessage.O6, () => makeLongInt(0))
+    ..a(4, 'positiveIntValue', GeneratedMessage.OU6, Int64.ZERO)
+    ..a(5, 'negativeIntValue', GeneratedMessage.O6, Int64.ZERO)
     ..a(6, 'doubleValue', GeneratedMessage.OD)
     ..a(7, 'stringValue', GeneratedMessage.OY)
     ..a(8, 'aggregateValue', GeneratedMessage.OS)
@@ -700,6 +738,8 @@ class UninterpretedOption extends GeneratedMessage {
   UninterpretedOption.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   UninterpretedOption clone() => new UninterpretedOption()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static UninterpretedOption create() => new UninterpretedOption();
+  static PbList<UninterpretedOption> createRepeated() => new PbList<UninterpretedOption>();
 
   List<UninterpretedOption_NamePart> get name => getField(2);
 
@@ -746,6 +786,8 @@ class SourceCodeInfo_Location extends GeneratedMessage {
   SourceCodeInfo_Location.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   SourceCodeInfo_Location clone() => new SourceCodeInfo_Location()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static SourceCodeInfo_Location create() => new SourceCodeInfo_Location();
+  static PbList<SourceCodeInfo_Location> createRepeated() => new PbList<SourceCodeInfo_Location>();
 
   List<int> get path => getField(1);
 
@@ -754,7 +796,7 @@ class SourceCodeInfo_Location extends GeneratedMessage {
 
 class SourceCodeInfo extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('SourceCodeInfo')
-    ..m(1, 'location', () => new SourceCodeInfo_Location(), () => new PbList<SourceCodeInfo_Location>())
+    ..m(1, 'location', SourceCodeInfo_Location.create, SourceCodeInfo_Location.createRepeated)
     ..hasRequiredFields = false
   ;
 
@@ -763,6 +805,8 @@ class SourceCodeInfo extends GeneratedMessage {
   SourceCodeInfo.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   SourceCodeInfo clone() => new SourceCodeInfo()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static SourceCodeInfo create() => new SourceCodeInfo();
+  static PbList<SourceCodeInfo> createRepeated() => new PbList<SourceCodeInfo>();
 
   List<SourceCodeInfo_Location> get location => getField(1);
 }

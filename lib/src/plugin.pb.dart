@@ -5,14 +5,13 @@ library proto2.compiler;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
-import 'descriptor.pb.dart';
+import 'descriptor.pb.dart' as proto2;
 
 class CodeGeneratorRequest extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorRequest')
     ..p(1, 'fileToGenerate', GeneratedMessage.PS)
     ..a(2, 'parameter', GeneratedMessage.OS)
-    ..m(15, 'protoFile', () => new FileDescriptorProto(), () => new PbList<FileDescriptorProto>())
-    ..hasRequiredFields = false
+    ..m(15, 'protoFile', proto2.FileDescriptorProto.create, proto2.FileDescriptorProto.createRepeated)
   ;
 
   CodeGeneratorRequest() : super();
@@ -20,6 +19,8 @@ class CodeGeneratorRequest extends GeneratedMessage {
   CodeGeneratorRequest.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   CodeGeneratorRequest clone() => new CodeGeneratorRequest()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static CodeGeneratorRequest create() => new CodeGeneratorRequest();
+  static PbList<CodeGeneratorRequest> createRepeated() => new PbList<CodeGeneratorRequest>();
 
   List<String> get fileToGenerate => getField(1);
 
@@ -28,7 +29,7 @@ class CodeGeneratorRequest extends GeneratedMessage {
   bool hasParameter() => hasField(2);
   void clearParameter() => clearField(2);
 
-  List<FileDescriptorProto> get protoFile => getField(15);
+  List<proto2.FileDescriptorProto> get protoFile => getField(15);
 }
 
 class CodeGeneratorResponse_File extends GeneratedMessage {
@@ -44,6 +45,8 @@ class CodeGeneratorResponse_File extends GeneratedMessage {
   CodeGeneratorResponse_File.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   CodeGeneratorResponse_File clone() => new CodeGeneratorResponse_File()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static CodeGeneratorResponse_File create() => new CodeGeneratorResponse_File();
+  static PbList<CodeGeneratorResponse_File> createRepeated() => new PbList<CodeGeneratorResponse_File>();
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -64,7 +67,7 @@ class CodeGeneratorResponse_File extends GeneratedMessage {
 class CodeGeneratorResponse extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse')
     ..a(1, 'error', GeneratedMessage.OS)
-    ..m(15, 'file', () => new CodeGeneratorResponse_File(), () => new PbList<CodeGeneratorResponse_File>())
+    ..m(15, 'file', CodeGeneratorResponse_File.create, CodeGeneratorResponse_File.createRepeated)
     ..hasRequiredFields = false
   ;
 
@@ -73,6 +76,8 @@ class CodeGeneratorResponse extends GeneratedMessage {
   CodeGeneratorResponse.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   CodeGeneratorResponse clone() => new CodeGeneratorResponse()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
+  static CodeGeneratorResponse create() => new CodeGeneratorResponse();
+  static PbList<CodeGeneratorResponse> createRepeated() => new PbList<CodeGeneratorResponse>();
 
   String get error => getField(1);
   void set error(String v) { setField(1, v); }

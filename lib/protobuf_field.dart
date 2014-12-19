@@ -139,7 +139,7 @@ class ProtobufField {
         codedStreamType = 'Bool';
         if (!repeats) {
           if (field.hasDefaultValue() && 'false' != field.defaultValue) {
-            initialization = '()${SP}=>${SP}${field.defaultValue}';
+            initialization = '${field.defaultValue}';
           }
         }
         break;
@@ -155,19 +155,18 @@ class ProtobufField {
           if (field.hasDefaultValue() &&
               ('0.0' != field.defaultValue || '0' != field.defaultValue)) {
             if (field.defaultValue == 'inf') {
-              initialization = '()${SP}=>${SP}double.INFINITY';
+              initialization = 'double.INFINITY';
             } else if (field.defaultValue == '-inf') {
-              initialization = '()${SP}=>${SP}double.NEGATIVE_INFINITY';
+              initialization = 'double.NEGATIVE_INFINITY';
             } else if (field.defaultValue == 'nan') {
-              initialization = '()${SP}=>${SP}double.NAN';
+              initialization = 'double.NAN';
             } else if (HEX_LITERAL_REGEX.hasMatch(field.defaultValue)) {
-              initialization = '()${SP}=>${SP}(${field.defaultValue})'
-                  '.toDouble()';
+              initialization = '(${field.defaultValue}).toDouble()';
             } else if (INTEGER_LITERAL_REGEX.hasMatch(field.defaultValue)) {
-              initialization = '()${SP}=>${SP}${field.defaultValue}.0';
+              initialization = '${field.defaultValue}.0';
             } else if (DECIMAL_LITERAL_REGEX_A.hasMatch(field.defaultValue)
                       || DECIMAL_LITERAL_REGEX_B.hasMatch(field.defaultValue)) {
-              initialization = '()${SP}=>${SP}${field.defaultValue}';
+              initialization = '${field.defaultValue}';
             } else {
               throw new InvalidDefaultValue.double(
                   field.name, field.defaultValue);
@@ -202,7 +201,7 @@ class ProtobufField {
         }
         if (!repeats) {
           if (field.hasDefaultValue() && '0' != field.defaultValue) {
-            initialization = '()${SP}=>${SP}${field.defaultValue}';
+            initialization = '${field.defaultValue}';
           }
         }
         break;
@@ -234,7 +233,11 @@ class ProtobufField {
         if (!repeats) {
           final defaultValue = field.hasDefaultValue() ?
               field.defaultValue : '0';
-          initialization = '()${SP}=>${SP}makeLongInt($defaultValue)';
+          if (defaultValue == '0') {
+            initialization = 'Int64.ZERO';
+          } else {
+            initialization = "parseLongInt('$defaultValue')";
+          }
         }
         break;
       case FieldDescriptorProto_Type.TYPE_STRING:
@@ -244,7 +247,7 @@ class ProtobufField {
         if (!repeats) {
           if (field.hasDefaultValue() && !field.defaultValue.isEmpty) {
             String defaultValue = field.defaultValue.replaceAll(r'$', r'\$');
-            initialization = '()${SP}=>${SP}\'$defaultValue\'';
+            initialization = '\'$defaultValue\'';
           }
         }
         break;
@@ -277,8 +280,8 @@ class ProtobufField {
         } else {
           throw 'FAILURE: Unknown group type reference ${field.typeName}';
         }
-        initialization = '()${SP}=>${SP}new ${baseType}()';
-        prefixedInitialization = '()${SP}=>${SP}new ${prefixedBaseType}()';
+        initialization = '${baseType}.create';
+        prefixedInitialization = '${prefixedBaseType}.create';
         break;
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
         ProtobufContainer messageType = context[field.typeName];
@@ -296,8 +299,8 @@ class ProtobufField {
         } else {
           throw 'FAILURE: Unknown message type reference ${field.typeName}';
         }
-        initialization = '()${SP}=>${SP}new ${baseType}()';
-        prefixedInitialization = '()${SP}=>${SP}new ${prefixedBaseType}()';
+        initialization = '${baseType}.create';
+        prefixedInitialization = '${prefixedBaseType}.create';
         break;
       case FieldDescriptorProto_Type.TYPE_ENUM:
         EnumGenerator enumType = context[field.typeName];
@@ -316,16 +319,14 @@ class ProtobufField {
           if (!repeats) {
             if (field.hasDefaultValue() && !field.defaultValue.isEmpty) {
               initialization =
-                  '()${SP}=>${SP}${baseType}.${field.defaultValue}';
+                  '${baseType}.${field.defaultValue}';
               prefixedInitialization =
-                  '()${SP}=>${SP}${prefixedBaseType}.${field.defaultValue}';
+                  '${prefixedBaseType}.${field.defaultValue}';
             } else if (!enumType._canonicalValues.isEmpty) {
               initialization =
-                  '()${SP}=>${SP}${baseType}.'
-                  '${enumType._canonicalValues[0].name}';
+                  '${baseType}.${enumType._canonicalValues[0].name}';
               prefixedInitialization =
-                  '()${SP}=>${SP}${prefixedBaseType}.'
-                  '${enumType._canonicalValues[0].name}';
+                  '${prefixedBaseType}.${enumType._canonicalValues[0].name}';
             }
           }
         } else {
