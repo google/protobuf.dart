@@ -17,26 +17,26 @@ class BuilderInfo {
   BuilderInfo(this.messageName);
 
   void add(int tagNumber, String name, int fieldType,
-           MakeDefaultFunc makeDefault,
+           dynamic defaultOrMaker,
            CreateBuilderFunc subBuilder,
            ValueOfFunc valueOf) {
     fieldInfo[tagNumber] = byName[name] = new FieldInfo(
-      name, tagNumber, fieldType, makeDefault, subBuilder, valueOf);
+      name, tagNumber, fieldType, defaultOrMaker, subBuilder, valueOf);
   }
 
   void a(int tagNumber, String name, int fieldType,
-         [MakeDefaultFunc makeDefault,
-         CreateBuilderFunc subBuilder,
-         ValueOfFunc valueOf]) {
+         [dynamic defaultOrMaker,
+          CreateBuilderFunc subBuilder,
+          ValueOfFunc valueOf]) {
     add(tagNumber, name, fieldType,
-        makeDefault, subBuilder, valueOf);
+        defaultOrMaker, subBuilder, valueOf);
   }
 
   // Enum.
   void e(int tagNumber, String name, int fieldType,
-         MakeDefaultFunc makeDefault, ValueOfFunc valueOf) {
+         dynamic defaultOrMaker, ValueOfFunc valueOf) {
     add(tagNumber, name, fieldType,
-        makeDefault, null, valueOf);
+        defaultOrMaker, null, valueOf);
   }
 
   // Repeated message.

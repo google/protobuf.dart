@@ -12,10 +12,10 @@ class Extension extends FieldInfo {
   final String extendee;
 
   Extension(this.extendee, String name, int tagNumber, int fieldType,
-            [MakeDefaultFunc makeDefault,
+            [dynamic defaultOrMaker,
             CreateBuilderFunc subBuilder,
             ValueOfFunc valueOf]) :
-     super(name, tagNumber, fieldType, makeDefault, subBuilder, valueOf);
+     super(name, tagNumber, fieldType, defaultOrMaker, subBuilder, valueOf);
 
   int get hashCode => extendee.hashCode * 31 + tagNumber;
 
@@ -26,4 +26,3 @@ class Extension extends FieldInfo {
     return extendee == o.extendee && tagNumber == o.tagNumber;
   }
 }
-

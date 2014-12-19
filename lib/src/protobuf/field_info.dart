@@ -16,12 +16,17 @@ class FieldInfo {
   final ValueOfFunc valueOf;
 
   FieldInfo(this.name, this.tagNumber, int type,
-            [MakeDefaultFunc makeDefault,
+            [dynamic defaultOrMaker,
             this.subBuilder,
             this.valueOf])
       : this.type = type,
-        this.makeDefault = makeDefault == null ?
-            GeneratedMessage._defaultForType(type) : makeDefault;
+        this.makeDefault = findMakeDefault(type, defaultOrMaker);
+
+  static MakeDefaultFunc findMakeDefault(int type, dynamic defaultOrMaker) {
+    if (defaultOrMaker == null) return GeneratedMessage._defaultForType(type);
+    if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
+    return () => defaultOrMaker;
+  }
 
   String toString() => name;
 }

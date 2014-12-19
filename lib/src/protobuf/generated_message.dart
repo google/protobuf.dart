@@ -489,7 +489,7 @@ abstract class GeneratedMessage {
           int rawValue = input.readEnum();
           var value = _getValueOfFunc(tagNumber, extensionRegistry)(rawValue);
           if (value == null) {
-            unknownFields.mergeVarintField(tagNumber, makeLongInt(rawValue));
+            unknownFields.mergeVarintField(tagNumber, new Int64(rawValue));
           } else {
             _fieldValues[tagNumber] = value;
           }
@@ -564,7 +564,7 @@ abstract class GeneratedMessage {
             int rawValue = input.readEnum();
             var value = _getValueOfFunc(tagNumber, extensionRegistry)(rawValue);
             if (value == null) {
-              unknownFields.mergeVarintField(tagNumber, makeLongInt(rawValue));
+              unknownFields.mergeVarintField(tagNumber, new Int64(rawValue));
             } else {
               assigner(value);
             }
