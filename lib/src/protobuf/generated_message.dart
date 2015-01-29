@@ -1028,19 +1028,6 @@ abstract class GeneratedMessage {
     return type;
   }
 
-  /**
-   * Returns the type associated with a given tag number, either from the
-   * [BuilderInfo] associated with this [GeneratedMessage],
-   * or from a known extension.  If the type is unknown, [null] is returned.
-   */
-  int _getBaseFieldType(int tagNumber) {
-    int type = info_.fieldType(tagNumber);
-    if (type == null && _extensions.containsKey(tagNumber)) {
-      type = _extensions[tagNumber].type;
-    }
-    return type;
-  }
-
   /*
    * Returns the base field type without any of the required, repeated
    * and packed bits.

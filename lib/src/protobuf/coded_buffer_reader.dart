@@ -61,8 +61,6 @@ class CodedBufferReader {
     }
   }
 
-  bool _canRead(int increment) => _bufferPos + increment <= _currentLimit;
-
   void readGroup(int fieldNumber, GeneratedMessage message,
                  ExtensionRegistry extensionRegistry) {
     if (_recursionDepth >= _recursionLimit) {
