@@ -127,7 +127,8 @@ class CodedBufferReader {
   List<int> readBytes() {
     int length = readInt32();
     _checkLimit(length);
-    return new Uint8List.view(_buffer.buffer, _bufferPos - length, length);
+    return new Uint8List.view(_buffer.buffer,
+        _buffer.offsetInBytes + _bufferPos - length, length);
   }
   String readString() => _UTF8.decode(readBytes());
   double readFloat() =>
@@ -210,7 +211,7 @@ class CodedBufferReader {
 
   ByteData _readByteData(int sizeInBytes) {
     _checkLimit(sizeInBytes);
-    return new ByteData.view(
-        _buffer.buffer, _bufferPos - sizeInBytes, sizeInBytes);
+    return new ByteData.view(_buffer.buffer,
+        _buffer.offsetInBytes + _bufferPos - sizeInBytes, sizeInBytes);
   }
 }
