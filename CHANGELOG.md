@@ -1,3 +1,7 @@
+## 0.3.5+2
+ * Simplify some types used in is checks and correct PbList to match the
+ * signature of the List setRange method.
+
 ## 0.3.5+1
 
  * Bugfix for incorrect decoding of protobuf messages: Uint8List views with

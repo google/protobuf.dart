@@ -87,7 +87,7 @@ class PbList<E> extends Object with ListMixin<E> implements List<E> {
    * Throws an [UnsupportedError] if the list is
    * not extendable.
    */
-  void setRange(int start, int end, List<E> from, [int skipCount = 0]) {
+  void setRange(int start, int end, Iterable<E> from, [int skipCount = 0]) {
     from.sublist(skipCount, skipCount + end - start).forEach(_validate);
     _wrappedList.setRange(start, end, from, skipCount);
   }

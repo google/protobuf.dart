@@ -826,7 +826,7 @@ abstract class GeneratedMessage {
       break;
     case _GROUP_BIT:
     case _MESSAGE_BIT:
-      if (value is Map<String, Object>) {
+      if (value is Map) {
         GeneratedMessage subMessage =
             _getEmptyMessage(tagNumber, extensionRegistry);
         subMessage._mergeFromJson(value, extensionRegistry);
@@ -1083,9 +1083,9 @@ abstract class GeneratedMessage {
         }
         break;
       case _BYTES_BIT:
-        if (value is !List<int>) {
+        if (value is !List) {
           throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not List<int>'));
+              _generateMessage(tagNumber, value, 'not List'));
         }
         break;
       case _STRING_BIT:
