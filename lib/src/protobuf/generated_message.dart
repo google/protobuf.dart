@@ -662,10 +662,8 @@ abstract class GeneratedMessage {
         // Use strings for 64-bit integers which cannot fit in doubles.
         if (MIN_JSON_INT <= fieldValue && fieldValue <= MAX_JSON_INT) {
           return fieldValue.toInt();
-        } else {
-          return fieldValue.toString();
         }
-        break;
+        return fieldValue.toString();
       case _GROUP_BIT:
       case _MESSAGE_BIT:
         return fieldValue._toMap();
