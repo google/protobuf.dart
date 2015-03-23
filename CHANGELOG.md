@@ -1,3 +1,6 @@
+## 0.3.5+3
+ * Bugfix for `setRange()`: Do not assume Iterable has a `sublist()` method.
+
 ## 0.3.5+2
  * Simplify some types used in is checks and correct PbList to match the
  * signature of the List setRange method.
