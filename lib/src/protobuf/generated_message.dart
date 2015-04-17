@@ -630,7 +630,12 @@ abstract class GeneratedMessage {
 
   // JSON support.
 
-  Map<String, dynamic> _toMap() {
+  /**
+   * Returns the JSON encoding of this message as a Dart map.
+   *
+   * The encoding is described in [GeneratedMessage.writeToJson].
+   */
+  Map<String, dynamic> writeToJsonMap() {
     convertToMap(fieldValue, fieldType) {
       int scalarType = fieldType & ~(_REPEATED_BIT | _PACKED_BIT);
 
@@ -666,7 +671,7 @@ abstract class GeneratedMessage {
         return fieldValue.toString();
       case _GROUP_BIT:
       case _MESSAGE_BIT:
-        return fieldValue._toMap();
+        return fieldValue.writeToJsonMap();
       default:
         throw 'Unknown type $fieldType';
       }
@@ -684,10 +689,11 @@ abstract class GeneratedMessage {
   }
 
   /**
-   * Return a JSON string that encodes this message.  Each message (top level
-   * or nested) is represented as an object delimited by curly braces.  Within
-   * a message, elements are indexed by tag number (surrounded by quotes).
-   * Repeated elements are represented as arrays.
+   * Returns a JSON string that encodes this message.
+   * 
+   * Each message (top level or nested) is represented as an object delimited
+   * by curly braces.  Within a message, elements are indexed by tag number
+   * (surrounded by quotes). Repeated elements are represented as arrays.
    *
    * Boolean values, strings, and floating-point values are represented as
    * literals.  Values with a 32-bit integer datatype are represented as integer
@@ -695,7 +701,7 @@ abstract class GeneratedMessage {
    * actual runtime value) are represented as strings.  Enumerated values are
    * represented as their integer value.
    */
-  String writeToJson() => JSON.encode(_toMap());
+  String writeToJson() => JSON.encode(writeToJsonMap());
 
   // Merge fields from a previously decoded JSON object.
   void _mergeFromJson(
@@ -840,13 +846,24 @@ abstract class GeneratedMessage {
 
 
   /**
-   * Merge field values from a JSON object, encoded as described by
+   * Merges field values from a JSON object, encoded as described by
    * [GeneratedMessage.writeToJson].
    */
   void mergeFromJson(
       String data,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     _mergeFromJson(JSON.decode(data), extensionRegistry);
+  }
+
+  /**
+   * Merges field values from a JSON object represented as a Dart map.
+   * 
+   * The encoding is described in [GeneratedMessage.writeToJson].
+   */
+  void mergeFromJsonMap(
+      Map<String, dynamic> json,
+      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    _mergeFromJson(json, extensionRegistry);
   }
 
   /**

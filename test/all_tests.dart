@@ -7,10 +7,12 @@ library protobuf_lib_all_tests;
 
 import 'codec_test.dart' as ct;
 import 'coded_buffer_reader_test.dart' as cbrt;
+import 'json_test.dart' as jt;
 import 'pb_list_test.dart' as plt;
 
 void main() {
   ct.main();
   cbrt.main();
+  jt.main();
   plt.main();
 }
