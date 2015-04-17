@@ -24,6 +24,7 @@ class MessageGenerator extends ProtobufContainer {
      'writeToBuffer', 'writeToCodedBufferWriter',
      'mergeFromCodedBufferReader', 'mergeFromBuffer',
      'writeToJson', 'mergeFromJson',
+     'writeToJsonMap', 'mergeFromJsonMap',
      'addExtension', 'getExtension', 'setExtension',
      'hasExtension', 'clearExtension',
      'getField', 'setField', 'hasField', 'clearField',
