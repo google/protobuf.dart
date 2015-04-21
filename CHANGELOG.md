@@ -1,3 +1,7 @@
+## 0.3.6
+ * Added mergeFromMap() and writeToJsonMap()
+ * Fixed an analyzer warning.
+
 ## 0.3.5+3
  * Bugfix for `setRange()`: Do not assume Iterable has a `sublist()` method.
 
