@@ -109,6 +109,11 @@ adds som additional methods.
 Hacking
 -------
 
+You need to have `protoc` installed.
+
+* Linux Aptitude: `apt-get install protobuf-compiler`
+* Mac [homebrew](http://brew.sh/): `brew install protobuf`
+
 Remember to run the tests. That is as easy as `make run-tests`.
 
 The default way of running the Dart protoc plugin is through the
