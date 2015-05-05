@@ -20,7 +20,7 @@ part of protobuf;
 ///
 /// the generated Dart file will include a [:MyMessage_Color:] class that
 /// [:extends ProtobufEnum:]. It will also include a [:const MyMessage_Color:]
-/// for each of the three values dfeined. Here are some examples:
+/// for each of the three values defined. Here are some examples:
 ///
 ///     MyMessage_Color.RED  // => a MyMessage_Color instance
 ///     MyMessage_Color.GREEN.value  // => 1
