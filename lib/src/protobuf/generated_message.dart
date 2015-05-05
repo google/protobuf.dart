@@ -263,6 +263,9 @@ abstract class GeneratedMessage {
   }
 
   /// Clears all data that was set in this message.
+  ///
+  /// After calling [clear], [getField] will still return default values for
+  /// unset fields.
   void clear() {
     unknownFields.clear();
     _fieldValues.clear();
@@ -325,6 +328,9 @@ abstract class GeneratedMessage {
   /// This representation is similar to, but not quite, the Protocol Buffer
   /// TextFormat. Each field is printed on its own line. Sub-messages are
   /// indented two spaces farther than their parent messages.
+  ///
+  /// Note that this format is absolutely subject to change, and should only
+  /// ever be used for debugging.
   String toString() => _toString('');
 
   String _toString(String indent) {
@@ -1008,8 +1014,11 @@ abstract class GeneratedMessage {
 
   /// Sets the value of a given field by its [tagNumber].
   ///
-  /// Throws an [:ArgumentError:] if the value does not match the type
+  /// Throws an [:ArgumentError:] if [value] does not match the type
   /// associated with [tagNumber].
+  ///
+  /// Throws an [:ArgumentError:] if [value] is [:null:]. To clear a field of
+  /// it's current value, use [clearField] instead.
   void setField(int tagNumber, var value, [int fieldType = null]) {
     if (value == null) {
       throw new ArgumentError('value is null');
