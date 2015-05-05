@@ -249,6 +249,8 @@ abstract class GeneratedMessage {
 
   bool hasRequiredFields() => info_.hasRequiredFields;
 
+  /// Returns [:true:] if all required fields in the message and all embedded
+  /// messages are set, false otherwise.
   bool isInitialized() {
     if (!info_.hasRequiredFields) {
       return true;
@@ -260,6 +262,7 @@ abstract class GeneratedMessage {
     info_._findInvalidFields(_fieldValues, invalidFields, prefix);
   }
 
+  /// Clears all data that was set in this message.
   void clear() {
     unknownFields.clear();
     _fieldValues.clear();
@@ -317,6 +320,11 @@ abstract class GeneratedMessage {
     return hash;
   }
 
+  /// Returns a String representation of this message.
+  ///
+  /// This representation is similar to, but not quite, the Protocol Buffer
+  /// TextFormat. Each field is printed on its own line. Sub-messages are
+  /// indented two spaces farther than their parent messages.
   String toString() => _toString('');
 
   String _toString(String indent) {
@@ -620,6 +628,14 @@ abstract class GeneratedMessage {
     }
   }
 
+  /// Merges serialized protocol buffer data into this message.
+  ///
+  /// For each field in [input] that is already present in this message:
+  ///
+  /// * If it's a repeated field, this appends to the end of our list.
+  /// * Else, if it's a scalar, this overwrites our field.
+  /// * Else, (it's a non-repeated sub-message), this recursively merges into
+  ///   the existing sub-message.
   void mergeFromBuffer(
       List<int> input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
@@ -630,11 +646,9 @@ abstract class GeneratedMessage {
 
   // JSON support.
 
-  /**
-   * Returns the JSON encoding of this message as a Dart map.
-   *
-   * The encoding is described in [GeneratedMessage.writeToJson].
-   */
+  /// Returns the JSON encoding of this message as a Dart [Map].
+  ///
+  /// The encoding is described in [GeneratedMessage.writeToJson].
   Map<String, dynamic> writeToJsonMap() {
     convertToMap(fieldValue, fieldType) {
       int scalarType = fieldType & ~(_REPEATED_BIT | _PACKED_BIT);
@@ -688,19 +702,17 @@ abstract class GeneratedMessage {
     return result;
   }
 
-  /**
-   * Returns a JSON string that encodes this message.
-   * 
-   * Each message (top level or nested) is represented as an object delimited
-   * by curly braces.  Within a message, elements are indexed by tag number
-   * (surrounded by quotes). Repeated elements are represented as arrays.
-   *
-   * Boolean values, strings, and floating-point values are represented as
-   * literals.  Values with a 32-bit integer datatype are represented as integer
-   * literals; values with a 64-bit integer datatype (regardless of their
-   * actual runtime value) are represented as strings.  Enumerated values are
-   * represented as their integer value.
-   */
+  /// Returns a JSON string that encodes this message.
+  ///
+  /// Each message (top level or nested) is represented as an object delimited
+  /// by curly braces. Within a message, elements are indexed by tag number
+  /// (surrounded by quotes). Repeated elements are represented as arrays.
+  ///
+  /// Boolean values, strings, and floating-point values are represented as
+  /// literals. Values with a 32-bit integer datatype are represented as integer
+  /// literals; values with a 64-bit integer datatype (regardless of their
+  /// actual runtime value) are represented as strings. Enumerated values are
+  /// represented as their integer value.
   String writeToJson() => JSON.encode(writeToJsonMap());
 
   // Merge fields from a previously decoded JSON object.
@@ -845,31 +857,26 @@ abstract class GeneratedMessage {
   }
 
 
-  /**
-   * Merges field values from a JSON object, encoded as described by
-   * [GeneratedMessage.writeToJson].
-   */
+  /// Merges field values from [data], a JSON object, encoded as described by
+  /// [GeneratedMessage.writeToJson].
   void mergeFromJson(
       String data,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     _mergeFromJson(JSON.decode(data), extensionRegistry);
   }
 
-  /**
-   * Merges field values from a JSON object represented as a Dart map.
-   * 
-   * The encoding is described in [GeneratedMessage.writeToJson].
-   */
+  /// Merges field values from a JSON object represented as a Dart map.
+  ///
+  /// The encoding is described in [GeneratedMessage.writeToJson].
   void mergeFromJsonMap(
       Map<String, dynamic> json,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     _mergeFromJson(json, extensionRegistry);
   }
 
-  /**
-   * Add an extension field value to a repeated field.  The backing
-   * [List] will be created if necessary.
-   */
+  /// Adds an extension field value to a repeated field.
+  ///
+  /// The backing [List] will be created if necessary.
   void addExtension(Extension extension, var value) {
     _checkExtension(extension);
     if ((extension.type & _REPEATED_BIT) == 0) {
@@ -899,6 +906,7 @@ abstract class GeneratedMessage {
     }
   }
 
+  /// Clears the contents of a given field.
   void clearField(int tagNumber) {
     _fieldValues.remove(tagNumber);
   }
@@ -910,16 +918,18 @@ abstract class GeneratedMessage {
     });
   }
 
-  /**
-   * Returns the value of the given extension.  For repeated fields that have
-   * not been set previously, [:null:] is returned.
-   */
+  /// Returns the value of [extension].
+  ///
+  /// For repeated fields that have not been set previously, [:null:] is
+  /// returned.
   getExtension(Extension extension) {
     _checkExtension(extension);
     _addExtensionToMap(extension);
     return getField(extension.tagNumber);
   }
 
+  /// Returns the value of the field associated with [tagNumber], or the
+  /// default value if it is not set.
   getField(int tagNumber) {
     var value = _fieldValues[tagNumber];
     // Initialize the field.
@@ -940,14 +950,13 @@ abstract class GeneratedMessage {
     return value;
   }
 
-  /**
-   * Return [:true:] if a value of the given extension is present.
-   */
+  /// Returns [:true:] if a value of [extension] is present.
   bool hasExtension(Extension extension) {
     _checkExtension(extension);
     return hasField(extension.tagNumber);
   }
 
+  /// Returns [:true:] if this message has a field associated with [tagNumber].
   bool hasField(int tagNumber) {
     if (!_fieldValues.containsKey(tagNumber)) {
       return false;
@@ -959,6 +968,11 @@ abstract class GeneratedMessage {
     return true;
   }
 
+  /// Merges the contents of the [other] into this message.
+  ///
+  /// Singular fields that are set in [other] overwrite the corresponding fields
+  /// in this message. Repeated fields are appended. Singular sub-messages are
+  /// recursively merged.
   void mergeFromMessage(GeneratedMessage other) {
     for (int tagNumber in other._fieldValues.keys) {
       var fieldValue = other._fieldValues[tagNumber];
@@ -985,20 +999,17 @@ abstract class GeneratedMessage {
     unknownFields.mergeFromUnknownFieldSet(unknownFieldSet);
   }
 
-  /**
-   * Set the value of a non-repeated extension field.
-   */
+  /// Sets the value of a non-repeated extension field to [value].
   void setExtension(Extension extension, var value) {
     _checkExtension(extension);
     _addExtensionToMap(extension);
     setField(extension.tagNumber, value, extension.type);
   }
 
-  /**
-   * Sets the value of a given field by its [tagNumber]. Can throw an
-   * [:ArgumentError:] if the value does not match the type
-   * associated with [tagNumber].
-   */
+  /// Sets the value of a given field by its [tagNumber].
+  ///
+  /// Throws an [:ArgumentError:] if the value does not match the type
+  /// associated with [tagNumber].
   void setField(int tagNumber, var value, [int fieldType = null]) {
     if (value == null) {
       throw new ArgumentError('value is null');
@@ -1030,11 +1041,11 @@ abstract class GeneratedMessage {
     }
   }
 
-  /**
-   * Returns the type associated with a given tag number, either from the
-   * [BuilderInfo] associated with this [GeneratedMessage],
-   * or from a known extension.  If the type is unknown, [null] is returned.
-   */
+  /// Returns the type associated with [tagNumber].
+  ///
+  /// The type is discovered either from the [BuilderInfo] associated with this
+  /// [GeneratedMessage], or from a known extension. If the type is unknown,
+  /// [null] is returned.
   int _getFieldType(int tagNumber) {
     int type = info_.fieldType(tagNumber);
     if (type == null && _extensions.containsKey(tagNumber)) {
@@ -1043,10 +1054,8 @@ abstract class GeneratedMessage {
     return type;
   }
 
-  /*
-   * Returns the base field type without any of the required, repeated
-   * and packed bits.
-   */
+  /// Returns the base field type without any of the required, repeated
+  /// and packed bits.
   int _toBaseFieldType(int fieldType) {
     return fieldType & ~(_REQUIRED_BIT | _REPEATED_BIT | _PACKED_BIT);
   }
