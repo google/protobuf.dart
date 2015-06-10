@@ -1,3 +1,6 @@
+## 0.3.7
+ * More docs.
+
 ## 0.3.6
  * Added mergeFromMap() and writeToJsonMap()
  * Fixed an analyzer warning.
