@@ -9,6 +9,7 @@ import 'enum_generator_test.dart' as egt;
 import 'generated_message_test.dart' as gmt;
 import 'indenting_writer_test.dart' as iwt;
 import 'json_test.dart' as jt;
+import 'map_test.dart' as map_test;
 import 'message_generator_test.dart' as mgt;
 import 'file_generator_test.dart' as fgt;
 import 'message_test.dart' as mt;
@@ -26,6 +27,7 @@ void main() {
   gmt.main();
   iwt.main();
   jt.main();
+  map_test.main();
   mgt.main();
   fgt.main();
   mt.main();

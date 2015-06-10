@@ -5,6 +5,19 @@
 part of protoc;
 
 class FileGenerator extends ProtobufContainer {
+  // This should match the extension in dart_options.proto.
+  static const int implementMapByDefaultOption = 95333044;
+
+  // Returns true if option implement_map_by_default is on for this file.
+  static bool _shouldImplementMapByDefault(FileDescriptorProto desc) {
+    if (!desc.hasOptions()) return false;
+
+    var val = desc.options.unknownFields.getField(implementMapByDefaultOption);
+    if (val == null || val.length != 1) return false;
+
+    return val.values[0] == 1;
+  }
+
   final FileDescriptorProto _fileDescriptor;
   final ProtobufContainer _parent;
   final GenerationContext _context;
@@ -15,12 +28,16 @@ class FileGenerator extends ProtobufContainer {
 
   FileGenerator(this._fileDescriptor, this._parent, this._context) {
     _context.register(this);
+
+    bool implementMap = _shouldImplementMapByDefault(_fileDescriptor);
+
     // Load and register all enum and message types.
     for (EnumDescriptorProto enumType in _fileDescriptor.enumType) {
       enumGenerators.add(new EnumGenerator(enumType, this, _context));
     }
     for (DescriptorProto messageType in _fileDescriptor.messageType) {
-      messageGenerators.add(new MessageGenerator(messageType, this, _context));
+      messageGenerators.add(
+          new MessageGenerator(messageType, this, _context, implementMap));
     }
     for (FieldDescriptorProto extension in _fileDescriptor.extension) {
       extensionGenerators.add(
@@ -80,6 +97,10 @@ class FileGenerator extends ProtobufContainer {
       "import 'package:protobuf/protobuf.dart';"
     );
 
+    if (needsMapMixinImport) {
+      out.println("import 'dart:collection' show MapMixin;");
+    }
+
     for (String import in _fileDescriptor.dependency) {
       Uri importPath = new Uri.file(import);
       if (importPath.isAbsolute) {
@@ -130,6 +151,15 @@ class FileGenerator extends ProtobufContainer {
         out.println('}');
       });
     }
+  }
+
+  bool get needsMapMixinImport {
+    for (var m in messageGenerators) {
+      if (m.needsMapMixinImport) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 

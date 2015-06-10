@@ -1,0 +1,122 @@
+library map_test;
+
+import 'package:unittest/unittest.dart'
+  show test, expect, predicate, throwsArgumentError, throwsUnsupportedError;
+
+import '../out/protos/map_api.pb.dart' as pb;
+import '../out/protos/map_api2.pb.dart' as pb2;
+
+void main() {
+
+  test("message doesn't implement Map when turned off", () {
+    expect(new pb.NonMap(), predicate((x) => x is !Map));
+    expect(new pb2.NonMap2(), predicate((x) => x is !Map));
+  });
+
+  test("message implements Map when turned on", () {
+    expect(new pb.Rec(), predicate((x) => x is Map));
+    expect(new pb2.Rec2(), predicate((x) => x is Map));
+  });
+
+  test('operator [] returns null for unrecognized keys', () {
+    var rec = new pb.Rec();
+    expect(rec["noSuchField"], null);
+    expect(rec[1234], null);
+    expect(rec[null], null);
+  });
+
+  test('operator [] returns default value when not set', () {
+    var rec = new pb.Rec();
+    expect(rec["num"], 0);
+    expect(rec["nums"], []);
+    expect(rec["str"], "");
+  });
+
+  test('operator [] returns new value when set', () {
+    var rec = new pb.Rec();
+    rec.num = 42;
+    expect(rec["num"], 42);
+    rec.nums.add(123);
+    expect(rec["nums"], [123]);
+    rec.str = "hello";
+    expect(rec["str"], "hello");
+  });
+
+  test('operator []= throws exception for invalid key', () {
+    var rec = new pb.Rec();
+    expect(() { rec["unknown"] = 123; }, throwsArgumentError);
+  });
+
+  test('operator []= throws exception for repeated field', () {
+    // Copying the values would be confusing.
+    var rec = new pb.Rec();
+    expect(() { rec["nums"] = [1, 2]; }, throwsArgumentError);
+  });
+
+  test('operator []= throws exception for invalid value type', () {
+    var rec = new pb.Rec();
+    expect(() { rec["num"] = "hello"; }, throwsArgumentError);
+    expect(() { rec["str"] = 123; }, throwsArgumentError);
+  });
+
+  test('operator []= sets the field', () {
+    var rec = new pb.Rec();
+    rec["num"] = 123;
+    expect(rec.num, 123);
+    rec["str"] = "hello";
+    expect(rec.str, "hello");
+  });
+
+  test('keys returns each field name (even when unset)', () {
+    var rec = new pb.Rec();
+    expect(new Set.from(rec.keys), new Set.from(["num", "nums", "str"]));
+  });
+
+  test('containsKey returns true for fields that exist (even when unset)', () {
+    var rec = new pb.Rec();
+    expect(rec.containsKey("unknown"), false);
+    expect(rec.containsKey("str"), true);
+    expect(rec.containsKey("num"), true);
+    expect(rec.containsKey("nums"), true);
+  });
+
+  test('length is constant', () {
+    var rec = new pb.Rec();
+    expect(rec.length, 3);
+    rec.str = "hello";
+    expect(rec.length, 3);
+  });
+
+  test("remove isn't supported", () {
+    var rec = new pb.Rec();
+    rec.str = "hello";
+    expect(() { rec.remove("str"); }, throwsUnsupportedError);
+    expect(rec.str, "hello");
+  });
+
+  test("clear sets each field to its default value (unlike a regular Map)", () {
+    // We have little choice here since the clear() method already existed.
+    var rec = new pb.Rec();
+    rec.str = "hello";
+    rec.num = 123;
+    rec.nums.add(456);
+    rec.clear();
+    expect(rec.length, 3);
+    expect(rec["str"], "");
+    expect(rec["num"], 0);
+    expect(rec["nums"], []);
+  });
+
+  test("addAll sets each field to a new value", () {
+    var rec = new pb.Rec();
+    rec.addAll({"str": "hello", "num": 123});
+    expect(rec["str"], "hello");
+    expect(rec["num"], 123);
+  });
+
+  test("addAll doesn't work for repeated fields", () {
+    // It would be confusing to copy the values.
+    var rec = new pb.Rec();
+    expect(() { rec.addAll({"nums": [1,2,3]}); }, throwsArgumentError);
+  });
+}

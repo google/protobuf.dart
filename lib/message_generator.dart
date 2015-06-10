@@ -31,8 +31,28 @@ class MessageGenerator extends ProtobufContainer {
      'extensionsAreInitialized', 'mergeFromMessage', 'mergeUnknownFields',
      '==', 'info_', 'GeneratedMessage', 'Object'];
 
+  // List of names that can't be used in a subclass that implements Map.
+  static final List<String> reservedNamesForMap =
+    ['addAll', 'containsKey', 'containsValue', 'forEach', 'putIfAbsent',
+     'remove', 'isEmpty', 'isNotEmpty', 'keys', 'length', 'values'];
+
+  // This should match the extension in dart_options.proto.
+  static const int implementMapOption = 95333044;
+
+  // Returns true if the implement_map option is turned on for the message.
+  static bool _shouldImplementMap(DescriptorProto desc, bool defaultValue) {
+    if (!desc.hasOptions()) return defaultValue;
+
+    var val = desc.options.unknownFields.getField(implementMapOption);
+    if (val == null || val.length != 1) return defaultValue;
+
+    return val.values[0] == 1;
+  }
+
   final String classname;
   final String fqname;
+  final bool implementsMap;
+
   final ProtobufContainer _parent;
   final GenerationContext _context;
   final DescriptorProto _descriptor;
@@ -43,14 +63,16 @@ class MessageGenerator extends ProtobufContainer {
   final Set<String> _methodNames = new Set<String>();
 
   MessageGenerator(
-      DescriptorProto descriptor, ProtobufContainer parent, this._context)
+      DescriptorProto descriptor, ProtobufContainer parent, this._context,
+      bool implementMapByDefault)
       : _descriptor = descriptor,
         _parent = parent,
         classname = (parent.classname == '') ?
             descriptor.name : '${parent.classname}_${descriptor.name}',
         fqname = (parent == null || parent.fqname == null) ? descriptor.name :
             (parent.fqname == '.' ?
-                '.${descriptor.name}' : '${parent.fqname}.${descriptor.name}') {
+                '.${descriptor.name}' : '${parent.fqname}.${descriptor.name}'),
+        implementsMap = _shouldImplementMap(descriptor, implementMapByDefault) {
     _context.register(this);
 
     for (EnumDescriptorProto e in _descriptor.enumType) {
@@ -58,7 +80,8 @@ class MessageGenerator extends ProtobufContainer {
     }
 
     for (DescriptorProto n in _descriptor.nestedType) {
-      _messageGenerators.add(new MessageGenerator(n, this, _context));
+      _messageGenerators.add(
+          new MessageGenerator(n, this, _context, implementMapByDefault));
     }
 
     for (FieldDescriptorProto x in _descriptor.extension) {
@@ -67,6 +90,16 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   String get package => _parent.package;
+
+  bool get needsMapMixinImport {
+    if (implementsMap) return true;
+
+    for (var m in _messageGenerators) {
+      if (m.implementsMap) return true;
+    }
+
+    return false;
+  }
 
   void initializeFields() {
     _fieldList.clear();
@@ -83,6 +116,10 @@ class MessageGenerator extends ProtobufContainer {
     _methodNames.addAll(reservedWords);
     _methodNames.addAll(reservedNames);
 
+    if (implementsMap) {
+      _methodNames.addAll(reservedNamesForMap);
+    }
+
     for (EnumGenerator e in _enumGenerators) {
       e.generate(out);
     }
@@ -91,7 +128,12 @@ class MessageGenerator extends ProtobufContainer {
       m.generate(out);
     }
 
-    out.addBlock('class ${classname} extends GeneratedMessage${SP}{',
+    var implClause = "";
+    if (implementsMap) {
+      implClause = " with MapMixin";
+    }
+
+    out.addBlock('class ${classname} extends GeneratedMessage${implClause} {',
         '}', ()
       {
       out.addBlock(
@@ -180,6 +222,37 @@ class MessageGenerator extends ProtobufContainer {
           '${SP}new ${classname}();');
       out.println('static PbList<${classname}>${SP}createRepeated()${SP}=>'
           '${SP}new PbList<${classname}>();');
+
+
+      if (implementsMap) {
+        // clear() is inherited from GeneratedMessage.
+        // Other map operations are implemented by MapMixin.
+        out.println('''
+@override
+operator [] (key) {
+  if (key is !String) return null;
+  var tag = getTagNumber(key);
+  if (tag == null) return null;
+  return getField(tag);
+}
+
+@override
+operator []= (String key, val) {
+  var tag = getTagNumber(key);
+  setField(tag, val);
+}
+
+@override
+get keys => info_.byName.keys;
+
+@override
+get length => info_.byName.length;
+
+remove(key) {
+  throw new UnsupportedError("can't remove a field from a proto message");
+}
+''');
+      }
 
       generateFieldsAccessorsMutators(out);
     });

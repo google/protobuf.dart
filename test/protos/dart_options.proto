@@ -1,0 +1,25 @@
+// Experimental options controlling Dart code generation.
+syntax = "proto2";
+
+package dart_options;
+
+// This file must be modified for google internal use,
+// because custom options only work when the package name
+// agrees with the version of protoc we are using.
+// (The import statement and "google.protobuf." prefix need to be changed.)
+
+import "descriptor_2_5_opensource.proto";
+
+extend google.protobuf.FileOptions {
+
+  // If true, GeneratedMessage subclasses should implement Map.
+  // (May be overridden by the "implement_map" option on a message.)
+  optional bool implement_map_by_default = 95333044;
+}
+
+extend google.protobuf.MessageOptions {
+
+  // If true, the corresponding GenerateMessage subclass should implement Map.
+  // (It can also be set to false to override implement_map_by_default.)
+  optional bool implement_map = 95333044;
+}
