@@ -1,10 +1,18 @@
 library map_test;
 
 import 'package:unittest/unittest.dart'
-  show test, expect, predicate, throwsArgumentError, throwsUnsupportedError;
+  show test, expect, predicate, same, throwsA,
+    throwsArgumentError, throwsUnsupportedError;
 
 import '../out/protos/map_api.pb.dart' as pb;
 import '../out/protos/map_api2.pb.dart' as pb2;
+
+throwsError(Type expectedType, String expectedMessage) =>
+  throwsA(predicate((x) {
+    expect(x.runtimeType, expectedType);
+    expect(x.message, expectedMessage);
+    return true;
+  }));
 
 void main() {
 
@@ -30,6 +38,7 @@ void main() {
     expect(rec["num"], 0);
     expect(rec["nums"], []);
     expect(rec["str"], "");
+    expect(rec["msg"], predicate((x) => x is pb.NonMap));
   });
 
   test('operator [] returns new value when set', () {
@@ -40,11 +49,26 @@ void main() {
     expect(rec["nums"], [123]);
     rec.str = "hello";
     expect(rec["str"], "hello");
+    var msg = new pb.NonMap();
+    rec.msg = msg;
+    expect(rec["msg"], same(msg));
+  });
+
+  test('operator [] handles dotted paths', () {
+    var rec = new pb.Rec();
+    rec.msg = new pb.NonMap();
+    rec.msg.str = "hello";
+    expect(rec["msg.str"], "hello");
+
+    rec.msg.child = new pb.NonMap();
+    rec.msg.child.str = "child";
+    expect(rec["msg.child.str"], "child");
   });
 
   test('operator []= throws exception for invalid key', () {
     var rec = new pb.Rec();
-    expect(() { rec["unknown"] = 123; }, throwsArgumentError);
+    expect(() { rec["unknown"] = 123; },
+      throwsError(ArgumentError, "field 'unknown' not found in Rec"));
   });
 
   test('operator []= throws exception for repeated field', () {
@@ -67,9 +91,29 @@ void main() {
     expect(rec.str, "hello");
   });
 
+  test('operator []= handles dotted paths', () {
+    var rec = new pb.Rec();
+    rec.msg = new pb.NonMap();
+    rec["msg.str"] = "hello";
+    expect(rec.msg.str, "hello");
+
+    rec.msg.child = new pb.NonMap();
+    rec["msg.child.str"] = "child";
+    expect(rec.msg.child.str, "child");
+  });
+
+  test('operator []= throws exception for invalid dotted path', () {
+    var rec = new pb.Rec();
+    rec.msg = new pb.NonMap();
+    expect(() { rec["msg.unknown"] = "hello"; },
+      throwsError(ArgumentError, "field 'unknown' not found in NonMap"));
+    expect(() { rec["msg.unknown.child"] = "hello"; },
+      throwsError(ArgumentError, "field 'unknown' not found in NonMap"));
+  });
+
   test('keys returns each field name (even when unset)', () {
     var rec = new pb.Rec();
-    expect(new Set.from(rec.keys), new Set.from(["num", "nums", "str"]));
+    expect(new Set.from(rec.keys), new Set.from(["msg", "num", "nums", "str"]));
   });
 
   test('containsKey returns true for fields that exist (even when unset)', () {
@@ -78,19 +122,21 @@ void main() {
     expect(rec.containsKey("str"), true);
     expect(rec.containsKey("num"), true);
     expect(rec.containsKey("nums"), true);
+    expect(rec.containsKey("msg"), true);
   });
 
   test('length is constant', () {
     var rec = new pb.Rec();
-    expect(rec.length, 3);
+    expect(rec.length, 4);
     rec.str = "hello";
-    expect(rec.length, 3);
+    expect(rec.length, 4);
   });
 
   test("remove isn't supported", () {
     var rec = new pb.Rec();
     rec.str = "hello";
-    expect(() { rec.remove("str"); }, throwsUnsupportedError);
+    expect(() { rec.remove("str"); },
+      throwsError(UnsupportedError, "remove() not supported by Rec"));
     expect(rec.str, "hello");
   });
 
@@ -101,7 +147,7 @@ void main() {
     rec.num = 123;
     rec.nums.add(456);
     rec.clear();
-    expect(rec.length, 3);
+    expect(rec.length, 4);
     expect(rec["str"], "");
     expect(rec["num"], 0);
     expect(rec["nums"], []);

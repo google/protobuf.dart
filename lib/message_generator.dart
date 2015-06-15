@@ -231,15 +231,54 @@ class MessageGenerator extends ProtobufContainer {
 @override
 operator [] (key) {
   if (key is !String) return null;
-  var tag = getTagNumber(key);
-  if (tag == null) return null;
-  return getField(tag);
+  if (!key.contains(".")) {
+    var tag = getTagNumber(key);
+    if (tag == null) return null;
+    return getField(tag);
+  }
+
+  var keys = key.split('.');
+  var item = this;
+  for (var key in keys) {
+    if (item is !GeneratedMessage) return null;
+    var tag = item.getTagNumber(key);
+    if (tag == null) return null;
+    item = item.getField(tag);
+  }
+
+  return item;
 }
 
 @override
 operator []= (String key, val) {
-  var tag = getTagNumber(key);
-  setField(tag, val);
+  if (!key.contains(".")) {
+    var tag = _mustGetTagNumber(this, key);
+    setField(tag, val);
+    return;
+  }
+
+  var keys = key.split('.');
+  var lastKey = keys.removeLast();
+  var item = this;
+  for (var key in keys) {
+    var tag = _mustGetTagNumber(item, key);
+    item = item.getField(tag);
+    if (item is !GeneratedMessage) {
+      throw new ArgumentError(
+          "field '\${key}' in \${info._messageName} isn't a GeneratedMessage:");
+    }
+  }
+  var tag = _mustGetTagNumber(item, lastKey);
+  item.setField(tag, val);
+}
+
+_mustGetTagNumber(GeneratedMessage msg, String key) {
+  var tag = msg.getTagNumber(key);
+  if (tag == null) {
+    throw new ArgumentError(
+        "field '\${key}' not found in \${msg.info_.messageName}");
+  }
+  return tag;
 }
 
 @override
@@ -249,7 +288,7 @@ get keys => info_.byName.keys;
 get length => info_.byName.length;
 
 remove(key) {
-  throw new UnsupportedError("can't remove a field from a proto message");
+  throw new UnsupportedError("remove() not supported by \${info_.messageName}");
 }
 ''');
       }
