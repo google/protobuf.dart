@@ -5,14 +5,16 @@
 
 library protobuf_lib_all_tests;
 
-import 'codec_test.dart' as ct;
-import 'coded_buffer_reader_test.dart' as cbrt;
-import 'json_test.dart' as jt;
-import 'pb_list_test.dart' as plt;
+import 'codec_test.dart' as codec;
+import 'coded_buffer_reader_test.dart' as reader;
+import 'json_test.dart' as json;
+import 'map_mixin_test.dart' as map_mixin;
+import 'pb_list_test.dart' as pb_list;
 
 void main() {
-  ct.main();
-  cbrt.main();
-  jt.main();
-  plt.main();
+  codec.main();
+  reader.main();
+  json.main();
+  map_mixin.main();
+  pb_list.main();
 }

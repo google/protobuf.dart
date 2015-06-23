@@ -1,3 +1,8 @@
+## 0.3.9
+ * Add experimental mixins_meta library
+ * Add experimental PbMapMixin class (in a separate library).
+ * Fix bug where ExtensionRegistry would not be used for nested messages.
+
 ## 0.3.7
  * More docs.
 
