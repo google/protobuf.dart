@@ -12,14 +12,16 @@ import "descriptor_2_5_opensource.proto";
 
 extend google.protobuf.FileOptions {
 
-  // If true, GeneratedMessage subclasses should implement Map.
-  // (May be overridden by the "implement_map" option on a message.)
-  optional bool implement_map_by_default = 95333044;
+  // Applies the named mixin to all messages in this file.
+  // (May be overridden by the "mixin" option on a message.)
+  // For now, "PbMapMixin" is the only available mixin.
+  optional string default_mixin = 96128839;
 }
 
 extend google.protobuf.MessageOptions {
 
-  // If true, the corresponding GenerateMessage subclass should implement Map.
-  // (It can also be set to false to override implement_map_by_default.)
-  optional bool implement_map = 95333044;
+  // Applies the named mixin.
+  // For now, "PbMapMixin" is the only available mixin.
+  // The empty string can be used to turn off mixins for this message.
+  optional string mixin = 96128839;
 }

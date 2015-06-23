@@ -5,7 +5,7 @@ package protobuf_unittest;
 import "dart_options.proto";
 
 message Rec {
-  option (dart_options.implement_map) = true;
+  option (dart_options.mixin) = "PbMapMixin";
 
   optional int32 num = 1;
   repeated int32 nums = 2;

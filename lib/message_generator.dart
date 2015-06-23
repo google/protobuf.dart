@@ -31,27 +31,23 @@ class MessageGenerator extends ProtobufContainer {
      'extensionsAreInitialized', 'mergeFromMessage', 'mergeUnknownFields',
      '==', 'info_', 'GeneratedMessage', 'Object'];
 
-  // List of names that can't be used in a subclass that implements Map.
-  static final List<String> reservedNamesForMap =
-    ['addAll', 'containsKey', 'containsValue', 'forEach', 'putIfAbsent',
-     'remove', 'isEmpty', 'isNotEmpty', 'keys', 'length', 'values'];
-
-  // This should match the extension in dart_options.proto.
-  static const int implementMapOption = 95333044;
-
-  // Returns true if the implement_map option is turned on for the message.
-  static bool _shouldImplementMap(DescriptorProto desc, bool defaultValue) {
+  // Returns the mixin for this message, or null if none.
+  static PbMixin _getMixin(DescriptorProto desc, PbMixin defaultValue) {
     if (!desc.hasOptions()) return defaultValue;
+    if (!desc.options.hasExtension(Dart_options.mixin)) return defaultValue;
 
-    var val = desc.options.unknownFields.getField(implementMapOption);
-    if (val == null || val.length != 1) return defaultValue;
-
-    return val.values[0] == 1;
+    String name = desc.options.getExtension(Dart_options.mixin);
+    if (name.isEmpty) return null; // don't use a mixin (override any default)
+    var mixin = findMixin(name);
+    if (mixin == null) {
+      throw("unknown mixin class: ${name}");
+    }
+    return mixin;
   }
 
   final String classname;
   final String fqname;
-  final bool implementsMap;
+  final PbMixin mixin;
 
   final ProtobufContainer _parent;
   final GenerationContext _context;
@@ -64,7 +60,7 @@ class MessageGenerator extends ProtobufContainer {
 
   MessageGenerator(
       DescriptorProto descriptor, ProtobufContainer parent, this._context,
-      bool implementMapByDefault)
+      PbMixin defaultMixin)
       : _descriptor = descriptor,
         _parent = parent,
         classname = (parent.classname == '') ?
@@ -72,7 +68,7 @@ class MessageGenerator extends ProtobufContainer {
         fqname = (parent == null || parent.fqname == null) ? descriptor.name :
             (parent.fqname == '.' ?
                 '.${descriptor.name}' : '${parent.fqname}.${descriptor.name}'),
-        implementsMap = _shouldImplementMap(descriptor, implementMapByDefault) {
+        mixin = _getMixin(descriptor, defaultMixin) {
     _context.register(this);
 
     for (EnumDescriptorProto e in _descriptor.enumType) {
@@ -81,7 +77,7 @@ class MessageGenerator extends ProtobufContainer {
 
     for (DescriptorProto n in _descriptor.nestedType) {
       _messageGenerators.add(
-          new MessageGenerator(n, this, _context, implementMapByDefault));
+          new MessageGenerator(n, this, _context, defaultMixin));
     }
 
     for (FieldDescriptorProto x in _descriptor.extension) {
@@ -91,14 +87,14 @@ class MessageGenerator extends ProtobufContainer {
 
   String get package => _parent.package;
 
-  bool get needsMapMixinImport {
-    if (implementsMap) return true;
-
-    for (var m in _messageGenerators) {
-      if (m.implementsMap) return true;
+  /// Adds all mixins used in this message and any submessages.
+  void addMixinsTo(Set<PbMixin> output) {
+    if (mixin != null) {
+      output.addAll(mixin.findMixinsToApply());
     }
-
-    return false;
+    for (var m in _messageGenerators) {
+      m.addMixinsTo(output);
+    }
   }
 
   void initializeFields() {
@@ -116,8 +112,8 @@ class MessageGenerator extends ProtobufContainer {
     _methodNames.addAll(reservedWords);
     _methodNames.addAll(reservedNames);
 
-    if (implementsMap) {
-      _methodNames.addAll(reservedNamesForMap);
+    if (mixin != null) {
+      _methodNames.addAll(mixin.findReservedNames());
     }
 
     for (EnumGenerator e in _enumGenerators) {
@@ -128,12 +124,13 @@ class MessageGenerator extends ProtobufContainer {
       m.generate(out);
     }
 
-    var implClause = "";
-    if (implementsMap) {
-      implClause = " with MapMixin";
+    var mixinClause = '';
+    if (mixin != null) {
+      var mixinNames = mixin.findMixinsToApply().map((m) => m.name);
+      mixinClause = ' with ${mixinNames.join(", ")}';
     }
 
-    out.addBlock('class ${classname} extends GeneratedMessage${implClause} {',
+    out.addBlock('class ${classname} extends GeneratedMessage${mixinClause} {',
         '}', ()
       {
       out.addBlock(
@@ -222,76 +219,6 @@ class MessageGenerator extends ProtobufContainer {
           '${SP}new ${classname}();');
       out.println('static PbList<${classname}>${SP}createRepeated()${SP}=>'
           '${SP}new PbList<${classname}>();');
-
-
-      if (implementsMap) {
-        // clear() is inherited from GeneratedMessage.
-        // Other map operations are implemented by MapMixin.
-        out.println('''
-@override
-operator [] (key) {
-  if (key is !String) return null;
-  if (!key.contains(".")) {
-    var tag = getTagNumber(key);
-    if (tag == null) return null;
-    return getField(tag);
-  }
-
-  var keys = key.split('.');
-  var item = this;
-  for (var key in keys) {
-    if (item is !GeneratedMessage) return null;
-    var tag = item.getTagNumber(key);
-    if (tag == null) return null;
-    item = item.getField(tag);
-  }
-
-  return item;
-}
-
-@override
-operator []= (String key, val) {
-  if (!key.contains(".")) {
-    var tag = _mustGetTagNumber(this, key);
-    setField(tag, val);
-    return;
-  }
-
-  var keys = key.split('.');
-  var lastKey = keys.removeLast();
-  var item = this;
-  for (var key in keys) {
-    var tag = _mustGetTagNumber(item, key);
-    item = item.getField(tag);
-    if (item is !GeneratedMessage) {
-      throw new ArgumentError(
-          "field '\${key}' in \${info._messageName} isn't a GeneratedMessage:");
-    }
-  }
-  var tag = _mustGetTagNumber(item, lastKey);
-  item.setField(tag, val);
-}
-
-_mustGetTagNumber(GeneratedMessage msg, String key) {
-  var tag = msg.getTagNumber(key);
-  if (tag == null) {
-    throw new ArgumentError(
-        "field '\${key}' not found in \${msg.info_.messageName}");
-  }
-  return tag;
-}
-
-@override
-get keys => info_.byName.keys;
-
-@override
-get length => info_.byName.length;
-
-remove(key) {
-  throw new UnsupportedError("remove() not supported by \${info_.messageName}");
-}
-''');
-      }
 
       generateFieldsAccessorsMutators(out);
     });

@@ -112,7 +112,7 @@ class PhoneNumber extends GeneratedMessage {
     var context = new GenerationContext(options,
         new DefaultOutputConfiguration());
     FileGenerator fg = new FileGenerator(fd, null, context);
-    MessageGenerator mg = new MessageGenerator(md, fg, context, false);
+    MessageGenerator mg = new MessageGenerator(md, fg, context, null);
     mg.initializeFields();
     mg.generate(writer);
     expect(buffer.toString(), expected);

@@ -54,17 +54,6 @@ void main() {
     expect(rec["msg"], same(msg));
   });
 
-  test('operator [] handles dotted paths', () {
-    var rec = new pb.Rec();
-    rec.msg = new pb.NonMap();
-    rec.msg.str = "hello";
-    expect(rec["msg.str"], "hello");
-
-    rec.msg.child = new pb.NonMap();
-    rec.msg.child.str = "child";
-    expect(rec["msg.child.str"], "child");
-  });
-
   test('operator []= throws exception for invalid key', () {
     var rec = new pb.Rec();
     expect(() { rec["unknown"] = 123; },
@@ -89,26 +78,6 @@ void main() {
     expect(rec.num, 123);
     rec["str"] = "hello";
     expect(rec.str, "hello");
-  });
-
-  test('operator []= handles dotted paths', () {
-    var rec = new pb.Rec();
-    rec.msg = new pb.NonMap();
-    rec["msg.str"] = "hello";
-    expect(rec.msg.str, "hello");
-
-    rec.msg.child = new pb.NonMap();
-    rec["msg.child.str"] = "child";
-    expect(rec.msg.child.str, "child");
-  });
-
-  test('operator []= throws exception for invalid dotted path', () {
-    var rec = new pb.Rec();
-    rec.msg = new pb.NonMap();
-    expect(() { rec["msg.unknown"] = "hello"; },
-      throwsError(ArgumentError, "field 'unknown' not found in NonMap"));
-    expect(() { rec["msg.unknown.child"] = "hello"; },
-      throwsError(ArgumentError, "field 'unknown' not found in NonMap"));
   });
 
   test('keys returns each field name (even when unset)', () {

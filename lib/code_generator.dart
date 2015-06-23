@@ -26,11 +26,16 @@ class CodeGenerator extends ProtobufContainer {
   void generate({
       Map<String, SingleOptionParser> optionParsers,
       OutputConfiguration outputConfiguration}) {
+
+    var extensions = new ExtensionRegistry();
+    Dart_options.registerAllExtensions(extensions);
+
     _streamIn
         .fold(new BytesBuilder(), (builder, data) => builder..add(data))
         .then((builder) => builder.takeBytes())
         .then((List<int> bytes) {
-            var request = new CodeGeneratorRequest.fromBuffer(bytes);
+            var request =
+                new CodeGeneratorRequest.fromBuffer(bytes, extensions);
             var response = new CodeGeneratorResponse();
 
             // Parse the options in the request. Return the errors is any.
@@ -41,7 +46,8 @@ class CodeGenerator extends ProtobufContainer {
               return;
             }
 
-            var ctx = new GenerationContext(options, outputConfiguration == null
+            var ctx = new GenerationContext(options,
+                outputConfiguration == null
                 ? new DefaultOutputConfiguration() : outputConfiguration);
             List<FileGenerator> generators = <FileGenerator>[];
             for (FileDescriptorProto file in request.protoFile) {

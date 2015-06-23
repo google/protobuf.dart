@@ -5,17 +5,20 @@
 part of protoc;
 
 class FileGenerator extends ProtobufContainer {
-  // This should match the extension in dart_options.proto.
-  static const int implementMapByDefaultOption = 95333044;
 
-  // Returns true if option implement_map_by_default is on for this file.
-  static bool _shouldImplementMapByDefault(FileDescriptorProto desc) {
-    if (!desc.hasOptions()) return false;
-
-    var val = desc.options.unknownFields.getField(implementMapByDefaultOption);
-    if (val == null || val.length != 1) return false;
-
-    return val.values[0] == 1;
+  /// Returns the the mixin to use by default in this file,
+  /// or null for no mixin by default.
+  static PbMixin _getDefaultMixin(FileDescriptorProto desc) {
+    if (!desc.hasOptions()) return null;
+    if (!desc.options.hasExtension(Dart_options.defaultMixin)) {
+      return null;
+    }
+    var name = desc.options.getExtension(Dart_options.defaultMixin);
+    PbMixin mixin = findMixin(name);
+    if (mixin == null) {
+      throw("unknown mixin class: ${name}");
+    }
+    return mixin;
   }
 
   final FileDescriptorProto _fileDescriptor;
@@ -29,7 +32,7 @@ class FileGenerator extends ProtobufContainer {
   FileGenerator(this._fileDescriptor, this._parent, this._context) {
     _context.register(this);
 
-    bool implementMap = _shouldImplementMapByDefault(_fileDescriptor);
+    var defaultMixin = _getDefaultMixin(_fileDescriptor);
 
     // Load and register all enum and message types.
     for (EnumDescriptorProto enumType in _fileDescriptor.enumType) {
@@ -37,7 +40,7 @@ class FileGenerator extends ProtobufContainer {
     }
     for (DescriptorProto messageType in _fileDescriptor.messageType) {
       messageGenerators.add(
-          new MessageGenerator(messageType, this, _context, implementMap));
+          new MessageGenerator(messageType, this, _context, defaultMixin));
     }
     for (FieldDescriptorProto extension in _fileDescriptor.extension) {
       extensionGenerators.add(
@@ -97,8 +100,12 @@ class FileGenerator extends ProtobufContainer {
       "import 'package:protobuf/protobuf.dart';"
     );
 
-    if (needsMapMixinImport) {
-      out.println("import 'dart:collection' show MapMixin;");
+    var mixinImports = findMixinsToImport();
+    var importNames = mixinImports.keys.toList();
+    importNames.sort();
+    for (var imp in importNames) {
+      var symbols = mixinImports[imp];
+      out.println("import '${imp}' show ${symbols.join(', ')};");
     }
 
     for (String import in _fileDescriptor.dependency) {
@@ -153,13 +160,29 @@ class FileGenerator extends ProtobufContainer {
     }
   }
 
-  bool get needsMapMixinImport {
-    for (var m in messageGenerators) {
-      if (m.needsMapMixinImport) {
-        return true;
-      }
+  /// Returns a map from import names to the Dart symbols to be imported.
+  Map<String, List<String>> findMixinsToImport() {
+    var mixins = new Set<PbMixin>();
+    for (MessageGenerator m in messageGenerators) {
+      m.addMixinsTo(mixins);
     }
-    return false;
+
+    var imports = {};
+    for (var m in mixins) {
+        var imp = m.importFrom;
+        List<String> symbols = imports[imp];
+        if (symbols == null) {
+          symbols = [];
+          imports[imp] = symbols;
+        }
+        symbols.add(m.name);
+    }
+
+    for (var imp in imports.keys) {
+      imports[imp].sort();
+    }
+
+    return imports;
   }
 }
 

@@ -4,7 +4,7 @@ package protobuf_unittest;
 
 import "dart_options.proto";
 
-option (dart_options.implement_map_by_default) = true;
+option (dart_options.default_mixin) = "PbMapMixin";
 
 message Rec2 {
   optional int32 num = 1;
@@ -13,5 +13,5 @@ message Rec2 {
 }
 
 message NonMap2 {
-  option (dart_options.implement_map) = false;
+  option (dart_options.mixin) = "";
 }

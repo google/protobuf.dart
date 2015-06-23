@@ -4,10 +4,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/mixins_meta.dart';
 import 'package:path/path.dart' as path;
 
 import 'src/descriptor.pb.dart';
 import 'src/plugin.pb.dart';
+import 'src/dart_options.pb.dart';
 
 part 'code_generator.dart';
 part 'enum_generator.dart';
