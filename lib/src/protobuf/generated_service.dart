@@ -9,12 +9,15 @@ class ServerContext {
   // TODO: Place server specific information in this class.
 }
 
-/// Abstract class used to implement a Service API.
+/// The implementation of a Service API.
 ///
-/// The protoc compiler generates subclasses of this class containing abstract
-/// methods for each defined service method and a handleCall method that
-/// dispatches to the corresponding abstract method.
+/// The protoc plugin generates subclasses (with names ending with ServiceBase)
+/// that extend GeneratedService and dispatch requests by method.
 abstract class GeneratedService {
-  Future<List<int>> handleCall(
-      ServerContext ctx, String methodName, List<int> request);
+  /// Creates a message object that can deserialize a request.
+  GeneratedMessage createRequest(String methodName);
+
+  /// Dispatches the call. The request object should come from [createRequest].
+  Future<GeneratedMessage> handleCall(
+      ServerContext ctx, String methodName, GeneratedMessage request);
 }
