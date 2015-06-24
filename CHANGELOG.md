@@ -1,3 +1,6 @@
+## 0.3.10
+ * Add GeneratedService and ProtobufClient interfaces.
+
 ## 0.3.9
  * Add experimental mixins_meta library
  * Add experimental PbMapMixin class (in a separate library).

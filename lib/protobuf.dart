@@ -4,6 +4,7 @@
 
 library protobuf;
 
+import 'dart:async' show Future;
 import 'dart:collection' show ListMixin;
 import 'dart:convert' show JSON, Utf8Codec;
 import 'dart:math' as math;
@@ -20,8 +21,10 @@ part 'src/protobuf/extension.dart';
 part 'src/protobuf/extension_registry.dart';
 part 'src/protobuf/field_info.dart';
 part 'src/protobuf/generated_message.dart';
+part 'src/protobuf/generated_service.dart';
 part 'src/protobuf/pb_list.dart';
 part 'src/protobuf/protobuf_enum.dart';
+part 'src/protobuf/rpc_client';
 part 'src/protobuf/unknown_field_set.dart';
 part 'src/protobuf/utils.dart';
 part 'src/protobuf/wire_format.dart';
