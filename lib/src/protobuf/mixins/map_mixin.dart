@@ -11,7 +11,7 @@ import "package:protobuf/protobuf.dart" show BuilderInfo;
 ///
 /// This mixin is enabled via an option in
 /// dart_options.proto in dart-protoc-plugin.
-abstract class PbMapMixin implements Map<String, dynamic> {
+abstract class PbMapMixin implements Map {
 
   // GeneratedMessage properties and methods used by this mixin.
 
