@@ -12,13 +12,17 @@ class IndentingWriter implements Writer {
 
   IndentingWriter(this._indentSequence, this._writer);
 
-  void addBlock(String start, String end, void body()) {
+  void addBlock(String start, String end, void body(), {endWithNewline: true}) {
     println(start);
     var oldIndent = _currentIndent;
     _currentIndent = '$_currentIndent$_indentSequence';
     body();
     _currentIndent = oldIndent;
-    println(end);
+    if (endWithNewline) {
+      println(end);
+    } else {
+      print(end);
+    }
   }
 
   void print(String stringToPrint) {

@@ -28,6 +28,8 @@ class FileGenerator extends ProtobufContainer {
   final List<EnumGenerator> enumGenerators = <EnumGenerator>[];
   final List<MessageGenerator> messageGenerators = <MessageGenerator>[];
   final List<ExtensionGenerator> extensionGenerators = <ExtensionGenerator>[];
+  final List<ClientApiGenerator> clientApiGenerators = <ClientApiGenerator>[];
+  final List<ServiceGenerator> serviceGenerators = <ServiceGenerator>[];
 
   FileGenerator(this._fileDescriptor, this._parent, this._context) {
     _context.register(this);
@@ -45,6 +47,10 @@ class FileGenerator extends ProtobufContainer {
     for (FieldDescriptorProto extension in _fileDescriptor.extension) {
       extensionGenerators.add(
           new ExtensionGenerator(extension, this, _context));
+    }
+    for (ServiceDescriptorProto service in _fileDescriptor.service) {
+      serviceGenerators.add(new ServiceGenerator(service, this, _context));
+      clientApiGenerators.add(new ClientApiGenerator(service, this, _context));
     }
   }
 
@@ -90,12 +96,17 @@ class FileGenerator extends ProtobufContainer {
 
     String libraryName = _generateLibraryName(filePath);
 
+    // Print header and imports. We only add the dart:async import if there
+    // are services in the FileDescriptorProto.
     out.println(
       '///\n'
       '//  Generated code. Do not modify.\n'
       '///\n'
-      'library $libraryName;\n'
-      '\n'
+      'library $libraryName;\n');
+    if (_fileDescriptor.service.isNotEmpty) {
+      out.println("import 'dart:async';\n");
+    }
+    out.println(
       "import 'package:fixnum/fixnum.dart';\n"
       "import 'package:protobuf/protobuf.dart';"
     );
@@ -157,6 +168,13 @@ class FileGenerator extends ProtobufContainer {
         }
         out.println('}');
       });
+    }
+
+    for (ClientApiGenerator c in clientApiGenerators) {
+      c.generate(out);
+    }
+    for (ServiceGenerator s in serviceGenerators) {
+      s.generate(out);
     }
   }
 

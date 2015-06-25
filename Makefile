@@ -1,6 +1,7 @@
 PLUGIN_SRC = \
 						 prepend.dart \
 						 bin/protoc_plugin.dart \
+						 lib/client_generator.dart \
 						 lib/code_generator.dart \
 						 lib/enum_generator.dart \
 						 lib/exceptions.dart \
@@ -12,6 +13,7 @@ PLUGIN_SRC = \
 						 lib/output_config.dart \
 						 lib/protobuf_field.dart \
 						 lib/protoc.dart \
+						 lib/service_generator.dart \
 						 lib/src/descriptor.pb.dart \
 						 lib/src/plugin.pb.dart \
 						 lib/writer.dart
@@ -36,6 +38,7 @@ TEST_PROTO_LIST = \
 						 package1 \
 						 package2 \
 						 package3 \
+						 service \
 						 toplevel_import \
 						 toplevel
 TEST_PROTO_DIR=$(OUTPUT_DIR)/protos

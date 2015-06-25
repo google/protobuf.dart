@@ -11,6 +11,7 @@ import 'src/descriptor.pb.dart';
 import 'src/plugin.pb.dart';
 import 'src/dart_options.pb.dart';
 
+part 'client_generator.dart';
 part 'code_generator.dart';
 part 'enum_generator.dart';
 part 'exceptions.dart';
@@ -21,4 +22,5 @@ part 'message_generator.dart';
 part 'options.dart';
 part 'output_config.dart';
 part 'protobuf_field.dart';
+part 'service_generator.dart';
 part 'writer.dart';
