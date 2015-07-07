@@ -12,6 +12,14 @@ import 'package:protobuf/mixins_meta.dart' show findMixin;
 
 import 'mirror_util.dart' show findMemberNames;
 
+// Import the libraries we will access via the mirrors.
+import 'package:protobuf/protobuf.dart' show GeneratedMessage;
+import 'package:protobuf/src/protobuf/mixins/map_mixin.dart' show PbMapMixin;
+import 'dart:collection' show MapMixin;
+
+@MirrorsUsed(targets: 'GeneratedMessage, PbMapMixin, MapMixin')
+import 'dart:mirrors';
+
 void main() {
 
   test('GeneratedMessage reserved names are up to date', () {
