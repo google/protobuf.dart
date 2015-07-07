@@ -17,7 +17,6 @@ import 'package:protobuf/protobuf.dart' show GeneratedMessage;
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart' show PbMapMixin;
 import 'dart:collection' show MapMixin;
 
-@MirrorsUsed(targets: 'GeneratedMessage, PbMapMixin, MapMixin')
 import 'dart:mirrors';
 
 void main() {
