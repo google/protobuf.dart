@@ -1,3 +1,6 @@
+## 0.3.11
+ * Add meta.dart which declares reserved names for the plugin.
+
 ## 0.3.10
  * Add GeneratedService and ProtobufClient interfaces.
 

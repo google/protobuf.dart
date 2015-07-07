@@ -10,6 +10,7 @@ import 'coded_buffer_reader_test.dart' as reader;
 import 'json_test.dart' as json;
 import 'map_mixin_test.dart' as map_mixin;
 import 'pb_list_test.dart' as pb_list;
+import 'reserved_names_test.dart' as reserved_name;
 
 void main() {
   codec.main();
@@ -17,4 +18,5 @@ void main() {
   json.main();
   map_mixin.main();
   pb_list.main();
+  reserved_name.main();
 }

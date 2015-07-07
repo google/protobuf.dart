@@ -52,6 +52,7 @@ class PbMixin {
   Iterable<String> findReservedNames() {
     var names = new Set<String>();
     for (var m = this; m != null; m = m.parent) {
+      names.add(m.name);
       if (m.reservedNames != null) {
         names.addAll(m.reservedNames);
       }
@@ -67,9 +68,9 @@ const _pbMapMixin = const PbMixin._raw("PbMapMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/map_mixin.dart",
     parent: _mapMixin);
 
-const _mapMixin = const PbMixin._raw("MapMixin",
-    importFrom: "dart:collection",
-    reservedNames: const [
+const List<String> _reservedNamesForMap = const [
+  '[]',
+  '[]=',
   'addAll',
   'containsKey',
   'containsValue',
@@ -81,4 +82,8 @@ const _mapMixin = const PbMixin._raw("MapMixin",
   'keys',
   'length',
   'values',
-]);
+];
+
+const _mapMixin = const PbMixin._raw("MapMixin",
+    importFrom: "dart:collection",
+    reservedNames: _reservedNamesForMap);
