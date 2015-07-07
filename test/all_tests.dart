@@ -16,7 +16,6 @@ import 'map_test.dart' as map_test;
 import 'message_generator_test.dart' as mgt;
 import 'message_test.dart' as mt;
 import 'protoc_options_test.dart' as pot;
-import 'reserved_names_test.dart' as rnt;
 import 'service_test.dart' as st;
 import 'service_generator_test.dart' as sgt;
 import 'unknown_field_set_test.dart' as ufst;
@@ -37,7 +36,6 @@ void main() {
   mgt.main();
   mt.main();
   pot.main();
-  rnt.main();
   st.main();
   sgt.main();
   ufst.main();

@@ -18,3 +18,7 @@ message M {
   optional pkg1_pkg2.M m3 = 5;
   optional pkg1_pkg2.M.M m3_m = 6;
 }
+
+message M2 {
+  optional int32 pkg1 = 1;
+}

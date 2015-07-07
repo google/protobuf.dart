@@ -42,6 +42,8 @@ message ReservedNamesOptional {
 
   // Other conflicts.
   optional int32 hash_code_1 = 40;
+  optional int32 create = 41;
+  optional int32 create_repeated = 42;
 
   optional int32 x = 50;
   optional int32 has_x = 51;
@@ -86,6 +88,8 @@ message ReservedNamesRepeated {
 
   // Other conflicts.
   repeated int32 hash_code_1 = 40;
+  repeated int32 create = 41;
+  repeated int32 create_repeated = 42;
 
   repeated int32 x = 50;
   repeated int32 has_x = 51;
@@ -130,6 +134,8 @@ message ReservedNamesRequired {
 
   // Other conflicts.
   required int32 hash_code_1 = 40;
+  required int32 create = 41;
+  required int32 create_repeated = 42;
 
   required int32 x = 50;
   required int32 has_x = 51;

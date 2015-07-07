@@ -3,6 +3,7 @@ library protoc;
 import 'dart:async';
 import 'dart:io';
 
+import 'package:protobuf/meta.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/mixins_meta.dart';
 import 'package:path/path.dart' as path;

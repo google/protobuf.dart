@@ -16,20 +16,9 @@ class MessageGenerator extends ProtobufContainer {
        'super', 'switch', 'this', 'throw', 'true', 'try', 'var', 'void',
        'while', 'with'];
 
-  // List of names which cannot be used in a subclass of GeneratedMessage.
-  static final List<String> reservedNames =
-    ['hashCode', 'noSuchMethod','runtimeType', 'toString',
-     'fromBuffer', 'fromJson', 'hasRequiredFields', 'isInitialized',
-     'clear', 'getTagNumber', 'check',
-     'writeToBuffer', 'writeToCodedBufferWriter',
-     'mergeFromCodedBufferReader', 'mergeFromBuffer',
-     'writeToJson', 'mergeFromJson',
-     'writeToJsonMap', 'mergeFromJsonMap',
-     'addExtension', 'getExtension', 'setExtension',
-     'hasExtension', 'clearExtension',
-     'getField', 'setField', 'hasField', 'clearField',
-     'extensionsAreInitialized', 'mergeFromMessage', 'mergeUnknownFields',
-     '==', 'info_', 'GeneratedMessage', 'Object'];
+  // List of names used in the generated class itself
+  static final List<String> generatedNames =
+      ['create', 'createRepeated'];
 
   // Returns the mixin for this message, or null if none.
   static PbMixin _getMixin(DescriptorProto desc, PbMixin defaultValue) {
@@ -110,7 +99,8 @@ class MessageGenerator extends ProtobufContainer {
   void generate(IndentingWriter out) {
     _methodNames.clear();
     _methodNames.addAll(reservedWords);
-    _methodNames.addAll(reservedNames);
+    _methodNames.addAll(GeneratedMessage_reservedNames);
+    _methodNames.addAll(generatedNames);
 
     if (mixin != null) {
       _methodNames.addAll(mixin.findReservedNames());
