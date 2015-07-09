@@ -8,14 +8,14 @@ import 'package:unittest/unittest.dart';
 import '../out/protos/service.pb.dart' as pb;
 
 class SearchService extends pb.SearchServiceBase {
-    Future<pb.SearchResponse> search(
-        ServerContext ctx, pb.SearchRequest request) async {
-      var out = new pb.SearchResponse();
-      if (request.query == 'hello' || request.query == 'world') {
-        out.result.add('hello, world!');
-      }
-      return out;
+  Future<pb.SearchResponse> search(
+      ServerContext ctx, pb.SearchRequest request) async {
+    var out = new pb.SearchResponse();
+    if (request.query == 'hello' || request.query == 'world') {
+      out.result.add('hello, world!');
     }
+    return out;
+  }
 }
 
 class FakeJsonServer {
@@ -40,10 +40,9 @@ class FakeJsonClient implements RpcClient {
   final FakeJsonServer server;
   FakeJsonClient(this.server);
 
-  Future<GeneratedMessage> invoke(
-    ClientContext ctx, String serviceName, String methodName,
-    GeneratedMessage request, GeneratedMessage response) async {
-
+  Future<GeneratedMessage> invoke(ClientContext ctx, String serviceName,
+      String methodName, GeneratedMessage request,
+      GeneratedMessage response) async {
     String requestJson = request.writeToJson();
     String replyJson =
         await server.messageHandler(serviceName, methodName, requestJson);
@@ -57,8 +56,7 @@ void main() {
   var api = new pb.SearchServiceApi(new FakeJsonClient(server));
 
   test('end to end RPC using JSON', () async {
-    var request = new pb.SearchRequest()
-      ..query = "hello";
+    var request = new pb.SearchRequest()..query = "hello";
     var reply = await api.search(new ClientContext(), request);
     expect(reply.result, ["hello, world!"]);
   });
