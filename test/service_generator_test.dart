@@ -42,13 +42,14 @@ abstract class TestServiceBase extends GeneratedService {
     }
   }
 
-  Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) async {
+  Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
     switch (method) {
-      case 'AMethod': return await aMethod(ctx, request);
-      case 'AnotherMethod': return await anotherMethod(ctx, request);
+      case 'AMethod': return aMethod(ctx, request);
+      case 'AnotherMethod': return anotherMethod(ctx, request);
       default: throw new ArgumentError('Unknown method: $method');
     }
   }
+
 }
 
 ''';

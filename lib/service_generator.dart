@@ -23,8 +23,8 @@ class ServiceGenerator extends ProtobufContainer {
     _context.register(this);
   }
 
-  static String  _qualifiedName(ServiceDescriptorProto descriptor,
-      ProtobufContainer parent) {
+  static String _qualifiedName(
+      ServiceDescriptorProto descriptor, ProtobufContainer parent) {
     if (parent == null || parent.fqname == null) {
       return descriptor.name;
     } else if (parent.fqname == '.') {
@@ -49,46 +49,62 @@ class ServiceGenerator extends ProtobufContainer {
   }
 
   String _methodName(String name) =>
-      name.substring(0,1).toLowerCase() + name.substring(1);
+      name.substring(0, 1).toLowerCase() + name.substring(1);
+
+  String get _parentClass => 'GeneratedService';
+
+  void _generateStub(IndentingWriter out, MethodDescriptorProto m) {
+    var methodName = _methodName(m.name);
+    out.println('Future<${_shortType(m.outputType)}> $methodName('
+        'ServerContext ctx, ${_shortType(m.inputType)} request);');
+  }
+
+  void _generateStubs(IndentingWriter out) {
+    for (MethodDescriptorProto m in _methodDescriptors) {
+      _generateStub(out, m);
+    }
+    out.println();
+  }
+
+  void _generateRequestMethod(IndentingWriter out) {
+    out.addBlock('GeneratedMessage createRequest(String method) {', '}', () {
+      out.addBlock("switch (method) {", "}", () {
+        for (MethodDescriptorProto m in _methodDescriptors) {
+          out.println(
+              "case '${m.name}': return new ${_shortType(m.inputType)}();");
+        }
+        out.println("default: "
+            "throw new ArgumentError('Unknown method: \$method');");
+      });
+    });
+    out.println();
+  }
+
+  void _generateDispatchMethod(out) {
+    out.addBlock('Future<GeneratedMessage> handleCall(ServerContext ctx, '
+        'String method, GeneratedMessage request) {', '}', () {
+      out.addBlock("switch (method) {", "}", () {
+        for (MethodDescriptorProto m in _methodDescriptors) {
+          var methodName = _methodName(m.name);
+          out.println("case '${m.name}': return $methodName(ctx, request);");
+        }
+        out.println("default: "
+            "throw new ArgumentError('Unknown method: \$method');");
+      });
+    });
+    out.println();
+  }
+
+  // Hook for generating members added in subclasses.
+  void _generateAdditionalClassMembers(out) {}
 
   void generate(IndentingWriter out) {
-    out.addBlock(
-        'abstract class ${_serviceClassName(_descriptor)} extends '
-        'GeneratedService {',
-        '}', () {
-      for (MethodDescriptorProto m in _methodDescriptors) {
-        var methodName = _methodName(m.name);
-        out.println('Future<${_shortType(m.outputType)}> $methodName('
-            'ServerContext ctx, ${_shortType(m.inputType)} request);');
-      }
-      out.println();
-
-      out.addBlock(
-          'GeneratedMessage createRequest(String method) {', '}', () {
-        out.addBlock("switch (method) {", "}", () {
-          for (MethodDescriptorProto m in _methodDescriptors) {
-            out.println(
-              "case '${m.name}': return new ${_shortType(m.inputType)}();");
-          }
-          out.println("default: "
-            "throw new ArgumentError('Unknown method: \$method');");
-        });
-      });
-      out.println();
-
-      out.addBlock(
-          'Future<GeneratedMessage> handleCall(ServerContext ctx, '
-          'String method, GeneratedMessage request) async {', '}', () {
-        out.addBlock("switch (method) {", "}", () {
-          for (MethodDescriptorProto m in _methodDescriptors) {
-            var methodName = _methodName(m.name);
-            out.println(
-              "case '${m.name}': return await $methodName(ctx, request);");
-          }
-          out.println("default: "
-            "throw new ArgumentError('Unknown method: \$method');");
-        });
-      });
+    out.addBlock('abstract class ${_serviceClassName(_descriptor)} extends '
+        '$_parentClass {', '}', () {
+      _generateStubs(out);
+      _generateRequestMethod(out);
+      _generateDispatchMethod(out);
+      _generateAdditionalClassMembers(out);
     });
     out.println();
   }

@@ -34,15 +34,13 @@ class TestApi {
   RpcClient _client;
   TestApi(this._client);
 
-  Future<SomeReply> aMethod(ClientContext ctx, SomeRequest request) async {
+  Future<SomeReply> aMethod(ClientContext ctx, SomeRequest request) {
     var emptyResponse = new SomeReply();
-    var result = await _client.invoke(ctx, 'Test', 'AMethod', request, emptyResponse);
-    return result;
+    return _client.invoke(ctx, 'Test', 'AMethod', request, emptyResponse);
   }
-  Future<AnotherReply> anotherMethod(ClientContext ctx, EmptyMessage request) async {
+  Future<AnotherReply> anotherMethod(ClientContext ctx, EmptyMessage request) {
     var emptyResponse = new AnotherReply();
-    var result = await _client.invoke(ctx, 'Test', 'AnotherMethod', request, emptyResponse);
-    return result;
+    return _client.invoke(ctx, 'Test', 'AnotherMethod', request, emptyResponse);
   }
 }
 

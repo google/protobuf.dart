@@ -28,29 +28,33 @@ class ClientApiGenerator extends ProtobufContainer {
   String get package => _parent.package;
 
   String _shortType(String typename) {
-    return typename.substring(typename.lastIndexOf('.')+1);
+    return typename.substring(typename.lastIndexOf('.') + 1);
   }
+
+  String _methodName(String name) =>
+      name.substring(0, 1).toLowerCase() + name.substring(1);
+
+  String get _clientType => 'RpcClient';
 
   void generate(IndentingWriter out) {
     out.addBlock('class ${classname}Api {', '}', () {
-      out.println('RpcClient _client;');
+      out.println('$_clientType _client;');
       out.println('${classname}Api(this._client);');
       out.println();
+
       for (MethodDescriptorProto m in _descriptor.method) {
-        // lowercase first letter in method name.
-        var methodName =
-            m.name.substring(0,1).toLowerCase() + m.name.substring(1);
-        out.addBlock('Future<${_shortType(m.outputType)}> $methodName('
-            'ClientContext ctx, ${_shortType(m.inputType)} request) '
-            'async {', '}', () {
-          out.println('var emptyResponse = new ${_shortType(m.outputType)}();');
-          out.println('var result = await _client.invoke(ctx, '
-              '\'${_descriptor.name}\', \'${m.name}\', '
-              'request, emptyResponse);');
-          out.println('return result;');
-        });
+        generateMethod(out, m);
       }
     });
     out.println();
+  }
+
+  void generateMethod(IndentingWriter out, MethodDescriptorProto m) {
+    out.addBlock('Future<${_shortType(m.outputType)}> ${_methodName(m.name)}('
+        'ClientContext ctx, ${_shortType(m.inputType)} request) {', '}', () {
+      out.println('var emptyResponse = new ${_shortType(m.outputType)}();');
+      out.println('return _client.invoke(ctx, \'${_descriptor.name}\', '
+          '\'${m.name}\', request, emptyResponse);');
+    });
   }
 }
