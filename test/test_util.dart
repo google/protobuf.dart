@@ -5,7 +5,7 @@
 library test_util;
 
 import 'package:fixnum/fixnum.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 Int64 make64(lo, [hi = null]) {
   if (hi == null) hi = lo < 0 ? -1 : 0;

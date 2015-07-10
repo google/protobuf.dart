@@ -12,7 +12,7 @@ import 'dart:collection' show MapMixin;
 import 'package:protobuf/protobuf.dart'
     show GeneratedMessage, PbMapMixin, BuilderInfo;
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart';
-import 'package:unittest/unittest.dart' show test, expect, predicate, same;
+import 'package:test/test.dart' show test, expect, predicate, same;
 
 // A minimal protobuf implementation compatible with PbMapMixin.
 class Rec extends GeneratedMessage with MapMixin, PbMapMixin {

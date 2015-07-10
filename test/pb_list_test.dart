@@ -6,7 +6,7 @@
 library pb_list_tests;
 
 import 'package:protobuf/protobuf.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 void main() {
   test('testPbList', () {

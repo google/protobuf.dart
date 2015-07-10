@@ -5,7 +5,7 @@ library json_test;
 
 import 'dart:convert';
 import 'package:protobuf/protobuf.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   T example = new T()

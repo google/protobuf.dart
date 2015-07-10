@@ -8,7 +8,7 @@ library coded_buffer_reader_tests;
 import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import 'test_util.dart';
 

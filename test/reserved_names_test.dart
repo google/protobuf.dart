@@ -5,7 +5,7 @@
 
 library reserved_names_test;
 
-import 'package:unittest/unittest.dart' show test, expect, equals;
+import 'package:test/test.dart' show test, expect, equals;
 
 import 'package:protobuf/meta.dart' show GeneratedMessage_reservedNames;
 import 'package:protobuf/mixins_meta.dart' show findMixin; 
