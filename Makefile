@@ -74,7 +74,7 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 build-test-protos: $(TEST_PROTO_LIBS)
 
 run-tests: build-test-protos
-	dart --checked test/all_tests.dart
+	pub run test
 
 clean:
 	rm -rf $(OUTPUT_DIR)

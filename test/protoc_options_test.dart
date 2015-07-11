@@ -8,7 +8,7 @@ library file_generator_test;
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:protoc_plugin/protoc.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 
 void main() {

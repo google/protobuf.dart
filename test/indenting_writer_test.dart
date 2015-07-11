@@ -6,7 +6,7 @@
 library indenting_writer_test;
 
 import 'package:protoc_plugin/protoc.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 void main() {
   test('testIndentingWriter', () {

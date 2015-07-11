@@ -8,7 +8,7 @@ library client_generator_test;
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:protoc_plugin/protoc.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 ServiceDescriptorProto buildServiceDescriptor() {
   ServiceDescriptorProto sd = new ServiceDescriptorProto()

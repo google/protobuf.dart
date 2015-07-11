@@ -9,7 +9,7 @@ import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
 

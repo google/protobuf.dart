@@ -8,7 +8,7 @@ library validate_fail_test;
 import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';

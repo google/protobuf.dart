@@ -6,7 +6,7 @@
 library unknown_field_set_test;
 
 import 'package:protobuf/protobuf.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
 

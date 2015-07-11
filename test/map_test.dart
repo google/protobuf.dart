@@ -1,6 +1,6 @@
 library map_test;
 
-import 'package:unittest/unittest.dart'
+import 'package:test/test.dart'
   show test, expect, predicate, same, throwsA,
     throwsArgumentError, throwsUnsupportedError;
 

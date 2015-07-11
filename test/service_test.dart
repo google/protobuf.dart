@@ -3,7 +3,7 @@ library service_test;
 import 'dart:async' show Future;
 
 import 'package:protobuf/protobuf.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import '../out/protos/service.pb.dart' as pb;
 
