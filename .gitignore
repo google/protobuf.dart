@@ -1,4 +1,6 @@
 .children
+.idea
+.pub
 build/
 packages
 pubspec.lock
