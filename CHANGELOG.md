@@ -1,3 +1,7 @@
+## 0.4.0
+ * Add ReadonlyMessageMixin. The generated message classes use this to
+   for the default values of message fields.
+
 ## 0.3.11
  * Add meta.dart which declares reserved names for the plugin.
 
