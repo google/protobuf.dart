@@ -280,8 +280,8 @@ class ProtobufField {
         } else {
           throw 'FAILURE: Unknown group type reference ${field.typeName}';
         }
-        initialization = '${baseType}.create';
-        prefixedInitialization = '${prefixedBaseType}.create';
+        initialization = '${baseType}.getDefault';
+        prefixedInitialization = '${prefixedBaseType}.getDefault';
         break;
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
         ProtobufContainer messageType = context[field.typeName];
@@ -299,8 +299,8 @@ class ProtobufField {
         } else {
           throw 'FAILURE: Unknown message type reference ${field.typeName}';
         }
-        initialization = '${baseType}.create';
-        prefixedInitialization = '${prefixedBaseType}.create';
+        initialization = '${baseType}.getDefault';
+        prefixedInitialization = '${prefixedBaseType}.getDefault';
         break;
       case FieldDescriptorProto_Type.TYPE_ENUM:
         EnumGenerator enumType = context[field.typeName];

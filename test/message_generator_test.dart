@@ -47,6 +47,11 @@ class PhoneNumber extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static PhoneNumber create() => new PhoneNumber();
   static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
+  static PhoneNumber getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
+    return _defaultInstance;
+  }
+  static PhoneNumber _defaultInstance;
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }
@@ -63,6 +68,8 @@ class PhoneNumber extends GeneratedMessage {
   bool hasName() => hasField(3);
   void clearName() => clearField(3);
 }
+
+class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
 ''';
     FileDescriptorProto fd = new FileDescriptorProto();

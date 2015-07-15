@@ -18,7 +18,7 @@ class MessageGenerator extends ProtobufContainer {
 
   // List of names used in the generated class itself
   static final List<String> generatedNames =
-      ['create', 'createRepeated'];
+      ['create', 'createRepeated', 'getDefault'];
 
   // Returns the mixin for this message, or null if none.
   static PbMixin _getMixin(DescriptorProto desc, PbMixin defaultValue) {
@@ -209,9 +209,17 @@ class MessageGenerator extends ProtobufContainer {
           '${SP}new ${classname}();');
       out.println('static PbList<${classname}>${SP}createRepeated()${SP}=>'
           '${SP}new PbList<${classname}>();');
-
+      out.addBlock('static ${classname} getDefault() {',
+          '}', () {
+        out.println('if (_defaultInstance == null) _defaultInstance = new _Readonly${classname}();');
+        out.println('return _defaultInstance;');
+      });
+      out.println('static ${classname} _defaultInstance;');
       generateFieldsAccessorsMutators(out);
     });
+    out.println();
+
+    out.println('class _Readonly${classname} extends ${classname} with ReadonlyMessageMixin {}');
     out.println();
   }
 

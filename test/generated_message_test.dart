@@ -56,6 +56,20 @@ void main() {
     expect(() { message.repeatedNestedEnum.add(null); }, throwsArgumentError);
   });
 
+  test('testDefaultMessageIsReadOnly', () {
+    var message = new TestAllTypes();
+    expect(message.optionalNestedMessage, same(TestAllTypes_NestedMessage.getDefault()));
+    expect(() { message.optionalNestedMessage.bb = 123; }, throwsUnsupportedError);
+
+    message = TestAllTypes.getDefault();
+    expect(() { message.clear(); }, throwsUnsupportedError);
+    expect(() { message.optionalString = "123"; }, throwsUnsupportedError);
+    expect(() { message.clearOptionalString(); }, throwsUnsupportedError);
+    expect(() { message.repeatedString.add("123"); }, throwsUnsupportedError);
+    expect(() { message.repeatedString.clear(); }, throwsUnsupportedError);
+    expect(() { message.unknownFields.clear(); }, throwsUnsupportedError);
+  });
+
   test('testRepeatedSetters', () {
     TestAllTypes message = getAllSet();
     modifyRepeatedFields(message);

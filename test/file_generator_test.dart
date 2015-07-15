@@ -91,6 +91,11 @@ class PhoneNumber extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static PhoneNumber create() => new PhoneNumber();
   static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
+  static PhoneNumber getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
+    return _defaultInstance;
+  }
+  static PhoneNumber _defaultInstance;
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }
@@ -107,6 +112,8 @@ class PhoneNumber extends GeneratedMessage {
   bool hasName() => hasField(3);
   void clearName() => clearField(3);
 }
+
+class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
 ''';
     FileDescriptorProto fd = buildFileDescriptor();
@@ -164,6 +171,11 @@ class PhoneNumber extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static PhoneNumber create() => new PhoneNumber();
   static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
+  static PhoneNumber getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
+    return _defaultInstance;
+  }
+  static PhoneNumber _defaultInstance;
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }
@@ -180,6 +192,8 @@ class PhoneNumber extends GeneratedMessage {
   bool hasName() => hasField(3);
   void clearName() => clearField(3);
 }
+
+class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
 ''';
     FileDescriptorProto fd = buildFileDescriptor(topLevelEnum: true);
@@ -218,6 +232,11 @@ class PhoneNumber extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static PhoneNumber create() => new PhoneNumber();
   static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
+  static PhoneNumber getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
+    return _defaultInstance;
+  }
+  static PhoneNumber _defaultInstance;
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }
@@ -234,6 +253,8 @@ class PhoneNumber extends GeneratedMessage {
   bool hasName() => hasField(3);
   void clearName() => clearField(3);
 }
+
+class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
 ''';
     FileDescriptorProto fd = buildFileDescriptor();
@@ -273,6 +294,11 @@ class PhoneNumber extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static PhoneNumber create() => new PhoneNumber();
   static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
+  static PhoneNumber getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
+    return _defaultInstance;
+  }
+  static PhoneNumber _defaultInstance;
 
   String get no => getField(1);
   void set no(String v) { setField(1, v); }
@@ -289,6 +315,8 @@ class PhoneNumber extends GeneratedMessage {
   bool hasName_() => hasField(3);
   void clearName_() => clearField(3);
 }
+
+class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
 ''';
     FileDescriptorProto fd = buildFileDescriptor();
@@ -321,9 +349,9 @@ import 'package2.pb.dart' as p2;
 
 class M extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('M')
-    ..a(1, 'm', GeneratedMessage.OM, M.create, M.create)
-    ..a(2, 'm1', GeneratedMessage.OM, p1.M.create, p1.M.create)
-    ..a(3, 'm2', GeneratedMessage.OM, p2.M.create, p2.M.create)
+    ..a(1, 'm', GeneratedMessage.OM, M.getDefault, M.create)
+    ..a(2, 'm1', GeneratedMessage.OM, p1.M.getDefault, p1.M.create)
+    ..a(3, 'm2', GeneratedMessage.OM, p2.M.getDefault, p2.M.create)
     ..hasRequiredFields = false
   ;
 
@@ -334,6 +362,11 @@ class M extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static M create() => new M();
   static PbList<M> createRepeated() => new PbList<M>();
+  static M getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyM();
+    return _defaultInstance;
+  }
+  static M _defaultInstance;
 
   M get m => getField(1);
   void set m(M v) { setField(1, v); }
@@ -350,6 +383,8 @@ class M extends GeneratedMessage {
   bool hasM2() => hasField(3);
   void clearM2() => clearField(3);
 }
+
+class _ReadonlyM extends M with ReadonlyMessageMixin {}
 
 ''';
 
