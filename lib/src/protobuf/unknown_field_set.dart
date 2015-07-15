@@ -15,9 +15,9 @@ class UnknownFieldSet {
     mergeFromUnknownFieldSet(unknownFieldSet);
   }
 
-  UnknownFieldSet clone() => new UnknownFieldSet._clone(this);
+   UnknownFieldSet clone() => new UnknownFieldSet._clone(this);
 
-  Map<int, UnknownFieldSetField> asMap() => new Map.from(_fields);
+   Map<int, UnknownFieldSetField> asMap() => new Map.from(_fields);
 
   void clear() {
     _fields.clear();

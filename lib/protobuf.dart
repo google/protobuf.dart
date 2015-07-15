@@ -24,6 +24,7 @@ part 'src/protobuf/generated_message.dart';
 part 'src/protobuf/generated_service.dart';
 part 'src/protobuf/pb_list.dart';
 part 'src/protobuf/protobuf_enum.dart';
+part 'src/protobuf/readonly_message.dart';
 part 'src/protobuf/rpc_client.dart';
 part 'src/protobuf/unknown_field_set.dart';
 part 'src/protobuf/utils.dart';

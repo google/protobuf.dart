@@ -938,21 +938,31 @@ abstract class GeneratedMessage {
   /// default value if it is not set.
   getField(int tagNumber) {
     var value = _fieldValues[tagNumber];
+    if (value != null) return value;
+
     // Initialize the field.
-    if (value == null) {
-      MakeDefaultFunc makeDefaultFunc = info_.makeDefault(tagNumber);
-      if (makeDefaultFunc == null) {
-        makeDefaultFunc = _extensions[tagNumber].makeDefault;
-      }
-      value = makeDefaultFunc();
-      // TODO(antonm): ugly trick which should go away imho:
-      // right now getField for repeated fields returns a list
-      // which is implicitly added to the message.
-      // Should return immutable empty list instead, imho.
-      if (value is List) {
-        _fieldValues[tagNumber] = value;
-      }
+    MakeDefaultFunc makeDefaultFunc = info_.makeDefault(tagNumber);
+    if (makeDefaultFunc == null) {
+      makeDefaultFunc = _extensions[tagNumber].makeDefault;
     }
+    value = makeDefaultFunc();
+    if (value is List) {
+      return _getDefaultRepeatedField(tagNumber, value);
+    }
+    return value;
+  }
+
+  List _getDefaultRepeatedField(int tagNumber, List value) {
+    // Automatically save the repeated field so that changes won't be lost.
+    //
+    // TODO(skybrian) we could avoid this by generating another
+    // method for repeated fields:
+    //
+    //   msg.mutableFoo().add(123);
+    //
+    // Then msg.foo could return an immutable empty list by default.
+    // But it doesn't seem urgent or worth the migration.
+    _fieldValues[tagNumber] = value;
     return value;
   }
 

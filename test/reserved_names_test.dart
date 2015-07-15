@@ -6,7 +6,7 @@
 @TestOn("vm")
 library reserved_names_test;
 
-import 'package:test/test.dart' show test, expect, equals;
+import 'package:test/test.dart' show test, expect, equals, fail, TestOn;
 
 import 'package:protobuf/meta.dart' show GeneratedMessage_reservedNames;
 import 'package:protobuf/mixins_meta.dart' show findMixin;
@@ -27,6 +27,18 @@ void main() {
         findMemberNames('package:protobuf/protobuf.dart', #GeneratedMessage);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
+  });
+
+  test("ReadonlyMessageMixin doesn't add any reserved names", () {
+    var mixinNames =
+        findMemberNames('package:protobuf/protobuf.dart', #ReadonlyMessageMixin);
+    var reservedNames = new Set<String>.from(GeneratedMessage_reservedNames);
+    for (var name in mixinNames) {
+      if (name == "ReadonlyMessageMixin" || name == "unknownFields") continue;
+      if (!reservedNames.contains(name)) {
+        fail("name from ReadonlyMessageMixin is not reserved: ${name}");
+      }
+    }
   });
 
   test('PbMapMixin reserved names are up to date', () {
