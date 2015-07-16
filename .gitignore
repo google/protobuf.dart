@@ -1,7 +1,8 @@
-.DS_Store
-pubspec.lock
-packages
-.project
 .buildlog
+.packages
+.project
+.DS_Store
 out
+packages
+pubspec.lock
 *.sw?
