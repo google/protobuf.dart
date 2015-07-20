@@ -76,5 +76,14 @@ build-test-protos: $(TEST_PROTO_LIBS)
 run-tests: build-test-protos
 	pub run test
 
+BENCHMARK_PROTOS = $(wildcard benchmark/protos/*.proto)
+
+build-benchmark-protos:
+	protoc \
+	  --dart_out=benchmark \
+	  -Ibenchmark/protos \
+	  --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) \
+	  $(BENCHMARK_PROTOS)
+
 clean:
 	rm -rf $(OUTPUT_DIR)

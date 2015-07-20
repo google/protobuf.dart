@@ -1,8 +1,11 @@
 .buildlog
+.idea
 .packages
 .project
+.pub
 .DS_Store
 out
 packages
 pubspec.lock
 *.sw?
+benchmark/*.pb.dart

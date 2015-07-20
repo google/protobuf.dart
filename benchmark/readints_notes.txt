@@ -1,0 +1,41 @@
+(These numbers were only true on one laptop.)
+
+Dart VM 1.11.0, protobuf 0.4.0:
+
+ReadJsonInts: 10x100 ints time: 300 us, throughput: 3333333 ints/sec
+ReadJsonInts: 10x100 ints time: 289 us, throughput: 3460207 ints/sec
+ReadJsonInts: 10x100 ints time: 288 us, throughput: 3472222 ints/sec
+
+longer lines:
+ReadJsonInts: 10x100 ints time: 291 us, throughput: 3436426 ints/sec
+ReadJsonInts: 20x100 ints time: 369 us, throughput: 5420054 ints/sec
+ReadJsonInts: 30x100 ints time: 444 us, throughput: 6756756 ints/sec
+ReadJsonInts: 40x100 ints time: 548 us, throughput: 7299270 ints/sec
+ReadJsonInts: 50x100 ints time: 622 us, throughput: 8038585 ints/sec
+
+more lines:
+ReadJsonInts: 10x100 ints time: 284 us, throughput: 3521126 ints/sec
+ReadJsonInts: 10x200 ints time: 583 us, throughput: 3430531 ints/sec
+ReadJsonInts: 10x300 ints time: 879 us, throughput: 3412969 ints/sec
+ReadJsonInts: 10x400 ints time: 1164 us, throughput: 3436426 ints/sec
+ReadJsonInts: 10x500 ints time: 1477 us, throughput: 3385240 ints/sec
+
+Dart2JS:
+
+ReadJsonInts: 10x100 ints time: 3605 us, throughput: 277392 ints/sec
+ReadJsonInts: 10x100 ints time: 3293 us, throughput: 303674 ints/sec
+ReadJsonInts: 10x100 ints time: 3274 us, throughput: 305436 ints/sec
+
+longer lines:
+ReadJsonInts: 10x100 ints time: 3189 us, throughput: 313577 ints/sec
+ReadJsonInts: 20x100 ints time: 5023 us, throughput: 398168 ints/sec
+ReadJsonInts: 30x100 ints time: 6874 us, throughput: 436427 ints/sec
+ReadJsonInts: 40x100 ints time: 8666 us, throughput: 461573 ints/sec
+ReadJsonInts: 50x100 ints time: 10800 us, throughput: 462962 ints/sec
+
+more lines:
+ReadJsonInts: 10x100 ints time: 3110 us, throughput: 321543 ints/sec
+ReadJsonInts: 10x200 ints time: 6204 us, throughput: 322372 ints/sec
+ReadJsonInts: 10x300 ints time: 9233 us, throughput: 324921 ints/sec
+ReadJsonInts: 10x400 ints time: 12515 us, throughput: 319616 ints/sec
+ReadJsonInts: 10x500 ints time: 15440 us, throughput: 323834 ints/sec
