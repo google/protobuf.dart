@@ -9,83 +9,18 @@ library map_mixin_test;
 
 import 'dart:collection' show MapMixin;
 
-import 'package:protobuf/protobuf.dart'
-    show GeneratedMessage, PbMapMixin, BuilderInfo;
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart';
 import 'package:test/test.dart' show test, expect, predicate, same;
 
+import 'mock_util.dart' show MockMessage;
+
 // A minimal protobuf implementation compatible with PbMapMixin.
-class Rec extends GeneratedMessage with MapMixin, PbMapMixin {
-  int val = 0;
-  String str = "";
-  Rec child;
+class Rec extends MockMessage with MapMixin, PbMapMixin {
+  get className => "Rec";
+  Rec create() => new Rec();
 
   @override
-  BuilderInfo info_ = new BuilderInfo("rec")
-    ..a(1, "val", null)
-    ..a(2, "str", null)
-    ..a(3, "child", null);
-
-  @override
-  void clear() {
-    val = 0;
-    str = "";
-    child = null;
-  }
-
-  @override
-  int getTagNumber(String fieldName) {
-    switch (fieldName) {
-      case 'val':
-        return 1;
-      case 'str':
-        return 2;
-      case 'child':
-        return 3;
-      default:
-        return null;
-    }
-  }
-
-  @override
-  getField(int tagNumber) {
-    switch (tagNumber) {
-      case 1:
-        return val;
-      case 2:
-        return str;
-      case 3:
-        // lazy initializaton
-        if (child == null) {
-          child = new Rec();
-        }
-        return child;
-      default:
-        return null;
-    }
-  }
-
-  @override
-  void setField(int tagNumber, var value, [int fieldType = null]) {
-    switch (tagNumber) {
-      case 1:
-        val = value;
-        return;
-      case 2:
-        str = value;
-        return;
-      case 3:
-        child = value;
-        return;
-      default:
-        throw new ArgumentError("Rec doesn't support tag: ${tagNumber}");
-    }
-  }
-
-  @override
-  String toString() {
-    return "Rec(${val}, \"${str}\", ${child})";
-  }
+  String toString() => "Rec(${val}, \"${str}\")";
 }
 
 main() {
@@ -99,13 +34,13 @@ main() {
     expect(r["val"], 0);
     expect(r["str"], "");
     expect(r["child"].runtimeType, Rec);
-    expect(r["child"].toString(), 'Rec(0, "", null)');
+    expect(r["child"].toString(), 'Rec(0, "")');
 
     var v = r.values;
     expect(v.length, 3);
     expect(v.first, 0);
     expect(v.toList()[1], "");
-    expect(v.last.toString(), 'Rec(0, "", null)');
+    expect(v.last.toString(), 'Rec(0, "")');
   });
 
   test('operator []= sets record fields', () {

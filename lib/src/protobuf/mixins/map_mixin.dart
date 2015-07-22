@@ -15,7 +15,7 @@ abstract class PbMapMixin implements Map {
 
   // GeneratedMessage properties and methods used by this mixin.
 
-  BuilderInfo info_;
+  BuilderInfo get info_;
   void clear();
   int getTagNumber(String fieldName);
   getField(int tagNumber);
