@@ -4,6 +4,8 @@
 
 syntax = "proto2";
 
+// A grid of variable-length rows,
+// to test repeated fields.
 message Grid {
   repeated Line lines = 1;
 }
@@ -12,3 +14,21 @@ message Line {
   repeated int32 cells = 1;
 }
 
+// A grid where each line contains 10 fields,
+// to test non-repeated fields.
+message Grid10 {
+  repeated Line10 lines = 1;
+}
+
+message Line10 {
+  optional int32 cell1 = 1;
+  optional int32 cell2 = 2;
+  optional int32 cell3 = 3;
+  optional int32 cell4 = 4;
+  optional int32 cell5 = 5;
+  optional int32 cell6 = 6;
+  optional int32 cell7 = 7;
+  optional int32 cell8 = 8;
+  optional int32 cell9 = 9;
+  optional int32 cell10 = 10;
+}
