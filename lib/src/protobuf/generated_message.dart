@@ -235,17 +235,35 @@ abstract class GeneratedMessage {
   final Map<int, Extension> _extensions = new Map<int, Extension>();
   final UnknownFieldSet unknownFields = new UnknownFieldSet();
 
-  GeneratedMessage();
+  GeneratedMessage() {
+    if (eventPlugin != null) eventPlugin.attach(this);
+  }
 
   GeneratedMessage.fromBuffer(List<int> input,
                               ExtensionRegistry extensionRegistry) {
+    if (eventPlugin != null) eventPlugin.attach(this);
     mergeFromBuffer(input, extensionRegistry);
   }
 
   GeneratedMessage.fromJson(String input,
                             ExtensionRegistry extensionRegistry) {
+    if (eventPlugin != null) eventPlugin.attach(this);
     mergeFromJson(input, extensionRegistry);
   }
+
+  /// Subclasses can override this getter to be notified of changes
+  /// to protobuf fields.
+  EventPlugin get eventPlugin => null;
+
+  /// Tells the EventPlugin that we're starting a mutation.
+  ///
+  /// Returns true if the eventPlugin is observing us.
+  bool _startEvents(EventGroup group) =>
+      eventPlugin != null && eventPlugin.startGroup(group);
+
+  /// Tells the EventPlugin that we're done with a mutation.
+  /// This should be called if (and only if) _startEvents returned true.
+  void _endEvents(EventGroup group) => eventPlugin.endGroup(group);
 
   bool hasRequiredFields() => info_.hasRequiredFields;
 
@@ -268,7 +286,20 @@ abstract class GeneratedMessage {
   /// unset fields.
   void clear() {
     unknownFields.clear();
-    _fieldValues.clear();
+
+    bool observed = _startEvents(EventGroup.clear);
+    try {
+      if (observed) {
+        // Add an event for each cleared field.
+        // (They will be buffered until endGroup.)
+        for (int key in _fieldValues.keys) {
+          eventPlugin.beforeClearField(key);
+        }
+      }
+      _fieldValues.clear();
+    } finally {
+      if (observed) _endEvents(EventGroup.clear);
+    }
   }
 
   // TODO(antonm): move to getters.
@@ -379,7 +410,7 @@ abstract class GeneratedMessage {
     }
   }
 
-  // Overriden by subclasses.
+  // Overridden by subclasses.
   BuilderInfo get info_;
 
   Uint8List writeToBuffer() {
@@ -401,24 +432,41 @@ abstract class GeneratedMessage {
       CodedBufferReader input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
 
-    void readPackableIoc(int wireType, int tagNumber, var iocReadFunc) {
+    bool observed = _startEvents(EventGroup.binaryMerge);
+    try {
+      _mergeFromCodedBufferReader(input, extensionRegistry, observed);
+    } finally {
+      if (observed) _endEvents(EventGroup.binaryMerge);
+    }
+  }
+
+  void _mergeFromCodedBufferReader(CodedBufferReader input,
+      ExtensionRegistry extensionRegistry, bool observed) {
+
+    void appendToRepeated(tagNumber, value) {
       List list = getField(tagNumber);
+      list.add(value);
+    }
+
+    void readPackableToList(int wireType, int tagNumber, Function readToList) {
+      List list = getField(tagNumber);
+
       if (wireType == WIRETYPE_LENGTH_DELIMITED) {
         // Packed.
         input._withLimit(input.readInt32(), () {
             while (!input.isAtEnd()) {
-              iocReadFunc(list.add);
+              readToList(list);
             }
         });
       } else {
-        // Not-packed.
-        iocReadFunc(list.add);
+        // Not packed.
+        readToList(list);
       }
     }
 
-    void readPackable(int wireType, int tagNumber, var readFunc) {
-      readPackableIoc(wireType, tagNumber,
-          (var assigner) => assigner(readFunc()));
+    void readPackable(int wireType, int tagNumber, Function readFunc) {
+      void readToList(List list) => list.add(readFunc());
+      readPackableToList(wireType, tagNumber, readToList);
     }
 
     bool wireTypeMatch(int tagNumber, int fieldType, int wireType) {
@@ -485,19 +533,19 @@ abstract class GeneratedMessage {
       fieldType &= ~(_PACKED_BIT | _REQUIRED_BIT);
       switch (fieldType) {
         case _OPTIONAL_BOOL:
-          _fieldValues[tagNumber] = input.readBool();
+          _setField(tagNumber, input.readBool());
           break;
         case _OPTIONAL_BYTES:
-          _fieldValues[tagNumber] = input.readBytes();
+          _setField(tagNumber, input.readBytes());
           break;
         case _OPTIONAL_STRING:
-          _fieldValues[tagNumber] = input.readString();
+          _setField(tagNumber, input.readString());
           break;
         case _OPTIONAL_FLOAT:
-          _fieldValues[tagNumber] = input.readFloat();
+          _setField(tagNumber, input.readFloat());
           break;
         case _OPTIONAL_DOUBLE:
-          _fieldValues[tagNumber] = input.readDouble();
+          _setField(tagNumber, input.readDouble());
           break;
         case _OPTIONAL_ENUM:
           int rawValue = input.readEnum();
@@ -505,7 +553,7 @@ abstract class GeneratedMessage {
           if (value == null) {
             unknownFields.mergeVarintField(tagNumber, new Int64(rawValue));
           } else {
-            _fieldValues[tagNumber] = value;
+            _setField(tagNumber, value);
           }
           break;
         case _OPTIONAL_GROUP:
@@ -515,37 +563,37 @@ abstract class GeneratedMessage {
             subMessage.mergeFromMessage(getField(tagNumber));
           }
           input.readGroup(tagNumber, subMessage, extensionRegistry);
-          _fieldValues[tagNumber] = subMessage;
+          _setField(tagNumber, subMessage);
           break;
         case _OPTIONAL_INT32:
-          _fieldValues[tagNumber] = input.readInt32();
+          _setField(tagNumber, input.readInt32());
           break;
         case _OPTIONAL_INT64:
-          _fieldValues[tagNumber] = input.readInt64();
+          _setField(tagNumber, input.readInt64());
           break;
         case _OPTIONAL_SINT32:
-          _fieldValues[tagNumber] = input.readSint32();
+          _setField(tagNumber, input.readSint32());
           break;
         case _OPTIONAL_SINT64:
-          _fieldValues[tagNumber] = input.readSint64();
+          _setField(tagNumber, input.readSint64());
           break;
         case _OPTIONAL_UINT32:
-          _fieldValues[tagNumber] = input.readUint32();
+          _setField(tagNumber, input.readUint32());
           break;
         case _OPTIONAL_UINT64:
-          _fieldValues[tagNumber] = input.readUint64();
+          _setField(tagNumber, input.readUint64());
           break;
         case _OPTIONAL_FIXED32:
-          _fieldValues[tagNumber] = input.readFixed32();
+          _setField(tagNumber, input.readFixed32());
           break;
         case _OPTIONAL_FIXED64:
-          _fieldValues[tagNumber] = input.readFixed64();
+          _setField(tagNumber, input.readFixed64());
           break;
         case _OPTIONAL_SFIXED32:
-          _fieldValues[tagNumber] = input.readSfixed32();
+          _setField(tagNumber, input.readSfixed32());
           break;
         case _OPTIONAL_SFIXED64:
-          _fieldValues[tagNumber] = input.readSfixed64();
+          _setField(tagNumber, input.readSfixed64());
           break;
         case _OPTIONAL_MESSAGE:
           GeneratedMessage subMessage =
@@ -554,18 +602,16 @@ abstract class GeneratedMessage {
             subMessage.mergeFromMessage(getField(tagNumber));
           }
           input.readMessage(subMessage, extensionRegistry);
-          _fieldValues[tagNumber] = subMessage;
+          _setField(tagNumber, subMessage);
           break;
         case _REPEATED_BOOL:
           readPackable(wireType, tagNumber, input.readBool);
           break;
         case _REPEATED_BYTES:
-          List list = getField(tagNumber);
-          list.add(input.readBytes());
+          appendToRepeated(tagNumber, input.readBytes());
           break;
         case _REPEATED_STRING:
-          List list = getField(tagNumber);
-          list.add(input.readString());
+          appendToRepeated(tagNumber, input.readString());
           break;
         case _REPEATED_FLOAT:
           readPackable(wireType, tagNumber, input.readFloat);
@@ -574,13 +620,13 @@ abstract class GeneratedMessage {
           readPackable(wireType, tagNumber, input.readDouble);
           break;
         case _REPEATED_ENUM:
-          readPackableIoc(wireType, tagNumber, (var assigner){
+          readPackableToList(wireType, tagNumber, (List list) {
             int rawValue = input.readEnum();
             var value = _getValueOfFunc(tagNumber, extensionRegistry)(rawValue);
             if (value == null) {
               unknownFields.mergeVarintField(tagNumber, new Int64(rawValue));
             } else {
-              assigner(value);
+              list.add(value);
             }
           });
           break;
@@ -588,8 +634,7 @@ abstract class GeneratedMessage {
           GeneratedMessage subMessage =
               _getEmptyMessage(tagNumber, extensionRegistry);
           input.readGroup(tagNumber, subMessage, extensionRegistry);
-          List list = getField(tagNumber);
-          list.add(subMessage);
+          appendToRepeated(tagNumber, subMessage);
           break;
         case _REPEATED_INT32:
           readPackable(wireType, tagNumber, input.readInt32);
@@ -625,8 +670,7 @@ abstract class GeneratedMessage {
           GeneratedMessage subMessage =
               _getEmptyMessage(tagNumber, extensionRegistry);
           input.readMessage(subMessage, extensionRegistry);
-          List list = getField(tagNumber);
-          list.add(subMessage);
+          appendToRepeated(tagNumber, subMessage);
           break;
         default:
           throw 'Unknown field type $fieldType';
@@ -722,7 +766,19 @@ abstract class GeneratedMessage {
   String writeToJson() => JSON.encode(writeToJsonMap());
 
   // Merge fields from a previously decoded JSON object.
+  // (Called recursively on nested messages.)
   void _mergeFromJson(
+      Map<String, dynamic> json,
+      ExtensionRegistry extensionRegistry) {
+    bool observed = _startEvents(EventGroup.jsonMerge);
+    try {
+      __mergeFromJson(json, extensionRegistry);
+    } finally {
+      if (observed) _endEvents(EventGroup.jsonMerge);
+    }
+  }
+
+  void __mergeFromJson(
       Map<String, dynamic> json,
       ExtensionRegistry extensionRegistry) {
     // Extract a value from its JSON representation.
@@ -862,7 +918,6 @@ abstract class GeneratedMessage {
     throw new ArgumentError('Expected type $expectedType, got $value');
   }
 
-
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].
   void mergeFromJson(
@@ -914,7 +969,15 @@ abstract class GeneratedMessage {
 
   /// Clears the contents of a given field.
   void clearField(int tagNumber) {
-    _fieldValues.remove(tagNumber);
+    bool observed = _startEvents(EventGroup.clearField);
+    try {
+      if (observed) {
+        eventPlugin.beforeClearField(tagNumber);
+      }
+      _fieldValues.remove(tagNumber);
+    } finally {
+      if (observed) _endEvents(EventGroup.clearField);
+    }
   }
 
   bool extensionsAreInitialized() {
@@ -962,9 +1025,14 @@ abstract class GeneratedMessage {
     //
     // Then msg.foo could return an immutable empty list by default.
     // But it doesn't seem urgent or worth the migration.
-    _fieldValues[tagNumber] = value;
+    _setField(tagNumber, value);
     return value;
   }
+
+  /// Returns the value of the field associated with [tagNumber],
+  /// or null if it's not set. (Ignores any default value.)
+  /// Also returns null for unknown tag numbers.
+  getFieldOrNull(int tagNumber) => _fieldValues[tagNumber];
 
   /// Returns [:true:] if a value of [extension] is present.
   bool hasExtension(Extension extension) {
@@ -990,6 +1058,15 @@ abstract class GeneratedMessage {
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
   void mergeFromMessage(GeneratedMessage other) {
+    bool observed = _startEvents(EventGroup.messageMerge);
+    try {
+      _mergeFromMessage(other);
+    } finally {
+      if (observed) _endEvents(EventGroup.messageMerge);
+    }
+  }
+
+  void _mergeFromMessage(other) {
     for (int tagNumber in other._fieldValues.keys) {
       var fieldValue = other._fieldValues[tagNumber];
 
@@ -1016,7 +1093,7 @@ abstract class GeneratedMessage {
   }
 
   /// Sets the value of a non-repeated extension field to [value].
-  void setExtension(Extension extension, var value) {
+  void setExtension(Extension extension, value) {
     _checkExtension(extension);
     _addExtensionToMap(extension);
     setField(extension.tagNumber, value, extension.type);
@@ -1029,7 +1106,7 @@ abstract class GeneratedMessage {
   ///
   /// Throws an [:ArgumentError:] if [value] is [:null:]. To clear a field of
   /// it's current value, use [clearField] instead.
-  void setField(int tagNumber, var value, [int fieldType = null]) {
+  void setField(int tagNumber, value, [int fieldType = null]) {
     if (value == null) {
       throw new ArgumentError('value is null');
     }
@@ -1046,7 +1123,20 @@ abstract class GeneratedMessage {
 
     // Validate type and range.
     _validate(tagNumber, fieldType & ~0x7, value);
-    _fieldValues[tagNumber] = value;
+
+    _setField(tagNumber, value);
+  }
+
+  void _setField(int tagNumber, value) {
+    bool observed = _startEvents(EventGroup.setField);
+    try {
+      if (observed) {
+        eventPlugin.beforeSetField(tagNumber, value);
+      }
+      _fieldValues[tagNumber] = value;
+    } finally {
+      if (observed) _endEvents(EventGroup.setField);
+    }
   }
 
   void _addExtensionToMap(Extension extension) {

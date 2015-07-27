@@ -33,6 +33,7 @@ const List<String> GeneratedMessage_reservedNames = const [
   'hasExtension',
   'clearExtension',
   'getField',
+  'getFieldOrNull',
   'setField',
   'hasField',
   'clearField',
@@ -42,5 +43,6 @@ const List<String> GeneratedMessage_reservedNames = const [
   '==',
   'info_',
   'GeneratedMessage',
-  'Object'
+  'Object',
+  'eventPlugin'
 ];

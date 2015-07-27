@@ -16,12 +16,16 @@ abstract class MockMessage extends GeneratedMessage {
   String get className;
   MockMessage create();
 
-  get val => getField(1);
+  int get val => getField(1);
   set val(x) => setField(1, x);
-  get str => getField(2);
+
+  String get str => getField(2);
   set str(x) => setField(2, x);
-  get child => getField(3);
+
+  MockMessage get child => getField(3);
   set child(x) => setField(3, x);
+
+  List<int> get int32s => getField(4);
 
   @override
   BuilderInfo get info_ {
@@ -29,7 +33,10 @@ abstract class MockMessage extends GeneratedMessage {
     _infoCache = new BuilderInfo(className)
       ..a(1, "val", GeneratedMessage.O3)
       ..a(2, "str", GeneratedMessage.OS)
-      ..a(3, "child", GeneratedMessage.OM, create);
+      ..a(3, "child", GeneratedMessage.OM, create, create)
+      ..p(4, "int32s", GeneratedMessage.P3);
     return _infoCache;
   }
+
+  clone() => create()..mergeFromMessage(this);
 }

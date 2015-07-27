@@ -62,11 +62,15 @@ class PbMixin {
 }
 
 /// The mixins that findMixin() can return.
-const _exportedMixins = const [_pbMapMixin];
+const _exportedMixins = const [_pbMapMixin, _pbEventMixin];
 
 const _pbMapMixin = const PbMixin._raw("PbMapMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/map_mixin.dart",
     parent: _mapMixin);
+
+const _pbEventMixin = const PbMixin._raw("PbEventMixin",
+    importFrom: "package:protobuf/src/protobuf/mixins/event_mixin.dart",
+    reservedNames: const ["changes"]);
 
 const List<String> _reservedNamesForMap = const [
   '[]',

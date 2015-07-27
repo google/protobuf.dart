@@ -10,7 +10,7 @@ library map_mixin_test;
 import 'dart:collection' show MapMixin;
 
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart';
-import 'package:test/test.dart' show test, expect, predicate, same;
+import 'package:test/test.dart' show test, expect, predicate, same, throws;
 
 import 'mock_util.dart' show MockMessage;
 
@@ -29,18 +29,19 @@ main() {
 
     expect(r.isEmpty, false);
     expect(r.isNotEmpty, true);
-    expect(r.keys, ["val", "str", "child"]);
+    expect(r.keys, ["val", "str", "child", "int32s"]);
 
     expect(r["val"], 0);
     expect(r["str"], "");
     expect(r["child"].runtimeType, Rec);
     expect(r["child"].toString(), 'Rec(0, "")');
+    expect(r["int32s"], []);
 
     var v = r.values;
-    expect(v.length, 3);
+    expect(v.length, 4);
     expect(v.first, 0);
     expect(v.toList()[1], "");
-    expect(v.last.toString(), 'Rec(0, "")');
+    expect(v.last.toString(), '[]');
   });
 
   test('operator []= sets record fields', () {
@@ -58,5 +59,10 @@ main() {
     r["child"] = child;
     expect(r.child, same(child));
     expect(r["child"], same(child));
+
+    expect(() => r["int32s"] = 123, throws);
+    r["int32s"].add(123);
+    expect(r["int32s"], [123]);
+    expect(r["int32s"], same(r["int32s"]));
   });
 }
