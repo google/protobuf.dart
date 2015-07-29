@@ -121,6 +121,7 @@ class EventBuffer extends EventPlugin {
   @override
   void beforeSetField(int tag, newValue) {
     var oldValue = _parent.getFieldOrNull(tag);
+    if (oldValue == null) oldValue = _parent.getDefaultForField(tag);
     if (identical(oldValue, newValue)) return;
     _buffer.add(new PbFieldChange(_parent, tag, oldValue, newValue));
   }
@@ -129,6 +130,7 @@ class EventBuffer extends EventPlugin {
   void beforeClearField(int tag) {
     var oldValue = _parent.getFieldOrNull(tag);
     if (oldValue == null) return;
-    _buffer.add(new PbFieldChange(_parent, tag, oldValue, null));
+    var newValue = _parent.getDefaultForField(tag);
+    _buffer.add(new PbFieldChange(_parent, tag, oldValue, newValue));
   }
 }

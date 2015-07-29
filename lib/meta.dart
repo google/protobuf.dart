@@ -34,6 +34,7 @@ const List<String> GeneratedMessage_reservedNames = const [
   'clearExtension',
   'getField',
   'getFieldOrNull',
+  'getDefaultForField',
   'setField',
   'hasField',
   'clearField',

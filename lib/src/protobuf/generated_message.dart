@@ -1004,11 +1004,7 @@ abstract class GeneratedMessage {
     if (value != null) return value;
 
     // Initialize the field.
-    MakeDefaultFunc makeDefaultFunc = info_.makeDefault(tagNumber);
-    if (makeDefaultFunc == null) {
-      makeDefaultFunc = _extensions[tagNumber].makeDefault;
-    }
-    value = makeDefaultFunc();
+    value = _callDefaultFunction(tagNumber);
     if (value is List) {
       return _getDefaultRepeatedField(tagNumber, value);
     }
@@ -1029,10 +1025,33 @@ abstract class GeneratedMessage {
     return value;
   }
 
-  /// Returns the value of the field associated with [tagNumber],
-  /// or null if it's not set. (Ignores any default value.)
+  /// Returns the value of a field, ignoring any defaults.
+  ///
+  /// For unset or cleared fields, returns null.
   /// Also returns null for unknown tag numbers.
   getFieldOrNull(int tagNumber) => _fieldValues[tagNumber];
+
+  /// Returns the default value for the given field.
+  ///
+  /// For repeated fields, returns an immutable empty list
+  /// (unlike [getField]). For all other fields, returns
+  /// the same thing that getField() would for a cleared field.
+  getDefaultForField(int tagNumber) {
+    var value =  _callDefaultFunction(tagNumber);
+    if (value is List) return _emptyList;
+    return value;
+  }
+
+  _callDefaultFunction(int tagNumber) {
+    MakeDefaultFunc f = info_.makeDefault(tagNumber);
+    if (f != null) return f();
+
+    var extension = _extensions[tagNumber];
+    if (extension != null) return extension.makeDefault();
+
+    throw new ArgumentError(
+        "tag $tagNumber not defined in ${info_.messageName}");
+  }
 
   /// Returns [:true:] if a value of [extension] is present.
   bool hasExtension(Extension extension) {

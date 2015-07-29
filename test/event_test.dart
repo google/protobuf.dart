@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// Unit tests for PbMapMixin.
-// There are more tests in the dart-protoc-plugin package.
-library map_mixin_test;
+/// Tests event delivery using PbEventMixin.
+library event_test;
 
 import 'dart:typed_data' show Uint8List;
 
@@ -15,13 +14,9 @@ import 'package:test/test.dart' show test, expect, predicate, same;
 
 import 'mock_util.dart' show MockMessage;
 
-// A minimal protobuf implementation compatible with PbMapMixin.
 class Rec extends MockMessage with PbEventMixin {
   get className => "Rec";
   Rec create() => new Rec();
-
-  @override
-  String toString() => "Rec(${val}, \"${str}\")";
 }
 
 main() {
@@ -33,7 +28,7 @@ main() {
     });
 
     r.val = 123;
-    checkLog(log, [[[1, null, 123]]]);
+    checkLog(log, [[[1, 42, 123]]]);
 
     r.val = 456;
     checkLog(log, [[[1, 123, 456]]]);
@@ -42,7 +37,7 @@ main() {
     checkLog(log, []);
 
     r.clearField(1);
-    checkLog(log, [[[1, 456, null]]]);
+    checkLog(log, [[[1, 456, 42]]]);
 
     r.clearField(1);
     checkLog(log, []); // no change
@@ -55,16 +50,18 @@ main() {
       log.add(changes);
     });
 
-    // Accessing a repeated field creates it.
+    // Accessing a repeated field replaces the default,
+    // read-only [] with a mutable [],
+    // which counts as a change.
     var list = r.int32s;
-    checkLog(log, [[[4, null, []]]]);
+    checkLog(log, [[[4, [], []]]]);
 
     // No event yet for modifying a repeated field.
     list.add(123);
     checkLog(log, []);
 
     r.clearField(4);
-    checkLog(log, [[[4, [123], null]]]);
+    checkLog(log, [[[4, [123], []]]]);
   });
 
   test('Events are sent when clearing multiple fields', () {
@@ -84,7 +81,7 @@ main() {
     r.clear();
     expect(r.eventPlugin.groupStack, []);
     checkLog(log, [
-      [[1, 123, null], [2, "hello", null], [3, "<msg>", null], [4, [456], null]]
+      [[1, 123, 42], [2, "hello", ''], [3, "<msg>", "<msg>"], [4, [456], []]]
     ]);
   });
 
@@ -104,7 +101,7 @@ main() {
 
     dest.mergeFromMessage(src);
     checkLog(log, [
-      [[1, null, 123], [2, null, "hello"], [3, null, "<msg>"], [4, null, [456]]]
+      [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
     ]);
   });
 
@@ -120,7 +117,7 @@ main() {
     r.mergeFromJson('{"1": 123, "2": "hello", "3": {}, "4": [456]}');
     // The changes should not include the repeated message.
     checkLog(log, [
-      [[1, null, 123], [2, null, "hello"], [3, null, "<msg>"], [4, null, [456]]]
+      [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
     ]);
   });
 
@@ -143,7 +140,7 @@ main() {
     r.mergeFromBuffer(bytes);
     // The changes should not include the repeated message.
     checkLog(log, [
-      [[1, null, 123], [2, null, "hello"], [3, null, "<msg>"], [4, null, [456]]]
+      [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
     ]);
   });
 }

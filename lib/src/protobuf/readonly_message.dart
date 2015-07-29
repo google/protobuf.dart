@@ -4,10 +4,11 @@
 
 part of protobuf;
 
+final _emptyList = new List.unmodifiable([]);
+
 /// Modifies a GeneratedMessage so that it's read-only.
 abstract class ReadonlyMessageMixin {
   static final _emptyUnknownFields = new _ReadonlyUnknownFieldSet();
-  static final _emptyList = new List.unmodifiable([]);
 
   BuilderInfo get info_;
 

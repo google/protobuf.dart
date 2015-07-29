@@ -31,7 +31,7 @@ abstract class MockMessage extends GeneratedMessage {
   BuilderInfo get info_ {
     if (_infoCache != null) return _infoCache;
     _infoCache = new BuilderInfo(className)
-      ..a(1, "val", GeneratedMessage.O3)
+      ..a(1, "val", GeneratedMessage.O3, 42)
       ..a(2, "str", GeneratedMessage.OS)
       ..a(3, "child", GeneratedMessage.OM, create, create)
       ..p(4, "int32s", GeneratedMessage.P3);
