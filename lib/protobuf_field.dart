@@ -260,7 +260,7 @@ class ProtobufField {
             String byteList = field.defaultValue.codeUnits
                 .map((b) => '0x${b.toRadixString(16)}')
                 .join(',');
-            initialization = '()${SP}=>${SP}<int>[$byteList]';
+            initialization = '() => <int>[$byteList]';
           }
         }
         break;
@@ -339,7 +339,7 @@ class ProtobufField {
     }
 
     if (repeats) {
-      initialization = '()${SP}=>${SP}new PbList()';
+      initialization = '() => new PbList()';
     }
 
     if (prefixedBaseType == null) prefixedBaseType = baseType;

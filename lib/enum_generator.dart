@@ -48,8 +48,8 @@ class EnumGenerator extends ProtobufContainer {
       // Define enum types.
       for (EnumValueDescriptorProto val in _canonicalValues) {
         out.println(
-            'static const ${classname} ${val.name}${SP}=${SP}'
-                "const ${classname}._(${val.number},${SP}'${val.name}');");
+            'static const ${classname} ${val.name} = '
+                "const ${classname}._(${val.number}, '${val.name}');");
       }
       if (!_aliases.isEmpty) {
         out.println();
@@ -61,22 +61,22 @@ class EnumGenerator extends ProtobufContainer {
       out.println();
 
       out.println(
-        'static const List<${classname}> values${SP}='
-            '${SP}const${SP}<${classname}>${SP}[');
+        'static const List<${classname}> values ='
+            ' const <${classname}> [');
       for (EnumValueDescriptorProto val in _canonicalValues) {
-        out.println('${SP}${SP}${val.name},');
+        out.println('  ${val.name},');
       }
       out.println('];');
       out.println();
 
-      out.println('static final Map<int, ${classname}> _byValue${SP}='
-          '${SP}ProtobufEnum.initByValue(values);');
-      out.println('static ${classname} valueOf(int value)${SP}=>'
-          '${SP}_byValue[value];');
+      out.println('static final Map<int, ${classname}> _byValue ='
+          ' ProtobufEnum.initByValue(values);');
+      out.println('static ${classname} valueOf(int value) =>'
+          ' _byValue[value];');
       out.println();
 
-      out.println('const ${classname}._(int v,${SP}String n)${SP}'
-          ':${SP}super(v,${SP}n);');
+      out.println('const ${classname}._(int v, String n) '
+          ': super(v, n);');
     });
   }
 }

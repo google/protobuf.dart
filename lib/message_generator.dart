@@ -4,8 +4,6 @@
 
 part of protoc;
 
-const String SP = ' ';
-
 class MessageGenerator extends ProtobufContainer {
   // List of Dart language reserved words in names which cannot be used in a
   // subclass of GeneratedMessage.
@@ -142,47 +140,47 @@ class MessageGenerator extends ProtobufContainer {
           }
           String valueOf = null;
           if (field.enm) {
-            valueOf = '(var v)${SP}=>${SP}${fieldType}.valueOf(v)';
+            valueOf = '(var v) => ${fieldType}.valueOf(v)';
           }
           if ('PM' == type) {
             // Repeated message: default is an empty list
-            out.println('..m(${field.number},${SP}'
-                '\'${field.externalFieldName}\',${SP}$subBuilder,'
-                '${SP}$subBuilderRepeated)');
+            out.println('..m(${field.number}, '
+                '\'${field.externalFieldName}\', $subBuilder,'
+                ' $subBuilderRepeated)');
           } else if (type[0] == 'P' && type != 'PG' && type != 'PE') {
             // Repeated, not a message or enum: default is an empty list,
             // subBuilder is null, valueOf is null.
-            out.println('..p(${field.number},${SP}'
-                '\'${field.externalFieldName}\',${SP}GeneratedMessage.$type)');
+            out.println('..p(${field.number}, '
+                '\'${field.externalFieldName}\', GeneratedMessage.$type)');
           } else if (type == 'OE' || type == 'QE') {
-            out.println('..e(${field.number},${SP}'
-                '\'${field.externalFieldName}\',${SP}GeneratedMessage.$type,'
-                '${SP}$makeDefault,${SP}$valueOf)');
+            out.println('..e(${field.number}, '
+                '\'${field.externalFieldName}\', GeneratedMessage.$type,'
+                ' $makeDefault, $valueOf)');
           } else {
             if (makeDefault == null && subBuilder == null && valueOf == null) {
-              out.println('..a(${field.number},${SP}'
-                  '\'${field.externalFieldName}\',${SP}GeneratedMessage.$type)');
+              out.println('..a(${field.number}, '
+                  '\'${field.externalFieldName}\', GeneratedMessage.$type)');
             } else if (subBuilder == null && valueOf == null) {
-              out.println('..a(${field.number},${SP}'
-                  '\'${field.externalFieldName}\',${SP}GeneratedMessage.$type,'
-                  '${SP}$makeDefault)');
+              out.println('..a(${field.number}, '
+                  '\'${field.externalFieldName}\', GeneratedMessage.$type,'
+                  ' $makeDefault)');
             } else if (valueOf == null) {
-              out.println('..a(${field.number},${SP}'
-                  '\'${field.externalFieldName}\',${SP}GeneratedMessage.$type,'
-                  '${SP}$makeDefault,${SP}$subBuilder)');
+              out.println('..a(${field.number}, '
+                  '\'${field.externalFieldName}\', GeneratedMessage.$type,'
+                  ' $makeDefault, $subBuilder)');
             } else {
-              out.println('..a(${field.number},${SP}'
-                  '\'${field.externalFieldName}\',${SP}GeneratedMessage.$type,'
-                  '${SP}$makeDefault,${SP}$subBuilder,${SP}$valueOf)');
+              out.println('..a(${field.number}, '
+                  '\'${field.externalFieldName}\', GeneratedMessage.$type,'
+                  ' $makeDefault, $subBuilder, $valueOf)');
             }
           }
         }
 
         if (_descriptor.extensionRange.length > 0) {
-          out.println('..hasExtensions${SP}=${SP}true');
+          out.println('..hasExtensions = true');
         }
         if (!_hasRequiredFields(this, new Set())) {
-          out.println('..hasRequiredFields${SP}=${SP}false');
+          out.println('..hasRequiredFields = false');
         }
       });
 
@@ -192,23 +190,23 @@ class MessageGenerator extends ProtobufContainer {
 
       out.println();
 
-      out.println('${classname}()${SP}:${SP}super();');
+      out.println('${classname}() : super();');
       out.println('${classname}.fromBuffer(List<int> i,'
-          '${SP}[ExtensionRegistry r = ExtensionRegistry.EMPTY])'
-          '${SP}:${SP}super.fromBuffer(i,${SP}r);');
+          ' [ExtensionRegistry r = ExtensionRegistry.EMPTY])'
+          ' : super.fromBuffer(i, r);');
       out.println('${classname}.fromJson(String i,'
-          '${SP}[ExtensionRegistry r = ExtensionRegistry.EMPTY])'
-          '${SP}:${SP}super.fromJson(i,${SP}r);');
-      out.println('${classname} clone()${SP}=>'
-          '${SP}new ${classname}()..mergeFromMessage(this);');
+          ' [ExtensionRegistry r = ExtensionRegistry.EMPTY])'
+          ' : super.fromJson(i, r);');
+      out.println('${classname} clone() =>'
+          ' new ${classname}()..mergeFromMessage(this);');
 
-      out.println('BuilderInfo get info_${SP}=>${SP}_i;');
+      out.println('BuilderInfo get info_ => _i;');
 
       // Factory functions which can be used as default value closures.
-      out.println('static ${classname}${SP}create()${SP}=>'
-          '${SP}new ${classname}();');
-      out.println('static PbList<${classname}>${SP}createRepeated()${SP}=>'
-          '${SP}new PbList<${classname}>();');
+      out.println('static ${classname} create() =>'
+          ' new ${classname}();');
+      out.println('static PbList<${classname}> createRepeated() =>'
+          ' new PbList<${classname}>();');
       out.addBlock('static ${classname} getDefault() {',
           '}', () {
         out.println('if (_defaultInstance == null) _defaultInstance = new _Readonly${classname}();');
@@ -290,15 +288,15 @@ class MessageGenerator extends ProtobufContainer {
       }
       var fieldTypeString = field.typeStringForPackage(package);
       out.println('${fieldTypeString} get ${identifier}'
-          '${SP}=>${SP}getField(${field.number});');
+          ' => getField(${field.number});');
       if (field.single) {
         out.println('void set ${identifier}'
-            '(${fieldTypeString} v)${SP}'
-            '{${SP}setField(${field.number},${SP}v);${SP}}');
-        out.println('bool $hasIdentifier()${SP}=>'
-            '${SP}hasField(${field.number});');
-        out.println('void $clearIdentifier()${SP}=>'
-            '${SP}clearField(${field.number});');
+            '(${fieldTypeString} v) '
+            '{ setField(${field.number}, v); }');
+        out.println('bool $hasIdentifier() =>'
+            ' hasField(${field.number});');
+        out.println('void $clearIdentifier() =>'
+            ' clearField(${field.number});');
       }
     }
   }

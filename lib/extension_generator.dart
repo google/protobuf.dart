@@ -51,35 +51,35 @@ class ExtensionGenerator extends ProtobufContainer {
         _descriptor.type == FieldDescriptorProto_Type.TYPE_GROUP) {
       if (_descriptor.label ==
           FieldDescriptorProto_Label.LABEL_REPEATED) {
-        initializer = ',${SP}()${SP}=>${SP}new PbList<${baseType}>()';
-        builder = ',${SP}()${SP}=>${SP}new ${baseType}()';
+        initializer = ', () => new PbList<${baseType}>()';
+        builder = ', () => new ${baseType}()';
       } else {
-        initializer = ',${SP}()${SP}=>${SP}new ${baseType}()';
-        builder = ',${SP}()${SP}=>${SP}new ${baseType}()';
+        initializer = ', () => new ${baseType}()';
+        builder = ', () => new ${baseType}()';
       }
     } else {
       if (_descriptor.label == FieldDescriptorProto_Label.LABEL_REPEATED) {
-        initializer = ',${SP}()${SP}=>${SP}new PbList<${baseType}>()';
+        initializer = ', () => new PbList<${baseType}>()';
       } else if (field.hasInitialization) {
         var fieldInitialization = field.initializationForPackage(package);
-        initializer = ',${SP}${fieldInitialization}';
+        initializer = ', ${fieldInitialization}';
       }
     }
 
     if (field.enm) {
       if (initializer.isEmpty) {
-        initializer = ',${SP}null';
+        initializer = ', null';
       }
       if (builder.isEmpty) {
-        builder = ',${SP}null';
+        builder = ', null';
       }
       var fieldType = field.baseTypeForPackage(package);
-      valueOf = ',${SP}(var v)${SP}=>${SP}${fieldType}.valueOf(v)';
+      valueOf = ', (var v) => ${fieldType}.valueOf(v)';
     }
 
-    out.println('static final Extension $name${SP}=${SP}'
-      'new Extension(\'$extendee\',${SP}\'$name\',${SP}'
-      '${_descriptor.number},${SP}GeneratedMessage.$type'
+    out.println('static final Extension $name = '
+      'new Extension(\'$extendee\', \'$name\', '
+      '${_descriptor.number}, GeneratedMessage.$type'
       '${initializer}${builder}${valueOf}'
       ');');
   }
