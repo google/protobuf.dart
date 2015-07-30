@@ -4,11 +4,11 @@
 
 library protobuf.mixins.event;
 
-import "dart:async" show Stream, StreamController;
+import "dart:async" show Stream, StreamController, scheduleMicrotask;
 import "dart:collection" show UnmodifiableListView;
 
 import "package:protobuf/protobuf.dart"
-    show GeneratedMessage, EventPlugin, EventGroup, ListEventPlugin;
+    show GeneratedMessage, EventPlugin, ListEventPlugin;
 
 /// Provides a stream of changes to fields in a GeneratedMessage.
 /// (Experimental.)
@@ -18,11 +18,17 @@ import "package:protobuf/protobuf.dart"
 abstract class PbEventMixin {
   final eventPlugin = new EventBuffer();
 
-  /// Changes to fields in the GeneratedMessage.
+  /// A stream of changes to fields in the GeneratedMessage.
   ///
-  /// Each item in the stream is a group of related changes made
-  /// by one GeneratedMessage method call.
+  /// Events are buffered and delivered via a microtask or in
+  /// the next call to [deliverChanges], whichever happens first.
   Stream<List<PbFieldChange>> get changes => eventPlugin.changes;
+
+  /// Delivers buffered field change events synchronously,
+  /// instead of waiting for the microtask to run.
+  ///
+  /// Returns false if no events were queued.
+  bool deliverChanges() => eventPlugin.deliverChanges();
 }
 
 /// A change to a field in a GeneratedMessage.
@@ -44,28 +50,14 @@ class EventBuffer extends EventPlugin {
   GeneratedMessage _parent;
   StreamController<List<PbFieldChange>> _controller;
 
-  // _buffer is non-null when observing field changes.
-  // It should be non-null only inside a group.
+  // If _buffer is non-null, at least one event is in the buffer
+  // and a microtask has been scheduled to empty it.
   List<PbFieldChange> _buffer;
-
-  // Non-null if we're in a group.
-  EventGroup _outerGroup;
-
-  // Non-empty if we're in a nested group.
-  List<EventGroup> _groupStack;
 
   @override
   void attach(GeneratedMessage newParent) {
     assert(_parent == null);
     _parent = newParent;
-  }
-
-  // Returns the currently active event groups (for debugging).
-  List<String> get groupStack {
-    if (_outerGroup == null) return [];
-    var result = [_outerGroup];
-    if (_groupStack != null) result.addAll(_groupStack);
-    return result;
   }
 
   Stream<List<PbFieldChange>> get changes {
@@ -75,47 +67,23 @@ class EventBuffer extends EventPlugin {
     return _controller.stream;
   }
 
-  @override
-  bool startGroup(EventGroup group) {
-    assert(group != null);
-    if (_outerGroup == null) {
-      if (_controller == null || !_controller.hasListener) {
-        // skip events for this group (don't enter group)
-        return false;
-      }
-      _outerGroup = group;
-      _buffer = <PbFieldChange>[];
-      return true;
-    } else {
-      assert(_buffer != null);
+  bool get hasObservers => _controller != null && _controller.hasListener;
 
-      // enter nested group
-      if (_groupStack == null) _groupStack = <EventGroup>[];
-      _groupStack.add(group);
-      return true;
+  void deliverChanges() {
+    var records = _buffer;
+    _buffer = null;
+    if (records != null && hasObservers) {
+      _controller.add(new UnmodifiableListView<PbFieldChange>(records));
     }
   }
 
-  @override
-  void endGroup(EventGroup group) {
-    if (_groupStack != null && _groupStack.isNotEmpty) {
-      // exit nested group
-      var startGroup = _groupStack.removeLast();
-      assert(group == startGroup);
-      return;
+  void addEvent(PbFieldChange change) {
+    if (!hasObservers) return;
+    if (_buffer == null) {
+      _buffer = <PbFieldChange>[];
+      scheduleMicrotask(deliverChanges);
     }
-
-    assert(_outerGroup == group);
-    assert(_buffer != null);
-
-    // exit outer group
-    _outerGroup = null;
-
-    // send any events
-    if (_controller != null && _controller.hasListener && _buffer.isNotEmpty) {
-      _controller.add(new UnmodifiableListView(_buffer));
-    }
-    _buffer = null;
+    _buffer.add(change);
   }
 
   @override
@@ -123,7 +91,7 @@ class EventBuffer extends EventPlugin {
     var oldValue = _parent.getFieldOrNull(tag);
     if (oldValue == null) oldValue = _parent.getDefaultForField(tag);
     if (identical(oldValue, newValue)) return;
-    _buffer.add(new PbFieldChange(_parent, tag, oldValue, newValue));
+    addEvent(new PbFieldChange(_parent, tag, oldValue, newValue));
   }
 
   @override
@@ -131,6 +99,6 @@ class EventBuffer extends EventPlugin {
     var oldValue = _parent.getFieldOrNull(tag);
     if (oldValue == null) return;
     var newValue = _parent.getDefaultForField(tag);
-    _buffer.add(new PbFieldChange(_parent, tag, oldValue, newValue));
+    addEvent(new PbFieldChange(_parent, tag, oldValue, newValue));
   }
 }

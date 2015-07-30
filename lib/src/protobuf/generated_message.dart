@@ -255,15 +255,8 @@ abstract class GeneratedMessage {
   /// to protobuf fields.
   EventPlugin get eventPlugin => null;
 
-  /// Tells the EventPlugin that we're starting a mutation.
-  ///
-  /// Returns true if the eventPlugin is observing us.
-  bool _startEvents(EventGroup group) =>
-      eventPlugin != null && eventPlugin.startGroup(group);
-
-  /// Tells the EventPlugin that we're done with a mutation.
-  /// This should be called if (and only if) _startEvents returned true.
-  void _endEvents(EventGroup group) => eventPlugin.endGroup(group);
+  /// Returns true if we should send events to the plugin.
+  bool get _hasObservers => eventPlugin != null && eventPlugin.hasObservers;
 
   bool hasRequiredFields() => info_.hasRequiredFields;
 
@@ -287,19 +280,12 @@ abstract class GeneratedMessage {
   void clear() {
     unknownFields.clear();
 
-    bool observed = _startEvents(EventGroup.clear);
-    try {
-      if (observed) {
-        // Add an event for each cleared field.
-        // (They will be buffered until endGroup.)
-        for (int key in _fieldValues.keys) {
-          eventPlugin.beforeClearField(key);
-        }
+    if (_hasObservers) {
+      for (int key in _fieldValues.keys) {
+        eventPlugin.beforeClearField(key);
       }
-      _fieldValues.clear();
-    } finally {
-      if (observed) _endEvents(EventGroup.clear);
     }
+    _fieldValues.clear();
   }
 
   // TODO(antonm): move to getters.
@@ -431,17 +417,6 @@ abstract class GeneratedMessage {
   void mergeFromCodedBufferReader(
       CodedBufferReader input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-
-    bool observed = _startEvents(EventGroup.binaryMerge);
-    try {
-      _mergeFromCodedBufferReader(input, extensionRegistry, observed);
-    } finally {
-      if (observed) _endEvents(EventGroup.binaryMerge);
-    }
-  }
-
-  void _mergeFromCodedBufferReader(CodedBufferReader input,
-      ExtensionRegistry extensionRegistry, bool observed) {
 
     void appendToRepeated(tagNumber, value) {
       List list = getField(tagNumber);
@@ -770,17 +745,7 @@ abstract class GeneratedMessage {
   void _mergeFromJson(
       Map<String, dynamic> json,
       ExtensionRegistry extensionRegistry) {
-    bool observed = _startEvents(EventGroup.jsonMerge);
-    try {
-      __mergeFromJson(json, extensionRegistry);
-    } finally {
-      if (observed) _endEvents(EventGroup.jsonMerge);
-    }
-  }
 
-  void __mergeFromJson(
-      Map<String, dynamic> json,
-      ExtensionRegistry extensionRegistry) {
     // Extract a value from its JSON representation.
 
     for (int tagNumber in sorted(json.keys.map(int.parse))) {
@@ -969,15 +934,10 @@ abstract class GeneratedMessage {
 
   /// Clears the contents of a given field.
   void clearField(int tagNumber) {
-    bool observed = _startEvents(EventGroup.clearField);
-    try {
-      if (observed) {
-        eventPlugin.beforeClearField(tagNumber);
-      }
-      _fieldValues.remove(tagNumber);
-    } finally {
-      if (observed) _endEvents(EventGroup.clearField);
+    if (_hasObservers) {
+      eventPlugin.beforeClearField(tagNumber);
     }
+    _fieldValues.remove(tagNumber);
   }
 
   bool extensionsAreInitialized() {
@@ -1077,15 +1037,6 @@ abstract class GeneratedMessage {
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
   void mergeFromMessage(GeneratedMessage other) {
-    bool observed = _startEvents(EventGroup.messageMerge);
-    try {
-      _mergeFromMessage(other);
-    } finally {
-      if (observed) _endEvents(EventGroup.messageMerge);
-    }
-  }
-
-  void _mergeFromMessage(other) {
     for (int tagNumber in other._fieldValues.keys) {
       var fieldValue = other._fieldValues[tagNumber];
 
@@ -1147,15 +1098,10 @@ abstract class GeneratedMessage {
   }
 
   void _setField(int tagNumber, value) {
-    bool observed = _startEvents(EventGroup.setField);
-    try {
-      if (observed) {
-        eventPlugin.beforeSetField(tagNumber, value);
-      }
-      _fieldValues[tagNumber] = value;
-    } finally {
-      if (observed) _endEvents(EventGroup.setField);
+    if (_hasObservers) {
+      eventPlugin.beforeSetField(tagNumber, value);
     }
+    _fieldValues[tagNumber] = value;
   }
 
   void _addExtensionToMap(Extension extension) {

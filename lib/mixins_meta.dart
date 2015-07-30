@@ -70,7 +70,7 @@ const _pbMapMixin = const PbMixin._raw("PbMapMixin",
 
 const _pbEventMixin = const PbMixin._raw("PbEventMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/event_mixin.dart",
-    reservedNames: const ["changes"]);
+    reservedNames: const ["changes", "deliverChanges"]);
 
 const List<String> _reservedNamesForMap = const [
   '[]',

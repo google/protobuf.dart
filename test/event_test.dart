@@ -28,18 +28,23 @@ main() {
     });
 
     r.val = 123;
+    r.deliverChanges();
     checkLog(log, [[[1, 42, 123]]]);
 
     r.val = 456;
+    r.deliverChanges();
     checkLog(log, [[[1, 123, 456]]]);
 
     r.val = 456; // no change
+    r.deliverChanges();
     checkLog(log, []);
 
     r.clearField(1);
+    r.deliverChanges();
     checkLog(log, [[[1, 456, 42]]]);
 
     r.clearField(1);
+    r.deliverChanges();
     checkLog(log, []); // no change
   });
 
@@ -54,13 +59,16 @@ main() {
     // read-only [] with a mutable [],
     // which counts as a change.
     var list = r.int32s;
+    r.deliverChanges();
     checkLog(log, [[[4, [], []]]]);
 
     // No event yet for modifying a repeated field.
     list.add(123);
+    r.deliverChanges();
     checkLog(log, []);
 
     r.clearField(4);
+    r.deliverChanges();
     checkLog(log, [[[4, [123], []]]]);
   });
 
@@ -79,7 +87,7 @@ main() {
     });
 
     r.clear();
-    expect(r.eventPlugin.groupStack, []);
+    r.deliverChanges();
     checkLog(log, [
       [[1, 123, 42], [2, "hello", ''], [3, "<msg>", "<msg>"], [4, [456], []]]
     ]);
@@ -100,6 +108,7 @@ main() {
     });
 
     dest.mergeFromMessage(src);
+    dest.deliverChanges();
     checkLog(log, [
       [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
     ]);
@@ -116,6 +125,7 @@ main() {
 
     r.mergeFromJson('{"1": 123, "2": "hello", "3": {}, "4": [456]}');
     // The changes should not include the repeated message.
+    r.deliverChanges();
     checkLog(log, [
       [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
     ]);
@@ -139,6 +149,7 @@ main() {
 
     r.mergeFromBuffer(bytes);
     // The changes should not include the repeated message.
+    r.deliverChanges();
     checkLog(log, [
       [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
     ]);
