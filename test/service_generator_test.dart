@@ -53,17 +53,12 @@ abstract class TestServiceBase extends GeneratedService {
 }
 
 ''';
-    var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    var context =
-        new GenerationContext(options, new DefaultOutputConfiguration());
-    var fd = new FileDescriptorProto();
-    var fg = new FileGenerator(fd, null, context);
-    ServiceDescriptorProto sd = buildServiceDescriptor();
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
-    var sg = new ServiceGenerator(sd, fg, context);
+
+    var sg = new ServiceGenerator(buildServiceDescriptor());
     sg.generate(writer);
+
     expect(buffer.toString(), expected);
   });
 }

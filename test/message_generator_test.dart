@@ -116,12 +116,15 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    var context = new GenerationContext(options,
-        new DefaultOutputConfiguration());
-    FileGenerator fg = new FileGenerator(fd, null, context);
-    MessageGenerator mg = new MessageGenerator(md, fg, context, null);
-    mg.initializeFields();
-    mg.generate(writer);
+
+    FileGenerator fg = new FileGenerator(fd);
+    MessageGenerator mg = new MessageGenerator(md, fg, null);
+
+    var ctx = new GenerationContext(options, new DefaultOutputConfiguration());
+    mg.register(ctx);
+    mg.resolve(ctx);
+    mg.generate(writer, ctx);
+
     expect(buffer.toString(), expected);
   });
 }

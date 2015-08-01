@@ -22,8 +22,6 @@ class FileGenerator extends ProtobufContainer {
   }
 
   final FileDescriptorProto _fileDescriptor;
-  final ProtobufContainer _parent;
-  final GenerationContext _context;
 
   final List<EnumGenerator> enumGenerators = <EnumGenerator>[];
   final List<MessageGenerator> messageGenerators = <MessageGenerator>[];
@@ -31,27 +29,55 @@ class FileGenerator extends ProtobufContainer {
   final List<ClientApiGenerator> clientApiGenerators = <ClientApiGenerator>[];
   final List<ServiceGenerator> serviceGenerators = <ServiceGenerator>[];
 
-  FileGenerator(this._fileDescriptor, this._parent, this._context) {
-    _context.register(this);
+  bool _resolved = false;
 
+  FileGenerator(this._fileDescriptor) {
     var defaultMixin = _getDefaultMixin(_fileDescriptor);
 
     // Load and register all enum and message types.
     for (EnumDescriptorProto enumType in _fileDescriptor.enumType) {
-      enumGenerators.add(new EnumGenerator(enumType, this, _context));
+      enumGenerators.add(new EnumGenerator(enumType, this));
     }
     for (DescriptorProto messageType in _fileDescriptor.messageType) {
       messageGenerators.add(
-          new MessageGenerator(messageType, this, _context, defaultMixin));
+          new MessageGenerator(messageType, this, defaultMixin));
     }
     for (FieldDescriptorProto extension in _fileDescriptor.extension) {
-      extensionGenerators.add(
-          new ExtensionGenerator(extension, this, _context));
+      extensionGenerators.add(new ExtensionGenerator(extension, this));
     }
     for (ServiceDescriptorProto service in _fileDescriptor.service) {
-      serviceGenerators.add(new ServiceGenerator(service, this, _context));
-      clientApiGenerators.add(new ClientApiGenerator(service, this, _context));
+      serviceGenerators.add(new ServiceGenerator(service));
+      clientApiGenerators.add(new ClientApiGenerator(service));
     }
+  }
+
+  /// Makes the messages, groups, and enums in this file available for use as
+  /// field types.
+  /// Also makes this file available for use in imports.
+  void register(GenerationContext ctx) {
+    for (var m in messageGenerators) {
+      m.register(ctx);
+    }
+    for (var e in enumGenerators) {
+      e.register(ctx);
+    }
+
+    ctx.registerFile(_fileDescriptor.name, this);
+  }
+
+  /// Creates the fields in each message.
+  /// Resolves field types and extension targets using the supplied context.
+  void resolve(GenerationContext ctx) {
+    if (_resolved) throw new StateError("already resolved");
+
+    for (var m in messageGenerators) {
+      m.resolve(ctx);
+    }
+    for (var x in extensionGenerators) {
+      x.resolve(ctx);
+    }
+
+    _resolved = true;
   }
 
   String get package => _fileDescriptor.package;
@@ -75,19 +101,22 @@ class FileGenerator extends ProtobufContainer {
     return _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
   }
 
-  CodeGeneratorResponse_File generateResponse() {
+  CodeGeneratorResponse_File generateResponse(GenerationContext ctx) {
     MemoryWriter writer = new MemoryWriter();
     IndentingWriter out = new IndentingWriter('  ', writer);
 
-    generate(out);
+    generate(out, ctx);
 
     Uri filePath = new Uri.file(_fileDescriptor.name);
     return new CodeGeneratorResponse_File()
-        ..name = _context.outputConfiguration.outputPathFor(filePath).path
+        ..name = ctx.outputConfiguration.outputPathFor(filePath).path
         ..content = writer.toString();
   }
 
-  void generate(IndentingWriter out) {
+  /// Generates the Dart code for this .proto file.
+  void generate(IndentingWriter out, GenerationContext ctx) {
+    if (!_resolved) throw new StateError("resolve not called");
+
     Uri filePath = new Uri.file(_fileDescriptor.name);
     if (filePath.isAbsolute) {
         // protoc should never generate a file descriptor with an absolute path.
@@ -126,11 +155,11 @@ class FileGenerator extends ProtobufContainer {
         throw("FAILURE: Import with absolute path is not supported");
       }
       // Create a path from the current file to the imported proto.
-      Uri resolvedImport = _context.outputConfiguration.resolveImport(
+      Uri resolvedImport = ctx.outputConfiguration.resolveImport(
           importPath, filePath);
       // Find the file generator for this import as it contains the
       // package name.
-      FileGenerator fileGenerator = _context.lookupFile(import);
+      FileGenerator fileGenerator = ctx.getFile(import);
       out.print("import '$resolvedImport'");
       if (package != fileGenerator.package && !fileGenerator.package.isEmpty) {
         out.print(' as ${fileGenerator.packageImportPrefix}');
@@ -139,17 +168,12 @@ class FileGenerator extends ProtobufContainer {
     }
     out.println('');
 
-    // Initialize Field.
-    for (MessageGenerator m in messageGenerators) {
-      m.initializeFields();
-    }
-
     // Generate code.
     for (EnumGenerator e in enumGenerators) {
       e.generate(out);
     }
     for (MessageGenerator m in messageGenerators) {
-      m.generate(out);
+      m.generate(out, ctx);
     }
 
     // Generate code for extensions defined at top-level using a class
@@ -207,21 +231,26 @@ class FileGenerator extends ProtobufContainer {
 class GenerationContext {
   final GenerationOptions options;
   final OutputConfiguration outputConfiguration;
-  final Map<String, ProtobufContainer> _registry =
+  final Map<String, ProtobufContainer> _typeRegistry =
       <String, ProtobufContainer>{};
   final Map<String, FileGenerator> _files =
       <String, FileGenerator>{};
 
   GenerationContext(this.options, this.outputConfiguration);
 
-  void register(ProtobufContainer container) {
-    _registry[container.fqname] = container;
-    if (container is FileGenerator) {
-      _files[container._fileDescriptor.name] = container;
-    }
+  /// Makes a message, group, or enum available to fields.
+  void registerFieldType(String name, ProtobufContainer type) {
+    _typeRegistry[name] = type;
   }
 
-  ProtobufContainer operator [](String fqname) => _registry[fqname];
+  /// Returns the message, group, or enum with the given fully qualified name.
+  ProtobufContainer getFieldType(String name) => _typeRegistry[name];
 
-  FileGenerator lookupFile(String name) => _files[name];
+  /// Makes info about a .pb.dart file available to imports.
+  void registerFile(String name, FileGenerator file) {
+    _files[name] = file;
+  }
+
+  /// Returns info about a file being imported.
+  FileGenerator getFile(String name) => _files[name];
 }

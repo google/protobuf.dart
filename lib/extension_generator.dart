@@ -4,44 +4,41 @@
 
 part of protoc;
 
-class ExtensionGenerator extends ProtobufContainer {
-  final String fqname;
+class ExtensionGenerator {
   final FieldDescriptorProto _descriptor;
   final ProtobufContainer _parent;
-  final GenerationContext _context;
 
-  ExtensionGenerator(
-      FieldDescriptorProto descriptor,
-      ProtobufContainer parent,
-      GenerationContext context)
-          : this._descriptor = descriptor,
-            this._parent = parent,
-            this._context = context,
-            fqname = parent.fqname == '.' ?
-                '.${descriptor.name}' :
-                '${parent.fqname}.${descriptor.name}';
+  // populated by resolve()
+  ProtobufField _field;
+  String _extendedClassName = "";
+
+  ExtensionGenerator(this._descriptor, this._parent);
+
+  void resolve(GenerationContext ctx) {
+    _field = new ProtobufField(_descriptor, _parent, ctx);
+
+    ProtobufContainer extendedType = ctx.getFieldType(_descriptor.extendee);
+    // TODO(skybrian) When would this be null?
+    if (extendedType != null) {
+      _extendedClassName = extendedType.classname;
+    }
+  }
 
   String get package => _parent.package;
 
-  String get classname {
-    String name = new ProtobufField(
-        _descriptor, _parent, _context).externalFieldName;
+  String get name {
+    if (_field == null) throw new StateError("resolve not called");
+    String name = _field.externalFieldName;
     return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
   }
 
   void generate(IndentingWriter out) {
-    ProtobufField field = new ProtobufField(_descriptor, _parent, _context);
-    String baseType = field.baseTypeForPackage(package);
+    if (_field == null) throw new StateError("resolve not called");
 
-    String name = field.externalFieldName;
-    String type = field.shortTypeName;
+    String baseType = _field.baseTypeForPackage(package);
 
-    String extendee = '';
-    ProtobufContainer extendeeContainer = _context[_descriptor.extendee];
-    if (extendeeContainer != null) {
-      extendee = extendeeContainer.classname;
-    }
-
+    String name = _field.externalFieldName;
+    String type = _field.shortTypeName;
 
     String initializer = '';
     String builder = '';
@@ -60,29 +57,27 @@ class ExtensionGenerator extends ProtobufContainer {
     } else {
       if (_descriptor.label == FieldDescriptorProto_Label.LABEL_REPEATED) {
         initializer = ', () => new PbList<${baseType}>()';
-      } else if (field.hasInitialization) {
-        var fieldInitialization = field.initializationForPackage(package);
+      } else if (_field.hasInitialization) {
+        var fieldInitialization = _field.initializationForPackage(package);
         initializer = ', ${fieldInitialization}';
       }
     }
 
-    if (field.enm) {
+    if (_field.enm) {
       if (initializer.isEmpty) {
         initializer = ', null';
       }
       if (builder.isEmpty) {
         builder = ', null';
       }
-      var fieldType = field.baseTypeForPackage(package);
+      var fieldType = _field.baseTypeForPackage(package);
       valueOf = ', (var v) => ${fieldType}.valueOf(v)';
     }
 
     out.println('static final Extension $name = '
-      'new Extension(\'$extendee\', \'$name\', '
+      'new Extension(\'$_extendedClassName\', \'$name\', '
       '${_descriptor.number}, GeneratedMessage.$type'
       '${initializer}${builder}${valueOf}'
       ');');
   }
-
-  String get name => classname;
 }

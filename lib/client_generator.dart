@@ -4,28 +4,12 @@
 
 part of protoc;
 
-class ClientApiGenerator extends ProtobufContainer {
-  final String classname;
-  final String fqname;
-
-  final ProtobufContainer _parent;
-  final GenerationContext _context;
+class ClientApiGenerator {
   final ServiceDescriptorProto _descriptor;
 
-  ClientApiGenerator(ServiceDescriptorProto descriptor,
-      ProtobufContainer parent, this._context)
-      : _descriptor = descriptor,
-        _parent = parent,
-        classname = descriptor.name,
-        fqname = (parent == null || parent.fqname == null)
-            ? descriptor.name
-            : (parent.fqname == '.'
-                ? '.${descriptor.name}'
-                : '${parent.fqname}.${descriptor.name}') {
-    _context.register(this);
-  }
+  ClientApiGenerator(this._descriptor);
 
-  String get package => _parent.package;
+  String get classname => _descriptor.name;
 
   String _shortType(String typename) {
     return typename.substring(typename.lastIndexOf('.') + 1);

@@ -4,35 +4,10 @@
 
 part of protoc;
 
-class ServiceGenerator extends ProtobufContainer {
-  final String classname;
-  final String fqname;
-
-  final ProtobufContainer _parent;
-  final GenerationContext _context;
+class ServiceGenerator {
   final ServiceDescriptorProto _descriptor;
-  final List<MethodDescriptorProto> _methodDescriptors;
 
-  ServiceGenerator(ServiceDescriptorProto descriptor, ProtobufContainer parent,
-      this._context)
-      : _descriptor = descriptor,
-        _parent = parent,
-        classname = descriptor.name,
-        fqname = _qualifiedName(descriptor, parent),
-        _methodDescriptors = descriptor.method {
-    _context.register(this);
-  }
-
-  static String _qualifiedName(
-      ServiceDescriptorProto descriptor, ProtobufContainer parent) {
-    if (parent == null || parent.fqname == null) {
-      return descriptor.name;
-    } else if (parent.fqname == '.') {
-      return '.${descriptor.name}';
-    } else {
-      return '${parent.fqname}.${descriptor.name}';
-    }
-  }
+  ServiceGenerator(this._descriptor);
 
   static String _serviceClassName(descriptor) {
     if (descriptor.name.endsWith("Service")) {
@@ -42,7 +17,7 @@ class ServiceGenerator extends ProtobufContainer {
     }
   }
 
-  String get package => _parent.package;
+  List<MethodDescriptorProto> get _methodDescriptors => _descriptor.method;
 
   String _shortType(String typename) {
     return typename.substring(typename.lastIndexOf('.') + 1);

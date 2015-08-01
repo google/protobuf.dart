@@ -37,17 +37,19 @@ class MessageGenerator extends ProtobufContainer {
   final PbMixin mixin;
 
   final ProtobufContainer _parent;
-  final GenerationContext _context;
   final DescriptorProto _descriptor;
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
-  final List<ProtobufField> _fieldList = <ProtobufField>[];
   final List<MessageGenerator> _messageGenerators = <MessageGenerator>[];
   final List<ExtensionGenerator> _extensionGenerators = <ExtensionGenerator>[];
+
+  // populated by resolve()
+  List<ProtobufField> _fieldList;
+
+  // Used during generation.
   final Set<String> _methodNames = new Set<String>();
 
   MessageGenerator(
-      DescriptorProto descriptor, ProtobufContainer parent, this._context,
-      PbMixin defaultMixin)
+      DescriptorProto descriptor, ProtobufContainer parent, PbMixin defaultMixin)
       : _descriptor = descriptor,
         _parent = parent,
         classname = (parent.classname == '') ?
@@ -56,19 +58,18 @@ class MessageGenerator extends ProtobufContainer {
             (parent.fqname == '.' ?
                 '.${descriptor.name}' : '${parent.fqname}.${descriptor.name}'),
         mixin = _getMixin(descriptor, defaultMixin) {
-    _context.register(this);
 
     for (EnumDescriptorProto e in _descriptor.enumType) {
-      _enumGenerators.add(new EnumGenerator(e, this, _context));
+      _enumGenerators.add(new EnumGenerator(e, this));
     }
 
     for (DescriptorProto n in _descriptor.nestedType) {
       _messageGenerators.add(
-          new MessageGenerator(n, this, _context, defaultMixin));
+          new MessageGenerator(n, this, defaultMixin));
     }
 
     for (FieldDescriptorProto x in _descriptor.extension) {
-      _extensionGenerators.add(new ExtensionGenerator(x, this, _context));
+      _extensionGenerators.add(new ExtensionGenerator(x, this));
     }
   }
 
@@ -84,17 +85,37 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
-  void initializeFields() {
-    _fieldList.clear();
-    for (FieldDescriptorProto field in _descriptor.field) {
-      _fieldList.add(new ProtobufField(field, this, _context));
+  // Registers message and enum types that can be used elsewhere.
+  void register(GenerationContext ctx) {
+    ctx.registerFieldType(fqname, this);
+    for (var m  in _messageGenerators) {
+      m.register(ctx);
     }
-    for (MessageGenerator m in _messageGenerators) {
-      m.initializeFields();
+    for (var e in _enumGenerators) {
+      e.register(ctx);
     }
   }
 
-  void generate(IndentingWriter out) {
+  // Creates fields and resolves extension targets.
+  void resolve(GenerationContext ctx) {
+    if (_fieldList != null) throw new StateError("message already resolved");
+
+    _fieldList = <ProtobufField>[];
+    for (FieldDescriptorProto field in _descriptor.field) {
+      _fieldList.add(new ProtobufField(field, this, ctx));
+    }
+
+    for (var m in _messageGenerators) {
+      m.resolve(ctx);
+    }
+    for (var x in _extensionGenerators) {
+      x.resolve(ctx);
+    }
+  }
+
+  void generate(IndentingWriter out, GenerationContext ctx) {
+    if (_fieldList == null) throw new StateError("message not resolved");
+
     _methodNames.clear();
     _methodNames.addAll(reservedWords);
     _methodNames.addAll(GeneratedMessage_reservedNames);
@@ -109,7 +130,7 @@ class MessageGenerator extends ProtobufContainer {
     }
 
     for (MessageGenerator m in _messageGenerators) {
-      m.generate(out);
+      m.generate(out, ctx);
     }
 
     var mixinClause = '';
@@ -179,7 +200,7 @@ class MessageGenerator extends ProtobufContainer {
         if (_descriptor.extensionRange.length > 0) {
           out.println('..hasExtensions = true');
         }
-        if (!_hasRequiredFields(this, new Set())) {
+        if (!_hasRequiredFields(this, new Set(), ctx)) {
           out.println('..hasRequiredFields = false');
         }
       });
@@ -227,7 +248,9 @@ class MessageGenerator extends ProtobufContainer {
   //
   // already_seen is used to avoid checking the same type multiple times
   // (and also to protect against unbounded recursion).
-  bool _hasRequiredFields(MessageGenerator type, Set alreadySeen) {
+  bool _hasRequiredFields(MessageGenerator type, Set alreadySeen, GenerationContext ctx) {
+    if (type._fieldList == null) throw new StateError("message not resolved");
+
     if (alreadySeen.contains(type.fqname)) {
       // The type is already in cache.  This means that either:
       // a. The type has no required fields.
@@ -252,9 +275,9 @@ class MessageGenerator extends ProtobufContainer {
         return true;
       }
       if (field.message) {
-        ProtobufContainer messageType = _context[field.typeName];
+        ProtobufContainer messageType = ctx.getFieldType(field.typeName);
         if (messageType != null && messageType is MessageGenerator) {
-          if (_hasRequiredFields(messageType, alreadySeen)) {
+          if (_hasRequiredFields(messageType, alreadySeen, ctx)) {
             return true;
           }
         }

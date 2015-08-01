@@ -20,8 +20,7 @@ class EnumGenerator extends ProtobufContainer {
 
   EnumGenerator(
       EnumDescriptorProto descriptor,
-      ProtobufContainer parent,
-      GenerationContext context)
+      ProtobufContainer parent)
     : _parent = parent,
       classname = (parent == null || parent is FileGenerator) ?
           descriptor.name : '${parent.classname}_${descriptor.name}',
@@ -37,10 +36,14 @@ class EnumGenerator extends ProtobufContainer {
         _aliases.add(new EnumAlias(value, canonicalValue));
       }
     }
-    context.register(this);
   }
 
   String get package => _parent.package;
+
+  /// Make this enum available as a field type.
+  void register(GenerationContext ctx) {
+    ctx.registerFieldType(fqname, this);
+  }
 
   void generate(IndentingWriter out) {
     out.addBlock('class ${classname} extends ProtobufEnum {', '}\n', () {

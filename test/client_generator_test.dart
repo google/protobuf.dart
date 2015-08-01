@@ -6,7 +6,6 @@
 library client_generator_test;
 
 import 'package:protoc_plugin/src/descriptor.pb.dart';
-import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
 
@@ -45,16 +44,9 @@ class TestApi {
 }
 
 ''';
-    var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    var context =
-        new GenerationContext(options, new DefaultOutputConfiguration());
-    var fd = new FileDescriptorProto();
-    var fg = new FileGenerator(fd, null, context);
-    ServiceDescriptorProto sd = buildServiceDescriptor();
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
-    ClientApiGenerator cag = new ClientApiGenerator(sd, fg, context);
+    ClientApiGenerator cag = new ClientApiGenerator(buildServiceDescriptor());
     cag.generate(writer);
     expect(buffer.toString(), expected);
   });

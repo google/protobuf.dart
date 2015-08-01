@@ -25,7 +25,11 @@ class CodeGenerator extends ProtobufContainer {
   /// constructed (see [OutputConfiguration] for details).
   void generate({
       Map<String, SingleOptionParser> optionParsers,
-      OutputConfiguration outputConfiguration}) {
+      OutputConfiguration config}) {
+
+    if (config == null) {
+      config = new DefaultOutputConfiguration();
+    }
 
     var extensions = new ExtensionRegistry();
     Dart_options.registerAllExtensions(extensions);
@@ -46,19 +50,31 @@ class CodeGenerator extends ProtobufContainer {
               return;
             }
 
-            var ctx = new GenerationContext(options,
-                outputConfiguration == null
-                ? new DefaultOutputConfiguration() : outputConfiguration);
+            // Create a syntax tree for each .proto file given to us.
+            // (We may import it even if we don't generate the .pb.dart file.)
             List<FileGenerator> generators = <FileGenerator>[];
             for (FileDescriptorProto file in request.protoFile) {
-              var generator = new FileGenerator(file, this, ctx);
-              if (request.fileToGenerate.contains(file.name)) {
-                generators.add(generator);
-              }
+              generators.add(new FileGenerator(file));
             }
 
-            response.file.addAll(
-                generators.map((filegen) => filegen.generateResponse()));
+            // Collect field types and importable files.
+            var ctx = new GenerationContext(options, config);
+            for (var gen in generators) {
+              gen.register(ctx);
+            }
+
+            // Create fields using the field types we just registered.
+            for (var gen in generators) {
+              gen.resolve(ctx);
+            }
+
+            // Generate the .pb.dart file if requested.
+            for (var gen in generators) {
+              var name = gen._fileDescriptor.name;
+              if (request.fileToGenerate.contains(name)) {
+                response.file.add(gen.generateResponse(ctx));
+              }
+            }
             _streamOut.add(response.writeToBuffer());
         });
   }

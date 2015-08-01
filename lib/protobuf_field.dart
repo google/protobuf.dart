@@ -17,7 +17,7 @@ class ProtobufField {
 
   final FieldDescriptorProto _field;
   final ProtobufContainer parent;
-  final GenerationContext context;
+  final GenerationOptions genOptions;
   final String fqname;
   final String typePackage;
   final String baseType;
@@ -97,7 +97,7 @@ class ProtobufField {
   }
 
   ProtobufField._(
-      field, parent, this.context, this.typePackage, this.baseType,
+      field, parent, this.genOptions, this.typePackage, this.baseType,
       this.typeString, this.prefixedBaseType, this.prefixedTypeString,
       this.codedStreamType, this.repeats,
       this.initialization, this.prefixedInitialization, this.required,
@@ -109,7 +109,7 @@ class ProtobufField {
 
   factory ProtobufField(FieldDescriptorProto field,
                         ProtobufContainer parent,
-                        GenerationContext context) {
+                        GenerationContext ctx) {
     bool required = field.label == FieldDescriptorProto_Label.LABEL_REQUIRED;
     bool repeats = field.label == FieldDescriptorProto_Label.LABEL_REPEATED;
     bool packed = false;
@@ -265,7 +265,7 @@ class ProtobufField {
         }
         break;
       case FieldDescriptorProto_Type.TYPE_GROUP:
-        ProtobufContainer groupType = context[field.typeName];
+        ProtobufContainer groupType = ctx.getFieldType(field.typeName);
         if (groupType != null) {
           typePackage = groupType.package;
           baseType = groupType.classname;
@@ -284,7 +284,7 @@ class ProtobufField {
         prefixedInitialization = '${prefixedBaseType}.getDefault';
         break;
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
-        ProtobufContainer messageType = context[field.typeName];
+        ProtobufContainer messageType = ctx.getFieldType(field.typeName);
         if (messageType != null) {
           typePackage = messageType.package;
           baseType = messageType.classname;
@@ -303,7 +303,7 @@ class ProtobufField {
         prefixedInitialization = '${prefixedBaseType}.getDefault';
         break;
       case FieldDescriptorProto_Type.TYPE_ENUM:
-        EnumGenerator enumType = context[field.typeName];
+        EnumGenerator enumType = ctx.getFieldType(field.typeName);
         if (enumType != null) {
           typePackage = enumType.package;
           baseType = enumType.classname;
@@ -346,7 +346,7 @@ class ProtobufField {
     if (prefixedTypeString == null) prefixedTypeString = typeString;
     if (prefixedInitialization == null) prefixedInitialization = initialization;
     return new ProtobufField._(
-        field, parent, context, typePackage, baseType, typeString,
+        field, parent, ctx.options, typePackage, baseType, typeString,
         prefixedBaseType, prefixedTypeString, codedStreamType, repeats,
         initialization, prefixedInitialization, required, packed, packable);
   }
@@ -373,7 +373,7 @@ class ProtobufField {
       }
       return underscoresToCamelCase(name);
     }
-    var name = context.options.fieldNameOverrides[fqname];
+    var name = genOptions.fieldNameOverrides[fqname];
     return name != null ? name : underscoresToCamelCase(_field.name);
   }
 
