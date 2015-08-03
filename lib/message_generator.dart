@@ -113,7 +113,7 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
-  void generate(IndentingWriter out, GenerationContext ctx) {
+  void generate(IndentingWriter out) {
     if (_fieldList == null) throw new StateError("message not resolved");
 
     _methodNames.clear();
@@ -130,7 +130,7 @@ class MessageGenerator extends ProtobufContainer {
     }
 
     for (MessageGenerator m in _messageGenerators) {
-      m.generate(out, ctx);
+      m.generate(out);
     }
 
     var mixinClause = '';
@@ -200,7 +200,7 @@ class MessageGenerator extends ProtobufContainer {
         if (_descriptor.extensionRange.length > 0) {
           out.println('..hasExtensions = true');
         }
-        if (!_hasRequiredFields(this, new Set(), ctx)) {
+        if (!_hasRequiredFields(this, new Set())) {
           out.println('..hasRequiredFields = false');
         }
       });
@@ -248,7 +248,7 @@ class MessageGenerator extends ProtobufContainer {
   //
   // already_seen is used to avoid checking the same type multiple times
   // (and also to protect against unbounded recursion).
-  bool _hasRequiredFields(MessageGenerator type, Set alreadySeen, GenerationContext ctx) {
+  bool _hasRequiredFields(MessageGenerator type, Set alreadySeen) {
     if (type._fieldList == null) throw new StateError("message not resolved");
 
     if (alreadySeen.contains(type.fqname)) {
@@ -275,11 +275,9 @@ class MessageGenerator extends ProtobufContainer {
         return true;
       }
       if (field.message) {
-        ProtobufContainer messageType = ctx.getFieldType(field.typeName);
-        if (messageType != null && messageType is MessageGenerator) {
-          if (_hasRequiredFields(messageType, alreadySeen, ctx)) {
-            return true;
-          }
+        MessageGenerator messageType = field.typeGenerator;
+        if (_hasRequiredFields(messageType, alreadySeen)) {
+          return true;
         }
       }
     }

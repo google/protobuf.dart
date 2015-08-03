@@ -120,10 +120,10 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     FileGenerator fg = new FileGenerator(fd);
     MessageGenerator mg = new MessageGenerator(md, fg, null);
 
-    var ctx = new GenerationContext(options, new DefaultOutputConfiguration());
+    var ctx = new GenerationContext(options);
     mg.register(ctx);
     mg.resolve(ctx);
-    mg.generate(writer, ctx);
+    mg.generate(writer);
 
     expect(buffer.toString(), expected);
   });

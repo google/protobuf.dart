@@ -58,21 +58,13 @@ class CodeGenerator extends ProtobufContainer {
             }
 
             // Collect field types and importable files.
-            var ctx = new GenerationContext(options, config);
-            for (var gen in generators) {
-              gen.register(ctx);
-            }
-
-            // Create fields using the field types we just registered.
-            for (var gen in generators) {
-              gen.resolve(ctx);
-            }
+            link(options, generators);
 
             // Generate the .pb.dart file if requested.
             for (var gen in generators) {
               var name = gen._fileDescriptor.name;
               if (request.fileToGenerate.contains(name)) {
-                response.file.add(gen.generateResponse(ctx));
+                response.file.add(gen.generateResponse(config));
               }
             }
             _streamOut.add(response.writeToBuffer());

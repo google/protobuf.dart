@@ -25,6 +25,7 @@ class ProtobufField {
   final String prefixedBaseType;
   final String prefixedTypeString;
   final String codedStreamType;
+  final ProtobufContainer typeGenerator;
   final bool repeats;
   final String initialization;
   final String prefixedInitialization;
@@ -96,10 +97,10 @@ class ProtobufField {
     throw 'Unknown type';
   }
 
-  ProtobufField._(
+  ProtobufField._raw(
       field, parent, this.genOptions, this.typePackage, this.baseType,
       this.typeString, this.prefixedBaseType, this.prefixedTypeString,
-      this.codedStreamType, this.repeats,
+      this.codedStreamType, this.typeGenerator, this.repeats,
       this.initialization, this.prefixedInitialization, this.required,
       this.packed, this.packable) :
           this._field = field,
@@ -129,6 +130,7 @@ class ProtobufField {
     String prefixedTypeString;
     bool packable = false;
     String codedStreamType;
+    ProtobufContainer typeGenerator;
     String initialization;
     String prefixedInitialization;
     switch (field.type) {
@@ -277,6 +279,7 @@ class ProtobufField {
           }
           prefixedTypeString = write(prefixedBaseType);
           codedStreamType = 'Group';
+          typeGenerator = groupType;
         } else {
           throw 'FAILURE: Unknown group type reference ${field.typeName}';
         }
@@ -296,6 +299,7 @@ class ProtobufField {
           }
           prefixedTypeString = write(prefixedBaseType);
           codedStreamType = 'Message';
+          typeGenerator = messageType;
         } else {
           throw 'FAILURE: Unknown message type reference ${field.typeName}';
         }
@@ -309,6 +313,7 @@ class ProtobufField {
           baseType = enumType.classname;
           typeString = write(enumType.classname);
           codedStreamType = 'Enum';
+          typeGenerator = enumType;
           if (enumType.packageImportPrefix.isNotEmpty) {
             prefixedBaseType = enumType.packageImportPrefix + '.' + baseType;
           } else {
@@ -345,10 +350,11 @@ class ProtobufField {
     if (prefixedBaseType == null) prefixedBaseType = baseType;
     if (prefixedTypeString == null) prefixedTypeString = typeString;
     if (prefixedInitialization == null) prefixedInitialization = initialization;
-    return new ProtobufField._(
+    return new ProtobufField._raw(
         field, parent, ctx.options, typePackage, baseType, typeString,
-        prefixedBaseType, prefixedTypeString, codedStreamType, repeats,
-        initialization, prefixedInitialization, required, packed, packable);
+        prefixedBaseType, prefixedTypeString, codedStreamType, typeGenerator,
+        repeats, initialization, prefixedInitialization, required,
+        packed, packable);
   }
 
   // camelCase field name.

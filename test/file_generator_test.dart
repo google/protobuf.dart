@@ -121,11 +121,9 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    var ctx = new GenerationContext(options, new DefaultOutputConfiguration());
     FileGenerator fg = new FileGenerator(fd);
-    fg.register(ctx);
-    fg.resolve(ctx);
-    fg.generate(writer, ctx);
+    link(options, [fg]);
+    fg.generate(writer);
     expect(buffer.toString(), expected);
   });
 
@@ -203,12 +201,10 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    FileGenerator fg = new FileGenerator(fd);
 
-    var ctx = new GenerationContext(options, new DefaultOutputConfiguration());
-    fg.register(ctx);
-    fg.resolve(ctx);
-    fg.generate(writer, ctx);
+    FileGenerator fg = new FileGenerator(fd);
+    link(options, [fg]);
+    fg.generate(writer);
 
     expect(buffer.toString(), expected);
   });
@@ -269,12 +265,10 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    FileGenerator fg = new FileGenerator(fd);
 
-    GenerationContext ctx = new GenerationContext(options, new DefaultOutputConfiguration());
-    fg.register(ctx);
-    fg.resolve(ctx);
-    fg.generate(writer, ctx);
+    FileGenerator fg = new FileGenerator(fd);
+    link(options, [fg]);
+    fg.generate(writer);
 
     expect(buffer.toString(), expected);
   });
@@ -338,12 +332,10 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
                         'field_name=PhoneNumber.type|The_type';
     var options = parseGenerationOptions(
         request, new CodeGeneratorResponse());
-    FileGenerator fg = new FileGenerator(fd);
 
-    var ctx = new GenerationContext(options, new DefaultOutputConfiguration());
-    fg.register(ctx);
-    fg.resolve(ctx);
-    fg.generate(writer, ctx);
+    FileGenerator fg = new FileGenerator(fd);
+    link(options, [fg]);
+    fg.generate(writer);
 
     expect(buffer.toString(), expected);
   });
@@ -499,16 +491,10 @@ class _ReadonlyM extends M with ReadonlyMessageMixin {}
     var request = new CodeGeneratorRequest();
     var response = new CodeGeneratorResponse();
     var options = parseGenerationOptions(request, response);
-    var ctx = new GenerationContext(options, new DefaultOutputConfiguration());
 
-    var fg = new FileGenerator(fd)..register(ctx);
-    var fg1 = new FileGenerator(fd1)..register(ctx);
-    var fg2 = new FileGenerator(fd2)..register(ctx);
-
-    fg.resolve(ctx);
-    fg1.resolve(ctx);
-    fg2.resolve(ctx);
-    fg.generate(writer, ctx);
+    FileGenerator fg = new FileGenerator(fd);
+    link(options, [fg, new FileGenerator(fd1), new FileGenerator(fd2)]);
+    fg.generate(writer);
 
     expect(buffer.toString(), expected);
   });

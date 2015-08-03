@@ -29,7 +29,9 @@ class FileGenerator extends ProtobufContainer {
   final List<ClientApiGenerator> clientApiGenerators = <ClientApiGenerator>[];
   final List<ServiceGenerator> serviceGenerators = <ServiceGenerator>[];
 
-  bool _resolved = false;
+  /// Contains an entry for each .pb.dart file that we need to import.
+  /// Populated by [resolve].
+  List<FileGenerator> _importedProtos;
 
   FileGenerator(this._fileDescriptor) {
     var defaultMixin = _getDefaultMixin(_fileDescriptor);
@@ -51,24 +53,10 @@ class FileGenerator extends ProtobufContainer {
     }
   }
 
-  /// Makes the messages, groups, and enums in this file available for use as
-  /// field types.
-  /// Also makes this file available for use in imports.
-  void register(GenerationContext ctx) {
-    for (var m in messageGenerators) {
-      m.register(ctx);
-    }
-    for (var e in enumGenerators) {
-      e.register(ctx);
-    }
-
-    ctx.registerFile(_fileDescriptor.name, this);
-  }
-
   /// Creates the fields in each message.
   /// Resolves field types and extension targets using the supplied context.
   void resolve(GenerationContext ctx) {
-    if (_resolved) throw new StateError("already resolved");
+    if (_importedProtos != null) throw new StateError("already resolved");
 
     for (var m in messageGenerators) {
       m.resolve(ctx);
@@ -77,7 +65,12 @@ class FileGenerator extends ProtobufContainer {
       x.resolve(ctx);
     }
 
-    _resolved = true;
+    _importedProtos = <FileGenerator>[];
+    for (String fileName in _fileDescriptor.dependency) {
+      var file = ctx.getImportedProtoFile(fileName);
+      assert(file != null);
+      _importedProtos.add(file);
+    }
   }
 
   String get package => _fileDescriptor.package;
@@ -101,21 +94,22 @@ class FileGenerator extends ProtobufContainer {
     return _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
   }
 
-  CodeGeneratorResponse_File generateResponse(GenerationContext ctx) {
+  CodeGeneratorResponse_File generateResponse(OutputConfiguration config) {
     MemoryWriter writer = new MemoryWriter();
     IndentingWriter out = new IndentingWriter('  ', writer);
 
-    generate(out, ctx);
+    generate(out, config);
 
     Uri filePath = new Uri.file(_fileDescriptor.name);
     return new CodeGeneratorResponse_File()
-        ..name = ctx.outputConfiguration.outputPathFor(filePath).path
+        ..name = config.outputPathFor(filePath).path
         ..content = writer.toString();
   }
 
   /// Generates the Dart code for this .proto file.
-  void generate(IndentingWriter out, GenerationContext ctx) {
-    if (!_resolved) throw new StateError("resolve not called");
+  void generate(IndentingWriter out,
+      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+    if (_importedProtos == null) throw new StateError("not linked");
 
     Uri filePath = new Uri.file(_fileDescriptor.name);
     if (filePath.isAbsolute) {
@@ -148,21 +142,18 @@ class FileGenerator extends ProtobufContainer {
       out.println("import '${imp}' show ${symbols.join(', ')};");
     }
 
-    for (String import in _fileDescriptor.dependency) {
-      Uri importPath = new Uri.file(import);
+    for (var imported in _importedProtos) {
+      String filename = imported._fileDescriptor.name;
+      Uri importPath = new Uri.file(filename);
       if (importPath.isAbsolute) {
         // protoc should never generate an import with an absolute path.
         throw("FAILURE: Import with absolute path is not supported");
       }
       // Create a path from the current file to the imported proto.
-      Uri resolvedImport = ctx.outputConfiguration.resolveImport(
-          importPath, filePath);
-      // Find the file generator for this import as it contains the
-      // package name.
-      FileGenerator fileGenerator = ctx.getFile(import);
+      Uri resolvedImport = config.resolveImport(importPath, filePath);
       out.print("import '$resolvedImport'");
-      if (package != fileGenerator.package && !fileGenerator.package.isEmpty) {
-        out.print(' as ${fileGenerator.packageImportPrefix}');
+      if (package != imported.package && imported.package.isNotEmpty) {
+        out.print(' as ${imported.packageImportPrefix}');
       }
       out.println(';');
     }
@@ -173,7 +164,7 @@ class FileGenerator extends ProtobufContainer {
       e.generate(out);
     }
     for (MessageGenerator m in messageGenerators) {
-      m.generate(out, ctx);
+      m.generate(out);
     }
 
     // Generate code for extensions defined at top-level using a class
@@ -226,31 +217,4 @@ class FileGenerator extends ProtobufContainer {
 
     return imports;
   }
-}
-
-class GenerationContext {
-  final GenerationOptions options;
-  final OutputConfiguration outputConfiguration;
-  final Map<String, ProtobufContainer> _typeRegistry =
-      <String, ProtobufContainer>{};
-  final Map<String, FileGenerator> _files =
-      <String, FileGenerator>{};
-
-  GenerationContext(this.options, this.outputConfiguration);
-
-  /// Makes a message, group, or enum available to fields.
-  void registerFieldType(String name, ProtobufContainer type) {
-    _typeRegistry[name] = type;
-  }
-
-  /// Returns the message, group, or enum with the given fully qualified name.
-  ProtobufContainer getFieldType(String name) => _typeRegistry[name];
-
-  /// Makes info about a .pb.dart file available to imports.
-  void registerFile(String name, FileGenerator file) {
-    _files[name] = file;
-  }
-
-  /// Returns info about a file being imported.
-  FileGenerator getFile(String name) => _files[name];
 }

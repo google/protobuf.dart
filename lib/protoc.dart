@@ -18,6 +18,7 @@ part 'enum_generator.dart';
 part 'exceptions.dart';
 part 'extension_generator.dart';
 part 'file_generator.dart';
+part 'linker.dart';
 part 'indenting_writer.dart';
 part 'message_generator.dart';
 part 'options.dart';

@@ -8,6 +8,8 @@ part of protoc;
 /// import one generated file from another.
 abstract class OutputConfiguration {
 
+  const OutputConfiguration();
+
   /// Returns [filePath] with it's extension replaced with '.pb.dart'.
   String replacePathExtension(String filePath) =>
       '${path.withoutExtension(filePath)}.pb.dart';
@@ -31,6 +33,8 @@ abstract class OutputConfiguration {
 /// file for the output file (just replaces the extension), and that uses
 /// relative paths to resolve imports.
 class DefaultOutputConfiguration extends OutputConfiguration {
+
+  const DefaultOutputConfiguration();
 
   Uri outputPathFor(Uri input) => replaceUriExtension(input);
 
