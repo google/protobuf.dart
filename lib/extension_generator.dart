@@ -28,56 +28,37 @@ class ExtensionGenerator {
 
   String get name {
     if (_field == null) throw new StateError("resolve not called");
-    String name = _field.externalFieldName;
+    String name = _field.dartFieldName;
     return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
   }
 
   void generate(IndentingWriter out) {
     if (_field == null) throw new StateError("resolve not called");
 
-    String baseType = _field.baseTypeForPackage(package);
+    String name = _field.dartFieldName;
+    out.print('static final Extension $name = '
+        'new Extension(\'$_extendedClassName\', \'$name\', '
+        '${_field.number}, ${_field.typeConstant}');
 
-    String name = _field.externalFieldName;
-    String type = _field.shortTypeName;
+    String initializer = _field.generateDefaultFunction(package);
+    if (_field.isRepeated) {
+      // TODO(skybrian) why do we do this only for extensions?
+      var dartType = _field.baseType.getDartType(package);
+      initializer = '() => new PbList<${dartType}>()';
+    }
 
-    String initializer = '';
-    String builder = '';
-    String valueOf = '';
-
-    if (_descriptor.type == FieldDescriptorProto_Type.TYPE_MESSAGE ||
-        _descriptor.type == FieldDescriptorProto_Type.TYPE_GROUP) {
-      if (_descriptor.label ==
-          FieldDescriptorProto_Label.LABEL_REPEATED) {
-        initializer = ', () => new PbList<${baseType}>()';
-        builder = ', () => new ${baseType}()';
-      } else {
-        initializer = ', () => new ${baseType}()';
-        builder = ', () => new ${baseType}()';
-      }
+    var type = _field.baseType;
+    if (type.isMessage || type.isGroup) {
+      var dartClass = type.getDartType(package);
+      out.println(', $initializer, $dartClass.create);');
+    } else if (type.isEnum) {
+      var dartEnum = type.getDartType(package);
+      String valueOf = '(var v) => $dartEnum.valueOf(v)';
+      out.println(", $initializer, null, $valueOf);");
+    } else if (initializer != null) {
+      out.println(", $initializer);");
     } else {
-      if (_descriptor.label == FieldDescriptorProto_Label.LABEL_REPEATED) {
-        initializer = ', () => new PbList<${baseType}>()';
-      } else if (_field.hasInitialization) {
-        var fieldInitialization = _field.initializationForPackage(package);
-        initializer = ', ${fieldInitialization}';
-      }
+      out.println(");");
     }
-
-    if (_field.enm) {
-      if (initializer.isEmpty) {
-        initializer = ', null';
-      }
-      if (builder.isEmpty) {
-        builder = ', null';
-      }
-      var fieldType = _field.baseTypeForPackage(package);
-      valueOf = ', (var v) => ${fieldType}.valueOf(v)';
-    }
-
-    out.println('static final Extension $name = '
-      'new Extension(\'$_extendedClassName\', \'$name\', '
-      '${_descriptor.number}, GeneratedMessage.$type'
-      '${initializer}${builder}${valueOf}'
-      ');');
   }
 }

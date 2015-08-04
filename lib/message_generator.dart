@@ -146,55 +146,7 @@ class MessageGenerator extends ProtobufContainer {
           'static final BuilderInfo _i = new BuilderInfo(\'${classname}\')',
           ';', () {
         for (ProtobufField field in _fieldList) {
-          String type = field.shortTypeName;
-          String fieldType = field.baseTypeForPackage(package);
-
-          String makeDefault = null;
-          if (field.hasInitialization) {
-            makeDefault = field.initializationForPackage(package);
-          }
-          String subBuilder = null;
-          String subBuilderRepeated = null;
-          if (field.message || field.group) {
-            subBuilder = '${fieldType}.create';
-            subBuilderRepeated = '${fieldType}.createRepeated';
-          }
-          String valueOf = null;
-          if (field.enm) {
-            valueOf = '(var v) => ${fieldType}.valueOf(v)';
-          }
-          if ('PM' == type) {
-            // Repeated message: default is an empty list
-            out.println('..m(${field.number}, '
-                '\'${field.externalFieldName}\', $subBuilder,'
-                ' $subBuilderRepeated)');
-          } else if (type[0] == 'P' && type != 'PG' && type != 'PE') {
-            // Repeated, not a message or enum: default is an empty list,
-            // subBuilder is null, valueOf is null.
-            out.println('..p(${field.number}, '
-                '\'${field.externalFieldName}\', GeneratedMessage.$type)');
-          } else if (type == 'OE' || type == 'QE') {
-            out.println('..e(${field.number}, '
-                '\'${field.externalFieldName}\', GeneratedMessage.$type,'
-                ' $makeDefault, $valueOf)');
-          } else {
-            if (makeDefault == null && subBuilder == null && valueOf == null) {
-              out.println('..a(${field.number}, '
-                  '\'${field.externalFieldName}\', GeneratedMessage.$type)');
-            } else if (subBuilder == null && valueOf == null) {
-              out.println('..a(${field.number}, '
-                  '\'${field.externalFieldName}\', GeneratedMessage.$type,'
-                  ' $makeDefault)');
-            } else if (valueOf == null) {
-              out.println('..a(${field.number}, '
-                  '\'${field.externalFieldName}\', GeneratedMessage.$type,'
-                  ' $makeDefault, $subBuilder)');
-            } else {
-              out.println('..a(${field.number}, '
-                  '\'${field.externalFieldName}\', GeneratedMessage.$type,'
-                  ' $makeDefault, $subBuilder, $valueOf)');
-            }
-          }
+          out.println(field.generateBuilderInfoCall(package));
         }
 
         if (_descriptor.extensionRange.length > 0) {
@@ -271,12 +223,12 @@ class MessageGenerator extends ProtobufContainer {
     }
 
     for (ProtobufField field in type._fieldList) {
-      if (field.required) {
+      if (field.isRequired) {
         return true;
       }
-      if (field.message) {
-        MessageGenerator messageType = field.typeGenerator;
-        if (_hasRequiredFields(messageType, alreadySeen)) {
+      if (field.baseType.isMessage) {
+        MessageGenerator child = field.baseType.generator;
+        if (_hasRequiredFields(child, alreadySeen)) {
           return true;
         }
       }
@@ -287,10 +239,10 @@ class MessageGenerator extends ProtobufContainer {
   void generateFieldsAccessorsMutators(IndentingWriter out) {
     for (ProtobufField field in _fieldList) {
       out.println();
-      String identifier = field.externalFieldName;
-      String hasIdentifier = "has" + field.titlecaseFieldName;
-      String clearIdentifier = "clear" + field.titlecaseFieldName;
-      if (field.single) {
+      String identifier = field.dartFieldName;
+      String hasIdentifier = field.hasMethodName;
+      String clearIdentifier = field.clearMethodName;
+      if (!field.isRepeated) {
         while (_methodNames.contains(identifier) ||
                _methodNames.contains(hasIdentifier) ||
                _methodNames.contains(clearIdentifier)) {
@@ -307,10 +259,10 @@ class MessageGenerator extends ProtobufContainer {
         }
         _methodNames.add(identifier);
       }
-      var fieldTypeString = field.typeStringForPackage(package);
+      var fieldTypeString = field.getDartType(package);
       out.println('${fieldTypeString} get ${identifier}'
           ' => getField(${field.number});');
-      if (field.single) {
+      if (!field.isRepeated) {
         out.println('void set ${identifier}'
             '(${fieldTypeString} v) '
             '{ setField(${field.number}, v); }');
