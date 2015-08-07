@@ -18,9 +18,16 @@ class FileDescriptorSet extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static FileDescriptorSet create() => new FileDescriptorSet();
   static PbList<FileDescriptorSet> createRepeated() => new PbList<FileDescriptorSet>();
+  static FileDescriptorSet getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyFileDescriptorSet();
+    return _defaultInstance;
+  }
+  static FileDescriptorSet _defaultInstance;
 
   List<FileDescriptorProto> get file => getField(1);
 }
+
+class _ReadonlyFileDescriptorSet extends FileDescriptorSet with ReadonlyMessageMixin {}
 
 class FileDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FileDescriptorProto')
@@ -33,8 +40,8 @@ class FileDescriptorProto extends GeneratedMessage {
     ..m(5, 'enumType', EnumDescriptorProto.create, EnumDescriptorProto.createRepeated)
     ..m(6, 'service', ServiceDescriptorProto.create, ServiceDescriptorProto.createRepeated)
     ..m(7, 'extension', FieldDescriptorProto.create, FieldDescriptorProto.createRepeated)
-    ..a(8, 'options', GeneratedMessage.OM, FileOptions.create, FileOptions.create)
-    ..a(9, 'sourceCodeInfo', GeneratedMessage.OM, SourceCodeInfo.create, SourceCodeInfo.create)
+    ..a(8, 'options', GeneratedMessage.OM, FileOptions.getDefault, FileOptions.create)
+    ..a(9, 'sourceCodeInfo', GeneratedMessage.OM, SourceCodeInfo.getDefault, SourceCodeInfo.create)
   ;
 
   FileDescriptorProto() : super();
@@ -44,6 +51,11 @@ class FileDescriptorProto extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static FileDescriptorProto create() => new FileDescriptorProto();
   static PbList<FileDescriptorProto> createRepeated() => new PbList<FileDescriptorProto>();
+  static FileDescriptorProto getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyFileDescriptorProto();
+    return _defaultInstance;
+  }
+  static FileDescriptorProto _defaultInstance;
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -80,6 +92,8 @@ class FileDescriptorProto extends GeneratedMessage {
   void clearSourceCodeInfo() => clearField(9);
 }
 
+class _ReadonlyFileDescriptorProto extends FileDescriptorProto with ReadonlyMessageMixin {}
+
 class DescriptorProto_ExtensionRange extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DescriptorProto_ExtensionRange')
     ..a(1, 'start', GeneratedMessage.O3)
@@ -94,6 +108,11 @@ class DescriptorProto_ExtensionRange extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static DescriptorProto_ExtensionRange create() => new DescriptorProto_ExtensionRange();
   static PbList<DescriptorProto_ExtensionRange> createRepeated() => new PbList<DescriptorProto_ExtensionRange>();
+  static DescriptorProto_ExtensionRange getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDescriptorProto_ExtensionRange();
+    return _defaultInstance;
+  }
+  static DescriptorProto_ExtensionRange _defaultInstance;
 
   int get start => getField(1);
   void set start(int v) { setField(1, v); }
@@ -106,6 +125,8 @@ class DescriptorProto_ExtensionRange extends GeneratedMessage {
   void clearEnd() => clearField(2);
 }
 
+class _ReadonlyDescriptorProto_ExtensionRange extends DescriptorProto_ExtensionRange with ReadonlyMessageMixin {}
+
 class DescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
@@ -114,7 +135,7 @@ class DescriptorProto extends GeneratedMessage {
     ..m(3, 'nestedType', DescriptorProto.create, DescriptorProto.createRepeated)
     ..m(4, 'enumType', EnumDescriptorProto.create, EnumDescriptorProto.createRepeated)
     ..m(5, 'extensionRange', DescriptorProto_ExtensionRange.create, DescriptorProto_ExtensionRange.createRepeated)
-    ..a(7, 'options', GeneratedMessage.OM, MessageOptions.create, MessageOptions.create)
+    ..a(7, 'options', GeneratedMessage.OM, MessageOptions.getDefault, MessageOptions.create)
   ;
 
   DescriptorProto() : super();
@@ -124,6 +145,11 @@ class DescriptorProto extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static DescriptorProto create() => new DescriptorProto();
   static PbList<DescriptorProto> createRepeated() => new PbList<DescriptorProto>();
+  static DescriptorProto getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDescriptorProto();
+    return _defaultInstance;
+  }
+  static DescriptorProto _defaultInstance;
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -145,6 +171,8 @@ class DescriptorProto extends GeneratedMessage {
   bool hasOptions() => hasField(7);
   void clearOptions() => clearField(7);
 }
+
+class _ReadonlyDescriptorProto extends DescriptorProto with ReadonlyMessageMixin {}
 
 class FieldDescriptorProto_Type extends ProtobufEnum {
   static const FieldDescriptorProto_Type TYPE_DOUBLE = const FieldDescriptorProto_Type._(1, 'TYPE_DOUBLE');
@@ -219,7 +247,7 @@ class FieldDescriptorProto extends GeneratedMessage {
     ..a(6, 'typeName', GeneratedMessage.OS)
     ..a(2, 'extendee', GeneratedMessage.OS)
     ..a(7, 'defaultValue', GeneratedMessage.OS)
-    ..a(8, 'options', GeneratedMessage.OM, FieldOptions.create, FieldOptions.create)
+    ..a(8, 'options', GeneratedMessage.OM, FieldOptions.getDefault, FieldOptions.create)
   ;
 
   FieldDescriptorProto() : super();
@@ -229,6 +257,11 @@ class FieldDescriptorProto extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static FieldDescriptorProto create() => new FieldDescriptorProto();
   static PbList<FieldDescriptorProto> createRepeated() => new PbList<FieldDescriptorProto>();
+  static FieldDescriptorProto getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyFieldDescriptorProto();
+    return _defaultInstance;
+  }
+  static FieldDescriptorProto _defaultInstance;
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -271,11 +304,13 @@ class FieldDescriptorProto extends GeneratedMessage {
   void clearOptions() => clearField(8);
 }
 
+class _ReadonlyFieldDescriptorProto extends FieldDescriptorProto with ReadonlyMessageMixin {}
+
 class EnumDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumDescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
     ..m(2, 'value', EnumValueDescriptorProto.create, EnumValueDescriptorProto.createRepeated)
-    ..a(3, 'options', GeneratedMessage.OM, EnumOptions.create, EnumOptions.create)
+    ..a(3, 'options', GeneratedMessage.OM, EnumOptions.getDefault, EnumOptions.create)
   ;
 
   EnumDescriptorProto() : super();
@@ -285,6 +320,11 @@ class EnumDescriptorProto extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static EnumDescriptorProto create() => new EnumDescriptorProto();
   static PbList<EnumDescriptorProto> createRepeated() => new PbList<EnumDescriptorProto>();
+  static EnumDescriptorProto getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEnumDescriptorProto();
+    return _defaultInstance;
+  }
+  static EnumDescriptorProto _defaultInstance;
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -299,11 +339,13 @@ class EnumDescriptorProto extends GeneratedMessage {
   void clearOptions() => clearField(3);
 }
 
+class _ReadonlyEnumDescriptorProto extends EnumDescriptorProto with ReadonlyMessageMixin {}
+
 class EnumValueDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumValueDescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
     ..a(2, 'number', GeneratedMessage.O3)
-    ..a(3, 'options', GeneratedMessage.OM, EnumValueOptions.create, EnumValueOptions.create)
+    ..a(3, 'options', GeneratedMessage.OM, EnumValueOptions.getDefault, EnumValueOptions.create)
   ;
 
   EnumValueDescriptorProto() : super();
@@ -313,6 +355,11 @@ class EnumValueDescriptorProto extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static EnumValueDescriptorProto create() => new EnumValueDescriptorProto();
   static PbList<EnumValueDescriptorProto> createRepeated() => new PbList<EnumValueDescriptorProto>();
+  static EnumValueDescriptorProto getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEnumValueDescriptorProto();
+    return _defaultInstance;
+  }
+  static EnumValueDescriptorProto _defaultInstance;
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -330,12 +377,14 @@ class EnumValueDescriptorProto extends GeneratedMessage {
   void clearOptions() => clearField(3);
 }
 
+class _ReadonlyEnumValueDescriptorProto extends EnumValueDescriptorProto with ReadonlyMessageMixin {}
+
 class ServiceDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ServiceDescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
     ..m(2, 'method', MethodDescriptorProto.create, MethodDescriptorProto.createRepeated)
     ..m(4, 'stream', StreamDescriptorProto.create, StreamDescriptorProto.createRepeated)
-    ..a(3, 'options', GeneratedMessage.OM, ServiceOptions.create, ServiceOptions.create)
+    ..a(3, 'options', GeneratedMessage.OM, ServiceOptions.getDefault, ServiceOptions.create)
   ;
 
   ServiceDescriptorProto() : super();
@@ -345,6 +394,11 @@ class ServiceDescriptorProto extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static ServiceDescriptorProto create() => new ServiceDescriptorProto();
   static PbList<ServiceDescriptorProto> createRepeated() => new PbList<ServiceDescriptorProto>();
+  static ServiceDescriptorProto getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyServiceDescriptorProto();
+    return _defaultInstance;
+  }
+  static ServiceDescriptorProto _defaultInstance;
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -361,12 +415,14 @@ class ServiceDescriptorProto extends GeneratedMessage {
   void clearOptions() => clearField(3);
 }
 
+class _ReadonlyServiceDescriptorProto extends ServiceDescriptorProto with ReadonlyMessageMixin {}
+
 class MethodDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MethodDescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
     ..a(2, 'inputType', GeneratedMessage.OS)
     ..a(3, 'outputType', GeneratedMessage.OS)
-    ..a(4, 'options', GeneratedMessage.OM, MethodOptions.create, MethodOptions.create)
+    ..a(4, 'options', GeneratedMessage.OM, MethodOptions.getDefault, MethodOptions.create)
   ;
 
   MethodDescriptorProto() : super();
@@ -376,6 +432,11 @@ class MethodDescriptorProto extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static MethodDescriptorProto create() => new MethodDescriptorProto();
   static PbList<MethodDescriptorProto> createRepeated() => new PbList<MethodDescriptorProto>();
+  static MethodDescriptorProto getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyMethodDescriptorProto();
+    return _defaultInstance;
+  }
+  static MethodDescriptorProto _defaultInstance;
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -398,12 +459,14 @@ class MethodDescriptorProto extends GeneratedMessage {
   void clearOptions() => clearField(4);
 }
 
+class _ReadonlyMethodDescriptorProto extends MethodDescriptorProto with ReadonlyMessageMixin {}
+
 class StreamDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('StreamDescriptorProto')
     ..a(1, 'name', GeneratedMessage.OS)
     ..a(2, 'clientMessageType', GeneratedMessage.OS)
     ..a(3, 'serverMessageType', GeneratedMessage.OS)
-    ..a(4, 'options', GeneratedMessage.OM, StreamOptions.create, StreamOptions.create)
+    ..a(4, 'options', GeneratedMessage.OM, StreamOptions.getDefault, StreamOptions.create)
   ;
 
   StreamDescriptorProto() : super();
@@ -413,6 +476,11 @@ class StreamDescriptorProto extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static StreamDescriptorProto create() => new StreamDescriptorProto();
   static PbList<StreamDescriptorProto> createRepeated() => new PbList<StreamDescriptorProto>();
+  static StreamDescriptorProto getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyStreamDescriptorProto();
+    return _defaultInstance;
+  }
+  static StreamDescriptorProto _defaultInstance;
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -434,6 +502,8 @@ class StreamDescriptorProto extends GeneratedMessage {
   bool hasOptions() => hasField(4);
   void clearOptions() => clearField(4);
 }
+
+class _ReadonlyStreamDescriptorProto extends StreamDescriptorProto with ReadonlyMessageMixin {}
 
 class FileOptions_OptimizeMode extends ProtobufEnum {
   static const FileOptions_OptimizeMode SPEED = const FileOptions_OptimizeMode._(1, 'SPEED');
@@ -473,6 +543,11 @@ class FileOptions extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static FileOptions create() => new FileOptions();
   static PbList<FileOptions> createRepeated() => new PbList<FileOptions>();
+  static FileOptions getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyFileOptions();
+    return _defaultInstance;
+  }
+  static FileOptions _defaultInstance;
 
   String get javaPackage => getField(1);
   void set javaPackage(String v) { setField(1, v); }
@@ -517,6 +592,8 @@ class FileOptions extends GeneratedMessage {
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
 
+class _ReadonlyFileOptions extends FileOptions with ReadonlyMessageMixin {}
+
 class MessageOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MessageOptions')
     ..a(1, 'messageSetWireFormat', GeneratedMessage.OB)
@@ -532,6 +609,11 @@ class MessageOptions extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static MessageOptions create() => new MessageOptions();
   static PbList<MessageOptions> createRepeated() => new PbList<MessageOptions>();
+  static MessageOptions getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyMessageOptions();
+    return _defaultInstance;
+  }
+  static MessageOptions _defaultInstance;
 
   bool get messageSetWireFormat => getField(1);
   void set messageSetWireFormat(bool v) { setField(1, v); }
@@ -545,6 +627,8 @@ class MessageOptions extends GeneratedMessage {
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
+
+class _ReadonlyMessageOptions extends MessageOptions with ReadonlyMessageMixin {}
 
 class FieldOptions_CType extends ProtobufEnum {
   static const FieldOptions_CType STRING = const FieldOptions_CType._(0, 'STRING');
@@ -577,6 +661,11 @@ class FieldOptions extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static FieldOptions create() => new FieldOptions();
   static PbList<FieldOptions> createRepeated() => new PbList<FieldOptions>();
+  static FieldOptions getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyFieldOptions();
+    return _defaultInstance;
+  }
+  static FieldOptions _defaultInstance;
 
   FieldOptions_CType get ctype => getField(1);
   void set ctype(FieldOptions_CType v) { setField(1, v); }
@@ -606,6 +695,8 @@ class FieldOptions extends GeneratedMessage {
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
 
+class _ReadonlyFieldOptions extends FieldOptions with ReadonlyMessageMixin {}
+
 class EnumOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumOptions')
     ..a(2, 'allowAlias', GeneratedMessage.OB, true)
@@ -620,6 +711,11 @@ class EnumOptions extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static EnumOptions create() => new EnumOptions();
   static PbList<EnumOptions> createRepeated() => new PbList<EnumOptions>();
+  static EnumOptions getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEnumOptions();
+    return _defaultInstance;
+  }
+  static EnumOptions _defaultInstance;
 
   bool get allowAlias => getField(2);
   void set allowAlias(bool v) { setField(2, v); }
@@ -628,6 +724,8 @@ class EnumOptions extends GeneratedMessage {
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
+
+class _ReadonlyEnumOptions extends EnumOptions with ReadonlyMessageMixin {}
 
 class EnumValueOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumValueOptions')
@@ -642,9 +740,16 @@ class EnumValueOptions extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static EnumValueOptions create() => new EnumValueOptions();
   static PbList<EnumValueOptions> createRepeated() => new PbList<EnumValueOptions>();
+  static EnumValueOptions getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEnumValueOptions();
+    return _defaultInstance;
+  }
+  static EnumValueOptions _defaultInstance;
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
+
+class _ReadonlyEnumValueOptions extends EnumValueOptions with ReadonlyMessageMixin {}
 
 class ServiceOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ServiceOptions')
@@ -659,9 +764,16 @@ class ServiceOptions extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static ServiceOptions create() => new ServiceOptions();
   static PbList<ServiceOptions> createRepeated() => new PbList<ServiceOptions>();
+  static ServiceOptions getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyServiceOptions();
+    return _defaultInstance;
+  }
+  static ServiceOptions _defaultInstance;
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
+
+class _ReadonlyServiceOptions extends ServiceOptions with ReadonlyMessageMixin {}
 
 class MethodOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MethodOptions')
@@ -676,9 +788,16 @@ class MethodOptions extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static MethodOptions create() => new MethodOptions();
   static PbList<MethodOptions> createRepeated() => new PbList<MethodOptions>();
+  static MethodOptions getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyMethodOptions();
+    return _defaultInstance;
+  }
+  static MethodOptions _defaultInstance;
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
+
+class _ReadonlyMethodOptions extends MethodOptions with ReadonlyMessageMixin {}
 
 class StreamOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('StreamOptions')
@@ -693,9 +812,16 @@ class StreamOptions extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static StreamOptions create() => new StreamOptions();
   static PbList<StreamOptions> createRepeated() => new PbList<StreamOptions>();
+  static StreamOptions getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyStreamOptions();
+    return _defaultInstance;
+  }
+  static StreamOptions _defaultInstance;
 
   List<UninterpretedOption> get uninterpretedOption => getField(999);
 }
+
+class _ReadonlyStreamOptions extends StreamOptions with ReadonlyMessageMixin {}
 
 class UninterpretedOption_NamePart extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('UninterpretedOption_NamePart')
@@ -710,6 +836,11 @@ class UninterpretedOption_NamePart extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static UninterpretedOption_NamePart create() => new UninterpretedOption_NamePart();
   static PbList<UninterpretedOption_NamePart> createRepeated() => new PbList<UninterpretedOption_NamePart>();
+  static UninterpretedOption_NamePart getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyUninterpretedOption_NamePart();
+    return _defaultInstance;
+  }
+  static UninterpretedOption_NamePart _defaultInstance;
 
   String get namePart => getField(1);
   void set namePart(String v) { setField(1, v); }
@@ -721,6 +852,8 @@ class UninterpretedOption_NamePart extends GeneratedMessage {
   bool hasIsExtension() => hasField(2);
   void clearIsExtension() => clearField(2);
 }
+
+class _ReadonlyUninterpretedOption_NamePart extends UninterpretedOption_NamePart with ReadonlyMessageMixin {}
 
 class UninterpretedOption extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('UninterpretedOption')
@@ -740,6 +873,11 @@ class UninterpretedOption extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static UninterpretedOption create() => new UninterpretedOption();
   static PbList<UninterpretedOption> createRepeated() => new PbList<UninterpretedOption>();
+  static UninterpretedOption getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyUninterpretedOption();
+    return _defaultInstance;
+  }
+  static UninterpretedOption _defaultInstance;
 
   List<UninterpretedOption_NamePart> get name => getField(2);
 
@@ -774,6 +912,8 @@ class UninterpretedOption extends GeneratedMessage {
   void clearAggregateValue() => clearField(8);
 }
 
+class _ReadonlyUninterpretedOption extends UninterpretedOption with ReadonlyMessageMixin {}
+
 class SourceCodeInfo_Location extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('SourceCodeInfo_Location')
     ..a(1, 'path', GeneratedMessage.K3, () => new PbList())
@@ -788,11 +928,18 @@ class SourceCodeInfo_Location extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static SourceCodeInfo_Location create() => new SourceCodeInfo_Location();
   static PbList<SourceCodeInfo_Location> createRepeated() => new PbList<SourceCodeInfo_Location>();
+  static SourceCodeInfo_Location getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlySourceCodeInfo_Location();
+    return _defaultInstance;
+  }
+  static SourceCodeInfo_Location _defaultInstance;
 
   List<int> get path => getField(1);
 
   List<int> get span => getField(2);
 }
+
+class _ReadonlySourceCodeInfo_Location extends SourceCodeInfo_Location with ReadonlyMessageMixin {}
 
 class SourceCodeInfo extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('SourceCodeInfo')
@@ -807,7 +954,14 @@ class SourceCodeInfo extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static SourceCodeInfo create() => new SourceCodeInfo();
   static PbList<SourceCodeInfo> createRepeated() => new PbList<SourceCodeInfo>();
+  static SourceCodeInfo getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlySourceCodeInfo();
+    return _defaultInstance;
+  }
+  static SourceCodeInfo _defaultInstance;
 
   List<SourceCodeInfo_Location> get location => getField(1);
 }
+
+class _ReadonlySourceCodeInfo extends SourceCodeInfo with ReadonlyMessageMixin {}
 

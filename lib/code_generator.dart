@@ -9,14 +9,18 @@ abstract class ProtobufContainer {
   String get classname;
   String get fqname;
   String get packageImportPrefix => package.replaceAll('.', r'$');
+
+  /// The generator of the .pb.dart file defining this entity.
+  ///
+  /// (Represents the .pb.dart file that we need to import in order to use it.)
+  FileGenerator get fileGen;
 }
 
 class CodeGenerator extends ProtobufContainer {
   final Stream<List<int>> _streamIn;
   final IOSink _streamOut;
-  final IOSink _streamErr;
 
-  CodeGenerator(this._streamIn, this._streamOut, this._streamErr);
+  CodeGenerator(this._streamIn, this._streamOut);
 
   /// Runs the code generator. The optional [optionParsers] can be used to
   /// change how command line options are parsed (see [parseGenerationOptions]
@@ -74,4 +78,5 @@ class CodeGenerator extends ProtobufContainer {
   String get package => '';
   String get classname => null;
   String get fqname => '';
+  get fileGen => null;
 }

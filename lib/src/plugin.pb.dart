@@ -3,7 +3,6 @@
 ///
 library proto2.compiler;
 
-import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'descriptor.pb.dart' as proto2;
 
@@ -21,6 +20,11 @@ class CodeGeneratorRequest extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static CodeGeneratorRequest create() => new CodeGeneratorRequest();
   static PbList<CodeGeneratorRequest> createRepeated() => new PbList<CodeGeneratorRequest>();
+  static CodeGeneratorRequest getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyCodeGeneratorRequest();
+    return _defaultInstance;
+  }
+  static CodeGeneratorRequest _defaultInstance;
 
   List<String> get fileToGenerate => getField(1);
 
@@ -31,6 +35,8 @@ class CodeGeneratorRequest extends GeneratedMessage {
 
   List<proto2.FileDescriptorProto> get protoFile => getField(15);
 }
+
+class _ReadonlyCodeGeneratorRequest extends CodeGeneratorRequest with ReadonlyMessageMixin {}
 
 class CodeGeneratorResponse_File extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse_File')
@@ -47,6 +53,11 @@ class CodeGeneratorResponse_File extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static CodeGeneratorResponse_File create() => new CodeGeneratorResponse_File();
   static PbList<CodeGeneratorResponse_File> createRepeated() => new PbList<CodeGeneratorResponse_File>();
+  static CodeGeneratorResponse_File getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyCodeGeneratorResponse_File();
+    return _defaultInstance;
+  }
+  static CodeGeneratorResponse_File _defaultInstance;
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -64,6 +75,8 @@ class CodeGeneratorResponse_File extends GeneratedMessage {
   void clearContent() => clearField(15);
 }
 
+class _ReadonlyCodeGeneratorResponse_File extends CodeGeneratorResponse_File with ReadonlyMessageMixin {}
+
 class CodeGeneratorResponse extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse')
     ..a(1, 'error', GeneratedMessage.OS)
@@ -78,6 +91,11 @@ class CodeGeneratorResponse extends GeneratedMessage {
   BuilderInfo get info_ => _i;
   static CodeGeneratorResponse create() => new CodeGeneratorResponse();
   static PbList<CodeGeneratorResponse> createRepeated() => new PbList<CodeGeneratorResponse>();
+  static CodeGeneratorResponse getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyCodeGeneratorResponse();
+    return _defaultInstance;
+  }
+  static CodeGeneratorResponse _defaultInstance;
 
   String get error => getField(1);
   void set error(String v) { setField(1, v); }
@@ -86,4 +104,6 @@ class CodeGeneratorResponse extends GeneratedMessage {
 
   List<CodeGeneratorResponse_File> get file => getField(15);
 }
+
+class _ReadonlyCodeGeneratorResponse extends CodeGeneratorResponse with ReadonlyMessageMixin {}
 

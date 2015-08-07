@@ -11,10 +11,14 @@ import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
 
 
-FileDescriptorProto buildFileDescriptor({topLevelEnum: false}) {
-  EnumDescriptorProto ed;
+FileDescriptorProto buildFileDescriptor(
+    {phoneNumber: true, topLevelEnum: false}) {
+
+  FileDescriptorProto fd = new FileDescriptorProto()
+    ..name = 'test';
+
   if (topLevelEnum) {
-    ed = new EnumDescriptorProto()
+    fd.enumType.add(new EnumDescriptorProto()
       ..name = 'PhoneType'
       ..value.addAll([
           new EnumValueDescriptorProto()
@@ -28,10 +32,11 @@ FileDescriptorProto buildFileDescriptor({topLevelEnum: false}) {
               ..number = 2,
           new EnumValueDescriptorProto()
               ..name = 'BUSINESS'
-              ..number = 2]);
+              ..number = 2]));
   }
 
-  DescriptorProto md = new DescriptorProto()
+  if (phoneNumber) {
+    fd.messageType.add(new DescriptorProto()
       ..name = 'PhoneNumber'
       ..field.addAll([
           // required string number = 1;
@@ -57,16 +62,14 @@ FileDescriptorProto buildFileDescriptor({topLevelEnum: false}) {
               ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
               ..type = FieldDescriptorProto_Type.TYPE_STRING
               ..defaultValue = r'$'
-          ]);
-  FileDescriptorProto fd = new FileDescriptorProto()
-      ..name = 'test'
-      ..messageType.add(md);
-  if (topLevelEnum) fd.enumType.add(ed);
+          ]));
+  }
+
   return fd;
 }
 
 void main() {
-  test('testMessageGenerator', () {
+  test('FileGenerator output for a proto with one message', () {
     // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
     String expected = r'''
 ///
@@ -74,7 +77,6 @@ void main() {
 ///
 library test;
 
-import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {
@@ -127,7 +129,7 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     expect(buffer.toString(), expected);
   });
 
-  test('testMessageGeneratorTopLevelEmun', () {
+  test('FileGenerator output for a top-level enum', () {
     // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
     String expected = r'''
 ///
@@ -135,7 +137,6 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 ///
 library test;
 
-import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 class PhoneType extends ProtobufEnum {
@@ -157,46 +158,10 @@ class PhoneType extends ProtobufEnum {
   const PhoneType._(int v, String n) : super(v, n);
 }
 
-class PhoneNumber extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..a(1, 'number', GeneratedMessage.QS)
-    ..e(2, 'type', GeneratedMessage.OE, PhoneType.MOBILE, (var v) => PhoneType.valueOf(v))
-    ..a(3, 'name', GeneratedMessage.OS, '\$')
-  ;
-
-  PhoneNumber() : super();
-  PhoneNumber.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static PhoneNumber create() => new PhoneNumber();
-  static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
-  static PhoneNumber getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
-    return _defaultInstance;
-  }
-  static PhoneNumber _defaultInstance;
-
-  String get number => getField(1);
-  void set number(String v) { setField(1, v); }
-  bool hasNumber() => hasField(1);
-  void clearNumber() => clearField(1);
-
-  PhoneType get type => getField(2);
-  void set type(PhoneType v) { setField(2, v); }
-  bool hasType() => hasField(2);
-  void clearType() => clearField(2);
-
-  String get name => getField(3);
-  void set name(String v) { setField(3, v); }
-  bool hasName() => hasField(3);
-  void clearName() => clearField(3);
-}
-
-class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
-
 ''';
-    FileDescriptorProto fd = buildFileDescriptor(topLevelEnum: true);
+    FileDescriptorProto fd = buildFileDescriptor(
+        phoneNumber: false,
+        topLevelEnum: true);
     MemoryWriter buffer = new MemoryWriter();
     IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options = parseGenerationOptions(
@@ -209,54 +174,14 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     expect(buffer.toString(), expected);
   });
 
-  test('testMessageGeneratorPackage', () {
-    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
+  test('FileGenerator outputs library for a .proto in a package', () {
     String expected = r'''
 ///
 //  Generated code. Do not modify.
 ///
-library pb_library;
+library pb_library_test;
 
-import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
-
-class PhoneNumber extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..a(1, 'number', GeneratedMessage.QS)
-    ..a(2, 'type', GeneratedMessage.O3)
-    ..a(3, 'name', GeneratedMessage.OS, '\$')
-  ;
-
-  PhoneNumber() : super();
-  PhoneNumber.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static PhoneNumber create() => new PhoneNumber();
-  static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
-  static PhoneNumber getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
-    return _defaultInstance;
-  }
-  static PhoneNumber _defaultInstance;
-
-  String get number => getField(1);
-  void set number(String v) { setField(1, v); }
-  bool hasNumber() => hasField(1);
-  void clearNumber() => clearField(1);
-
-  int get type => getField(2);
-  void set type(int v) { setField(2, v); }
-  bool hasType() => hasField(2);
-  void clearType() => clearField(2);
-
-  String get name => getField(3);
-  void set name(String v) { setField(3, v); }
-  bool hasName() => hasField(3);
-  void clearName() => clearField(3);
-}
-
-class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
 ''';
     FileDescriptorProto fd = buildFileDescriptor();
@@ -268,13 +193,12 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
-    fg.generate(writer);
+    fg.generateHeader(writer, Uri.parse("test.proto"));
 
     expect(buffer.toString(), expected);
   });
 
-  test('testMessageGeneratorFieldNameOption', () {
-    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
+  test('FileGenerator outputs a fixnum import when needed', () {
     String expected = r'''
 ///
 //  Generated code. Do not modify.
@@ -282,6 +206,43 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 library test;
 
 import 'package:fixnum/fixnum.dart';
+import 'package:protobuf/protobuf.dart';
+
+''';
+    FileDescriptorProto fd = new FileDescriptorProto()
+      ..name = 'test'
+      ..messageType.add(new DescriptorProto()
+      ..name = 'Count'
+      ..field.addAll([
+        new FieldDescriptorProto()
+          ..name = 'count'
+          ..number = 1
+          ..type = FieldDescriptorProto_Type.TYPE_INT64
+    ]));
+
+    var options = parseGenerationOptions(
+        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+
+    FileGenerator fg = new FileGenerator(fd);
+    link(options, [fg]);
+
+
+    MemoryWriter buffer = new MemoryWriter();
+    IndentingWriter writer = new IndentingWriter('  ', buffer);
+    fg.generateHeader(writer, Uri.parse("test.proto"));
+
+    expect(buffer.toString(), expected);
+  });
+
+
+  test('FileGenerator handles field_name options', () {
+    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
+    String expected = r'''
+///
+//  Generated code. Do not modify.
+///
+library test;
+
 import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {
@@ -340,7 +301,7 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     expect(buffer.toString(), expected);
   });
 
-  test('testMessageGeneratorFieldNameOption', () {
+  test('FileGenerator generates imports for .pb.dart files', () {
     // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
     String expected = r'''
 ///
@@ -348,7 +309,6 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 ///
 library test;
 
-import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package1.pb.dart' as p1;
 import 'package2.pb.dart' as p2;

@@ -7,5 +7,5 @@ import 'dart:io';
 import 'package:protoc_plugin/protoc.dart';
 
 void main() {
-  new CodeGenerator(stdin, stdout, stderr).generate();
+  new CodeGenerator(stdin, stdout).generate();
 }

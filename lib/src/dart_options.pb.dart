@@ -3,7 +3,6 @@
 ///
 library dart_options;
 
-import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 class Dart_options {

@@ -29,9 +29,8 @@ class FileGenerator extends ProtobufContainer {
   final List<ClientApiGenerator> clientApiGenerators = <ClientApiGenerator>[];
   final List<ServiceGenerator> serviceGenerators = <ServiceGenerator>[];
 
-  /// Contains an entry for each .pb.dart file that we need to import.
-  /// Populated by [resolve].
-  List<FileGenerator> _importedProtos;
+  /// True if cross-references have been resolved.
+  bool _linked = false;
 
   FileGenerator(this._fileDescriptor) {
     var defaultMixin = _getDefaultMixin(_fileDescriptor);
@@ -56,7 +55,7 @@ class FileGenerator extends ProtobufContainer {
   /// Creates the fields in each message.
   /// Resolves field types and extension targets using the supplied context.
   void resolve(GenerationContext ctx) {
-    if (_importedProtos != null) throw new StateError("already resolved");
+    if (_linked) throw new StateError("cross references already resolved");
 
     for (var m in messageGenerators) {
       m.resolve(ctx);
@@ -65,17 +64,13 @@ class FileGenerator extends ProtobufContainer {
       x.resolve(ctx);
     }
 
-    _importedProtos = <FileGenerator>[];
-    for (String fileName in _fileDescriptor.dependency) {
-      var file = ctx.getImportedProtoFile(fileName);
-      assert(file != null);
-      _importedProtos.add(file);
-    }
+    _linked = true;
   }
 
   String get package => _fileDescriptor.package;
   String get classname => '';
   String get fqname => '.${_fileDescriptor.package}';
+  FileGenerator get fileGen => this;
 
   // Extract the filename from a URI and remove the extension.
   String _fileNameWithoutExtension(Uri filePath) {
@@ -89,9 +84,21 @@ class FileGenerator extends ProtobufContainer {
     return '${s[0].toUpperCase()}${s.substring(1)}';
   }
 
+  /// Returns the library name at the top of the .pb.dart file.
+  ///
+  /// (This should be unique to avoid warnings about duplicate Dart libraries.)
   String _generateLibraryName(Uri protoFilePath) {
-    if (_fileDescriptor.package != '') return _fileDescriptor.package;
-    return _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
+    var libraryName =
+        _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
+
+    if (_fileDescriptor.package != '') {
+      // Two .protos can be in the same proto package.
+      // It isn't unique enough to use as a Dart library name.
+      // But we can prepend it.
+      return _fileDescriptor.package + "_" + libraryName;
+    }
+
+    return libraryName;
   }
 
   CodeGeneratorResponse_File generateResponse(OutputConfiguration config) {
@@ -109,7 +116,7 @@ class FileGenerator extends ProtobufContainer {
   /// Generates the Dart code for this .proto file.
   void generate(IndentingWriter out,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
-    if (_importedProtos == null) throw new StateError("not linked");
+    if (!_linked) throw new StateError("not linked");
 
     Uri filePath = new Uri.file(_fileDescriptor.name);
     if (filePath.isAbsolute) {
@@ -117,47 +124,7 @@ class FileGenerator extends ProtobufContainer {
         throw("FAILURE: File with an absolute path is not supported");
     }
 
-    String libraryName = _generateLibraryName(filePath);
-
-    // Print header and imports. We only add the dart:async import if there
-    // are services in the FileDescriptorProto.
-    out.println(
-      '///\n'
-      '//  Generated code. Do not modify.\n'
-      '///\n'
-      'library $libraryName;\n');
-    if (_fileDescriptor.service.isNotEmpty) {
-      out.println("import 'dart:async';\n");
-    }
-    out.println(
-      "import 'package:fixnum/fixnum.dart';\n"
-      "import 'package:protobuf/protobuf.dart';"
-    );
-
-    var mixinImports = findMixinsToImport();
-    var importNames = mixinImports.keys.toList();
-    importNames.sort();
-    for (var imp in importNames) {
-      var symbols = mixinImports[imp];
-      out.println("import '${imp}' show ${symbols.join(', ')};");
-    }
-
-    for (var imported in _importedProtos) {
-      String filename = imported._fileDescriptor.name;
-      Uri importPath = new Uri.file(filename);
-      if (importPath.isAbsolute) {
-        // protoc should never generate an import with an absolute path.
-        throw("FAILURE: Import with absolute path is not supported");
-      }
-      // Create a path from the current file to the imported proto.
-      Uri resolvedImport = config.resolveImport(importPath, filePath);
-      out.print("import '$resolvedImport'");
-      if (package != imported.package && imported.package.isNotEmpty) {
-        out.print(' as ${imported.packageImportPrefix}');
-      }
-      out.println(';');
-    }
-    out.println('');
+    generateHeader(out, filePath, config);
 
     // Generate code.
     for (EnumGenerator e in enumGenerators) {
@@ -191,6 +158,76 @@ class FileGenerator extends ProtobufContainer {
     for (ServiceGenerator s in serviceGenerators) {
       s.generate(out);
     }
+  }
+
+  /// Prints header and imports.
+  void generateHeader(IndentingWriter out, Uri filePath,
+      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+
+    String libraryName = _generateLibraryName(filePath);
+    out.println(
+        '///\n'
+        '//  Generated code. Do not modify.\n'
+        '///\n'
+        'library $libraryName;\n');
+
+    // We only add the dart:async import if there are services in the
+    // FileDescriptorProto.
+    if (_fileDescriptor.service.isNotEmpty) {
+      out.println("import 'dart:async';\n");
+    }
+
+    if (_needsFixnumImport) {
+      out.println("import 'package:fixnum/fixnum.dart';");
+    }
+    out.println("import 'package:protobuf/protobuf.dart';");
+
+    var mixinImports = findMixinsToImport();
+    var importNames = mixinImports.keys.toList();
+    importNames.sort();
+    for (var imp in importNames) {
+      var symbols = mixinImports[imp];
+      out.println("import '${imp}' show ${symbols.join(', ')};");
+    }
+
+    for (var imported in _findProtosToImport()) {
+      String filename = imported._fileDescriptor.name;
+      Uri importPath = new Uri.file(filename);
+      if (importPath.isAbsolute) {
+        // protoc should never generate an import with an absolute path.
+        throw("FAILURE: Import with absolute path is not supported");
+      }
+      // Create a path from the current file to the imported proto.
+      Uri resolvedImport = config.resolveImport(importPath, filePath);
+      out.print("import '$resolvedImport'");
+      if (package != imported.package && imported.package.isNotEmpty) {
+        out.print(' as ${imported.packageImportPrefix}');
+      }
+      out.println(';');
+    }
+    out.println();
+  }
+
+  bool get _needsFixnumImport {
+    for (var m in messageGenerators) {
+      if (m.needsFixnumImport) return true;
+    }
+    for (var x in extensionGenerators) {
+      if (x.needsFixnumImport) return true;
+    }
+    return false;
+  }
+
+  /// Returns the generator for each .pb.dart file we need to import.
+  Set<FileGenerator> _findProtosToImport() {
+    var imports = new Set<FileGenerator>.identity();
+    for (var m in messageGenerators) {
+      m.addImportsTo(imports);
+    }
+    for (var x in extensionGenerators) {
+      x.addImportsTo(imports);
+    }
+    return imports;
   }
 
   /// Returns a map from import names to the Dart symbols to be imported.

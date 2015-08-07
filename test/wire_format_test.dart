@@ -57,13 +57,6 @@ void main() {
     expect(getAllExtensionsSet().writeToBuffer(), getAllSet().writeToBuffer());
   });
 
-  ExtensionRegistry _getTestFieldOrderingsRegistry() {
-    ExtensionRegistry result = new ExtensionRegistry();
-    result.add(Unittest.myExtensionInt);
-    result.add(Unittest.myExtensionString);
-    return result;
-  }
-
   test('testParseMultipleExtensionRanges', () {
     // Make sure we can parse a message that contains multiple extensions
     // ranges.

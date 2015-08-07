@@ -3,9 +3,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library file_generator_test;
+library protoc_options_test;
 
-import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';

@@ -26,10 +26,29 @@ class ExtensionGenerator {
 
   String get package => _parent.package;
 
+  /// The generator of the .pb.dart file where this extension will be defined.
+  FileGenerator get fileGen => _parent.fileGen;
+
   String get name {
     if (_field == null) throw new StateError("resolve not called");
     String name = _field.dartFieldName;
     return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
+  }
+
+  bool get needsFixnumImport {
+    if (_field == null) throw new StateError("resolve not called");
+    return _field.needsFixnumImport;
+  }
+
+  /// Adds any imports needed by the Dart code defining this extension.
+  void addImportsTo(Set<FileGenerator> imports) {
+    if (_field == null) throw new StateError("resolve not called");
+    var typeGen = _field.baseType.generator;
+    if (typeGen != null && typeGen.fileGen != fileGen) {
+      // The type of this extension is defined in a different file,
+      // so we need to import it.
+      imports.add(typeGen.fileGen);
+    }
   }
 
   void generate(IndentingWriter out) {

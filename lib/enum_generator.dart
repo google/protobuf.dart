@@ -39,6 +39,7 @@ class EnumGenerator extends ProtobufContainer {
   }
 
   String get package => _parent.package;
+  FileGenerator get fileGen => _parent.fileGen;
 
   /// Make this enum available as a field type.
   void register(GenerationContext ctx) {

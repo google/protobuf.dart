@@ -14,7 +14,6 @@ bool genericOptionsParser(
     Map<String, SingleOptionParser> parsers) {
   var parameter = request.parameter != null ? request.parameter : '';
   var options = parameter.trim().split(',');
-  var map = <String, String>{};
   var errors = [];
 
   for (var option in options) {

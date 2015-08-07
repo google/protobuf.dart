@@ -75,6 +75,9 @@ class MessageGenerator extends ProtobufContainer {
 
   String get package => _parent.package;
 
+  // The generator of the .pb.dart file that will declare this type.
+  FileGenerator get fileGen => _parent.fileGen;
+
   /// Adds all mixins used in this message and any submessages.
   void addMixinsTo(Set<PbMixin> output) {
     if (mixin != null) {
@@ -110,6 +113,39 @@ class MessageGenerator extends ProtobufContainer {
     }
     for (var x in _extensionGenerators) {
       x.resolve(ctx);
+    }
+  }
+
+  bool get needsFixnumImport {
+    if (_fieldList == null) throw new StateError("message not resolved");
+    for (var field in _fieldList) {
+      if (field.needsFixnumImport) return true;
+    }
+    for (var m in _messageGenerators) {
+      if (m.needsFixnumImport) return true;
+    }
+    for (var x in _extensionGenerators) {
+      if (x.needsFixnumImport) return true;
+    }
+    return false;
+  }
+
+  /// Adds generators of the .pb.dart files that this type needs to import.
+  void addImportsTo(Set<FileGenerator> imports) {
+    if (_fieldList == null) throw new StateError("message not resolved");
+    for (var field in _fieldList) {
+      var typeGen = field.baseType.generator;
+      if (typeGen != null && typeGen.fileGen != fileGen) {
+        // The field's type is defined in a different .pb.dart file.
+        // Therefore we need to import it.
+        imports.add(typeGen.fileGen);
+      }
+    }
+    for (var m in _messageGenerators) {
+      m.addImportsTo(imports);
+    }
+    for (var x in _extensionGenerators) {
+      x.addImportsTo(imports);
     }
   }
 

@@ -91,8 +91,6 @@ void main() {
 
     expect(optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'), 'Hello, world');
 
-    var json, message;
-
     expect(optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'),
            'Hello, world!');
 

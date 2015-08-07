@@ -38,6 +38,9 @@ class ProtobufField {
   bool get isPacked =>
       isRepeated && _field.options != null && _field.options.packed;
 
+  /// True if this field uses the Int64 from the fixnum package.
+  bool get needsFixnumImport => baseType.unprefixed == "Int64";
+
   /// Returns the expression to use for the Dart type.
   ///
   /// This will be a List for repeated types.
