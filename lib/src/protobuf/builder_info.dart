@@ -43,7 +43,7 @@ class BuilderInfo {
   // TODO(antonm): change the order of CreateBuilderFunc and MakeDefaultFunc.
   void m(int tagNumber, String name,
          CreateBuilderFunc subBuilder, MakeDefaultFunc makeDefault) {
-    add(tagNumber, name, GeneratedMessage._REPEATED_MESSAGE,
+    add(tagNumber, name, FieldType._REPEATED_MESSAGE,
         makeDefault, subBuilder, null);
   }
 
@@ -51,43 +51,43 @@ class BuilderInfo {
   void p(int tagNumber, String name, int fieldType) {
     MakeDefaultFunc makeDefault;
     switch (fieldType & ~0x7) {
-    case GeneratedMessage._BOOL_BIT:
+    case FieldType._BOOL_BIT:
       makeDefault = () => new PbList<bool>();
       break;
-    case GeneratedMessage._BYTES_BIT:
+    case FieldType._BYTES_BIT:
       makeDefault = () => new PbList<List<int>>();
       break;
-    case GeneratedMessage._STRING_BIT:
+    case FieldType._STRING_BIT:
       makeDefault = () => new PbList<String>();
       break;
-    case GeneratedMessage._FLOAT_BIT:
+    case FieldType._FLOAT_BIT:
       makeDefault = () => new PbFloatList();
       break;
-    case GeneratedMessage._DOUBLE_BIT:
+    case FieldType._DOUBLE_BIT:
       makeDefault = () => new PbList<double>();
       break;
-    case GeneratedMessage._ENUM_BIT:
+    case FieldType._ENUM_BIT:
       makeDefault = () => new PbList<ProtobufEnum>();
       break;
-    case GeneratedMessage._INT32_BIT:
-    case GeneratedMessage._SINT32_BIT:
-    case GeneratedMessage._SFIXED32_BIT:
+    case FieldType._INT32_BIT:
+    case FieldType._SINT32_BIT:
+    case FieldType._SFIXED32_BIT:
       makeDefault = () => new PbSint32List();
       break;
-    case GeneratedMessage._UINT32_BIT:
-    case GeneratedMessage._FIXED32_BIT:
+    case FieldType._UINT32_BIT:
+    case FieldType._FIXED32_BIT:
       makeDefault = () => new PbUint32List();
       break;
-    case GeneratedMessage._INT64_BIT:
-    case GeneratedMessage._SINT64_BIT:
-    case GeneratedMessage._SFIXED64_BIT:
+    case FieldType._INT64_BIT:
+    case FieldType._SINT64_BIT:
+    case FieldType._SFIXED64_BIT:
       makeDefault = () => new PbSint64List();
       break;
-    case GeneratedMessage._UINT64_BIT:
-    case GeneratedMessage._FIXED64_BIT:
+    case FieldType._UINT64_BIT:
+    case FieldType._FIXED64_BIT:
       makeDefault = () => new PbUint64List();
       break;
-    case GeneratedMessage._MESSAGE_BIT:
+    case FieldType._MESSAGE_BIT:
       throw new ArgumentError('use BuilderInfo.m() for repeated messages');
     default:
       throw new ArgumentError('unknown type ${fieldType}');
@@ -144,15 +144,14 @@ class BuilderInfo {
     if (fieldType == null) {
       fieldType = fieldInfo[tagNumber].type;
     }
-    if ((fieldType &
-        (GeneratedMessage._MESSAGE_BIT | GeneratedMessage._GROUP_BIT)) != 0) {
-      if ((fieldType & GeneratedMessage._REQUIRED_BIT) != 0) {
+    if (_isGroupOrMessage(fieldType)) {
+      if (_isRequired(fieldType)) {
         GeneratedMessage message = fieldValues[tagNumber];
         // Required message/group must be present and initialized.
         if (message == null || !message.isInitialized()) {
           return false;
         }
-      } else if ((fieldType & GeneratedMessage._REPEATED_BIT) != 0) {
+      } else if (_isRepeated(fieldType)) {
         if (fieldValues.containsKey(tagNumber)) {
           // Repeated message/group must have all its members initialized.
           List list = fieldValues[tagNumber];
@@ -172,7 +171,7 @@ class BuilderInfo {
         }
       }
 
-    } else if ((fieldType & GeneratedMessage._REQUIRED_BIT) != 0) {
+    } else if (_isRequired(fieldType)) {
       // Required 'primitive' must be present.
       if (fieldValues[tagNumber] == null) {
         return false;
@@ -185,9 +184,8 @@ class BuilderInfo {
       List<String> invalidFields, [String prefix = '']) {
     fieldInfo.forEach((int tagNumber, FieldInfo field) {
       int fieldType = field.type;
-      if ((fieldType &
-          (GeneratedMessage._MESSAGE_BIT | GeneratedMessage._GROUP_BIT)) != 0) {
-        if ((fieldType & GeneratedMessage._REQUIRED_BIT) != 0) {
+      if (_isGroupOrMessage(fieldType)) {
+        if (_isRequired(fieldType)) {
           GeneratedMessage message = fieldValues[tagNumber];
           // Required message/group must be present.
           if (message == null) {
@@ -196,7 +194,7 @@ class BuilderInfo {
             message._findInvalidFields(
                 invalidFields, '${prefix}${field.name}.');
           }
-        } else if ((fieldType & GeneratedMessage._REPEATED_BIT) != 0) {
+        } else if (_isRepeated(fieldType)) {
           if (fieldValues.containsKey(tagNumber)) {
             // Repeated message/group must have all its members initialized.
             List list = fieldValues[tagNumber];
@@ -221,7 +219,7 @@ class BuilderInfo {
           }
         }
 
-      } else if((fieldType & GeneratedMessage._REQUIRED_BIT) != 0) {
+      } else if(_isRequired(fieldType)) {
         // Required 'primitive' must be present.
         if (fieldValues[tagNumber] == null) {
           invalidFields.add('${prefix}${field.name}');

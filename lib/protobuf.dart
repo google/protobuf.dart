@@ -21,6 +21,7 @@ part 'src/protobuf/exceptions.dart';
 part 'src/protobuf/extension.dart';
 part 'src/protobuf/extension_registry.dart';
 part 'src/protobuf/field_info.dart';
+part 'src/protobuf/field_type.dart';
 part 'src/protobuf/generated_message.dart';
 part 'src/protobuf/generated_service.dart';
 part 'src/protobuf/pb_list.dart';

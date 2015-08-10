@@ -23,7 +23,7 @@ class FieldInfo {
         this.makeDefault = findMakeDefault(type, defaultOrMaker);
 
   static MakeDefaultFunc findMakeDefault(int type, dynamic defaultOrMaker) {
-    if (defaultOrMaker == null) return GeneratedMessage._defaultForType(type);
+    if (defaultOrMaker == null) return FieldType._defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
   }
