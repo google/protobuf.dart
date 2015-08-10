@@ -50,7 +50,7 @@ class ProtobufField {
     return baseType.getDartType(package);
   }
 
-  /// Returns the constant in GeneratedMessage corresponding to this type.
+  /// Returns the constant in FieldType corresponding to this type.
   String get typeConstant {
     String prefix = 'O';
     if (isRequired) {
@@ -60,7 +60,7 @@ class ProtobufField {
     } else if (isRepeated) {
       prefix = 'P';
     }
-    return "GeneratedMessage." + prefix + baseType.typeConstantSuffix;
+    return "FieldType." + prefix + baseType.typeConstantSuffix;
   }
 
   /// The name to use by default for the Dart getter and setter.

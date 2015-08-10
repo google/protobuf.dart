@@ -120,9 +120,6 @@ void main() {
     // Unknown tag.
     expect(() { builder.setField(999, 'field'); }, throwsArgumentError);
 
-    // Unknown type.
-    expect(() { builder.setField(1, 1, 24); }, throwsArgumentError);
-
     expect(() {
       new TestAllExtensions()
           .setExtension(Unittest.optionalInt32Extension, '101');

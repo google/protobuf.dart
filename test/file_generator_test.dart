@@ -81,9 +81,9 @@ import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..a(1, 'number', GeneratedMessage.QS)
-    ..a(2, 'type', GeneratedMessage.O3)
-    ..a(3, 'name', GeneratedMessage.OS, '\$')
+    ..a(1, 'number', FieldType.QS)
+    ..a(2, 'type', FieldType.O3)
+    ..a(3, 'name', FieldType.OS, '\$')
   ;
 
   PhoneNumber() : super();
@@ -247,9 +247,9 @@ import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..a(1, 'no', GeneratedMessage.QS)
-    ..a(2, 'the_type', GeneratedMessage.O3)
-    ..a(3, 'name_', GeneratedMessage.OS, '\$')
+    ..a(1, 'no', FieldType.QS)
+    ..a(2, 'the_type', FieldType.O3)
+    ..a(3, 'name_', FieldType.OS, '\$')
   ;
 
   PhoneNumber() : super();
@@ -315,9 +315,9 @@ import 'package2.pb.dart' as p2;
 
 class M extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('M')
-    ..a(1, 'm', GeneratedMessage.OM, M.getDefault, M.create)
-    ..a(2, 'm1', GeneratedMessage.OM, p1.M.getDefault, p1.M.create)
-    ..a(3, 'm2', GeneratedMessage.OM, p2.M.getDefault, p2.M.create)
+    ..a(1, 'm', FieldType.OM, M.getDefault, M.create)
+    ..a(2, 'm1', FieldType.OM, p1.M.getDefault, p1.M.create)
+    ..a(3, 'm2', FieldType.OM, p2.M.getDefault, p2.M.create)
     ..hasRequiredFields = false
   ;
 
