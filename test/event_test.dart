@@ -7,7 +7,8 @@ library event_test;
 
 import 'dart:typed_data' show Uint8List;
 
-import 'package:protobuf/protobuf.dart' show GeneratedMessage;
+import 'package:protobuf/protobuf.dart'
+    show GeneratedMessage, Extension, ExtensionRegistry, FieldType;
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin, PbFieldChange;
 import 'package:test/test.dart' show test, expect, predicate, same;
@@ -18,6 +19,8 @@ class Rec extends MockMessage with PbEventMixin {
   get className => "Rec";
   Rec create() => new Rec();
 }
+
+Extension comment = new Extension("Rec", "comment", 5, FieldType.OS);
 
 main() {
   test('Events are sent when setting and clearing a non-repeated field', () {
@@ -43,9 +46,9 @@ main() {
     r.deliverChanges();
     checkLog(log, [[[1, 456, 42]]]);
 
-    r.clearField(1);
+    r.clearField(1); // no change
     r.deliverChanges();
-    checkLog(log, []); // no change
+    checkLog(log, []);
   });
 
   test('Events are sent when creating and clearing a repeated field', () {
@@ -154,6 +157,57 @@ main() {
       [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
     ]);
   });
+
+  test('Events are not sent (yet) for extensions', () {
+    var log = makeLog();
+    var r = new Rec();
+    r.changes.listen((List<PbFieldChange> changes) {
+      log.add(changes);
+    });
+
+    r.setExtension(comment, "hello");
+    expect(r.getExtension(comment), "hello");
+    r.deliverChanges();
+    checkLog(log, []);
+
+    r.clearExtension(comment);
+    r.deliverChanges();
+    checkLog(log, []);
+
+    r.setExtension(comment, "hello");
+    expect(r.getExtension(comment), "hello");
+    r.clear();
+    r.deliverChanges();
+    checkLog(log, []);
+
+    r.setExtension(comment, "hello");
+    expect(r.getExtension(comment), "hello");
+    r.clearField(comment.tagNumber);
+    r.deliverChanges();
+    checkLog(log, []);
+
+    var registry = new ExtensionRegistry()..add(comment);
+    r.mergeFromJson('{"5": "hello"}', registry);
+    expect(r.getExtension(comment), "hello");
+    r.clear();
+    r.deliverChanges();
+    checkLog(log, []);
+
+    var src = new Rec()..setExtension(comment, "hello");
+    r.mergeFromMessage(src);
+    expect(r.getExtension(comment), "hello");
+    r.clear();
+    r.deliverChanges();
+    checkLog(log, []);
+
+    Uint8List bytes = src.writeToBuffer();
+    r.mergeFromBuffer(bytes, registry);
+    expect(r.getExtension(comment), "hello");
+    r.clear();
+    r.deliverChanges();
+    checkLog(log, []);
+  });
+
 }
 
 List<List<PbFieldChange>> makeLog() => <List<PbFieldChange>>[];

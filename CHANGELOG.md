@@ -1,3 +1,8 @@
+## unreleased
+ * Removed optional third parameter from setField().
+   It was only intended for internal use, and could be used to
+   defeat type checks on fields.
+
 ## 0.4.0
  * Add ReadonlyMessageMixin. The generated message classes use this to
    for the default values of message fields.

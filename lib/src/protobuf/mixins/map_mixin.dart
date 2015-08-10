@@ -19,7 +19,7 @@ abstract class PbMapMixin implements Map {
   void clear();
   int getTagNumber(String fieldName);
   getField(int tagNumber);
-  void setField(int tagNumber, var value, [int fieldType = null]);
+  void setField(int tagNumber, var value);
 
   @override
   operator [](key) {
