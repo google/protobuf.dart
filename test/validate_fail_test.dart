@@ -5,8 +5,6 @@
 
 library validate_fail_test;
 
-import 'package:fixnum/fixnum.dart';
-import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
@@ -20,29 +18,6 @@ final badArgument = throwsA(invalidArgumentException);
 cast(x) => x;
 
 void main() {
-  test('testValidatePbListTypes', () {
-
-    PbList<int> lSint32 = new PbSint32List();
-    expect(() { lSint32.add(-2147483649); }, throwsArgumentError);
-    expect(() { lSint32.add(2147483648); }, throwsArgumentError);
-
-    PbList<int> lUint32 = new PbUint32List();
-    expect(() { lUint32.add(-1); }, throwsArgumentError);
-    expect(() { lUint32.add(4294967296); }, throwsArgumentError);
-
-    PbList<Int64> lSint64 = new PbSint64List();
-    expect(() { lSint64.add(cast(-9223372036854775809)); }, badArgument);
-    expect(() { lSint64.add(cast(9223372036854775808)); }, badArgument);
-
-    PbList<Int64> lUint64 = new PbUint64List();
-    expect(() { lUint64.add(cast(-1)); }, badArgument);
-    expect(() { lUint64.add(cast(18446744073709551616)); }, badArgument);
-
-    PbList<double> lFloat = new PbFloatList();
-    expect(() { lFloat.add(cast(-3.4028234663852886E39)); }, throwsArgumentError);
-    expect(() { lFloat.add(cast(3.4028234663852886E39)); }, throwsArgumentError);
-  });
-
   test('testValidationFailureMessages', () {
     TestAllTypes builder = new TestAllTypes();
 
