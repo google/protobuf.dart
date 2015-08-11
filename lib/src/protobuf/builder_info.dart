@@ -61,7 +61,7 @@ class BuilderInfo {
       makeDefault = () => new PbList<String>();
       break;
     case FieldType._FLOAT_BIT:
-      makeDefault = () => new PbFloatList();
+      makeDefault = () => PbList.createFloat();
       break;
     case FieldType._DOUBLE_BIT:
       makeDefault = () => new PbList<double>();
@@ -72,20 +72,20 @@ class BuilderInfo {
     case FieldType._INT32_BIT:
     case FieldType._SINT32_BIT:
     case FieldType._SFIXED32_BIT:
-      makeDefault = () => new PbSint32List();
+      makeDefault = () => PbList.createSigned32();
       break;
     case FieldType._UINT32_BIT:
     case FieldType._FIXED32_BIT:
-      makeDefault = () => new PbUint32List();
+      makeDefault = () => PbList.createUnsigned32();
       break;
     case FieldType._INT64_BIT:
     case FieldType._SINT64_BIT:
     case FieldType._SFIXED64_BIT:
-      makeDefault = () => new PbSint64List();
+      makeDefault = () => PbList.createSigned64();
       break;
     case FieldType._UINT64_BIT:
     case FieldType._FIXED64_BIT:
-      makeDefault = () => new PbUint64List();
+      makeDefault = () => PbList.createUnsigned64();
       break;
     case FieldType._MESSAGE_BIT:
       throw new ArgumentError('use BuilderInfo.m() for repeated messages');

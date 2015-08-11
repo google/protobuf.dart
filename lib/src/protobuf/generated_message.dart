@@ -8,15 +8,6 @@ typedef GeneratedMessage CreateBuilderFunc();
 typedef Object MakeDefaultFunc();
 typedef ProtobufEnum ValueOfFunc(int value);
 
-bool _inRange(min, value, max) => (min <= value) && (value <= max);
-
-bool _isSigned32(int value) => _inRange(-2147483648, value, 2147483647);
-bool _isUnsigned32(int value) => _inRange(0, value, 4294967295);
-bool _isSigned64(Int64 value) => _isUnsigned64(value);
-bool _isUnsigned64(Int64 value) => value is Int64;
-bool _isFloat32(double value) => value.isNaN || value.isInfinite ||
-    _inRange(-3.4028234663852886E38, value, 3.4028234663852886E38);
-
 abstract class GeneratedMessage {
 
   // Short names for use in generated code.
@@ -929,7 +920,7 @@ abstract class GeneratedMessage {
     if (value == null) {
       throw new ArgumentError('value is null');
     } else if (_isRepeated(extension.type)) {
-      throw new ArgumentError(_generateMessage(tagNumber, value,
+      throw new ArgumentError(_generateMessage(extension.tagNumber, value,
           'repeating field (use get + .add())'));
     }
     _checkExtension(extension);
@@ -1026,158 +1017,9 @@ abstract class GeneratedMessage {
   }
 
   void _validate(int tagNumber, int fieldType, var value) {
-    switch (FieldType._baseType(fieldType)) {
-      case FieldType._BOOL_BIT:
-        if (value is !bool) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type bool'));
-        }
-        break;
-      case FieldType._BYTES_BIT:
-        if (value is !List) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not List'));
-        }
-        break;
-      case FieldType._STRING_BIT:
-        if (value is !String) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type String'));
-        }
-        break;
-      case FieldType._FLOAT_BIT:
-        if (value is !double) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type double'));
-        }
-        if (!_isFloat32(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for float'));
-        }
-        break;
-      case FieldType._DOUBLE_BIT:
-        if (value is !double) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type double'));
-        }
-        break;
-      case FieldType._ENUM_BIT:
-        if (value is !ProtobufEnum) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type ProtobufEnum'));
-        }
-        break;
-      case FieldType._INT32_BIT:
-        if (value is !int) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type int'));
-        }
-        if (!_isSigned32(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for int32'));
-        }
-        break;
-      case FieldType._INT64_BIT:
-        if (value is !Int64) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not Int64'));
-        }
-        if (!_isSigned64(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for int64'));
-        }
-        break;
-      case FieldType._SINT32_BIT:
-        if (value is !int) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type int'));
-        }
-        if (!_isSigned32(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for sint32'));
-        }
-        break;
-      case FieldType._SINT64_BIT:
-        if (value is !Int64) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not Int64'));
-        }
-        if (!_isSigned64(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for sint64'));
-        }
-        break;
-      case FieldType._UINT32_BIT:
-        if (value is !int) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type int'));
-        }
-        if (!_isUnsigned32(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for uint32'));
-        }
-        break;
-      case FieldType._UINT64_BIT:
-        if (value is !Int64) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not Int64'));
-        }
-        if (!_isUnsigned64(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for uint64'));
-        }
-        break;
-      case FieldType._FIXED32_BIT:
-        if (value is !int) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type int'));
-        }
-        if (!_isUnsigned32(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for fixed32'));
-        }
-        break;
-      case FieldType._FIXED64_BIT:
-        if (value is !Int64) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not Int64'));
-        }
-        if (!_isUnsigned64(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for fixed64'));
-        }
-        break;
-      case FieldType._SFIXED32_BIT:
-        if (value is !int) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not type int'));
-        }
-        if (!_isSigned32(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for sfixed32'));
-        }
-        break;
-      case FieldType._SFIXED64_BIT:
-        if (value is !Int64) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not Int64'));
-        }
-        if (!_isSigned64(value)) {
-          throw new ArgumentError(_generateMessage(tagNumber, value,
-              'out of range for sfixed64'));
-        }
-        break;
-      case FieldType._GROUP_BIT:
-      case FieldType._MESSAGE_BIT:
-        if (value is !GeneratedMessage) {
-          throw new ArgumentError(
-              _generateMessage(tagNumber, value, 'not a GeneratedMessage'));
-        }
-        break;
-      default:
-        throw new ArgumentError(
-            _generateMessage(tagNumber, value, 'field has unknown type '
-            '$fieldType'));
+    var message = _getFieldError(fieldType, value);
+    if (message != null) {
+      throw new ArgumentError(_generateMessage(tagNumber, value, message));
     }
   }
 }

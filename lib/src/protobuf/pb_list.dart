@@ -4,11 +4,29 @@
 
 part of protobuf;
 
+typedef CheckFunc(x);
+
 class PbList<E> extends Object with ListMixin<E> implements List<E> {
 
-  PbList() : _wrappedList = <E>[];
+  final List<E> _wrappedList;
+  final CheckFunc check;
 
-  PbList.from(List from) : _wrappedList = new List<E>.from(from);
+  PbList({this.check: _checkNothing}) : _wrappedList = <E>[];
+
+  PbList.from(List from)
+    : _wrappedList = new List<E>.from(from),
+     check = _checkNothing;
+
+  static PbList<int> createSigned32() =>
+      new PbList<int>(check: _checkSigned32);
+  static PbList<int> createUnsigned32() =>
+      new PbList<int>(check: _checkUnsigned32);
+  static PbList<Int64> createSigned64() =>
+      new PbList<Int64>(check: _checkSigned64);
+  static PbList<Int64> createUnsigned64() =>
+      new PbList<Int64>(check: _checkUnsigned64);
+  static PbList<double> createFloat() =>
+      new PbList<double>(check: _checkFloat);
 
   bool operator ==(other) =>
       (other is PbList) && _areListsEqual(other, this);
@@ -114,7 +132,7 @@ class PbList<E> extends Object with ListMixin<E> implements List<E> {
   }
 
   /**
-   * Overrites elements of `this` with elements of [iterable] starting at
+   * Overwrites elements of `this` with elements of [iterable] starting at
    * position [index] in the list.
    *
    * Elements in [iterable] must be valid and not nullable for the PbList type.
@@ -134,78 +152,8 @@ class PbList<E> extends Object with ListMixin<E> implements List<E> {
       throw new ArgumentError('Value is null');
     }
     if (val is! E) {
-      throw new ArgumentError(
-          'Value ($val) is not of the correct type');
+      throw new ArgumentError('Value ($val) is not of the correct type');
     }
-    _validateElement(val);
-  }
-
-  void _validateElement(E val) {}
-
-  final List<E> _wrappedList;
-}
-
-/**
- * A [PbList] that requires its elements to be [int]s in the range
- * [:-2^31, 2^31 - 1:].
- */
-class PbSint32List extends PbList<int> {
-  void _validateElement(int val) {
-    if (!_isSigned32(val)) {
-      throw new ArgumentError('Illegal to add value (${val}): out '
-          'of range for int32');
-    }
-  }
-}
-
-/**
- * A [PbList] that requires its elements to be [int]s in the range
- * [:0, 2^32 - 1:].
- */
-class PbUint32List extends PbList<int> {
-  void _validateElement(int val) {
-    if (!_isUnsigned32(val)) {
-      throw new ArgumentError('Illegal to add value (${val}):'
-          ' out of range for uint32');
-    }
-  }
-}
-
-/**
- * A [PbList] that requires its elements to be [int]s in the range
- * [:2^-63, 2^63 - 1:].
- */
-class PbSint64List extends PbList<Int64> {
-  void _validateElement(Int64 val) {
-    if (!_isSigned64(val)) {
-      throw new ArgumentError('Illegal to add value (${val}):'
-          ' out of range for sint64');
-    }
-  }
-}
-
-/**
- * A [PbList] that requires its elements to be [int]s in the range
- * [:0, 2^64 - 1:].
- */
-class PbUint64List extends PbList<Int64> {
-  void _validateElement(Int64 val) {
-    if (!_isUnsigned64(val)) {
-      throw new ArgumentError('Illegal to add value (${val}):'
-          ' out of range for uint64');
-    }
-  }
-}
-
-/**
- * A [PbList] that requires its elements to be [double]s in the range
- * [:-3.4E38, 3.4E38:], i.e., with the IEEE single-precision range.
- */
-class PbFloatList extends PbList<double> {
-  void _validateElement(double val) {
-    if (!_isFloat32(val)) {
-      throw new ArgumentError('Illegal to add value (${val}):'
-          ' out of range for float');
-    }
+    check(val);
   }
 }
