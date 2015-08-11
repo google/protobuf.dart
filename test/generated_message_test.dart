@@ -12,8 +12,6 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
 import '../out/protos/multiple_files_test.pb.dart';
-import '../out/protos/nested_extension.pb.dart';
-import '../out/protos/non_nested_extension.pb.dart';
 import '../out/protos/reserved_names.pb.dart';
 import '../out/protos/duplicate_names_import.pb.dart';
 import '../out/protos/package1.pb.dart' as p1;
@@ -205,58 +203,7 @@ void main() {
     assertPackedFieldsSet(message);
   });
 
-  // =================================================================
-  // Extensions.
-  test('testSetAllExtensions', () {
-    TestAllExtensions message = new TestAllExtensions();
-    setAllExtensions(message);
-    assertAllExtensionsSet(message);
-  });
-
-  test('testExtensionRepeatedSetters', () {
-    TestAllExtensions message = new TestAllExtensions();
-    setAllExtensions(message);
-    modifyRepeatedExtensions(message);
-    assertRepeatedExtensionsModified(message);
-  });
-
-  test('testExtensionDefaults', () {
-    assertExtensionsClear(new TestAllExtensions());
-  });
-
-  // void testExtensionReflectionGetters() {} // UNSUPPORTED -- reflection
-  // void testExtensionReflectionSetters() {} // UNSUPPORTED -- reflection
-  // void testExtensionReflectionSettersRejectNull() {} // UNSUPPORTED
-  // void testExtensionReflectionRepeatedSetters() {} // UNSUPPORTED
-  // void testExtensionReflectionRepeatedSettersRejectNull() // UNSUPPORTED
-  // void testExtensionReflectionDefaults() // UNSUPPORTED
-
-  test('testClearExtension', () {
-    // clearExtension() is not actually used in test_util, so try it manually.
-    TestAllExtensions message = new TestAllExtensions();
-    message.setExtension(Unittest.optionalInt32Extension, 1);
-    message.clearExtension(Unittest.optionalInt32Extension);
-    expect(message.hasExtension(Unittest.optionalInt32Extension), isFalse);
-
-    message = new TestAllExtensions();
-    message.addExtension(Unittest.repeatedInt32Extension, 1);
-    message.clearExtension(Unittest.repeatedInt32Extension);
-    expect(message.getExtension(Unittest.repeatedInt32Extension).length, 0);
-  });
-
-  test('testExtensionCopy', () {
-    assertAllExtensionsSet(getAllExtensionsSet().clone());
-  });
-
-  test('testExtensionMergeFrom', () {
-    TestAllExtensions original = new TestAllExtensions();
-    original.setExtension(Unittest.optionalInt32Extension, 1);
-    TestAllExtensions clone = original.clone();
-    expect(clone.hasExtension(Unittest.optionalInt32Extension), isTrue);
-    expect(clone.getExtension(Unittest.optionalInt32Extension), 1);
-  });
-
-  test('testMultipleFilesOption', () { // UNSUPPORTED getFile
+  test('testIgnoreJavaMultipleFilesOption', () { // UNSUPPORTED getFile
     // We mostly just want to check that things compile.
     MessageWithNoOuter message = new MessageWithNoOuter()
         ..nested = (new MessageWithNoOuter_NestedMessage()..i = 1)
@@ -384,27 +331,6 @@ void main() {
     expect(TestAllTypes_NestedEnum.FOO.value, 1);
     expect(TestAllTypes_NestedEnum.BAR.value, 2);
     expect(TestAllTypes_NestedEnum.BAZ.value, 3);
-  });
-
-  test('testBadExtension', () {
-    TestAllTypes message = new TestAllTypes();
-    expect(() { message.setExtension(Unittest.optionalInt32Extension, 101); },
-           throwsArgumentError);
-
-    expect(() { message.getExtension(Unittest.optionalInt32Extension); },
-           throwsArgumentError);
-  });
-
-  test('testNonNestedExtensionInitialization', () {
-    expect(Non_nested_extension.nonNestedExtension.makeDefault(),
-        new isInstanceOf<MyNonNestedExtension>());
-    expect(Non_nested_extension.nonNestedExtension.name, 'nonNestedExtension');
-  });
-
-  test('testNestedExtensionInitialization', () {
-    expect(MyNestedExtension.recursiveExtension
-        .makeDefault() is MessageToBeExtended, isTrue);
-    expect(MyNestedExtension.recursiveExtension.name, 'recursiveExtension');
   });
 
   test('testWriteWholeMessage', () {
