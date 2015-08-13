@@ -47,52 +47,10 @@ class BuilderInfo {
         makeDefault, subBuilder, null);
   }
 
-  // Repeated non-message.
+  // Repeated, not a message, group, or enum.
   void p(int tagNumber, String name, int fieldType) {
-    MakeDefaultFunc makeDefault;
-    switch (fieldType & ~0x7) {
-    case FieldType._BOOL_BIT:
-      makeDefault = () => new PbList<bool>();
-      break;
-    case FieldType._BYTES_BIT:
-      makeDefault = () => new PbList<List<int>>();
-      break;
-    case FieldType._STRING_BIT:
-      makeDefault = () => new PbList<String>();
-      break;
-    case FieldType._FLOAT_BIT:
-      makeDefault = () => PbList.createFloat();
-      break;
-    case FieldType._DOUBLE_BIT:
-      makeDefault = () => new PbList<double>();
-      break;
-    case FieldType._ENUM_BIT:
-      makeDefault = () => new PbList<ProtobufEnum>();
-      break;
-    case FieldType._INT32_BIT:
-    case FieldType._SINT32_BIT:
-    case FieldType._SFIXED32_BIT:
-      makeDefault = () => PbList.createSigned32();
-      break;
-    case FieldType._UINT32_BIT:
-    case FieldType._FIXED32_BIT:
-      makeDefault = () => PbList.createUnsigned32();
-      break;
-    case FieldType._INT64_BIT:
-    case FieldType._SINT64_BIT:
-    case FieldType._SFIXED64_BIT:
-      makeDefault = () => PbList.createSigned64();
-      break;
-    case FieldType._UINT64_BIT:
-    case FieldType._FIXED64_BIT:
-      makeDefault = () => PbList.createUnsigned64();
-      break;
-    case FieldType._MESSAGE_BIT:
-      throw new ArgumentError('use BuilderInfo.m() for repeated messages');
-    default:
-      throw new ArgumentError('unknown type ${fieldType}');
-    }
-
+    // The fieldType entirely determines the check function.
+    var makeDefault = () => new PbList.forFieldType(fieldType);
     add(tagNumber, name, fieldType, makeDefault, null, null);
   }
 

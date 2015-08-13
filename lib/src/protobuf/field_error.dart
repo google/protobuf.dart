@@ -7,7 +7,7 @@ part of protobuf;
 /// Returns the error message for an invalid field value,
 /// or null if it's valid.
 ///
-/// For enums and message fields, this check is only approximate,
+/// For enums, group, and message fields, this check is only approximate,
 /// because the exact type isn't included in [fieldType].
 String _getFieldError(int fieldType, var value) {
   switch (FieldType._baseType(fieldType)) {
@@ -30,46 +30,31 @@ String _getFieldError(int fieldType, var value) {
     case FieldType._ENUM_BIT:
       if (value is! ProtobufEnum) return 'not type ProtobufEnum';
       return null;
+
     case FieldType._INT32_BIT:
-      if (value is! int) return 'not type int';
-      if (!_isSigned32(value)) return 'out of range for int32';
-      return null;
-    case FieldType._INT64_BIT:
-      if (value is! Int64) return 'not Int64';
-      if (!_isSigned64(value)) return 'out of range for int64';
-      return null;
     case FieldType._SINT32_BIT:
-      if (value is! int) return 'not type int';
-      if (!_isSigned32(value)) return 'out of range for sint32';
-      return null;
-    case FieldType._SINT64_BIT:
-      if (value is! Int64) return 'not Int64';
-      if (!_isSigned64(value)) return 'out of range for sint64';
-      return null;
-    case FieldType._UINT32_BIT:
-      if (value is! int) return 'not type int';
-      if (!_isUnsigned32(value)) return 'out of range for uint32';
-      return null;
-    case FieldType._UINT64_BIT:
-      if (value is! Int64) return 'not Int64';
-      if (!_isUnsigned64(value)) return 'out of range for uint64';
-      return null;
-    case FieldType._FIXED32_BIT:
-      if (value is! int) return 'not type int';
-      if (!_isUnsigned32(value)) return 'out of range for fixed32';
-      return null;
-    case FieldType._FIXED64_BIT:
-      if (value is! Int64) return 'not Int64';
-      if (!_isUnsigned64(value)) return 'out of range for fixed64';
-      return null;
     case FieldType._SFIXED32_BIT:
       if (value is! int) return 'not type int';
-      if (!_isSigned32(value)) return 'out of range for sfixed32';
+      if (!_isSigned32(value)) return 'out of range for signed 32-bit int';
       return null;
+
+    case FieldType._UINT32_BIT:
+    case FieldType._FIXED32_BIT:
+      if (value is! int) return 'not type int';
+      if (!_isUnsigned32(value)) return 'out of range for unsigned 32-bit int';
+      return null;
+
+    case FieldType._INT64_BIT:
+    case FieldType._SINT64_BIT:
+    case FieldType._UINT64_BIT:
+    case FieldType._FIXED64_BIT:
     case FieldType._SFIXED64_BIT:
+      // We always use the full range of the same Dart type.
+      // It's up to the caller to treat the Int64 as signed or unsigned.
+      // See: https://github.com/dart-lang/dart-protobuf/issues/44
       if (value is! Int64) return 'not Int64';
-      if (!_isSigned64(value)) return 'out of range for sfixed64';
       return null;
+
     case FieldType._GROUP_BIT:
     case FieldType._MESSAGE_BIT:
       if (value is! GeneratedMessage) return 'not a GeneratedMessage';
@@ -79,52 +64,120 @@ String _getFieldError(int fieldType, var value) {
   }
 }
 
-// Checking functions for repeated fields.
+/// Returns a function for validating items in a repeated field.
+///
+/// For enum, group, and message fields, the check is only approximate,
+/// because the exact type isn't included in [fieldType].
+CheckFunc getCheckFunction(int fieldType) {
+  switch (fieldType & ~0x7) {
+    case FieldType._BOOL_BIT:
+      return _checkBool;
+    case FieldType._BYTES_BIT:
+      return _checkBytes;
+    case FieldType._STRING_BIT:
+      return _checkString;
+    case FieldType._FLOAT_BIT:
+      return _checkFloat;
+    case FieldType._DOUBLE_BIT:
+      return _checkDouble;
 
-void _checkNothing(x) {}
+    case FieldType._INT32_BIT:
+    case FieldType._SINT32_BIT:
+    case FieldType._SFIXED32_BIT:
+      return _checkSigned32;
+
+    case FieldType._UINT32_BIT:
+    case FieldType._FIXED32_BIT:
+      return _checkUnsigned32;
+
+    case FieldType._INT64_BIT:
+    case FieldType._SINT64_BIT:
+    case FieldType._SFIXED64_BIT:
+    case FieldType._UINT64_BIT:
+    case FieldType._FIXED64_BIT:
+      // We always use the full range of the same Dart type.
+      // It's up to the caller to treat the Int64 as signed or unsigned.
+      // See: https://github.com/dart-lang/dart-protobuf/issues/44
+      return _checkAnyInt64;
+
+    case FieldType._ENUM_BIT:
+      return _checkAnyEnum;
+    case FieldType._GROUP_BIT:
+    case FieldType._MESSAGE_BIT:
+      return _checkAnyMessage;
+  }
+  throw new ArgumentError('check function not implemented: ${fieldType}');
+}
+
+// check functions for repeated fields
+
+void _checkNotNull(val) {
+  if (val == null) {
+    throw new ArgumentError("Can't add a null to a repeated field");
+  }
+}
+
+void _checkBool(bool val) {
+  if (val is! bool) throw _createFieldTypeError(val, 'a bool');
+}
+
+void _checkBytes(List<int> val) {
+  if (val is! List<int>) throw _createFieldTypeError(val, 'a List<int>');
+}
+
+void _checkString(String val) {
+  if (val is! String) throw _createFieldTypeError(val, 'a String');
+}
 
 void _checkFloat(double val) {
-  if (!_isFloat32(val)) {
-    throw new ArgumentError(
-        'Illegal to add value (${val}): out of range for float');
-  }
+  _checkDouble(val);
+  if (!_isFloat32(val)) throw _createFieldRangeError(val, 'a float');
+}
+
+void _checkDouble(double val) {
+  if (val is! double) throw _createFieldTypeError(val, 'a double');
+}
+
+void _checkInt(int val) {
+  if (val is! int) throw _createFieldTypeError(val, 'an int');
 }
 
 void _checkSigned32(int val) {
-  if (!_isSigned32(val)) {
-    throw new ArgumentError(
-        'Illegal to add value (${val}): out of range for int32');
-  }
+  _checkInt(val);
+  if (!_isSigned32(val)) throw _createFieldRangeError(val, 'a signed int32');
 }
 
 void _checkUnsigned32(int val) {
+  _checkInt(val);
   if (!_isUnsigned32(val)) {
-    throw new ArgumentError(
-        'Illegal to add value (${val}): out of range for uint32');
+    throw _createFieldRangeError(val, 'an unsigned int32');
   }
 }
 
-void _checkSigned64(Int64 val) {
-  if (!_isSigned64(val)) {
-    throw new ArgumentError(
-        'Illegal to add value (${val}): out of range for sint64');
+void _checkAnyInt64(Int64 val) {
+  if (val is! Int64) throw _createFieldTypeError(val, 'an Int64');
+}
+
+_checkAnyEnum(ProtobufEnum val) {
+  if (val is! ProtobufEnum) throw _createFieldTypeError(val, 'a ProtobufEnum');
+}
+
+_checkAnyMessage(GeneratedMessage val) {
+  if (val is! GeneratedMessage) {
+    throw _createFieldTypeError(val, 'a GeneratedMessage');
   }
 }
 
-void _checkUnsigned64(Int64 val) {
-  if (!_isUnsigned64(val)) {
-    throw new ArgumentError(
-        'Illegal to add value (${val}): out of range for uint64');
-  }
-  // It is up to the caller to treat the Int64 as unsigned
-  // even though we're using the signed type. (The full range is used.)
-}
+ArgumentError _createFieldTypeError(val, String wantedType) =>
+    new ArgumentError('Value ($val) is not ${wantedType}');
+
+RangeError _createFieldRangeError(val, String wantedType) =>
+    new RangeError('Value ($val) is not ${wantedType}');
 
 bool _inRange(min, value, max) => (min <= value) && (value <= max);
 
 bool _isSigned32(int value) => _inRange(-2147483648, value, 2147483647);
 bool _isUnsigned32(int value) => _inRange(0, value, 4294967295);
-bool _isSigned64(Int64 value) => _isUnsigned64(value);
-bool _isUnsigned64(Int64 value) => value is Int64;
-bool _isFloat32(double value) => value.isNaN || value.isInfinite ||
-_inRange(-3.4028234663852886E38, value, 3.4028234663852886E38);
+bool _isFloat32(double value) => value.isNaN ||
+    value.isInfinite ||
+    _inRange(-3.4028234663852886E38, value, 3.4028234663852886E38);

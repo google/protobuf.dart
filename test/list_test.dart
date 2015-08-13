@@ -99,7 +99,7 @@ void main() {
   });
 
   test('PbList for signed int32 validates items', () {
-    var list = PbList.createSigned32();
+    var list = new PbList.forFieldType(FieldType.P3);
 
     expect(() {
       list.add(-2147483649);
@@ -119,7 +119,7 @@ void main() {
   });
 
   test('PBList for unsigned int32 validates items', () {
-    var list = PbList.createUnsigned32();
+    var list = new PbList.forFieldType(FieldType.PU3);
 
     expect(() {
       list.add(-1);
@@ -139,7 +139,7 @@ void main() {
   });
 
   test('PbList for float validates items', () {
-    var list = PbList.createFloat();
+    var list = new PbList.forFieldType(FieldType.PF);
 
     expect(() {
       list.add(3.4028234663852886E39);
@@ -159,7 +159,7 @@ void main() {
   });
 
   test('PbList for signed Int64 validates items', () {
-    PbList<Int64> list = PbList.createSigned64();
+    var list = new PbList.forFieldType(FieldType.P6);
     expect(() {
       list.add(cast(0)); // not an Int64
     }, badArgument);
@@ -178,7 +178,7 @@ void main() {
   });
 
   test('PbList for unsigned Int64 validates items', () {
-    PbList<Int64> list = PbList.createUnsigned64();
+    var list = new PbList.forFieldType(FieldType.PU6);
     expect(() {
       list.add(cast(0)); // not an Int64
     }, badArgument);

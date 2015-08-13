@@ -66,7 +66,7 @@ class FieldType {
 
   // Closures commonly used by initializers.
   static String _STRING_EMPTY() => '';
-  static List<int> _BYTES_EMPTY() => new PbList<int>();
+  static List<int> _BYTES_EMPTY() => new PbList(check: _checkInt);
   static bool _BOOL_FALSE() => false;
   static int _INT_ZERO() => 0;
   static double _DOUBLE_ZERO() => 0.0;

@@ -7,29 +7,19 @@ part of protobuf;
 typedef CheckFunc(x);
 
 class PbList<E> extends Object with ListMixin<E> implements List<E> {
-
   final List<E> _wrappedList;
   final CheckFunc check;
 
-  PbList({this.check: _checkNothing}) : _wrappedList = <E>[];
+  PbList({this.check: _checkNotNull}) : _wrappedList = <E>[];
 
   PbList.from(List from)
-    : _wrappedList = new List<E>.from(from),
-     check = _checkNothing;
+      : _wrappedList = new List<E>.from(from),
+        check = _checkNotNull;
 
-  static PbList<int> createSigned32() =>
-      new PbList<int>(check: _checkSigned32);
-  static PbList<int> createUnsigned32() =>
-      new PbList<int>(check: _checkUnsigned32);
-  static PbList<Int64> createSigned64() =>
-      new PbList<Int64>(check: _checkSigned64);
-  static PbList<Int64> createUnsigned64() =>
-      new PbList<Int64>(check: _checkUnsigned64);
-  static PbList<double> createFloat() =>
-      new PbList<double>(check: _checkFloat);
+  factory PbList.forFieldType(int fieldType) =>
+      new PbList(check: getCheckFunction(fieldType));
 
-  bool operator ==(other) =>
-      (other is PbList) && _areListsEqual(other, this);
+  bool operator ==(other) => (other is PbList) && _areListsEqual(other, this);
 
   int get hashCode {
     int hash = 0;
@@ -148,12 +138,10 @@ class PbList<E> extends Object with ListMixin<E> implements List<E> {
   int get length => _wrappedList.length;
 
   void _validate(E val) {
-    if (val == null) {
-      throw new ArgumentError('Value is null');
-    }
+    check(val);
+    // TODO: remove after migration to check functions is finished
     if (val is! E) {
       throw new ArgumentError('Value ($val) is not of the correct type');
     }
-    check(val);
   }
 }
