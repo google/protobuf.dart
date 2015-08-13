@@ -99,30 +99,23 @@ class ProtobufField {
   /// [package] is the package where the code will be evaluated.
   String generateBuilderInfoCall(String package) {
     String quotedName = "'$dartFieldName'";
-
-    if (isRepeated &&
-        !isPacked &&
-        !baseType.isMessage &&
-        !baseType.isGroup &&
-        !baseType.isEnum) {
-      // Repeated, not a message, group, or enum: default is an empty list,
-      // subBuilder is null, valueOf is null.
-      return '..p($number, $quotedName, $typeConstant)';
-    }
-
     String type = baseType.getDartType(package);
-    if (isRepeated && baseType.isMessage) {
-      // Repeated message: default is an empty list
-      return '..m($number, $quotedName, $type.create, $type.createRepeated)';
+
+    if (isRepeated) {
+      if (baseType.isMessage || baseType.isGroup) {
+        return '..pp($number, $quotedName, $typeConstant,'
+          ' $type.$checkItem, $type.create)';
+      } else if (baseType.isEnum) {
+        return '..pp($number, $quotedName, $typeConstant,'
+          ' $type.$checkItem, null, $type.valueOf)';
+      } else {
+        return '..p($number, $quotedName, $typeConstant)';
+      }
     }
 
     String makeDefault = generateDefaultFunction(package);
     if (baseType.isEnum) {
-      String valueOf = '(var v) => $type.valueOf(v)';
-      if (isRepeated) {
-        return '..a($number, $quotedName, $typeConstant, '
-            '$makeDefault, null, $valueOf)';
-      }
+      String valueOf = '$type.valueOf';
       return '..e($number, $quotedName, $typeConstant, $makeDefault, $valueOf)';
     }
 

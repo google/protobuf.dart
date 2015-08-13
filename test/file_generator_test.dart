@@ -98,6 +98,9 @@ class PhoneNumber extends GeneratedMessage {
     return _defaultInstance;
   }
   static PhoneNumber _defaultInstance;
+  static void $checkItem(PhoneNumber v) {
+    if (v is !PhoneNumber) checkItemFailed(v, 'PhoneNumber');
+  }
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }
@@ -154,6 +157,9 @@ class PhoneType extends ProtobufEnum {
 
   static final Map<int, PhoneType> _byValue = ProtobufEnum.initByValue(values);
   static PhoneType valueOf(int value) => _byValue[value];
+  static void $checkItem(PhoneType v) {
+    if (v is !PhoneType) checkItemFailed(v, 'PhoneType');
+  }
 
   const PhoneType._(int v, String n) : super(v, n);
 }
@@ -264,6 +270,9 @@ class PhoneNumber extends GeneratedMessage {
     return _defaultInstance;
   }
   static PhoneNumber _defaultInstance;
+  static void $checkItem(PhoneNumber v) {
+    if (v is !PhoneNumber) checkItemFailed(v, 'PhoneNumber');
+  }
 
   String get no => getField(1);
   void set no(String v) { setField(1, v); }
@@ -333,6 +342,9 @@ class M extends GeneratedMessage {
     return _defaultInstance;
   }
   static M _defaultInstance;
+  static void $checkItem(M v) {
+    if (v is !M) checkItemFailed(v, 'M');
+  }
 
   M get m => getField(1);
   void set m(M v) { setField(1, v); }

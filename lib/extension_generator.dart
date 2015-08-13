@@ -55,16 +55,29 @@ class ExtensionGenerator {
     if (_field == null) throw new StateError("resolve not called");
 
     String name = _field.dartFieldName;
+
+    if (_field.isRepeated) {
+      out.print('static final Extension $name = '
+          'new Extension.repeated(\'$_extendedClassName\', \'$name\', '
+          '${_field.number}, ${_field.typeConstant}');
+      var type = _field.baseType;
+      if (type.isMessage || type.isGroup) {
+        var dartClass = type.getDartType(package);
+        out.println(', $dartClass.$checkItem, $dartClass.create);');
+      } else if (type.isEnum) {
+        var dartClass = type.getDartType(package);
+        out.println(', $dartClass.$checkItem, null, $dartClass.valueOf);');
+      } else {
+        out.println(", getCheckFunction(${_field.typeConstant}));");
+      }
+      return;
+    }
+
     out.print('static final Extension $name = '
         'new Extension(\'$_extendedClassName\', \'$name\', '
         '${_field.number}, ${_field.typeConstant}');
 
     String initializer = _field.generateDefaultFunction(package);
-    if (_field.isRepeated) {
-      // TODO(skybrian) why do we do this only for extensions?
-      var dartType = _field.baseType.getDartType(package);
-      initializer = '() => new PbList<${dartType}>()';
-    }
 
     var type = _field.baseType;
     if (type.isMessage || type.isGroup) {

@@ -29,6 +29,9 @@ class PhoneNumber_PhoneType extends ProtobufEnum {
 
   static final Map<int, PhoneNumber_PhoneType> _byValue = ProtobufEnum.initByValue(values);
   static PhoneNumber_PhoneType valueOf(int value) => _byValue[value];
+  static void $checkItem(PhoneNumber_PhoneType v) {
+    if (v is !PhoneNumber_PhoneType) checkItemFailed(v, 'PhoneNumber_PhoneType');
+  }
 
   const PhoneNumber_PhoneType._(int v, String n) : super(v, n);
 }
@@ -36,7 +39,7 @@ class PhoneNumber_PhoneType extends ProtobufEnum {
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
     ..a(1, 'number', FieldType.QS)
-    ..e(2, 'type', FieldType.OE, PhoneNumber_PhoneType.MOBILE, (var v) => PhoneNumber_PhoneType.valueOf(v))
+    ..e(2, 'type', FieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf)
     ..a(3, 'name', FieldType.OS, '\$')
   ;
 
@@ -52,6 +55,9 @@ class PhoneNumber extends GeneratedMessage {
     return _defaultInstance;
   }
   static PhoneNumber _defaultInstance;
+  static void $checkItem(PhoneNumber v) {
+    if (v is !PhoneNumber) checkItemFailed(v, 'PhoneNumber');
+  }
 
   String get number => getField(1);
   void set number(String v) { setField(1, v); }

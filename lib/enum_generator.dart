@@ -77,6 +77,10 @@ class EnumGenerator extends ProtobufContainer {
           ' ProtobufEnum.initByValue(values);');
       out.println('static ${classname} valueOf(int value) =>'
           ' _byValue[value];');
+      out.addBlock('static void $checkItem($classname v) {', '}', () {
+        out.println('if (v is !$classname)'
+        " checkItemFailed(v, '$classname');");
+      });
       out.println();
 
       out.println('const ${classname}._(int v, String n) '

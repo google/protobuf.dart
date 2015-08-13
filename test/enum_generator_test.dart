@@ -27,6 +27,9 @@ class PhoneType extends ProtobufEnum {
 
   static final Map<int, PhoneType> _byValue = ProtobufEnum.initByValue(values);
   static PhoneType valueOf(int value) => _byValue[value];
+  static void $checkItem(PhoneType v) {
+    if (v is !PhoneType) checkItemFailed(v, 'PhoneType');
+  }
 
   const PhoneType._(int v, String n) : super(v, n);
 }

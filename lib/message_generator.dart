@@ -4,6 +4,10 @@
 
 part of protoc;
 
+/// A Dart function called on each item added to a repeated list
+/// to check its type and range.
+const checkItem = '\$checkItem';
+
 class MessageGenerator extends ProtobufContainer {
   // List of Dart language reserved words in names which cannot be used in a
   // subclass of GeneratedMessage.
@@ -16,7 +20,7 @@ class MessageGenerator extends ProtobufContainer {
 
   // List of names used in the generated class itself
   static final List<String> generatedNames =
-      ['create', 'createRepeated', 'getDefault'];
+      ['create', 'createRepeated', 'getDefault', checkItem];
 
   // Returns the mixin for this message, or null if none.
   static PbMixin _getMixin(DescriptorProto desc, PbMixin defaultValue) {
@@ -222,6 +226,10 @@ class MessageGenerator extends ProtobufContainer {
         out.println('return _defaultInstance;');
       });
       out.println('static ${classname} _defaultInstance;');
+      out.addBlock('static void $checkItem($classname v) {', '}', () {
+          out.println('if (v is !$classname)'
+              " checkItemFailed(v, '$classname');");
+      });
       generateFieldsAccessorsMutators(out);
     });
     out.println();
