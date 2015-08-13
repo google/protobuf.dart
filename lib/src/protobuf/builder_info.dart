@@ -24,6 +24,14 @@ class BuilderInfo {
       name, tagNumber, fieldType, defaultOrMaker, subBuilder, valueOf);
   }
 
+  void addRepeated(int tagNumber, String name, int fieldType,
+                   CheckFunc check,
+                   CreateBuilderFunc subBuilder,
+                   ValueOfFunc valueOf) {
+    fieldInfo[tagNumber] = byName[name] = new FieldInfo.repeated(
+        name, tagNumber, fieldType, check, subBuilder, valueOf);
+  }
+
   void a(int tagNumber, String name, int fieldType,
          [dynamic defaultOrMaker,
           CreateBuilderFunc subBuilder,
@@ -40,7 +48,7 @@ class BuilderInfo {
   }
 
   // Repeated message.
-  // TODO(antonm): change the order of CreateBuilderFunc and MakeDefaultFunc.
+  // TODO(skybrian): migrate to pp() and remove.
   void m(int tagNumber, String name,
          CreateBuilderFunc subBuilder, MakeDefaultFunc makeDefault) {
     add(tagNumber, name, FieldType._REPEATED_MESSAGE,
@@ -49,9 +57,16 @@ class BuilderInfo {
 
   // Repeated, not a message, group, or enum.
   void p(int tagNumber, String name, int fieldType) {
-    // The fieldType entirely determines the check function.
-    var makeDefault = () => new PbList.forFieldType(fieldType);
-    add(tagNumber, name, fieldType, makeDefault, null, null);
+    assert(!_isGroupOrMessage(fieldType) && !_isEnum(fieldType));
+    addRepeated(tagNumber, name, fieldType,
+        getCheckFunction(fieldType), null, null);
+  }
+
+  // Repeated message, group, or enum.
+  void pp(int tagNumber, String name, int fieldType, CheckFunc check,
+         [CreateBuilderFunc subBuilder, ValueOfFunc valueOf]) {
+    assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
+    addRepeated(tagNumber, name, fieldType, check, subBuilder, valueOf);
   }
 
   bool containsTagNumber(int tagNumber) => fieldInfo.containsKey(tagNumber);

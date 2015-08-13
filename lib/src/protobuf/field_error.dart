@@ -64,6 +64,13 @@ String _getFieldError(int fieldType, var value) {
   }
 }
 
+// entry points for generated code
+
+// generated checkItem for message, group, enum calls this
+void checkItemFailed(val, String className) {
+  throw new ArgumentError('Value ($val) is not an instance of ${className}');
+}
+
 /// Returns a function for validating items in a repeated field.
 ///
 /// For enum, group, and message fields, the check is only approximate,

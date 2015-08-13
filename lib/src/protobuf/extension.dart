@@ -17,6 +17,12 @@ class Extension extends FieldInfo {
             ValueOfFunc valueOf]) :
      super(name, tagNumber, fieldType, defaultOrMaker, subBuilder, valueOf);
 
+  Extension.repeated(this.extendee, String name, int tagNumber, int fieldType,
+            CheckFunc check,
+            [CreateBuilderFunc subBuilder,
+            ValueOfFunc valueOf]) :
+  super.repeated(name, tagNumber, fieldType, check, subBuilder, valueOf);
+
   int get hashCode => extendee.hashCode * 31 + tagNumber;
 
   bool operator ==(other) {
