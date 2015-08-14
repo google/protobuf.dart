@@ -1,8 +1,6 @@
 Protoc compiler Dart plugin
 ===========================
 
-[![Build Status](https://drone.io/github.com/dart-lang/dart-protoc-plugin/status.png)](https://drone.io/github.com/dart-lang/dart-protoc-plugin/latest)
-
 This application provides a plugin for protoc compiler which
 generates pure Dart library to deal with protobufs.
 
