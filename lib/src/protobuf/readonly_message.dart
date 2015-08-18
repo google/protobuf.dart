@@ -14,8 +14,7 @@ abstract class ReadonlyMessageMixin {
 
   get unknownFields => _emptyUnknownFields;
 
-  List _getDefaultRepeatedField(int tagNumber, List value, Extension ext) =>
-      _emptyList;
+  List _getDefaultRepeatedField(int tagNumber, FieldInfo fi) => _emptyList;
 
   void addExtension(Extension extension, var value) =>
       _readonly("addExtension");

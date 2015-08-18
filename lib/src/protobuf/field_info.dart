@@ -13,7 +13,7 @@ class FieldInfo {
   final int type;
 
   // Constructs the default value of a field.
-  // TODO(skybrian): stop using this for repeated fields.
+  // (Only used for repeated fields where check is null.)
   final MakeDefaultFunc makeDefault;
 
   // Creates an empty message or group when decoding a message.
@@ -58,6 +58,8 @@ class FieldInfo {
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
   }
+
+  bool get isRepeated => _isRepeated(type);
 
   String toString() => name;
 }
