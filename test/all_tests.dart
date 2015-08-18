@@ -6,6 +6,7 @@
 library protoc_plugin_all_tests;
 
 import 'client_generator_test.dart' as client_generator;
+import 'const_generator_test.dart' as const_generator;
 import 'enum_generator_test.dart' as enum_generator;
 import 'extension_test.dart' as extension;
 import 'file_generator_test.dart' as file_generator;
@@ -26,6 +27,7 @@ import 'wire_format_test.dart' as wire_format;
 
 void main() {
   client_generator.main();
+  const_generator.main();
   enum_generator.main();
   extension.main();
   file_generator.main();

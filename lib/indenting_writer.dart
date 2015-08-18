@@ -37,8 +37,15 @@ class IndentingWriter {
     _addBlock(start, end, body, endWithNewline, _indent + '  ');
   }
 
-  void _addBlock(String start, String end, void body(), endWithNewline,
-                 newIndent) {
+  /// Prints a block of text with an unindented body.
+  /// (For example, for triple quotes.)
+  void addFlushLeftBlock(String start, String end, void body(),
+      {endWithNewline: true}) {
+    _addBlock(start, end, body, endWithNewline, '');
+  }
+
+  void _addBlock(
+      String start, String end, void body(), endWithNewline, newIndent) {
     println(start);
     var oldIndent = _indent;
     _indent = newIndent;
