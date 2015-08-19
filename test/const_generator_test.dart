@@ -33,27 +33,38 @@ void main() {
     expect(toConst('''single: ' double: "'''), """'''single: ' double: "'''""");
     var triple = '"""';
     expect(toConst("""single: ' double: " triple: '''"""),
-    """${triple}single: ' double: " triple: '''$triple""");
-    expect(toConst("""single: ' double: " triples: ''' and $triple!"""),
-    "r'''\n"
-    "single: ' double: \" triples: ''' \"'''\" r''' and $triple!'''");
+        """${triple}single: ' double: " triple: '''$triple""");
+    expect(
+        toConst("""single: ' double: " triples: ''' and $triple!"""),
+        "r'''\n"
+        "single: ' double: \" triples: ''' \"'''\" r''' and $triple!'''");
   });
 
   test('writeJsonConst list examples', () {
     expect(toConst([]), "const []");
     expect(toConst([1, 2, 3]), "const [1, 2, 3]");
-    expect(toConst([[1, 2], [3, 4]]), 'const [\n'
-    '  const [1, 2],\n'
-    '  const [3, 4],\n'
-    ']');
+    expect(
+        toConst([
+          [1, 2],
+          [3, 4]
+        ]),
+        'const [\n'
+        '  const [1, 2],\n'
+        '  const [3, 4],\n'
+        ']');
   });
 
   test('writeJsonConst map examples', () {
     expect(toConst({}), "const {}");
     expect(toConst({"a": 1, "b": 2}), "const {'a': 1, 'b': 2}");
-    expect(toConst({"a": {"x": 1}, "b": {"x": 2}}), "const {\n"
-    "  'a': const {'x': 1},\n"
-    "  'b': const {'x': 2},\n"
-    "}");
+    expect(
+        toConst({
+          "a": {"x": 1},
+          "b": {"x": 2}
+        }),
+        "const {\n"
+        "  'a': const {'x': 1},\n"
+        "  'b': const {'x': 2},\n"
+        "}");
   });
 }

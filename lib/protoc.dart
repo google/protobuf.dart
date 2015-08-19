@@ -12,7 +12,8 @@ import 'src/descriptor.pb.dart';
 import 'src/plugin.pb.dart';
 import 'src/dart_options.pb.dart';
 
-import 'indenting_writer.dart';
+import 'const_generator.dart' show writeJsonConst;
+import 'indenting_writer.dart' show IndentingWriter;
 
 part 'base_type.dart';
 part 'client_generator.dart';

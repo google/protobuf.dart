@@ -9,6 +9,8 @@ import 'package:test/test.dart';
 
 import 'test_util.dart';
 
+import '../out/protos/descriptor_2_5_opensource.pb.dart'
+    show DescriptorProto;
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
 void main() {
@@ -230,5 +232,18 @@ repeatedString: qux
       message.clearField(fieldNo);
       expect(message.hasField(fieldNo), isFalse);
       expect(message.getField(fieldNo), 41);
+  });
+
+  test('JSON constants share structure', () {
+    const nestedTypeTag = 3;
+    expect(TestAllTypes$json['$nestedTypeTag'][0],
+        same(TestAllTypes_NestedMessage$json));
+  });
+
+  test('Can read JSON constant into DescriptorProto', () {
+    var d = new DescriptorProto()..mergeFromJsonMap(TestAllTypes$json);
+    expect(d.name, "TestAllTypes");
+    expect(d.field[0].name, "optional_int32");
+    expect(d.nestedType[0].name, "NestedMessage");
   });
 }

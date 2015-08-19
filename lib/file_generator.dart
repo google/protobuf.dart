@@ -133,6 +133,10 @@ class FileGenerator extends ProtobufContainer {
       m.generate(out);
     }
 
+    for (MessageGenerator m in messageGenerators) {
+      m.generateConstants(out);
+    }
+
     // Generate code for extensions defined at top-level using a class
     // name derived from the file name.
     if (!extensionGenerators.isEmpty) {

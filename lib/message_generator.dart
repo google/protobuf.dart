@@ -82,6 +82,14 @@ class MessageGenerator extends ProtobufContainer {
   // The generator of the .pb.dart file that will declare this type.
   FileGenerator get fileGen => _parent.fileGen;
 
+  /// Returns a const expression that evaluates to the JSON for this message.
+  /// [usage] represents the .pb.dart file where the expression will be used.
+  String getJsonConstant(FileGenerator usage) {
+    var name = "$classname\$json";
+    if (usage == fileGen || packageImportPrefix.isEmpty) return name;
+    return "$packageImportPrefix.$name";
+  }
+
   /// Adds all mixins used in this message and any submessages.
   void addMixinsTo(Set<PbMixin> output) {
     if (mixin != null) {
@@ -315,6 +323,39 @@ class MessageGenerator extends ProtobufContainer {
         out.println('void $clearIdentifier() =>'
             ' clearField(${field.number});');
       }
+    }
+  }
+
+
+  /// Writes a Dart constant containing the JSON for the ProtoDescriptor.
+  /// Also writes a separate constant for each nested message,
+  /// to avoid duplication.
+  void generateConstants(IndentingWriter out) {
+    const nestedTypeTag = 3;
+    assert(_descriptor.info_.fieldInfo[nestedTypeTag].name == "nestedType");
+
+    var name = getJsonConstant(fileGen);
+    var json = _descriptor.writeToJsonMap();
+    var nestedTypeNames =
+        _messageGenerators.map((m) => m.getJsonConstant(fileGen))
+        .toList();
+
+    out.addBlock("const $name = const {", "};", () {
+      for (var key in json.keys) {
+        out.print("'$key': ");
+        if (key == "$nestedTypeTag") {
+          // refer to the const by name instead of repeating its value
+          out.println("const [${nestedTypeNames.join(", ")}],");
+          continue;
+        }
+        writeJsonConst(out, json[key]);
+        out.println(",");
+      }
+    });
+    out.println();
+
+    for (var m in _messageGenerators) {
+      m.generateConstants(out);
     }
   }
 }

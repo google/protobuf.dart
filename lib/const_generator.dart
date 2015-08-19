@@ -10,7 +10,7 @@ import "indenting_writer.dart";
 /// Accepts null, bool, num, String, and maps and lists.
 void writeJsonConst(IndentingWriter out, val) {
   if (val is Map) {
-    if (val.values.any((x) => x is List || x is Map)) {
+    if (val.values.any(_nonEmptyListOrMap)) {
       out.addBlock(
           "const {", "}", () => _writeMapItems(out, val, vertical: true),
           endWithNewline: false);
@@ -20,7 +20,7 @@ void writeJsonConst(IndentingWriter out, val) {
       out.print("}");
     }
   } else if (val is List) {
-    if (val.any((x) => x is List || x is Map)) {
+    if (val.any(_nonEmptyListOrMap)) {
       out.addBlock(
           "const [", "]", () => _writeListItems(out, val, vertical: true),
           endWithNewline: false);
@@ -40,11 +40,17 @@ void writeJsonConst(IndentingWriter out, val) {
   }
 }
 
+bool _nonEmptyListOrMap(x) {
+  if (x is List && !x.isEmpty) return true;
+  if (x is Map && !x.isEmpty) return true;
+  return false;
+}
+
 void _writeString(IndentingWriter out, String val) {
   if (_maybeWriteSingleLineString(out, val)) return;
   // handle the general case
   var quote = "'''";
-  out.addFlushLeftBlock("r$quote", "$quote", () {
+  out.addUnindentedBlock("r$quote", "$quote", () {
     out.print(val.replaceAll(quote, '$quote "$quote" r$quote'));
   }, endWithNewline: false);
 }

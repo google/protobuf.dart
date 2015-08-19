@@ -120,6 +120,15 @@ class PhoneNumber extends GeneratedMessage {
 
 class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
+const PhoneNumber$json = const {
+  '1': 'PhoneNumber',
+  '2': const [
+    const {'1': 'number', '3': 1, '4': 2, '5': 9},
+    const {'1': 'type', '3': 2, '4': 1, '5': 5, '6': ''},
+    const {'1': 'name', '3': 3, '4': 1, '5': 9, '7': r'$'},
+  ],
+};
+
 ''';
     FileDescriptorProto fd = buildFileDescriptor();
     var options = parseGenerationOptions(
@@ -287,6 +296,15 @@ class PhoneNumber extends GeneratedMessage {
 
 class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
+const PhoneNumber$json = const {
+  '1': 'PhoneNumber',
+  '2': const [
+    const {'1': 'number', '3': 1, '4': 2, '5': 9},
+    const {'1': 'type', '3': 2, '4': 1, '5': 5, '6': ''},
+    const {'1': 'name', '3': 3, '4': 1, '5': 9, '7': r'$'},
+  ],
+};
+
 ''';
     FileDescriptorProto fd = buildFileDescriptor();
     var request = new CodeGeneratorRequest();
@@ -357,6 +375,15 @@ class M extends GeneratedMessage {
 }
 
 class _ReadonlyM extends M with ReadonlyMessageMixin {}
+
+const M$json = const {
+  '1': 'M',
+  '2': const [
+    const {'1': 'm', '3': 1, '4': 1, '5': 11, '6': '.M'},
+    const {'1': 'm1', '3': 2, '4': 1, '5': 11, '6': '.p1.M'},
+    const {'1': 'm2', '3': 3, '4': 1, '5': 11, '6': '.p2.M'},
+  ],
+};
 
 ''';
 

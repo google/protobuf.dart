@@ -39,7 +39,7 @@ class IndentingWriter {
 
   /// Prints a block of text with an unindented body.
   /// (For example, for triple quotes.)
-  void addFlushLeftBlock(String start, String end, void body(),
+  void addUnindentedBlock(String start, String end, void body(),
       {endWithNewline: true}) {
     _addBlock(start, end, body, endWithNewline, '');
   }
