@@ -1,7 +1,16 @@
 ## unreleased
+ * Added support for observing field changes.
+   For now, this can only be enabled by using a mixin to override
+   the eventPlugin getter.
  * Removed optional third parameter from setField().
    It was only intended for internal use, and could be used to
    defeat type checks on fields.
+ * clearExtension() removes the value and extension in all cases.
+   (Before, the extension would be kept and the list cleared
+   for repeated fields.)
+ * Upcoming: clearField() will require its argument to be a known
+   tag number (which could be an extension). For now, this is only
+   enforced when a mixin provides an eventPlugin.
 
 ## 0.4.0
  * Add ReadonlyMessageMixin. The generated message classes use this to

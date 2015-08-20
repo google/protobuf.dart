@@ -32,11 +32,11 @@ main() {
 
     r.val = 123;
     r.deliverChanges();
-    checkLog(log, [[[1, 42, 123]]]);
+    checkLogOnce(log, [1, 42, 123]);
 
     r.val = 456;
     r.deliverChanges();
-    checkLog(log, [[[1, 123, 456]]]);
+    checkLogOnce(log, [1, 123, 456]);
 
     r.val = 456; // no change
     r.deliverChanges();
@@ -44,7 +44,7 @@ main() {
 
     r.clearField(1);
     r.deliverChanges();
-    checkLog(log, [[[1, 456, 42]]]);
+    checkLogOnce(log, [1, 456, 42]);
 
     r.clearField(1); // no change
     r.deliverChanges();
@@ -63,7 +63,7 @@ main() {
     // which counts as a change.
     var list = r.int32s;
     r.deliverChanges();
-    checkLog(log, [[[4, [], []]]]);
+    checkLogOnce(log, [4, [], []]);
 
     // No event yet for modifying a repeated field.
     list.add(123);
@@ -72,7 +72,7 @@ main() {
 
     r.clearField(4);
     r.deliverChanges();
-    checkLog(log, [[[4, [123], []]]]);
+    checkLogOnce(log, [4, [123], []]);
   });
 
   test('Events are sent when clearing multiple fields', () {
@@ -158,59 +158,74 @@ main() {
     ]);
   });
 
-  test('Events are not sent (yet) for extensions', () {
+  test('Events are sent for extensions', () {
     var log = makeLog();
     var r = new Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       log.add(changes);
     });
 
-    r.setExtension(comment, "hello");
-    expect(r.getExtension(comment), "hello");
-    r.deliverChanges();
-    checkLog(log, []);
+    final tag = comment.tagNumber;
+    setComment(String value) {
+      r.setExtension(comment, value);
+      expect(r.getExtension(comment), value);
+      r.deliverChanges();
+      checkLogOnce(log, [tag, "", value]);
+    }
 
+    clear(String expected) {
+      r.clear();
+      r.deliverChanges();
+      checkLogOnce(log, [tag, expected, ""]);
+    }
+
+    setComment("hello");
+    clear("hello");
+
+    setComment("hello");
+    r.setField(5, "hi");
+    r.deliverChanges();
+    checkLogOnce(log, [tag, "hello", "hi"]);
+    clear("hi");
+
+    setComment("hello");
     r.clearExtension(comment);
     r.deliverChanges();
-    checkLog(log, []);
+    checkLogOnce(log, [tag, "hello", ""]);
 
-    r.setExtension(comment, "hello");
-    expect(r.getExtension(comment), "hello");
-    r.clear();
-    r.deliverChanges();
-    checkLog(log, []);
-
-    r.setExtension(comment, "hello");
-    expect(r.getExtension(comment), "hello");
+    setComment("hello");
     r.clearField(comment.tagNumber);
     r.deliverChanges();
-    checkLog(log, []);
+    checkLogOnce(log, [tag, "hello", ""]);
 
     var registry = new ExtensionRegistry()..add(comment);
-    r.mergeFromJson('{"5": "hello"}', registry);
+    r.mergeFromJson('{"$tag": "hello"}', registry);
     expect(r.getExtension(comment), "hello");
-    r.clear();
     r.deliverChanges();
-    checkLog(log, []);
+    checkLogOnce(log, [tag, "", "hello"]);
+    clear("hello");
 
     var src = new Rec()..setExtension(comment, "hello");
     r.mergeFromMessage(src);
     expect(r.getExtension(comment), "hello");
-    r.clear();
     r.deliverChanges();
-    checkLog(log, []);
+    checkLogOnce(log, [tag, "", "hello"]);
+    clear("hello");
 
     Uint8List bytes = src.writeToBuffer();
     r.mergeFromBuffer(bytes, registry);
     expect(r.getExtension(comment), "hello");
-    r.clear();
     r.deliverChanges();
-    checkLog(log, []);
+    checkLogOnce(log, [tag, "", "hello"]);
+    clear("hello");
   });
 
 }
 
 List<List<PbFieldChange>> makeLog() => <List<PbFieldChange>>[];
+
+void checkLogOnce(List<List<PbFieldChange>> log, List expectedEntry) =>
+  checkLog(log, [[expectedEntry]]);
 
 void checkLog(List<List<PbFieldChange>> log, List<List<List>> expected) {
   var actual = <List<List>>[];

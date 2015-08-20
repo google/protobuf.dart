@@ -21,12 +21,12 @@ abstract class EventPlugin {
   /// If false, GeneratedMessage will skip calls to event handlers.
   bool get hasObservers;
 
-  /// Called before setting a non-extension field.
+  /// Called before setting a field.
   ///
-  /// For repeated fields, this will be called in getField() when
-  /// the PbList is created.
-  void beforeSetField(int tag, newValue);
+  /// For repeated fields, this will be called when the list is created.
+  /// (For example in getField and merge methods.)
+  void beforeSetField(FieldInfo fi, newValue);
 
-  /// Called before clearing a non-extension field.
-  void beforeClearField(int tag);
+  /// Called before clearing a field.
+  void beforeClearField(FieldInfo fi);
 }

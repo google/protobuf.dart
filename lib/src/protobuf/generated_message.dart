@@ -144,9 +144,8 @@ abstract class GeneratedMessage {
 
     if (_hasObservers) {
       for (int key in _fieldValues.keys) {
-        if (info_.containsTagNumber(key)) {
-          eventPlugin.beforeClearField(key);
-        }
+        var fi = _ensureFieldInfo(key);
+        eventPlugin.beforeClearField(fi);
       }
     }
     _fieldValues.clear();
@@ -177,14 +176,16 @@ abstract class GeneratedMessage {
 
     void hashFields() {
       for (int tagNumber in sorted(_fieldValues.keys)) {
-        if (!hasField(tagNumber)) continue;
         var value = _fieldValues[tagNumber];
+        if (value is List && value.isEmpty) {
+          continue;  // It's either repeated or an empty byte array.
+        }
         hash = ((37 * hash) + tagNumber) & 0x3fffffff;
-        int fieldType = _getFieldType(tagNumber);
-        if (!_isEnum(fieldType)) {
+        var fi = _ensureFieldInfo(tagNumber);
+        if (!_isEnum(fi.type)) {
           // TODO(sgjesse): Remove 'as Object' here when issue 14951 is fixed.
           hash = ((53 * hash) + (value as Object).hashCode) & 0x3fffffff;
-        } else if (_isRepeated(fieldType)) {
+        } else if (fi.isRepeated) {
           hashEnumList(value);
         } else {
           ProtobufEnum enm = value;
@@ -271,9 +272,9 @@ abstract class GeneratedMessage {
 
   void writeToCodedBufferWriter(CodedBufferWriter output) {
     for (int tagNumber in sorted(_fieldValues.keys)) {
-      var fieldValue = _fieldValues[tagNumber];
-      int fieldType = _getFieldType(tagNumber);
-      output.writeField(tagNumber, fieldType, fieldValue);
+      var value = _fieldValues[tagNumber];
+      var fi = _ensureFieldInfo(tagNumber);
+      output.writeField(tagNumber, fi.type, value);
     }
     unknownFields.writeToCodedBufferWriter(output);
   }
@@ -336,19 +337,19 @@ abstract class GeneratedMessage {
       fieldType &= ~(FieldType._PACKED_BIT | FieldType._REQUIRED_BIT);
       switch (fieldType) {
         case FieldType._OPTIONAL_BOOL:
-          _setField(tagNumber, input.readBool(), fi);
+          _setField(fi, input.readBool());
           break;
         case FieldType._OPTIONAL_BYTES:
-          _setField(tagNumber, input.readBytes(), fi);
+          _setField(fi, input.readBytes());
           break;
         case FieldType._OPTIONAL_STRING:
-          _setField(tagNumber, input.readString(), fi);
+          _setField(fi, input.readString());
           break;
         case FieldType._OPTIONAL_FLOAT:
-          _setField(tagNumber, input.readFloat(), fi);
+          _setField(fi, input.readFloat());
           break;
         case FieldType._OPTIONAL_DOUBLE:
-          _setField(tagNumber, input.readDouble(), fi);
+          _setField(fi, input.readDouble());
           break;
         case FieldType._OPTIONAL_ENUM:
           int rawValue = input.readEnum();
@@ -356,7 +357,7 @@ abstract class GeneratedMessage {
           if (value == null) {
             unknownFields.mergeVarintField(tagNumber, new Int64(rawValue));
           } else {
-            _setField(tagNumber, value, fi);
+            _setField(fi, value);
           }
           break;
         case FieldType._OPTIONAL_GROUP:
@@ -366,37 +367,37 @@ abstract class GeneratedMessage {
             subMessage.mergeFromMessage(getField(tagNumber));
           }
           input.readGroup(tagNumber, subMessage, extensionRegistry);
-          _setField(tagNumber, subMessage, fi);
+          _setField(fi, subMessage);
           break;
         case FieldType._OPTIONAL_INT32:
-          _setField(tagNumber, input.readInt32(), fi);
+          _setField(fi, input.readInt32());
           break;
         case FieldType._OPTIONAL_INT64:
-          _setField(tagNumber, input.readInt64(), fi);
+          _setField(fi, input.readInt64());
           break;
         case FieldType._OPTIONAL_SINT32:
-          _setField(tagNumber, input.readSint32(), fi);
+          _setField(fi, input.readSint32());
           break;
         case FieldType._OPTIONAL_SINT64:
-          _setField(tagNumber, input.readSint64(), fi);
+          _setField(fi, input.readSint64());
           break;
         case FieldType._OPTIONAL_UINT32:
-          _setField(tagNumber, input.readUint32(), fi);
+          _setField(fi, input.readUint32());
           break;
         case FieldType._OPTIONAL_UINT64:
-          _setField(tagNumber, input.readUint64(), fi);
+          _setField(fi, input.readUint64());
           break;
         case FieldType._OPTIONAL_FIXED32:
-          _setField(tagNumber, input.readFixed32(), fi);
+          _setField(fi, input.readFixed32());
           break;
         case FieldType._OPTIONAL_FIXED64:
-          _setField(tagNumber, input.readFixed64(), fi);
+          _setField(fi, input.readFixed64());
           break;
         case FieldType._OPTIONAL_SFIXED32:
-          _setField(tagNumber, input.readSfixed32(), fi);
+          _setField(fi, input.readSfixed32());
           break;
         case FieldType._OPTIONAL_SFIXED64:
-          _setField(tagNumber, input.readSfixed64(), fi);
+          _setField(fi, input.readSfixed64());
           break;
         case FieldType._OPTIONAL_MESSAGE:
           GeneratedMessage subMessage =
@@ -405,7 +406,7 @@ abstract class GeneratedMessage {
             subMessage.mergeFromMessage(getField(tagNumber));
           }
           input.readMessage(subMessage, extensionRegistry);
-          _setField(tagNumber, subMessage, fi);
+          _setField(fi, subMessage);
           break;
         case FieldType._REPEATED_BOOL:
           readPackable(wireType, tagNumber, input.readBool);
@@ -546,11 +547,12 @@ abstract class GeneratedMessage {
 
     var result = <String, dynamic>{};
     for (int tagNumber in sorted(_fieldValues.keys)) {
-      if (!hasField(tagNumber)) continue;
-      String key = '$tagNumber';
-      var fieldValue = _fieldValues[tagNumber];
-      int fieldType = _getFieldType(tagNumber);
-      result[key] = convertToMap(fieldValue, fieldType);
+      var value = _fieldValues[tagNumber];
+      if (value is List && value.isEmpty) {
+        continue;  // It's either repeated or an empty byte array.
+      }
+      var fi = _ensureFieldInfo(tagNumber);
+      result['$tagNumber'] = convertToMap(value, fi.type);
     }
     return result;
   }
@@ -600,7 +602,7 @@ abstract class GeneratedMessage {
         var value = _convertJsonValue(fieldValue, tagNumber, fi.type,
             extensionRegistry);
         _validate(tagNumber, fi.type, value);
-        _setField(tagNumber, value, fi);
+        _setField(fi, value);
       }
     }
   }
@@ -739,31 +741,33 @@ abstract class GeneratedMessage {
     if (list == null) {
       list = createRepeatedField(extension.tagNumber, extension);
       _addExtensionToMap(extension);
-      _setField(extension.tagNumber, list, extension);
+      _setField(extension, list);
     }
 
     list.add(value);
   }
 
+  /// Clears an extension field and also removes the extension.
   void clearExtension(Extension extension) {
     _checkExtension(extension);
-    _fieldValues.remove(extension.tagNumber);
-    if (extension.isRepeated) {
-      var value = createRepeatedField(extension.tagNumber, extension);
-      _addExtensionToMap(extension);
-      _setField(extension.tagNumber, value, extension);
-    } else {
-      _extensions.remove(extension.tagNumber);
+    if (_hasObservers) {
+      eventPlugin.beforeClearField(extension);
     }
+    _fieldValues.remove(extension.tagNumber);
+    _extensions.remove(extension.tagNumber);
   }
 
   /// Clears the contents of a given field.
+  ///
+  /// If it's an extension field, the Extension will be kept.
+  /// The tagNumber should be a valid tag or extension.
   void clearField(int tagNumber) {
     if (_hasObservers) {
-      if (info_.containsTagNumber(tagNumber)) {
-        eventPlugin.beforeClearField(tagNumber);
-      }
+      var fi = _ensureFieldInfo(tagNumber);
+      eventPlugin.beforeClearField(fi);
     }
+    // TODO(skybrian) enforce that FieldInfo exists when there are no observers?
+    // For now this has no effect.
     _fieldValues.remove(tagNumber);
   }
 
@@ -790,12 +794,7 @@ abstract class GeneratedMessage {
     var value = _fieldValues[tagNumber];
     if (value != null) return value;
 
-    var fi = _getFieldInfo(tagNumber);
-    if (fi == null) {
-      throw new ArgumentError(
-          "tag $tagNumber not defined in ${info_.messageName}");
-    }
-
+    var fi = _ensureFieldInfo(tagNumber);
     if (fi.isRepeated) {
       return _getDefaultRepeatedField(tagNumber, fi);
     } else {
@@ -803,11 +802,15 @@ abstract class GeneratedMessage {
     }
   }
 
-  /// Returns the FieldInfo for a tag (which may be an extension).
-  FieldInfo _getFieldInfo(int tagNumber) {
+  /// Returns the FieldInfo for a tag (which may be an Extension).
+  /// throws ArgumentException if there is no regular field or extension.
+  FieldInfo _ensureFieldInfo(int tagNumber) {
     var fi = info_.fieldInfo[tagNumber];
     if (fi != null) return fi;
-    return _extensions[tagNumber];
+    fi = _extensions[tagNumber];
+    if (fi != null) return fi;
+    throw new ArgumentError(
+        "tag $tagNumber not defined in ${info_.messageName}");
   }
 
   List _getDefaultRepeatedField(int tagNumber, FieldInfo fi) {
@@ -821,7 +824,7 @@ abstract class GeneratedMessage {
     // Then msg.foo could return an immutable empty list by default.
     // But it doesn't seem urgent or worth the migration.
     var value = createRepeatedField(tagNumber, fi);
-    _setField(tagNumber, value, fi);
+    _setField(fi, value);
     return value;
   }
 
@@ -852,15 +855,8 @@ abstract class GeneratedMessage {
   /// For repeated fields, returns an immutable empty list
   /// (unlike [getField]). For all other fields, returns
   /// the same thing that getField() would for a cleared field.
-  getDefaultForField(int tagNumber) {
-    var fi = _getFieldInfo(tagNumber);
-    if (fi == null) {
-      throw new ArgumentError(
-          "tag $tagNumber not defined in ${info_.messageName}");
-    }
-    if (fi.isRepeated) return _emptyList;
-    return fi.makeDefault();
-  }
+  getDefaultForField(int tagNumber) =>
+      _ensureFieldInfo(tagNumber).readonlyDefault;
 
   /// Returns [:true:] if a value of [extension] is present.
   bool hasExtension(Extension extension) {
@@ -875,7 +871,7 @@ abstract class GeneratedMessage {
     }
     var value = _fieldValues[tagNumber];
     if (value is List && value.isEmpty) {
-      return false;
+      return false;  // It's either repeated or an empty byte array.
     }
     return true;
   }
@@ -899,8 +895,9 @@ abstract class GeneratedMessage {
           _addExtensionToMap(fi);
         }
       }
+      var otherType = other._ensureFieldInfo(tagNumber).type;
       var cloner = (x) => x;
-      if (_isGroupOrMessage(other._getFieldType(tagNumber))) {
+      if (_isGroupOrMessage(otherType)) {
         cloner = (message) => message.clone();
       }
       if (fi.isRepeated) {
@@ -908,7 +905,7 @@ abstract class GeneratedMessage {
       } else {
         fieldValue = cloner(fieldValue);
         _validate(tagNumber, fi.type, fieldValue);
-        _setField(tagNumber, fieldValue, fi);
+        _setField(fi, fieldValue);
       }
     }
 
@@ -930,7 +927,7 @@ abstract class GeneratedMessage {
     _checkExtension(extension);
     _addExtensionToMap(extension);
     _validate(extension.tagNumber, extension.type, value);
-    _setField(extension.tagNumber, value, extension);
+    _setField(extension, value);
   }
 
   /// Sets the value of a field by its [tagNumber].
@@ -943,24 +940,23 @@ abstract class GeneratedMessage {
   void setField(int tagNumber, value) {
     if (value == null) throw new ArgumentError('value is null');
 
-    var fi = _getFieldInfo(tagNumber);
-    if (fi == null) {
-      throw new ArgumentError('Unknown tag: $tagNumber');
-    } else if (fi.isRepeated) {
+    var fi = _ensureFieldInfo(tagNumber);
+    if (fi.isRepeated) {
       throw new ArgumentError(_generateMessage(tagNumber, value,
           'repeating field (use get + .add())'));
     }
 
     // Validate type and range.
     _validate(tagNumber, fi.type, value);
-    _setField(tagNumber, value, fi);
+    _setField(fi, value);
   }
 
-  void _setField(int tagNumber, value, FieldInfo fi) {
-    if (_hasObservers && fi is !Extension) {
-      eventPlugin.beforeSetField(tagNumber, value);
+  void _setField(FieldInfo fi, value) {
+    assert(fi != null);
+    if (_hasObservers) {
+      eventPlugin.beforeSetField(fi, value);
     }
-    _fieldValues[tagNumber] = value;
+    _fieldValues[fi.tagNumber] = value;
   }
 
   void _addExtensionToMap(Extension extension) {
@@ -972,17 +968,6 @@ abstract class GeneratedMessage {
       throw new ArgumentError(
           'Extension $extension not legal for message ${info_.messageName}');
     }
-  }
-
-  /// Returns the type associated with [tagNumber].
-  ///
-  /// The type is discovered either from the [BuilderInfo] associated with this
-  /// [GeneratedMessage], or from a known extension. If the type is unknown,
-  /// [null] is returned.
-  int _getFieldType(int tagNumber) {
-    var fi = _getFieldInfo(tagNumber);
-    if (fi == null) return null;
-    return fi.type;
   }
 
   GeneratedMessage _getEmptyMessage(

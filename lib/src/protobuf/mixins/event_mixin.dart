@@ -8,7 +8,7 @@ import "dart:async" show Stream, StreamController, scheduleMicrotask;
 import "dart:collection" show UnmodifiableListView;
 
 import "package:protobuf/protobuf.dart"
-    show GeneratedMessage, EventPlugin, ListEventPlugin;
+    show GeneratedMessage, FieldInfo, EventPlugin, ListEventPlugin;
 
 /// Provides a stream of changes to fields in a GeneratedMessage.
 /// (Experimental.)
@@ -34,10 +34,13 @@ abstract class PbEventMixin {
 /// A change to a field in a GeneratedMessage.
 class PbFieldChange {
   final GeneratedMessage message;
-  final int tag;
+  final FieldInfo info;
   final oldValue;
   final newValue;
-  PbFieldChange(this.message, this.tag, this.oldValue, this.newValue);
+
+  PbFieldChange(this.message, this.info, this.oldValue, this.newValue);
+
+  int get tag => info.tagNumber;
 }
 
 /// A buffering implementation of event delivery.
@@ -87,18 +90,18 @@ class EventBuffer extends EventPlugin {
   }
 
   @override
-  void beforeSetField(int tag, newValue) {
-    var oldValue = _parent.getFieldOrNull(tag);
-    if (oldValue == null) oldValue = _parent.getDefaultForField(tag);
+  void beforeSetField(FieldInfo fi, newValue) {
+    var oldValue = _parent.getFieldOrNull(fi.tagNumber);
+    if (oldValue == null) oldValue = fi.readonlyDefault;
     if (identical(oldValue, newValue)) return;
-    addEvent(new PbFieldChange(_parent, tag, oldValue, newValue));
+    addEvent(new PbFieldChange(_parent, fi, oldValue, newValue));
   }
 
   @override
-  void beforeClearField(int tag) {
-    var oldValue = _parent.getFieldOrNull(tag);
+  void beforeClearField(FieldInfo fi) {
+    var oldValue = _parent.getFieldOrNull(fi.tagNumber);
     if (oldValue == null) return;
-    var newValue = _parent.getDefaultForField(tag);
-    addEvent(new PbFieldChange(_parent, tag, oldValue, newValue));
+    var newValue = fi.readonlyDefault;
+    addEvent(new PbFieldChange(_parent, fi, oldValue, newValue));
   }
 }

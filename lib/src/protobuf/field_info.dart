@@ -61,5 +61,12 @@ class FieldInfo {
 
   bool get isRepeated => _isRepeated(type);
 
+  /// Returns a read-only default value for a field.
+  /// (Unlike getField, doesn't create a repeated field.)
+  get readonlyDefault {
+    if (isRepeated) return _emptyList;
+    return makeDefault();
+  }
+
   String toString() => name;
 }
