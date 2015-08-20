@@ -5,8 +5,9 @@
 
 library enum_generator_test;
 
-import 'package:protoc_plugin/src/descriptor.pb.dart';
+import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
+import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -50,10 +51,9 @@ class PhoneType extends ProtobufEnum {
             new EnumValueDescriptorProto()
                 ..name = 'BUSINESS'
                 ..number = 2]);
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
+    IndentingWriter writer = new IndentingWriter();
     EnumGenerator eg = new EnumGenerator(ed, null);
     eg.generate(writer);
-    expect(buffer.toString(), expected);
+    expect(writer.toString(), expected);
   });
 }

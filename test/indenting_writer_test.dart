@@ -5,21 +5,24 @@
 
 library indenting_writer_test;
 
-import 'package:protoc_plugin/protoc.dart';
+import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('testIndentingWriter', () {
-    String blockExpected = r'''class test{
-  body;
-}
-''';
-
-    var iob = new MemoryWriter();
-    var writer = new IndentingWriter('  ', iob);
-    writer.addBlock('class test{', '}', () {
-      writer.println('body;');
+  test('IndentingWriter can indent a block', () {
+    var out = new IndentingWriter();
+    out.addBlock('class test {', '}', () {
+      out.println('first;');
+      out.println();
+      out.println('second;');
     });
-    expect(iob.toString(), blockExpected);
+
+    expect(out.toString(), '''
+class test {
+  first;
+
+  second;
+}
+''');
   });
 }

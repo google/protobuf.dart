@@ -102,15 +102,14 @@ class FileGenerator extends ProtobufContainer {
   }
 
   CodeGeneratorResponse_File generateResponse(OutputConfiguration config) {
-    MemoryWriter writer = new MemoryWriter();
-    IndentingWriter out = new IndentingWriter('  ', writer);
+    IndentingWriter out = new IndentingWriter();
 
     generate(out, config);
 
     Uri filePath = new Uri.file(_fileDescriptor.name);
     return new CodeGeneratorResponse_File()
         ..name = config.outputPathFor(filePath).path
-        ..content = writer.toString();
+        ..content = out.toString();
   }
 
   /// Generates the Dart code for this .proto file.

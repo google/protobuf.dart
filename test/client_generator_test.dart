@@ -5,8 +5,9 @@
 
 library client_generator_test;
 
-import 'package:protoc_plugin/src/descriptor.pb.dart';
+import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
+import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:test/test.dart';
 
 ServiceDescriptorProto buildServiceDescriptor() {
@@ -44,10 +45,9 @@ class TestApi {
 }
 
 ''';
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
+    IndentingWriter writer = new IndentingWriter();
     ClientApiGenerator cag = new ClientApiGenerator(buildServiceDescriptor());
     cag.generate(writer);
-    expect(buffer.toString(), expected);
+    expect(writer.toString(), expected);
   });
 }

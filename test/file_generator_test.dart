@@ -5,11 +5,11 @@
 
 library file_generator_test;
 
+import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
-
 
 FileDescriptorProto buildFileDescriptor(
     {phoneNumber: true, topLevelEnum: false}) {
@@ -122,14 +122,14 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
 ''';
     FileDescriptorProto fd = buildFileDescriptor();
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
+
+    IndentingWriter writer = new IndentingWriter();
     fg.generate(writer);
-    expect(buffer.toString(), expected);
+    expect(writer.toString(), expected);
   });
 
   test('FileGenerator output for a top-level enum', () {
@@ -168,16 +168,15 @@ class PhoneType extends ProtobufEnum {
     FileDescriptorProto fd = buildFileDescriptor(
         phoneNumber: false,
         topLevelEnum: true);
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
-    fg.generate(writer);
 
-    expect(buffer.toString(), expected);
+    var writer = new IndentingWriter();
+    fg.generate(writer);
+    expect(writer.toString(), expected);
   });
 
   test('FileGenerator outputs library for a .proto in a package', () {
@@ -192,16 +191,15 @@ import 'package:protobuf/protobuf.dart';
 ''';
     FileDescriptorProto fd = buildFileDescriptor();
     fd.package = "pb_library";
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
-    fg.generateHeader(writer, Uri.parse("test.proto"));
 
-    expect(buffer.toString(), expected);
+    var writer = new IndentingWriter();
+    fg.generateHeader(writer, Uri.parse("test.proto"));
+    expect(writer.toString(), expected);
   });
 
   test('FileGenerator outputs a fixnum import when needed', () {
@@ -232,12 +230,9 @@ import 'package:protobuf/protobuf.dart';
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
 
-
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
+    var writer = new IndentingWriter();
     fg.generateHeader(writer, Uri.parse("test.proto"));
-
-    expect(buffer.toString(), expected);
+    expect(writer.toString(), expected);
   });
 
 
@@ -294,8 +289,6 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
 ''';
     FileDescriptorProto fd = buildFileDescriptor();
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
     var request = new CodeGeneratorRequest();
     request.parameter = 'field_name=PhoneNumber.number|No,'
                         'field_name=PhoneNumber.name|Name_,'
@@ -305,9 +298,10 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
-    fg.generate(writer);
 
-    expect(buffer.toString(), expected);
+    var writer = new IndentingWriter();
+    fg.generate(writer);
+    expect(writer.toString(), expected);
   });
 
   test('FileGenerator generates imports for .pb.dart files', () {
@@ -458,16 +452,15 @@ class _ReadonlyM extends M with ReadonlyMessageMixin {}
         ..name = 'test.proto'
         ..messageType.add(md);
     fd.dependency.addAll(['package1.proto', 'package2.proto']);
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
     var request = new CodeGeneratorRequest();
     var response = new CodeGeneratorResponse();
     var options = parseGenerationOptions(request, response);
 
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg, new FileGenerator(fd1), new FileGenerator(fd2)]);
-    fg.generate(writer);
 
-    expect(buffer.toString(), expected);
+    var writer = new IndentingWriter();
+    fg.generate(writer);
+    expect(writer.toString(), expected);
   });
 }

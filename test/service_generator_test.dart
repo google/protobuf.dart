@@ -5,8 +5,9 @@
 
 library service_generator_test;
 
-import 'package:protoc_plugin/src/descriptor.pb.dart';
+import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
+import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:test/test.dart';
 
 ServiceDescriptorProto buildServiceDescriptor() {
@@ -52,12 +53,11 @@ abstract class TestServiceBase extends GeneratedService {
 }
 
 ''';
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
 
     var sg = new ServiceGenerator(buildServiceDescriptor());
-    sg.generate(writer);
 
-    expect(buffer.toString(), expected);
+    var writer = new IndentingWriter();
+    sg.generate(writer);
+    expect(writer.toString(), expected);
   });
 }

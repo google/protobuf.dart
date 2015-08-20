@@ -5,9 +5,10 @@
 
 library message_generator_test;
 
+import 'package:protoc_plugin/indenting_writer.dart';
+import 'package:protoc_plugin/protoc.dart';
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/plugin.pb.dart';
-import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -118,8 +119,6 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
                 ..defaultValue = r'$'
             ])
         ..enumType.add(ed);
-    MemoryWriter buffer = new MemoryWriter();
-    IndentingWriter writer = new IndentingWriter('  ', buffer);
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
@@ -129,8 +128,9 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     var ctx = new GenerationContext(options);
     mg.register(ctx);
     mg.resolve(ctx);
-    mg.generate(writer);
 
-    expect(buffer.toString(), expected);
+    var writer = new IndentingWriter();
+    mg.generate(writer);
+    expect(writer.toString(), expected);
   });
 }
