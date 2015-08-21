@@ -93,7 +93,9 @@ class MessageGenerator extends ProtobufContainer {
   /// [usage] represents the .pb.dart file where the expression will be used.
   String getJsonConstant(FileGenerator usage) {
     var name = "$classname\$json";
-    if (usage == fileGen || packageImportPrefix.isEmpty) return name;
+    if (usage.package == fileGen.package || packageImportPrefix.isEmpty) {
+      return name;
+    }
     return "$packageImportPrefix.$name";
   }
 

@@ -162,6 +162,9 @@ class FileGenerator extends ProtobufContainer {
     for (ServiceGenerator s in serviceGenerators) {
       s.generate(out);
     }
+    for (ServiceGenerator s in serviceGenerators) {
+      s.generateConstants(out);
+    }
   }
 
   /// Prints header and imports.

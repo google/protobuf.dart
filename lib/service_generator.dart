@@ -12,6 +12,7 @@ class ServiceGenerator {
 
   /// The message types needed by this service.
   ///
+  /// The key is the fully qualified name.
   /// Populated by [resolve].
   final _deps = <String, MessageGenerator>{};
 
@@ -22,11 +23,11 @@ class ServiceGenerator {
 
   ServiceGenerator(this._descriptor, this.fileGen);
 
-  static String _serviceClassName(descriptor) {
-    if (descriptor.name.endsWith("Service")) {
-      return descriptor.name + "Base"; // avoid: ServiceServiceBase
+  String get classname {
+    if (_descriptor.name.endsWith("Service")) {
+      return _descriptor.name + "Base"; // avoid: ServiceServiceBase
     } else {
-      return descriptor.name + "ServiceBase";
+      return _descriptor.name + "ServiceBase";
     }
   }
 
@@ -157,14 +158,51 @@ class ServiceGenerator {
 
   void generate(IndentingWriter out) {
     out.addBlock(
-        'abstract class ${_serviceClassName(_descriptor)} extends '
+        'abstract class $classname extends '
         '$_parentClass {',
         '}', () {
       _generateStubs(out);
       _generateRequestMethod(out);
       _generateDispatchMethod(out);
       _generateMoreClassMembers(out);
+      out.println("Map<String, dynamic> get \$json => $jsonConstant;");
+      out.println("Map<String, dynamic> get \$messageJson =>"
+          " $messageJsonConstant;");
     });
     out.println();
+  }
+
+  String get jsonConstant => "${_descriptor.name}\$json";
+  String get messageJsonConstant => "${_descriptor.name}\$messageJson";
+
+  /// Writes Dart constants for the service and message descriptors.
+  ///
+  /// The map includes an entry for every message type that might need
+  /// to be read or written (assuming the type name resolved).
+  void generateConstants(IndentingWriter out) {
+    out.print("const $jsonConstant = ");
+    writeJsonConst(out, _descriptor.writeToJsonMap());
+    out.println(";");
+    out.println();
+
+    var typeConstants = <String, String>{};
+    for (var key in _deps.keys) {
+      typeConstants[key] = _deps[key].getJsonConstant(fileGen);
+    }
+    out.addBlock("const $messageJsonConstant = const {", "};", () {
+      for (var key in typeConstants.keys) {
+        var typeConst = typeConstants[key];
+        out.println("'$key': $typeConst,");
+      }
+    });
+    out.println();
+
+    if (_undefinedDeps.isNotEmpty) {
+      for (var name in _undefinedDeps.keys) {
+        var location = _undefinedDeps[name];
+        out.println("// can't resolve ($name) used by $location");
+      }
+      out.println();
+    }
   }
 }

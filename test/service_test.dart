@@ -9,6 +9,9 @@ import '../out/protos/service.pb.dart' as pb;
 import '../out/protos/service2.pb.dart' as pb2;
 import '../out/protos/service3.pb.dart' as pb3;
 
+import '../out/protos/descriptor_2_5_opensource.pb.dart'
+    show DescriptorProto, ServiceDescriptorProto;
+
 class SearchService extends pb.SearchServiceBase {
   Future<pb.SearchResponse> search(
       ServerContext ctx, pb.SearchRequest request) async {
@@ -69,7 +72,8 @@ class FakeJsonClient implements RpcClient {
 }
 
 void main() {
-  var server = new FakeJsonServer(new SearchService());
+  var service = new SearchService();
+  var server = new FakeJsonServer(service);
   var api = new pb.SearchServiceApi(new FakeJsonClient(server));
 
   test('end to end RPC using JSON', () async {
@@ -84,5 +88,33 @@ void main() {
     expect(reply.results.length, 1);
     expect(reply.results[0].url, 'http://example.com/');
     expect(reply.results[0].snippet, 'hello world (2)!');
+  });
+
+  test('can read service descriptor from JSON', () {
+    var descriptor = new ServiceDescriptorProto()
+      ..mergeFromJsonMap(service.$json);
+    expect(descriptor.name, "SearchService");
+    var methodNames = descriptor.method.map((m) => m.name).toList();
+    expect(methodNames, ["Search", "Search2"]);
+  });
+
+  test('can read message descriptors from JSON', () {
+    var map = service.$messageJson;
+    expect(map.keys, [
+      '.SearchRequest',
+      '.SearchResponse',
+      '.service2.SearchRequest',
+      '.service2.SearchResponse',
+      '.service3.SearchResult',
+    ]);
+
+    String readMessageName(fqname) {
+      var descriptor = new DescriptorProto()
+        ..mergeFromJsonMap(map[fqname]);
+      return descriptor.name;
+    }
+    expect(readMessageName('.SearchRequest'), "SearchRequest");
+    expect(readMessageName('.service2.SearchRequest'), "SearchRequest");
+    expect(readMessageName('.service3.SearchResult'), "SearchResult");
   });
 }
