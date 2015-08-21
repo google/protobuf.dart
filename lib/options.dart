@@ -51,7 +51,7 @@ class GenerationOptions {
   /// generate. For example `MyMessage.has_field` to `HasFld`.
   final Map<String, String> fieldNameOverrides;
 
-  GenerationOptions(this.fieldNameOverrides);
+  GenerationOptions([this.fieldNameOverrides = const {}]);
 }
 
 /// A parser for a name-value pair option. Options parsed in

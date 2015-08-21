@@ -7,24 +7,9 @@ library client_generator_test;
 
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
-import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:test/test.dart';
 
-ServiceDescriptorProto buildServiceDescriptor() {
-  ServiceDescriptorProto sd = new ServiceDescriptorProto()
-    ..name = 'Test'
-    ..method.addAll([
-      new MethodDescriptorProto()
-        ..name = 'AMethod'
-        ..inputType = 'SomeRequest'
-        ..outputType = 'SomeReply',
-      new MethodDescriptorProto()
-        ..name = 'AnotherMethod'
-        ..inputType = '.foo.bar.EmptyMessage'
-        ..outputType = '.foo.bar.AnotherReply',
-    ]);
-  return sd;
-}
+import 'service_util.dart';
 
 void main() {
   test('testClientGenerator', () {
@@ -38,15 +23,25 @@ class TestApi {
     var emptyResponse = new SomeReply();
     return _client.invoke(ctx, 'Test', 'AMethod', request, emptyResponse);
   }
-  Future<AnotherReply> anotherMethod(ClientContext ctx, EmptyMessage request) {
-    var emptyResponse = new AnotherReply();
+  Future<foo$bar.AnotherReply> anotherMethod(ClientContext ctx, foo$bar.EmptyMessage request) {
+    var emptyResponse = new foo$bar.AnotherReply();
     return _client.invoke(ctx, 'Test', 'AnotherMethod', request, emptyResponse);
   }
 }
 
 ''';
+    var fd = buildFileDescriptor("testpkg", ["SomeRequest", "SomeReply"]);
+    fd.service.add(buildServiceDescriptor());
+    var fg = new FileGenerator(fd);
+
+    var fd2 = buildFileDescriptor("foo.bar", ["EmptyMessage", "AnotherReply"]);
+    var fg2 = new FileGenerator(fd2);
+
+    link(new GenerationOptions(), [fg, fg2]);
+
+    ClientApiGenerator cag = fg.clientApiGenerators[0];
+
     IndentingWriter writer = new IndentingWriter();
-    ClientApiGenerator cag = new ClientApiGenerator(buildServiceDescriptor());
     cag.generate(writer);
     expect(writer.toString(), expected);
   });

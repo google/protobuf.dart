@@ -7,24 +7,8 @@ library service_generator_test;
 
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
-import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:test/test.dart';
-
-ServiceDescriptorProto buildServiceDescriptor() {
-  ServiceDescriptorProto sd = new ServiceDescriptorProto()
-    ..name = 'Test'
-    ..method.addAll([
-      new MethodDescriptorProto()
-        ..name = 'AMethod'
-        ..inputType = 'SomeRequest'
-        ..outputType = 'SomeReply',
-      new MethodDescriptorProto()
-        ..name = 'AnotherMethod'
-        ..inputType = '.foo.bar.EmptyMessage'
-        ..outputType = '.foo.bar.AnotherReply',
-    ]);
-  return sd;
-}
+import 'service_util.dart';
 
 void main() {
   test('testServiceGenerator', () {
@@ -32,12 +16,12 @@ void main() {
     String expected = r'''
 abstract class TestServiceBase extends GeneratedService {
   Future<SomeReply> aMethod(ServerContext ctx, SomeRequest request);
-  Future<AnotherReply> anotherMethod(ServerContext ctx, EmptyMessage request);
+  Future<foo$bar.AnotherReply> anotherMethod(ServerContext ctx, foo$bar.EmptyMessage request);
 
   GeneratedMessage createRequest(String method) {
     switch (method) {
       case 'AMethod': return new SomeRequest();
-      case 'AnotherMethod': return new EmptyMessage();
+      case 'AnotherMethod': return new foo$bar.EmptyMessage();
       default: throw new ArgumentError('Unknown method: $method');
     }
   }
@@ -54,10 +38,17 @@ abstract class TestServiceBase extends GeneratedService {
 
 ''';
 
-    var sg = new ServiceGenerator(buildServiceDescriptor());
+    var fd = buildFileDescriptor("testpkg", ["SomeRequest", "SomeReply"]);
+    fd.service.add(buildServiceDescriptor());
+    var fg = new FileGenerator(fd);
+
+    var fd2 = buildFileDescriptor("foo.bar", ["EmptyMessage", "AnotherReply"]);
+    var fg2 = new FileGenerator(fd2);
+
+    link(new GenerationOptions(), [fg, fg2]);
 
     var writer = new IndentingWriter();
-    sg.generate(writer);
+    fg.serviceGenerators[0].generate(writer);
     expect(writer.toString(), expected);
   });
 }

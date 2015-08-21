@@ -47,8 +47,9 @@ class FileGenerator extends ProtobufContainer {
       extensionGenerators.add(new ExtensionGenerator(extension, this));
     }
     for (ServiceDescriptorProto service in _fileDescriptor.service) {
-      serviceGenerators.add(new ServiceGenerator(service));
-      clientApiGenerators.add(new ClientApiGenerator(service));
+      var serviceGen = new ServiceGenerator(service, this);
+      serviceGenerators.add(serviceGen);
+      clientApiGenerators.add(new ClientApiGenerator(serviceGen));
     }
   }
 
@@ -230,6 +231,10 @@ class FileGenerator extends ProtobufContainer {
     for (var x in extensionGenerators) {
       x.addImportsTo(imports);
     }
+    for (var x in serviceGenerators) {
+      x.addImportsTo(imports);
+    }
+    imports.remove(this); // Don't need to import self.
     return imports;
   }
 

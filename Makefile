@@ -26,6 +26,8 @@ TEST_PROTO_LIST = \
 						 package2 \
 						 package3 \
 						 service \
+						 service2 \
+             service3 \
 						 toplevel_import \
 						 toplevel
 TEST_PROTO_DIR=$(OUTPUT_DIR)/protos

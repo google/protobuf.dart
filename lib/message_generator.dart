@@ -79,8 +79,15 @@ class MessageGenerator extends ProtobufContainer {
 
   String get package => _parent.package;
 
-  // The generator of the .pb.dart file that will declare this type.
+  /// The generator of the .pb.dart file that will declare this type.
   FileGenerator get fileGen => _parent.fileGen;
+
+  /// Throws an exception if [resolve] hasn't been called yet.
+  void checkResolved() {
+    if (_fieldList == null) {
+      throw new StateError("message not resolved: ${fqname}");
+    }
+  }
 
   /// Returns a const expression that evaluates to the JSON for this message.
   /// [usage] represents the .pb.dart file where the expression will be used.
@@ -162,7 +169,7 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   void generate(IndentingWriter out) {
-    if (_fieldList == null) throw new StateError("message not resolved");
+    checkResolved();
 
     _methodNames.clear();
     _methodNames.addAll(reservedWords);

@@ -6,7 +6,6 @@ part of protoc;
 
 /// Resolves all cross-references in a set of proto files.
 void link(GenerationOptions options, Iterable<FileGenerator> files) {
-
   GenerationContext ctx = new GenerationContext(options);
 
   // Register the targets of cross-references.
@@ -23,6 +22,14 @@ void link(GenerationOptions options, Iterable<FileGenerator> files) {
 
   for (var f in files) {
     f.resolve(ctx);
+  }
+
+  // Resolve service generators last.
+  // (They depend on all messages being resolved.)
+  for (var f in files) {
+    for (var s in f.serviceGenerators) {
+      s.resolve(ctx);
+    }
   }
 }
 
