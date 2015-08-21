@@ -1,4 +1,4 @@
-## unreleased
+## 0.4.1
  * Added support for observing field changes.
    For now, this can only be enabled by using a mixin to override
    the eventPlugin getter.
