@@ -39,9 +39,9 @@ class PhoneNumber_PhoneType extends ProtobufEnum {
 
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..a(1, 'number', FieldType.QS)
-    ..e(2, 'type', FieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf)
-    ..a(3, 'name', FieldType.OS, '\$')
+    ..a(1, 'number', PbFieldType.QS)
+    ..e(2, 'type', PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf)
+    ..a(3, 'name', PbFieldType.OS, '\$')
   ;
 
   PhoneNumber() : super();

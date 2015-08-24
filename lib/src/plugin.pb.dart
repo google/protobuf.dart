@@ -1,16 +1,16 @@
 ///
 //  Generated code. Do not modify.
 ///
-library proto2.compiler;
+library proto2.compiler_plugin;
 
 import 'package:protobuf/protobuf.dart';
 import 'descriptor.pb.dart' as proto2;
 
 class CodeGeneratorRequest extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorRequest')
-    ..p(1, 'fileToGenerate', GeneratedMessage.PS)
-    ..a(2, 'parameter', GeneratedMessage.OS)
-    ..m(15, 'protoFile', proto2.FileDescriptorProto.create, proto2.FileDescriptorProto.createRepeated)
+    ..p(1, 'fileToGenerate', PbFieldType.PS)
+    ..a(2, 'parameter', PbFieldType.OS)
+    ..pp(15, 'protoFile', PbFieldType.PM, proto2.FileDescriptorProto.$checkItem, proto2.FileDescriptorProto.create)
   ;
 
   CodeGeneratorRequest() : super();
@@ -25,6 +25,9 @@ class CodeGeneratorRequest extends GeneratedMessage {
     return _defaultInstance;
   }
   static CodeGeneratorRequest _defaultInstance;
+  static void $checkItem(CodeGeneratorRequest v) {
+    if (v is !CodeGeneratorRequest) checkItemFailed(v, 'CodeGeneratorRequest');
+  }
 
   List<String> get fileToGenerate => getField(1);
 
@@ -40,9 +43,9 @@ class _ReadonlyCodeGeneratorRequest extends CodeGeneratorRequest with ReadonlyMe
 
 class CodeGeneratorResponse_File extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse_File')
-    ..a(1, 'name', GeneratedMessage.OS)
-    ..a(2, 'insertionPoint', GeneratedMessage.OS)
-    ..a(15, 'content', GeneratedMessage.OS)
+    ..a(1, 'name', PbFieldType.OS)
+    ..a(2, 'insertionPoint', PbFieldType.OS)
+    ..a(15, 'content', PbFieldType.OS)
     ..hasRequiredFields = false
   ;
 
@@ -58,6 +61,9 @@ class CodeGeneratorResponse_File extends GeneratedMessage {
     return _defaultInstance;
   }
   static CodeGeneratorResponse_File _defaultInstance;
+  static void $checkItem(CodeGeneratorResponse_File v) {
+    if (v is !CodeGeneratorResponse_File) checkItemFailed(v, 'CodeGeneratorResponse_File');
+  }
 
   String get name => getField(1);
   void set name(String v) { setField(1, v); }
@@ -79,8 +85,8 @@ class _ReadonlyCodeGeneratorResponse_File extends CodeGeneratorResponse_File wit
 
 class CodeGeneratorResponse extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse')
-    ..a(1, 'error', GeneratedMessage.OS)
-    ..m(15, 'file', CodeGeneratorResponse_File.create, CodeGeneratorResponse_File.createRepeated)
+    ..a(1, 'error', PbFieldType.OS)
+    ..pp(15, 'file', PbFieldType.PM, CodeGeneratorResponse_File.$checkItem, CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false
   ;
 
@@ -96,6 +102,9 @@ class CodeGeneratorResponse extends GeneratedMessage {
     return _defaultInstance;
   }
   static CodeGeneratorResponse _defaultInstance;
+  static void $checkItem(CodeGeneratorResponse v) {
+    if (v is !CodeGeneratorResponse) checkItemFailed(v, 'CodeGeneratorResponse');
+  }
 
   String get error => getField(1);
   void set error(String v) { setField(1, v); }
@@ -106,4 +115,31 @@ class CodeGeneratorResponse extends GeneratedMessage {
 }
 
 class _ReadonlyCodeGeneratorResponse extends CodeGeneratorResponse with ReadonlyMessageMixin {}
+
+const CodeGeneratorRequest$json = const {
+  '1': 'CodeGeneratorRequest',
+  '2': const [
+    const {'1': 'file_to_generate', '3': 1, '4': 3, '5': 9},
+    const {'1': 'parameter', '3': 2, '4': 1, '5': 9},
+    const {'1': 'proto_file', '3': 15, '4': 3, '5': 11, '6': '.proto2.FileDescriptorProto'},
+  ],
+};
+
+const CodeGeneratorResponse$json = const {
+  '1': 'CodeGeneratorResponse',
+  '2': const [
+    const {'1': 'error', '3': 1, '4': 1, '5': 9},
+    const {'1': 'file', '3': 15, '4': 3, '5': 11, '6': '.proto2.compiler.CodeGeneratorResponse.File'},
+  ],
+  '3': const [CodeGeneratorResponse_File$json],
+};
+
+const CodeGeneratorResponse_File$json = const {
+  '1': 'File',
+  '2': const [
+    const {'1': 'name', '3': 1, '4': 1, '5': 9},
+    const {'1': 'insertion_point', '3': 2, '4': 1, '5': 9},
+    const {'1': 'content', '3': 15, '4': 1, '5': 9},
+  ],
+};
 
