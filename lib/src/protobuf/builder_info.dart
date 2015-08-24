@@ -51,7 +51,7 @@ class BuilderInfo {
   // TODO(skybrian): migrate to pp() and remove.
   void m(int tagNumber, String name,
          CreateBuilderFunc subBuilder, MakeDefaultFunc makeDefault) {
-    add(tagNumber, name, FieldType._REPEATED_MESSAGE,
+    add(tagNumber, name, PbFieldType._REPEATED_MESSAGE,
         makeDefault, subBuilder, null);
   }
 

@@ -4,18 +4,18 @@
 
 part of protobuf;
 
-bool _isRepeated(int fieldType) => (fieldType & FieldType._REPEATED_BIT) != 0;
+bool _isRepeated(int fieldType) => (fieldType & PbFieldType._REPEATED_BIT) != 0;
 
-bool _isRequired(int fieldType) => (fieldType & FieldType._REQUIRED_BIT) != 0;
+bool _isRequired(int fieldType) => (fieldType & PbFieldType._REQUIRED_BIT) != 0;
 
 bool _isEnum(int fieldType) =>
-    FieldType._baseType(fieldType) == FieldType._ENUM_BIT;
+    PbFieldType._baseType(fieldType) == PbFieldType._ENUM_BIT;
 
 bool _isGroupOrMessage(int fieldType) =>
-    (fieldType & (FieldType._GROUP_BIT | FieldType._MESSAGE_BIT)) != 0;
+    (fieldType & (PbFieldType._GROUP_BIT | PbFieldType._MESSAGE_BIT)) != 0;
 
 /// Defines constants and functions for dealing with fieldType bits.
-class FieldType {
+class PbFieldType {
 
   /// Returns the base field type without any of the required, repeated
   /// and packed bits.

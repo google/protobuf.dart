@@ -10,53 +10,53 @@ part of protobuf;
 /// For enums, group, and message fields, this check is only approximate,
 /// because the exact type isn't included in [fieldType].
 String _getFieldError(int fieldType, var value) {
-  switch (FieldType._baseType(fieldType)) {
-    case FieldType._BOOL_BIT:
+  switch (PbFieldType._baseType(fieldType)) {
+    case PbFieldType._BOOL_BIT:
       if (value is! bool) return 'not type bool';
       return null;
-    case FieldType._BYTES_BIT:
+    case PbFieldType._BYTES_BIT:
       if (value is! List) return 'not List';
       return null;
-    case FieldType._STRING_BIT:
+    case PbFieldType._STRING_BIT:
       if (value is! String) return 'not type String';
       return null;
-    case FieldType._FLOAT_BIT:
+    case PbFieldType._FLOAT_BIT:
       if (value is! double) return 'not type double';
       if (!_isFloat32(value)) return 'out of range for float';
       return null;
-    case FieldType._DOUBLE_BIT:
+    case PbFieldType._DOUBLE_BIT:
       if (value is! double) return 'not type double';
       return null;
-    case FieldType._ENUM_BIT:
+    case PbFieldType._ENUM_BIT:
       if (value is! ProtobufEnum) return 'not type ProtobufEnum';
       return null;
 
-    case FieldType._INT32_BIT:
-    case FieldType._SINT32_BIT:
-    case FieldType._SFIXED32_BIT:
+    case PbFieldType._INT32_BIT:
+    case PbFieldType._SINT32_BIT:
+    case PbFieldType._SFIXED32_BIT:
       if (value is! int) return 'not type int';
       if (!_isSigned32(value)) return 'out of range for signed 32-bit int';
       return null;
 
-    case FieldType._UINT32_BIT:
-    case FieldType._FIXED32_BIT:
+    case PbFieldType._UINT32_BIT:
+    case PbFieldType._FIXED32_BIT:
       if (value is! int) return 'not type int';
       if (!_isUnsigned32(value)) return 'out of range for unsigned 32-bit int';
       return null;
 
-    case FieldType._INT64_BIT:
-    case FieldType._SINT64_BIT:
-    case FieldType._UINT64_BIT:
-    case FieldType._FIXED64_BIT:
-    case FieldType._SFIXED64_BIT:
+    case PbFieldType._INT64_BIT:
+    case PbFieldType._SINT64_BIT:
+    case PbFieldType._UINT64_BIT:
+    case PbFieldType._FIXED64_BIT:
+    case PbFieldType._SFIXED64_BIT:
       // We always use the full range of the same Dart type.
       // It's up to the caller to treat the Int64 as signed or unsigned.
       // See: https://github.com/dart-lang/dart-protobuf/issues/44
       if (value is! Int64) return 'not Int64';
       return null;
 
-    case FieldType._GROUP_BIT:
-    case FieldType._MESSAGE_BIT:
+    case PbFieldType._GROUP_BIT:
+    case PbFieldType._MESSAGE_BIT:
       if (value is! GeneratedMessage) return 'not a GeneratedMessage';
       return null;
     default:
@@ -77,40 +77,40 @@ void checkItemFailed(val, String className) {
 /// because the exact type isn't included in [fieldType].
 CheckFunc getCheckFunction(int fieldType) {
   switch (fieldType & ~0x7) {
-    case FieldType._BOOL_BIT:
+    case PbFieldType._BOOL_BIT:
       return _checkBool;
-    case FieldType._BYTES_BIT:
+    case PbFieldType._BYTES_BIT:
       return _checkBytes;
-    case FieldType._STRING_BIT:
+    case PbFieldType._STRING_BIT:
       return _checkString;
-    case FieldType._FLOAT_BIT:
+    case PbFieldType._FLOAT_BIT:
       return _checkFloat;
-    case FieldType._DOUBLE_BIT:
+    case PbFieldType._DOUBLE_BIT:
       return _checkDouble;
 
-    case FieldType._INT32_BIT:
-    case FieldType._SINT32_BIT:
-    case FieldType._SFIXED32_BIT:
+    case PbFieldType._INT32_BIT:
+    case PbFieldType._SINT32_BIT:
+    case PbFieldType._SFIXED32_BIT:
       return _checkSigned32;
 
-    case FieldType._UINT32_BIT:
-    case FieldType._FIXED32_BIT:
+    case PbFieldType._UINT32_BIT:
+    case PbFieldType._FIXED32_BIT:
       return _checkUnsigned32;
 
-    case FieldType._INT64_BIT:
-    case FieldType._SINT64_BIT:
-    case FieldType._SFIXED64_BIT:
-    case FieldType._UINT64_BIT:
-    case FieldType._FIXED64_BIT:
+    case PbFieldType._INT64_BIT:
+    case PbFieldType._SINT64_BIT:
+    case PbFieldType._SFIXED64_BIT:
+    case PbFieldType._UINT64_BIT:
+    case PbFieldType._FIXED64_BIT:
       // We always use the full range of the same Dart type.
       // It's up to the caller to treat the Int64 as signed or unsigned.
       // See: https://github.com/dart-lang/dart-protobuf/issues/44
       return _checkAnyInt64;
 
-    case FieldType._ENUM_BIT:
+    case PbFieldType._ENUM_BIT:
       return _checkAnyEnum;
-    case FieldType._GROUP_BIT:
-    case FieldType._MESSAGE_BIT:
+    case PbFieldType._GROUP_BIT:
+    case PbFieldType._MESSAGE_BIT:
       return _checkAnyMessage;
   }
   throw new ArgumentError('check function not implemented: ${fieldType}');

@@ -8,7 +8,7 @@ library event_test;
 import 'dart:typed_data' show Uint8List;
 
 import 'package:protobuf/protobuf.dart'
-    show GeneratedMessage, Extension, ExtensionRegistry, FieldType;
+    show GeneratedMessage, Extension, ExtensionRegistry, PbFieldType;
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin, PbFieldChange;
 import 'package:test/test.dart' show test, expect, predicate, same;
@@ -20,7 +20,7 @@ class Rec extends MockMessage with PbEventMixin {
   Rec create() => new Rec();
 }
 
-Extension comment = new Extension("Rec", "comment", 5, FieldType.OS);
+Extension comment = new Extension("Rec", "comment", 5, PbFieldType.OS);
 
 main() {
   test('Events are sent when setting and clearing a non-repeated field', () {

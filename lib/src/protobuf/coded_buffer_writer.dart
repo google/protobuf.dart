@@ -68,20 +68,20 @@ class CodedBufferWriter {
     }
 
     return new Map<int, dynamic>()
-        ..[FieldType._BOOL_BIT] = makeWriter(
+        ..[PbFieldType._BOOL_BIT] = makeWriter(
             (value) => _int32ToBytes(value ? 1 : 0))
-        ..[FieldType._BYTES_BIT] = writeBytesNoTag
-        ..[FieldType._STRING_BIT] = (output, value) {
+        ..[PbFieldType._BYTES_BIT] = writeBytesNoTag
+        ..[PbFieldType._STRING_BIT] = (output, value) {
             writeBytesNoTag(output, _UTF8.encode(value));
         }
-        ..[FieldType._DOUBLE_BIT] = makeWriter((double value) {
+        ..[PbFieldType._DOUBLE_BIT] = makeWriter((double value) {
             if (value.isNaN) return new ByteData(8)
                   ..setUint32(0, 0x00000000, Endianness.LITTLE_ENDIAN)
                   ..setUint32(4, 0x7ff80000, Endianness.LITTLE_ENDIAN);
             return new ByteData(8)
                 ..setFloat64(0, value, Endianness.LITTLE_ENDIAN);
         })
-        ..[FieldType._FLOAT_BIT] = makeWriter((double value) {
+        ..[PbFieldType._FLOAT_BIT] = makeWriter((double value) {
             const double MIN_FLOAT_DENORM = 1.401298464324817E-45;
             const double MAX_FLOAT = 3.4028234663852886E38;
             // TODO(antonm): reevaluate once semantics of odd values
@@ -96,25 +96,25 @@ class CodedBufferWriter {
             return new ByteData(4)
                 ..setFloat32(0, value, Endianness.LITTLE_ENDIAN);
         })
-        ..[FieldType._ENUM_BIT] = makeWriter(
+        ..[PbFieldType._ENUM_BIT] = makeWriter(
             (value) => _int32ToBytes(value.value))
-        ..[FieldType._GROUP_BIT] = (output, value) {
+        ..[PbFieldType._GROUP_BIT] = (output, value) {
             value.writeToCodedBufferWriter(output);
         }
-        ..[FieldType._INT32_BIT] = makeWriter(_int32ToBytes)
-        ..[FieldType._INT64_BIT] = makeWriter(
+        ..[PbFieldType._INT32_BIT] = makeWriter(_int32ToBytes)
+        ..[PbFieldType._INT64_BIT] = makeWriter(
             (value) => _toVarint64(value))
-        ..[FieldType._SINT32_BIT] = makeWriter(
+        ..[PbFieldType._SINT32_BIT] = makeWriter(
             (int value) => _int32ToBytes(_encodeZigZag32(value)))
-        ..[FieldType._SINT64_BIT] = makeWriter(
+        ..[PbFieldType._SINT64_BIT] = makeWriter(
             (Int64 value) => _toVarint64(_encodeZigZag64(value)))
-        ..[FieldType._UINT32_BIT] = makeWriter(_toVarint32)
-        ..[FieldType._UINT64_BIT] = makeWriter(_toVarint64)
-        ..[FieldType._FIXED32_BIT] = makeWriter(makeByteData32)
-        ..[FieldType._FIXED64_BIT] = makeWriter(makeByteData64)
-        ..[FieldType._SFIXED32_BIT] = makeWriter(makeByteData32)
-        ..[FieldType._SFIXED64_BIT] = makeWriter(makeByteData64)
-        ..[FieldType._MESSAGE_BIT] = (output, value) {
+        ..[PbFieldType._UINT32_BIT] = makeWriter(_toVarint32)
+        ..[PbFieldType._UINT64_BIT] = makeWriter(_toVarint64)
+        ..[PbFieldType._FIXED32_BIT] = makeWriter(makeByteData32)
+        ..[PbFieldType._FIXED64_BIT] = makeWriter(makeByteData64)
+        ..[PbFieldType._SFIXED32_BIT] = makeWriter(makeByteData32)
+        ..[PbFieldType._SFIXED64_BIT] = makeWriter(makeByteData64)
+        ..[PbFieldType._MESSAGE_BIT] = (output, value) {
             output._withDeferredSizeCalculation(() {
               value.writeToCodedBufferWriter(output);
             });
@@ -125,24 +125,24 @@ class CodedBufferWriter {
 
   static _makeOpenTagMap() {
     return new Map<int, int>()
-        ..[FieldType._BOOL_BIT] = WIRETYPE_VARINT
-        ..[FieldType._BYTES_BIT] = WIRETYPE_LENGTH_DELIMITED
-        ..[FieldType._STRING_BIT] = WIRETYPE_LENGTH_DELIMITED
-        ..[FieldType._DOUBLE_BIT] = WIRETYPE_FIXED64
-        ..[FieldType._FLOAT_BIT] = WIRETYPE_FIXED32
-        ..[FieldType._ENUM_BIT] = WIRETYPE_VARINT
-        ..[FieldType._GROUP_BIT] = WIRETYPE_START_GROUP
-        ..[FieldType._INT32_BIT] = WIRETYPE_VARINT
-        ..[FieldType._INT64_BIT] = WIRETYPE_VARINT
-        ..[FieldType._SINT32_BIT] = WIRETYPE_VARINT
-        ..[FieldType._SINT64_BIT] = WIRETYPE_VARINT
-        ..[FieldType._UINT32_BIT] = WIRETYPE_VARINT
-        ..[FieldType._UINT64_BIT] = WIRETYPE_VARINT
-        ..[FieldType._FIXED32_BIT] = WIRETYPE_FIXED32
-        ..[FieldType._FIXED64_BIT] = WIRETYPE_FIXED64
-        ..[FieldType._SFIXED32_BIT] = WIRETYPE_FIXED32
-        ..[FieldType._SFIXED64_BIT] = WIRETYPE_FIXED64
-        ..[FieldType._MESSAGE_BIT] = WIRETYPE_LENGTH_DELIMITED;
+        ..[PbFieldType._BOOL_BIT] = WIRETYPE_VARINT
+        ..[PbFieldType._BYTES_BIT] = WIRETYPE_LENGTH_DELIMITED
+        ..[PbFieldType._STRING_BIT] = WIRETYPE_LENGTH_DELIMITED
+        ..[PbFieldType._DOUBLE_BIT] = WIRETYPE_FIXED64
+        ..[PbFieldType._FLOAT_BIT] = WIRETYPE_FIXED32
+        ..[PbFieldType._ENUM_BIT] = WIRETYPE_VARINT
+        ..[PbFieldType._GROUP_BIT] = WIRETYPE_START_GROUP
+        ..[PbFieldType._INT32_BIT] = WIRETYPE_VARINT
+        ..[PbFieldType._INT64_BIT] = WIRETYPE_VARINT
+        ..[PbFieldType._SINT32_BIT] = WIRETYPE_VARINT
+        ..[PbFieldType._SINT64_BIT] = WIRETYPE_VARINT
+        ..[PbFieldType._UINT32_BIT] = WIRETYPE_VARINT
+        ..[PbFieldType._UINT64_BIT] = WIRETYPE_VARINT
+        ..[PbFieldType._FIXED32_BIT] = WIRETYPE_FIXED32
+        ..[PbFieldType._FIXED64_BIT] = WIRETYPE_FIXED64
+        ..[PbFieldType._SFIXED32_BIT] = WIRETYPE_FIXED32
+        ..[PbFieldType._SFIXED64_BIT] = WIRETYPE_FIXED64
+        ..[PbFieldType._MESSAGE_BIT] = WIRETYPE_LENGTH_DELIMITED;
   }
 
   void _withDeferredSizeCalculation(continuation) {
@@ -165,7 +165,7 @@ class CodedBufferWriter {
       writeInt32NoTag(makeTag(fieldNumber, wireFormat));
     }
 
-    if ((fieldType & FieldType._PACKED_BIT) != 0) {
+    if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
       if (!fieldValue.isEmpty) {
         writeTag(WIRETYPE_LENGTH_DELIMITED);
         _withDeferredSizeCalculation(() {
@@ -180,12 +180,12 @@ class CodedBufferWriter {
     writeValue(value) {
       writeTag(_OPEN_TAG_MAP[valueType]);
       writeFunction(this, value);
-      if (valueType == FieldType._GROUP_BIT) {
+      if (valueType == PbFieldType._GROUP_BIT) {
         writeTag(WIRETYPE_END_GROUP);
       }
     }
 
-    if ((fieldType & FieldType._REPEATED_BIT) != 0) {
+    if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
       fieldValue.forEach(writeValue);
       return;
     }

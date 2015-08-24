@@ -1,4 +1,10 @@
-## 0.4.1
+## 0.4.2
+ * Renamed FieldType to PbFieldType.
+
+## 0.4.1 - DO NOT USE
+ * added FieldType class. It turned out that FieldType is a
+   commonly used name, even in .proto files. This is renamed to
+   PbFieldType in 0.4.2.
  * Added support for observing field changes.
    For now, this can only be enabled by using a mixin to override
    the eventPlugin getter.

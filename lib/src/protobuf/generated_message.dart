@@ -11,83 +11,84 @@ typedef ProtobufEnum ValueOfFunc(int value);
 abstract class GeneratedMessage {
 
   // Short names for use in generated code.
-  // TODO(skybrian) change generated code to use FieldType instead.
+  // TODO(skybrian) remove once we're sure that all generated code
+  // uses PbFieldType instead of GeneratedMessage for these constants.
 
   // _O_ptional.
-  static const int OB = FieldType._OPTIONAL_BOOL;
-  static const int OY = FieldType._OPTIONAL_BYTES;
-  static const int OS = FieldType._OPTIONAL_STRING;
-  static const int OF = FieldType._OPTIONAL_FLOAT;
-  static const int OD = FieldType._OPTIONAL_DOUBLE;
-  static const int OE = FieldType._OPTIONAL_ENUM;
-  static const int OG = FieldType._OPTIONAL_GROUP;
-  static const int O3 = FieldType._OPTIONAL_INT32;
-  static const int O6 = FieldType._OPTIONAL_INT64;
-  static const int OS3 = FieldType._OPTIONAL_SINT32;
-  static const int OS6 = FieldType._OPTIONAL_SINT64;
-  static const int OU3 = FieldType._OPTIONAL_UINT32;
-  static const int OU6 = FieldType._OPTIONAL_UINT64;
-  static const int OF3 = FieldType._OPTIONAL_FIXED32;
-  static const int OF6 = FieldType._OPTIONAL_FIXED64;
-  static const int OSF3 = FieldType._OPTIONAL_SFIXED32;
-  static const int OSF6 = FieldType._OPTIONAL_SFIXED64;
-  static const int OM = FieldType._OPTIONAL_MESSAGE;
+  static const int OB = PbFieldType._OPTIONAL_BOOL;
+  static const int OY = PbFieldType._OPTIONAL_BYTES;
+  static const int OS = PbFieldType._OPTIONAL_STRING;
+  static const int OF = PbFieldType._OPTIONAL_FLOAT;
+  static const int OD = PbFieldType._OPTIONAL_DOUBLE;
+  static const int OE = PbFieldType._OPTIONAL_ENUM;
+  static const int OG = PbFieldType._OPTIONAL_GROUP;
+  static const int O3 = PbFieldType._OPTIONAL_INT32;
+  static const int O6 = PbFieldType._OPTIONAL_INT64;
+  static const int OS3 = PbFieldType._OPTIONAL_SINT32;
+  static const int OS6 = PbFieldType._OPTIONAL_SINT64;
+  static const int OU3 = PbFieldType._OPTIONAL_UINT32;
+  static const int OU6 = PbFieldType._OPTIONAL_UINT64;
+  static const int OF3 = PbFieldType._OPTIONAL_FIXED32;
+  static const int OF6 = PbFieldType._OPTIONAL_FIXED64;
+  static const int OSF3 = PbFieldType._OPTIONAL_SFIXED32;
+  static const int OSF6 = PbFieldType._OPTIONAL_SFIXED64;
+  static const int OM = PbFieldType._OPTIONAL_MESSAGE;
 
   // re_Q_uired.
-  static const int QB = FieldType._REQUIRED_BOOL;
-  static const int QY = FieldType._REQUIRED_BYTES;
-  static const int QS = FieldType._REQUIRED_STRING;
-  static const int QF = FieldType._REQUIRED_FLOAT;
-  static const int QD = FieldType._REQUIRED_DOUBLE;
-  static const int QE = FieldType._REQUIRED_ENUM;
-  static const int QG = FieldType._REQUIRED_GROUP;
-  static const int Q3 = FieldType._REQUIRED_INT32;
-  static const int Q6 = FieldType._REQUIRED_INT64;
-  static const int QS3 = FieldType._REQUIRED_SINT32;
-  static const int QS6 = FieldType._REQUIRED_SINT64;
-  static const int QU3 = FieldType._REQUIRED_UINT32;
-  static const int QU6 = FieldType._REQUIRED_UINT64;
-  static const int QF3 = FieldType._REQUIRED_FIXED32;
-  static const int QF6 = FieldType._REQUIRED_FIXED64;
-  static const int QSF3 = FieldType._REQUIRED_SFIXED32;
-  static const int QSF6 = FieldType._REQUIRED_SFIXED64;
-  static const int QM = FieldType._REQUIRED_MESSAGE;
+  static const int QB = PbFieldType._REQUIRED_BOOL;
+  static const int QY = PbFieldType._REQUIRED_BYTES;
+  static const int QS = PbFieldType._REQUIRED_STRING;
+  static const int QF = PbFieldType._REQUIRED_FLOAT;
+  static const int QD = PbFieldType._REQUIRED_DOUBLE;
+  static const int QE = PbFieldType._REQUIRED_ENUM;
+  static const int QG = PbFieldType._REQUIRED_GROUP;
+  static const int Q3 = PbFieldType._REQUIRED_INT32;
+  static const int Q6 = PbFieldType._REQUIRED_INT64;
+  static const int QS3 = PbFieldType._REQUIRED_SINT32;
+  static const int QS6 = PbFieldType._REQUIRED_SINT64;
+  static const int QU3 = PbFieldType._REQUIRED_UINT32;
+  static const int QU6 = PbFieldType._REQUIRED_UINT64;
+  static const int QF3 = PbFieldType._REQUIRED_FIXED32;
+  static const int QF6 = PbFieldType._REQUIRED_FIXED64;
+  static const int QSF3 = PbFieldType._REQUIRED_SFIXED32;
+  static const int QSF6 = PbFieldType._REQUIRED_SFIXED64;
+  static const int QM = PbFieldType._REQUIRED_MESSAGE;
 
   // re_P_eated.
-  static const int PB = FieldType._REPEATED_BOOL;
-  static const int PY = FieldType._REPEATED_BYTES;
-  static const int PS = FieldType._REPEATED_STRING;
-  static const int PF = FieldType._REPEATED_FLOAT;
-  static const int PD = FieldType._REPEATED_DOUBLE;
-  static const int PE = FieldType._REPEATED_ENUM;
-  static const int PG = FieldType._REPEATED_GROUP;
-  static const int P3 = FieldType._REPEATED_INT32;
-  static const int P6 = FieldType._REPEATED_INT64;
-  static const int PS3 = FieldType._REPEATED_SINT32;
-  static const int PS6 = FieldType._REPEATED_SINT64;
-  static const int PU3 = FieldType._REPEATED_UINT32;
-  static const int PU6 = FieldType._REPEATED_UINT64;
-  static const int PF3 = FieldType._REPEATED_FIXED32;
-  static const int PF6 = FieldType._REPEATED_FIXED64;
-  static const int PSF3 = FieldType._REPEATED_SFIXED32;
-  static const int PSF6 = FieldType._REPEATED_SFIXED64;
-  static const int PM = FieldType._REPEATED_MESSAGE;
+  static const int PB = PbFieldType._REPEATED_BOOL;
+  static const int PY = PbFieldType._REPEATED_BYTES;
+  static const int PS = PbFieldType._REPEATED_STRING;
+  static const int PF = PbFieldType._REPEATED_FLOAT;
+  static const int PD = PbFieldType._REPEATED_DOUBLE;
+  static const int PE = PbFieldType._REPEATED_ENUM;
+  static const int PG = PbFieldType._REPEATED_GROUP;
+  static const int P3 = PbFieldType._REPEATED_INT32;
+  static const int P6 = PbFieldType._REPEATED_INT64;
+  static const int PS3 = PbFieldType._REPEATED_SINT32;
+  static const int PS6 = PbFieldType._REPEATED_SINT64;
+  static const int PU3 = PbFieldType._REPEATED_UINT32;
+  static const int PU6 = PbFieldType._REPEATED_UINT64;
+  static const int PF3 = PbFieldType._REPEATED_FIXED32;
+  static const int PF6 = PbFieldType._REPEATED_FIXED64;
+  static const int PSF3 = PbFieldType._REPEATED_SFIXED32;
+  static const int PSF6 = PbFieldType._REPEATED_SFIXED64;
+  static const int PM = PbFieldType._REPEATED_MESSAGE;
 
   // pac_K_ed.
-  static const int KB = FieldType._PACKED_BOOL;
-  static const int KE = FieldType._PACKED_ENUM;
-  static const int KF = FieldType._PACKED_FLOAT;
-  static const int KD = FieldType._PACKED_DOUBLE;
-  static const int K3 = FieldType._PACKED_INT32;
-  static const int K6 = FieldType._PACKED_INT64;
-  static const int KS3 = FieldType._PACKED_SINT32;
-  static const int KS6 = FieldType._PACKED_SINT64;
-  static const int KU3 = FieldType._PACKED_UINT32;
-  static const int KU6 = FieldType._PACKED_UINT64;
-  static const int KF3 = FieldType._PACKED_FIXED32;
-  static const int KF6 = FieldType._PACKED_FIXED64;
-  static const int KSF3 = FieldType._PACKED_SFIXED32;
-  static const int KSF6 = FieldType._PACKED_SFIXED64;
+  static const int KB = PbFieldType._PACKED_BOOL;
+  static const int KE = PbFieldType._PACKED_ENUM;
+  static const int KF = PbFieldType._PACKED_FLOAT;
+  static const int KD = PbFieldType._PACKED_DOUBLE;
+  static const int K3 = PbFieldType._PACKED_INT32;
+  static const int K6 = PbFieldType._PACKED_INT64;
+  static const int KS3 = PbFieldType._PACKED_SINT32;
+  static const int KS6 = PbFieldType._PACKED_SINT64;
+  static const int KU3 = PbFieldType._PACKED_UINT32;
+  static const int KU6 = PbFieldType._PACKED_UINT64;
+  static const int KF3 = PbFieldType._PACKED_FIXED32;
+  static const int KF6 = PbFieldType._PACKED_FIXED64;
+  static const int KSF3 = PbFieldType._PACKED_SFIXED32;
+  static const int KSF6 = PbFieldType._PACKED_SFIXED64;
 
   // Range of integers in JSON (53-bit integers).
   static Int64 MAX_JSON_INT = new Int64.fromInts(0x200000, 0);
@@ -334,24 +335,24 @@ abstract class GeneratedMessage {
 
       // Ignore required/optional packed/unpacked.
       int fieldType = fi.type;
-      fieldType &= ~(FieldType._PACKED_BIT | FieldType._REQUIRED_BIT);
+      fieldType &= ~(PbFieldType._PACKED_BIT | PbFieldType._REQUIRED_BIT);
       switch (fieldType) {
-        case FieldType._OPTIONAL_BOOL:
+        case PbFieldType._OPTIONAL_BOOL:
           _setField(fi, input.readBool());
           break;
-        case FieldType._OPTIONAL_BYTES:
+        case PbFieldType._OPTIONAL_BYTES:
           _setField(fi, input.readBytes());
           break;
-        case FieldType._OPTIONAL_STRING:
+        case PbFieldType._OPTIONAL_STRING:
           _setField(fi, input.readString());
           break;
-        case FieldType._OPTIONAL_FLOAT:
+        case PbFieldType._OPTIONAL_FLOAT:
           _setField(fi, input.readFloat());
           break;
-        case FieldType._OPTIONAL_DOUBLE:
+        case PbFieldType._OPTIONAL_DOUBLE:
           _setField(fi, input.readDouble());
           break;
-        case FieldType._OPTIONAL_ENUM:
+        case PbFieldType._OPTIONAL_ENUM:
           int rawValue = input.readEnum();
           var value = _getValueOfFunc(tagNumber, extensionRegistry)(rawValue);
           if (value == null) {
@@ -360,7 +361,7 @@ abstract class GeneratedMessage {
             _setField(fi, value);
           }
           break;
-        case FieldType._OPTIONAL_GROUP:
+        case PbFieldType._OPTIONAL_GROUP:
           GeneratedMessage subMessage =
               _getEmptyMessage(tagNumber, extensionRegistry);
           if (_fieldValues.containsKey(tagNumber)) {
@@ -369,37 +370,37 @@ abstract class GeneratedMessage {
           input.readGroup(tagNumber, subMessage, extensionRegistry);
           _setField(fi, subMessage);
           break;
-        case FieldType._OPTIONAL_INT32:
+        case PbFieldType._OPTIONAL_INT32:
           _setField(fi, input.readInt32());
           break;
-        case FieldType._OPTIONAL_INT64:
+        case PbFieldType._OPTIONAL_INT64:
           _setField(fi, input.readInt64());
           break;
-        case FieldType._OPTIONAL_SINT32:
+        case PbFieldType._OPTIONAL_SINT32:
           _setField(fi, input.readSint32());
           break;
-        case FieldType._OPTIONAL_SINT64:
+        case PbFieldType._OPTIONAL_SINT64:
           _setField(fi, input.readSint64());
           break;
-        case FieldType._OPTIONAL_UINT32:
+        case PbFieldType._OPTIONAL_UINT32:
           _setField(fi, input.readUint32());
           break;
-        case FieldType._OPTIONAL_UINT64:
+        case PbFieldType._OPTIONAL_UINT64:
           _setField(fi, input.readUint64());
           break;
-        case FieldType._OPTIONAL_FIXED32:
+        case PbFieldType._OPTIONAL_FIXED32:
           _setField(fi, input.readFixed32());
           break;
-        case FieldType._OPTIONAL_FIXED64:
+        case PbFieldType._OPTIONAL_FIXED64:
           _setField(fi, input.readFixed64());
           break;
-        case FieldType._OPTIONAL_SFIXED32:
+        case PbFieldType._OPTIONAL_SFIXED32:
           _setField(fi, input.readSfixed32());
           break;
-        case FieldType._OPTIONAL_SFIXED64:
+        case PbFieldType._OPTIONAL_SFIXED64:
           _setField(fi, input.readSfixed64());
           break;
-        case FieldType._OPTIONAL_MESSAGE:
+        case PbFieldType._OPTIONAL_MESSAGE:
           GeneratedMessage subMessage =
               _getEmptyMessage(tagNumber, extensionRegistry);
           if (_fieldValues.containsKey(tagNumber)) {
@@ -408,22 +409,22 @@ abstract class GeneratedMessage {
           input.readMessage(subMessage, extensionRegistry);
           _setField(fi, subMessage);
           break;
-        case FieldType._REPEATED_BOOL:
+        case PbFieldType._REPEATED_BOOL:
           readPackable(wireType, tagNumber, input.readBool);
           break;
-        case FieldType._REPEATED_BYTES:
+        case PbFieldType._REPEATED_BYTES:
           appendToRepeated(tagNumber, input.readBytes());
           break;
-        case FieldType._REPEATED_STRING:
+        case PbFieldType._REPEATED_STRING:
           appendToRepeated(tagNumber, input.readString());
           break;
-        case FieldType._REPEATED_FLOAT:
+        case PbFieldType._REPEATED_FLOAT:
           readPackable(wireType, tagNumber, input.readFloat);
           break;
-        case FieldType._REPEATED_DOUBLE:
+        case PbFieldType._REPEATED_DOUBLE:
           readPackable(wireType, tagNumber, input.readDouble);
           break;
-        case FieldType._REPEATED_ENUM:
+        case PbFieldType._REPEATED_ENUM:
           readPackableToList(wireType, tagNumber, (List list) {
             int rawValue = input.readEnum();
             var value = _getValueOfFunc(tagNumber, extensionRegistry)(rawValue);
@@ -434,43 +435,43 @@ abstract class GeneratedMessage {
             }
           });
           break;
-        case FieldType._REPEATED_GROUP:
+        case PbFieldType._REPEATED_GROUP:
           GeneratedMessage subMessage =
               _getEmptyMessage(tagNumber, extensionRegistry);
           input.readGroup(tagNumber, subMessage, extensionRegistry);
           appendToRepeated(tagNumber, subMessage);
           break;
-        case FieldType._REPEATED_INT32:
+        case PbFieldType._REPEATED_INT32:
           readPackable(wireType, tagNumber, input.readInt32);
           break;
-        case FieldType._REPEATED_INT64:
+        case PbFieldType._REPEATED_INT64:
           readPackable(wireType, tagNumber, input.readInt64);
           break;
-        case FieldType._REPEATED_SINT32:
+        case PbFieldType._REPEATED_SINT32:
           readPackable(wireType, tagNumber, input.readSint32);
           break;
-        case FieldType._REPEATED_SINT64:
+        case PbFieldType._REPEATED_SINT64:
           readPackable(wireType, tagNumber, input.readSint64);
           break;
-        case FieldType._REPEATED_UINT32:
+        case PbFieldType._REPEATED_UINT32:
           readPackable(wireType, tagNumber, input.readUint32);
           break;
-        case FieldType._REPEATED_UINT64:
+        case PbFieldType._REPEATED_UINT64:
           readPackable(wireType, tagNumber, input.readUint64);
           break;
-        case FieldType._REPEATED_FIXED32:
+        case PbFieldType._REPEATED_FIXED32:
           readPackable(wireType, tagNumber, input.readFixed32);
           break;
-        case FieldType._REPEATED_FIXED64:
+        case PbFieldType._REPEATED_FIXED64:
           readPackable(wireType, tagNumber, input.readFixed64);
           break;
-        case FieldType._REPEATED_SFIXED32:
+        case PbFieldType._REPEATED_SFIXED32:
           readPackable(wireType, tagNumber, input.readSfixed32);
           break;
-        case FieldType._REPEATED_SFIXED64:
+        case PbFieldType._REPEATED_SFIXED64:
           readPackable(wireType, tagNumber, input.readSfixed64);
           break;
-        case FieldType._REPEATED_MESSAGE:
+        case PbFieldType._REPEATED_MESSAGE:
           GeneratedMessage subMessage =
               _getEmptyMessage(tagNumber, extensionRegistry);
           input.readMessage(subMessage, extensionRegistry);
@@ -505,40 +506,40 @@ abstract class GeneratedMessage {
   /// The encoding is described in [GeneratedMessage.writeToJson].
   Map<String, dynamic> writeToJsonMap() {
     convertToMap(fieldValue, fieldType) {
-      int baseType = FieldType._baseType(fieldType);
+      int baseType = PbFieldType._baseType(fieldType);
 
       if (_isRepeated(fieldType)) {
         return new List.from(fieldValue.map((e) => convertToMap(e, baseType)));
       }
 
       switch (baseType) {
-      case FieldType._BOOL_BIT:
-      case FieldType._STRING_BIT:
-      case FieldType._FLOAT_BIT:
-      case FieldType._DOUBLE_BIT:
-      case FieldType._INT32_BIT:
-      case FieldType._SINT32_BIT:
-      case FieldType._UINT32_BIT:
-      case FieldType._FIXED32_BIT:
-      case FieldType._SFIXED32_BIT:
+      case PbFieldType._BOOL_BIT:
+      case PbFieldType._STRING_BIT:
+      case PbFieldType._FLOAT_BIT:
+      case PbFieldType._DOUBLE_BIT:
+      case PbFieldType._INT32_BIT:
+      case PbFieldType._SINT32_BIT:
+      case PbFieldType._UINT32_BIT:
+      case PbFieldType._FIXED32_BIT:
+      case PbFieldType._SFIXED32_BIT:
         return fieldValue;
-      case FieldType._BYTES_BIT:
+      case PbFieldType._BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
         return CryptoUtils.bytesToBase64(fieldValue);
-      case FieldType._ENUM_BIT:
+      case PbFieldType._ENUM_BIT:
         return fieldValue.value; // assume |value| < 2^52
-      case FieldType._INT64_BIT:
-      case FieldType._SINT64_BIT:
-      case FieldType._UINT64_BIT:
-      case FieldType._FIXED64_BIT:
-      case FieldType._SFIXED64_BIT:
+      case PbFieldType._INT64_BIT:
+      case PbFieldType._SINT64_BIT:
+      case PbFieldType._UINT64_BIT:
+      case PbFieldType._FIXED64_BIT:
+      case PbFieldType._SFIXED64_BIT:
         // Use strings for 64-bit integers which cannot fit in doubles.
         if (MIN_JSON_INT <= fieldValue && fieldValue <= MAX_JSON_INT) {
           return fieldValue.toInt();
         }
         return fieldValue.toString();
-      case FieldType._GROUP_BIT:
-      case FieldType._MESSAGE_BIT:
+      case PbFieldType._GROUP_BIT:
+      case PbFieldType._MESSAGE_BIT:
         return fieldValue.writeToJsonMap();
       default:
         throw 'Unknown type $fieldType';
@@ -610,8 +611,8 @@ abstract class GeneratedMessage {
   _convertJsonValue(value, int tagNumber, int fieldType,
                    ExtensionRegistry extensionRegistry) {
     String expectedType; // for exception message
-    switch (FieldType._baseType(fieldType)) {
-    case FieldType._BOOL_BIT:
+    switch (PbFieldType._baseType(fieldType)) {
+    case PbFieldType._BOOL_BIT:
       if (value is bool) {
         return value;
       } else if (value is String) {
@@ -630,20 +631,20 @@ abstract class GeneratedMessage {
         expectedType = 'bool, 0, or 1';
       }
       break;
-    case FieldType._BYTES_BIT:
+    case PbFieldType._BYTES_BIT:
       if (value is String) {
         return CryptoUtils.base64StringToBytes(value);
       }
       expectedType = 'Base64 String';
       break;
-    case FieldType._STRING_BIT:
+    case PbFieldType._STRING_BIT:
       if (value is String) {
         return value;
       }
       expectedType = 'String';
       break;
-    case FieldType._FLOAT_BIT:
-    case FieldType._DOUBLE_BIT:
+    case PbFieldType._FLOAT_BIT:
+    case PbFieldType._DOUBLE_BIT:
       // Allow quoted values, although we don't emit them.
       if (value is double) {
         return value;
@@ -654,7 +655,7 @@ abstract class GeneratedMessage {
       }
       expectedType = 'num or stringified num';
       break;
-    case FieldType._ENUM_BIT:
+    case PbFieldType._ENUM_BIT:
       // Allow quoted values, although we don't emit them.
       if (value is String) {
         value = int.parse(value);
@@ -664,11 +665,11 @@ abstract class GeneratedMessage {
       }
       expectedType = 'int or stringified int';
       break;
-    case FieldType._INT32_BIT:
-    case FieldType._SINT32_BIT:
-    case FieldType._UINT32_BIT:
-    case FieldType._FIXED32_BIT:
-    case FieldType._SFIXED32_BIT:
+    case PbFieldType._INT32_BIT:
+    case PbFieldType._SINT32_BIT:
+    case PbFieldType._UINT32_BIT:
+    case PbFieldType._FIXED32_BIT:
+    case PbFieldType._SFIXED32_BIT:
       if (value is String) {
         value = int.parse(value);
       }
@@ -678,11 +679,11 @@ abstract class GeneratedMessage {
       }
       expectedType = 'int or stringified int';
       break;
-    case FieldType._INT64_BIT:
-    case FieldType._SINT64_BIT:
-    case FieldType._UINT64_BIT:
-    case FieldType._FIXED64_BIT:
-    case FieldType._SFIXED64_BIT:
+    case PbFieldType._INT64_BIT:
+    case PbFieldType._SINT64_BIT:
+    case PbFieldType._UINT64_BIT:
+    case PbFieldType._FIXED64_BIT:
+    case PbFieldType._SFIXED64_BIT:
       // Allow quoted values, although we don't emit them.
       if (value is String) {
         return Int64.parseRadix(value, 10);
@@ -692,8 +693,8 @@ abstract class GeneratedMessage {
       }
       expectedType = 'int or stringified int';
       break;
-    case FieldType._GROUP_BIT:
-    case FieldType._MESSAGE_BIT:
+    case PbFieldType._GROUP_BIT:
+    case PbFieldType._MESSAGE_BIT:
       if (value is Map) {
         GeneratedMessage subMessage =
             _getEmptyMessage(tagNumber, extensionRegistry);
