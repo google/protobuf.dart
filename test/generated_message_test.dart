@@ -658,5 +658,6 @@ void main() {
   test('testToplevel', () {
     t.M message = new t.M();
     message.t = new T();
+    new t.SApi(null);
   });
 }

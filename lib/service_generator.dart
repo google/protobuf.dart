@@ -91,7 +91,7 @@ class ServiceGenerator {
       var location = _undefinedDeps[fqname];
       throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
     }
-    if (fileGen.package == mg.fileGen.package) {
+    if (fileGen.package == mg.fileGen.package || mg.fileGen.package == "") {
       // It's either the same file, or another file with the same package.
       // (In the second case, we import it without using "as".)
       return mg.classname;
