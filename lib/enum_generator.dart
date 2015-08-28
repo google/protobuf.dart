@@ -14,6 +14,7 @@ class EnumGenerator extends ProtobufContainer {
   final ProtobufContainer _parent;
   final String classname;
   final String fqname;
+  final EnumDescriptorProto _descriptor;
   final List<EnumValueDescriptorProto> _canonicalValues =
       <EnumValueDescriptorProto>[];
   final List<EnumAlias> _aliases = <EnumAlias>[];
@@ -26,7 +27,8 @@ class EnumGenerator extends ProtobufContainer {
           descriptor.name : '${parent.classname}_${descriptor.name}',
       fqname = (parent == null || parent.fqname == null) ? descriptor.name :
           (parent.fqname == '.' ?
-              '.${descriptor.name}' : '${parent.fqname}.${descriptor.name}') {
+              '.${descriptor.name}' : '${parent.fqname}.${descriptor.name}'),
+      _descriptor = descriptor {
     for (EnumValueDescriptorProto value in descriptor.value) {
       EnumValueDescriptorProto canonicalValue =
           descriptor.value.firstWhere((v) => v.number == value.number);
@@ -44,6 +46,16 @@ class EnumGenerator extends ProtobufContainer {
   /// Make this enum available as a field type.
   void register(GenerationContext ctx) {
     ctx.registerFieldType(fqname, this);
+  }
+
+  /// Returns a const expression that evaluates to the JSON for this message.
+  /// [usage] represents the .pb.dart file where the expression will be used.
+  String getJsonConstant(FileGenerator usage) {
+    var name = "$classname\$json";
+    if (usage.package == fileGen.package || packageImportPrefix.isEmpty) {
+      return name;
+    }
+    return "$packageImportPrefix.$name";
   }
 
   void generate(IndentingWriter out) {
@@ -86,5 +98,16 @@ class EnumGenerator extends ProtobufContainer {
       out.println('const ${classname}._(int v, String n) '
           ': super(v, n);');
     });
+  }
+
+  /// Writes a Dart constant containing the JSON for the EnumProtoDescriptor.
+  void generateConstants(IndentingWriter out) {
+    var name = getJsonConstant(fileGen);
+    var json = _descriptor.writeToJsonMap();
+
+    out.print("const $name = ");
+    writeJsonConst(out, json);
+    out.println(";");
+    out.println();
   }
 }

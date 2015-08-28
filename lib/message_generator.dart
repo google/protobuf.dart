@@ -335,26 +335,34 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
-
   /// Writes a Dart constant containing the JSON for the ProtoDescriptor.
   /// Also writes a separate constant for each nested message,
   /// to avoid duplication.
   void generateConstants(IndentingWriter out) {
     const nestedTypeTag = 3;
+    const enumTypeTag = 4;
     assert(_descriptor.info_.fieldInfo[nestedTypeTag].name == "nestedType");
+    assert(_descriptor.info_.fieldInfo[enumTypeTag].name == "enumType");
 
     var name = getJsonConstant(fileGen);
     var json = _descriptor.writeToJsonMap();
     var nestedTypeNames =
         _messageGenerators.map((m) => m.getJsonConstant(fileGen))
         .toList();
+    var nestedEnumNames =
+        _enumGenerators.map((e) => e.getJsonConstant(fileGen))
+        .toList();
 
     out.addBlock("const $name = const {", "};", () {
       for (var key in json.keys) {
         out.print("'$key': ");
         if (key == "$nestedTypeTag") {
-          // refer to the const by name instead of repeating its value
+          // refer to message constants by name instead of repeating each value
           out.println("const [${nestedTypeNames.join(", ")}],");
+          continue;
+        } else if (key == "$enumTypeTag") {
+          // refer to enum constants by name
+          out.println("const [${nestedEnumNames.join(", ")}],");
           continue;
         }
         writeJsonConst(out, json[key]);
@@ -365,6 +373,10 @@ class MessageGenerator extends ProtobufContainer {
 
     for (var m in _messageGenerators) {
       m.generateConstants(out);
+    }
+    
+    for (var e in _enumGenerators) {
+      e.generateConstants(out);
     }
   }
 }

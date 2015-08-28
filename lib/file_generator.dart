@@ -134,10 +134,6 @@ class FileGenerator extends ProtobufContainer {
       m.generate(out);
     }
 
-    for (MessageGenerator m in messageGenerators) {
-      m.generateConstants(out);
-    }
-
     // Generate code for extensions defined at top-level using a class
     // name derived from the file name.
     if (!extensionGenerators.isEmpty) {
@@ -161,6 +157,15 @@ class FileGenerator extends ProtobufContainer {
     }
     for (ServiceGenerator s in serviceGenerators) {
       s.generate(out);
+    }
+
+    // Put JSON constants at the end of the file.
+
+    for (var e in enumGenerators) {
+      e.generateConstants(out);
+    }
+    for (MessageGenerator m in messageGenerators) {
+      m.generateConstants(out);
     }
     for (ServiceGenerator s in serviceGenerators) {
       s.generateConstants(out);

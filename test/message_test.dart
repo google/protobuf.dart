@@ -238,6 +238,10 @@ repeatedString: qux
     const nestedTypeTag = 3;
     expect(TestAllTypes$json['$nestedTypeTag'][0],
         same(TestAllTypes_NestedMessage$json));
+
+    const enumTypeTag = 4;
+    expect(TestAllTypes$json['$enumTypeTag'][0],
+        same(TestAllTypes_NestedEnum$json));
   });
 
   test('Can read JSON constant into DescriptorProto', () {

@@ -173,6 +173,16 @@ class PhoneType extends ProtobufEnum {
   const PhoneType._(int v, String n) : super(v, n);
 }
 
+const PhoneType$json = const {
+  '1': 'PhoneType',
+  '2': const [
+    const {'1': 'MOBILE', '2': 0},
+    const {'1': 'HOME', '2': 1},
+    const {'1': 'WORK', '2': 2},
+    const {'1': 'BUSINESS', '2': 2},
+  ],
+};
+
 ''';
     FileDescriptorProto fd = buildFileDescriptor(
         phoneNumber: false,
