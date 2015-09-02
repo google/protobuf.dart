@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import "dart:html" show querySelector;
-
 import 'lib/suites/json.dart' show jsonSuite;
-import 'lib/html_view.dart' show runSuiteWithView;
+import 'lib/vm.dart' show runSuiteInVM;
 
-main() async => runSuiteWithView(jsonSuite, querySelector("#report"));
+main() async => runSuiteInVM(jsonSuite);

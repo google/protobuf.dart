@@ -67,12 +67,14 @@ run-tests: build-test-protos
 
 BENCHMARK_PROTOS = $(wildcard benchmark/protos/*.proto)
 
-build-benchmark-protos:
+build-benchmark-protos: $(PLUGIN_PATH)
+	mkdir -p benchmark/lib/generated
 	protoc \
-	  --dart_out=benchmark \
+	  --dart_out=benchmark/lib/generated \
 	  -Ibenchmark/protos \
 	  --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) \
 	  $(BENCHMARK_PROTOS)
 
 clean:
+	rm -r benchmark/lib/generated
 	rm -rf $(OUTPUT_DIR)

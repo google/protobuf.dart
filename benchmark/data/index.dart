@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import "dart:html" show querySelector;
+library protoc.benchmark.data;
 
-import 'lib/suites/json.dart' show jsonSuite;
-import 'lib/html_view.dart' show runSuiteWithView;
-
-main() async => runSuiteWithView(jsonSuite, querySelector("#report"));
+const List<String> allReportNames = const [
+  "skybrian5/0.4.2/json_chrome.pb.json",
+  "skybrian5/0.4.2/json_vm.pb.json"
+];

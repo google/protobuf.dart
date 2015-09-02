@@ -8,4 +8,4 @@ out
 packages
 pubspec.lock
 *.sw?
-benchmark/*.pb.dart
+benchmark/lib/generated
