@@ -4,14 +4,13 @@
 
 library protoc.benchmark.suite;
 
-import "dart:async" show Stream;
 import "benchmark.dart";
 import "benchmarks/int32_json.dart";
 import "benchmarks/repeated_int32_json.dart";
 import 'generated/benchmark.pb.dart' as pb;
 
 /// Runs a benchmark suite, returning progress until done.
-Stream<pb.Report> runSuite(pb.Suite suite) async* {
+Iterable<pb.Report> runSuite(pb.Suite suite) sync* {
 
   // Create a blank report with one response per request.
   var report = new pb.Report()
@@ -39,11 +38,8 @@ Stream<pb.Report> runSuite(pb.Suite suite) async* {
   for (var r in report.responses) {
     var b = createBenchmark(r.request);
 
-    // Send progress showing that we're starting a benchmark.
-    yield progress();
-
     // Run the benchmark the requested number of times.
-    await for (pb.Sample s in b.measure(r.request)) {
+    for (pb.Sample s in b.measure(r.request)) {
       r.samples.add(s);
       sampleCount++;
       yield progress();

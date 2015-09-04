@@ -5,36 +5,62 @@
 library protoc.benchmark.vm;
 
 import 'dart:async' show Future;
-import 'dart:io' show Platform;
+import 'dart:io' show File, Directory, Link, Platform;
 
+import '../data/index.dart'
+    show latestVMReportName, pubspecYamlName, pubspecLockName, hostfileName;
 import 'generated/benchmark.pb.dart' as pb;
-import 'report.dart' show encodeReport;
+import 'report.dart' show createPlatform, createPackages, encodeReport;
 import 'suite.dart' show runSuite;
 
+/// Runs a benchmark suite.
+/// Writes a report to latest_vm.pb.json after every change,
+/// to make progress available to the browser.
+runSuiteInVM(pb.Suite suite) async {
+  var env = await _loadEnv();
 
-/// Runs a benchmark suite and prints a report.
-Future runSuiteInVM(pb.Suite suite) async {
-  var env = _loadEnv();
+  print("Writing progress to benchmark/data/${latestVMReportName}");
+  var outFile = "${dataDir.path}/$latestVMReportName";
+  var tmpFile = new File("$outFile.tmp");
 
-  var last;
-  await for (var report in runSuite(suite)) {
-    last = report;
+  for (var report in runSuite(suite)) {
+    report.env = env;
+    await tmpFile.writeAsString(encodeReport(report));
+    await tmpFile.rename(outFile);
   }
-  last.env = env;
-
-  print("Report data as JSON:\n");
-  print(encodeReport(last));
+  print("Done");
 }
 
-pb.Env _loadEnv() {
-  var platform = new pb.Platform()
+Future<pb.Env> _loadEnv() async {
+  await _ensureDataDir();
+
+  var platform = createPlatform()
     ..hostname = _hostname
     ..osType = _osType
     ..dartVersion = Platform.version;
 
+  var pubspec = await (new File(pubspecYaml.path).readAsString());
+  var lock = await (new File(pubspecLock.path).readAsString());
+
   return new pb.Env()
     ..script = _script
-    ..platform = platform;
+    ..platform = platform
+    ..packages = createPackages(pubspec, lock);
+}
+
+/// Create files and symlinks in the data directory.
+///
+/// This is so they can be accessed in browser benchmarks.
+_ensureDataDir() async {
+  await hostnameFile.writeAsString(_hostname);
+
+  if (!await pubspecYaml.exists()) {
+    await pubspecYaml.create("${pubspecDir.path}/pubspec.yaml");
+  }
+
+  if (!await pubspecLock.exists()) {
+    await pubspecLock.create("${pubspecDir.path}/pubspec.lock");
+  }
 }
 
 String get _script {
@@ -59,3 +85,25 @@ pb.OSType get _osType {
   // What is this?
   throw "unknown OS type";
 }
+
+final File hostnameFile = new File("${dataDir.path}/$hostfileName");
+final Link pubspecYaml = new Link("${dataDir.path}/$pubspecYamlName");
+final Link pubspecLock = new Link("${dataDir.path}/$pubspecLockName");
+
+final Directory dataDir = () {
+  var d = new Directory("${pubspecDir.path}/benchmark/data");
+  if (!d.existsSync()) {
+    throw "data dir doesn't exist at ${d.path}";
+  }
+  return d;
+}();
+
+/// Returns the drectory containing the pubspec.yaml file.
+final Directory pubspecDir = () {
+  for (var d = Directory.current; d.parent != d; d = d.parent) {
+    if (new File("${d.path}/pubspec.yaml").existsSync()) {
+      return d;
+    }
+  }
+  throw "can't find pubspec.yaml above ${Directory.current}";
+}();

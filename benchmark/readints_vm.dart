@@ -5,4 +5,4 @@
 import 'lib/suites/json.dart' show jsonSuite;
 import 'lib/vm.dart' show runSuiteInVM;
 
-main() async => runSuiteInVM(jsonSuite);
+main() => runSuiteInVM(jsonSuite);

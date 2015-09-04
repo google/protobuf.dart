@@ -53,7 +53,7 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
 
-.PHONY: build-plugin update-pregenerated build-test-protos run-tests clean
+.PHONY: build-plugin build-benchmark-protos update-pregenerated build-test-protos run-tests clean
 
 build-plugin: $(PLUGIN_PATH)
 

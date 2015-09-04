@@ -63,16 +63,21 @@ enum Status {
 
 // An Env describes the environment in which the benchmark ran.
 message Env {
-  // The script that was run, relative to "benchmarks" directory.
+  // The script that was run, relative to "benchmarks" directory (VM only).
   optional string script = 1;
+
+  // The path to the HTML page. (Browser tests only.)
+  optional string page = 2;
+
   // The platform the benchmark was run on.
-  optional Platform platform = 2;
+  optional Platform platform = 10;
   // The Dart package versions being exercised.
-  optional Packages packages = 3;
+  optional Packages packages = 11;
 }
 
 // A Platform describes the hardware, OS, and perhaps browser.
 message Platform {
+
   // values we can get from dart:io Platform
   optional string hostname = 1;
   optional OSType os_type = 2;
@@ -80,7 +85,10 @@ message Platform {
 
   // values we can get from dart:html Navigator
   optional string user_agent = 10;
-  // TODO: more
+
+  // values we can get on any platform
+  optional bool checked_mode = 20;
+  optional bool dart_VM = 21;
 }
 
 enum OSType {

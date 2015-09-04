@@ -4,8 +4,6 @@
 
 library protoc.benchmark;
 
-import "dart:async" show Future, Stream, StreamController, Timer;
-
 import 'generated/benchmark.pb.dart' as pb;
 
 typedef Benchmark CreateBenchmarkFunc(pb.Request request);
@@ -39,9 +37,11 @@ abstract class Benchmark {
 
   /// Runs a benchmark for the requested number of times.
   ///
-  /// Each benchmark run happens in its own Timer task.
-  /// Returns one sample for each run and closes the stream when done.
-  Stream<pb.Sample> measure(pb.Request r) async* {
+  /// The length of each iterator is the number of samples
+  /// requested. If you create more than one iterator, each
+  /// iterator runs benchmarks independently and will return
+  /// different samples.
+  Iterable<pb.Sample> measure(pb.Request r) sync* {
     if (r.id != id) {
       throw new ArgumentError("invalid benchmark id: ${r.id}");
     }
@@ -53,15 +53,8 @@ abstract class Benchmark {
     int samples = r.samples;
     setup();
 
-    // Start a new task for taking the first sample.
-    await new Future(() => null);
-
     for (int i = 0; i < samples; i++) {
       yield _measureOnce(sampleMillis);
-
-      // Start a new task for taking the next sample.
-      // (This allows the display to update.)
-      await new Future(() => null);
     }
     teardown();
   }

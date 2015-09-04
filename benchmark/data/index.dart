@@ -4,7 +4,16 @@
 
 library protoc.benchmark.data;
 
-const List<String> allReportNames = const [
+const String latestVMReportName = "latest_vm.pb.json";
+
+// Symbolic links to make these files available in a browser.
+const String pubspecYamlName = "pubspec.link.yaml";
+const String pubspecLockName = "pubspec.link.lock";
+
+const String hostfileName = "hostname.txt";
+
+List<String> allReportNames = const [
+  latestVMReportName,
   "skybrian5/0.4.2/json_chrome.pb.json",
   "skybrian5/0.4.2/json_vm.pb.json"
 ];
