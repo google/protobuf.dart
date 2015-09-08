@@ -5,6 +5,6 @@
 import "dart:html" show querySelector;
 
 import 'lib/suites/json.dart' show jsonSuite;
-import 'lib/html_view.dart' show runSuiteWithView;
+import 'lib/dashboard.dart' show showDashboard;
 
-main() async => runSuiteWithView(jsonSuite, querySelector("#report"));
+main() => showDashboard(jsonSuite, querySelector("#dashboard"));

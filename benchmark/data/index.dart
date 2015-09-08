@@ -15,5 +15,7 @@ const String hostfileName = "hostname.txt";
 List<String> allReportNames = const [
   latestVMReportName,
   "skybrian5/0.4.2/json_chrome.pb.json",
-  "skybrian5/0.4.2/json_vm.pb.json"
+  "skybrian5/0.4.2/json_vm.pb.json",
+  "skybrian-macbookpro/0.4.2/json_chrome.pb.json",
+  "skybrian-macbookpro/0.4.2/json_vm.pb.json",
 ];

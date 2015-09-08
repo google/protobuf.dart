@@ -34,21 +34,29 @@ Iterable<pb.Report> runSuite(pb.Suite suite) sync* {
   // Send first progress message before starting.
   yield progress();
 
-  // Fill in each response.
+  var benchmarks = <Benchmark>[];
   for (var r in report.responses) {
-    var b = createBenchmark(r.request);
+    benchmarks.add(createBenchmark(r.request));
+  }
 
-    // Run the benchmark the requested number of times.
-    for (pb.Sample s in b.measure(r.request)) {
-      r.samples.add(s);
-      sampleCount++;
-      yield progress();
+  // Collect the requested number of samples.
+  while (sampleCount < totalSamples) {
+    for (var i = 0; i < benchmarks.length; i++) {
+      var b = benchmarks[i];
+      var r = report.responses[i];
+      if (r.samples.length == r.request.samples) continue;
 
-      // Also send progress to the console.
-      int usecsPerLoop = s.duration ~/ s.loopCount;
-      int kIntReadsPerSecond = s.counts.int32Reads * 1000 ~/ s.duration;
-      print("${b.summary} time: $usecsPerLoop us,"
-          " throughput: ${kIntReadsPerSecond}k int32 reads/sec");
+      for (pb.Sample s in b.measure(r.request, 1)) {
+        r.samples.add(s);
+        sampleCount++;
+        yield progress();
+
+        // Also send progress to the console.
+        int usecsPerLoop = s.duration ~/ s.loopCount;
+        int kIntReadsPerSecond = s.counts.int32Reads * 1000 ~/ s.duration;
+        print("${b.summary} time: $usecsPerLoop us,"
+            " throughput: ${kIntReadsPerSecond}k int32 reads/sec");
+      }
     }
   }
 

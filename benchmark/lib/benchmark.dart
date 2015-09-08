@@ -26,7 +26,8 @@ abstract class Benchmark {
   String get summary => id.name;
 
   pb.Request makeRequest(
-          [Duration duration = const Duration(seconds: 1), int samples = 3]) =>
+          [Duration duration = const Duration(milliseconds: 50),
+          int samples = 20]) =>
       new pb.Request()
         ..id = id
         ..params = makeParams()
@@ -41,7 +42,7 @@ abstract class Benchmark {
   /// requested. If you create more than one iterator, each
   /// iterator runs benchmarks independently and will return
   /// different samples.
-  Iterable<pb.Sample> measure(pb.Request r) sync* {
+  Iterable<pb.Sample> measure(pb.Request r, int samples) sync* {
     if (r.id != id) {
       throw new ArgumentError("invalid benchmark id: ${r.id}");
     }
@@ -50,7 +51,6 @@ abstract class Benchmark {
     }
 
     int sampleMillis = r.duration;
-    int samples = r.samples;
     setup();
 
     for (int i = 0; i < samples; i++) {

@@ -12,20 +12,14 @@ final jsonSuite = () {
   var suite = new Suite();
   suite.requests.addAll([
     _newRequest(1, 100),
+    _newRequest(2, 100),
     _newRequest(10, 100),
+    _newRequest(10, 200),
     _newRepeatedRequest(1, 100),
+    _newRepeatedRequest(2, 100),
     _newRepeatedRequest(10, 100),
+    _newRepeatedRequest(10, 200),
   ]);
-
-  // Growth in width (more ints in each repeated field)
-  for (var i = 10; i <= 50; i += 10) {
-    suite.requests.add(_newRepeatedRequest(i, 100, once: true));
-  }
-
-  // Growth in height (more messagse)
-  for (var i = 100; i <= 500; i += 100) {
-    suite.requests.add(_newRepeatedRequest(10, i, once: true));
-  }
 
   return suite;
 }();
@@ -33,6 +27,5 @@ final jsonSuite = () {
 _newRequest(int width, int height) =>
     new Int32Benchmark(width, height).makeRequest();
 
-_newRepeatedRequest(int width, int height, {bool once: false}) =>
-    new RepeatedInt32Benchmark(width, height)
-        .makeRequest(new Duration(milliseconds: 200), once ? 1 : 3);
+_newRepeatedRequest(int width, int height) =>
+    new RepeatedInt32Benchmark(width, height).makeRequest();
