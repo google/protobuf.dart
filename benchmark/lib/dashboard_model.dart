@@ -6,6 +6,8 @@ library protoc.benchmark.dashboard_model;
 
 import 'generated/benchmark.pb.dart' as pb;
 
+import 'report.dart' show medianSample;
+
 /// Contains the viewable state of the dashboard. (Immutable.)
 class DashboardModel {
   final Map<String, pb.Report> savedReports;
@@ -46,30 +48,3 @@ class BaselineSamples {
   String _key(pb.Request request) =>
     request.id.name + "-" + request.params.toString();
 }
-
-/// Returns the sample with the median ints reads per second.
-pb.Sample medianSample(pb.Response response) {
-  if (response.samples.isEmpty) return null;
-  var samples = []..addAll(response.samples);
-  samples.sort((a, b) {
-    return intReadsPerSecond(a).compareTo(intReadsPerSecond(b));
-  });
-  int index = samples.length ~/ 2;
-  print("length: ${samples.length} index: $index");
-  return samples[index];
-}
-
-/// Returns the sample with the best int reads per second.
-pb.Sample maxSample(pb.Response response) {
-  pb.Sample best;
-  for (var s in response.samples) {
-    if (best == null) best = s;
-    if (intReadsPerSecond(best) < intReadsPerSecond(s)) {
-      best = s;
-    }
-  }
-  return best;
-}
-
-double intReadsPerSecond(pb.Sample s) =>
-  s.counts.int32Reads * 1000000 / s.duration;

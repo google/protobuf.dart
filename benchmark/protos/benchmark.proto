@@ -112,6 +112,7 @@ message PackageVersion {
   optional string name = 1;
   optional string source = 2;
   optional string version = 3;
+  optional string path = 4; // if set, this is a path dependency
 }
 
 // The result of running one Request.

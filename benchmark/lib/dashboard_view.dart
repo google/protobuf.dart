@@ -9,51 +9,61 @@ import 'dart:html';
 
 import 'generated/benchmark.pb.dart' as pb;
 import 'dashboard_model.dart';
-import 'report.dart' show encodeReport;
+import 'report.dart' show encodeReport, medianSample, maxSample;
 
 /// A dashboard allowing the user to run a benchmark suite and compare the
 /// results to any saved report.
 class DashboardView {
-  final elt = new DivElement();
+  static final _template = new DivElement()..innerHtml = '''
+<div>
+  <button class="dv-run"></button>
+  <span class="dv-status"></span>
+</div>
+<pre class="dv-env"></pre>
+Choose baseline: <select class="dv-menu"></select>
+<table class="dv-table">
+<tr>
+  <th>Benchmark</th>
+  <th>Params</th>
+  <th colspan=4>1000 * int32 reads / second</th>
+</tr>
+<tr>
+  <th></th>
+  <th></th>
+  <th>Baseline</th>
+  <th>Median</th>
+  <th>Max</th>
+  <th>Count</th>
+<tr>
+</table>
+<div class="dv-json"></div>
+''';
 
-  final _runButton = new _Button();
-  final _status = new _Label(new SpanElement()..style.height = "1em");
-  final _envElt = new PreElement();
-  final _menu = new _Menu();
-  final _responseTable = new TableElement();
-  final _jsonView = new _JsonView();
+  final DivElement elt;
+
+  final _Button _runButton;
+  final _Label _status;
+  final PreElement _envElt;
+  final _Menu _menu;
+  final TableElement _responseTable;
+  final _JsonView _jsonView;
 
   String _renderedPlatform;
   final rows = <_ResponseView>[];
 
-  DashboardView() {
-    // Fill in "template" elements that never change.
-    elt.children.addAll([
-      new DivElement()
-        ..children.addAll([_runButton.elt, new Text(" "), _status.elt,]),
-      _envElt,
-      new Text("Choose baseline: "),
-      _menu.elt,
-      _responseTable
-        ..children.addAll([
-          new TableRowElement()
-            ..children.addAll([
-              _th("Benchmark"),
-              _th("Params"),
-              _th("1000 * int32 reads / second")..colSpan = 4
-            ]),
-          new TableRowElement()
-            ..children.addAll([
-              _th(""),
-              _th(""),
-              _thRight("Baseline"),
-              _thRight("Median"),
-              _thRight("Max"),
-              _thRight("Count")
-            ])
-        ]),
-      _jsonView.elt
-    ]);
+  DashboardView._raw(this.elt, this._runButton, this._status, this._envElt,
+    this._menu, this._responseTable, this._jsonView);
+
+  factory DashboardView() {
+    var elt = _template.clone(true);
+    find(String q) => elt.querySelector(q);
+    button(q) => new _Button(find(q));
+    label(q) => new _Label(find(q));
+    menu(q) => new _Menu(find(q));
+    json(q) => new _JsonView(find(q));
+    return new DashboardView._raw(elt,
+      button('.dv-run'), label('.dv-status'), find('.dv-env'),
+      menu('.dv-menu'), find('.dv-table'), json('.dv-json'));
   }
 
   Stream get onRunButtonClick => _runButton.onClick;
@@ -68,7 +78,7 @@ class DashboardView {
     }
 
     _renderEnv(model.latest);
-    _menu.render(model.savedReports.keys, model.baselineName);
+    _menu.render(model.savedReports.keys.toList(), model.baselineName);
     _renderResponses(model.getBaselineSamples(), model.latest);
     _jsonView.render(model.latest);
   }
@@ -100,14 +110,6 @@ class DashboardView {
       rows.add(row);
     }
   }
-
-  static _th(String columnName) => new Element.th()
-    ..style.textAlign = "left"
-    ..text = columnName;
-
-  static _thRight(String columnName) => new Element.th()
-    ..style.textAlign = "right"
-    ..text = columnName;
 }
 
 /// A single row in the benchmark table.
@@ -164,8 +166,9 @@ class _SampleView {
 
 /// Renders the benchmark report as JSON so it can be copied to a file.
 class _JsonView {
-  final DivElement elt = new DivElement();
+  final DivElement elt;
   String _rendered;
+  _JsonView(this.elt);
 
   void render(pb.Report r) {
     // Don't show JSON while benchmarks are in progress.
@@ -188,11 +191,11 @@ class _JsonView {
 
 /// A menu of selectable text items.
 class _Menu {
-  final elt = new SelectElement();
+  final SelectElement elt;
   final _changes = new StreamController.broadcast();
   final _options = new List<_MenuOption>();
 
-  _Menu() {
+  _Menu(this.elt) {
     elt.onChange.listen((e) => _changes.add(elt.value));
   }
 
@@ -249,11 +252,11 @@ class _Label {
 }
 
 class _Button {
-  final elt = new ButtonElement();
+  final ButtonElement elt;
   final _clicks = new StreamController.broadcast();
   String _renderedLabel;
   bool _renderedEnabled;
-  _Button() {
+  _Button(this.elt) {
     elt.onClick.listen((e) => _clicks.add(true));
   }
 

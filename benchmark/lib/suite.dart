@@ -10,7 +10,11 @@ import "benchmarks/repeated_int32_json.dart";
 import 'generated/benchmark.pb.dart' as pb;
 
 /// Runs a benchmark suite, returning progress until done.
-Iterable<pb.Report> runSuite(pb.Suite suite) sync* {
+///
+/// [samplesPerBatch] is the number of times a benchmark will be run
+/// before going on to the next one. They will be executed round-robin
+/// until they're all done.
+Iterable<pb.Report> runSuite(pb.Suite suite, {samplesPerBatch: 1}) sync* {
 
   // Create a blank report with one response per request.
   var report = new pb.Report()
@@ -44,18 +48,13 @@ Iterable<pb.Report> runSuite(pb.Suite suite) sync* {
     for (var i = 0; i < benchmarks.length; i++) {
       var b = benchmarks[i];
       var r = report.responses[i];
-      if (r.samples.length == r.request.samples) continue;
-
-      for (pb.Sample s in b.measure(r.request, 1)) {
+      int batchSize = r.request.samples - r.samples.length;
+      if (batchSize == 0) continue;
+      if (batchSize > samplesPerBatch) batchSize = samplesPerBatch;
+      for (pb.Sample s in b.measure(r.request, batchSize)) {
         r.samples.add(s);
         sampleCount++;
         yield progress();
-
-        // Also send progress to the console.
-        int usecsPerLoop = s.duration ~/ s.loopCount;
-        int kIntReadsPerSecond = s.counts.int32Reads * 1000 ~/ s.duration;
-        print("${b.summary} time: $usecsPerLoop us,"
-            " throughput: ${kIntReadsPerSecond}k int32 reads/sec");
       }
     }
   }

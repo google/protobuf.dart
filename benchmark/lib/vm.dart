@@ -5,12 +5,18 @@
 library protoc.benchmark.vm;
 
 import 'dart:async' show Future;
-import 'dart:io' show File, Directory, Link, Platform;
+import 'dart:io' show File, Directory, Link, Platform, stdout;
 
 import '../data/index.dart'
     show latestVMReportName, pubspecYamlName, pubspecLockName, hostfileName;
 import 'generated/benchmark.pb.dart' as pb;
-import 'report.dart' show createPlatform, createPackages, encodeReport;
+import 'report.dart'
+    show
+        createPlatform,
+        createPackages,
+        encodeReport,
+        findUpdatedResponse,
+        summarizeResponse;
 import 'suite.dart' show runSuite;
 
 /// Runs a benchmark suite.
@@ -19,16 +25,40 @@ import 'suite.dart' show runSuite;
 runSuiteInVM(pb.Suite suite) async {
   var env = await _loadEnv();
 
-  print("Writing progress to benchmark/data/${latestVMReportName}");
+  var lastReport;
+  var lastUpdate;
+  for (var report in runSuite(suite, samplesPerBatch: 10)) {
+    report.env = env;
+
+    // show progress
+    var update = findUpdatedResponse(lastReport, report);
+    if (update != null) {
+      var summary = summarizeResponse(update);
+      if (lastUpdate == null || update.request != lastUpdate.request) {
+        stdout.write("\n$summary");
+      } else {
+        overwrite(summary);
+      }
+    }
+
+    lastReport = report;
+    lastUpdate = update;
+  }
+
+  // save the report to a file
   var outFile = "${dataDir.path}/$latestVMReportName";
   var tmpFile = new File("$outFile.tmp");
+  await tmpFile.writeAsString(encodeReport(lastReport));
+  await tmpFile.rename(outFile);
+  print("\nWrote result to benchmark/data/${latestVMReportName}");
+}
 
-  for (var report in runSuite(suite)) {
-    report.env = env;
-    await tmpFile.writeAsString(encodeReport(report));
-    await tmpFile.rename(outFile);
-  }
-  print("Done");
+final _escapeChar = new String.fromCharCode(27);
+final _clearLine = "\r$_escapeChar[2K";
+
+/// Overwrite the last line printed to the terminal.
+void overwrite(String line) {
+    stdout.write("$_clearLine$line");
 }
 
 Future<pb.Env> _loadEnv() async {
