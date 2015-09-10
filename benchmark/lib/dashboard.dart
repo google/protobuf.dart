@@ -6,11 +6,14 @@ library protoc.benchmark.html_runner;
 
 import 'dart:async' show Future;
 import 'dart:html';
+import 'dart:js' show context, JsObject;
 
 import 'generated/benchmark.pb.dart' as pb;
+
+import 'benchmark.dart' show Profiler;
 import 'dashboard_model.dart' show DashboardModel;
 import 'dashboard_view.dart' show DashboardView;
-import 'report.dart' show createPlatform, createPackages, encodeReport;
+import 'report.dart' show createPlatform, createPackages, encodeReport, intReadsPerSecond;
 import 'suite.dart' show runSuite;
 
 import '../data/index.dart' as data;
@@ -30,23 +33,31 @@ Future showDashboard(pb.Suite suite, Element container) async {
 
   var view = new DashboardView();
 
-  // set up event handlers
+  Future render(pb.Report report) async {
+    report.env = env;
+    model = model.withReport(report);
+    await window.animationFrame;
+    view.render(model);
+    await new Future(() => null); // exit to regular timer task
+  }
+
+  // Set up the main loop that runs the suite.
 
   bool running = false;
   void runBenchmarks() {
     if (running) return;
+    var profiler = new JsProfiler();
     running = true;
     () async {
-      for (pb.Report report in runSuite(suite)) {
-        report.env = env;
-        model = model.withReport(report);
-        await window.animationFrame;
-        view.render(model);
-        await new Future(() => null); // exit to regular timer task
+      for (pb.Report report in runSuite(suite, profiler: profiler)) {
+        await render(report);
       }
+    }().whenComplete(() {
       running = false;
-    }();
+    });
   }
+
+  // set up event handlers
 
   view.onRunButtonClick.listen((_) => runBenchmarks());
 
@@ -60,6 +71,25 @@ Future showDashboard(pb.Suite suite, Element container) async {
   view.render(model);
   container.children.clear();
   container.append(view.elt);
+}
+
+/// Starts and stops the DevTools profiler.
+class JsProfiler implements Profiler {
+  static JsObject console = context["console"];
+
+  int count = 1;
+
+  startProfile(pb.Request request) {
+    var label = "$count-${request.id.name}";
+    count++;
+    console.callMethod("profile", [label]);
+  }
+
+  endProfile(pb.Sample s) {
+    console.callMethod("profileEnd");
+    var kReads = (intReadsPerSecond(s)/1000.0).toStringAsFixed(1);
+    print("profile: ${kReads}k int reads/s");
+  }
 }
 
 Future<pb.Env> loadBrowserEnv() async {

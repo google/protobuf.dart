@@ -14,7 +14,9 @@ import 'generated/benchmark.pb.dart' as pb;
 /// [samplesPerBatch] is the number of times a benchmark will be run
 /// before going on to the next one. They will be executed round-robin
 /// until they're all done.
-Iterable<pb.Report> runSuite(pb.Suite suite, {samplesPerBatch: 1}) sync* {
+/// [profiler] if supplied, each request will be profiled once.
+Iterable<pb.Report> runSuite(pb.Suite suite,
+  {samplesPerBatch: 1, Profiler profiler}) sync* {
 
   // Create a blank report with one response per request.
   var report = new pb.Report()
@@ -51,7 +53,8 @@ Iterable<pb.Report> runSuite(pb.Suite suite, {samplesPerBatch: 1}) sync* {
       int batchSize = r.request.samples - r.samples.length;
       if (batchSize == 0) continue;
       if (batchSize > samplesPerBatch) batchSize = samplesPerBatch;
-      for (pb.Sample s in b.measure(r.request, batchSize)) {
+      var p = r.samples.isEmpty ? profiler : null;
+      for (pb.Sample s in b.measure(r.request, batchSize, profiler: p)) {
         r.samples.add(s);
         sampleCount++;
         yield progress();

@@ -15,6 +15,11 @@ class BenchmarkType {
   const BenchmarkType(this.id, this.create);
 }
 
+abstract class Profiler {
+  void startProfile(pb.Request request);
+  void endProfile(pb.Sample s);
+}
+
 /// A benchmark that also reports the counts for various operations.
 /// (A modification of BenchmarkBase from the benchmark_harness library.)
 abstract class Benchmark {
@@ -38,11 +43,14 @@ abstract class Benchmark {
 
   /// Runs a benchmark for the requested number of times.
   ///
-  /// The length of each iterator is the number of samples
+  /// The length of each iterator is the number of [samples]
   /// requested. If you create more than one iterator, each
   /// iterator runs benchmarks independently and will return
   /// different samples.
-  Iterable<pb.Sample> measure(pb.Request r, int samples) sync* {
+  ///
+  /// If a [profiler] is provided, it will be used for one extra sample.
+  /// (Not included in results.)
+  Iterable<pb.Sample> measure(pb.Request r, int samples, {Profiler profiler}) sync* {
     if (r.id != id) {
       throw new ArgumentError("invalid benchmark id: ${r.id}");
     }
@@ -56,6 +64,13 @@ abstract class Benchmark {
     for (int i = 0; i < samples; i++) {
       yield _measureOnce(sampleMillis);
     }
+
+    if (profiler != null) {
+      profiler.startProfile(r);
+      var s = _measureOnce(sampleMillis);
+      profiler.endProfile(s);
+    }
+
     teardown();
   }
 

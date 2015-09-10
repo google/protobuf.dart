@@ -53,7 +53,8 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
 
-.PHONY: build-plugin build-benchmark-protos update-pregenerated build-test-protos run-tests clean
+.PHONY: build-plugin build-benchmark-protos build-benchmarks \
+	update-pregenerated build-test-protos run-tests clean
 
 build-plugin: $(PLUGIN_PATH)
 
@@ -74,6 +75,9 @@ build-benchmark-protos: $(PLUGIN_PATH)
 	  -Ibenchmark/protos \
 	  --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) \
 	  $(BENCHMARK_PROTOS)
+
+build-benchmarks: build-benchmark-protos
+		dart2js benchmark/readints.dart --out=benchmark/readints.dart.js --dump-info
 
 clean:
 	rm -r benchmark/lib/generated
