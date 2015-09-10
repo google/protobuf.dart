@@ -17,6 +17,9 @@ class UnknownFieldSet {
 
    UnknownFieldSet clone() => new UnknownFieldSet._clone(this);
 
+   bool get isEmpty => _fields.isEmpty;
+   bool get isNotEmpty => _fields.isNotEmpty;
+
    Map<int, UnknownFieldSetField> asMap() => new Map.from(_fields);
 
   void clear() {

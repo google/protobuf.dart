@@ -47,4 +47,5 @@ const List<String> GeneratedMessage_reservedNames = const [
   'Object',
   'eventPlugin',
   'createRepeatedField',
+  'unknownFields'
 ];

@@ -95,8 +95,18 @@ abstract class GeneratedMessage {
   static Int64 MIN_JSON_INT = -MAX_JSON_INT;
 
   final Map<int, dynamic> _fieldValues = new Map<int, dynamic>();
-  final Map<int, Extension> _extensions = new Map<int, Extension>();
-  final UnknownFieldSet unknownFields = new UnknownFieldSet();
+
+  Map<int, Extension> __extensions;
+  Map<int, Extension> get _extensions {
+    if (__extensions == null) __extensions = new Map<int, Extension>();
+    return __extensions;
+  }
+
+  UnknownFieldSet _unknownFields;
+  UnknownFieldSet get unknownFields {
+    if (_unknownFields == null) _unknownFields = new UnknownFieldSet();
+    return _unknownFields;
+  }
 
   GeneratedMessage() {
     if (eventPlugin != null) eventPlugin.attach(this);
@@ -141,7 +151,9 @@ abstract class GeneratedMessage {
   /// After calling [clear], [getField] will still return default values for
   /// unset fields.
   void clear() {
-    unknownFields.clear();
+    if (_unknownFields != null) {
+      _unknownFields.clear();
+    }
 
     if (_hasObservers) {
       for (int key in _fieldValues.keys) {
@@ -161,7 +173,14 @@ abstract class GeneratedMessage {
     GeneratedMessage o = other;
     if (o.info_ != info_) return false;
     if (!_areMapsEqual(o._fieldValues, _fieldValues)) return false;
-    if (o.unknownFields != unknownFields) return false;
+    if (_unknownFields == null || _unknownFields.isEmpty) {
+      // Check if other unknown fields is logically empty.
+      // (Don't create it unnecessarily.)
+      if (o._unknownFields != null && o._unknownFields.isNotEmpty) return false;
+    } else {
+      // Check if the other unknown fields has the same fields.
+      if (_unknownFields != o._unknownFields) return false;
+    }
 
     return true;
   }
