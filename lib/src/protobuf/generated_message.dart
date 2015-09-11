@@ -598,8 +598,9 @@ abstract class GeneratedMessage {
 
     // Extract a value from its JSON representation.
 
-    for (int tagNumber in sorted(json.keys.map(int.parse))) {
-      var fieldValue = json[tagNumber.toString()];
+    for (String key in json.keys) {
+      int tagNumber = int.parse(key);
+      var fieldValue = json[key];
 
       var fi = info_.fieldInfo[tagNumber];
       if (fi == null) {
