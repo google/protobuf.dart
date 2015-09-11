@@ -94,11 +94,11 @@ abstract class GeneratedMessage {
   static Int64 MAX_JSON_INT = new Int64.fromInts(0x200000, 0);
   static Int64 MIN_JSON_INT = -MAX_JSON_INT;
 
-  final Map<int, dynamic> _fieldValues = new Map<int, dynamic>();
+  final Map<int, dynamic> _fieldValues = new HashMap<int, dynamic>();
 
   Map<int, Extension> __extensions;
   Map<int, Extension> get _extensions {
-    if (__extensions == null) __extensions = new Map<int, Extension>();
+    if (__extensions == null) __extensions = new HashMap<int, Extension>();
     return __extensions;
   }
 
