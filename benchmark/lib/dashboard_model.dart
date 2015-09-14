@@ -25,6 +25,9 @@ class DashboardModel {
   DashboardModel withReport(pb.Report right) =>
       new DashboardModel(savedReports, table, right);
 
+  DashboardModel withTable(Table table) =>
+      new DashboardModel(savedReports, table, latest);
+
   /// Returns true if the Run button should be enabled.
   bool get canRun => !latest.hasStatus() || latest.status != pb.Status.RUNNING;
 }
@@ -33,10 +36,15 @@ class DashboardModel {
 class Table {
   final pb.Suite suite;
   final String baseline;
+  final pb.Report report;
+  final Set<pb.Request> selections;
   final rows = <Row>[];
 
-  Table(this.suite, [this.baseline, List<pb.Response> responses = const []]) {
-    var it = responses.iterator;
+  factory Table(pb.Suite suite) =>
+    new Table._raw(suite, null, null, new Set<pb.Request>.from(suite.requests));
+
+  Table._raw(this.suite, this.baseline, this.report, this.selections) {
+    var it = report == null ? [].iterator : report.responses.iterator;
     for (var r in suite.requests) {
       var b = createBenchmark(r);
       pb.Sample baseline;
@@ -44,12 +52,31 @@ class Table {
         b.checkRequest(it.current.request);
         baseline = b.medianSample(it.current);
       }
-      rows.add(new Row(r, b, baseline));
+      rows.add(new Row(r, b, baseline, selected: this.selections.contains(r)));
     }
   }
 
-  Table withBaseline(String baseline, pb.Report baselineReport) =>
-      new Table(suite, baseline, baselineReport.responses);
+  Table withBaseline(String baseline, pb.Report report) =>
+      new Table._raw(suite, baseline, report, selections);
+
+  Table withAllSelected() {
+    return new Table._raw(suite, baseline, report,
+      new Set<pb.Request>.from(suite.requests));
+  }
+
+  Table withNoneSelected() {
+    return new Table._raw(suite, baseline, report, new Set<pb.Request>());
+  }
+
+  Table withSelection(pb.Request request, bool selected) {
+    var s = new Set<pb.Request>.from(selections);
+    if (selected) {
+      s.add(request);
+    } else {
+      s.remove(request);
+    }
+    return new Table._raw(suite, baseline, report, s);
+  }
 }
 
 /// The parts of a row in the benchmark results table that don't change often.
@@ -57,5 +84,22 @@ class Row {
   final pb.Request request;
   final Benchmark benchmark;
   final pb.Sample baseline;
-  Row(this.request, this.benchmark, this.baseline);
+  final bool selected;
+  Row(this.request, this.benchmark, this.baseline, {this.selected: true});
+
+  /// Returns the response that should be displayed in this row.
+  pb.Response findResponse(pb.Report r) {
+    for (var candidate in r.responses) {
+      if (candidate.request == request) return candidate;
+    }
+    return null;
+  }
+}
+
+// Indicates that the given item was added or removed from a selection.
+class SelectEvent<T> {
+  final bool selected;
+  final T item;
+  SelectEvent(this.selected, [this.item]);
+  toString() => "SelectEvent($selected, $item)";
 }

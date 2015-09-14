@@ -17,11 +17,11 @@ import 'generated/benchmark.pb.dart' as pb;
 /// before going on to the next one. They will be executed round-robin
 /// until they're all done.
 /// [profiler] if supplied, each request will be profiled once.
-Iterable<pb.Report> runSuite(pb.Suite suite,
+Iterable<pb.Report> runSuite(List<pb.Request> requests,
     {samplesPerBatch: 1, Profiler profiler}) sync* {
   // Create a blank report with one response per request.
   var report = new pb.Report()..status = pb.Status.RUNNING;
-  for (var request in suite.requests) {
+  for (var request in requests) {
     var r = new pb.Response()..request = request;
     report.responses.add(r);
   }
@@ -29,7 +29,7 @@ Iterable<pb.Report> runSuite(pb.Suite suite,
   // Set up progress reports.
   int sampleCount = 0;
   int totalSamples = 0;
-  for (var request in suite.requests) {
+  for (var request in requests) {
     totalSamples += request.samples;
   }
   pb.Report progress() {

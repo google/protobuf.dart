@@ -22,7 +22,7 @@ runSuiteInVM(pb.Suite suite) async {
 
   pb.Report lastReport;
   pb.Response lastUpdate;
-  for (var report in runSuite(suite, samplesPerBatch: 10)) {
+  for (var report in runSuite(suite.requests, samplesPerBatch: 10)) {
     report.env = env;
 
     // show progress

@@ -4,7 +4,7 @@
 
 library protoc.benchmark.html_view;
 
-import 'dart:async' show Stream, StreamController;
+import 'dart:async' show Stream, StreamController, EventSink;
 import 'dart:html';
 
 import 'generated/benchmark.pb.dart' as pb;
@@ -14,20 +14,26 @@ import 'report.dart' show encodeReport;
 /// A dashboard allowing the user to run a benchmark suite and compare the
 /// results to any saved report.
 class DashboardView {
-  static final _template = new DivElement()..innerHtml = '''
+  static const noBaseline = "<none>";
+
+  static final _template = new DivElement()
+    ..innerHtml = '''
 <div>
   <button class="dv-run"></button>
+  <button class="dv-select-all"></button>
+  <button class="dv-select-none"></button>
   <span class="dv-status"></span>
 </div>
 <pre class="dv-env"></pre>
 Choose baseline: <select class="dv-menu"></select>
 <table class="dv-table">
 <tr>
+  <th></th>
   <th>Benchmark</th>
   <th colspan=5>Samples</th>
 </tr>
 <tr>
-  <th></th>
+  <th colspan=2></th>
   <th>Baseline</th>
   <th>Median</th>
   <th>Max</th>
@@ -41,6 +47,8 @@ Choose baseline: <select class="dv-menu"></select>
   final DivElement elt;
 
   final _Button _runButton;
+  final _Button _selectAllButton;
+  final _Button _selectNoneButton;
   final _Label _status;
   final PreElement _envElt;
   final _Menu _menu;
@@ -50,26 +58,53 @@ Choose baseline: <select class="dv-menu"></select>
   String _renderedPlatform;
   final rowViews = <_ResponseView>[];
 
-  DashboardView._raw(this.elt, this._runButton, this._status, this._envElt,
-    this._menu, this._responseTable, this._jsonView);
+  final _selectionChanges =
+      new StreamController<SelectEvent<pb.Request>>.broadcast();
+
+  DashboardView._raw(
+      this.elt,
+      this._runButton,
+      this._selectAllButton,
+      this._selectNoneButton,
+      this._status,
+      this._envElt,
+      this._menu,
+      this._responseTable,
+      this._jsonView);
 
   factory DashboardView() {
     var elt = _template.clone(true);
     find(String q) => elt.querySelector(q);
-    button(q) => new _Button(find(q));
+    _Button button(q) => new _Button(find(q));
     label(q) => new _Label(find(q));
     menu(q) => new _Menu(find(q));
     json(q) => new _JsonView(find(q));
-    return new DashboardView._raw(elt,
-      button('.dv-run'), label('.dv-status'), find('.dv-env'),
-      menu('.dv-menu'), find('.dv-table'), json('.dv-json'));
+    return new DashboardView._raw(
+        elt,
+        button('.dv-run')
+          ..elt.style.color = "#FFFFFF"
+          ..elt.style.backgroundColor = "rgb(209, 72, 64)",
+        button('.dv-select-all'),
+        button('.dv-select-none'),
+        label('.dv-status'),
+        find('.dv-env'),
+        menu('.dv-menu'),
+        find('.dv-table'),
+        json('.dv-json'));
   }
 
   Stream get onRunButtonClick => _runButton.onClick;
-  Stream<String> get onMenuChange => _menu.onChange;
+  Stream get onSelectAllClick => _selectAllButton.onClick;
+  Stream get onSelectNoneClick => _selectNoneButton.onClick;
+  Stream<String> get onMenuChange =>
+    _menu.onChange.map((item) => item == noBaseline ? null : item);
+  Stream<SelectEvent<pb.Request>> get onSelectionChange =>
+      _selectionChanges.stream;
 
   void render(DashboardModel model) {
     _runButton.render("Run", model.canRun);
+    _selectAllButton.render("Select All", true);
+    _selectNoneButton.render("Select None", true);
     if (!model.latest.hasStatus() || model.latest.status == pb.Status.DONE) {
       _status.render("");
     } else {
@@ -77,7 +112,12 @@ Choose baseline: <select class="dv-menu"></select>
     }
 
     _renderEnv(model.latest);
-    _menu.render(model.savedReports.keys.toList(), model.table.baseline);
+
+    var items = [noBaseline]..addAll(model.savedReports.keys);
+    var selected = model.table.baseline;
+    if (selected == null) selected = noBaseline;
+    _menu.render(items, model.table.baseline);
+
     _renderResponses(model.table, model.latest);
     _jsonView.render(model.latest);
   }
@@ -92,20 +132,18 @@ Choose baseline: <select class="dv-menu"></select>
   /// Renders a table with one row for each benchmark.
   void _renderResponses(Table table, pb.Report r) {
     var rowIt = table.rows.iterator;
-    var responseIt = r.responses.iterator;
 
     // Update existing rows (we assume the table never shrinks)
     for (var view in rowViews) {
       var hasNext = rowIt.moveNext();
       assert(hasNext);
-      responseIt.moveNext();
-      view.render(rowIt.current, responseIt.current);
+      view.render(rowIt.current, r, _selectionChanges);
     }
 
     // Add any new rows
     while (rowIt.moveNext()) {
-      responseIt.moveNext();
-      var row = new _ResponseView()..render(rowIt.current, responseIt.current);
+      var row = new _ResponseView()
+        ..render(rowIt.current, r, _selectionChanges);
       _responseTable.append(row.elt);
       rowViews.add(row);
     }
@@ -118,6 +156,7 @@ Choose baseline: <select class="dv-menu"></select>
 /// Also displays a baseline sample for comparison.
 class _ResponseView {
   final elt = new TableRowElement();
+  final _selected = new _Checkbox<pb.Request>();
   final _summary = new _Label(new TableCellElement());
   final _baseline = new _SampleView();
   final _median = new _SampleView();
@@ -127,6 +166,7 @@ class _ResponseView {
 
   _ResponseView() {
     elt.children.addAll([
+      _selected.elt,
       _summary.elt,
       _baseline.elt,
       _median.elt,
@@ -136,8 +176,11 @@ class _ResponseView {
     ]);
   }
 
-  void render(Row row, pb.Response response) {
+  void render(Row row, pb.Report r,
+      EventSink<SelectEvent<pb.Request>> rowSelected) {
     var b = row.benchmark;
+    var response = row.findResponse(r);
+    _selected.render(row.selected, item: row.request, sink: rowSelected);
     _summary.render(b.summary);
     _baseline.render(b.measureSample(row.baseline));
     _median.render(b.measureSample(b.medianSample(response)));
@@ -256,6 +299,7 @@ class _Button {
   final _clicks = new StreamController.broadcast();
   String _renderedLabel;
   bool _renderedEnabled;
+
   _Button(this.elt) {
     elt.onClick.listen((e) => _clicks.add(true));
   }
@@ -271,5 +315,30 @@ class _Button {
       elt.disabled = !enabled;
       _renderedEnabled = enabled;
     }
+  }
+}
+
+class _Checkbox<T> {
+  final elt = new CheckboxInputElement();
+
+  bool _renderedChecked;
+  EventSink<SelectEvent<T>> _sink;
+  T _item;
+
+  _Checkbox() {
+    elt.onChange.listen((e) {
+      if (_sink != null) {
+        _sink.add(new SelectEvent<T>(elt.checked, _item));
+      }
+    });
+  }
+
+  void render(bool checked, {EventSink<SelectEvent<T>> sink, T item}) {
+    if (_renderedChecked != checked) {
+      elt.checked = checked;
+      _renderedChecked = checked;
+    }
+    _item = item;
+    _sink = sink;
   }
 }

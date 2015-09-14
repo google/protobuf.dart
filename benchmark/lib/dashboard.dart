@@ -11,7 +11,7 @@ import 'dart:js' show context, JsObject;
 import 'generated/benchmark.pb.dart' as pb;
 
 import 'benchmark.dart' show Profiler;
-import 'dashboard_model.dart' show DashboardModel, Table;
+import 'dashboard_model.dart' show DashboardModel, Table, SelectEvent;
 import 'dashboard_view.dart' show DashboardView;
 import 'report.dart' show createPlatform, createPackages, encodeReport;
 import 'suite.dart' show runSuite;
@@ -51,7 +51,8 @@ Future showDashboard(pb.Suite suite, Element container) async {
     var profiler = new JsProfiler();
     running = true;
     () async {
-      for (pb.Report report in runSuite(suite, profiler: profiler)) {
+      var requests = model.table.selections.toList();
+      for (pb.Report report in runSuite(requests, profiler: profiler)) {
         await render(report);
       }
     }().whenComplete(() {
@@ -62,9 +63,22 @@ Future showDashboard(pb.Suite suite, Element container) async {
   // set up event handlers
 
   view.onRunButtonClick.listen((_) => runBenchmarks());
+  view.onSelectAllClick.listen((_) {
+    model = model.withTable(model.table.withAllSelected());
+    view.render(model);
+  });
+  view.onSelectNoneClick.listen((_) {
+    model = model.withTable(model.table.withNoneSelected());
+    view.render(model);
+  });
 
   view.onMenuChange.listen((String item) {
     model = model.withBaseline(item);
+    view.render(model);
+  });
+
+  view.onSelectionChange.listen((SelectEvent e) {
+    model = model.withTable(model.table.withSelection(e.item, e.selected));
     view.render(model);
   });
 
