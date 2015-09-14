@@ -596,14 +596,11 @@ abstract class GeneratedMessage {
       Map<String, dynamic> json,
       ExtensionRegistry extensionRegistry) {
 
-    // Extract a value from its JSON representation.
-
     for (String key in json.keys) {
-      int tagNumber = int.parse(key);
       var fieldValue = json[key];
-
-      var fi = info_.fieldInfo[tagNumber];
+      var fi = info_.byTagAsString[key];
       if (fi == null) {
+        int tagNumber = int.parse(key);
         if (extensionRegistry != null) {
           fi = extensionRegistry.getExtension(info_.messageName, tagNumber);
         }
@@ -613,6 +610,7 @@ abstract class GeneratedMessage {
         }
         _addExtensionToMap(fi);
       }
+      int tagNumber = fi.tagNumber;
       if (fi.isRepeated) {
         List thisList = getField(tagNumber);
         for (var value in fieldValue) {

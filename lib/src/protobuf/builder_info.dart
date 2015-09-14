@@ -10,6 +10,7 @@ part of protobuf;
 class BuilderInfo {
   final String messageName;
   final Map<int, FieldInfo> fieldInfo = new Map<int, FieldInfo>();
+  final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
   bool hasExtensions = false;
   bool hasRequiredFields = true;
@@ -20,16 +21,22 @@ class BuilderInfo {
            dynamic defaultOrMaker,
            CreateBuilderFunc subBuilder,
            ValueOfFunc valueOf) {
-    fieldInfo[tagNumber] = byName[name] = new FieldInfo(
-      name, tagNumber, fieldType, defaultOrMaker, subBuilder, valueOf);
+    addField(new FieldInfo(
+      name, tagNumber, fieldType, defaultOrMaker, subBuilder, valueOf));
   }
 
   void addRepeated(int tagNumber, String name, int fieldType,
                    CheckFunc check,
                    CreateBuilderFunc subBuilder,
                    ValueOfFunc valueOf) {
-    fieldInfo[tagNumber] = byName[name] = new FieldInfo.repeated(
-        name, tagNumber, fieldType, check, subBuilder, valueOf);
+    addField(new FieldInfo.repeated(
+        name, tagNumber, fieldType, check, subBuilder, valueOf));
+  }
+
+  void addField(FieldInfo fi) {
+    fieldInfo[fi.tagNumber] = fi;
+    byTagAsString["${fi.tagNumber}"] = fi;
+    byName[fi.name] = fi;
   }
 
   void a(int tagNumber, String name, int fieldType,
