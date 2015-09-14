@@ -11,25 +11,27 @@ import 'dart:js' show context, JsObject;
 import 'generated/benchmark.pb.dart' as pb;
 
 import 'benchmark.dart' show Profiler;
-import 'dashboard_model.dart' show DashboardModel;
+import 'dashboard_model.dart' show DashboardModel, Table;
 import 'dashboard_view.dart' show DashboardView;
-import 'report.dart' show createPlatform, createPackages, encodeReport, intReadsPerSecond;
+import 'report.dart' show createPlatform, createPackages, encodeReport;
 import 'suite.dart' show runSuite;
 
 import '../data/index.dart' as data;
 
 /// Displays a dashboard that can be used to run benchmarks.
 Future showDashboard(pb.Suite suite, Element container) async {
-
   // set up model
 
   var env = await loadBrowserEnv();
   var reports = await loadReports();
 
-  var defaultReport = new pb.Report()
-    ..env = env;
-  var model =
-      new DashboardModel(reports, chooseBaseline(env, reports), defaultReport);
+  var defaultReport = new pb.Report()..env = env;
+  var model = new DashboardModel(reports, new Table(suite), defaultReport);
+
+  var baseline = chooseBaseline(env, reports);
+  if (baseline != null) {
+    model = model.withBaseline(baseline);
+  }
 
   var view = new DashboardView();
 
@@ -87,8 +89,7 @@ class JsProfiler implements Profiler {
 
   endProfile(pb.Sample s) {
     console.callMethod("profileEnd");
-    var kReads = (intReadsPerSecond(s)/1000.0).toStringAsFixed(1);
-    print("profile: ${kReads}k int reads/s");
+    print("profile: $s");
   }
 }
 

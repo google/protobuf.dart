@@ -2,26 +2,28 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.repeated_int32_json;
+library protoc.benchmark.repeated_int64_json;
+
+import 'package:fixnum/fixnum.dart';
 
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart' show BenchmarkID, Request, Params, Sample;
-import '../generated/int32grid.pb.dart' as pb;
+import '../generated/int64grid.pb.dart' as pb;
 
 /// A benchmark that deserializes a grid of repeated ints.
-class RepeatedInt32Benchmark extends Benchmark {
+class RepeatedInt64Benchmark extends Benchmark {
   final int width;
   final int height;
   String json;
 
-  RepeatedInt32Benchmark(this.width, this.height) : super($id);
+  RepeatedInt64Benchmark(this.width, this.height) : super($id);
 
   @override
   get summary => "${id.name}($width x $height ints)";
 
   @override
   Params makeParams() => new Params()
-    ..int32RepeatCount = width
+    ..int64RepeatCount = width
     ..messageCount = height;
 
   @override
@@ -40,7 +42,7 @@ class RepeatedInt32Benchmark extends Benchmark {
     for (int y = 0; y < height; y++) {
       var line = new pb.Line();
       for (int x = 0; x < width; x++) {
-        line.cells.add(x + y);
+        line.cells.add(new Int64(x + y));
       }
       grid.lines.add(line);
     }
@@ -57,21 +59,21 @@ class RepeatedInt32Benchmark extends Benchmark {
 
   @override
   void setCounts(Sample s) {
-    s.counts.int32Reads = width * height * s.loopCount;
+    s.counts.int64Reads = width * height * s.loopCount;
   }
 
   @override
-  measureSample(Sample s) => int32ReadsPerMillisecond(s);
+  measureSample(Sample s) => int64ReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "int32 reads/ms";
+  get measureSampleUnits => "int64 reads/ms";
 
-  static const $id = BenchmarkID.READ_INT32_REPEATED_JSON;
+  static const $id = BenchmarkID.READ_INT64_REPEATED_JSON;
   static final $type = new BenchmarkType($id, $create);
   static $create(Request r) {
-    assert(r.params.hasInt32RepeatCount());
+    assert(r.params.hasInt64RepeatCount());
     assert(r.params.hasMessageCount());
-    return new RepeatedInt32Benchmark(
-        r.params.int32RepeatCount, r.params.messageCount);
+    return new RepeatedInt64Benchmark(
+        r.params.int64RepeatCount, r.params.messageCount);
   }
 }

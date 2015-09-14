@@ -7,6 +7,8 @@ library protoc.benchmark.suite;
 import "benchmark.dart";
 import "benchmarks/int32_json.dart";
 import "benchmarks/repeated_int32_json.dart";
+import "benchmarks/int64_json.dart";
+import "benchmarks/repeated_int64_json.dart";
 import 'generated/benchmark.pb.dart' as pb;
 
 /// Runs a benchmark suite, returning progress until done.
@@ -16,11 +18,9 @@ import 'generated/benchmark.pb.dart' as pb;
 /// until they're all done.
 /// [profiler] if supplied, each request will be profiled once.
 Iterable<pb.Report> runSuite(pb.Suite suite,
-  {samplesPerBatch: 1, Profiler profiler}) sync* {
-
+    {samplesPerBatch: 1, Profiler profiler}) sync* {
   // Create a blank report with one response per request.
-  var report = new pb.Report()
-    ..status = pb.Status.RUNNING;
+  var report = new pb.Report()..status = pb.Status.RUNNING;
   for (var request in suite.requests) {
     var r = new pb.Response()..request = request;
     report.responses.add(r);
@@ -77,8 +77,12 @@ Benchmark createBenchmark(pb.Request r) {
   return type.create(r);
 }
 
-final Map<pb.BenchmarkID, BenchmarkType> allBenchmarks =
-    _makeTypeMap([Int32Benchmark.$type, RepeatedInt32Benchmark.$type]);
+final Map<pb.BenchmarkID, BenchmarkType> allBenchmarks = _makeTypeMap([
+  Int32Benchmark.$type,
+  RepeatedInt32Benchmark.$type,
+  Int64Benchmark.$type,
+  RepeatedInt64Benchmark.$type
+]);
 
 Map<pb.BenchmarkID, BenchmarkType> _makeTypeMap(List<BenchmarkType> types) {
   var out = <pb.BenchmarkID, BenchmarkType>{};

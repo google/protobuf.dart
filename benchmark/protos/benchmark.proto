@@ -4,6 +4,8 @@
 
 syntax = "proto2";
 
+package benchmark;
+
 // A Suite requests that some benchmarks should be run.
 message Suite {
   repeated Request requests = 1;
@@ -27,6 +29,8 @@ message Request {
 enum BenchmarkID {
   READ_INT32_FIELDS_JSON = 1;
   READ_INT32_REPEATED_JSON = 2;
+  READ_INT64_FIELDS_JSON = 3;
+  READ_INT64_REPEATED_JSON = 4;
 }
 
 // Parameters to a particular benchmark.
@@ -40,6 +44,18 @@ message Params {
 
   // For repeated int32 fields, the number of values each should have.
   optional int32 int32_repeat_count = 3;
+
+  // The number of int64 fields to set in each leaf.
+  optional int32 int64_field_count = 4;
+
+  // For repeated int64 fields, the number of values each should have.
+  optional int32 int64_repeat_count = 5;
+
+  // The number of string fields to set in each leaf.
+  optional int32 string_field_count = 6;
+
+  // For repeated string fields, the number of values each should have.
+  optional int32 string_repeat_count = 7;
 }
 
 // A Report records what is happening while a suite is being run.
@@ -136,4 +152,7 @@ message Sample {
 message Counts {
   // The number of times an int32 was read during one sample.
   optional int32 int32Reads = 1;
+
+  // The number of times an int64 was read during one sample.
+  optional int32 int64Reads = 2;
 }

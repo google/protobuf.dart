@@ -6,26 +6,42 @@ library protoc.benchmark.suite.json;
 
 import '../benchmarks/int32_json.dart';
 import '../benchmarks/repeated_int32_json.dart';
+import '../benchmarks/int64_json.dart';
+import '../benchmarks/repeated_int64_json.dart';
 import '../generated/benchmark.pb.dart' show Request, Suite;
 
 final jsonSuite = () {
   var suite = new Suite();
   suite.requests.addAll([
-    _newRequest(1, 100),
-    _newRequest(2, 100),
-    _newRequest(10, 100),
-    _newRequest(10, 200),
-    _newRepeatedRequest(1, 100),
-    _newRepeatedRequest(2, 100),
-    _newRepeatedRequest(10, 100),
-    _newRepeatedRequest(10, 200),
+    _int32(1, 100),
+    _int32(2, 100),
+    _int32(10, 100),
+    _int32(10, 200),
+    _repeatedInt32(1, 100),
+    _repeatedInt32(2, 100),
+    _repeatedInt32(10, 100),
+    _repeatedInt32(10, 200),
+    _int64(1, 100),
+    _int64(2, 100),
+    _int64(10, 100),
+    _int64(10, 200),
+    _repeatedInt64(1, 100),
+    _repeatedInt64(2, 100),
+    _repeatedInt64(10, 100),
+    _repeatedInt64(10, 200),
   ]);
 
   return suite;
 }();
 
-_newRequest(int width, int height) =>
+_int32(int width, int height) =>
     new Int32Benchmark(width, height).makeRequest();
 
-_newRepeatedRequest(int width, int height) =>
+_repeatedInt32(int width, int height) =>
     new RepeatedInt32Benchmark(width, height).makeRequest();
+
+_int64(int width, int height) =>
+    new Int64Benchmark(width, height).makeRequest();
+
+_repeatedInt64(int width, int height) =>
+    new RepeatedInt64Benchmark(width, height).makeRequest();

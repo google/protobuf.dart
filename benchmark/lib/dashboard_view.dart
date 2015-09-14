@@ -9,7 +9,7 @@ import 'dart:html';
 
 import 'generated/benchmark.pb.dart' as pb;
 import 'dashboard_model.dart';
-import 'report.dart' show encodeReport, medianSample, maxSample;
+import 'report.dart' show encodeReport;
 
 /// A dashboard allowing the user to run a benchmark suite and compare the
 /// results to any saved report.
@@ -24,16 +24,15 @@ Choose baseline: <select class="dv-menu"></select>
 <table class="dv-table">
 <tr>
   <th>Benchmark</th>
-  <th>Params</th>
-  <th colspan=4>1000 * int32 reads / second</th>
+  <th colspan=5>Samples</th>
 </tr>
 <tr>
-  <th></th>
   <th></th>
   <th>Baseline</th>
   <th>Median</th>
   <th>Max</th>
   <th>Count</th>
+  <th>Units</th>
 <tr>
 </table>
 <div class="dv-json"></div>
@@ -49,7 +48,7 @@ Choose baseline: <select class="dv-menu"></select>
   final _JsonView _jsonView;
 
   String _renderedPlatform;
-  final rows = <_ResponseView>[];
+  final rowViews = <_ResponseView>[];
 
   DashboardView._raw(this.elt, this._runButton, this._status, this._envElt,
     this._menu, this._responseTable, this._jsonView);
@@ -78,8 +77,8 @@ Choose baseline: <select class="dv-menu"></select>
     }
 
     _renderEnv(model.latest);
-    _menu.render(model.savedReports.keys.toList(), model.baselineName);
-    _renderResponses(model.getBaselineSamples(), model.latest);
+    _menu.render(model.savedReports.keys.toList(), model.table.baseline);
+    _renderResponses(model.table, model.latest);
     _jsonView.render(model.latest);
   }
 
@@ -91,23 +90,24 @@ Choose baseline: <select class="dv-menu"></select>
   }
 
   /// Renders a table with one row for each benchmark.
-  void _renderResponses(BaselineSamples baseline, pb.Report r) {
-    var it = r.responses.iterator;
+  void _renderResponses(Table table, pb.Report r) {
+    var rowIt = table.rows.iterator;
+    var responseIt = r.responses.iterator;
 
-    // Update existing rows
-    for (var row in rows) {
-      var hasNext = it.moveNext();
-      assert(hasNext); // assume that the table only grows
-      var left = baseline.getSample(it.current.request);
-      row.render(left, it.current);
+    // Update existing rows (we assume the table never shrinks)
+    for (var view in rowViews) {
+      var hasNext = rowIt.moveNext();
+      assert(hasNext);
+      responseIt.moveNext();
+      view.render(rowIt.current, responseIt.current);
     }
 
     // Add any new rows
-    while (it.moveNext()) {
-      var left = baseline.getSample(it.current.request);
-      var row = new _ResponseView()..render(left, it.current);
+    while (rowIt.moveNext()) {
+      responseIt.moveNext();
+      var row = new _ResponseView()..render(rowIt.current, responseIt.current);
       _responseTable.append(row.elt);
-      rows.add(row);
+      rowViews.add(row);
     }
   }
 }
@@ -118,49 +118,49 @@ Choose baseline: <select class="dv-menu"></select>
 /// Also displays a baseline sample for comparison.
 class _ResponseView {
   final elt = new TableRowElement();
-  final _name = new _Label(new TableCellElement());
-  final _params = new _Label(new TableCellElement());
+  final _summary = new _Label(new TableCellElement());
   final _baseline = new _SampleView();
   final _median = new _SampleView();
   final _max = new _SampleView();
   final _count = new _Label(new TableCellElement()..style.textAlign = "right");
+  final _units = new _Label(new TableCellElement());
 
   _ResponseView() {
     elt.children.addAll([
-      _name.elt,
-      _params.elt,
+      _summary.elt,
       _baseline.elt,
       _median.elt,
       _max.elt,
-      _count.elt
+      _count.elt,
+      _units.elt
     ]);
   }
 
-  void render(pb.Sample baseline, pb.Response response) {
-    _name.render(response.request.id.name);
-    _params.render(response.request.params.toString());
-    _baseline.render(baseline);
-    _median.render(medianSample(response));
-    _max.render(maxSample(response));
-    _count.render("${response.samples.length}");
+  void render(Row row, pb.Response response) {
+    var b = row.benchmark;
+    _summary.render(b.summary);
+    _baseline.render(b.measureSample(row.baseline));
+    _median.render(b.measureSample(b.medianSample(response)));
+    _max.render(b.measureSample(b.maxSample(response)));
+    _count.render(response == null ? "0" : "${response.samples.length}");
+    _units.render(row.benchmark.measureSampleUnits);
   }
 }
 
-/// A table cell holding one sample.
+/// A table cell holding the measurement for one sample.
 class _SampleView {
   final elt = new TableCellElement()..style.textAlign = "right";
-  pb.Sample _rendered;
+  double _rendered;
 
-  void render(pb.Sample s) {
-    if (_rendered == s) return;
-    elt.text = _renderInt32Reads(s);
-    _rendered = s;
+  void render(double value) {
+    if (_rendered == value) return;
+    elt.text = _render(value);
+    _rendered = value;
   }
 
-  static String _renderInt32Reads(pb.Sample s) {
-    if (s == null) return "*";
-    double kIntsPerSecond = s.counts.int32Reads * 1000 / s.duration;
-    return kIntsPerSecond.toStringAsFixed(1);
+  static String _render(double value) {
+    if (value == 0.0) return "*";
+    return value.toStringAsFixed(0);
   }
 }
 

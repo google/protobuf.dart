@@ -2,27 +2,29 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.int32_json;
+library protoc.benchmark.int64_json;
+
+import 'package:fixnum/fixnum.dart' show Int64;
 
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart' show BenchmarkID, Request, Params, Sample;
-import '../generated/int32grid.pb.dart' as pb;
+import '../generated/int64grid.pb.dart' as pb;
 
 /// A benchmark that deserializes a grid of int fields.
-class Int32Benchmark extends Benchmark {
+class Int64Benchmark extends Benchmark {
   final int width;
   final int height;
   String json;
   int lastFieldTag;
 
-  Int32Benchmark(this.width, this.height) : super($id);
+  Int64Benchmark(this.width, this.height) : super($id);
 
   @override
-  get summary => "${id.name}($width x $height int32s)";
+  get summary => "${id.name}($width x $height int64s)";
 
   @override
   Params makeParams() => new Params()
-    ..int32FieldCount = width
+    ..int64FieldCount = width
     ..messageCount = height;
 
   @override
@@ -44,7 +46,7 @@ class Int32Benchmark extends Benchmark {
       var line = new pb.Line10();
       for (int x = 0; x < width; x++) {
         int tag = getTagForColumn(line, x);
-        line.setField(tag, x + y);
+        line.setField(tag, new Int64(x + y));
       }
       grid.lines.add(line);
     }
@@ -65,21 +67,21 @@ class Int32Benchmark extends Benchmark {
 
   @override
   void setCounts(Sample s) {
-    s.counts.int32Reads = width * height * s.loopCount;
+    s.counts.int64Reads = width * height * s.loopCount;
   }
 
   @override
-  measureSample(Sample s) => int32ReadsPerMillisecond(s);
+  measureSample(Sample s) => int64ReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "int32 reads/ms";
+  get measureSampleUnits => "int64 reads/ms";
 
-  static const $id = BenchmarkID.READ_INT32_FIELDS_JSON;
+  static const $id = BenchmarkID.READ_INT64_FIELDS_JSON;
   static final $type = new BenchmarkType($id, $create);
 
   static $create(Request r) {
-    assert(r.params.hasInt32FieldCount());
+    assert(r.params.hasInt64FieldCount());
     assert(r.params.hasMessageCount());
-    return new Int32Benchmark(r.params.int32FieldCount, r.params.messageCount);
+    return new Int64Benchmark(r.params.int64FieldCount, r.params.messageCount);
   }
 }

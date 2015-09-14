@@ -4,6 +4,8 @@
 
 syntax = "proto2";
 
+package int32_grid;
+
 // A grid of variable-length rows,
 // to test repeated fields.
 message Grid {

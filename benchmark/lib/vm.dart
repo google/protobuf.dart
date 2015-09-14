@@ -11,13 +11,8 @@ import '../data/index.dart'
     show latestVMReportName, pubspecYamlName, pubspecLockName, hostfileName;
 import 'generated/benchmark.pb.dart' as pb;
 import 'report.dart'
-    show
-        createPlatform,
-        createPackages,
-        encodeReport,
-        findUpdatedResponse,
-        summarizeResponse;
-import 'suite.dart' show runSuite;
+    show createPlatform, createPackages, encodeReport, findUpdatedResponse;
+import 'suite.dart' show createBenchmark, runSuite;
 
 /// Runs a benchmark suite.
 /// Writes a report to latest_vm.pb.json after every change,
@@ -25,19 +20,19 @@ import 'suite.dart' show runSuite;
 runSuiteInVM(pb.Suite suite) async {
   var env = await _loadEnv();
 
-  var lastReport;
-  var lastUpdate;
+  pb.Report lastReport;
+  pb.Response lastUpdate;
   for (var report in runSuite(suite, samplesPerBatch: 10)) {
     report.env = env;
 
     // show progress
     var update = findUpdatedResponse(lastReport, report);
     if (update != null) {
-      var summary = summarizeResponse(update);
+      var summary = _summarize(update);
       if (lastUpdate == null || update.request != lastUpdate.request) {
         stdout.write("\n$summary");
       } else {
-        overwrite(summary);
+        _overwrite(summary);
       }
     }
 
@@ -53,12 +48,18 @@ runSuiteInVM(pb.Suite suite) async {
   print("\nWrote result to benchmark/data/${latestVMReportName}");
 }
 
+String _summarize(pb.Response r) {
+  assert(r != null);
+  var b = createBenchmark(r.request);
+  return b.summarizeResponse(r);
+}
+
 final _escapeChar = new String.fromCharCode(27);
 final _clearLine = "\r$_escapeChar[2K";
 
 /// Overwrite the last line printed to the terminal.
-void overwrite(String line) {
-    stdout.write("$_clearLine$line");
+void _overwrite(String line) {
+  stdout.write("$_clearLine$line");
 }
 
 Future<pb.Env> _loadEnv() async {

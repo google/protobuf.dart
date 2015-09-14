@@ -8,32 +8,6 @@ import 'dart:convert' show JSON;
 
 import 'generated/benchmark.pb.dart' as pb;
 
-/// Returns the sample with the median ints reads per second.
-pb.Sample medianSample(pb.Response response) {
-  if (response.samples.isEmpty) return null;
-  var samples = []..addAll(response.samples);
-  samples.sort((a, b) {
-    return intReadsPerSecond(a).compareTo(intReadsPerSecond(b));
-  });
-  int index = samples.length ~/ 2;
-  return samples[index];
-}
-
-/// Returns the sample with the best int reads per second.
-pb.Sample maxSample(pb.Response response) {
-  pb.Sample best;
-  for (var s in response.samples) {
-    if (best == null) best = s;
-    if (intReadsPerSecond(best) < intReadsPerSecond(s)) {
-      best = s;
-    }
-  }
-  return best;
-}
-
-double intReadsPerSecond(pb.Sample s) =>
-  s.counts.int32Reads * 1000000 / s.duration;
-
 pb.Response findUpdatedResponse(pb.Report beforeRep, pb.Report afterRep) {
   if (beforeRep == null) return afterRep.responses[0];
   assert(afterRep != null);
@@ -48,23 +22,6 @@ pb.Response findUpdatedResponse(pb.Report beforeRep, pb.Report afterRep) {
     }
   }
   return null; // not found
-}
-
-String summarizeResponse(pb.Response r) {
-  assert(r != null);
-
-  var name = r.request.id.name.padRight(25);
-  var median = _kIntReadsPerSecond(medianSample(r)).toString().padLeft(4);
-  var max = _kIntReadsPerSecond(maxSample(r)).toString().padLeft(4);
-  var sampleCount = r.samples.length.toString().padLeft(2);
-
-  return "$name samples: $sampleCount"
-      " median: ${median}k max: ${max}k int32 reads/sec";
-}
-
-int _kIntReadsPerSecond(pb.Sample s) {
-  if (s == null) return 0;
-  return s.counts.int32Reads * 1000 ~/ s.duration;
 }
 
 /// Returns a partially filled in pb.Platform.

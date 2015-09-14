@@ -50,13 +50,9 @@ abstract class Benchmark {
   ///
   /// If a [profiler] is provided, it will be used for one extra sample.
   /// (Not included in results.)
-  Iterable<pb.Sample> measure(pb.Request r, int samples, {Profiler profiler}) sync* {
-    if (r.id != id) {
-      throw new ArgumentError("invalid benchmark id: ${r.id}");
-    }
-    if (r.params != makeParams()) {
-      throw new ArgumentError("parameters don't match: ${r.params}");
-    }
+  Iterable<pb.Sample> measure(pb.Request r, int samples,
+      {Profiler profiler}) sync* {
+    checkRequest(r);
 
     int sampleMillis = r.duration;
     setup();
@@ -72,6 +68,15 @@ abstract class Benchmark {
     }
 
     teardown();
+  }
+
+  void checkRequest(pb.Request r) {
+    if (r.id != id) {
+      throw new ArgumentError("invalid benchmark id: ${r.id}");
+    }
+    if (r.params != makeParams()) {
+      throw new ArgumentError("parameters don't match: ${r.params}");
+    }
   }
 
   pb.Sample _measureOnce(int sampleMillis) {
@@ -115,6 +120,46 @@ abstract class Benchmark {
   /// Called after the benchmark finishes.
   void teardown() {}
 
+  String summarizeResponse(pb.Response r) {
+    checkRequest(r.request);
+
+    var prefix = summary.padRight(39);
+    var sampleCount = r.samples.length.toStringAsFixed(0).padLeft(2);
+    var median = measureSample(medianSample(r)).toStringAsFixed(0).padLeft(4);
+    var max = measureSample(maxSample(r)).toStringAsFixed(0).padLeft(4);
+
+    return "$prefix samples: $sampleCount"
+        " median: $median max: $max $measureSampleUnits";
+  }
+
+  /// Returns the sample with the median measurement.
+  pb.Sample medianSample(pb.Response response) {
+    if (response == null || response.samples.isEmpty) return null;
+    var samples = []..addAll(response.samples);
+    samples.sort((a, b) {
+      return measureSample(a).compareTo(measureSample(b));
+    });
+    int index = samples.length ~/ 2;
+    return samples[index];
+  }
+
+  /// Returns the sample with the highest measurement.
+  pb.Sample maxSample(pb.Response response) {
+    if (response == null) return null;
+    pb.Sample best;
+    for (var s in response.samples) {
+      if (best == null) best = s;
+      if (measureSample(best) < measureSample(s)) {
+        best = s;
+      }
+    }
+    return best;
+  }
+
+  double measureSample(pb.Sample s);
+
+  String get measureSampleUnits;
+
   @override
   toString() => summary;
 
@@ -136,4 +181,14 @@ abstract class Benchmark {
       ..loopCount = reps
       ..counts = new pb.Counts();
   }
+}
+
+double int32ReadsPerMillisecond(pb.Sample s) {
+  if (s == null || !s.counts.hasInt32Reads() || !s.hasDuration()) return 0.0;
+  return s.counts.int32Reads * 1000 / s.duration;
+}
+
+double int64ReadsPerMillisecond(pb.Sample s) {
+  if (s == null || !s.counts.hasInt64Reads() || !s.hasDuration()) return 0.0;
+  return s.counts.int64Reads * 1000 / s.duration;
 }
