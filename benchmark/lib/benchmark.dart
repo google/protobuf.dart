@@ -192,3 +192,8 @@ double int64ReadsPerMillisecond(pb.Sample s) {
   if (s == null || !s.counts.hasInt64Reads() || !s.hasDuration()) return 0.0;
   return s.counts.int64Reads * 1000 / s.duration;
 }
+
+double stringReadsPerMillisecond(pb.Sample s) {
+  if (s == null || !s.counts.hasStringReads() || !s.hasDuration()) return 0.0;
+  return s.counts.stringReads * 1000 / s.duration;
+}

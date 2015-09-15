@@ -9,6 +9,8 @@ import "benchmarks/int32_json.dart";
 import "benchmarks/repeated_int32_json.dart";
 import "benchmarks/int64_json.dart";
 import "benchmarks/repeated_int64_json.dart";
+import "benchmarks/string_json.dart";
+import "benchmarks/repeated_string_json.dart";
 import 'generated/benchmark.pb.dart' as pb;
 
 /// Runs a benchmark suite, returning progress until done.
@@ -81,7 +83,9 @@ final Map<pb.BenchmarkID, BenchmarkType> allBenchmarks = _makeTypeMap([
   Int32Benchmark.$type,
   RepeatedInt32Benchmark.$type,
   Int64Benchmark.$type,
-  RepeatedInt64Benchmark.$type
+  RepeatedInt64Benchmark.$type,
+  StringBenchmark.$type,
+  RepeatedStringBenchmark.$type,
 ]);
 
 Map<pb.BenchmarkID, BenchmarkType> _makeTypeMap(List<BenchmarkType> types) {
