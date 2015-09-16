@@ -592,17 +592,14 @@ abstract class GeneratedMessage {
 
   // Merge fields from a previously decoded JSON object.
   // (Called recursively on nested messages.)
-  void _mergeFromJson(
-      Map<String, dynamic> json,
-      ExtensionRegistry extensionRegistry) {
-
+  void _mergeFromJsonMap(
+      Map<String, dynamic> json, ExtensionRegistry registry) {
     for (String key in json.keys) {
-      var fieldValue = json[key];
       var fi = info_.byTagAsString[key];
       if (fi == null) {
         int tagNumber = int.parse(key);
-        if (extensionRegistry != null) {
-          fi = extensionRegistry.getExtension(info_.messageName, tagNumber);
+        if (registry != null) {
+          fi = registry.getExtension(info_.messageName, tagNumber);
         }
         if (fi == null) {
           // Unknown extensions can be skipped.
@@ -610,119 +607,116 @@ abstract class GeneratedMessage {
         }
         _addExtensionToMap(fi);
       }
-      int tagNumber = fi.tagNumber;
       if (fi.isRepeated) {
-        List thisList = getField(tagNumber);
-        for (var value in fieldValue) {
-          thisList.add(_convertJsonValue(value, tagNumber, fi.type,
-                                         extensionRegistry));
-        }
+        _appendJsonList(json[key], fi, registry);
       } else {
-        var value = _convertJsonValue(fieldValue, tagNumber, fi.type,
-            extensionRegistry);
-        _validate(tagNumber, fi.type, value);
-        _setField(fi, value);
+        _setJsonField(json[key], fi, registry);
       }
     }
   }
 
+  void _appendJsonList(List json, FieldInfo fi, ExtensionRegistry registry) {
+    int tagNumber = fi.tagNumber;
+    int type = fi.type;
+    List repeated = getField(tagNumber);
+    for (var value in json) {
+      repeated.add(_convertJsonValue(value, tagNumber, type, registry));
+    }
+  }
+
+  void _setJsonField(json, FieldInfo fi, ExtensionRegistry registry) {
+    int tagNumber = fi.tagNumber;
+    int type = fi.type;
+    var value = _convertJsonValue(json, tagNumber, type, registry);
+    _validate(tagNumber, type, value);
+    _setField(fi, value);
+  }
+
   _convertJsonValue(value, int tagNumber, int fieldType,
-                   ExtensionRegistry extensionRegistry) {
+      ExtensionRegistry registry) {
     String expectedType; // for exception message
     switch (PbFieldType._baseType(fieldType)) {
-    case PbFieldType._BOOL_BIT:
-      if (value is bool) {
-        return value;
-      } else if (value is String) {
-        if (value == 'true') {
-          return true;
-        } else if (value == 'false') {
-          return false;
+      case PbFieldType._BOOL_BIT:
+        if (value is bool) {
+          return value;
+        } else if (value is String) {
+          if (value == 'true') {
+            return true;
+          } else if (value == 'false') {
+            return false;
+          }
+        } else if (value is num) {
+          if (value == 1) {
+            return true;
+          } else if (value == 0) {
+            return false;
+          }
         }
-        expectedType = 'bool, "true", or "false"';
-      } else if (value is num) {
-        if (value == 1) {
-          return true;
-        } else if (value == 0) {
-          return false;
+        expectedType = 'bool (true, false, "true", "false", 1, 0)';
+        break;
+      case PbFieldType._BYTES_BIT:
+        if (value is String) {
+          return CryptoUtils.base64StringToBytes(value);
         }
-        expectedType = 'bool, 0, or 1';
-      }
-      break;
-    case PbFieldType._BYTES_BIT:
-      if (value is String) {
-        return CryptoUtils.base64StringToBytes(value);
-      }
-      expectedType = 'Base64 String';
-      break;
-    case PbFieldType._STRING_BIT:
-      if (value is String) {
-        return value;
-      }
-      expectedType = 'String';
-      break;
-    case PbFieldType._FLOAT_BIT:
-    case PbFieldType._DOUBLE_BIT:
-      // Allow quoted values, although we don't emit them.
-      if (value is double) {
-        return value;
-      } else if (value is num) {
-        return value.toDouble();
-      } else if (value is String) {
-        return double.parse(value);
-      }
-      expectedType = 'num or stringified num';
-      break;
-    case PbFieldType._ENUM_BIT:
-      // Allow quoted values, although we don't emit them.
-      if (value is String) {
-        value = int.parse(value);
-      }
-      if (value is int) {
-        return _getValueOfFunc(tagNumber, extensionRegistry)(value);
-      }
-      expectedType = 'int or stringified int';
-      break;
-    case PbFieldType._INT32_BIT:
-    case PbFieldType._SINT32_BIT:
-    case PbFieldType._UINT32_BIT:
-    case PbFieldType._FIXED32_BIT:
-    case PbFieldType._SFIXED32_BIT:
-      if (value is String) {
-        value = int.parse(value);
-      }
-      // Allow unquoted values, although we don't emit them.
-      if (value is int) {
-        return value;
-      }
-      expectedType = 'int or stringified int';
-      break;
-    case PbFieldType._INT64_BIT:
-    case PbFieldType._SINT64_BIT:
-    case PbFieldType._UINT64_BIT:
-    case PbFieldType._FIXED64_BIT:
-    case PbFieldType._SFIXED64_BIT:
-      // Allow quoted values, although we don't emit them.
-      if (value is String) {
-        return Int64.parseRadix(value, 10);
-      }
-      if (value is int) {
-        return new Int64(value);
-      }
-      expectedType = 'int or stringified int';
-      break;
-    case PbFieldType._GROUP_BIT:
-    case PbFieldType._MESSAGE_BIT:
-      if (value is Map) {
-        GeneratedMessage subMessage =
-            _getEmptyMessage(tagNumber, extensionRegistry);
-        subMessage._mergeFromJson(value, extensionRegistry);
-        return subMessage;
-      }
-      expectedType = 'nested message or group';
-      break;
-    default:
-      throw new ArgumentError('Unknown type $fieldType');
+        expectedType = 'Base64 String';
+        break;
+      case PbFieldType._STRING_BIT:
+        if (value is String) {
+          return value;
+        }
+        expectedType = 'String';
+        break;
+      case PbFieldType._FLOAT_BIT:
+      case PbFieldType._DOUBLE_BIT:
+        // Allow quoted values, although we don't emit them.
+        if (value is double) {
+          return value;
+        } else if (value is num) {
+          return value.toDouble();
+        } else if (value is String) {
+          return double.parse(value);
+        }
+        expectedType = 'num or stringified num';
+        break;
+      case PbFieldType._ENUM_BIT:
+        // Allow quoted values, although we don't emit them.
+        if (value is String) {
+          value = int.parse(value);
+        }
+        if (value is int) {
+          return _getValueOfFunc(tagNumber, registry)(value);
+        }
+        expectedType = 'int or stringified int';
+        break;
+      case PbFieldType._INT32_BIT:
+      case PbFieldType._SINT32_BIT:
+      case PbFieldType._UINT32_BIT:
+      case PbFieldType._FIXED32_BIT:
+      case PbFieldType._SFIXED32_BIT:
+        if (value is int) return value;
+        if (value is String) return int.parse(value);
+        expectedType = 'int or stringified int';
+        break;
+      case PbFieldType._INT64_BIT:
+      case PbFieldType._SINT64_BIT:
+      case PbFieldType._UINT64_BIT:
+      case PbFieldType._FIXED64_BIT:
+      case PbFieldType._SFIXED64_BIT:
+        if (value is int) return new Int64(value);
+        if (value is String) return Int64.parseRadix(value, 10);
+        expectedType = 'int or stringified int';
+        break;
+      case PbFieldType._GROUP_BIT:
+      case PbFieldType._MESSAGE_BIT:
+        if (value is Map) {
+          GeneratedMessage subMessage = _getEmptyMessage(tagNumber, registry);
+          subMessage._mergeFromJsonMap(value, registry);
+          return subMessage;
+        }
+        expectedType = 'nested message or group';
+        break;
+      default:
+        throw new ArgumentError('Unknown type $fieldType');
     }
     throw new ArgumentError('Expected type $expectedType, got $value');
   }
@@ -732,7 +726,7 @@ abstract class GeneratedMessage {
   void mergeFromJson(
       String data,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    _mergeFromJson(JSON.decode(data), extensionRegistry);
+    _mergeFromJsonMap(JSON.decode(data), extensionRegistry);
   }
 
   /// Merges field values from a JSON object represented as a Dart map.
@@ -741,7 +735,7 @@ abstract class GeneratedMessage {
   void mergeFromJsonMap(
       Map<String, dynamic> json,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    _mergeFromJson(json, extensionRegistry);
+    _mergeFromJsonMap(json, extensionRegistry);
   }
 
   /// Adds an extension field value to a repeated field.
