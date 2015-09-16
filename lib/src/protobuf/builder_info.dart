@@ -99,11 +99,6 @@ class BuilderInfo {
     return i != null ? i.makeDefault : null;
   }
 
-  bool isInitialized(Map<int, dynamic> fieldValues) {
-    return fieldInfo.keys.every(
-        (tagNumber) => _isFieldInitialized(fieldValues, tagNumber));
-  }
-
   CreateBuilderFunc subBuilder(int tagNumber) {
     FieldInfo i = fieldInfo[tagNumber];
     return i != null ? i.subBuilder : null;
@@ -117,95 +112,5 @@ class BuilderInfo {
   ValueOfFunc valueOfFunc(int tagNumber) {
     FieldInfo i = fieldInfo[tagNumber];
     return i != null ? i.valueOf : null;
-  }
-
-  bool _isFieldInitialized(Map<int, dynamic> fieldValues, int tagNumber,
-                           [int fieldType = null]) {
-    if (fieldType == null) {
-      fieldType = fieldInfo[tagNumber].type;
-    }
-    if (_isGroupOrMessage(fieldType)) {
-      if (_isRequired(fieldType)) {
-        GeneratedMessage message = fieldValues[tagNumber];
-        // Required message/group must be present and initialized.
-        if (message == null || !message.isInitialized()) {
-          return false;
-        }
-      } else if (_isRepeated(fieldType)) {
-        if (fieldValues.containsKey(tagNumber)) {
-          // Repeated message/group must have all its members initialized.
-          List list = fieldValues[tagNumber];
-          // For message types that (recursively) contain no required fields,
-          // short-circuit the loop.
-          if (!list.isEmpty && list[0].hasRequiredFields()) {
-            if (!list.every((message) => message.isInitialized())) {
-              return false;
-            }
-          }
-        }
-      } else {
-        GeneratedMessage message = fieldValues[tagNumber];
-        // Optional message/group must be initialized if it is present.
-        if (message != null && !message.isInitialized()) {
-          return false;
-        }
-      }
-
-    } else if (_isRequired(fieldType)) {
-      // Required 'primitive' must be present.
-      if (fieldValues[tagNumber] == null) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  List<String> _findInvalidFields(Map<int, dynamic> fieldValues,
-      List<String> invalidFields, [String prefix = '']) {
-    fieldInfo.forEach((int tagNumber, FieldInfo field) {
-      int fieldType = field.type;
-      if (_isGroupOrMessage(fieldType)) {
-        if (_isRequired(fieldType)) {
-          GeneratedMessage message = fieldValues[tagNumber];
-          // Required message/group must be present.
-          if (message == null) {
-            invalidFields.add('${prefix}${field.name}');
-          } else {
-            message._findInvalidFields(
-                invalidFields, '${prefix}${field.name}.');
-          }
-        } else if (_isRepeated(fieldType)) {
-          if (fieldValues.containsKey(tagNumber)) {
-            // Repeated message/group must have all its members initialized.
-            List list = fieldValues[tagNumber];
-            // For messages that (recursively) contain no required fields,
-            // short-circuit the loop.
-            if (!list.isEmpty && list[0].hasRequiredFields()) {
-              int position = 0;
-              for (GeneratedMessage message in list) {
-                if (message.hasRequiredFields()) {
-                  message._findInvalidFields(
-                      invalidFields, '${prefix}${field.name}[${position}].');
-                }
-                position++;
-              }
-            }
-          }
-        } else {
-          GeneratedMessage message = fieldValues[tagNumber];
-          // Required message/group must be present.
-          if (message != null) {
-            message._findInvalidFields(invalidFields, '${prefix}${field.name}.');
-          }
-        }
-
-      } else if(_isRequired(fieldType)) {
-        // Required 'primitive' must be present.
-        if (fieldValues[tagNumber] == null) {
-          invalidFields.add('${prefix}${field.name}');
-        }
-      }
-    });
-    return invalidFields;
   }
 }

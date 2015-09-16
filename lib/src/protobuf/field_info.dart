@@ -31,9 +31,7 @@ class FieldInfo {
   final CheckFunc check;
 
   FieldInfo(this.name, this.tagNumber, int type,
-            [dynamic defaultOrMaker,
-            this.subBuilder,
-            this.valueOf])
+      [dynamic defaultOrMaker, this.subBuilder, this.valueOf])
       : this.type = type,
         this.makeDefault = findMakeDefault(type, defaultOrMaker),
         this.check = null {
@@ -42,10 +40,11 @@ class FieldInfo {
   }
 
   FieldInfo.repeated(this.name, this.tagNumber, int type,
-                     CheckFunc check, this.subBuilder,
-                     [this.valueOf])
-    : this.type = type, this.check = check,
-      this.makeDefault = (() => new PbList(check: check)) {
+      CheckFunc check, this.subBuilder,
+      [this.valueOf])
+      : this.type = type,
+        this.check = check,
+        this.makeDefault = (() => new PbList(check: check)) {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isRepeated(type));
@@ -59,6 +58,7 @@ class FieldInfo {
     return () => defaultOrMaker;
   }
 
+  bool get isRequired => _isRequired(type);
   bool get isRepeated => _isRepeated(type);
 
   /// Returns a read-only default value for a field.
@@ -66,6 +66,58 @@ class FieldInfo {
   get readonlyDefault {
     if (isRepeated) return _emptyList;
     return makeDefault();
+  }
+
+  /// Returns true if the field's value is okay to transmit.
+  /// That is, it doesn't contain any required fields that aren't initialized.
+  bool _isInitialized(value) {
+    if (value == null) return !isRequired; // missing is okay if optional
+    if (!_isGroupOrMessage(type)) return true; // primitive and present
+
+    if (!isRepeated) {
+      // A required message: recurse.
+      GeneratedMessage message = value;
+      return message.isInitialized();
+    }
+
+    List list = value;
+    if (list.isEmpty) return true;
+
+    // For message types that (recursively) contain no required fields,
+    // short-circuit the loop.
+    if (!list[0].hasRequiredFields()) return true;
+
+    // Recurse on each item in the list.
+    return list.every((GeneratedMessage message) => message.isInitialized());
+  }
+
+  /// Appends the dotted path to each required field that's missing a value.
+  void _appendInvalidFields(List<String> problems, value, String prefix) {
+    if (value == null) {
+      if (isRequired) problems.add('$prefix$name');
+    } else if (!_isGroupOrMessage(type)) {
+      // primitive and present
+    } else if (!isRepeated) {
+      // Required message/group: recurse.
+      GeneratedMessage message = value;
+      message._appendInvalidFields(problems, '$prefix$name.');
+    } else {
+      List list = value;
+      if (list.isEmpty) return;
+
+      // For message types that (recursively) contain no required fields,
+      // short-circuit the loop.
+      if (!list[0].hasRequiredFields()) return;
+
+      // Recurse on each item in the list.
+      int position = 0;
+      for (GeneratedMessage message in list) {
+        if (message.hasRequiredFields()) {
+          message._appendInvalidFields(problems, '$prefix$name[$position].');
+        }
+        position++;
+      }
+    }
   }
 
   String toString() => name;

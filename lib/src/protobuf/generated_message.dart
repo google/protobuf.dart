@@ -139,11 +139,21 @@ abstract class GeneratedMessage {
     if (!info_.hasRequiredFields) {
       return true;
     }
-    return info_.isInitialized(_fieldValues) && extensionsAreInitialized();
+    for (var fi in info_.fieldInfo.values) {
+      var value = _fieldValues[fi.tagNumber];
+      if (!fi._isInitialized(value)) return false;
+    }
+    return extensionsAreInitialized();
   }
 
-  void _findInvalidFields(List<String> invalidFields, String prefix) {
-    info_._findInvalidFields(_fieldValues, invalidFields, prefix);
+  /// Adds the path to each uninitialized field to the list.
+  void _appendInvalidFields(List<String> problems, String prefix) {
+    for (var fi in info_.fieldInfo.values) {
+      var value = _fieldValues[fi.tagNumber];
+      fi._appendInvalidFields(problems, value, prefix);
+    }
+    // TODO(skybrian): search extensions as well
+    // https://github.com/dart-lang/dart-protobuf/issues/46
   }
 
   /// Clears all data that was set in this message.
@@ -275,7 +285,7 @@ abstract class GeneratedMessage {
   void check() {
     if (!isInitialized()) {
       List<String> invalidFields = <String>[];
-      info_._findInvalidFields(_fieldValues, invalidFields);
+      _appendInvalidFields(invalidFields, "");
       String missingFields = (invalidFields..sort()).join(', ');
       throw new StateError('Message missing required fields: $missingFields');
     }
@@ -785,10 +795,11 @@ abstract class GeneratedMessage {
   }
 
   bool extensionsAreInitialized() {
-    return _extensions.keys.every((int tagNumber) {
-      return info_._isFieldInitialized(_fieldValues, tagNumber,
-          _extensions[tagNumber].type);
-    });
+    for (var extension in _extensions.values) {
+      var value = _fieldValues[extension.tagNumber];
+      if (!extension._isInitialized(value)) return false;
+    }
+    return true; // no problems found
   }
 
   /// Returns the value of [extension].
