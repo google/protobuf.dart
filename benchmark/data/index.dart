@@ -16,6 +16,12 @@ List<String> allReportNames = const [
   latestVMReportName,
   "skybrian5/0.4.2/json_chrome.pb.json",
   "skybrian5/0.4.2/json_vm.pb.json",
+  "skybrian5/0.4.2/props_chrome.pb.json",
+  "skybrian5/0.4.2/props_vm.pb.json",
+  "skybrian5/head/json_chrome.pb.json",
+  "skybrian5/head/json_vm.pb.json",
+  "skybrian5/head/props_chrome.pb.json",
+  "skybrian5/head/props_vm.pb.json",
   "skybrian-macbookpro/0.4.2/json_chrome.pb.json",
   "skybrian-macbookpro/0.4.2/json_vm.pb.json",
 ];
