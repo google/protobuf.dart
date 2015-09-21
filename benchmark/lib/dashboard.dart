@@ -23,7 +23,7 @@ Future showDashboard(pb.Suite suite, Element container) async {
   // set up model
 
   var env = await loadBrowserEnv();
-  var reports = await loadReports();
+  var reports = await loadReports(suite);
 
   var defaultReport = new pb.Report()..env = env;
   var model = new DashboardModel(reports, new Table(suite), defaultReport);
@@ -124,14 +124,17 @@ Future<pb.Env> loadBrowserEnv() async {
 }
 
 /// Loads all the reports saved to benchmark/data.
-Future<Map<String, pb.Report>> loadReports() async {
+Future<Map<String, pb.Report>> loadReports(pb.Suite suite) async {
   var out = <String, pb.Report>{};
   // TODO: maybe parallelize?
   for (var name in data.allReportNames) {
     String json =
         await _loadDataFile(name, optional: (name == data.latestVMReportName));
     if (json != null) {
-      out[name] = new pb.Report.fromJson(json);
+      var report = new pb.Report.fromJson(json);
+      if (isCompatibleBaseline(suite, report)) {
+        out[name] = report;
+      }
     }
   }
   print("loaded ${out.length} reports");
@@ -143,9 +146,24 @@ Future<Map<String, pb.Report>> loadReports() async {
 String chooseBaseline(pb.Env env, Map<String, pb.Report> reports) {
   for (var name in reports.keys) {
     var candidate = reports[name];
-    if (candidate.env.platform == env.platform) return name;
+    if (candidate.env.platform == env.platform) {
+      return name;
+    }
   }
   return null;
+}
+
+/// Returns true if the baseline report used the same benchmarks.
+bool isCompatibleBaseline(pb.Suite suite, pb.Report report) {
+  for (int i = 0; i < suite.requests.length; i++) {
+    if (i >= report.responses.length) {
+      return true; // additional benchmarks ok
+    }
+    var request = suite.requests[i];
+    var response = report.responses[i];
+    if (request != response.request) return false;
+  }
+  return true;
 }
 
 Future<String> _loadDataFile(String name,

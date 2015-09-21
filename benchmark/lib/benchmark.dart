@@ -197,3 +197,8 @@ double stringReadsPerMillisecond(pb.Sample s) {
   if (s == null || !s.counts.hasStringReads() || !s.hasDuration()) return 0.0;
   return s.counts.stringReads * 1000 / s.duration;
 }
+
+double stringWritesPerMillisecond(pb.Sample s) {
+  if (s == null || !s.counts.hasStringWrites() || !s.hasDuration()) return 0.0;
+  return s.counts.stringWrites * 1000 / s.duration;
+}

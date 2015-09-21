@@ -33,6 +33,10 @@ enum BenchmarkID {
   READ_INT64_REPEATED_JSON = 4;
   READ_STRING_FIELDS_JSON = 5;
   READ_STRING_REPEATED_JSON = 6;
+
+  GET_STRINGS = 20;
+  SET_STRINGS = 21;
+  HAS_STRINGS = 22;
 }
 
 // Parameters to a particular benchmark.
@@ -61,6 +65,9 @@ message Params {
 
   // The size of the strings used in the benchmark.
   optional int32 string_size = 8;
+
+  // An initial string value for filling the grid.
+  optional string string_value = 9;
 }
 
 // A Report records what is happening while a suite is being run.
@@ -163,4 +170,7 @@ message Counts {
 
   // The number of strings read during a sample.
   optional int32 stringReads = 4;
+
+  // The number of strings written during a sample.
+  optional int32 stringWrites = 5;
 }

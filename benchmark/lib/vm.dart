@@ -9,10 +9,11 @@ import 'dart:io' show File, Directory, Link, Platform, stdout;
 
 import '../data/index.dart'
     show latestVMReportName, pubspecYamlName, pubspecLockName, hostfileName;
+import 'benchmarks/index.dart' show createBenchmark;
 import 'generated/benchmark.pb.dart' as pb;
 import 'report.dart'
     show createPlatform, createPackages, encodeReport, findUpdatedResponse;
-import 'suite.dart' show createBenchmark, runSuite;
+import 'suite.dart' show runSuite;
 
 /// Runs a benchmark suite.
 /// Writes a report to latest_vm.pb.json after every change,

@@ -4,13 +4,8 @@
 
 library protoc.benchmark.suite;
 
-import "benchmark.dart";
-import "benchmarks/int32_json.dart";
-import "benchmarks/repeated_int32_json.dart";
-import "benchmarks/int64_json.dart";
-import "benchmarks/repeated_int64_json.dart";
-import "benchmarks/string_json.dart";
-import "benchmarks/repeated_string_json.dart";
+import 'benchmark.dart';
+import 'benchmarks/index.dart' show createBenchmark;
 import 'generated/benchmark.pb.dart' as pb;
 
 /// Runs a benchmark suite, returning progress until done.
@@ -68,33 +63,4 @@ Iterable<pb.Report> runSuite(List<pb.Request> requests,
   report.status = pb.Status.DONE;
   report.message = "Done";
   yield report;
-}
-
-/// Creates the appropriate Benchmark instance for a protobuf.
-Benchmark createBenchmark(pb.Request r) {
-  var type = allBenchmarks[r.id];
-  if (type == null) {
-    throw new ArgumentError("unknown benchmark: ${r.id.name}");
-  }
-  return type.create(r);
-}
-
-final Map<pb.BenchmarkID, BenchmarkType> allBenchmarks = _makeTypeMap([
-  Int32Benchmark.$type,
-  RepeatedInt32Benchmark.$type,
-  Int64Benchmark.$type,
-  RepeatedInt64Benchmark.$type,
-  StringBenchmark.$type,
-  RepeatedStringBenchmark.$type,
-]);
-
-Map<pb.BenchmarkID, BenchmarkType> _makeTypeMap(List<BenchmarkType> types) {
-  var out = <pb.BenchmarkID, BenchmarkType>{};
-  for (var type in types) {
-    if (out.containsKey(type.id)) {
-      throw "already added: $type.id.name";
-    }
-    out[type.id] = type;
-  }
-  return new Map.unmodifiable(out);
 }
