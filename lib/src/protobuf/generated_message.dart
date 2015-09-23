@@ -736,8 +736,15 @@ abstract class GeneratedMessage {
   void mergeFromJson(
       String data,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    _mergeFromJsonMap(JSON.decode(data), extensionRegistry);
+    /// Disable lazy creation of Dart objects for a dart2js speedup.
+    /// This is a slight regression on the Dart VM.
+    /// TODO(skybrian) we could skip the reviver if we're running
+    /// on the Dart VM for a slight speedup.
+    var jsonMap = JSON.decode(data, reviver: _emptyReviver);
+    _mergeFromJsonMap(jsonMap, extensionRegistry);
   }
+
+  static _emptyReviver(k, v) => v;
 
   /// Merges field values from a JSON object represented as a Dart map.
   ///
