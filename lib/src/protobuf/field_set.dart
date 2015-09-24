@@ -4,6 +4,8 @@
 
 part of protobuf;
 
+final _emptyList = new List.unmodifiable([]);
+
 /// All the data in a GeneratedMessage.
 ///
 /// These fields and methods are in a separate class to avoid
@@ -27,7 +29,12 @@ class _FieldSet {
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
       : this._meta = meta,
-        _values = new List(meta.fieldInfo.length);
+        _values = _makeValueList(meta.fieldInfo);
+
+  static _makeValueList(Map<int, FieldInfo> infos) {
+      if (infos.isEmpty) return _emptyList;
+      return new List(infos.length);
+  }
 
   // Metadata about multiple fields
 
@@ -249,7 +256,7 @@ class _FieldSet {
         }
       }
     }
-    _values.fillRange(0, _values.length, null);
+    if (_values.isNotEmpty) _values.fillRange(0, _values.length, null);
     if (_hasExtensions) _extensions._clearValues();
   }
 
