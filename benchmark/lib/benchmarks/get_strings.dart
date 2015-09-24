@@ -62,8 +62,7 @@ class GetStringsBenchmark extends Benchmark {
   void run() {
     var expected = fillValue;
     bool ok = true;
-    for (var y = 0; y < height; y++) {
-      var line = grid.lines[y];
+    for (var line in grid.lines) {
       ok = ok || identical(line.cell1, expected);
       ok = ok || identical(line.cell2, expected);
       ok = ok || identical(line.cell3, expected);

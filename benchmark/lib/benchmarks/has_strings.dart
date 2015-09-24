@@ -69,8 +69,7 @@ class HasStringsBenchmark extends Benchmark {
 
   void runFilled() {
     var allPresent = true;
-    for (var y = 0; y < height; y++) {
-      var line = grid.lines[y];
+    for (var line in grid.lines) {
       allPresent = allPresent && line.hasCell1();
       allPresent = allPresent && line.hasCell2();
       allPresent = allPresent && line.hasCell3();
@@ -87,8 +86,7 @@ class HasStringsBenchmark extends Benchmark {
 
   void runEmpty() {
     var allEmpty = true;
-    for (var y = 0; y < height; y++) {
-      var line = grid.lines[y];
+    for (var line in grid.lines) {
       allEmpty = allEmpty && !line.hasCell1();
       allEmpty = allEmpty && !line.hasCell2();
       allEmpty = allEmpty && !line.hasCell3();

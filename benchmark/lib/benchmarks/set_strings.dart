@@ -61,8 +61,7 @@ class SetStringsBenchmark extends Benchmark {
   @override
   void run() {
     var newValue = "";
-    for (var y = 0; y < height; y++) {
-      var line = grid.lines[y];
+    for (var line in grid.lines) {
       line.cell1 = newValue;
       line.cell2 = newValue;
       line.cell3 = newValue;
