@@ -24,4 +24,10 @@ List<String> allReportNames = const [
   "skybrian5/head/props_vm.pb.json",
   "skybrian-macbookpro/0.4.2/json_chrome.pb.json",
   "skybrian-macbookpro/0.4.2/json_vm.pb.json",
+  "skybrian-macbookpro/0.4.2/props_chrome.pb.json",
+  "skybrian-macbookpro/0.4.2/props_vm.pb.json",
+  "skybrian-macbookpro/head/json_chrome.pb.json",
+  "skybrian-macbookpro/head/json_vm.pb.json",
+  "skybrian-macbookpro/head/props_chrome.pb.json",
+  "skybrian-macbookpro/head/props_vm.pb.json",
 ];
