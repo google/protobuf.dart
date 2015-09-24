@@ -14,6 +14,7 @@ class BuilderInfo {
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
   bool hasExtensions = false;
   bool hasRequiredFields = true;
+  List _sortedByTag;
 
   BuilderInfo(this.messageName);
 
@@ -21,16 +22,18 @@ class BuilderInfo {
            dynamic defaultOrMaker,
            CreateBuilderFunc subBuilder,
            ValueOfFunc valueOf) {
+    var index = fieldInfo.length;
     addField(new FieldInfo(
-      name, tagNumber, fieldType, defaultOrMaker, subBuilder, valueOf));
+      name, tagNumber, index, fieldType, defaultOrMaker, subBuilder, valueOf));
   }
 
   void addRepeated(int tagNumber, String name, int fieldType,
                    CheckFunc check,
                    CreateBuilderFunc subBuilder,
                    ValueOfFunc valueOf) {
+    var index = fieldInfo.length;
     addField(new FieldInfo.repeated(
-        name, tagNumber, fieldType, check, subBuilder, valueOf));
+        name, tagNumber, index, fieldType, check, subBuilder, valueOf));
   }
 
   void addField(FieldInfo fi) {
@@ -112,5 +115,34 @@ class BuilderInfo {
   ValueOfFunc valueOfFunc(int tagNumber) {
     FieldInfo i = fieldInfo[tagNumber];
     return i != null ? i.valueOf : null;
+  }
+
+  /// Returns the FieldInfo for each field in tag number order.
+  List<FieldInfo> get sortedByTag {
+    if (_sortedByTag != null) return _sortedByTag;
+    // TODO(skybrian): perhaps the code generator should insert the FieldInfos
+    // in tag number order, to avoid sorting them?
+    _sortedByTag = new List<FieldInfo>.from(fieldInfo.values)
+            ..sort((a, b) => a.tagNumber.compareTo(b.tagNumber));
+    return _sortedByTag;
+  }
+
+  GeneratedMessage _makeEmptyMessage(
+      int tagNumber, ExtensionRegistry extensionRegistry) {
+    CreateBuilderFunc subBuilderFunc = subBuilder(tagNumber);
+    if (subBuilderFunc == null && extensionRegistry != null) {
+      subBuilderFunc = extensionRegistry.getExtension(messageName,
+          tagNumber).subBuilder;
+    }
+    return subBuilderFunc();
+  }
+
+  _decodeEnum(int tagNumber, ExtensionRegistry registry, int rawValue) {
+
+    ValueOfFunc f = valueOfFunc(tagNumber);
+    if (f == null && registry != null) {
+      f = registry.getExtension(messageName, tagNumber).valueOf;
+    }
+    return f(rawValue);
   }
 }

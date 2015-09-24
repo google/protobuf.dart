@@ -46,7 +46,6 @@ class PbFieldChange {
 /// A buffering implementation of event delivery.
 /// (Loosely based on package:observe's ChangeNotifier.)
 class EventBuffer extends EventPlugin {
-
   // An EventBuffer is created for each GeneratedMessage, so
   // initialization should be fast; create fields lazily.
 
@@ -60,6 +59,7 @@ class EventBuffer extends EventPlugin {
   @override
   void attach(GeneratedMessage newParent) {
     assert(_parent == null);
+    assert(newParent != null);
     _parent = newParent;
   }
 

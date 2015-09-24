@@ -10,6 +10,7 @@ part of protobuf;
 class FieldInfo {
   final String name;
   final int tagNumber;
+  final int index; // index of the field's value. Null for extensions.
   final int type;
 
   // Constructs the default value of a field.
@@ -30,16 +31,17 @@ class FieldInfo {
   // (Not used for non-repeated fields.)
   final CheckFunc check;
 
-  FieldInfo(this.name, this.tagNumber, int type,
+  FieldInfo(this.name, this.tagNumber, this.index, int type,
       [dynamic defaultOrMaker, this.subBuilder, this.valueOf])
       : this.type = type,
         this.makeDefault = findMakeDefault(type, defaultOrMaker),
         this.check = null {
+    assert(type != 0);
     assert(!_isGroupOrMessage(type) || subBuilder != null);
     assert(!_isEnum(type) || valueOf != null);
   }
 
-  FieldInfo.repeated(this.name, this.tagNumber, int type,
+  FieldInfo.repeated(this.name, this.tagNumber, this.index, int type,
       CheckFunc check, this.subBuilder,
       [this.valueOf])
       : this.type = type,
@@ -70,14 +72,14 @@ class FieldInfo {
 
   /// Returns true if the field's value is okay to transmit.
   /// That is, it doesn't contain any required fields that aren't initialized.
-  bool _isInitialized(value) {
+  bool _hasRequiredValues(value) {
     if (value == null) return !isRequired; // missing is okay if optional
     if (!_isGroupOrMessage(type)) return true; // primitive and present
 
     if (!isRepeated) {
       // A required message: recurse.
       GeneratedMessage message = value;
-      return message.isInitialized();
+      return message._fieldSet._hasRequiredValues();
     }
 
     List list = value;
@@ -85,10 +87,10 @@ class FieldInfo {
 
     // For message types that (recursively) contain no required fields,
     // short-circuit the loop.
-    if (!list[0].hasRequiredFields()) return true;
+    if (!list[0]._fieldSet._hasRequiredFields) return true;
 
     // Recurse on each item in the list.
-    return list.every((GeneratedMessage message) => message.isInitialized());
+    return list.every((GeneratedMessage m) => m._fieldSet._hasRequiredValues());
   }
 
   /// Appends the dotted path to each required field that's missing a value.
@@ -100,21 +102,20 @@ class FieldInfo {
     } else if (!isRepeated) {
       // Required message/group: recurse.
       GeneratedMessage message = value;
-      message._appendInvalidFields(problems, '$prefix$name.');
+      message._fieldSet._appendInvalidFields(problems, '$prefix$name.');
     } else {
       List list = value;
       if (list.isEmpty) return;
 
       // For message types that (recursively) contain no required fields,
       // short-circuit the loop.
-      if (!list[0].hasRequiredFields()) return;
+      if (!list[0]._fieldSet._hasRequiredFields) return;
 
       // Recurse on each item in the list.
       int position = 0;
       for (GeneratedMessage message in list) {
-        if (message.hasRequiredFields()) {
-          message._appendInvalidFields(problems, '$prefix$name[$position].');
-        }
+        message._fieldSet
+            ._appendInvalidFields(problems, '$prefix$name[$position].');
         position++;
       }
     }

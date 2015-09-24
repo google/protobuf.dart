@@ -8,13 +8,9 @@ final _emptyList = new List.unmodifiable([]);
 
 /// Modifies a GeneratedMessage so that it's read-only.
 abstract class ReadonlyMessageMixin {
-  static final _emptyUnknownFields = new _ReadonlyUnknownFieldSet();
-
   BuilderInfo get info_;
 
-  get unknownFields => _emptyUnknownFields;
-
-  List _getDefaultRepeatedField(int tagNumber, FieldInfo fi) => _emptyList;
+  get _isReadOnly => true;
 
   void addExtension(Extension extension, var value) =>
       _readonly("addExtension");
@@ -24,6 +20,9 @@ abstract class ReadonlyMessageMixin {
   void clearExtension(Extension extension) => _readonly("clearExtension");
 
   void clearField(int tagNumber) => _readonly("clearField");
+
+  void createRepeatedField(int tagNumber, FieldInfo fi) =>
+      _readonly("createRepeatedField");
 
   void mergeFromBuffer(List<int> input,
           [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) =>
@@ -61,6 +60,7 @@ abstract class ReadonlyMessageMixin {
 }
 
 class _ReadonlyUnknownFieldSet extends UnknownFieldSet {
+  static final _empty = new _ReadonlyUnknownFieldSet();
 
   @override
   void clear() => _readonly("clear");
