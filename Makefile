@@ -1,35 +1,37 @@
 PLUGIN_SRC = \
-						 prepend.dart \
-						 bin/protoc_plugin.dart \
-						 lib/*.dart \
-						 lib/src/descriptor.pb.dart \
-						 lib/src/plugin.pb.dart
+	prepend.dart \
+	bin/protoc_plugin.dart \
+	lib/*.dart \
+	lib/src/descriptor.pb.dart \
+	lib/src/plugin.pb.dart
 
 OUTPUT_DIR=out
 PLUGIN_NAME=protoc-gen-dart
 PLUGIN_PATH=$(OUTPUT_DIR)/$(PLUGIN_NAME)
 
+BENCHMARK_PROTOS = $(wildcard benchmark/protos/*.proto)
+
 TEST_PROTO_LIST = \
-						 google/protobuf/unittest_import \
-						 google/protobuf/unittest_optimize_for \
-						 google/protobuf/unittest \
-						 dart_options \
-						 descriptor_2_5_opensource \
-						 map_api \
-						 map_api2 \
-						 multiple_files_test \
-						 nested_extension \
-						 non_nested_extension \
-						 reserved_names \
-						 duplicate_names_import \
-						 package1 \
-						 package2 \
-						 package3 \
-						 service \
-						 service2 \
-             service3 \
-						 toplevel_import \
-						 toplevel
+	google/protobuf/unittest_import \
+	google/protobuf/unittest_optimize_for \
+	google/protobuf/unittest \
+	dart_options \
+	descriptor_2_5_opensource \
+	map_api \
+	map_api2 \
+	multiple_files_test \
+	nested_extension \
+	non_nested_extension \
+	reserved_names \
+	duplicate_names_import \
+	package1 \
+	package2 \
+	package3 \
+	service \
+	service2 \
+	service3 \
+	toplevel_import \
+	toplevel
 TEST_PROTO_DIR=$(OUTPUT_DIR)/protos
 TEST_PROTO_LIBS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_DIR)/$(proto).pb.dart)
 TEST_PROTO_SRC_DIR=test/protos
@@ -54,31 +56,24 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 		$(TEST_PROTO_SRCS)
 
 .PHONY: build-plugin build-benchmark-protos build-benchmarks \
-	update-pregenerated build-test-protos run-tests clean
+	update-pregenerated protos run-tests clean
 
 build-plugin: $(PLUGIN_PATH)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 	protoc --dart_out=lib/src -Ilib --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
 
-build-test-protos: $(TEST_PROTO_LIBS)
-
-run-tests: build-test-protos
-	pub run test
-
-BENCHMARK_PROTOS = $(wildcard benchmark/protos/*.proto)
-
-build-benchmark-protos: $(PLUGIN_PATH)
+protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 	mkdir -p benchmark/lib/generated
 	protoc \
-	  --dart_out=benchmark/lib/generated \
-	  -Ibenchmark/protos \
-	  --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) \
-	  $(BENCHMARK_PROTOS)
+		--dart_out=benchmark/lib/generated \
+		-Ibenchmark/protos \
+		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) \
+		$(BENCHMARK_PROTOS)
 
-build-benchmarks: build-benchmark-protos
-		dart2js benchmark/readints.dart --out=benchmark/readints.dart.js --dump-info
+run-tests: protos
+	pub run test
 
 clean:
-	rm -r benchmark/lib/generated
+	rm -rf benchmark/lib/generated
 	rm -rf $(OUTPUT_DIR)
