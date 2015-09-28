@@ -126,7 +126,8 @@ class MessageGenerator extends ProtobufContainer {
 
     _fieldList = <ProtobufField>[];
     for (FieldDescriptorProto field in _descriptor.field) {
-      _fieldList.add(new ProtobufField(field, this, ctx));
+      int index = _fieldList.length;
+      _fieldList.add(new ProtobufField(field, index, this, ctx));
     }
 
     for (var m in _messageGenerators) {
@@ -300,6 +301,8 @@ class MessageGenerator extends ProtobufContainer {
   void generateFieldsAccessorsMutators(IndentingWriter out) {
     for (ProtobufField field in _fieldList) {
       out.println();
+
+      // Choose non-conflicting names.
       String identifier = field.dartFieldName;
       String hasIdentifier = field.hasMethodName;
       String clearIdentifier = field.clearMethodName;
@@ -320,15 +323,25 @@ class MessageGenerator extends ProtobufContainer {
         }
         _methodNames.add(identifier);
       }
+
       var fieldTypeString = field.getDartType(package);
       out.println('${fieldTypeString} get ${identifier}'
-          ' => getField(${field.number});');
+          ' => \$_get(${field.index}, ${field.number});');
       if (!field.isRepeated) {
-        out.println('void set ${identifier}'
-            '(${fieldTypeString} v) '
-            '{ setField(${field.number}, v); }');
+        var fastSetter = field.baseType.setter;
+        if (fastSetter != null) {
+          out.println('void set $identifier'
+              '($fieldTypeString v) { '
+              '$fastSetter(${field.index}, ${field.number}, v);'
+              ' }');
+        } else {
+          out.println('void set $identifier'
+              '($fieldTypeString v) { '
+              'setField(${field.number}, v);'
+              ' }');
+        }
         out.println('bool $hasIdentifier() =>'
-            ' hasField(${field.number});');
+            ' \$_has(${field.index}, ${field.number});');
         out.println('void $clearIdentifier() =>'
             ' clearField(${field.number});');
       }
@@ -374,7 +387,7 @@ class MessageGenerator extends ProtobufContainer {
     for (var m in _messageGenerators) {
       m.generateConstants(out);
     }
-    
+
     for (var e in _enumGenerators) {
       e.generateConstants(out);
     }

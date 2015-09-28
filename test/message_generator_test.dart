@@ -60,19 +60,19 @@ class PhoneNumber extends GeneratedMessage {
     if (v is !PhoneNumber) checkItemFailed(v, 'PhoneNumber');
   }
 
-  String get number => getField(1);
-  void set number(String v) { setField(1, v); }
-  bool hasNumber() => hasField(1);
+  String get number => $_get(0, 1);
+  void set number(String v) { $_setString(0, 1, v); }
+  bool hasNumber() => $_has(0, 1);
   void clearNumber() => clearField(1);
 
-  PhoneNumber_PhoneType get type => getField(2);
+  PhoneNumber_PhoneType get type => $_get(1, 2);
   void set type(PhoneNumber_PhoneType v) { setField(2, v); }
-  bool hasType() => hasField(2);
+  bool hasType() => $_has(1, 2);
   void clearType() => clearField(2);
 
-  String get name => getField(3);
-  void set name(String v) { setField(3, v); }
-  bool hasName() => hasField(3);
+  String get name => $_get(2, 3);
+  void set name(String v) { $_setString(2, 3, v); }
+  bool hasName() => $_has(2, 3);
   void clearName() => clearField(3);
 }
 

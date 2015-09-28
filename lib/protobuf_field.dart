@@ -10,17 +10,26 @@ class ProtobufField {
   static final RegExp INTEGER_LITERAL_REGEX = new RegExp(r'^[+-]?[0-9]+$');
   static final RegExp DECIMAL_LITERAL_REGEX_A = new RegExp(
       r'^[+-]?([0-9]*)\.[0-9]+(e[+-]?[0-9]+)?$',
-      multiLine: false, caseSensitive: false);
+      multiLine: false,
+      caseSensitive: false);
   static final RegExp DECIMAL_LITERAL_REGEX_B = new RegExp(
-      r'^[+-]?[0-9]+e[+-]?[0-9]+$', multiLine: false, caseSensitive: false);
+      r'^[+-]?[0-9]+e[+-]?[0-9]+$',
+      multiLine: false,
+      caseSensitive: false);
 
   final FieldDescriptorProto _field;
+
+  /// The index of this field in MessageGenerator._fieldList.
+  /// The same index will be stored in FieldInfo.index.
+  /// For extension fields, this will be null.
+  final int index;
+
   final String fqname;
   final BaseType baseType;
   final GenerationOptions _genOptions;
 
-  ProtobufField(FieldDescriptorProto field, ProtobufContainer parent,
-      GenerationContext ctx)
+  ProtobufField(FieldDescriptorProto field, this.index,
+      ProtobufContainer parent, GenerationContext ctx)
       : _field = field,
         fqname = '${parent.fqname}.${field.name}',
         baseType = new BaseType(field, ctx),
@@ -104,10 +113,10 @@ class ProtobufField {
     if (isRepeated) {
       if (baseType.isMessage || baseType.isGroup) {
         return '..pp($number, $quotedName, $typeConstant,'
-          ' $type.$checkItem, $type.create)';
+            ' $type.$checkItem, $type.create)';
       } else if (baseType.isEnum) {
         return '..pp($number, $quotedName, $typeConstant,'
-          ' $type.$checkItem, null, $type.valueOf)';
+            ' $type.$checkItem, null, $type.valueOf)';
       } else {
         return '..p($number, $quotedName, $typeConstant)';
       }

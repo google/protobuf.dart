@@ -16,12 +16,15 @@ class BaseType {
   /// (For example, 'B' for boolean or '3' for int32.)
   final String typeConstantSuffix;
 
+  // Method name of the setter method for this type.
+  final String setter;
+
   // The generator corresponding to this type.
   // (Null for primitive types.)
   final ProtobufContainer generator;
 
   const BaseType._raw(this.descriptor, this.typeConstantSuffix, this.unprefixed,
-      this.generator);
+      this.setter, this.generator);
 
   bool get isGroup => descriptor == FieldDescriptorProto_Type.TYPE_GROUP;
   bool get isMessage => descriptor == FieldDescriptorProto_Type.TYPE_MESSAGE;
@@ -57,50 +60,50 @@ class BaseType {
 
     switch (field.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_BOOL, "B", "bool", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_BOOL, "B",
+            "bool", r"$_setBool", null);
       case FieldDescriptorProto_Type.TYPE_FLOAT:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_FLOAT, "F", "double", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_FLOAT, "F",
+            "double", r"$_setFloat", null);
       case FieldDescriptorProto_Type.TYPE_DOUBLE:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_DOUBLE, "D", "double", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_DOUBLE, "D",
+            "double", r"$_setDouble", null);
       case FieldDescriptorProto_Type.TYPE_INT32:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_INT32, "3", "int", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_INT32, "3",
+            "int", r"$_setUnsignedInt32", null);
       case FieldDescriptorProto_Type.TYPE_UINT32:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_UINT32, "U3", "int", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_UINT32, "U3",
+            "int", r"$_setUnsignedInt32", null);
       case FieldDescriptorProto_Type.TYPE_SINT32:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_SINT32, "S3", "int", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_SINT32, "S3",
+            "int", r"$_setSignedInt32", null);
       case FieldDescriptorProto_Type.TYPE_FIXED32:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_FIXED32, "F3", "int", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_FIXED32, "F3",
+            "int", r"$_setUnsignedInt32", null);
       case FieldDescriptorProto_Type.TYPE_SFIXED32:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_SFIXED32, "SF3", "int", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_SFIXED32,
+            "SF3", "int", r"$_setSignedInt32", null);
       case FieldDescriptorProto_Type.TYPE_INT64:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_INT64, "6", "Int64", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_INT64, "6",
+            "Int64", r"$_setInt64", null);
       case FieldDescriptorProto_Type.TYPE_UINT64:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_UINT64, "U6", "Int64", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_UINT64, "U6",
+            "Int64", r"$_setInt64", null);
       case FieldDescriptorProto_Type.TYPE_SINT64:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_SINT64, "S6", "Int64", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_SINT64, "S6",
+            "Int64", r"$_setInt64", null);
       case FieldDescriptorProto_Type.TYPE_FIXED64:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_FIXED64, "F6", "Int64", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_FIXED64, "F6",
+            "Int64", r"$_setInt64", null);
       case FieldDescriptorProto_Type.TYPE_SFIXED64:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_SFIXED64, "SF6", "Int64", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_SFIXED64,
+            "SF6", "Int64", r"$_setInt64", null);
       case FieldDescriptorProto_Type.TYPE_STRING:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_STRING, "S", "String", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_STRING, "S",
+            "String", r"$_setString", null);
       case FieldDescriptorProto_Type.TYPE_BYTES:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_BYTES, "Y", "List<int>", null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_BYTES, "Y",
+            "List<int>", r"$_setBytes", null);
 
       case FieldDescriptorProto_Type.TYPE_GROUP:
         constSuffix = "G";
@@ -122,6 +125,6 @@ class BaseType {
     }
 
     return new BaseType._raw(
-        field.type, constSuffix, generator.classname, generator);
+        field.type, constSuffix, generator.classname, null, generator);
   }
 }

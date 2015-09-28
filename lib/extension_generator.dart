@@ -15,7 +15,7 @@ class ExtensionGenerator {
   ExtensionGenerator(this._descriptor, this._parent);
 
   void resolve(GenerationContext ctx) {
-    _field = new ProtobufField(_descriptor, _parent, ctx);
+    _field = new ProtobufField(_descriptor, null, _parent, ctx);
 
     ProtobufContainer extendedType = ctx.getFieldType(_descriptor.extendee);
     // TODO(skybrian) When would this be null?
