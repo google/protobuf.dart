@@ -273,4 +273,54 @@ abstract class GeneratedMessage {
   /// Throws an [:ArgumentError:] if [value] is [:null:]. To clear a field of
   /// it's current value, use [clearField] instead.
   void setField(int tagNumber, value) => _fieldSet._setField(tagNumber, value);
+
+  /// For generated code only.
+  $_get(int index, int tagNumber) => _fieldSet._$get(index, tagNumber);
+
+  /// For generated code only.
+  bool $_has(int index, int tagNumber) => _fieldSet._$has(index, tagNumber);
+
+  /// For generated code only.
+  void $_setBool(int index, int tagNumber, bool value) =>
+      _fieldSet._$set(index, tagNumber, value);
+
+  /// For generated code only.
+  void $_setBytes(int index, int tagNumber, List<int> value) =>
+      _fieldSet._$set(index, tagNumber, value);
+
+  /// For generated code only.
+  void $_setString(int index, int tagNumber, String value) =>
+      _fieldSet._$set(index, tagNumber, value);
+
+  /// For generated code only.
+  void $_setFloat(int index, int tagNumber, double value) {
+    if (value == null || !_isFloat32(value)) {
+      _fieldSet._$check(tagNumber, value);
+    }
+    _fieldSet._$set(index, tagNumber, value);
+  }
+
+  /// For generated code only.
+  void $_setDouble(int index, int tagNumber, double value) =>
+      _fieldSet._$set(index, tagNumber, value);
+
+  /// For generated code only.
+  void $_setSignedInt32(int index, int tagNumber, int value) {
+    if (value == null || !_isSigned32(value)) {
+      _fieldSet._$check(tagNumber, value);
+    }
+    _fieldSet._$set(index, tagNumber, value);
+  }
+
+  /// For generated code only.
+  void $_setUnsignedInt32(int index, int tagNumber, int value) {
+    if (value == null || !_isUnsigned32(value)) {
+      _fieldSet._$check(tagNumber, value);
+    }
+    _fieldSet._$set(index, tagNumber, value);
+  }
+
+  /// For generated code only.
+  void $_setInt64(int index, int tagNumber, Int64 value) =>
+      _fieldSet._$set(index, tagNumber, value);
 }

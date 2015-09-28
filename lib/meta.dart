@@ -47,5 +47,15 @@ const List<String> GeneratedMessage_reservedNames = const [
   'Object',
   'eventPlugin',
   'createRepeatedField',
-  'unknownFields'
+  'unknownFields',
+  r'$_get',
+  r'$_has',
+  r'$_setBool',
+  r'$_setBytes',
+  r'$_setString',
+  r'$_setFloat',
+  r'$_setDouble',
+  r'$_setSignedInt32',
+  r'$_setUnsignedInt32',
+  r'$_setInt64',
 ];

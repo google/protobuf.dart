@@ -99,15 +99,7 @@ class _FieldSet {
     if (fi != null) {
       var value = _values[fi.index];
       if (value != null) return value;
-      if (!fi.isRepeated) return fi.makeDefault();
-      if (_isReadOnly) return _emptyList;
-
-      // TODO(skybrian) we could avoid this by generating another
-      // method for repeated fields:
-      //   msg.mutableFoo().add(123);
-      value = _message.createRepeatedField(fi.tagNumber, fi);
-      _setNonExtensionFieldUnchecked(fi, value);
-      return value;
+      return _getDefault(fi);
     }
     if (_hasExtensions) {
       var fi = _extensions._getInfoOrNull(tagNumber);
@@ -116,6 +108,18 @@ class _FieldSet {
       }
     }
     throw new ArgumentError("tag $tagNumber not defined in $_messageName");
+  }
+
+  _getDefault(FieldInfo fi) {
+    if (!fi.isRepeated) return fi.makeDefault();
+    if (_isReadOnly) return _emptyList;
+
+    // TODO(skybrian) we could avoid this by generating another
+    // method for repeated fields:
+    //   msg.mutableFoo().add(123);
+    var value = _message.createRepeatedField(fi.tagNumber, fi);
+    _setNonExtensionFieldUnchecked(fi, value);
+    return value;
   }
 
   _getFieldOrNullByTag(int tagNumber) {
@@ -136,15 +140,9 @@ class _FieldSet {
 
   bool _hasField(int tagNumber) {
     var fi = _nonExtensionInfo(tagNumber);
-    if (fi == null) {
-        if (!_hasExtensions) return false;
-        _extensions._hasField(tagNumber);
-    }
-
-    var value = _values[fi.index];
-    if (value == null) return false;
-    if (value is List) return value.isNotEmpty;
-    return true;
+    if (fi != null) return _$has(fi.index, tagNumber);
+    if (!_hasExtensions) return false;
+    return _extensions._hasField(tagNumber);
   }
 
   void _clearField(int tagNumber) {
@@ -234,6 +232,52 @@ class _FieldSet {
       _eventPlugin.beforeSetField(fi, value);
     }
     _values[fi.index] = value;
+  }
+
+  // Generated method implementations
+
+  /// The implementation of a generated getter.
+  _$get(int index, int tagNumber) {
+    assert(_nonExtensionInfo(tagNumber).index == index);
+    var value = _values[index];
+    if (value != null) return value;
+    return _getDefault(_nonExtensionInfo(tagNumber));
+  }
+
+  /// The implementation of a generated has method.
+  bool _$has(int index, int tagNumber) {
+    assert(_nonExtensionInfo(tagNumber).index == index);
+    var value = _values[index];
+    if (value == null) return false;
+    if (value is List) return value.isNotEmpty;
+    return true;
+  }
+
+  /// The implementation of a generated setter.
+  ///
+  /// In production, does no validation other than a null check.
+  /// Only handles non-repeated, non-extension fields.
+  /// Also, doesn't handle enums or messages which need per-type validation.
+  void _$set(int index, int tagNumber, value) {
+    assert(_nonExtensionInfo(tagNumber).index == index);
+    assert(!_nonExtensionInfo(tagNumber).isRepeated);
+    assert(_$check(tagNumber, value));
+    if (_isReadOnly) {
+      throw new UnsupportedError(
+        "attempted to call a setter on a read-only message ($_messageName)");
+    }
+    if (value == null) {
+      _$check(tagNumber, value); // throw exception for null value
+    }
+    if (_hasObservers) {
+      _eventPlugin.beforeSetField(_nonExtensionInfo(tagNumber), value);
+    }
+    _values[index] = value;
+  }
+
+  bool _$check(int tagNumber, var newValue) {
+    _validateField(_nonExtensionInfo(tagNumber), newValue);
+    return true; // Allows use in an assertion.
   }
 
   // Bulk operations reading or writing multiple fields
@@ -429,7 +473,7 @@ class _FieldSet {
     }
   }
 
-  // error-checking
+  // Error-checking
 
   /// Checks the value for a field that's about to be set.
   void _validateField(FieldInfo fi, var newValue) {
@@ -459,7 +503,7 @@ class _FieldSet {
       var value = _extensions._getFieldOrNull(fi);
       if (!fi._hasRequiredValues(value)) return false;
     }
-    return true; // no problems found
+    return true; // No problems found.
   }
 
   /// Adds the path to each uninitialized field to the list.

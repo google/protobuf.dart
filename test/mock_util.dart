@@ -16,16 +16,16 @@ abstract class MockMessage extends GeneratedMessage {
   String get className;
   MockMessage create();
 
-  int get val => getField(1);
+  int get val => $_get(0, 1);
   set val(x) => setField(1, x);
 
-  String get str => getField(2);
-  set str(x) => setField(2, x);
+  String get str => $_get(1, 2);
+  set str(x) => $_setString(1, 2, x);
 
-  MockMessage get child => getField(3);
+  MockMessage get child => $_get(2, 3);
   set child(x) => setField(3, x);
 
-  List<int> get int32s => getField(4);
+  List<int> get int32s => $_get(3, 4);
 
   @override
   BuilderInfo get info_ {
