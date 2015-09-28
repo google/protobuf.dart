@@ -8,90 +8,16 @@ typedef GeneratedMessage CreateBuilderFunc();
 typedef Object MakeDefaultFunc();
 typedef ProtobufEnum ValueOfFunc(int value);
 
+/// The base class for all protobuf message types.
+///
+/// The protoc plugin generates subclasses providing type-specific
+/// properties and methods.
+///
+/// Public properties and methods added here should also be added to
+/// GeneratedMessage_reservedNames and should be unlikely to be used in
+/// a proto file.
 abstract class GeneratedMessage {
-  // Short names for use in generated code.
-  // TODO(skybrian) remove once we're sure that all generated code
-  // uses PbFieldType instead of GeneratedMessage for these constants.
-
-  // _O_ptional.
-  static const int OB = PbFieldType._OPTIONAL_BOOL;
-  static const int OY = PbFieldType._OPTIONAL_BYTES;
-  static const int OS = PbFieldType._OPTIONAL_STRING;
-  static const int OF = PbFieldType._OPTIONAL_FLOAT;
-  static const int OD = PbFieldType._OPTIONAL_DOUBLE;
-  static const int OE = PbFieldType._OPTIONAL_ENUM;
-  static const int OG = PbFieldType._OPTIONAL_GROUP;
-  static const int O3 = PbFieldType._OPTIONAL_INT32;
-  static const int O6 = PbFieldType._OPTIONAL_INT64;
-  static const int OS3 = PbFieldType._OPTIONAL_SINT32;
-  static const int OS6 = PbFieldType._OPTIONAL_SINT64;
-  static const int OU3 = PbFieldType._OPTIONAL_UINT32;
-  static const int OU6 = PbFieldType._OPTIONAL_UINT64;
-  static const int OF3 = PbFieldType._OPTIONAL_FIXED32;
-  static const int OF6 = PbFieldType._OPTIONAL_FIXED64;
-  static const int OSF3 = PbFieldType._OPTIONAL_SFIXED32;
-  static const int OSF6 = PbFieldType._OPTIONAL_SFIXED64;
-  static const int OM = PbFieldType._OPTIONAL_MESSAGE;
-
-  // re_Q_uired.
-  static const int QB = PbFieldType._REQUIRED_BOOL;
-  static const int QY = PbFieldType._REQUIRED_BYTES;
-  static const int QS = PbFieldType._REQUIRED_STRING;
-  static const int QF = PbFieldType._REQUIRED_FLOAT;
-  static const int QD = PbFieldType._REQUIRED_DOUBLE;
-  static const int QE = PbFieldType._REQUIRED_ENUM;
-  static const int QG = PbFieldType._REQUIRED_GROUP;
-  static const int Q3 = PbFieldType._REQUIRED_INT32;
-  static const int Q6 = PbFieldType._REQUIRED_INT64;
-  static const int QS3 = PbFieldType._REQUIRED_SINT32;
-  static const int QS6 = PbFieldType._REQUIRED_SINT64;
-  static const int QU3 = PbFieldType._REQUIRED_UINT32;
-  static const int QU6 = PbFieldType._REQUIRED_UINT64;
-  static const int QF3 = PbFieldType._REQUIRED_FIXED32;
-  static const int QF6 = PbFieldType._REQUIRED_FIXED64;
-  static const int QSF3 = PbFieldType._REQUIRED_SFIXED32;
-  static const int QSF6 = PbFieldType._REQUIRED_SFIXED64;
-  static const int QM = PbFieldType._REQUIRED_MESSAGE;
-
-  // re_P_eated.
-  static const int PB = PbFieldType._REPEATED_BOOL;
-  static const int PY = PbFieldType._REPEATED_BYTES;
-  static const int PS = PbFieldType._REPEATED_STRING;
-  static const int PF = PbFieldType._REPEATED_FLOAT;
-  static const int PD = PbFieldType._REPEATED_DOUBLE;
-  static const int PE = PbFieldType._REPEATED_ENUM;
-  static const int PG = PbFieldType._REPEATED_GROUP;
-  static const int P3 = PbFieldType._REPEATED_INT32;
-  static const int P6 = PbFieldType._REPEATED_INT64;
-  static const int PS3 = PbFieldType._REPEATED_SINT32;
-  static const int PS6 = PbFieldType._REPEATED_SINT64;
-  static const int PU3 = PbFieldType._REPEATED_UINT32;
-  static const int PU6 = PbFieldType._REPEATED_UINT64;
-  static const int PF3 = PbFieldType._REPEATED_FIXED32;
-  static const int PF6 = PbFieldType._REPEATED_FIXED64;
-  static const int PSF3 = PbFieldType._REPEATED_SFIXED32;
-  static const int PSF6 = PbFieldType._REPEATED_SFIXED64;
-  static const int PM = PbFieldType._REPEATED_MESSAGE;
-
-  // pac_K_ed.
-  static const int KB = PbFieldType._PACKED_BOOL;
-  static const int KE = PbFieldType._PACKED_ENUM;
-  static const int KF = PbFieldType._PACKED_FLOAT;
-  static const int KD = PbFieldType._PACKED_DOUBLE;
-  static const int K3 = PbFieldType._PACKED_INT32;
-  static const int K6 = PbFieldType._PACKED_INT64;
-  static const int KS3 = PbFieldType._PACKED_SINT32;
-  static const int KS6 = PbFieldType._PACKED_SINT64;
-  static const int KU3 = PbFieldType._PACKED_UINT32;
-  static const int KU6 = PbFieldType._PACKED_UINT64;
-  static const int KF3 = PbFieldType._PACKED_FIXED32;
-  static const int KF6 = PbFieldType._PACKED_FIXED64;
-  static const int KSF3 = PbFieldType._PACKED_SFIXED32;
-  static const int KSF6 = PbFieldType._PACKED_SFIXED64;
-
   _FieldSet _fieldSet;
-
-  UnknownFieldSet get unknownFields => _fieldSet._ensureUnknownFields();
 
   GeneratedMessage() {
     _fieldSet = new _FieldSet(this, info_, eventPlugin);
@@ -111,9 +37,14 @@ abstract class GeneratedMessage {
     mergeFromJson(input, extensionRegistry);
   }
 
+  // Overridden by subclasses.
+  BuilderInfo get info_;
+
   /// Subclasses can override this getter to be notified of changes
   /// to protobuf fields.
   EventPlugin get eventPlugin => null;
+
+  UnknownFieldSet get unknownFields => _fieldSet._ensureUnknownFields();
 
   bool get _isReadOnly => false;
 
@@ -165,9 +96,6 @@ abstract class GeneratedMessage {
       throw new StateError('Message missing required fields: $missingFields');
     }
   }
-
-  // Overridden by subclasses.
-  BuilderInfo get info_;
 
   Uint8List writeToBuffer() {
     CodedBufferWriter out = new CodedBufferWriter();

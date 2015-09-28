@@ -21,10 +21,10 @@ void main() {
     return writer.toBuffer().sublist(1);
   };
 
-  final int32ToBytes = convertToBytes(GeneratedMessage.O3);
+  final int32ToBytes = convertToBytes(PbFieldType.O3);
 
   test('testEquivalentBitwiseRepresentations', () {
-    final uint32ToBytes = convertToBytes(GeneratedMessage.OU3);
+    final uint32ToBytes = convertToBytes(PbFieldType.OU3);
     // Internal representation appears to be bit-wise identical
     // an additional internal flag must differentiate.
     expect(int32ToBytes(-1), uint32ToBytes(4294967295));
@@ -60,7 +60,7 @@ void main() {
     expect(readSint32([0x02]), 1);
     expect(readSint32([0x03]), -2);
 
-    final sint32ToBytes = convertToBytes(GeneratedMessage.OS3);
+    final sint32ToBytes = convertToBytes(PbFieldType.OS3);
 
     expect(sint32ToBytes(0), [0x00]);
     expect(sint32ToBytes(-1), [0x01]);
@@ -76,7 +76,7 @@ void main() {
     expect(readSint64([0x02]), expect64(1));
     expect(readSint64([0x03]), expect64(-2));
 
-    final sint64ToBytes = convertToBytes(GeneratedMessage.OS6);
+    final sint64ToBytes = convertToBytes(PbFieldType.OS6);
 
     expect(sint64ToBytes(make64(0)), [0x00]);
     expect(sint64ToBytes(make64(-1)), [0x01]);
@@ -92,7 +92,7 @@ void main() {
     expect(readFixed32([0xff, 0xff, 0xff, 0xff]), 4294967295);
     expect(readFixed32([0xcd, 0x12, 0xab, 0x90]), 2427130573);
 
-    final fixed32ToBytes = convertToBytes(GeneratedMessage.OF3);
+    final fixed32ToBytes = convertToBytes(PbFieldType.OF3);
 
     expect(fixed32ToBytes(0), [0x00, 0x00, 0x00, 0x00]);
     expect(fixed32ToBytes(1), [0x01, 0x00, 0x00, 0x00]);
@@ -110,7 +110,7 @@ void main() {
     expect(readFixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
            expect64(0xffffffff, 0xffffffff));
 
-    final fixed64ToBytes = convertToBytes(GeneratedMessage.OF6);
+    final fixed64ToBytes = convertToBytes(PbFieldType.OF6);
 
     expect(fixed64ToBytes(make64(0, 0)),
            [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -129,7 +129,7 @@ void main() {
     expect(readSfixed32([0x00, 0x00, 0x00, 0x80]), -2147483648);
     expect(readSfixed32([0xff, 0xff, 0xff, 0xff]), -1);
 
-    final sfixed32ToBytes = convertToBytes(GeneratedMessage.OSF3);
+    final sfixed32ToBytes = convertToBytes(PbFieldType.OSF3);
 
     expect(sfixed32ToBytes(0), [0x00, 0x00, 0x00, 0x00]);
     expect(sfixed32ToBytes(1), [0x01, 0x00, 0x00, 0x00]);
@@ -170,7 +170,7 @@ void main() {
           : equals(expected);
 
   dataToBytes(ByteData byteData) => new Uint8List.view(byteData.buffer);
-  final floatToBytes = convertToBytes(GeneratedMessage.OF);
+  final floatToBytes = convertToBytes(PbFieldType.OF);
   floatToBits(double value) =>
       makeData(floatToBytes(value)).getUint32(0, Endianness.LITTLE_ENDIAN);
 
@@ -192,7 +192,7 @@ void main() {
       return new CodedBufferReader(bytes).readDouble();
     }
 
-    final doubleToBytes = convertToBytes(GeneratedMessage.OD);
+    final doubleToBytes = convertToBytes(PbFieldType.OD);
     doubleToBits(double value) =>
         makeData(doubleToBytes(value)).getUint64(0, Endianness.LITTLE_ENDIAN);
 
@@ -716,7 +716,7 @@ void main() {
   });
 
   test('testVarint', () {
-    final uint64ToBytes = convertToBytes(GeneratedMessage.OU6);
+    final uint64ToBytes = convertToBytes(PbFieldType.OU6);
 
     expect(uint64ToBytes(make64(0)), [0]);
     expect(uint64ToBytes(make64(3)), [0x03]);

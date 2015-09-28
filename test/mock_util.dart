@@ -5,7 +5,7 @@
 library mock_util;
 
 import 'package:protobuf/protobuf.dart'
-    show GeneratedMessage, PbMapMixin, BuilderInfo;
+    show GeneratedMessage, BuilderInfo, PbFieldType;
 
 /// A minimal protobuf implementation for testing.
 abstract class MockMessage extends GeneratedMessage {
@@ -31,10 +31,10 @@ abstract class MockMessage extends GeneratedMessage {
   BuilderInfo get info_ {
     if (_infoCache != null) return _infoCache;
     _infoCache = new BuilderInfo(className)
-      ..a(1, "val", GeneratedMessage.O3, 42)
-      ..a(2, "str", GeneratedMessage.OS)
-      ..a(3, "child", GeneratedMessage.OM, create, create)
-      ..p(4, "int32s", GeneratedMessage.P3);
+      ..a(1, "val", PbFieldType.O3, 42)
+      ..a(2, "str", PbFieldType.OS)
+      ..a(3, "child", PbFieldType.OM, create, create)
+      ..p(4, "int32s", PbFieldType.P3);
     return _infoCache;
   }
 
