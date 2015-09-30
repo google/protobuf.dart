@@ -1,3 +1,13 @@
+## 0.5.0
+ * Reorganized internals to improve performance. We now store
+   field values in a list instead of a map. Private properties
+   and methods are all moved to the \_FieldSet class. There
+   are new entry points for generated getters, hazzers, and
+   setters. Improved JSON decoding performance.
+ * Dropped compatibility with .pb.dart files before 0.4.2
+   by removing internal constants from GeneratedMessage. Also,
+   protoc plugins before 0.5.0 won't work.
+
 ## 0.4.2
  * Renamed FieldType to PbFieldType.
 
