@@ -59,6 +59,15 @@ class SetStringsBenchmark extends Benchmark {
   }
 
   @override
+  int exercise() {
+    const reps = 100;
+    for (int i = 0; i < reps; i++) {
+      run();
+    }
+    return reps;
+  }
+
+  @override
   void run() {
     var newValue = "";
     for (var line in grid.lines) {

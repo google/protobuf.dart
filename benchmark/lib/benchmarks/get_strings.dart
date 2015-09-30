@@ -59,20 +59,54 @@ class GetStringsBenchmark extends Benchmark {
   }
 
   @override
+  int exercise() {
+    const reps = 100;
+    for (int i = 0; i < reps; i++) {
+      run();
+    }
+    return reps;
+  }
+
+  @override
   void run() {
+    if (fillValue == null) {
+      _getDefaults();
+    } else {
+      _getStrings();
+    }
+  }
+
+  void _getDefaults() {
+    bool ok = true;
+    for (var line in grid.lines) {
+      ok = ok && line.cell1.isEmpty;
+      ok = ok && line.cell2.isEmpty;
+      ok = ok && line.cell3.isEmpty;
+      ok = ok && line.cell4.isEmpty;
+      ok = ok && line.cell5.isEmpty;
+      ok = ok && line.cell6.isEmpty;
+      ok = ok && line.cell7.isEmpty;
+      ok = ok && line.cell8.isEmpty;
+      ok = ok && line.cell9.isEmpty;
+      ok = ok && line.cell10.isEmpty;
+    }
+    if (!ok) throw "failed";
+  }
+
+  void _getStrings() {
     var expected = fillValue;
     bool ok = true;
     for (var line in grid.lines) {
-      ok = ok || identical(line.cell1, expected);
-      ok = ok || identical(line.cell2, expected);
-      ok = ok || identical(line.cell3, expected);
-      ok = ok || identical(line.cell4, expected);
-      ok = ok || identical(line.cell5, expected);
-      ok = ok || identical(line.cell6, expected);
-      ok = ok || identical(line.cell7, expected);
-      ok = ok || identical(line.cell8, expected);
-      ok = ok || identical(line.cell9, expected);
-      ok = ok || identical(line.cell10, expected);
+      ok = ok && line.cell1.isNotEmpty;
+      ok = ok && line.cell2.isNotEmpty;
+      ok = ok && line.cell3.isNotEmpty;
+      ok = ok && line.cell4.isNotEmpty;
+      ok = ok && line.cell5.isNotEmpty;
+      ok = ok && line.cell6.isNotEmpty;
+      ok = ok && line.cell7.isNotEmpty;
+      ok = ok && line.cell8.isNotEmpty;
+      ok = ok && line.cell9.isNotEmpty;
+      ok = ok && line.cell10.isNotEmpty;
     }
     if (!ok) throw "failed";
   }

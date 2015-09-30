@@ -59,6 +59,15 @@ class HasStringsBenchmark extends Benchmark {
   }
 
   @override
+  int exercise() {
+    const reps = 100;
+    for (int i = 0; i < reps; i++) {
+      run();
+    }
+    return reps;
+  }
+
+  @override
   void run() {
     if (fillValue == null) {
       runEmpty();
