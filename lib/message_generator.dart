@@ -124,8 +124,15 @@ class MessageGenerator extends ProtobufContainer {
   void resolve(GenerationContext ctx) {
     if (_fieldList != null) throw new StateError("message already resolved");
 
+    var sorted = new List<FieldDescriptorProto>.from(_descriptor.field)
+      ..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
+      if (a.number < b.number) return -1;
+      if (a.number > b.number) return 1;
+      throw "multiple fields defined for tag ${a.number} in $fqname";
+    });
+
     _fieldList = <ProtobufField>[];
-    for (FieldDescriptorProto field in _descriptor.field) {
+    for (FieldDescriptorProto field in sorted) {
       int index = _fieldList.length;
       _fieldList.add(new ProtobufField(field, index, this, ctx));
     }

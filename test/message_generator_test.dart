@@ -98,12 +98,6 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     DescriptorProto md = new DescriptorProto()
         ..name = 'PhoneNumber'
         ..field.addAll([
-            // required string number = 1;
-            new FieldDescriptorProto()
-                ..name = 'number'
-                ..number = 1
-                ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
-                ..type = FieldDescriptorProto_Type.TYPE_STRING,
             // optional PhoneType type = 2 [default = HOME];
             new FieldDescriptorProto()
                 ..name = 'type'
@@ -111,6 +105,12 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
                 ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
                 ..type = FieldDescriptorProto_Type.TYPE_ENUM
                 ..typeName = '.PhoneNumber.PhoneType',
+            // required string number = 1;
+            new FieldDescriptorProto()
+                ..name = 'number'
+                ..number = 1
+                ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
+                ..type = FieldDescriptorProto_Type.TYPE_STRING,
             new FieldDescriptorProto()
                 ..name = 'name'
                 ..number = 3
