@@ -60,17 +60,17 @@ class PhoneNumber extends GeneratedMessage {
     if (v is !PhoneNumber) checkItemFailed(v, 'PhoneNumber');
   }
 
-  String get number => $_get(0, 1);
+  String get number => $_get(0, 1, '');
   void set number(String v) { $_setString(0, 1, v); }
   bool hasNumber() => $_has(0, 1);
   void clearNumber() => clearField(1);
 
-  PhoneNumber_PhoneType get type => $_get(1, 2);
+  PhoneNumber_PhoneType get type => $_get(1, 2, null);
   void set type(PhoneNumber_PhoneType v) { setField(2, v); }
   bool hasType() => $_has(1, 2);
   void clearType() => clearField(2);
 
-  String get name => $_get(2, 3);
+  String get name => $_get(2, 3, '\$');
   void set name(String v) { $_setString(2, 3, v); }
   bool hasName() => $_has(2, 3);
   void clearName() => clearField(3);

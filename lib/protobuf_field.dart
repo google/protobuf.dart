@@ -138,6 +138,28 @@ class ProtobufField {
     return prefix + ', $makeDefault)';
   }
 
+  /// Returns a Dart expression that evaluates to this field's default value.
+  ///
+  /// Returns "null" if unavailable, in which case FieldSet._getDefault()
+  /// should be called instead.
+  String getDefaultExpr() {
+    if (isRepeated) return "null";
+    switch (_field.type) {
+    case FieldDescriptorProto_Type.TYPE_BOOL:
+      return _getDefaultAsBoolExpr("false");
+    case FieldDescriptorProto_Type.TYPE_INT32:
+    case FieldDescriptorProto_Type.TYPE_UINT32:
+    case FieldDescriptorProto_Type.TYPE_SINT32:
+    case FieldDescriptorProto_Type.TYPE_FIXED32:
+    case FieldDescriptorProto_Type.TYPE_SFIXED32:
+      return _getDefaultAsInt32Expr("0");
+    case FieldDescriptorProto_Type.TYPE_STRING:
+      return _getDefaultAsStringExpr("''");
+    default:
+      return "null";
+    }
+  }
+
   /// Returns a function expression that returns the field's default value.
   ///
   /// [package] is the package where the expression will be evaluated.
@@ -151,10 +173,7 @@ class ProtobufField {
 
     switch (_field.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
-        if (_field.hasDefaultValue() && 'false' != _field.defaultValue) {
-          return '${_field.defaultValue}';
-        }
-        return null;
+        return _getDefaultAsBoolExpr(null);
       case FieldDescriptorProto_Type.TYPE_FLOAT:
       case FieldDescriptorProto_Type.TYPE_DOUBLE:
         if (!_field.hasDefaultValue()) {
@@ -181,10 +200,7 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_SINT32:
       case FieldDescriptorProto_Type.TYPE_FIXED32:
       case FieldDescriptorProto_Type.TYPE_SFIXED32:
-        if (_field.hasDefaultValue() && '0' != _field.defaultValue) {
-          return '${_field.defaultValue}';
-        }
-        return null;
+        return _getDefaultAsInt32Expr(null);
       case FieldDescriptorProto_Type.TYPE_INT64:
       case FieldDescriptorProto_Type.TYPE_UINT64:
       case FieldDescriptorProto_Type.TYPE_SINT64:
@@ -195,11 +211,7 @@ class ProtobufField {
         if (value == '0') return 'Int64.ZERO';
         return "parseLongInt('$value')";
       case FieldDescriptorProto_Type.TYPE_STRING:
-        if (!_field.hasDefaultValue() || _field.defaultValue.isEmpty) {
-          return null;
-        }
-        String value = _field.defaultValue.replaceAll(r'$', r'\$');
-        return '\'$value\'';
+        return _getDefaultAsStringExpr(null);
       case FieldDescriptorProto_Type.TYPE_BYTES:
         if (!_field.hasDefaultValue() || _field.defaultValue.isEmpty) {
           return null;
@@ -224,6 +236,29 @@ class ProtobufField {
       default:
         throw _typeNotImplemented("generatedDefaultFunction");
     }
+  }
+
+  String _getDefaultAsBoolExpr(String noDefault) {
+    if (_field.hasDefaultValue() && 'false' != _field.defaultValue) {
+      return '${_field.defaultValue}';
+    }
+    return noDefault;
+  }
+
+  String _getDefaultAsStringExpr(String noDefault) {
+    if (!_field.hasDefaultValue() || _field.defaultValue.isEmpty) {
+      return noDefault;
+    }
+    // TODO(skybrian): fix dubious escaping.
+    String value = _field.defaultValue.replaceAll(r'$', r'\$');
+    return '\'$value\'';
+  }
+
+  String _getDefaultAsInt32Expr(String noDefault) {
+    if (_field.hasDefaultValue() && '0' != _field.defaultValue) {
+      return '${_field.defaultValue}';
+    }
+    return noDefault;
   }
 
   get _invalidDefaultValue => "dart-protoc-plugin:"

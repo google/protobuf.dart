@@ -102,17 +102,17 @@ class PhoneNumber extends GeneratedMessage {
     if (v is !PhoneNumber) checkItemFailed(v, 'PhoneNumber');
   }
 
-  String get number => $_get(0, 1);
+  String get number => $_get(0, 1, '');
   void set number(String v) { $_setString(0, 1, v); }
   bool hasNumber() => $_has(0, 1);
   void clearNumber() => clearField(1);
 
-  int get type => $_get(1, 2);
+  int get type => $_get(1, 2, 0);
   void set type(int v) { $_setUnsignedInt32(1, 2, v); }
   bool hasType() => $_has(1, 2);
   void clearType() => clearField(2);
 
-  String get name => $_get(2, 3);
+  String get name => $_get(2, 3, '\$');
   void set name(String v) { $_setString(2, 3, v); }
   bool hasName() => $_has(2, 3);
   void clearName() => clearField(3);
@@ -288,17 +288,17 @@ class PhoneNumber extends GeneratedMessage {
     if (v is !PhoneNumber) checkItemFailed(v, 'PhoneNumber');
   }
 
-  String get no => $_get(0, 1);
+  String get no => $_get(0, 1, '');
   void set no(String v) { $_setString(0, 1, v); }
   bool hasNo() => $_has(0, 1);
   void clearNo() => clearField(1);
 
-  int get the_type => $_get(1, 2);
+  int get the_type => $_get(1, 2, 0);
   void set the_type(int v) { $_setUnsignedInt32(1, 2, v); }
   bool hasThe_type() => $_has(1, 2);
   void clearThe_type() => clearField(2);
 
-  String get name_ => $_get(2, 3);
+  String get name_ => $_get(2, 3, '\$');
   void set name_(String v) { $_setString(2, 3, v); }
   bool hasName_() => $_has(2, 3);
   void clearName_() => clearField(3);
@@ -368,17 +368,17 @@ class M extends GeneratedMessage {
     if (v is !M) checkItemFailed(v, 'M');
   }
 
-  M get m => $_get(0, 1);
+  M get m => $_get(0, 1, null);
   void set m(M v) { setField(1, v); }
   bool hasM() => $_has(0, 1);
   void clearM() => clearField(1);
 
-  p1.M get m1 => $_get(1, 2);
+  p1.M get m1 => $_get(1, 2, null);
   void set m1(p1.M v) { setField(2, v); }
   bool hasM1() => $_has(1, 2);
   void clearM1() => clearField(2);
 
-  p2.M get m2 => $_get(2, 3);
+  p2.M get m2 => $_get(2, 3, null);
   void set m2(p2.M v) { setField(3, v); }
   bool hasM2() => $_has(2, 3);
   void clearM2() => clearField(3);

@@ -325,8 +325,9 @@ class MessageGenerator extends ProtobufContainer {
       }
 
       var fieldTypeString = field.getDartType(package);
+      var defaultExpr = field.getDefaultExpr();
       out.println('${fieldTypeString} get ${identifier}'
-          ' => \$_get(${field.index}, ${field.number});');
+          ' => \$_get(${field.index}, ${field.number}, $defaultExpr);');
       if (!field.isRepeated) {
         var fastSetter = field.baseType.setter;
         if (fastSetter != null) {
