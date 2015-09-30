@@ -237,10 +237,11 @@ class _FieldSet {
   // Generated method implementations
 
   /// The implementation of a generated getter.
-  _$get(int index, int tagNumber) {
+  _$get(int index, int tagNumber, defaultValue) {
     assert(_nonExtensionInfo(tagNumber).index == index);
     var value = _values[index];
     if (value != null) return value;
+    if (defaultValue != null) return defaultValue;
     return _getDefault(_nonExtensionInfo(tagNumber));
   }
 

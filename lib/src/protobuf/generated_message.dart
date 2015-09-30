@@ -275,7 +275,8 @@ abstract class GeneratedMessage {
   void setField(int tagNumber, value) => _fieldSet._setField(tagNumber, value);
 
   /// For generated code only.
-  $_get(int index, int tagNumber) => _fieldSet._$get(index, tagNumber);
+  $_get(int index, int tagNumber, defaultValue) =>
+      _fieldSet._$get(index, tagNumber, defaultValue);
 
   /// For generated code only.
   bool $_has(int index, int tagNumber) => _fieldSet._$has(index, tagNumber);
