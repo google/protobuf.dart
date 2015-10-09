@@ -1,3 +1,7 @@
+## 0.5.0+1
+
+* Support the latest version of package `fixnum`.
+
 ## 0.5.0
  * Reorganized internals to improve performance. We now store
    field values in a list instead of a map. Private properties
