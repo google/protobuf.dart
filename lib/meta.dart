@@ -48,6 +48,7 @@ const List<String> GeneratedMessage_reservedNames = const [
   'eventPlugin',
   'createRepeatedField',
   'unknownFields',
+  'clone',
   r'$_get',
   r'$_has',
   r'$_setBool',

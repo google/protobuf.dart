@@ -44,6 +44,10 @@ abstract class GeneratedMessage {
   /// to protobuf fields.
   EventPlugin get eventPlugin => null;
 
+  /// Creates a deep copy of the fields in this message.
+  /// (The generated code uses [mergeFromMessage].)
+  GeneratedMessage clone();
+
   UnknownFieldSet get unknownFields => _fieldSet._ensureUnknownFields();
 
   bool get _isReadOnly => false;

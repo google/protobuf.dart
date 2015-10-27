@@ -20,6 +20,8 @@ throwsError(Type expectedType, String expectedMessage) => throwsA(
 class Rec extends GeneratedMessage with ReadonlyMessageMixin {
   @override
   BuilderInfo info_ = new BuilderInfo("rec");
+  @override
+  clone() => throw new UnimplementedError();
 }
 
 main() {
