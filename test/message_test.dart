@@ -35,4 +35,18 @@ main() {
       r.getDefaultForField(123);
     }, throwsError(ArgumentError, "tag 123 not defined in Rec"));
   });
+
+  test('can freeze and unfreeze', () {
+    var r = new Rec();
+    r.freeze();
+    expect(() {
+      r.val = 47;
+    },
+        throwsError(UnsupportedError,
+            "attempted to call a setter on a frozen message"));
+    r.unfreeze();
+    r.val = 47;
+    // No error, so it worked.
+    expect(r.val, 47);
+  });
 }

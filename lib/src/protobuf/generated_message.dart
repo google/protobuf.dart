@@ -50,7 +50,16 @@ abstract class GeneratedMessage {
 
   UnknownFieldSet get unknownFields => _fieldSet._ensureUnknownFields();
 
-  bool get _isReadOnly => false;
+  bool _isFrozen = false;
+  bool get _isReadOnly => _isFrozen;
+
+  void freeze() {
+    _isFrozen = true;
+  }
+
+  void unfreeze() {
+    _isFrozen = false;
+  }
 
   bool hasRequiredFields() => info_.hasRequiredFields;
 

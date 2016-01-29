@@ -41,6 +41,8 @@ const List<String> GeneratedMessage_reservedNames = const [
   'extensionsAreInitialized',
   'mergeFromMessage',
   'mergeUnknownFields',
+  'freeze',
+  'unfreeze',
   '==',
   'info_',
   'GeneratedMessage',

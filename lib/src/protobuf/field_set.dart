@@ -172,6 +172,8 @@ class _FieldSet {
   /// Suitable for public API.
   void _setField(int tagNumber, value) {
     if (value == null) throw new ArgumentError('value is null');
+    if (_isReadOnly) throw new UnsupportedError(
+        "attempted to call a setter on a frozen message");
 
     var fi = _nonExtensionInfo(tagNumber);
     if (fi == null) {
