@@ -43,6 +43,7 @@ const List<String> GeneratedMessage_reservedNames = const [
   'mergeUnknownFields',
   'freeze',
   'unfreeze',
+  'isFrozen',
   '==',
   'info_',
   'GeneratedMessage',

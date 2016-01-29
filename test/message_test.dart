@@ -39,6 +39,7 @@ main() {
   test('can freeze and unfreeze', () {
     var r = new Rec();
     r.freeze();
+    expect(r.isFrozen(), true);
     expect(() {
       r.val = 47;
     },

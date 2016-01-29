@@ -61,6 +61,8 @@ abstract class GeneratedMessage {
     _isFrozen = false;
   }
 
+  bool isFrozen() => _isFrozen;
+
   bool hasRequiredFields() => info_.hasRequiredFields;
 
   /// Returns [:true:] if all required fields in the message and all embedded
