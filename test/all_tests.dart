@@ -5,6 +5,7 @@
 
 library protoc_plugin_all_tests;
 
+import 'bazel_test.dart' as bazel;
 import 'client_generator_test.dart' as client_generator;
 import 'const_generator_test.dart' as const_generator;
 import 'enum_generator_test.dart' as enum_generator;
@@ -26,6 +27,7 @@ import 'validate_fail_test.dart' as validate_fail;
 import 'wire_format_test.dart' as wire_format;
 
 void main() {
+  bazel.main();
   client_generator.main();
   const_generator.main();
   enum_generator.main();
