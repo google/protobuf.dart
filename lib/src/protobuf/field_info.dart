@@ -104,7 +104,7 @@ class FieldInfo {
       GeneratedMessage message = value;
       message._fieldSet._appendInvalidFields(problems, '$prefix$name.');
     } else {
-      List list = value;
+      final list = value as List<GeneratedMessage>;
       if (list.isEmpty) return;
 
       // For message types that (recursively) contain no required fields,

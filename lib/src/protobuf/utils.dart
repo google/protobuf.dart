@@ -31,4 +31,4 @@ bool _areByteDataEqual(ByteData lhs, ByteData rhs) {
   return _areListsEqual(asBytes(lhs), asBytes(rhs));
 }
 
-List sorted(Iterable list) => new List.from(list)..sort();
+List/*<T>*/ sorted/*<T>*/(Iterable/*<T>*/ list) => new List.from(list)..sort();

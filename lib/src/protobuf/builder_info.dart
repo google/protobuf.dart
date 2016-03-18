@@ -14,7 +14,7 @@ class BuilderInfo {
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
   bool hasExtensions = false;
   bool hasRequiredFields = true;
-  List _sortedByTag;
+  List<FieldInfo> _sortedByTag;
 
   BuilderInfo(this.messageName);
 

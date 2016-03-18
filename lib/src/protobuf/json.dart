@@ -29,7 +29,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         return fieldValue;
       case PbFieldType._BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
-        return CryptoUtils.bytesToBase64(fieldValue);
+        return CryptoUtils.bytesToBase64(fieldValue as List<int>);
       case PbFieldType._ENUM_BIT:
         return fieldValue.value; // assume |value| < 2^52
       case PbFieldType._INT64_BIT:
@@ -184,7 +184,8 @@ _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
       if (value is Map) {
         GeneratedMessage subMessage =
             fs._meta._makeEmptyMessage(tagNumber, registry);
-        _mergeFromJsonMap(subMessage._fieldSet, value, registry);
+        _mergeFromJsonMap(
+            subMessage._fieldSet, value as Map<String, dynamic>, registry);
         return subMessage;
       }
       expectedType = 'nested message or group';
