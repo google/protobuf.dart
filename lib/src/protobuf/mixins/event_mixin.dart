@@ -26,9 +26,7 @@ abstract class PbEventMixin {
 
   /// Delivers buffered field change events synchronously,
   /// instead of waiting for the microtask to run.
-  ///
-  /// Returns false if no events were queued.
-  bool deliverChanges() => eventPlugin.deliverChanges();
+  void deliverChanges() => eventPlugin.deliverChanges();
 }
 
 /// A change to a field in a GeneratedMessage.

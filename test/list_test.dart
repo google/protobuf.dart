@@ -51,13 +51,13 @@ void main() {
     });
     expect(count, 108);
 
-    isEven(int i) => i % 2 == 0;
+    bool isEven(int i) => i % 2 == 0;
     List<int> evens = new List<int>.from(lb1.where(isEven));
     expect(evens, [0, 2, 6]);
 
     expect(lb1.any(isEven), isTrue);
 
-    isNonNegative(int i) => i >= 0;
+    bool isNonNegative(int i) => i >= 0;
     expect(lb1.every(isNonNegative), isTrue);
 
     lb1.clear();

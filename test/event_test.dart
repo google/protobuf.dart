@@ -72,7 +72,11 @@ main() {
 
     r.clearField(4);
     r.deliverChanges();
-    checkLogOnce(log, [4, [123], []]);
+    checkLogOnce(log, [
+      4,
+      [123],
+      []
+    ]);
   });
 
   test('Events are sent when clearing multiple fields', () {
@@ -92,7 +96,16 @@ main() {
     r.clear();
     r.deliverChanges();
     checkLog(log, [
-      [[1, 123, 42], [2, "hello", ''], [3, "<msg>", "<msg>"], [4, [456], []]]
+      [
+        [1, 123, 42],
+        [2, "hello", ''],
+        [3, "<msg>", "<msg>"],
+        [
+          4,
+          [456],
+          []
+        ]
+      ]
     ]);
   });
 
@@ -113,7 +126,16 @@ main() {
     dest.mergeFromMessage(src);
     dest.deliverChanges();
     checkLog(log, [
-      [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
+      [
+        [1, 42, 123],
+        [2, '', "hello"],
+        [3, "<msg>", "<msg>"],
+        [
+          4,
+          [],
+          [456]
+        ]
+      ]
     ]);
   });
 
@@ -130,7 +152,16 @@ main() {
     // The changes should not include the repeated message.
     r.deliverChanges();
     checkLog(log, [
-      [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
+      [
+        [1, 42, 123],
+        [2, '', "hello"],
+        [3, "<msg>", "<msg>"],
+        [
+          4,
+          [],
+          [456]
+        ]
+      ]
     ]);
   });
 
@@ -138,10 +169,11 @@ main() {
     var log = makeLog();
 
     Uint8List bytes = (new Rec()
-      ..val = 123
-      ..str = "hello"
-      ..child = new Rec()
-      ..int32s.add(456)).writeToBuffer();
+          ..val = 123
+          ..str = "hello"
+          ..child = new Rec()
+          ..int32s.add(456))
+        .writeToBuffer();
 
     var r = new Rec();
     r.changes.listen((List<PbFieldChange> changes) {
@@ -154,7 +186,16 @@ main() {
     // The changes should not include the repeated message.
     r.deliverChanges();
     checkLog(log, [
-      [[1, 42, 123], [2, '', "hello"], [3, "<msg>", "<msg>"], [4, [], [456]]]
+      [
+        [1, 42, 123],
+        [2, '', "hello"],
+        [3, "<msg>", "<msg>"],
+        [
+          4,
+          [],
+          [456]
+        ]
+      ]
     ]);
   });
 
@@ -219,18 +260,23 @@ main() {
     checkLogOnce(log, [tag, "", "hello"]);
     clear("hello");
   });
-
 }
 
 List<List<PbFieldChange>> makeLog() => <List<PbFieldChange>>[];
 
 void checkLogOnce(List<List<PbFieldChange>> log, List expectedEntry) =>
-  checkLog(log, [[expectedEntry]]);
+    checkLog(log, [
+      [expectedEntry]
+    ]);
 
 void checkLog(List<List<PbFieldChange>> log, List<List<List>> expected) {
   var actual = <List<List>>[];
   for (var list in log) {
-    actual.add(list.map(toTuple).toList());
+    var tuples = <List>[];
+    for (var item in list) {
+      tuples.add(toTuple(item));
+    }
+    actual.add(tuples);
   }
   log.clear();
   expect(actual, expected);

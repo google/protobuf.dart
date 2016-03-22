@@ -8,7 +8,7 @@ part of protobuf;
 abstract class ReadonlyMessageMixin {
   BuilderInfo get info_;
 
-  get _isReadOnly => true;
+  bool get _isReadOnly => true;
 
   void addExtension(Extension extension, var value) =>
       _readonly("addExtension");
@@ -19,8 +19,10 @@ abstract class ReadonlyMessageMixin {
 
   void clearField(int tagNumber) => _readonly("clearField");
 
-  createRepeatedField(int tagNumber, FieldInfo fi) =>
-      _readonly("createRepeatedField");
+  List createRepeatedField(int tagNumber, FieldInfo fi) {
+    _readonly("createRepeatedField");
+    return null; // not reached
+  }
 
   void mergeFromBuffer(List<int> input,
           [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) =>

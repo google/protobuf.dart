@@ -17,9 +17,9 @@ void main() {
   ByteData makeData(Uint8List bytes) => new ByteData.view(bytes.buffer);
 
   convertToBytes(fieldType) => (value) {
-    var writer = new CodedBufferWriter()..writeField(0, fieldType, value);
-    return writer.toBuffer().sublist(1);
-  };
+        var writer = new CodedBufferWriter()..writeField(0, fieldType, value);
+        return writer.toBuffer().sublist(1);
+      };
 
   final int32ToBytes = convertToBytes(PbFieldType.O3);
 
@@ -104,20 +104,20 @@ void main() {
     readFixed64(List<int> bytes) => new CodedBufferReader(bytes).readFixed64();
 
     expect(readFixed64([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-           expect64(0));
+        expect64(0));
     expect(readFixed64([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-           expect64(1));
+        expect64(1));
     expect(readFixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
-           expect64(0xffffffff, 0xffffffff));
+        expect64(0xffffffff, 0xffffffff));
 
     final fixed64ToBytes = convertToBytes(PbFieldType.OF6);
 
     expect(fixed64ToBytes(make64(0, 0)),
-           [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+        [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
     expect(fixed64ToBytes(make64(1, 0)),
-           [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+        [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
     expect(fixed64ToBytes(make64(0xffffffff, 0xffffffff)),
-           [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
+        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
   });
 
   test('testSfixed32', () {
@@ -142,17 +142,17 @@ void main() {
         new CodedBufferReader(bytes).readSfixed64();
 
     expect(readSfixed64([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-           expect64(0));
+        expect64(0));
     expect(readSfixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
-           expect64(-1));
+        expect64(-1));
     expect(readSfixed64([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-           expect64(1));
+        expect64(1));
     expect(readSfixed64([0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
-           expect64(-2));
+        expect64(-2));
     expect(readSfixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]),
-           expect64(0xffffffff, 0x7fffffff));
+        expect64(0xffffffff, 0x7fffffff));
     expect(readSfixed64([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80]),
-           expect64(0x00000000, 0x80000000));
+        expect64(0x00000000, 0x80000000));
   });
 
   test('testBool', () {
@@ -165,19 +165,20 @@ void main() {
 
   // Compare two doubles, where NaNs and same-sign inifinities compare equal.
   // For normal values, use equals.
-  doubleEquals(expected) =>
-      expected.isNaN ? predicate((x) => x.isNaN, 'NaN expected')
-          : equals(expected);
+  doubleEquals(expected) => expected.isNaN
+      ? predicate((x) => x.isNaN, 'NaN expected')
+      : equals(expected);
 
-  dataToBytes(ByteData byteData) => new Uint8List.view(byteData.buffer);
+  List<int> dataToBytes(ByteData byteData) =>
+      new Uint8List.view(byteData.buffer);
   final floatToBytes = convertToBytes(PbFieldType.OF);
   floatToBits(double value) =>
       makeData(floatToBytes(value)).getUint32(0, Endianness.LITTLE_ENDIAN);
 
   void _test32(int bits, double value) {
     readFloat(int bits) {
-      var bytes = dataToBytes(new ByteData(4)
-          ..setUint32(0, bits, Endianness.LITTLE_ENDIAN));
+      var bytes = dataToBytes(
+          new ByteData(4)..setUint32(0, bits, Endianness.LITTLE_ENDIAN));
       return new CodedBufferReader(bytes).readFloat();
     }
 
@@ -187,8 +188,8 @@ void main() {
 
   void _test64(List<int> hilo, double value) {
     readDouble(int bits) {
-      var bytes = dataToBytes(new ByteData(8)
-          ..setUint64(0, bits, Endianness.LITTLE_ENDIAN));
+      var bytes = dataToBytes(
+          new ByteData(8)..setUint64(0, bits, Endianness.LITTLE_ENDIAN));
       return new CodedBufferReader(bytes).readDouble();
     }
 
@@ -223,9 +224,9 @@ void main() {
     _test32(0x80800001, -1.175494490952134E-38);
     _test32(0x80801234, -1.176147355906663E-38);
     // Out of range.
-    expect(floatToBits( 1.401298464324816E-45), 0x00000000);
+    expect(floatToBits(1.401298464324816E-45), 0x00000000);
     expect(floatToBits(-1.401298464324816E-45), 0x80000000);
-    expect(floatToBits( 3.4028234663852888E38), 0x7f800000);
+    expect(floatToBits(3.4028234663852888E38), 0x7f800000);
     expect(floatToBits(-3.4028234663852888E38), 0xff800000);
 
     // Numbers smaller than the smallest representable float round to +/- 0.
@@ -726,9 +727,9 @@ void main() {
     expect(uint64ToBytes(make64(0x9e5301)), [0x81, 0xa6, 0xf9, 0x04]);
     expect(uint64ToBytes(make64(0xffffffff)), [0xff, 0xff, 0xff, 0xff, 0x0f]);
     expect(uint64ToBytes(make64(0xffffffff, 0xffffff)),
-           [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]);
+        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]);
     expect(uint64ToBytes(make64(0xffffffff, 0xffffffff)),
-           [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
+        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
 
     readUint64(List<int> bytes) => new CodedBufferReader(bytes).readUint64();
 
@@ -741,11 +742,12 @@ void main() {
     expect(readUint64([0xff, 0xff, 0xff, 0xff, 0x07]), expect64(0x7fffffff));
     expect(readUint64([0xff, 0xff, 0xff, 0xff, 0x0f]), expect64(0xffffffff));
     expect(readUint64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]),
-           expect64(0xffffffff, 0xffffff));
-    expect(readUint64(
-           [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]),
-           expect64(0xffffffff, 0xffffffff));
+        expect64(0xffffffff, 0xffffff));
+    expect(
+        readUint64(
+            [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]),
+        expect64(0xffffffff, 0xffffffff));
     expect(readUint64([180, 222, 252, 255, 255, 255, 255, 255, 255, 1]),
-           expect64(0xffff2f34, 0xffffffff));
+        expect64(0xffff2f34, 0xffffffff));
   });
 }
