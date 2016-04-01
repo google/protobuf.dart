@@ -5,7 +5,7 @@
 part of protobuf;
 
 typedef GeneratedMessage CreateBuilderFunc();
-typedef Object MakeDefaultFunc();
+typedef MakeDefaultFunc();
 typedef ProtobufEnum ValueOfFunc(int value);
 
 /// The base class for all protobuf message types.
@@ -275,7 +275,7 @@ abstract class GeneratedMessage {
   void setField(int tagNumber, value) => _fieldSet._setField(tagNumber, value);
 
   /// For generated code only.
-  /*T*/ $_get/*<T>*/(int index, int tagNumber, /*T*/ defaultValue) =>
+  /*=T*/ $_get/*<T>*/(int index, int tagNumber, /*=T*/ defaultValue) =>
       _fieldSet._$get/*<T>*/(index, tagNumber, defaultValue);
 
   /// For generated code only.

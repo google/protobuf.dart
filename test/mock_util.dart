@@ -24,7 +24,7 @@ abstract class MockMessage extends GeneratedMessage {
   MockMessage get child => $_get(2, 3, null);
   set child(x) => setField(3, x);
 
-  List<int> get int32s => $_get(3, 4, null) as List<int>;
+  List<int> get int32s => $_get(3, 4, null);
 
   @override
   BuilderInfo get info_ {

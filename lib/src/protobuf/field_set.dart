@@ -110,7 +110,7 @@ class _FieldSet {
     throw new ArgumentError("tag $tagNumber not defined in $_messageName");
   }
 
-  /*T*/ _getDefault/*<T>*/(FieldInfo/*<T>*/ fi) {
+  _getDefault(FieldInfo fi) {
     if (!fi.isRepeated) return fi.makeDefault();
     if (_isReadOnly) return _emptyList;
 
@@ -237,12 +237,12 @@ class _FieldSet {
   // Generated method implementations
 
   /// The implementation of a generated getter.
-  /*T*/ _$get/*<T>*/(int index, int tagNumber, /*T*/ defaultValue) {
+  /*=T*/ _$get/*<T>*/(int index, int tagNumber, /*=T*/ defaultValue) {
     assert(_nonExtensionInfo(tagNumber).index == index);
     var value = _values[index];
-    if (value != null) return value;
+    if (value != null) return value as dynamic/*=T*/;
     if (defaultValue != null) return defaultValue;
-    return _getDefault(_nonExtensionInfo(tagNumber));
+    return _getDefault(_nonExtensionInfo(tagNumber)) as dynamic/*=T*/;
   }
 
   /// The implementation of a generated has method.
