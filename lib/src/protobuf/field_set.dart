@@ -32,8 +32,8 @@ class _FieldSet {
         _values = _makeValueList(meta.fieldInfo);
 
   static _makeValueList(Map<int, FieldInfo> infos) {
-      if (infos.isEmpty) return _emptyList;
-      return new List(infos.length);
+    if (infos.isEmpty) return _emptyList;
+    return new List(infos.length);
   }
 
   // Metadata about multiple fields
@@ -110,14 +110,14 @@ class _FieldSet {
     throw new ArgumentError("tag $tagNumber not defined in $_messageName");
   }
 
-  _getDefault(FieldInfo fi) {
+  /*T*/ _getDefault/*<T>*/(FieldInfo/*<T>*/ fi) {
     if (!fi.isRepeated) return fi.makeDefault();
     if (_isReadOnly) return _emptyList;
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:
     //   msg.mutableFoo().add(123);
-    var value = _message.createRepeatedField(fi.tagNumber, fi);
+    var value = fi._createRepeatedField(_message);
     _setNonExtensionFieldUnchecked(fi, value);
     return value;
   }
@@ -212,18 +212,18 @@ class _FieldSet {
   /// Creates and stores the repeated field if it doesn't exist.
   /// If it's an extension and the list doesn't exist, validates and stores it.
   /// Suitable for decoders.
-  List _ensureRepeatedField(FieldInfo fi) {
+  List/*<T>*/ _ensureRepeatedField/*<T>*/(FieldInfo/*<T>*/ fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     if (fi.index == null) {
       return _ensureExtensions()._ensureRepeatedField(fi);
     }
     var value = _getFieldOrNull(fi);
-    if (value != null) return value;
+    if (value != null) return value as List/*<T>*/;
 
-    value = _message.createRepeatedField(fi.tagNumber, fi);
-    _setNonExtensionFieldUnchecked(fi, value);
-    return value;
+    var newValue = fi._createRepeatedField(_message);
+    _setNonExtensionFieldUnchecked(fi, newValue);
+    return newValue;
   }
 
   /// Sets a non-extended field and fires events.
@@ -237,7 +237,7 @@ class _FieldSet {
   // Generated method implementations
 
   /// The implementation of a generated getter.
-  _$get(int index, int tagNumber, defaultValue) {
+  /*T*/ _$get/*<T>*/(int index, int tagNumber, /*T*/ defaultValue) {
     assert(_nonExtensionInfo(tagNumber).index == index);
     var value = _values[index];
     if (value != null) return value;
@@ -265,7 +265,7 @@ class _FieldSet {
     assert(_$check(tagNumber, value));
     if (_isReadOnly) {
       throw new UnsupportedError(
-        "attempted to call a setter on a read-only message ($_messageName)");
+          "attempted to call a setter on a read-only message ($_messageName)");
     }
     if (value == null) {
       _$check(tagNumber, value); // throw exception for null value

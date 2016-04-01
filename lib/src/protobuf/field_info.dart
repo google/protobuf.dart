@@ -7,7 +7,7 @@ part of protobuf;
 /**
  * An object representing a protobuf message field.
  */
-class FieldInfo {
+class FieldInfo<T> {
   final String name;
   final int tagNumber;
   final int index; // index of the field's value. Null for extensions.
@@ -46,7 +46,7 @@ class FieldInfo {
       [this.valueOf])
       : this.type = type,
         this.check = check,
-        this.makeDefault = (() => new PbList(check: check)) {
+        this.makeDefault = (() => new PbList<T>(check: check)) {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isRepeated(type));
@@ -119,6 +119,15 @@ class FieldInfo {
         position++;
       }
     }
+  }
+
+  /// Creates a repeated field to be attached to the given message.
+  ///
+  /// Delegates actual list creation to the message, so that it can
+  /// be overridden by a mixin.
+  List<T> _createRepeatedField(GeneratedMessage m) {
+    assert(isRepeated);
+    return m.createRepeatedField/*<T>*/(tagNumber, this);
   }
 
   String toString() => name;

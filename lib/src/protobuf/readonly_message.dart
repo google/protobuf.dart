@@ -19,7 +19,7 @@ abstract class ReadonlyMessageMixin {
 
   void clearField(int tagNumber) => _readonly("clearField");
 
-  List createRepeatedField(int tagNumber, FieldInfo fi) {
+  List/*<T>*/ createRepeatedField/*<T>*/(int tagNumber, FieldInfo/*<T>*/ fi) {
     _readonly("createRepeatedField");
     return null; // not reached
   }

@@ -1,3 +1,7 @@
+## 0.5.1
+
+* Experimental support for strong mode.
+
 ## 0.5.0+1
 
 * Support the latest version of package `fixnum`.

@@ -18,21 +18,22 @@ class BuilderInfo {
 
   BuilderInfo(this.messageName);
 
-  void add(int tagNumber, String name, int fieldType,
-           dynamic defaultOrMaker,
-           CreateBuilderFunc subBuilder,
-           ValueOfFunc valueOf) {
+  void add/*<T>*/(
+      int tagNumber,
+      String name,
+      int fieldType,
+      dynamic defaultOrMaker,
+      CreateBuilderFunc subBuilder,
+      ValueOfFunc valueOf) {
     var index = fieldInfo.length;
-    addField(new FieldInfo(
-      name, tagNumber, index, fieldType, defaultOrMaker, subBuilder, valueOf));
+    addField(new FieldInfo/*<T>*/(name, tagNumber, index, fieldType,
+        defaultOrMaker, subBuilder, valueOf));
   }
 
-  void addRepeated(int tagNumber, String name, int fieldType,
-                   CheckFunc check,
-                   CreateBuilderFunc subBuilder,
-                   ValueOfFunc valueOf) {
+  void addRepeated/*<T>*/(int tagNumber, String name, int fieldType,
+      CheckFunc check, CreateBuilderFunc subBuilder, ValueOfFunc valueOf) {
     var index = fieldInfo.length;
-    addField(new FieldInfo.repeated(
+    addField(new FieldInfo/*<T>*/ .repeated(
         name, tagNumber, index, fieldType, check, subBuilder, valueOf));
   }
 
@@ -42,41 +43,39 @@ class BuilderInfo {
     byName[fi.name] = fi;
   }
 
-  void a(int tagNumber, String name, int fieldType,
-         [dynamic defaultOrMaker,
-          CreateBuilderFunc subBuilder,
-          ValueOfFunc valueOf]) {
-    add(tagNumber, name, fieldType,
-        defaultOrMaker, subBuilder, valueOf);
+  void a/*<T>*/(int tagNumber, String name, int fieldType,
+      [dynamic defaultOrMaker,
+      CreateBuilderFunc subBuilder,
+      ValueOfFunc valueOf]) {
+    add/*<T>*/(tagNumber, name, fieldType, defaultOrMaker, subBuilder, valueOf);
   }
 
   // Enum.
-  void e(int tagNumber, String name, int fieldType,
-         dynamic defaultOrMaker, ValueOfFunc valueOf) {
-    add(tagNumber, name, fieldType,
-        defaultOrMaker, null, valueOf);
+  void e/*<T>*/(int tagNumber, String name, int fieldType,
+      dynamic defaultOrMaker, ValueOfFunc valueOf) {
+    add/*<T>*/(tagNumber, name, fieldType, defaultOrMaker, null, valueOf);
   }
 
   // Repeated message.
   // TODO(skybrian): migrate to pp() and remove.
-  void m(int tagNumber, String name,
-         CreateBuilderFunc subBuilder, MakeDefaultFunc makeDefault) {
-    add(tagNumber, name, PbFieldType._REPEATED_MESSAGE,
-        makeDefault, subBuilder, null);
+  void m/*<T>*/(int tagNumber, String name, CreateBuilderFunc subBuilder,
+      MakeDefaultFunc makeDefault) {
+    add/*<T>*/(tagNumber, name, PbFieldType._REPEATED_MESSAGE, makeDefault,
+        subBuilder, null);
   }
 
   // Repeated, not a message, group, or enum.
-  void p(int tagNumber, String name, int fieldType) {
+  void p/*<T>*/(int tagNumber, String name, int fieldType) {
     assert(!_isGroupOrMessage(fieldType) && !_isEnum(fieldType));
-    addRepeated(tagNumber, name, fieldType,
-        getCheckFunction(fieldType), null, null);
+    addRepeated/*<T>*/(
+        tagNumber, name, fieldType, getCheckFunction(fieldType), null, null);
   }
 
   // Repeated message, group, or enum.
-  void pp(int tagNumber, String name, int fieldType, CheckFunc check,
-         [CreateBuilderFunc subBuilder, ValueOfFunc valueOf]) {
+  void pp/*<T>*/(int tagNumber, String name, int fieldType, CheckFunc check,
+      [CreateBuilderFunc subBuilder, ValueOfFunc valueOf]) {
     assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
-    addRepeated(tagNumber, name, fieldType, check, subBuilder, valueOf);
+    addRepeated/*<T>*/(tagNumber, name, fieldType, check, subBuilder, valueOf);
   }
 
   bool containsTagNumber(int tagNumber) => fieldInfo.containsKey(tagNumber);
@@ -123,7 +122,7 @@ class BuilderInfo {
     // TODO(skybrian): perhaps the code generator should insert the FieldInfos
     // in tag number order, to avoid sorting them?
     _sortedByTag = new List<FieldInfo>.from(fieldInfo.values)
-            ..sort((a, b) => a.tagNumber.compareTo(b.tagNumber));
+      ..sort((a, b) => a.tagNumber.compareTo(b.tagNumber));
     return _sortedByTag;
   }
 
@@ -131,14 +130,13 @@ class BuilderInfo {
       int tagNumber, ExtensionRegistry extensionRegistry) {
     CreateBuilderFunc subBuilderFunc = subBuilder(tagNumber);
     if (subBuilderFunc == null && extensionRegistry != null) {
-      subBuilderFunc = extensionRegistry.getExtension(messageName,
-          tagNumber).subBuilder;
+      subBuilderFunc =
+          extensionRegistry.getExtension(messageName, tagNumber).subBuilder;
     }
     return subBuilderFunc();
   }
 
   _decodeEnum(int tagNumber, ExtensionRegistry registry, int rawValue) {
-
     ValueOfFunc f = valueOfFunc(tagNumber);
     if (f == null && registry != null) {
       f = registry.getExtension(messageName, tagNumber).valueOf;

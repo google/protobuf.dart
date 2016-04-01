@@ -16,7 +16,6 @@ bool _isGroupOrMessage(int fieldType) =>
 
 /// Defines constants and functions for dealing with fieldType bits.
 class PbFieldType {
-
   /// Returns the base field type without any of the required, repeated
   /// and packed bits.
   static int _baseType(int fieldType) =>
@@ -66,7 +65,7 @@ class PbFieldType {
 
   // Closures commonly used by initializers.
   static String _STRING_EMPTY() => '';
-  static List<int> _BYTES_EMPTY() => new PbList(check: _checkInt);
+  static List<int> _BYTES_EMPTY() => new PbList<int>(check: _checkInt);
   static bool _BOOL_FALSE() => false;
   static int _INT_ZERO() => 0;
   static double _DOUBLE_ZERO() => 0.0;

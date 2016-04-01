@@ -38,19 +38,19 @@ class _ExtensionFieldSet {
   ///
   /// If it doesn't exist, creates the list and saves the extension.
   /// Suitable for public API and decoders.
-  List _ensureRepeatedField(Extension fi) {
+  List/*<T>*/ _ensureRepeatedField/*<T>*/(Extension/*<T>*/ fi) {
     assert(fi.isRepeated);
     assert(fi.extendee == _parent._messageName);
 
     var list = _values[fi.tagNumber];
-    if (list != null) return list;
+    if (list != null) return list as List/*<T>*/;
 
     // Add info and create list.
     _validateInfo(fi);
-    list = _parent._message.createRepeatedField(fi.tagNumber, fi);
+    var newList = fi._createRepeatedField(_parent._message);
     _addInfoUnchecked(fi);
-    _setFieldUnchecked(fi, list);
-    return list;
+    _setFieldUnchecked(fi, newList);
+    return newList;
   }
 
   _getFieldOrNull(Extension extension) => _values[extension.tagNumber];

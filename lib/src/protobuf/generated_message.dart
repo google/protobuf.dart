@@ -217,14 +217,8 @@ abstract class GeneratedMessage {
   /// that the protobuf can be encoded correctly, the returned List must
   /// validate all items added to it. This can most easily be done
   /// using the FieldInfo.check function.
-  List createRepeatedField(int tagNumber, FieldInfo fi) {
-    if (fi.check != null) {
-      // new way
-      return new PbList(check: fi.check);
-    } else {
-      // old way; remove after all generated code is upgraded.
-      return fi.makeDefault();
-    }
+  List/*<T>*/ createRepeatedField/*<T>*/(int tagNumber, FieldInfo/*<T>*/ fi) {
+    return new PbList/*<T>*/(check: fi.check);
   }
 
   /// Returns the value of a field, ignoring any defaults.
@@ -242,7 +236,8 @@ abstract class GeneratedMessage {
       _fieldSet._ensureInfo(tagNumber).readonlyDefault;
 
   /// Returns [:true:] if a value of [extension] is present.
-  bool hasExtension(Extension extension) => _fieldSet._hasExtensions &&
+  bool hasExtension(Extension extension) =>
+      _fieldSet._hasExtensions &&
       _fieldSet._extensions._getFieldOrNull(extension) != null;
 
   /// Returns [:true:] if this message has a field associated with [tagNumber].
@@ -280,8 +275,8 @@ abstract class GeneratedMessage {
   void setField(int tagNumber, value) => _fieldSet._setField(tagNumber, value);
 
   /// For generated code only.
-  $_get(int index, int tagNumber, defaultValue) =>
-      _fieldSet._$get(index, tagNumber, defaultValue);
+  /*T*/ $_get/*<T>*/(int index, int tagNumber, /*T*/ defaultValue) =>
+      _fieldSet._$get/*<T>*/(index, tagNumber, defaultValue);
 
   /// For generated code only.
   bool $_has(int index, int tagNumber) => _fieldSet._$has(index, tagNumber);
