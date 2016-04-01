@@ -66,12 +66,14 @@ pb.Packages createPackages(String pubspecYaml, String pubspecLock) {
 /// Quick and dirty lock file parser.
 /// - ignores indentation
 /// - assumes one top-level key "packages:"
-/// - assumes all other lines without a value start a new package
-/// - only allows three known keys within a package
+/// - assumes all other lines without a value except 'description'
+///   start a new package
+/// - only allows known keys within a package
 List<pb.PackageVersion> _parseLockFile(String contents) {
   var out = <pb.PackageVersion>[];
 
   bool inPackages = false;
+  bool inDescription = false;
   pb.PackageVersion pv = null;
   var lineNumber = 0;
   for (var line in contents.split("\n")) {
@@ -99,14 +101,21 @@ List<pb.PackageVersion> _parseLockFile(String contents) {
     }
 
     if (value == "") {
+      if (key == "description") {
+        inDescription = true;
+        continue;
+      }
       if (pv != null) out.add(pv);
       pv = new pb.PackageVersion()..name = key;
       continue;
     }
 
     if (pv == null) {
-      throw "can't parse pubspec.lock at line $lineNumber";
+      throw "can't parse pubspec.lock at line $lineNumber - no value for $key";
     }
+
+    if (inDescription && (key == "name" || key == "url")) continue;
+    inDescription = false;
 
     switch (key) {
       case "description":
@@ -122,8 +131,10 @@ List<pb.PackageVersion> _parseLockFile(String contents) {
         break;
       case "relative":
         break; // ignore
+      case "sdk":
+        break; // ignore
       default:
-        throw "can't parse pubspec.lock at line $lineNumber";
+        throw "can't parse pubspec.lock at line $lineNumber - unknown key $key";
     }
   }
   return out;
