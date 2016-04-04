@@ -307,7 +307,9 @@ class _FieldSet {
 
   bool _equals(_FieldSet o) {
     if (_meta != o._meta) return false;
-    if (!_areListsEqual(_values, o._values)) return false;
+    for (var i = 0; i < _values.length; i++) {
+      if (!_equalFieldValues(_values[i], o._values[i])) return false;
+    }
 
     if (!_hasExtensions || !_extensions._hasValues) {
       // Check if other extensions are logically empty.
@@ -329,6 +331,28 @@ class _FieldSet {
     }
 
     return true;
+  }
+
+  bool _equalFieldValues(left, right) {
+    if (left != null && right != null) return _deepEquals(left, right);
+
+    var val = left ?? right;
+
+    // Two uninitialized fields are equal.
+    if (val == null) return true;
+
+    // One field is null. We are comparing an initialized field
+    // with its default value.
+
+    // An empty repeated field is the same as uninitialized.
+    // This is because accessing a repeated field automatically creates it.
+    // We don't want reading a field to change equality comparisons.
+    if (val is List && val.isEmpty) return true;
+
+    // For now, initialized and uninitialized fields are different.
+    // TODO(skybrian) consider other cases; should we compare with the
+    // default value or not?
+    return false;
   }
 
   /// Calculates a hash code based on the contents of the protobuf.

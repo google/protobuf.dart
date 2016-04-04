@@ -6,6 +6,9 @@ part of protobuf;
 
 // TODO(antonm): reconsider later if PbList should take care of equality.
 bool _deepEquals(lhs, rhs) {
+  // Some GeneratedMessages implement Map, so test this first.
+  if (lhs is GeneratedMessage) return lhs == rhs;
+  if (rhs is GeneratedMessage) return false;
   if ((lhs is List) && (rhs is List)) return _areListsEqual(lhs, rhs);
   if ((lhs is Map) && (rhs is Map)) return _areMapsEqual(lhs, rhs);
   if ((lhs is ByteData) && (rhs is ByteData)) {

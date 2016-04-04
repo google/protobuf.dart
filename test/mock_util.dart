@@ -5,15 +5,20 @@
 library mock_util;
 
 import 'package:protobuf/protobuf.dart'
-    show GeneratedMessage, BuilderInfo, PbFieldType;
+    show GeneratedMessage, BuilderInfo, CreateBuilderFunc, PbFieldType;
+
+BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
+  return new BuilderInfo(className)
+    ..a(1, "val", PbFieldType.O3, 42)
+    ..a(2, "str", PbFieldType.OS)
+    ..a(3, "child", PbFieldType.OM, create, create)
+    ..p(4, "int32s", PbFieldType.P3);
+}
 
 /// A minimal protobuf implementation for testing.
 abstract class MockMessage extends GeneratedMessage {
-  BuilderInfo _infoCache;
-
   // subclasses must provide these
-  String get className;
-  MockMessage create();
+  BuilderInfo get info_;
 
   int get val => $_get(0, 1, 42);
   set val(x) => setField(1, x);
@@ -26,16 +31,8 @@ abstract class MockMessage extends GeneratedMessage {
 
   List<int> get int32s => $_get(3, 4, null);
 
-  @override
-  BuilderInfo get info_ {
-    if (_infoCache != null) return _infoCache;
-    _infoCache = new BuilderInfo(className)
-      ..a(1, "val", PbFieldType.O3, 42)
-      ..a(2, "str", PbFieldType.OS)
-      ..a(3, "child", PbFieldType.OM, create, create)
-      ..p(4, "int32s", PbFieldType.P3);
-    return _infoCache;
+  clone() {
+    CreateBuilderFunc create = info_.byName["child"].subBuilder;
+    return create()..mergeFromMessage(this);
   }
-
-  clone() => create()..mergeFromMessage(this);
 }

@@ -13,11 +13,11 @@ import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin, PbFieldChange;
 import 'package:test/test.dart' show test, expect, predicate, same;
 
-import 'mock_util.dart' show MockMessage;
+import 'mock_util.dart' show MockMessage, mockInfo;
 
 class Rec extends MockMessage with PbEventMixin {
-  get className => "Rec";
-  Rec create() => new Rec();
+  get info_ => _info;
+  static final _info = mockInfo("Rec", () => new Rec());
 }
 
 Extension comment = new Extension("Rec", "comment", 5, PbFieldType.OS);
