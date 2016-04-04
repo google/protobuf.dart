@@ -55,18 +55,17 @@ class ExtensionGenerator {
     if (_field == null) throw new StateError("resolve not called");
 
     String name = _field.dartFieldName;
+    var type = _field.baseType;
+    var dartType = type.getDartType(package);
 
     if (_field.isRepeated) {
       out.print('static final Extension $name = '
-          'new Extension.repeated(\'$_extendedClassName\', \'$name\', '
-          '${_field.number}, ${_field.typeConstant}');
-      var type = _field.baseType;
+          'new Extension<$dartType>.repeated(\'$_extendedClassName\','
+          ' \'$name\', ${_field.number}, ${_field.typeConstant}');
       if (type.isMessage || type.isGroup) {
-        var dartClass = type.getDartType(package);
-        out.println(', $dartClass.$checkItem, $dartClass.create);');
+        out.println(', $dartType.$checkItem, $dartType.create);');
       } else if (type.isEnum) {
-        var dartClass = type.getDartType(package);
-        out.println(', $dartClass.$checkItem, null, $dartClass.valueOf);');
+        out.println(', $dartType.$checkItem, null, $dartType.valueOf);');
       } else {
         out.println(", getCheckFunction(${_field.typeConstant}));");
       }
@@ -74,15 +73,13 @@ class ExtensionGenerator {
     }
 
     out.print('static final Extension $name = '
-        'new Extension(\'$_extendedClassName\', \'$name\', '
+        'new Extension<$dartType>(\'$_extendedClassName\', \'$name\', '
         '${_field.number}, ${_field.typeConstant}');
 
     String initializer = _field.generateDefaultFunction(package);
 
-    var type = _field.baseType;
     if (type.isMessage || type.isGroup) {
-      var dartClass = type.getDartType(package);
-      out.println(', $initializer, $dartClass.create);');
+      out.println(', $initializer, $dartType.create);');
     } else if (type.isEnum) {
       var dartEnum = type.getDartType(package);
       String valueOf = '(var v) => $dartEnum.valueOf(v)';

@@ -8,7 +8,7 @@ import 'package:protoc_plugin/bazel.dart';
 import 'package:protoc_plugin/protoc.dart';
 
 void main() {
-  var packages = {};
+  var packages = <String, BazelPackage>{};
   new CodeGenerator(stdin, stdout).generate(
       optionParsers: {bazelOptionId: new BazelOptionParser(packages)},
       config: new BazelOutputConfiguration(packages));

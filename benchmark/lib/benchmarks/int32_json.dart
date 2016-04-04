@@ -5,7 +5,8 @@
 library protoc.benchmark.int32_json;
 
 import '../benchmark.dart';
-import '../generated/benchmark.pb.dart' show BenchmarkID, Request, Params, Sample;
+import '../generated/benchmark.pb.dart'
+    show BenchmarkID, Request, Params, Sample;
 import '../generated/int32grid.pb.dart' as pb;
 
 /// A benchmark that deserializes a grid of int fields.
@@ -77,7 +78,7 @@ class Int32Benchmark extends Benchmark {
   static const $id = BenchmarkID.READ_INT32_FIELDS_JSON;
   static final $type = new BenchmarkType($id, $create);
 
-  static $create(Request r) {
+  static Int32Benchmark $create(Request r) {
     assert(r.params.hasInt32FieldCount());
     assert(r.params.hasMessageCount());
     return new Int32Benchmark(r.params.int32FieldCount, r.params.messageCount);

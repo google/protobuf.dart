@@ -124,7 +124,7 @@ class HasStringsBenchmark extends Benchmark {
   static const $id = BenchmarkID.HAS_STRINGS;
   static final $type = new BenchmarkType($id, $create);
 
-  static $create(Request r) {
+  static HasStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());
     var value = null;
     if (r.params.hasStringValue()) value = r.params.stringValue;

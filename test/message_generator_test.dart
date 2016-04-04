@@ -28,8 +28,8 @@ class PhoneNumber_PhoneType extends ProtobufEnum {
     WORK,
   ];
 
-  static final Map<int, PhoneNumber_PhoneType> _byValue = ProtobufEnum.initByValue(values);
-  static PhoneNumber_PhoneType valueOf(int value) => _byValue[value];
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static PhoneNumber_PhoneType valueOf(int value) => _byValue[value] as PhoneNumber_PhoneType;
   static void $checkItem(PhoneNumber_PhoneType v) {
     if (v is !PhoneNumber_PhoneType) checkItemFailed(v, 'PhoneNumber_PhoneType');
   }
@@ -39,9 +39,9 @@ class PhoneNumber_PhoneType extends ProtobufEnum {
 
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..a(1, 'number', PbFieldType.QS)
-    ..e(2, 'type', PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf)
-    ..a(3, 'name', PbFieldType.OS, '\$')
+    ..a/*<String>*/(1, 'number', PbFieldType.QS)
+    ..e/*<PhoneNumber_PhoneType>*/(2, 'type', PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf)
+    ..a/*<String>*/(3, 'name', PbFieldType.OS, '\$')
   ;
 
   PhoneNumber() : super();
@@ -81,44 +81,45 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 ''';
     FileDescriptorProto fd = new FileDescriptorProto();
     EnumDescriptorProto ed = new EnumDescriptorProto()
-        ..name = 'PhoneType'
-        ..value.addAll([
-            new EnumValueDescriptorProto()
-                ..name = 'MOBILE'
-                ..number = 0,
-            new EnumValueDescriptorProto()
-                ..name = 'HOME'
-                ..number = 1,
-            new EnumValueDescriptorProto()
-                ..name = 'WORK'
-                ..number = 2,
-            new EnumValueDescriptorProto()
-                ..name = 'BUSINESS'
-                ..number = 2]);
+      ..name = 'PhoneType'
+      ..value.addAll([
+        new EnumValueDescriptorProto()
+          ..name = 'MOBILE'
+          ..number = 0,
+        new EnumValueDescriptorProto()
+          ..name = 'HOME'
+          ..number = 1,
+        new EnumValueDescriptorProto()
+          ..name = 'WORK'
+          ..number = 2,
+        new EnumValueDescriptorProto()
+          ..name = 'BUSINESS'
+          ..number = 2
+      ]);
     DescriptorProto md = new DescriptorProto()
-        ..name = 'PhoneNumber'
-        ..field.addAll([
-            // optional PhoneType type = 2 [default = HOME];
-            new FieldDescriptorProto()
-                ..name = 'type'
-                ..number = 2
-                ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
-                ..type = FieldDescriptorProto_Type.TYPE_ENUM
-                ..typeName = '.PhoneNumber.PhoneType',
-            // required string number = 1;
-            new FieldDescriptorProto()
-                ..name = 'number'
-                ..number = 1
-                ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
-                ..type = FieldDescriptorProto_Type.TYPE_STRING,
-            new FieldDescriptorProto()
-                ..name = 'name'
-                ..number = 3
-                ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
-                ..type = FieldDescriptorProto_Type.TYPE_STRING
-                ..defaultValue = r'$'
-            ])
-        ..enumType.add(ed);
+      ..name = 'PhoneNumber'
+      ..field.addAll([
+        // optional PhoneType type = 2 [default = HOME];
+        new FieldDescriptorProto()
+          ..name = 'type'
+          ..number = 2
+          ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+          ..type = FieldDescriptorProto_Type.TYPE_ENUM
+          ..typeName = '.PhoneNumber.PhoneType',
+        // required string number = 1;
+        new FieldDescriptorProto()
+          ..name = 'number'
+          ..number = 1
+          ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
+          ..type = FieldDescriptorProto_Type.TYPE_STRING,
+        new FieldDescriptorProto()
+          ..name = 'name'
+          ..number = 3
+          ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+          ..type = FieldDescriptorProto_Type.TYPE_STRING
+          ..defaultValue = r'$'
+      ])
+      ..enumType.add(ed);
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 

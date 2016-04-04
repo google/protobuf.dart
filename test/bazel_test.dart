@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 void main() {
   group('BazelOptionParser', () {
     var optionParser;
-    var packages;
+    Map<String, BazelPackage> packages;
     var errors;
 
     setUp(() {
@@ -111,7 +111,7 @@ void main() {
   });
 
   group('BazelOutputConfiguration', () {
-    var packages;
+    Map<String, BazelPackage> packages;
     var config;
 
     setUp(() {

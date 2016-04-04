@@ -86,7 +86,7 @@ class StringBenchmark extends Benchmark {
   static const $id = BenchmarkID.READ_STRING_FIELDS_JSON;
   static final $type = new BenchmarkType($id, $create);
 
-  static $create(Request r) {
+  static StringBenchmark $create(Request r) {
     assert(r.params.hasStringFieldCount());
     assert(r.params.hasMessageCount());
     assert(r.params.hasStringSize());

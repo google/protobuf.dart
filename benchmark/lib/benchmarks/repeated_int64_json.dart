@@ -7,7 +7,8 @@ library protoc.benchmark.repeated_int64_json;
 import 'package:fixnum/fixnum.dart';
 
 import '../benchmark.dart';
-import '../generated/benchmark.pb.dart' show BenchmarkID, Request, Params, Sample;
+import '../generated/benchmark.pb.dart'
+    show BenchmarkID, Request, Params, Sample;
 import '../generated/int64grid.pb.dart' as pb;
 
 /// A benchmark that deserializes a grid of repeated ints.
@@ -70,7 +71,7 @@ class RepeatedInt64Benchmark extends Benchmark {
 
   static const $id = BenchmarkID.READ_INT64_REPEATED_JSON;
   static final $type = new BenchmarkType($id, $create);
-  static $create(Request r) {
+  static RepeatedInt64Benchmark $create(Request r) {
     assert(r.params.hasInt64RepeatCount());
     assert(r.params.hasMessageCount());
     return new RepeatedInt64Benchmark(

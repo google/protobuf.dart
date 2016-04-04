@@ -112,23 +112,24 @@ class ProtobufField {
 
     if (isRepeated) {
       if (baseType.isMessage || baseType.isGroup) {
-        return '..pp($number, $quotedName, $typeConstant,'
+        return '..pp/*<$type>*/($number, $quotedName, $typeConstant,'
             ' $type.$checkItem, $type.create)';
       } else if (baseType.isEnum) {
-        return '..pp($number, $quotedName, $typeConstant,'
+        return '..pp/*<$type>*/($number, $quotedName, $typeConstant,'
             ' $type.$checkItem, null, $type.valueOf)';
       } else {
-        return '..p($number, $quotedName, $typeConstant)';
+        return '..p/*<$type>*/($number, $quotedName, $typeConstant)';
       }
     }
 
     String makeDefault = generateDefaultFunction(package);
     if (baseType.isEnum) {
       String valueOf = '$type.valueOf';
-      return '..e($number, $quotedName, $typeConstant, $makeDefault, $valueOf)';
+      return '..e/*<$type>*/('
+          '$number, $quotedName, $typeConstant, $makeDefault, $valueOf)';
     }
 
-    String prefix = '..a($number, $quotedName, $typeConstant';
+    String prefix = '..a/*<$type>*/($number, $quotedName, $typeConstant';
     if (makeDefault == null) return prefix + ')';
 
     if (baseType.isMessage || baseType.isGroup) {
@@ -145,18 +146,18 @@ class ProtobufField {
   String getDefaultExpr() {
     if (isRepeated) return "null";
     switch (_field.type) {
-    case FieldDescriptorProto_Type.TYPE_BOOL:
-      return _getDefaultAsBoolExpr("false");
-    case FieldDescriptorProto_Type.TYPE_INT32:
-    case FieldDescriptorProto_Type.TYPE_UINT32:
-    case FieldDescriptorProto_Type.TYPE_SINT32:
-    case FieldDescriptorProto_Type.TYPE_FIXED32:
-    case FieldDescriptorProto_Type.TYPE_SFIXED32:
-      return _getDefaultAsInt32Expr("0");
-    case FieldDescriptorProto_Type.TYPE_STRING:
-      return _getDefaultAsStringExpr("''");
-    default:
-      return "null";
+      case FieldDescriptorProto_Type.TYPE_BOOL:
+        return _getDefaultAsBoolExpr("false");
+      case FieldDescriptorProto_Type.TYPE_INT32:
+      case FieldDescriptorProto_Type.TYPE_UINT32:
+      case FieldDescriptorProto_Type.TYPE_SINT32:
+      case FieldDescriptorProto_Type.TYPE_FIXED32:
+      case FieldDescriptorProto_Type.TYPE_SFIXED32:
+        return _getDefaultAsInt32Expr("0");
+      case FieldDescriptorProto_Type.TYPE_STRING:
+        return _getDefaultAsStringExpr("''");
+      default:
+        return "null";
     }
   }
 

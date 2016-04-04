@@ -5,7 +5,8 @@
 library protoc.benchmark.repeated_int32_json;
 
 import '../benchmark.dart';
-import '../generated/benchmark.pb.dart' show BenchmarkID, Request, Params, Sample;
+import '../generated/benchmark.pb.dart'
+    show BenchmarkID, Request, Params, Sample;
 import '../generated/int32grid.pb.dart' as pb;
 
 /// A benchmark that deserializes a grid of repeated ints.
@@ -68,7 +69,7 @@ class RepeatedInt32Benchmark extends Benchmark {
 
   static const $id = BenchmarkID.READ_INT32_REPEATED_JSON;
   static final $type = new BenchmarkType($id, $create);
-  static $create(Request r) {
+  static RepeatedInt32Benchmark $create(Request r) {
     assert(r.params.hasInt32RepeatCount());
     assert(r.params.hasMessageCount());
     return new RepeatedInt32Benchmark(

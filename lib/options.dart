@@ -9,9 +9,8 @@ part of protoc;
 /// key-value pair ("name=value"). For each option "name", it looks up whether a
 /// [SingleOptionParser] exists in [parsers] and delegates the actual parsing of
 /// the option to it. Returns `true` if no errors were reported.
-bool genericOptionsParser(
-    CodeGeneratorRequest request, CodeGeneratorResponse response,
-    Map<String, SingleOptionParser> parsers) {
+bool genericOptionsParser(CodeGeneratorRequest request,
+    CodeGeneratorResponse response, Map<String, SingleOptionParser> parsers) {
   var parameter = request.parameter != null ? request.parameter : '';
   var options = parameter.trim().split(',');
   var errors = [];
@@ -19,9 +18,9 @@ bool genericOptionsParser(
   for (var option in options) {
     option = option.trim();
     if (option.isEmpty) continue;
-    var reportError = (details) {
+    void reportError(String details) {
       errors.add('Error found trying to parse the option: $option.\n$details');
-    };
+    }
 
     var nameValue = option.split('=');
     if (nameValue.length != 1 && nameValue.length != 2) {
@@ -58,7 +57,6 @@ class GenerationOptions {
 /// [genericOptionsParser] delegate to instances of this class to
 /// parse the value of a specific option.
 abstract class SingleOptionParser {
-
   /// Parse the [name]=[value] value pair and report any errors to [onError]. If
   /// the option is a flag, [value] will be null. Note, [name] is commonly
   /// unused. It is provided because [SingleOptionParser] can be registered for
@@ -73,10 +71,12 @@ GenerationOptions parseGenerationOptions(
     CodeGeneratorRequest request, CodeGeneratorResponse response,
     [Map<String, SingleOptionParser> parsers]) {
   var fieldNameOptionParser = new FieldNameOptionParser();
-  var map = {};
-  if (parsers != null) parsers.forEach((k, v) { map[k] = v; });
-  map['field_name'] = fieldNameOptionParser;
-  if (genericOptionsParser(request, response, map)) {
+
+  var newParsers = <String, SingleOptionParser>{};
+  if (parsers != null) newParsers.addAll(parsers);
+  newParsers['field_name'] = fieldNameOptionParser;
+
+  if (genericOptionsParser(request, response, newParsers)) {
     return new GenerationOptions(fieldNameOptionParser.mappings);
   }
   return null;

@@ -40,11 +40,11 @@ class Table {
   final Set<pb.Request> selections;
   final rows = <Row>[];
 
-  factory Table(pb.Suite suite) =>
-    new Table._raw(suite, null, null, new Set<pb.Request>.from(suite.requests));
+  factory Table(pb.Suite suite) => new Table._raw(
+      suite, null, null, new Set<pb.Request>.from(suite.requests));
 
   Table._raw(this.suite, this.baseline, this.report, this.selections) {
-    var it = report == null ? [].iterator : report.responses.iterator;
+    Iterator it = report == null ? [].iterator : report.responses.iterator;
     for (var r in suite.requests) {
       var b = createBenchmark(r);
       pb.Sample baseline;
@@ -60,8 +60,8 @@ class Table {
       new Table._raw(suite, baseline, report, selections);
 
   Table withAllSelected() {
-    return new Table._raw(suite, baseline, report,
-      new Set<pb.Request>.from(suite.requests));
+    return new Table._raw(
+        suite, baseline, report, new Set<pb.Request>.from(suite.requests));
   }
 
   Table withNoneSelected() {

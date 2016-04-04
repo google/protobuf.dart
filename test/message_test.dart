@@ -9,31 +9,30 @@ import 'package:test/test.dart';
 
 import 'test_util.dart';
 
-import '../out/protos/descriptor_2_5_opensource.pb.dart'
-    show DescriptorProto;
+import '../out/protos/descriptor_2_5_opensource.pb.dart' show DescriptorProto;
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
 void main() {
   TestRequired TEST_REQUIRED_UNINITIALIZED = new TestRequired();
 
   TestRequired TEST_REQUIRED_INITIALIZED = new TestRequired()
-      ..a = 1
-      ..b = 2
-      ..c = 3;
+    ..a = 1
+    ..b = 2
+    ..c = 3;
 
   test('testMergeFrom', () {
     TestAllTypes mergeSource = new TestAllTypes()
-        ..optionalInt32 = 1
-        ..optionalString = 'foo'
-        ..optionalForeignMessage = new ForeignMessage()
-        ..repeatedString.add('bar');
+      ..optionalInt32 = 1
+      ..optionalString = 'foo'
+      ..optionalForeignMessage = new ForeignMessage()
+      ..repeatedString.add('bar');
 
     TestAllTypes mergeDest = new TestAllTypes()
-        ..optionalInt64 = make64(2)
-        ..optionalString = 'baz'
-        ..optionalForeignMessage = new ForeignMessage()
-        ..optionalForeignMessage = (new ForeignMessage()..c = 3)
-        ..repeatedString.add('qux');
+      ..optionalInt64 = make64(2)
+      ..optionalString = 'baz'
+      ..optionalForeignMessage = new ForeignMessage()
+      ..optionalForeignMessage = (new ForeignMessage()..c = 3)
+      ..repeatedString.add('qux');
 
     String mergeResultExpected = '''
 optionalInt32: 1
@@ -47,8 +46,8 @@ repeatedString: qux
 ''';
 
     TestAllTypes result = new TestAllTypes()
-        ..mergeFromMessage(mergeSource)
-        ..mergeFromMessage(mergeDest);
+      ..mergeFromMessage(mergeSource)
+      ..mergeFromMessage(mergeDest);
 
     expect(result.toString(), mergeResultExpected);
   });
@@ -73,24 +72,25 @@ repeatedString: qux
         reason: 'TestRequiredForeign without children should be initialized');
 
     message.optionalMessage = TEST_REQUIRED_UNINITIALIZED;
-    expect(message.isInitialized(), isFalse, reason:
-        'TestRequiredForeign with optional TEST_REQUIRED_UNINITIALIZED '
-        'should not be initialized');
+    expect(message.isInitialized(), isFalse,
+        reason: 'TestRequiredForeign with optional TEST_REQUIRED_UNINITIALIZED '
+            'should not be initialized');
 
     message.optionalMessage = TEST_REQUIRED_INITIALIZED;
     expect(message.isInitialized(), isTrue,
-      reason: 'TestRequiredForeign with optional TEST_REQUIRED_INITIALIZED '
-      'should be initialized');
+        reason: 'TestRequiredForeign with optional TEST_REQUIRED_INITIALIZED '
+            'should be initialized');
 
     message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
-    expect(message.isInitialized(), isFalse, reason:
-        'TestRequiredForeign with repeating TEST_REQUIRED_UNINITIALIZED '
-        'should not be initialized');
+    expect(message.isInitialized(), isFalse,
+        reason:
+            'TestRequiredForeign with repeating TEST_REQUIRED_UNINITIALIZED '
+            'should not be initialized');
 
     message.repeatedMessage[0] = TEST_REQUIRED_INITIALIZED;
     expect(message.isInitialized(), isTrue,
         reason: 'TestRequiredForeign with repeating TEST_REQUIRED_INITIALIZED '
-        'should be initialized');
+            'should be initialized');
   });
 
   test('testRequiredExtension', () {
@@ -137,17 +137,18 @@ repeatedString: qux
       // NOTE: error message differs from Java in that
       // fields are referenced using Dart fieldnames r.t.
       // proto field names.
-      expect(e.message,
-        'Message missing required fields: '
-        'optionalMessage.a, '
-        'optionalMessage.b, '
-        'optionalMessage.c, '
-        'repeatedMessage[0].a, '
-        'repeatedMessage[0].b, '
-        'repeatedMessage[0].c, '
-        'repeatedMessage[1].a, '
-        'repeatedMessage[1].b, '
-        'repeatedMessage[1].c');
+      expect(
+          e.message,
+          'Message missing required fields: '
+          'optionalMessage.a, '
+          'optionalMessage.b, '
+          'optionalMessage.c, '
+          'repeatedMessage[0].a, '
+          'repeatedMessage[0].b, '
+          'repeatedMessage[0].c, '
+          'repeatedMessage[1].a, '
+          'repeatedMessage[1].b, '
+          'repeatedMessage[1].c');
     }
   });
 
@@ -183,7 +184,8 @@ repeatedString: qux
       // NOTE: error message differs from Java in that
       // fields are referenced using Dart fieldnames r.t.
       // proto field names.
-      expect(e.message,
+      expect(
+          e.message,
           'Message missing required fields: '
           'optionalMessage.a, '
           'optionalMessage.b, '
@@ -198,50 +200,50 @@ repeatedString: qux
   });
 
   test('testClearField', () {
-      int fieldNo;
-      TestAllTypes message = new TestAllTypes();
+    int fieldNo;
+    TestAllTypes message = new TestAllTypes();
 
-      // Singular field with no default.
-      fieldNo = 1;
-      expect(message.hasField(fieldNo), isFalse);
-      expect(message.getField(fieldNo), 0);
-      message.clearField(fieldNo);
-      expect(message.hasField(fieldNo), isFalse);
-      message.setField(fieldNo, 0);
-      expect(message.getField(fieldNo), 0);
-      expect(message.hasField(fieldNo), isTrue);
-      message.clearField(fieldNo);
-      expect(message.hasField(fieldNo), isFalse);
+    // Singular field with no default.
+    fieldNo = 1;
+    expect(message.hasField(fieldNo), isFalse);
+    expect(message.getField(fieldNo), 0);
+    message.clearField(fieldNo);
+    expect(message.hasField(fieldNo), isFalse);
+    message.setField(fieldNo, 0);
+    expect(message.getField(fieldNo), 0);
+    expect(message.hasField(fieldNo), isTrue);
+    message.clearField(fieldNo);
+    expect(message.hasField(fieldNo), isFalse);
 
-      // Repeated field.
-      fieldNo = 31;
-      expect(message.hasField(fieldNo), isFalse);
-      message.getField(fieldNo).add(1);
-      expect(message.hasField(fieldNo), isTrue);
+    // Repeated field.
+    fieldNo = 31;
+    expect(message.hasField(fieldNo), isFalse);
+    message.getField(fieldNo).add(1);
+    expect(message.hasField(fieldNo), isTrue);
 
-      // Singular field with default.
-      fieldNo = 61;
-      expect(message.hasField(fieldNo), isFalse);
-      expect(message.getField(fieldNo), 41);
-      message.clearField(fieldNo);
-      message.setField(fieldNo, 41);
-      expect(message.hasField(fieldNo), isTrue);
-      message.setField(fieldNo, 42);
-      expect(message.hasField(fieldNo), isTrue);
-      expect(message.getField(fieldNo), 42);
-      message.clearField(fieldNo);
-      expect(message.hasField(fieldNo), isFalse);
-      expect(message.getField(fieldNo), 41);
+    // Singular field with default.
+    fieldNo = 61;
+    expect(message.hasField(fieldNo), isFalse);
+    expect(message.getField(fieldNo), 41);
+    message.clearField(fieldNo);
+    message.setField(fieldNo, 41);
+    expect(message.hasField(fieldNo), isTrue);
+    message.setField(fieldNo, 42);
+    expect(message.hasField(fieldNo), isTrue);
+    expect(message.getField(fieldNo), 42);
+    message.clearField(fieldNo);
+    expect(message.hasField(fieldNo), isFalse);
+    expect(message.getField(fieldNo), 41);
   });
 
   test('JSON constants share structure', () {
     const nestedTypeTag = 3;
-    expect(TestAllTypes$json['$nestedTypeTag'][0],
-        same(TestAllTypes_NestedMessage$json));
+    List fields = TestAllTypes$json['$nestedTypeTag'];
+    expect(fields[0], same(TestAllTypes_NestedMessage$json));
 
     const enumTypeTag = 4;
-    expect(TestAllTypes$json['$enumTypeTag'][0],
-        same(TestAllTypes_NestedEnum$json));
+    fields = TestAllTypes$json['$enumTypeTag'];
+    expect(fields[0], same(TestAllTypes_NestedEnum$json));
   });
 
   test('Can read JSON constant into DescriptorProto', () {

@@ -92,10 +92,10 @@ void _writeListItems(IndentingWriter out, List val, {bool vertical: false}) {
   }
 }
 
-void _writeMapItems(IndentingWriter out, Map<String, dynamic> val,
+void _writeMapItems(IndentingWriter out, Map<dynamic, dynamic> val,
     {bool vertical: false}) {
   bool first = true;
-  for (String key in val.keys) {
+  for (var key in val.keys) {
     if (!first && !vertical) out.print(", ");
     _writeString(out, key);
     out.print(": ");

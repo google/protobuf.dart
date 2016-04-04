@@ -109,8 +109,8 @@ void main() {
     ]);
 
     String readMessageName(fqname) {
-      var descriptor = new DescriptorProto()
-        ..mergeFromJsonMap(map[fqname]);
+      var json = map[fqname] as Map<String, dynamic>;
+      var descriptor = new DescriptorProto()..mergeFromJsonMap(json);
       return descriptor.name;
     }
     expect(readMessageName('.SearchRequest'), "SearchRequest");

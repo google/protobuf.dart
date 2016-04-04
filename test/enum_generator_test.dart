@@ -26,8 +26,8 @@ class PhoneType extends ProtobufEnum {
     WORK,
   ];
 
-  static final Map<int, PhoneType> _byValue = ProtobufEnum.initByValue(values);
-  static PhoneType valueOf(int value) => _byValue[value];
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static PhoneType valueOf(int value) => _byValue[value] as PhoneType;
   static void $checkItem(PhoneType v) {
     if (v is !PhoneType) checkItemFailed(v, 'PhoneType');
   }
@@ -37,20 +37,21 @@ class PhoneType extends ProtobufEnum {
 
 ''';
     EnumDescriptorProto ed = new EnumDescriptorProto()
-        ..name = 'PhoneType'
-        ..value.addAll([
-            new EnumValueDescriptorProto()
-                ..name = 'MOBILE'
-                ..number = 0,
-            new EnumValueDescriptorProto()
-                ..name = 'HOME'
-                ..number = 1,
-            new EnumValueDescriptorProto()
-                ..name = 'WORK'
-                ..number = 2,
-            new EnumValueDescriptorProto()
-                ..name = 'BUSINESS'
-                ..number = 2]);
+      ..name = 'PhoneType'
+      ..value.addAll([
+        new EnumValueDescriptorProto()
+          ..name = 'MOBILE'
+          ..number = 0,
+        new EnumValueDescriptorProto()
+          ..name = 'HOME'
+          ..number = 1,
+        new EnumValueDescriptorProto()
+          ..name = 'WORK'
+          ..number = 2,
+        new EnumValueDescriptorProto()
+          ..name = 'BUSINESS'
+          ..number = 2
+      ]);
     IndentingWriter writer = new IndentingWriter();
     EnumGenerator eg = new EnumGenerator(ed, null);
     eg.generate(writer);

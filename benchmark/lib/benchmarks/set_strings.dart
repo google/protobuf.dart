@@ -98,7 +98,7 @@ class SetStringsBenchmark extends Benchmark {
   static const $id = BenchmarkID.SET_STRINGS;
   static final $type = new BenchmarkType($id, $create);
 
-  static $create(Request r) {
+  static SetStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());
     var value = null;
     if (r.params.hasStringValue()) value = r.params.stringValue;

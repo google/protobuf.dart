@@ -11,16 +11,49 @@ const checkItem = '\$checkItem';
 class MessageGenerator extends ProtobufContainer {
   // List of Dart language reserved words in names which cannot be used in a
   // subclass of GeneratedMessage.
-  static final List<String> reservedWords =
-      ['assert', 'break', 'case', 'catch', 'class', 'const', 'continue',
-       'default', 'do', 'else', 'enum', 'extends', 'false', 'final',
-       'finally', 'for', 'if', 'in', 'is', 'new', 'null', 'rethrow', 'return',
-       'super', 'switch', 'this', 'throw', 'true', 'try', 'var', 'void',
-       'while', 'with'];
+  static final List<String> reservedWords = [
+    'assert',
+    'break',
+    'case',
+    'catch',
+    'class',
+    'const',
+    'continue',
+    'default',
+    'do',
+    'else',
+    'enum',
+    'extends',
+    'false',
+    'final',
+    'finally',
+    'for',
+    'if',
+    'in',
+    'is',
+    'new',
+    'null',
+    'rethrow',
+    'return',
+    'super',
+    'switch',
+    'this',
+    'throw',
+    'true',
+    'try',
+    'var',
+    'void',
+    'while',
+    'with'
+  ];
 
   // List of names used in the generated class itself
-  static final List<String> generatedNames =
-      ['create', 'createRepeated', 'getDefault', checkItem];
+  static final List<String> generatedNames = [
+    'create',
+    'createRepeated',
+    'getDefault',
+    checkItem
+  ];
 
   // Returns the mixin for this message, or null if none.
   static PbMixin _getMixin(DescriptorProto desc, PbMixin defaultValue) {
@@ -31,7 +64,7 @@ class MessageGenerator extends ProtobufContainer {
     if (name.isEmpty) return null; // don't use a mixin (override any default)
     var mixin = findMixin(name);
     if (mixin == null) {
-      throw("unknown mixin class: ${name}");
+      throw ("unknown mixin class: ${name}");
     }
     return mixin;
   }
@@ -52,24 +85,25 @@ class MessageGenerator extends ProtobufContainer {
   // Used during generation.
   final Set<String> _methodNames = new Set<String>();
 
-  MessageGenerator(
-      DescriptorProto descriptor, ProtobufContainer parent, PbMixin defaultMixin)
+  MessageGenerator(DescriptorProto descriptor, ProtobufContainer parent,
+      PbMixin defaultMixin)
       : _descriptor = descriptor,
         _parent = parent,
-        classname = (parent.classname == '') ?
-            descriptor.name : '${parent.classname}_${descriptor.name}',
-        fqname = (parent == null || parent.fqname == null) ? descriptor.name :
-            (parent.fqname == '.' ?
-                '.${descriptor.name}' : '${parent.fqname}.${descriptor.name}'),
+        classname = (parent.classname == '')
+            ? descriptor.name
+            : '${parent.classname}_${descriptor.name}',
+        fqname = (parent == null || parent.fqname == null)
+            ? descriptor.name
+            : (parent.fqname == '.'
+                ? '.${descriptor.name}'
+                : '${parent.fqname}.${descriptor.name}'),
         mixin = _getMixin(descriptor, defaultMixin) {
-
     for (EnumDescriptorProto e in _descriptor.enumType) {
       _enumGenerators.add(new EnumGenerator(e, this));
     }
 
     for (DescriptorProto n in _descriptor.nestedType) {
-      _messageGenerators.add(
-          new MessageGenerator(n, this, defaultMixin));
+      _messageGenerators.add(new MessageGenerator(n, this, defaultMixin));
     }
 
     for (FieldDescriptorProto x in _descriptor.extension) {
@@ -112,7 +146,7 @@ class MessageGenerator extends ProtobufContainer {
   // Registers message and enum types that can be used elsewhere.
   void register(GenerationContext ctx) {
     ctx.registerFieldType(fqname, this);
-    for (var m  in _messageGenerators) {
+    for (var m in _messageGenerators) {
       m.register(ctx);
     }
     for (var e in _enumGenerators) {
@@ -126,10 +160,10 @@ class MessageGenerator extends ProtobufContainer {
 
     var sorted = new List<FieldDescriptorProto>.from(_descriptor.field)
       ..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
-      if (a.number < b.number) return -1;
-      if (a.number > b.number) return 1;
-      throw "multiple fields defined for tag ${a.number} in $fqname";
-    });
+        if (a.number < b.number) return -1;
+        if (a.number > b.number) return 1;
+        throw "multiple fields defined for tag ${a.number} in $fqname";
+      });
 
     _fieldList = <ProtobufField>[];
     for (FieldDescriptorProto field in sorted) {
@@ -204,9 +238,8 @@ class MessageGenerator extends ProtobufContainer {
       mixinClause = ' with ${mixinNames.join(", ")}';
     }
 
-    out.addBlock('class ${classname} extends GeneratedMessage${mixinClause} {',
-        '}', ()
-      {
+    out.addBlock(
+        'class ${classname} extends GeneratedMessage${mixinClause} {', '}', () {
       out.addBlock(
           'static final BuilderInfo _i = new BuilderInfo(\'${classname}\')',
           ';', () {
@@ -245,21 +278,22 @@ class MessageGenerator extends ProtobufContainer {
           ' new ${classname}();');
       out.println('static PbList<${classname}> createRepeated() =>'
           ' new PbList<${classname}>();');
-      out.addBlock('static ${classname} getDefault() {',
-          '}', () {
-        out.println('if (_defaultInstance == null) _defaultInstance = new _Readonly${classname}();');
+      out.addBlock('static ${classname} getDefault() {', '}', () {
+        out.println(
+            'if (_defaultInstance == null) _defaultInstance = new _Readonly${classname}();');
         out.println('return _defaultInstance;');
       });
       out.println('static ${classname} _defaultInstance;');
       out.addBlock('static void $checkItem($classname v) {', '}', () {
-          out.println('if (v is !$classname)'
-              " checkItemFailed(v, '$classname');");
+        out.println('if (v is !$classname)'
+            " checkItemFailed(v, '$classname');");
       });
       generateFieldsAccessorsMutators(out);
     });
     out.println();
 
-    out.println('class _Readonly${classname} extends ${classname} with ReadonlyMessageMixin {}');
+    out.println(
+        'class _Readonly${classname} extends ${classname} with ReadonlyMessageMixin {}');
     out.println();
   }
 
@@ -315,8 +349,8 @@ class MessageGenerator extends ProtobufContainer {
       String clearIdentifier = field.clearMethodName;
       if (!field.isRepeated) {
         while (_methodNames.contains(identifier) ||
-               _methodNames.contains(hasIdentifier) ||
-               _methodNames.contains(clearIdentifier)) {
+            _methodNames.contains(hasIdentifier) ||
+            _methodNames.contains(clearIdentifier)) {
           identifier += '_' + field.number.toString();
           hasIdentifier += '_' + field.number.toString();
           clearIdentifier += '_' + field.number.toString();
@@ -334,7 +368,8 @@ class MessageGenerator extends ProtobufContainer {
       var fieldTypeString = field.getDartType(package);
       var defaultExpr = field.getDefaultExpr();
       out.println('${fieldTypeString} get ${identifier}'
-          ' => \$_get(${field.index}, ${field.number}, $defaultExpr);');
+          ' => \$_get('
+          '${field.index}, ${field.number}, $defaultExpr);');
       if (!field.isRepeated) {
         var fastSetter = field.baseType.setter;
         if (fastSetter != null) {
@@ -368,11 +403,9 @@ class MessageGenerator extends ProtobufContainer {
     var name = getJsonConstant(fileGen);
     var json = _descriptor.writeToJsonMap();
     var nestedTypeNames =
-        _messageGenerators.map((m) => m.getJsonConstant(fileGen))
-        .toList();
+        _messageGenerators.map((m) => m.getJsonConstant(fileGen)).toList();
     var nestedEnumNames =
-        _enumGenerators.map((e) => e.getJsonConstant(fileGen))
-        .toList();
+        _enumGenerators.map((e) => e.getJsonConstant(fileGen)).toList();
 
     out.addBlock("const $name = const {", "};", () {
       for (var key in json.keys) {

@@ -7,7 +7,8 @@ library protoc.benchmark.int64_json;
 import 'package:fixnum/fixnum.dart' show Int64;
 
 import '../benchmark.dart';
-import '../generated/benchmark.pb.dart' show BenchmarkID, Request, Params, Sample;
+import '../generated/benchmark.pb.dart'
+    show BenchmarkID, Request, Params, Sample;
 import '../generated/int64grid.pb.dart' as pb;
 
 /// A benchmark that deserializes a grid of int fields.
@@ -79,7 +80,7 @@ class Int64Benchmark extends Benchmark {
   static const $id = BenchmarkID.READ_INT64_FIELDS_JSON;
   static final $type = new BenchmarkType($id, $create);
 
-  static $create(Request r) {
+  static Int64Benchmark $create(Request r) {
     assert(r.params.hasInt64FieldCount());
     assert(r.params.hasMessageCount());
     return new Int64Benchmark(r.params.int64FieldCount, r.params.messageCount);

@@ -19,16 +19,17 @@ class EnumGenerator extends ProtobufContainer {
       <EnumValueDescriptorProto>[];
   final List<EnumAlias> _aliases = <EnumAlias>[];
 
-  EnumGenerator(
-      EnumDescriptorProto descriptor,
-      ProtobufContainer parent)
-    : _parent = parent,
-      classname = (parent == null || parent is FileGenerator) ?
-          descriptor.name : '${parent.classname}_${descriptor.name}',
-      fqname = (parent == null || parent.fqname == null) ? descriptor.name :
-          (parent.fqname == '.' ?
-              '.${descriptor.name}' : '${parent.fqname}.${descriptor.name}'),
-      _descriptor = descriptor {
+  EnumGenerator(EnumDescriptorProto descriptor, ProtobufContainer parent)
+      : _parent = parent,
+        classname = (parent == null || parent is FileGenerator)
+            ? descriptor.name
+            : '${parent.classname}_${descriptor.name}',
+        fqname = (parent == null || parent.fqname == null)
+            ? descriptor.name
+            : (parent.fqname == '.'
+                ? '.${descriptor.name}'
+                : '${parent.fqname}.${descriptor.name}'),
+        _descriptor = descriptor {
     for (EnumValueDescriptorProto value in descriptor.value) {
       EnumValueDescriptorProto canonicalValue =
           descriptor.value.firstWhere((v) => v.number == value.number);
@@ -63,9 +64,8 @@ class EnumGenerator extends ProtobufContainer {
       // -----------------------------------------------------------------
       // Define enum types.
       for (EnumValueDescriptorProto val in _canonicalValues) {
-        out.println(
-            'static const ${classname} ${val.name} = '
-                "const ${classname}._(${val.number}, '${val.name}');");
+        out.println('static const ${classname} ${val.name} = '
+            "const ${classname}._(${val.number}, '${val.name}');");
       }
       if (!_aliases.isEmpty) {
         out.println();
@@ -76,22 +76,21 @@ class EnumGenerator extends ProtobufContainer {
       }
       out.println();
 
-      out.println(
-        'static const List<${classname}> values ='
-            ' const <${classname}> [');
+      out.println('static const List<${classname}> values ='
+          ' const <${classname}> [');
       for (EnumValueDescriptorProto val in _canonicalValues) {
         out.println('  ${val.name},');
       }
       out.println('];');
       out.println();
 
-      out.println('static final Map<int, ${classname}> _byValue ='
+      out.println('static final Map<int, dynamic> _byValue ='
           ' ProtobufEnum.initByValue(values);');
       out.println('static ${classname} valueOf(int value) =>'
-          ' _byValue[value];');
+          ' _byValue[value] as ${classname};');
       out.addBlock('static void $checkItem($classname v) {', '}', () {
         out.println('if (v is !$classname)'
-        " checkItemFailed(v, '$classname');");
+            " checkItemFailed(v, '$classname');");
       });
       out.println();
 

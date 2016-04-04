@@ -5,7 +5,6 @@
 part of protoc;
 
 class FileGenerator extends ProtobufContainer {
-
   /// Returns the the mixin to use by default in this file,
   /// or null for no mixin by default.
   static PbMixin _getDefaultMixin(FileDescriptorProto desc) {
@@ -16,7 +15,7 @@ class FileGenerator extends ProtobufContainer {
     var name = desc.options.getExtension(Dart_options.defaultMixin);
     PbMixin mixin = findMixin(name);
     if (mixin == null) {
-      throw("unknown mixin class: ${name}");
+      throw ("unknown mixin class: ${name}");
     }
     return mixin;
   }
@@ -40,8 +39,8 @@ class FileGenerator extends ProtobufContainer {
       enumGenerators.add(new EnumGenerator(enumType, this));
     }
     for (DescriptorProto messageType in _fileDescriptor.messageType) {
-      messageGenerators.add(
-          new MessageGenerator(messageType, this, defaultMixin));
+      messageGenerators
+          .add(new MessageGenerator(messageType, this, defaultMixin));
     }
     for (FieldDescriptorProto extension in _fileDescriptor.extension) {
       extensionGenerators.add(new ExtensionGenerator(extension, this));
@@ -109,8 +108,8 @@ class FileGenerator extends ProtobufContainer {
 
     Uri filePath = new Uri.file(_fileDescriptor.name);
     return new CodeGeneratorResponse_File()
-        ..name = config.outputPathFor(filePath).path
-        ..content = out.toString();
+      ..name = config.outputPathFor(filePath).path
+      ..content = out.toString();
   }
 
   /// Generates the Dart code for this .proto file.
@@ -120,8 +119,8 @@ class FileGenerator extends ProtobufContainer {
 
     Uri filePath = new Uri.file(_fileDescriptor.name);
     if (filePath.isAbsolute) {
-        // protoc should never generate a file descriptor with an absolute path.
-        throw("FAILURE: File with an absolute path is not supported");
+      // protoc should never generate a file descriptor with an absolute path.
+      throw "FAILURE: File with an absolute path is not supported";
     }
 
     generateHeader(out, filePath, config);
@@ -175,10 +174,8 @@ class FileGenerator extends ProtobufContainer {
   /// Prints header and imports.
   void generateHeader(IndentingWriter out, Uri filePath,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
-
     String libraryName = _generateLibraryName(filePath);
-    out.println(
-        '///\n'
+    out.println('///\n'
         '//  Generated code. Do not modify.\n'
         '///\n'
         'library $libraryName;\n');
@@ -207,7 +204,7 @@ class FileGenerator extends ProtobufContainer {
       Uri importPath = new Uri.file(filename);
       if (importPath.isAbsolute) {
         // protoc should never generate an import with an absolute path.
-        throw("FAILURE: Import with absolute path is not supported");
+        throw "FAILURE: Import with absolute path is not supported";
       }
       // Create a path from the current file to the imported proto.
       Uri resolvedImport = config.resolveImport(importPath, filePath);
@@ -253,15 +250,15 @@ class FileGenerator extends ProtobufContainer {
       m.addMixinsTo(mixins);
     }
 
-    var imports = {};
+    var imports = <String, List<String>>{};
     for (var m in mixins) {
-        var imp = m.importFrom;
-        List<String> symbols = imports[imp];
-        if (symbols == null) {
-          symbols = [];
-          imports[imp] = symbols;
-        }
-        symbols.add(m.name);
+      var imp = m.importFrom;
+      List<String> symbols = imports[imp];
+      if (symbols == null) {
+        symbols = [];
+        imports[imp] = symbols;
+      }
+      symbols.add(m.name);
     }
 
     for (var imp in imports.keys) {

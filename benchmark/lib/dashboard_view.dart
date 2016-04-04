@@ -73,7 +73,7 @@ Choose baseline: <select class="dv-menu"></select>
       this._jsonView);
 
   factory DashboardView() {
-    var elt = _template.clone(true);
+    Element elt = _template.clone(true);
     find(String q) => elt.querySelector(q);
     _Button button(q) => new _Button(find(q));
     label(q) => new _Label(find(q));
@@ -97,7 +97,7 @@ Choose baseline: <select class="dv-menu"></select>
   Stream get onSelectAllClick => _selectAllButton.onClick;
   Stream get onSelectNoneClick => _selectNoneButton.onClick;
   Stream<String> get onMenuChange =>
-    _menu.onChange.map((item) => item == noBaseline ? null : item);
+      _menu.onChange.map((item) => item == noBaseline ? null : item);
   Stream<SelectEvent<pb.Request>> get onSelectionChange =>
       _selectionChanges.stream;
 
@@ -176,8 +176,8 @@ class _ResponseView {
     ]);
   }
 
-  void render(Row row, pb.Report r,
-      EventSink<SelectEvent<pb.Request>> rowSelected) {
+  void render(
+      Row row, pb.Report r, EventSink<SelectEvent<pb.Request>> rowSelected) {
     var b = row.benchmark;
     var response = row.findResponse(r);
     _selected.render(row.selected, item: row.request, sink: rowSelected);
@@ -235,7 +235,7 @@ class _JsonView {
 /// A menu of selectable text items.
 class _Menu {
   final SelectElement elt;
-  final _changes = new StreamController.broadcast();
+  final _changes = new StreamController<String>.broadcast();
   final _options = new List<_MenuOption>();
 
   _Menu(this.elt) {

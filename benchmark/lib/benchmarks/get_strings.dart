@@ -94,7 +94,6 @@ class GetStringsBenchmark extends Benchmark {
   }
 
   void _getStrings() {
-    var expected = fillValue;
     bool ok = true;
     for (var line in grid.lines) {
       ok = ok && line.cell1.isNotEmpty;
@@ -125,7 +124,7 @@ class GetStringsBenchmark extends Benchmark {
   static const $id = BenchmarkID.GET_STRINGS;
   static final $type = new BenchmarkType($id, $create);
 
-  static $create(Request r) {
+  static GetStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());
     var value = null;
     if (r.params.hasStringValue()) value = r.params.stringValue;
