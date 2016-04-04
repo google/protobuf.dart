@@ -1,6 +1,8 @@
 ## 0.5.1
 
 * Experimental support for strong mode.
+* Fixed an issue with GeneratedMessage operator== and Map mixins
+* Added declaration of GeneratedMessage clone method
 
 ## 0.5.0+1
 
