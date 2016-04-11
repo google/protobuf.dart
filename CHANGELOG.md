@@ -1,3 +1,7 @@
+## 0.5.2
+
+* Remove crypto dependency and upgrade dart sdk dependency to 1.13.0
+
 ## 0.5.1
 
 * Experimental support for strong mode.
