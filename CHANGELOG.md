@@ -1,3 +1,9 @@
+## 0.5.1+1
+
+* Require at least Dart SDK 1.13.
+
+* Removed dependency on `pkg/crypto`.
+
 ## 0.5.1
 
 * Experimental support for strong mode.

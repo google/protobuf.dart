@@ -29,7 +29,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         return fieldValue;
       case PbFieldType._BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
-        return CryptoUtils.bytesToBase64(fieldValue as List<int>);
+        return BASE64.encode(fieldValue as List<int>);
       case PbFieldType._ENUM_BIT:
         return fieldValue.value; // assume |value| < 2^52
       case PbFieldType._INT64_BIT:
@@ -129,7 +129,7 @@ _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
       break;
     case PbFieldType._BYTES_BIT:
       if (value is String) {
-        return CryptoUtils.base64StringToBytes(value);
+        return BASE64.decode(value);
       }
       expectedType = 'Base64 String';
       break;
