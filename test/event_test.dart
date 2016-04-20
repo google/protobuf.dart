@@ -11,7 +11,7 @@ import 'package:protobuf/protobuf.dart'
     show GeneratedMessage, Extension, ExtensionRegistry, PbFieldType;
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin, PbFieldChange;
-import 'package:test/test.dart' show test, expect, predicate, same;
+import 'package:test/test.dart' show test, expect;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
