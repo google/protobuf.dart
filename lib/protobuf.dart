@@ -5,12 +5,11 @@
 library protobuf;
 
 import 'dart:async' show Future;
-import 'dart:collection' show HashMap, ListMixin;
+import 'dart:collection' show ListMixin;
 import 'dart:convert' show BASE64, JSON, Utf8Codec;
 import 'dart:math' as math;
 import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endianness;
 
-import 'package:crypto/crypto.dart' show CryptoUtils;
 import 'package:fixnum/fixnum.dart' show Int64;
 
 part 'src/protobuf/coded_buffer.dart';

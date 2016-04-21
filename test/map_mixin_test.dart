@@ -10,7 +10,7 @@ library map_mixin_test;
 import 'dart:collection' show MapMixin;
 
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart';
-import 'package:test/test.dart' show test, expect, predicate, same, throws;
+import 'package:test/test.dart' show test, expect, same, throws;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
