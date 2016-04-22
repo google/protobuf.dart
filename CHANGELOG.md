@@ -1,3 +1,7 @@
+## 0.5.1+2
+
+* Bugfix: remove dependency on `pkg/crypto` for real.
+
 ## 0.5.1+1
 
 * Require at least Dart SDK 1.13.
