@@ -13,7 +13,7 @@ import 'generated/benchmark.pb.dart' as pb;
 import 'benchmark.dart' show Profiler;
 import 'dashboard_model.dart' show DashboardModel, Table, SelectEvent;
 import 'dashboard_view.dart' show DashboardView;
-import 'report.dart' show createPlatform, createPackages, encodeReport;
+import 'report.dart' show createPlatform, createPackages;
 import 'suite.dart' show runSuite;
 
 import '../data/index.dart' as data;

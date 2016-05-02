@@ -10,7 +10,7 @@ import '../benchmarks/int64_json.dart';
 import '../benchmarks/repeated_int64_json.dart';
 import '../benchmarks/string_json.dart';
 import '../benchmarks/repeated_string_json.dart';
-import '../generated/benchmark.pb.dart' show Request, Suite;
+import '../generated/benchmark.pb.dart' show Suite;
 
 final jsonSuite = () {
   var suite = new Suite();

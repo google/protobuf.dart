@@ -7,7 +7,7 @@ library protoc.benchmark.suite.json;
 import '../benchmarks/get_strings.dart';
 import '../benchmarks/set_strings.dart';
 import '../benchmarks/has_strings.dart';
-import '../generated/benchmark.pb.dart' show Request, Suite;
+import '../generated/benchmark.pb.dart' show Suite;
 
 final propsSuite = () {
   var suite = new Suite();

@@ -1,24 +1,22 @@
 library map_test;
 
 import 'package:test/test.dart'
-  show test, expect, predicate, same, throwsA,
-    throwsArgumentError, throwsUnsupportedError;
+    show test, expect, predicate, same, throwsA, throwsArgumentError;
 
 import '../out/protos/map_api.pb.dart' as pb;
 import '../out/protos/map_api2.pb.dart' as pb2;
 
 throwsError(Type expectedType, String expectedMessage) =>
-  throwsA(predicate((x) {
-    expect(x.runtimeType, expectedType);
-    expect(x.message, expectedMessage);
-    return true;
-  }));
+    throwsA(predicate((x) {
+      expect(x.runtimeType, expectedType);
+      expect(x.message, expectedMessage);
+      return true;
+    }));
 
 void main() {
-
   test("message doesn't implement Map when turned off", () {
-    expect(new pb.NonMap(), predicate((x) => x is !Map));
-    expect(new pb2.NonMap2(), predicate((x) => x is !Map));
+    expect(new pb.NonMap(), predicate((x) => x is! Map));
+    expect(new pb2.NonMap2(), predicate((x) => x is! Map));
   });
 
   test("message implements Map when turned on", () {
@@ -56,20 +54,27 @@ void main() {
 
   test('operator []= throws exception for invalid key', () {
     var rec = new pb.Rec();
-    expect(() { rec["unknown"] = 123; },
-      throwsError(ArgumentError, "field 'unknown' not found in Rec"));
+    expect(() {
+      rec["unknown"] = 123;
+    }, throwsError(ArgumentError, "field 'unknown' not found in Rec"));
   });
 
   test('operator []= throws exception for repeated field', () {
     // Copying the values would be confusing.
     var rec = new pb.Rec();
-    expect(() { rec["nums"] = [1, 2]; }, throwsArgumentError);
+    expect(() {
+      rec["nums"] = [1, 2];
+    }, throwsArgumentError);
   });
 
   test('operator []= throws exception for invalid value type', () {
     var rec = new pb.Rec();
-    expect(() { rec["num"] = "hello"; }, throwsArgumentError);
-    expect(() { rec["str"] = 123; }, throwsArgumentError);
+    expect(() {
+      rec["num"] = "hello";
+    }, throwsArgumentError);
+    expect(() {
+      rec["str"] = 123;
+    }, throwsArgumentError);
   });
 
   test('operator []= sets the field', () {
@@ -104,8 +109,9 @@ void main() {
   test("remove isn't supported", () {
     var rec = new pb.Rec();
     rec.str = "hello";
-    expect(() { rec.remove("str"); },
-      throwsError(UnsupportedError, "remove() not supported by Rec"));
+    expect(() {
+      rec.remove("str");
+    }, throwsError(UnsupportedError, "remove() not supported by Rec"));
     expect(rec.str, "hello");
   });
 
@@ -132,6 +138,10 @@ void main() {
   test("addAll doesn't work for repeated fields", () {
     // It would be confusing to copy the values.
     var rec = new pb.Rec();
-    expect(() { rec.addAll({"nums": [1,2,3]}); }, throwsArgumentError);
+    expect(() {
+      rec.addAll({
+        "nums": [1, 2, 3]
+      });
+    }, throwsArgumentError);
   });
 }
