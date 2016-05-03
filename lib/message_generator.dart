@@ -193,7 +193,10 @@ class MessageGenerator extends ProtobufContainer {
     return false;
   }
 
-  /// Adds generators of the .pb.dart files that this type needs to import.
+  /// Adds dependencies of [generate] to [imports].
+  ///
+  /// For each .pb.dart file that the generated code needs to import,
+  /// add its generator.
   void addImportsTo(Set<FileGenerator> imports) {
     if (_fieldList == null) throw new StateError("message not resolved");
     for (var field in _fieldList) {
@@ -209,6 +212,20 @@ class MessageGenerator extends ProtobufContainer {
     }
     for (var x in _extensionGenerators) {
       x.addImportsTo(imports);
+    }
+  }
+
+  /// Adds dependencies of [generateConstants] to [imports].
+  ///
+  /// For each .pbjson.dart file that the generated code needs to import,
+  /// add its generator.
+  void addConstantImportsTo(Set<FileGenerator> imports) {
+    if (_fieldList == null) throw new StateError("message not resolved");
+    for (var m in _messageGenerators) {
+      m.addConstantImportsTo(imports);
+    }
+    for (var x in _extensionGenerators) {
+      x.addConstantImportsTo(imports);
     }
   }
 

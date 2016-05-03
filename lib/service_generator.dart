@@ -10,11 +10,17 @@ class ServiceGenerator {
   /// The generator of the .pb.dart file that will contain this service.
   final FileGenerator fileGen;
 
-  /// The message types needed by this service.
+  /// The message types needed directly by this service.
   ///
   /// The key is the fully qualified name.
   /// Populated by [resolve].
   final _deps = <String, MessageGenerator>{};
+
+  /// The message types needed transitively by this service.
+  ///
+  /// The key is the fully qualified name.
+  /// Populated by [resolve].
+  final _transitiveDeps = <String, MessageGenerator>{};
 
   /// Maps each undefined type to a string describing its location.
   ///
@@ -33,7 +39,7 @@ class ServiceGenerator {
 
   /// Finds all message types used by this service.
   ///
-  /// Puts the types found in [_deps].
+  /// Puts the types found in [_deps] and [_transitiveDeps].
   /// If a type name can't be resolved, puts it in [_undefinedDeps].
   /// Precondition: messages have been registered and resolved.
   void resolve(GenerationContext ctx) {
@@ -59,25 +65,41 @@ class ServiceGenerator {
       _undefinedDeps[fqname] = location;
       return;
     }
-    _addDepsRecursively(mg);
+    _addDepsRecursively(mg, 0);
   }
 
-  void _addDepsRecursively(MessageGenerator mg) {
-    if (_deps.containsKey(mg.fqname)) return; // Already added.
+  void _addDepsRecursively(MessageGenerator mg, int depth) {
+    if (_transitiveDeps.containsKey(mg.fqname)) {
+      // Already added, but perhaps at a different depth.
+      if (depth == 0) _deps[mg.fqname] = mg;
+      return;
+    }
     mg.checkResolved();
-    _deps[mg.fqname] = mg;
+    if (depth == 0) _deps[mg.fqname] = mg;
+    _transitiveDeps[mg.fqname] = mg;
     for (var field in mg._fieldList) {
       if (field.baseType.isGroup || field.baseType.isMessage) {
-        _addDepsRecursively(field.baseType.generator);
+        _addDepsRecursively(field.baseType.generator, depth + 1);
       }
     }
   }
 
-  /// Adds generators of the .pb.dart files that this service needs to import.
+  /// Adds dependencies of [generate] to [imports].
+  ///
+  /// For each .pb.dart file that the generated code needs to import,
+  /// add its generator.
   void addImportsTo(Set<FileGenerator> imports) {
-    // Only the top-level imports are actually used so far.
-    // (They will be added in the next CL.)
     for (var mg in _deps.values) {
+      imports.add(mg.fileGen);
+    }
+  }
+
+  /// Adds dependencies of [generateConstants] to [imports].
+  ///
+  /// For each .pbjson.dart file that the generated code needs to import,
+  /// add its generator.
+  void addConstantImportsTo(Set<FileGenerator> imports) {
+    for (var mg in _transitiveDeps.values) {
       imports.add(mg.fileGen);
     }
   }
@@ -186,8 +208,8 @@ class ServiceGenerator {
     out.println();
 
     var typeConstants = <String, String>{};
-    for (var key in _deps.keys) {
-      typeConstants[key] = _deps[key].getJsonConstant(fileGen);
+    for (var key in _transitiveDeps.keys) {
+      typeConstants[key] = _transitiveDeps[key].getJsonConstant(fileGen);
     }
     out.addBlock("const $messageJsonConstant = const {", "};", () {
       for (var key in typeConstants.keys) {

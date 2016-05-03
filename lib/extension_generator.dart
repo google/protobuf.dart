@@ -40,7 +40,10 @@ class ExtensionGenerator {
     return _field.needsFixnumImport;
   }
 
-  /// Adds any imports needed by the Dart code defining this extension.
+  /// Adds dependencies of [generate] to [imports].
+  ///
+  /// For each .pb.dart file that the generated code needs to import,
+  /// add its generator.
   void addImportsTo(Set<FileGenerator> imports) {
     if (_field == null) throw new StateError("resolve not called");
     var typeGen = _field.baseType.generator;
@@ -49,6 +52,15 @@ class ExtensionGenerator {
       // so we need to import it.
       imports.add(typeGen.fileGen);
     }
+  }
+
+  /// Adds dependencies of [generateConstants] to [imports].
+  ///
+  /// For each .pb.dart file that the generated code needs to import,
+  /// add its generator.
+  void addConstantImportsTo(Set<FileGenerator> imports) {
+    if (_field == null) throw new StateError("resolve not called");
+    // No dependencies - nothing to do.
   }
 
   void generate(IndentingWriter out) {

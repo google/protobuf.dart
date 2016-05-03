@@ -22,6 +22,9 @@ class FileGenerator extends ProtobufContainer {
 
   final FileDescriptorProto _fileDescriptor;
 
+  // The relative path used to import the .proto file, as a URI.
+  final Uri protoFileUri;
+
   final List<EnumGenerator> enumGenerators = <EnumGenerator>[];
   final List<MessageGenerator> messageGenerators = <MessageGenerator>[];
   final List<ExtensionGenerator> extensionGenerators = <ExtensionGenerator>[];
@@ -31,7 +34,14 @@ class FileGenerator extends ProtobufContainer {
   /// True if cross-references have been resolved.
   bool _linked = false;
 
-  FileGenerator(this._fileDescriptor) {
+  FileGenerator(FileDescriptorProto descriptor)
+      : _fileDescriptor = descriptor,
+        protoFileUri = new Uri.file(descriptor.name) {
+    if (protoFileUri.isAbsolute) {
+      // protoc should never generate an import with an absolute path.
+      throw "FAILURE: Import with absolute path is not supported";
+    }
+
     var defaultMixin = _getDefaultMixin(_fileDescriptor);
 
     // Load and register all enum and message types.
@@ -117,13 +127,7 @@ class FileGenerator extends ProtobufContainer {
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
 
-    Uri filePath = new Uri.file(_fileDescriptor.name);
-    if (filePath.isAbsolute) {
-      // protoc should never generate a file descriptor with an absolute path.
-      throw "FAILURE: File with an absolute path is not supported";
-    }
-
-    generateHeader(out, filePath, config);
+    generateHeader(out, config);
 
     // Generate code.
     for (EnumGenerator e in enumGenerators) {
@@ -137,7 +141,7 @@ class FileGenerator extends ProtobufContainer {
     // name derived from the file name.
     if (!extensionGenerators.isEmpty) {
       // TODO(antonm): do not generate a class.
-      String className = _generateClassName(filePath);
+      String className = _generateClassName(protoFileUri);
       out.addBlock('class $className {', '}\n', () {
         for (ExtensionGenerator x in extensionGenerators) {
           x.generate(out);
@@ -157,24 +161,12 @@ class FileGenerator extends ProtobufContainer {
     for (ServiceGenerator s in serviceGenerators) {
       s.generate(out);
     }
-
-    // Put JSON constants at the end of the file.
-
-    for (var e in enumGenerators) {
-      e.generateConstants(out);
-    }
-    for (MessageGenerator m in messageGenerators) {
-      m.generateConstants(out);
-    }
-    for (ServiceGenerator s in serviceGenerators) {
-      s.generateConstants(out);
-    }
   }
 
   /// Prints header and imports.
-  void generateHeader(IndentingWriter out, Uri filePath,
+  void generateHeader(IndentingWriter out,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
-    String libraryName = _generateLibraryName(filePath);
+    String libraryName = _generateLibraryName(protoFileUri);
     out.println('///\n'
         '//  Generated code. Do not modify.\n'
         '///\n'
@@ -199,15 +191,10 @@ class FileGenerator extends ProtobufContainer {
       out.println("import '${imp}' show ${symbols.join(', ')};");
     }
 
+    // Import the .pb.dart files we depend on.
     for (var imported in _findProtosToImport()) {
-      String filename = imported._fileDescriptor.name;
-      Uri importPath = new Uri.file(filename);
-      if (importPath.isAbsolute) {
-        // protoc should never generate an import with an absolute path.
-        throw "FAILURE: Import with absolute path is not supported";
-      }
-      // Create a path from the current file to the imported proto.
-      Uri resolvedImport = config.resolveImport(importPath, filePath);
+      Uri resolvedImport =
+          config.resolveImport(imported.protoFileUri, protoFileUri);
       out.print("import '$resolvedImport'");
       if (package != imported.package && imported.package.isNotEmpty) {
         out.print(' as ${imported.packageImportPrefix}');
@@ -215,6 +202,13 @@ class FileGenerator extends ProtobufContainer {
       out.println(';');
     }
     out.println();
+
+    // Services also depend on the json imports.
+    if (serviceGenerators.isNotEmpty) {
+      Uri resolvedImport = config.resolveJsonImport(protoFileUri, protoFileUri);
+      out.print("import '$resolvedImport';");
+      out.println();
+    }
   }
 
   bool get _needsFixnumImport {
@@ -265,6 +259,79 @@ class FileGenerator extends ProtobufContainer {
       imports[imp].sort();
     }
 
+    return imports;
+  }
+
+  CodeGeneratorResponse_File generateJsonDartResponse(
+      OutputConfiguration config) {
+    if (!_linked) throw new StateError("not linked");
+
+    IndentingWriter out = new IndentingWriter();
+
+    generateJsonDart(out, config);
+
+    Uri filePath = new Uri.file(_fileDescriptor.name);
+    return new CodeGeneratorResponse_File()
+      ..name = config.jsonDartOutputPathFor(filePath).path
+      ..content = out.toString();
+  }
+
+  void generateJsonDart(IndentingWriter out,
+      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+    Uri filePath = new Uri.file(_fileDescriptor.name);
+    if (filePath.isAbsolute) {
+      // protoc should never generate a file descriptor with an absolute path.
+      throw "FAILURE: File with an absolute path is not supported";
+    }
+
+    var baseLibraryName = _generateLibraryName(filePath);
+    var libraryName = baseLibraryName + "_pbjson";
+    out.print('''
+///
+//  Generated code. Do not modify.
+///
+library $libraryName;
+
+''');
+
+    // Import the .pbjson.dart files we depend on.
+    var importList = _findJsonProtosToImport();
+    for (var imported in importList) {
+      Uri resolvedImport =
+          config.resolveJsonImport(imported.protoFileUri, protoFileUri);
+      out.print("import '$resolvedImport'");
+      if (package != imported.package && imported.package.isNotEmpty) {
+        out.print(' as ${imported.packageImportPrefix}');
+      }
+      out.println(';');
+    }
+    if (importList.isNotEmpty) out.println();
+
+    for (var e in enumGenerators) {
+      e.generateConstants(out);
+    }
+    for (MessageGenerator m in messageGenerators) {
+      m.generateConstants(out);
+    }
+    for (ServiceGenerator s in serviceGenerators) {
+      s.generateConstants(out);
+    }
+  }
+
+  /// Returns the generator for each .pbjson.dart file the generated
+  /// .pbjson.dart needs to import.
+  Set<FileGenerator> _findJsonProtosToImport() {
+    var imports = new Set<FileGenerator>.identity();
+    for (var m in messageGenerators) {
+      m.addConstantImportsTo(imports);
+    }
+    for (var x in extensionGenerators) {
+      x.addConstantImportsTo(imports);
+    }
+    for (var x in serviceGenerators) {
+      x.addConstantImportsTo(imports);
+    }
+    imports.remove(this); // Don't need to import self.
     return imports;
   }
 }

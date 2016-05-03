@@ -33,7 +33,7 @@ TEST_PROTO_LIST = \
 	toplevel_import \
 	toplevel
 TEST_PROTO_DIR=$(OUTPUT_DIR)/protos
-TEST_PROTO_LIBS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_DIR)/$(proto).pb.dart)
+TEST_PROTO_LIBS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_DIR)/$(proto).pb.dart $(TEST_PROTO_DIR)/$(proto).pbjson.dart)
 TEST_PROTO_SRC_DIR=test/protos
 TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_SRC_DIR)/$(proto).proto)
 
