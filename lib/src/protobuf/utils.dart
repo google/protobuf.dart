@@ -18,10 +18,11 @@ bool _deepEquals(lhs, rhs) {
 }
 
 bool _areListsEqual(List lhs, List rhs) {
-  range(i) => new Iterable.generate(i, (i) => i);
-
   if (lhs.length != rhs.length) return false;
-  return range(lhs.length).every((i) => _deepEquals(lhs[i], rhs[i]));
+  for (var i = 0; i < lhs.length; i++) {
+    if (!_deepEquals(lhs[i], rhs[i])) return false;
+  }
+  return true;
 }
 
 bool _areMapsEqual(Map lhs, Map rhs) {

@@ -1,3 +1,7 @@
+## 0.5.1+3
+
+* Performance: eliminate some dynamic calls.
+
 ## 0.5.1+2
 
 * Bugfix: remove dependency on `pkg/crypto` for real.
