@@ -197,22 +197,32 @@ class MessageGenerator extends ProtobufContainer {
   ///
   /// For each .pb.dart file that the generated code needs to import,
   /// add its generator.
-  void addImportsTo(Set<FileGenerator> imports) {
+  void addImportsTo(
+      Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
     if (_fieldList == null) throw new StateError("message not resolved");
     for (var field in _fieldList) {
       var typeGen = field.baseType.generator;
-      if (typeGen != null && typeGen.fileGen != fileGen) {
-        // The field's type is defined in a different .pb.dart file.
-        // Therefore we need to import it.
+      if (typeGen is EnumGenerator) {
+        enumImports.add(typeGen.fileGen);
+      } else if (typeGen != null) {
         imports.add(typeGen.fileGen);
       }
     }
     for (var m in _messageGenerators) {
-      m.addImportsTo(imports);
+      m.addImportsTo(imports, enumImports);
     }
     for (var x in _extensionGenerators) {
-      x.addImportsTo(imports);
+      x.addImportsTo(imports, enumImports);
     }
+  }
+
+  // Returns the number of enums in this message and all nested messages.
+  int get enumCount {
+    var count = _enumGenerators.length;
+    for (var m in _messageGenerators) {
+      count += m.enumCount;
+    }
+    return count;
   }
 
   /// Adds dependencies of [generateConstants] to [imports].
@@ -239,10 +249,6 @@ class MessageGenerator extends ProtobufContainer {
 
     if (mixin != null) {
       _methodNames.addAll(mixin.findReservedNames());
-    }
-
-    for (EnumGenerator e in _enumGenerators) {
-      e.generate(out);
     }
 
     for (MessageGenerator m in _messageGenerators) {
@@ -405,6 +411,16 @@ class MessageGenerator extends ProtobufContainer {
         out.println('void $clearIdentifier() =>'
             ' clearField(${field.number});');
       }
+    }
+  }
+
+  void generateEnums(IndentingWriter out) {
+    for (EnumGenerator e in _enumGenerators) {
+      e.generate(out);
+    }
+
+    for (MessageGenerator m in _messageGenerators) {
+      m.generateEnums(out);
     }
   }
 

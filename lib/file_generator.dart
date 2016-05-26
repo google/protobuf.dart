@@ -118,7 +118,7 @@ class FileGenerator extends ProtobufContainer {
 
     Uri filePath = new Uri.file(_fileDescriptor.name);
     return new CodeGeneratorResponse_File()
-      ..name = config.outputPathFor(filePath).path
+      ..name = config.outputPathFor(filePath, ".pb.dart").path
       ..content = out.toString();
   }
 
@@ -130,9 +130,6 @@ class FileGenerator extends ProtobufContainer {
     generateHeader(out, config);
 
     // Generate code.
-    for (EnumGenerator e in enumGenerators) {
-      e.generate(out);
-    }
     for (MessageGenerator m in messageGenerators) {
       m.generate(out);
     }
@@ -181,7 +178,11 @@ class FileGenerator extends ProtobufContainer {
     if (_needsFixnumImport) {
       out.println("import 'package:fixnum/fixnum.dart';");
     }
+
+    if (_needsProtobufImport) {
     out.println("import 'package:protobuf/protobuf.dart';");
+      out.println();
+    }
 
     var mixinImports = findMixinsToImport();
     var importNames = mixinImports.keys.toList();
@@ -190,23 +191,46 @@ class FileGenerator extends ProtobufContainer {
       var symbols = mixinImports[imp];
       out.println("import '${imp}' show ${symbols.join(', ')};");
     }
+    if (mixinImports.isNotEmpty) out.println();
 
     // Import the .pb.dart files we depend on.
-    for (var imported in _findProtosToImport()) {
+    var imports = new Set<FileGenerator>.identity();
+    var enumImports = new Set<FileGenerator>.identity();
+    _findProtosToImport(imports, enumImports);
+
+    void writeImport(FileGenerator target, String extension) {
       Uri resolvedImport =
-          config.resolveImport(imported.protoFileUri, protoFileUri);
+          config.resolveImport(target.protoFileUri, protoFileUri, extension);
       out.print("import '$resolvedImport'");
-      if (package != imported.package && imported.package.isNotEmpty) {
-        out.print(' as ${imported.packageImportPrefix}');
+      if (package != target.package && target.package.isNotEmpty) {
+        out.print(' as ${target.packageImportPrefix}');
       }
       out.println(';');
     }
-    out.println();
+
+    for (var target in imports) {
+      writeImport(target, ".pb.dart");
+    }
+    if (imports.isNotEmpty) out.println();
+
+    for (var target in enumImports) {
+      writeImport(target, ".pbenum.dart");
+    }
+    if (enumImports.isNotEmpty) out.println();
 
     // Services also depend on the json imports.
     if (serviceGenerators.isNotEmpty) {
-      Uri resolvedImport = config.resolveJsonImport(protoFileUri, protoFileUri);
-      out.print("import '$resolvedImport';");
+      Uri resolvedImport =
+          config.resolveImport(protoFileUri, protoFileUri, ".pbjson.dart");
+      out.println("import '$resolvedImport';");
+      out.println();
+    }
+
+    // Export enums in main file for backward compatibility.
+    if (enumCount > 0) {
+      Uri resolvedImport =
+          config.resolveImport(protoFileUri, protoFileUri, ".pbenum.dart");
+      out.println("export '$resolvedImport';");
       out.println();
     }
   }
@@ -221,20 +245,26 @@ class FileGenerator extends ProtobufContainer {
     return false;
   }
 
+  bool get _needsProtobufImport =>
+      messageGenerators.isNotEmpty ||
+      extensionGenerators.isNotEmpty ||
+      clientApiGenerators.isNotEmpty ||
+      serviceGenerators.isNotEmpty;
+
   /// Returns the generator for each .pb.dart file we need to import.
-  Set<FileGenerator> _findProtosToImport() {
-    var imports = new Set<FileGenerator>.identity();
+  void _findProtosToImport(
+      Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
     for (var m in messageGenerators) {
-      m.addImportsTo(imports);
+      m.addImportsTo(imports, enumImports);
     }
     for (var x in extensionGenerators) {
-      x.addImportsTo(imports);
+      x.addImportsTo(imports, enumImports);
     }
     for (var x in serviceGenerators) {
       x.addImportsTo(imports);
     }
-    imports.remove(this); // Don't need to import self.
-    return imports;
+    // Don't need to import self. (But we may need to import the enums.)
+    imports.remove(this);
   }
 
   /// Returns a map from import names to the Dart symbols to be imported.
@@ -262,6 +292,60 @@ class FileGenerator extends ProtobufContainer {
     return imports;
   }
 
+  CodeGeneratorResponse_File generateEnumResponse(OutputConfiguration config) {
+    if (!_linked) throw new StateError("not linked");
+
+    IndentingWriter out = new IndentingWriter();
+
+    generateEnumFile(out, config);
+
+    Uri filePath = new Uri.file(_fileDescriptor.name);
+    return new CodeGeneratorResponse_File()
+      ..name = config.outputPathFor(filePath, ".pbenum.dart").path
+      ..content = out.toString();
+  }
+
+  void generateEnumFile(IndentingWriter out,
+      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+    Uri filePath = new Uri.file(_fileDescriptor.name);
+    if (filePath.isAbsolute) {
+      // protoc should never generate a file descriptor with an absolute path.
+      throw "FAILURE: File with an absolute path is not supported";
+    }
+
+    var baseLibraryName = _generateLibraryName(filePath);
+    var libraryName = baseLibraryName + "_pbenum";
+    out.print('''
+///
+//  Generated code. Do not modify.
+///
+library $libraryName;
+
+''');
+
+    if (enumCount > 0) {
+      out.println("import 'package:protobuf/protobuf.dart';");
+      out.println();
+    }
+
+    for (EnumGenerator e in enumGenerators) {
+      e.generate(out);
+    }
+
+    for (MessageGenerator m in messageGenerators) {
+      m.generateEnums(out);
+    }
+  }
+
+  /// Returns the number of enum types generated in the .pbenum.dart file.
+  int get enumCount {
+    var count = enumGenerators.length;
+    for (MessageGenerator m in messageGenerators) {
+      count += m.enumCount;
+    }
+    return count;
+  }
+
   CodeGeneratorResponse_File generateJsonDartResponse(
       OutputConfiguration config) {
     if (!_linked) throw new StateError("not linked");
@@ -272,7 +356,7 @@ class FileGenerator extends ProtobufContainer {
 
     Uri filePath = new Uri.file(_fileDescriptor.name);
     return new CodeGeneratorResponse_File()
-      ..name = config.jsonDartOutputPathFor(filePath).path
+      ..name = config.outputPathFor(filePath, ".pbjson.dart").path
       ..content = out.toString();
   }
 
@@ -297,8 +381,8 @@ library $libraryName;
     // Import the .pbjson.dart files we depend on.
     var importList = _findJsonProtosToImport();
     for (var imported in importList) {
-      Uri resolvedImport =
-          config.resolveJsonImport(imported.protoFileUri, protoFileUri);
+      Uri resolvedImport = config.resolveImport(
+          imported.protoFileUri, protoFileUri, ".pbjson.dart");
       out.print("import '$resolvedImport'");
       if (package != imported.package && imported.package.isNotEmpty) {
         out.print(' as ${imported.packageImportPrefix}');

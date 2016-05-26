@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 void main() {
   test('testMessageGenerator', () {
     // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
-    String expected = r'''
+    String expectedEnums = r'''
 class PhoneNumber_PhoneType extends ProtobufEnum {
   static const PhoneNumber_PhoneType MOBILE = const PhoneNumber_PhoneType._(0, 'MOBILE');
   static const PhoneNumber_PhoneType HOME = const PhoneNumber_PhoneType._(1, 'HOME');
@@ -37,6 +37,9 @@ class PhoneNumber_PhoneType extends ProtobufEnum {
   const PhoneNumber_PhoneType._(int v, String n) : super(v, n);
 }
 
+''';
+
+    String expected = r'''
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
     ..a/*<String>*/(1, 'number', PbFieldType.QS)
@@ -133,5 +136,9 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     var writer = new IndentingWriter();
     mg.generate(writer);
     expect(writer.toString(), expected);
+
+    writer = new IndentingWriter();
+    mg.generateEnums(writer);
+    expect(writer.toString(), expectedEnums);
   });
 }

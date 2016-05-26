@@ -44,14 +44,19 @@ class ExtensionGenerator {
   ///
   /// For each .pb.dart file that the generated code needs to import,
   /// add its generator.
-  void addImportsTo(Set<FileGenerator> imports) {
+  void addImportsTo(
+      Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
     if (_field == null) throw new StateError("resolve not called");
     var typeGen = _field.baseType.generator;
     if (typeGen != null && typeGen.fileGen != fileGen) {
       // The type of this extension is defined in a different file,
       // so we need to import it.
+      if (typeGen is EnumGenerator) {
+        enumImports.add(typeGen.fileGen);
+      } else {
       imports.add(typeGen.fileGen);
     }
+  }
   }
 
   /// Adds dependencies of [generateConstants] to [imports].

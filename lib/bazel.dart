@@ -105,7 +105,7 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
   }
 
   @override
-  Uri outputPathFor(Uri input) {
+  Uri outputPathFor(Uri input, String extension) {
     var pkg = _findPackage(input.path);
     if (pkg == null) {
       throw new ArgumentError('Unable to locate package for input $input.');
@@ -113,14 +113,15 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
 
     // Bazel package-relative paths.
     var relativeInput = input.path.substring('${pkg.input_root}/'.length);
-    var relativeOutput = replacePathExtension(relativeInput);
-    var outputPath = p.join(pkg.output_root, relativeOutput);
+    var base = p.withoutExtension(relativeInput);
+    var outputPath = p.join(pkg.output_root, "$base$extension");
     return new Uri.file(outputPath);
   }
 
   @override
-  Uri resolveImport(Uri target, Uri source) {
-    var targetUri = _packageUriFor(replacePathExtension(target.path));
+  Uri resolveImport(Uri target, Uri source, String extension) {
+    var targetBase = p.withoutExtension(target.path);
+    var targetUri = _packageUriFor("$targetBase$extension");
     var sourceUri = _packageUriFor(source.path);
 
     if (targetUri == null && sourceUri != null) {
@@ -134,7 +135,7 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
       return targetUri.uri;
     }
 
-    return super.resolveImport(target, source);
+    return super.resolveImport(target, source, extension);
   }
 
   _PackageUri _packageUriFor(String target) {

@@ -162,13 +162,24 @@ const PhoneNumber$json = const {
     expect(writer.toString(), expected);
   });
 
-  test('FileGenerator generates a .pb.dart file for a top-level enum', () {
+  test('FileGenerator generates files for a top-level enum', () {
     // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
+
     String expected = r'''
 ///
 //  Generated code. Do not modify.
 ///
 library test;
+
+export 'test.pbenum.dart';
+
+''';
+
+    String expectedEnum = r'''
+///
+//  Generated code. Do not modify.
+///
+library test_pbenum;
 
 import 'package:protobuf/protobuf.dart';
 
@@ -195,6 +206,7 @@ class PhoneType extends ProtobufEnum {
 }
 
 ''';
+
     FileDescriptorProto fd =
         buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options = parseGenerationOptions(
@@ -206,6 +218,10 @@ class PhoneType extends ProtobufEnum {
     var writer = new IndentingWriter();
     fg.generate(writer);
     expect(writer.toString(), expected);
+
+    writer = new IndentingWriter();
+    fg.generateEnumFile(writer);
+    expect(writer.toString(), expectedEnum);
   });
 
   test('FileGenerator generates a .pbjson.dart file for a top-level enum', () {
@@ -308,6 +324,7 @@ import 'dart:async';
 import 'package:protobuf/protobuf.dart';
 
 import 'test.pbjson.dart';
+
 ''';
     FileDescriptorProto fd = new FileDescriptorProto()
       ..name = 'test'
@@ -400,6 +417,7 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 library test;
 
 import 'package:protobuf/protobuf.dart';
+
 import 'package1.pb.dart' as p1;
 import 'package2.pb.dart' as p2;
 
