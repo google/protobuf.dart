@@ -65,9 +65,7 @@ class CodeGenerator extends ProtobufContainer {
       for (var gen in generators) {
         var name = gen._fileDescriptor.name;
         if (request.fileToGenerate.contains(name)) {
-          response.file.add(gen.generateResponse(config));
-          response.file.add(gen.generateEnumResponse(config));
-          response.file.add(gen.generateJsonDartResponse(config));
+          response.file.addAll(gen.generateFiles(config));
         }
       }
       _streamOut.add(response.writeToBuffer());

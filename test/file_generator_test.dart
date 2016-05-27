@@ -127,10 +127,7 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
-
-    IndentingWriter writer = new IndentingWriter();
-    fg.generate(writer);
-    expect(writer.toString(), expected);
+    expect(fg.generateMainFile(), expected);
   });
 
   test('FileGenerator outputs a pbjson.dart file for a proto with one message',
@@ -156,10 +153,7 @@ const PhoneNumber$json = const {
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
-
-    IndentingWriter writer = new IndentingWriter();
-    fg.generateJsonDart(writer);
-    expect(writer.toString(), expected);
+    expect(fg.generateJsonFile(), expected);
   });
 
   test('FileGenerator generates files for a top-level enum', () {
@@ -214,14 +208,8 @@ class PhoneType extends ProtobufEnum {
 
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
-
-    var writer = new IndentingWriter();
-    fg.generate(writer);
-    expect(writer.toString(), expected);
-
-    writer = new IndentingWriter();
-    fg.generateEnumFile(writer);
-    expect(writer.toString(), expectedEnum);
+    expect(fg.generateMainFile(), expected);
+    expect(fg.generateEnumFile(), expectedEnum);
   });
 
   test('FileGenerator generates a .pbjson.dart file for a top-level enum', () {
@@ -250,10 +238,7 @@ const PhoneType$json = const {
 
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
-
-    var writer = new IndentingWriter();
-    fg.generateJsonDart(writer);
-    expect(writer.toString(), expected);
+    expect(fg.generateJsonFile(), expected);
   });
 
   test('FileGenerator outputs library for a .proto in a package', () {
@@ -275,7 +260,7 @@ import 'package:protobuf/protobuf.dart';
     link(options, [fg]);
 
     var writer = new IndentingWriter();
-    fg.generateHeader(writer);
+    fg.writeMainHeader(writer);
     expect(writer.toString(), expected);
   });
 
@@ -308,7 +293,7 @@ import 'package:protobuf/protobuf.dart';
     link(options, [fg]);
 
     var writer = new IndentingWriter();
-    fg.generateHeader(writer);
+    fg.writeMainHeader(writer);
     expect(writer.toString(), expected);
   });
 
@@ -337,7 +322,7 @@ import 'test.pbjson.dart';
     link(options, [fg]);
 
     var writer = new IndentingWriter();
-    fg.generateHeader(writer);
+    fg.writeMainHeader(writer);
     expect(writer.toString(), expected);
   });
 
@@ -402,10 +387,7 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg]);
-
-    var writer = new IndentingWriter();
-    fg.generate(writer);
-    expect(writer.toString(), expected);
+    expect(fg.generateMainFile(), expected);
   });
 
   test('FileGenerator generates imports for .pb.dart files', () {
@@ -580,13 +562,7 @@ const M$json = const {
 
     FileGenerator fg = new FileGenerator(fd);
     link(options, [fg, new FileGenerator(fd1), new FileGenerator(fd2)]);
-
-    var writer = new IndentingWriter();
-    fg.generate(writer);
-    expect(writer.toString(), expected);
-
-    writer = new IndentingWriter();
-    fg.generateJsonDart(writer);
-    expect(writer.toString(), expectedJson);
+    expect(fg.generateMainFile(), expected);
+    expect(fg.generateJsonFile(), expectedJson);
   });
 }

@@ -4,6 +4,9 @@
 
 part of protoc;
 
+/// Generates the Dart output files for one .proto input file.
+///
+/// Outputs include .pb.dart, pbenum.dart, and .pbjson.dart.
 class FileGenerator extends ProtobufContainer {
   /// Returns the the mixin to use by default in this file,
   /// or null for no mixin by default.
@@ -111,23 +114,32 @@ class FileGenerator extends ProtobufContainer {
     return libraryName;
   }
 
-  CodeGeneratorResponse_File generateResponse(OutputConfiguration config) {
-    IndentingWriter out = new IndentingWriter();
-
-    generate(out, config);
-
-    Uri filePath = new Uri.file(_fileDescriptor.name);
-    return new CodeGeneratorResponse_File()
-      ..name = config.outputPathFor(filePath, ".pb.dart").path
-      ..content = out.toString();
-  }
-
-  /// Generates the Dart code for this .proto file.
-  void generate(IndentingWriter out,
-      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+  /// Generates all the Dart files for this .proto file.
+  List<CodeGeneratorResponse_File> generateFiles(OutputConfiguration config) {
     if (!_linked) throw new StateError("not linked");
 
-    generateHeader(out, config);
+    makeFile(String extension, String content) {
+      Uri protoUrl = new Uri.file(_fileDescriptor.name);
+      Uri dartUrl = config.outputPathFor(protoUrl, extension);
+      return new CodeGeneratorResponse_File()
+        ..name = dartUrl.path
+        ..content = content;
+    }
+
+    return [
+      makeFile(".pb.dart", generateMainFile(config)),
+      makeFile(".pbenum.dart", generateEnumFile(config)),
+      makeFile(".pbjson.dart", generateJsonFile(config)),
+    ];
+  }
+
+  /// Returns the contents of the .pb.dart file for this .proto file.
+  String generateMainFile(
+      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+    if (!_linked) throw new StateError("not linked");
+    IndentingWriter out = new IndentingWriter();
+
+    writeMainHeader(out, config);
 
     // Generate code.
     for (MessageGenerator m in messageGenerators) {
@@ -158,10 +170,12 @@ class FileGenerator extends ProtobufContainer {
     for (ServiceGenerator s in serviceGenerators) {
       s.generate(out);
     }
+
+    return out.toString();
   }
 
-  /// Prints header and imports.
-  void generateHeader(IndentingWriter out,
+  /// Writes the header and imports for the .pb.dart file.
+  void writeMainHeader(IndentingWriter out,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     String libraryName = _generateLibraryName(protoFileUri);
     out.println('///\n'
@@ -180,7 +194,7 @@ class FileGenerator extends ProtobufContainer {
     }
 
     if (_needsProtobufImport) {
-    out.println("import 'package:protobuf/protobuf.dart';");
+      out.println("import 'package:protobuf/protobuf.dart';");
       out.println();
     }
 
@@ -292,21 +306,10 @@ class FileGenerator extends ProtobufContainer {
     return imports;
   }
 
-  CodeGeneratorResponse_File generateEnumResponse(OutputConfiguration config) {
-    if (!_linked) throw new StateError("not linked");
-
-    IndentingWriter out = new IndentingWriter();
-
-    generateEnumFile(out, config);
-
-    Uri filePath = new Uri.file(_fileDescriptor.name);
-    return new CodeGeneratorResponse_File()
-      ..name = config.outputPathFor(filePath, ".pbenum.dart").path
-      ..content = out.toString();
-  }
-
-  void generateEnumFile(IndentingWriter out,
+  /// Returns the contents of the .pbenum.dart file for this .proto file.
+  String generateEnumFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+    if (!_linked) throw new StateError("not linked");
     Uri filePath = new Uri.file(_fileDescriptor.name);
     if (filePath.isAbsolute) {
       // protoc should never generate a file descriptor with an absolute path.
@@ -315,6 +318,7 @@ class FileGenerator extends ProtobufContainer {
 
     var baseLibraryName = _generateLibraryName(filePath);
     var libraryName = baseLibraryName + "_pbenum";
+    var out = new IndentingWriter();
     out.print('''
 ///
 //  Generated code. Do not modify.
@@ -335,6 +339,8 @@ library $libraryName;
     for (MessageGenerator m in messageGenerators) {
       m.generateEnums(out);
     }
+
+    return out.toString();
   }
 
   /// Returns the number of enum types generated in the .pbenum.dart file.
@@ -346,22 +352,10 @@ library $libraryName;
     return count;
   }
 
-  CodeGeneratorResponse_File generateJsonDartResponse(
-      OutputConfiguration config) {
-    if (!_linked) throw new StateError("not linked");
-
-    IndentingWriter out = new IndentingWriter();
-
-    generateJsonDart(out, config);
-
-    Uri filePath = new Uri.file(_fileDescriptor.name);
-    return new CodeGeneratorResponse_File()
-      ..name = config.outputPathFor(filePath, ".pbjson.dart").path
-      ..content = out.toString();
-  }
-
-  void generateJsonDart(IndentingWriter out,
+  /// Returns the contents of the .pbjson.dart file for this .proto file.
+  String generateJsonFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+    if (!_linked) throw new StateError("not linked");
     Uri filePath = new Uri.file(_fileDescriptor.name);
     if (filePath.isAbsolute) {
       // protoc should never generate a file descriptor with an absolute path.
@@ -370,6 +364,7 @@ library $libraryName;
 
     var baseLibraryName = _generateLibraryName(filePath);
     var libraryName = baseLibraryName + "_pbjson";
+    var out = new IndentingWriter();
     out.print('''
 ///
 //  Generated code. Do not modify.
@@ -400,6 +395,8 @@ library $libraryName;
     for (ServiceGenerator s in serviceGenerators) {
       s.generateConstants(out);
     }
+
+    return out.toString();
   }
 
   /// Returns the generator for each .pbjson.dart file the generated
