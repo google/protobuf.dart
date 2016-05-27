@@ -297,8 +297,8 @@ import 'package:protobuf/protobuf.dart';
     expect(writer.toString(), expected);
   });
 
-  test('FileGenerator outputs extra imports for a service', () {
-    String expected = r'''
+  test('FileGenerator outputs files for a service', () {
+    String expectedClient = r'''
 ///
 //  Generated code. Do not modify.
 ///
@@ -308,12 +308,93 @@ import 'dart:async';
 
 import 'package:protobuf/protobuf.dart';
 
-import 'test.pbjson.dart';
+class Empty extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('Empty')
+    ..hasRequiredFields = false
+  ;
+
+  Empty() : super();
+  Empty.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  Empty.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  Empty clone() => new Empty()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static Empty create() => new Empty();
+  static PbList<Empty> createRepeated() => new PbList<Empty>();
+  static Empty getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEmpty();
+    return _defaultInstance;
+  }
+  static Empty _defaultInstance;
+  static void $checkItem(Empty v) {
+    if (v is !Empty) checkItemFailed(v, 'Empty');
+  }
+}
+
+class _ReadonlyEmpty extends Empty with ReadonlyMessageMixin {}
+
+class TestApi {
+  RpcClient _client;
+  TestApi(this._client);
+
+  Future<Empty> ping(ClientContext ctx, Empty request) {
+    var emptyResponse = new Empty();
+    return _client.invoke(ctx, 'Test', 'Ping', request, emptyResponse);
+  }
+}
 
 ''';
+
+    String expectedServer = r'''
+///
+//  Generated code. Do not modify.
+///
+library test_pbserver;
+
+import 'dart:async';
+
+import 'package:protobuf/protobuf.dart';
+
+import 'test.pb.dart';
+import 'test.pbjson.dart';
+
+export 'test.pb.dart';
+
+abstract class TestServiceBase extends GeneratedService {
+  Future<Empty> ping(ServerContext ctx, Empty request);
+
+  GeneratedMessage createRequest(String method) {
+    switch (method) {
+      case 'Ping': return new Empty();
+      default: throw new ArgumentError('Unknown method: $method');
+    }
+  }
+
+  Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
+    switch (method) {
+      case 'Ping': return ping(ctx, request);
+      default: throw new ArgumentError('Unknown method: $method');
+    }
+  }
+
+  Map<String, dynamic> get $json => Test$json;
+  Map<String, dynamic> get $messageJson => Test$messageJson;
+}
+
+''';
+
+    DescriptorProto empty = new DescriptorProto()..name = "Empty";
+
+    ServiceDescriptorProto sd = new ServiceDescriptorProto()
+      ..name = 'Test'
+      ..method.add(new MethodDescriptorProto()
+        ..name = 'Ping'
+        ..inputType = '.Empty'
+        ..outputType = '.Empty');
+
     FileDescriptorProto fd = new FileDescriptorProto()
       ..name = 'test'
-      ..service.add(new ServiceDescriptorProto());
+      ..messageType.add(empty)
+      ..service.add(sd);
 
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
@@ -323,7 +404,8 @@ import 'test.pbjson.dart';
 
     var writer = new IndentingWriter();
     fg.writeMainHeader(writer);
-    expect(writer.toString(), expected);
+    expect(fg.generateMainFile(), expectedClient);
+    expect(fg.generateServerFile(), expectedServer);
   });
 
   test('FileGenerator handles field_name options', () {

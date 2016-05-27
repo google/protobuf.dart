@@ -97,23 +97,6 @@ class FileGenerator extends ProtobufContainer {
     return '${s[0].toUpperCase()}${s.substring(1)}';
   }
 
-  /// Returns the library name at the top of the .pb.dart file.
-  ///
-  /// (This should be unique to avoid warnings about duplicate Dart libraries.)
-  String _generateLibraryName(Uri protoFilePath) {
-    var libraryName =
-        _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
-
-    if (_fileDescriptor.package != '') {
-      // Two .protos can be in the same proto package.
-      // It isn't unique enough to use as a Dart library name.
-      // But we can prepend it.
-      return _fileDescriptor.package + "_" + libraryName;
-    }
-
-    return libraryName;
-  }
-
   /// Generates all the Dart files for this .proto file.
   List<CodeGeneratorResponse_File> generateFiles(OutputConfiguration config) {
     if (!_linked) throw new StateError("not linked");
@@ -129,6 +112,7 @@ class FileGenerator extends ProtobufContainer {
     return [
       makeFile(".pb.dart", generateMainFile(config)),
       makeFile(".pbenum.dart", generateEnumFile(config)),
+      makeFile(".pbserver.dart", generateServerFile(config)),
       makeFile(".pbjson.dart", generateJsonFile(config)),
     ];
   }
@@ -167,21 +151,13 @@ class FileGenerator extends ProtobufContainer {
     for (ClientApiGenerator c in clientApiGenerators) {
       c.generate(out);
     }
-    for (ServiceGenerator s in serviceGenerators) {
-      s.generate(out);
-    }
-
     return out.toString();
   }
 
   /// Writes the header and imports for the .pb.dart file.
   void writeMainHeader(IndentingWriter out,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
-    String libraryName = _generateLibraryName(protoFileUri);
-    out.println('///\n'
-        '//  Generated code. Do not modify.\n'
-        '///\n'
-        'library $libraryName;\n');
+    _writeLibraryHeading(out);
 
     // We only add the dart:async import if there are services in the
     // FileDescriptorProto.
@@ -212,33 +188,15 @@ class FileGenerator extends ProtobufContainer {
     var enumImports = new Set<FileGenerator>.identity();
     _findProtosToImport(imports, enumImports);
 
-    void writeImport(FileGenerator target, String extension) {
-      Uri resolvedImport =
-          config.resolveImport(target.protoFileUri, protoFileUri, extension);
-      out.print("import '$resolvedImport'");
-      if (package != target.package && target.package.isNotEmpty) {
-        out.print(' as ${target.packageImportPrefix}');
-      }
-      out.println(';');
-    }
-
     for (var target in imports) {
-      writeImport(target, ".pb.dart");
+      _writeImport(out, config, target, ".pb.dart");
     }
     if (imports.isNotEmpty) out.println();
 
     for (var target in enumImports) {
-      writeImport(target, ".pbenum.dart");
+      _writeImport(out, config, target, ".pbenum.dart");
     }
     if (enumImports.isNotEmpty) out.println();
-
-    // Services also depend on the json imports.
-    if (serviceGenerators.isNotEmpty) {
-      Uri resolvedImport =
-          config.resolveImport(protoFileUri, protoFileUri, ".pbjson.dart");
-      out.println("import '$resolvedImport';");
-      out.println();
-    }
 
     // Export enums in main file for backward compatibility.
     if (enumCount > 0) {
@@ -262,8 +220,7 @@ class FileGenerator extends ProtobufContainer {
   bool get _needsProtobufImport =>
       messageGenerators.isNotEmpty ||
       extensionGenerators.isNotEmpty ||
-      clientApiGenerators.isNotEmpty ||
-      serviceGenerators.isNotEmpty;
+      clientApiGenerators.isNotEmpty;
 
   /// Returns the generator for each .pb.dart file we need to import.
   void _findProtosToImport(
@@ -274,6 +231,7 @@ class FileGenerator extends ProtobufContainer {
     for (var x in extensionGenerators) {
       x.addImportsTo(imports, enumImports);
     }
+    // Add imports needed for client-side services.
     for (var x in serviceGenerators) {
       x.addImportsTo(imports);
     }
@@ -310,22 +268,9 @@ class FileGenerator extends ProtobufContainer {
   String generateEnumFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
-    Uri filePath = new Uri.file(_fileDescriptor.name);
-    if (filePath.isAbsolute) {
-      // protoc should never generate a file descriptor with an absolute path.
-      throw "FAILURE: File with an absolute path is not supported";
-    }
 
-    var baseLibraryName = _generateLibraryName(filePath);
-    var libraryName = baseLibraryName + "_pbenum";
     var out = new IndentingWriter();
-    out.print('''
-///
-//  Generated code. Do not modify.
-///
-library $libraryName;
-
-''');
+    _writeLibraryHeading(out, "pbenum");
 
     if (enumCount > 0) {
       out.println("import 'package:protobuf/protobuf.dart';");
@@ -352,39 +297,61 @@ library $libraryName;
     return count;
   }
 
+  /// Returns the contents of the .pbserver.dart file for this .proto file.
+  String generateServerFile(
+      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+    if (!_linked) throw new StateError("not linked");
+    var out = new IndentingWriter();
+    _writeLibraryHeading(out, "pbserver");
+
+    if (serviceGenerators.isNotEmpty) {
+      out.println('''
+import 'dart:async';
+
+import 'package:protobuf/protobuf.dart';
+''');
+    }
+
+    // Import .pb.dart files needed for requests and responses.
+    var imports = new Set<FileGenerator>();
+    for (var x in serviceGenerators) {
+      x.addImportsTo(imports);
+    }
+    for (var target in imports) {
+      _writeImport(out, config, target, ".pb.dart");
+    }
+
+    // Import .pbjson.dart file needed for $json and $messageJson.
+    if (serviceGenerators.isNotEmpty) {
+      _writeImport(out, config, this, ".pbjson.dart");
+      out.println();
+    }
+
+    Uri resolvedImport =
+        config.resolveImport(protoFileUri, protoFileUri, ".pb.dart");
+    out.println("export '$resolvedImport';");
+    out.println();
+
+    for (ServiceGenerator s in serviceGenerators) {
+      s.generate(out);
+    }
+
+    return out.toString();
+  }
+
   /// Returns the contents of the .pbjson.dart file for this .proto file.
   String generateJsonFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
-    Uri filePath = new Uri.file(_fileDescriptor.name);
-    if (filePath.isAbsolute) {
-      // protoc should never generate a file descriptor with an absolute path.
-      throw "FAILURE: File with an absolute path is not supported";
-    }
-
-    var baseLibraryName = _generateLibraryName(filePath);
-    var libraryName = baseLibraryName + "_pbjson";
     var out = new IndentingWriter();
-    out.print('''
-///
-//  Generated code. Do not modify.
-///
-library $libraryName;
-
-''');
+    _writeLibraryHeading(out, "pbjson");
 
     // Import the .pbjson.dart files we depend on.
-    var importList = _findJsonProtosToImport();
-    for (var imported in importList) {
-      Uri resolvedImport = config.resolveImport(
-          imported.protoFileUri, protoFileUri, ".pbjson.dart");
-      out.print("import '$resolvedImport'");
-      if (package != imported.package && imported.package.isNotEmpty) {
-        out.print(' as ${imported.packageImportPrefix}');
-      }
-      out.println(';');
+    var imports = _findJsonProtosToImport();
+    for (var target in imports) {
+      _writeImport(out, config, target, ".pbjson.dart");
     }
-    if (importList.isNotEmpty) out.println();
+    if (imports.isNotEmpty) out.println();
 
     for (var e in enumGenerators) {
       e.generateConstants(out);
@@ -414,5 +381,44 @@ library $libraryName;
     }
     imports.remove(this); // Don't need to import self.
     return imports;
+  }
+
+  /// Writes the library name at the top of the dart file.
+  ///
+  /// (This should be unique to avoid warnings about duplicate Dart libraries.)
+  void _writeLibraryHeading(IndentingWriter out, [String extension]) {
+    Uri filePath = new Uri.file(_fileDescriptor.name);
+    if (filePath.isAbsolute) {
+      // protoc should never generate a file descriptor with an absolute path.
+      throw "FAILURE: File with an absolute path is not supported";
+    }
+
+    var libraryName = _fileNameWithoutExtension(filePath).replaceAll('-', '_');
+    if (extension != null) libraryName += "_$extension";
+    if (_fileDescriptor.package != '') {
+      // Two .protos can be in the same proto package.
+      // It isn't unique enough to use as a Dart library name.
+      // But we can prepend it.
+      libraryName = _fileDescriptor.package + "_" + libraryName;
+    }
+    out.println('''
+///
+//  Generated code. Do not modify.
+///
+library $libraryName;
+''');
+  }
+
+  /// Writes an import of a .dart file corresponding to a .proto file.
+  /// (Possibly the same .proto file.)
+  void _writeImport(IndentingWriter out, OutputConfiguration config,
+      FileGenerator target, String extension) {
+    Uri resolvedImport =
+        config.resolveImport(target.protoFileUri, protoFileUri, extension);
+    out.print("import '$resolvedImport'");
+    if (package != target.package && target.package.isNotEmpty) {
+      out.print(' as ${target.packageImportPrefix}');
+    }
+    out.println(';');
   }
 }

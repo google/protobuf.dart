@@ -5,7 +5,7 @@ import 'dart:async' show Future;
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/service.pb.dart' as pb;
+import '../out/protos/service.pbserver.dart' as pb;
 import '../out/protos/service2.pb.dart' as pb2;
 import '../out/protos/service3.pb.dart' as pb3;
 

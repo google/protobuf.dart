@@ -33,9 +33,14 @@ TEST_PROTO_LIST = \
 	toplevel_import \
 	toplevel
 TEST_PROTO_DIR=$(OUTPUT_DIR)/protos
-TEST_PROTO_LIBS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_DIR)/$(proto).pb.dart $(TEST_PROTO_DIR)/$(proto).pbjson.dart)
+TEST_PROTO_LIBS=$(foreach f, $(TEST_PROTO_LIST), \
+  $(TEST_PROTO_DIR)/$(f).pb.dart \
+	$(TEST_PROTO_DIR)/$(f).pbenum.dart \
+	$(TEST_PROTO_DIR)/$(f).pbserver.dart \
+	$(TEST_PROTO_DIR)/$(f).pbjson.dart)
 TEST_PROTO_SRC_DIR=test/protos
-TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), $(TEST_PROTO_SRC_DIR)/$(proto).proto)
+TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), \
+  $(TEST_PROTO_SRC_DIR)/$(proto).proto)
 
 PREGENERATED_SRCS=lib/descriptor.proto lib/plugin.proto
 
