@@ -1,3 +1,7 @@
+## 0.5.1+4
+
+* Use a more refined implementation of `Map` in `PbMapMixin`
+
 ## 0.5.1+3
 
 * Performance: eliminate some dynamic calls.
