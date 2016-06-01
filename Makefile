@@ -17,6 +17,7 @@ TEST_PROTO_LIST = \
 	google/protobuf/unittest \
 	dart_options \
 	descriptor_2_5_opensource \
+	enum_extension \
 	map_api \
 	map_api2 \
 	multiple_files_test \

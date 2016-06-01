@@ -8,17 +8,17 @@ library extension_test;
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
+import '../out/protos/enum_extension.pb.dart';
 import '../out/protos/nested_extension.pb.dart';
 import '../out/protos/non_nested_extension.pb.dart';
 
 import 'test_util.dart';
 
-throwsArgError(String expectedMessage) => throwsA(
-    predicate((x) {
-  expect(x, isArgumentError);
-  expect(x.message, expectedMessage);
-  return true;
-}));
+throwsArgError(String expectedMessage) => throwsA(predicate((x) {
+      expect(x, isArgumentError);
+      expect(x.message, expectedMessage);
+      return true;
+    }));
 
 void main() {
   test('can set all extension types', () {
@@ -76,31 +76,35 @@ void main() {
     var message = new TestAllTypes(); // does not allow extensions
     expect(() {
       message.setExtension(Unittest.optionalInt32Extension, 0);
-    }, throwsArgError(
-        "Extension optionalInt32Extension not legal for message TestAllTypes"));
+    },
+        throwsArgError(
+            "Extension optionalInt32Extension not legal for message TestAllTypes"));
 
     expect(() {
       message.getExtension(Unittest.optionalInt32Extension);
-    }, throwsArgError(
-        "Extension optionalInt32Extension not legal for message TestAllTypes"));
+    },
+        throwsArgError(
+            "Extension optionalInt32Extension not legal for message TestAllTypes"));
   });
 
   test("throws if an int32 extension is set to a bad value", () {
     var message = new TestAllExtensions();
     expect(() {
       message.setExtension(Unittest.optionalInt32Extension, "hello");
-    }, throwsArgError(
-        "Illegal to set field optionalInt32Extension (1) of TestAllExtensions"
-        " to value (hello): not type int"));
+    },
+        throwsArgError(
+            "Illegal to set field optionalInt32Extension (1) of TestAllExtensions"
+            " to value (hello): not type int"));
   });
 
   test('throws if an int64 extension is set to a bad value', () {
     var message = new TestAllExtensions();
     expect(() {
       message.setExtension(Unittest.optionalInt64Extension, 123);
-    }, throwsArgError(
-        "Illegal to set field optionalInt64Extension (2) of TestAllExtensions"
-        " to value (123): not Int64"));
+    },
+        throwsArgError(
+            "Illegal to set field optionalInt64Extension (2) of TestAllExtensions"
+            " to value (123): not Int64"));
   });
 
   test('throws if a message extension is set to a bad value', () {
@@ -109,14 +113,15 @@ void main() {
     // For a non-repeated message, we only check for a GeneratedMessage.
     expect(() {
       message.setExtension(Unittest.optionalNestedMessageExtension, 123);
-    }, throwsArgError(
-        "Illegal to set field optionalNestedMessageExtension (18)"
-        " of TestAllExtensions to value (123): not a GeneratedMessage"));
+    },
+        throwsArgError(
+            "Illegal to set field optionalNestedMessageExtension (18)"
+            " of TestAllExtensions to value (123): not a GeneratedMessage"));
 
     // For a repeated message, the type check is exact.
     expect(() {
-      message.addExtension(Unittest.repeatedNestedMessageExtension,
-        new TestAllTypes());
+      message.addExtension(
+          Unittest.repeatedNestedMessageExtension, new TestAllTypes());
     }, throws); // TypeError
   });
 
@@ -126,14 +131,14 @@ void main() {
     // For a non-repeated enum, we only check for a ProtobufEnum.
     expect(() {
       message.setExtension(Unittest.optionalNestedEnumExtension, 123);
-    }, throwsArgError(
-        "Illegal to set field optionalNestedEnumExtension (21)"
-        " of TestAllExtensions to value (123): not type ProtobufEnum"));
+    },
+        throwsArgError("Illegal to set field optionalNestedEnumExtension (21)"
+            " of TestAllExtensions to value (123): not type ProtobufEnum"));
 
     // For a repeated enum, the type check is exact.
     expect(() {
-      message.addExtension(Unittest.repeatedForeignEnumExtension,
-        TestAllTypes_NestedEnum.FOO);
+      message.addExtension(
+          Unittest.repeatedForeignEnumExtension, TestAllTypes_NestedEnum.FOO);
     }, throws); // TypeError
   });
 
@@ -144,8 +149,15 @@ void main() {
   });
 
   test('can extend a message with a message field of the same type', () {
-    expect(MyNestedExtension.recursiveExtension
-        .makeDefault() is MessageToBeExtended, isTrue);
+    expect(
+        MyNestedExtension.recursiveExtension.makeDefault()
+        is MessageToBeExtended,
+        isTrue);
     expect(MyNestedExtension.recursiveExtension.name, 'recursiveExtension');
+  });
+
+  test('can extend message with enum', () {
+    var msg = new Extendable();
+    msg.setExtension(Enum_extension.animal, Animal.CAT);
   });
 }
