@@ -11,7 +11,7 @@ import "package:protobuf/protobuf.dart" show BuilderInfo;
 ///
 /// This mixin is enabled via an option in
 /// dart_options.proto in dart-protoc-plugin.
-abstract class PbMapMixin implements Map<String, dynamic> {
+abstract class PbMapMixin implements Map {
   // GeneratedMessage properties and methods used by this mixin.
 
   BuilderInfo get info_;
@@ -29,8 +29,8 @@ abstract class PbMapMixin implements Map<String, dynamic> {
   }
 
   @override
-  void operator []=(String key, val) {
-    var tag = getTagNumber(key);
+  operator []=(key, val) {
+    var tag = getTagNumber(key as String);
     if (tag == null) {
       throw new ArgumentError(
           "field '${key}' not found in ${info_.messageName}");
@@ -39,13 +39,13 @@ abstract class PbMapMixin implements Map<String, dynamic> {
   }
 
   @override
-  Iterable<String> get keys => info_.byName.keys;
+  get keys => info_.byName.keys;
 
   @override
   bool containsKey(Object key) => info_.byName.containsKey(key);
 
   @override
-  int get length => info_.byName.length;
+  get length => info_.byName.length;
 
   @override
   remove(key) {

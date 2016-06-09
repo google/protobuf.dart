@@ -1,3 +1,9 @@
+## 0.5.1+5
+
+* Revert previous change because it causes strong mode type error
+in the generated code. We will revisit this in a new version of
+mixin support.
+
 ## 0.5.1+4
 
 * Use a more refined implementation of `Map` in `PbMapMixin`
