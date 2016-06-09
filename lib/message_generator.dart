@@ -4,57 +4,7 @@
 
 part of protoc;
 
-/// A Dart function called on each item added to a repeated list
-/// to check its type and range.
-const checkItem = '\$checkItem';
-
 class MessageGenerator extends ProtobufContainer {
-  // List of Dart language reserved words in names which cannot be used in a
-  // subclass of GeneratedMessage.
-  static final List<String> reservedWords = [
-    'assert',
-    'break',
-    'case',
-    'catch',
-    'class',
-    'const',
-    'continue',
-    'default',
-    'do',
-    'else',
-    'enum',
-    'extends',
-    'false',
-    'final',
-    'finally',
-    'for',
-    'if',
-    'in',
-    'is',
-    'new',
-    'null',
-    'rethrow',
-    'return',
-    'super',
-    'switch',
-    'this',
-    'throw',
-    'true',
-    'try',
-    'var',
-    'void',
-    'while',
-    'with'
-  ];
-
-  // List of names used in the generated class itself
-  static final List<String> generatedNames = [
-    'create',
-    'createRepeated',
-    'getDefault',
-    checkItem
-  ];
-
   // Returns the mixin for this message, or null if none.
   static PbMixin _getMixin(DescriptorProto desc, PbMixin defaultValue) {
     if (!desc.hasOptions()) return defaultValue;
@@ -81,9 +31,6 @@ class MessageGenerator extends ProtobufContainer {
 
   // populated by resolve()
   List<ProtobufField> _fieldList;
-
-  // Used during generation.
-  final Set<String> _methodNames = new Set<String>();
 
   MessageGenerator(DescriptorProto descriptor, ProtobufContainer parent,
       PbMixin defaultMixin)
@@ -158,17 +105,12 @@ class MessageGenerator extends ProtobufContainer {
   void resolve(GenerationContext ctx) {
     if (_fieldList != null) throw new StateError("message already resolved");
 
-    var sorted = new List<FieldDescriptorProto>.from(_descriptor.field)
-      ..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
-        if (a.number < b.number) return -1;
-        if (a.number > b.number) return 1;
-        throw "multiple fields defined for tag ${a.number} in $fqname";
-      });
+    var reserved = mixin?.findReservedNames() ?? const <String>[];
+    var fields = messageFieldNames(_descriptor, reserved: reserved);
 
     _fieldList = <ProtobufField>[];
-    for (FieldDescriptorProto field in sorted) {
-      int index = _fieldList.length;
-      _fieldList.add(new ProtobufField(field, index, this, ctx));
+    for (MemberNames names in fields.values) {
+      _fieldList.add(new ProtobufField.message(names, this, ctx));
     }
 
     for (var m in _messageGenerators) {
@@ -242,15 +184,6 @@ class MessageGenerator extends ProtobufContainer {
   void generate(IndentingWriter out) {
     checkResolved();
 
-    _methodNames.clear();
-    _methodNames.addAll(reservedWords);
-    _methodNames.addAll(GeneratedMessage_reservedNames);
-    _methodNames.addAll(generatedNames);
-
-    if (mixin != null) {
-      _methodNames.addAll(mixin.findReservedNames());
-    }
-
     for (MessageGenerator m in _messageGenerators) {
       m.generate(out);
     }
@@ -267,7 +200,8 @@ class MessageGenerator extends ProtobufContainer {
           'static final BuilderInfo _i = new BuilderInfo(\'${classname}\')',
           ';', () {
         for (ProtobufField field in _fieldList) {
-          out.println(field.generateBuilderInfoCall(package));
+          var dartFieldName = field.memberNames.fieldName;
+          out.println(field.generateBuilderInfoCall(package, dartFieldName));
         }
 
         if (_descriptor.extensionRange.length > 0) {
@@ -366,49 +300,29 @@ class MessageGenerator extends ProtobufContainer {
     for (ProtobufField field in _fieldList) {
       out.println();
 
-      // Choose non-conflicting names.
-      String identifier = field.dartFieldName;
-      String hasIdentifier = field.hasMethodName;
-      String clearIdentifier = field.clearMethodName;
-      if (!field.isRepeated) {
-        while (_methodNames.contains(identifier) ||
-            _methodNames.contains(hasIdentifier) ||
-            _methodNames.contains(clearIdentifier)) {
-          identifier += '_' + field.number.toString();
-          hasIdentifier += '_' + field.number.toString();
-          clearIdentifier += '_' + field.number.toString();
-        }
-        _methodNames.add(identifier);
-        _methodNames.add(hasIdentifier);
-        _methodNames.add(clearIdentifier);
-      } else {
-        while (_methodNames.contains(identifier)) {
-          identifier += '_' + field.number.toString();
-        }
-        _methodNames.add(identifier);
-      }
-
       var fieldTypeString = field.getDartType(package);
       var defaultExpr = field.getDefaultExpr();
-      out.println('${fieldTypeString} get ${identifier}'
+      var names = field.memberNames;
+
+      out.println('${fieldTypeString} get ${names.fieldName}'
           ' => \$_get('
           '${field.index}, ${field.number}, $defaultExpr);');
       if (!field.isRepeated) {
         var fastSetter = field.baseType.setter;
         if (fastSetter != null) {
-          out.println('void set $identifier'
+          out.println('void set ${names.fieldName}'
               '($fieldTypeString v) { '
               '$fastSetter(${field.index}, ${field.number}, v);'
               ' }');
         } else {
-          out.println('void set $identifier'
+          out.println('void set ${names.fieldName}'
               '($fieldTypeString v) { '
               'setField(${field.number}, v);'
               ' }');
         }
-        out.println('bool $hasIdentifier() =>'
+        out.println('bool ${names.hasMethodName}() =>'
             ' \$_has(${field.index}, ${field.number});');
-        out.println('void $clearIdentifier() =>'
+        out.println('void ${names.clearMethodName}() =>'
             ' clearField(${field.number});');
       }
     }

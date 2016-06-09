@@ -9,30 +9,22 @@ import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
 
-
 void main() {
   test('testValidGeneratorOptions', () {
-      checkValid(String parameter, Map expected) {
+    checkValid(String parameter) {
       var request = new CodeGeneratorRequest();
       if (parameter != null) request.parameter = parameter;
       var response = new CodeGeneratorResponse();
       var options = parseGenerationOptions(request, response);
       expect(options, new isInstanceOf<GenerationOptions>());
       expect(response.error, '');
-      expect(options.fieldNameOverrides, equals(expected));
     }
 
-    checkValid(null, {});
-    checkValid('', {});
-    checkValid(',', {});
-    checkValid(',,,', {});
-    checkValid('  , , ,', {});
-
-    checkValid('field_name=a|b', {'.a' : 'b'});
-    checkValid('field_name = a | b,,,', {'.a' : 'b'});
-    checkValid('field_name=a|b,field_name=p.C|d', {'.a' : 'b', '.p.C' : 'd'});
-    checkValid(' field_name = a | b,  , field_name = p.C | d ',
-               {'.a' : 'b', '.p.C' : 'd'});
+    checkValid(null);
+    checkValid('');
+    checkValid(',');
+    checkValid(',,,');
+    checkValid('  , , ,');
   });
 
   test('testInvalidGeneratorOptions', () {
@@ -46,10 +38,5 @@ void main() {
 
     checkInvalid('abc');
     checkInvalid('abc,def');
-    checkInvalid('field_name=');
-    checkInvalid('field_name=a');
-    checkInvalid('field_name=a|');
-    checkInvalid('field_name=|');
-    checkInvalid('field_name=|b');
   });
 }

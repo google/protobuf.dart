@@ -37,33 +37,6 @@ options `<option 1>` and `<option 2>` like this:
 
     --dart_out="<option 1>,<option 2>:."
 
-#### Option for setting the name of field accessors
-
-The following message definition has the field name `has_field`.
-
-    message MyMessage {
-      optional string has_field = 1;
-    }
-
-This poses the problem, that the Dart class will have a getter and a
-setter called `hasField`. This conflicts with the method `hasField`
-which is already defined on the superclass `GeneratedMessage`.
-
-To work around this problem the option `field_name` can be
-used. Option `field_name` takes two values separated by the vertical
-bar. The first value is the full name of the field and the second
-value is the name of the field in the generated Dart code. Passing the
-following option:
-
-    --dart_out="field_name=MyMessage.has_field|HasFld:."
-
-Will generate the following message field accessors:
-
-    String get hasFld => getField(1);
-    void set hasFld(String v) { setField(1, v); }
-    bool hasHasFld() => hasField(1);
-    void clearHasFld() => clearField(1);
-
 Using protocol buffer libraries to build new libraries
 ------------------------------------------------------
 

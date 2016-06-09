@@ -10,12 +10,14 @@ class ExtensionGenerator {
 
   // populated by resolve()
   ProtobufField _field;
+  String _extensionName;
   String _extendedClassName = "";
 
   ExtensionGenerator(this._descriptor, this._parent);
 
   void resolve(GenerationContext ctx) {
-    _field = new ProtobufField(_descriptor, null, _parent, ctx);
+    _extensionName = extensionName(_descriptor);
+    _field = new ProtobufField.extension(_descriptor, _parent, ctx);
 
     ProtobufContainer extendedType = ctx.getFieldType(_descriptor.extendee);
     // TODO(skybrian) When would this be null?
@@ -31,7 +33,7 @@ class ExtensionGenerator {
 
   String get name {
     if (_field == null) throw new StateError("resolve not called");
-    String name = _field.dartFieldName;
+    String name = _extensionName;
     return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
   }
 
@@ -72,7 +74,7 @@ class ExtensionGenerator {
   void generate(IndentingWriter out) {
     if (_field == null) throw new StateError("resolve not called");
 
-    String name = _field.dartFieldName;
+    String name = _extensionName;
     var type = _field.baseType;
     var dartType = type.getDartType(package);
 

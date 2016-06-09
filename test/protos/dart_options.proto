@@ -25,3 +25,10 @@ extend google.protobuf.MessageOptions {
   // The empty string can be used to turn off mixins for this message.
   optional string mixin = 96128839;
 }
+
+extend google.protobuf.FieldOptions {
+
+  // Uses the given name for getters, setters and as suffixes for has/clear
+  // methods in the generated Dart file. Should be lowerCamelCase.
+  optional string dart_name = 28700919;
+}

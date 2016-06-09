@@ -17,35 +17,43 @@ class ProtobufField {
       multiLine: false,
       caseSensitive: false);
 
-  final FieldDescriptorProto _field;
+  final FieldDescriptorProto descriptor;
 
-  /// The index of this field in MessageGenerator._fieldList.
-  /// The same index will be stored in FieldInfo.index.
-  /// For extension fields, this will be null.
-  final int index;
+  /// Dart names within a GeneratedMessage or `null` for an extension.
+  final MemberNames memberNames;
 
   final String fqname;
   final BaseType baseType;
-  final GenerationOptions _genOptions;
 
-  ProtobufField(FieldDescriptorProto field, this.index,
+  ProtobufField.message(
+      MemberNames names, ProtobufContainer parent, GenerationContext ctx)
+      : this._(names.descriptor, names, parent, ctx);
+
+  ProtobufField.extension(FieldDescriptorProto descriptor,
       ProtobufContainer parent, GenerationContext ctx)
-      : _field = field,
-        fqname = '${parent.fqname}.${field.name}',
-        baseType = new BaseType(field, ctx),
-        _genOptions = ctx.options;
+      : this._(descriptor, null, parent, ctx);
 
-  int get number => _field.number;
+  ProtobufField._(FieldDescriptorProto descriptor, MemberNames dartNames,
+      ProtobufContainer parent, GenerationContext ctx)
+      : this.descriptor = descriptor,
+        this.memberNames = dartNames,
+        fqname = '${parent.fqname}.${descriptor.name}',
+        baseType = new BaseType(descriptor, ctx);
+
+  /// The index of this field in MessageGenerator.fieldList.
+  ///
+  /// `null` for an extension.
+  int get index => memberNames?.index;
 
   bool get isRequired =>
-      _field.label == FieldDescriptorProto_Label.LABEL_REQUIRED;
+      descriptor.label == FieldDescriptorProto_Label.LABEL_REQUIRED;
 
   bool get isRepeated =>
-      _field.label == FieldDescriptorProto_Label.LABEL_REPEATED;
+      descriptor.label == FieldDescriptorProto_Label.LABEL_REPEATED;
 
   /// True if the field is to be encoded with [packed=true] encoding.
   bool get isPacked =>
-      isRepeated && _field.options != null && _field.options.packed;
+      isRepeated && descriptor.options != null && descriptor.options.packed;
 
   /// True if this field uses the Int64 from the fixnum package.
   bool get needsFixnumImport => baseType.unprefixed == "Int64";
@@ -58,6 +66,9 @@ class ProtobufField {
     if (isRepeated) return baseType.getRepeatedDartType(package);
     return baseType.getDartType(package);
   }
+
+  /// Returns the tag number of the underlying proto field.
+  int get number => descriptor.number;
 
   /// Returns the constant in PbFieldType corresponding to this type.
   String get typeConstant {
@@ -72,41 +83,10 @@ class ProtobufField {
     return "PbFieldType." + prefix + baseType.typeConstantSuffix;
   }
 
-  /// The name to use by default for the Dart getter and setter.
-  /// (A suffix will be added if there is a conflict.)
-  String get dartFieldName {
-    String name = _fieldMethodSuffix;
-    return '${name[0].toLowerCase()}${name.substring(1)}';
-  }
-
-  String get hasMethodName => 'has$_fieldMethodSuffix';
-  String get clearMethodName => 'clear$_fieldMethodSuffix';
-
-  /// The suffix to use for this field in Dart method names.
-  /// (It should be camelcase and begin with an uppercase letter.)
-  String get _fieldMethodSuffix {
-    String underscoresToCamelCase(String s) {
-      cap(s) => s.isEmpty ? s : '${s[0].toUpperCase()}${s.substring(1)}';
-      return s.split('_').map(cap).join('');
-    }
-
-    // For groups, use capitalization of 'typeName' rather than 'name'.
-    if (baseType.isGroup) {
-      String name = _field.typeName;
-      int index = name.lastIndexOf('.');
-      if (index != -1) {
-        name = name.substring(index + 1);
-      }
-      return underscoresToCamelCase(name);
-    }
-    var name = _genOptions.fieldNameOverrides[fqname];
-    return name != null ? name : underscoresToCamelCase(_field.name);
-  }
-
   /// Returns Dart code adding this field to a BuilderInfo object.
   /// The call will start with ".." and a method name.
   /// [package] is the package where the code will be evaluated.
-  String generateBuilderInfoCall(String package) {
+  String generateBuilderInfoCall(String package, String dartFieldName) {
     String quotedName = "'$dartFieldName'";
     String type = baseType.getDartType(package);
 
@@ -145,7 +125,7 @@ class ProtobufField {
   /// should be called instead.
   String getDefaultExpr() {
     if (isRepeated) return "null";
-    switch (_field.type) {
+    switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
         return _getDefaultAsBoolExpr("false");
       case FieldDescriptorProto_Type.TYPE_INT32:
@@ -172,28 +152,29 @@ class ProtobufField {
 
     bool samePackage = package == baseType.package;
 
-    switch (_field.type) {
+    switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
         return _getDefaultAsBoolExpr(null);
       case FieldDescriptorProto_Type.TYPE_FLOAT:
       case FieldDescriptorProto_Type.TYPE_DOUBLE:
-        if (!_field.hasDefaultValue()) {
+        if (!descriptor.hasDefaultValue()) {
           return null;
-        } else if ('0.0' == _field.defaultValue || '0' == _field.defaultValue) {
+        } else if ('0.0' == descriptor.defaultValue ||
+            '0' == descriptor.defaultValue) {
           return null;
-        } else if (_field.defaultValue == 'inf') {
+        } else if (descriptor.defaultValue == 'inf') {
           return 'double.INFINITY';
-        } else if (_field.defaultValue == '-inf') {
+        } else if (descriptor.defaultValue == '-inf') {
           return 'double.NEGATIVE_INFINITY';
-        } else if (_field.defaultValue == 'nan') {
+        } else if (descriptor.defaultValue == 'nan') {
           return 'double.NAN';
-        } else if (HEX_LITERAL_REGEX.hasMatch(_field.defaultValue)) {
-          return '(${_field.defaultValue}).toDouble()';
-        } else if (INTEGER_LITERAL_REGEX.hasMatch(_field.defaultValue)) {
-          return '${_field.defaultValue}.0';
-        } else if (DECIMAL_LITERAL_REGEX_A.hasMatch(_field.defaultValue) ||
-            DECIMAL_LITERAL_REGEX_B.hasMatch(_field.defaultValue)) {
-          return '${_field.defaultValue}';
+        } else if (HEX_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
+          return '(${descriptor.defaultValue}).toDouble()';
+        } else if (INTEGER_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
+          return '${descriptor.defaultValue}.0';
+        } else if (DECIMAL_LITERAL_REGEX_A.hasMatch(descriptor.defaultValue) ||
+            DECIMAL_LITERAL_REGEX_B.hasMatch(descriptor.defaultValue)) {
+          return '${descriptor.defaultValue}';
         }
         throw _invalidDefaultValue;
       case FieldDescriptorProto_Type.TYPE_INT32:
@@ -208,16 +189,16 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_FIXED64:
       case FieldDescriptorProto_Type.TYPE_SFIXED64:
         var value = '0';
-        if (_field.hasDefaultValue()) value = _field.defaultValue;
+        if (descriptor.hasDefaultValue()) value = descriptor.defaultValue;
         if (value == '0') return 'Int64.ZERO';
         return "parseLongInt('$value')";
       case FieldDescriptorProto_Type.TYPE_STRING:
         return _getDefaultAsStringExpr(null);
       case FieldDescriptorProto_Type.TYPE_BYTES:
-        if (!_field.hasDefaultValue() || _field.defaultValue.isEmpty) {
+        if (!descriptor.hasDefaultValue() || descriptor.defaultValue.isEmpty) {
           return null;
         }
-        String byteList = _field.defaultValue.codeUnits
+        String byteList = descriptor.defaultValue.codeUnits
             .map((b) => '0x${b.toRadixString(16)}')
             .join(',');
         return '() => <int>[$byteList]';
@@ -228,8 +209,8 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_ENUM:
         var className = samePackage ? baseType.unprefixed : baseType.prefixed;
         EnumGenerator gen = baseType.generator;
-        if (_field.hasDefaultValue() && !_field.defaultValue.isEmpty) {
-          return '$className.${_field.defaultValue}';
+        if (descriptor.hasDefaultValue() && !descriptor.defaultValue.isEmpty) {
+          return '$className.${descriptor.defaultValue}';
         } else if (!gen._canonicalValues.isEmpty) {
           return '$className.${gen._canonicalValues[0].name}';
         }
@@ -240,33 +221,33 @@ class ProtobufField {
   }
 
   String _getDefaultAsBoolExpr(String noDefault) {
-    if (_field.hasDefaultValue() && 'false' != _field.defaultValue) {
-      return '${_field.defaultValue}';
+    if (descriptor.hasDefaultValue() && 'false' != descriptor.defaultValue) {
+      return '${descriptor.defaultValue}';
     }
     return noDefault;
   }
 
   String _getDefaultAsStringExpr(String noDefault) {
-    if (!_field.hasDefaultValue() || _field.defaultValue.isEmpty) {
+    if (!descriptor.hasDefaultValue() || descriptor.defaultValue.isEmpty) {
       return noDefault;
     }
     // TODO(skybrian): fix dubious escaping.
-    String value = _field.defaultValue.replaceAll(r'$', r'\$');
+    String value = descriptor.defaultValue.replaceAll(r'$', r'\$');
     return '\'$value\'';
   }
 
   String _getDefaultAsInt32Expr(String noDefault) {
-    if (_field.hasDefaultValue() && '0' != _field.defaultValue) {
-      return '${_field.defaultValue}';
+    if (descriptor.hasDefaultValue() && '0' != descriptor.defaultValue) {
+      return '${descriptor.defaultValue}';
     }
     return noDefault;
   }
 
   get _invalidDefaultValue => "dart-protoc-plugin:"
-      " invalid default value (${_field.defaultValue})"
+      " invalid default value (${descriptor.defaultValue})"
       " found in field $fqname";
 
   _typeNotImplemented(String methodName) => "dart-protoc-plugin:"
-      " $methodName not implemented for type (${_field.type})"
+      " $methodName not implemented for type (${descriptor.type})"
       " found in field $fqname";
 }

@@ -15,6 +15,7 @@ TEST_PROTO_LIST = \
 	google/protobuf/unittest_import \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest \
+	dart_name \
 	dart_options \
 	descriptor_2_5_opensource \
 	enum_extension \

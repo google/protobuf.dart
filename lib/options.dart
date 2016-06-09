@@ -46,11 +46,7 @@ bool genericOptionsParser(CodeGeneratorRequest request,
 
 /// Options expected by the protoc code generation compiler.
 class GenerationOptions {
-  /// Maps a fully qualified field name, to the desired name we wish to
-  /// generate. For example `MyMessage.has_field` to `HasFld`.
-  final Map<String, String> fieldNameOverrides;
-
-  GenerationOptions([this.fieldNameOverrides = const {}]);
+  GenerationOptions();
 }
 
 /// A parser for a name-value pair option. Options parsed in
@@ -70,47 +66,11 @@ abstract class SingleOptionParser {
 GenerationOptions parseGenerationOptions(
     CodeGeneratorRequest request, CodeGeneratorResponse response,
     [Map<String, SingleOptionParser> parsers]) {
-  var fieldNameOptionParser = new FieldNameOptionParser();
-
   var newParsers = <String, SingleOptionParser>{};
   if (parsers != null) newParsers.addAll(parsers);
-  newParsers['field_name'] = fieldNameOptionParser;
 
   if (genericOptionsParser(request, response, newParsers)) {
-    return new GenerationOptions(fieldNameOptionParser.mappings);
+    return new GenerationOptions();
   }
   return null;
-}
-
-/// A [SingleOptionParser] to parse the `field_name` option. This option
-/// overrides the default name given to some fields that would otherwise collide
-/// with existing field names in Dart core objects or in [GeneratedMessage].
-/// (see `README.md` for details).
-class FieldNameOptionParser implements SingleOptionParser {
-  /// Maps a fully qualified field name, to the desired name we wish to
-  /// generate. For example `MyMessage.has_field` to `HasFld`.
-  final Map<String, String> mappings = {};
-
-  void parse(String name, String value, onError(String message)) {
-    if (value == null) {
-      onError('Invalid field_name option, expected a non-emtpy value.');
-      return;
-    }
-
-    List<String> fromTo = value.split('|');
-    if (fromTo.length != 2) {
-      onError('Invalid field_name option, expected a single "|" separator.');
-      return;
-    }
-
-    var fromName = fromTo[0].trim();
-    var toName = fromTo[1].trim();
-    if (fromName.isEmpty || toName.isEmpty) {
-      onError('Invalid field_name option, '
-          '"from" and "to" names should not be empty.');
-      return;
-    }
-
-    mappings['.$fromName'] = toName;
-  }
 }
