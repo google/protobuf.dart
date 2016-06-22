@@ -22,7 +22,6 @@ PbMixin findMixin(String name) {
 /// Only one mixin can be applied to each message, but that mixin can depend
 /// on another mixin, recursively, similar to single inheritance.
 class PbMixin {
-
   /// The name of the mixin class to import into the .pb.dart file.
   final String name;
 
@@ -36,8 +35,7 @@ class PbMixin {
   /// May be null if the mixin doesn't reserve any new names.
   final List<String> reservedNames;
 
-  const PbMixin._raw(this.name,
-      {this.importFrom, this.parent, this.reservedNames});
+  const PbMixin(this.name, {this.importFrom, this.parent, this.reservedNames});
 
   /// Returns the mixin and its ancestors, in the order they should be applied.
   Iterable<PbMixin> findMixinsToApply() {
@@ -62,13 +60,13 @@ class PbMixin {
 }
 
 /// The mixins that findMixin() can return.
-const _exportedMixins = const [_pbMapMixin, _pbEventMixin];
+final _exportedMixins = [_pbMapMixin, _pbEventMixin];
 
-const _pbMapMixin = const PbMixin._raw("PbMapMixin",
+const _pbMapMixin = const PbMixin("PbMapMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/map_mixin.dart",
     parent: _mapMixin);
 
-const _pbEventMixin = const PbMixin._raw("PbEventMixin",
+const _pbEventMixin = const PbMixin("PbEventMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/event_mixin.dart",
     reservedNames: const ["changes", "deliverChanges"]);
 
@@ -88,6 +86,5 @@ const List<String> _reservedNamesForMap = const [
   'values',
 ];
 
-const _mapMixin = const PbMixin._raw("MapMixin",
-    importFrom: "dart:collection",
-    reservedNames: _reservedNamesForMap);
+const _mapMixin = const PbMixin("MapMixin",
+    importFrom: "dart:collection", reservedNames: _reservedNamesForMap);

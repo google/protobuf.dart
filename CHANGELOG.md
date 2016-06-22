@@ -1,3 +1,7 @@
+## 0.5.2
+
+* make PbMixin constructor public for use within protoc plugin.
+
 ## 0.5.1+5
 
 * Revert previous change because it causes strong mode type error
