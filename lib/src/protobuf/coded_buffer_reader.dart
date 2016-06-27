@@ -16,16 +16,13 @@ class CodedBufferReader {
   final int _recursionLimit;
   final int _sizeLimit;
 
-  CodedBufferReader(
-      List<int> buffer,
+  CodedBufferReader(List<int> buffer,
       {int recursionLimit: DEFAULT_RECURSION_LIMIT,
-      int sizeLimit: DEFAULT_SIZE_LIMIT}) :
-      _buffer =
-          buffer is Uint8List
-            ? buffer
-            : new Uint8List(buffer.length)..setRange(0, buffer.length, buffer),
-      _recursionLimit = recursionLimit,
-      _sizeLimit = math.min(sizeLimit, buffer.length) {
+      int sizeLimit: DEFAULT_SIZE_LIMIT})
+      : _buffer = buffer is Uint8List ? buffer : new Uint8List(buffer.length)
+          ..setRange(0, buffer.length, buffer),
+        _recursionLimit = recursionLimit,
+        _sizeLimit = math.min(sizeLimit, buffer.length) {
     _currentLimit = _sizeLimit;
   }
 
@@ -62,7 +59,7 @@ class CodedBufferReader {
   }
 
   void readGroup(int fieldNumber, GeneratedMessage message,
-                 ExtensionRegistry extensionRegistry) {
+      ExtensionRegistry extensionRegistry) {
     if (_recursionDepth >= _recursionLimit) {
       throw new InvalidProtocolBufferException.recursionLimitExceeded();
     }
@@ -84,8 +81,8 @@ class CodedBufferReader {
     return unknownFieldSet;
   }
 
-  void readMessage(GeneratedMessage message,
-                   ExtensionRegistry extensionRegistry) {
+  void readMessage(
+      GeneratedMessage message, ExtensionRegistry extensionRegistry) {
     int length = readInt32();
     if (_recursionDepth >= _recursionLimit) {
       throw new InvalidProtocolBufferException.recursionLimitExceeded();
@@ -123,13 +120,15 @@ class CodedBufferReader {
     var view = new Uint8List.view(data.buffer, data.offsetInBytes, 8);
     return new Int64.fromBytes(view);
   }
+
   bool readBool() => _readRawVarint32() != 0;
   List<int> readBytes() {
     int length = readInt32();
     _checkLimit(length);
-    return new Uint8List.view(_buffer.buffer,
-        _buffer.offsetInBytes + _bufferPos - length, length);
+    return new Uint8List.view(
+        _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
   }
+
   String readString() => _UTF8.decode(readBytes());
   double readFloat() =>
       _readByteData(4).getFloat32(0, Endianness.LITTLE_ENDIAN);
@@ -150,8 +149,11 @@ class CodedBufferReader {
   }
 
   static int _decodeZigZag32(int value) {
-    if ((value & 0x1) == 1) value = -value;
-    return value >> 1;
+    if ((value & 0x1) == 1) {
+      return -(value >> 1) - 1;
+    } else {
+      return value >> 1;
+    }
   }
 
   static Int64 _decodeZigZag64(Int64 value) {

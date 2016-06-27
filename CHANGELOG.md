@@ -1,3 +1,7 @@
+## upcoming
+
+* fix zigzag function so all coded buffer reader tests work on dart2js.
+
 ## 0.5.2
 
 * make PbMixin constructor public for use within protoc plugin.

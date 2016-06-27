@@ -3,7 +3,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@TestOn("dart-vm")
 library pb_codec_tests;
 
 import 'dart:typed_data';
@@ -186,20 +185,22 @@ void main() {
     expect(readFloat(bits), doubleEquals(value));
   }
 
+  final doubleToBytes = convertToBytes(PbFieldType.OD);
+
   void _test64(List<int> hilo, double value) {
-    readDouble(int bits) {
-      var bytes = dataToBytes(
-          new ByteData(8)..setUint64(0, bits, Endianness.LITTLE_ENDIAN));
-      return new CodedBufferReader(bytes).readDouble();
-    }
+    // Encode a double to its wire format.
+    ByteData data = makeData(doubleToBytes(value));
+    var actualHilo = [
+      data.getUint32(4, Endianness.LITTLE_ENDIAN),
+      data.getUint32(0, Endianness.LITTLE_ENDIAN)
+    ];
+    //int encoded = data.getUint64(0, Endianness.LITTLE_ENDIAN);
+    expect(actualHilo, hilo);
 
-    final doubleToBytes = convertToBytes(PbFieldType.OD);
-    doubleToBits(double value) =>
-        makeData(doubleToBytes(value)).getUint64(0, Endianness.LITTLE_ENDIAN);
-
-    int bits = (hilo[0] << 32) | hilo[1];
-    expect(doubleToBits(value), bits);
-    expect(readDouble(bits), doubleEquals(value));
+    // Decode it again (round trip).
+    List<int> bytes = dataToBytes(data);
+    double reencoded = new CodedBufferReader(bytes).readDouble();
+    expect(reencoded, doubleEquals(value));
   }
 
   test('testFloat', () {
