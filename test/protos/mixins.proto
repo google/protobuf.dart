@@ -2,7 +2,7 @@ syntax = "proto2";
 
 import "dart_options.proto";
 
-option (dart_options.imported_mixins) = {
+option (dart_options.imports) = {
   mixins: [{
     name: "Mixin1"
     import_from: "package:protoc_plugin/testing/mixins.dart"

@@ -63,7 +63,7 @@ class CodeGenerator extends ProtobufContainer {
 
       // Generate the .pb.dart file if requested.
       for (var gen in generators) {
-        var name = gen._fileDescriptor.name;
+        var name = gen.descriptor.name;
         if (request.fileToGenerate.contains(name)) {
           response.file.addAll(gen.generateFiles(config));
         }

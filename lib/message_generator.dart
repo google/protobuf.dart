@@ -9,19 +9,19 @@ class MessageGenerator extends ProtobufContainer {
   ///
   /// First searches [declaredMixins], then internal mixins declared by
   /// [findMixin].
-  static PbMixin _getMixin(DescriptorProto desc,
+  static PbMixin _getMixin(DescriptorProto desc, FileDescriptorProto file,
       Map<String, PbMixin> declaredMixins, PbMixin defaultMixin) {
-    PbMixin getMixinByName(String name) {
-      if (name.isEmpty) return null; // don't use a mixin (override any default)
-      return declaredMixins[name] ?? findMixin(name);
-    }
-
     if (!desc.hasOptions() || !desc.options.hasExtension(Dart_options.mixin)) {
       return defaultMixin;
     }
 
     String name = desc.options.getExtension(Dart_options.mixin);
-    return getMixinByName(name);
+    if (name.isEmpty) return null; // don't use any mixins (override default)
+    var mixin = declaredMixins[name] ?? findMixin(name);
+    if (mixin == null) {
+      throw '${desc.name} in ${file.name}: mixin "$name" not found';
+    }
+    return mixin;
   }
 
   final String classname;
@@ -49,7 +49,8 @@ class MessageGenerator extends ProtobufContainer {
             : (parent.fqname == '.'
                 ? '.${descriptor.name}'
                 : '${parent.fqname}.${descriptor.name}'),
-        mixin = _getMixin(descriptor, declaredMixins, defaultMixin) {
+        mixin = _getMixin(descriptor, parent.fileGen.descriptor, declaredMixins,
+            defaultMixin) {
     for (EnumDescriptorProto e in _descriptor.enumType) {
       _enumGenerators.add(new EnumGenerator(e, this));
     }

@@ -18,15 +18,14 @@ class FileGenerator extends ProtobufContainer {
   /// Does not check for existence of import files or classes.
   static Map<String, PbMixin> _getDeclaredMixins(FileDescriptorProto desc) {
     String mixinError(String error) =>
-        'Option "mixins" in file ${desc.name}: $error';
+        'Option "mixins" in ${desc.name}: $error';
 
     if (!desc.hasOptions() ||
-        !desc.options.hasExtension(Dart_options.importedMixins)) {
+        !desc.options.hasExtension(Dart_options.imports)) {
       return <String, PbMixin>{};
     }
     var dartMixins = <String, DartMixin>{};
-    ImportedMixins importedMixins =
-        desc.options.getExtension(Dart_options.importedMixins);
+    Imports importedMixins = desc.options.getExtension(Dart_options.imports);
     for (DartMixin mixin in importedMixins.mixins) {
       if (dartMixins.containsKey(mixin.name)) {
         throw mixinError('Duplicate mixin name: "${mixin.name}"');
@@ -89,7 +88,7 @@ class FileGenerator extends ProtobufContainer {
     return pbMixins;
   }
 
-  final FileDescriptorProto _fileDescriptor;
+  final FileDescriptorProto descriptor;
 
   // The relative path used to import the .proto file, as a URI.
   final Uri protoFileUri;
@@ -104,7 +103,7 @@ class FileGenerator extends ProtobufContainer {
   bool _linked = false;
 
   FileGenerator(FileDescriptorProto descriptor)
-      : _fileDescriptor = descriptor,
+      : descriptor = descriptor,
         protoFileUri = new Uri.file(descriptor.name) {
     if (protoFileUri.isAbsolute) {
       // protoc should never generate an import with an absolute path.
@@ -122,17 +121,17 @@ class FileGenerator extends ProtobufContainer {
     }
 
     // Load and register all enum and message types.
-    for (EnumDescriptorProto enumType in _fileDescriptor.enumType) {
+    for (EnumDescriptorProto enumType in descriptor.enumType) {
       enumGenerators.add(new EnumGenerator(enumType, this));
     }
-    for (DescriptorProto messageType in _fileDescriptor.messageType) {
+    for (DescriptorProto messageType in descriptor.messageType) {
       messageGenerators.add(new MessageGenerator(
           messageType, this, declaredMixins, defaultMixin));
     }
-    for (FieldDescriptorProto extension in _fileDescriptor.extension) {
+    for (FieldDescriptorProto extension in descriptor.extension) {
       extensionGenerators.add(new ExtensionGenerator(extension, this));
     }
-    for (ServiceDescriptorProto service in _fileDescriptor.service) {
+    for (ServiceDescriptorProto service in descriptor.service) {
       var serviceGen = new ServiceGenerator(service, this);
       serviceGenerators.add(serviceGen);
       clientApiGenerators.add(new ClientApiGenerator(serviceGen));
@@ -154,9 +153,9 @@ class FileGenerator extends ProtobufContainer {
     _linked = true;
   }
 
-  String get package => _fileDescriptor.package;
+  String get package => descriptor.package;
   String get classname => '';
-  String get fqname => '.${_fileDescriptor.package}';
+  String get fqname => '.${descriptor.package}';
   FileGenerator get fileGen => this;
 
   // Extract the filename from a URI and remove the extension.
@@ -176,7 +175,7 @@ class FileGenerator extends ProtobufContainer {
     if (!_linked) throw new StateError("not linked");
 
     makeFile(String extension, String content) {
-      Uri protoUrl = new Uri.file(_fileDescriptor.name);
+      Uri protoUrl = new Uri.file(descriptor.name);
       Uri dartUrl = config.outputPathFor(protoUrl, extension);
       return new CodeGeneratorResponse_File()
         ..name = dartUrl.path
@@ -235,7 +234,7 @@ class FileGenerator extends ProtobufContainer {
 
     // We only add the dart:async import if there are services in the
     // FileDescriptorProto.
-    if (_fileDescriptor.service.isNotEmpty) {
+    if (descriptor.service.isNotEmpty) {
       out.println("import 'dart:async';\n");
     }
 
@@ -461,7 +460,7 @@ import 'package:protobuf/protobuf.dart';
   ///
   /// (This should be unique to avoid warnings about duplicate Dart libraries.)
   void _writeLibraryHeading(IndentingWriter out, [String extension]) {
-    Uri filePath = new Uri.file(_fileDescriptor.name);
+    Uri filePath = new Uri.file(descriptor.name);
     if (filePath.isAbsolute) {
       // protoc should never generate a file descriptor with an absolute path.
       throw "FAILURE: File with an absolute path is not supported";
@@ -469,11 +468,11 @@ import 'package:protobuf/protobuf.dart';
 
     var libraryName = _fileNameWithoutExtension(filePath).replaceAll('-', '_');
     if (extension != null) libraryName += "_$extension";
-    if (_fileDescriptor.package != '') {
+    if (descriptor.package != '') {
       // Two .protos can be in the same proto package.
       // It isn't unique enough to use as a Dart library name.
       // But we can prepend it.
-      libraryName = _fileDescriptor.package + "_" + libraryName;
+      libraryName = descriptor.package + "_" + libraryName;
     }
     out.println('''
 ///

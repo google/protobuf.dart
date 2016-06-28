@@ -48,7 +48,7 @@ class GenerationContext {
   /// Makes info about a .pb.dart file available for reference,
   /// using the filename given to us by protoc.
   void registerProtoFile(FileGenerator f) {
-    _files[f._fileDescriptor.name] = f;
+    _files[f.descriptor.name] = f;
   }
 
   /// Makes a message, group, or enum available for reference.

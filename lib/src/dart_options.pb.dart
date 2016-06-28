@@ -5,30 +5,6 @@ library dart_options_dart_options;
 
 import 'package:protobuf/protobuf.dart';
 
-class DartOptions extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DartOptions')
-    ..hasRequiredFields = false
-  ;
-
-  DartOptions() : super();
-  DartOptions.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DartOptions.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  DartOptions clone() => new DartOptions()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static DartOptions create() => new DartOptions();
-  static PbList<DartOptions> createRepeated() => new PbList<DartOptions>();
-  static DartOptions getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDartOptions();
-    return _defaultInstance;
-  }
-  static DartOptions _defaultInstance;
-  static void $checkItem(DartOptions v) {
-    if (v is !DartOptions) checkItemFailed(v, 'DartOptions');
-  }
-}
-
-class _ReadonlyDartOptions extends DartOptions with ReadonlyMessageMixin {}
-
 class DartMixin extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DartMixin')
     ..a/*<String>*/(1, 'name', PbFieldType.OS)
@@ -71,44 +47,42 @@ class DartMixin extends GeneratedMessage {
 
 class _ReadonlyDartMixin extends DartMixin with ReadonlyMessageMixin {}
 
-class ImportedMixins extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('ImportedMixins')
+class Imports extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('Imports')
     ..pp/*<DartMixin>*/(1, 'mixins', PbFieldType.PM, DartMixin.$checkItem, DartMixin.create)
     ..hasRequiredFields = false
   ;
 
-  ImportedMixins() : super();
-  ImportedMixins.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  ImportedMixins.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  ImportedMixins clone() => new ImportedMixins()..mergeFromMessage(this);
+  Imports() : super();
+  Imports.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  Imports.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  Imports clone() => new Imports()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static ImportedMixins create() => new ImportedMixins();
-  static PbList<ImportedMixins> createRepeated() => new PbList<ImportedMixins>();
-  static ImportedMixins getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyImportedMixins();
+  static Imports create() => new Imports();
+  static PbList<Imports> createRepeated() => new PbList<Imports>();
+  static Imports getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyImports();
     return _defaultInstance;
   }
-  static ImportedMixins _defaultInstance;
-  static void $checkItem(ImportedMixins v) {
-    if (v is !ImportedMixins) checkItemFailed(v, 'ImportedMixins');
+  static Imports _defaultInstance;
+  static void $checkItem(Imports v) {
+    if (v is !Imports) checkItemFailed(v, 'Imports');
   }
 
   List<DartMixin> get mixins => $_get(0, 1, null);
 }
 
-class _ReadonlyImportedMixins extends ImportedMixins with ReadonlyMessageMixin {}
+class _ReadonlyImports extends Imports with ReadonlyMessageMixin {}
 
 class Dart_options {
-  static final Extension importedMixins = new Extension<ImportedMixins>('FileOptions', 'importedMixins', 28125061, PbFieldType.OM, ImportedMixins.getDefault, ImportedMixins.create);
+  static final Extension imports = new Extension<Imports>('FileOptions', 'imports', 28125061, PbFieldType.OM, Imports.getDefault, Imports.create);
   static final Extension defaultMixin = new Extension<String>('FileOptions', 'defaultMixin', 96128839, PbFieldType.OS);
   static final Extension mixin = new Extension<String>('MessageOptions', 'mixin', 96128839, PbFieldType.OS);
-  static final Extension override = new Extension<bool>('FieldOptions', 'override', 28205290, PbFieldType.OB);
   static final Extension dartName = new Extension<String>('FieldOptions', 'dartName', 28700919, PbFieldType.OS);
   static void registerAllExtensions(ExtensionRegistry registry) {
-    registry.add(importedMixins);
+    registry.add(imports);
     registry.add(defaultMixin);
     registry.add(mixin);
-    registry.add(override);
     registry.add(dartName);
   }
 }
