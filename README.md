@@ -1,11 +1,26 @@
 Protoc compiler Dart plugin
 ===========================
 
-This application provides a plugin for protoc compiler which
-generates pure Dart library to deal with protobufs.
+This repository provides a plugin for the [protoc compiler](
+https://developers.google.com/protocol-buffers/docs/cpptutorial#compiling-your-protocol-buffers).
+It generates Dart files for working with data in protocol buffers format. At
+this time we only support [proto2](
+https://developers.google.com/protocol-buffers/docs/proto), but proto3 may work
+in simple cases due to backwards compatibility.
 
-Please, do not forget that generated libraries depend on runtime
-support library which can be found [here](https://github.com/dart-lang/dart-protobuf).
+Requirements
+------------
+
+To compile a .proto file, you must use the 'protoc' command which is
+[installed separately](
+https://developers.google.com/protocol-buffers/docs/downloads).
+Protobuf 2.6.1 or above is recommended. Many features may still work as far back
+as Protobuf 2.5.0 but we are no longer testing this.
+
+The generated files are pure Dart code that run in either in the Dart VM or in a
+browser (using dart2js). They depend the [protobuf Dart package](
+https://pub.dartlang.org/packages/protobuf). A Dart project that includes
+generated files should add "protobuf" to its pubspec.yaml file.
 
 How to build and use
 --------------------
@@ -40,7 +55,7 @@ options `<option 1>` and `<option 2>` like this:
 Using protocol buffer libraries to build new libraries
 ------------------------------------------------------
 
-The protocol buffer compiler produces one library for each `.proto` file
+The protocol buffer compiler produces several files for each `.proto` file
 it compiles. In some cases this is not exactly what is needed, e.g one
 would like to create new libraries which exposes the objects in these
 libraries or create new librares combining object definitions from
@@ -80,10 +95,14 @@ adds som additional methods.
 Hacking
 -------
 
-You need to have `protoc` installed.
+Here are some ways to get protoc:
 
-* Linux Aptitude: `apt-get install protobuf-compiler`
+* Linux: `apt-get install protobuf-compiler`
 * Mac [homebrew](http://brew.sh/): `brew install protobuf`
+
+If the version installed this way doesn't work, an alternative is to
+[compile protoc from source](
+https://developers.google.com/protocol-buffers/docs/downloads).
 
 Remember to run the tests. That is as easy as `make run-tests`.
 
