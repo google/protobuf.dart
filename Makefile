@@ -21,6 +21,7 @@ TEST_PROTO_LIST = \
 	enum_extension \
 	map_api \
 	map_api2 \
+	mixins \
 	multiple_files_test \
 	nested_extension \
 	non_nested_extension \

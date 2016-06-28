@@ -18,6 +18,7 @@ import 'json_test.dart' as json;
 import 'map_test.dart' as map;
 import 'message_generator_test.dart' as message_generator;
 import 'message_test.dart' as message;
+import 'mixin_test.dart' as mixin;
 import 'protoc_options_test.dart' as protoc_options;
 import 'repeated_field_test.dart' as repeated_field;
 import 'service_test.dart' as service;
@@ -40,6 +41,7 @@ void main() {
   map.main();
   message_generator.main();
   message.main();
+  mixin.main();
   protoc_options.main();
   repeated_field.main();
   service.main();

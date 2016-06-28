@@ -7,9 +7,10 @@ library message_generator_test;
 
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
+import 'package:test/test.dart';
+
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/plugin.pb.dart';
-import 'package:test/test.dart';
 
 void main() {
   test('testMessageGenerator', () {
@@ -127,7 +128,7 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
     FileGenerator fg = new FileGenerator(fd);
-    MessageGenerator mg = new MessageGenerator(md, fg, null);
+    MessageGenerator mg = new MessageGenerator(md, fg, {}, null);
 
     var ctx = new GenerationContext(options);
     mg.register(ctx);

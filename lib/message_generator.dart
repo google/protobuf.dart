@@ -5,18 +5,23 @@
 part of protoc;
 
 class MessageGenerator extends ProtobufContainer {
-  // Returns the mixin for this message, or null if none.
-  static PbMixin _getMixin(DescriptorProto desc, PbMixin defaultValue) {
-    if (!desc.hasOptions()) return defaultValue;
-    if (!desc.options.hasExtension(Dart_options.mixin)) return defaultValue;
+  /// Returns the mixin for this message, or null if none.
+  ///
+  /// First searches [declaredMixins], then internal mixins declared by
+  /// [findMixin].
+  static PbMixin _getMixin(DescriptorProto desc,
+      Map<String, PbMixin> declaredMixins, PbMixin defaultMixin) {
+    PbMixin getMixinByName(String name) {
+      if (name.isEmpty) return null; // don't use a mixin (override any default)
+      return declaredMixins[name] ?? findMixin(name);
+    }
+
+    if (!desc.hasOptions() || !desc.options.hasExtension(Dart_options.mixin)) {
+      return defaultMixin;
+    }
 
     String name = desc.options.getExtension(Dart_options.mixin);
-    if (name.isEmpty) return null; // don't use a mixin (override any default)
-    var mixin = findMixin(name);
-    if (mixin == null) {
-      throw ("unknown mixin class: ${name}");
-    }
-    return mixin;
+    return getMixinByName(name);
   }
 
   final String classname;
@@ -33,7 +38,7 @@ class MessageGenerator extends ProtobufContainer {
   List<ProtobufField> _fieldList;
 
   MessageGenerator(DescriptorProto descriptor, ProtobufContainer parent,
-      PbMixin defaultMixin)
+      Map<String, PbMixin> declaredMixins, PbMixin defaultMixin)
       : _descriptor = descriptor,
         _parent = parent,
         classname = (parent.classname == '')
@@ -44,13 +49,14 @@ class MessageGenerator extends ProtobufContainer {
             : (parent.fqname == '.'
                 ? '.${descriptor.name}'
                 : '${parent.fqname}.${descriptor.name}'),
-        mixin = _getMixin(descriptor, defaultMixin) {
+        mixin = _getMixin(descriptor, declaredMixins, defaultMixin) {
     for (EnumDescriptorProto e in _descriptor.enumType) {
       _enumGenerators.add(new EnumGenerator(e, this));
     }
 
     for (DescriptorProto n in _descriptor.nestedType) {
-      _messageGenerators.add(new MessageGenerator(n, this, defaultMixin));
+      _messageGenerators
+          .add(new MessageGenerator(n, this, declaredMixins, defaultMixin));
     }
 
     for (FieldDescriptorProto x in _descriptor.extension) {

@@ -10,7 +10,37 @@ package dart_options;
 
 import "descriptor_2_5_opensource.proto";
 
+// A mixin to be applied in the 'with' clause of a generated proto in dart.
+message DartMixin {
+  // Class name of the mixin class.
+  optional string name = 1;
+
+  // File from which the mixin class is imported.
+  // The generated Dart code will use this in an import statement.
+  optional string import_from = 2;
+
+  // Used to apply multiple mixins to a proto.
+  // The mixin listed in parent will always be applied before this one,
+  // making the generated proto implement both mixins.
+  optional string parent = 3;
+}
+
+// Defines mixins imported from dart files to be used on messages in this file.
+message ImportedMixins {
+
+  // The DartMixins to be imported.
+  repeated DartMixin mixins = 1;
+}
+
 extend google.protobuf.FileOptions {
+
+  // Defines the named mixins to be used on messages in this file.
+  // These mixins are in addition to internally defined mixins (e.g PbMapMixin)
+  // and may override them.
+  // Warning: there is no checking at compile time for name conflicts between
+  // identifiers defined in the mixin and proto-generated identifiers.
+  // Running dartanalyzer on the generated file might find some of them.
+  optional ImportedMixins imported_mixins = 28125061;
 
   // Applies the named mixin to all messages in this file.
   // (May be overridden by the "mixin" option on a message.)

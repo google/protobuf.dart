@@ -4,23 +4,89 @@
 
 part of protoc;
 
+final _dartIdentifier = new RegExp(r'^\w+$');
+
 /// Generates the Dart output files for one .proto input file.
 ///
 /// Outputs include .pb.dart, pbenum.dart, and .pbjson.dart.
 class FileGenerator extends ProtobufContainer {
-  /// Returns the the mixin to use by default in this file,
-  /// or null for no mixin by default.
-  static PbMixin _getDefaultMixin(FileDescriptorProto desc) {
-    if (!desc.hasOptions()) return null;
-    if (!desc.options.hasExtension(Dart_options.defaultMixin)) {
-      return null;
+  /// Reads and the declared mixins in the file, keyed by name.
+  ///
+  /// Performs some basic validation on declared mixins, e.g. whether names
+  /// are valid dart identifiers and whether there are cycles in the `parent`
+  /// hierarchy.
+  /// Does not check for existence of import files or classes.
+  static Map<String, PbMixin> _getDeclaredMixins(FileDescriptorProto desc) {
+    String mixinError(String error) =>
+        'Option "mixins" in file ${desc.name}: $error';
+
+    if (!desc.hasOptions() ||
+        !desc.options.hasExtension(Dart_options.importedMixins)) {
+      return <String, PbMixin>{};
     }
-    var name = desc.options.getExtension(Dart_options.defaultMixin);
-    PbMixin mixin = findMixin(name);
-    if (mixin == null) {
-      throw ("unknown mixin class: ${name}");
+    var dartMixins = <String, DartMixin>{};
+    ImportedMixins importedMixins =
+        desc.options.getExtension(Dart_options.importedMixins);
+    for (DartMixin mixin in importedMixins.mixins) {
+      if (dartMixins.containsKey(mixin.name)) {
+        throw mixinError('Duplicate mixin name: "${mixin.name}"');
+      }
+      if (!mixin.name.startsWith(_dartIdentifier)) {
+        throw mixinError(
+            '"${mixin.name}" is not a valid dart class identifier');
+      }
+      if (mixin.hasParent() && !mixin.parent.startsWith(_dartIdentifier)) {
+        throw mixinError('Mixin parent "${mixin.parent}" of "${mixin.name}" is '
+            'not a valid dart class identifier');
+      }
+      dartMixins[mixin.name] = mixin;
     }
-    return mixin;
+
+    // Detect cycles and unknown parents.
+    for (var mixin in dartMixins.values) {
+      if (!mixin.hasParent()) continue;
+      var currentMixin = mixin;
+      var parentChain = <String>[];
+      while (currentMixin.hasParent()) {
+        var parentName = currentMixin.parent;
+
+        bool declaredMixin = dartMixins.containsKey(parentName);
+        bool internalMixin = !declaredMixin && findMixin(parentName) != null;
+
+        if (internalMixin) break; // No further validation of parent chain.
+
+        if (!declaredMixin) {
+          throw mixinError('Unknown mixin parent "${mixin.parent}" of '
+              '"${currentMixin.name}"');
+        }
+
+        if (parentChain.contains(parentName)) {
+          var cycle = parentChain.join('->') + '->$parentName';
+          throw mixinError('Cycle in parent chain: $cycle');
+        }
+        parentChain.add(parentName);
+        currentMixin = dartMixins[parentName];
+      }
+    }
+
+    // Turn DartMixins into PbMixins.
+    final pbMixins = <String, PbMixin>{};
+    PbMixin resolveMixin(String name) {
+      if (pbMixins.containsKey(name)) return pbMixins[name];
+      if (dartMixins.containsKey(name)) {
+        var dartMixin = dartMixins[name];
+        var pbMixin = new PbMixin(dartMixin.name,
+            importFrom: dartMixin.importFrom,
+            parent: resolveMixin(dartMixin.parent));
+        pbMixins[name] = pbMixin;
+        return pbMixin;
+      }
+      return findMixin(name);
+    }
+    for (var mixin in dartMixins.values) {
+      resolveMixin(mixin.name);
+    }
+    return pbMixins;
   }
 
   final FileDescriptorProto _fileDescriptor;
@@ -45,15 +111,23 @@ class FileGenerator extends ProtobufContainer {
       throw "FAILURE: Import with absolute path is not supported";
     }
 
-    var defaultMixin = _getDefaultMixin(_fileDescriptor);
+    var declaredMixins = _getDeclaredMixins(descriptor);
+    var defaultMixinName =
+        descriptor.options?.getExtension(Dart_options.defaultMixin) ?? '';
+    var defaultMixin =
+        declaredMixins[defaultMixinName] ?? findMixin(defaultMixinName);
+    if (defaultMixin == null && defaultMixinName.isNotEmpty) {
+      throw ('Option default_mixin on file ${descriptor.name}: Unknown mixin '
+          '$defaultMixinName');
+    }
 
     // Load and register all enum and message types.
     for (EnumDescriptorProto enumType in _fileDescriptor.enumType) {
       enumGenerators.add(new EnumGenerator(enumType, this));
     }
     for (DescriptorProto messageType in _fileDescriptor.messageType) {
-      messageGenerators
-          .add(new MessageGenerator(messageType, this, defaultMixin));
+      messageGenerators.add(new MessageGenerator(
+          messageType, this, declaredMixins, defaultMixin));
     }
     for (FieldDescriptorProto extension in _fileDescriptor.extension) {
       extensionGenerators.add(new ExtensionGenerator(extension, this));
