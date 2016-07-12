@@ -1,4 +1,4 @@
-## upcoming
+## 0.5.3
 
 * fix zigzag function so all coded buffer reader tests work on dart2js.
 
