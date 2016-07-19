@@ -59,6 +59,19 @@ extend google.protobuf.MessageOptions {
 }
 
 extend google.protobuf.FieldOptions {
+  // Adds @override annotation to the field's getter (for use with mixins).
+  optional bool override_getter = 28205290;
+
+  // Adds @override annotation to the field's setter (for use with mixins).
+  optional bool override_setter = 28937366;
+
+  // Adds @override annotation to the field's hasX() method (for use with
+  // mixins).
+  optional bool override_has_method = 28937461;
+
+  // Adds @override annotation to the field's clearX() method (for use with
+  // mixins).
+  optional bool override_clear_method = 28907907;
 
   // Uses the given name for getters, setters and as suffixes for has/clear
   // methods in the generated Dart file. Should be lowerCamelCase.

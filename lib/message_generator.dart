@@ -311,11 +311,26 @@ class MessageGenerator extends ProtobufContainer {
       var defaultExpr = field.getDefaultExpr();
       var names = field.memberNames;
 
+      _emitOverrideIf(field.overridesGetter, out);
       out.println('${fieldTypeString} get ${names.fieldName}'
           ' => \$_get('
           '${field.index}, ${field.number}, $defaultExpr);');
-      if (!field.isRepeated) {
+      if (field.isRepeated) {
+        if (field.overridesSetter) {
+          throw 'Field ${field.fqname} cannot override a setter for '
+              '${names.fieldName} because it is repeated.';
+        }
+        if (field.overridesHasMethod) {
+          throw 'Field ${field.fqname} cannot override '
+              '${names.hasMethodName}() because it is repeated.';
+        }
+        if (field.overridesClearMethod) {
+          throw 'Field ${field.fqname} cannot override '
+              '${names.clearMethodName}() because it is repeated.';
+        }
+      } else {
         var fastSetter = field.baseType.setter;
+        _emitOverrideIf(field.overridesSetter, out);
         if (fastSetter != null) {
           out.println('void set ${names.fieldName}'
               '($fieldTypeString v) { '
@@ -327,11 +342,19 @@ class MessageGenerator extends ProtobufContainer {
               'setField(${field.number}, v);'
               ' }');
         }
+        _emitOverrideIf(field.overridesHasMethod, out);
         out.println('bool ${names.hasMethodName}() =>'
             ' \$_has(${field.index}, ${field.number});');
+        _emitOverrideIf(field.overridesClearMethod, out);
         out.println('void ${names.clearMethodName}() =>'
             ' clearField(${field.number});');
       }
+    }
+  }
+
+  void _emitOverrideIf(bool condition, IndentingWriter out) {
+    if (condition) {
+      out.println('@override');
     }
   }
 

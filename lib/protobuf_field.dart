@@ -55,6 +55,20 @@ class ProtobufField {
   bool get isPacked =>
       isRepeated && descriptor.options != null && descriptor.options.packed;
 
+  /// Whether the field has the `overrideGetter` annotation set to true.
+  bool get overridesGetter => _hasBooleanOption(Dart_options.overrideGetter);
+
+  /// Whether the field has the `overrideSetter` annotation set to true.
+  bool get overridesSetter => _hasBooleanOption(Dart_options.overrideSetter);
+
+  /// Whether the field has the `overrideHasMethod` annotation set to true.
+  bool get overridesHasMethod =>
+      _hasBooleanOption(Dart_options.overrideHasMethod);
+
+  /// Whether the field has the `overrideClearMethod` annotation set to true.
+  bool get overridesClearMethod =>
+      _hasBooleanOption(Dart_options.overrideClearMethod);
+
   /// True if this field uses the Int64 from the fixnum package.
   bool get needsFixnumImport => baseType.unprefixed == "Int64";
 
@@ -242,6 +256,9 @@ class ProtobufField {
     }
     return noDefault;
   }
+
+  bool _hasBooleanOption(Extension extension) =>
+      descriptor?.options?.getExtension(extension) ?? false;
 
   get _invalidDefaultValue => "dart-protoc-plugin:"
       " invalid default value (${descriptor.defaultValue})"

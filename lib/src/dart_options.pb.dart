@@ -78,11 +78,19 @@ class Dart_options {
   static final Extension imports = new Extension<Imports>('FileOptions', 'imports', 28125061, PbFieldType.OM, Imports.getDefault, Imports.create);
   static final Extension defaultMixin = new Extension<String>('FileOptions', 'defaultMixin', 96128839, PbFieldType.OS);
   static final Extension mixin = new Extension<String>('MessageOptions', 'mixin', 96128839, PbFieldType.OS);
+  static final Extension overrideGetter = new Extension<bool>('FieldOptions', 'overrideGetter', 28205290, PbFieldType.OB);
+  static final Extension overrideSetter = new Extension<bool>('FieldOptions', 'overrideSetter', 28937366, PbFieldType.OB);
+  static final Extension overrideHasMethod = new Extension<bool>('FieldOptions', 'overrideHasMethod', 28937461, PbFieldType.OB);
+  static final Extension overrideClearMethod = new Extension<bool>('FieldOptions', 'overrideClearMethod', 28907907, PbFieldType.OB);
   static final Extension dartName = new Extension<String>('FieldOptions', 'dartName', 28700919, PbFieldType.OS);
   static void registerAllExtensions(ExtensionRegistry registry) {
     registry.add(imports);
     registry.add(defaultMixin);
     registry.add(mixin);
+    registry.add(overrideGetter);
+    registry.add(overrideSetter);
+    registry.add(overrideHasMethod);
+    registry.add(overrideClearMethod);
     registry.add(dartName);
   }
 }

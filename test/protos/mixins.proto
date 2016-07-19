@@ -8,8 +8,8 @@ option (dart_options.imports) = {
     import_from: "package:protoc_plugin/testing/mixins.dart"
   },
   {
-   name: "Mixin2"
-   import_from: "package:protoc_plugin/testing/mixins.dart"
+    name: "Mixin2"
+    import_from: "package:protoc_plugin/testing/mixins.dart"
   },
   {
     name: "Mixin3"
@@ -25,17 +25,27 @@ message NoMixinPB {
 }
 
 message Mixin1PB {
-  optional string interface_string = 1;
+  optional string interface_string = 1 [
+    (dart_options.override_getter) = true,
+    (dart_options.override_setter) = true,
+    (dart_options.override_has_method) = true
+  ];
 }
 
 message Mixin2PB {
   option (dart_options.mixin) = "Mixin2";
 
-  optional string overridden_has_method = 3;
+  optional string overridden_has_method = 3 [
+    (dart_options.override_has_method) = true
+  ];
 }
 
 message Mixin3PB {
   option (dart_options.mixin) = "Mixin3";
 
-  optional string interface_string = 1;
+  optional string interface_string = 1 [
+    (dart_options.override_getter) = true,
+    (dart_options.override_setter) = true,
+    (dart_options.override_has_method) = true
+  ];
 }
