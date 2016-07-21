@@ -59,4 +59,5 @@ const List<String> GeneratedMessage_reservedNames = const [
   r'$_setSignedInt32',
   r'$_setUnsignedInt32',
   r'$_setInt64',
+  'toDebugString',
 ];

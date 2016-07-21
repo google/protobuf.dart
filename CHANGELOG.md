@@ -1,3 +1,8 @@
+## 0.5.3+1
+
+* Performance: Avoid excessive cloning in merge.
+* Performance: Use code patterns that dart2js handles better.
+
 ## 0.5.3
 
 * fix zigzag function so all coded buffer reader tests work on dart2js.

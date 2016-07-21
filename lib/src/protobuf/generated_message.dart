@@ -84,7 +84,13 @@ abstract class GeneratedMessage {
   ///
   /// Note that this format is absolutely subject to change, and should only
   /// ever be used for debugging.
-  String toString() {
+  String toString() => toDebugString();
+
+  /// Returns a String representation of this message.
+  ///
+  /// This generates the same output as [toString], but can be used by mixins
+  /// to compose debug strings with additional information.
+  String toDebugString() {
     var out = new StringBuffer();
     _fieldSet.writeString(out, '');
     return out.toString();

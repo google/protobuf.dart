@@ -4,8 +4,6 @@
 
 part of protobuf;
 
-final _emptyList = new List.unmodifiable([]);
-
 /// All the data in a GeneratedMessage.
 ///
 /// These fields and methods are in a separate class to avoid
@@ -32,7 +30,7 @@ class _FieldSet {
         _values = _makeValueList(meta.fieldInfo);
 
   static _makeValueList(Map<int, FieldInfo> infos) {
-    if (infos.isEmpty) return _emptyList;
+    if (infos.isEmpty) return const [];
     return new List(infos.length);
   }
 
@@ -112,7 +110,7 @@ class _FieldSet {
 
   _getDefault(FieldInfo fi) {
     if (!fi.isRepeated) return fi.makeDefault();
-    if (_isReadOnly) return _emptyList;
+    if (_isReadOnly) return const [];
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:
@@ -450,46 +448,22 @@ class _FieldSet {
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
   void _mergeFromMessage(_FieldSet other) {
-    void mergeField(FieldInfo otherFi, fieldValue) {
-      int tagNumber = otherFi.tagNumber;
 
-      // Determine the FieldInfo to use.
-      // Don't allow regular fields to be overwritten by extensions.
-      var fi = _nonExtensionInfo(tagNumber);
-      if (fi == null && otherFi is Extension) {
-        // This will overwrite any existing extension field info.
-        fi = otherFi;
-      }
+    // TODO(https://github.com/dart-lang/dart-protobuf/issues/60): Recognize
+    // when [this] and [other] are the same protobuf (e.g. from cloning). In
+    // this case, we can merge the non-extension fields without field lookups or
+    // validation checks.
 
-      var cloner = (x) => x;
-      if (_isGroupOrMessage(otherFi.type)) {
-        cloner = (message) => message.clone();
-      }
-
-      if (fi.isRepeated) {
-        _ensureRepeatedField(fi).addAll(new List.from(fieldValue).map(cloner));
-        return;
-      }
-
-      fieldValue = cloner(fieldValue);
-      if (fi.index == null) {
-        _ensureExtensions()._setFieldAndInfo(fi, fieldValue);
-      } else {
-        _validateField(fi, fieldValue);
-        _setNonExtensionFieldUnchecked(fi, fieldValue);
-      }
-    }
-
-    for (var fi in other._infos) {
+    for (FieldInfo fi in other._infosSortedByTag) {
       var value = other._values[fi.index];
-      if (value != null) mergeField(fi, value);
+      if (value != null) _mergeField(fi, value);
     }
     if (other._hasExtensions) {
       var others = other._extensions;
       for (int tagNumber in others._tagNumbers) {
         var extension = others._getInfoOrNull(tagNumber);
         var value = others._getFieldOrNull(extension);
-        mergeField(extension, value);
+        _mergeField(extension, value);
       }
     }
 
@@ -497,6 +471,49 @@ class _FieldSet {
       _ensureUnknownFields().mergeFromUnknownFieldSet(other._unknownFields);
     }
   }
+
+  void _mergeField(FieldInfo otherFi, fieldValue) {
+    int tagNumber = otherFi.tagNumber;
+
+    // Determine the FieldInfo to use.
+    // Don't allow regular fields to be overwritten by extensions.
+    var fi = _nonExtensionInfo(tagNumber);
+    if (fi == null && otherFi is Extension) {
+      // This will overwrite any existing extension field info.
+      fi = otherFi;
+    }
+
+    bool mustClone = _isGroupOrMessage(otherFi.type);
+
+    if (fi.isRepeated) {
+      if (mustClone) {
+        // Copy the mapped values to a List to avoid redundant cloning (since
+        // PbList.addAll iterates over its argument twice).
+        _ensureRepeatedField(fi)
+            .addAll(new List.from(fieldValue.map(_cloneMessage)));
+      } else {
+        _ensureRepeatedField(fi).addAll(fieldValue);
+      }
+      return;
+    }
+
+    if (mustClone) {
+      fieldValue = _cloneMessage(fieldValue);
+    }
+    if (fi.index == null) {
+      _ensureExtensions()._setFieldAndInfo(fi, fieldValue);
+    } else {
+      _validateField(fi, fieldValue);
+      _setNonExtensionFieldUnchecked(fi, fieldValue);
+    }
+  }
+
+  // This function is declared as a static method rather than an in-place
+  // closure since dart2js does not currently hoist closures with no captured
+  // variables (See http://dartbug.com/26932), and dart2js will inline this
+  // version at the direct call site.
+  static GeneratedMessage _cloneMessage(GeneratedMessage message) =>
+      message.clone();
 
   // Error-checking
 

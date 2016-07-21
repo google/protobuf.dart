@@ -117,13 +117,13 @@ class BuilderInfo {
   }
 
   /// Returns the FieldInfo for each field in tag number order.
-  List<FieldInfo> get sortedByTag {
-    if (_sortedByTag != null) return _sortedByTag;
+  List<FieldInfo> get sortedByTag => _sortedByTag ??= _computeSortedByTag();
+
+  List<FieldInfo> _computeSortedByTag() {
     // TODO(skybrian): perhaps the code generator should insert the FieldInfos
     // in tag number order, to avoid sorting them?
-    _sortedByTag = new List<FieldInfo>.from(fieldInfo.values)
-      ..sort((a, b) => a.tagNumber.compareTo(b.tagNumber));
-    return _sortedByTag;
+    return new List<FieldInfo>.from(fieldInfo.values, growable: false)
+      ..sort((FieldInfo a, FieldInfo b) => a.tagNumber.compareTo(b.tagNumber));
   }
 
   GeneratedMessage _makeEmptyMessage(
