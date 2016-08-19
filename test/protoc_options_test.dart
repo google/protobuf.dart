@@ -28,7 +28,7 @@ void main() {
   });
 
   test('testInvalidGeneratorOptions', () {
-      checkInvalid(String parameter) {
+    checkInvalid(String parameter) {
       var request = new CodeGeneratorRequest();
       if (parameter != null) request.parameter = parameter;
       var response = new CodeGeneratorResponse();

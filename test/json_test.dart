@@ -44,42 +44,42 @@ void main() {
 
     // Test empty list.
     expect(getAllSet()..repeatedBool.clear(),
-           expectedJson('"43":[true,false],', ''));
+        expectedJson('"43":[true,false],', ''));
 
     // Test negative number.
     expect(getAllSet()..optionalInt32 = -1234567,
-           expectedJson(':101,', ':-1234567,'));
+        expectedJson(':101,', ':-1234567,'));
 
     // 64-bit numbers outside 53-bit range are quoted.
     expect(getAllSet()..optionalInt64 = make64(0, 0x200000),
-           expectedJson(':102,', ':9007199254740992,'));
+        expectedJson(':102,', ':9007199254740992,'));
     expect(getAllSet()..optionalInt64 = make64(1, 0x200000),
-           expectedJson(':102,', ':"9007199254740993",'));
+        expectedJson(':102,', ':"9007199254740993",'));
     expect(getAllSet()..optionalInt64 = -make64(0, 0x200000),
-           expectedJson(':102,', ':-9007199254740992,'));
+        expectedJson(':102,', ':-9007199254740992,'));
     expect(getAllSet()..optionalInt64 = -make64(1, 0x200000),
-           expectedJson(':102,', ':"-9007199254740993",'));
+        expectedJson(':102,', ':"-9007199254740993",'));
 
     // Quotes, backslashes, and control characters in strings are quoted.
     expect(getAllSet()..optionalString = 'a\u0000b\u0001cd\\e\"fg',
-           expectedJson(':"115",', ':"a\\u0000b\\u0001cd\\\\e\\"fg",'));
+        expectedJson(':"115",', ':"a\\u0000b\\u0001cd\\\\e\\"fg",'));
   });
 
   test('testBase64Encode', () {
     expect(getAllSet()..optionalBytes = 'Hello, world'.codeUnits,
-           expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'));
+        expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'));
 
     expect(getAllSet()..optionalBytes = 'Hello, world!'.codeUnits,
-           expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'));
+        expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'));
 
     expect(getAllSet()..optionalBytes = 'Hello, world!!'.codeUnits,
-           expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkISE=",'));
+        expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkISE=",'));
 
     // An empty list should not appear in the output.
     expect(getAllSet()..optionalBytes = [], expectedJson('"15":"MTE2",', ''));
 
     expect(getAllSet()..optionalBytes = 'a'.codeUnits,
-           expectedJson(':"MTE2",', ':"YQ==",'));
+        expectedJson(':"MTE2",', ':"YQ==",'));
   });
 
   test('testBase64Decode', () {
@@ -91,11 +91,11 @@ void main() {
 
     expect(optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'), 'Hello, world');
 
-    expect(optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'),
-           'Hello, world!');
+    expect(
+        optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'), 'Hello, world!');
 
     expect(optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxkISE=",'),
-           'Hello, world!!');
+        'Hello, world!!');
 
     // Remove optionalBytes tag, reads back as empty list, hence empty string.
     expect(optionalBytes('"15":"MTE2",', ''), isEmpty);
@@ -117,6 +117,6 @@ void main() {
   test('testExtensionsParse', () {
     ExtensionRegistry registry = getExtensionRegistry();
     expect(new TestAllExtensions.fromJson(TEST_ALL_TYPES_JSON, registry),
-           getAllExtensionsSet());
+        getAllExtensionsSet());
   });
 }

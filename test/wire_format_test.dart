@@ -30,7 +30,7 @@ void main() {
 
   test('testSerializePackedExtensions', () {
     expect(getPackedExtensionsSet().writeToBuffer(),
-           getPackedSet().writeToBuffer());
+        getPackedSet().writeToBuffer());
   });
 
   test('testParseExtensions', () {
@@ -61,15 +61,15 @@ void main() {
     // Make sure we can parse a message that contains multiple extensions
     // ranges.
     TestFieldOrderings source = new TestFieldOrderings()
-        ..myInt = make64(1)
-        ..myString = 'foo'
-        ..myFloat = 1.0
-        ..setExtension(Unittest.myExtensionInt, 23)
-        ..setExtension(Unittest.myExtensionString, 'bar');
+      ..myInt = make64(1)
+      ..myString = 'foo'
+      ..myFloat = 1.0
+      ..setExtension(Unittest.myExtensionInt, 23)
+      ..setExtension(Unittest.myExtensionString, 'bar');
 
     ExtensionRegistry registry = new ExtensionRegistry()
-        ..add(Unittest.myExtensionInt)
-        ..add(Unittest.myExtensionString);
+      ..add(Unittest.myExtensionInt)
+      ..add(Unittest.myExtensionString);
 
     TestFieldOrderings dest =
         new TestFieldOrderings.fromBuffer(source.writeToBuffer(), registry);

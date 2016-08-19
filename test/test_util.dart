@@ -11,7 +11,6 @@ import 'package:test/test.dart';
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
-
 Int64 make64(lo, [hi = null]) {
   if (hi == null) hi = lo < 0 ? -1 : 0;
   return new Int64.fromInts(hi, lo);
@@ -43,8 +42,8 @@ void assertAllExtensionsSet(TestAllExtensions message) {
 
   expect(message.hasExtension(Unittest.optionalGroupExtension), isTrue);
   expect(message.hasExtension(Unittest.optionalNestedMessageExtension), isTrue);
-  expect(message.hasExtension(Unittest.optionalForeignMessageExtension),
-      isTrue);
+  expect(
+      message.hasExtension(Unittest.optionalForeignMessageExtension), isTrue);
   expect(message.hasExtension(Unittest.optionalImportMessageExtension), isTrue);
 
   expect(message.getExtension(Unittest.optionalGroupExtension).hasA(), isTrue);
@@ -69,17 +68,17 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.optionalSint32Extension), 105);
   expect(message.getExtension(Unittest.optionalSint64Extension), expect64(106));
   expect(message.getExtension(Unittest.optionalFixed32Extension), 107);
-  expect(message.getExtension(Unittest.optionalFixed64Extension),
-         expect64(108));
+  expect(
+      message.getExtension(Unittest.optionalFixed64Extension), expect64(108));
   expect(message.getExtension(Unittest.optionalSfixed32Extension), 109);
-  expect(message.getExtension(Unittest.optionalSfixed64Extension),
-         expect64(110));
+  expect(
+      message.getExtension(Unittest.optionalSfixed64Extension), expect64(110));
   expect(message.getExtension(Unittest.optionalFloatExtension), 111.0);
   expect(message.getExtension(Unittest.optionalDoubleExtension), 112.0);
   expect(message.getExtension(Unittest.optionalBoolExtension), true);
   expect(message.getExtension(Unittest.optionalStringExtension), '115');
-  expect(message.getExtension(Unittest.optionalBytesExtension),
-         '116'.codeUnits);
+  expect(
+      message.getExtension(Unittest.optionalBytesExtension), '116'.codeUnits);
 
   expect(message.getExtension(Unittest.optionalGroupExtension).a, 117);
   expect(message.getExtension(Unittest.optionalNestedMessageExtension).bb, 118);
@@ -87,16 +86,14 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.optionalImportMessageExtension).d, 120);
 
   expect(message.getExtension(Unittest.optionalNestedEnumExtension),
-         TestAllTypes_NestedEnum.BAZ);
+      TestAllTypes_NestedEnum.BAZ);
   expect(message.getExtension(Unittest.optionalForeignEnumExtension),
-         ForeignEnum.FOREIGN_BAZ);
+      ForeignEnum.FOREIGN_BAZ);
   expect(message.getExtension(Unittest.optionalImportEnumExtension),
-         ImportEnum.IMPORT_BAZ);
+      ImportEnum.IMPORT_BAZ);
 
-  expect(message.getExtension(Unittest.optionalStringPieceExtension),
-         '124');
-  expect(message.getExtension(Unittest.optionalCordExtension),
-         '125');
+  expect(message.getExtension(Unittest.optionalStringPieceExtension), '124');
+  expect(message.getExtension(Unittest.optionalCordExtension), '125');
 
   // -----------------------------------------------------------------
 
@@ -117,12 +114,12 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedBytesExtension).length, 2);
 
   expect(message.getExtension(Unittest.repeatedGroupExtension).length, 2);
-  expect(message.getExtension(Unittest.repeatedNestedMessageExtension).length,
-         2);
-  expect(message.getExtension(Unittest.repeatedForeignMessageExtension).length,
-         2);
-  expect(message.getExtension(Unittest.repeatedImportMessageExtension).length,
-         2);
+  expect(
+      message.getExtension(Unittest.repeatedNestedMessageExtension).length, 2);
+  expect(
+      message.getExtension(Unittest.repeatedForeignMessageExtension).length, 2);
+  expect(
+      message.getExtension(Unittest.repeatedImportMessageExtension).length, 2);
   expect(message.getExtension(Unittest.repeatedNestedEnumExtension).length, 2);
   expect(message.getExtension(Unittest.repeatedForeignEnumExtension).length, 2);
   expect(message.getExtension(Unittest.repeatedImportEnumExtension).length, 2);
@@ -131,81 +128,81 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedCordExtension).length, 2);
 
   expect(message.getExtension(Unittest.repeatedInt32Extension)[0], 201);
-  expect(message.getExtension(Unittest.repeatedInt64Extension)[0],
-         expect64(202));
+  expect(
+      message.getExtension(Unittest.repeatedInt64Extension)[0], expect64(202));
   expect(message.getExtension(Unittest.repeatedUint32Extension)[0], 203);
-  expect(message.getExtension(Unittest.repeatedUint64Extension)[0],
-         expect64(204));
+  expect(
+      message.getExtension(Unittest.repeatedUint64Extension)[0], expect64(204));
   expect(message.getExtension(Unittest.repeatedSint32Extension)[0], 205);
-  expect(message.getExtension(Unittest.repeatedSint64Extension)[0],
-         expect64(206));
+  expect(
+      message.getExtension(Unittest.repeatedSint64Extension)[0], expect64(206));
   expect(message.getExtension(Unittest.repeatedFixed32Extension)[0], 207);
   expect(message.getExtension(Unittest.repeatedFixed64Extension)[0],
-         expect64(208));
+      expect64(208));
   expect(message.getExtension(Unittest.repeatedSfixed32Extension)[0], 209);
   expect(message.getExtension(Unittest.repeatedSfixed64Extension)[0],
-         expect64(210));
+      expect64(210));
   expect(message.getExtension(Unittest.repeatedFloatExtension)[0], 211.0);
   expect(message.getExtension(Unittest.repeatedDoubleExtension)[0], 212.0);
   expect(message.getExtension(Unittest.repeatedBoolExtension)[0], true);
   expect(message.getExtension(Unittest.repeatedStringExtension)[0], '215');
   expect(message.getExtension(Unittest.repeatedBytesExtension)[0],
-         '216'.codeUnits);
+      '216'.codeUnits);
 
   expect(message.getExtension(Unittest.repeatedGroupExtension)[0].a, 217);
-  expect(message.getExtension(Unittest.repeatedNestedMessageExtension)[0].bb,
-         218);
-  expect(message.getExtension(Unittest.repeatedForeignMessageExtension)[0].c,
-         219);
-  expect(message.getExtension(Unittest.repeatedImportMessageExtension)[0].d,
-         220);
+  expect(
+      message.getExtension(Unittest.repeatedNestedMessageExtension)[0].bb, 218);
+  expect(
+      message.getExtension(Unittest.repeatedForeignMessageExtension)[0].c, 219);
+  expect(
+      message.getExtension(Unittest.repeatedImportMessageExtension)[0].d, 220);
 
   expect(message.getExtension(Unittest.repeatedNestedEnumExtension)[0],
-         TestAllTypes_NestedEnum.BAR);
+      TestAllTypes_NestedEnum.BAR);
   expect(message.getExtension(Unittest.repeatedForeignEnumExtension)[0],
-         ForeignEnum.FOREIGN_BAR);
+      ForeignEnum.FOREIGN_BAR);
   expect(message.getExtension(Unittest.repeatedImportEnumExtension)[0],
-         ImportEnum.IMPORT_BAR);
+      ImportEnum.IMPORT_BAR);
 
   expect(message.getExtension(Unittest.repeatedStringPieceExtension)[0], '224');
   expect(message.getExtension(Unittest.repeatedCordExtension)[0], '225');
 
   expect(message.getExtension(Unittest.repeatedInt32Extension)[1], 301);
-  expect(message.getExtension(Unittest.repeatedInt64Extension)[1],
-         expect64(302));
+  expect(
+      message.getExtension(Unittest.repeatedInt64Extension)[1], expect64(302));
   expect(message.getExtension(Unittest.repeatedUint32Extension)[1], 303);
-  expect(message.getExtension(Unittest.repeatedUint64Extension)[1],
-         expect64(304));
+  expect(
+      message.getExtension(Unittest.repeatedUint64Extension)[1], expect64(304));
   expect(message.getExtension(Unittest.repeatedSint32Extension)[1], 305);
-  expect(message.getExtension(Unittest.repeatedSint64Extension)[1],
-         expect64(306));
+  expect(
+      message.getExtension(Unittest.repeatedSint64Extension)[1], expect64(306));
   expect(message.getExtension(Unittest.repeatedFixed32Extension)[1], 307);
   expect(message.getExtension(Unittest.repeatedFixed64Extension)[1],
-         expect64(308));
+      expect64(308));
   expect(message.getExtension(Unittest.repeatedSfixed32Extension)[1], 309);
   expect(message.getExtension(Unittest.repeatedSfixed64Extension)[1],
-         expect64(310));
+      expect64(310));
   expect(message.getExtension(Unittest.repeatedFloatExtension)[1], 311.0);
   expect(message.getExtension(Unittest.repeatedDoubleExtension)[1], 312.0);
   expect(message.getExtension(Unittest.repeatedBoolExtension)[1], false);
   expect(message.getExtension(Unittest.repeatedStringExtension)[1], '315');
   expect(message.getExtension(Unittest.repeatedBytesExtension)[1],
-         '316'.codeUnits);
+      '316'.codeUnits);
 
   expect(message.getExtension(Unittest.repeatedGroupExtension)[1].a, 317);
-  expect(message.getExtension(Unittest.repeatedNestedMessageExtension)[1].bb,
-         318);
-  expect(message.getExtension(Unittest.repeatedForeignMessageExtension)[1].c,
-         319);
-  expect(message.getExtension(Unittest.repeatedImportMessageExtension)[1].d,
-         320);
+  expect(
+      message.getExtension(Unittest.repeatedNestedMessageExtension)[1].bb, 318);
+  expect(
+      message.getExtension(Unittest.repeatedForeignMessageExtension)[1].c, 319);
+  expect(
+      message.getExtension(Unittest.repeatedImportMessageExtension)[1].d, 320);
 
   expect(message.getExtension(Unittest.repeatedNestedEnumExtension)[1],
-         TestAllTypes_NestedEnum.BAZ);
+      TestAllTypes_NestedEnum.BAZ);
   expect(message.getExtension(Unittest.repeatedForeignEnumExtension)[1],
-         ForeignEnum.FOREIGN_BAZ);
+      ForeignEnum.FOREIGN_BAZ);
   expect(message.getExtension(Unittest.repeatedImportEnumExtension)[1],
-         ImportEnum.IMPORT_BAZ);
+      ImportEnum.IMPORT_BAZ);
 
   expect(message.getExtension(Unittest.repeatedStringPieceExtension)[1], '324');
   expect(message.getExtension(Unittest.repeatedCordExtension)[1], '325');
@@ -235,20 +232,16 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.defaultStringPieceExtension), isTrue);
   expect(message.hasExtension(Unittest.defaultCordExtension), isTrue);
   expect(message.getExtension(Unittest.defaultInt32Extension), 401);
-  expect(message.getExtension(Unittest.defaultInt64Extension),
-         expect64(402));
+  expect(message.getExtension(Unittest.defaultInt64Extension), expect64(402));
   expect(message.getExtension(Unittest.defaultUint32Extension), 403);
-  expect(message.getExtension(Unittest.defaultUint64Extension),
-         expect64(404));
+  expect(message.getExtension(Unittest.defaultUint64Extension), expect64(404));
   expect(message.getExtension(Unittest.defaultSint32Extension), 405);
-  expect(message.getExtension(Unittest.defaultSint64Extension),
-         expect64(406));
+  expect(message.getExtension(Unittest.defaultSint64Extension), expect64(406));
   expect(message.getExtension(Unittest.defaultFixed32Extension), 407);
-  expect(message.getExtension(Unittest.defaultFixed64Extension),
-         expect64(408));
+  expect(message.getExtension(Unittest.defaultFixed64Extension), expect64(408));
   expect(message.getExtension(Unittest.defaultSfixed32Extension), 409);
-  expect(message.getExtension(Unittest.defaultSfixed64Extension),
-         expect64(410));
+  expect(
+      message.getExtension(Unittest.defaultSfixed64Extension), expect64(410));
   expect(message.getExtension(Unittest.defaultFloatExtension), 411.0);
   expect(message.getExtension(Unittest.defaultDoubleExtension), 412.0);
   expect(message.getExtension(Unittest.defaultBoolExtension), false);
@@ -256,11 +249,11 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.defaultBytesExtension), '416'.codeUnits);
 
   expect(message.getExtension(Unittest.defaultNestedEnumExtension),
-         TestAllTypes_NestedEnum.FOO);
+      TestAllTypes_NestedEnum.FOO);
   expect(message.getExtension(Unittest.defaultForeignEnumExtension),
-         ForeignEnum.FOREIGN_FOO);
+      ForeignEnum.FOREIGN_FOO);
   expect(message.getExtension(Unittest.defaultImportEnumExtension),
-         ImportEnum.IMPORT_FOO);
+      ImportEnum.IMPORT_FOO);
 
   expect(message.getExtension(Unittest.defaultStringPieceExtension), '424');
   expect(message.getExtension(Unittest.defaultCordExtension), '425');
@@ -624,12 +617,12 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.optionalBytesExtension), isFalse);
 
   expect(message.hasExtension(Unittest.optionalGroupExtension), isFalse);
-  expect(message.hasExtension(Unittest.optionalNestedMessageExtension),
-      isFalse);
-  expect(message.hasExtension(Unittest.optionalForeignMessageExtension),
-      isFalse);
-  expect(message.hasExtension(Unittest.optionalImportMessageExtension),
-      isFalse);
+  expect(
+      message.hasExtension(Unittest.optionalNestedMessageExtension), isFalse);
+  expect(
+      message.hasExtension(Unittest.optionalForeignMessageExtension), isFalse);
+  expect(
+      message.hasExtension(Unittest.optionalImportMessageExtension), isFalse);
 
   expect(message.hasExtension(Unittest.optionalNestedEnumExtension), isFalse);
   expect(message.hasExtension(Unittest.optionalForeignEnumExtension), isFalse);
@@ -648,8 +641,7 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.getExtension(Unittest.optionalFixed32Extension), 0);
   expect(message.getExtension(Unittest.optionalFixed64Extension), expect64(0));
   expect(message.getExtension(Unittest.optionalSfixed32Extension), 0);
-  expect(message.getExtension(Unittest.optionalSfixed64Extension),
-         expect64(0));
+  expect(message.getExtension(Unittest.optionalSfixed64Extension), expect64(0));
   expect(message.getExtension(Unittest.optionalFloatExtension), 0.0);
   expect(message.getExtension(Unittest.optionalDoubleExtension), 0.0);
   expect(message.getExtension(Unittest.optionalBoolExtension), false);
@@ -672,11 +664,11 @@ void assertExtensionsClear(TestAllExtensions message) {
 
   // Enums without defaults are set to the first value in the enum.
   expect(message.getExtension(Unittest.optionalNestedEnumExtension),
-         TestAllTypes_NestedEnum.FOO);
+      TestAllTypes_NestedEnum.FOO);
   expect(message.getExtension(Unittest.optionalForeignEnumExtension),
-         ForeignEnum.FOREIGN_FOO);
+      ForeignEnum.FOREIGN_FOO);
   expect(message.getExtension(Unittest.optionalImportEnumExtension),
-         ImportEnum.IMPORT_FOO);
+      ImportEnum.IMPORT_FOO);
 
   expect(message.getExtension(Unittest.optionalStringPieceExtension), '');
   expect(message.getExtension(Unittest.optionalCordExtension), '');
@@ -699,12 +691,12 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedBytesExtension).length, 0);
 
   expect(message.getExtension(Unittest.repeatedGroupExtension).length, 0);
-  expect(message.getExtension(Unittest.repeatedNestedMessageExtension).length,
-         0);
-  expect(message.getExtension(Unittest.repeatedForeignMessageExtension).length,
-         0);
-  expect(message.getExtension(Unittest.repeatedImportMessageExtension).length,
-         0);
+  expect(
+      message.getExtension(Unittest.repeatedNestedMessageExtension).length, 0);
+  expect(
+      message.getExtension(Unittest.repeatedForeignMessageExtension).length, 0);
+  expect(
+      message.getExtension(Unittest.repeatedImportMessageExtension).length, 0);
   expect(message.getExtension(Unittest.repeatedNestedEnumExtension).length, 0);
   expect(message.getExtension(Unittest.repeatedForeignEnumExtension).length, 0);
   expect(message.getExtension(Unittest.repeatedImportEnumExtension).length, 0);
@@ -730,12 +722,12 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedBytesExtension).length, 0);
 
   expect(message.getExtension(Unittest.repeatedGroupExtension).length, 0);
-  expect(message.getExtension(Unittest.repeatedNestedMessageExtension).length,
-         0);
-  expect(message.getExtension(Unittest.repeatedForeignMessageExtension).length,
-         0);
-  expect(message.getExtension(Unittest.repeatedImportMessageExtension).length,
-         0);
+  expect(
+      message.getExtension(Unittest.repeatedNestedMessageExtension).length, 0);
+  expect(
+      message.getExtension(Unittest.repeatedForeignMessageExtension).length, 0);
+  expect(
+      message.getExtension(Unittest.repeatedImportMessageExtension).length, 0);
   expect(message.getExtension(Unittest.repeatedNestedEnumExtension).length, 0);
   expect(message.getExtension(Unittest.repeatedForeignEnumExtension).length, 0);
   expect(message.getExtension(Unittest.repeatedImportEnumExtension).length, 0);
@@ -777,20 +769,21 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.getExtension(Unittest.defaultFixed32Extension), 47);
   expect(message.getExtension(Unittest.defaultFixed64Extension), expect64(48));
   expect(message.getExtension(Unittest.defaultSfixed32Extension), 49);
-  expect(message.getExtension(Unittest.defaultSfixed64Extension), expect64(-50));
+  expect(
+      message.getExtension(Unittest.defaultSfixed64Extension), expect64(-50));
   expect(message.getExtension(Unittest.defaultFloatExtension), 51.5);
   expect(message.getExtension(Unittest.defaultDoubleExtension), 52e3);
   expect(message.getExtension(Unittest.defaultBoolExtension), true);
   expect(message.getExtension(Unittest.defaultStringExtension), 'hello');
-  expect(message.getExtension(Unittest.defaultBytesExtension),
-         'world'.codeUnits);
+  expect(
+      message.getExtension(Unittest.defaultBytesExtension), 'world'.codeUnits);
 
   expect(message.getExtension(Unittest.defaultNestedEnumExtension),
-         TestAllTypes_NestedEnum.BAR);
+      TestAllTypes_NestedEnum.BAR);
   expect(message.getExtension(Unittest.defaultForeignEnumExtension),
-         ForeignEnum.FOREIGN_BAR);
+      ForeignEnum.FOREIGN_BAR);
   expect(message.getExtension(Unittest.defaultImportEnumExtension),
-         ImportEnum.IMPORT_BAR);
+      ImportEnum.IMPORT_BAR);
 
   expect(message.getExtension(Unittest.defaultStringPieceExtension), 'abc');
   expect(message.getExtension(Unittest.defaultCordExtension), '123');
@@ -812,45 +805,43 @@ void assertPackedExtensionsSet(TestPackedExtensions message) {
   expect(message.getExtension(Unittest.packedBoolExtension).length, 2);
   expect(message.getExtension(Unittest.packedEnumExtension).length, 2);
   expect(message.getExtension(Unittest.packedInt32Extension)[0], 601);
-  expect(message.getExtension(Unittest.packedInt64Extension)[0],
-         expect64(602));
+  expect(message.getExtension(Unittest.packedInt64Extension)[0], expect64(602));
   expect(message.getExtension(Unittest.packedUint32Extension)[0], 603);
-  expect(message.getExtension(Unittest.packedUint64Extension)[0],
-         expect64(604));
+  expect(
+      message.getExtension(Unittest.packedUint64Extension)[0], expect64(604));
   expect(message.getExtension(Unittest.packedSint32Extension)[0], 605);
-  expect(message.getExtension(Unittest.packedSint64Extension)[0],
-         expect64(606));
+  expect(
+      message.getExtension(Unittest.packedSint64Extension)[0], expect64(606));
   expect(message.getExtension(Unittest.packedFixed32Extension)[0], 607);
-  expect(message.getExtension(Unittest.packedFixed64Extension)[0],
-         expect64(608));
+  expect(
+      message.getExtension(Unittest.packedFixed64Extension)[0], expect64(608));
   expect(message.getExtension(Unittest.packedSfixed32Extension)[0], 609);
-  expect(message.getExtension(Unittest.packedSfixed64Extension)[0],
-         expect64(610));
+  expect(
+      message.getExtension(Unittest.packedSfixed64Extension)[0], expect64(610));
   expect(message.getExtension(Unittest.packedFloatExtension)[0], 611.0);
   expect(message.getExtension(Unittest.packedDoubleExtension)[0], 612.0);
   expect(message.getExtension(Unittest.packedBoolExtension)[0], true);
   expect(message.getExtension(Unittest.packedEnumExtension)[0],
-         ForeignEnum.FOREIGN_BAR);
+      ForeignEnum.FOREIGN_BAR);
   expect(message.getExtension(Unittest.packedInt32Extension)[1], 701);
-  expect(message.getExtension(Unittest.packedInt64Extension)[1],
-         expect64(702));
+  expect(message.getExtension(Unittest.packedInt64Extension)[1], expect64(702));
   expect(message.getExtension(Unittest.packedUint32Extension)[1], 703);
-  expect(message.getExtension(Unittest.packedUint64Extension)[1],
-         expect64(704));
+  expect(
+      message.getExtension(Unittest.packedUint64Extension)[1], expect64(704));
   expect(message.getExtension(Unittest.packedSint32Extension)[1], 705);
-  expect(message.getExtension(Unittest.packedSint64Extension)[1],
-         expect64(706));
+  expect(
+      message.getExtension(Unittest.packedSint64Extension)[1], expect64(706));
   expect(message.getExtension(Unittest.packedFixed32Extension)[1], 707);
-  expect(message.getExtension(Unittest.packedFixed64Extension)[1],
-         expect64(708));
+  expect(
+      message.getExtension(Unittest.packedFixed64Extension)[1], expect64(708));
   expect(message.getExtension(Unittest.packedSfixed32Extension)[1], 709);
-  expect(message.getExtension(Unittest.packedSfixed64Extension)[1],
-         expect64(710));
+  expect(
+      message.getExtension(Unittest.packedSfixed64Extension)[1], expect64(710));
   expect(message.getExtension(Unittest.packedFloatExtension)[1], 711.0);
   expect(message.getExtension(Unittest.packedDoubleExtension)[1], 712.0);
   expect(message.getExtension(Unittest.packedBoolExtension)[1], false);
   expect(message.getExtension(Unittest.packedEnumExtension)[1],
-         ForeignEnum.FOREIGN_BAZ);
+      ForeignEnum.FOREIGN_BAZ);
 }
 
 /**
@@ -921,8 +912,8 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
 
   expect(message.hasExtension(Unittest.optionalGroupExtension), isTrue);
   expect(message.hasExtension(Unittest.optionalNestedMessageExtension), isTrue);
-  expect(message.hasExtension(Unittest.optionalForeignMessageExtension),
-         isTrue);
+  expect(
+      message.hasExtension(Unittest.optionalForeignMessageExtension), isTrue);
   expect(message.hasExtension(Unittest.optionalImportMessageExtension), isTrue);
 
   expect(message.getExtension(Unittest.optionalGroupExtension).hasA(), isTrue);
@@ -943,23 +934,21 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.optionalInt32Extension), 101);
   expect(message.getExtension(Unittest.optionalInt64Extension), expect64(102));
   expect(message.getExtension(Unittest.optionalUint32Extension), 103);
-  expect(message.getExtension(Unittest.optionalUint64Extension),
-         expect64(104));
+  expect(message.getExtension(Unittest.optionalUint64Extension), expect64(104));
   expect(message.getExtension(Unittest.optionalSint32Extension), 105);
-  expect(message.getExtension(Unittest.optionalSint64Extension),
-         expect64(106));
+  expect(message.getExtension(Unittest.optionalSint64Extension), expect64(106));
   expect(message.getExtension(Unittest.optionalFixed32Extension), 107);
-  expect(message.getExtension(Unittest.optionalFixed64Extension),
-         expect64(108));
+  expect(
+      message.getExtension(Unittest.optionalFixed64Extension), expect64(108));
   expect(message.getExtension(Unittest.optionalSfixed32Extension), 109);
-  expect(message.getExtension(Unittest.optionalSfixed64Extension),
-         expect64(110));
+  expect(
+      message.getExtension(Unittest.optionalSfixed64Extension), expect64(110));
   expect(message.getExtension(Unittest.optionalFloatExtension), 111.0);
   expect(message.getExtension(Unittest.optionalDoubleExtension), 112.0);
   expect(message.getExtension(Unittest.optionalBoolExtension), true);
   expect(message.getExtension(Unittest.optionalStringExtension), '115');
-  expect(message.getExtension(Unittest.optionalBytesExtension),
-         '116'.codeUnits);
+  expect(
+      message.getExtension(Unittest.optionalBytesExtension), '116'.codeUnits);
 
   expect(message.getExtension(Unittest.optionalGroupExtension).a, 117);
   expect(message.getExtension(Unittest.optionalNestedMessageExtension).bb, 118);
@@ -967,11 +956,11 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.optionalImportMessageExtension).d, 120);
 
   expect(message.getExtension(Unittest.optionalNestedEnumExtension),
-         TestAllTypes_NestedEnum.BAZ);
+      TestAllTypes_NestedEnum.BAZ);
   expect(message.getExtension(Unittest.optionalForeignEnumExtension),
-         ForeignEnum.FOREIGN_BAZ);
+      ForeignEnum.FOREIGN_BAZ);
   expect(message.getExtension(Unittest.optionalImportEnumExtension),
-         ImportEnum.IMPORT_BAZ);
+      ImportEnum.IMPORT_BAZ);
 
   expect(message.getExtension(Unittest.optionalStringPieceExtension), '124');
   expect(message.getExtension(Unittest.optionalCordExtension), '125');
@@ -995,12 +984,12 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedBytesExtension).length, 2);
 
   expect(message.getExtension(Unittest.repeatedGroupExtension).length, 2);
-  expect(message.getExtension(Unittest.repeatedNestedMessageExtension).length,
-         2);
-  expect(message.getExtension(Unittest.repeatedForeignMessageExtension).length,
-         2);
-  expect(message.getExtension(Unittest.repeatedImportMessageExtension).length,
-         2);
+  expect(
+      message.getExtension(Unittest.repeatedNestedMessageExtension).length, 2);
+  expect(
+      message.getExtension(Unittest.repeatedForeignMessageExtension).length, 2);
+  expect(
+      message.getExtension(Unittest.repeatedImportMessageExtension).length, 2);
   expect(message.getExtension(Unittest.repeatedNestedEnumExtension).length, 2);
   expect(message.getExtension(Unittest.repeatedForeignEnumExtension).length, 2);
   expect(message.getExtension(Unittest.repeatedImportEnumExtension).length, 2);
@@ -1009,81 +998,81 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedCordExtension).length, 2);
 
   expect(message.getExtension(Unittest.repeatedInt32Extension)[0], 201);
-  expect(message.getExtension(Unittest.repeatedInt64Extension)[0],
-         expect64(202));
+  expect(
+      message.getExtension(Unittest.repeatedInt64Extension)[0], expect64(202));
   expect(message.getExtension(Unittest.repeatedUint32Extension)[0], 203);
-  expect(message.getExtension(Unittest.repeatedUint64Extension)[0],
-         expect64(204));
+  expect(
+      message.getExtension(Unittest.repeatedUint64Extension)[0], expect64(204));
   expect(message.getExtension(Unittest.repeatedSint32Extension)[0], 205);
-  expect(message.getExtension(Unittest.repeatedSint64Extension)[0],
-         expect64(206));
+  expect(
+      message.getExtension(Unittest.repeatedSint64Extension)[0], expect64(206));
   expect(message.getExtension(Unittest.repeatedFixed32Extension)[0], 207);
   expect(message.getExtension(Unittest.repeatedFixed64Extension)[0],
-         expect64(208));
+      expect64(208));
   expect(message.getExtension(Unittest.repeatedSfixed32Extension)[0], 209);
   expect(message.getExtension(Unittest.repeatedSfixed64Extension)[0],
-         expect64(210));
+      expect64(210));
   expect(message.getExtension(Unittest.repeatedFloatExtension)[0], 211.0);
   expect(message.getExtension(Unittest.repeatedDoubleExtension)[0], 212.0);
   expect(message.getExtension(Unittest.repeatedBoolExtension)[0], true);
   expect(message.getExtension(Unittest.repeatedStringExtension)[0], '215');
   expect(message.getExtension(Unittest.repeatedBytesExtension)[0],
-         '216'.codeUnits);
+      '216'.codeUnits);
 
   expect(message.getExtension(Unittest.repeatedGroupExtension)[0].a, 217);
-  expect(message.getExtension(Unittest.repeatedNestedMessageExtension)[0].bb,
-         218);
-  expect(message.getExtension(Unittest.repeatedForeignMessageExtension)[0].c,
-         219);
-  expect(message.getExtension(Unittest.repeatedImportMessageExtension)[0].d,
-         220);
+  expect(
+      message.getExtension(Unittest.repeatedNestedMessageExtension)[0].bb, 218);
+  expect(
+      message.getExtension(Unittest.repeatedForeignMessageExtension)[0].c, 219);
+  expect(
+      message.getExtension(Unittest.repeatedImportMessageExtension)[0].d, 220);
 
   expect(message.getExtension(Unittest.repeatedNestedEnumExtension)[0],
-         TestAllTypes_NestedEnum.BAR);
+      TestAllTypes_NestedEnum.BAR);
   expect(message.getExtension(Unittest.repeatedForeignEnumExtension)[0],
-         ForeignEnum.FOREIGN_BAR);
+      ForeignEnum.FOREIGN_BAR);
   expect(message.getExtension(Unittest.repeatedImportEnumExtension)[0],
-         ImportEnum.IMPORT_BAR);
+      ImportEnum.IMPORT_BAR);
 
   expect(message.getExtension(Unittest.repeatedStringPieceExtension)[0], '224');
   expect(message.getExtension(Unittest.repeatedCordExtension)[0], '225');
 
   expect(message.getExtension(Unittest.repeatedInt32Extension)[1], 501);
-  expect(message.getExtension(Unittest.repeatedInt64Extension)[1],
-         expect64(502));
+  expect(
+      message.getExtension(Unittest.repeatedInt64Extension)[1], expect64(502));
   expect(message.getExtension(Unittest.repeatedUint32Extension)[1], 503);
-  expect(message.getExtension(Unittest.repeatedUint64Extension)[1],
-         expect64(504));
+  expect(
+      message.getExtension(Unittest.repeatedUint64Extension)[1], expect64(504));
   expect(message.getExtension(Unittest.repeatedSint32Extension)[1], 505);
-  expect(message.getExtension(Unittest.repeatedSint64Extension)[1],
-         expect64(506));
+  expect(
+      message.getExtension(Unittest.repeatedSint64Extension)[1], expect64(506));
   expect(message.getExtension(Unittest.repeatedFixed32Extension)[1], 507);
   expect(message.getExtension(Unittest.repeatedFixed64Extension)[1],
-         expect64(508));
+      expect64(508));
   expect(message.getExtension(Unittest.repeatedSfixed32Extension)[1], 509);
   expect(message.getExtension(Unittest.repeatedSfixed64Extension)[1],
-         expect64(510));
+      expect64(510));
   expect(message.getExtension(Unittest.repeatedFloatExtension)[1], 511.0);
   expect(message.getExtension(Unittest.repeatedDoubleExtension)[1], 512.0);
   expect(message.getExtension(Unittest.repeatedBoolExtension)[1], true);
   expect(message.getExtension(Unittest.repeatedStringExtension)[1], '515');
   expect(message.getExtension(Unittest.repeatedBytesExtension)[1],
-         '516'.codeUnits);
+      '516'.codeUnits);
 
   expect(message.getExtension(Unittest.repeatedGroupExtension)[1].a, 517);
-  expect(message.getExtension(Unittest.repeatedNestedMessageExtension)[1].bb,
-         518);
-  expect(message.getExtension(Unittest.repeatedForeignMessageExtension)[1].c,
-         519);
-  expect(message.getExtension(Unittest.repeatedImportMessageExtension)[1].d,
-         520);
+  expect(
+      message.getExtension(Unittest.repeatedNestedMessageExtension)[1].bb, 518);
+  expect(
+      message.getExtension(Unittest.repeatedForeignMessageExtension)[1].c, 519);
+  expect(
+      message.getExtension(Unittest.repeatedImportMessageExtension)[1].d, 520);
 
   expect(message.getExtension(Unittest.repeatedNestedEnumExtension)[1],
-         TestAllTypes_NestedEnum.FOO);
+      TestAllTypes_NestedEnum.FOO);
   expect(message.getExtension(Unittest.repeatedForeignEnumExtension)[1],
-         ForeignEnum.FOREIGN_FOO);
+      ForeignEnum.FOREIGN_FOO);
   expect(message.getExtension(Unittest.repeatedImportEnumExtension)[1],
-         ImportEnum.IMPORT_FOO);
+      ImportEnum.IMPORT_FOO);
 
   expect(message.getExtension(Unittest.repeatedStringPieceExtension)[1], '524');
   expect(message.getExtension(Unittest.repeatedCordExtension)[1], '525');
@@ -1114,20 +1103,16 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.defaultCordExtension), isTrue);
 
   expect(message.getExtension(Unittest.defaultInt32Extension), 401);
-  expect(message.getExtension(Unittest.defaultInt64Extension),
-         expect64(402));
+  expect(message.getExtension(Unittest.defaultInt64Extension), expect64(402));
   expect(message.getExtension(Unittest.defaultUint32Extension), 403);
-  expect(message.getExtension(Unittest.defaultUint64Extension),
-         expect64(404));
+  expect(message.getExtension(Unittest.defaultUint64Extension), expect64(404));
   expect(message.getExtension(Unittest.defaultSint32Extension), 405);
-  expect(message.getExtension(Unittest.defaultSint64Extension),
-         expect64(406));
+  expect(message.getExtension(Unittest.defaultSint64Extension), expect64(406));
   expect(message.getExtension(Unittest.defaultFixed32Extension), 407);
-  expect(message.getExtension(Unittest.defaultFixed64Extension),
-         expect64(408));
+  expect(message.getExtension(Unittest.defaultFixed64Extension), expect64(408));
   expect(message.getExtension(Unittest.defaultSfixed32Extension), 409);
-  expect(message.getExtension(Unittest.defaultSfixed64Extension),
-         expect64(410));
+  expect(
+      message.getExtension(Unittest.defaultSfixed64Extension), expect64(410));
   expect(message.getExtension(Unittest.defaultFloatExtension), 411.0);
   expect(message.getExtension(Unittest.defaultDoubleExtension), 412.0);
   expect(message.getExtension(Unittest.defaultBoolExtension), false);
@@ -1135,11 +1120,11 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.defaultBytesExtension), '416'.codeUnits);
 
   expect(message.getExtension(Unittest.defaultNestedEnumExtension),
-         TestAllTypes_NestedEnum.FOO);
+      TestAllTypes_NestedEnum.FOO);
   expect(message.getExtension(Unittest.defaultForeignEnumExtension),
-         ForeignEnum.FOREIGN_FOO);
+      ForeignEnum.FOREIGN_FOO);
   expect(message.getExtension(Unittest.defaultImportEnumExtension),
-         ImportEnum.IMPORT_FOO);
+      ImportEnum.IMPORT_FOO);
 
   expect(message.getExtension(Unittest.defaultStringPieceExtension), '424');
   expect(message.getExtension(Unittest.defaultCordExtension), '425');
@@ -1302,7 +1287,7 @@ TestAllTypes getAllSet() {
 ExtensionRegistry getExtensionRegistry() {
   ExtensionRegistry registry = new ExtensionRegistry();
   registerAllExtensions(registry);
-  return registry/*.getUnmodifiable()*/;
+  return registry /*.getUnmodifiable()*/;
 }
 
 TestPackedExtensions getPackedExtensionsSet() {
@@ -1390,9 +1375,7 @@ void modifyRepeatedFields(TestAllTypes message) {
   message.repeatedString[1] = '515';
   message.repeatedBytes[1] = '516'.codeUnits;
 
-
-  TestAllTypes_RepeatedGroup repeatedGroup =
-      new TestAllTypes_RepeatedGroup();
+  TestAllTypes_RepeatedGroup repeatedGroup = new TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 517;
   message.repeatedGroup[1] = repeatedGroup;
 
@@ -1401,13 +1384,11 @@ void modifyRepeatedFields(TestAllTypes message) {
   optionalNestedMessage.bb = 518;
   message.repeatedNestedMessage[1] = optionalNestedMessage;
 
-  ForeignMessage optionalForeignMessage =
-      new ForeignMessage();
+  ForeignMessage optionalForeignMessage = new ForeignMessage();
   optionalForeignMessage.c = 519;
   message.repeatedForeignMessage[1] = optionalForeignMessage;
 
-  ImportMessage optionalImportMessage =
-      new ImportMessage();
+  ImportMessage optionalImportMessage = new ImportMessage();
   optionalImportMessage.d = 520;
   message.repeatedImportMessage[1] = optionalImportMessage;
 
@@ -1438,8 +1419,7 @@ void setAllExtensions(TestAllExtensions message) {
   message.setExtension(Unittest.optionalDoubleExtension, 112.0);
   message.setExtension(Unittest.optionalBoolExtension, true);
   message.setExtension(Unittest.optionalStringExtension, '115');
-  message.setExtension(Unittest.optionalBytesExtension,
-      '116'.codeUnits);
+  message.setExtension(Unittest.optionalBytesExtension, '116'.codeUnits);
 
   var msg;
 
@@ -1459,12 +1439,12 @@ void setAllExtensions(TestAllExtensions message) {
   msg.d = 120;
   message.setExtension(Unittest.optionalImportMessageExtension, msg);
 
-  message.setExtension(Unittest.optionalNestedEnumExtension,
-      TestAllTypes_NestedEnum.BAZ);
-  message.setExtension(Unittest.optionalForeignEnumExtension,
-      ForeignEnum.FOREIGN_BAZ);
-  message.setExtension(Unittest.optionalImportEnumExtension,
-      ImportEnum.IMPORT_BAZ);
+  message.setExtension(
+      Unittest.optionalNestedEnumExtension, TestAllTypes_NestedEnum.BAZ);
+  message.setExtension(
+      Unittest.optionalForeignEnumExtension, ForeignEnum.FOREIGN_BAZ);
+  message.setExtension(
+      Unittest.optionalImportEnumExtension, ImportEnum.IMPORT_BAZ);
 
   message.setExtension(Unittest.optionalStringPieceExtension, '124');
   message.setExtension(Unittest.optionalCordExtension, '125');
@@ -1503,15 +1483,14 @@ void setAllExtensions(TestAllExtensions message) {
   msg.d = 220;
   message.addExtension(Unittest.repeatedImportMessageExtension, msg);
 
-  message.addExtension(Unittest.repeatedNestedEnumExtension,
-      TestAllTypes_NestedEnum.BAR);
-  message.addExtension(Unittest.repeatedForeignEnumExtension,
-      ForeignEnum.FOREIGN_BAR);
-  message.addExtension(Unittest.repeatedImportEnumExtension,
-      ImportEnum.IMPORT_BAR);
+  message.addExtension(
+      Unittest.repeatedNestedEnumExtension, TestAllTypes_NestedEnum.BAR);
+  message.addExtension(
+      Unittest.repeatedForeignEnumExtension, ForeignEnum.FOREIGN_BAR);
+  message.addExtension(
+      Unittest.repeatedImportEnumExtension, ImportEnum.IMPORT_BAR);
 
-  message.addExtension(Unittest.repeatedStringPieceExtension,
-      '224');
+  message.addExtension(Unittest.repeatedStringPieceExtension, '224');
   message.addExtension(Unittest.repeatedCordExtension, '225');
 
   // Add a second one of each field.
@@ -1529,8 +1508,7 @@ void setAllExtensions(TestAllExtensions message) {
   message.addExtension(Unittest.repeatedDoubleExtension, 312.0);
   message.addExtension(Unittest.repeatedBoolExtension, false);
   message.addExtension(Unittest.repeatedStringExtension, '315');
-  message.addExtension(Unittest.repeatedBytesExtension,
-      '316'.codeUnits);
+  message.addExtension(Unittest.repeatedBytesExtension, '316'.codeUnits);
 
   msg = new RepeatedGroup_extension();
   msg.a = 317;
@@ -1548,12 +1526,12 @@ void setAllExtensions(TestAllExtensions message) {
   msg.d = 320;
   message.addExtension(Unittest.repeatedImportMessageExtension, msg);
 
-  message.addExtension(Unittest.repeatedNestedEnumExtension,
-      TestAllTypes_NestedEnum.BAZ);
-  message.addExtension(Unittest.repeatedForeignEnumExtension,
-      ForeignEnum.FOREIGN_BAZ);
-  message.addExtension(Unittest.repeatedImportEnumExtension,
-      ImportEnum.IMPORT_BAZ);
+  message.addExtension(
+      Unittest.repeatedNestedEnumExtension, TestAllTypes_NestedEnum.BAZ);
+  message.addExtension(
+      Unittest.repeatedForeignEnumExtension, ForeignEnum.FOREIGN_BAZ);
+  message.addExtension(
+      Unittest.repeatedImportEnumExtension, ImportEnum.IMPORT_BAZ);
 
   message.addExtension(Unittest.repeatedStringPieceExtension, '324');
   message.addExtension(Unittest.repeatedCordExtension, '325');
@@ -1576,12 +1554,12 @@ void setAllExtensions(TestAllExtensions message) {
   message.setExtension(Unittest.defaultStringExtension, '415');
   message.setExtension(Unittest.defaultBytesExtension, '416'.codeUnits);
 
-  message.setExtension(Unittest.defaultNestedEnumExtension,
-      TestAllTypes_NestedEnum.FOO);
-  message.setExtension(Unittest.defaultForeignEnumExtension,
-      ForeignEnum.FOREIGN_FOO);
-  message.setExtension(Unittest.defaultImportEnumExtension,
-      ImportEnum.IMPORT_FOO);
+  message.setExtension(
+      Unittest.defaultNestedEnumExtension, TestAllTypes_NestedEnum.FOO);
+  message.setExtension(
+      Unittest.defaultForeignEnumExtension, ForeignEnum.FOREIGN_FOO);
+  message.setExtension(
+      Unittest.defaultImportEnumExtension, ImportEnum.IMPORT_FOO);
 
   message.setExtension(Unittest.defaultStringPieceExtension, '424');
   message.setExtension(Unittest.defaultCordExtension, '425');
@@ -1608,8 +1586,7 @@ void setAllFields(TestAllTypes message) {
   message.optionalString = '115';
   message.optionalBytes = '116'.codeUnits;
 
-  TestAllTypes_OptionalGroup optionalGroup =
-      new TestAllTypes_OptionalGroup();
+  TestAllTypes_OptionalGroup optionalGroup = new TestAllTypes_OptionalGroup();
   optionalGroup.a = 117;
   message.optionalGroup = optionalGroup;
 
@@ -1618,8 +1595,7 @@ void setAllFields(TestAllTypes message) {
   optionalNestedMessage.bb = 118;
   message.optionalNestedMessage = optionalNestedMessage;
 
-  ForeignMessage optionalForeignMessage =
-      new ForeignMessage();
+  ForeignMessage optionalForeignMessage = new ForeignMessage();
   optionalForeignMessage.c = 119;
   message.optionalForeignMessage = optionalForeignMessage;
 
@@ -1652,18 +1628,15 @@ void setAllFields(TestAllTypes message) {
   message.repeatedString.add('215');
   message.repeatedBytes.add('216'.codeUnits);
 
-  TestAllTypes_RepeatedGroup repeatedGroup =
-      new TestAllTypes_RepeatedGroup();
+  TestAllTypes_RepeatedGroup repeatedGroup = new TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 217;
   message.repeatedGroup.add(repeatedGroup);
 
-  TestAllTypes_NestedMessage repeatedNested =
-      new TestAllTypes_NestedMessage();
+  TestAllTypes_NestedMessage repeatedNested = new TestAllTypes_NestedMessage();
   repeatedNested.bb = 218;
   message.repeatedNestedMessage.add(repeatedNested);
 
-  ForeignMessage repeatedForeignMessage =
-      new ForeignMessage();
+  ForeignMessage repeatedForeignMessage = new ForeignMessage();
   repeatedForeignMessage.c = 219;
   message.repeatedForeignMessage.add(repeatedForeignMessage);
 
@@ -1758,8 +1731,7 @@ void setPackedExtensions(TestPackedExtensions message) {
   message.addExtension(Unittest.packedFloatExtension, 611.0);
   message.addExtension(Unittest.packedDoubleExtension, 612.0);
   message.addExtension(Unittest.packedBoolExtension, true);
-  message.addExtension(Unittest.packedEnumExtension,
-      ForeignEnum.FOREIGN_BAR);
+  message.addExtension(Unittest.packedEnumExtension, ForeignEnum.FOREIGN_BAR);
   // Add a second one of each field.
   message.addExtension(Unittest.packedInt32Extension, 701);
   message.addExtension(Unittest.packedInt64Extension, make64(702));
@@ -1774,8 +1746,7 @@ void setPackedExtensions(TestPackedExtensions message) {
   message.addExtension(Unittest.packedFloatExtension, 711.0);
   message.addExtension(Unittest.packedDoubleExtension, 712.0);
   message.addExtension(Unittest.packedBoolExtension, false);
-  message.addExtension(Unittest.packedEnumExtension,
-      ForeignEnum.FOREIGN_BAZ);
+  message.addExtension(Unittest.packedEnumExtension, ForeignEnum.FOREIGN_BAZ);
 }
 
 /**
