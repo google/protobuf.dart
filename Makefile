@@ -7,7 +7,7 @@ PLUGIN_SRC = \
 
 OUTPUT_DIR=out
 PLUGIN_NAME=protoc-gen-dart
-PLUGIN_PATH=$(OUTPUT_DIR)/$(PLUGIN_NAME)
+PLUGIN_PATH=bin/$(PLUGIN_NAME)
 
 BENCHMARK_PROTOS = $(wildcard benchmark/protos/*.proto)
 
@@ -47,16 +47,8 @@ TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), \
 
 PREGENERATED_SRCS=lib/descriptor.proto lib/plugin.proto
 
-
-$(PLUGIN_PATH): $(PLUGIN_SRC)
-	[ -d $(OUTPUT_DIR) ] || mkdir $(OUTPUT_DIR)
-	# --categories=all is a hack, it should be --categories=Server once dart2dart bug is fixed.
-	dart2js --checked --output-type=dart --show-package-warnings --categories=all -o$(PLUGIN_PATH) bin/protoc_plugin.dart
-	dart prepend.dart $(PLUGIN_PATH)
-	chmod +x $(PLUGIN_PATH)
-
 $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
-	[ -d $(TEST_PROTO_DIR) ] || mkdir $(TEST_PROTO_DIR)
+	[ -d $(TEST_PROTO_DIR) ] || mkdir -p $(TEST_PROTO_DIR)
 	protoc\
 		--dart_out=$(TEST_PROTO_DIR)\
 		-I$(TEST_PROTO_SRC_DIR)\
