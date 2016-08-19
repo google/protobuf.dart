@@ -130,8 +130,8 @@ option. If the script is called `dart-plugin` run `protoc` like this:
 Useful references
 -----------------
 
-* [Main Dart site](http://www.dartlang.org)
-* [Main protobuf site](https://code.google.com/p/protobuf)
+* [Main Dart site](https://www.dartlang.org/)
+* [Main protobuf site](https://github.com/google/protobuf)
 * [Protobuf runtime support project](https://github.com/dart-lang/dart-protobuf)
 * [DartEditor download](http://www.dartlang.org)
-* [Pub documentation](http://pub.dartlang.org/doc)
+* [Pub documentation](https://www.dartlang.org/tools/pub/get-started.html)
