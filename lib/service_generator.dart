@@ -166,7 +166,8 @@ class ServiceGenerator {
       out.addBlock("switch (method) {", "}", () {
         for (MethodDescriptorProto m in _methodDescriptors) {
           var methodName = _methodName(m.name);
-          out.println("case '${m.name}': return $methodName(ctx, request);");
+          out.println(
+              "case '${m.name}': return this.$methodName(ctx, request);");
         }
         out.println("default: "
             "throw new ArgumentError('Unknown method: \$method');");

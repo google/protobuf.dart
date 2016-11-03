@@ -28,8 +28,8 @@ abstract class TestServiceBase extends GeneratedService {
 
   Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
     switch (method) {
-      case 'AMethod': return aMethod(ctx, request);
-      case 'AnotherMethod': return anotherMethod(ctx, request);
+      case 'AMethod': return this.aMethod(ctx, request);
+      case 'AnotherMethod': return this.anotherMethod(ctx, request);
       default: throw new ArgumentError('Unknown method: $method');
     }
   }

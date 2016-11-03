@@ -371,7 +371,7 @@ abstract class TestServiceBase extends GeneratedService {
 
   Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
     switch (method) {
-      case 'Ping': return ping(ctx, request);
+      case 'Ping': return this.ping(ctx, request);
       default: throw new ArgumentError('Unknown method: $method');
     }
   }
