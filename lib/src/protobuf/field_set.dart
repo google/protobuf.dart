@@ -361,7 +361,7 @@ class _FieldSet {
     int hash;
 
     void hashEnumList(PbList enums) {
-      for (final enm in enums) {
+      for (ProtobufEnum enm in enums) {
         hash = (31 * hash + enm.value) & 0x3fffffff;
       }
     }
