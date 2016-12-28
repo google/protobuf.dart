@@ -361,9 +361,9 @@ class _FieldSet {
     int hash;
 
     void hashEnumList(PbList enums) {
-      enums.forEach((ProtobufEnum enm) {
+      for (final enm in enums) {
         hash = (31 * hash + enm.value) & 0x3fffffff;
-      });
+      }
     }
 
     // Hashes the value of one field (recursively).
