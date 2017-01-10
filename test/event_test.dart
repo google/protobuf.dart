@@ -20,7 +20,7 @@ class Rec extends MockMessage with PbEventMixin {
   static final _info = mockInfo("Rec", () => new Rec());
 }
 
-Extension comment = new Extension("Rec", "comment", 5, PbFieldType.OS);
+Extension comment = new Extension("Rec", "comment", 6, PbFieldType.OS);
 
 main() {
   test('Events are sent when setting and clearing a non-repeated field', () {
@@ -224,7 +224,7 @@ main() {
     clear("hello");
 
     setComment("hello");
-    r.setField(5, "hi");
+    r.setField(6, "hi");
     r.deliverChanges();
     checkLogOnce(log, [tag, "hello", "hi"]);
     clear("hi");

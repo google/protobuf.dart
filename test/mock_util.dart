@@ -4,6 +4,7 @@
 
 library mock_util;
 
+import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart'
     show GeneratedMessage, BuilderInfo, CreateBuilderFunc, PbFieldType;
 
@@ -12,7 +13,8 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
     ..a(1, "val", PbFieldType.O3, 42)
     ..a(2, "str", PbFieldType.OS)
     ..a(3, "child", PbFieldType.OM, create, create)
-    ..p(4, "int32s", PbFieldType.P3);
+    ..p(4, "int32s", PbFieldType.P3)
+    ..a(5, "int64", PbFieldType.O6);
 }
 
 /// A minimal protobuf implementation for testing.
@@ -30,6 +32,9 @@ abstract class MockMessage extends GeneratedMessage {
   set child(x) => setField(3, x);
 
   List<int> get int32s => $_get(3, 4, null);
+
+  Int64 get int64 => $_get(4, 5, 0);
+  set int64(x) => setField(5, x);
 
   clone() {
     CreateBuilderFunc create = info_.byName["child"].subBuilder;

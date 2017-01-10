@@ -4,10 +4,6 @@
 
 part of protobuf;
 
-// Range of integers in JSON (53-bit integers).
-Int64 _MAX_JSON_INT = new Int64.fromInts(0x200000, 0);
-Int64 _MIN_JSON_INT = -_MAX_JSON_INT;
-
 Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
   convertToMap(fieldValue, fieldType) {
     int baseType = PbFieldType._baseType(fieldType);
@@ -37,10 +33,6 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
       case PbFieldType._UINT64_BIT:
       case PbFieldType._FIXED64_BIT:
       case PbFieldType._SFIXED64_BIT:
-        // Use strings for 64-bit integers which cannot fit in doubles.
-        if (_MIN_JSON_INT <= fieldValue && fieldValue <= _MAX_JSON_INT) {
-          return fieldValue.toInt();
-        }
         return fieldValue.toString();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:

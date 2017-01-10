@@ -4,6 +4,7 @@
 library json_test;
 
 import 'dart:convert';
+import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:test/test.dart';
 
 import 'mock_util.dart' show MockMessage, mockInfo;
@@ -38,6 +39,16 @@ main() {
     var t = new T();
     t.mergeFromJsonMap({"1": 123, "2": "hello"});
     checkMessage(t);
+  });
+
+  test('testInt64JsonEncoding', () {
+    final value = new Int64(1234567890123456789);
+    final t = new T()
+      ..int64 = value;
+    final encoded = t.writeToJsonMap();
+    expect(encoded["5"], "$value");
+    final decoded = new T()..mergeFromJsonMap(encoded);
+    expect(decoded.int64, value);
   });
 }
 
