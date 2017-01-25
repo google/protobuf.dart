@@ -9,7 +9,7 @@ import '../benchmarks/set_strings.dart';
 import '../benchmarks/has_strings.dart';
 import '../generated/benchmark.pb.dart' show Suite;
 
-final propsSuite = () {
+final Suite propsSuite = () {
   var suite = new Suite();
   suite.requests.addAll([
     _getStrings(10, null),

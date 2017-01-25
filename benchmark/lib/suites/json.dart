@@ -12,7 +12,7 @@ import '../benchmarks/string_json.dart';
 import '../benchmarks/repeated_string_json.dart';
 import '../generated/benchmark.pb.dart' show Suite;
 
-final jsonSuite = () {
+final Suite jsonSuite = () {
   var suite = new Suite();
   suite.requests.addAll([
     _int32(1, 100),

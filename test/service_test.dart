@@ -113,6 +113,7 @@ void main() {
       var descriptor = new DescriptorProto()..mergeFromJsonMap(json);
       return descriptor.name;
     }
+
     expect(readMessageName('.SearchRequest'), "SearchRequest");
     expect(readMessageName('.service2.SearchRequest'), "SearchRequest");
     expect(readMessageName('.service3.SearchResult'), "SearchResult");

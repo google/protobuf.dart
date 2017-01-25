@@ -82,6 +82,7 @@ class FileGenerator extends ProtobufContainer {
       }
       return findMixin(name);
     }
+
     for (var mixin in dartMixins.values) {
       resolveMixin(mixin.name);
     }
