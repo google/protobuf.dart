@@ -1,2 +1,3 @@
 #!/bin/bash
-dart bin/protoc_plugin.dart -c "$@"
+BINDIR=$(dirname "$(readlink -f "$0")")
+dart "$BINDIR/protoc_plugin.dart" -c "$@"
