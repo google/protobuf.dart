@@ -50,7 +50,7 @@ abstract class GeneratedMessage {
 
   UnknownFieldSet get unknownFields => _fieldSet._ensureUnknownFields();
 
-  bool get _isReadOnly => false;
+  bool get _isReadOnly => this is ReadonlyMessageMixin;
 
   bool hasRequiredFields() => info_.hasRequiredFields;
 
