@@ -449,7 +449,7 @@ class _FieldSet {
   /// recursively merged.
   void _mergeFromMessage(_FieldSet other) {
 
-    // TODO(https://github.com/dart-lang/dart-protobuf/issues/60): Recognize
+    // TODO(https://github.com/dart-lang/protobuf/issues/60): Recognize
     // when [this] and [other] are the same protobuf (e.g. from cloning). In
     // this case, we can merge the non-extension fields without field lookups or
     // validation checks.
@@ -556,6 +556,6 @@ class _FieldSet {
       fi._appendInvalidFields(problems, value, prefix);
     }
     // TODO(skybrian): search extensions as well
-    // https://github.com/dart-lang/dart-protobuf/issues/46
+    // https://github.com/dart-lang/protobuf/issues/46
   }
 }

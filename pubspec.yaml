@@ -2,7 +2,7 @@ name: protobuf
 version: 0.5.3+1
 author: Dart Team <misc@dartlang.org>
 description: Runtime library for protobuf support.
-homepage: https://github.com/dart-lang/dart-protobuf
+homepage: https://github.com/dart-lang/protobuf
 environment:
   sdk: '>=1.13.0 <2.0.0'
 dependencies:

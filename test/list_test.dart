@@ -189,7 +189,7 @@ void main() {
 
     // Adding -1 should work because we are storing the bits as-is.
     // (It will be interpreted as a positive number.)
-    // See: https://github.com/dart-lang/dart-protobuf/issues/44
+    // See: https://github.com/dart-lang/protobuf/issues/44
     expect(() {
       list.add(new Int64(-1));
     }, returnsNormally, reason: 'could not add Int64(-1) to a PbList');

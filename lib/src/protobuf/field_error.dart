@@ -51,7 +51,7 @@ String _getFieldError(int fieldType, var value) {
     case PbFieldType._SFIXED64_BIT:
       // We always use the full range of the same Dart type.
       // It's up to the caller to treat the Int64 as signed or unsigned.
-      // See: https://github.com/dart-lang/dart-protobuf/issues/44
+      // See: https://github.com/dart-lang/protobuf/issues/44
       if (value is! Int64) return 'not Int64';
       return null;
 
@@ -104,7 +104,7 @@ CheckFunc getCheckFunction(int fieldType) {
     case PbFieldType._FIXED64_BIT:
       // We always use the full range of the same Dart type.
       // It's up to the caller to treat the Int64 as signed or unsigned.
-      // See: https://github.com/dart-lang/dart-protobuf/issues/44
+      // See: https://github.com/dart-lang/protobuf/issues/44
       return _checkAnyInt64;
 
     case PbFieldType._ENUM_BIT:
