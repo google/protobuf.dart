@@ -1,3 +1,7 @@
+## 0.5.3+2
+
+* Resolved a strong-mode error.
+
 ## 0.5.3+1
 
 * Performance: Avoid excessive cloning in merge.
