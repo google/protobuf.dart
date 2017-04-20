@@ -86,17 +86,29 @@ void _appendJsonList(
     _FieldSet fs, List json, FieldInfo fi, ExtensionRegistry registry) {
   List repeated = fs._ensureRepeatedField(fi);
   for (var value in json) {
-    repeated.add(_convertJsonValue(fs, value, fi.tagNumber, fi.type, registry));
+    var convertedValue =
+        _convertJsonValue(fs, value, fi.tagNumber, fi.type, registry);
+    if (convertedValue != null) {
+      repeated.add(convertedValue);
+    }
   }
 }
 
 void _setJsonField(
     _FieldSet fs, json, FieldInfo fi, ExtensionRegistry registry) {
   var value = _convertJsonValue(fs, json, fi.tagNumber, fi.type, registry);
-  fs._validateField(fi, value);
-  fs._setFieldUnchecked(fi, value);
+  if (value != null) {
+    fs._validateField(fi, value);
+    fs._setFieldUnchecked(fi, value);
+  }
 }
 
+/// Converts [value] from the Json format to the Dart data type
+/// suitable for inserting into the corresponding [GeneratedMessage] field.
+///
+/// Returns the converted value.  This function returns [null] if the caller
+/// should ignore the field value, because it is an unknown enum value.
+/// This function throws [ArgumentError] if it cannot convert the value.
 _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
     ExtensionRegistry registry) {
   String expectedType; // for exception message
@@ -149,6 +161,9 @@ _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
         value = int.parse(value);
       }
       if (value is int) {
+        // The following call will return null if the enum value is unknown.
+        // In that case, we want the caller to ignore this value, so we return
+        // null from this method as well.
         return fs._meta._decodeEnum(tagNumber, registry, value);
       }
       expectedType = 'int or stringified int';

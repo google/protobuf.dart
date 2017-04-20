@@ -1,3 +1,8 @@
+## 0.5.4
+
+* Unknown enum values are ignored when parsing JSON, instead of throwing an
+  exception.
+
 ## 0.5.3+2
 
 * Resolved a strong-mode error.

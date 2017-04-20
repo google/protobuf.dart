@@ -33,7 +33,7 @@ abstract class MockMessage extends GeneratedMessage {
 
   List<int> get int32s => $_get(3, 4, null);
 
-  Int64 get int64 => $_get(4, 5, 0);
+  Int64 get int64 => $_get(4, 5, new Int64(0));
   set int64(x) => setField(5, x);
 
   clone() {
