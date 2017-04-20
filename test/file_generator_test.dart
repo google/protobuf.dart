@@ -78,6 +78,8 @@ void main() {
 ///
 library test;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, bool, double, String, List, override;
 import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {
@@ -165,6 +167,8 @@ const PhoneNumber$json = const {
 ///
 library test;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, bool, double, String, List, override;
 export 'test.pbenum.dart';
 
 ''';
@@ -175,6 +179,8 @@ export 'test.pbenum.dart';
 ///
 library test_pbenum;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart';
 
 class PhoneType extends ProtobufEnum {
@@ -248,6 +254,8 @@ const PhoneType$json = const {
 ///
 library pb_library_test;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, bool, double, String, List, override;
 import 'package:protobuf/protobuf.dart';
 
 ''';
@@ -271,6 +279,8 @@ import 'package:protobuf/protobuf.dart';
 ///
 library test;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, bool, double, String, List, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
@@ -304,6 +314,8 @@ import 'package:protobuf/protobuf.dart';
 ///
 library test;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, bool, double, String, List, override;
 import 'dart:async';
 
 import 'package:protobuf/protobuf.dart';
@@ -377,7 +389,7 @@ abstract class TestServiceBase extends GeneratedService {
   }
 
   Map<String, dynamic> get $json => Test$json;
-  Map<String, dynamic> get $messageJson => Test$messageJson;
+  Map<String, Map<String, dynamic>> get $messageJson => Test$messageJson;
 }
 
 ''';
@@ -416,6 +428,8 @@ abstract class TestServiceBase extends GeneratedService {
 ///
 library test;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, bool, double, String, List, override;
 import 'package:protobuf/protobuf.dart';
 
 import 'package1.pb.dart' as p1;

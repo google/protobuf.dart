@@ -166,11 +166,6 @@ class FileGenerator extends ProtobufContainer {
     return index == -1 ? fileName : fileName.substring(0, index);
   }
 
-  String _generateClassName(Uri protoFilePath) {
-    String s = _fileNameWithoutExtension(protoFilePath).replaceAll('-', '_');
-    return '${s[0].toUpperCase()}${s.substring(1)}';
-  }
-
   /// Generates all the Dart files for this .proto file.
   List<CodeGeneratorResponse_File> generateFiles(OutputConfiguration config) {
     if (!_linked) throw new StateError("not linked");
@@ -208,7 +203,7 @@ class FileGenerator extends ProtobufContainer {
     // name derived from the file name.
     if (!extensionGenerators.isEmpty) {
       // TODO(antonm): do not generate a class.
-      String className = _generateClassName(protoFileUri);
+      String className = extensionClassName(descriptor);
       out.addBlock('class $className {', '}\n', () {
         for (ExtensionGenerator x in extensionGenerators) {
           x.generate(out);
@@ -232,6 +227,11 @@ class FileGenerator extends ProtobufContainer {
   void writeMainHeader(IndentingWriter out,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     _writeLibraryHeading(out);
+
+    // Make sure any other symbols in dart:core don't cause name conflicts with
+    // protobuf classes that have the same name.
+    out.println("// ignore: UNUSED_SHOWN_NAME\n"
+        "import 'dart:core' show int, bool, double, String, List, override;");
 
     // We only add the dart:async import if there are services in the
     // FileDescriptorProto.
@@ -347,6 +347,10 @@ class FileGenerator extends ProtobufContainer {
     _writeLibraryHeading(out, "pbenum");
 
     if (enumCount > 0) {
+      // Make sure any other symbols in dart:core don't cause name conflicts
+      // with enums that have the same name.
+      out.println("// ignore: UNUSED_SHOWN_NAME\n"
+          "import 'dart:core' show int, dynamic, String, List, Map;");
       out.println("import 'package:protobuf/protobuf.dart';");
       out.println();
     }

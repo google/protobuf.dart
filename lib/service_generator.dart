@@ -177,7 +177,7 @@ class ServiceGenerator {
   }
 
   /// Hook for generating members added in subclasses.
-  void _generateMoreClassMembers(out) {}
+  void _generateMoreClassMembers(IndentingWriter out) {}
 
   void generate(IndentingWriter out) {
     out.addBlock(
@@ -189,7 +189,7 @@ class ServiceGenerator {
       _generateDispatchMethod(out);
       _generateMoreClassMembers(out);
       out.println("Map<String, dynamic> get \$json => $jsonConstant;");
-      out.println("Map<String, dynamic> get \$messageJson =>"
+      out.println("Map<String, Map<String, dynamic>> get \$messageJson =>"
           " $messageJsonConstant;");
     });
     out.println();

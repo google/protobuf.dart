@@ -11,6 +11,7 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/enum_extension.pb.dart';
 import '../out/protos/nested_extension.pb.dart';
 import '../out/protos/non_nested_extension.pb.dart';
+import '../out/protos/ExtensionNameConflict.pb.dart';
 
 import 'test_util.dart';
 

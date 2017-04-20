@@ -29,3 +29,11 @@ message TakeExistingName {
     (dart_options.dart_name) = "first"
   ];
 }
+
+message Function {
+  optional string fun = 1;
+}
+
+message Function_ {
+  optional string fun1 = 1;
+}

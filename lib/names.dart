@@ -49,11 +49,64 @@ String extensionName(FieldDescriptorProto descriptor) {
   return _unusedMemberNames(descriptor, null, existingNames).fieldName;
 }
 
+/// Chooses the name of the Dart class holding top-level extensions.
+String extensionClassName(FileDescriptorProto descriptor) {
+  var taken = new Set<String>();
+  for (var messageType in descriptor.messageType) {
+    taken.add(messageClassName(messageType));
+  }
+
+  String s = _fileNameWithoutExtension(descriptor).replaceAll('-', '_');
+  String candidate = '${s[0].toUpperCase()}${s.substring(1)}';
+
+  if (!taken.contains(candidate)) {
+    return candidate;
+  }
+
+  // Found a conflict; try again.
+  candidate = "${candidate}Ext";
+  if (!taken.contains(candidate)) {
+    return candidate;
+  }
+
+  // Next, try numbers.
+  int suffix = 2;
+  while (taken.contains("$candidate$suffix")) {
+    suffix++;
+  }
+  return "$candidate$suffix";
+}
+
+String _fileNameWithoutExtension(FileDescriptorProto descriptor) {
+  Uri path = new Uri.file(descriptor.name);
+  String fileName = path.pathSegments.last;
+  int dot = fileName.lastIndexOf(".");
+  return dot == -1 ? fileName : fileName.substring(0, dot);
+}
+
 // Exception thrown when a field has an invalid 'dart_name' option.
 class DartNameOptionException implements Exception {
   final String message;
   DartNameOptionException(this.message);
   String toString() => "$message";
+}
+
+/// Chooses the name of the Dart class to generate for a protobuf message.
+///
+/// For a nested message, [parent] should be provided
+/// with the name of the Dart class for the immediate parent.
+String messageClassName(DescriptorProto descriptor, {String parent: ''}) {
+  var name = descriptor.name;
+  if (parent != '') {
+    name = '${parent}_${descriptor.name}';
+  }
+  if (name == 'Function') {
+    name = 'Function_'; // Avoid reserved word.
+  } else if (name.startsWith('Function_')) {
+    // Avoid any further name conflicts due to 'Function' rename (unlikely).
+    name = name + '_';
+  }
+  return name;
 }
 
 /// Chooses the GeneratedMessage member names for each field.

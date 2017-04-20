@@ -35,7 +35,7 @@ abstract class TestServiceBase extends GeneratedService {
   }
 
   Map<String, dynamic> get $json => Test$json;
-  Map<String, dynamic> get $messageJson => Test$messageJson;
+  Map<String, Map<String, dynamic>> get $messageJson => Test$messageJson;
 }
 
 ''';

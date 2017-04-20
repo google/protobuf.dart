@@ -24,8 +24,14 @@ class MessageGenerator extends ProtobufContainer {
     return mixin;
   }
 
+  /// The name of the Dart class to generate.
   final String classname;
+
+  /// The fully-qualified name of the message type.
+  ///
+  /// (Used as a unique key and in error messages, not in Dart code.)
   final String fqname;
+
   final PbMixin mixin;
 
   final ProtobufContainer _parent;
@@ -41,9 +47,7 @@ class MessageGenerator extends ProtobufContainer {
       Map<String, PbMixin> declaredMixins, PbMixin defaultMixin)
       : _descriptor = descriptor,
         _parent = parent,
-        classname = (parent.classname == '')
-            ? descriptor.name
-            : '${parent.classname}_${descriptor.name}',
+        classname = messageClassName(descriptor, parent: parent.classname),
         fqname = (parent == null || parent.fqname == null)
             ? descriptor.name
             : (parent.fqname == '.'

@@ -19,6 +19,7 @@ TEST_PROTO_LIST = \
 	dart_options \
 	descriptor_2_5_opensource \
 	enum_extension \
+	ExtensionNameConflict \
 	map_api \
 	map_api2 \
 	mixins \

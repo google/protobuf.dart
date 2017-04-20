@@ -55,6 +55,7 @@ class FakeJsonServer {
 
 class FakeJsonClient implements RpcClient {
   final FakeJsonServer server;
+
   FakeJsonClient(this.server);
 
   Future<GeneratedMessage> invoke(

@@ -17,9 +17,7 @@ void main() {
       out.println('second;');
     });
 
-    expect(
-        out.toString(),
-        '''
+    expect(out.toString(), '''
 class test {
   first;
 

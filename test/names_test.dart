@@ -9,7 +9,7 @@ import 'package:protoc_plugin/names.dart' as names;
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/dart_options.pb.dart';
 
-import '../out/protos/dart_name.pb.dart';
+import '../out/protos/dart_name.pb.dart' as pb;
 
 Matcher throwsMessage(String msg) => throwsA(new _ToStringMatcher(equals(msg)));
 
@@ -21,7 +21,7 @@ class _ToStringMatcher extends CustomMatcher {
 
 void main() {
   test('Can access a field that was renamed using dart_name option', () {
-    var msg = new DartName();
+    var msg = new pb.DartName();
     expect(msg.hasRenamedField(), false);
     msg.renamedField = 'test';
     expect(msg.hasRenamedField(), true);
@@ -31,7 +31,7 @@ void main() {
   });
 
   test('Can swap field names using dart_name option', () {
-    var msg = new SwapNames();
+    var msg = new pb.SwapNames();
     msg.first = "one";
     msg.second = "two";
     expect(msg.getField(1), "two");
@@ -39,7 +39,7 @@ void main() {
   });
 
   test("Can take another field's name using dart_name option", () {
-    var msg = new TakeExistingName();
+    var msg = new pb.TakeExistingName();
     msg.first = "one";
     expect(msg.getField(2), "one");
     msg.first_1 = "renamed";
@@ -80,6 +80,11 @@ void main() {
     },
         throwsMessage("Example.second: "
             "dart_name option is invalid: 'renamed' is already used"));
+  });
+
+  test('message classes renamed to avoid Function keyword', () {
+    new pb.Function_()..fun = 'renamed';
+    new pb.Function__()..fun1 = 'also renamed';
   });
 }
 
