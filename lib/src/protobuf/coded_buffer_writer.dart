@@ -8,6 +8,9 @@ class CodedBufferWriter {
 
   final List<TypedData> _output = <TypedData>[];
   int _runningSizeInBytes = 0;
+  int get lengthInBytes {
+    return _runningSizeInBytes;
+  }
 
   static final _WRITE_FUNCTION_MAP = _makeWriteFunctionMap();
 
@@ -204,13 +207,23 @@ class CodedBufferWriter {
 
   Uint8List toBuffer() {
     Uint8List result = new Uint8List(_runningSizeInBytes);
-    int position = 0;
+    writeTo(result);
+    return result;
+  }
+
+  /// Serializes everything written to this writer so far to [buffer], starting
+  /// from [offset] in [buffer]. Returns `true` on success.
+  bool writeTo(List<int> buffer, [int offset=0]) {
+    if (buffer.length - offset < _runningSizeInBytes) {
+      return false;
+    }
+    int position = offset;
     for (var typedData in _output) {
       Uint8List asBytes = new Uint8List.view(
           typedData.buffer, typedData.offsetInBytes, typedData.lengthInBytes);
-      result.setRange(position, position + typedData.lengthInBytes, asBytes);
+      buffer.setRange(position, position + typedData.lengthInBytes, asBytes);
       position += typedData.lengthInBytes;
     }
-    return result;
+    return true;
   }
 }
