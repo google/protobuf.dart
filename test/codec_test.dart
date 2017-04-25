@@ -5,7 +5,6 @@
 
 library pb_codec_tests;
 
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
@@ -756,16 +755,13 @@ void main() {
   test('testWriteTo', () {
     var writer = new CodedBufferWriter()..writeField(0, PbFieldType.O3, 1337);
     expect(writer.lengthInBytes, 3);
-    var rng = new Random();
-    var a = rng.nextInt(256);
-    var b = rng.nextInt(256);
     var buffer = new Uint8List(5);
-    buffer[0] = a;
-    buffer[4] = b;
+    buffer[0] = 0x55;
+    buffer[4] = 0xAA;
     var expected = writer.toBuffer();
     expect(writer.writeTo(buffer, 1), isTrue);
-    expect(buffer[0], a);
-    expect(buffer[4], b);
+    expect(buffer[0], 0x55);
+    expect(buffer[4], 0xAA);
     expect(buffer.sublist(1, 4), expected);
     expect(writer.writeTo(buffer, 3), isFalse);
   });

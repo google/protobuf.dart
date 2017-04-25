@@ -8,9 +8,7 @@ class CodedBufferWriter {
 
   final List<TypedData> _output = <TypedData>[];
   int _runningSizeInBytes = 0;
-  int get lengthInBytes {
-    return _runningSizeInBytes;
-  }
+  int get lengthInBytes => _runningSizeInBytes;
 
   static final _WRITE_FUNCTION_MAP = _makeWriteFunctionMap();
 
