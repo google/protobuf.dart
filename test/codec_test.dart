@@ -751,4 +751,18 @@ void main() {
     expect(readUint64([180, 222, 252, 255, 255, 255, 255, 255, 255, 1]),
         expect64(0xffff2f34, 0xffffffff));
   });
+
+  test('testWriteTo', () {
+    var writer = new CodedBufferWriter()..writeField(0, PbFieldType.O3, 1337);
+    expect(writer.lengthInBytes, 3);
+    var buffer = new Uint8List(5);
+    buffer[0] = 0x55;
+    buffer[4] = 0xAA;
+    var expected = writer.toBuffer();
+    expect(writer.writeTo(buffer, 1), isTrue);
+    expect(buffer[0], 0x55);
+    expect(buffer[4], 0xAA);
+    expect(buffer.sublist(1, 4), expected);
+    expect(writer.writeTo(buffer, 3), isFalse);
+  });
 }
