@@ -336,12 +336,12 @@ class MessageGenerator extends ProtobufContainer {
         var fastSetter = field.baseType.setter;
         _emitOverrideIf(field.overridesSetter, out);
         if (fastSetter != null) {
-          out.println('void set ${names.fieldName}'
+          out.println('set ${names.fieldName}'
               '($fieldTypeString v) { '
               '$fastSetter(${field.index}, ${field.number}, v);'
               ' }');
         } else {
-          out.println('void set ${names.fieldName}'
+          out.println('set ${names.fieldName}'
               '($fieldTypeString v) { '
               'setField(${field.number}, v);'
               ' }');
