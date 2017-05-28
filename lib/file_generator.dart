@@ -483,6 +483,8 @@ import 'package:protobuf/protobuf.dart';
 ///
 //  Generated code. Do not modify.
 ///
+// @ignoreProblemForFile non_constant_identifier_names
+// @ignoreProblemForFile library_prefixes
 library $libraryName;
 ''');
   }
