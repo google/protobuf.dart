@@ -105,6 +105,8 @@ abstract class GeneratedMessage {
     }
   }
 
+  dynamic clone();
+  
   Uint8List writeToBuffer() {
     CodedBufferWriter out = new CodedBufferWriter();
     writeToCodedBufferWriter(out);
