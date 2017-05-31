@@ -106,9 +106,6 @@ abstract class GeneratedMessage {
   }
 
   dynamic clone();
-
-  // Overriden by subclasses.
-  BuilderInfo get info_;
   
   Uint8List writeToBuffer() {
     CodedBufferWriter out = new CodedBufferWriter();
