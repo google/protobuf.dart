@@ -15,9 +15,12 @@ class UnknownFieldSet {
     mergeFromUnknownFieldSet(unknownFieldSet);
   }
 
-  UnknownFieldSet clone() => new UnknownFieldSet._clone(this);
+   UnknownFieldSet clone() => new UnknownFieldSet._clone(this);
 
-  Map<int, UnknownFieldSetField> asMap() => new Map.from(_fields);
+   bool get isEmpty => _fields.isEmpty;
+   bool get isNotEmpty => _fields.isNotEmpty;
+
+   Map<int, UnknownFieldSetField> asMap() => new Map.from(_fields);
 
   void clear() {
     _fields.clear();
@@ -190,7 +193,7 @@ class UnknownFieldSetField {
 
   int get hashCode {
     int hash = 0;
-    lengthDelimited.forEach((List<int> value) {
+    for (final value in lengthDelimited) {
       for (int i = 0; i < value.length; i++) {
         hash = (hash + value[i]) & 0x3fffffff;
         hash = (hash + hash << 10) & 0x3fffffff;
@@ -199,15 +202,19 @@ class UnknownFieldSetField {
       hash = (hash + hash << 3) & 0x3fffffff;
       hash = (hash ^ hash >> 11) & 0x3fffffff;
       hash = (hash + hash << 15) & 0x3fffffff;
-    });
-    varints.forEach(
-        (Object value) => hash = (hash + 7 * value.hashCode) & 0x3fffffff);
-    fixed32s.forEach(
-        (Object value) => hash = (hash + 37 * value.hashCode) & 0x3fffffff);
-    fixed64s.forEach(
-        (Object value) => hash = (hash + 53 * value.hashCode) & 0x3fffffff);
-    groups.forEach(
-        (Object value) => hash = (hash + value.hashCode) & 0x3fffffff);
+    }
+    for (final value in varints) {
+      hash = (hash + 7 * value.hashCode) & 0x3fffffff;
+    }
+    for (final value in fixed32s) {
+      hash = (hash + 37 * value.hashCode) & 0x3fffffff;
+    }
+    for (final value in fixed64s) {
+      hash = (hash + 53 * value.hashCode) & 0x3fffffff;
+    }
+    for (final value in groups) {
+      hash = (hash + value.hashCode) & 0x3fffffff;
+    }
     return hash;
   }
 
@@ -223,11 +230,11 @@ class UnknownFieldSetField {
       output.writeField(fieldNumber, type, value);
     }
 
-    write(GeneratedMessage._REPEATED_UINT64, varints);
-    write(GeneratedMessage._REPEATED_FIXED32, fixed32s);
-    write(GeneratedMessage._REPEATED_FIXED64, fixed64s);
-    write(GeneratedMessage._REPEATED_BYTES, lengthDelimited);
-    write(GeneratedMessage._REPEATED_GROUP, groups);
+    write(PbFieldType._REPEATED_UINT64, varints);
+    write(PbFieldType._REPEATED_FIXED32, fixed32s);
+    write(PbFieldType._REPEATED_FIXED64, fixed64s);
+    write(PbFieldType._REPEATED_BYTES, lengthDelimited);
+    write(PbFieldType._REPEATED_GROUP, groups);
   }
 
   void addGroup(UnknownFieldSet value) {

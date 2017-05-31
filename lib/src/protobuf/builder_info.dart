@@ -10,90 +10,72 @@ part of protobuf;
 class BuilderInfo {
   final String messageName;
   final Map<int, FieldInfo> fieldInfo = new Map<int, FieldInfo>();
+  final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
   bool hasExtensions = false;
   bool hasRequiredFields = true;
+  List<FieldInfo> _sortedByTag;
 
   BuilderInfo(this.messageName);
 
-  void add(int tagNumber, String name, int fieldType,
-           MakeDefaultFunc makeDefault,
-           CreateBuilderFunc subBuilder,
-           ValueOfFunc valueOf) {
-    fieldInfo[tagNumber] = byName[name] = new FieldInfo(
-      name, tagNumber, fieldType, makeDefault, subBuilder, valueOf);
+  void add/*<T>*/(
+      int tagNumber,
+      String name,
+      int fieldType,
+      dynamic defaultOrMaker,
+      CreateBuilderFunc subBuilder,
+      ValueOfFunc valueOf) {
+    var index = fieldInfo.length;
+    addField(new FieldInfo/*<T>*/(name, tagNumber, index, fieldType,
+        defaultOrMaker, subBuilder, valueOf));
   }
 
-  void a(int tagNumber, String name, int fieldType,
-         [MakeDefaultFunc makeDefault,
-         CreateBuilderFunc subBuilder,
-         ValueOfFunc valueOf]) {
-    add(tagNumber, name, fieldType,
-        makeDefault, subBuilder, valueOf);
+  void addRepeated/*<T>*/(int tagNumber, String name, int fieldType,
+      CheckFunc check, CreateBuilderFunc subBuilder, ValueOfFunc valueOf) {
+    var index = fieldInfo.length;
+    addField(new FieldInfo/*<T>*/ .repeated(
+        name, tagNumber, index, fieldType, check, subBuilder, valueOf));
+  }
+
+  void addField(FieldInfo fi) {
+    fieldInfo[fi.tagNumber] = fi;
+    byTagAsString["${fi.tagNumber}"] = fi;
+    byName[fi.name] = fi;
+  }
+
+  void a/*<T>*/(int tagNumber, String name, int fieldType,
+      [dynamic defaultOrMaker,
+      CreateBuilderFunc subBuilder,
+      ValueOfFunc valueOf]) {
+    add/*<T>*/(tagNumber, name, fieldType, defaultOrMaker, subBuilder, valueOf);
   }
 
   // Enum.
-  void e(int tagNumber, String name, int fieldType,
-         MakeDefaultFunc makeDefault, ValueOfFunc valueOf) {
-    add(tagNumber, name, fieldType,
-        makeDefault, null, valueOf);
+  void e/*<T>*/(int tagNumber, String name, int fieldType,
+      dynamic defaultOrMaker, ValueOfFunc valueOf) {
+    add/*<T>*/(tagNumber, name, fieldType, defaultOrMaker, null, valueOf);
   }
 
   // Repeated message.
-  // TODO(antonm): change the order of CreateBuilderFunc and MakeDefaultFunc.
-  void m(int tagNumber, String name,
-         CreateBuilderFunc subBuilder, MakeDefaultFunc makeDefault) {
-    add(tagNumber, name, GeneratedMessage._REPEATED_MESSAGE,
-        makeDefault, subBuilder, null);
+  // TODO(skybrian): migrate to pp() and remove.
+  void m/*<T>*/(int tagNumber, String name, CreateBuilderFunc subBuilder,
+      MakeDefaultFunc makeDefault) {
+    add/*<T>*/(tagNumber, name, PbFieldType._REPEATED_MESSAGE, makeDefault,
+        subBuilder, null);
   }
 
-  // Repeated non-message.
-  void p(int tagNumber, String name, int fieldType) {
-    MakeDefaultFunc makeDefault;
-    switch (fieldType & ~0x7) {
-    case GeneratedMessage._BOOL_BIT:
-      makeDefault = () => new PbList<bool>();
-      break;
-    case GeneratedMessage._BYTES_BIT:
-      makeDefault = () => new PbList<List<int>>();
-      break;
-    case GeneratedMessage._STRING_BIT:
-      makeDefault = () => new PbList<String>();
-      break;
-    case GeneratedMessage._FLOAT_BIT:
-      makeDefault = () => new PbFloatList();
-      break;
-    case GeneratedMessage._DOUBLE_BIT:
-      makeDefault = () => new PbList<double>();
-      break;
-    case GeneratedMessage._ENUM_BIT:
-      makeDefault = () => new PbList<ProtobufEnum>();
-      break;
-    case GeneratedMessage._INT32_BIT:
-    case GeneratedMessage._SINT32_BIT:
-    case GeneratedMessage._SFIXED32_BIT:
-      makeDefault = () => new PbSint32List();
-      break;
-    case GeneratedMessage._UINT32_BIT:
-    case GeneratedMessage._FIXED32_BIT:
-      makeDefault = () => new PbUint32List();
-      break;
-    case GeneratedMessage._INT64_BIT:
-    case GeneratedMessage._SINT64_BIT:
-    case GeneratedMessage._SFIXED64_BIT:
-      makeDefault = () => new PbSint64List();
-      break;
-    case GeneratedMessage._UINT64_BIT:
-    case GeneratedMessage._FIXED64_BIT:
-      makeDefault = () => new PbUint64List();
-      break;
-    case GeneratedMessage._MESSAGE_BIT:
-      throw new ArgumentError('use BuilderInfo.m() for repeated messages');
-    default:
-      throw new ArgumentError('unknown type ${fieldType}');
-    }
+  // Repeated, not a message, group, or enum.
+  void p/*<T>*/(int tagNumber, String name, int fieldType) {
+    assert(!_isGroupOrMessage(fieldType) && !_isEnum(fieldType));
+    addRepeated/*<T>*/(
+        tagNumber, name, fieldType, getCheckFunction(fieldType), null, null);
+  }
 
-    add(tagNumber, name, fieldType, makeDefault, null, null);
+  // Repeated message, group, or enum.
+  void pp/*<T>*/(int tagNumber, String name, int fieldType, CheckFunc check,
+      [CreateBuilderFunc subBuilder, ValueOfFunc valueOf]) {
+    assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
+    addRepeated/*<T>*/(tagNumber, name, fieldType, check, subBuilder, valueOf);
   }
 
   bool containsTagNumber(int tagNumber) => fieldInfo.containsKey(tagNumber);
@@ -119,11 +101,6 @@ class BuilderInfo {
     return i != null ? i.makeDefault : null;
   }
 
-  bool isInitialized(Map<int, dynamic> fieldValues) {
-    return fieldInfo.keys.every(
-        (tagNumber) => _isFieldInitialized(fieldValues, tagNumber));
-  }
-
   CreateBuilderFunc subBuilder(int tagNumber) {
     FieldInfo i = fieldInfo[tagNumber];
     return i != null ? i.subBuilder : null;
@@ -139,95 +116,31 @@ class BuilderInfo {
     return i != null ? i.valueOf : null;
   }
 
-  bool _isFieldInitialized(Map<int, dynamic> fieldValues, int tagNumber,
-                           [int fieldType = null]) {
-    if (fieldType == null) {
-      fieldType = fieldInfo[tagNumber].type;
-    }
-    if ((fieldType &
-        (GeneratedMessage._MESSAGE_BIT | GeneratedMessage._GROUP_BIT)) != 0) {
-      if ((fieldType & GeneratedMessage._REQUIRED_BIT) != 0) {
-        GeneratedMessage message = fieldValues[tagNumber];
-        // Required message/group must be present and initialized.
-        if (message == null || !message.isInitialized()) {
-          return false;
-        }
-      } else if ((fieldType & GeneratedMessage._REPEATED_BIT) != 0) {
-        if (fieldValues.containsKey(tagNumber)) {
-          // Repeated message/group must have all its members initialized.
-          List list = fieldValues[tagNumber];
-          // For message types that (recursively) contain no required fields,
-          // short-circuit the loop.
-          if (!list.isEmpty && list[0].hasRequiredFields()) {
-            if (!list.every((message) => message.isInitialized())) {
-              return false;
-            }
-          }
-        }
-      } else {
-        GeneratedMessage message = fieldValues[tagNumber];
-        // Optional message/group must be initialized if it is present.
-        if (message != null && !message.isInitialized()) {
-          return false;
-        }
-      }
+  /// Returns the FieldInfo for each field in tag number order.
+  List<FieldInfo> get sortedByTag => _sortedByTag ??= _computeSortedByTag();
 
-    } else if ((fieldType & GeneratedMessage._REQUIRED_BIT) != 0) {
-      // Required 'primitive' must be present.
-      if (fieldValues[tagNumber] == null) {
-        return false;
-      }
-    }
-    return true;
+  List<FieldInfo> _computeSortedByTag() {
+    // TODO(skybrian): perhaps the code generator should insert the FieldInfos
+    // in tag number order, to avoid sorting them?
+    return new List<FieldInfo>.from(fieldInfo.values, growable: false)
+      ..sort((FieldInfo a, FieldInfo b) => a.tagNumber.compareTo(b.tagNumber));
   }
 
-  List<String> _findInvalidFields(Map<int, dynamic> fieldValues,
-      List<String> invalidFields, [String prefix = '']) {
-    fieldInfo.forEach((int tagNumber, FieldInfo field) {
-      int fieldType = field.type;
-      if ((fieldType &
-          (GeneratedMessage._MESSAGE_BIT | GeneratedMessage._GROUP_BIT)) != 0) {
-        if ((fieldType & GeneratedMessage._REQUIRED_BIT) != 0) {
-          GeneratedMessage message = fieldValues[tagNumber];
-          // Required message/group must be present.
-          if (message == null) {
-            invalidFields.add('${prefix}${field.name}');
-          } else {
-            message._findInvalidFields(
-                invalidFields, '${prefix}${field.name}.');
-          }
-        } else if ((fieldType & GeneratedMessage._REPEATED_BIT) != 0) {
-          if (fieldValues.containsKey(tagNumber)) {
-            // Repeated message/group must have all its members initialized.
-            List list = fieldValues[tagNumber];
-            // For messages that (recursively) contain no required fields,
-            // short-circuit the loop.
-            if (!list.isEmpty && list[0].hasRequiredFields()) {
-              int position = 0;
-              for (GeneratedMessage message in list) {
-                if (message.hasRequiredFields()) {
-                  message._findInvalidFields(
-                      invalidFields, '${prefix}${field.name}[${position}].');
-                }
-                position++;
-              }
-            }
-          }
-        } else {
-          GeneratedMessage message = fieldValues[tagNumber];
-          // Required message/group must be present.
-          if (message != null) {
-            message._findInvalidFields(invalidFields, '${prefix}${field.name}.');
-          }
-        }
+  GeneratedMessage _makeEmptyMessage(
+      int tagNumber, ExtensionRegistry extensionRegistry) {
+    CreateBuilderFunc subBuilderFunc = subBuilder(tagNumber);
+    if (subBuilderFunc == null && extensionRegistry != null) {
+      subBuilderFunc =
+          extensionRegistry.getExtension(messageName, tagNumber).subBuilder;
+    }
+    return subBuilderFunc();
+  }
 
-      } else if((fieldType & GeneratedMessage._REQUIRED_BIT) != 0) {
-        // Required 'primitive' must be present.
-        if (fieldValues[tagNumber] == null) {
-          invalidFields.add('${prefix}${field.name}');
-        }
-      }
-    });
-    return invalidFields;
+  _decodeEnum(int tagNumber, ExtensionRegistry registry, int rawValue) {
+    ValueOfFunc f = valueOfFunc(tagNumber);
+    if (f == null && registry != null) {
+      f = registry.getExtension(messageName, tagNumber).valueOf;
+    }
+    return f(rawValue);
   }
 }

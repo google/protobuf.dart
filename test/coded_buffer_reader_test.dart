@@ -5,8 +5,10 @@
 
 library coded_buffer_reader_tests;
 
+import 'dart:typed_data';
+
 import 'package:protobuf/protobuf.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import 'test_util.dart';
 
@@ -14,7 +16,7 @@ void main() {
   final throwsInvalidProtocolBufferException =
       throwsA(new isInstanceOf<InvalidProtocolBufferException>());
 
-  test('testCodedBufferReader', () {
+  group('testCodedBufferReader', () {
     List<int> inputBuffer = <int>[
       0xb8, 0x06, 0x20, // 103 int32 = 32
       0xc0, 0x06, 0x40, // 104 int64 = 64
@@ -36,46 +38,69 @@ void main() {
           0x6e, 0x61, 0x6c, 0x5f, 0x62, 0x79, 0x74,
           0x65, 0x73 // 115 bytes 14 optional_bytes
     ];
-    CodedBufferReader cis = new CodedBufferReader(inputBuffer);
 
-    expect(cis.readTag(), makeTag(103, WIRETYPE_VARINT));
-    expect(cis.readInt32(), 32);
+    testWithList(List<int> inputBuffer) {
+      CodedBufferReader cis = new CodedBufferReader(inputBuffer);
 
-    expect(cis.readTag(), makeTag(104, WIRETYPE_VARINT));
-    expect(cis.readInt64(), expect64(64));
+      expect(cis.readTag(), makeTag(103, WIRETYPE_VARINT));
+      expect(cis.readInt32(), 32);
 
-    expect(cis.readTag(), makeTag(105, WIRETYPE_VARINT));
-    expect(cis.readUint32(), 32);
+      expect(cis.readTag(), makeTag(104, WIRETYPE_VARINT));
+      expect(cis.readInt64(), expect64(64));
 
-    expect(cis.readTag(), makeTag(106, WIRETYPE_VARINT));
-    expect(cis.readUint64(), expect64(64));
+      expect(cis.readTag(), makeTag(105, WIRETYPE_VARINT));
+      expect(cis.readUint32(), 32);
 
-    expect(cis.readTag(), makeTag(107, WIRETYPE_VARINT));
-    expect(cis.readSint32(), 32);
+      expect(cis.readTag(), makeTag(106, WIRETYPE_VARINT));
+      expect(cis.readUint64(), expect64(64));
 
-    expect(cis.readTag(), makeTag(108, WIRETYPE_VARINT));
-    expect(cis.readSint64(), expect64(64));
+      expect(cis.readTag(), makeTag(107, WIRETYPE_VARINT));
+      expect(cis.readSint32(), 32);
 
-    expect(cis.readTag(), makeTag(109, WIRETYPE_FIXED32));
-    expect(cis.readFixed32(), 32);
+      expect(cis.readTag(), makeTag(108, WIRETYPE_VARINT));
+      expect(cis.readSint64(), expect64(64));
 
-    expect(cis.readTag(), makeTag(110, WIRETYPE_FIXED64));
-    expect(cis.readFixed64(), expect64(64));
+      expect(cis.readTag(), makeTag(109, WIRETYPE_FIXED32));
+      expect(cis.readFixed32(), 32);
 
-    expect(cis.readTag(), makeTag(111, WIRETYPE_FIXED32));
-    expect(cis.readSfixed32(), 32);
+      expect(cis.readTag(), makeTag(110, WIRETYPE_FIXED64));
+      expect(cis.readFixed64(), expect64(64));
 
-    expect(cis.readTag(), makeTag(112, WIRETYPE_FIXED64));
-    expect(cis.readSfixed64(), expect64(64));
+      expect(cis.readTag(), makeTag(111, WIRETYPE_FIXED32));
+      expect(cis.readSfixed32(), 32);
 
-    expect(cis.readTag(), makeTag(113, WIRETYPE_VARINT));
-    expect(cis.readBool(), isTrue);
+      expect(cis.readTag(), makeTag(112, WIRETYPE_FIXED64));
+      expect(cis.readSfixed64(), expect64(64));
 
-    expect(cis.readTag(), makeTag(114, WIRETYPE_LENGTH_DELIMITED));
-    expect(cis.readString(), 'optional_string');
+      expect(cis.readTag(), makeTag(113, WIRETYPE_VARINT));
+      expect(cis.readBool(), isTrue);
 
-    expect(cis.readTag(), makeTag(115, WIRETYPE_LENGTH_DELIMITED));
-    expect(cis.readBytes(), 'optional_bytes'.codeUnits);
+      expect(cis.readTag(), makeTag(114, WIRETYPE_LENGTH_DELIMITED));
+      expect(cis.readString(), 'optional_string');
+
+      expect(cis.readTag(), makeTag(115, WIRETYPE_LENGTH_DELIMITED));
+      expect(cis.readBytes(), 'optional_bytes'.codeUnits);
+    }
+
+    test('normal-list', () {
+      testWithList(inputBuffer);
+    });
+
+    test('uint8-list', () {
+      var uint8List = new Uint8List.fromList(inputBuffer);
+      testWithList(uint8List);
+    });
+
+    test('uint8-list-view', () {
+      var uint8List = new Uint8List(inputBuffer.length + 4);
+      uint8List[0] = 0xc0;
+      uint8List[1] = 0xc8;
+      uint8List.setRange(2, 2 + inputBuffer.length, inputBuffer);
+      uint8List[inputBuffer.length + 2] = 0xe0;
+      uint8List[inputBuffer.length + 3] = 0xed;
+      var view = new Uint8List.view(uint8List.buffer, 2, inputBuffer.length);
+      testWithList(view);
+    });
   });
 
   test('testReadMaliciouslyLargeBlob', () {

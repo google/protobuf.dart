@@ -7,15 +7,21 @@ part of protobuf;
 /**
  * An object representing an extension field.
  */
-class Extension extends FieldInfo {
-
+class Extension<T> extends FieldInfo<T> {
   final String extendee;
 
   Extension(this.extendee, String name, int tagNumber, int fieldType,
-            [MakeDefaultFunc makeDefault,
-            CreateBuilderFunc subBuilder,
-            ValueOfFunc valueOf]) :
-     super(name, tagNumber, fieldType, makeDefault, subBuilder, valueOf);
+      [dynamic defaultOrMaker,
+      CreateBuilderFunc subBuilder,
+      ValueOfFunc valueOf])
+      : super(name, tagNumber, null, fieldType, defaultOrMaker, subBuilder,
+            valueOf);
+
+  Extension.repeated(
+      this.extendee, String name, int tagNumber, int fieldType, CheckFunc check,
+      [CreateBuilderFunc subBuilder, ValueOfFunc valueOf])
+      : super.repeated(
+            name, tagNumber, null, fieldType, check, subBuilder, valueOf);
 
   int get hashCode => extendee.hashCode * 31 + tagNumber;
 
@@ -26,4 +32,3 @@ class Extension extends FieldInfo {
     return extendee == o.extendee && tagNumber == o.tagNumber;
   }
 }
-

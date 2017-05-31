@@ -15,5 +15,8 @@
 # pub-build
 build/*: Skip  # testing of the build folder is not necessary
 
-[ $compiler == dart2js && $runtime != none ]]
-test/codec_test: Fail  # expected: number semantics in .js are different
+[ $compiler == dart2js && $runtime != none ]
+test/codec_test: Skip  # expected: number semantics in .js are different
+
+[ $compiler == dart2js ]
+test/reserved_names_test: Skip

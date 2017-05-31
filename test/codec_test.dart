@@ -8,7 +8,7 @@ library pb_codec_tests;
 import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 import 'test_util.dart';
 
@@ -16,14 +16,14 @@ void main() {
   ByteData makeData(Uint8List bytes) => new ByteData.view(bytes.buffer);
 
   convertToBytes(fieldType) => (value) {
-    var writer = new CodedBufferWriter()..writeField(0, fieldType, value);
-    return writer.toBuffer().sublist(1);
-  };
+        var writer = new CodedBufferWriter()..writeField(0, fieldType, value);
+        return writer.toBuffer().sublist(1);
+      };
 
-  final int32ToBytes = convertToBytes(GeneratedMessage.O3);
+  final int32ToBytes = convertToBytes(PbFieldType.O3);
 
   test('testEquivalentBitwiseRepresentations', () {
-    final uint32ToBytes = convertToBytes(GeneratedMessage.OU3);
+    final uint32ToBytes = convertToBytes(PbFieldType.OU3);
     // Internal representation appears to be bit-wise identical
     // an additional internal flag must differentiate.
     expect(int32ToBytes(-1), uint32ToBytes(4294967295));
@@ -59,7 +59,7 @@ void main() {
     expect(readSint32([0x02]), 1);
     expect(readSint32([0x03]), -2);
 
-    final sint32ToBytes = convertToBytes(GeneratedMessage.OS3);
+    final sint32ToBytes = convertToBytes(PbFieldType.OS3);
 
     expect(sint32ToBytes(0), [0x00]);
     expect(sint32ToBytes(-1), [0x01]);
@@ -75,7 +75,7 @@ void main() {
     expect(readSint64([0x02]), expect64(1));
     expect(readSint64([0x03]), expect64(-2));
 
-    final sint64ToBytes = convertToBytes(GeneratedMessage.OS6);
+    final sint64ToBytes = convertToBytes(PbFieldType.OS6);
 
     expect(sint64ToBytes(make64(0)), [0x00]);
     expect(sint64ToBytes(make64(-1)), [0x01]);
@@ -91,7 +91,7 @@ void main() {
     expect(readFixed32([0xff, 0xff, 0xff, 0xff]), 4294967295);
     expect(readFixed32([0xcd, 0x12, 0xab, 0x90]), 2427130573);
 
-    final fixed32ToBytes = convertToBytes(GeneratedMessage.OF3);
+    final fixed32ToBytes = convertToBytes(PbFieldType.OF3);
 
     expect(fixed32ToBytes(0), [0x00, 0x00, 0x00, 0x00]);
     expect(fixed32ToBytes(1), [0x01, 0x00, 0x00, 0x00]);
@@ -103,20 +103,20 @@ void main() {
     readFixed64(List<int> bytes) => new CodedBufferReader(bytes).readFixed64();
 
     expect(readFixed64([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-           expect64(0));
+        expect64(0));
     expect(readFixed64([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-           expect64(1));
+        expect64(1));
     expect(readFixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
-           expect64(0xffffffff, 0xffffffff));
+        expect64(0xffffffff, 0xffffffff));
 
-    final fixed64ToBytes = convertToBytes(GeneratedMessage.OF6);
+    final fixed64ToBytes = convertToBytes(PbFieldType.OF6);
 
     expect(fixed64ToBytes(make64(0, 0)),
-           [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+        [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
     expect(fixed64ToBytes(make64(1, 0)),
-           [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+        [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
     expect(fixed64ToBytes(make64(0xffffffff, 0xffffffff)),
-           [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
+        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
   });
 
   test('testSfixed32', () {
@@ -128,7 +128,7 @@ void main() {
     expect(readSfixed32([0x00, 0x00, 0x00, 0x80]), -2147483648);
     expect(readSfixed32([0xff, 0xff, 0xff, 0xff]), -1);
 
-    final sfixed32ToBytes = convertToBytes(GeneratedMessage.OSF3);
+    final sfixed32ToBytes = convertToBytes(PbFieldType.OSF3);
 
     expect(sfixed32ToBytes(0), [0x00, 0x00, 0x00, 0x00]);
     expect(sfixed32ToBytes(1), [0x01, 0x00, 0x00, 0x00]);
@@ -141,17 +141,17 @@ void main() {
         new CodedBufferReader(bytes).readSfixed64();
 
     expect(readSfixed64([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-           expect64(0));
+        expect64(0));
     expect(readSfixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
-           expect64(-1));
+        expect64(-1));
     expect(readSfixed64([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-           expect64(1));
+        expect64(1));
     expect(readSfixed64([0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
-           expect64(-2));
+        expect64(-2));
     expect(readSfixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]),
-           expect64(0xffffffff, 0x7fffffff));
+        expect64(0xffffffff, 0x7fffffff));
     expect(readSfixed64([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80]),
-           expect64(0x00000000, 0x80000000));
+        expect64(0x00000000, 0x80000000));
   });
 
   test('testBool', () {
@@ -164,19 +164,20 @@ void main() {
 
   // Compare two doubles, where NaNs and same-sign inifinities compare equal.
   // For normal values, use equals.
-  doubleEquals(expected) =>
-      expected.isNaN ? predicate((x) => x.isNaN, 'NaN expected')
-          : equals(expected);
+  doubleEquals(expected) => expected.isNaN
+      ? predicate((x) => x.isNaN, 'NaN expected')
+      : equals(expected);
 
-  dataToBytes(ByteData byteData) => new Uint8List.view(byteData.buffer);
-  final floatToBytes = convertToBytes(GeneratedMessage.OF);
+  List<int> dataToBytes(ByteData byteData) =>
+      new Uint8List.view(byteData.buffer);
+  final floatToBytes = convertToBytes(PbFieldType.OF);
   floatToBits(double value) =>
       makeData(floatToBytes(value)).getUint32(0, Endianness.LITTLE_ENDIAN);
 
   void _test32(int bits, double value) {
     readFloat(int bits) {
-      var bytes = dataToBytes(new ByteData(4)
-          ..setUint32(0, bits, Endianness.LITTLE_ENDIAN));
+      var bytes = dataToBytes(
+          new ByteData(4)..setUint32(0, bits, Endianness.LITTLE_ENDIAN));
       return new CodedBufferReader(bytes).readFloat();
     }
 
@@ -184,20 +185,22 @@ void main() {
     expect(readFloat(bits), doubleEquals(value));
   }
 
+  final doubleToBytes = convertToBytes(PbFieldType.OD);
+
   void _test64(List<int> hilo, double value) {
-    readDouble(int bits) {
-      var bytes = dataToBytes(new ByteData(8)
-          ..setUint64(0, bits, Endianness.LITTLE_ENDIAN));
-      return new CodedBufferReader(bytes).readDouble();
-    }
+    // Encode a double to its wire format.
+    ByteData data = makeData(doubleToBytes(value));
+    var actualHilo = [
+      data.getUint32(4, Endianness.LITTLE_ENDIAN),
+      data.getUint32(0, Endianness.LITTLE_ENDIAN)
+    ];
+    //int encoded = data.getUint64(0, Endianness.LITTLE_ENDIAN);
+    expect(actualHilo, hilo);
 
-    final doubleToBytes = convertToBytes(GeneratedMessage.OD);
-    doubleToBits(double value) =>
-        makeData(doubleToBytes(value)).getUint64(0, Endianness.LITTLE_ENDIAN);
-
-    int bits = (hilo[0] << 32) | hilo[1];
-    expect(doubleToBits(value), bits);
-    expect(readDouble(bits), doubleEquals(value));
+    // Decode it again (round trip).
+    List<int> bytes = dataToBytes(data);
+    double reencoded = new CodedBufferReader(bytes).readDouble();
+    expect(reencoded, doubleEquals(value));
   }
 
   test('testFloat', () {
@@ -222,9 +225,9 @@ void main() {
     _test32(0x80800001, -1.175494490952134E-38);
     _test32(0x80801234, -1.176147355906663E-38);
     // Out of range.
-    expect(floatToBits( 1.401298464324816E-45), 0x00000000);
+    expect(floatToBits(1.401298464324816E-45), 0x00000000);
     expect(floatToBits(-1.401298464324816E-45), 0x80000000);
-    expect(floatToBits( 3.4028234663852888E38), 0x7f800000);
+    expect(floatToBits(3.4028234663852888E38), 0x7f800000);
     expect(floatToBits(-3.4028234663852888E38), 0xff800000);
 
     // Numbers smaller than the smallest representable float round to +/- 0.
@@ -715,7 +718,7 @@ void main() {
   });
 
   test('testVarint', () {
-    final uint64ToBytes = convertToBytes(GeneratedMessage.OU6);
+    final uint64ToBytes = convertToBytes(PbFieldType.OU6);
 
     expect(uint64ToBytes(make64(0)), [0]);
     expect(uint64ToBytes(make64(3)), [0x03]);
@@ -725,9 +728,9 @@ void main() {
     expect(uint64ToBytes(make64(0x9e5301)), [0x81, 0xa6, 0xf9, 0x04]);
     expect(uint64ToBytes(make64(0xffffffff)), [0xff, 0xff, 0xff, 0xff, 0x0f]);
     expect(uint64ToBytes(make64(0xffffffff, 0xffffff)),
-           [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]);
+        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]);
     expect(uint64ToBytes(make64(0xffffffff, 0xffffffff)),
-           [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
+        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
 
     readUint64(List<int> bytes) => new CodedBufferReader(bytes).readUint64();
 
@@ -740,11 +743,26 @@ void main() {
     expect(readUint64([0xff, 0xff, 0xff, 0xff, 0x07]), expect64(0x7fffffff));
     expect(readUint64([0xff, 0xff, 0xff, 0xff, 0x0f]), expect64(0xffffffff));
     expect(readUint64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]),
-           expect64(0xffffffff, 0xffffff));
-    expect(readUint64(
-           [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]),
-           expect64(0xffffffff, 0xffffffff));
+        expect64(0xffffffff, 0xffffff));
+    expect(
+        readUint64(
+            [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]),
+        expect64(0xffffffff, 0xffffffff));
     expect(readUint64([180, 222, 252, 255, 255, 255, 255, 255, 255, 1]),
-           expect64(0xffff2f34, 0xffffffff));
+        expect64(0xffff2f34, 0xffffffff));
+  });
+
+  test('testWriteTo', () {
+    var writer = new CodedBufferWriter()..writeField(0, PbFieldType.O3, 1337);
+    expect(writer.lengthInBytes, 3);
+    var buffer = new Uint8List(5);
+    buffer[0] = 0x55;
+    buffer[4] = 0xAA;
+    var expected = writer.toBuffer();
+    expect(writer.writeTo(buffer, 1), isTrue);
+    expect(buffer[0], 0x55);
+    expect(buffer[4], 0xAA);
+    expect(buffer.sublist(1, 4), expected);
+    expect(writer.writeTo(buffer, 3), isFalse);
   });
 }
