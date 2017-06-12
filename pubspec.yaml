@@ -12,3 +12,5 @@ dependencies:
 dev_dependencies:
   browser: any
   test: ^0.12.0
+executables:
+  protoc-gen-dart: protoc_plugin

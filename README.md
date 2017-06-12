@@ -42,6 +42,12 @@ When both the `dart` executable and `out/protoc-gen-dart` are in the
 
     $ protoc --dart_out=. test.proto
 
+### Optionally using `pub global`
+
+    $ pub global activate -sgit https://github.com/dart-lang/dart-protoc-plugin
+
+And then add `.pub-cache/bin` in your home dir to your `PATH` if you haven't already.
+
 ### Options to control the generated Dart code
 
 The protocol buffer compiler accepts options for each plugin. For the
