@@ -1,25 +1,21 @@
 Protoc compiler Dart plugin
 ===========================
 
-This repository provides a plugin for the [protoc compiler](
-https://developers.google.com/protocol-buffers/docs/cpptutorial#compiling-your-protocol-buffers).
+This repository provides a plugin for the [protoc compiler](https://developers.google.com/protocol-buffers/docs/cpptutorial#compiling-your-protocol-buffers).
 It generates Dart files for working with data in protocol buffers format. At
-this time we only support [proto2](
-https://developers.google.com/protocol-buffers/docs/proto), but proto3 may work
+this time we only support [proto2](https://developers.google.com/protocol-buffers/docs/proto), but proto3 may work
 in simple cases due to backwards compatibility.
 
 Requirements
 ------------
 
 To compile a .proto file, you must use the 'protoc' command which is
-[installed separately](
-https://developers.google.com/protocol-buffers/docs/downloads).
+[installed separately](https://developers.google.com/protocol-buffers/docs/downloads).
 Protobuf 2.6.1 or above is recommended. Many features may still work as far back
 as Protobuf 2.5.0 but we are no longer testing this.
 
 The generated files are pure Dart code that run in either in the Dart VM or in a
-browser (using dart2js). They depend the [protobuf Dart package](
-https://pub.dartlang.org/packages/protobuf). A Dart project that includes
+browser (using dart2js). They depend the [protobuf Dart package](https://pub.dartlang.org/packages/protobuf). A Dart project that includes
 generated files should add "protobuf" to its pubspec.yaml file.
 
 How to build and use
@@ -105,8 +101,7 @@ Here are some ways to get protoc:
 * Mac [homebrew](http://brew.sh/): `brew install protobuf`
 
 If the version installed this way doesn't work, an alternative is to
-[compile protoc from source](
-https://developers.google.com/protocol-buffers/docs/downloads).
+[compile protoc from source](https://developers.google.com/protocol-buffers/docs/downloads).
 
 Remember to run the tests. That is as easy as `make run-tests`.
 
