@@ -28,23 +28,21 @@ How to build and use
 *Note:* currently the workflow is POSIX-oriented.
 
 To build standalone `protoc` plugin:
-- run `pub install` to install all dependecies
-- run `make build-plugin`. That will create a file `out/protoc-gen-dart` which
-  is a plugin
-- Now you can use it either by adding into `PATH` or passing directly with
-  `protoc`'s `--plugin` option.
+- run `pub install` to install all dependencies
+- Now you can use the plugin either by adding the `bin` directory to your `PATH`,
+  or passing it directly with `protoc`'s `--plugin` option.
 
 Please, remember that the plugin is pure Dart script and requires the presence
 of `dart` executable in your `PATH`.
 
-When both the `dart` executable and `out/protoc-gen-dart` are in the
+When both the `dart` executable and `bin/protoc-gen-dart` are in the
 `PATH` the protocol buffer compiler can be invoked to generate like this:
 
     $ protoc --dart_out=. test.proto
 
 ### Optionally using `pub global`
 
-    $ pub global activate -sgit https://github.com/dart-lang/dart-protoc-plugin
+    $ pub global activate protoc_plugin
 
 And then add `.pub-cache/bin` in your home dir to your `PATH` if you haven't already.
 
@@ -111,27 +109,6 @@ If the version installed this way doesn't work, an alternative is to
 https://developers.google.com/protocol-buffers/docs/downloads).
 
 Remember to run the tests. That is as easy as `make run-tests`.
-
-The default way of running the Dart protoc plugin is through the
-generated `out/protoc-gen-dart` script. However when run this way the
-Dart code is assembled into one large Dart file using dart2dart. To
-run with the actual source in the repository create an executable
-script called `protoc-gen-dart` with the following content:
-
-    #! /bin/bash
-    dart bin/protoc_plugin.dart
-
-When running protoc just ensure that this script is first when PATH is
-searched. If the script is in the current directory run `protoc` like
-this:
-
-    $ PATH=.:$PATH protoc --dart_out=. test.proto
-
-It is also possible to call the script something else than
-`protoc-gen-dart` and then refer directly to it using the `--plugin`
-option. If the script is called `dart-plugin` run `protoc` like this:
-
-    $ protoc --plugin=protoc-gen-dart=./plugin --dart_out=. test.proto
 
 Useful references
 -----------------
