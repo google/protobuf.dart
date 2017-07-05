@@ -14,6 +14,7 @@ import 'package:protobuf/mixins_meta.dart' show findMixin;
 import 'mirror_util.dart' show findMemberNames;
 
 // Import the libraries we will access via the mirrors.
+// ignore_for_file: unused_import
 import 'package:protobuf/protobuf.dart' show GeneratedMessage;
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin;

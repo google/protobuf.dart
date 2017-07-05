@@ -10,7 +10,7 @@ library map_mixin_test;
 import 'dart:collection' show MapMixin;
 
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart';
-import 'package:test/test.dart' show test, expect, same, throws;
+import 'package:test/test.dart' show expect, same, test, throwsArgumentError;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
@@ -61,7 +61,7 @@ main() {
     expect(r.child, same(child));
     expect(r["child"], same(child));
 
-    expect(() => r["int32s"] = 123, throws);
+    expect(() => r["int32s"] = 123, throwsArgumentError);
     r["int32s"].add(123);
     expect(r["int32s"], [123]);
     expect(r["int32s"], same(r["int32s"]));
