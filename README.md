@@ -1,21 +1,27 @@
-Protoc compiler Dart plugin
-===========================
+# Dart plugin for the protoc compiler
 
-This repository provides a plugin for the [protoc compiler](https://developers.google.com/protocol-buffers/docs/cpptutorial#compiling-your-protocol-buffers).
+[![Build Status](https://travis-ci.org/dart-lang/dart-protoc-plugin.svg?branch=master)](https://travis-ci.org/dart-lang/dart-protoc-plugin)
+[![pub package](https://img.shields.io/pub/v/protoc_plugin.svg)](https://pub.dartlang.org/packages/protoc_plugin)
+
+This repository provides a plugin for the [protoc
+compiler](https://developers.google.com/protocol-buffers/docs/cpptutorial#compiling-your-protocol-buffers).
 It generates Dart files for working with data in protocol buffers format. At
-this time we only support [proto2](https://developers.google.com/protocol-buffers/docs/proto), but proto3 may work
-in simple cases due to backwards compatibility.
+this time we only support
+[proto2](https://developers.google.com/protocol-buffers/docs/proto), but proto3
+may work in simple cases due to backwards compatibility.
 
 Requirements
 ------------
 
-To compile a .proto file, you must use the 'protoc' command which is
-[installed separately](https://developers.google.com/protocol-buffers/docs/downloads).
+To compile a .proto file, you must use the 'protoc' command which is [installed
+separately](https://developers.google.com/protocol-buffers/docs/downloads).
 Protobuf 3.0.0 or above is required.
 
 The generated files are pure Dart code that run in either in the Dart VM or in a
-browser (using dart2js). They depend the [protobuf Dart package](https://pub.dartlang.org/packages/protobuf). A Dart project that includes
-generated files should add "protobuf" to its pubspec.yaml file.
+browser (using dart2js). They depend the [protobuf Dart
+package](https://pub.dartlang.org/packages/protobuf). A Dart project that
+includes generated files should add "protobuf" to its pubspec.yaml file.
+
 
 How to build and use
 --------------------
