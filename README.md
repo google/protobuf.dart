@@ -41,6 +41,12 @@ When both the `dart` executable and `bin/protoc-gen-dart` are in the
 
 And then add `.pub-cache/bin` in your home dir to your `PATH` if you haven't already.
 
+This will activate the latest published version of the plugin. If you wish to use a
+local working copy, use
+
+    $ pub global activate -s path <path/to/your/dart-protoc-plugin>
+
+
 ### Options to control the generated Dart code
 
 The protocol buffer compiler accepts options for each plugin. For the
