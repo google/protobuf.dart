@@ -1,0 +1,34 @@
+language: dart
+sudo: false
+
+dart:
+- dev
+- stable
+
+# Only run one instance of the formatter and the analyzer, rather than running
+# them against each Dart version.
+matrix:
+  include:
+  - dart: stable
+    dart_task: dartfmt
+    env: PROTOC_VERSION=3.0.0
+  - dart: dev
+    dart_task: dartanalyzer
+    env: PROTOC_VERSION=3.3.0
+
+branches:
+  only: [master]
+
+cache:
+  directories:
+  - $HOME/.pub-cache
+
+install:
+  - wget https://github.com/google/protobuf/releases/download/v$PROTOC_VERSION/protoc-$PROTOC_VERSION-linux-x86_64.zip
+  - unzip protoc-$PROTOC_VERSION-linux-x86_64.zip
+  - export PATH=bin:$PATH
+
+script:
+  - dart --version
+  - protoc --version
+  - make clean run-tests
