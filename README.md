@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/dart-lang/protobuf.svg?branch=master)](https://travis-ci.org/dart-lang/protobuf)
+[![pub package](https://img.shields.io/pub/v/protobuf.svg)](https://pub.dartlang.org/packages/protobuf)
+
 Provides runtime support for a Dart implementation of protobufs.
 
 Typically one do not need to import this library–only libraries
