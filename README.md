@@ -11,8 +11,7 @@ Requirements
 
 To compile a .proto file, you must use the 'protoc' command which is
 [installed separately](https://developers.google.com/protocol-buffers/docs/downloads).
-Protobuf 2.6.1 or above is recommended. Many features may still work as far back
-as Protobuf 2.5.0 but we are no longer testing this.
+Protobuf 3.0.0 or above is required.
 
 The generated files are pure Dart code that run in either in the Dart VM or in a
 browser (using dart2js). They depend the [protobuf Dart package](https://pub.dartlang.org/packages/protobuf). A Dart project that includes
@@ -111,5 +110,4 @@ Useful references
 * [Main Dart site](https://www.dartlang.org/)
 * [Main protobuf site](https://github.com/google/protobuf)
 * [Protobuf runtime support project](https://github.com/dart-lang/dart-protobuf)
-* [DartEditor download](http://www.dartlang.org)
 * [Pub documentation](https://www.dartlang.org/tools/pub/get-started.html)

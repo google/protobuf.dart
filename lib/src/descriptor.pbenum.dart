@@ -1,8 +1,12 @@
 ///
 //  Generated code. Do not modify.
 ///
-library proto2_descriptor_pbenum;
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: library_prefixes
+library google.protobuf_descriptor_pbenum;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart';
 
 class FieldDescriptorProto_Type extends ProtobufEnum {
@@ -97,9 +101,13 @@ class FileOptions_OptimizeMode extends ProtobufEnum {
 
 class FieldOptions_CType extends ProtobufEnum {
   static const FieldOptions_CType STRING = const FieldOptions_CType._(0, 'STRING');
+  static const FieldOptions_CType CORD = const FieldOptions_CType._(1, 'CORD');
+  static const FieldOptions_CType STRING_PIECE = const FieldOptions_CType._(2, 'STRING_PIECE');
 
   static const List<FieldOptions_CType> values = const <FieldOptions_CType> [
     STRING,
+    CORD,
+    STRING_PIECE,
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
@@ -109,5 +117,45 @@ class FieldOptions_CType extends ProtobufEnum {
   }
 
   const FieldOptions_CType._(int v, String n) : super(v, n);
+}
+
+class FieldOptions_JSType extends ProtobufEnum {
+  static const FieldOptions_JSType JS_NORMAL = const FieldOptions_JSType._(0, 'JS_NORMAL');
+  static const FieldOptions_JSType JS_STRING = const FieldOptions_JSType._(1, 'JS_STRING');
+  static const FieldOptions_JSType JS_NUMBER = const FieldOptions_JSType._(2, 'JS_NUMBER');
+
+  static const List<FieldOptions_JSType> values = const <FieldOptions_JSType> [
+    JS_NORMAL,
+    JS_STRING,
+    JS_NUMBER,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static FieldOptions_JSType valueOf(int value) => _byValue[value] as FieldOptions_JSType;
+  static void $checkItem(FieldOptions_JSType v) {
+    if (v is !FieldOptions_JSType) checkItemFailed(v, 'FieldOptions_JSType');
+  }
+
+  const FieldOptions_JSType._(int v, String n) : super(v, n);
+}
+
+class MethodOptions_IdempotencyLevel extends ProtobufEnum {
+  static const MethodOptions_IdempotencyLevel IDEMPOTENCY_UNKNOWN = const MethodOptions_IdempotencyLevel._(0, 'IDEMPOTENCY_UNKNOWN');
+  static const MethodOptions_IdempotencyLevel NO_SIDE_EFFECTS = const MethodOptions_IdempotencyLevel._(1, 'NO_SIDE_EFFECTS');
+  static const MethodOptions_IdempotencyLevel IDEMPOTENT = const MethodOptions_IdempotencyLevel._(2, 'IDEMPOTENT');
+
+  static const List<MethodOptions_IdempotencyLevel> values = const <MethodOptions_IdempotencyLevel> [
+    IDEMPOTENCY_UNKNOWN,
+    NO_SIDE_EFFECTS,
+    IDEMPOTENT,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static MethodOptions_IdempotencyLevel valueOf(int value) => _byValue[value] as MethodOptions_IdempotencyLevel;
+  static void $checkItem(MethodOptions_IdempotencyLevel v) {
+    if (v is !MethodOptions_IdempotencyLevel) checkItemFailed(v, 'MethodOptions_IdempotencyLevel');
+  }
+
+  const MethodOptions_IdempotencyLevel._(int v, String n) : super(v, n);
 }
 

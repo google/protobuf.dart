@@ -3,14 +3,14 @@ library service_test;
 import 'dart:async' show Future;
 
 import 'package:protobuf/protobuf.dart';
+import 'package:protoc_plugin/src/descriptor.pb.dart'
+    show DescriptorProto, ServiceDescriptorProto;
 import 'package:test/test.dart';
 
 import '../out/protos/service.pbserver.dart' as pb;
 import '../out/protos/service2.pb.dart' as pb2;
 import '../out/protos/service3.pb.dart' as pb3;
 
-import '../out/protos/descriptor_2_5_opensource.pb.dart'
-    show DescriptorProto, ServiceDescriptorProto;
 
 class SearchService extends pb.SearchServiceBase {
   Future<pb.SearchResponse> search(
@@ -110,7 +110,7 @@ void main() {
     ]);
 
     String readMessageName(fqname) {
-      var json = map[fqname] as Map<String, dynamic>;
+      var json = map[fqname];
       var descriptor = new DescriptorProto()..mergeFromJsonMap(json);
       return descriptor.name;
     }

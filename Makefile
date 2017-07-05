@@ -16,8 +16,6 @@ TEST_PROTO_LIST = \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest \
 	dart_name \
-	dart_options \
-	descriptor_2_5_opensource \
 	enum_extension \
 	ExtensionNameConflict \
 	map_api \
@@ -46,12 +44,13 @@ TEST_PROTO_SRC_DIR=test/protos
 TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), \
   $(TEST_PROTO_SRC_DIR)/$(proto).proto)
 
-PREGENERATED_SRCS=lib/descriptor.proto lib/plugin.proto
+PREGENERATED_SRCS=protos/descriptor.proto protos/plugin.proto protos/dart_options.proto
 
 $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 	[ -d $(TEST_PROTO_DIR) ] || mkdir -p $(TEST_PROTO_DIR)
 	protoc\
 		--dart_out=$(TEST_PROTO_DIR)\
+		-Iprotos\
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
@@ -62,7 +61,7 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 build-plugin: $(PLUGIN_PATH)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
-	protoc --dart_out=lib/src -Ilib --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
+	protoc --dart_out=lib/src -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
 
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 	mkdir -p benchmark/lib/generated

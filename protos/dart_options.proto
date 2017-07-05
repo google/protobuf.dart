@@ -8,7 +8,7 @@ package dart_options;
 // agrees with the version of protoc we are using.
 // (The import statement and "google.protobuf." prefix need to be changed.)
 
-import "descriptor_2_5_opensource.proto";
+import "descriptor.proto";
 
 // A mixin that can be used in the 'with' clause of the generated Dart class
 // for a proto message.

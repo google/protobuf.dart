@@ -1,17 +1,70 @@
 ///
 //  Generated code. Do not modify.
 ///
-library proto2.compiler_plugin;
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: library_prefixes
+library google.protobuf.compiler_plugin;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, bool, double, String, List, override;
 import 'package:protobuf/protobuf.dart';
 
-import 'descriptor.pb.dart' as proto2;
+import 'descriptor.pb.dart' as google$protobuf;
+
+class Version extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('Version')
+    ..a/*<int>*/(1, 'major', PbFieldType.O3)
+    ..a/*<int>*/(2, 'minor', PbFieldType.O3)
+    ..a/*<int>*/(3, 'patch', PbFieldType.O3)
+    ..a/*<String>*/(4, 'suffix', PbFieldType.OS)
+    ..hasRequiredFields = false
+  ;
+
+  Version() : super();
+  Version.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  Version.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  Version clone() => new Version()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static Version create() => new Version();
+  static PbList<Version> createRepeated() => new PbList<Version>();
+  static Version getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyVersion();
+    return _defaultInstance;
+  }
+  static Version _defaultInstance;
+  static void $checkItem(Version v) {
+    if (v is !Version) checkItemFailed(v, 'Version');
+  }
+
+  int get major => $_get(0, 1, 0);
+  set major(int v) { $_setUnsignedInt32(0, 1, v); }
+  bool hasMajor() => $_has(0, 1);
+  void clearMajor() => clearField(1);
+
+  int get minor => $_get(1, 2, 0);
+  set minor(int v) { $_setUnsignedInt32(1, 2, v); }
+  bool hasMinor() => $_has(1, 2);
+  void clearMinor() => clearField(2);
+
+  int get patch => $_get(2, 3, 0);
+  set patch(int v) { $_setUnsignedInt32(2, 3, v); }
+  bool hasPatch() => $_has(2, 3);
+  void clearPatch() => clearField(3);
+
+  String get suffix => $_get(3, 4, '');
+  set suffix(String v) { $_setString(3, 4, v); }
+  bool hasSuffix() => $_has(3, 4);
+  void clearSuffix() => clearField(4);
+}
+
+class _ReadonlyVersion extends Version with ReadonlyMessageMixin {}
 
 class CodeGeneratorRequest extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorRequest')
     ..p/*<String>*/(1, 'fileToGenerate', PbFieldType.PS)
     ..a/*<String>*/(2, 'parameter', PbFieldType.OS)
-    ..pp/*<proto2.FileDescriptorProto>*/(15, 'protoFile', PbFieldType.PM, proto2.FileDescriptorProto.$checkItem, proto2.FileDescriptorProto.create)
+    ..a/*<Version>*/(3, 'compilerVersion', PbFieldType.OM, Version.getDefault, Version.create)
+    ..pp/*<google$protobuf.FileDescriptorProto>*/(15, 'protoFile', PbFieldType.PM, google$protobuf.FileDescriptorProto.$checkItem, google$protobuf.FileDescriptorProto.create)
   ;
 
   CodeGeneratorRequest() : super();
@@ -33,11 +86,16 @@ class CodeGeneratorRequest extends GeneratedMessage {
   List<String> get fileToGenerate => $_get(0, 1, null);
 
   String get parameter => $_get(1, 2, '');
-  void set parameter(String v) { $_setString(1, 2, v); }
+  set parameter(String v) { $_setString(1, 2, v); }
   bool hasParameter() => $_has(1, 2);
   void clearParameter() => clearField(2);
 
-  List<proto2.FileDescriptorProto> get protoFile => $_get(2, 15, null);
+  Version get compilerVersion => $_get(2, 3, null);
+  set compilerVersion(Version v) { setField(3, v); }
+  bool hasCompilerVersion() => $_has(2, 3);
+  void clearCompilerVersion() => clearField(3);
+
+  List<google$protobuf.FileDescriptorProto> get protoFile => $_get(3, 15, null);
 }
 
 class _ReadonlyCodeGeneratorRequest extends CodeGeneratorRequest with ReadonlyMessageMixin {}
@@ -67,17 +125,17 @@ class CodeGeneratorResponse_File extends GeneratedMessage {
   }
 
   String get name => $_get(0, 1, '');
-  void set name(String v) { $_setString(0, 1, v); }
+  set name(String v) { $_setString(0, 1, v); }
   bool hasName() => $_has(0, 1);
   void clearName() => clearField(1);
 
   String get insertionPoint => $_get(1, 2, '');
-  void set insertionPoint(String v) { $_setString(1, 2, v); }
+  set insertionPoint(String v) { $_setString(1, 2, v); }
   bool hasInsertionPoint() => $_has(1, 2);
   void clearInsertionPoint() => clearField(2);
 
   String get content => $_get(2, 15, '');
-  void set content(String v) { $_setString(2, 15, v); }
+  set content(String v) { $_setString(2, 15, v); }
   bool hasContent() => $_has(2, 15);
   void clearContent() => clearField(15);
 }
@@ -108,7 +166,7 @@ class CodeGeneratorResponse extends GeneratedMessage {
   }
 
   String get error => $_get(0, 1, '');
-  void set error(String v) { $_setString(0, 1, v); }
+  set error(String v) { $_setString(0, 1, v); }
   bool hasError() => $_has(0, 1);
   void clearError() => clearField(1);
 

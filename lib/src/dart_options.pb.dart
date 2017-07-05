@@ -1,8 +1,12 @@
 ///
 //  Generated code. Do not modify.
 ///
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: library_prefixes
 library dart_options_dart_options;
 
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, bool, double, String, List, override;
 import 'package:protobuf/protobuf.dart';
 
 class DartMixin extends GeneratedMessage {
@@ -30,17 +34,17 @@ class DartMixin extends GeneratedMessage {
   }
 
   String get name => $_get(0, 1, '');
-  void set name(String v) { $_setString(0, 1, v); }
+  set name(String v) { $_setString(0, 1, v); }
   bool hasName() => $_has(0, 1);
   void clearName() => clearField(1);
 
   String get importFrom => $_get(1, 2, '');
-  void set importFrom(String v) { $_setString(1, 2, v); }
+  set importFrom(String v) { $_setString(1, 2, v); }
   bool hasImportFrom() => $_has(1, 2);
   void clearImportFrom() => clearField(2);
 
   String get parent => $_get(2, 3, '');
-  void set parent(String v) { $_setString(2, 3, v); }
+  set parent(String v) { $_setString(2, 3, v); }
   bool hasParent() => $_has(2, 3);
   void clearParent() => clearField(3);
 }
