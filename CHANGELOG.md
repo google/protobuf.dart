@@ -1,4 +1,4 @@
-## Unreleased
+## 0.7.3 - 2017-07-05
 
 ### gRPC support
 
