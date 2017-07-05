@@ -152,7 +152,7 @@ void main() {
   test('can extend a message with a message field of the same type', () {
     expect(
         MyNestedExtension.recursiveExtension.makeDefault()
-        is MessageToBeExtended,
+            is MessageToBeExtended,
         isTrue);
     expect(MyNestedExtension.recursiveExtension.name, 'recursiveExtension');
   });

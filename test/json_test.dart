@@ -52,13 +52,13 @@ void main() {
 
     // All 64-bit numbers are quoted.
     expect(getAllSet()..optionalInt64 = make64(0, 0x200000),
-           expectedJson(':"102",', ':"9007199254740992",'));
+        expectedJson(':"102",', ':"9007199254740992",'));
     expect(getAllSet()..optionalInt64 = make64(1, 0x200000),
-           expectedJson(':"102",', ':"9007199254740993",'));
+        expectedJson(':"102",', ':"9007199254740993",'));
     expect(getAllSet()..optionalInt64 = -make64(0, 0x200000),
-           expectedJson(':"102",', ':"-9007199254740992",'));
+        expectedJson(':"102",', ':"-9007199254740992",'));
     expect(getAllSet()..optionalInt64 = -make64(1, 0x200000),
-           expectedJson(':"102",', ':"-9007199254740993",'));
+        expectedJson(':"102",', ':"-9007199254740993",'));
 
     // Quotes, backslashes, and control characters in strings are quoted.
     expect(getAllSet()..optionalString = 'a\u0000b\u0001cd\\e\"fg',

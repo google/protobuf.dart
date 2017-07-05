@@ -11,7 +11,6 @@ import '../out/protos/service.pbserver.dart' as pb;
 import '../out/protos/service2.pb.dart' as pb2;
 import '../out/protos/service3.pb.dart' as pb3;
 
-
 class SearchService extends pb.SearchServiceBase {
   Future<pb.SearchResponse> search(
       ServerContext ctx, pb.SearchRequest request) async {
