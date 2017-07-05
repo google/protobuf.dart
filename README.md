@@ -8,5 +8,5 @@ library as a dependency.
 
 ### References
 
-* [protobuf site](https://code.google.com/p/protobuf)
+* [protobuf site](https://github.com/google/protobuf)
 * [Protoc plugin project](https://github.com/dart-lang/dart-protoc-plugin)
