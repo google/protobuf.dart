@@ -296,5 +296,6 @@ List toTuple(PbFieldChange fc) {
     }
     return v;
   }
+
   return [fc.tag, fixValue(fc.oldValue), fixValue(fc.newValue)];
 }

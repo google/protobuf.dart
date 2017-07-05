@@ -43,8 +43,7 @@ main() {
 
   test('testInt64JsonEncoding', () {
     final value = new Int64(1234567890123456789);
-    final t = new T()
-      ..int64 = value;
+    final t = new T()..int64 = value;
     final encoded = t.writeToJsonMap();
     expect(encoded["5"], "$value");
     final decoded = new T()..mergeFromJsonMap(encoded);
