@@ -5,6 +5,7 @@
 part of protoc;
 
 final _dartIdentifier = new RegExp(r'^\w+$');
+final _formatter = new DartFormatter();
 
 /// Generates the Dart output files for one .proto input file.
 ///
@@ -90,22 +91,23 @@ class FileGenerator extends ProtobufContainer {
   }
 
   final FileDescriptorProto descriptor;
+  final GenerationOptions options;
 
   // The relative path used to import the .proto file, as a URI.
   final Uri protoFileUri;
 
-  final List<EnumGenerator> enumGenerators = <EnumGenerator>[];
-  final List<MessageGenerator> messageGenerators = <MessageGenerator>[];
-  final List<ExtensionGenerator> extensionGenerators = <ExtensionGenerator>[];
-  final List<ClientApiGenerator> clientApiGenerators = <ClientApiGenerator>[];
-  final List<ServiceGenerator> serviceGenerators = <ServiceGenerator>[];
+  final enumGenerators = <EnumGenerator>[];
+  final messageGenerators = <MessageGenerator>[];
+  final extensionGenerators = <ExtensionGenerator>[];
+  final clientApiGenerators = <ClientApiGenerator>[];
+  final serviceGenerators = <ServiceGenerator>[];
+  final grpcGenerators = <GrpcServiceGenerator>[];
 
   /// True if cross-references have been resolved.
   bool _linked = false;
 
-  FileGenerator(FileDescriptorProto descriptor)
-      : descriptor = descriptor,
-        protoFileUri = new Uri.file(descriptor.name) {
+  FileGenerator(this.descriptor, this.options)
+      : protoFileUri = new Uri.file(descriptor.name) {
     if (protoFileUri.isAbsolute) {
       // protoc should never generate an import with an absolute path.
       throw "FAILURE: Import with absolute path is not supported";
@@ -133,9 +135,13 @@ class FileGenerator extends ProtobufContainer {
       extensionGenerators.add(new ExtensionGenerator(extension, this));
     }
     for (ServiceDescriptorProto service in descriptor.service) {
-      var serviceGen = new ServiceGenerator(service, this);
-      serviceGenerators.add(serviceGen);
-      clientApiGenerators.add(new ClientApiGenerator(serviceGen));
+      if (options.useGrpc) {
+        grpcGenerators.add(new GrpcServiceGenerator(service, this));
+      } else {
+        var serviceGen = new ServiceGenerator(service, this);
+        serviceGenerators.add(serviceGen);
+        clientApiGenerators.add(new ClientApiGenerator(serviceGen));
+      }
     }
   }
 
@@ -178,12 +184,19 @@ class FileGenerator extends ProtobufContainer {
         ..content = content;
     }
 
-    return [
+    final files = [
       makeFile(".pb.dart", generateMainFile(config)),
       makeFile(".pbenum.dart", generateEnumFile(config)),
-      makeFile(".pbserver.dart", generateServerFile(config)),
       makeFile(".pbjson.dart", generateJsonFile(config)),
     ];
+    if (options.useGrpc) {
+      if (grpcGenerators.isNotEmpty) {
+        files.add(makeFile(".pbgrpc.dart", generateGrpcFile(config)));
+      }
+    } else {
+      files.add(makeFile(".pbserver.dart", generateServerFile(config)));
+    }
+    return files;
   }
 
   /// Returns the contents of the .pb.dart file for this .proto file.
@@ -415,6 +428,40 @@ import 'package:protobuf/protobuf.dart';
     }
 
     return out.toString();
+  }
+
+  /// Returns the contents of the .pbgrpc.dart file for this .proto file.
+  String generateGrpcFile(
+      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+    if (!_linked) throw new StateError("not linked");
+    var out = new IndentingWriter();
+    _writeLibraryHeading(out, "pbgrpc");
+
+    out.println('''
+import 'dart:async';
+
+import 'package:grpc/grpc.dart';
+''');
+
+    // Import .pb.dart files needed for requests and responses.
+    var imports = new Set<FileGenerator>();
+    for (var generator in grpcGenerators) {
+      generator.addImportsTo(imports);
+    }
+    for (var target in imports) {
+      _writeImport(out, config, target, ".pb.dart");
+    }
+
+    var resolvedImport =
+        config.resolveImport(protoFileUri, protoFileUri, ".pb.dart");
+    out.println("export '$resolvedImport';");
+    out.println();
+
+    for (var generator in grpcGenerators) {
+      generator.generate(out);
+    }
+
+    return _formatter.format(out.toString());
   }
 
   /// Returns the contents of the .pbjson.dart file for this .proto file.

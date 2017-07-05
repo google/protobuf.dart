@@ -46,7 +46,9 @@ bool genericOptionsParser(CodeGeneratorRequest request,
 
 /// Options expected by the protoc code generation compiler.
 class GenerationOptions {
-  GenerationOptions();
+  final bool useGrpc;
+
+  GenerationOptions({this.useGrpc = false});
 }
 
 /// A parser for a name-value pair option. Options parsed in
@@ -60,17 +62,33 @@ abstract class SingleOptionParser {
   void parse(String name, String value, onError(String details));
 }
 
-/// Parser used by the compiler, which supports the `field_name` option (see
-/// [FieldNameOptionParser]) and any additional option added in [parsers]. If
-/// [parsers] has a key for `field_name`, it will be ignored.
+class GrpcOptionParser implements SingleOptionParser {
+  bool grpcEnabled = false;
+
+  @override
+  void parse(String name, String value, onError(String details)) {
+    if (value != null) {
+      onError('Invalid grpc option. No value expected.');
+      return;
+    }
+    grpcEnabled = true;
+  }
+}
+
+/// Parser used by the compiler, which supports the `rpc` option (see
+/// [RpcOptionParser]) and any additional option added in [parsers]. If
+/// [parsers] has a key for `rpc`, it will be ignored.
 GenerationOptions parseGenerationOptions(
     CodeGeneratorRequest request, CodeGeneratorResponse response,
     [Map<String, SingleOptionParser> parsers]) {
-  var newParsers = <String, SingleOptionParser>{};
+  final newParsers = <String, SingleOptionParser>{};
   if (parsers != null) newParsers.addAll(parsers);
 
+  final grpcOptionParser = new GrpcOptionParser();
+  newParsers['grpc'] = grpcOptionParser;
+
   if (genericOptionsParser(request, response, newParsers)) {
-    return new GenerationOptions();
+    return new GenerationOptions(useGrpc: grpcOptionParser.grpcEnabled);
   }
   return null;
 }

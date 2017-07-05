@@ -40,12 +40,13 @@ abstract class TestServiceBase extends GeneratedService {
 
 ''';
 
+    var options = new GenerationOptions();
     var fd = buildFileDescriptor("testpkg", ["SomeRequest", "SomeReply"]);
     fd.service.add(buildServiceDescriptor());
-    var fg = new FileGenerator(fd);
+    var fg = new FileGenerator(fd, options);
 
     var fd2 = buildFileDescriptor("foo.bar", ["EmptyMessage", "AnotherReply"]);
-    var fg2 = new FileGenerator(fd2);
+    var fg2 = new FileGenerator(fd2, options);
 
     link(new GenerationOptions(), [fg, fg2]);
 

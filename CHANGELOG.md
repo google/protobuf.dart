@@ -1,3 +1,10 @@
+## Unreleased
+
+### gRPC support
+
+* Added gRPC stub generation.
+* Updated descriptor.proto from google/protobuf v3.3.0.
+
 ## 0.7.2 - 2017-06-12
 
 * Added CHANGELOG.md

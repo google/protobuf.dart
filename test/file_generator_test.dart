@@ -129,7 +129,7 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     FileDescriptorProto fd = buildFileDescriptor();
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    FileGenerator fg = new FileGenerator(fd);
+    FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
     expect(fg.generateMainFile(), expected);
   });
@@ -157,7 +157,7 @@ const PhoneNumber$json = const {
     FileDescriptorProto fd = buildFileDescriptor();
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    FileGenerator fg = new FileGenerator(fd);
+    FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
     expect(fg.generateJsonFile(), expected);
   });
@@ -220,7 +220,7 @@ class PhoneType extends ProtobufEnum {
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd);
+    FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
     expect(fg.generateMainFile(), expected);
     expect(fg.generateEnumFile(), expectedEnum);
@@ -252,7 +252,7 @@ const PhoneType$json = const {
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd);
+    FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
     expect(fg.generateJsonFile(), expected);
   });
@@ -276,7 +276,7 @@ import 'package:protobuf/protobuf.dart';
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd);
+    FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
 
     var writer = new IndentingWriter();
@@ -313,7 +313,7 @@ import 'package:protobuf/protobuf.dart';
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd);
+    FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
 
     var writer = new IndentingWriter();
@@ -429,13 +429,243 @@ abstract class TestServiceBase extends GeneratedService {
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd);
+    FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
 
     var writer = new IndentingWriter();
     fg.writeMainHeader(writer);
     expect(fg.generateMainFile(), expectedClient);
     expect(fg.generateServerFile(), expectedServer);
+  });
+
+  test('FileGenerator does not output legacy service stubs if gRPC is selected',
+      () {
+    String expectedClient = r'''
+///
+//  Generated code. Do not modify.
+///
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: library_prefixes
+library test;
+
+// ignore: UNUSED_SHOWN_NAME
+import 'dart:core' show int, bool, double, String, List, override;
+import 'dart:async';
+
+import 'package:protobuf/protobuf.dart';
+
+class Empty extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('Empty')
+    ..hasRequiredFields = false
+  ;
+
+  Empty() : super();
+  Empty.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  Empty.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  Empty clone() => new Empty()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static Empty create() => new Empty();
+  static PbList<Empty> createRepeated() => new PbList<Empty>();
+  static Empty getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEmpty();
+    return _defaultInstance;
+  }
+  static Empty _defaultInstance;
+  static void $checkItem(Empty v) {
+    if (v is !Empty) checkItemFailed(v, 'Empty');
+  }
+}
+
+class _ReadonlyEmpty extends Empty with ReadonlyMessageMixin {}
+
+''';
+
+    DescriptorProto empty = new DescriptorProto()..name = "Empty";
+
+    ServiceDescriptorProto sd = new ServiceDescriptorProto()
+      ..name = 'Test'
+      ..method.add(new MethodDescriptorProto()
+        ..name = 'Ping'
+        ..inputType = '.Empty'
+        ..outputType = '.Empty');
+
+    FileDescriptorProto fd = new FileDescriptorProto()
+      ..name = 'test'
+      ..messageType.add(empty)
+      ..service.add(sd);
+
+    var options = new GenerationOptions(useGrpc: true);
+
+    FileGenerator fg = new FileGenerator(fd, options);
+    link(options, [fg]);
+
+    var writer = new IndentingWriter();
+    fg.writeMainHeader(writer);
+    expect(fg.generateMainFile(), expectedClient);
+  });
+
+  test('FileGenerator outputs gRPC stubs if gRPC is selected', () {
+    final expectedGrpc = r'''
+///
+//  Generated code. Do not modify.
+///
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: library_prefixes
+library test_pbgrpc;
+
+import 'dart:async';
+
+import 'package:grpc/grpc.dart';
+
+import 'test.pb.dart';
+export 'test.pb.dart';
+
+class TestClient {
+  final ClientChannel _channel;
+
+  static final _$unary = new ClientMethod<Input, Output>(
+      '/Test/Unary',
+      (Input value) => value.writeToBuffer(),
+      (List<int> value) => new Output.fromBuffer(value));
+  static final _$clientStreaming = new ClientMethod<Input, Output>(
+      '/Test/ClientStreaming',
+      (Input value) => value.writeToBuffer(),
+      (List<int> value) => new Output.fromBuffer(value));
+  static final _$serverStreaming = new ClientMethod<Input, Output>(
+      '/Test/ServerStreaming',
+      (Input value) => value.writeToBuffer(),
+      (List<int> value) => new Output.fromBuffer(value));
+  static final _$bidirectional = new ClientMethod<Input, Output>(
+      '/Test/Bidirectional',
+      (Input value) => value.writeToBuffer(),
+      (List<int> value) => new Output.fromBuffer(value));
+
+  TestClient(this._channel);
+
+  ResponseFuture<Output> unary(Input request) {
+    final call = new ClientCall(_channel, _$unary);
+    call.request
+      ..add(request)
+      ..close();
+    return new ResponseFuture(call);
+  }
+
+  ResponseFuture<Output> clientStreaming(Stream<Input> request) {
+    final call = new ClientCall(_channel, _$clientStreaming);
+    request.pipe(call.request);
+    return new ResponseFuture(call);
+  }
+
+  ResponseStream<Output> serverStreaming(Input request) {
+    final call = new ClientCall(_channel, _$serverStreaming);
+    call.request
+      ..add(request)
+      ..close();
+    return new ResponseStream(call);
+  }
+
+  ResponseStream<Output> bidirectional(Stream<Input> request) {
+    final call = new ClientCall(_channel, _$bidirectional);
+    request.pipe(call.request);
+    return new ResponseStream(call);
+  }
+}
+
+abstract class TestServiceBase extends Service {
+  String get $name => 'Test';
+
+  TestServiceBase() {
+    $addMethod(new ServiceMethod(
+        'Unary',
+        unary_Pre,
+        false,
+        false,
+        (List<int> value) => new Input.fromBuffer(value),
+        (Output value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod(
+        'ClientStreaming',
+        clientStreaming,
+        true,
+        false,
+        (List<int> value) => new Input.fromBuffer(value),
+        (Output value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod(
+        'ServerStreaming',
+        serverStreaming_Pre,
+        false,
+        true,
+        (List<int> value) => new Input.fromBuffer(value),
+        (Output value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod(
+        'Bidirectional',
+        bidirectional,
+        true,
+        true,
+        (List<int> value) => new Input.fromBuffer(value),
+        (Output value) => value.writeToBuffer()));
+  }
+
+  Future<Output> unary_Pre(ServiceCall call, Future<Input> request) async {
+    return unary(call, await request);
+  }
+
+  Stream<Output> serverStreaming_Pre(
+      ServiceCall call, Future<Input> request) async* {
+    yield* serverStreaming(call, await request);
+  }
+
+  Future<Output> unary(ServiceCall call, Input request);
+  Future<Output> clientStreaming(ServiceCall call, Stream<Input> request);
+  Stream<Output> serverStreaming(ServiceCall call, Input request);
+  Stream<Output> bidirectional(ServiceCall call, Stream<Input> request);
+}
+''';
+
+    final input = new DescriptorProto()..name = "Input";
+    final output = new DescriptorProto()..name = "Output";
+
+    final unary = new MethodDescriptorProto()
+      ..name = 'Unary'
+      ..inputType = '.Input'
+      ..outputType = '.Output'
+      ..clientStreaming = false
+      ..serverStreaming = false;
+    final clientStreaming = new MethodDescriptorProto()
+      ..name = 'ClientStreaming'
+      ..inputType = '.Input'
+      ..outputType = '.Output'
+      ..clientStreaming = true
+      ..serverStreaming = false;
+    final serverStreaming = new MethodDescriptorProto()
+      ..name = 'ServerStreaming'
+      ..inputType = '.Input'
+      ..outputType = '.Output'
+      ..clientStreaming = false
+      ..serverStreaming = true;
+    final bidirectional = new MethodDescriptorProto()
+      ..name = 'Bidirectional'
+      ..inputType = '.Input'
+      ..outputType = '.Output'
+      ..clientStreaming = true
+      ..serverStreaming = true;
+
+    ServiceDescriptorProto sd = new ServiceDescriptorProto()
+      ..name = 'Test'
+      ..method.addAll([unary, clientStreaming, serverStreaming, bidirectional]);
+
+    FileDescriptorProto fd = new FileDescriptorProto()
+      ..name = 'test'
+      ..messageType.addAll([input, output])
+      ..service.add(sd);
+
+    var options = new GenerationOptions(useGrpc: true);
+
+    FileGenerator fg = new FileGenerator(fd, options);
+    link(options, [fg]);
+
+    var writer = new IndentingWriter();
+    fg.writeMainHeader(writer);
+    expect(fg.generateGrpcFile(), expectedGrpc);
   });
 
   test('FileGenerator generates imports for .pb.dart files', () {
@@ -614,8 +844,9 @@ const M$json = const {
     var response = new CodeGeneratorResponse();
     var options = parseGenerationOptions(request, response);
 
-    FileGenerator fg = new FileGenerator(fd);
-    link(options, [fg, new FileGenerator(fd1), new FileGenerator(fd2)]);
+    FileGenerator fg = new FileGenerator(fd, options);
+    link(options,
+        [fg, new FileGenerator(fd1, options), new FileGenerator(fd2, options)]);
     expect(fg.generateMainFile(), expected);
     expect(fg.generateJsonFile(), expectedJson);
   });

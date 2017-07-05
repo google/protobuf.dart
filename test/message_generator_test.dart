@@ -127,7 +127,7 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd);
+    FileGenerator fg = new FileGenerator(fd, options);
     MessageGenerator mg = new MessageGenerator(md, fg, {}, null);
 
     var ctx = new GenerationContext(options);

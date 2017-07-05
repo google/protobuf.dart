@@ -55,7 +55,7 @@ class CodeGenerator extends ProtobufContainer {
       // (We may import it even if we don't generate the .pb.dart file.)
       List<FileGenerator> generators = <FileGenerator>[];
       for (FileDescriptorProto file in request.protoFile) {
-        generators.add(new FileGenerator(file));
+        generators.add(new FileGenerator(file, options));
       }
 
       // Collect field types and importable files.
