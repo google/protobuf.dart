@@ -7,6 +7,7 @@ library dart_options_dart_options;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
+
 import 'package:protobuf/protobuf.dart';
 
 class DartMixin extends GeneratedMessage {

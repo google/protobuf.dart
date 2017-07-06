@@ -253,7 +253,7 @@ class MessageGenerator extends ProtobufContainer {
       });
       out.println('static ${classname} _defaultInstance;');
       out.addBlock('static void $checkItem($classname v) {', '}', () {
-        out.println('if (v is !$classname)'
+        out.println('if (v is! $classname)'
             " checkItemFailed(v, '$classname');");
       });
       generateFieldsAccessorsMutators(out);

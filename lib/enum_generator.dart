@@ -89,7 +89,7 @@ class EnumGenerator extends ProtobufContainer {
       out.println('static ${classname} valueOf(int value) =>'
           ' _byValue[value] as ${classname};');
       out.addBlock('static void $checkItem($classname v) {', '}', () {
-        out.println('if (v is !$classname)'
+        out.println('if (v is! $classname)'
             " checkItemFailed(v, '$classname');");
       });
       out.println();

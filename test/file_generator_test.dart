@@ -82,6 +82,7 @@ library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
+
 import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {
@@ -104,7 +105,7 @@ class PhoneNumber extends GeneratedMessage {
   }
   static PhoneNumber _defaultInstance;
   static void $checkItem(PhoneNumber v) {
-    if (v is !PhoneNumber) checkItemFailed(v, 'PhoneNumber');
+    if (v is! PhoneNumber) checkItemFailed(v, 'PhoneNumber');
   }
 
   String get number => $_get(0, 1, '');
@@ -175,6 +176,7 @@ library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
+
 export 'test.pbenum.dart';
 
 ''';
@@ -207,7 +209,7 @@ class PhoneType extends ProtobufEnum {
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
   static PhoneType valueOf(int value) => _byValue[value] as PhoneType;
   static void $checkItem(PhoneType v) {
-    if (v is !PhoneType) checkItemFailed(v, 'PhoneType');
+    if (v is! PhoneType) checkItemFailed(v, 'PhoneType');
   }
 
   const PhoneType._(int v, String n) : super(v, n);
@@ -268,6 +270,7 @@ library pb_library_test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
+
 import 'package:protobuf/protobuf.dart';
 
 ''';
@@ -295,6 +298,7 @@ library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
+
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
@@ -330,9 +334,9 @@ import 'package:protobuf/protobuf.dart';
 // ignore_for_file: library_prefixes
 library test;
 
+import 'dart:async';
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
-import 'dart:async';
 
 import 'package:protobuf/protobuf.dart';
 
@@ -354,7 +358,7 @@ class Empty extends GeneratedMessage {
   }
   static Empty _defaultInstance;
   static void $checkItem(Empty v) {
-    if (v is !Empty) checkItemFailed(v, 'Empty');
+    if (v is! Empty) checkItemFailed(v, 'Empty');
   }
 }
 
@@ -450,7 +454,6 @@ library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
-import 'dart:async';
 
 import 'package:protobuf/protobuf.dart';
 
@@ -472,7 +475,7 @@ class Empty extends GeneratedMessage {
   }
   static Empty _defaultInstance;
   static void $checkItem(Empty v) {
-    if (v is !Empty) checkItemFailed(v, 'Empty');
+    if (v is! Empty) checkItemFailed(v, 'Empty');
   }
 }
 
@@ -680,6 +683,7 @@ library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
+
 import 'package:protobuf/protobuf.dart';
 
 import 'package1.pb.dart' as p1;
@@ -706,7 +710,7 @@ class M extends GeneratedMessage {
   }
   static M _defaultInstance;
   static void $checkItem(M v) {
-    if (v is !M) checkItemFailed(v, 'M');
+    if (v is! M) checkItemFailed(v, 'M');
   }
 
   M get m => $_get(0, 1, null);

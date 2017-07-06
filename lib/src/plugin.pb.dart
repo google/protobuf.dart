@@ -7,6 +7,7 @@ library google.protobuf.compiler_plugin;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
+
 import 'package:protobuf/protobuf.dart';
 
 import 'descriptor.pb.dart' as google$protobuf;

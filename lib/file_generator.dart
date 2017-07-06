@@ -241,16 +241,16 @@ class FileGenerator extends ProtobufContainer {
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     _writeLibraryHeading(out);
 
+    // We only add the dart:async import if there are generic client API
+    // generators for services in the FileDescriptorProto.
+    if (clientApiGenerators.isNotEmpty) {
+      out.println("import 'dart:async';");
+    }
+
     // Make sure any other symbols in dart:core don't cause name conflicts with
     // protobuf classes that have the same name.
     out.println("// ignore: UNUSED_SHOWN_NAME\n"
-        "import 'dart:core' show int, bool, double, String, List, override;");
-
-    // We only add the dart:async import if there are services in the
-    // FileDescriptorProto.
-    if (descriptor.service.isNotEmpty) {
-      out.println("import 'dart:async';\n");
-    }
+        "import 'dart:core' show int, bool, double, String, List, override;\n");
 
     if (_needsFixnumImport) {
       out.println("import 'package:fixnum/fixnum.dart';");

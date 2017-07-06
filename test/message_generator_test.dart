@@ -32,7 +32,7 @@ class PhoneNumber_PhoneType extends ProtobufEnum {
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
   static PhoneNumber_PhoneType valueOf(int value) => _byValue[value] as PhoneNumber_PhoneType;
   static void $checkItem(PhoneNumber_PhoneType v) {
-    if (v is !PhoneNumber_PhoneType) checkItemFailed(v, 'PhoneNumber_PhoneType');
+    if (v is! PhoneNumber_PhoneType) checkItemFailed(v, 'PhoneNumber_PhoneType');
   }
 
   const PhoneNumber_PhoneType._(int v, String n) : super(v, n);
@@ -61,7 +61,7 @@ class PhoneNumber extends GeneratedMessage {
   }
   static PhoneNumber _defaultInstance;
   static void $checkItem(PhoneNumber v) {
-    if (v is !PhoneNumber) checkItemFailed(v, 'PhoneNumber');
+    if (v is! PhoneNumber) checkItemFailed(v, 'PhoneNumber');
   }
 
   String get number => $_get(0, 1, '');
