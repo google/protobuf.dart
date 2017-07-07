@@ -218,9 +218,11 @@ class _GrpcMethod {
 
   void generateClientStub(IndentingWriter out) {
     out.println();
-    out.addBlock('$_clientReturnType $_dartName($_argumentType request) {', '}',
-        () {
-      out.println('final call = new ClientCall(_channel, _\$$_dartName);');
+    out.addBlock(
+        '$_clientReturnType $_dartName($_argumentType request, {CallOptions options}) {',
+        '}', () {
+      out.println(
+          'final call = new ClientCall(_channel, _\$$_dartName, options: options);');
       if (_clientStreaming) {
         out.println('request.pipe(call.request);');
       } else {

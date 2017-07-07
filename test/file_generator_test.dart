@@ -545,30 +545,32 @@ class TestClient {
 
   TestClient(this._channel);
 
-  ResponseFuture<Output> unary(Input request) {
-    final call = new ClientCall(_channel, _$unary);
+  ResponseFuture<Output> unary(Input request, {CallOptions options}) {
+    final call = new ClientCall(_channel, _$unary, options: options);
     call.request
       ..add(request)
       ..close();
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<Output> clientStreaming(Stream<Input> request) {
-    final call = new ClientCall(_channel, _$clientStreaming);
+  ResponseFuture<Output> clientStreaming(Stream<Input> request,
+      {CallOptions options}) {
+    final call = new ClientCall(_channel, _$clientStreaming, options: options);
     request.pipe(call.request);
     return new ResponseFuture(call);
   }
 
-  ResponseStream<Output> serverStreaming(Input request) {
-    final call = new ClientCall(_channel, _$serverStreaming);
+  ResponseStream<Output> serverStreaming(Input request, {CallOptions options}) {
+    final call = new ClientCall(_channel, _$serverStreaming, options: options);
     call.request
       ..add(request)
       ..close();
     return new ResponseStream(call);
   }
 
-  ResponseStream<Output> bidirectional(Stream<Input> request) {
-    final call = new ClientCall(_channel, _$bidirectional);
+  ResponseStream<Output> bidirectional(Stream<Input> request,
+      {CallOptions options}) {
+    final call = new ClientCall(_channel, _$bidirectional, options: options);
     request.pipe(call.request);
     return new ResponseStream(call);
   }
