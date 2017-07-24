@@ -1,13 +1,8 @@
-.buildlog
-.idea
 .packages
-.project
 .pub
-.DS_Store
 out
 packages
 pubspec.lock
-*.sw?
 benchmark/data/pubspec.link.yaml
 benchmark/data/pubspec.link.lock
 benchmark/data/hostname.txt
