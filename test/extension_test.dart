@@ -122,7 +122,7 @@ void main() {
     expect(() {
       message.addExtension(
           Unittest.repeatedNestedMessageExtension, new TestAllTypes());
-    }, throws); // TypeError
+    }, throwsATypeError);
   });
 
   test('throws if an enum extension is set to a bad value', () {
@@ -139,7 +139,7 @@ void main() {
     expect(() {
       message.addExtension(
           Unittest.repeatedForeignEnumExtension, TestAllTypes_NestedEnum.FOO);
-    }, throws); // TypeError
+    }, throwsATypeError);
   });
 
   test('can extend a message with a message field with a different type', () {

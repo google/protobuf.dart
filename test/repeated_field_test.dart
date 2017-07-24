@@ -8,6 +8,7 @@ library repeated_field_test;
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
+import 'test_util.dart';
 
 // Suppress an analyzer warning for a deliberate type mismatch.
 cast(x) => x;
@@ -20,7 +21,7 @@ void main() {
 
     expect(() {
       TestAllTypes.$checkItem(cast(new TestAllTypes_NestedMessage()));
-    }, throws);
+    }, throwsATypeError);
   });
 
   test("checkItems works for groups", () {
@@ -31,7 +32,7 @@ void main() {
     expect(() {
       TestAllTypes_RepeatedGroup
           .$checkItem(cast(new TestAllTypes_OptionalGroup()));
-    }, throws);
+    }, throwsATypeError);
   });
 
   test("checkItems works for enums", () {
@@ -41,7 +42,7 @@ void main() {
 
     expect(() {
       TestAllTypes_NestedEnum.$checkItem(cast(ForeignEnum.FOREIGN_FOO));
-    }, throws);
+    }, throwsATypeError);
   });
 
   test("check properties are initialized for repeated fields", () {

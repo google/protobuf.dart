@@ -153,7 +153,7 @@ void main() {
         expect(
             () =>
                 config.outputPathFor(Uri.parse('a/b/c/quux.proto'), '.pb.dart'),
-            throws);
+            throwsArgumentError);
       });
     });
 
@@ -198,7 +198,9 @@ void main() {
       test('should throw if target is in unknown package', () {
         var target = Uri.parse('flob/flub/quux.proto');
         var source = Uri.parse('foo/bar/baz.proto');
-        expect(() => config.resolveImport(target, source, '.pb.dart'), throws);
+        expect(
+            () => config.resolveImport(target, source, '.pb.dart'),
+            throwsA(startsWith('ERROR: cannot generate import for')));
       });
     });
   });

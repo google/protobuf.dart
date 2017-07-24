@@ -11,6 +11,8 @@ import 'package:test/test.dart';
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
+final Matcher throwsATypeError = throwsA(new isInstanceOf<TypeError>());
+
 Int64 make64(lo, [hi = null]) {
   if (hi == null) hi = lo < 0 ? -1 : 0;
   return new Int64.fromInts(hi, lo);
