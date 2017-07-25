@@ -198,8 +198,7 @@ void main() {
       test('should throw if target is in unknown package', () {
         var target = Uri.parse('flob/flub/quux.proto');
         var source = Uri.parse('foo/bar/baz.proto');
-        expect(
-            () => config.resolveImport(target, source, '.pb.dart'),
+        expect(() => config.resolveImport(target, source, '.pb.dart'),
             throwsA(startsWith('ERROR: cannot generate import for')));
       });
     });
