@@ -1,3 +1,8 @@
+## 0.5.5
+
+* Use real generic syntax instead of comment-based.
+* Support v2 dev SDKs.
+
 ## 0.5.4
 
 * Unknown enum values are ignored when parsing JSON, instead of throwing an

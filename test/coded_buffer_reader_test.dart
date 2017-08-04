@@ -122,11 +122,9 @@ void main() {
     }, throwsInvalidProtocolBufferException);
   });
 
-  /**
-   * Tests that if we read a string that contains invalid UTF-8, no exception
-   * is thrown.  Instead, the invalid bytes are replaced with the Unicode
-   * 'replacement character' U+FFFD.
-   */
+  /// Tests that if we read a string that contains invalid UTF-8, no exception
+  /// is thrown. Instead, the invalid bytes are replaced with the Unicode
+  /// 'replacement character' U+FFFD.
   test('testReadInvalidUtf8', () {
     CodedBufferReader input = new CodedBufferReader([1, 0x80]);
     String text = input.readString();
