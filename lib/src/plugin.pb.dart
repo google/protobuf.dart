@@ -14,10 +14,10 @@ import 'descriptor.pb.dart' as google$protobuf;
 
 class Version extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('Version')
-    ..a/*<int>*/(1, 'major', PbFieldType.O3)
-    ..a/*<int>*/(2, 'minor', PbFieldType.O3)
-    ..a/*<int>*/(3, 'patch', PbFieldType.O3)
-    ..a/*<String>*/(4, 'suffix', PbFieldType.OS)
+    ..a<int>(1, 'major', PbFieldType.O3)
+    ..a<int>(2, 'minor', PbFieldType.O3)
+    ..a<int>(3, 'patch', PbFieldType.O3)
+    ..a<String>(4, 'suffix', PbFieldType.OS)
     ..hasRequiredFields = false;
 
   Version() : super();
@@ -77,11 +77,11 @@ class _ReadonlyVersion extends Version with ReadonlyMessageMixin {}
 
 class CodeGeneratorRequest extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorRequest')
-    ..p/*<String>*/(1, 'fileToGenerate', PbFieldType.PS)
-    ..a/*<String>*/(2, 'parameter', PbFieldType.OS)
-    ..a/*<Version>*/(3, 'compilerVersion', PbFieldType.OM, Version.getDefault,
+    ..p<String>(1, 'fileToGenerate', PbFieldType.PS)
+    ..a<String>(2, 'parameter', PbFieldType.OS)
+    ..a<Version>(3, 'compilerVersion', PbFieldType.OM, Version.getDefault,
         Version.create)
-    ..pp/*<google$protobuf.FileDescriptorProto>*/(
+    ..pp<google$protobuf.FileDescriptorProto>(
         15,
         'protoFile',
         PbFieldType.PM,
@@ -138,9 +138,9 @@ class _ReadonlyCodeGeneratorRequest extends CodeGeneratorRequest
 
 class CodeGeneratorResponse_File extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse_File')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..a/*<String>*/(2, 'insertionPoint', PbFieldType.OS)
-    ..a/*<String>*/(15, 'content', PbFieldType.OS)
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..a<String>(2, 'insertionPoint', PbFieldType.OS)
+    ..a<String>(15, 'content', PbFieldType.OS)
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse_File() : super();
@@ -199,8 +199,8 @@ class _ReadonlyCodeGeneratorResponse_File extends CodeGeneratorResponse_File
 
 class CodeGeneratorResponse extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse')
-    ..a/*<String>*/(1, 'error', PbFieldType.OS)
-    ..pp/*<CodeGeneratorResponse_File>*/(
+    ..a<String>(1, 'error', PbFieldType.OS)
+    ..pp<CodeGeneratorResponse_File>(
         15,
         'file',
         PbFieldType.PM,

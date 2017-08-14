@@ -1,3 +1,8 @@
+## 0.7.5 - 2017-08-04
+
+* Use real generic syntax instead of comment-based.
+* Support 2.0.0 dev SDKs.
+
 ## 0.7.4 - 2017-07-07
 
 * Added call options to gRPC client stubs.

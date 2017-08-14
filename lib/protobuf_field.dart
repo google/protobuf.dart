@@ -106,24 +106,24 @@ class ProtobufField {
 
     if (isRepeated) {
       if (baseType.isMessage || baseType.isGroup) {
-        return '..pp/*<$type>*/($number, $quotedName, $typeConstant,'
+        return '..pp<$type>($number, $quotedName, $typeConstant,'
             ' $type.$checkItem, $type.create)';
       } else if (baseType.isEnum) {
-        return '..pp/*<$type>*/($number, $quotedName, $typeConstant,'
+        return '..pp<$type>($number, $quotedName, $typeConstant,'
             ' $type.$checkItem, null, $type.valueOf)';
       } else {
-        return '..p/*<$type>*/($number, $quotedName, $typeConstant)';
+        return '..p<$type>($number, $quotedName, $typeConstant)';
       }
     }
 
     String makeDefault = generateDefaultFunction(package);
     if (baseType.isEnum) {
       String valueOf = '$type.valueOf';
-      return '..e/*<$type>*/('
+      return '..e<$type>('
           '$number, $quotedName, $typeConstant, $makeDefault, $valueOf)';
     }
 
-    String prefix = '..a/*<$type>*/($number, $quotedName, $typeConstant';
+    String prefix = '..a<$type>($number, $quotedName, $typeConstant';
     if (makeDefault == null) return prefix + ')';
 
     if (baseType.isMessage || baseType.isGroup) {

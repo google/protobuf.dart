@@ -12,9 +12,9 @@ import 'package:protobuf/protobuf.dart';
 
 class DartMixin extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DartMixin')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..a/*<String>*/(2, 'importFrom', PbFieldType.OS)
-    ..a/*<String>*/(3, 'parent', PbFieldType.OS)
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..a<String>(2, 'importFrom', PbFieldType.OS)
+    ..a<String>(3, 'parent', PbFieldType.OS)
     ..hasRequiredFields = false;
 
   DartMixin() : super();
@@ -66,7 +66,7 @@ class _ReadonlyDartMixin extends DartMixin with ReadonlyMessageMixin {}
 
 class Imports extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('Imports')
-    ..pp/*<DartMixin>*/(
+    ..pp<DartMixin>(
         1, 'mixins', PbFieldType.PM, DartMixin.$checkItem, DartMixin.create)
     ..hasRequiredFields = false;
 

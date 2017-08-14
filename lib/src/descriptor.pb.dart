@@ -17,7 +17,7 @@ export 'descriptor.pbenum.dart';
 
 class FileDescriptorSet extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FileDescriptorSet')
-    ..pp/*<FileDescriptorProto>*/(1, 'file', PbFieldType.PM,
+    ..pp<FileDescriptorProto>(1, 'file', PbFieldType.PM,
         FileDescriptorProto.$checkItem, FileDescriptorProto.create);
 
   FileDescriptorSet() : super();
@@ -51,24 +51,24 @@ class _ReadonlyFileDescriptorSet extends FileDescriptorSet
 
 class FileDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FileDescriptorProto')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..a/*<String>*/(2, 'package', PbFieldType.OS)
-    ..p/*<String>*/(3, 'dependency', PbFieldType.PS)
-    ..pp/*<DescriptorProto>*/(4, 'messageType', PbFieldType.PM,
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..a<String>(2, 'package', PbFieldType.OS)
+    ..p<String>(3, 'dependency', PbFieldType.PS)
+    ..pp<DescriptorProto>(4, 'messageType', PbFieldType.PM,
         DescriptorProto.$checkItem, DescriptorProto.create)
-    ..pp/*<EnumDescriptorProto>*/(5, 'enumType', PbFieldType.PM,
+    ..pp<EnumDescriptorProto>(5, 'enumType', PbFieldType.PM,
         EnumDescriptorProto.$checkItem, EnumDescriptorProto.create)
-    ..pp/*<ServiceDescriptorProto>*/(6, 'service', PbFieldType.PM,
+    ..pp<ServiceDescriptorProto>(6, 'service', PbFieldType.PM,
         ServiceDescriptorProto.$checkItem, ServiceDescriptorProto.create)
-    ..pp/*<FieldDescriptorProto>*/(7, 'extension', PbFieldType.PM,
+    ..pp<FieldDescriptorProto>(7, 'extension', PbFieldType.PM,
         FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
-    ..a/*<FileOptions>*/(8, 'options', PbFieldType.OM, FileOptions.getDefault,
+    ..a<FileOptions>(8, 'options', PbFieldType.OM, FileOptions.getDefault,
         FileOptions.create)
-    ..a/*<SourceCodeInfo>*/(9, 'sourceCodeInfo', PbFieldType.OM,
+    ..a<SourceCodeInfo>(9, 'sourceCodeInfo', PbFieldType.OM,
         SourceCodeInfo.getDefault, SourceCodeInfo.create)
-    ..p/*<int>*/(10, 'publicDependency', PbFieldType.P3)
-    ..p/*<int>*/(11, 'weakDependency', PbFieldType.P3)
-    ..a/*<String>*/(12, 'syntax', PbFieldType.OS);
+    ..p<int>(10, 'publicDependency', PbFieldType.P3)
+    ..p<int>(11, 'weakDependency', PbFieldType.P3)
+    ..a<String>(12, 'syntax', PbFieldType.OS);
 
   FileDescriptorProto() : super();
   FileDescriptorProto.fromBuffer(List<int> i,
@@ -155,8 +155,8 @@ class _ReadonlyFileDescriptorProto extends FileDescriptorProto
 class DescriptorProto_ExtensionRange extends GeneratedMessage {
   static final BuilderInfo _i =
       new BuilderInfo('DescriptorProto_ExtensionRange')
-        ..a/*<int>*/(1, 'start', PbFieldType.O3)
-        ..a/*<int>*/(2, 'end', PbFieldType.O3)
+        ..a<int>(1, 'start', PbFieldType.O3)
+        ..a<int>(2, 'end', PbFieldType.O3)
         ..hasRequiredFields = false;
 
   DescriptorProto_ExtensionRange() : super();
@@ -207,8 +207,8 @@ class _ReadonlyDescriptorProto_ExtensionRange
 
 class DescriptorProto_ReservedRange extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DescriptorProto_ReservedRange')
-    ..a/*<int>*/(1, 'start', PbFieldType.O3)
-    ..a/*<int>*/(2, 'end', PbFieldType.O3)
+    ..a<int>(1, 'start', PbFieldType.O3)
+    ..a<int>(2, 'end', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DescriptorProto_ReservedRange() : super();
@@ -259,32 +259,32 @@ class _ReadonlyDescriptorProto_ReservedRange
 
 class DescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DescriptorProto')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..pp/*<FieldDescriptorProto>*/(2, 'field', PbFieldType.PM,
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..pp<FieldDescriptorProto>(2, 'field', PbFieldType.PM,
         FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
-    ..pp/*<DescriptorProto>*/(3, 'nestedType', PbFieldType.PM,
+    ..pp<DescriptorProto>(3, 'nestedType', PbFieldType.PM,
         DescriptorProto.$checkItem, DescriptorProto.create)
-    ..pp/*<EnumDescriptorProto>*/(4, 'enumType', PbFieldType.PM,
+    ..pp<EnumDescriptorProto>(4, 'enumType', PbFieldType.PM,
         EnumDescriptorProto.$checkItem, EnumDescriptorProto.create)
-    ..pp/*<DescriptorProto_ExtensionRange>*/(
+    ..pp<DescriptorProto_ExtensionRange>(
         5,
         'extensionRange',
         PbFieldType.PM,
         DescriptorProto_ExtensionRange.$checkItem,
         DescriptorProto_ExtensionRange.create)
-    ..pp/*<FieldDescriptorProto>*/(6, 'extension', PbFieldType.PM,
+    ..pp<FieldDescriptorProto>(6, 'extension', PbFieldType.PM,
         FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
-    ..a/*<MessageOptions>*/(7, 'options', PbFieldType.OM,
-        MessageOptions.getDefault, MessageOptions.create)
-    ..pp/*<OneofDescriptorProto>*/(8, 'oneofDecl', PbFieldType.PM,
+    ..a<MessageOptions>(7, 'options', PbFieldType.OM, MessageOptions.getDefault,
+        MessageOptions.create)
+    ..pp<OneofDescriptorProto>(8, 'oneofDecl', PbFieldType.PM,
         OneofDescriptorProto.$checkItem, OneofDescriptorProto.create)
-    ..pp/*<DescriptorProto_ReservedRange>*/(
+    ..pp<DescriptorProto_ReservedRange>(
         9,
         'reservedRange',
         PbFieldType.PM,
         DescriptorProto_ReservedRange.$checkItem,
         DescriptorProto_ReservedRange.create)
-    ..p/*<String>*/(10, 'reservedName', PbFieldType.PS);
+    ..p<String>(10, 'reservedName', PbFieldType.PS);
 
   DescriptorProto() : super();
   DescriptorProto.fromBuffer(List<int> i,
@@ -347,27 +347,27 @@ class _ReadonlyDescriptorProto extends DescriptorProto
 
 class FieldDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FieldDescriptorProto')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..a/*<String>*/(2, 'extendee', PbFieldType.OS)
-    ..a/*<int>*/(3, 'number', PbFieldType.O3)
-    ..e/*<FieldDescriptorProto_Label>*/(
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..a<String>(2, 'extendee', PbFieldType.OS)
+    ..a<int>(3, 'number', PbFieldType.O3)
+    ..e<FieldDescriptorProto_Label>(
         4,
         'label',
         PbFieldType.OE,
         FieldDescriptorProto_Label.LABEL_OPTIONAL,
         FieldDescriptorProto_Label.valueOf)
-    ..e/*<FieldDescriptorProto_Type>*/(
+    ..e<FieldDescriptorProto_Type>(
         5,
         'type',
         PbFieldType.OE,
         FieldDescriptorProto_Type.TYPE_DOUBLE,
         FieldDescriptorProto_Type.valueOf)
-    ..a/*<String>*/(6, 'typeName', PbFieldType.OS)
-    ..a/*<String>*/(7, 'defaultValue', PbFieldType.OS)
-    ..a/*<FieldOptions>*/(8, 'options', PbFieldType.OM, FieldOptions.getDefault,
+    ..a<String>(6, 'typeName', PbFieldType.OS)
+    ..a<String>(7, 'defaultValue', PbFieldType.OS)
+    ..a<FieldOptions>(8, 'options', PbFieldType.OM, FieldOptions.getDefault,
         FieldOptions.create)
-    ..a/*<int>*/(9, 'oneofIndex', PbFieldType.O3)
-    ..a/*<String>*/(10, 'jsonName', PbFieldType.OS);
+    ..a<int>(9, 'oneofIndex', PbFieldType.O3)
+    ..a<String>(10, 'jsonName', PbFieldType.OS);
 
   FieldDescriptorProto() : super();
   FieldDescriptorProto.fromBuffer(List<int> i,
@@ -479,8 +479,8 @@ class _ReadonlyFieldDescriptorProto extends FieldDescriptorProto
 
 class OneofDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('OneofDescriptorProto')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..a/*<OneofOptions>*/(2, 'options', PbFieldType.OM, OneofOptions.getDefault,
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..a<OneofOptions>(2, 'options', PbFieldType.OM, OneofOptions.getDefault,
         OneofOptions.create);
 
   OneofDescriptorProto() : super();
@@ -529,10 +529,10 @@ class _ReadonlyOneofDescriptorProto extends OneofDescriptorProto
 
 class EnumDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumDescriptorProto')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..pp/*<EnumValueDescriptorProto>*/(2, 'value', PbFieldType.PM,
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..pp<EnumValueDescriptorProto>(2, 'value', PbFieldType.PM,
         EnumValueDescriptorProto.$checkItem, EnumValueDescriptorProto.create)
-    ..a/*<EnumOptions>*/(3, 'options', PbFieldType.OM, EnumOptions.getDefault,
+    ..a<EnumOptions>(3, 'options', PbFieldType.OM, EnumOptions.getDefault,
         EnumOptions.create);
 
   EnumDescriptorProto() : super();
@@ -583,9 +583,9 @@ class _ReadonlyEnumDescriptorProto extends EnumDescriptorProto
 
 class EnumValueDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumValueDescriptorProto')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..a/*<int>*/(2, 'number', PbFieldType.O3)
-    ..a/*<EnumValueOptions>*/(3, 'options', PbFieldType.OM,
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..a<int>(2, 'number', PbFieldType.O3)
+    ..a<EnumValueOptions>(3, 'options', PbFieldType.OM,
         EnumValueOptions.getDefault, EnumValueOptions.create);
 
   EnumValueDescriptorProto() : super();
@@ -643,11 +643,11 @@ class _ReadonlyEnumValueDescriptorProto extends EnumValueDescriptorProto
 
 class ServiceDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ServiceDescriptorProto')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..pp/*<MethodDescriptorProto>*/(2, 'method', PbFieldType.PM,
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..pp<MethodDescriptorProto>(2, 'method', PbFieldType.PM,
         MethodDescriptorProto.$checkItem, MethodDescriptorProto.create)
-    ..a/*<ServiceOptions>*/(3, 'options', PbFieldType.OM,
-        ServiceOptions.getDefault, ServiceOptions.create);
+    ..a<ServiceOptions>(3, 'options', PbFieldType.OM, ServiceOptions.getDefault,
+        ServiceOptions.create);
 
   ServiceDescriptorProto() : super();
   ServiceDescriptorProto.fromBuffer(List<int> i,
@@ -698,13 +698,13 @@ class _ReadonlyServiceDescriptorProto extends ServiceDescriptorProto
 
 class MethodDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MethodDescriptorProto')
-    ..a/*<String>*/(1, 'name', PbFieldType.OS)
-    ..a/*<String>*/(2, 'inputType', PbFieldType.OS)
-    ..a/*<String>*/(3, 'outputType', PbFieldType.OS)
-    ..a/*<MethodOptions>*/(4, 'options', PbFieldType.OM,
-        MethodOptions.getDefault, MethodOptions.create)
-    ..a/*<bool>*/(5, 'clientStreaming', PbFieldType.OB)
-    ..a/*<bool>*/(6, 'serverStreaming', PbFieldType.OB);
+    ..a<String>(1, 'name', PbFieldType.OS)
+    ..a<String>(2, 'inputType', PbFieldType.OS)
+    ..a<String>(3, 'outputType', PbFieldType.OS)
+    ..a<MethodOptions>(4, 'options', PbFieldType.OM, MethodOptions.getDefault,
+        MethodOptions.create)
+    ..a<bool>(5, 'clientStreaming', PbFieldType.OB)
+    ..a<bool>(6, 'serverStreaming', PbFieldType.OB);
 
   MethodDescriptorProto() : super();
   MethodDescriptorProto.fromBuffer(List<int> i,
@@ -785,25 +785,25 @@ class _ReadonlyMethodDescriptorProto extends MethodDescriptorProto
 
 class FileOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FileOptions')
-    ..a/*<String>*/(1, 'javaPackage', PbFieldType.OS)
-    ..a/*<String>*/(8, 'javaOuterClassname', PbFieldType.OS)
-    ..e/*<FileOptions_OptimizeMode>*/(9, 'optimizeFor', PbFieldType.OE,
+    ..a<String>(1, 'javaPackage', PbFieldType.OS)
+    ..a<String>(8, 'javaOuterClassname', PbFieldType.OS)
+    ..e<FileOptions_OptimizeMode>(9, 'optimizeFor', PbFieldType.OE,
         FileOptions_OptimizeMode.SPEED, FileOptions_OptimizeMode.valueOf)
-    ..a/*<bool>*/(10, 'javaMultipleFiles', PbFieldType.OB)
-    ..a/*<String>*/(11, 'goPackage', PbFieldType.OS)
-    ..a/*<bool>*/(16, 'ccGenericServices', PbFieldType.OB)
-    ..a/*<bool>*/(17, 'javaGenericServices', PbFieldType.OB)
-    ..a/*<bool>*/(18, 'pyGenericServices', PbFieldType.OB)
-    ..a/*<bool>*/(20, 'javaGenerateEqualsAndHash', PbFieldType.OB)
-    ..a/*<bool>*/(23, 'deprecated', PbFieldType.OB)
-    ..a/*<bool>*/(27, 'javaStringCheckUtf8', PbFieldType.OB)
-    ..a/*<bool>*/(31, 'ccEnableArenas', PbFieldType.OB)
-    ..a/*<String>*/(36, 'objcClassPrefix', PbFieldType.OS)
-    ..a/*<String>*/(37, 'csharpNamespace', PbFieldType.OS)
-    ..a/*<String>*/(39, 'swiftPrefix', PbFieldType.OS)
-    ..a/*<String>*/(40, 'phpClassPrefix', PbFieldType.OS)
-    ..a/*<String>*/(41, 'phpNamespace', PbFieldType.OS)
-    ..pp/*<UninterpretedOption>*/(999, 'uninterpretedOption', PbFieldType.PM,
+    ..a<bool>(10, 'javaMultipleFiles', PbFieldType.OB)
+    ..a<String>(11, 'goPackage', PbFieldType.OS)
+    ..a<bool>(16, 'ccGenericServices', PbFieldType.OB)
+    ..a<bool>(17, 'javaGenericServices', PbFieldType.OB)
+    ..a<bool>(18, 'pyGenericServices', PbFieldType.OB)
+    ..a<bool>(20, 'javaGenerateEqualsAndHash', PbFieldType.OB)
+    ..a<bool>(23, 'deprecated', PbFieldType.OB)
+    ..a<bool>(27, 'javaStringCheckUtf8', PbFieldType.OB)
+    ..a<bool>(31, 'ccEnableArenas', PbFieldType.OB)
+    ..a<String>(36, 'objcClassPrefix', PbFieldType.OS)
+    ..a<String>(37, 'csharpNamespace', PbFieldType.OS)
+    ..a<String>(39, 'swiftPrefix', PbFieldType.OS)
+    ..a<String>(40, 'phpClassPrefix', PbFieldType.OS)
+    ..a<String>(41, 'phpNamespace', PbFieldType.OS)
+    ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -971,11 +971,11 @@ class _ReadonlyFileOptions extends FileOptions with ReadonlyMessageMixin {}
 
 class MessageOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MessageOptions')
-    ..a/*<bool>*/(1, 'messageSetWireFormat', PbFieldType.OB)
-    ..a/*<bool>*/(2, 'noStandardDescriptorAccessor', PbFieldType.OB)
-    ..a/*<bool>*/(3, 'deprecated', PbFieldType.OB)
-    ..a/*<bool>*/(7, 'mapEntry', PbFieldType.OB)
-    ..pp/*<UninterpretedOption>*/(999, 'uninterpretedOption', PbFieldType.PM,
+    ..a<bool>(1, 'messageSetWireFormat', PbFieldType.OB)
+    ..a<bool>(2, 'noStandardDescriptorAccessor', PbFieldType.OB)
+    ..a<bool>(3, 'deprecated', PbFieldType.OB)
+    ..a<bool>(7, 'mapEntry', PbFieldType.OB)
+    ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1042,15 +1042,15 @@ class _ReadonlyMessageOptions extends MessageOptions with ReadonlyMessageMixin {
 
 class FieldOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FieldOptions')
-    ..e/*<FieldOptions_CType>*/(1, 'ctype', PbFieldType.OE,
+    ..e<FieldOptions_CType>(1, 'ctype', PbFieldType.OE,
         FieldOptions_CType.STRING, FieldOptions_CType.valueOf)
-    ..a/*<bool>*/(2, 'packed', PbFieldType.OB)
-    ..a/*<bool>*/(3, 'deprecated', PbFieldType.OB)
-    ..a/*<bool>*/(5, 'lazy', PbFieldType.OB)
-    ..e/*<FieldOptions_JSType>*/(6, 'jstype', PbFieldType.OE,
+    ..a<bool>(2, 'packed', PbFieldType.OB)
+    ..a<bool>(3, 'deprecated', PbFieldType.OB)
+    ..a<bool>(5, 'lazy', PbFieldType.OB)
+    ..e<FieldOptions_JSType>(6, 'jstype', PbFieldType.OE,
         FieldOptions_JSType.JS_NORMAL, FieldOptions_JSType.valueOf)
-    ..a/*<bool>*/(10, 'weak', PbFieldType.OB)
-    ..pp/*<UninterpretedOption>*/(999, 'uninterpretedOption', PbFieldType.PM,
+    ..a<bool>(10, 'weak', PbFieldType.OB)
+    ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1131,7 +1131,7 @@ class _ReadonlyFieldOptions extends FieldOptions with ReadonlyMessageMixin {}
 
 class OneofOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('OneofOptions')
-    ..pp/*<UninterpretedOption>*/(999, 'uninterpretedOption', PbFieldType.PM,
+    ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1164,9 +1164,9 @@ class _ReadonlyOneofOptions extends OneofOptions with ReadonlyMessageMixin {}
 
 class EnumOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumOptions')
-    ..a/*<bool>*/(2, 'allowAlias', PbFieldType.OB)
-    ..a/*<bool>*/(3, 'deprecated', PbFieldType.OB)
-    ..pp/*<UninterpretedOption>*/(999, 'uninterpretedOption', PbFieldType.PM,
+    ..a<bool>(2, 'allowAlias', PbFieldType.OB)
+    ..a<bool>(3, 'deprecated', PbFieldType.OB)
+    ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1214,8 +1214,8 @@ class _ReadonlyEnumOptions extends EnumOptions with ReadonlyMessageMixin {}
 
 class EnumValueOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumValueOptions')
-    ..a/*<bool>*/(1, 'deprecated', PbFieldType.OB)
-    ..pp/*<UninterpretedOption>*/(999, 'uninterpretedOption', PbFieldType.PM,
+    ..a<bool>(1, 'deprecated', PbFieldType.OB)
+    ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1258,8 +1258,8 @@ class _ReadonlyEnumValueOptions extends EnumValueOptions
 
 class ServiceOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ServiceOptions')
-    ..a/*<bool>*/(33, 'deprecated', PbFieldType.OB)
-    ..pp/*<UninterpretedOption>*/(999, 'uninterpretedOption', PbFieldType.PM,
+    ..a<bool>(33, 'deprecated', PbFieldType.OB)
+    ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1302,14 +1302,14 @@ class _ReadonlyServiceOptions extends ServiceOptions with ReadonlyMessageMixin {
 
 class MethodOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MethodOptions')
-    ..a/*<bool>*/(33, 'deprecated', PbFieldType.OB)
-    ..e/*<MethodOptions_IdempotencyLevel>*/(
+    ..a<bool>(33, 'deprecated', PbFieldType.OB)
+    ..e<MethodOptions_IdempotencyLevel>(
         34,
         'idempotencyLevel',
         PbFieldType.OE,
         MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
         MethodOptions_IdempotencyLevel.valueOf)
-    ..pp/*<UninterpretedOption>*/(999, 'uninterpretedOption', PbFieldType.PM,
+    ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1358,8 +1358,8 @@ class _ReadonlyMethodOptions extends MethodOptions with ReadonlyMessageMixin {}
 
 class UninterpretedOption_NamePart extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('UninterpretedOption_NamePart')
-    ..a/*<String>*/(1, 'namePart', PbFieldType.QS)
-    ..a/*<bool>*/(2, 'isExtension', PbFieldType.QB);
+    ..a<String>(1, 'namePart', PbFieldType.QS)
+    ..a<bool>(2, 'isExtension', PbFieldType.QB);
 
   UninterpretedOption_NamePart() : super();
   UninterpretedOption_NamePart.fromBuffer(List<int> i,
@@ -1409,18 +1409,18 @@ class _ReadonlyUninterpretedOption_NamePart extends UninterpretedOption_NamePart
 
 class UninterpretedOption extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('UninterpretedOption')
-    ..pp/*<UninterpretedOption_NamePart>*/(
+    ..pp<UninterpretedOption_NamePart>(
         2,
         'name',
         PbFieldType.PM,
         UninterpretedOption_NamePart.$checkItem,
         UninterpretedOption_NamePart.create)
-    ..a/*<String>*/(3, 'identifierValue', PbFieldType.OS)
-    ..a/*<Int64>*/(4, 'positiveIntValue', PbFieldType.OU6, Int64.ZERO)
-    ..a/*<Int64>*/(5, 'negativeIntValue', PbFieldType.O6, Int64.ZERO)
-    ..a/*<double>*/(6, 'doubleValue', PbFieldType.OD)
-    ..a/*<List<int>>*/(7, 'stringValue', PbFieldType.OY)
-    ..a/*<String>*/(8, 'aggregateValue', PbFieldType.OS);
+    ..a<String>(3, 'identifierValue', PbFieldType.OS)
+    ..a<Int64>(4, 'positiveIntValue', PbFieldType.OU6, Int64.ZERO)
+    ..a<Int64>(5, 'negativeIntValue', PbFieldType.O6, Int64.ZERO)
+    ..a<double>(6, 'doubleValue', PbFieldType.OD)
+    ..a<List<int>>(7, 'stringValue', PbFieldType.OY)
+    ..a<String>(8, 'aggregateValue', PbFieldType.OS);
 
   UninterpretedOption() : super();
   UninterpretedOption.fromBuffer(List<int> i,
@@ -1502,11 +1502,11 @@ class _ReadonlyUninterpretedOption extends UninterpretedOption
 
 class SourceCodeInfo_Location extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('SourceCodeInfo_Location')
-    ..p/*<int>*/(1, 'path', PbFieldType.K3)
-    ..p/*<int>*/(2, 'span', PbFieldType.K3)
-    ..a/*<String>*/(3, 'leadingComments', PbFieldType.OS)
-    ..a/*<String>*/(4, 'trailingComments', PbFieldType.OS)
-    ..p/*<String>*/(6, 'leadingDetachedComments', PbFieldType.PS)
+    ..p<int>(1, 'path', PbFieldType.K3)
+    ..p<int>(2, 'span', PbFieldType.K3)
+    ..a<String>(3, 'leadingComments', PbFieldType.OS)
+    ..a<String>(4, 'trailingComments', PbFieldType.OS)
+    ..p<String>(6, 'leadingDetachedComments', PbFieldType.PS)
     ..hasRequiredFields = false;
 
   SourceCodeInfo_Location() : super();
@@ -1562,7 +1562,7 @@ class _ReadonlySourceCodeInfo_Location extends SourceCodeInfo_Location
 
 class SourceCodeInfo extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('SourceCodeInfo')
-    ..pp/*<SourceCodeInfo_Location>*/(1, 'location', PbFieldType.PM,
+    ..pp<SourceCodeInfo_Location>(1, 'location', PbFieldType.PM,
         SourceCodeInfo_Location.$checkItem, SourceCodeInfo_Location.create)
     ..hasRequiredFields = false;
 
@@ -1597,10 +1597,10 @@ class _ReadonlySourceCodeInfo extends SourceCodeInfo with ReadonlyMessageMixin {
 
 class GeneratedCodeInfo_Annotation extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('GeneratedCodeInfo_Annotation')
-    ..p/*<int>*/(1, 'path', PbFieldType.K3)
-    ..a/*<String>*/(2, 'sourceFile', PbFieldType.OS)
-    ..a/*<int>*/(3, 'begin', PbFieldType.O3)
-    ..a/*<int>*/(4, 'end', PbFieldType.O3)
+    ..p<int>(1, 'path', PbFieldType.K3)
+    ..a<String>(2, 'sourceFile', PbFieldType.OS)
+    ..a<int>(3, 'begin', PbFieldType.O3)
+    ..a<int>(4, 'end', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   GeneratedCodeInfo_Annotation() : super();
@@ -1661,7 +1661,7 @@ class _ReadonlyGeneratedCodeInfo_Annotation extends GeneratedCodeInfo_Annotation
 
 class GeneratedCodeInfo extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('GeneratedCodeInfo')
-    ..pp/*<GeneratedCodeInfo_Annotation>*/(
+    ..pp<GeneratedCodeInfo_Annotation>(
         1,
         'annotation',
         PbFieldType.PM,
