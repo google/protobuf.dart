@@ -523,9 +523,7 @@ import 'package:grpc/grpc.dart';
 import 'test.pb.dart';
 export 'test.pb.dart';
 
-class TestClient {
-  final ClientChannel _channel;
-
+class TestClient extends Client {
   static final _$unary = new ClientMethod<Input, Output>(
       '/Test/Unary',
       (Input value) => value.writeToBuffer(),
@@ -543,10 +541,11 @@ class TestClient {
       (Input value) => value.writeToBuffer(),
       (List<int> value) => new Output.fromBuffer(value));
 
-  TestClient(this._channel);
+  TestClient(ClientChannel channel, {CallOptions options})
+      : super(channel, options: options);
 
   ResponseFuture<Output> unary(Input request, {CallOptions options}) {
-    final call = new ClientCall(_channel, _$unary, options: options);
+    final call = $createCall(_$unary, options: options);
     call.request
       ..add(request)
       ..close();
@@ -555,13 +554,13 @@ class TestClient {
 
   ResponseFuture<Output> clientStreaming(Stream<Input> request,
       {CallOptions options}) {
-    final call = new ClientCall(_channel, _$clientStreaming, options: options);
+    final call = $createCall(_$clientStreaming, options: options);
     request.pipe(call.request);
     return new ResponseFuture(call);
   }
 
   ResponseStream<Output> serverStreaming(Input request, {CallOptions options}) {
-    final call = new ClientCall(_channel, _$serverStreaming, options: options);
+    final call = $createCall(_$serverStreaming, options: options);
     call.request
       ..add(request)
       ..close();
@@ -570,7 +569,7 @@ class TestClient {
 
   ResponseStream<Output> bidirectional(Stream<Input> request,
       {CallOptions options}) {
-    final call = new ClientCall(_channel, _$bidirectional, options: options);
+    final call = $createCall(_$bidirectional, options: options);
     request.pipe(call.request);
     return new ResponseStream(call);
   }

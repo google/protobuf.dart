@@ -111,14 +111,14 @@ class GrpcServiceGenerator {
   }
 
   void _generateClient(IndentingWriter out) {
-    out.addBlock('class $_clientClassname {', '}', () {
-      out.println('final ClientChannel _channel;');
-      out.println();
+    out.addBlock('class $_clientClassname extends Client {', '}', () {
       for (final method in _methods) {
         method.generateClientMethodDescriptor(out);
       }
       out.println();
-      out.println('$_clientClassname(this._channel);');
+      out.println(
+          '$_clientClassname(ClientChannel channel, {CallOptions options})');
+      out.println('    : super(channel, options: options);');
       for (final method in _methods) {
         method.generateClientStub(out);
       }
@@ -222,7 +222,7 @@ class _GrpcMethod {
         '$_clientReturnType $_dartName($_argumentType request, {CallOptions options}) {',
         '}', () {
       out.println(
-          'final call = new ClientCall(_channel, _\$$_dartName, options: options);');
+          'final call = \$createCall(_\$$_dartName, options: options);');
       if (_clientStreaming) {
         out.println('request.pipe(call.request);');
       } else {

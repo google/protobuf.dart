@@ -1,3 +1,8 @@
+## 0.7.6 - 2017-08-22
+
+* Updated gRPC client stub generation to produce code matching latest changes to
+  dart-lang/dart-grpc.
+
 ## 0.7.5 - 2017-08-04
 
 * Use real generic syntax instead of comment-based.
