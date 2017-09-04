@@ -11,6 +11,8 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/enum_extension.pb.dart';
 import '../out/protos/nested_extension.pb.dart';
 import '../out/protos/non_nested_extension.pb.dart';
+import '../out/protos/ExtensionNameConflict.pb.dart';
+import '../out/protos/ExtensionEnumNameConflict.pb.dart';
 
 import 'test_util.dart';
 
@@ -159,5 +161,13 @@ void main() {
   test('can extend message with enum', () {
     var msg = new Extendable();
     msg.setExtension(Enum_extension.animal, Animal.CAT);
+  });
+
+  test('extension class was renamed to avoid conflict with message', () {
+    expect(ExtensionNameConflictExt.someExtension.tagNumber, 1);
+  });
+
+  test('extension class was renamed to avoid conflict with enum', () {
+    expect(ExtensionEnumNameConflictExt.enumConflictExtension.tagNumber, 1);
   });
 }

@@ -16,12 +16,12 @@ void main() {
     String expected = r'''
 abstract class TestServiceBase extends GeneratedService {
   Future<SomeReply> aMethod(ServerContext ctx, SomeRequest request);
-  Future<foo$bar.AnotherReply> anotherMethod(ServerContext ctx, foo$bar.EmptyMessage request);
+  Future<$foo$bar.AnotherReply> anotherMethod(ServerContext ctx, $foo$bar.EmptyMessage request);
 
   GeneratedMessage createRequest(String method) {
     switch (method) {
       case 'AMethod': return new SomeRequest();
-      case 'AnotherMethod': return new foo$bar.EmptyMessage();
+      case 'AnotherMethod': return new $foo$bar.EmptyMessage();
       default: throw new ArgumentError('Unknown method: $method');
     }
   }

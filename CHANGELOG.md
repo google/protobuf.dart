@@ -1,3 +1,8 @@
+## Not yet released
+
+* Avoid name clashes between import prefix and field names.
+* Avoid name clashes between generated enum and extension class names.
+
 ## 0.7.6 - 2017-08-22
 
 * Updated gRPC client stub generation to produce code matching latest changes to

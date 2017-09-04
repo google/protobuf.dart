@@ -362,7 +362,7 @@ class FileGenerator extends ProtobufContainer {
     if (enumCount > 0) {
       // Make sure any other symbols in dart:core don't cause name conflicts
       // with enums that have the same name.
-      out.println("// ignore: UNUSED_SHOWN_NAME\n"
+      out.println("// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME\n"
           "import 'dart:core' show int, dynamic, String, List, Map;");
       out.println("import 'package:protobuf/protobuf.dart';");
       out.println();
@@ -530,8 +530,7 @@ import 'package:grpc/grpc.dart';
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library $libraryName;
 ''');
   }

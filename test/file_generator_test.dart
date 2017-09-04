@@ -76,8 +76,7 @@ void main() {
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test;
 
 // ignore: UNUSED_SHOWN_NAME
@@ -141,8 +140,7 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test_pbjson;
 
 const PhoneNumber$json = const {
@@ -170,8 +168,7 @@ const PhoneNumber$json = const {
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test;
 
 // ignore: UNUSED_SHOWN_NAME
@@ -185,11 +182,10 @@ export 'test.pbenum.dart';
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test_pbenum;
 
-// ignore: UNUSED_SHOWN_NAME
+// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME
 import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart';
 
@@ -233,8 +229,7 @@ class PhoneType extends ProtobufEnum {
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test_pbjson;
 
 const PhoneType$json = const {
@@ -264,8 +259,7 @@ const PhoneType$json = const {
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library pb_library_test;
 
 // ignore: UNUSED_SHOWN_NAME
@@ -292,8 +286,7 @@ import 'package:protobuf/protobuf.dart';
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test;
 
 // ignore: UNUSED_SHOWN_NAME
@@ -330,8 +323,7 @@ import 'package:protobuf/protobuf.dart';
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test;
 
 import 'dart:async';
@@ -380,8 +372,7 @@ class TestApi {
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test_pbserver;
 
 import 'dart:async';
@@ -448,8 +439,7 @@ abstract class TestServiceBase extends GeneratedService {
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test;
 
 // ignore: UNUSED_SHOWN_NAME
@@ -512,8 +502,7 @@ class _ReadonlyEmpty extends Empty with ReadonlyMessageMixin {}
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test_pbgrpc;
 
 import 'dart:async';
@@ -678,8 +667,7 @@ abstract class TestServiceBase extends Service {
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test;
 
 // ignore: UNUSED_SHOWN_NAME
@@ -687,14 +675,14 @@ import 'dart:core' show int, bool, double, String, List, override;
 
 import 'package:protobuf/protobuf.dart';
 
-import 'package1.pb.dart' as p1;
-import 'package2.pb.dart' as p2;
+import 'package1.pb.dart' as $p1;
+import 'package2.pb.dart' as $p2;
 
 class M extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('M')
     ..a<M>(1, 'm', PbFieldType.OM, M.getDefault, M.create)
-    ..a<p1.M>(2, 'm1', PbFieldType.OM, p1.M.getDefault, p1.M.create)
-    ..a<p2.M>(3, 'm2', PbFieldType.OM, p2.M.getDefault, p2.M.create)
+    ..a<$p1.M>(2, 'm1', PbFieldType.OM, $p1.M.getDefault, $p1.M.create)
+    ..a<$p2.M>(3, 'm2', PbFieldType.OM, $p2.M.getDefault, $p2.M.create)
     ..hasRequiredFields = false
   ;
 
@@ -719,13 +707,13 @@ class M extends GeneratedMessage {
   bool hasM() => $_has(0, 1);
   void clearM() => clearField(1);
 
-  p1.M get m1 => $_get(1, 2, null);
-  set m1(p1.M v) { setField(2, v); }
+  $p1.M get m1 => $_get(1, 2, null);
+  set m1($p1.M v) { setField(2, v); }
   bool hasM1() => $_has(1, 2);
   void clearM1() => clearField(2);
 
-  p2.M get m2 => $_get(2, 3, null);
-  set m2(p2.M v) { setField(3, v); }
+  $p2.M get m2 => $_get(2, 3, null);
+  set m2($p2.M v) { setField(3, v); }
   bool hasM2() => $_has(2, 3);
   void clearM2() => clearField(3);
 }
@@ -738,8 +726,7 @@ class _ReadonlyM extends M with ReadonlyMessageMixin {}
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes
 library test_pbjson;
 
 const M$json = const {

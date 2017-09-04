@@ -23,8 +23,8 @@ class TestApi {
     var emptyResponse = new SomeReply();
     return _client.invoke(ctx, 'Test', 'AMethod', request, emptyResponse);
   }
-  Future<foo$bar.AnotherReply> anotherMethod(ClientContext ctx, foo$bar.EmptyMessage request) {
-    var emptyResponse = new foo$bar.AnotherReply();
+  Future<$foo$bar.AnotherReply> anotherMethod(ClientContext ctx, $foo$bar.EmptyMessage request) {
+    var emptyResponse = new $foo$bar.AnotherReply();
     return _client.invoke(ctx, 'Test', 'AnotherMethod', request, emptyResponse);
   }
 }

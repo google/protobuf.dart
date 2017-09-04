@@ -55,6 +55,9 @@ String extensionClassName(FileDescriptorProto descriptor) {
   for (var messageType in descriptor.messageType) {
     taken.add(messageClassName(messageType));
   }
+  for (var enumType in descriptor.enumType) {
+    taken.add(enumType.name);
+  }
 
   String s = _fileNameWithoutExtension(descriptor).replaceAll('-', '_');
   String candidate = '${s[0].toUpperCase()}${s.substring(1)}';

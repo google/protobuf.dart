@@ -14,6 +14,7 @@ import 'file_generator_test.dart' as file_generator;
 import 'generated_message_test.dart' as generated_message;
 import 'hash_code_test.dart' as hash_code;
 import 'indenting_writer_test.dart' as indenting_writer;
+import 'import_test.dart' as import_prefix;
 import 'json_test.dart' as json;
 import 'map_test.dart' as map;
 import 'message_generator_test.dart' as message_generator;
@@ -38,6 +39,7 @@ void main() {
   generated_message.main();
   hash_code.main();
   indenting_writer.main();
+  import_prefix.main();
   json.main();
   map.main();
   message_generator.main();

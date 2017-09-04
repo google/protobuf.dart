@@ -17,7 +17,10 @@ TEST_PROTO_LIST = \
 	google/protobuf/unittest \
 	dart_name \
 	enum_extension \
+	ExtensionEnumNameConflict \
 	ExtensionNameConflict \
+	foo \
+	import_clash \
 	map_api \
 	map_api2 \
 	mixins \

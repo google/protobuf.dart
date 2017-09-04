@@ -8,7 +8,15 @@ abstract class ProtobufContainer {
   String get package;
   String get classname;
   String get fqname;
-  String get packageImportPrefix => package.replaceAll('.', r'$');
+  String get packageImportPrefix =>
+      _cachedImportPrefix ??= _calculateImportPrefix();
+
+  String _cachedImportPrefix;
+
+  String _calculateImportPrefix() {
+    final importName = package.replaceAll('.', r'$');
+    return importName.isNotEmpty ? '\$$importName' : '';
+  }
 
   /// The generator of the .pb.dart file defining this entity.
   ///
