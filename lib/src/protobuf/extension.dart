@@ -15,9 +15,8 @@ class Extension<T> extends FieldInfo<T> {
       : super(name, tagNumber, null, fieldType, defaultOrMaker, subBuilder,
             valueOf);
 
-  Extension.repeated(
-      this.extendee, String name, int tagNumber, int fieldType, CheckFunc check,
-      [CreateBuilderFunc subBuilder, ValueOfFunc valueOf])
+  Extension.repeated(this.extendee, String name, int tagNumber, int fieldType,
+      CheckFunc<T> check, [CreateBuilderFunc subBuilder, ValueOfFunc valueOf])
       : super.repeated(
             name, tagNumber, null, fieldType, check, subBuilder, valueOf);
 

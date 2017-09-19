@@ -1,3 +1,7 @@
+## 0.5.6
+
+* Add generic type to `CheckFunc` typedef.
+
 ## 0.5.5
 
 * Use real generic syntax instead of comment-based.

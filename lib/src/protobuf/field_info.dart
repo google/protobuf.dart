@@ -27,7 +27,7 @@ class FieldInfo<T> {
 
   // Verifies an item being added to a repeated field
   // (Not used for non-repeated fields.)
-  final CheckFunc check;
+  final CheckFunc<T> check;
 
   FieldInfo(this.name, this.tagNumber, this.index, int type,
       [dynamic defaultOrMaker, this.subBuilder, this.valueOf])
@@ -40,10 +40,9 @@ class FieldInfo<T> {
   }
 
   FieldInfo.repeated(this.name, this.tagNumber, this.index, int type,
-      CheckFunc check, this.subBuilder,
+      this.check, this.subBuilder,
       [this.valueOf])
       : this.type = type,
-        this.check = check,
         this.makeDefault = (() => new PbList<T>(check: check)) {
     assert(name != null);
     assert(tagNumber != null);

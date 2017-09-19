@@ -165,11 +165,11 @@ void _checkAnyInt64(Int64 val) {
   if (val is! Int64) throw _createFieldTypeError(val, 'an Int64');
 }
 
-_checkAnyEnum(ProtobufEnum val) {
+void _checkAnyEnum(ProtobufEnum val) {
   if (val is! ProtobufEnum) throw _createFieldTypeError(val, 'a ProtobufEnum');
 }
 
-_checkAnyMessage(GeneratedMessage val) {
+void _checkAnyMessage(GeneratedMessage val) {
   if (val is! GeneratedMessage) {
     throw _createFieldTypeError(val, 'a GeneratedMessage');
   }

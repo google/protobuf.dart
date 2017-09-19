@@ -24,7 +24,7 @@ class BuilderInfo {
   }
 
   void addRepeated<T>(int tagNumber, String name, int fieldType,
-      CheckFunc check, CreateBuilderFunc subBuilder, ValueOfFunc valueOf) {
+      CheckFunc<T> check, CreateBuilderFunc subBuilder, ValueOfFunc valueOf) {
     var index = fieldInfo.length;
     addField(new FieldInfo<T>.repeated(
         name, tagNumber, index, fieldType, check, subBuilder, valueOf));
@@ -65,7 +65,7 @@ class BuilderInfo {
   }
 
   // Repeated message, group, or enum.
-  void pp<T>(int tagNumber, String name, int fieldType, CheckFunc check,
+  void pp<T>(int tagNumber, String name, int fieldType, CheckFunc<T> check,
       [CreateBuilderFunc subBuilder, ValueOfFunc valueOf]) {
     assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
     addRepeated<T>(tagNumber, name, fieldType, check, subBuilder, valueOf);
