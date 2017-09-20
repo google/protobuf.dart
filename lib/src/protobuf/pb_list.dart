@@ -4,11 +4,11 @@
 
 part of protobuf;
 
-typedef CheckFunc(x);
+typedef void CheckFunc<E>(E x);
 
 class PbList<E> extends Object with ListMixin<E> implements List<E> {
   final List<E> _wrappedList;
-  final CheckFunc check;
+  final CheckFunc<E> check;
 
   PbList({this.check: _checkNotNull}) : _wrappedList = <E>[] {
     assert(check != null);
