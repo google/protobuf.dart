@@ -1,4 +1,4 @@
-## 0.7.7 - Not yet released
+## 0.7.7 - 2017-09-25
 
 * Avoid name clashes between import prefix and field names.
 * Avoid name clashes between generated enum and extension class names.
