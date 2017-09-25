@@ -2,11 +2,12 @@
 
 * Avoid name clashes between import prefix and field names.
 * Avoid name clashes between generated enum and extension class names.
+* Updated gRPC client stub generation to match latest changes to dart-lang/grpc-dart.
 
 ## 0.7.6 - 2017-08-22
 
 * Updated gRPC client stub generation to produce code matching latest changes to
-  dart-lang/dart-grpc.
+  dart-lang/grpc-dart.
 
 ## 0.7.5 - 2017-08-04
 

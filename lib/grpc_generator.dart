@@ -221,13 +221,10 @@ class _GrpcMethod {
     out.addBlock(
         '$_clientReturnType $_dartName($_argumentType request, {CallOptions options}) {',
         '}', () {
+      final requestStream =
+          _clientStreaming ? 'request' : 'new Stream.fromIterable([request])';
       out.println(
-          'final call = \$createCall(_\$$_dartName, options: options);');
-      if (_clientStreaming) {
-        out.println('request.pipe(call.request);');
-      } else {
-        out.println('call.request..add(request)..close();');
-      }
+          'final call = \$createCall(_\$$_dartName, $requestStream, options: options);');
       if (_serverStreaming) {
         out.println('return new ResponseStream(call);');
       } else {
