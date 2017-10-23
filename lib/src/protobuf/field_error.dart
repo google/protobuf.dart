@@ -181,8 +181,8 @@ ArgumentError _createFieldTypeError(val, String wantedType) =>
 RangeError _createFieldRangeError(val, String wantedType) =>
     new RangeError('Value ($val) is not ${wantedType}');
 
-bool _inRange<T extends num>(T min, T value, T max)
-  => (min <= value) && (value <= max);
+bool _inRange<T extends num>(T min, T value, T max) =>
+    (min <= value) && (value <= max);
 
 bool _isSigned32(int value) => _inRange(-2147483648, value, 2147483647);
 bool _isUnsigned32(int value) => _inRange(0, value, 4294967295);
