@@ -181,12 +181,11 @@ ArgumentError _createFieldTypeError(val, String wantedType) =>
 RangeError _createFieldRangeError(val, String wantedType) =>
     new RangeError('Value ($val) is not ${wantedType}');
 
-bool _inRange<T extends num>(T min, T value, T max) =>
-    (min <= value) && (value <= max);
+bool _isSigned32(int value) => (-2147483648 <= value) && (value <= 2147483647);
 
-bool _isSigned32(int value) => _inRange(-2147483648, value, 2147483647);
-bool _isUnsigned32(int value) => _inRange(0, value, 4294967295);
+bool _isUnsigned32(int value) => (0 <= value) && (value <= 4294967295);
+
 bool _isFloat32(double value) =>
     value.isNaN ||
     value.isInfinite ||
-    _inRange(-3.4028234663852886E38, value, 3.4028234663852886E38);
+    (-3.4028234663852886E38 <= value) && (value <= 3.4028234663852886E38);
