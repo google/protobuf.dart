@@ -354,13 +354,15 @@ class FieldDescriptorProto extends GeneratedMessage {
         'label',
         PbFieldType.OE,
         FieldDescriptorProto_Label.LABEL_OPTIONAL,
-        FieldDescriptorProto_Label.valueOf)
+        FieldDescriptorProto_Label.valueOf,
+        FieldDescriptorProto_Label.values)
     ..e<FieldDescriptorProto_Type>(
         5,
         'type',
         PbFieldType.OE,
         FieldDescriptorProto_Type.TYPE_DOUBLE,
-        FieldDescriptorProto_Type.valueOf)
+        FieldDescriptorProto_Type.valueOf,
+        FieldDescriptorProto_Type.values)
     ..a<String>(6, 'typeName', PbFieldType.OS)
     ..a<String>(7, 'defaultValue', PbFieldType.OS)
     ..a<FieldOptions>(8, 'options', PbFieldType.OM, FieldOptions.getDefault,
@@ -786,8 +788,13 @@ class FileOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FileOptions')
     ..a<String>(1, 'javaPackage', PbFieldType.OS)
     ..a<String>(8, 'javaOuterClassname', PbFieldType.OS)
-    ..e<FileOptions_OptimizeMode>(9, 'optimizeFor', PbFieldType.OE,
-        FileOptions_OptimizeMode.SPEED, FileOptions_OptimizeMode.valueOf)
+    ..e<FileOptions_OptimizeMode>(
+        9,
+        'optimizeFor',
+        PbFieldType.OE,
+        FileOptions_OptimizeMode.SPEED,
+        FileOptions_OptimizeMode.valueOf,
+        FileOptions_OptimizeMode.values)
     ..a<bool>(10, 'javaMultipleFiles', PbFieldType.OB)
     ..a<String>(11, 'goPackage', PbFieldType.OS)
     ..a<bool>(16, 'ccGenericServices', PbFieldType.OB)
@@ -1041,13 +1048,23 @@ class _ReadonlyMessageOptions extends MessageOptions with ReadonlyMessageMixin {
 
 class FieldOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FieldOptions')
-    ..e<FieldOptions_CType>(1, 'ctype', PbFieldType.OE,
-        FieldOptions_CType.STRING, FieldOptions_CType.valueOf)
+    ..e<FieldOptions_CType>(
+        1,
+        'ctype',
+        PbFieldType.OE,
+        FieldOptions_CType.STRING,
+        FieldOptions_CType.valueOf,
+        FieldOptions_CType.values)
     ..a<bool>(2, 'packed', PbFieldType.OB)
     ..a<bool>(3, 'deprecated', PbFieldType.OB)
     ..a<bool>(5, 'lazy', PbFieldType.OB)
-    ..e<FieldOptions_JSType>(6, 'jstype', PbFieldType.OE,
-        FieldOptions_JSType.JS_NORMAL, FieldOptions_JSType.valueOf)
+    ..e<FieldOptions_JSType>(
+        6,
+        'jstype',
+        PbFieldType.OE,
+        FieldOptions_JSType.JS_NORMAL,
+        FieldOptions_JSType.valueOf,
+        FieldOptions_JSType.values)
     ..a<bool>(10, 'weak', PbFieldType.OB)
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
@@ -1307,7 +1324,8 @@ class MethodOptions extends GeneratedMessage {
         'idempotencyLevel',
         PbFieldType.OE,
         MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
-        MethodOptions_IdempotencyLevel.valueOf)
+        MethodOptions_IdempotencyLevel.valueOf,
+        MethodOptions_IdempotencyLevel.values)
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;

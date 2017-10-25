@@ -1,3 +1,7 @@
+## 0.7.8 - 2017-10-25
+
+* Added enumValues to FieldInfo.
+
 ## 0.7.7 - 2017-09-25
 
 * Avoid name clashes between import prefix and field names.

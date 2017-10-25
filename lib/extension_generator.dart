@@ -85,7 +85,8 @@ class ExtensionGenerator {
       if (type.isMessage || type.isGroup) {
         out.println(', $dartType.$checkItem, $dartType.create);');
       } else if (type.isEnum) {
-        out.println(', $dartType.$checkItem, null, $dartType.valueOf);');
+        out.println(', $dartType.$checkItem, null, '
+            '$dartType.valueOf, $dartType.values);');
       } else {
         out.println(", getCheckFunction(${_field.typeConstant}));");
       }
@@ -102,8 +103,8 @@ class ExtensionGenerator {
       out.println(', $initializer, $dartType.create);');
     } else if (type.isEnum) {
       var dartEnum = type.getDartType(package);
-      String valueOf = '(var v) => $dartEnum.valueOf(v)';
-      out.println(", $initializer, null, $valueOf);");
+      String enumParams = '(var v) => $dartEnum.valueOf(v), $dartEnum.values';
+      out.println(", $initializer, null, $enumParams);");
     } else if (initializer != null) {
       out.println(", $initializer);");
     } else {

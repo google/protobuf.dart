@@ -46,7 +46,8 @@ class CodeGenerator extends ProtobufContainer {
     Dart_options.registerAllExtensions(extensions);
 
     _streamIn
-        .fold(new BytesBuilder(), (builder, data) => builder..add(data))
+        .fold(new BytesBuilder(),
+            (BytesBuilder builder, data) => builder..add(data))
         .then((builder) => builder.takeBytes())
         .then((List<int> bytes) {
       var request = new CodeGeneratorRequest.fromBuffer(bytes, extensions);

@@ -110,7 +110,7 @@ class ProtobufField {
             ' $type.$checkItem, $type.create)';
       } else if (baseType.isEnum) {
         return '..pp<$type>($number, $quotedName, $typeConstant,'
-            ' $type.$checkItem, null, $type.valueOf)';
+            ' $type.$checkItem, null, $type.valueOf, $type.values)';
       } else {
         return '..p<$type>($number, $quotedName, $typeConstant)';
       }
@@ -118,9 +118,9 @@ class ProtobufField {
 
     String makeDefault = generateDefaultFunction(package);
     if (baseType.isEnum) {
-      String valueOf = '$type.valueOf';
+      String enumParams = '$type.valueOf, $type.values';
       return '..e<$type>('
-          '$number, $quotedName, $typeConstant, $makeDefault, $valueOf)';
+          '$number, $quotedName, $typeConstant, $makeDefault, $enumParams)';
     }
 
     String prefix = '..a<$type>($number, $quotedName, $typeConstant';
