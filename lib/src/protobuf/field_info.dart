@@ -20,6 +20,10 @@ class FieldInfo<T> {
   // see GeneratedMessage._getEmptyMessage
   final CreateBuilderFunc subBuilder;
 
+  // List of all enum enumValues.
+  // (Not used for other types.)
+  final List<ProtobufEnum> enumValues;
+
   // Looks up the enum value given its integer code.
   // (Not used for other types.)
   // see GeneratedMessage._getValueOfFunc
@@ -30,7 +34,7 @@ class FieldInfo<T> {
   final CheckFunc<T> check;
 
   FieldInfo(this.name, this.tagNumber, this.index, int type,
-      [dynamic defaultOrMaker, this.subBuilder, this.valueOf])
+      [dynamic defaultOrMaker, this.subBuilder, this.valueOf, this.enumValues])
       : this.type = type,
         this.makeDefault = findMakeDefault(type, defaultOrMaker),
         this.check = null {
@@ -41,7 +45,7 @@ class FieldInfo<T> {
 
   FieldInfo.repeated(this.name, this.tagNumber, this.index, int type,
       this.check, this.subBuilder,
-      [this.valueOf])
+      [this.valueOf, this.enumValues])
       : this.type = type,
         this.makeDefault = (() => new PbList<T>(check: check)) {
     assert(name != null);
@@ -59,6 +63,8 @@ class FieldInfo<T> {
 
   bool get isRequired => _isRequired(type);
   bool get isRepeated => _isRepeated(type);
+  bool get isGroupOrMessage => _isGroupOrMessage(type);
+  bool get isEnum => _isEnum(type);
 
   /// Returns a read-only default value for a field.
   /// (Unlike getField, doesn't create a repeated field.)
@@ -79,7 +85,7 @@ class FieldInfo<T> {
       return message._fieldSet._hasRequiredValues();
     }
 
-    List list = value;
+    List<GeneratedMessage> list = value;
     if (list.isEmpty) return true;
 
     // For message types that (recursively) contain no required fields,

@@ -1,6 +1,9 @@
-## 0.5.6
+## 0.6.0
 
-* Add generic type to `CheckFunc` typedef.
+* Added enumValues to FieldInfo. Fixes #63.
+* Small performance optimization when deserializing repeated messages
+  from JSON.
+* Type annotations for strong mode.
 
 ## 0.5.5
 

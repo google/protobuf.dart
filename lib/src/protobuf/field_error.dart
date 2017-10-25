@@ -118,58 +118,58 @@ CheckFunc getCheckFunction(int fieldType) {
 
 // check functions for repeated fields
 
-void _checkNotNull(val) {
+void _checkNotNull(Object val) {
   if (val == null) {
     throw new ArgumentError("Can't add a null to a repeated field");
   }
 }
 
-void _checkBool(bool val) {
+void _checkBool(Object val) {
   if (val is! bool) throw _createFieldTypeError(val, 'a bool');
 }
 
-void _checkBytes(List<int> val) {
+void _checkBytes(Object val) {
   if (val is! List<int>) throw _createFieldTypeError(val, 'a List<int>');
 }
 
-void _checkString(String val) {
+void _checkString(Object val) {
   if (val is! String) throw _createFieldTypeError(val, 'a String');
 }
 
-void _checkFloat(double val) {
+void _checkFloat(Object val) {
   _checkDouble(val);
   if (!_isFloat32(val)) throw _createFieldRangeError(val, 'a float');
 }
 
-void _checkDouble(double val) {
+void _checkDouble(Object val) {
   if (val is! double) throw _createFieldTypeError(val, 'a double');
 }
 
-void _checkInt(int val) {
+void _checkInt(Object val) {
   if (val is! int) throw _createFieldTypeError(val, 'an int');
 }
 
-void _checkSigned32(int val) {
+void _checkSigned32(Object val) {
   _checkInt(val);
   if (!_isSigned32(val)) throw _createFieldRangeError(val, 'a signed int32');
 }
 
-void _checkUnsigned32(int val) {
+void _checkUnsigned32(Object val) {
   _checkInt(val);
   if (!_isUnsigned32(val)) {
     throw _createFieldRangeError(val, 'an unsigned int32');
   }
 }
 
-void _checkAnyInt64(Int64 val) {
+void _checkAnyInt64(Object val) {
   if (val is! Int64) throw _createFieldTypeError(val, 'an Int64');
 }
 
-void _checkAnyEnum(ProtobufEnum val) {
+void _checkAnyEnum(Object val) {
   if (val is! ProtobufEnum) throw _createFieldTypeError(val, 'a ProtobufEnum');
 }
 
-void _checkAnyMessage(GeneratedMessage val) {
+void _checkAnyMessage(Object val) {
   if (val is! GeneratedMessage) {
     throw _createFieldTypeError(val, 'a GeneratedMessage');
   }
