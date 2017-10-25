@@ -85,7 +85,9 @@ void _mergeFromJsonMap(
 void _appendJsonList(
     _FieldSet fs, List json, FieldInfo fi, ExtensionRegistry registry) {
   List repeated = fs._ensureRepeatedField(fi);
-  for (var value in json) {
+  var length = json.length;
+  for (int i = 0; i < length; ++i) {
+    var value = json[i];
     var convertedValue =
         _convertJsonValue(fs, value, fi.tagNumber, fi.type, registry);
     if (convertedValue != null) {

@@ -11,14 +11,18 @@ class Extension<T> extends FieldInfo<T> {
   Extension(this.extendee, String name, int tagNumber, int fieldType,
       [dynamic defaultOrMaker,
       CreateBuilderFunc subBuilder,
-      ValueOfFunc valueOf])
+      ValueOfFunc valueOf,
+      List<ProtobufEnum> enumValues])
       : super(name, tagNumber, null, fieldType, defaultOrMaker, subBuilder,
-            valueOf);
+            valueOf, enumValues);
 
   Extension.repeated(this.extendee, String name, int tagNumber, int fieldType,
-      CheckFunc<T> check, [CreateBuilderFunc subBuilder, ValueOfFunc valueOf])
-      : super.repeated(
-            name, tagNumber, null, fieldType, check, subBuilder, valueOf);
+      CheckFunc<T> check,
+      [CreateBuilderFunc subBuilder,
+      ValueOfFunc valueOf,
+      List<ProtobufEnum> enumValues])
+      : super.repeated(name, tagNumber, null, fieldType, check, subBuilder,
+            valueOf, enumValues);
 
   int get hashCode => extendee.hashCode * 31 + tagNumber;
 
