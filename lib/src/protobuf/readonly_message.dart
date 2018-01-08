@@ -31,11 +31,13 @@ abstract class ReadonlyMessageMixin {
       _readonly("mergeFromCodedBufferReader");
 
   void mergeFromJson(String data,
-          [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) =>
+          [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+          JsonMapper jsonMapper = null]) =>
       _readonly("mergeFromJson");
 
   void mergeFromJsonMap(Map<String, dynamic> json,
-          [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) =>
+          [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+          JsonMapper jsonMapper = null]) =>
       _readonly("mergeFromJsonMap");
 
   void mergeFromMessage(GeneratedMessage other) =>
