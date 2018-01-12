@@ -6,12 +6,13 @@ library protobuf.mixins.map;
 
 import "package:protobuf/protobuf.dart" show BuilderInfo;
 
-/// A PbMapMixin provides an experimental implementation of the
-/// Map interface for a GeneratedMessage.
+/// Note that this class does not claim to implement [Map]. Instead, this needs
+/// to be specified using a dart_options.imports clause specifying MapMixin as a
+/// parent mixin to PbMapMixin.
 ///
-/// This mixin is enabled via an option in
-/// dart_options.proto in dart-protoc-plugin.
-abstract class PbMapMixin implements Map {
+/// Since PbMapMixin is built in, this is done automatically, so this mixin can
+/// be enabled by specifying only a dart_options.mixin option.
+abstract class PbMapMixin {
   // GeneratedMessage properties and methods used by this mixin.
 
   BuilderInfo get info_;
@@ -20,7 +21,6 @@ abstract class PbMapMixin implements Map {
   getField(int tagNumber);
   void setField(int tagNumber, var value);
 
-  @override
   operator [](key) {
     if (key is! String) return null;
     var tag = getTagNumber(key);
@@ -28,7 +28,6 @@ abstract class PbMapMixin implements Map {
     return getField(tag);
   }
 
-  @override
   operator []=(key, val) {
     var tag = getTagNumber(key as String);
     if (tag == null) {
@@ -38,16 +37,12 @@ abstract class PbMapMixin implements Map {
     setField(tag, val);
   }
 
-  @override
-  get keys => info_.byName.keys;
+  Iterable<String> get keys => info_.byName.keys;
 
-  @override
   bool containsKey(Object key) => info_.byName.containsKey(key);
 
-  @override
-  get length => info_.byName.length;
+  int get length => info_.byName.length;
 
-  @override
   remove(key) {
     throw new UnsupportedError(
         "remove() not supported by ${info_.messageName}");
