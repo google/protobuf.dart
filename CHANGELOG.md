@@ -1,4 +1,4 @@
-## 0.6.1
+## 0.7.0
 
 * Added fast getters for common types.
 * Only pass index instead of both tag and index to accessors.
