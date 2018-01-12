@@ -86,7 +86,7 @@ import 'package:protobuf/protobuf.dart';
 
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..a<String>(1, 'number', PbFieldType.QS)
+    ..aQS(1, 'number')
     ..a<int>(2, 'type', PbFieldType.O3)
     ..a<String>(3, 'name', PbFieldType.OS, '\$')
   ;
@@ -107,19 +107,19 @@ class PhoneNumber extends GeneratedMessage {
     if (v is! PhoneNumber) checkItemFailed(v, 'PhoneNumber');
   }
 
-  String get number => $_get(0, 1, '');
-  set number(String v) { $_setString(0, 1, v); }
-  bool hasNumber() => $_has(0, 1);
+  String get number => $_getS(0, '');
+  set number(String v) { $_setString(0, v); }
+  bool hasNumber() => $_has(0);
   void clearNumber() => clearField(1);
 
-  int get type => $_get(1, 2, 0);
-  set type(int v) { $_setUnsignedInt32(1, 2, v); }
-  bool hasType() => $_has(1, 2);
+  int get type => $_get(1, 0);
+  set type(int v) { $_setUnsignedInt32(1, v); }
+  bool hasType() => $_has(1);
   void clearType() => clearField(2);
 
-  String get name => $_get(2, 3, '\$');
-  set name(String v) { $_setString(2, 3, v); }
-  bool hasName() => $_has(2, 3);
+  String get name => $_getS(2, '\$');
+  set name(String v) { $_setString(2, v); }
+  bool hasName() => $_has(2);
   void clearName() => clearField(3);
 }
 
@@ -563,28 +563,28 @@ abstract class TestServiceBase extends Service {
   String get $name => 'Test';
 
   TestServiceBase() {
-    $addMethod(new ServiceMethod(
+    $addMethod(new ServiceMethod<Input, Output>(
         'Unary',
         unary_Pre,
         false,
         false,
         (List<int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod(
+    $addMethod(new ServiceMethod<Input, Output>(
         'ClientStreaming',
         clientStreaming,
         true,
         false,
         (List<int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod(
+    $addMethod(new ServiceMethod<Input, Output>(
         'ServerStreaming',
         serverStreaming_Pre,
         false,
         true,
         (List<int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod(
+    $addMethod(new ServiceMethod<Input, Output>(
         'Bidirectional',
         bidirectional,
         true,
@@ -609,8 +609,8 @@ abstract class TestServiceBase extends Service {
 }
 ''';
 
-    final input = new DescriptorProto()..name = "Input";
-    final output = new DescriptorProto()..name = "Output";
+    final input = new DescriptorProto()..name = 'Input';
+    final output = new DescriptorProto()..name = 'Output';
 
     final unary = new MethodDescriptorProto()
       ..name = 'Unary'
@@ -697,19 +697,19 @@ class M extends GeneratedMessage {
     if (v is! M) checkItemFailed(v, 'M');
   }
 
-  M get m => $_get(0, 1, null);
+  M get m => $_getN(0);
   set m(M v) { setField(1, v); }
-  bool hasM() => $_has(0, 1);
+  bool hasM() => $_has(0);
   void clearM() => clearField(1);
 
-  $p1.M get m1 => $_get(1, 2, null);
+  $p1.M get m1 => $_getN(1);
   set m1($p1.M v) { setField(2, v); }
-  bool hasM1() => $_has(1, 2);
+  bool hasM1() => $_has(1);
   void clearM1() => clearField(2);
 
-  $p2.M get m2 => $_get(2, 3, null);
+  $p2.M get m2 => $_getN(2);
   set m2($p2.M v) { setField(3, v); }
-  bool hasM2() => $_has(2, 3);
+  bool hasM2() => $_has(2);
   void clearM2() => clearField(3);
 }
 

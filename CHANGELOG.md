@@ -1,3 +1,9 @@
+## 0.7.9 - 2018-01-12
+
+* Add fast getters for common types.
+* Only pass index instead of tag and index in generated code.
+* Fix uses-dynamic-as-bottom error in generated gRPC code.
+
 ## 0.7.8 - 2017-10-25
 
 * Added enumValues to FieldInfo.

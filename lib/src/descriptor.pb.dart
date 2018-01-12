@@ -42,7 +42,7 @@ class FileDescriptorSet extends GeneratedMessage {
     if (v is! FileDescriptorSet) checkItemFailed(v, 'FileDescriptorSet');
   }
 
-  List<FileDescriptorProto> get file => $_get(0, 1, null);
+  List<FileDescriptorProto> get file => $_getN(0);
 }
 
 class _ReadonlyFileDescriptorSet extends FileDescriptorSet
@@ -50,9 +50,9 @@ class _ReadonlyFileDescriptorSet extends FileDescriptorSet
 
 class FileDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FileDescriptorProto')
-    ..a<String>(1, 'name', PbFieldType.OS)
-    ..a<String>(2, 'package', PbFieldType.OS)
-    ..p<String>(3, 'dependency', PbFieldType.PS)
+    ..aOS(1, 'name')
+    ..aOS(2, 'package')
+    ..pPS(3, 'dependency')
     ..pp<DescriptorProto>(4, 'messageType', PbFieldType.PM,
         DescriptorProto.$checkItem, DescriptorProto.create)
     ..pp<EnumDescriptorProto>(5, 'enumType', PbFieldType.PM,
@@ -67,7 +67,7 @@ class FileDescriptorProto extends GeneratedMessage {
         SourceCodeInfo.getDefault, SourceCodeInfo.create)
     ..p<int>(10, 'publicDependency', PbFieldType.P3)
     ..p<int>(11, 'weakDependency', PbFieldType.P3)
-    ..a<String>(12, 'syntax', PbFieldType.OS);
+    ..aOS(12, 'syntax');
 
   FileDescriptorProto() : super();
   FileDescriptorProto.fromBuffer(List<int> i,
@@ -93,58 +93,58 @@ class FileDescriptorProto extends GeneratedMessage {
     if (v is! FileDescriptorProto) checkItemFailed(v, 'FileDescriptorProto');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get package => $_get(1, 2, '');
+  String get package => $_getS(1, '');
   set package(String v) {
-    $_setString(1, 2, v);
+    $_setString(1, v);
   }
 
-  bool hasPackage() => $_has(1, 2);
+  bool hasPackage() => $_has(1);
   void clearPackage() => clearField(2);
 
-  List<String> get dependency => $_get(2, 3, null);
+  List<String> get dependency => $_getN(2);
 
-  List<DescriptorProto> get messageType => $_get(3, 4, null);
+  List<DescriptorProto> get messageType => $_getN(3);
 
-  List<EnumDescriptorProto> get enumType => $_get(4, 5, null);
+  List<EnumDescriptorProto> get enumType => $_getN(4);
 
-  List<ServiceDescriptorProto> get service => $_get(5, 6, null);
+  List<ServiceDescriptorProto> get service => $_getN(5);
 
-  List<FieldDescriptorProto> get extension => $_get(6, 7, null);
+  List<FieldDescriptorProto> get extension => $_getN(6);
 
-  FileOptions get options => $_get(7, 8, null);
+  FileOptions get options => $_getN(7);
   set options(FileOptions v) {
     setField(8, v);
   }
 
-  bool hasOptions() => $_has(7, 8);
+  bool hasOptions() => $_has(7);
   void clearOptions() => clearField(8);
 
-  SourceCodeInfo get sourceCodeInfo => $_get(8, 9, null);
+  SourceCodeInfo get sourceCodeInfo => $_getN(8);
   set sourceCodeInfo(SourceCodeInfo v) {
     setField(9, v);
   }
 
-  bool hasSourceCodeInfo() => $_has(8, 9);
+  bool hasSourceCodeInfo() => $_has(8);
   void clearSourceCodeInfo() => clearField(9);
 
-  List<int> get publicDependency => $_get(9, 10, null);
+  List<int> get publicDependency => $_getN(9);
 
-  List<int> get weakDependency => $_get(10, 11, null);
+  List<int> get weakDependency => $_getN(10);
 
-  String get syntax => $_get(11, 12, '');
+  String get syntax => $_getS(11, '');
   set syntax(String v) {
-    $_setString(11, 12, v);
+    $_setString(11, v);
   }
 
-  bool hasSyntax() => $_has(11, 12);
+  bool hasSyntax() => $_has(11);
   void clearSyntax() => clearField(12);
 }
 
@@ -184,20 +184,20 @@ class DescriptorProto_ExtensionRange extends GeneratedMessage {
       checkItemFailed(v, 'DescriptorProto_ExtensionRange');
   }
 
-  int get start => $_get(0, 1, 0);
+  int get start => $_get(0, 0);
   set start(int v) {
-    $_setUnsignedInt32(0, 1, v);
+    $_setUnsignedInt32(0, v);
   }
 
-  bool hasStart() => $_has(0, 1);
+  bool hasStart() => $_has(0);
   void clearStart() => clearField(1);
 
-  int get end => $_get(1, 2, 0);
+  int get end => $_get(1, 0);
   set end(int v) {
-    $_setUnsignedInt32(1, 2, v);
+    $_setUnsignedInt32(1, v);
   }
 
-  bool hasEnd() => $_has(1, 2);
+  bool hasEnd() => $_has(1);
   void clearEnd() => clearField(2);
 }
 
@@ -236,20 +236,20 @@ class DescriptorProto_ReservedRange extends GeneratedMessage {
       checkItemFailed(v, 'DescriptorProto_ReservedRange');
   }
 
-  int get start => $_get(0, 1, 0);
+  int get start => $_get(0, 0);
   set start(int v) {
-    $_setUnsignedInt32(0, 1, v);
+    $_setUnsignedInt32(0, v);
   }
 
-  bool hasStart() => $_has(0, 1);
+  bool hasStart() => $_has(0);
   void clearStart() => clearField(1);
 
-  int get end => $_get(1, 2, 0);
+  int get end => $_get(1, 0);
   set end(int v) {
-    $_setUnsignedInt32(1, 2, v);
+    $_setUnsignedInt32(1, v);
   }
 
-  bool hasEnd() => $_has(1, 2);
+  bool hasEnd() => $_has(1);
   void clearEnd() => clearField(2);
 }
 
@@ -258,7 +258,7 @@ class _ReadonlyDescriptorProto_ReservedRange
 
 class DescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DescriptorProto')
-    ..a<String>(1, 'name', PbFieldType.OS)
+    ..aOS(1, 'name')
     ..pp<FieldDescriptorProto>(2, 'field', PbFieldType.PM,
         FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
     ..pp<DescriptorProto>(3, 'nestedType', PbFieldType.PM,
@@ -283,7 +283,7 @@ class DescriptorProto extends GeneratedMessage {
         PbFieldType.PM,
         DescriptorProto_ReservedRange.$checkItem,
         DescriptorProto_ReservedRange.create)
-    ..p<String>(10, 'reservedName', PbFieldType.PS);
+    ..pPS(10, 'reservedName');
 
   DescriptorProto() : super();
   DescriptorProto.fromBuffer(List<int> i,
@@ -308,37 +308,37 @@ class DescriptorProto extends GeneratedMessage {
     if (v is! DescriptorProto) checkItemFailed(v, 'DescriptorProto');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  List<FieldDescriptorProto> get field => $_get(1, 2, null);
+  List<FieldDescriptorProto> get field => $_getN(1);
 
-  List<DescriptorProto> get nestedType => $_get(2, 3, null);
+  List<DescriptorProto> get nestedType => $_getN(2);
 
-  List<EnumDescriptorProto> get enumType => $_get(3, 4, null);
+  List<EnumDescriptorProto> get enumType => $_getN(3);
 
-  List<DescriptorProto_ExtensionRange> get extensionRange => $_get(4, 5, null);
+  List<DescriptorProto_ExtensionRange> get extensionRange => $_getN(4);
 
-  List<FieldDescriptorProto> get extension => $_get(5, 6, null);
+  List<FieldDescriptorProto> get extension => $_getN(5);
 
-  MessageOptions get options => $_get(6, 7, null);
+  MessageOptions get options => $_getN(6);
   set options(MessageOptions v) {
     setField(7, v);
   }
 
-  bool hasOptions() => $_has(6, 7);
+  bool hasOptions() => $_has(6);
   void clearOptions() => clearField(7);
 
-  List<OneofDescriptorProto> get oneofDecl => $_get(7, 8, null);
+  List<OneofDescriptorProto> get oneofDecl => $_getN(7);
 
-  List<DescriptorProto_ReservedRange> get reservedRange => $_get(8, 9, null);
+  List<DescriptorProto_ReservedRange> get reservedRange => $_getN(8);
 
-  List<String> get reservedName => $_get(9, 10, null);
+  List<String> get reservedName => $_getN(9);
 }
 
 class _ReadonlyDescriptorProto extends DescriptorProto
@@ -346,8 +346,8 @@ class _ReadonlyDescriptorProto extends DescriptorProto
 
 class FieldDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FieldDescriptorProto')
-    ..a<String>(1, 'name', PbFieldType.OS)
-    ..a<String>(2, 'extendee', PbFieldType.OS)
+    ..aOS(1, 'name')
+    ..aOS(2, 'extendee')
     ..a<int>(3, 'number', PbFieldType.O3)
     ..e<FieldDescriptorProto_Label>(
         4,
@@ -363,12 +363,12 @@ class FieldDescriptorProto extends GeneratedMessage {
         FieldDescriptorProto_Type.TYPE_DOUBLE,
         FieldDescriptorProto_Type.valueOf,
         FieldDescriptorProto_Type.values)
-    ..a<String>(6, 'typeName', PbFieldType.OS)
-    ..a<String>(7, 'defaultValue', PbFieldType.OS)
+    ..aOS(6, 'typeName')
+    ..aOS(7, 'defaultValue')
     ..a<FieldOptions>(8, 'options', PbFieldType.OM, FieldOptions.getDefault,
         FieldOptions.create)
     ..a<int>(9, 'oneofIndex', PbFieldType.O3)
-    ..a<String>(10, 'jsonName', PbFieldType.OS);
+    ..aOS(10, 'jsonName');
 
   FieldDescriptorProto() : super();
   FieldDescriptorProto.fromBuffer(List<int> i,
@@ -394,84 +394,84 @@ class FieldDescriptorProto extends GeneratedMessage {
     if (v is! FieldDescriptorProto) checkItemFailed(v, 'FieldDescriptorProto');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get extendee => $_get(1, 2, '');
+  String get extendee => $_getS(1, '');
   set extendee(String v) {
-    $_setString(1, 2, v);
+    $_setString(1, v);
   }
 
-  bool hasExtendee() => $_has(1, 2);
+  bool hasExtendee() => $_has(1);
   void clearExtendee() => clearField(2);
 
-  int get number => $_get(2, 3, 0);
+  int get number => $_get(2, 0);
   set number(int v) {
-    $_setUnsignedInt32(2, 3, v);
+    $_setUnsignedInt32(2, v);
   }
 
-  bool hasNumber() => $_has(2, 3);
+  bool hasNumber() => $_has(2);
   void clearNumber() => clearField(3);
 
-  FieldDescriptorProto_Label get label => $_get(3, 4, null);
+  FieldDescriptorProto_Label get label => $_getN(3);
   set label(FieldDescriptorProto_Label v) {
     setField(4, v);
   }
 
-  bool hasLabel() => $_has(3, 4);
+  bool hasLabel() => $_has(3);
   void clearLabel() => clearField(4);
 
-  FieldDescriptorProto_Type get type => $_get(4, 5, null);
+  FieldDescriptorProto_Type get type => $_getN(4);
   set type(FieldDescriptorProto_Type v) {
     setField(5, v);
   }
 
-  bool hasType() => $_has(4, 5);
+  bool hasType() => $_has(4);
   void clearType() => clearField(5);
 
-  String get typeName => $_get(5, 6, '');
+  String get typeName => $_getS(5, '');
   set typeName(String v) {
-    $_setString(5, 6, v);
+    $_setString(5, v);
   }
 
-  bool hasTypeName() => $_has(5, 6);
+  bool hasTypeName() => $_has(5);
   void clearTypeName() => clearField(6);
 
-  String get defaultValue => $_get(6, 7, '');
+  String get defaultValue => $_getS(6, '');
   set defaultValue(String v) {
-    $_setString(6, 7, v);
+    $_setString(6, v);
   }
 
-  bool hasDefaultValue() => $_has(6, 7);
+  bool hasDefaultValue() => $_has(6);
   void clearDefaultValue() => clearField(7);
 
-  FieldOptions get options => $_get(7, 8, null);
+  FieldOptions get options => $_getN(7);
   set options(FieldOptions v) {
     setField(8, v);
   }
 
-  bool hasOptions() => $_has(7, 8);
+  bool hasOptions() => $_has(7);
   void clearOptions() => clearField(8);
 
-  int get oneofIndex => $_get(8, 9, 0);
+  int get oneofIndex => $_get(8, 0);
   set oneofIndex(int v) {
-    $_setUnsignedInt32(8, 9, v);
+    $_setUnsignedInt32(8, v);
   }
 
-  bool hasOneofIndex() => $_has(8, 9);
+  bool hasOneofIndex() => $_has(8);
   void clearOneofIndex() => clearField(9);
 
-  String get jsonName => $_get(9, 10, '');
+  String get jsonName => $_getS(9, '');
   set jsonName(String v) {
-    $_setString(9, 10, v);
+    $_setString(9, v);
   }
 
-  bool hasJsonName() => $_has(9, 10);
+  bool hasJsonName() => $_has(9);
   void clearJsonName() => clearField(10);
 }
 
@@ -480,7 +480,7 @@ class _ReadonlyFieldDescriptorProto extends FieldDescriptorProto
 
 class OneofDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('OneofDescriptorProto')
-    ..a<String>(1, 'name', PbFieldType.OS)
+    ..aOS(1, 'name')
     ..a<OneofOptions>(2, 'options', PbFieldType.OM, OneofOptions.getDefault,
         OneofOptions.create);
 
@@ -508,20 +508,20 @@ class OneofDescriptorProto extends GeneratedMessage {
     if (v is! OneofDescriptorProto) checkItemFailed(v, 'OneofDescriptorProto');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  OneofOptions get options => $_get(1, 2, null);
+  OneofOptions get options => $_getN(1);
   set options(OneofOptions v) {
     setField(2, v);
   }
 
-  bool hasOptions() => $_has(1, 2);
+  bool hasOptions() => $_has(1);
   void clearOptions() => clearField(2);
 }
 
@@ -530,7 +530,7 @@ class _ReadonlyOneofDescriptorProto extends OneofDescriptorProto
 
 class EnumDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumDescriptorProto')
-    ..a<String>(1, 'name', PbFieldType.OS)
+    ..aOS(1, 'name')
     ..pp<EnumValueDescriptorProto>(2, 'value', PbFieldType.PM,
         EnumValueDescriptorProto.$checkItem, EnumValueDescriptorProto.create)
     ..a<EnumOptions>(3, 'options', PbFieldType.OM, EnumOptions.getDefault,
@@ -560,22 +560,22 @@ class EnumDescriptorProto extends GeneratedMessage {
     if (v is! EnumDescriptorProto) checkItemFailed(v, 'EnumDescriptorProto');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  List<EnumValueDescriptorProto> get value => $_get(1, 2, null);
+  List<EnumValueDescriptorProto> get value => $_getN(1);
 
-  EnumOptions get options => $_get(2, 3, null);
+  EnumOptions get options => $_getN(2);
   set options(EnumOptions v) {
     setField(3, v);
   }
 
-  bool hasOptions() => $_has(2, 3);
+  bool hasOptions() => $_has(2);
   void clearOptions() => clearField(3);
 }
 
@@ -584,7 +584,7 @@ class _ReadonlyEnumDescriptorProto extends EnumDescriptorProto
 
 class EnumValueDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumValueDescriptorProto')
-    ..a<String>(1, 'name', PbFieldType.OS)
+    ..aOS(1, 'name')
     ..a<int>(2, 'number', PbFieldType.O3)
     ..a<EnumValueOptions>(3, 'options', PbFieldType.OM,
         EnumValueOptions.getDefault, EnumValueOptions.create);
@@ -614,28 +614,28 @@ class EnumValueDescriptorProto extends GeneratedMessage {
       checkItemFailed(v, 'EnumValueDescriptorProto');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  int get number => $_get(1, 2, 0);
+  int get number => $_get(1, 0);
   set number(int v) {
-    $_setUnsignedInt32(1, 2, v);
+    $_setUnsignedInt32(1, v);
   }
 
-  bool hasNumber() => $_has(1, 2);
+  bool hasNumber() => $_has(1);
   void clearNumber() => clearField(2);
 
-  EnumValueOptions get options => $_get(2, 3, null);
+  EnumValueOptions get options => $_getN(2);
   set options(EnumValueOptions v) {
     setField(3, v);
   }
 
-  bool hasOptions() => $_has(2, 3);
+  bool hasOptions() => $_has(2);
   void clearOptions() => clearField(3);
 }
 
@@ -644,7 +644,7 @@ class _ReadonlyEnumValueDescriptorProto extends EnumValueDescriptorProto
 
 class ServiceDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ServiceDescriptorProto')
-    ..a<String>(1, 'name', PbFieldType.OS)
+    ..aOS(1, 'name')
     ..pp<MethodDescriptorProto>(2, 'method', PbFieldType.PM,
         MethodDescriptorProto.$checkItem, MethodDescriptorProto.create)
     ..a<ServiceOptions>(3, 'options', PbFieldType.OM, ServiceOptions.getDefault,
@@ -675,22 +675,22 @@ class ServiceDescriptorProto extends GeneratedMessage {
       checkItemFailed(v, 'ServiceDescriptorProto');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  List<MethodDescriptorProto> get method => $_get(1, 2, null);
+  List<MethodDescriptorProto> get method => $_getN(1);
 
-  ServiceOptions get options => $_get(2, 3, null);
+  ServiceOptions get options => $_getN(2);
   set options(ServiceOptions v) {
     setField(3, v);
   }
 
-  bool hasOptions() => $_has(2, 3);
+  bool hasOptions() => $_has(2);
   void clearOptions() => clearField(3);
 }
 
@@ -699,13 +699,13 @@ class _ReadonlyServiceDescriptorProto extends ServiceDescriptorProto
 
 class MethodDescriptorProto extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MethodDescriptorProto')
-    ..a<String>(1, 'name', PbFieldType.OS)
-    ..a<String>(2, 'inputType', PbFieldType.OS)
-    ..a<String>(3, 'outputType', PbFieldType.OS)
+    ..aOS(1, 'name')
+    ..aOS(2, 'inputType')
+    ..aOS(3, 'outputType')
     ..a<MethodOptions>(4, 'options', PbFieldType.OM, MethodOptions.getDefault,
         MethodOptions.create)
-    ..a<bool>(5, 'clientStreaming', PbFieldType.OB)
-    ..a<bool>(6, 'serverStreaming', PbFieldType.OB);
+    ..aOB(5, 'clientStreaming')
+    ..aOB(6, 'serverStreaming');
 
   MethodDescriptorProto() : super();
   MethodDescriptorProto.fromBuffer(List<int> i,
@@ -732,52 +732,52 @@ class MethodDescriptorProto extends GeneratedMessage {
       checkItemFailed(v, 'MethodDescriptorProto');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get inputType => $_get(1, 2, '');
+  String get inputType => $_getS(1, '');
   set inputType(String v) {
-    $_setString(1, 2, v);
+    $_setString(1, v);
   }
 
-  bool hasInputType() => $_has(1, 2);
+  bool hasInputType() => $_has(1);
   void clearInputType() => clearField(2);
 
-  String get outputType => $_get(2, 3, '');
+  String get outputType => $_getS(2, '');
   set outputType(String v) {
-    $_setString(2, 3, v);
+    $_setString(2, v);
   }
 
-  bool hasOutputType() => $_has(2, 3);
+  bool hasOutputType() => $_has(2);
   void clearOutputType() => clearField(3);
 
-  MethodOptions get options => $_get(3, 4, null);
+  MethodOptions get options => $_getN(3);
   set options(MethodOptions v) {
     setField(4, v);
   }
 
-  bool hasOptions() => $_has(3, 4);
+  bool hasOptions() => $_has(3);
   void clearOptions() => clearField(4);
 
-  bool get clientStreaming => $_get(4, 5, false);
+  bool get clientStreaming => $_get(4, false);
   set clientStreaming(bool v) {
-    $_setBool(4, 5, v);
+    $_setBool(4, v);
   }
 
-  bool hasClientStreaming() => $_has(4, 5);
+  bool hasClientStreaming() => $_has(4);
   void clearClientStreaming() => clearField(5);
 
-  bool get serverStreaming => $_get(5, 6, false);
+  bool get serverStreaming => $_get(5, false);
   set serverStreaming(bool v) {
-    $_setBool(5, 6, v);
+    $_setBool(5, v);
   }
 
-  bool hasServerStreaming() => $_has(5, 6);
+  bool hasServerStreaming() => $_has(5);
   void clearServerStreaming() => clearField(6);
 }
 
@@ -786,8 +786,8 @@ class _ReadonlyMethodDescriptorProto extends MethodDescriptorProto
 
 class FileOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('FileOptions')
-    ..a<String>(1, 'javaPackage', PbFieldType.OS)
-    ..a<String>(8, 'javaOuterClassname', PbFieldType.OS)
+    ..aOS(1, 'javaPackage')
+    ..aOS(8, 'javaOuterClassname')
     ..e<FileOptions_OptimizeMode>(
         9,
         'optimizeFor',
@@ -795,20 +795,20 @@ class FileOptions extends GeneratedMessage {
         FileOptions_OptimizeMode.SPEED,
         FileOptions_OptimizeMode.valueOf,
         FileOptions_OptimizeMode.values)
-    ..a<bool>(10, 'javaMultipleFiles', PbFieldType.OB)
-    ..a<String>(11, 'goPackage', PbFieldType.OS)
-    ..a<bool>(16, 'ccGenericServices', PbFieldType.OB)
-    ..a<bool>(17, 'javaGenericServices', PbFieldType.OB)
-    ..a<bool>(18, 'pyGenericServices', PbFieldType.OB)
-    ..a<bool>(20, 'javaGenerateEqualsAndHash', PbFieldType.OB)
-    ..a<bool>(23, 'deprecated', PbFieldType.OB)
-    ..a<bool>(27, 'javaStringCheckUtf8', PbFieldType.OB)
-    ..a<bool>(31, 'ccEnableArenas', PbFieldType.OB)
-    ..a<String>(36, 'objcClassPrefix', PbFieldType.OS)
-    ..a<String>(37, 'csharpNamespace', PbFieldType.OS)
-    ..a<String>(39, 'swiftPrefix', PbFieldType.OS)
-    ..a<String>(40, 'phpClassPrefix', PbFieldType.OS)
-    ..a<String>(41, 'phpNamespace', PbFieldType.OS)
+    ..aOB(10, 'javaMultipleFiles')
+    ..aOS(11, 'goPackage')
+    ..aOB(16, 'ccGenericServices')
+    ..aOB(17, 'javaGenericServices')
+    ..aOB(18, 'pyGenericServices')
+    ..aOB(20, 'javaGenerateEqualsAndHash')
+    ..aOB(23, 'deprecated')
+    ..aOB(27, 'javaStringCheckUtf8')
+    ..aOB(31, 'ccEnableArenas')
+    ..aOS(36, 'objcClassPrefix')
+    ..aOS(37, 'csharpNamespace')
+    ..aOS(39, 'swiftPrefix')
+    ..aOS(40, 'phpClassPrefix')
+    ..aOS(41, 'phpNamespace')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
@@ -834,153 +834,153 @@ class FileOptions extends GeneratedMessage {
     if (v is! FileOptions) checkItemFailed(v, 'FileOptions');
   }
 
-  String get javaPackage => $_get(0, 1, '');
+  String get javaPackage => $_getS(0, '');
   set javaPackage(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasJavaPackage() => $_has(0, 1);
+  bool hasJavaPackage() => $_has(0);
   void clearJavaPackage() => clearField(1);
 
-  String get javaOuterClassname => $_get(1, 8, '');
+  String get javaOuterClassname => $_getS(1, '');
   set javaOuterClassname(String v) {
-    $_setString(1, 8, v);
+    $_setString(1, v);
   }
 
-  bool hasJavaOuterClassname() => $_has(1, 8);
+  bool hasJavaOuterClassname() => $_has(1);
   void clearJavaOuterClassname() => clearField(8);
 
-  FileOptions_OptimizeMode get optimizeFor => $_get(2, 9, null);
+  FileOptions_OptimizeMode get optimizeFor => $_getN(2);
   set optimizeFor(FileOptions_OptimizeMode v) {
     setField(9, v);
   }
 
-  bool hasOptimizeFor() => $_has(2, 9);
+  bool hasOptimizeFor() => $_has(2);
   void clearOptimizeFor() => clearField(9);
 
-  bool get javaMultipleFiles => $_get(3, 10, false);
+  bool get javaMultipleFiles => $_get(3, false);
   set javaMultipleFiles(bool v) {
-    $_setBool(3, 10, v);
+    $_setBool(3, v);
   }
 
-  bool hasJavaMultipleFiles() => $_has(3, 10);
+  bool hasJavaMultipleFiles() => $_has(3);
   void clearJavaMultipleFiles() => clearField(10);
 
-  String get goPackage => $_get(4, 11, '');
+  String get goPackage => $_getS(4, '');
   set goPackage(String v) {
-    $_setString(4, 11, v);
+    $_setString(4, v);
   }
 
-  bool hasGoPackage() => $_has(4, 11);
+  bool hasGoPackage() => $_has(4);
   void clearGoPackage() => clearField(11);
 
-  bool get ccGenericServices => $_get(5, 16, false);
+  bool get ccGenericServices => $_get(5, false);
   set ccGenericServices(bool v) {
-    $_setBool(5, 16, v);
+    $_setBool(5, v);
   }
 
-  bool hasCcGenericServices() => $_has(5, 16);
+  bool hasCcGenericServices() => $_has(5);
   void clearCcGenericServices() => clearField(16);
 
-  bool get javaGenericServices => $_get(6, 17, false);
+  bool get javaGenericServices => $_get(6, false);
   set javaGenericServices(bool v) {
-    $_setBool(6, 17, v);
+    $_setBool(6, v);
   }
 
-  bool hasJavaGenericServices() => $_has(6, 17);
+  bool hasJavaGenericServices() => $_has(6);
   void clearJavaGenericServices() => clearField(17);
 
-  bool get pyGenericServices => $_get(7, 18, false);
+  bool get pyGenericServices => $_get(7, false);
   set pyGenericServices(bool v) {
-    $_setBool(7, 18, v);
+    $_setBool(7, v);
   }
 
-  bool hasPyGenericServices() => $_has(7, 18);
+  bool hasPyGenericServices() => $_has(7);
   void clearPyGenericServices() => clearField(18);
 
-  bool get javaGenerateEqualsAndHash => $_get(8, 20, false);
+  bool get javaGenerateEqualsAndHash => $_get(8, false);
   set javaGenerateEqualsAndHash(bool v) {
-    $_setBool(8, 20, v);
+    $_setBool(8, v);
   }
 
-  bool hasJavaGenerateEqualsAndHash() => $_has(8, 20);
+  bool hasJavaGenerateEqualsAndHash() => $_has(8);
   void clearJavaGenerateEqualsAndHash() => clearField(20);
 
-  bool get deprecated => $_get(9, 23, false);
+  bool get deprecated => $_get(9, false);
   set deprecated(bool v) {
-    $_setBool(9, 23, v);
+    $_setBool(9, v);
   }
 
-  bool hasDeprecated() => $_has(9, 23);
+  bool hasDeprecated() => $_has(9);
   void clearDeprecated() => clearField(23);
 
-  bool get javaStringCheckUtf8 => $_get(10, 27, false);
+  bool get javaStringCheckUtf8 => $_get(10, false);
   set javaStringCheckUtf8(bool v) {
-    $_setBool(10, 27, v);
+    $_setBool(10, v);
   }
 
-  bool hasJavaStringCheckUtf8() => $_has(10, 27);
+  bool hasJavaStringCheckUtf8() => $_has(10);
   void clearJavaStringCheckUtf8() => clearField(27);
 
-  bool get ccEnableArenas => $_get(11, 31, false);
+  bool get ccEnableArenas => $_get(11, false);
   set ccEnableArenas(bool v) {
-    $_setBool(11, 31, v);
+    $_setBool(11, v);
   }
 
-  bool hasCcEnableArenas() => $_has(11, 31);
+  bool hasCcEnableArenas() => $_has(11);
   void clearCcEnableArenas() => clearField(31);
 
-  String get objcClassPrefix => $_get(12, 36, '');
+  String get objcClassPrefix => $_getS(12, '');
   set objcClassPrefix(String v) {
-    $_setString(12, 36, v);
+    $_setString(12, v);
   }
 
-  bool hasObjcClassPrefix() => $_has(12, 36);
+  bool hasObjcClassPrefix() => $_has(12);
   void clearObjcClassPrefix() => clearField(36);
 
-  String get csharpNamespace => $_get(13, 37, '');
+  String get csharpNamespace => $_getS(13, '');
   set csharpNamespace(String v) {
-    $_setString(13, 37, v);
+    $_setString(13, v);
   }
 
-  bool hasCsharpNamespace() => $_has(13, 37);
+  bool hasCsharpNamespace() => $_has(13);
   void clearCsharpNamespace() => clearField(37);
 
-  String get swiftPrefix => $_get(14, 39, '');
+  String get swiftPrefix => $_getS(14, '');
   set swiftPrefix(String v) {
-    $_setString(14, 39, v);
+    $_setString(14, v);
   }
 
-  bool hasSwiftPrefix() => $_has(14, 39);
+  bool hasSwiftPrefix() => $_has(14);
   void clearSwiftPrefix() => clearField(39);
 
-  String get phpClassPrefix => $_get(15, 40, '');
+  String get phpClassPrefix => $_getS(15, '');
   set phpClassPrefix(String v) {
-    $_setString(15, 40, v);
+    $_setString(15, v);
   }
 
-  bool hasPhpClassPrefix() => $_has(15, 40);
+  bool hasPhpClassPrefix() => $_has(15);
   void clearPhpClassPrefix() => clearField(40);
 
-  String get phpNamespace => $_get(16, 41, '');
+  String get phpNamespace => $_getS(16, '');
   set phpNamespace(String v) {
-    $_setString(16, 41, v);
+    $_setString(16, v);
   }
 
-  bool hasPhpNamespace() => $_has(16, 41);
+  bool hasPhpNamespace() => $_has(16);
   void clearPhpNamespace() => clearField(41);
 
-  List<UninterpretedOption> get uninterpretedOption => $_get(17, 999, null);
+  List<UninterpretedOption> get uninterpretedOption => $_getN(17);
 }
 
 class _ReadonlyFileOptions extends FileOptions with ReadonlyMessageMixin {}
 
 class MessageOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MessageOptions')
-    ..a<bool>(1, 'messageSetWireFormat', PbFieldType.OB)
-    ..a<bool>(2, 'noStandardDescriptorAccessor', PbFieldType.OB)
-    ..a<bool>(3, 'deprecated', PbFieldType.OB)
-    ..a<bool>(7, 'mapEntry', PbFieldType.OB)
+    ..aOB(1, 'messageSetWireFormat')
+    ..aOB(2, 'noStandardDescriptorAccessor')
+    ..aOB(3, 'deprecated')
+    ..aOB(7, 'mapEntry')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
@@ -1008,39 +1008,39 @@ class MessageOptions extends GeneratedMessage {
     if (v is! MessageOptions) checkItemFailed(v, 'MessageOptions');
   }
 
-  bool get messageSetWireFormat => $_get(0, 1, false);
+  bool get messageSetWireFormat => $_get(0, false);
   set messageSetWireFormat(bool v) {
-    $_setBool(0, 1, v);
+    $_setBool(0, v);
   }
 
-  bool hasMessageSetWireFormat() => $_has(0, 1);
+  bool hasMessageSetWireFormat() => $_has(0);
   void clearMessageSetWireFormat() => clearField(1);
 
-  bool get noStandardDescriptorAccessor => $_get(1, 2, false);
+  bool get noStandardDescriptorAccessor => $_get(1, false);
   set noStandardDescriptorAccessor(bool v) {
-    $_setBool(1, 2, v);
+    $_setBool(1, v);
   }
 
-  bool hasNoStandardDescriptorAccessor() => $_has(1, 2);
+  bool hasNoStandardDescriptorAccessor() => $_has(1);
   void clearNoStandardDescriptorAccessor() => clearField(2);
 
-  bool get deprecated => $_get(2, 3, false);
+  bool get deprecated => $_get(2, false);
   set deprecated(bool v) {
-    $_setBool(2, 3, v);
+    $_setBool(2, v);
   }
 
-  bool hasDeprecated() => $_has(2, 3);
+  bool hasDeprecated() => $_has(2);
   void clearDeprecated() => clearField(3);
 
-  bool get mapEntry => $_get(3, 7, false);
+  bool get mapEntry => $_get(3, false);
   set mapEntry(bool v) {
-    $_setBool(3, 7, v);
+    $_setBool(3, v);
   }
 
-  bool hasMapEntry() => $_has(3, 7);
+  bool hasMapEntry() => $_has(3);
   void clearMapEntry() => clearField(7);
 
-  List<UninterpretedOption> get uninterpretedOption => $_get(4, 999, null);
+  List<UninterpretedOption> get uninterpretedOption => $_getN(4);
 }
 
 class _ReadonlyMessageOptions extends MessageOptions with ReadonlyMessageMixin {
@@ -1055,9 +1055,9 @@ class FieldOptions extends GeneratedMessage {
         FieldOptions_CType.STRING,
         FieldOptions_CType.valueOf,
         FieldOptions_CType.values)
-    ..a<bool>(2, 'packed', PbFieldType.OB)
-    ..a<bool>(3, 'deprecated', PbFieldType.OB)
-    ..a<bool>(5, 'lazy', PbFieldType.OB)
+    ..aOB(2, 'packed')
+    ..aOB(3, 'deprecated')
+    ..aOB(5, 'lazy')
     ..e<FieldOptions_JSType>(
         6,
         'jstype',
@@ -1065,7 +1065,7 @@ class FieldOptions extends GeneratedMessage {
         FieldOptions_JSType.JS_NORMAL,
         FieldOptions_JSType.valueOf,
         FieldOptions_JSType.values)
-    ..a<bool>(10, 'weak', PbFieldType.OB)
+    ..aOB(10, 'weak')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
@@ -1092,55 +1092,55 @@ class FieldOptions extends GeneratedMessage {
     if (v is! FieldOptions) checkItemFailed(v, 'FieldOptions');
   }
 
-  FieldOptions_CType get ctype => $_get(0, 1, null);
+  FieldOptions_CType get ctype => $_getN(0);
   set ctype(FieldOptions_CType v) {
     setField(1, v);
   }
 
-  bool hasCtype() => $_has(0, 1);
+  bool hasCtype() => $_has(0);
   void clearCtype() => clearField(1);
 
-  bool get packed => $_get(1, 2, false);
+  bool get packed => $_get(1, false);
   set packed(bool v) {
-    $_setBool(1, 2, v);
+    $_setBool(1, v);
   }
 
-  bool hasPacked() => $_has(1, 2);
+  bool hasPacked() => $_has(1);
   void clearPacked() => clearField(2);
 
-  bool get deprecated => $_get(2, 3, false);
+  bool get deprecated => $_get(2, false);
   set deprecated(bool v) {
-    $_setBool(2, 3, v);
+    $_setBool(2, v);
   }
 
-  bool hasDeprecated() => $_has(2, 3);
+  bool hasDeprecated() => $_has(2);
   void clearDeprecated() => clearField(3);
 
-  bool get lazy => $_get(3, 5, false);
+  bool get lazy => $_get(3, false);
   set lazy(bool v) {
-    $_setBool(3, 5, v);
+    $_setBool(3, v);
   }
 
-  bool hasLazy() => $_has(3, 5);
+  bool hasLazy() => $_has(3);
   void clearLazy() => clearField(5);
 
-  FieldOptions_JSType get jstype => $_get(4, 6, null);
+  FieldOptions_JSType get jstype => $_getN(4);
   set jstype(FieldOptions_JSType v) {
     setField(6, v);
   }
 
-  bool hasJstype() => $_has(4, 6);
+  bool hasJstype() => $_has(4);
   void clearJstype() => clearField(6);
 
-  bool get weak => $_get(5, 10, false);
+  bool get weak => $_get(5, false);
   set weak(bool v) {
-    $_setBool(5, 10, v);
+    $_setBool(5, v);
   }
 
-  bool hasWeak() => $_has(5, 10);
+  bool hasWeak() => $_has(5);
   void clearWeak() => clearField(10);
 
-  List<UninterpretedOption> get uninterpretedOption => $_get(6, 999, null);
+  List<UninterpretedOption> get uninterpretedOption => $_getN(6);
 }
 
 class _ReadonlyFieldOptions extends FieldOptions with ReadonlyMessageMixin {}
@@ -1173,15 +1173,15 @@ class OneofOptions extends GeneratedMessage {
     if (v is! OneofOptions) checkItemFailed(v, 'OneofOptions');
   }
 
-  List<UninterpretedOption> get uninterpretedOption => $_get(0, 999, null);
+  List<UninterpretedOption> get uninterpretedOption => $_getN(0);
 }
 
 class _ReadonlyOneofOptions extends OneofOptions with ReadonlyMessageMixin {}
 
 class EnumOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumOptions')
-    ..a<bool>(2, 'allowAlias', PbFieldType.OB)
-    ..a<bool>(3, 'deprecated', PbFieldType.OB)
+    ..aOB(2, 'allowAlias')
+    ..aOB(3, 'deprecated')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
@@ -1207,30 +1207,30 @@ class EnumOptions extends GeneratedMessage {
     if (v is! EnumOptions) checkItemFailed(v, 'EnumOptions');
   }
 
-  bool get allowAlias => $_get(0, 2, false);
+  bool get allowAlias => $_get(0, false);
   set allowAlias(bool v) {
-    $_setBool(0, 2, v);
+    $_setBool(0, v);
   }
 
-  bool hasAllowAlias() => $_has(0, 2);
+  bool hasAllowAlias() => $_has(0);
   void clearAllowAlias() => clearField(2);
 
-  bool get deprecated => $_get(1, 3, false);
+  bool get deprecated => $_get(1, false);
   set deprecated(bool v) {
-    $_setBool(1, 3, v);
+    $_setBool(1, v);
   }
 
-  bool hasDeprecated() => $_has(1, 3);
+  bool hasDeprecated() => $_has(1);
   void clearDeprecated() => clearField(3);
 
-  List<UninterpretedOption> get uninterpretedOption => $_get(2, 999, null);
+  List<UninterpretedOption> get uninterpretedOption => $_getN(2);
 }
 
 class _ReadonlyEnumOptions extends EnumOptions with ReadonlyMessageMixin {}
 
 class EnumValueOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('EnumValueOptions')
-    ..a<bool>(1, 'deprecated', PbFieldType.OB)
+    ..aOB(1, 'deprecated')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
@@ -1258,15 +1258,15 @@ class EnumValueOptions extends GeneratedMessage {
     if (v is! EnumValueOptions) checkItemFailed(v, 'EnumValueOptions');
   }
 
-  bool get deprecated => $_get(0, 1, false);
+  bool get deprecated => $_get(0, false);
   set deprecated(bool v) {
-    $_setBool(0, 1, v);
+    $_setBool(0, v);
   }
 
-  bool hasDeprecated() => $_has(0, 1);
+  bool hasDeprecated() => $_has(0);
   void clearDeprecated() => clearField(1);
 
-  List<UninterpretedOption> get uninterpretedOption => $_get(1, 999, null);
+  List<UninterpretedOption> get uninterpretedOption => $_getN(1);
 }
 
 class _ReadonlyEnumValueOptions extends EnumValueOptions
@@ -1274,7 +1274,7 @@ class _ReadonlyEnumValueOptions extends EnumValueOptions
 
 class ServiceOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ServiceOptions')
-    ..a<bool>(33, 'deprecated', PbFieldType.OB)
+    ..aOB(33, 'deprecated')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
@@ -1302,15 +1302,15 @@ class ServiceOptions extends GeneratedMessage {
     if (v is! ServiceOptions) checkItemFailed(v, 'ServiceOptions');
   }
 
-  bool get deprecated => $_get(0, 33, false);
+  bool get deprecated => $_get(0, false);
   set deprecated(bool v) {
-    $_setBool(0, 33, v);
+    $_setBool(0, v);
   }
 
-  bool hasDeprecated() => $_has(0, 33);
+  bool hasDeprecated() => $_has(0);
   void clearDeprecated() => clearField(33);
 
-  List<UninterpretedOption> get uninterpretedOption => $_get(1, 999, null);
+  List<UninterpretedOption> get uninterpretedOption => $_getN(1);
 }
 
 class _ReadonlyServiceOptions extends ServiceOptions with ReadonlyMessageMixin {
@@ -1318,7 +1318,7 @@ class _ReadonlyServiceOptions extends ServiceOptions with ReadonlyMessageMixin {
 
 class MethodOptions extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('MethodOptions')
-    ..a<bool>(33, 'deprecated', PbFieldType.OB)
+    ..aOB(33, 'deprecated')
     ..e<MethodOptions_IdempotencyLevel>(
         34,
         'idempotencyLevel',
@@ -1352,30 +1352,30 @@ class MethodOptions extends GeneratedMessage {
     if (v is! MethodOptions) checkItemFailed(v, 'MethodOptions');
   }
 
-  bool get deprecated => $_get(0, 33, false);
+  bool get deprecated => $_get(0, false);
   set deprecated(bool v) {
-    $_setBool(0, 33, v);
+    $_setBool(0, v);
   }
 
-  bool hasDeprecated() => $_has(0, 33);
+  bool hasDeprecated() => $_has(0);
   void clearDeprecated() => clearField(33);
 
-  MethodOptions_IdempotencyLevel get idempotencyLevel => $_get(1, 34, null);
+  MethodOptions_IdempotencyLevel get idempotencyLevel => $_getN(1);
   set idempotencyLevel(MethodOptions_IdempotencyLevel v) {
     setField(34, v);
   }
 
-  bool hasIdempotencyLevel() => $_has(1, 34);
+  bool hasIdempotencyLevel() => $_has(1);
   void clearIdempotencyLevel() => clearField(34);
 
-  List<UninterpretedOption> get uninterpretedOption => $_get(2, 999, null);
+  List<UninterpretedOption> get uninterpretedOption => $_getN(2);
 }
 
 class _ReadonlyMethodOptions extends MethodOptions with ReadonlyMessageMixin {}
 
 class UninterpretedOption_NamePart extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('UninterpretedOption_NamePart')
-    ..a<String>(1, 'namePart', PbFieldType.QS)
+    ..aQS(1, 'namePart')
     ..a<bool>(2, 'isExtension', PbFieldType.QB);
 
   UninterpretedOption_NamePart() : super();
@@ -1404,20 +1404,20 @@ class UninterpretedOption_NamePart extends GeneratedMessage {
       checkItemFailed(v, 'UninterpretedOption_NamePart');
   }
 
-  String get namePart => $_get(0, 1, '');
+  String get namePart => $_getS(0, '');
   set namePart(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasNamePart() => $_has(0, 1);
+  bool hasNamePart() => $_has(0);
   void clearNamePart() => clearField(1);
 
-  bool get isExtension => $_get(1, 2, false);
+  bool get isExtension => $_get(1, false);
   set isExtension(bool v) {
-    $_setBool(1, 2, v);
+    $_setBool(1, v);
   }
 
-  bool hasIsExtension() => $_has(1, 2);
+  bool hasIsExtension() => $_has(1);
   void clearIsExtension() => clearField(2);
 }
 
@@ -1432,12 +1432,12 @@ class UninterpretedOption extends GeneratedMessage {
         PbFieldType.PM,
         UninterpretedOption_NamePart.$checkItem,
         UninterpretedOption_NamePart.create)
-    ..a<String>(3, 'identifierValue', PbFieldType.OS)
+    ..aOS(3, 'identifierValue')
     ..a<Int64>(4, 'positiveIntValue', PbFieldType.OU6, Int64.ZERO)
-    ..a<Int64>(5, 'negativeIntValue', PbFieldType.O6, Int64.ZERO)
+    ..aInt64(5, 'negativeIntValue')
     ..a<double>(6, 'doubleValue', PbFieldType.OD)
     ..a<List<int>>(7, 'stringValue', PbFieldType.OY)
-    ..a<String>(8, 'aggregateValue', PbFieldType.OS);
+    ..aOS(8, 'aggregateValue');
 
   UninterpretedOption() : super();
   UninterpretedOption.fromBuffer(List<int> i,
@@ -1463,54 +1463,54 @@ class UninterpretedOption extends GeneratedMessage {
     if (v is! UninterpretedOption) checkItemFailed(v, 'UninterpretedOption');
   }
 
-  List<UninterpretedOption_NamePart> get name => $_get(0, 2, null);
+  List<UninterpretedOption_NamePart> get name => $_getN(0);
 
-  String get identifierValue => $_get(1, 3, '');
+  String get identifierValue => $_getS(1, '');
   set identifierValue(String v) {
-    $_setString(1, 3, v);
+    $_setString(1, v);
   }
 
-  bool hasIdentifierValue() => $_has(1, 3);
+  bool hasIdentifierValue() => $_has(1);
   void clearIdentifierValue() => clearField(3);
 
-  Int64 get positiveIntValue => $_get(2, 4, null);
+  Int64 get positiveIntValue => $_getI64(2);
   set positiveIntValue(Int64 v) {
-    $_setInt64(2, 4, v);
+    $_setInt64(2, v);
   }
 
-  bool hasPositiveIntValue() => $_has(2, 4);
+  bool hasPositiveIntValue() => $_has(2);
   void clearPositiveIntValue() => clearField(4);
 
-  Int64 get negativeIntValue => $_get(3, 5, null);
+  Int64 get negativeIntValue => $_getI64(3);
   set negativeIntValue(Int64 v) {
-    $_setInt64(3, 5, v);
+    $_setInt64(3, v);
   }
 
-  bool hasNegativeIntValue() => $_has(3, 5);
+  bool hasNegativeIntValue() => $_has(3);
   void clearNegativeIntValue() => clearField(5);
 
-  double get doubleValue => $_get(4, 6, null);
+  double get doubleValue => $_getN(4);
   set doubleValue(double v) {
-    $_setDouble(4, 6, v);
+    $_setDouble(4, v);
   }
 
-  bool hasDoubleValue() => $_has(4, 6);
+  bool hasDoubleValue() => $_has(4);
   void clearDoubleValue() => clearField(6);
 
-  List<int> get stringValue => $_get(5, 7, null);
+  List<int> get stringValue => $_getN(5);
   set stringValue(List<int> v) {
-    $_setBytes(5, 7, v);
+    $_setBytes(5, v);
   }
 
-  bool hasStringValue() => $_has(5, 7);
+  bool hasStringValue() => $_has(5);
   void clearStringValue() => clearField(7);
 
-  String get aggregateValue => $_get(6, 8, '');
+  String get aggregateValue => $_getS(6, '');
   set aggregateValue(String v) {
-    $_setString(6, 8, v);
+    $_setString(6, v);
   }
 
-  bool hasAggregateValue() => $_has(6, 8);
+  bool hasAggregateValue() => $_has(6);
   void clearAggregateValue() => clearField(8);
 }
 
@@ -1521,9 +1521,9 @@ class SourceCodeInfo_Location extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('SourceCodeInfo_Location')
     ..p<int>(1, 'path', PbFieldType.K3)
     ..p<int>(2, 'span', PbFieldType.K3)
-    ..a<String>(3, 'leadingComments', PbFieldType.OS)
-    ..a<String>(4, 'trailingComments', PbFieldType.OS)
-    ..p<String>(6, 'leadingDetachedComments', PbFieldType.PS)
+    ..aOS(3, 'leadingComments')
+    ..aOS(4, 'trailingComments')
+    ..pPS(6, 'leadingDetachedComments')
     ..hasRequiredFields = false;
 
   SourceCodeInfo_Location() : super();
@@ -1551,27 +1551,27 @@ class SourceCodeInfo_Location extends GeneratedMessage {
       checkItemFailed(v, 'SourceCodeInfo_Location');
   }
 
-  List<int> get path => $_get(0, 1, null);
+  List<int> get path => $_getN(0);
 
-  List<int> get span => $_get(1, 2, null);
+  List<int> get span => $_getN(1);
 
-  String get leadingComments => $_get(2, 3, '');
+  String get leadingComments => $_getS(2, '');
   set leadingComments(String v) {
-    $_setString(2, 3, v);
+    $_setString(2, v);
   }
 
-  bool hasLeadingComments() => $_has(2, 3);
+  bool hasLeadingComments() => $_has(2);
   void clearLeadingComments() => clearField(3);
 
-  String get trailingComments => $_get(3, 4, '');
+  String get trailingComments => $_getS(3, '');
   set trailingComments(String v) {
-    $_setString(3, 4, v);
+    $_setString(3, v);
   }
 
-  bool hasTrailingComments() => $_has(3, 4);
+  bool hasTrailingComments() => $_has(3);
   void clearTrailingComments() => clearField(4);
 
-  List<String> get leadingDetachedComments => $_get(4, 6, null);
+  List<String> get leadingDetachedComments => $_getN(4);
 }
 
 class _ReadonlySourceCodeInfo_Location extends SourceCodeInfo_Location
@@ -1606,7 +1606,7 @@ class SourceCodeInfo extends GeneratedMessage {
     if (v is! SourceCodeInfo) checkItemFailed(v, 'SourceCodeInfo');
   }
 
-  List<SourceCodeInfo_Location> get location => $_get(0, 1, null);
+  List<SourceCodeInfo_Location> get location => $_getN(0);
 }
 
 class _ReadonlySourceCodeInfo extends SourceCodeInfo with ReadonlyMessageMixin {
@@ -1615,7 +1615,7 @@ class _ReadonlySourceCodeInfo extends SourceCodeInfo with ReadonlyMessageMixin {
 class GeneratedCodeInfo_Annotation extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('GeneratedCodeInfo_Annotation')
     ..p<int>(1, 'path', PbFieldType.K3)
-    ..a<String>(2, 'sourceFile', PbFieldType.OS)
+    ..aOS(2, 'sourceFile')
     ..a<int>(3, 'begin', PbFieldType.O3)
     ..a<int>(4, 'end', PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -1646,30 +1646,30 @@ class GeneratedCodeInfo_Annotation extends GeneratedMessage {
       checkItemFailed(v, 'GeneratedCodeInfo_Annotation');
   }
 
-  List<int> get path => $_get(0, 1, null);
+  List<int> get path => $_getN(0);
 
-  String get sourceFile => $_get(1, 2, '');
+  String get sourceFile => $_getS(1, '');
   set sourceFile(String v) {
-    $_setString(1, 2, v);
+    $_setString(1, v);
   }
 
-  bool hasSourceFile() => $_has(1, 2);
+  bool hasSourceFile() => $_has(1);
   void clearSourceFile() => clearField(2);
 
-  int get begin => $_get(2, 3, 0);
+  int get begin => $_get(2, 0);
   set begin(int v) {
-    $_setUnsignedInt32(2, 3, v);
+    $_setUnsignedInt32(2, v);
   }
 
-  bool hasBegin() => $_has(2, 3);
+  bool hasBegin() => $_has(2);
   void clearBegin() => clearField(3);
 
-  int get end => $_get(3, 4, 0);
+  int get end => $_get(3, 0);
   set end(int v) {
-    $_setUnsignedInt32(3, 4, v);
+    $_setUnsignedInt32(3, v);
   }
 
-  bool hasEnd() => $_has(3, 4);
+  bool hasEnd() => $_has(3);
   void clearEnd() => clearField(4);
 }
 
@@ -1709,7 +1709,7 @@ class GeneratedCodeInfo extends GeneratedMessage {
     if (v is! GeneratedCodeInfo) checkItemFailed(v, 'GeneratedCodeInfo');
   }
 
-  List<GeneratedCodeInfo_Annotation> get annotation => $_get(0, 1, null);
+  List<GeneratedCodeInfo_Annotation> get annotation => $_getN(0);
 }
 
 class _ReadonlyGeneratedCodeInfo extends GeneratedCodeInfo

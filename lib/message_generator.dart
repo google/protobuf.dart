@@ -310,50 +310,68 @@ class MessageGenerator extends ProtobufContainer {
   void generateFieldsAccessorsMutators(IndentingWriter out) {
     for (ProtobufField field in _fieldList) {
       out.println();
-
-      var fieldTypeString = field.getDartType(package);
-      var defaultExpr = field.getDefaultExpr();
-      var names = field.memberNames;
-
-      _emitOverrideIf(field.overridesGetter, out);
-      out.println('${fieldTypeString} get ${names.fieldName}'
-          ' => \$_get('
-          '${field.index}, ${field.number}, $defaultExpr);');
-      if (field.isRepeated) {
-        if (field.overridesSetter) {
-          throw 'Field ${field.fqname} cannot override a setter for '
-              '${names.fieldName} because it is repeated.';
-        }
-        if (field.overridesHasMethod) {
-          throw 'Field ${field.fqname} cannot override '
-              '${names.hasMethodName}() because it is repeated.';
-        }
-        if (field.overridesClearMethod) {
-          throw 'Field ${field.fqname} cannot override '
-              '${names.clearMethodName}() because it is repeated.';
-        }
-      } else {
-        var fastSetter = field.baseType.setter;
-        _emitOverrideIf(field.overridesSetter, out);
-        if (fastSetter != null) {
-          out.println('set ${names.fieldName}'
-              '($fieldTypeString v) { '
-              '$fastSetter(${field.index}, ${field.number}, v);'
-              ' }');
-        } else {
-          out.println('set ${names.fieldName}'
-              '($fieldTypeString v) { '
-              'setField(${field.number}, v);'
-              ' }');
-        }
-        _emitOverrideIf(field.overridesHasMethod, out);
-        out.println('bool ${names.hasMethodName}() =>'
-            ' \$_has(${field.index}, ${field.number});');
-        _emitOverrideIf(field.overridesClearMethod, out);
-        out.println('void ${names.clearMethodName}() =>'
-            ' clearField(${field.number});');
-      }
+      generateFieldAccessorsMutators(field, out);
     }
+  }
+
+  void generateFieldAccessorsMutators(
+      ProtobufField field, IndentingWriter out) {
+    var fieldTypeString = field.getDartType(package);
+    var defaultExpr = field.getDefaultExpr();
+    var names = field.memberNames;
+
+    _emitOverrideIf(field.overridesGetter, out);
+    var getterExpr =
+        _getterExpression(fieldTypeString, field.index, defaultExpr);
+    out.println('${fieldTypeString} get ${names.fieldName} => ${getterExpr};');
+
+    if (field.isRepeated) {
+      if (field.overridesSetter) {
+        throw 'Field ${field.fqname} cannot override a setter for '
+            '${names.fieldName} because it is repeated.';
+      }
+      if (field.overridesHasMethod) {
+        throw 'Field ${field.fqname} cannot override '
+            '${names.hasMethodName}() because it is repeated.';
+      }
+      if (field.overridesClearMethod) {
+        throw 'Field ${field.fqname} cannot override '
+            '${names.clearMethodName}() because it is repeated.';
+      }
+    } else {
+      var fastSetter = field.baseType.setter;
+      _emitOverrideIf(field.overridesSetter, out);
+      if (fastSetter != null) {
+        out.println('set ${names.fieldName}'
+            '($fieldTypeString v) { '
+            '$fastSetter(${field.index}, v);'
+            ' }');
+      } else {
+        out.println('set ${names.fieldName}'
+            '($fieldTypeString v) { '
+            'setField(${field.number}, v);'
+            ' }');
+      }
+      _emitOverrideIf(field.overridesHasMethod, out);
+      out.println('bool ${names.hasMethodName}() =>'
+          ' \$_has(${field.index});');
+      _emitOverrideIf(field.overridesClearMethod, out);
+      out.println('void ${names.clearMethodName}() =>'
+          ' clearField(${field.number});');
+    }
+  }
+
+  String _getterExpression(String fieldType, int index, String defaultExpr) {
+    if (fieldType == 'String') {
+      return '\$_getS($index, $defaultExpr)';
+    }
+    if (fieldType == 'Int64' && defaultExpr == 'null') {
+      return '\$_getI64($index)';
+    }
+    if (defaultExpr == 'null') {
+      return '\$_getN($index)';
+    }
+    return '\$_get($index, $defaultExpr)';
   }
 
   void _emitOverrideIf(bool condition, IndentingWriter out) {

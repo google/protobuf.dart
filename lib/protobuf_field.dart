@@ -111,6 +111,8 @@ class ProtobufField {
       } else if (baseType.isEnum) {
         return '..pp<$type>($number, $quotedName, $typeConstant,'
             ' $type.$checkItem, null, $type.valueOf, $type.values)';
+      } else if (typeConstant == 'PbFieldType.PS') {
+        return '..pPS($number, $quotedName)';
       } else {
         return '..p<$type>($number, $quotedName, $typeConstant)';
       }
@@ -124,7 +126,31 @@ class ProtobufField {
     }
 
     String prefix = '..a<$type>($number, $quotedName, $typeConstant';
-    if (makeDefault == null) return prefix + ')';
+    if (makeDefault == null) {
+      switch (type) {
+        case 'String':
+          if (typeConstant == 'PbFieldType.OS') {
+            return '..aOS($number, $quotedName)';
+          } else if (typeConstant == 'PbFieldType.QS') {
+            return '..aQS($number, $quotedName)';
+          }
+          break;
+        case 'bool':
+          if (typeConstant == 'PbFieldType.OB') {
+            return '..aOB($number, $quotedName)';
+          }
+          break;
+        default:
+          break;
+      }
+      return prefix + ')';
+    }
+
+    if (makeDefault == 'Int64.ZERO' &&
+        type == 'Int64' &&
+        typeConstant == 'PbFieldType.O6') {
+      return '..aInt64($number, $quotedName)';
+    }
 
     if (baseType.isMessage || baseType.isGroup) {
       return prefix + ', $makeDefault, $type.create)';

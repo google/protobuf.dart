@@ -713,4 +713,9 @@ void main() {
     message.t = new T();
     new t.SApi(null);
   });
+
+  test('to toDebugString', () {
+    TestAllTypes value1 = new TestAllTypes()..optionalString = "test 123";
+    expect(value1.toString(), 'optionalString: test 123\n');
+  });
 }

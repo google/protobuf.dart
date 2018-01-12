@@ -11,9 +11,9 @@ import 'package:protobuf/protobuf.dart';
 
 class DartMixin extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DartMixin')
-    ..a<String>(1, 'name', PbFieldType.OS)
-    ..a<String>(2, 'importFrom', PbFieldType.OS)
-    ..a<String>(3, 'parent', PbFieldType.OS)
+    ..aOS(1, 'name')
+    ..aOS(2, 'importFrom')
+    ..aOS(3, 'parent')
     ..hasRequiredFields = false;
 
   DartMixin() : super();
@@ -36,28 +36,28 @@ class DartMixin extends GeneratedMessage {
     if (v is! DartMixin) checkItemFailed(v, 'DartMixin');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get importFrom => $_get(1, 2, '');
+  String get importFrom => $_getS(1, '');
   set importFrom(String v) {
-    $_setString(1, 2, v);
+    $_setString(1, v);
   }
 
-  bool hasImportFrom() => $_has(1, 2);
+  bool hasImportFrom() => $_has(1);
   void clearImportFrom() => clearField(2);
 
-  String get parent => $_get(2, 3, '');
+  String get parent => $_getS(2, '');
   set parent(String v) {
-    $_setString(2, 3, v);
+    $_setString(2, v);
   }
 
-  bool hasParent() => $_has(2, 3);
+  bool hasParent() => $_has(2);
   void clearParent() => clearField(3);
 }
 
@@ -89,7 +89,7 @@ class Imports extends GeneratedMessage {
     if (v is! Imports) checkItemFailed(v, 'Imports');
   }
 
-  List<DartMixin> get mixins => $_get(0, 1, null);
+  List<DartMixin> get mixins => $_getN(0);
 }
 
 class _ReadonlyImports extends Imports with ReadonlyMessageMixin {}
