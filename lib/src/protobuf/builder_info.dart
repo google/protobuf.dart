@@ -7,6 +7,7 @@ part of protobuf;
 /// Per-message type setup.
 class BuilderInfo {
   final String messageName;
+  final List<FieldInfo> byIndex = <FieldInfo>[];
   final Map<int, FieldInfo> fieldInfo = new Map<int, FieldInfo>();
   final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
@@ -24,9 +25,9 @@ class BuilderInfo {
       CreateBuilderFunc subBuilder,
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues) {
-    var index = fieldInfo.length;
-    addField(new FieldInfo<T>(name, tagNumber, index, fieldType, defaultOrMaker,
-        subBuilder, valueOf, enumValues));
+    var index = byIndex.length;
+    _addField(new FieldInfo<T>(name, tagNumber, index, fieldType,
+        defaultOrMaker, subBuilder, valueOf, enumValues));
   }
 
   void addRepeated<T>(
@@ -37,12 +38,14 @@ class BuilderInfo {
       CreateBuilderFunc subBuilder,
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues) {
-    var index = fieldInfo.length;
-    addField(new FieldInfo<T>.repeated(name, tagNumber, index, fieldType, check,
-        subBuilder, valueOf, enumValues));
+    var index = byIndex.length;
+    _addField(new FieldInfo<T>.repeated(name, tagNumber, index, fieldType,
+        check, subBuilder, valueOf, enumValues));
   }
 
-  void addField(FieldInfo fi) {
+  void _addField(FieldInfo fi) {
+    byIndex.add(fi);
+    assert(byIndex[fi.index] == fi);
     fieldInfo[fi.tagNumber] = fi;
     byTagAsString["${fi.tagNumber}"] = fi;
     byName[fi.name] = fi;
@@ -55,6 +58,33 @@ class BuilderInfo {
       List<ProtobufEnum> enumValues]) {
     add<T>(tagNumber, name, fieldType, defaultOrMaker, subBuilder, valueOf,
         enumValues);
+  }
+
+  /// Adds PbFieldType.OS String with no default value to reduce generated
+  /// code size.
+  void aOS(int tagNumber, String name) {
+    add<String>(tagNumber, name, PbFieldType.OS, null, null, null, null);
+  }
+
+  /// Adds PbFieldType.PS String with no default value.
+  void pPS(int tagNumber, String name) {
+    addRepeated<String>(tagNumber, name, PbFieldType.PS,
+        getCheckFunction(PbFieldType.PS), null, null, null);
+  }
+
+  /// Adds PbFieldType.QS String with no default value.
+  void aQS(int tagNumber, String name) {
+    add<String>(tagNumber, name, PbFieldType.QS, null, null, null, null);
+  }
+
+  /// Adds Int64 field with Int64.ZERO default.
+  void aInt64(int tagNumber, String name) {
+    add<Int64>(tagNumber, name, PbFieldType.O6, Int64.ZERO, null, null, null);
+  }
+
+  /// Adds a boolean with no default value.
+  void aOB(int tagNumber, String name) {
+    add<bool>(tagNumber, name, PbFieldType.OB, null, null, null, null);
   }
 
   // Enum.

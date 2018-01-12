@@ -1,3 +1,10 @@
+## 0.6.1
+
+* Added fast getters for common types.
+* Only pass index instead of both tag and index to accessors.
+* Delegate more methods to underlying list in PbList.
+* Small fixes for Dart 2.0.
+
 ## 0.6.0
 
 * Added enumValues to FieldInfo. Fixes #63.
