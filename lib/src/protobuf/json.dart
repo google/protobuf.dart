@@ -5,11 +5,12 @@
 part of protobuf;
 
 Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
-  convertToMap(fieldValue, fieldType) {
+  convertToMap(fieldValue, int fieldType) {
     int baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
-      return new List.from(fieldValue.map((e) => convertToMap(e, baseType)));
+      PbList pbList = fieldValue;
+      return new List.from(pbList.map((e) => convertToMap(e, baseType)));
     }
 
     switch (baseType) {
@@ -67,8 +68,10 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 // (Called recursively on nested messages.)
 void _mergeFromJsonMap(
     _FieldSet fs, Map<String, dynamic> json, ExtensionRegistry registry) {
-  for (String key in json.keys) {
-    var fi = fs._meta.byTagAsString[key];
+  Iterable<String> keys = json.keys;
+  var meta = fs._meta;
+  for (String key in keys) {
+    var fi = meta.byTagAsString[key];
     if (fi == null) {
       if (registry == null) continue; // Unknown tag; skip
       fi = registry.getExtension(fs._messageName, int.parse(key));
@@ -83,11 +86,14 @@ void _mergeFromJsonMap(
 }
 
 void _appendJsonList(
-    _FieldSet fs, List json, FieldInfo fi, ExtensionRegistry registry) {
+    _FieldSet fs, List jsonList, FieldInfo fi, ExtensionRegistry registry) {
   List repeated = fs._ensureRepeatedField(fi);
-  var length = json.length;
-  for (int i = 0; i < length; ++i) {
-    var value = json[i];
+  // Micro optimization. Using "for in" generates the following and iterator
+  // alloc:
+  //   for (t1 = J.get$iterator$ax(json), t2 = fi.tagNumber, t3 = fi.type,
+  //       t4 = J.getInterceptor$ax(repeated); t1.moveNext$0();)
+  for (int i = 0, len = jsonList.length; i < len; i++) {
+    var value = jsonList[i];
     var convertedValue =
         _convertJsonValue(fs, value, fi.tagNumber, fi.type, registry);
     if (convertedValue != null) {
@@ -99,10 +105,15 @@ void _appendJsonList(
 void _setJsonField(
     _FieldSet fs, json, FieldInfo fi, ExtensionRegistry registry) {
   var value = _convertJsonValue(fs, json, fi.tagNumber, fi.type, registry);
-  if (value != null) {
+  if (value == null) return;
+  // _convertJsonValue throws exception when it fails to do conversion.
+  // Therefore we run _validateField for debug builds only to validate
+  // correctness of conversion.
+  assert(() {
     fs._validateField(fi, value);
-    fs._setFieldUnchecked(fi, value);
-  }
+    return true;
+  }());
+  fs._setFieldUnchecked(fi, value);
 }
 
 /// Converts [value] from the Json format to the Dart data type
@@ -185,16 +196,16 @@ _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
     case PbFieldType._FIXED64_BIT:
     case PbFieldType._SFIXED64_BIT:
       if (value is int) return new Int64(value);
-      if (value is String) return Int64.parseRadix(value, 10);
+      if (value is String) return Int64.parseInt(value);
       expectedType = 'int or stringified int';
       break;
     case PbFieldType._GROUP_BIT:
     case PbFieldType._MESSAGE_BIT:
       if (value is Map) {
+        Map<String, dynamic> messageValue = value;
         GeneratedMessage subMessage =
             fs._meta._makeEmptyMessage(tagNumber, registry);
-        _mergeFromJsonMap(
-            subMessage._fieldSet, value as Map<String, dynamic>, registry);
+        _mergeFromJsonMap(subMessage._fieldSet, messageValue, registry);
         return subMessage;
       }
       expectedType = 'nested message or group';

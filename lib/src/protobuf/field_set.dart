@@ -27,12 +27,16 @@ class _FieldSet {
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
       : this._meta = meta,
-        _values = _makeValueList(meta.fieldInfo);
+        _values = _makeValueList(meta.byIndex.length);
 
-  static _makeValueList(Map<int, FieldInfo> infos) {
-    if (infos.isEmpty) return const [];
-    return new List(infos.length);
+  static _makeValueList(int length) {
+    if (length == 0) return _zeroList;
+    return new List(length);
   }
+
+  // Use a fixed length list and not a constant list to ensure that _values
+  // always has the same implementation type.
+  static List _zeroList = new List(0);
 
   // Metadata about multiple fields
 
@@ -68,6 +72,9 @@ class _FieldSet {
 
   /// Returns FieldInfo for a non-extension field, or null if not found.
   FieldInfo _nonExtensionInfo(int tagNumber) => _meta.fieldInfo[tagNumber];
+
+  /// Returns FieldInfo for a non-extension field.
+  FieldInfo _nonExtensionInfoByIndex(int index) => _meta.byIndex[index];
 
   /// Returns the FieldInfo for a regular or extension field.
   /// throws ArgumentException if no info is found.
@@ -138,7 +145,7 @@ class _FieldSet {
 
   bool _hasField(int tagNumber) {
     var fi = _nonExtensionInfo(tagNumber);
-    if (fi != null) return _$has(fi.index, tagNumber);
+    if (fi != null) return _$has(fi.index);
     if (!_hasExtensions) return false;
     return _extensions._hasField(tagNumber);
   }
@@ -235,17 +242,43 @@ class _FieldSet {
   // Generated method implementations
 
   /// The implementation of a generated getter.
-  T _$get<T>(int index, int tagNumber, T defaultValue) {
-    assert(_nonExtensionInfo(tagNumber).index == index);
+  T _$get<T>(int index, T defaultValue) {
     var value = _values[index];
     if (value != null) return value as T;
     if (defaultValue != null) return defaultValue;
-    return _getDefault(_nonExtensionInfo(tagNumber)) as T;
+    return _getDefault(_nonExtensionInfoByIndex(index)) as T;
   }
 
-  /// The implementation of a generated has method.
-  bool _$has(int index, int tagNumber) {
-    assert(_nonExtensionInfo(tagNumber).index == index);
+  /// The implementation of a generated getter. Common case for submessages.
+  T _$getN<T>(int index) {
+    var value = _values[index];
+    if (value != null) return value as T;
+    return _getDefault(_nonExtensionInfoByIndex(index)) as T;
+  }
+
+  /// The implementation of a generated getter for String fields.
+  String _$getS(int index, String defaultValue) {
+    var value = _values[index];
+    if (value == null) {
+      if (defaultValue != null) return defaultValue;
+      value = _getDefault(_nonExtensionInfoByIndex(index));
+    }
+    String result = value;
+    return result;
+  }
+
+  /// The implementation of a generated getter for Int64 fields.
+  Int64 _$getI64(int index) {
+    var value = _values[index];
+    if (value == null) {
+      value = _getDefault(_nonExtensionInfoByIndex(index));
+    }
+    Int64 result = value;
+    return result;
+  }
+
+  /// The implementation of a generated 'has' method.
+  bool _$has(int index) {
     var value = _values[index];
     if (value == null) return false;
     if (value is List) return value.isNotEmpty;
@@ -257,25 +290,24 @@ class _FieldSet {
   /// In production, does no validation other than a null check.
   /// Only handles non-repeated, non-extension fields.
   /// Also, doesn't handle enums or messages which need per-type validation.
-  void _$set(int index, int tagNumber, value) {
-    assert(_nonExtensionInfo(tagNumber).index == index);
-    assert(!_nonExtensionInfo(tagNumber).isRepeated);
-    assert(_$check(tagNumber, value));
+  void _$set(int index, value) {
+    assert(!_nonExtensionInfoByIndex(index).isRepeated);
+    assert(_$check(index, value));
     if (_isReadOnly) {
       throw new UnsupportedError(
           "attempted to call a setter on a read-only message ($_messageName)");
     }
     if (value == null) {
-      _$check(tagNumber, value); // throw exception for null value
+      _$check(index, value); // throw exception for null value
     }
     if (_hasObservers) {
-      _eventPlugin.beforeSetField(_nonExtensionInfo(tagNumber), value);
+      _eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
     }
     _values[index] = value;
   }
 
-  bool _$check(int tagNumber, var newValue) {
-    _validateField(_nonExtensionInfo(tagNumber), newValue);
+  bool _$check(int index, var newValue) {
+    _validateField(_nonExtensionInfoByIndex(index), newValue);
     return true; // Allows use in an assertion.
   }
 
@@ -486,12 +518,16 @@ class _FieldSet {
 
     if (fi.isRepeated) {
       if (mustClone) {
+        // fieldValue must be a PbList of GeneratedMessage.
+        PbList<GeneratedMessage> pbList = fieldValue;
         // Copy the mapped values to a List to avoid redundant cloning (since
         // PbList.addAll iterates over its argument twice).
         _ensureRepeatedField(fi)
-            .addAll(new List.from(fieldValue.map(_cloneMessage)));
+            .addAll(new List.from(pbList.map(_cloneMessage)));
       } else {
-        _ensureRepeatedField(fi).addAll(fieldValue);
+        // fieldValue must be at least a PbList.
+        PbList pbList = fieldValue;
+        _ensureRepeatedField(fi).addAll(pbList);
       }
       return;
     }

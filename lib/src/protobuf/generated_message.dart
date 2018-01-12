@@ -276,56 +276,65 @@ abstract class GeneratedMessage {
   ///
   /// Throws an [:ArgumentError:] if [value] is [:null:]. To clear a field of
   /// it's current value, use [clearField] instead.
-  void setField(int tagNumber, value) => _fieldSet._setField(tagNumber, value);
+  void setField(int tagNumber, value) {
+    _fieldSet._setField(tagNumber, value);
+    return; // ignore: dead_code
+    return; // ignore: dead_code
+  }
 
   /// For generated code only.
-  T $_get<T>(int index, int tagNumber, T defaultValue) =>
-      _fieldSet._$get<T>(index, tagNumber, defaultValue);
+  T $_get<T>(int index, T defaultValue) =>
+      _fieldSet._$get<T>(index, defaultValue);
 
   /// For generated code only.
-  bool $_has(int index, int tagNumber) => _fieldSet._$has(index, tagNumber);
+  T $_getN<T>(int index) => _fieldSet._$getN<T>(index);
 
   /// For generated code only.
-  void $_setBool(int index, int tagNumber, bool value) =>
-      _fieldSet._$set(index, tagNumber, value);
+  String $_getS(int index, String defaultValue) =>
+      _fieldSet._$getS(index, defaultValue);
 
   /// For generated code only.
-  void $_setBytes(int index, int tagNumber, List<int> value) =>
-      _fieldSet._$set(index, tagNumber, value);
+  Int64 $_getI64(int index) => _fieldSet._$getI64(index);
 
   /// For generated code only.
-  void $_setString(int index, int tagNumber, String value) =>
-      _fieldSet._$set(index, tagNumber, value);
+  bool $_has(int index) => _fieldSet._$has(index);
 
   /// For generated code only.
-  void $_setFloat(int index, int tagNumber, double value) {
+  void $_setBool(int index, bool value) => _fieldSet._$set(index, value);
+
+  /// For generated code only.
+  void $_setBytes(int index, List<int> value) => _fieldSet._$set(index, value);
+
+  /// For generated code only.
+  void $_setString(int index, String value) => _fieldSet._$set(index, value);
+
+  /// For generated code only.
+  void $_setFloat(int index, double value) {
     if (value == null || !_isFloat32(value)) {
-      _fieldSet._$check(tagNumber, value);
+      _fieldSet._$check(index, value);
     }
-    _fieldSet._$set(index, tagNumber, value);
+    _fieldSet._$set(index, value);
   }
 
   /// For generated code only.
-  void $_setDouble(int index, int tagNumber, double value) =>
-      _fieldSet._$set(index, tagNumber, value);
+  void $_setDouble(int index, double value) => _fieldSet._$set(index, value);
 
   /// For generated code only.
-  void $_setSignedInt32(int index, int tagNumber, int value) {
+  void $_setSignedInt32(int index, int value) {
     if (value == null || !_isSigned32(value)) {
-      _fieldSet._$check(tagNumber, value);
+      _fieldSet._$check(index, value);
     }
-    _fieldSet._$set(index, tagNumber, value);
+    _fieldSet._$set(index, value);
   }
 
   /// For generated code only.
-  void $_setUnsignedInt32(int index, int tagNumber, int value) {
+  void $_setUnsignedInt32(int index, int value) {
     if (value == null || !_isUnsigned32(value)) {
-      _fieldSet._$check(tagNumber, value);
+      _fieldSet._$check(index, value);
     }
-    _fieldSet._$set(index, tagNumber, value);
+    _fieldSet._$set(index, value);
   }
 
   /// For generated code only.
-  void $_setInt64(int index, int tagNumber, Int64 value) =>
-      _fieldSet._$set(index, tagNumber, value);
+  void $_setInt64(int index, Int64 value) => _fieldSet._$set(index, value);
 }

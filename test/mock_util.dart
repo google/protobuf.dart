@@ -22,18 +22,18 @@ abstract class MockMessage extends GeneratedMessage {
   // subclasses must provide these
   BuilderInfo get info_;
 
-  int get val => $_get(0, 1, 42);
+  int get val => $_get(0, 42);
   set val(x) => setField(1, x);
 
-  String get str => $_get(1, 2, "");
-  set str(x) => $_setString(1, 2, x);
+  String get str => $_getS(1, "");
+  set str(x) => $_setString(1, x);
 
-  MockMessage get child => $_get(2, 3, null);
+  MockMessage get child => $_getN(2);
   set child(x) => setField(3, x);
 
-  List<int> get int32s => $_get(3, 4, null);
+  List<int> get int32s => $_getN(3);
 
-  Int64 get int64 => $_get(4, 5, new Int64(0));
+  Int64 get int64 => $_get(4, new Int64(0));
   set int64(x) => setField(5, x);
 
   clone() {
