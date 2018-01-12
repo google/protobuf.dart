@@ -43,7 +43,7 @@ class PhoneNumber_PhoneType extends ProtobufEnum {
     String expected = r'''
 class PhoneNumber extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..a<String>(1, 'number', PbFieldType.QS)
+    ..aQS(1, 'number')
     ..e<PhoneNumber_PhoneType>(2, 'type', PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf, PhoneNumber_PhoneType.values)
     ..a<String>(3, 'name', PbFieldType.OS, '\$')
   ;
@@ -64,19 +64,19 @@ class PhoneNumber extends GeneratedMessage {
     if (v is! PhoneNumber) checkItemFailed(v, 'PhoneNumber');
   }
 
-  String get number => $_get(0, 1, '');
-  set number(String v) { $_setString(0, 1, v); }
-  bool hasNumber() => $_has(0, 1);
+  String get number => $_getS(0, '');
+  set number(String v) { $_setString(0, v); }
+  bool hasNumber() => $_has(0);
   void clearNumber() => clearField(1);
 
-  PhoneNumber_PhoneType get type => $_get(1, 2, null);
+  PhoneNumber_PhoneType get type => $_getN(1);
   set type(PhoneNumber_PhoneType v) { setField(2, v); }
-  bool hasType() => $_has(1, 2);
+  bool hasType() => $_has(1);
   void clearType() => clearField(2);
 
-  String get name => $_get(2, 3, '\$');
-  set name(String v) { $_setString(2, 3, v); }
-  bool hasName() => $_has(2, 3);
+  String get name => $_getS(2, '\$');
+  set name(String v) { $_setString(2, v); }
+  bool hasName() => $_has(2);
   void clearName() => clearField(3);
 }
 

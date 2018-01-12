@@ -16,7 +16,7 @@ class Version extends GeneratedMessage {
     ..a<int>(1, 'major', PbFieldType.O3)
     ..a<int>(2, 'minor', PbFieldType.O3)
     ..a<int>(3, 'patch', PbFieldType.O3)
-    ..a<String>(4, 'suffix', PbFieldType.OS)
+    ..aOS(4, 'suffix')
     ..hasRequiredFields = false;
 
   Version() : super();
@@ -39,36 +39,36 @@ class Version extends GeneratedMessage {
     if (v is! Version) checkItemFailed(v, 'Version');
   }
 
-  int get major => $_get(0, 1, 0);
+  int get major => $_get(0, 0);
   set major(int v) {
-    $_setUnsignedInt32(0, 1, v);
+    $_setUnsignedInt32(0, v);
   }
 
-  bool hasMajor() => $_has(0, 1);
+  bool hasMajor() => $_has(0);
   void clearMajor() => clearField(1);
 
-  int get minor => $_get(1, 2, 0);
+  int get minor => $_get(1, 0);
   set minor(int v) {
-    $_setUnsignedInt32(1, 2, v);
+    $_setUnsignedInt32(1, v);
   }
 
-  bool hasMinor() => $_has(1, 2);
+  bool hasMinor() => $_has(1);
   void clearMinor() => clearField(2);
 
-  int get patch => $_get(2, 3, 0);
+  int get patch => $_get(2, 0);
   set patch(int v) {
-    $_setUnsignedInt32(2, 3, v);
+    $_setUnsignedInt32(2, v);
   }
 
-  bool hasPatch() => $_has(2, 3);
+  bool hasPatch() => $_has(2);
   void clearPatch() => clearField(3);
 
-  String get suffix => $_get(3, 4, '');
+  String get suffix => $_getS(3, '');
   set suffix(String v) {
-    $_setString(3, 4, v);
+    $_setString(3, v);
   }
 
-  bool hasSuffix() => $_has(3, 4);
+  bool hasSuffix() => $_has(3);
   void clearSuffix() => clearField(4);
 }
 
@@ -76,8 +76,8 @@ class _ReadonlyVersion extends Version with ReadonlyMessageMixin {}
 
 class CodeGeneratorRequest extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorRequest')
-    ..p<String>(1, 'fileToGenerate', PbFieldType.PS)
-    ..a<String>(2, 'parameter', PbFieldType.OS)
+    ..pPS(1, 'fileToGenerate')
+    ..aOS(2, 'parameter')
     ..a<Version>(3, 'compilerVersion', PbFieldType.OM, Version.getDefault,
         Version.create)
     ..pp<$google$protobuf.FileDescriptorProto>(
@@ -111,26 +111,25 @@ class CodeGeneratorRequest extends GeneratedMessage {
     if (v is! CodeGeneratorRequest) checkItemFailed(v, 'CodeGeneratorRequest');
   }
 
-  List<String> get fileToGenerate => $_get(0, 1, null);
+  List<String> get fileToGenerate => $_getN(0);
 
-  String get parameter => $_get(1, 2, '');
+  String get parameter => $_getS(1, '');
   set parameter(String v) {
-    $_setString(1, 2, v);
+    $_setString(1, v);
   }
 
-  bool hasParameter() => $_has(1, 2);
+  bool hasParameter() => $_has(1);
   void clearParameter() => clearField(2);
 
-  Version get compilerVersion => $_get(2, 3, null);
+  Version get compilerVersion => $_getN(2);
   set compilerVersion(Version v) {
     setField(3, v);
   }
 
-  bool hasCompilerVersion() => $_has(2, 3);
+  bool hasCompilerVersion() => $_has(2);
   void clearCompilerVersion() => clearField(3);
 
-  List<$google$protobuf.FileDescriptorProto> get protoFile =>
-      $_get(3, 15, null);
+  List<$google$protobuf.FileDescriptorProto> get protoFile => $_getN(3);
 }
 
 class _ReadonlyCodeGeneratorRequest extends CodeGeneratorRequest
@@ -138,9 +137,9 @@ class _ReadonlyCodeGeneratorRequest extends CodeGeneratorRequest
 
 class CodeGeneratorResponse_File extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse_File')
-    ..a<String>(1, 'name', PbFieldType.OS)
-    ..a<String>(2, 'insertionPoint', PbFieldType.OS)
-    ..a<String>(15, 'content', PbFieldType.OS)
+    ..aOS(1, 'name')
+    ..aOS(2, 'insertionPoint')
+    ..aOS(15, 'content')
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse_File() : super();
@@ -169,28 +168,28 @@ class CodeGeneratorResponse_File extends GeneratedMessage {
       checkItemFailed(v, 'CodeGeneratorResponse_File');
   }
 
-  String get name => $_get(0, 1, '');
+  String get name => $_getS(0, '');
   set name(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasName() => $_has(0, 1);
+  bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get insertionPoint => $_get(1, 2, '');
+  String get insertionPoint => $_getS(1, '');
   set insertionPoint(String v) {
-    $_setString(1, 2, v);
+    $_setString(1, v);
   }
 
-  bool hasInsertionPoint() => $_has(1, 2);
+  bool hasInsertionPoint() => $_has(1);
   void clearInsertionPoint() => clearField(2);
 
-  String get content => $_get(2, 15, '');
+  String get content => $_getS(2, '');
   set content(String v) {
-    $_setString(2, 15, v);
+    $_setString(2, v);
   }
 
-  bool hasContent() => $_has(2, 15);
+  bool hasContent() => $_has(2);
   void clearContent() => clearField(15);
 }
 
@@ -199,7 +198,7 @@ class _ReadonlyCodeGeneratorResponse_File extends CodeGeneratorResponse_File
 
 class CodeGeneratorResponse extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse')
-    ..a<String>(1, 'error', PbFieldType.OS)
+    ..aOS(1, 'error')
     ..pp<CodeGeneratorResponse_File>(
         15,
         'file',
@@ -233,15 +232,15 @@ class CodeGeneratorResponse extends GeneratedMessage {
       checkItemFailed(v, 'CodeGeneratorResponse');
   }
 
-  String get error => $_get(0, 1, '');
+  String get error => $_getS(0, '');
   set error(String v) {
-    $_setString(0, 1, v);
+    $_setString(0, v);
   }
 
-  bool hasError() => $_has(0, 1);
+  bool hasError() => $_has(0);
   void clearError() => clearField(1);
 
-  List<CodeGeneratorResponse_File> get file => $_get(1, 15, null);
+  List<CodeGeneratorResponse_File> get file => $_getN(1);
 }
 
 class _ReadonlyCodeGeneratorResponse extends CodeGeneratorResponse

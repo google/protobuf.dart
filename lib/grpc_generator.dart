@@ -96,12 +96,12 @@ class GrpcServiceGenerator {
       // TODO(jakobr): Throw more actionable error.
       throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
     }
-    if (fileGen.package == mg.fileGen.package || mg.fileGen.package == "") {
+    if (fileGen.package == mg.fileGen.package || mg.fileGen.package == '') {
       // It's either the same file, or another file with the same package.
       // (In the second case, we import it without using "as".)
       return mg.classname;
     }
-    return mg.packageImportPrefix + "." + mg.classname;
+    return mg.packageImportPrefix + '.' + mg.classname;
   }
 
   void generate(IndentingWriter out) {
@@ -182,8 +182,8 @@ class _GrpcMethod {
     final clientStreaming = method.clientStreaming;
     final serverStreaming = method.serverStreaming;
 
-    service._addDependency(ctx, method.inputType, "input type of $grpcName");
-    service._addDependency(ctx, method.outputType, "output type of $grpcName");
+    service._addDependency(ctx, method.inputType, 'input type of $grpcName');
+    service._addDependency(ctx, method.outputType, 'output type of $grpcName');
 
     final requestType = service._getDartClassName(method.inputType);
     final responseType = service._getDartClassName(method.outputType);
@@ -211,9 +211,10 @@ class _GrpcMethod {
   void generateClientMethodDescriptor(IndentingWriter out) {
     out.println(
         'static final _\$$_dartName = new ClientMethod<$_requestType, $_responseType>(');
-    out.println('\'/$_serviceName/$_grpcName\',');
-    out.println('($_requestType value) => value.writeToBuffer(),');
-    out.println('(List<int> value) => new $_responseType.fromBuffer(value));');
+    out.println('    \'/$_serviceName/$_grpcName\',');
+    out.println('    ($_requestType value) => value.writeToBuffer(),');
+    out.println(
+        '    (List<int> value) => new $_responseType.fromBuffer(value));');
   }
 
   void generateClientStub(IndentingWriter out) {
@@ -234,13 +235,15 @@ class _GrpcMethod {
   }
 
   void generateServiceMethodRegistration(IndentingWriter out) {
-    out.println('\$addMethod(new ServiceMethod(');
-    out.println('\'$_grpcName\',');
-    out.println('$_dartName${_clientStreaming ? '' : '_Pre'},');
-    out.println('$_clientStreaming,');
-    out.println('$_serverStreaming,');
-    out.println('(List<int> value) => new $_requestType.fromBuffer(value),');
-    out.println('($_responseType value) => value.writeToBuffer()));');
+    out.println(
+        '\$addMethod(new ServiceMethod<$_requestType, $_responseType>(');
+    out.println('    \'$_grpcName\',');
+    out.println('    $_dartName${_clientStreaming ? '' : '_Pre'},');
+    out.println('    $_clientStreaming,');
+    out.println('    $_serverStreaming,');
+    out.println(
+        '    (List<int> value) => new $_requestType.fromBuffer(value),');
+    out.println('    ($_responseType value) => value.writeToBuffer()));');
   }
 
   void generateServiceMethodPreamble(IndentingWriter out) {
