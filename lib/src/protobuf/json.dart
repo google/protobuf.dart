@@ -5,6 +5,14 @@
 part of protobuf;
 
 Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
+  return _writeToJsonMapWithMapper(fs, (FieldInfo fi) => '${fi.tagNumber}');
+}
+
+Map<String, dynamic> _writeToProto3JsonMap(_FieldSet fs) {
+  return _writeToJsonMapWithMapper(fs, (FieldInfo fi) => fi.name);
+}
+
+Map<String, dynamic> _writeToJsonMapWithMapper(_FieldSet fs, Function mapper) {
   convertToMap(dynamic fieldValue, int fieldType) {
     int baseType = PbFieldType._baseType(fieldType);
 
@@ -48,7 +56,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
     }
-    result['${fi.tagNumber}'] = convertToMap(value, fi.type);
+    result[mapper(fi)] = convertToMap(value, fi.type);
   }
   if (fs._hasExtensions) {
     for (int tagNumber in sorted(fs._extensions._tagNumbers)) {
@@ -57,7 +65,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         continue; // It's repeated or an empty byte array.
       }
       var fi = fs._extensions._getInfoOrNull(tagNumber);
-      result['$tagNumber'] = convertToMap(value, fi.type);
+      result[mapper(fi)] = convertToMap(value, fi.type);
     }
   }
   return result;
@@ -67,10 +75,24 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 // (Called recursively on nested messages.)
 void _mergeFromJsonMap(
     _FieldSet fs, Map<String, dynamic> json, ExtensionRegistry registry) {
+  return _mergeFromJsonMapWithFieldMap(
+      fs, json, registry, fs._meta.byTagAsString);
+}
+
+// Merge fields from a previously decoded JSON object.
+// (Called recursively on nested messages.)
+void _mergeFromProto3JsonMap(
+    _FieldSet fs, Map<String, dynamic> json, ExtensionRegistry registry) {
+  return _mergeFromJsonMapWithFieldMap(fs, json, registry, fs._meta.byName);
+}
+
+// Merge fields from a previously decoded JSON object.
+// (Called recursively on nested messages.)
+void _mergeFromJsonMapWithFieldMap(_FieldSet fs, Map<String, dynamic> json,
+    ExtensionRegistry registry, Map<String, FieldInfo> keyToFieldInfo) {
   Iterable<String> keys = json.keys;
-  var meta = fs._meta;
   for (String key in keys) {
-    var fi = meta.byTagAsString[key];
+    FieldInfo fi = keyToFieldInfo[key];
     if (fi == null) {
       if (registry == null) continue; // Unknown tag; skip
       fi = registry.getExtension(fs._messageName, int.parse(key));

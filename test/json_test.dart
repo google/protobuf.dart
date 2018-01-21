@@ -62,6 +62,28 @@ main() {
     final decoded = new T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
+
+  test('testWriteToJsonProto3', () {
+    String json = example.writeToProto3Json();
+    checkJsonMapProto3(jsonDecode(json));
+  });
+
+  test('writeToJsonMapProto3', () {
+    Map m = example.writeToProto3JsonMap();
+    checkJsonMapProto3(m);
+  });
+
+  test('testMergeFromJsonProto3', () {
+    var t = new T();
+    t.mergeFromProto3Json('''{"val": 123, "str": "hello"}''');
+    checkMessage(t);
+  });
+
+  test('testMergeFromJsonMapProto3', () {
+    var t = new T();
+    t.mergeFromProto3JsonMap({"val": 123, "str": "hello"});
+    checkMessage(t);
+  });
 }
 
 checkJsonMap(Map m) {
@@ -75,4 +97,11 @@ checkJsonMap(Map m) {
 checkMessage(T t) {
   expect(t.val, 123);
   expect(t.str, "hello");
+}
+
+checkJsonMapProto3(Map m) {
+  expect(m.length, 3);
+  expect(m["val"], 123);
+  expect(m["str"], "hello");
+  expect(m["int32s"], [1, 2, 3]);
 }

@@ -37,6 +37,13 @@ abstract class GeneratedMessage {
     mergeFromJson(input, extensionRegistry);
   }
 
+  GeneratedMessage.fromProto3Json(
+      String input, ExtensionRegistry extensionRegistry) {
+    _fieldSet = new _FieldSet(this, info_, eventPlugin);
+    if (eventPlugin != null) eventPlugin.attach(this);
+    mergeFromProto3Json(input, extensionRegistry);
+  }
+
   // Overridden by subclasses.
   BuilderInfo get info_;
 
@@ -167,6 +174,12 @@ abstract class GeneratedMessage {
   /// The encoding is described in [GeneratedMessage.writeToJson].
   Map<String, dynamic> writeToJsonMap() => _writeToJsonMap(_fieldSet);
 
+  /// Returns the JSON encoding of this message as a Dart [Map].
+  ///
+  /// The encoding is described in [GeneratedMessage.writeToProto3Json].
+  Map<String, dynamic> writeToProto3JsonMap() =>
+      _writeToProto3JsonMap(_fieldSet);
+
   /// Returns a JSON string that encodes this message.
   ///
   /// Each message (top level or nested) is represented as an object delimited
@@ -179,6 +192,19 @@ abstract class GeneratedMessage {
   /// actual runtime value) are represented as strings. Enumerated values are
   /// represented as their integer value.
   String writeToJson() => jsonEncode(writeToJsonMap());
+
+  /// Returns a JSON string that encodes this message.
+  ///
+  /// Each message (top level or nested) is represented as an object delimited
+  /// by curly braces. Within a message, elements are indexed by tag field name
+  /// (surrounded by quotes). Repeated elements are represented as arrays.
+  ///
+  /// Boolean values, strings, and floating-point values are represented as
+  /// literals. Values with a 32-bit integer datatype are represented as integer
+  /// literals; values with a 64-bit integer datatype (regardless of their
+  /// actual runtime value) are represented as strings. Enumerated values are
+  /// represented as their integer value.
+  String writeToProto3Json() => jsonEncode(writeToProto3JsonMap());
 
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].
@@ -193,6 +219,15 @@ abstract class GeneratedMessage {
     _mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry);
   }
 
+  /// Merges field values from [data], a JSON object, encoded as described by
+  /// [GeneratedMessage.writeToProto3Json].
+  void mergeFromProto3Json(String data,
+      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    final jsonMap =
+        jsonDecode(data, reviver: _emptyReviver) as Map<String, dynamic>;
+    _mergeFromProto3JsonMap(_fieldSet, jsonMap, extensionRegistry);
+  }
+
   static _emptyReviver(k, v) => v;
 
   /// Merges field values from a JSON object represented as a Dart map.
@@ -201,6 +236,14 @@ abstract class GeneratedMessage {
   void mergeFromJsonMap(Map<String, dynamic> json,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     _mergeFromJsonMap(_fieldSet, json, extensionRegistry);
+  }
+
+  /// Merges field values from a JSON object represented as a Dart map.
+  ///
+  /// The encoding is described in [GeneratedMessage.writeToProto3Json].
+  void mergeFromProto3JsonMap(Map<String, dynamic> json,
+      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    _mergeFromProto3JsonMap(_fieldSet, json, extensionRegistry);
   }
 
   /// Adds an extension field value to a repeated field.
