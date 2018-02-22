@@ -6,7 +6,7 @@
 @TestOn("vm")
 library reserved_names_test;
 
-import 'package:test/test.dart' show test, expect, equals, fail, TestOn;
+import 'package:test/test.dart';
 
 import 'package:protobuf/meta.dart' show GeneratedMessage_reservedNames;
 import 'package:protobuf/mixins_meta.dart' show findMixin;
@@ -52,7 +52,8 @@ void main() {
       ..addAll(findMemberNames("dart:collection", #MapMixin))
       ..removeAll(GeneratedMessage_reservedNames);
 
-    expect(actual.toList()..sort(), equals(expected.toList()..sort()));
+    expect(
+        actual.toList()..sort(), containsAllInOrder(expected.toList()..sort()));
   });
 
   test('PbEventMixin reserved names are up to date', () {

@@ -127,6 +127,18 @@ class _FieldSet {
     return value;
   }
 
+  List<T> _getDefaultList<T>(FieldInfo<T> fi) {
+    assert(fi.isRepeated);
+    if (_isReadOnly) return const [];
+
+    // TODO(skybrian) we could avoid this by generating another
+    // method for repeated fields:
+    //   msg.mutableFoo().add(123);
+    var value = fi._createRepeatedFieldWithType<T>(_message);
+    _setNonExtensionFieldUnchecked(fi, value);
+    return value;
+  }
+
   _getFieldOrNullByTag(int tagNumber) {
     var fi = _getFieldInfoOrNull(tagNumber);
     if (fi == null) return null;
@@ -254,6 +266,13 @@ class _FieldSet {
     var value = _values[index];
     if (value != null) return value as T;
     return _getDefault(_nonExtensionInfoByIndex(index)) as T;
+  }
+
+  /// The implementation of a generated getter for repeated fields.
+  List<T> _$getList<T>(int index) {
+    var value = _values[index];
+    if (value != null) return value as List<T>;
+    return _getDefaultList<T>(_nonExtensionInfoByIndex(index));
   }
 
   /// The implementation of a generated getter for String fields.
@@ -520,14 +539,14 @@ class _FieldSet {
       if (mustClone) {
         // fieldValue must be a PbList of GeneratedMessage.
         PbList<GeneratedMessage> pbList = fieldValue;
-        // Copy the mapped values to a List to avoid redundant cloning (since
-        // PbList.addAll iterates over its argument twice).
-        _ensureRepeatedField(fi)
-            .addAll(new List.from(pbList.map(_cloneMessage)));
+        var repeatedFields = fi._ensureRepeatedField(this);
+        for (int i = 0; i < pbList.length; ++i) {
+          repeatedFields.add(_cloneMessage(pbList[i]));
+        }
       } else {
         // fieldValue must be at least a PbList.
         PbList pbList = fieldValue;
-        _ensureRepeatedField(fi).addAll(pbList);
+        fi._ensureRepeatedField(this).addAll(pbList);
       }
       return;
     }

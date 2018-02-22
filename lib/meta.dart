@@ -51,6 +51,7 @@ const List<String> GeneratedMessage_reservedNames = const [
   'clone',
   r'$_get',
   r'$_getI64',
+  r'$_getList',
   r'$_getN',
   r'$_getS',
   r'$_has',

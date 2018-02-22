@@ -87,7 +87,7 @@ void _mergeFromJsonMap(
 
 void _appendJsonList(
     _FieldSet fs, List jsonList, FieldInfo fi, ExtensionRegistry registry) {
-  List repeated = fs._ensureRepeatedField(fi);
+  var repeated = fi._ensureRepeatedField(fs);
   // Micro optimization. Using "for in" generates the following and iterator
   // alloc:
   //   for (t1 = J.get$iterator$ax(json), t2 = fi.tagNumber, t3 = fi.type,
