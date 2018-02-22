@@ -65,7 +65,7 @@ class PbList<E> extends ListBase<E> {
 
   /// Reduces a collection to a single value by iteratively combining each
   /// element of the collection with an existing value.
-  T fold<T>(T initialValue, T combine(dynamic previousValue, E element)) =>
+  T fold<T>(T initialValue, T combine(T previousValue, E element)) =>
       _wrappedList.fold(initialValue, combine);
 
   /// Checks whether every element of this iterable satisfies [test].
