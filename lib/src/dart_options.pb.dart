@@ -89,7 +89,7 @@ class Imports extends GeneratedMessage {
     if (v is! Imports) checkItemFailed(v, 'Imports');
   }
 
-  List<DartMixin> get mixins => $_getN(0);
+  List<DartMixin> get mixins => $_getList(0);
 }
 
 class _ReadonlyImports extends Imports with ReadonlyMessageMixin {}

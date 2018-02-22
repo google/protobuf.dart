@@ -1,3 +1,7 @@
+## 0.7.10 - 2018-02-22
+
+* Small performance tweak for DDC.
+
 ## 0.7.9 - 2018-01-12
 
 * Add fast getters for common types.
