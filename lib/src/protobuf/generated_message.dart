@@ -290,6 +290,9 @@ abstract class GeneratedMessage {
   T $_getN<T>(int index) => _fieldSet._$getN<T>(index);
 
   /// For generated code only.
+  List<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
+
+  /// For generated code only.
   String $_getS(int index, String defaultValue) =>
       _fieldSet._$getS(index, defaultValue);
 

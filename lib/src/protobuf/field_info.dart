@@ -133,5 +133,17 @@ class FieldInfo<T> {
     return m.createRepeatedField<T>(tagNumber, this);
   }
 
+  /// Same as above, but allow a tighter typed List to be created.
+  List<S> _createRepeatedFieldWithType<S extends T>(GeneratedMessage m) {
+    assert(isRepeated);
+    return m.createRepeatedField<S>(tagNumber, this);
+  }
+
+  /// Convenience method to thread this FieldInfo's reified type parameter to
+  /// _FieldSet._ensureRepeatedField.
+  List<T> _ensureRepeatedField(_FieldSet fs) {
+    return fs._ensureRepeatedField<T>(this);
+  }
+
   String toString() => name;
 }
