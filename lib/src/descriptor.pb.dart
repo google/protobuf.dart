@@ -42,7 +42,7 @@ class FileDescriptorSet extends GeneratedMessage {
     if (v is! FileDescriptorSet) checkItemFailed(v, 'FileDescriptorSet');
   }
 
-  List<FileDescriptorProto> get file => $_getN(0);
+  List<FileDescriptorProto> get file => $_getList(0);
 }
 
 class _ReadonlyFileDescriptorSet extends FileDescriptorSet
@@ -109,15 +109,15 @@ class FileDescriptorProto extends GeneratedMessage {
   bool hasPackage() => $_has(1);
   void clearPackage() => clearField(2);
 
-  List<String> get dependency => $_getN(2);
+  List<String> get dependency => $_getList(2);
 
-  List<DescriptorProto> get messageType => $_getN(3);
+  List<DescriptorProto> get messageType => $_getList(3);
 
-  List<EnumDescriptorProto> get enumType => $_getN(4);
+  List<EnumDescriptorProto> get enumType => $_getList(4);
 
-  List<ServiceDescriptorProto> get service => $_getN(5);
+  List<ServiceDescriptorProto> get service => $_getList(5);
 
-  List<FieldDescriptorProto> get extension => $_getN(6);
+  List<FieldDescriptorProto> get extension => $_getList(6);
 
   FileOptions get options => $_getN(7);
   set options(FileOptions v) {
@@ -135,9 +135,9 @@ class FileDescriptorProto extends GeneratedMessage {
   bool hasSourceCodeInfo() => $_has(8);
   void clearSourceCodeInfo() => clearField(9);
 
-  List<int> get publicDependency => $_getN(9);
+  List<int> get publicDependency => $_getList(9);
 
-  List<int> get weakDependency => $_getN(10);
+  List<int> get weakDependency => $_getList(10);
 
   String get syntax => $_getS(11, '');
   set syntax(String v) {
@@ -316,15 +316,15 @@ class DescriptorProto extends GeneratedMessage {
   bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  List<FieldDescriptorProto> get field => $_getN(1);
+  List<FieldDescriptorProto> get field => $_getList(1);
 
-  List<DescriptorProto> get nestedType => $_getN(2);
+  List<DescriptorProto> get nestedType => $_getList(2);
 
-  List<EnumDescriptorProto> get enumType => $_getN(3);
+  List<EnumDescriptorProto> get enumType => $_getList(3);
 
-  List<DescriptorProto_ExtensionRange> get extensionRange => $_getN(4);
+  List<DescriptorProto_ExtensionRange> get extensionRange => $_getList(4);
 
-  List<FieldDescriptorProto> get extension => $_getN(5);
+  List<FieldDescriptorProto> get extension => $_getList(5);
 
   MessageOptions get options => $_getN(6);
   set options(MessageOptions v) {
@@ -334,11 +334,11 @@ class DescriptorProto extends GeneratedMessage {
   bool hasOptions() => $_has(6);
   void clearOptions() => clearField(7);
 
-  List<OneofDescriptorProto> get oneofDecl => $_getN(7);
+  List<OneofDescriptorProto> get oneofDecl => $_getList(7);
 
-  List<DescriptorProto_ReservedRange> get reservedRange => $_getN(8);
+  List<DescriptorProto_ReservedRange> get reservedRange => $_getList(8);
 
-  List<String> get reservedName => $_getN(9);
+  List<String> get reservedName => $_getList(9);
 }
 
 class _ReadonlyDescriptorProto extends DescriptorProto
@@ -568,7 +568,7 @@ class EnumDescriptorProto extends GeneratedMessage {
   bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  List<EnumValueDescriptorProto> get value => $_getN(1);
+  List<EnumValueDescriptorProto> get value => $_getList(1);
 
   EnumOptions get options => $_getN(2);
   set options(EnumOptions v) {
@@ -683,7 +683,7 @@ class ServiceDescriptorProto extends GeneratedMessage {
   bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  List<MethodDescriptorProto> get method => $_getN(1);
+  List<MethodDescriptorProto> get method => $_getList(1);
 
   ServiceOptions get options => $_getN(2);
   set options(ServiceOptions v) {
@@ -970,7 +970,7 @@ class FileOptions extends GeneratedMessage {
   bool hasPhpNamespace() => $_has(16);
   void clearPhpNamespace() => clearField(41);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getN(17);
+  List<UninterpretedOption> get uninterpretedOption => $_getList(17);
 }
 
 class _ReadonlyFileOptions extends FileOptions with ReadonlyMessageMixin {}
@@ -1040,7 +1040,7 @@ class MessageOptions extends GeneratedMessage {
   bool hasMapEntry() => $_has(3);
   void clearMapEntry() => clearField(7);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getN(4);
+  List<UninterpretedOption> get uninterpretedOption => $_getList(4);
 }
 
 class _ReadonlyMessageOptions extends MessageOptions with ReadonlyMessageMixin {
@@ -1140,7 +1140,7 @@ class FieldOptions extends GeneratedMessage {
   bool hasWeak() => $_has(5);
   void clearWeak() => clearField(10);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getN(6);
+  List<UninterpretedOption> get uninterpretedOption => $_getList(6);
 }
 
 class _ReadonlyFieldOptions extends FieldOptions with ReadonlyMessageMixin {}
@@ -1173,7 +1173,7 @@ class OneofOptions extends GeneratedMessage {
     if (v is! OneofOptions) checkItemFailed(v, 'OneofOptions');
   }
 
-  List<UninterpretedOption> get uninterpretedOption => $_getN(0);
+  List<UninterpretedOption> get uninterpretedOption => $_getList(0);
 }
 
 class _ReadonlyOneofOptions extends OneofOptions with ReadonlyMessageMixin {}
@@ -1223,7 +1223,7 @@ class EnumOptions extends GeneratedMessage {
   bool hasDeprecated() => $_has(1);
   void clearDeprecated() => clearField(3);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getN(2);
+  List<UninterpretedOption> get uninterpretedOption => $_getList(2);
 }
 
 class _ReadonlyEnumOptions extends EnumOptions with ReadonlyMessageMixin {}
@@ -1266,7 +1266,7 @@ class EnumValueOptions extends GeneratedMessage {
   bool hasDeprecated() => $_has(0);
   void clearDeprecated() => clearField(1);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getN(1);
+  List<UninterpretedOption> get uninterpretedOption => $_getList(1);
 }
 
 class _ReadonlyEnumValueOptions extends EnumValueOptions
@@ -1310,7 +1310,7 @@ class ServiceOptions extends GeneratedMessage {
   bool hasDeprecated() => $_has(0);
   void clearDeprecated() => clearField(33);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getN(1);
+  List<UninterpretedOption> get uninterpretedOption => $_getList(1);
 }
 
 class _ReadonlyServiceOptions extends ServiceOptions with ReadonlyMessageMixin {
@@ -1368,7 +1368,7 @@ class MethodOptions extends GeneratedMessage {
   bool hasIdempotencyLevel() => $_has(1);
   void clearIdempotencyLevel() => clearField(34);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getN(2);
+  List<UninterpretedOption> get uninterpretedOption => $_getList(2);
 }
 
 class _ReadonlyMethodOptions extends MethodOptions with ReadonlyMessageMixin {}
@@ -1463,7 +1463,7 @@ class UninterpretedOption extends GeneratedMessage {
     if (v is! UninterpretedOption) checkItemFailed(v, 'UninterpretedOption');
   }
 
-  List<UninterpretedOption_NamePart> get name => $_getN(0);
+  List<UninterpretedOption_NamePart> get name => $_getList(0);
 
   String get identifierValue => $_getS(1, '');
   set identifierValue(String v) {
@@ -1551,9 +1551,9 @@ class SourceCodeInfo_Location extends GeneratedMessage {
       checkItemFailed(v, 'SourceCodeInfo_Location');
   }
 
-  List<int> get path => $_getN(0);
+  List<int> get path => $_getList(0);
 
-  List<int> get span => $_getN(1);
+  List<int> get span => $_getList(1);
 
   String get leadingComments => $_getS(2, '');
   set leadingComments(String v) {
@@ -1571,7 +1571,7 @@ class SourceCodeInfo_Location extends GeneratedMessage {
   bool hasTrailingComments() => $_has(3);
   void clearTrailingComments() => clearField(4);
 
-  List<String> get leadingDetachedComments => $_getN(4);
+  List<String> get leadingDetachedComments => $_getList(4);
 }
 
 class _ReadonlySourceCodeInfo_Location extends SourceCodeInfo_Location
@@ -1606,7 +1606,7 @@ class SourceCodeInfo extends GeneratedMessage {
     if (v is! SourceCodeInfo) checkItemFailed(v, 'SourceCodeInfo');
   }
 
-  List<SourceCodeInfo_Location> get location => $_getN(0);
+  List<SourceCodeInfo_Location> get location => $_getList(0);
 }
 
 class _ReadonlySourceCodeInfo extends SourceCodeInfo with ReadonlyMessageMixin {
@@ -1646,7 +1646,7 @@ class GeneratedCodeInfo_Annotation extends GeneratedMessage {
       checkItemFailed(v, 'GeneratedCodeInfo_Annotation');
   }
 
-  List<int> get path => $_getN(0);
+  List<int> get path => $_getList(0);
 
   String get sourceFile => $_getS(1, '');
   set sourceFile(String v) {
@@ -1709,7 +1709,7 @@ class GeneratedCodeInfo extends GeneratedMessage {
     if (v is! GeneratedCodeInfo) checkItemFailed(v, 'GeneratedCodeInfo');
   }
 
-  List<GeneratedCodeInfo_Annotation> get annotation => $_getN(0);
+  List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
 }
 
 class _ReadonlyGeneratedCodeInfo extends GeneratedCodeInfo

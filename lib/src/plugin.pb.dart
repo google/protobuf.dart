@@ -111,7 +111,7 @@ class CodeGeneratorRequest extends GeneratedMessage {
     if (v is! CodeGeneratorRequest) checkItemFailed(v, 'CodeGeneratorRequest');
   }
 
-  List<String> get fileToGenerate => $_getN(0);
+  List<String> get fileToGenerate => $_getList(0);
 
   String get parameter => $_getS(1, '');
   set parameter(String v) {
@@ -129,7 +129,7 @@ class CodeGeneratorRequest extends GeneratedMessage {
   bool hasCompilerVersion() => $_has(2);
   void clearCompilerVersion() => clearField(3);
 
-  List<$google$protobuf.FileDescriptorProto> get protoFile => $_getN(3);
+  List<$google$protobuf.FileDescriptorProto> get protoFile => $_getList(3);
 }
 
 class _ReadonlyCodeGeneratorRequest extends CodeGeneratorRequest
@@ -240,7 +240,7 @@ class CodeGeneratorResponse extends GeneratedMessage {
   bool hasError() => $_has(0);
   void clearError() => clearField(1);
 
-  List<CodeGeneratorResponse_File> get file => $_getN(1);
+  List<CodeGeneratorResponse_File> get file => $_getList(1);
 }
 
 class _ReadonlyCodeGeneratorResponse extends CodeGeneratorResponse

@@ -321,8 +321,8 @@ class MessageGenerator extends ProtobufContainer {
     var names = field.memberNames;
 
     _emitOverrideIf(field.overridesGetter, out);
-    var getterExpr =
-        _getterExpression(fieldTypeString, field.index, defaultExpr);
+    var getterExpr = _getterExpression(
+        fieldTypeString, field.index, defaultExpr, field.isRepeated);
     out.println('${fieldTypeString} get ${names.fieldName} => ${getterExpr};');
 
     if (field.isRepeated) {
@@ -361,7 +361,8 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
-  String _getterExpression(String fieldType, int index, String defaultExpr) {
+  String _getterExpression(
+      String fieldType, int index, String defaultExpr, bool isRepeated) {
     if (fieldType == 'String') {
       return '\$_getS($index, $defaultExpr)';
     }
@@ -369,7 +370,7 @@ class MessageGenerator extends ProtobufContainer {
       return '\$_getI64($index)';
     }
     if (defaultExpr == 'null') {
-      return '\$_getN($index)';
+      return isRepeated ? '\$_getList($index)' : '\$_getN($index)';
     }
     return '\$_get($index, $defaultExpr)';
   }
