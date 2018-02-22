@@ -1,3 +1,8 @@
+## 0.7.1
+
+* Fix type in PbList.fold() for Dart 2.
+* Small performance tweaks for DDC.
+
 ## 0.7.0
 
 * Added fast getters for common types.
