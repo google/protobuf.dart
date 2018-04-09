@@ -413,7 +413,7 @@ class _FieldSet {
 
     void hashEnumList(PbList enums) {
       for (ProtobufEnum enm in enums) {
-        hash = (31 * hash + enm.value) & 0x3fffffff;
+        hash = 0x1fffffff & ((31 * hash) + enm.value);
       }
     }
 
@@ -422,15 +422,14 @@ class _FieldSet {
       if (value is List && value.isEmpty) {
         return; // It's either repeated or an empty byte array.
       }
-      hash = ((37 * hash) + fi.tagNumber) & 0x3fffffff;
+      hash = 0x1fffffff & ((37 * hash) + fi.tagNumber);
       if (!_isEnum(fi.type)) {
-        // TODO(sgjesse): Remove 'as Object' here when issue 14951 is fixed.
-        hash = ((53 * hash) + (value as Object).hashCode) & 0x3fffffff;
+        hash = 0x1fffffff & ((53 * hash) + value.hashCode);
       } else if (fi.isRepeated) {
         hashEnumList(value);
       } else {
         ProtobufEnum enm = value;
-        hash = ((53 * hash) + enm.value) & 0x3fffffff;
+        hash = 0x1fffffff & ((53 * hash) + enm.value);
       }
     }
 
@@ -449,12 +448,12 @@ class _FieldSet {
     // Generate hash.
     hash = 41;
     // Hash with descriptor.
-    hash = ((19 * hash) + _meta.hashCode) & 0x3fffffff;
+    hash = 0x1fffffff & ((19 * hash) + _meta.hashCode);
     // Hash with fields.
     hashEachField();
     // Hash with unknown fields.
     if (hasUnknownFields) {
-      hash = ((29 * hash) + _unknownFields.hashCode) & 0x3fffffff;
+      hash = 0x1fffffff & ((29 * hash) + _unknownFields.hashCode);
     }
     return hash;
   }
