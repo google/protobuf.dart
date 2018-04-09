@@ -593,13 +593,12 @@ abstract class TestServiceBase extends Service {
         (Output value) => value.writeToBuffer()));
   }
 
-  Future<Output> unary_Pre(ServiceCall call, Future<Input> request) async {
+  Future<Output> unary_Pre(ServiceCall call, Future request) async {
     return unary(call, await request);
   }
 
-  Stream<Output> serverStreaming_Pre(
-      ServiceCall call, Future<Input> request) async* {
-    yield* serverStreaming(call, await request);
+  Stream<Output> serverStreaming_Pre(ServiceCall call, Future request) async* {
+    yield* serverStreaming(call, (await request) as Input);
   }
 
   Future<Output> unary(ServiceCall call, Input request);
