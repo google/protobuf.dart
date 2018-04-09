@@ -1,3 +1,7 @@
+## 0.7.11 - 2018-04-09
+
+* Dart 2 fix.
+
 ## 0.7.10 - 2018-02-22
 
 * Small performance tweak for DDC.
