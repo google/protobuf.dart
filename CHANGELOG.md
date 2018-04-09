@@ -1,3 +1,7 @@
+## 0.7.2
+
+* Fix hashing for PbList.
+
 ## 0.7.1
 
 * Fix type in PbList.fold() for Dart 2.

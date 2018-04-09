@@ -27,14 +27,13 @@ class PbList<E> extends ListBase<E> {
   int get hashCode {
     int hash = 0;
     for (final value in _wrappedList) {
-      hash = (hash + value.hashCode) & 0x3fffffff;
-      hash = (hash + hash << 10) & 0x3fffffff;
-      hash = (hash ^ hash >> 6) & 0x3fffffff;
+      hash = 0x1fffffff & (hash + value.hashCode);
+      hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+      hash = hash ^ (hash >> 6);
     }
-    hash = (hash + hash << 3) & 0x3fffffff;
-    hash = (hash ^ hash >> 11) & 0x3fffffff;
-    hash = (hash + hash << 15) & 0x3fffffff;
-    return hash;
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 
   /// Returns an [Iterator] for the list.

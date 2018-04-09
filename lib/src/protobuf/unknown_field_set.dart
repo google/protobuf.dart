@@ -125,8 +125,8 @@ class UnknownFieldSet {
   int get hashCode {
     int hash = 0;
     _fields.forEach((int number, Object value) {
-      hash = ((37 * hash) + number) & 0x3fffffff;
-      hash = ((53 * hash) + value.hashCode) & 0x3fffffff;
+      hash = 0x1fffffff & ((37 * hash) + number);
+      hash = 0x1fffffff & ((53 * hash) + value.hashCode);
     });
     return hash;
   }
@@ -193,25 +193,25 @@ class UnknownFieldSetField {
     int hash = 0;
     for (final value in lengthDelimited) {
       for (int i = 0; i < value.length; i++) {
-        hash = (hash + value[i]) & 0x3fffffff;
-        hash = (hash + hash << 10) & 0x3fffffff;
-        hash = (hash ^ hash >> 6) & 0x3fffffff;
+        hash = 0x1fffffff & (hash + value[i]);
+        hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+        hash = hash ^ (hash >> 6);
       }
-      hash = (hash + hash << 3) & 0x3fffffff;
-      hash = (hash ^ hash >> 11) & 0x3fffffff;
-      hash = (hash + hash << 15) & 0x3fffffff;
+      hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+      hash = hash ^ (hash >> 11);
+      hash = 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
     }
     for (final value in varints) {
-      hash = (hash + 7 * value.hashCode) & 0x3fffffff;
+      hash = 0x1fffffff & (hash + (7 * value.hashCode));
     }
     for (final value in fixed32s) {
-      hash = (hash + 37 * value.hashCode) & 0x3fffffff;
+      hash = 0x1fffffff & (hash + (37 * value.hashCode));
     }
     for (final value in fixed64s) {
-      hash = (hash + 53 * value.hashCode) & 0x3fffffff;
+      hash = 0x1fffffff & (hash + (53 * value.hashCode));
     }
     for (final value in groups) {
-      hash = (hash + value.hashCode) & 0x3fffffff;
+      hash = 0x1fffffff & (hash + value.hashCode);
     }
     return hash;
   }
