@@ -72,7 +72,7 @@ class CodedBufferWriter {
           makeWriter((value) => _int32ToBytes(value ? 1 : 0))
       ..[PbFieldType._BYTES_BIT] = writeBytesNoTag
       ..[PbFieldType._STRING_BIT] = (output, value) {
-        writeBytesNoTag(output, _UTF8.encode(value));
+        writeBytesNoTag(output, _utf8.encode(value));
       }
       ..[PbFieldType._DOUBLE_BIT] = makeWriter((double value) {
         if (value.isNaN)

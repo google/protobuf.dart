@@ -129,7 +129,7 @@ class CodedBufferReader {
         _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
   }
 
-  String readString() => _UTF8.decode(readBytes());
+  String readString() => _utf8.decode(readBytes());
   double readFloat() =>
       _readByteData(4).getFloat32(0, Endian.little);
   double readDouble() =>
