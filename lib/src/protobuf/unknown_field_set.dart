@@ -147,7 +147,7 @@ class UnknownFieldSet {
         } else {
           if (value is ByteData) {
             // TODO(antonm): fix for longs.
-            value = value.getUint64(0, Endianness.LITTLE_ENDIAN);
+            value = value.getUint64(0, Endian.little);
           }
           stringBuffer.write('${indent}${tag}: ${value}\n');
         }

@@ -30,8 +30,8 @@ class CodedBufferWriter {
     int i = 0;
     ByteData bytes =
         new ByteData.view(new Uint8List.fromList(value.toBytes()).buffer, 0, 8);
-    int lo = bytes.getUint32(0, Endianness.LITTLE_ENDIAN);
-    int hi = bytes.getUint32(4, Endianness.LITTLE_ENDIAN);
+    int lo = bytes.getUint32(0, Endian.little);
+    int hi = bytes.getUint32(4, Endian.little);
     while (hi > 0 || lo >= 0x80) {
       result[i++] = 0x80 | (lo & 0x7f);
       lo = (lo >> 7) | ((hi & 0x7f) << 25);
@@ -60,7 +60,7 @@ class CodedBufferWriter {
     Int64 _encodeZigZag64(Int64 value) => (value << 1) ^ (value >> 63);
 
     ByteData makeByteData32(int value) =>
-        new ByteData(4)..setUint32(0, value, Endianness.LITTLE_ENDIAN);
+        new ByteData(4)..setUint32(0, value, Endian.little);
 
     ByteData makeByteData64(Int64 value) {
       var data = new Uint8List.fromList(value.toBytes());
@@ -72,14 +72,14 @@ class CodedBufferWriter {
           makeWriter((value) => _int32ToBytes(value ? 1 : 0))
       ..[PbFieldType._BYTES_BIT] = writeBytesNoTag
       ..[PbFieldType._STRING_BIT] = (output, value) {
-        writeBytesNoTag(output, _UTF8.encode(value));
+        writeBytesNoTag(output, _utf8.encode(value));
       }
       ..[PbFieldType._DOUBLE_BIT] = makeWriter((double value) {
         if (value.isNaN)
           return new ByteData(8)
-            ..setUint32(0, 0x00000000, Endianness.LITTLE_ENDIAN)
-            ..setUint32(4, 0x7ff80000, Endianness.LITTLE_ENDIAN);
-        return new ByteData(8)..setFloat64(0, value, Endianness.LITTLE_ENDIAN);
+            ..setUint32(0, 0x00000000, Endian.little)
+            ..setUint32(4, 0x7ff80000, Endian.little);
+        return new ByteData(8)..setFloat64(0, value, Endian.little);
       })
       ..[PbFieldType._FLOAT_BIT] = makeWriter((double value) {
         const double MIN_FLOAT_DENORM = 1.401298464324817E-45;
@@ -93,7 +93,7 @@ class CodedBufferWriter {
         if (value.isInfinite || value.abs() > MAX_FLOAT) {
           return makeByteData32(value.isNegative ? 0xff800000 : 0x7f800000);
         }
-        return new ByteData(4)..setFloat32(0, value, Endianness.LITTLE_ENDIAN);
+        return new ByteData(4)..setFloat32(0, value, Endian.little);
       })
       ..[PbFieldType._ENUM_BIT] =
           makeWriter((value) => _int32ToBytes(value.value))
