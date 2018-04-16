@@ -130,10 +130,8 @@ class CodedBufferReader {
   }
 
   String readString() => _utf8.decode(readBytes());
-  double readFloat() =>
-      _readByteData(4).getFloat32(0, Endian.little);
-  double readDouble() =>
-      _readByteData(8).getFloat64(0, Endian.little);
+  double readFloat() => _readByteData(4).getFloat32(0, Endian.little);
+  double readDouble() => _readByteData(8).getFloat64(0, Endian.little);
 
   int readTag() {
     if (isAtEnd()) {
