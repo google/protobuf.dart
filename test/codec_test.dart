@@ -172,12 +172,12 @@ void main() {
       new Uint8List.view(byteData.buffer);
   final floatToBytes = convertToBytes(PbFieldType.OF);
   floatToBits(double value) =>
-      makeData(floatToBytes(value)).getUint32(0, Endianness.LITTLE_ENDIAN);
+      makeData(floatToBytes(value)).getUint32(0, Endian.little);
 
   void _test32(int bits, double value) {
     readFloat(int bits) {
       var bytes = dataToBytes(
-          new ByteData(4)..setUint32(0, bits, Endianness.LITTLE_ENDIAN));
+          new ByteData(4)..setUint32(0, bits, Endian.little));
       return new CodedBufferReader(bytes).readFloat();
     }
 
@@ -191,10 +191,10 @@ void main() {
     // Encode a double to its wire format.
     ByteData data = makeData(doubleToBytes(value));
     var actualHilo = [
-      data.getUint32(4, Endianness.LITTLE_ENDIAN),
-      data.getUint32(0, Endianness.LITTLE_ENDIAN)
+      data.getUint32(4, Endian.little),
+      data.getUint32(0, Endian.little)
     ];
-    //int encoded = data.getUint64(0, Endianness.LITTLE_ENDIAN);
+    //int encoded = data.getUint64(0, Endian.little);
     expect(actualHilo, hilo);
 
     // Decode it again (round trip).
@@ -236,9 +236,9 @@ void main() {
 
     _test32(0x0, 0.0);
     _test32(0x80000000, -0.0);
-    _test32(0x7fc00000, double.NAN);
-    _test32(0x7f800000, double.INFINITY);
-    _test32(0xff800000, double.NEGATIVE_INFINITY);
+    _test32(0x7fc00000, double.nan);
+    _test32(0x7f800000, double.infinity);
+    _test32(0xff800000, double.negativeInfinity);
     _test32(0x3f800000, 1.0);
     _test32(0x40000000, 2.0);
     _test32(0x3f7ffffe, 0.9999998807907104);
@@ -462,9 +462,9 @@ void main() {
     // Special values.
     _test64([0x00000000, 0x00000000], 0.0);
     _test64([0x80000000, 0x00000000], -0.0);
-    _test64([0x7ff80000, 0x00000000], double.NAN);
-    _test64([0x7ff00000, 0x00000000], double.INFINITY);
-    _test64([0xfff00000, 0x00000000], double.NEGATIVE_INFINITY);
+    _test64([0x7ff80000, 0x00000000], double.nan);
+    _test64([0x7ff00000, 0x00000000], double.infinity);
+    _test64([0xfff00000, 0x00000000], double.negativeInfinity);
     _test64([0x3ff00000, 0x00000000], 1.0);
     _test64([0x40000000, 0x00000000], 2.0);
 

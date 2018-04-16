@@ -112,9 +112,9 @@ class CodedBufferReader {
   Int64 readUint64() => _readRawVarint64();
   int readSint32() => _decodeZigZag32(readUint32());
   Int64 readSint64() => _decodeZigZag64(readUint64());
-  int readFixed32() => _readByteData(4).getUint32(0, Endianness.LITTLE_ENDIAN);
+  int readFixed32() => _readByteData(4).getUint32(0, Endian.little);
   Int64 readFixed64() => readSfixed64();
-  int readSfixed32() => _readByteData(4).getInt32(0, Endianness.LITTLE_ENDIAN);
+  int readSfixed32() => _readByteData(4).getInt32(0, Endian.little);
   Int64 readSfixed64() {
     var data = _readByteData(8);
     var view = new Uint8List.view(data.buffer, data.offsetInBytes, 8);
@@ -129,11 +129,11 @@ class CodedBufferReader {
         _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
   }
 
-  String readString() => _UTF8.decode(readBytes());
+  String readString() => _utf8.decode(readBytes());
   double readFloat() =>
-      _readByteData(4).getFloat32(0, Endianness.LITTLE_ENDIAN);
+      _readByteData(4).getFloat32(0, Endian.little);
   double readDouble() =>
-      _readByteData(8).getFloat64(0, Endianness.LITTLE_ENDIAN);
+      _readByteData(8).getFloat64(0, Endian.little);
 
   int readTag() {
     if (isAtEnd()) {

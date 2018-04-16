@@ -6,9 +6,10 @@ library protobuf;
 
 import 'dart:async' show Future;
 import 'dart:collection' show ListBase;
-import 'dart:convert' show BASE64, JSON, Utf8Codec;
+import 'dart:convert'
+    show base64, base64Decode, base64Encode, jsonEncode, jsonDecode, Utf8Codec;
 import 'dart:math' as math;
-import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endianness;
+import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endian;
 
 import 'package:fixnum/fixnum.dart' show Int64;
 
@@ -47,4 +48,4 @@ Int64 parseLongInt(String text) {
   return Int64.parseInt(text);
 }
 
-const _UTF8 = const Utf8Codec(allowMalformed: true);
+const _utf8 = const Utf8Codec(allowMalformed: true);

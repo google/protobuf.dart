@@ -21,7 +21,7 @@ main() {
 
   test('testWriteToJson', () {
     String json = example.writeToJson();
-    checkJsonMap(JSON.decode(json));
+    checkJsonMap(jsonDecode(json));
   });
 
   test('writeToJsonMap', () {
