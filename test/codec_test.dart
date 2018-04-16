@@ -176,8 +176,8 @@ void main() {
 
   void _test32(int bits, double value) {
     readFloat(int bits) {
-      var bytes = dataToBytes(
-          new ByteData(4)..setUint32(0, bits, Endian.little));
+      var bytes =
+          dataToBytes(new ByteData(4)..setUint32(0, bits, Endian.little));
       return new CodedBufferReader(bytes).readFloat();
     }
 
