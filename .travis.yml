@@ -3,7 +3,7 @@ sudo: false
 
 dart:
 - dev
-- stable
+# - stable
 
 dart_task:
 - test: --platform vm
@@ -13,7 +13,7 @@ dart_task:
 # them against each Dart version.
 matrix:
   include:
-  - dart: stable
+  - dart: dev # TODO: stable
     dart_task: dartfmt
   - dart: dev
     dart_task: dartanalyzer
