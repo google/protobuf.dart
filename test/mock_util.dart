@@ -13,7 +13,7 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
     ..a(1, "val", PbFieldType.O3, 42)
     ..a(2, "str", PbFieldType.OS)
     ..a(3, "child", PbFieldType.OM, create, create)
-    ..p(4, "int32s", PbFieldType.P3)
+    ..p<int>(4, "int32s", PbFieldType.P3)
     ..a(5, "int64", PbFieldType.O6);
 }
 
@@ -31,7 +31,7 @@ abstract class MockMessage extends GeneratedMessage {
   MockMessage get child => $_getN(2);
   set child(x) => setField(3, x);
 
-  List<int> get int32s => $_getN(3);
+  List<int> get int32s => $_getList(3);
 
   Int64 get int64 => $_get(4, new Int64(0));
   set int64(x) => setField(5, x);
