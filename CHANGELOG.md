@@ -1,3 +1,9 @@
+## 0.8.0
+
+* Breaking change: Added generics to RpcClient.invoke(). Proto files must be
+  rebuilt using Dart protoc_plugin version 0.8.0 or newer to match.
+* Dart 2 fixes.
+
 ## 0.7.2+1
 
 - Updated SDK version to 2.0.0-dev.17.0
