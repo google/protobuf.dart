@@ -194,12 +194,12 @@ void main() {
     TestExtremeDefaultValues message = new TestExtremeDefaultValues();
 
     expect(message.utf8String, '\u1234');
-    expect(message.infDouble, same(double.INFINITY));
-    expect(message.negInfDouble, same(double.NEGATIVE_INFINITY));
-    expect(message.nanDouble, same(double.NAN));
-    expect(message.infFloat, same(double.INFINITY));
-    expect(message.negInfFloat, same(double.NEGATIVE_INFINITY));
-    expect(message.nanFloat, same(double.NAN));
+    expect(message.infDouble, same(double.infinity));
+    expect(message.negInfDouble, same(double.negativeInfinity));
+    expect(message.nanDouble, same(double.nan));
+    expect(message.infFloat, same(double.infinity));
+    expect(message.negInfFloat, same(double.negativeInfinity));
+    expect(message.nanFloat, same(double.nan));
     expect(message.cppTrigraph, '? ? ?? ?? ??? ??/ ??-');
     expect(message.smallInt64.toRadixString(16).toUpperCase(),
         '-7FFFFFFFFFFFFFFF');
