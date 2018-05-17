@@ -4,7 +4,7 @@
 
 library protoc.benchmark.report;
 
-import 'dart:convert' show JSON;
+import 'dart:convert' show jsonEncode;
 
 import 'generated/benchmark.pb.dart' as pb;
 
@@ -159,7 +159,7 @@ String _stringifyMap(StringBuffer out, Map json, String indent) {
 
     var value = json[key];
     out.write(childIndent);
-    out.write(JSON.encode(key));
+    out.write(jsonEncode(key));
     out.write(": ");
 
     if (value is List) {
@@ -167,7 +167,7 @@ String _stringifyMap(StringBuffer out, Map json, String indent) {
     } else if (value is Map && indent.length < 4) {
       _stringifyMap(out, value, childIndent);
     } else {
-      out.write(JSON.encode(value));
+      out.write(jsonEncode(value));
     }
   }
   out.write("\n$indent}");
@@ -182,7 +182,7 @@ void _stringifyList(StringBuffer out, List json, String indent) {
     if (!first) out.write(",\n");
     first = false;
     out.write(childIndent);
-    out.write(JSON.encode(item));
+    out.write(jsonEncode(item));
   }
   out.write("\n$indent]");
 }

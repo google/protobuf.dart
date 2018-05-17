@@ -37,7 +37,8 @@ class ClientApiGenerator {
         'ClientContext ctx, $inputType request) {',
         '}', () {
       out.println('var emptyResponse = new $outputType();');
-      out.println('return _client.invoke(ctx, \'${service._descriptor.name}\', '
+      out.println(
+          'return _client.invoke<$outputType>(ctx, \'${service._descriptor.name}\', '
           '\'${m.name}\', request, emptyResponse);');
     });
   }

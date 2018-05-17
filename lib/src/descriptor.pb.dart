@@ -186,7 +186,7 @@ class DescriptorProto_ExtensionRange extends GeneratedMessage {
 
   int get start => $_get(0, 0);
   set start(int v) {
-    $_setUnsignedInt32(0, v);
+    $_setSignedInt32(0, v);
   }
 
   bool hasStart() => $_has(0);
@@ -194,7 +194,7 @@ class DescriptorProto_ExtensionRange extends GeneratedMessage {
 
   int get end => $_get(1, 0);
   set end(int v) {
-    $_setUnsignedInt32(1, v);
+    $_setSignedInt32(1, v);
   }
 
   bool hasEnd() => $_has(1);
@@ -238,7 +238,7 @@ class DescriptorProto_ReservedRange extends GeneratedMessage {
 
   int get start => $_get(0, 0);
   set start(int v) {
-    $_setUnsignedInt32(0, v);
+    $_setSignedInt32(0, v);
   }
 
   bool hasStart() => $_has(0);
@@ -246,7 +246,7 @@ class DescriptorProto_ReservedRange extends GeneratedMessage {
 
   int get end => $_get(1, 0);
   set end(int v) {
-    $_setUnsignedInt32(1, v);
+    $_setSignedInt32(1, v);
   }
 
   bool hasEnd() => $_has(1);
@@ -412,7 +412,7 @@ class FieldDescriptorProto extends GeneratedMessage {
 
   int get number => $_get(2, 0);
   set number(int v) {
-    $_setUnsignedInt32(2, v);
+    $_setSignedInt32(2, v);
   }
 
   bool hasNumber() => $_has(2);
@@ -460,7 +460,7 @@ class FieldDescriptorProto extends GeneratedMessage {
 
   int get oneofIndex => $_get(8, 0);
   set oneofIndex(int v) {
-    $_setUnsignedInt32(8, v);
+    $_setSignedInt32(8, v);
   }
 
   bool hasOneofIndex() => $_has(8);
@@ -624,7 +624,7 @@ class EnumValueDescriptorProto extends GeneratedMessage {
 
   int get number => $_get(1, 0);
   set number(int v) {
-    $_setUnsignedInt32(1, v);
+    $_setSignedInt32(1, v);
   }
 
   bool hasNumber() => $_has(1);
@@ -1658,7 +1658,7 @@ class GeneratedCodeInfo_Annotation extends GeneratedMessage {
 
   int get begin => $_get(2, 0);
   set begin(int v) {
-    $_setUnsignedInt32(2, v);
+    $_setSignedInt32(2, v);
   }
 
   bool hasBegin() => $_has(2);
@@ -1666,7 +1666,7 @@ class GeneratedCodeInfo_Annotation extends GeneratedMessage {
 
   int get end => $_get(3, 0);
   set end(int v) {
-    $_setUnsignedInt32(3, v);
+    $_setSignedInt32(3, v);
   }
 
   bool hasEnd() => $_has(3);

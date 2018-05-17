@@ -21,11 +21,11 @@ class TestApi {
 
   Future<SomeReply> aMethod(ClientContext ctx, SomeRequest request) {
     var emptyResponse = new SomeReply();
-    return _client.invoke(ctx, 'Test', 'AMethod', request, emptyResponse);
+    return _client.invoke<SomeReply>(ctx, 'Test', 'AMethod', request, emptyResponse);
   }
   Future<$foo$bar.AnotherReply> anotherMethod(ClientContext ctx, $foo$bar.EmptyMessage request) {
     var emptyResponse = new $foo$bar.AnotherReply();
-    return _client.invoke(ctx, 'Test', 'AnotherMethod', request, emptyResponse);
+    return _client.invoke<$foo$bar.AnotherReply>(ctx, 'Test', 'AnotherMethod', request, emptyResponse);
   }
 }
 
