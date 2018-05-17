@@ -165,13 +165,6 @@ class FileGenerator extends ProtobufContainer {
   String get fqname => '.${descriptor.package}';
   FileGenerator get fileGen => this;
 
-  // Extract the filename from a URI and remove the extension.
-  String _fileNameWithoutExtension(Uri filePath) {
-    String fileName = filePath.pathSegments.last;
-    int index = fileName.lastIndexOf(".");
-    return index == -1 ? fileName : fileName.substring(0, index);
-  }
-
   /// Generates all the Dart files for this .proto file.
   List<CodeGeneratorResponse_File> generateFiles(OutputConfiguration config) {
     if (!_linked) throw new StateError("not linked");
