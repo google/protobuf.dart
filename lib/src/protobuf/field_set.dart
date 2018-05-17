@@ -129,7 +129,7 @@ class _FieldSet {
 
   List<T> _getDefaultList<T>(FieldInfo<T> fi) {
     assert(fi.isRepeated);
-    if (_isReadOnly) return const [];
+    if (_isReadOnly) return new List.unmodifiable(const []);
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:
