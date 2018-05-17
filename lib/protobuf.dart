@@ -7,7 +7,7 @@ library protobuf;
 import 'dart:async' show Future;
 import 'dart:collection' show ListBase;
 import 'dart:convert'
-    show base64, base64Decode, base64Encode, jsonEncode, jsonDecode, Utf8Codec;
+    show base64Decode, base64Encode, jsonEncode, jsonDecode, Utf8Codec;
 import 'dart:math' as math;
 import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endian;
 
