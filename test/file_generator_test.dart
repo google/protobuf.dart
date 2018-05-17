@@ -77,7 +77,6 @@ void main() {
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
@@ -141,7 +140,6 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test_pbjson;
 
 const PhoneNumber$json = const {
   '1': 'PhoneNumber',
@@ -169,7 +167,6 @@ const PhoneNumber$json = const {
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
@@ -183,7 +180,6 @@ export 'test.pbenum.dart';
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test_pbenum;
 
 // ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME
 import 'dart:core' show int, dynamic, String, List, Map;
@@ -230,7 +226,6 @@ class PhoneType extends ProtobufEnum {
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test_pbjson;
 
 const PhoneType$json = const {
   '1': 'PhoneType',
@@ -260,7 +255,6 @@ const PhoneType$json = const {
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library pb_library_test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
@@ -287,7 +281,6 @@ import 'package:protobuf/protobuf.dart';
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
@@ -324,7 +317,6 @@ import 'package:protobuf/protobuf.dart';
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test;
 
 import 'dart:async';
 // ignore: UNUSED_SHOWN_NAME
@@ -373,7 +365,6 @@ class TestApi {
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test_pbserver;
 
 import 'dart:async';
 
@@ -440,7 +431,6 @@ abstract class TestServiceBase extends GeneratedService {
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
@@ -503,7 +493,6 @@ class _ReadonlyEmpty extends Empty with ReadonlyMessageMixin {}
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test_pbgrpc;
 
 import 'dart:async';
 
@@ -662,7 +651,6 @@ abstract class TestServiceBase extends Service {
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
@@ -721,7 +709,6 @@ class _ReadonlyM extends M with ReadonlyMessageMixin {}
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library test_pbjson;
 
 const M$json = const {
   '1': 'M',
