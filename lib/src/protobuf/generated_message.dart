@@ -67,8 +67,12 @@ abstract class GeneratedMessage {
   // TODO(antonm): move to getters.
   int getTagNumber(String fieldName) => info_.tagNumber(fieldName);
 
-  bool operator ==(other) =>
-      other is GeneratedMessage ? _fieldSet._equals(other._fieldSet) : false;
+  bool operator ==(other) {
+    if (identical(this, other)) return true;
+    return other is GeneratedMessage
+        ? _fieldSet._equals(other._fieldSet)
+        : false;
+  }
 
   /// Calculates a hash code based on the contents of the protobuf.
   ///
