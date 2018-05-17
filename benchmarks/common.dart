@@ -2,12 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: uri_has_not_been_generated,undefined_class
+
 /// Common platform independent benchmark infrastructure that can run
 /// both on the VM and when compiled to JavaScript.
 library common;
 
 import 'dart:typed_data';
-import 'dart:convert';
 
 import 'package:benchmark_harness/benchmark_harness.dart';
 import 'package:protobuf/protobuf.dart';
@@ -43,7 +44,7 @@ class Dataset {
 
   /// Create [Dataset] from a [BenchmarkDataset] proto.
   factory Dataset.fromBinary(List<int> binary) {
-    final dataSet = new BenchmarkDataset.fromBuffer(binary);
+    final dataSet = new BenchmarkDataset.fromBuffer(binary);  // ignore: undefined_class
 
     final factories = Factories.forMessage(dataSet.messageName);
     final ds = new Dataset._(dataSet.name, factories);
@@ -62,15 +63,15 @@ class Dataset {
   Dataset._(this.name, this.factories);
 }
 
-typedef GeneratedMessage FromBufferFactory(List<int> binary);
-typedef GeneratedMessage FromJsonFactory(String json);
+typedef dynamic FromBufferFactory(List<int> binary);
+typedef dynamic FromJsonFactory(String json);
 
 class Factories {
   final FromBufferFactory fromBuffer;
   final FromJsonFactory fromJson;
 
   static Factories forMessage(String name) =>
-    _factories[name] ?? (throw "Unsupported message: ${name}");
+      _factories[name] ?? (throw "Unsupported message: ${name}");
 
   /// Mapping between [BenchmarkProto.messageName] and corresponding
   /// deserialization factories.
@@ -82,16 +83,16 @@ class Factories {
     "benchmarks.proto3.GoogleMessage1": new Factories._(
         fromBuffer: (List<int> binary) =>
             new p3.GoogleMessage1.fromBuffer(binary),
-        fromJson: (List<int> json) => new p3.GoogleMessage1.fromJson(json)),
+        fromJson: (String json) => new p3.GoogleMessage1.fromJson(json)),
     "benchmarks.proto2.GoogleMessage2": new Factories._(
         fromBuffer: (List<int> binary) => new GoogleMessage2.fromBuffer(binary),
-        fromJson: (List<int> json) => new GoogleMessage2.fromJson(json)),
+        fromJson: (String json) => new GoogleMessage2.fromJson(json)),
     "benchmarks.google_message3.GoogleMessage3": new Factories._(
         fromBuffer: (List<int> binary) => new GoogleMessage3.fromBuffer(binary),
-        fromJson: (List<int> json) => new GoogleMessage3.fromJson(json)),
+        fromJson: (String json) => new GoogleMessage3.fromJson(json)),
     "benchmarks.google_message4.GoogleMessage4": new Factories._(
         fromBuffer: (List<int> binary) => new GoogleMessage4.fromBuffer(binary),
-        fromJson: (List<int> json) => new GoogleMessage4.fromJson(json)),
+        fromJson: (String json) => new GoogleMessage4.fromJson(json)),
   };
 
   Factories._({this.fromBuffer, this.fromJson});

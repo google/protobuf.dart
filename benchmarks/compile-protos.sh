@@ -25,7 +25,7 @@ PROTOS=(
   "datasets/google_message4/benchmark_message4_3.proto"
 )
 
-mkdir -p temp
+mkdir -p benchmarks/temp
 
 for proto in ${PROTOS[@]}
 do
