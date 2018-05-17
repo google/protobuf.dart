@@ -239,7 +239,7 @@ class FileGenerator extends ProtobufContainer {
   /// Writes the header and imports for the .pb.dart file.
   void writeMainHeader(IndentingWriter out,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
-    _writeLibraryHeading(out);
+    _writeHeading(out);
 
     // We only add the dart:async import if there are generic client API
     // generators for services in the FileDescriptorProto.
@@ -357,7 +357,7 @@ class FileGenerator extends ProtobufContainer {
     if (!_linked) throw new StateError("not linked");
 
     var out = new IndentingWriter();
-    _writeLibraryHeading(out, "pbenum");
+    _writeHeading(out);
 
     if (enumCount > 0) {
       // Make sure any other symbols in dart:core don't cause name conflicts
@@ -393,7 +393,7 @@ class FileGenerator extends ProtobufContainer {
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
     var out = new IndentingWriter();
-    _writeLibraryHeading(out, "pbserver");
+    _writeHeading(out);
 
     if (serviceGenerators.isNotEmpty) {
       out.println('''
@@ -435,7 +435,7 @@ import 'package:protobuf/protobuf.dart';
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
     var out = new IndentingWriter();
-    _writeLibraryHeading(out, "pbgrpc");
+    _writeHeading(out);
 
     out.println('''
 import 'dart:async';
@@ -469,7 +469,7 @@ import 'package:grpc/grpc.dart';
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
     var out = new IndentingWriter();
-    _writeLibraryHeading(out, "pbjson");
+    _writeHeading(out);
 
     // Import the .pbjson.dart files we depend on.
     var imports = _findJsonProtosToImport();
@@ -508,30 +508,13 @@ import 'package:grpc/grpc.dart';
     return imports;
   }
 
-  /// Writes the library name at the top of the dart file.
-  ///
-  /// (This should be unique to avoid warnings about duplicate Dart libraries.)
-  void _writeLibraryHeading(IndentingWriter out, [String extension]) {
-    Uri filePath = new Uri.file(descriptor.name);
-    if (filePath.isAbsolute) {
-      // protoc should never generate a file descriptor with an absolute path.
-      throw "FAILURE: File with an absolute path is not supported";
-    }
-
-    var libraryName = _fileNameWithoutExtension(filePath).replaceAll('-', '_');
-    if (extension != null) libraryName += "_$extension";
-    if (descriptor.package != '') {
-      // Two .protos can be in the same proto package.
-      // It isn't unique enough to use as a Dart library name.
-      // But we can prepend it.
-      libraryName = descriptor.package + "_" + libraryName;
-    }
+  /// Writes the header at the top of the dart file.
+  void _writeHeading(IndentingWriter out) {
     out.println('''
 ///
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library $libraryName;
 ''');
   }
 
