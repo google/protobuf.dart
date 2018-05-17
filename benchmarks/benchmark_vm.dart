@@ -17,7 +17,7 @@ void main(List<String> arguments) {
   final datasets = new Directory(Platform.script.resolve('..').toFilePath())
       .listSync(recursive: true)
       .where((file) => datasetPattern.hasMatch(file.path))
-      .map((file) => new Dataset.fromBinary(file.readAsBytesSync()))
+      .map((file) => new Dataset.fromBinary((file as File).readAsBytesSync()))
       .toList(growable: false);
 
   new FromBinaryBenchmark(datasets).report();
