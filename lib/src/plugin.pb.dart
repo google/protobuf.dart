@@ -41,7 +41,7 @@ class Version extends GeneratedMessage {
 
   int get major => $_get(0, 0);
   set major(int v) {
-    $_setUnsignedInt32(0, v);
+    $_setSignedInt32(0, v);
   }
 
   bool hasMajor() => $_has(0);
@@ -49,7 +49,7 @@ class Version extends GeneratedMessage {
 
   int get minor => $_get(1, 0);
   set minor(int v) {
-    $_setUnsignedInt32(1, v);
+    $_setSignedInt32(1, v);
   }
 
   bool hasMinor() => $_has(1);
@@ -57,7 +57,7 @@ class Version extends GeneratedMessage {
 
   int get patch => $_get(2, 0);
   set patch(int v) {
-    $_setUnsignedInt32(2, v);
+    $_setSignedInt32(2, v);
   }
 
   bool hasPatch() => $_has(2);

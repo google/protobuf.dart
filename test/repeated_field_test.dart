@@ -5,6 +5,7 @@
 
 library repeated_field_test;
 
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
@@ -47,13 +48,22 @@ void main() {
 
   test("check properties are initialized for repeated fields", () {
     var msg = new TestAllTypes();
-    expect(msg.info_.byName["repeatedNestedMessage"].check,
+    expect(
+        (msg.info_.byName["repeatedNestedMessage"]
+                as FieldInfo<TestAllTypes_NestedMessage>)
+            .check,
         same(TestAllTypes_NestedMessage.$checkItem));
 
-    expect(msg.info_.byName["repeatedGroup"].check,
+    expect(
+        (msg.info_.byName["repeatedGroup"]
+                as FieldInfo<TestAllTypes_RepeatedGroup>)
+            .check,
         same(TestAllTypes_RepeatedGroup.$checkItem));
 
-    expect(msg.info_.byName["repeatedNestedEnum"].check,
+    expect(
+        (msg.info_.byName["repeatedNestedEnum"]
+                as FieldInfo<TestAllTypes_NestedEnum>)
+            .check,
         same(TestAllTypes_NestedEnum.$checkItem));
   });
 }

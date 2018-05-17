@@ -5,9 +5,9 @@ sudo: false
 # them against each Dart version.
 matrix:
   include:
-  - dart: stable
+  - dart: dev
     dart_task: dartfmt
-  - dart: stable
+  - dart: dev
     env: PROTOC_VERSION=3.0.0
     install: ./tool/travis/setup.sh
     script: ./tool/travis/test.sh

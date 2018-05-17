@@ -57,12 +57,12 @@ class FakeJsonClient implements RpcClient {
 
   FakeJsonClient(this.server);
 
-  Future<GeneratedMessage> invoke(
+  Future<T> invoke<T extends GeneratedMessage>(
       ClientContext ctx,
       String serviceName,
       String methodName,
       GeneratedMessage request,
-      GeneratedMessage response) async {
+      T response) async {
     String requestJson = request.writeToJson();
     String replyJson =
         await server.messageHandler(serviceName, methodName, requestJson);

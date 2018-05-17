@@ -70,7 +70,7 @@ class BaseType {
             "double", r"$_setDouble", null);
       case FieldDescriptorProto_Type.TYPE_INT32:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_INT32, "3",
-            "int", r"$_setUnsignedInt32", null);
+            "int", r"$_setSignedInt32", null);
       case FieldDescriptorProto_Type.TYPE_UINT32:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_UINT32, "U3",
             "int", r"$_setUnsignedInt32", null);

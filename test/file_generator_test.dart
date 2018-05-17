@@ -113,7 +113,7 @@ class PhoneNumber extends GeneratedMessage {
   void clearNumber() => clearField(1);
 
   int get type => $_get(1, 0);
-  set type(int v) { $_setUnsignedInt32(1, v); }
+  set type(int v) { $_setSignedInt32(1, v); }
   bool hasType() => $_has(1);
   void clearType() => clearField(2);
 
@@ -362,7 +362,7 @@ class TestApi {
 
   Future<Empty> ping(ClientContext ctx, Empty request) {
     var emptyResponse = new Empty();
-    return _client.invoke(ctx, 'Test', 'Ping', request, emptyResponse);
+    return _client.invoke<Empty>(ctx, 'Test', 'Ping', request, emptyResponse);
   }
 }
 

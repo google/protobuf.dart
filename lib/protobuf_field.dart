@@ -203,11 +203,11 @@ class ProtobufField {
             '0' == descriptor.defaultValue) {
           return null;
         } else if (descriptor.defaultValue == 'inf') {
-          return 'double.INFINITY';
+          return 'double.infinity';
         } else if (descriptor.defaultValue == '-inf') {
-          return 'double.NEGATIVE_INFINITY';
+          return 'double.negativeInfinity';
         } else if (descriptor.defaultValue == 'nan') {
-          return 'double.NAN';
+          return 'double.nan';
         } else if (HEX_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
           return '(${descriptor.defaultValue}).toDouble()';
         } else if (INTEGER_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {

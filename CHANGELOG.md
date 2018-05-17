@@ -1,3 +1,9 @@
+## 0.8.0 - 2018-05-17
+
+* Breaking change: Generated RpcClient stubs use the generic invoke method.
+  Requires package:protobuf version 0.8.0 or newer.
+* Dart 2 fixes.
+
 ## 0.7.11 - 2018-04-09
 
 * Dart 2 fix.
