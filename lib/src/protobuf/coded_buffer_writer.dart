@@ -217,9 +217,10 @@ class CodedBufferWriter {
   int _startLengthDelimited() {
     _commitSplice();
     int index = _splices.length;
-    _splices.add(_bytesTotal);  // Record the current number of bytes written
-                                // so that we can compute the length of data
-                                // in _endLengthDelimited.
+    // Reserve a space for a splice and use it to record the current number of
+    // bytes written so that we can compute the length of data later in
+    // _endLengthDelimited.
+    _splices.add(_bytesTotal);
     return index;
   }
 
