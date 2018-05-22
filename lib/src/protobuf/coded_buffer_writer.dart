@@ -114,7 +114,7 @@ class CodedBufferWriter {
       if (action is int) {
         if (action <= 0) {
           // action is a positive varint to be emitted into the output buffer.
-          int v = 0 - action;  // Note: 0 - action to avoid -0.0 in JS.
+          int v = 0 - action; // Note: 0 - action to avoid -0.0 in JS.
           while (v >= 0x80) {
             buffer[outPos++] = 0x80 | (v & 0x7f);
             v >>= 7;
