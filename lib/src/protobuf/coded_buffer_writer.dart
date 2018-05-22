@@ -97,7 +97,7 @@ class CodedBufferWriter {
 
   /// Serializes everything written to this writer so far to [buffer], starting
   /// from [offset] in [buffer]. Returns `true` on success.
-  bool writeTo(List<int> buffer, [int offset = 0]) {
+  bool writeTo(Uint8List buffer, [int offset = 0]) {
     if (buffer.length - offset < _bytesTotal) {
       return false;
     }
@@ -114,7 +114,7 @@ class CodedBufferWriter {
       if (action is int) {
         if (action <= 0) {
           // action is a positive varint to be emitted into the output buffer.
-          int v = -action;
+          int v = 0 - action;  // Note: 0 - action to avoid -0.0 in JS.
           while (v >= 0x80) {
             buffer[outPos++] = 0x80 | (v & 0x7f);
             v >>= 7;
@@ -125,8 +125,8 @@ class CodedBufferWriter {
           // buffer.
           int bytesToCopy = action;
           while (bytesToCopy > 0) {
-            final chunk = _outputChunks[chunkIndex];
-            final bytesInChunk = _outputChunks[chunkIndex + 1];
+            final Uint8List chunk = _outputChunks[chunkIndex];
+            final int bytesInChunk = _outputChunks[chunkIndex + 1];
 
             // Copy at most bytesToCopy bytes from the current chunk.
             final leftInChunk = bytesInChunk - chunkPos;
@@ -226,19 +226,17 @@ class CodedBufferWriter {
 
   void _endLengthDelimited(int index) {
     final int writtenSizeInBytes = _bytesTotal - _splices[index];
-    _splices[index] = -writtenSizeInBytes;
+    // Note: 0 - writtenSizeInBytes to avoid -0.0 in JavaScript.
+    _splices[index] = 0 - writtenSizeInBytes;
     _bytesTotal += _varint32LengthInBytes(writtenSizeInBytes);
   }
 
   int _varint32LengthInBytes(int value) {
     value &= 0xFFFFFFFF;
     if (value < 0x80) return 1;
-    value >>= 7;
-    if (value < 0x80) return 2;
-    value >>= 7;
-    if (value < 0x80) return 3;
-    value >>= 7;
-    if (value < 0x80) return 4;
+    if (value < 0x4000) return 2;
+    if (value < 0x200000) return 3;
+    if (value < 0x10000000) return 4;
     return 5;
   }
 
