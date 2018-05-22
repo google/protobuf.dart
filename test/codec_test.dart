@@ -689,7 +689,9 @@ void main() {
   });
 
   test('testVarint64', () {
-    final roundtrip = roundtripTester(fromBytes: (CodedBufferReader reader) => reader.readUint64(), toBytes: convertToBytes(PbFieldType.OU6));
+    final roundtrip = roundtripTester(
+        fromBytes: (CodedBufferReader reader) => reader.readUint64(),
+        toBytes: convertToBytes(PbFieldType.OU6));
 
     roundtrip(make64(0), [0x00]);
     roundtrip(make64(3), [0x03]);
