@@ -309,26 +309,8 @@ class CodedBufferWriter {
   }
 
   void _writeInt64(Int64 value) {
-    const sizeInBytes = 8;
-    _ensureBytes(sizeInBytes);
-    int i = _bytesInChunk;
-    _outputChunk[i++] = value.toInt() & 0xff;
-    value >>= 8;
-    _outputChunk[i++] = value.toInt() & 0xff;
-    value >>= 8;
-    _outputChunk[i++] = value.toInt() & 0xff;
-    value >>= 8;
-    _outputChunk[i++] = value.toInt() & 0xff;
-    value >>= 8;
-    _outputChunk[i++] = value.toInt() & 0xff;
-    value >>= 8;
-    _outputChunk[i++] = value.toInt() & 0xff;
-    value >>= 8;
-    _outputChunk[i++] = value.toInt() & 0xff;
-    value >>= 8;
-    _outputChunk[i++] = value.toInt() & 0xff;
-    _bytesTotal += sizeInBytes;
-    _bytesInChunk = i;
+    _writeInt32(value.toUnsigned(32).toInt());
+    _writeInt32((value >> 32).toUnsigned(32).toInt());
   }
 
   void _writeValueAs(int valueType, dynamic value) {
