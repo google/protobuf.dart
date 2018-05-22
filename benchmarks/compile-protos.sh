@@ -25,10 +25,13 @@ PROTOS=(
   "datasets/google_message4/benchmark_message4_3.proto"
 )
 
-mkdir -p benchmarks/temp
+SCRIPT_DIR=$(dirname "${BASH_SOURCE}")
+OUTPUT_DIR="${SCRIPT_DIR}/temp"
+
+mkdir -p ${OUTPUT_DIR}
 
 for proto in ${PROTOS[@]}
 do
   echo "PROTOC ${proto}"
-  protoc --dart_out=temp $proto
+  protoc -I"${SCRIPT_DIR}" --dart_out="${OUTPUT_DIR}" "${SCRIPT_DIR}/$proto"
 done
