@@ -5,9 +5,12 @@
 
 # Compile benchmark_js to JavaScript using dart2js.
 
-mkdir -p temp
+SCRIPT_DIR=$(dirname "${BASH_SOURCE}")
+OUTPUT_DIR="${SCRIPT_DIR}/temp"
+
+mkdir -p "${OUTPUT_DIR}"
 
 dart2js --trust-type-annotations        \
         --trust-primitives              \
-        -o benchmarks/temp/benchmark.js \
-        benchmarks/benchmark_js.dart
+        -o "${OUTPUT_DIR}"/benchmark.js \
+        "${SCRIPT_DIR}"/benchmark_js.dart
