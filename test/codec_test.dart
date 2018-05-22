@@ -12,6 +12,8 @@ import 'package:test/test.dart';
 
 import 'test_util.dart';
 
+typedef void RoundtripTester<T>(T value, List<int> bytes);
+
 void main() {
   ByteData makeData(Uint8List bytes) => new ByteData.view(bytes.buffer);
 
@@ -19,6 +21,14 @@ void main() {
         var writer = new CodedBufferWriter()..writeField(0, fieldType, value);
         return writer.toBuffer().sublist(1);
       };
+
+  RoundtripTester<T> roundtripTester<T>(
+      {T fromBytes(CodedBufferReader bytes), List<int> toBytes(T value)}) {
+    return (T value, List<int> bytes) {
+      expect(fromBytes(new CodedBufferReader(bytes)), equals(value));
+      expect(toBytes(value), bytes);
+    };
+  }
 
   final int32ToBytes = convertToBytes(PbFieldType.O3);
 
@@ -30,128 +40,89 @@ void main() {
   });
 
   test('testInt32RoundTrips', () {
-    readInt32(List<int> bytes) => new CodedBufferReader(bytes).readInt32();
-
-    expect(readInt32([0x00]), 0);
-    expect(readInt32([0x01]), 1);
-    expect(readInt32([0xce, 0x01]), 206);
-    expect(readInt32([0xac, 0x02]), 300);
-    expect(readInt32([0xff, 0xff, 0xff, 0xff, 0x07]), 2147483647);
-    expect(readInt32([0x80, 0x80, 0x80, 0x80, 0x08]), -2147483648);
-    expect(readInt32([0xff, 0xff, 0xff, 0xff, 0x0f]), -1);
-    expect(readInt32([0xfe, 0xff, 0xff, 0xff, 0x0f]), -2);
-
-    expect(int32ToBytes(0), [0x00]);
-    expect(int32ToBytes(1), [0x01]);
-    expect(int32ToBytes(206), [0xce, 0x01]);
-    expect(int32ToBytes(300), [0xac, 0x02]);
-    expect(int32ToBytes(2147483647), [0xff, 0xff, 0xff, 0xff, 0x07]);
-    expect(int32ToBytes(-2147483648), [0x80, 0x80, 0x80, 0x80, 0x08]);
-    expect(int32ToBytes(-1), [0xff, 0xff, 0xff, 0xff, 0x0f]);
-    expect(int32ToBytes(-2), [0xfe, 0xff, 0xff, 0xff, 0x0f]);
+    final roundtrip = roundtripTester(
+        fromBytes: (CodedBufferReader reader) => reader.readInt32(),
+        toBytes: int32ToBytes);
+    roundtrip(0, [0x00]);
+    roundtrip(1, [0x01]);
+    roundtrip(206, [0xce, 0x01]);
+    roundtrip(300, [0xac, 0x02]);
+    roundtrip(2147483647, [0xff, 0xff, 0xff, 0xff, 0x07]);
+    roundtrip(-2147483648, [0x80, 0x80, 0x80, 0x80, 0x08]);
+    roundtrip(-1, [0xff, 0xff, 0xff, 0xff, 0x0f]);
+    roundtrip(-2, [0xfe, 0xff, 0xff, 0xff, 0x0f]);
   });
 
   test('testSint32', () {
-    readSint32(List<int> bytes) => new CodedBufferReader(bytes).readSint32();
+    final roundtrip = roundtripTester(
+        fromBytes: (CodedBufferReader reader) => reader.readSint32(),
+        toBytes: convertToBytes(PbFieldType.OS3));
 
-    expect(readSint32([0x00]), 0);
-    expect(readSint32([0x01]), -1);
-    expect(readSint32([0x02]), 1);
-    expect(readSint32([0x03]), -2);
-
-    final sint32ToBytes = convertToBytes(PbFieldType.OS3);
-
-    expect(sint32ToBytes(0), [0x00]);
-    expect(sint32ToBytes(-1), [0x01]);
-    expect(sint32ToBytes(1), [0x02]);
-    expect(sint32ToBytes(-2), [0x03]);
+    roundtrip(0, [0x00]);
+    roundtrip(-1, [0x01]);
+    roundtrip(1, [0x02]);
+    roundtrip(-2, [0x03]);
   });
 
   test('testSint64', () {
-    readSint64(List<int> bytes) => new CodedBufferReader(bytes).readSint64();
+    final roundtrip = roundtripTester(
+        fromBytes: (CodedBufferReader reader) => reader.readSint64(),
+        toBytes: convertToBytes(PbFieldType.OS6));
 
-    expect(readSint64([0x00]), expect64(0));
-    expect(readSint64([0x01]), expect64(-1));
-    expect(readSint64([0x02]), expect64(1));
-    expect(readSint64([0x03]), expect64(-2));
-
-    final sint64ToBytes = convertToBytes(PbFieldType.OS6);
-
-    expect(sint64ToBytes(make64(0)), [0x00]);
-    expect(sint64ToBytes(make64(-1)), [0x01]);
-    expect(sint64ToBytes(make64(1)), [0x02]);
-    expect(sint64ToBytes(make64(-2)), [0x03]);
+    roundtrip(make64(0), [0x00]);
+    roundtrip(make64(-1), [0x01]);
+    roundtrip(make64(1), [0x02]);
+    roundtrip(make64(-2), [0x03]);
   });
 
   test('testFixed32', () {
-    readFixed32(List<int> bytes) => new CodedBufferReader(bytes).readFixed32();
+    final roundtrip = roundtripTester(
+        fromBytes: (CodedBufferReader reader) => reader.readFixed32(),
+        toBytes: convertToBytes(PbFieldType.OF3));
 
-    expect(readFixed32([0x00, 0x00, 0x00, 0x00]), 0);
-    expect(readFixed32([0x01, 0x00, 0x00, 0x00]), 1);
-    expect(readFixed32([0xff, 0xff, 0xff, 0xff]), 4294967295);
-    expect(readFixed32([0xcd, 0x12, 0xab, 0x90]), 2427130573);
-
-    final fixed32ToBytes = convertToBytes(PbFieldType.OF3);
-
-    expect(fixed32ToBytes(0), [0x00, 0x00, 0x00, 0x00]);
-    expect(fixed32ToBytes(1), [0x01, 0x00, 0x00, 0x00]);
-    expect(fixed32ToBytes(4294967295), [0xff, 0xff, 0xff, 0xff]);
-    expect(fixed32ToBytes(2427130573), [0xcd, 0x12, 0xab, 0x90]);
+    roundtrip(0, [0x00, 0x00, 0x00, 0x00]);
+    roundtrip(1, [0x01, 0x00, 0x00, 0x00]);
+    roundtrip(4294967295, [0xff, 0xff, 0xff, 0xff]);
+    roundtrip(2427130573, [0xcd, 0x12, 0xab, 0x90]);
   });
 
   test('testFixed64', () {
-    readFixed64(List<int> bytes) => new CodedBufferReader(bytes).readFixed64();
+    final roundtrip = roundtripTester(
+        fromBytes: (CodedBufferReader reader) => reader.readFixed64(),
+        toBytes: convertToBytes(PbFieldType.OF6));
 
-    expect(readFixed64([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-        expect64(0));
-    expect(readFixed64([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-        expect64(1));
-    expect(readFixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
-        expect64(0xffffffff, 0xffffffff));
-
-    final fixed64ToBytes = convertToBytes(PbFieldType.OF6);
-
-    expect(fixed64ToBytes(make64(0, 0)),
-        [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
-    expect(fixed64ToBytes(make64(1, 0)),
-        [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
-    expect(fixed64ToBytes(make64(0xffffffff, 0xffffffff)),
+    roundtrip(make64(0, 0), [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+    roundtrip(make64(1, 0), [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+    roundtrip(make64(0xffffffff, 0xffffffff),
         [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
+    roundtrip(make64(0x00000001, 0x40000000),
+        [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40]);
   });
 
   test('testSfixed32', () {
-    readSfixed32(List<int> bytes) =>
-        new CodedBufferReader(bytes).readSfixed32();
+    final roundtrip = roundtripTester(
+        fromBytes: (CodedBufferReader reader) => reader.readSfixed32(),
+        toBytes: convertToBytes(PbFieldType.OSF3));
 
-    expect(readSfixed32([0x00, 0x00, 0x00, 0x00]), 0);
-    expect(readSfixed32([0x01, 0x00, 0x00, 0x00]), 1);
-    expect(readSfixed32([0x00, 0x00, 0x00, 0x80]), -2147483648);
-    expect(readSfixed32([0xff, 0xff, 0xff, 0xff]), -1);
-
-    final sfixed32ToBytes = convertToBytes(PbFieldType.OSF3);
-
-    expect(sfixed32ToBytes(0), [0x00, 0x00, 0x00, 0x00]);
-    expect(sfixed32ToBytes(1), [0x01, 0x00, 0x00, 0x00]);
-    expect(sfixed32ToBytes(-2147483648), [0x00, 0x00, 0x00, 0x80]);
-    expect(sfixed32ToBytes(-1), [0xff, 0xff, 0xff, 0xff]);
+    roundtrip(0, [0x00, 0x00, 0x00, 0x00]);
+    roundtrip(1, [0x01, 0x00, 0x00, 0x00]);
+    roundtrip(-2147483648, [0x00, 0x00, 0x00, 0x80]);
+    roundtrip(-1, [0xff, 0xff, 0xff, 0xff]);
   });
 
   test('testSfixed64', () {
-    readSfixed64(List<int> bytes) =>
-        new CodedBufferReader(bytes).readSfixed64();
+    final roundtrip = roundtripTester(
+        fromBytes: (CodedBufferReader reader) => reader.readSfixed64(),
+        toBytes: convertToBytes(PbFieldType.OSF6));
 
-    expect(readSfixed64([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-        expect64(0));
-    expect(readSfixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
-        expect64(-1));
-    expect(readSfixed64([0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
-        expect64(1));
-    expect(readSfixed64([0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
-        expect64(-2));
-    expect(readSfixed64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]),
-        expect64(0xffffffff, 0x7fffffff));
-    expect(readSfixed64([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80]),
-        expect64(0x00000000, 0x80000000));
+    roundtrip(make64(0), [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+    roundtrip(make64(-1), [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
+    roundtrip(make64(1), [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+    roundtrip(make64(-2), [0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
+    roundtrip(make64(0xffffffff, 0x7fffffff),
+        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]);
+    roundtrip(make64(0x00000000, 0x80000000),
+        [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80]);
   });
 
   test('testBool', () {
@@ -717,39 +688,28 @@ void main() {
     _test64([0x5175ba4e, 0x1a9989e3], 2.6381145200142355E84);
   });
 
-  test('testVarint', () {
-    final uint64ToBytes = convertToBytes(PbFieldType.OU6);
+  test('testVarint64', () {
+    final roundtrip = roundtripTester(fromBytes: (CodedBufferReader reader) => reader.readUint64(), toBytes: convertToBytes(PbFieldType.OU6));
 
-    expect(uint64ToBytes(make64(0)), [0]);
-    expect(uint64ToBytes(make64(3)), [0x03]);
-    expect(uint64ToBytes(make64(0x80)), [0x80, 0x01]);
-    expect(uint64ToBytes(make64(0xff)), [0xff, 0x01]);
-    expect(uint64ToBytes(make64(0x9600)), [0x80, 0xac, 0x02]);
-    expect(uint64ToBytes(make64(0x9e5301)), [0x81, 0xa6, 0xf9, 0x04]);
-    expect(uint64ToBytes(make64(0xffffffff)), [0xff, 0xff, 0xff, 0xff, 0x0f]);
-    expect(uint64ToBytes(make64(0xffffffff, 0xffffff)),
+    roundtrip(make64(0), [0x00]);
+    roundtrip(make64(3), [0x03]);
+    roundtrip(make64(0x80), [0x80, 0x01]);
+    roundtrip(make64(0x96), [0x96, 0x01]);
+    roundtrip(make64(0xce), [0xce, 0x01]);
+    roundtrip(make64(0xff), [0xff, 0x01]);
+    roundtrip(make64(0x0e01), [0x81, 0x1c]);
+    roundtrip(make64(0x9600), [0x80, 0xac, 0x02]);
+    roundtrip(make64(0x9e5301), [0x81, 0xa6, 0xf9, 0x04]);
+    roundtrip(make64(0x7fffffff), [0xff, 0xff, 0xff, 0xff, 0x07]);
+    roundtrip(make64(0xffffffff), [0xff, 0xff, 0xff, 0xff, 0x0f]);
+    roundtrip(make64(0xffffffff, 0xffffff),
         [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]);
-    expect(uint64ToBytes(make64(0xffffffff, 0xffffffff)),
+    roundtrip(make64(0xffffffff, 0xffffffff),
         [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
-
-    readUint64(List<int> bytes) => new CodedBufferReader(bytes).readUint64();
-
-    expect(readUint64([0x00]), expect64(0));
-    expect(readUint64([0x03]), expect64(3));
-    expect(readUint64([0x81, 0x1c]), expect64(0x0e01));
-    expect(readUint64([0x96, 0x01]), expect64(0x96));
-    expect(readUint64([0xce, 0x01]), expect64(0xce));
-    expect(readUint64([0x81, 0xa6, 0xf9, 0x04]), expect64(0x9e5301));
-    expect(readUint64([0xff, 0xff, 0xff, 0xff, 0x07]), expect64(0x7fffffff));
-    expect(readUint64([0xff, 0xff, 0xff, 0xff, 0x0f]), expect64(0xffffffff));
-    expect(readUint64([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]),
-        expect64(0xffffffff, 0xffffff));
-    expect(
-        readUint64(
-            [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]),
-        expect64(0xffffffff, 0xffffffff));
-    expect(readUint64([180, 222, 252, 255, 255, 255, 255, 255, 255, 1]),
-        expect64(0xffff2f34, 0xffffffff));
+    roundtrip(make64(0xffff2f34, 0xffffffff),
+        [180, 222, 252, 255, 255, 255, 255, 255, 255, 1]);
+    roundtrip(make64(0x00000001, 0x40000000),
+        [0x81, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x40]);
   });
 
   test('testWriteTo', () {
