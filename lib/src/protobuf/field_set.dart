@@ -117,7 +117,7 @@ class _FieldSet {
 
   _getDefault(FieldInfo fi) {
     if (!fi.isRepeated) return fi.makeDefault();
-    if (_isReadOnly) return const [];
+    if (_isReadOnly) return fi.readonlyDefault;
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:

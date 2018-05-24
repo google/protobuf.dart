@@ -69,7 +69,7 @@ class FieldInfo<T> {
   /// Returns a read-only default value for a field.
   /// (Unlike getField, doesn't create a repeated field.)
   get readonlyDefault {
-    if (isRepeated) return const [];
+    if (isRepeated) return new List<T>();
     return makeDefault();
   }
 
