@@ -6,12 +6,7 @@ library json_test;
 import 'dart:convert';
 import 'package:test/test.dart';
 
-import 'mock_util.dart' show MockMessage, mockInfo;
-
-class T extends MockMessage {
-  get info_ => _info;
-  static final _info = mockInfo("T", () => new T());
-}
+import 'mock_util.dart' show T;
 
 main() {
   T example = new T()
