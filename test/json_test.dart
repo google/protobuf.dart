@@ -41,6 +41,8 @@ main() {
     checkMessage(t);
   });
 
+  // Skip this test on browsers, as the browser platform does not support 64-bit ints.
+  @TestOn: !browser
   test('testInt64JsonEncoding', () {
     final value = new Int64(1234567890123456789);
     final t = new T()..int64 = value;
