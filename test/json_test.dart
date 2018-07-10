@@ -51,8 +51,8 @@ main() {
       final decoded = new T()..mergeFromJsonMap(encoded);
       expect(decoded.int64, value);
     },
-    // Skip this test on browsers, as the browser platform does not support 64-bit ints.
-    testOn: "!browser",
+    // Skip this test on js, as the dart2js platform does not support 64-bit ints.
+    testOn: "!js",
   );
 }
 
