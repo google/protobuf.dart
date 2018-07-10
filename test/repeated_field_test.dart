@@ -31,8 +31,8 @@ void main() {
     }, returnsNormally);
 
     expect(() {
-      TestAllTypes_RepeatedGroup
-          .$checkItem(cast(new TestAllTypes_OptionalGroup()));
+      TestAllTypes_RepeatedGroup.$checkItem(
+          cast(new TestAllTypes_OptionalGroup()));
     }, throwsATypeError);
   });
 

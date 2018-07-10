@@ -55,7 +55,8 @@ Future showDashboard(pb.Suite suite, Element container) async {
       for (pb.Report report in runSuite(requests, profiler: profiler)) {
         await render(report);
       }
-    }().whenComplete(() {
+    }()
+        .whenComplete(() {
       running = false;
     });
   }

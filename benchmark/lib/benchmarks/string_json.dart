@@ -62,7 +62,7 @@ class StringBenchmark extends Benchmark {
   }
 
   static int getTagForColumn(pb.Line10 line, int x) {
-    return line.getTagNumber('cell${x+1}'); // assume x start from 1
+    return line.getTagNumber('cell${x + 1}'); // assume x start from 1
   }
 
   @override
