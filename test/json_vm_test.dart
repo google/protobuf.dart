@@ -4,17 +4,10 @@
 // does not support 64-bit ints.
 @TestOn('!js')
 
-library json_vm_test;
-
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:test/test.dart';
 
-import 'mock_util.dart' show MockMessage, mockInfo;
-
-class T extends MockMessage {
-  get info_ => _info;
-  static final _info = mockInfo("T", () => new T());
-}
+import 'mock_util.dart' show T;
 
 main() {
   test('testInt64JsonEncoding', () {
