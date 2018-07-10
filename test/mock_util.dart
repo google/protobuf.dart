@@ -41,3 +41,8 @@ abstract class MockMessage extends GeneratedMessage {
     return create()..mergeFromMessage(this);
   }
 }
+
+class T extends MockMessage {
+  get info_ => _info;
+  static final _info = mockInfo("T", () => new T());
+}
