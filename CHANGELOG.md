@@ -1,3 +1,7 @@
+## 0.10.0
+
+* Dart SDK upper constraint raised to declare compatability with Dart 2.0 stable.
+
 ## 0.9.0
 
 * Breaking change: Changed signature of `CodedBufferWriter.writeTo` to require
