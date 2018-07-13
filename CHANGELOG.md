@@ -1,3 +1,7 @@
+## 0.8.0+1 - 2018-07-13
+
+* Dart SDK upper constraint raised to declare compatability with Dart 2.0 stable.
+
 ## 0.8.0 - 2018-05-17
 
 * Breaking change: Generated RpcClient stubs use the generic invoke method.
