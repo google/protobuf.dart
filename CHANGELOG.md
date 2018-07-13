@@ -1,4 +1,4 @@
-## 0.10.0
+## 0.9.0+1
 
 * Dart SDK upper constraint raised to declare compatability with Dart 2.0 stable.
 
