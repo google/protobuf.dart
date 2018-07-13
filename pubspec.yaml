@@ -4,7 +4,7 @@ author: Dart Team <misc@dartlang.org>
 description: Protoc compiler plugin to generate Dart code
 homepage: https://github.com/dart-lang/dart-protoc-plugin
 environment:
-  sdk: '>=1.21.0 <2.0.0'
+  sdk: '>=1.21.0 <3.0.0'
 dependencies:
   fixnum: ^0.10.5
   path: ^1.0.0
