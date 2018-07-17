@@ -35,6 +35,7 @@ part 'src/protobuf/readonly_message.dart';
 part 'src/protobuf/rpc_client.dart';
 part 'src/protobuf/unknown_field_set.dart';
 part 'src/protobuf/utils.dart';
+part 'src/protobuf/unpacker.dart';
 part 'src/protobuf/wire_format.dart';
 
 // TODO(sra): Remove this method when clients upgrade to protoc 0.3.5

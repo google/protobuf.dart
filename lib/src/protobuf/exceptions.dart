@@ -34,4 +34,11 @@ in the middle of a field.  This could mean either than the
 input has been truncated or that an embedded message
 misreported its own length.
 ''');
+
+  InvalidProtocolBufferException.wrongAnyMessage(
+      String anyTypeName, unpackerTypeName)
+      : this._('''
+The type of the Any message ($anyTypeName) does not match the given
+unpacker ($unpackerTypeName).
+''');
 }
