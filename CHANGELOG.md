@@ -1,3 +1,7 @@
+## 0.10.0
+
+* Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.
+
 ## 0.9.0
 
 * Breaking change: Changed signature of `CodedBufferWriter.writeTo` to require
