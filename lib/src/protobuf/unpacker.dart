@@ -4,22 +4,24 @@
 
 part of protobuf;
 
-typedef UnpackerFunction<T> = T Function(List<int> value);
+typedef UnpackerFunction<T> = T Function(List<int> value,
+    {ExtensionRegistry extensionRegistry});
 
 class Unpacker<T> {
-  final UnpackerFunction _fromBuffer;
+  final UnpackerFunction<T> _fromBuffer;
   final String _typeName;
 
   Unpacker(UnpackerFunction fromBuffer, String typeName)
       : _fromBuffer = fromBuffer,
         _typeName = typeName;
 
-  T unpack(List<int> value, String typeUrl) {
+  T unpack(List<int> value, String typeUrl,
+      {ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY}) {
     if (_typeName != typeNameFromUrl(typeUrl)) {
       throw new InvalidProtocolBufferException.wrongAnyMessage(
           typeNameFromUrl(typeUrl), _typeName);
     }
-    return _fromBuffer(value);
+    return _fromBuffer(value, extensionRegistry: extensionRegistry);
   }
 }
 
