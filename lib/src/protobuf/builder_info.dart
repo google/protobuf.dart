@@ -16,7 +16,7 @@ class BuilderInfo {
   bool hasRequiredFields = true;
   List<FieldInfo> _sortedByTag;
 
-  BuilderInfo(this.messageName, [this.packageName]);
+  BuilderInfo(this.messageName, {this.packageName = ''});
 
   String get fullName =>
       packageName == '' ? messageName : '$packageName.$messageName';
