@@ -2,6 +2,10 @@
 
 * Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.
 
+## 0.9.0+1
+
+* Dart SDK upper constraint raised to declare compatability with Dart 2.0 stable.
+
 ## 0.9.0
 
 * Breaking change: Changed signature of `CodedBufferWriter.writeTo` to require
