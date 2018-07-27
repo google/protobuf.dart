@@ -318,7 +318,7 @@ class CodedBufferWriter {
         break;
       case PbFieldType._BYTES_BIT:
         _writeBytesNoTag(
-            value is TypedData ? value : Uint8List.fromList(value));
+            value is TypedData ? value : new Uint8List.fromList(value));
         break;
       case PbFieldType._STRING_BIT:
         _writeBytesNoTag(_utf8.encode(value));
