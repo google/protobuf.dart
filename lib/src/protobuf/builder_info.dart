@@ -16,7 +16,7 @@ class BuilderInfo {
   bool hasRequiredFields = true;
   List<FieldInfo> _sortedByTag;
 
-  BuilderInfo(this.fullName, {packageName});
+  BuilderInfo(this.fullName);
 
   void add<T>(
       int tagNumber,
