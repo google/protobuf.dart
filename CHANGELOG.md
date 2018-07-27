@@ -1,8 +1,6 @@
-## 0.10.0
+## 0.9.2
 
-* Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.
-* Breaking change: Add a new `BuilderInfo.fullName` replaces `BuilderInfo.messageName`. This is the
-  fully qualified name of the message, including the package, but without a leading '.'.
+* Added Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.
 
 ## 0.9.1
 
