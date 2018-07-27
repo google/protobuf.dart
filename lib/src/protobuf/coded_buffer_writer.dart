@@ -317,7 +317,8 @@ class CodedBufferWriter {
         _writeVarint32(value ? 1 : 0);
         break;
       case PbFieldType._BYTES_BIT:
-        _writeBytesNoTag(value);
+        _writeBytesNoTag(
+            value is TypedData ? value : new Uint8List.fromList(value));
         break;
       case PbFieldType._STRING_BIT:
         _writeBytesNoTag(_utf8.encode(value));
@@ -329,7 +330,7 @@ class CodedBufferWriter {
         _writeFloat(value);
         break;
       case PbFieldType._ENUM_BIT:
-        _writeVarint32(value.value);
+        _writeVarint32(value.value & 0xffffffff);
         break;
       case PbFieldType._GROUP_BIT:
         value.writeToCodedBufferWriter(this);
