@@ -14,6 +14,13 @@ void unpackInto<T extends GeneratedMessage>(
     T instance, List<int> value, String typeUrl,
     {ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY}) {
   String typeName = instance.info_.fullName;
+  // From "google/protobuf/any.proto":
+  //
+  //   The pack methods provided by protobuf library will by default use
+  //   'type.googleapis.com/full.type.name' as the type URL and the unpack
+  //   methods only use the fully qualified type name after the last '/'
+  //   in the type URL, for example "foo.bar.com/x/y.z" will yield type
+  //   name "y.z".
   if (typeName != _typeNameFromUrl(typeUrl)) {
     throw new InvalidProtocolBufferException.wrongAnyMessage(
         _typeNameFromUrl(typeUrl), typeName);
@@ -23,5 +30,5 @@ void unpackInto<T extends GeneratedMessage>(
 
 String _typeNameFromUrl(String typeUrl) {
   int index = typeUrl.lastIndexOf('/');
-  return index == -1 ? typeUrl : typeUrl.substring(index + 1);
+  return index == -1 ? '' : typeUrl.substring(index + 1);
 }

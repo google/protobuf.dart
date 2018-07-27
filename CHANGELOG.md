@@ -1,6 +1,7 @@
 ## 0.10.0
 
 * Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.
+* Add a new `BuilderInfo.packageName` field as well as a `BuilderInfo.fullName` getter.
 
 ## 0.9.0+1
 
