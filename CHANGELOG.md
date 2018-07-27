@@ -1,3 +1,8 @@
+## 0.9.1
+
+* Fix problem with encoding negative enum values.
+* Fix problem with encoding byte arrays.
+
 ## 0.9.0+1
 
 * Dart SDK upper constraint raised to declare compatability with Dart 2.0 stable.
