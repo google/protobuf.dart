@@ -40,7 +40,7 @@ class _FieldSet {
 
   // Metadata about multiple fields
 
-  String get _messageName => _meta.messageName;
+  String get _messageName => _meta.fullName;
   bool get _isReadOnly => _message._isReadOnly;
   bool get _hasRequiredFields => _meta.hasRequiredFields;
 
