@@ -51,7 +51,7 @@ abstract class ReadonlyMessageMixin {
       _readonly("setField");
 
   void _readonly(String methodName) {
-    String messageType = info_.fullName;
+    String messageType = info_.messageName;
     throw new UnsupportedError(
         "attempted to call $methodName on a read-only message ($messageType)");
   }

@@ -13,7 +13,7 @@ part of protobuf;
 void unpackInto<T extends GeneratedMessage>(
     T instance, List<int> value, String typeUrl,
     {ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY}) {
-  String typeName = instance.info_.fullName;
+  String typeName = instance.info_.messageName;
   // From "google/protobuf/any.proto":
   //
   //   The pack methods provided by protobuf library will by default use

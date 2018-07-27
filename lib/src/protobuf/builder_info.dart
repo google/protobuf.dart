@@ -7,7 +7,7 @@ part of protobuf;
 /// Per-message type setup.
 class BuilderInfo {
   /// The fully qualified name of this message.
-  final String fullName;
+  final String messageName;
   final List<FieldInfo> byIndex = <FieldInfo>[];
   final Map<int, FieldInfo> fieldInfo = new Map<int, FieldInfo>();
   final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
@@ -16,7 +16,7 @@ class BuilderInfo {
   bool hasRequiredFields = true;
   List<FieldInfo> _sortedByTag;
 
-  BuilderInfo(this.fullName);
+  BuilderInfo(this.messageName);
 
   void add<T>(
       int tagNumber,
@@ -173,7 +173,7 @@ class BuilderInfo {
     CreateBuilderFunc subBuilderFunc = subBuilder(tagNumber);
     if (subBuilderFunc == null && extensionRegistry != null) {
       subBuilderFunc =
-          extensionRegistry.getExtension(fullName, tagNumber).subBuilder;
+          extensionRegistry.getExtension(messageName, tagNumber).subBuilder;
     }
     return subBuilderFunc();
   }
@@ -181,7 +181,7 @@ class BuilderInfo {
   _decodeEnum(int tagNumber, ExtensionRegistry registry, int rawValue) {
     ValueOfFunc f = valueOfFunc(tagNumber);
     if (f == null && registry != null) {
-      f = registry.getExtension(fullName, tagNumber).valueOf;
+      f = registry.getExtension(messageName, tagNumber).valueOf;
     }
     return f(rawValue);
   }
