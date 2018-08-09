@@ -16,7 +16,7 @@ void main() {
       if (parameter != null) request.parameter = parameter;
       var response = new CodeGeneratorResponse();
       var options = parseGenerationOptions(request, response);
-      expect(options, new isInstanceOf<GenerationOptions>());
+      expect(options, new TypeMatcher<GenerationOptions>());
       expect(response.error, '');
     }
 
