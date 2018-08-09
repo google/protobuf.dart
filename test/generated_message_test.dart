@@ -24,7 +24,7 @@ import 'test_util.dart';
 
 void main() {
   final throwsInvalidProtocolBufferException =
-      throwsA(new isInstanceOf<InvalidProtocolBufferException>());
+      throwsA(new TypeMatcher<InvalidProtocolBufferException>());
   test('testProtosShareRepeatedArraysIfDidntChange', () {
     TestAllTypes value1 = new TestAllTypes()
       ..repeatedInt32.add(100)
@@ -223,7 +223,7 @@ void main() {
 
   test('testEnumInterface', () {
     expect(
-        new TestAllTypes().defaultNestedEnum, new isInstanceOf<ProtobufEnum>());
+        new TestAllTypes().defaultNestedEnum, new TypeMatcher<ProtobufEnum>());
   });
 
   test('testEnumMap', () {

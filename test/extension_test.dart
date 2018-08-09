@@ -146,7 +146,7 @@ void main() {
 
   test('can extend a message with a message field with a different type', () {
     expect(Non_nested_extension.nonNestedExtension.makeDefault(),
-        new isInstanceOf<MyNonNestedExtension>());
+        new TypeMatcher<MyNonNestedExtension>());
     expect(Non_nested_extension.nonNestedExtension.name, 'nonNestedExtension');
   });
 
