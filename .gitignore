@@ -1,4 +1,5 @@
 .dart_tool/
+.idea/
 .packages
 .pub
 out
