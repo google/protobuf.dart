@@ -15,7 +15,15 @@ matrix:
     env: PROTOC_VERSION=3.3.0
     install: ./tool/travis/setup.sh
     script: ./tool/travis/analyze.sh
+  - dart: stable
+    env: PROTOC_VERSION=3.3.0
+    install: ./tool/travis/setup.sh
+    script: ./tool/travis/analyze.sh
   - dart: dev
+    env: PROTOC_VERSION=3.3.0
+    install: ./tool/travis/setup.sh
+    script: ./tool/travis/test.sh
+  - dart: stable
     env: PROTOC_VERSION=3.3.0
     install: ./tool/travis/setup.sh
     script: ./tool/travis/test.sh
