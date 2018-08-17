@@ -345,3 +345,10 @@ abstract class GeneratedMessage {
   /// For generated code only.
   void $_setInt64(int index, Int64 value) => _fieldSet._$set(index, value);
 }
+
+/// The package name of a protobuf message.
+class PackageName {
+  final String name;
+  const PackageName(this.name);
+  String get prefix => name == '' ? '' : '$name.';
+}
