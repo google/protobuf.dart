@@ -9,11 +9,10 @@ part of protobuf;
 /// Throws a [InvalidProtocolBufferException] if [typeUrl] does not correspond
 /// with the type of [instance].
 ///
-/// This is a helper method for `Any.unpack`.
-void unpackInto<T extends GeneratedMessage>(
-    T instance, List<int> value, String typeUrl,
+/// This is a helper method for `Any.unpackInto`.
+void unpackIntoHelper<T extends GeneratedMessage>(
+    List<int> value, T instance, String typeUrl,
     {ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY}) {
-  String typeName = instance.info_.messageName;
   // From "google/protobuf/any.proto":
   //
   //   The pack methods provided by protobuf library will by default use
@@ -21,11 +20,20 @@ void unpackInto<T extends GeneratedMessage>(
   //   methods only use the fully qualified type name after the last '/'
   //   in the type URL, for example "foo.bar.com/x/y.z" will yield type
   //   name "y.z".
-  if (typeName != _typeNameFromUrl(typeUrl)) {
+  if (!canUnpackIntoHelper(instance, typeUrl)) {
+    String typeName = instance.info_.messageName;
     throw new InvalidProtocolBufferException.wrongAnyMessage(
         _typeNameFromUrl(typeUrl), typeName);
   }
   instance.mergeFromBuffer(value, extensionRegistry);
+}
+
+/// Returns `true` if the type of [instance] is described by
+/// `typeUrl`.
+///
+/// This is a helper method for `Any.canUnpackInto`.
+bool canUnpackIntoHelper(GeneratedMessage instance, String typeUrl) {
+  return instance.info_.messageName == _typeNameFromUrl(typeUrl);
 }
 
 String _typeNameFromUrl(String typeUrl) {
