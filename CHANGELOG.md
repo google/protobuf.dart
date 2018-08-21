@@ -1,3 +1,7 @@
+## 0.10.0
+
+* Add freezable messages.
+
 ## 0.9.1
 
 * Fix problem with encoding negative enum values.

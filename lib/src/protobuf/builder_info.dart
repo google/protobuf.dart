@@ -94,14 +94,6 @@ class BuilderInfo {
         tagNumber, name, fieldType, defaultOrMaker, null, valueOf, enumValues);
   }
 
-  // Repeated message.
-  // TODO(skybrian): migrate to pp() and remove.
-  void m<T>(int tagNumber, String name, CreateBuilderFunc subBuilder,
-      MakeDefaultFunc makeDefault) {
-    add<T>(tagNumber, name, PbFieldType._REPEATED_MESSAGE, makeDefault,
-        subBuilder, null, null);
-  }
-
   // Repeated, not a message, group, or enum.
   void p<T>(int tagNumber, String name, int fieldType) {
     assert(!_isGroupOrMessage(fieldType) && !_isEnum(fieldType));
