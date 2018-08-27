@@ -44,7 +44,7 @@ main() {
   });
 
   test('testInt64JsonEncoding', () {
-    final value = new Int64(1234567890123456789);
+    final value = Int64.parseInt('1234567890123456789');
     final t = new T()..int64 = value;
     final encoded = t.writeToJsonMap();
     expect(encoded["5"], "$value");
@@ -53,7 +53,7 @@ main() {
   });
 
   test('tesFrozentInt64JsonEncoding', () {
-    final value = new Int64(1234567890123456789);
+    final value = Int64.parseInt('1234567890123456789');
     final frozen = new T()
       ..int64 = value
       ..freeze();
