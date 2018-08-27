@@ -9,27 +9,11 @@ import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
 
+import 'golden_file.dart';
 import 'service_util.dart';
 
 void main() {
   test('testClientGenerator', () {
-    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
-    String expected = r'''
-class TestApi {
-  RpcClient _client;
-  TestApi(this._client);
-
-  Future<SomeReply> aMethod(ClientContext ctx, SomeRequest request) {
-    var emptyResponse = new SomeReply();
-    return _client.invoke<SomeReply>(ctx, 'Test', 'AMethod', request, emptyResponse);
-  }
-  Future<$foo$bar.AnotherReply> anotherMethod(ClientContext ctx, $foo$bar.EmptyMessage request) {
-    var emptyResponse = new $foo$bar.AnotherReply();
-    return _client.invoke<$foo$bar.AnotherReply>(ctx, 'Test', 'AnotherMethod', request, emptyResponse);
-  }
-}
-
-''';
     var options = new GenerationOptions();
     var fd = buildFileDescriptor("testpkg", ["SomeRequest", "SomeReply"]);
     fd.service.add(buildServiceDescriptor());
@@ -44,6 +28,6 @@ class TestApi {
 
     IndentingWriter writer = new IndentingWriter();
     cag.generate(writer);
-    expect(writer.toString(), expected);
+    expectMatchesGoldenFile(writer.toString(), 'test/goldens/client');
   });
 }

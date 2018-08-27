@@ -11,6 +11,8 @@ import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
 
+import 'golden_file.dart';
+
 FileDescriptorProto buildFileDescriptor(
     {phoneNumber: true, topLevelEnum: false}) {
   FileDescriptorProto fd = new FileDescriptorProto()..name = 'test';
@@ -71,144 +73,27 @@ FileDescriptorProto buildFileDescriptor(
 void main() {
   test('FileGenerator outputs a .pb.dart file for a proto with one message',
       () {
-    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
-    String expected = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, override;
-
-import 'package:protobuf/protobuf.dart';
-
-class PhoneNumber extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..aQS(1, 'number')
-    ..a<int>(2, 'type', PbFieldType.O3)
-    ..a<String>(3, 'name', PbFieldType.OS, '\$')
-  ;
-
-  PhoneNumber() : super();
-  PhoneNumber.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static PhoneNumber create() => new PhoneNumber();
-  static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
-  static PhoneNumber getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
-    return _defaultInstance;
-  }
-  static PhoneNumber _defaultInstance;
-  static void $checkItem(PhoneNumber v) {
-    if (v is! PhoneNumber) checkItemFailed(v, 'PhoneNumber');
-  }
-
-  String get number => $_getS(0, '');
-  set number(String v) { $_setString(0, v); }
-  bool hasNumber() => $_has(0);
-  void clearNumber() => clearField(1);
-
-  int get type => $_get(1, 0);
-  set type(int v) { $_setSignedInt32(1, v); }
-  bool hasType() => $_has(1);
-  void clearType() => clearField(2);
-
-  String get name => $_getS(2, '\$');
-  set name(String v) { $_setString(2, v); }
-  bool hasName() => $_has(2);
-  void clearName() => clearField(3);
-}
-
-class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
-
-''';
     FileDescriptorProto fd = buildFileDescriptor();
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
     FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
-    expect(fg.generateMainFile(), expected);
+    expectMatchesGoldenFile(
+        fg.generateMainFile(), 'test/goldens/oneMessage.pb');
   });
 
   test('FileGenerator outputs a pbjson.dart file for a proto with one message',
       () {
-    var expected = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-const PhoneNumber$json = const {
-  '1': 'PhoneNumber',
-  '2': const [
-    const {'1': 'number', '3': 1, '4': 2, '5': 9},
-    const {'1': 'type', '3': 2, '4': 1, '5': 5, '6': ''},
-    const {'1': 'name', '3': 3, '4': 1, '5': 9, '7': r'$'},
-  ],
-};
-
-''';
     FileDescriptorProto fd = buildFileDescriptor();
     var options = parseGenerationOptions(
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
     FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
-    expect(fg.generateJsonFile(), expected);
+    expectMatchesGoldenFile(
+        fg.generateJsonFile(), 'test/goldens/oneMessage.pbjson');
   });
 
   test('FileGenerator generates files for a top-level enum', () {
-    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
-
-    String expected = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, override;
-
-export 'test.pbenum.dart';
-
-''';
-
-    String expectedEnum = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME
-import 'dart:core' show int, dynamic, String, List, Map;
-import 'package:protobuf/protobuf.dart';
-
-class PhoneType extends ProtobufEnum {
-  static const PhoneType MOBILE = const PhoneType._(0, 'MOBILE');
-  static const PhoneType HOME = const PhoneType._(1, 'HOME');
-  static const PhoneType WORK = const PhoneType._(2, 'WORK');
-
-  static const PhoneType BUSINESS = WORK;
-
-  static const List<PhoneType> values = const <PhoneType> [
-    MOBILE,
-    HOME,
-    WORK,
-  ];
-
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static PhoneType valueOf(int value) => _byValue[value] as PhoneType;
-  static void $checkItem(PhoneType v) {
-    if (v is! PhoneType) checkItemFailed(v, 'PhoneType');
-  }
-
-  const PhoneType._(int v, String n) : super(v, n);
-}
-
-''';
-
     FileDescriptorProto fd =
         buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options = parseGenerationOptions(
@@ -216,29 +101,13 @@ class PhoneType extends ProtobufEnum {
 
     FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
-    expect(fg.generateMainFile(), expected);
-    expect(fg.generateEnumFile(), expectedEnum);
+    expectMatchesGoldenFile(
+        fg.generateMainFile(), 'test/goldens/topLevelEnum.pb');
+    expectMatchesGoldenFile(
+        fg.generateEnumFile(), 'test/goldens/topLevelEnum.pbenum');
   });
 
   test('FileGenerator generates a .pbjson.dart file for a top-level enum', () {
-    String expected = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-const PhoneType$json = const {
-  '1': 'PhoneType',
-  '2': const [
-    const {'1': 'MOBILE', '2': 0},
-    const {'1': 'HOME', '2': 1},
-    const {'1': 'WORK', '2': 2},
-    const {'1': 'BUSINESS', '2': 2},
-  ],
-};
-
-''';
-
     FileDescriptorProto fd =
         buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options = parseGenerationOptions(
@@ -246,22 +115,11 @@ const PhoneType$json = const {
 
     FileGenerator fg = new FileGenerator(fd, options);
     link(options, [fg]);
-    expect(fg.generateJsonFile(), expected);
+    expectMatchesGoldenFile(
+        fg.generateJsonFile(), 'test/goldens/topLevelEnum.pbjson');
   });
 
   test('FileGenerator outputs library for a .proto in a package', () {
-    String expected = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, override;
-
-import 'package:protobuf/protobuf.dart';
-
-''';
     FileDescriptorProto fd = buildFileDescriptor();
     fd.package = "pb_library";
     var options = parseGenerationOptions(
@@ -272,23 +130,11 @@ import 'package:protobuf/protobuf.dart';
 
     var writer = new IndentingWriter();
     fg.writeMainHeader(writer);
-    expect(writer.toString(), expected);
+    expectMatchesGoldenFile(
+        writer.toString(), 'test/goldens/header_in_package.pb');
   });
 
   test('FileGenerator outputs a fixnum import when needed', () {
-    String expected = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, override;
-
-import 'package:fixnum/fixnum.dart';
-import 'package:protobuf/protobuf.dart';
-
-''';
     FileDescriptorProto fd = new FileDescriptorProto()
       ..name = 'test'
       ..messageType.add(new DescriptorProto()
@@ -308,96 +154,11 @@ import 'package:protobuf/protobuf.dart';
 
     var writer = new IndentingWriter();
     fg.writeMainHeader(writer);
-    expect(writer.toString(), expected);
+    expectMatchesGoldenFile(
+        writer.toString(), 'test/goldens/header_with_fixnum.pb');
   });
 
   test('FileGenerator outputs files for a service', () {
-    String expectedClient = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-import 'dart:async';
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, override;
-
-import 'package:protobuf/protobuf.dart';
-
-class Empty extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('Empty')
-    ..hasRequiredFields = false
-  ;
-
-  Empty() : super();
-  Empty.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  Empty.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  Empty clone() => new Empty()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static Empty create() => new Empty();
-  static PbList<Empty> createRepeated() => new PbList<Empty>();
-  static Empty getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEmpty();
-    return _defaultInstance;
-  }
-  static Empty _defaultInstance;
-  static void $checkItem(Empty v) {
-    if (v is! Empty) checkItemFailed(v, 'Empty');
-  }
-}
-
-class _ReadonlyEmpty extends Empty with ReadonlyMessageMixin {}
-
-class TestApi {
-  RpcClient _client;
-  TestApi(this._client);
-
-  Future<Empty> ping(ClientContext ctx, Empty request) {
-    var emptyResponse = new Empty();
-    return _client.invoke<Empty>(ctx, 'Test', 'Ping', request, emptyResponse);
-  }
-}
-
-''';
-
-    String expectedServer = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-import 'dart:async';
-
-import 'package:protobuf/protobuf.dart';
-
-import 'test.pb.dart';
-import 'test.pbjson.dart';
-
-export 'test.pb.dart';
-
-abstract class TestServiceBase extends GeneratedService {
-  Future<Empty> ping(ServerContext ctx, Empty request);
-
-  GeneratedMessage createRequest(String method) {
-    switch (method) {
-      case 'Ping': return new Empty();
-      default: throw new ArgumentError('Unknown method: $method');
-    }
-  }
-
-  Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
-    switch (method) {
-      case 'Ping': return this.ping(ctx, request);
-      default: throw new ArgumentError('Unknown method: $method');
-    }
-  }
-
-  Map<String, dynamic> get $json => Test$json;
-  Map<String, Map<String, dynamic>> get $messageJson => Test$messageJson;
-}
-
-''';
-
     DescriptorProto empty = new DescriptorProto()..name = "Empty";
 
     ServiceDescriptorProto sd = new ServiceDescriptorProto()
@@ -420,49 +181,13 @@ abstract class TestServiceBase extends GeneratedService {
 
     var writer = new IndentingWriter();
     fg.writeMainHeader(writer);
-    expect(fg.generateMainFile(), expectedClient);
-    expect(fg.generateServerFile(), expectedServer);
+    expectMatchesGoldenFile(fg.generateMainFile(), 'test/goldens/service.pb');
+    expectMatchesGoldenFile(
+        fg.generateServerFile(), 'test/goldens/service.pbserver');
   });
 
   test('FileGenerator does not output legacy service stubs if gRPC is selected',
       () {
-    String expectedClient = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, override;
-
-import 'package:protobuf/protobuf.dart';
-
-class Empty extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('Empty')
-    ..hasRequiredFields = false
-  ;
-
-  Empty() : super();
-  Empty.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  Empty.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  Empty clone() => new Empty()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static Empty create() => new Empty();
-  static PbList<Empty> createRepeated() => new PbList<Empty>();
-  static Empty getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEmpty();
-    return _defaultInstance;
-  }
-  static Empty _defaultInstance;
-  static void $checkItem(Empty v) {
-    if (v is! Empty) checkItemFailed(v, 'Empty');
-  }
-}
-
-class _ReadonlyEmpty extends Empty with ReadonlyMessageMixin {}
-
-''';
-
     DescriptorProto empty = new DescriptorProto()..name = "Empty";
 
     ServiceDescriptorProto sd = new ServiceDescriptorProto()
@@ -484,119 +209,11 @@ class _ReadonlyEmpty extends Empty with ReadonlyMessageMixin {}
 
     var writer = new IndentingWriter();
     fg.writeMainHeader(writer);
-    expect(fg.generateMainFile(), expectedClient);
+    expectMatchesGoldenFile(
+        fg.generateMainFile(), 'test/goldens/grpc_service.pb');
   });
 
   test('FileGenerator outputs gRPC stubs if gRPC is selected', () {
-    final expectedGrpc = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-import 'dart:async';
-
-import 'package:grpc/grpc.dart';
-
-import 'test.pb.dart';
-export 'test.pb.dart';
-
-class TestClient extends Client {
-  static final _$unary = new ClientMethod<Input, Output>(
-      '/Test/Unary',
-      (Input value) => value.writeToBuffer(),
-      (List<int> value) => new Output.fromBuffer(value));
-  static final _$clientStreaming = new ClientMethod<Input, Output>(
-      '/Test/ClientStreaming',
-      (Input value) => value.writeToBuffer(),
-      (List<int> value) => new Output.fromBuffer(value));
-  static final _$serverStreaming = new ClientMethod<Input, Output>(
-      '/Test/ServerStreaming',
-      (Input value) => value.writeToBuffer(),
-      (List<int> value) => new Output.fromBuffer(value));
-  static final _$bidirectional = new ClientMethod<Input, Output>(
-      '/Test/Bidirectional',
-      (Input value) => value.writeToBuffer(),
-      (List<int> value) => new Output.fromBuffer(value));
-
-  TestClient(ClientChannel channel, {CallOptions options})
-      : super(channel, options: options);
-
-  ResponseFuture<Output> unary(Input request, {CallOptions options}) {
-    final call = $createCall(_$unary, new Stream.fromIterable([request]),
-        options: options);
-    return new ResponseFuture(call);
-  }
-
-  ResponseFuture<Output> clientStreaming(Stream<Input> request,
-      {CallOptions options}) {
-    final call = $createCall(_$clientStreaming, request, options: options);
-    return new ResponseFuture(call);
-  }
-
-  ResponseStream<Output> serverStreaming(Input request, {CallOptions options}) {
-    final call = $createCall(
-        _$serverStreaming, new Stream.fromIterable([request]),
-        options: options);
-    return new ResponseStream(call);
-  }
-
-  ResponseStream<Output> bidirectional(Stream<Input> request,
-      {CallOptions options}) {
-    final call = $createCall(_$bidirectional, request, options: options);
-    return new ResponseStream(call);
-  }
-}
-
-abstract class TestServiceBase extends Service {
-  String get $name => 'Test';
-
-  TestServiceBase() {
-    $addMethod(new ServiceMethod<Input, Output>(
-        'Unary',
-        unary_Pre,
-        false,
-        false,
-        (List<int> value) => new Input.fromBuffer(value),
-        (Output value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<Input, Output>(
-        'ClientStreaming',
-        clientStreaming,
-        true,
-        false,
-        (List<int> value) => new Input.fromBuffer(value),
-        (Output value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<Input, Output>(
-        'ServerStreaming',
-        serverStreaming_Pre,
-        false,
-        true,
-        (List<int> value) => new Input.fromBuffer(value),
-        (Output value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<Input, Output>(
-        'Bidirectional',
-        bidirectional,
-        true,
-        true,
-        (List<int> value) => new Input.fromBuffer(value),
-        (Output value) => value.writeToBuffer()));
-  }
-
-  Future<Output> unary_Pre(ServiceCall call, Future request) async {
-    return unary(call, await request);
-  }
-
-  Stream<Output> serverStreaming_Pre(ServiceCall call, Future request) async* {
-    yield* serverStreaming(call, (await request) as Input);
-  }
-
-  Future<Output> unary(ServiceCall call, Input request);
-  Future<Output> clientStreaming(ServiceCall call, Stream<Input> request);
-  Stream<Output> serverStreaming(ServiceCall call, Input request);
-  Stream<Output> bidirectional(ServiceCall call, Stream<Input> request);
-}
-''';
-
     final input = new DescriptorProto()..name = 'Input';
     final output = new DescriptorProto()..name = 'Output';
 
@@ -641,86 +258,11 @@ abstract class TestServiceBase extends Service {
 
     var writer = new IndentingWriter();
     fg.writeMainHeader(writer);
-    expect(fg.generateGrpcFile(), expectedGrpc);
+    expectMatchesGoldenFile(
+        fg.generateGrpcFile(), 'test/goldens/grpc_service.pbgrpc');
   });
 
   test('FileGenerator generates imports for .pb.dart files', () {
-    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
-    String expected = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, override;
-
-import 'package:protobuf/protobuf.dart';
-
-import 'package1.pb.dart' as $p1;
-import 'package2.pb.dart' as $p2;
-
-class M extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('M')
-    ..a<M>(1, 'm', PbFieldType.OM, M.getDefault, M.create)
-    ..a<$p1.M>(2, 'm1', PbFieldType.OM, $p1.M.getDefault, $p1.M.create)
-    ..a<$p2.M>(3, 'm2', PbFieldType.OM, $p2.M.getDefault, $p2.M.create)
-    ..hasRequiredFields = false
-  ;
-
-  M() : super();
-  M.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  M.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  M clone() => new M()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static M create() => new M();
-  static PbList<M> createRepeated() => new PbList<M>();
-  static M getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyM();
-    return _defaultInstance;
-  }
-  static M _defaultInstance;
-  static void $checkItem(M v) {
-    if (v is! M) checkItemFailed(v, 'M');
-  }
-
-  M get m => $_getN(0);
-  set m(M v) { setField(1, v); }
-  bool hasM() => $_has(0);
-  void clearM() => clearField(1);
-
-  $p1.M get m1 => $_getN(1);
-  set m1($p1.M v) { setField(2, v); }
-  bool hasM1() => $_has(1);
-  void clearM1() => clearField(2);
-
-  $p2.M get m2 => $_getN(2);
-  set m2($p2.M v) { setField(3, v); }
-  bool hasM2() => $_has(2);
-  void clearM2() => clearField(3);
-}
-
-class _ReadonlyM extends M with ReadonlyMessageMixin {}
-
-''';
-
-    var expectedJson = r'''
-///
-//  Generated code. Do not modify.
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
-
-const M$json = const {
-  '1': 'M',
-  '2': const [
-    const {'1': 'm', '3': 1, '4': 1, '5': 11, '6': '.M'},
-    const {'1': 'm1', '3': 2, '4': 1, '5': 11, '6': '.p1.M'},
-    const {'1': 'm2', '3': 3, '4': 1, '5': 11, '6': '.p2.M'},
-  ],
-};
-
-''';
-
     // This defines three .proto files package1.proto, package2.proto and
     // test.proto with the following content:
     //
@@ -820,7 +362,8 @@ const M$json = const {
     FileGenerator fg = new FileGenerator(fd, options);
     link(options,
         [fg, new FileGenerator(fd1, options), new FileGenerator(fd2, options)]);
-    expect(fg.generateMainFile(), expected);
-    expect(fg.generateJsonFile(), expectedJson);
+    expectMatchesGoldenFile(fg.generateMainFile(), 'test/goldens/imports.pb');
+    expectMatchesGoldenFile(
+        fg.generateEnumFile(), 'test/goldens/imports.pbjson');
   });
 }
