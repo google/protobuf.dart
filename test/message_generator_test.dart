@@ -12,77 +12,10 @@ import 'package:test/test.dart';
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/plugin.pb.dart';
 
+import 'golden_file.dart';
+
 void main() {
   test('testMessageGenerator', () {
-    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
-    String expectedEnums = r'''
-class PhoneNumber_PhoneType extends ProtobufEnum {
-  static const PhoneNumber_PhoneType MOBILE = const PhoneNumber_PhoneType._(0, 'MOBILE');
-  static const PhoneNumber_PhoneType HOME = const PhoneNumber_PhoneType._(1, 'HOME');
-  static const PhoneNumber_PhoneType WORK = const PhoneNumber_PhoneType._(2, 'WORK');
-
-  static const PhoneNumber_PhoneType BUSINESS = WORK;
-
-  static const List<PhoneNumber_PhoneType> values = const <PhoneNumber_PhoneType> [
-    MOBILE,
-    HOME,
-    WORK,
-  ];
-
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static PhoneNumber_PhoneType valueOf(int value) => _byValue[value] as PhoneNumber_PhoneType;
-  static void $checkItem(PhoneNumber_PhoneType v) {
-    if (v is! PhoneNumber_PhoneType) checkItemFailed(v, 'PhoneNumber_PhoneType');
-  }
-
-  const PhoneNumber_PhoneType._(int v, String n) : super(v, n);
-}
-
-''';
-
-    String expected = r'''
-class PhoneNumber extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('PhoneNumber')
-    ..aQS(1, 'number')
-    ..e<PhoneNumber_PhoneType>(2, 'type', PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf, PhoneNumber_PhoneType.values)
-    ..a<String>(3, 'name', PbFieldType.OS, '\$')
-  ;
-
-  PhoneNumber() : super();
-  PhoneNumber.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  PhoneNumber.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static PhoneNumber create() => new PhoneNumber();
-  static PbList<PhoneNumber> createRepeated() => new PbList<PhoneNumber>();
-  static PhoneNumber getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
-    return _defaultInstance;
-  }
-  static PhoneNumber _defaultInstance;
-  static void $checkItem(PhoneNumber v) {
-    if (v is! PhoneNumber) checkItemFailed(v, 'PhoneNumber');
-  }
-
-  String get number => $_getS(0, '');
-  set number(String v) { $_setString(0, v); }
-  bool hasNumber() => $_has(0);
-  void clearNumber() => clearField(1);
-
-  PhoneNumber_PhoneType get type => $_getN(1);
-  set type(PhoneNumber_PhoneType v) { setField(2, v); }
-  bool hasType() => $_has(1);
-  void clearType() => clearField(2);
-
-  String get name => $_getS(2, '\$');
-  set name(String v) { $_setString(2, v); }
-  bool hasName() => $_has(2);
-  void clearName() => clearField(3);
-}
-
-class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
-
-''';
     FileDescriptorProto fd = new FileDescriptorProto();
     EnumDescriptorProto ed = new EnumDescriptorProto()
       ..name = 'PhoneType'
@@ -136,10 +69,11 @@ class _ReadonlyPhoneNumber extends PhoneNumber with ReadonlyMessageMixin {}
 
     var writer = new IndentingWriter();
     mg.generate(writer);
-    expect(writer.toString(), expected);
+    expectMatchesGoldenFile(writer.toString(), 'test/goldens/messageGenerator');
 
     writer = new IndentingWriter();
     mg.generateEnums(writer);
-    expect(writer.toString(), expectedEnums);
+    expectMatchesGoldenFile(
+        writer.toString(), 'test/goldens/messageGeneratorEnums');
   });
 }

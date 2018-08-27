@@ -10,36 +10,10 @@ import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
 import 'service_util.dart';
 
+import 'golden_file.dart';
+
 void main() {
   test('testServiceGenerator', () {
-    // NOTE: Below > 80 cols because it is matching generated code > 80 cols.
-    String expected = r'''
-abstract class TestServiceBase extends GeneratedService {
-  Future<SomeReply> aMethod(ServerContext ctx, SomeRequest request);
-  Future<$foo$bar.AnotherReply> anotherMethod(ServerContext ctx, $foo$bar.EmptyMessage request);
-
-  GeneratedMessage createRequest(String method) {
-    switch (method) {
-      case 'AMethod': return new SomeRequest();
-      case 'AnotherMethod': return new $foo$bar.EmptyMessage();
-      default: throw new ArgumentError('Unknown method: $method');
-    }
-  }
-
-  Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
-    switch (method) {
-      case 'AMethod': return this.aMethod(ctx, request);
-      case 'AnotherMethod': return this.anotherMethod(ctx, request);
-      default: throw new ArgumentError('Unknown method: $method');
-    }
-  }
-
-  Map<String, dynamic> get $json => Test$json;
-  Map<String, Map<String, dynamic>> get $messageJson => Test$messageJson;
-}
-
-''';
-
     var options = new GenerationOptions();
     var fd = buildFileDescriptor("testpkg", ["SomeRequest", "SomeReply"]);
     fd.service.add(buildServiceDescriptor());
@@ -52,6 +26,6 @@ abstract class TestServiceBase extends GeneratedService {
 
     var writer = new IndentingWriter();
     fg.serviceGenerators[0].generate(writer);
-    expect(writer.toString(), expected);
+    expectMatchesGoldenFile(writer.toString(), 'test/goldens/serviceGenerator');
   });
 }
