@@ -60,15 +60,15 @@ main() {
   test("can't merge to a read-only message", () {
     expect(
         () => Rec.getDefault().mergeFromJson('{"1":1}'),
-        throwsError(
-            UnsupportedError, equals('Attempted to change a read-only message (rec)')));
+        throwsError(UnsupportedError,
+            equals('Attempted to change a read-only message (rec)')));
   });
 
   test("can't set a field on a read-only message", () {
     expect(
         () => Rec.getDefault().setField(1, 456),
-        throwsError(
-            UnsupportedError, equals('Attempted to change a read-only message (rec)')));
+        throwsError(UnsupportedError,
+            equals('Attempted to change a read-only message (rec)')));
   });
 
   test('can set a field on a read-only message with a custom read-only handler',
@@ -94,34 +94,32 @@ main() {
   test("can't clear a read-only message", () {
     expect(
         () => Rec.getDefault().clear(),
-        throwsError(
-            UnsupportedError, equals('Attempted to change a read-only message (rec)')));
+        throwsError(UnsupportedError,
+            equals('Attempted to change a read-only message (rec)')));
   });
 
   test("can't clear a field on a read-only message", () {
     expect(
         () => Rec.getDefault().clearField(1),
-        throwsError(
-            UnsupportedError, equals('Attempted to change a read-only message (rec)')));
+        throwsError(UnsupportedError,
+            equals('Attempted to change a read-only message (rec)')));
   });
 
   test("can't modify repeated fields on a read-only message", () {
-    expect(
-        () => Rec.getDefault().sub.add(Rec.create()),
+    expect(() => Rec.getDefault().sub.add(Rec.create()),
         throwsError(UnsupportedError, contains('add')));
     var r = Rec.create()
       ..ints.add(10)
       ..freeze();
     expect(
         () => r.ints.clear(),
-        throwsError(
-            UnsupportedError, equals('Cannot call clear on an unmodifiable list')));
+        throwsError(UnsupportedError,
+            equals('Cannot call clear on an unmodifiable list')));
     expect(
         () => r.ints[0] = 2,
-        throwsError(
-            UnsupportedError, equals('Cannot call set on an unmodifiable list')));
-    expect(
-        () => r.sub.add(Rec.create()),
+        throwsError(UnsupportedError,
+            equals('Cannot call set on an unmodifiable list')));
+    expect(() => r.sub.add(Rec.create()),
         throwsError(UnsupportedError, contains('add')));
 
     r = Rec.create()
@@ -129,10 +127,9 @@ main() {
       ..freeze();
     expect(
         () => r.sub.add(Rec.create()),
-        throwsError(
-            UnsupportedError, equals('Cannot call add on an unmodifiable list')));
-    expect(
-        () => r.ints.length = 20,
+        throwsError(UnsupportedError,
+            equals('Cannot call add on an unmodifiable list')));
+    expect(() => r.ints.length = 20,
         throwsError(UnsupportedError, contains('length')));
   });
 
@@ -144,15 +141,17 @@ main() {
     expect(r.sub[0].sub[0].value, 1);
     expect(
         () => subMessage.value = 2,
-        throwsError(
-            UnsupportedError, equals('Attempted to change a read-only message (rec)')));
+        throwsError(UnsupportedError,
+            equals('Attempted to change a read-only message (rec)')));
   });
 
   test("can't modify unknown fields on a read-only message", () {
     expect(
         () => Rec.getDefault().unknownFields.clear(),
-        throwsError(UnsupportedError,
-            equals("Attempted to call clear on a read-only message (UnknownFieldSet)")));
+        throwsError(
+            UnsupportedError,
+            equals(
+                "Attempted to call clear on a read-only message (UnknownFieldSet)")));
   });
 
   test("can rebuild a frozen message with merge", () {
