@@ -1,4 +1,4 @@
-class PhoneType extends ProtobufEnum {
+class PhoneType extends $pb.ProtobufEnum {
   static const PhoneType MOBILE = const PhoneType._(0, 'MOBILE');
   static const PhoneType HOME = const PhoneType._(1, 'HOME');
   static const PhoneType WORK = const PhoneType._(2, 'WORK');
@@ -11,10 +11,10 @@ class PhoneType extends ProtobufEnum {
     WORK,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static final Map<int, dynamic> _byValue = $pb.ProtobufEnum.initByValue(values);
   static PhoneType valueOf(int value) => _byValue[value] as PhoneType;
   static void $checkItem(PhoneType v) {
-    if (v is! PhoneType) checkItemFailed(v, 'PhoneType');
+    if (v is! PhoneType) $pb.checkItemFailed(v, 'PhoneType');
   }
 
   const PhoneType._(int v, String n) : super(v, n);

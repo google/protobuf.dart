@@ -5,9 +5,9 @@
 
 // ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME
 import 'dart:core' show int, dynamic, String, List, Map;
-import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/protobuf.dart' as $pb;
 
-class FieldDescriptorProto_Type extends ProtobufEnum {
+class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
   static const FieldDescriptorProto_Type TYPE_DOUBLE =
       const FieldDescriptorProto_Type._(1, 'TYPE_DOUBLE');
   static const FieldDescriptorProto_Type TYPE_FLOAT =
@@ -67,18 +67,19 @@ class FieldDescriptorProto_Type extends ProtobufEnum {
     TYPE_SINT64,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static final Map<int, dynamic> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
   static FieldDescriptorProto_Type valueOf(int value) =>
       _byValue[value] as FieldDescriptorProto_Type;
   static void $checkItem(FieldDescriptorProto_Type v) {
     if (v is! FieldDescriptorProto_Type)
-      checkItemFailed(v, 'FieldDescriptorProto_Type');
+      $pb.checkItemFailed(v, 'FieldDescriptorProto_Type');
   }
 
   const FieldDescriptorProto_Type._(int v, String n) : super(v, n);
 }
 
-class FieldDescriptorProto_Label extends ProtobufEnum {
+class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
   static const FieldDescriptorProto_Label LABEL_OPTIONAL =
       const FieldDescriptorProto_Label._(1, 'LABEL_OPTIONAL');
   static const FieldDescriptorProto_Label LABEL_REQUIRED =
@@ -93,18 +94,19 @@ class FieldDescriptorProto_Label extends ProtobufEnum {
     LABEL_REPEATED,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static final Map<int, dynamic> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
   static FieldDescriptorProto_Label valueOf(int value) =>
       _byValue[value] as FieldDescriptorProto_Label;
   static void $checkItem(FieldDescriptorProto_Label v) {
     if (v is! FieldDescriptorProto_Label)
-      checkItemFailed(v, 'FieldDescriptorProto_Label');
+      $pb.checkItemFailed(v, 'FieldDescriptorProto_Label');
   }
 
   const FieldDescriptorProto_Label._(int v, String n) : super(v, n);
 }
 
-class FileOptions_OptimizeMode extends ProtobufEnum {
+class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
   static const FileOptions_OptimizeMode SPEED =
       const FileOptions_OptimizeMode._(1, 'SPEED');
   static const FileOptions_OptimizeMode CODE_SIZE =
@@ -119,18 +121,19 @@ class FileOptions_OptimizeMode extends ProtobufEnum {
     LITE_RUNTIME,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static final Map<int, dynamic> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
   static FileOptions_OptimizeMode valueOf(int value) =>
       _byValue[value] as FileOptions_OptimizeMode;
   static void $checkItem(FileOptions_OptimizeMode v) {
     if (v is! FileOptions_OptimizeMode)
-      checkItemFailed(v, 'FileOptions_OptimizeMode');
+      $pb.checkItemFailed(v, 'FileOptions_OptimizeMode');
   }
 
   const FileOptions_OptimizeMode._(int v, String n) : super(v, n);
 }
 
-class FieldOptions_CType extends ProtobufEnum {
+class FieldOptions_CType extends $pb.ProtobufEnum {
   static const FieldOptions_CType STRING =
       const FieldOptions_CType._(0, 'STRING');
   static const FieldOptions_CType CORD = const FieldOptions_CType._(1, 'CORD');
@@ -143,17 +146,18 @@ class FieldOptions_CType extends ProtobufEnum {
     STRING_PIECE,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static final Map<int, dynamic> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
   static FieldOptions_CType valueOf(int value) =>
       _byValue[value] as FieldOptions_CType;
   static void $checkItem(FieldOptions_CType v) {
-    if (v is! FieldOptions_CType) checkItemFailed(v, 'FieldOptions_CType');
+    if (v is! FieldOptions_CType) $pb.checkItemFailed(v, 'FieldOptions_CType');
   }
 
   const FieldOptions_CType._(int v, String n) : super(v, n);
 }
 
-class FieldOptions_JSType extends ProtobufEnum {
+class FieldOptions_JSType extends $pb.ProtobufEnum {
   static const FieldOptions_JSType JS_NORMAL =
       const FieldOptions_JSType._(0, 'JS_NORMAL');
   static const FieldOptions_JSType JS_STRING =
@@ -167,17 +171,19 @@ class FieldOptions_JSType extends ProtobufEnum {
     JS_NUMBER,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static final Map<int, dynamic> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
   static FieldOptions_JSType valueOf(int value) =>
       _byValue[value] as FieldOptions_JSType;
   static void $checkItem(FieldOptions_JSType v) {
-    if (v is! FieldOptions_JSType) checkItemFailed(v, 'FieldOptions_JSType');
+    if (v is! FieldOptions_JSType)
+      $pb.checkItemFailed(v, 'FieldOptions_JSType');
   }
 
   const FieldOptions_JSType._(int v, String n) : super(v, n);
 }
 
-class MethodOptions_IdempotencyLevel extends ProtobufEnum {
+class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
   static const MethodOptions_IdempotencyLevel IDEMPOTENCY_UNKNOWN =
       const MethodOptions_IdempotencyLevel._(0, 'IDEMPOTENCY_UNKNOWN');
   static const MethodOptions_IdempotencyLevel NO_SIDE_EFFECTS =
@@ -192,12 +198,13 @@ class MethodOptions_IdempotencyLevel extends ProtobufEnum {
     IDEMPOTENT,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static final Map<int, dynamic> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
   static MethodOptions_IdempotencyLevel valueOf(int value) =>
       _byValue[value] as MethodOptions_IdempotencyLevel;
   static void $checkItem(MethodOptions_IdempotencyLevel v) {
     if (v is! MethodOptions_IdempotencyLevel)
-      checkItemFailed(v, 'MethodOptions_IdempotencyLevel');
+      $pb.checkItemFailed(v, 'MethodOptions_IdempotencyLevel');
   }
 
   const MethodOptions_IdempotencyLevel._(int v, String n) : super(v, n);

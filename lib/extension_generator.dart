@@ -79,8 +79,8 @@ class ExtensionGenerator {
     var dartType = type.getDartType(package);
 
     if (_field.isRepeated) {
-      out.print('static final Extension $name = '
-          'new Extension<$dartType>.repeated(\'$_extendedClassName\','
+      out.print('static final $_protobufImportPrefix.Extension $name = '
+          'new $_protobufImportPrefix.Extension<$dartType>.repeated(\'$_extendedClassName\','
           ' \'$name\', ${_field.number}, ${_field.typeConstant}');
       if (type.isMessage || type.isGroup) {
         out.println(', $dartType.$checkItem, $dartType.create);');
@@ -88,13 +88,14 @@ class ExtensionGenerator {
         out.println(', $dartType.$checkItem, null, '
             '$dartType.valueOf, $dartType.values);');
       } else {
-        out.println(", getCheckFunction(${_field.typeConstant}));");
+        out.println(
+            ", $_protobufImportPrefix.getCheckFunction(${_field.typeConstant}));");
       }
       return;
     }
 
-    out.print('static final Extension $name = '
-        'new Extension<$dartType>(\'$_extendedClassName\', \'$name\', '
+    out.print('static final $_protobufImportPrefix.Extension $name = '
+        'new $_protobufImportPrefix.Extension<$dartType>(\'$_extendedClassName\', \'$name\', '
         '${_field.number}, ${_field.typeConstant}');
 
     String initializer = _field.generateDefaultFunction(package);

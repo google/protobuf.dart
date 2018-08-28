@@ -6,29 +6,29 @@
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
-import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/protobuf.dart' as $pb;
 
-class Empty extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('Empty')
+class Empty extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Empty')
     ..hasRequiredFields = false
   ;
 
   Empty() : super();
-  Empty.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  Empty.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  Empty.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  Empty.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   Empty clone() => new Empty()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  $pb.BuilderInfo get info_ => _i;
   static Empty create() => new Empty();
-  static PbList<Empty> createRepeated() => new PbList<Empty>();
+  static $pb.PbList<Empty> createRepeated() => new $pb.PbList<Empty>();
   static Empty getDefault() {
     if (_defaultInstance == null) _defaultInstance = new _ReadonlyEmpty();
     return _defaultInstance;
   }
   static Empty _defaultInstance;
   static void $checkItem(Empty v) {
-    if (v is! Empty) checkItemFailed(v, 'Empty');
+    if (v is! Empty) $pb.checkItemFailed(v, 'Empty');
   }
 }
 
-class _ReadonlyEmpty extends Empty with ReadonlyMessageMixin {}
+class _ReadonlyEmpty extends Empty with $pb.ReadonlyMessageMixin {}
 

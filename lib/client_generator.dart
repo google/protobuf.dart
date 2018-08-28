@@ -11,7 +11,7 @@ class ClientApiGenerator {
   ClientApiGenerator(this.service);
 
   // Subclasses can override this.
-  String get _clientType => 'RpcClient';
+  String get _clientType => '$_protobufImportPrefix.RpcClient';
 
   void generate(IndentingWriter out) {
     var className = service._descriptor.name;
@@ -34,7 +34,7 @@ class ClientApiGenerator {
     var outputType = service._getDartClassName(m.outputType);
     out.addBlock(
         'Future<$outputType> $methodName('
-        'ClientContext ctx, $inputType request) {',
+        '$_protobufImportPrefix.ClientContext ctx, $inputType request) {',
         '}', () {
       out.println('var emptyResponse = new $outputType();');
       out.println(
