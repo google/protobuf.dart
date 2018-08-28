@@ -206,9 +206,10 @@ class MessageGenerator extends ProtobufContainer {
     }
 
     out.addBlock(
-        'class ${classname} extends GeneratedMessage${mixinClause} {', '}', () {
+        'class ${classname} extends $_protobufImportPrefix.GeneratedMessage${mixinClause} {',
+        '}', () {
       out.addBlock(
-          'static final BuilderInfo _i = new BuilderInfo(\'${classname}\')',
+          'static final $_protobufImportPrefix.BuilderInfo _i = new $_protobufImportPrefix.BuilderInfo(\'${classname}\')',
           ';', () {
         for (ProtobufField field in _fieldList) {
           var dartFieldName = field.memberNames.fieldName;
@@ -231,21 +232,22 @@ class MessageGenerator extends ProtobufContainer {
 
       out.println('${classname}() : super();');
       out.println('${classname}.fromBuffer(List<int> i,'
-          ' [ExtensionRegistry r = ExtensionRegistry.EMPTY])'
+          ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' : super.fromBuffer(i, r);');
       out.println('${classname}.fromJson(String i,'
-          ' [ExtensionRegistry r = ExtensionRegistry.EMPTY])'
+          ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' : super.fromJson(i, r);');
       out.println('${classname} clone() =>'
           ' new ${classname}()..mergeFromMessage(this);');
 
-      out.println('BuilderInfo get info_ => _i;');
+      out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
 
       // Factory functions which can be used as default value closures.
       out.println('static ${classname} create() =>'
           ' new ${classname}();');
-      out.println('static PbList<${classname}> createRepeated() =>'
-          ' new PbList<${classname}>();');
+      out.println(
+          'static $_protobufImportPrefix.PbList<${classname}> createRepeated() =>'
+          ' new $_protobufImportPrefix.PbList<${classname}>();');
       out.addBlock('static ${classname} getDefault() {', '}', () {
         out.println(
             'if (_defaultInstance == null) _defaultInstance = new _Readonly${classname}();');
@@ -254,14 +256,14 @@ class MessageGenerator extends ProtobufContainer {
       out.println('static ${classname} _defaultInstance;');
       out.addBlock('static void $checkItem($classname v) {', '}', () {
         out.println('if (v is! $classname)'
-            " checkItemFailed(v, '$classname');");
+            " $_protobufImportPrefix.checkItemFailed(v, '$classname');");
       });
       generateFieldsAccessorsMutators(out);
     });
     out.println();
 
     out.println(
-        'class _Readonly${classname} extends ${classname} with ReadonlyMessageMixin {}');
+        'class _Readonly${classname} extends ${classname} with $_protobufImportPrefix.ReadonlyMessageMixin {}');
     out.println();
   }
 

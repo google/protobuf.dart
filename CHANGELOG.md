@@ -1,3 +1,8 @@
+## 0.8.2
+
+* Generated code now imports 'package:protobuf/protobuf.dart' prefixed.
+  This avoids name clashes between user defined message names and the protobuf library.
+
 ## 0.8.1
 
 * Adjust dependencies to actually be compatible with Dart 2.0 stable.

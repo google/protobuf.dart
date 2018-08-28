@@ -60,7 +60,9 @@ class EnumGenerator extends ProtobufContainer {
   }
 
   void generate(IndentingWriter out) {
-    out.addBlock('class ${classname} extends ProtobufEnum {', '}\n', () {
+    out.addBlock(
+        'class ${classname} extends $_protobufImportPrefix.ProtobufEnum {',
+        '}\n', () {
       // -----------------------------------------------------------------
       // Define enum types.
       for (EnumValueDescriptorProto val in _canonicalValues) {
@@ -85,12 +87,12 @@ class EnumGenerator extends ProtobufContainer {
       out.println();
 
       out.println('static final Map<int, dynamic> _byValue ='
-          ' ProtobufEnum.initByValue(values);');
+          ' $_protobufImportPrefix.ProtobufEnum.initByValue(values);');
       out.println('static ${classname} valueOf(int value) =>'
           ' _byValue[value] as ${classname};');
       out.addBlock('static void $checkItem($classname v) {', '}', () {
         out.println('if (v is! $classname)'
-            " checkItemFailed(v, '$classname');");
+            " $_protobufImportPrefix.checkItemFailed(v, '$classname');");
       });
       out.println();
 

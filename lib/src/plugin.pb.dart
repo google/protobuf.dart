@@ -6,28 +6,29 @@
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
-import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'descriptor.pb.dart' as $google$protobuf;
 
-class Version extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('Version')
-    ..a<int>(1, 'major', PbFieldType.O3)
-    ..a<int>(2, 'minor', PbFieldType.O3)
-    ..a<int>(3, 'patch', PbFieldType.O3)
+class Version extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Version')
+    ..a<int>(1, 'major', $pb.PbFieldType.O3)
+    ..a<int>(2, 'minor', $pb.PbFieldType.O3)
+    ..a<int>(3, 'patch', $pb.PbFieldType.O3)
     ..aOS(4, 'suffix')
     ..hasRequiredFields = false;
 
   Version() : super();
   Version.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  Version.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+  Version.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   Version clone() => new Version()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  $pb.BuilderInfo get info_ => _i;
   static Version create() => new Version();
-  static PbList<Version> createRepeated() => new PbList<Version>();
+  static $pb.PbList<Version> createRepeated() => new $pb.PbList<Version>();
   static Version getDefault() {
     if (_defaultInstance == null) _defaultInstance = new _ReadonlyVersion();
     return _defaultInstance;
@@ -35,7 +36,7 @@ class Version extends GeneratedMessage {
 
   static Version _defaultInstance;
   static void $checkItem(Version v) {
-    if (v is! Version) checkItemFailed(v, 'Version');
+    if (v is! Version) $pb.checkItemFailed(v, 'Version');
   }
 
   int get major => $_get(0, 0);
@@ -71,34 +72,34 @@ class Version extends GeneratedMessage {
   void clearSuffix() => clearField(4);
 }
 
-class _ReadonlyVersion extends Version with ReadonlyMessageMixin {}
+class _ReadonlyVersion extends Version with $pb.ReadonlyMessageMixin {}
 
-class CodeGeneratorRequest extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('CodeGeneratorRequest')
+class CodeGeneratorRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CodeGeneratorRequest')
     ..pPS(1, 'fileToGenerate')
     ..aOS(2, 'parameter')
-    ..a<Version>(3, 'compilerVersion', PbFieldType.OM, Version.getDefault,
+    ..a<Version>(3, 'compilerVersion', $pb.PbFieldType.OM, Version.getDefault,
         Version.create)
     ..pp<$google$protobuf.FileDescriptorProto>(
         15,
         'protoFile',
-        PbFieldType.PM,
+        $pb.PbFieldType.PM,
         $google$protobuf.FileDescriptorProto.$checkItem,
         $google$protobuf.FileDescriptorProto.create);
 
   CodeGeneratorRequest() : super();
   CodeGeneratorRequest.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   CodeGeneratorRequest.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CodeGeneratorRequest clone() =>
       new CodeGeneratorRequest()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  $pb.BuilderInfo get info_ => _i;
   static CodeGeneratorRequest create() => new CodeGeneratorRequest();
-  static PbList<CodeGeneratorRequest> createRepeated() =>
-      new PbList<CodeGeneratorRequest>();
+  static $pb.PbList<CodeGeneratorRequest> createRepeated() =>
+      new $pb.PbList<CodeGeneratorRequest>();
   static CodeGeneratorRequest getDefault() {
     if (_defaultInstance == null)
       _defaultInstance = new _ReadonlyCodeGeneratorRequest();
@@ -107,7 +108,8 @@ class CodeGeneratorRequest extends GeneratedMessage {
 
   static CodeGeneratorRequest _defaultInstance;
   static void $checkItem(CodeGeneratorRequest v) {
-    if (v is! CodeGeneratorRequest) checkItemFailed(v, 'CodeGeneratorRequest');
+    if (v is! CodeGeneratorRequest)
+      $pb.checkItemFailed(v, 'CodeGeneratorRequest');
   }
 
   List<String> get fileToGenerate => $_getList(0);
@@ -132,29 +134,30 @@ class CodeGeneratorRequest extends GeneratedMessage {
 }
 
 class _ReadonlyCodeGeneratorRequest extends CodeGeneratorRequest
-    with ReadonlyMessageMixin {}
+    with $pb.ReadonlyMessageMixin {}
 
-class CodeGeneratorResponse_File extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse_File')
-    ..aOS(1, 'name')
-    ..aOS(2, 'insertionPoint')
-    ..aOS(15, 'content')
-    ..hasRequiredFields = false;
+class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('CodeGeneratorResponse_File')
+        ..aOS(1, 'name')
+        ..aOS(2, 'insertionPoint')
+        ..aOS(15, 'content')
+        ..hasRequiredFields = false;
 
   CodeGeneratorResponse_File() : super();
   CodeGeneratorResponse_File.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   CodeGeneratorResponse_File.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CodeGeneratorResponse_File clone() =>
       new CodeGeneratorResponse_File()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  $pb.BuilderInfo get info_ => _i;
   static CodeGeneratorResponse_File create() =>
       new CodeGeneratorResponse_File();
-  static PbList<CodeGeneratorResponse_File> createRepeated() =>
-      new PbList<CodeGeneratorResponse_File>();
+  static $pb.PbList<CodeGeneratorResponse_File> createRepeated() =>
+      new $pb.PbList<CodeGeneratorResponse_File>();
   static CodeGeneratorResponse_File getDefault() {
     if (_defaultInstance == null)
       _defaultInstance = new _ReadonlyCodeGeneratorResponse_File();
@@ -164,7 +167,7 @@ class CodeGeneratorResponse_File extends GeneratedMessage {
   static CodeGeneratorResponse_File _defaultInstance;
   static void $checkItem(CodeGeneratorResponse_File v) {
     if (v is! CodeGeneratorResponse_File)
-      checkItemFailed(v, 'CodeGeneratorResponse_File');
+      $pb.checkItemFailed(v, 'CodeGeneratorResponse_File');
   }
 
   String get name => $_getS(0, '');
@@ -193,32 +196,32 @@ class CodeGeneratorResponse_File extends GeneratedMessage {
 }
 
 class _ReadonlyCodeGeneratorResponse_File extends CodeGeneratorResponse_File
-    with ReadonlyMessageMixin {}
+    with $pb.ReadonlyMessageMixin {}
 
-class CodeGeneratorResponse extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('CodeGeneratorResponse')
+class CodeGeneratorResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CodeGeneratorResponse')
     ..aOS(1, 'error')
     ..pp<CodeGeneratorResponse_File>(
         15,
         'file',
-        PbFieldType.PM,
+        $pb.PbFieldType.PM,
         CodeGeneratorResponse_File.$checkItem,
         CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse() : super();
   CodeGeneratorResponse.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   CodeGeneratorResponse.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CodeGeneratorResponse clone() =>
       new CodeGeneratorResponse()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  $pb.BuilderInfo get info_ => _i;
   static CodeGeneratorResponse create() => new CodeGeneratorResponse();
-  static PbList<CodeGeneratorResponse> createRepeated() =>
-      new PbList<CodeGeneratorResponse>();
+  static $pb.PbList<CodeGeneratorResponse> createRepeated() =>
+      new $pb.PbList<CodeGeneratorResponse>();
   static CodeGeneratorResponse getDefault() {
     if (_defaultInstance == null)
       _defaultInstance = new _ReadonlyCodeGeneratorResponse();
@@ -228,7 +231,7 @@ class CodeGeneratorResponse extends GeneratedMessage {
   static CodeGeneratorResponse _defaultInstance;
   static void $checkItem(CodeGeneratorResponse v) {
     if (v is! CodeGeneratorResponse)
-      checkItemFailed(v, 'CodeGeneratorResponse');
+      $pb.checkItemFailed(v, 'CodeGeneratorResponse');
   }
 
   String get error => $_getS(0, '');
@@ -243,4 +246,4 @@ class CodeGeneratorResponse extends GeneratedMessage {
 }
 
 class _ReadonlyCodeGeneratorResponse extends CodeGeneratorResponse
-    with ReadonlyMessageMixin {}
+    with $pb.ReadonlyMessageMixin {}

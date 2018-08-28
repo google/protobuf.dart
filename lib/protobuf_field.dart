@@ -94,7 +94,9 @@ class ProtobufField {
     } else if (isRepeated) {
       prefix = 'P';
     }
-    return "PbFieldType." + prefix + baseType.typeConstantSuffix;
+    return "$_protobufImportPrefix.PbFieldType." +
+        prefix +
+        baseType.typeConstantSuffix;
   }
 
   /// Returns Dart code adding this field to a BuilderInfo object.
@@ -111,7 +113,7 @@ class ProtobufField {
       } else if (baseType.isEnum) {
         return '..pp<$type>($number, $quotedName, $typeConstant,'
             ' $type.$checkItem, null, $type.valueOf, $type.values)';
-      } else if (typeConstant == 'PbFieldType.PS') {
+      } else if (typeConstant == '$_protobufImportPrefix.PbFieldType.PS') {
         return '..pPS($number, $quotedName)';
       } else {
         return '..p<$type>($number, $quotedName, $typeConstant)';
@@ -129,14 +131,14 @@ class ProtobufField {
     if (makeDefault == null) {
       switch (type) {
         case 'String':
-          if (typeConstant == 'PbFieldType.OS') {
+          if (typeConstant == '$_protobufImportPrefix.PbFieldType.OS') {
             return '..aOS($number, $quotedName)';
-          } else if (typeConstant == 'PbFieldType.QS') {
+          } else if (typeConstant == '$_protobufImportPrefix.PbFieldType.QS') {
             return '..aQS($number, $quotedName)';
           }
           break;
         case 'bool':
-          if (typeConstant == 'PbFieldType.OB') {
+          if (typeConstant == '$_protobufImportPrefix.PbFieldType.OB') {
             return '..aOB($number, $quotedName)';
           }
           break;
@@ -148,7 +150,7 @@ class ProtobufField {
 
     if (makeDefault == 'Int64.ZERO' &&
         type == 'Int64' &&
-        typeConstant == 'PbFieldType.O6') {
+        typeConstant == '$_protobufImportPrefix.PbFieldType.O6') {
       return '..aInt64($number, $quotedName)';
     }
 
@@ -187,7 +189,7 @@ class ProtobufField {
   /// Returns null if this field doesn't have an initializer.
   String generateDefaultFunction(String package) {
     if (isRepeated) {
-      return '() => new PbList()';
+      return '() => new $_protobufImportPrefix.PbList()';
     }
 
     bool samePackage = package == baseType.package;
@@ -231,7 +233,7 @@ class ProtobufField {
         var value = '0';
         if (descriptor.hasDefaultValue()) value = descriptor.defaultValue;
         if (value == '0') return 'Int64.ZERO';
-        return "parseLongInt('$value')";
+        return "$_protobufImportPrefix.parseLongInt('$value')";
       case FieldDescriptorProto_Type.TYPE_STRING:
         return _getDefaultAsStringExpr(null);
       case FieldDescriptorProto_Type.TYPE_BYTES:

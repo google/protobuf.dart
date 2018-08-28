@@ -6,6 +6,7 @@ part of protoc;
 
 final _dartIdentifier = new RegExp(r'^\w+$');
 final _formatter = new DartFormatter();
+final String _protobufImportPrefix = r'$pb';
 
 /// Generates the Dart output files for one .proto input file.
 ///
@@ -214,7 +215,8 @@ class FileGenerator extends ProtobufContainer {
         for (ExtensionGenerator x in extensionGenerators) {
           x.generate(out);
         }
-        out.println('static void registerAllExtensions(ExtensionRegistry '
+        out.println(
+            'static void registerAllExtensions($_protobufImportPrefix.ExtensionRegistry '
             'registry) {');
         for (ExtensionGenerator x in extensionGenerators) {
           out.println('  registry.add(${x.name});');
@@ -250,7 +252,8 @@ class FileGenerator extends ProtobufContainer {
     }
 
     if (_needsProtobufImport) {
-      out.println("import 'package:protobuf/protobuf.dart';");
+      out.println(
+          "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;");
       out.println();
     }
 
@@ -357,7 +360,8 @@ class FileGenerator extends ProtobufContainer {
       // with enums that have the same name.
       out.println("// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME\n"
           "import 'dart:core' show int, dynamic, String, List, Map;");
-      out.println("import 'package:protobuf/protobuf.dart';");
+      out.println(
+          "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;");
       out.println();
     }
 
