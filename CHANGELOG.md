@@ -1,6 +1,6 @@
 ## 0.10.0
 
-* Add freezable messages.
+* Add `GeneratedMessage.freeze()`. A frozen message and its sub-messages cannot be changed.
 
 ## 0.9.1
 
