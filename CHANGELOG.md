@@ -1,3 +1,8 @@
+## 0.10.0
+
+* Breaking change: Add `GeneratedMessage.freeze()`. A frozen message and its
+  sub-messages cannot be changed.
+
 ## 0.9.1
 
 * Fix problem with encoding negative enum values.

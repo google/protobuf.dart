@@ -10,8 +10,10 @@ library protobuf.meta;
 const List<String> GeneratedMessage_reservedNames = const [
   'hashCode',
   'noSuchMethod',
+  'copyWith',
   'runtimeType',
   'toString',
+  'freeze',
   'fromBuffer',
   'fromJson',
   'hasRequiredFields',
@@ -63,5 +65,6 @@ const List<String> GeneratedMessage_reservedNames = const [
   r'$_setSignedInt32',
   r'$_setUnsignedInt32',
   r'$_setInt64',
+  'toBuilder',
   'toDebugString',
 ];
