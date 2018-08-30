@@ -6,6 +6,7 @@ part of protobuf;
 
 /// Per-message type setup.
 class BuilderInfo {
+  /// The fully qualified name of this message.
   final String messageName;
   final List<FieldInfo> byIndex = <FieldInfo>[];
   final Map<int, FieldInfo> fieldInfo = new Map<int, FieldInfo>();
@@ -15,7 +16,8 @@ class BuilderInfo {
   bool hasRequiredFields = true;
   List<FieldInfo> _sortedByTag;
 
-  BuilderInfo(this.messageName);
+  BuilderInfo(String messageName, {PackageName package = const PackageName('')})
+      : messageName = "${package.prefix}$messageName";
 
   void add<T>(
       int tagNumber,
