@@ -36,6 +36,20 @@ main() {
     }, throwsError(ArgumentError, "tag 123 not defined in Rec"));
   });
 
+  test('operator== and hashCode works for frozen message', () {
+    final a = new Rec()
+      ..val = 123
+      ..int32s.addAll([1, 2, 3])
+      ..freeze();
+    final b = new Rec()
+      ..val = 123
+      ..int32s.addAll([1, 2, 3]);
+
+    expect(a.hashCode, b.hashCode);
+    expect(a == b, true);
+    expect(b == a, true);
+  });
+
   test('operator== and hashCode work for a simple record', () {
     var a = new Rec();
     expect(a == a, true);
