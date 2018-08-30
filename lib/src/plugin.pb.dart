@@ -26,14 +26,12 @@ class Version extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   Version clone() => new Version()..mergeFromMessage(this);
+  Version copyWith(void Function(Version) updates) =>
+      super.copyWith((message) => updates(message as Version));
   $pb.BuilderInfo get info_ => _i;
   static Version create() => new Version();
   static $pb.PbList<Version> createRepeated() => new $pb.PbList<Version>();
-  static Version getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyVersion();
-    return _defaultInstance;
-  }
-
+  static Version getDefault() => _defaultInstance ??= create()..freeze();
   static Version _defaultInstance;
   static void $checkItem(Version v) {
     if (v is! Version) $pb.checkItemFailed(v, 'Version');
@@ -72,8 +70,6 @@ class Version extends $pb.GeneratedMessage {
   void clearSuffix() => clearField(4);
 }
 
-class _ReadonlyVersion extends Version with $pb.ReadonlyMessageMixin {}
-
 class CodeGeneratorRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CodeGeneratorRequest')
     ..pPS(1, 'fileToGenerate')
@@ -96,16 +92,14 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   CodeGeneratorRequest clone() =>
       new CodeGeneratorRequest()..mergeFromMessage(this);
+  CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
+      super.copyWith((message) => updates(message as CodeGeneratorRequest));
   $pb.BuilderInfo get info_ => _i;
   static CodeGeneratorRequest create() => new CodeGeneratorRequest();
   static $pb.PbList<CodeGeneratorRequest> createRepeated() =>
       new $pb.PbList<CodeGeneratorRequest>();
-  static CodeGeneratorRequest getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyCodeGeneratorRequest();
-    return _defaultInstance;
-  }
-
+  static CodeGeneratorRequest getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static CodeGeneratorRequest _defaultInstance;
   static void $checkItem(CodeGeneratorRequest v) {
     if (v is! CodeGeneratorRequest)
@@ -133,9 +127,6 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   List<$google$protobuf.FileDescriptorProto> get protoFile => $_getList(3);
 }
 
-class _ReadonlyCodeGeneratorRequest extends CodeGeneratorRequest
-    with $pb.ReadonlyMessageMixin {}
-
 class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('CodeGeneratorResponse_File')
@@ -153,17 +144,17 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   CodeGeneratorResponse_File clone() =>
       new CodeGeneratorResponse_File()..mergeFromMessage(this);
+  CodeGeneratorResponse_File copyWith(
+          void Function(CodeGeneratorResponse_File) updates) =>
+      super.copyWith(
+          (message) => updates(message as CodeGeneratorResponse_File));
   $pb.BuilderInfo get info_ => _i;
   static CodeGeneratorResponse_File create() =>
       new CodeGeneratorResponse_File();
   static $pb.PbList<CodeGeneratorResponse_File> createRepeated() =>
       new $pb.PbList<CodeGeneratorResponse_File>();
-  static CodeGeneratorResponse_File getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyCodeGeneratorResponse_File();
-    return _defaultInstance;
-  }
-
+  static CodeGeneratorResponse_File getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static CodeGeneratorResponse_File _defaultInstance;
   static void $checkItem(CodeGeneratorResponse_File v) {
     if (v is! CodeGeneratorResponse_File)
@@ -195,9 +186,6 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   void clearContent() => clearField(15);
 }
 
-class _ReadonlyCodeGeneratorResponse_File extends CodeGeneratorResponse_File
-    with $pb.ReadonlyMessageMixin {}
-
 class CodeGeneratorResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CodeGeneratorResponse')
     ..aOS(1, 'error')
@@ -218,16 +206,15 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   CodeGeneratorResponse clone() =>
       new CodeGeneratorResponse()..mergeFromMessage(this);
+  CodeGeneratorResponse copyWith(
+          void Function(CodeGeneratorResponse) updates) =>
+      super.copyWith((message) => updates(message as CodeGeneratorResponse));
   $pb.BuilderInfo get info_ => _i;
   static CodeGeneratorResponse create() => new CodeGeneratorResponse();
   static $pb.PbList<CodeGeneratorResponse> createRepeated() =>
       new $pb.PbList<CodeGeneratorResponse>();
-  static CodeGeneratorResponse getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyCodeGeneratorResponse();
-    return _defaultInstance;
-  }
-
+  static CodeGeneratorResponse getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static CodeGeneratorResponse _defaultInstance;
   static void $checkItem(CodeGeneratorResponse v) {
     if (v is! CodeGeneratorResponse)
@@ -244,6 +231,3 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
 
   List<CodeGeneratorResponse_File> get file => $_getList(1);
 }
-
-class _ReadonlyCodeGeneratorResponse extends CodeGeneratorResponse
-    with $pb.ReadonlyMessageMixin {}

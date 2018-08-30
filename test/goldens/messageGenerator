@@ -9,13 +9,11 @@ class PhoneNumber extends $pb.GeneratedMessage {
   PhoneNumber.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
   PhoneNumber.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
+  PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber));
   $pb.BuilderInfo get info_ => _i;
   static PhoneNumber create() => new PhoneNumber();
   static $pb.PbList<PhoneNumber> createRepeated() => new $pb.PbList<PhoneNumber>();
-  static PhoneNumber getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyPhoneNumber();
-    return _defaultInstance;
-  }
+  static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
   static PhoneNumber _defaultInstance;
   static void $checkItem(PhoneNumber v) {
     if (v is! PhoneNumber) $pb.checkItemFailed(v, 'PhoneNumber');
@@ -36,6 +34,4 @@ class PhoneNumber extends $pb.GeneratedMessage {
   bool hasName() => $_has(2);
   void clearName() => clearField(3);
 }
-
-class _ReadonlyPhoneNumber extends PhoneNumber with $pb.ReadonlyMessageMixin {}
 

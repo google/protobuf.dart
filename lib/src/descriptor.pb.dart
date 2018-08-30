@@ -26,16 +26,14 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   FileDescriptorSet clone() => new FileDescriptorSet()..mergeFromMessage(this);
+  FileDescriptorSet copyWith(void Function(FileDescriptorSet) updates) =>
+      super.copyWith((message) => updates(message as FileDescriptorSet));
   $pb.BuilderInfo get info_ => _i;
   static FileDescriptorSet create() => new FileDescriptorSet();
   static $pb.PbList<FileDescriptorSet> createRepeated() =>
       new $pb.PbList<FileDescriptorSet>();
-  static FileDescriptorSet getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyFileDescriptorSet();
-    return _defaultInstance;
-  }
-
+  static FileDescriptorSet getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static FileDescriptorSet _defaultInstance;
   static void $checkItem(FileDescriptorSet v) {
     if (v is! FileDescriptorSet) $pb.checkItemFailed(v, 'FileDescriptorSet');
@@ -43,9 +41,6 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
 
   List<FileDescriptorProto> get file => $_getList(0);
 }
-
-class _ReadonlyFileDescriptorSet extends FileDescriptorSet
-    with $pb.ReadonlyMessageMixin {}
 
 class FileDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileDescriptorProto')
@@ -77,16 +72,14 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   FileDescriptorProto clone() =>
       new FileDescriptorProto()..mergeFromMessage(this);
+  FileDescriptorProto copyWith(void Function(FileDescriptorProto) updates) =>
+      super.copyWith((message) => updates(message as FileDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static FileDescriptorProto create() => new FileDescriptorProto();
   static $pb.PbList<FileDescriptorProto> createRepeated() =>
       new $pb.PbList<FileDescriptorProto>();
-  static FileDescriptorProto getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyFileDescriptorProto();
-    return _defaultInstance;
-  }
-
+  static FileDescriptorProto getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static FileDescriptorProto _defaultInstance;
   static void $checkItem(FileDescriptorProto v) {
     if (v is! FileDescriptorProto)
@@ -148,9 +141,6 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   void clearSyntax() => clearField(12);
 }
 
-class _ReadonlyFileDescriptorProto extends FileDescriptorProto
-    with $pb.ReadonlyMessageMixin {}
-
 class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('DescriptorProto_ExtensionRange')
@@ -167,17 +157,17 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   DescriptorProto_ExtensionRange clone() =>
       new DescriptorProto_ExtensionRange()..mergeFromMessage(this);
+  DescriptorProto_ExtensionRange copyWith(
+          void Function(DescriptorProto_ExtensionRange) updates) =>
+      super.copyWith(
+          (message) => updates(message as DescriptorProto_ExtensionRange));
   $pb.BuilderInfo get info_ => _i;
   static DescriptorProto_ExtensionRange create() =>
       new DescriptorProto_ExtensionRange();
   static $pb.PbList<DescriptorProto_ExtensionRange> createRepeated() =>
       new $pb.PbList<DescriptorProto_ExtensionRange>();
-  static DescriptorProto_ExtensionRange getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDescriptorProto_ExtensionRange();
-    return _defaultInstance;
-  }
-
+  static DescriptorProto_ExtensionRange getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DescriptorProto_ExtensionRange _defaultInstance;
   static void $checkItem(DescriptorProto_ExtensionRange v) {
     if (v is! DescriptorProto_ExtensionRange)
@@ -201,9 +191,6 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   void clearEnd() => clearField(2);
 }
 
-class _ReadonlyDescriptorProto_ExtensionRange
-    extends DescriptorProto_ExtensionRange with $pb.ReadonlyMessageMixin {}
-
 class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('DescriptorProto_ReservedRange')
@@ -220,17 +207,17 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   DescriptorProto_ReservedRange clone() =>
       new DescriptorProto_ReservedRange()..mergeFromMessage(this);
+  DescriptorProto_ReservedRange copyWith(
+          void Function(DescriptorProto_ReservedRange) updates) =>
+      super.copyWith(
+          (message) => updates(message as DescriptorProto_ReservedRange));
   $pb.BuilderInfo get info_ => _i;
   static DescriptorProto_ReservedRange create() =>
       new DescriptorProto_ReservedRange();
   static $pb.PbList<DescriptorProto_ReservedRange> createRepeated() =>
       new $pb.PbList<DescriptorProto_ReservedRange>();
-  static DescriptorProto_ReservedRange getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDescriptorProto_ReservedRange();
-    return _defaultInstance;
-  }
-
+  static DescriptorProto_ReservedRange getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DescriptorProto_ReservedRange _defaultInstance;
   static void $checkItem(DescriptorProto_ReservedRange v) {
     if (v is! DescriptorProto_ReservedRange)
@@ -253,9 +240,6 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   bool hasEnd() => $_has(1);
   void clearEnd() => clearField(2);
 }
-
-class _ReadonlyDescriptorProto_ReservedRange
-    extends DescriptorProto_ReservedRange with $pb.ReadonlyMessageMixin {}
 
 class DescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DescriptorProto')
@@ -294,16 +278,14 @@ class DescriptorProto extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DescriptorProto clone() => new DescriptorProto()..mergeFromMessage(this);
+  DescriptorProto copyWith(void Function(DescriptorProto) updates) =>
+      super.copyWith((message) => updates(message as DescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static DescriptorProto create() => new DescriptorProto();
   static $pb.PbList<DescriptorProto> createRepeated() =>
       new $pb.PbList<DescriptorProto>();
-  static DescriptorProto getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDescriptorProto();
-    return _defaultInstance;
-  }
-
+  static DescriptorProto getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DescriptorProto _defaultInstance;
   static void $checkItem(DescriptorProto v) {
     if (v is! DescriptorProto) $pb.checkItemFailed(v, 'DescriptorProto');
@@ -342,9 +324,6 @@ class DescriptorProto extends $pb.GeneratedMessage {
   List<String> get reservedName => $_getList(9);
 }
 
-class _ReadonlyDescriptorProto extends DescriptorProto
-    with $pb.ReadonlyMessageMixin {}
-
 class FieldDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FieldDescriptorProto')
     ..aOS(1, 'name')
@@ -380,16 +359,14 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   FieldDescriptorProto clone() =>
       new FieldDescriptorProto()..mergeFromMessage(this);
+  FieldDescriptorProto copyWith(void Function(FieldDescriptorProto) updates) =>
+      super.copyWith((message) => updates(message as FieldDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static FieldDescriptorProto create() => new FieldDescriptorProto();
   static $pb.PbList<FieldDescriptorProto> createRepeated() =>
       new $pb.PbList<FieldDescriptorProto>();
-  static FieldDescriptorProto getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyFieldDescriptorProto();
-    return _defaultInstance;
-  }
-
+  static FieldDescriptorProto getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static FieldDescriptorProto _defaultInstance;
   static void $checkItem(FieldDescriptorProto v) {
     if (v is! FieldDescriptorProto)
@@ -477,9 +454,6 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   void clearJsonName() => clearField(10);
 }
 
-class _ReadonlyFieldDescriptorProto extends FieldDescriptorProto
-    with $pb.ReadonlyMessageMixin {}
-
 class OneofDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofDescriptorProto')
     ..aOS(1, 'name')
@@ -495,16 +469,14 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   OneofDescriptorProto clone() =>
       new OneofDescriptorProto()..mergeFromMessage(this);
+  OneofDescriptorProto copyWith(void Function(OneofDescriptorProto) updates) =>
+      super.copyWith((message) => updates(message as OneofDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static OneofDescriptorProto create() => new OneofDescriptorProto();
   static $pb.PbList<OneofDescriptorProto> createRepeated() =>
       new $pb.PbList<OneofDescriptorProto>();
-  static OneofDescriptorProto getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyOneofDescriptorProto();
-    return _defaultInstance;
-  }
-
+  static OneofDescriptorProto getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static OneofDescriptorProto _defaultInstance;
   static void $checkItem(OneofDescriptorProto v) {
     if (v is! OneofDescriptorProto)
@@ -528,9 +500,6 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   void clearOptions() => clearField(2);
 }
 
-class _ReadonlyOneofDescriptorProto extends OneofDescriptorProto
-    with $pb.ReadonlyMessageMixin {}
-
 class EnumDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumDescriptorProto')
     ..aOS(1, 'name')
@@ -548,16 +517,14 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   EnumDescriptorProto clone() =>
       new EnumDescriptorProto()..mergeFromMessage(this);
+  EnumDescriptorProto copyWith(void Function(EnumDescriptorProto) updates) =>
+      super.copyWith((message) => updates(message as EnumDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static EnumDescriptorProto create() => new EnumDescriptorProto();
   static $pb.PbList<EnumDescriptorProto> createRepeated() =>
       new $pb.PbList<EnumDescriptorProto>();
-  static EnumDescriptorProto getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyEnumDescriptorProto();
-    return _defaultInstance;
-  }
-
+  static EnumDescriptorProto getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static EnumDescriptorProto _defaultInstance;
   static void $checkItem(EnumDescriptorProto v) {
     if (v is! EnumDescriptorProto)
@@ -583,9 +550,6 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   void clearOptions() => clearField(3);
 }
 
-class _ReadonlyEnumDescriptorProto extends EnumDescriptorProto
-    with $pb.ReadonlyMessageMixin {}
-
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('EnumValueDescriptorProto')
@@ -603,16 +567,15 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   EnumValueDescriptorProto clone() =>
       new EnumValueDescriptorProto()..mergeFromMessage(this);
+  EnumValueDescriptorProto copyWith(
+          void Function(EnumValueDescriptorProto) updates) =>
+      super.copyWith((message) => updates(message as EnumValueDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static EnumValueDescriptorProto create() => new EnumValueDescriptorProto();
   static $pb.PbList<EnumValueDescriptorProto> createRepeated() =>
       new $pb.PbList<EnumValueDescriptorProto>();
-  static EnumValueDescriptorProto getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyEnumValueDescriptorProto();
-    return _defaultInstance;
-  }
-
+  static EnumValueDescriptorProto getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static EnumValueDescriptorProto _defaultInstance;
   static void $checkItem(EnumValueDescriptorProto v) {
     if (v is! EnumValueDescriptorProto)
@@ -644,9 +607,6 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   void clearOptions() => clearField(3);
 }
 
-class _ReadonlyEnumValueDescriptorProto extends EnumValueDescriptorProto
-    with $pb.ReadonlyMessageMixin {}
-
 class ServiceDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('ServiceDescriptorProto')
@@ -665,16 +625,15 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   ServiceDescriptorProto clone() =>
       new ServiceDescriptorProto()..mergeFromMessage(this);
+  ServiceDescriptorProto copyWith(
+          void Function(ServiceDescriptorProto) updates) =>
+      super.copyWith((message) => updates(message as ServiceDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static ServiceDescriptorProto create() => new ServiceDescriptorProto();
   static $pb.PbList<ServiceDescriptorProto> createRepeated() =>
       new $pb.PbList<ServiceDescriptorProto>();
-  static ServiceDescriptorProto getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyServiceDescriptorProto();
-    return _defaultInstance;
-  }
-
+  static ServiceDescriptorProto getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static ServiceDescriptorProto _defaultInstance;
   static void $checkItem(ServiceDescriptorProto v) {
     if (v is! ServiceDescriptorProto)
@@ -700,9 +659,6 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   void clearOptions() => clearField(3);
 }
 
-class _ReadonlyServiceDescriptorProto extends ServiceDescriptorProto
-    with $pb.ReadonlyMessageMixin {}
-
 class MethodDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MethodDescriptorProto')
     ..aOS(1, 'name')
@@ -722,16 +678,15 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   MethodDescriptorProto clone() =>
       new MethodDescriptorProto()..mergeFromMessage(this);
+  MethodDescriptorProto copyWith(
+          void Function(MethodDescriptorProto) updates) =>
+      super.copyWith((message) => updates(message as MethodDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static MethodDescriptorProto create() => new MethodDescriptorProto();
   static $pb.PbList<MethodDescriptorProto> createRepeated() =>
       new $pb.PbList<MethodDescriptorProto>();
-  static MethodDescriptorProto getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyMethodDescriptorProto();
-    return _defaultInstance;
-  }
-
+  static MethodDescriptorProto getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static MethodDescriptorProto _defaultInstance;
   static void $checkItem(MethodDescriptorProto v) {
     if (v is! MethodDescriptorProto)
@@ -787,9 +742,6 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   void clearServerStreaming() => clearField(6);
 }
 
-class _ReadonlyMethodDescriptorProto extends MethodDescriptorProto
-    with $pb.ReadonlyMessageMixin {}
-
 class FileOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileOptions')
     ..aOS(1, 'javaPackage')
@@ -827,15 +779,13 @@ class FileOptions extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   FileOptions clone() => new FileOptions()..mergeFromMessage(this);
+  FileOptions copyWith(void Function(FileOptions) updates) =>
+      super.copyWith((message) => updates(message as FileOptions));
   $pb.BuilderInfo get info_ => _i;
   static FileOptions create() => new FileOptions();
   static $pb.PbList<FileOptions> createRepeated() =>
       new $pb.PbList<FileOptions>();
-  static FileOptions getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyFileOptions();
-    return _defaultInstance;
-  }
-
+  static FileOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FileOptions _defaultInstance;
   static void $checkItem(FileOptions v) {
     if (v is! FileOptions) $pb.checkItemFailed(v, 'FileOptions');
@@ -980,8 +930,6 @@ class FileOptions extends $pb.GeneratedMessage {
   List<UninterpretedOption> get uninterpretedOption => $_getList(17);
 }
 
-class _ReadonlyFileOptions extends FileOptions with $pb.ReadonlyMessageMixin {}
-
 class MessageOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MessageOptions')
     ..aOB(1, 'messageSetWireFormat')
@@ -1000,16 +948,13 @@ class MessageOptions extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   MessageOptions clone() => new MessageOptions()..mergeFromMessage(this);
+  MessageOptions copyWith(void Function(MessageOptions) updates) =>
+      super.copyWith((message) => updates(message as MessageOptions));
   $pb.BuilderInfo get info_ => _i;
   static MessageOptions create() => new MessageOptions();
   static $pb.PbList<MessageOptions> createRepeated() =>
       new $pb.PbList<MessageOptions>();
-  static MessageOptions getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyMessageOptions();
-    return _defaultInstance;
-  }
-
+  static MessageOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MessageOptions _defaultInstance;
   static void $checkItem(MessageOptions v) {
     if (v is! MessageOptions) $pb.checkItemFailed(v, 'MessageOptions');
@@ -1050,9 +995,6 @@ class MessageOptions extends $pb.GeneratedMessage {
   List<UninterpretedOption> get uninterpretedOption => $_getList(4);
 }
 
-class _ReadonlyMessageOptions extends MessageOptions
-    with $pb.ReadonlyMessageMixin {}
-
 class FieldOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FieldOptions')
     ..e<FieldOptions_CType>(
@@ -1085,16 +1027,13 @@ class FieldOptions extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   FieldOptions clone() => new FieldOptions()..mergeFromMessage(this);
+  FieldOptions copyWith(void Function(FieldOptions) updates) =>
+      super.copyWith((message) => updates(message as FieldOptions));
   $pb.BuilderInfo get info_ => _i;
   static FieldOptions create() => new FieldOptions();
   static $pb.PbList<FieldOptions> createRepeated() =>
       new $pb.PbList<FieldOptions>();
-  static FieldOptions getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyFieldOptions();
-    return _defaultInstance;
-  }
-
+  static FieldOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FieldOptions _defaultInstance;
   static void $checkItem(FieldOptions v) {
     if (v is! FieldOptions) $pb.checkItemFailed(v, 'FieldOptions');
@@ -1151,9 +1090,6 @@ class FieldOptions extends $pb.GeneratedMessage {
   List<UninterpretedOption> get uninterpretedOption => $_getList(6);
 }
 
-class _ReadonlyFieldOptions extends FieldOptions with $pb.ReadonlyMessageMixin {
-}
-
 class OneofOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofOptions')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
@@ -1168,25 +1104,19 @@ class OneofOptions extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   OneofOptions clone() => new OneofOptions()..mergeFromMessage(this);
+  OneofOptions copyWith(void Function(OneofOptions) updates) =>
+      super.copyWith((message) => updates(message as OneofOptions));
   $pb.BuilderInfo get info_ => _i;
   static OneofOptions create() => new OneofOptions();
   static $pb.PbList<OneofOptions> createRepeated() =>
       new $pb.PbList<OneofOptions>();
-  static OneofOptions getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyOneofOptions();
-    return _defaultInstance;
-  }
-
+  static OneofOptions getDefault() => _defaultInstance ??= create()..freeze();
   static OneofOptions _defaultInstance;
   static void $checkItem(OneofOptions v) {
     if (v is! OneofOptions) $pb.checkItemFailed(v, 'OneofOptions');
   }
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(0);
-}
-
-class _ReadonlyOneofOptions extends OneofOptions with $pb.ReadonlyMessageMixin {
 }
 
 class EnumOptions extends $pb.GeneratedMessage {
@@ -1205,15 +1135,13 @@ class EnumOptions extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   EnumOptions clone() => new EnumOptions()..mergeFromMessage(this);
+  EnumOptions copyWith(void Function(EnumOptions) updates) =>
+      super.copyWith((message) => updates(message as EnumOptions));
   $pb.BuilderInfo get info_ => _i;
   static EnumOptions create() => new EnumOptions();
   static $pb.PbList<EnumOptions> createRepeated() =>
       new $pb.PbList<EnumOptions>();
-  static EnumOptions getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEnumOptions();
-    return _defaultInstance;
-  }
-
+  static EnumOptions getDefault() => _defaultInstance ??= create()..freeze();
   static EnumOptions _defaultInstance;
   static void $checkItem(EnumOptions v) {
     if (v is! EnumOptions) $pb.checkItemFailed(v, 'EnumOptions');
@@ -1238,8 +1166,6 @@ class EnumOptions extends $pb.GeneratedMessage {
   List<UninterpretedOption> get uninterpretedOption => $_getList(2);
 }
 
-class _ReadonlyEnumOptions extends EnumOptions with $pb.ReadonlyMessageMixin {}
-
 class EnumValueOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumValueOptions')
     ..aOB(1, 'deprecated')
@@ -1255,16 +1181,14 @@ class EnumValueOptions extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   EnumValueOptions clone() => new EnumValueOptions()..mergeFromMessage(this);
+  EnumValueOptions copyWith(void Function(EnumValueOptions) updates) =>
+      super.copyWith((message) => updates(message as EnumValueOptions));
   $pb.BuilderInfo get info_ => _i;
   static EnumValueOptions create() => new EnumValueOptions();
   static $pb.PbList<EnumValueOptions> createRepeated() =>
       new $pb.PbList<EnumValueOptions>();
-  static EnumValueOptions getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyEnumValueOptions();
-    return _defaultInstance;
-  }
-
+  static EnumValueOptions getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static EnumValueOptions _defaultInstance;
   static void $checkItem(EnumValueOptions v) {
     if (v is! EnumValueOptions) $pb.checkItemFailed(v, 'EnumValueOptions');
@@ -1281,9 +1205,6 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   List<UninterpretedOption> get uninterpretedOption => $_getList(1);
 }
 
-class _ReadonlyEnumValueOptions extends EnumValueOptions
-    with $pb.ReadonlyMessageMixin {}
-
 class ServiceOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ServiceOptions')
     ..aOB(33, 'deprecated')
@@ -1299,16 +1220,13 @@ class ServiceOptions extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ServiceOptions clone() => new ServiceOptions()..mergeFromMessage(this);
+  ServiceOptions copyWith(void Function(ServiceOptions) updates) =>
+      super.copyWith((message) => updates(message as ServiceOptions));
   $pb.BuilderInfo get info_ => _i;
   static ServiceOptions create() => new ServiceOptions();
   static $pb.PbList<ServiceOptions> createRepeated() =>
       new $pb.PbList<ServiceOptions>();
-  static ServiceOptions getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyServiceOptions();
-    return _defaultInstance;
-  }
-
+  static ServiceOptions getDefault() => _defaultInstance ??= create()..freeze();
   static ServiceOptions _defaultInstance;
   static void $checkItem(ServiceOptions v) {
     if (v is! ServiceOptions) $pb.checkItemFailed(v, 'ServiceOptions');
@@ -1324,9 +1242,6 @@ class ServiceOptions extends $pb.GeneratedMessage {
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(1);
 }
-
-class _ReadonlyServiceOptions extends ServiceOptions
-    with $pb.ReadonlyMessageMixin {}
 
 class MethodOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MethodOptions')
@@ -1350,16 +1265,13 @@ class MethodOptions extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   MethodOptions clone() => new MethodOptions()..mergeFromMessage(this);
+  MethodOptions copyWith(void Function(MethodOptions) updates) =>
+      super.copyWith((message) => updates(message as MethodOptions));
   $pb.BuilderInfo get info_ => _i;
   static MethodOptions create() => new MethodOptions();
   static $pb.PbList<MethodOptions> createRepeated() =>
       new $pb.PbList<MethodOptions>();
-  static MethodOptions getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyMethodOptions();
-    return _defaultInstance;
-  }
-
+  static MethodOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MethodOptions _defaultInstance;
   static void $checkItem(MethodOptions v) {
     if (v is! MethodOptions) $pb.checkItemFailed(v, 'MethodOptions');
@@ -1384,9 +1296,6 @@ class MethodOptions extends $pb.GeneratedMessage {
   List<UninterpretedOption> get uninterpretedOption => $_getList(2);
 }
 
-class _ReadonlyMethodOptions extends MethodOptions
-    with $pb.ReadonlyMessageMixin {}
-
 class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('UninterpretedOption_NamePart')
@@ -1402,17 +1311,17 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   UninterpretedOption_NamePart clone() =>
       new UninterpretedOption_NamePart()..mergeFromMessage(this);
+  UninterpretedOption_NamePart copyWith(
+          void Function(UninterpretedOption_NamePart) updates) =>
+      super.copyWith(
+          (message) => updates(message as UninterpretedOption_NamePart));
   $pb.BuilderInfo get info_ => _i;
   static UninterpretedOption_NamePart create() =>
       new UninterpretedOption_NamePart();
   static $pb.PbList<UninterpretedOption_NamePart> createRepeated() =>
       new $pb.PbList<UninterpretedOption_NamePart>();
-  static UninterpretedOption_NamePart getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyUninterpretedOption_NamePart();
-    return _defaultInstance;
-  }
-
+  static UninterpretedOption_NamePart getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static UninterpretedOption_NamePart _defaultInstance;
   static void $checkItem(UninterpretedOption_NamePart v) {
     if (v is! UninterpretedOption_NamePart)
@@ -1435,9 +1344,6 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   bool hasIsExtension() => $_has(1);
   void clearIsExtension() => clearField(2);
 }
-
-class _ReadonlyUninterpretedOption_NamePart extends UninterpretedOption_NamePart
-    with $pb.ReadonlyMessageMixin {}
 
 class UninterpretedOption extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UninterpretedOption')
@@ -1463,16 +1369,14 @@ class UninterpretedOption extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   UninterpretedOption clone() =>
       new UninterpretedOption()..mergeFromMessage(this);
+  UninterpretedOption copyWith(void Function(UninterpretedOption) updates) =>
+      super.copyWith((message) => updates(message as UninterpretedOption));
   $pb.BuilderInfo get info_ => _i;
   static UninterpretedOption create() => new UninterpretedOption();
   static $pb.PbList<UninterpretedOption> createRepeated() =>
       new $pb.PbList<UninterpretedOption>();
-  static UninterpretedOption getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyUninterpretedOption();
-    return _defaultInstance;
-  }
-
+  static UninterpretedOption getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static UninterpretedOption _defaultInstance;
   static void $checkItem(UninterpretedOption v) {
     if (v is! UninterpretedOption)
@@ -1530,9 +1434,6 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   void clearAggregateValue() => clearField(8);
 }
 
-class _ReadonlyUninterpretedOption extends UninterpretedOption
-    with $pb.ReadonlyMessageMixin {}
-
 class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('SourceCodeInfo_Location')
@@ -1552,16 +1453,15 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   SourceCodeInfo_Location clone() =>
       new SourceCodeInfo_Location()..mergeFromMessage(this);
+  SourceCodeInfo_Location copyWith(
+          void Function(SourceCodeInfo_Location) updates) =>
+      super.copyWith((message) => updates(message as SourceCodeInfo_Location));
   $pb.BuilderInfo get info_ => _i;
   static SourceCodeInfo_Location create() => new SourceCodeInfo_Location();
   static $pb.PbList<SourceCodeInfo_Location> createRepeated() =>
       new $pb.PbList<SourceCodeInfo_Location>();
-  static SourceCodeInfo_Location getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlySourceCodeInfo_Location();
-    return _defaultInstance;
-  }
-
+  static SourceCodeInfo_Location getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static SourceCodeInfo_Location _defaultInstance;
   static void $checkItem(SourceCodeInfo_Location v) {
     if (v is! SourceCodeInfo_Location)
@@ -1591,9 +1491,6 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   List<String> get leadingDetachedComments => $_getList(4);
 }
 
-class _ReadonlySourceCodeInfo_Location extends SourceCodeInfo_Location
-    with $pb.ReadonlyMessageMixin {}
-
 class SourceCodeInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SourceCodeInfo')
     ..pp<SourceCodeInfo_Location>(1, 'location', $pb.PbFieldType.PM,
@@ -1608,16 +1505,13 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   SourceCodeInfo clone() => new SourceCodeInfo()..mergeFromMessage(this);
+  SourceCodeInfo copyWith(void Function(SourceCodeInfo) updates) =>
+      super.copyWith((message) => updates(message as SourceCodeInfo));
   $pb.BuilderInfo get info_ => _i;
   static SourceCodeInfo create() => new SourceCodeInfo();
   static $pb.PbList<SourceCodeInfo> createRepeated() =>
       new $pb.PbList<SourceCodeInfo>();
-  static SourceCodeInfo getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlySourceCodeInfo();
-    return _defaultInstance;
-  }
-
+  static SourceCodeInfo getDefault() => _defaultInstance ??= create()..freeze();
   static SourceCodeInfo _defaultInstance;
   static void $checkItem(SourceCodeInfo v) {
     if (v is! SourceCodeInfo) $pb.checkItemFailed(v, 'SourceCodeInfo');
@@ -1625,9 +1519,6 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
 
   List<SourceCodeInfo_Location> get location => $_getList(0);
 }
-
-class _ReadonlySourceCodeInfo extends SourceCodeInfo
-    with $pb.ReadonlyMessageMixin {}
 
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
@@ -1647,17 +1538,17 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
       : super.fromJson(i, r);
   GeneratedCodeInfo_Annotation clone() =>
       new GeneratedCodeInfo_Annotation()..mergeFromMessage(this);
+  GeneratedCodeInfo_Annotation copyWith(
+          void Function(GeneratedCodeInfo_Annotation) updates) =>
+      super.copyWith(
+          (message) => updates(message as GeneratedCodeInfo_Annotation));
   $pb.BuilderInfo get info_ => _i;
   static GeneratedCodeInfo_Annotation create() =>
       new GeneratedCodeInfo_Annotation();
   static $pb.PbList<GeneratedCodeInfo_Annotation> createRepeated() =>
       new $pb.PbList<GeneratedCodeInfo_Annotation>();
-  static GeneratedCodeInfo_Annotation getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyGeneratedCodeInfo_Annotation();
-    return _defaultInstance;
-  }
-
+  static GeneratedCodeInfo_Annotation getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static GeneratedCodeInfo_Annotation _defaultInstance;
   static void $checkItem(GeneratedCodeInfo_Annotation v) {
     if (v is! GeneratedCodeInfo_Annotation)
@@ -1691,9 +1582,6 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   void clearEnd() => clearField(4);
 }
 
-class _ReadonlyGeneratedCodeInfo_Annotation extends GeneratedCodeInfo_Annotation
-    with $pb.ReadonlyMessageMixin {}
-
 class GeneratedCodeInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GeneratedCodeInfo')
     ..pp<GeneratedCodeInfo_Annotation>(
@@ -1712,16 +1600,14 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   GeneratedCodeInfo clone() => new GeneratedCodeInfo()..mergeFromMessage(this);
+  GeneratedCodeInfo copyWith(void Function(GeneratedCodeInfo) updates) =>
+      super.copyWith((message) => updates(message as GeneratedCodeInfo));
   $pb.BuilderInfo get info_ => _i;
   static GeneratedCodeInfo create() => new GeneratedCodeInfo();
   static $pb.PbList<GeneratedCodeInfo> createRepeated() =>
       new $pb.PbList<GeneratedCodeInfo>();
-  static GeneratedCodeInfo getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyGeneratedCodeInfo();
-    return _defaultInstance;
-  }
-
+  static GeneratedCodeInfo getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static GeneratedCodeInfo _defaultInstance;
   static void $checkItem(GeneratedCodeInfo v) {
     if (v is! GeneratedCodeInfo) $pb.checkItemFailed(v, 'GeneratedCodeInfo');
@@ -1729,6 +1615,3 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
 
   List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
 }
-
-class _ReadonlyGeneratedCodeInfo extends GeneratedCodeInfo
-    with $pb.ReadonlyMessageMixin {}

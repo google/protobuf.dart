@@ -1,3 +1,8 @@
+## 0.9.0
+
+* Breaking change: Add `copyWith()` to message classes and update `getDefault()` to use `freeze()`.
+  Requires package:protobuf version 0.10.0 or newer.
+
 ## 0.8.2
 
 * Generated code now imports 'package:protobuf/protobuf.dart' prefixed.

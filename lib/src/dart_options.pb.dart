@@ -23,14 +23,12 @@ class DartMixin extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DartMixin clone() => new DartMixin()..mergeFromMessage(this);
+  DartMixin copyWith(void Function(DartMixin) updates) =>
+      super.copyWith((message) => updates(message as DartMixin));
   $pb.BuilderInfo get info_ => _i;
   static DartMixin create() => new DartMixin();
   static $pb.PbList<DartMixin> createRepeated() => new $pb.PbList<DartMixin>();
-  static DartMixin getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDartMixin();
-    return _defaultInstance;
-  }
-
+  static DartMixin getDefault() => _defaultInstance ??= create()..freeze();
   static DartMixin _defaultInstance;
   static void $checkItem(DartMixin v) {
     if (v is! DartMixin) $pb.checkItemFailed(v, 'DartMixin');
@@ -61,8 +59,6 @@ class DartMixin extends $pb.GeneratedMessage {
   void clearParent() => clearField(3);
 }
 
-class _ReadonlyDartMixin extends DartMixin with $pb.ReadonlyMessageMixin {}
-
 class Imports extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Imports')
     ..pp<DartMixin>(
@@ -77,14 +73,12 @@ class Imports extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   Imports clone() => new Imports()..mergeFromMessage(this);
+  Imports copyWith(void Function(Imports) updates) =>
+      super.copyWith((message) => updates(message as Imports));
   $pb.BuilderInfo get info_ => _i;
   static Imports create() => new Imports();
   static $pb.PbList<Imports> createRepeated() => new $pb.PbList<Imports>();
-  static Imports getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyImports();
-    return _defaultInstance;
-  }
-
+  static Imports getDefault() => _defaultInstance ??= create()..freeze();
   static Imports _defaultInstance;
   static void $checkItem(Imports v) {
     if (v is! Imports) $pb.checkItemFailed(v, 'Imports');
@@ -92,8 +86,6 @@ class Imports extends $pb.GeneratedMessage {
 
   List<DartMixin> get mixins => $_getList(0);
 }
-
-class _ReadonlyImports extends Imports with $pb.ReadonlyMessageMixin {}
 
 class Dart_options {
   static final $pb.Extension imports = new $pb.Extension<Imports>(

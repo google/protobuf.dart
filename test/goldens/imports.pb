@@ -23,13 +23,11 @@ class M extends $pb.GeneratedMessage {
   M.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
   M.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   M clone() => new M()..mergeFromMessage(this);
+  M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M));
   $pb.BuilderInfo get info_ => _i;
   static M create() => new M();
   static $pb.PbList<M> createRepeated() => new $pb.PbList<M>();
-  static M getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyM();
-    return _defaultInstance;
-  }
+  static M getDefault() => _defaultInstance ??= create()..freeze();
   static M _defaultInstance;
   static void $checkItem(M v) {
     if (v is! M) $pb.checkItemFailed(v, 'M');
@@ -50,6 +48,4 @@ class M extends $pb.GeneratedMessage {
   bool hasM2() => $_has(2);
   void clearM2() => clearField(3);
 }
-
-class _ReadonlyM extends M with $pb.ReadonlyMessageMixin {}
 
