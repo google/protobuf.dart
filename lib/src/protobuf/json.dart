@@ -5,12 +5,11 @@
 part of protobuf;
 
 Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
-  convertToMap(fieldValue, int fieldType) {
+  convertToMap(dynamic fieldValue, int fieldType) {
     int baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
-      PbList pbList = fieldValue;
-      return new List.from(pbList.map((e) => convertToMap(e, baseType)));
+      return new List.from(fieldValue.map((e) => convertToMap(e, baseType)));
     }
 
     switch (baseType) {

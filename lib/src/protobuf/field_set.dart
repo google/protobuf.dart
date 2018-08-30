@@ -4,6 +4,28 @@
 
 part of protobuf;
 
+typedef void FrozenMessageErrorHandler(String messageName, [String methodName]);
+
+void defaultFrozenMessageModificationHandler(String messageName,
+    [String methodName]) {
+  if (methodName != null) {
+    throw new UnsupportedError(
+        "Attempted to call $methodName on a read-only message ($messageName)");
+  }
+  throw new UnsupportedError(
+      "Attempted to change a read-only message ($messageName)");
+}
+
+/// Invoked when an attempt is made to modify a frozen message.
+///
+/// This handler can log the attempt, throw an exception, or ignore the attempt
+/// altogether.
+///
+/// If the handler returns normally, the modification is allowed, and execution
+/// proceeds as if the message was writable.
+FrozenMessageErrorHandler frozenMessageModificationHandler =
+    defaultFrozenMessageModificationHandler;
+
 /// All the data in a GeneratedMessage.
 ///
 /// These fields and methods are in a separate class to avoid
@@ -13,6 +35,7 @@ class _FieldSet {
   final GeneratedMessage _message;
   final BuilderInfo _meta;
   final EventPlugin _eventPlugin;
+  bool _isReadOnly = false;
 
   /// The value of each non-extension field in a fixed-length array.
   /// The index of a field can be found in [FieldInfo.index].
@@ -41,7 +64,6 @@ class _FieldSet {
   // Metadata about multiple fields
 
   String get _messageName => _meta.messageName;
-  bool get _isReadOnly => _message._isReadOnly;
   bool get _hasRequiredFields => _meta.hasRequiredFields;
 
   /// The FieldInfo for each non-extension field.
@@ -90,6 +112,32 @@ class _FieldSet {
     if (fi != null) return fi;
     if (!_hasExtensions) return null;
     return _extensions._getInfoOrNull(tagNumber);
+  }
+
+  void _markReadOnly() {
+    if (_isReadOnly) return;
+    _isReadOnly = true;
+    for (var field in _meta.sortedByTag) {
+      if (field.isRepeated) {
+        final entries = _values[field.index];
+        if (entries == null) continue;
+        if (field.isGroupOrMessage) {
+          for (var subMessage in entries as List<GeneratedMessage>) {
+            subMessage.freeze();
+          }
+        }
+        _values[field.index] = entries.toFrozenPbList();
+      } else if (field.isGroupOrMessage) {
+        final entry = _values[field.index];
+        if (entry != null) {
+          (entry as GeneratedMessage).freeze();
+        }
+      }
+    }
+  }
+
+  void _ensureWritable() {
+    if (_isReadOnly) frozenMessageModificationHandler(_messageName);
   }
 
   // Single-field operations
@@ -163,6 +211,7 @@ class _FieldSet {
   }
 
   void _clearField(int tagNumber) {
+    _ensureWritable();
     var fi = _nonExtensionInfo(tagNumber);
     if (fi != null) {
       // clear a non-extension field
@@ -312,10 +361,7 @@ class _FieldSet {
   void _$set(int index, value) {
     assert(!_nonExtensionInfoByIndex(index).isRepeated);
     assert(_$check(index, value));
-    if (_isReadOnly) {
-      throw new UnsupportedError(
-          "attempted to call a setter on a read-only message ($_messageName)");
-    }
+    _ensureWritable();
     if (value == null) {
       _$check(index, value); // throw exception for null value
     }
@@ -333,6 +379,7 @@ class _FieldSet {
   // Bulk operations reading or writing multiple fields
 
   void _clear() {
+    _ensureWritable();
     if (_unknownFields != null) {
       _unknownFields.clear();
     }
@@ -411,7 +458,7 @@ class _FieldSet {
   int get _hashCode {
     int hash;
 
-    void hashEnumList(PbList enums) {
+    void hashEnumList(PbListBase enums) {
       for (ProtobufEnum enm in enums) {
         hash = 0x1fffffff & ((31 * hash) + enm.value);
       }
@@ -536,15 +583,15 @@ class _FieldSet {
 
     if (fi.isRepeated) {
       if (mustClone) {
-        // fieldValue must be a PbList of GeneratedMessage.
-        PbList<GeneratedMessage> pbList = fieldValue;
+        // fieldValue must be a PbListBase of GeneratedMessage.
+        PbListBase<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(this);
         for (int i = 0; i < pbList.length; ++i) {
           repeatedFields.add(_cloneMessage(pbList[i]));
         }
       } else {
-        // fieldValue must be at least a PbList.
-        PbList pbList = fieldValue;
+        // fieldValue must be at least a PbListBase.
+        PbListBase pbList = fieldValue;
         fi._ensureRepeatedField(this).addAll(pbList);
       }
       return;
@@ -572,6 +619,7 @@ class _FieldSet {
 
   /// Checks the value for a field that's about to be set.
   void _validateField(FieldInfo fi, var newValue) {
+    _ensureWritable();
     var message = _getFieldError(fi.type, newValue);
     if (message != null) {
       throw new ArgumentError(_setFieldFailedMessage(fi, newValue, message));

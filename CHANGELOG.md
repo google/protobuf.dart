@@ -1,6 +1,11 @@
-## 0.9.2
+## 0.10.1
 
 * Added Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.
+
+## 0.10.0
+
+* Breaking change: Add `GeneratedMessage.freeze()`. A frozen message and its
+  sub-messages cannot be changed.
 
 ## 0.9.1
 

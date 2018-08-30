@@ -8,6 +8,8 @@ part of protobuf;
 abstract class ReadonlyMessageMixin {
   BuilderInfo get info_;
 
+  bool get _isReadOnly => true;
+
   void addExtension(Extension extension, var value) =>
       _readonly("addExtension");
 
@@ -52,8 +54,7 @@ abstract class ReadonlyMessageMixin {
 
   void _readonly(String methodName) {
     String messageType = info_.messageName;
-    throw new UnsupportedError(
-        "attempted to call $methodName on a read-only message ($messageType)");
+    frozenMessageModificationHandler(messageType, methodName);
   }
 }
 
@@ -92,7 +93,6 @@ class _ReadonlyUnknownFieldSet extends UnknownFieldSet {
   }
 
   void _readonly(String methodName) {
-    throw new UnsupportedError(
-        "attempted to call $methodName on a read-only UnknownFieldSet");
+    frozenMessageModificationHandler('UnknownFieldSet', methodName);
   }
 }

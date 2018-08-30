@@ -6,23 +6,168 @@ part of protobuf;
 
 typedef void CheckFunc<E>(E x);
 
-class PbList<E> extends ListBase<E> {
+class FrozenPbList<E> extends PbListBase<E> {
+  FrozenPbList._(List<E> wrappedList) : super._(wrappedList);
+
+  factory FrozenPbList.from(PbList<E> other) =>
+      new FrozenPbList._(other._wrappedList);
+
+  UnsupportedError _unsupported(String method) =>
+      new UnsupportedError("Cannot call $method on an unmodifiable list");
+
+  void operator []=(int index, E value) => throw _unsupported("set");
+  set length(int newLength) => throw _unsupported("set length");
+  void setAll(int at, Iterable<E> iterable) => throw _unsupported("setAll");
+  void add(E value) => throw _unsupported("add");
+  void addAll(Iterable<E> iterable) => throw _unsupported("addAll");
+  void insert(int index, E element) => throw _unsupported("insert");
+  void insertAll(int at, Iterable<E> iterable) =>
+      throw _unsupported("insertAll");
+  bool remove(Object element) => throw _unsupported("remove");
+  void removeWhere(bool test(E element)) => throw _unsupported("removeWhere");
+  void retainWhere(bool test(E element)) => throw _unsupported("retainWhere");
+  void sort([Comparator<E> compare]) => throw _unsupported("sort");
+  void shuffle([math.Random random]) => throw _unsupported("shuffle");
+  void clear() => throw _unsupported("clear");
+  E removeAt(int index) => throw _unsupported("removeAt");
+  E removeLast() => throw _unsupported("removeLast");
+  void setRange(int start, int end, Iterable<E> iterable,
+          [int skipCount = 0]) =>
+      throw _unsupported("setRange");
+  void removeRange(int start, int end) => throw _unsupported("removeRange");
+  void replaceRange(int start, int end, Iterable<E> iterable) =>
+      throw _unsupported("replaceRange");
+  void fillRange(int start, int end, [E fillValue]) =>
+      throw _unsupported("fillRange");
+}
+
+class PbList<E> extends PbListBase<E> {
+  PbList({check = _checkNotNull}) : super._noList(check: check);
+
+  PbList._(List<E> wrappedList) : super._(wrappedList);
+
+  PbList.from(List from) : super._from(from);
+
+  PbList.forFieldType(int fieldType)
+      : super._noList(check: getCheckFunction(fieldType));
+
+  /// Freezes the list by converting to [FrozenPbList].
+  FrozenPbList<E> toFrozenPbList() => new FrozenPbList<E>.from(this);
+
+  /// Adds [value] at the end of the list, extending the length by one.
+  /// Throws an [UnsupportedError] if the list is not extendable.
+  void add(E value) {
+    _validate(value);
+    _wrappedList.add(value);
+  }
+
+  /// Appends all elements of the [collection] to the end of list.
+  /// Extends the length of the list by the length of [collection].
+  /// Throws an [UnsupportedError] if the list is not extendable.
+  void addAll(Iterable<E> collection) {
+    collection.forEach(_validate);
+    _wrappedList.addAll(collection);
+  }
+
+  /// Returns an [Iterable] of the objects in this list in reverse order.
+  Iterable<E> get reversed => _wrappedList.reversed;
+
+  /// Sorts this list according to the order specified by the [compare]
+  /// function.
+  void sort([int compare(E a, E b)]) => _wrappedList.sort(compare);
+
+  /// Shuffles the elements of this list randomly.
+  void shuffle([math.Random random]) => _wrappedList.shuffle(random);
+
+  /// Removes all objects from this list; the length of the list becomes zero.
+  void clear() => _wrappedList.clear();
+
+  /// Inserts a new element in the list.
+  /// The element must be valid (and not nullable) for the PbList type.
+  void insert(int index, E element) {
+    _validate(element);
+    _wrappedList.insert(index, element);
+  }
+
+  /// Inserts all elements of [iterable] at position [index] in the list.
+  ///
+  /// Elements in [iterable] must be valid and not nullable for the PbList type.
+  void insertAll(int index, Iterable<E> iterable) {
+    iterable.forEach(_validate);
+    _wrappedList.insertAll(index, iterable);
+  }
+
+  /// Overwrites elements of `this` with elements of [iterable] starting at
+  /// position [index] in the list.
+  ///
+  /// Elements in [iterable] must be valid and not nullable for the PbList type.
+  void setAll(int index, Iterable<E> iterable) {
+    iterable.forEach(_validate);
+    _wrappedList.setAll(index, iterable);
+  }
+
+  /// Removes the first occurrence of [value] from this list.
+  bool remove(Object value) => _wrappedList.remove(value);
+
+  /// Removes the object at position [index] from this list.
+  E removeAt(int index) => _wrappedList.removeAt(index);
+
+  /// Pops and returns the last object in this list.
+  E removeLast() => _wrappedList.removeLast();
+
+  /// Removes all objects from this list that satisfy [test].
+  void removeWhere(bool test(E element)) => _wrappedList.removeWhere(test);
+
+  /// Removes all objects from this list that fail to satisfy [test].
+  void retainWhere(bool test(E element)) => _wrappedList.retainWhere(test);
+
+  /// Copies [:end - start:] elements of the [from] array, starting from
+  /// [skipCount], into [:this:], starting at [start].
+  /// Throws an [UnsupportedError] if the list is not extendable.
+  void setRange(int start, int end, Iterable<E> from, [int skipCount = 0]) {
+    // NOTE: In case `take()` returns less than `end - start` elements, the
+    // _wrappedList will fail with a `StateError`.
+    from.skip(skipCount).take(end - start).forEach(_validate);
+    _wrappedList.setRange(start, end, from, skipCount);
+  }
+
+  /// Removes the objects in the range [start] inclusive to [end] exclusive.
+  void removeRange(int start, int end) => _wrappedList.removeRange(start, end);
+
+  /// Sets the objects in the range [start] inclusive to [end] exclusive to the
+  /// given [fillValue].
+  void fillRange(int start, int end, [E fillValue]) {
+    _validate(fillValue);
+    _wrappedList.fillRange(start, end, fillValue);
+  }
+
+  /// Removes the objects in the range [start] inclusive to [end] exclusive and
+  /// inserts the contents of [replacement] in its place.
+  void replaceRange(int start, int end, Iterable<E> replacement) {
+    final values = replacement.toList();
+    replacement.forEach(_validate);
+    _wrappedList.replaceRange(start, end, values);
+  }
+}
+
+abstract class PbListBase<E> extends ListBase<E> {
   final List<E> _wrappedList;
   final CheckFunc<E> check;
 
-  PbList({this.check: _checkNotNull}) : _wrappedList = <E>[] {
+  PbListBase._(this._wrappedList, {this.check: _checkNotNull}) {}
+
+  PbListBase._noList({this.check: _checkNotNull}) : _wrappedList = <E>[] {
     assert(check != null);
   }
 
-  PbList.from(List from)
+  PbListBase._from(List from)
       // TODO(sra): Should this be validated?
       : _wrappedList = new List<E>.from(from),
         check = _checkNotNull;
 
-  factory PbList.forFieldType(int fieldType) =>
-      new PbList(check: getCheckFunction(fieldType));
-
-  bool operator ==(other) => (other is PbList) && _areListsEqual(other, this);
+  @override
+  bool operator ==(other) =>
+      (other is PbListBase) && _areListsEqual(other, this);
 
   int get hashCode {
     int hash = 0;
@@ -40,7 +185,7 @@ class PbList<E> extends ListBase<E> {
   Iterator<E> get iterator => _wrappedList.iterator;
 
   /// Returns a new lazy [Iterable] with elements that are created by calling
-  /// `f` on each element of this `PbList` in iteration order.
+  /// `f` on each element of this `PbListBase` in iteration order.
   Iterable<T> map<T>(T f(E e)) => _wrappedList.map<T>(f);
 
   /// Returns a new lazy [Iterable] with all elements that satisfy the predicate
@@ -132,17 +277,40 @@ class PbList<E> extends ListBase<E> {
 
   /// Returns the element at the given [index] in the list or throws an
   /// [IndexOutOfRangeException] if [index] is out of bounds.
+  @override
   E operator [](int index) => _wrappedList[index];
+
+  /// Returns the number of elements in this collection.
+  int get length => _wrappedList.length;
+
+  // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
+  /// Returns the first index of [element] in this list.
+  int indexOf(Object element, [int start = 0]) =>
+      _wrappedList.indexOf(element, start);
+
+  // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
+  /// Returns the last index of [element] in this list.
+  int lastIndexOf(Object element, [int start]) =>
+      _wrappedList.lastIndexOf(element, start);
+
+  /// Returns a new list containing the objects from [start] inclusive to [end]
+  /// exclusive.
+  List<E> sublist(int start, [int end]) => _wrappedList.sublist(start, end);
+
+  /// Returns an [Iterable] that iterates over the objects in the range [start]
+  /// inclusive to [end] exclusive.
+  Iterable<E> getRange(int start, int end) => _wrappedList.getRange(start, end);
+
+  /// Returns an unmodifiable [Map] view of `this`.
+  Map<int, E> asMap() => _wrappedList.asMap();
 
   /// Sets the entry at the given [index] in the list to [value].
   /// Throws an [IndexOutOfRangeException] if [index] is out of bounds.
+  @override
   void operator []=(int index, E value) {
     _validate(value);
     _wrappedList[index] = value;
   }
-
-  /// Returns the number of elements in this collection.
-  int get length => _wrappedList.length;
 
   /// Unsupported -- violated non-null constraint imposed by protobufs.
   ///
@@ -155,122 +323,6 @@ class PbList<E> extends ListBase<E> {
     }
     _wrappedList.length = newLength;
   }
-
-  /// Adds [value] at the end of the list, extending the length by one.
-  /// Throws an [UnsupportedError] if the list is not extendable.
-  void add(E value) {
-    _validate(value);
-    _wrappedList.add(value);
-  }
-
-  /// Appends all elements of the [collection] to the end of list.
-  /// Extends the length of the list by the length of [collection].
-  /// Throws an [UnsupportedError] if the list is not extendable.
-  void addAll(Iterable<E> collection) {
-    collection.forEach(_validate);
-    _wrappedList.addAll(collection);
-  }
-
-  /// Returns an [Iterable] of the objects in this list in reverse order.
-  Iterable<E> get reversed => _wrappedList.reversed;
-
-  /// Sorts this list according to the order specified by the [compare]
-  /// function.
-  void sort([int compare(E a, E b)]) => _wrappedList.sort(compare);
-
-  /// Shuffles the elements of this list randomly.
-  void shuffle([math.Random random]) => _wrappedList.shuffle(random);
-
-  // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
-  /// Returns the first index of [element] in this list.
-  int indexOf(Object element, [int start = 0]) =>
-      _wrappedList.indexOf(element, start);
-
-  // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
-  /// Returns the last index of [element] in this list.
-  int lastIndexOf(Object element, [int start]) =>
-      _wrappedList.lastIndexOf(element, start);
-
-  /// Removes all objects from this list; the length of the list becomes zero.
-  void clear() => _wrappedList.clear();
-
-  /// Inserts a new element in the list.
-  /// The element must be valid (and not nullable) for the PbList type.
-  void insert(int index, E element) {
-    _validate(element);
-    _wrappedList.insert(index, element);
-  }
-
-  /// Inserts all elements of [iterable] at position [index] in the list.
-  ///
-  /// Elements in [iterable] must be valid and not nullable for the PbList type.
-  void insertAll(int index, Iterable<E> iterable) {
-    iterable.forEach(_validate);
-    _wrappedList.insertAll(index, iterable);
-  }
-
-  /// Overwrites elements of `this` with elements of [iterable] starting at
-  /// position [index] in the list.
-  ///
-  /// Elements in [iterable] must be valid and not nullable for the PbList type.
-  void setAll(int index, Iterable<E> iterable) {
-    iterable.forEach(_validate);
-    _wrappedList.setAll(index, iterable);
-  }
-
-  /// Removes the first occurrence of [value] from this list.
-  bool remove(Object value) => _wrappedList.remove(value);
-
-  /// Removes the object at position [index] from this list.
-  E removeAt(int index) => _wrappedList.removeAt(index);
-
-  /// Pops and returns the last object in this list.
-  E removeLast() => _wrappedList.removeLast();
-
-  /// Removes all objects from this list that satisfy [test].
-  void removeWhere(bool test(E element)) => _wrappedList.removeWhere(test);
-
-  /// Removes all objects from this list that fail to satisfy [test].
-  void retainWhere(bool test(E element)) => _wrappedList.retainWhere(test);
-
-  /// Returns a new list containing the objects from [start] inclusive to [end]
-  /// exclusive.
-  List<E> sublist(int start, [int end]) => _wrappedList.sublist(start, end);
-
-  /// Returns an [Iterable] that iterates over the objects in the range [start]
-  /// inclusive to [end] exclusive.
-  Iterable<E> getRange(int start, int end) => _wrappedList.getRange(start, end);
-
-  /// Copies [:end - start:] elements of the [from] array, starting from
-  /// [skipCount], into [:this:], starting at [start].
-  /// Throws an [UnsupportedError] if the list is not extendable.
-  void setRange(int start, int end, Iterable<E> from, [int skipCount = 0]) {
-    // NOTE: In case `take()` returns less than `end - start` elements, the
-    // _wrappedList will fail with a `StateError`.
-    from.skip(skipCount).take(end - start).forEach(_validate);
-    _wrappedList.setRange(start, end, from, skipCount);
-  }
-
-  /// Removes the objects in the range [start] inclusive to [end] exclusive.
-  void removeRange(int start, int end) => _wrappedList.removeRange(start, end);
-
-  /// Sets the objects in the range [start] inclusive to [end] exclusive to the
-  /// given [fillValue].
-  void fillRange(int start, int end, [E fillValue]) {
-    _validate(fillValue);
-    _wrappedList.fillRange(start, end, fillValue);
-  }
-
-  /// Removes the objects in the range [start] inclusive to [end] exclusive and
-  /// inserts the contents of [replacement] in its place.
-  void replaceRange(int start, int end, Iterable<E> replacement) {
-    final values = replacement.toList();
-    replacement.forEach(_validate);
-    _wrappedList.replaceRange(start, end, values);
-  }
-
-  /// Returns an unmodifiable [Map] view of `this`.
-  Map<int, E> asMap() => _wrappedList.asMap();
 
   void _validate(E val) {
     check(val);

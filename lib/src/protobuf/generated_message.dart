@@ -46,11 +46,33 @@ abstract class GeneratedMessage {
 
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)
+  // TODO(nichite): preserve frozen state on clone.
   GeneratedMessage clone();
 
   UnknownFieldSet get unknownFields => _fieldSet._ensureUnknownFields();
 
-  bool get _isReadOnly => this is ReadonlyMessageMixin;
+  /// Make this message read-only.
+  ///
+  /// Marks this message, and any sub-messages, as read-only.
+  GeneratedMessage freeze() {
+    _fieldSet._markReadOnly();
+    return this;
+  }
+
+  /// Returns a writable copy of this message.
+  // TODO(nichite): Return an actual builder object that lazily creates builders
+  // for sub-messages, instead of cloning everything here.
+  GeneratedMessage toBuilder() => clone();
+
+  /// Apply [updates] to a copy of this message.
+  ///
+  /// Makes a writable copy of this message, applies the [updates] to it, and
+  /// marks the copy read-only before returning it.
+  GeneratedMessage copyWith(void Function(GeneratedMessage) updates) {
+    final builder = toBuilder();
+    updates(builder);
+    return builder.freeze();
+  }
 
   bool hasRequiredFields() => info_.hasRequiredFields;
 
@@ -67,6 +89,7 @@ abstract class GeneratedMessage {
   // TODO(antonm): move to getters.
   int getTagNumber(String fieldName) => info_.tagNumber(fieldName);
 
+  @override
   bool operator ==(other) {
     if (identical(this, other)) return true;
     return other is GeneratedMessage
@@ -211,7 +234,7 @@ abstract class GeneratedMessage {
   ///
   /// If not set, returns the extension's default value.
   getExtension(Extension extension) {
-    if (_isReadOnly) return extension.readonlyDefault;
+    if (_fieldSet._isReadOnly) return extension.readonlyDefault;
     return _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
   }
 
@@ -291,7 +314,12 @@ abstract class GeneratedMessage {
       _fieldSet._$get<T>(index, defaultValue);
 
   /// For generated code only.
-  T $_getN<T>(int index) => _fieldSet._$getN<T>(index);
+  T $_getN<T>(int index) {
+    if (_fieldSet == null) {
+      throw new StateError('Unable to access $index in the proto message');
+    }
+    return _fieldSet._$getN<T>(index);
+  }
 
   /// For generated code only.
   List<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
