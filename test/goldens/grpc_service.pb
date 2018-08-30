@@ -17,18 +17,14 @@ class Empty extends $pb.GeneratedMessage {
   Empty.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
   Empty.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   Empty clone() => new Empty()..mergeFromMessage(this);
+  Empty copyWith(void Function(Empty) updates) => super.copyWith((message) => updates(message as Empty));
   $pb.BuilderInfo get info_ => _i;
   static Empty create() => new Empty();
   static $pb.PbList<Empty> createRepeated() => new $pb.PbList<Empty>();
-  static Empty getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyEmpty();
-    return _defaultInstance;
-  }
+  static Empty getDefault() => _defaultInstance ??= create()..freeze();
   static Empty _defaultInstance;
   static void $checkItem(Empty v) {
     if (v is! Empty) $pb.checkItemFailed(v, 'Empty');
   }
 }
-
-class _ReadonlyEmpty extends Empty with $pb.ReadonlyMessageMixin {}
 

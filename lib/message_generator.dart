@@ -239,6 +239,8 @@ class MessageGenerator extends ProtobufContainer {
           ' : super.fromJson(i, r);');
       out.println('${classname} clone() =>'
           ' new ${classname}()..mergeFromMessage(this);');
+      out.println('$classname copyWith(void Function($classname) updates) =>'
+          ' super.copyWith((message) => updates(message as $classname));');
 
       out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
 
@@ -248,11 +250,8 @@ class MessageGenerator extends ProtobufContainer {
       out.println(
           'static $_protobufImportPrefix.PbList<${classname}> createRepeated() =>'
           ' new $_protobufImportPrefix.PbList<${classname}>();');
-      out.addBlock('static ${classname} getDefault() {', '}', () {
-        out.println(
-            'if (_defaultInstance == null) _defaultInstance = new _Readonly${classname}();');
-        out.println('return _defaultInstance;');
-      });
+      out.println(
+          'static ${classname} getDefault() => _defaultInstance ??= create()..freeze();');
       out.println('static ${classname} _defaultInstance;');
       out.addBlock('static void $checkItem($classname v) {', '}', () {
         out.println('if (v is! $classname)'
@@ -260,10 +259,6 @@ class MessageGenerator extends ProtobufContainer {
       });
       generateFieldsAccessorsMutators(out);
     });
-    out.println();
-
-    out.println(
-        'class _Readonly${classname} extends ${classname} with $_protobufImportPrefix.ReadonlyMessageMixin {}');
     out.println();
   }
 
