@@ -12,13 +12,13 @@ class ServiceGenerator {
 
   /// The message types needed directly by this service.
   ///
-  /// The key is the fully qualified name.
+  /// The key is the fully qualified name with a leading '.'.
   /// Populated by [resolve].
   final _deps = <String, MessageGenerator>{};
 
   /// The message types needed transitively by this service.
   ///
-  /// The key is the fully qualified name.
+  /// The key is the fully qualified name with a leading '.'.
   /// Populated by [resolve].
   final _transitiveDeps = <String, MessageGenerator>{};
 
@@ -69,14 +69,14 @@ class ServiceGenerator {
   }
 
   void _addDepsRecursively(MessageGenerator mg, int depth) {
-    if (_transitiveDeps.containsKey(mg.fqname)) {
+    if (_transitiveDeps.containsKey(mg.dottedName)) {
       // Already added, but perhaps at a different depth.
-      if (depth == 0) _deps[mg.fqname] = mg;
+      if (depth == 0) _deps[mg.dottedName] = mg;
       return;
     }
     mg.checkResolved();
-    if (depth == 0) _deps[mg.fqname] = mg;
-    _transitiveDeps[mg.fqname] = mg;
+    if (depth == 0) _deps[mg.dottedName] = mg;
+    _transitiveDeps[mg.dottedName] = mg;
     for (var field in mg._fieldList) {
       if (field.baseType.isGroup || field.baseType.isMessage) {
         _addDepsRecursively(field.baseType.generator, depth + 1);

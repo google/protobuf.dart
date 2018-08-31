@@ -7,7 +7,13 @@ part of protoc;
 abstract class ProtobufContainer {
   String get package;
   String get classname;
-  String get fqname;
+  String get fullName;
+
+  /// The fully qualified name with a leading '.'.
+  ///
+  /// This exists because names from protoc come like this.
+  String get dottedName => '.$fullName';
+
   String get packageImportPrefix =>
       _cachedImportPrefix ??= _calculateImportPrefix();
 
@@ -83,6 +89,6 @@ class CodeGenerator extends ProtobufContainer {
 
   String get package => '';
   String get classname => null;
-  String get fqname => '';
+  String get fullName => '';
   get fileGen => null;
 }

@@ -56,7 +56,9 @@ void main() {
     var rec = new pb.Rec();
     expect(() {
       rec["unknown"] = 123;
-    }, throwsError(ArgumentError, "field 'unknown' not found in Rec"));
+    },
+        throwsError(ArgumentError,
+            "field 'unknown' not found in protobuf_unittest.Rec"));
   });
 
   test('operator []= throws exception for repeated field', () {
@@ -111,7 +113,9 @@ void main() {
     rec.str = "hello";
     expect(() {
       rec.remove("str");
-    }, throwsError(UnsupportedError, "remove() not supported by Rec"));
+    },
+        throwsError(UnsupportedError,
+            "remove() not supported by protobuf_unittest.Rec"));
     expect(rec.str, "hello");
   });
 

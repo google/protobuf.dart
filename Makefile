@@ -12,6 +12,7 @@ PLUGIN_PATH=bin/$(PLUGIN_NAME)
 BENCHMARK_PROTOS = $(wildcard benchmark/protos/*.proto)
 
 TEST_PROTO_LIST = \
+	google/protobuf/any \
 	google/protobuf/unittest_import \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest \
@@ -36,7 +37,8 @@ TEST_PROTO_LIST = \
 	service2 \
 	service3 \
 	toplevel_import \
-	toplevel
+	toplevel \
+	using_any
 TEST_PROTO_DIR=$(OUTPUT_DIR)/protos
 TEST_PROTO_LIBS=$(foreach f, $(TEST_PROTO_LIST), \
   $(TEST_PROTO_DIR)/$(f).pb.dart \

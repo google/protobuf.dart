@@ -163,7 +163,7 @@ class FileGenerator extends ProtobufContainer {
 
   String get package => descriptor.package;
   String get classname => '';
-  String get fqname => '.${descriptor.package}';
+  String get fullName => descriptor.package;
   FileGenerator get fileGen => this;
 
   /// Generates all the Dart files for this .proto file.

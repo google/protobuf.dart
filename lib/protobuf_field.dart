@@ -22,7 +22,7 @@ class ProtobufField {
   /// Dart names within a GeneratedMessage or `null` for an extension.
   final MemberNames memberNames;
 
-  final String fqname;
+  final String fullName;
   final BaseType baseType;
 
   ProtobufField.message(
@@ -37,7 +37,7 @@ class ProtobufField {
       ProtobufContainer parent, GenerationContext ctx)
       : this.descriptor = descriptor,
         this.memberNames = dartNames,
-        fqname = '${parent.fqname}.${descriptor.name}',
+        fullName = '${parent.fullName}.${descriptor.name}',
         baseType = new BaseType(descriptor, ctx);
 
   /// The index of this field in MessageGenerator.fieldList.
@@ -290,9 +290,9 @@ class ProtobufField {
 
   get _invalidDefaultValue => "dart-protoc-plugin:"
       " invalid default value (${descriptor.defaultValue})"
-      " found in field $fqname";
+      " found in field $fullName";
 
   _typeNotImplemented(String methodName) => "dart-protoc-plugin:"
       " $methodName not implemented for type (${descriptor.type})"
-      " found in field $fqname";
+      " found in field $fullName";
 }

@@ -80,13 +80,13 @@ void main() {
       message.setExtension(Unittest.optionalInt32Extension, 0);
     },
         throwsArgError(
-            "Extension optionalInt32Extension not legal for message TestAllTypes"));
+            "Extension optionalInt32Extension not legal for message protobuf_unittest.TestAllTypes"));
 
     expect(() {
       message.getExtension(Unittest.optionalInt32Extension);
     },
         throwsArgError(
-            "Extension optionalInt32Extension not legal for message TestAllTypes"));
+            "Extension optionalInt32Extension not legal for message protobuf_unittest.TestAllTypes"));
   });
 
   test("throws if an int32 extension is set to a bad value", () {
@@ -95,7 +95,7 @@ void main() {
       message.setExtension(Unittest.optionalInt32Extension, "hello");
     },
         throwsArgError(
-            "Illegal to set field optionalInt32Extension (1) of TestAllExtensions"
+            "Illegal to set field optionalInt32Extension (1) of protobuf_unittest.TestAllExtensions"
             " to value (hello): not type int"));
   });
 
@@ -105,7 +105,7 @@ void main() {
       message.setExtension(Unittest.optionalInt64Extension, 123);
     },
         throwsArgError(
-            "Illegal to set field optionalInt64Extension (2) of TestAllExtensions"
+            "Illegal to set field optionalInt64Extension (2) of protobuf_unittest.TestAllExtensions"
             " to value (123): not Int64"));
   });
 
@@ -118,7 +118,7 @@ void main() {
     },
         throwsArgError(
             "Illegal to set field optionalNestedMessageExtension (18)"
-            " of TestAllExtensions to value (123): not a GeneratedMessage"));
+            " of protobuf_unittest.TestAllExtensions to value (123): not a GeneratedMessage"));
 
     // For a repeated message, the type check is exact.
     expect(() {
@@ -135,7 +135,7 @@ void main() {
       message.setExtension(Unittest.optionalNestedEnumExtension, 123);
     },
         throwsArgError("Illegal to set field optionalNestedEnumExtension (21)"
-            " of TestAllExtensions to value (123): not type ProtobufEnum"));
+            " of protobuf_unittest.TestAllExtensions to value (123): not type ProtobufEnum"));
 
     // For a repeated enum, the type check is exact.
     expect(() {

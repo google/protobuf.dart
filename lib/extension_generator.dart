@@ -11,7 +11,7 @@ class ExtensionGenerator {
   // populated by resolve()
   ProtobufField _field;
   String _extensionName;
-  String _extendedClassName = "";
+  String _extendedFullName = "";
 
   ExtensionGenerator(this._descriptor, this._parent);
 
@@ -22,7 +22,7 @@ class ExtensionGenerator {
     ProtobufContainer extendedType = ctx.getFieldType(_descriptor.extendee);
     // TODO(skybrian) When would this be null?
     if (extendedType != null) {
-      _extendedClassName = extendedType.classname;
+      _extendedFullName = extendedType.fullName;
     }
   }
 
@@ -80,7 +80,7 @@ class ExtensionGenerator {
 
     if (_field.isRepeated) {
       out.print('static final $_protobufImportPrefix.Extension $name = '
-          'new $_protobufImportPrefix.Extension<$dartType>.repeated(\'$_extendedClassName\','
+          'new $_protobufImportPrefix.Extension<$dartType>.repeated(\'$_extendedFullName\','
           ' \'$name\', ${_field.number}, ${_field.typeConstant}');
       if (type.isMessage || type.isGroup) {
         out.println(', $dartType.$checkItem, $dartType.create);');
@@ -95,7 +95,7 @@ class ExtensionGenerator {
     }
 
     out.print('static final $_protobufImportPrefix.Extension $name = '
-        'new $_protobufImportPrefix.Extension<$dartType>(\'$_extendedClassName\', \'$name\', '
+        'new $_protobufImportPrefix.Extension<$dartType>(\'$_extendedFullName\', \'$name\', '
         '${_field.number}, ${_field.typeConstant}');
 
     String initializer = _field.generateDefaultFunction(package);

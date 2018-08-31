@@ -31,7 +31,9 @@ void main() {
           ..number = 2
       ]);
     IndentingWriter writer = new IndentingWriter();
-    EnumGenerator eg = new EnumGenerator(ed, null);
+    FileGenerator fg =
+        new FileGenerator(new FileDescriptorProto(), new GenerationOptions());
+    EnumGenerator eg = new EnumGenerator(ed, fg);
     eg.generate(writer);
     expectMatchesGoldenFile(writer.toString(), 'test/goldens/enum');
   });
