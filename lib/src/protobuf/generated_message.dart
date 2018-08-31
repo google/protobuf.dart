@@ -68,11 +68,7 @@ abstract class GeneratedMessage {
   ///
   /// Makes a writable copy of this message, applies the [updates] to it, and
   /// marks the copy read-only before returning it.
-  GeneratedMessage copyWith(void Function(GeneratedMessage) updates) {
-    final builder = toBuilder();
-    updates(builder);
-    return builder.freeze();
-  }
+  GeneratedMessage copyWith(void Function(GeneratedMessage) updates);
 
   bool hasRequiredFields() => info_.hasRequiredFields;
 
@@ -379,4 +375,10 @@ class PackageName {
   final String name;
   const PackageName(this.name);
   String get prefix => name == '' ? '' : '$name.';
+}
+
+T $copyWithHelper<T extends GeneratedMessage>(T message, void Function(T) updates) {
+  final builder = message.toBuilder();
+  updates(builder);
+  return builder.freeze();
 }

@@ -14,7 +14,8 @@ import 'package:protobuf/protobuf.dart'
         PbFieldType,
         UnknownFieldSetField,
         frozenMessageModificationHandler,
-        defaultFrozenMessageModificationHandler;
+        defaultFrozenMessageModificationHandler,
+        $copyWithHelper;
 
 throwsError(Type expectedType, Matcher expectedMessage) =>
     throwsA(predicate((x) {
@@ -47,8 +48,7 @@ class Rec extends GeneratedMessage {
   @override
   Rec clone() => new Rec()..mergeFromMessage(this);
 
-  Rec copyWith(void Function(Rec) updates) =>
-      super.copyWith((message) => updates(message as Rec));
+  Rec copyWith(void Function(Rec) updates) => $copyWithHelper(this, updates);
 }
 
 main() {

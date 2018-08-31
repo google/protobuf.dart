@@ -6,7 +6,7 @@ library mock_util;
 
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart'
-    show GeneratedMessage, BuilderInfo, CreateBuilderFunc, PbFieldType;
+    show GeneratedMessage, BuilderInfo, CreateBuilderFunc, PbFieldType, $copyWithHelper;
 
 BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
   return new BuilderInfo(className)
@@ -35,6 +35,8 @@ abstract class MockMessage extends GeneratedMessage {
 
   Int64 get int64 => $_get(4, new Int64(0));
   set int64(x) => setField(5, x);
+
+  MockMessage copyWith(void Function(MockMessage) updates) => $copyWithHelper(this, updates);
 
   clone() {
     CreateBuilderFunc create = info_.byName["child"].subBuilder;
