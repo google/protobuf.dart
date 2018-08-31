@@ -27,10 +27,27 @@ class MessageGenerator extends ProtobufContainer {
   /// The name of the Dart class to generate.
   final String classname;
 
-  /// The fully-qualified name of the message type.
+  /// The fully-qualified name of the message (without any leading '.').
+  final String fullName;
+
+  /// The part of the fully qualified name that comes after the package prefix.
   ///
-  /// (Used as a unique key and in error messages, not in Dart code.)
-  final String fqname;
+  /// For nested messages this will include the names of the parents.
+  ///
+  /// For example:
+  /// ```
+  /// package foo;
+  ///
+  /// message Container {
+  ///   message Nested {
+  ///     int32 int32_value = 1;
+  ///   }
+  /// }
+  /// ```
+  /// The nested message will have a `fullName` of 'foo.Container.Nested', and a
+  /// `messageName` of 'Container.Nested'.
+  String get messageName =>
+      fullName.substring(package.length == 0 ? 0 : package.length + 1);
 
   final PbMixin mixin;
 
@@ -48,11 +65,10 @@ class MessageGenerator extends ProtobufContainer {
       : _descriptor = descriptor,
         _parent = parent,
         classname = messageClassName(descriptor, parent: parent.classname),
-        fqname = (parent == null || parent.fqname == null)
+        assert(parent != null),
+        fullName = parent.fullName == ''
             ? descriptor.name
-            : (parent.fqname == '.'
-                ? '.${descriptor.name}'
-                : '${parent.fqname}.${descriptor.name}'),
+            : '${parent.fullName}.${descriptor.name}',
         mixin = _getMixin(descriptor, parent.fileGen.descriptor, declaredMixins,
             defaultMixin) {
     for (EnumDescriptorProto e in _descriptor.enumType) {
@@ -77,7 +93,7 @@ class MessageGenerator extends ProtobufContainer {
   /// Throws an exception if [resolve] hasn't been called yet.
   void checkResolved() {
     if (_fieldList == null) {
-      throw new StateError("message not resolved: ${fqname}");
+      throw new StateError("message not resolved: ${fullName}");
     }
   }
 
@@ -103,7 +119,7 @@ class MessageGenerator extends ProtobufContainer {
 
   // Registers message and enum types that can be used elsewhere.
   void register(GenerationContext ctx) {
-    ctx.registerFieldType(fqname, this);
+    ctx.registerFieldType(this);
     for (var m in _messageGenerators) {
       m.register(ctx);
     }
@@ -205,11 +221,15 @@ class MessageGenerator extends ProtobufContainer {
       mixinClause = ' with ${mixinNames.join(", ")}';
     }
 
+    String packageClause = package == ''
+        ? ''
+        : ', package: const $_protobufImportPrefix.PackageName(\'$package\')';
     out.addBlock(
         'class ${classname} extends $_protobufImportPrefix.GeneratedMessage${mixinClause} {',
         '}', () {
       out.addBlock(
-          'static final $_protobufImportPrefix.BuilderInfo _i = new $_protobufImportPrefix.BuilderInfo(\'${classname}\')',
+          'static final $_protobufImportPrefix.BuilderInfo _i = '
+          'new $_protobufImportPrefix.BuilderInfo(\'${messageName}\'$packageClause)',
           ';', () {
         for (ProtobufField field in _fieldList) {
           var dartFieldName = field.memberNames.fieldName;
@@ -255,9 +275,12 @@ class MessageGenerator extends ProtobufContainer {
       out.println('static ${classname} _defaultInstance;');
       out.addBlock('static void $checkItem($classname v) {', '}', () {
         out.println('if (v is! $classname)'
-            " $_protobufImportPrefix.checkItemFailed(v, '$classname');");
+            " $_protobufImportPrefix.checkItemFailed(v, _i.messageName);");
       });
       generateFieldsAccessorsMutators(out);
+      if (fullName == 'google.protobuf.Any') {
+        generateAnyMethods(out);
+      }
     });
     out.println();
   }
@@ -271,7 +294,7 @@ class MessageGenerator extends ProtobufContainer {
   bool _hasRequiredFields(MessageGenerator type, Set alreadySeen) {
     if (type._fieldList == null) throw new StateError("message not resolved");
 
-    if (alreadySeen.contains(type.fqname)) {
+    if (alreadySeen.contains(type.fullName)) {
       // The type is already in cache.  This means that either:
       // a. The type has no required fields.
       // b. We are in the midst of checking if the type has required fields,
@@ -282,7 +305,7 @@ class MessageGenerator extends ProtobufContainer {
       //    here.
       return false;
     }
-    alreadySeen.add(type.fqname);
+    alreadySeen.add(type.fullName);
     // If the type has extensions, an extension with message type could contain
     // required fields, so we have to be conservative and assume such an
     // extension exists.
@@ -302,6 +325,45 @@ class MessageGenerator extends ProtobufContainer {
       }
     }
     return false;
+  }
+
+  /// Generates methods for the Any message class for packing and unpacking
+  /// values.
+  void generateAnyMethods(IndentingWriter out) {
+    out.println('''
+  /// Unpacks the message in [value] into [instance].
+  ///
+  /// Throws a [InvalidProtocolBufferException] if [typeUrl] does not correspond
+  /// to the type of [instance].
+  ///
+  /// A typical usage would be `any.unpackInto(new Message())`.
+  ///
+  /// Returns [instance].
+  T unpackInto<T extends $_protobufImportPrefix.GeneratedMessage>(T instance,
+      {$_protobufImportPrefix.ExtensionRegistry extensionRegistry = $_protobufImportPrefix.ExtensionRegistry.EMPTY}) {
+    $_protobufImportPrefix.unpackIntoHelper(value, instance, typeUrl,
+        extensionRegistry: extensionRegistry);
+    return instance;
+  }
+
+  /// Returns `true` if the encoded message matches the type of [instance].
+  ///
+  /// Can be used with a default instance:
+  /// `any.canUnpackInto(Message.getDefault())`
+  bool canUnpackInto($_protobufImportPrefix.GeneratedMessage instance) {
+    return $_protobufImportPrefix.canUnpackIntoHelper(instance, typeUrl);
+  }
+
+  /// Creates a new [Any] encoding [message].
+  ///
+  /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
+  /// the fully qualified name of the type of [message].
+  static Any pack($_protobufImportPrefix.GeneratedMessage message,
+      {String typeUrlPrefix = 'type.googleapis.com'}) {
+    return new Any()
+      ..value = message.writeToBuffer()
+      ..typeUrl = '\${typeUrlPrefix}/\${message.info_.messageName}';
+  }''');
   }
 
   void generateFieldsAccessorsMutators(IndentingWriter out) {
@@ -324,15 +386,15 @@ class MessageGenerator extends ProtobufContainer {
 
     if (field.isRepeated) {
       if (field.overridesSetter) {
-        throw 'Field ${field.fqname} cannot override a setter for '
+        throw 'Field ${field.fullName} cannot override a setter for '
             '${names.fieldName} because it is repeated.';
       }
       if (field.overridesHasMethod) {
-        throw 'Field ${field.fqname} cannot override '
+        throw 'Field ${field.fullName} cannot override '
             '${names.hasMethodName}() because it is repeated.';
       }
       if (field.overridesClearMethod) {
-        throw 'Field ${field.fqname} cannot override '
+        throw 'Field ${field.fullName} cannot override '
             '${names.clearMethodName}() because it is repeated.';
       }
     } else {

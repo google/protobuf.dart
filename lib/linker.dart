@@ -55,8 +55,10 @@ class GenerationContext {
   }
 
   /// Makes a message, group, or enum available for reference.
-  void registerFieldType(String name, ProtobufContainer type) {
-    _typeRegistry[name] = type;
+  void registerFieldType(ProtobufContainer type) {
+    // Register the name with a leading '.' to be compatible with input from
+    // protoc.
+    _typeRegistry[type.dottedName] = type;
   }
 
   /// Returns info about a .pb.dart being imported,

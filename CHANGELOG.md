@@ -1,3 +1,9 @@
+## 0.10.0
+
+* Breaking change: Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.
+  Generated files require package:protobuf version 0.10.1 or newer.
+  `BuilderInfo.messageName` will now be the fully qualified name for generated messages.
+
 ## 0.9.0
 
 * Breaking change: Add `copyWith()` to message classes and update `getDefault()` to use `freeze()`.

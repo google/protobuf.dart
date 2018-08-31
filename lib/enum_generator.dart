@@ -13,22 +13,21 @@ class EnumAlias {
 class EnumGenerator extends ProtobufContainer {
   final ProtobufContainer _parent;
   final String classname;
-  final String fqname;
+  final String fullName;
   final EnumDescriptorProto _descriptor;
   final List<EnumValueDescriptorProto> _canonicalValues =
       <EnumValueDescriptorProto>[];
   final List<EnumAlias> _aliases = <EnumAlias>[];
 
   EnumGenerator(EnumDescriptorProto descriptor, ProtobufContainer parent)
-      : _parent = parent,
-        classname = (parent == null || parent is FileGenerator)
+      : assert(parent != null),
+        _parent = parent,
+        classname = (parent is FileGenerator)
             ? descriptor.name
             : '${parent.classname}_${descriptor.name}',
-        fqname = (parent == null || parent.fqname == null)
+        fullName = parent.fullName == ''
             ? descriptor.name
-            : (parent.fqname == '.'
-                ? '.${descriptor.name}'
-                : '${parent.fqname}.${descriptor.name}'),
+            : '${parent.fullName}.${descriptor.name}',
         _descriptor = descriptor {
     for (EnumValueDescriptorProto value in descriptor.value) {
       EnumValueDescriptorProto canonicalValue =
@@ -46,7 +45,7 @@ class EnumGenerator extends ProtobufContainer {
 
   /// Make this enum available as a field type.
   void register(GenerationContext ctx) {
-    ctx.registerFieldType(fqname, this);
+    ctx.registerFieldType(this);
   }
 
   /// Returns a const expression that evaluates to the JSON for this message.

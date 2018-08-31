@@ -25,7 +25,7 @@ class Empty extends $pb.GeneratedMessage {
   static Empty getDefault() => _defaultInstance ??= create()..freeze();
   static Empty _defaultInstance;
   static void $checkItem(Empty v) {
-    if (v is! Empty) $pb.checkItemFailed(v, 'Empty');
+    if (v is! Empty) $pb.checkItemFailed(v, _i.messageName);
   }
 }
 

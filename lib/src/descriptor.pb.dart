@@ -14,7 +14,8 @@ import 'descriptor.pbenum.dart';
 export 'descriptor.pbenum.dart';
 
 class FileDescriptorSet extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileDescriptorSet')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileDescriptorSet',
+      package: const $pb.PackageName('google.protobuf'))
     ..pp<FileDescriptorProto>(1, 'file', $pb.PbFieldType.PM,
         FileDescriptorProto.$checkItem, FileDescriptorProto.create);
 
@@ -36,14 +37,15 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static FileDescriptorSet _defaultInstance;
   static void $checkItem(FileDescriptorSet v) {
-    if (v is! FileDescriptorSet) $pb.checkItemFailed(v, 'FileDescriptorSet');
+    if (v is! FileDescriptorSet) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<FileDescriptorProto> get file => $_getList(0);
 }
 
 class FileDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileDescriptorProto')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileDescriptorProto',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..aOS(2, 'package')
     ..pPS(3, 'dependency')
@@ -82,8 +84,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static FileDescriptorProto _defaultInstance;
   static void $checkItem(FileDescriptorProto v) {
-    if (v is! FileDescriptorProto)
-      $pb.checkItemFailed(v, 'FileDescriptorProto');
+    if (v is! FileDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -142,11 +143,12 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('DescriptorProto_ExtensionRange')
-        ..a<int>(1, 'start', $pb.PbFieldType.O3)
-        ..a<int>(2, 'end', $pb.PbFieldType.O3)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'DescriptorProto.ExtensionRange',
+      package: const $pb.PackageName('google.protobuf'))
+    ..a<int>(1, 'start', $pb.PbFieldType.O3)
+    ..a<int>(2, 'end', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
 
   DescriptorProto_ExtensionRange() : super();
   DescriptorProto_ExtensionRange.fromBuffer(List<int> i,
@@ -171,7 +173,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   static DescriptorProto_ExtensionRange _defaultInstance;
   static void $checkItem(DescriptorProto_ExtensionRange v) {
     if (v is! DescriptorProto_ExtensionRange)
-      $pb.checkItemFailed(v, 'DescriptorProto_ExtensionRange');
+      $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get start => $_get(0, 0);
@@ -192,11 +194,12 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('DescriptorProto_ReservedRange')
-        ..a<int>(1, 'start', $pb.PbFieldType.O3)
-        ..a<int>(2, 'end', $pb.PbFieldType.O3)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'DescriptorProto.ReservedRange',
+      package: const $pb.PackageName('google.protobuf'))
+    ..a<int>(1, 'start', $pb.PbFieldType.O3)
+    ..a<int>(2, 'end', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
 
   DescriptorProto_ReservedRange() : super();
   DescriptorProto_ReservedRange.fromBuffer(List<int> i,
@@ -221,7 +224,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   static DescriptorProto_ReservedRange _defaultInstance;
   static void $checkItem(DescriptorProto_ReservedRange v) {
     if (v is! DescriptorProto_ReservedRange)
-      $pb.checkItemFailed(v, 'DescriptorProto_ReservedRange');
+      $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get start => $_get(0, 0);
@@ -242,7 +245,8 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DescriptorProto')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DescriptorProto',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..pp<FieldDescriptorProto>(2, 'field', $pb.PbFieldType.PM,
         FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
@@ -288,7 +292,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static DescriptorProto _defaultInstance;
   static void $checkItem(DescriptorProto v) {
-    if (v is! DescriptorProto) $pb.checkItemFailed(v, 'DescriptorProto');
+    if (v is! DescriptorProto) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -325,7 +329,8 @@ class DescriptorProto extends $pb.GeneratedMessage {
 }
 
 class FieldDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FieldDescriptorProto')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FieldDescriptorProto',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..aOS(2, 'extendee')
     ..a<int>(3, 'number', $pb.PbFieldType.O3)
@@ -369,8 +374,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static FieldDescriptorProto _defaultInstance;
   static void $checkItem(FieldDescriptorProto v) {
-    if (v is! FieldDescriptorProto)
-      $pb.checkItemFailed(v, 'FieldDescriptorProto');
+    if (v is! FieldDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -455,7 +459,8 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class OneofDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofDescriptorProto')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofDescriptorProto',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..a<OneofOptions>(2, 'options', $pb.PbFieldType.OM, OneofOptions.getDefault,
         OneofOptions.create);
@@ -479,8 +484,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static OneofDescriptorProto _defaultInstance;
   static void $checkItem(OneofDescriptorProto v) {
-    if (v is! OneofDescriptorProto)
-      $pb.checkItemFailed(v, 'OneofDescriptorProto');
+    if (v is! OneofDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -501,7 +505,8 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class EnumDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumDescriptorProto')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumDescriptorProto',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..pp<EnumValueDescriptorProto>(2, 'value', $pb.PbFieldType.PM,
         EnumValueDescriptorProto.$checkItem, EnumValueDescriptorProto.create)
@@ -527,8 +532,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static EnumDescriptorProto _defaultInstance;
   static void $checkItem(EnumDescriptorProto v) {
-    if (v is! EnumDescriptorProto)
-      $pb.checkItemFailed(v, 'EnumDescriptorProto');
+    if (v is! EnumDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -551,12 +555,13 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('EnumValueDescriptorProto')
-        ..aOS(1, 'name')
-        ..a<int>(2, 'number', $pb.PbFieldType.O3)
-        ..a<EnumValueOptions>(3, 'options', $pb.PbFieldType.OM,
-            EnumValueOptions.getDefault, EnumValueOptions.create);
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'EnumValueDescriptorProto',
+      package: const $pb.PackageName('google.protobuf'))
+    ..aOS(1, 'name')
+    ..a<int>(2, 'number', $pb.PbFieldType.O3)
+    ..a<EnumValueOptions>(3, 'options', $pb.PbFieldType.OM,
+        EnumValueOptions.getDefault, EnumValueOptions.create);
 
   EnumValueDescriptorProto() : super();
   EnumValueDescriptorProto.fromBuffer(List<int> i,
@@ -578,8 +583,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static EnumValueDescriptorProto _defaultInstance;
   static void $checkItem(EnumValueDescriptorProto v) {
-    if (v is! EnumValueDescriptorProto)
-      $pb.checkItemFailed(v, 'EnumValueDescriptorProto');
+    if (v is! EnumValueDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -608,13 +612,14 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class ServiceDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('ServiceDescriptorProto')
-        ..aOS(1, 'name')
-        ..pp<MethodDescriptorProto>(2, 'method', $pb.PbFieldType.PM,
-            MethodDescriptorProto.$checkItem, MethodDescriptorProto.create)
-        ..a<ServiceOptions>(3, 'options', $pb.PbFieldType.OM,
-            ServiceOptions.getDefault, ServiceOptions.create);
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'ServiceDescriptorProto',
+      package: const $pb.PackageName('google.protobuf'))
+    ..aOS(1, 'name')
+    ..pp<MethodDescriptorProto>(2, 'method', $pb.PbFieldType.PM,
+        MethodDescriptorProto.$checkItem, MethodDescriptorProto.create)
+    ..a<ServiceOptions>(3, 'options', $pb.PbFieldType.OM,
+        ServiceOptions.getDefault, ServiceOptions.create);
 
   ServiceDescriptorProto() : super();
   ServiceDescriptorProto.fromBuffer(List<int> i,
@@ -636,8 +641,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static ServiceDescriptorProto _defaultInstance;
   static void $checkItem(ServiceDescriptorProto v) {
-    if (v is! ServiceDescriptorProto)
-      $pb.checkItemFailed(v, 'ServiceDescriptorProto');
+    if (v is! ServiceDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -660,7 +664,8 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class MethodDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MethodDescriptorProto')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MethodDescriptorProto',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..aOS(2, 'inputType')
     ..aOS(3, 'outputType')
@@ -689,8 +694,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static MethodDescriptorProto _defaultInstance;
   static void $checkItem(MethodDescriptorProto v) {
-    if (v is! MethodDescriptorProto)
-      $pb.checkItemFailed(v, 'MethodDescriptorProto');
+    if (v is! MethodDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -743,7 +747,8 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class FileOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileOptions')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileOptions',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'javaPackage')
     ..aOS(8, 'javaOuterClassname')
     ..e<FileOptions_OptimizeMode>(
@@ -788,7 +793,7 @@ class FileOptions extends $pb.GeneratedMessage {
   static FileOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FileOptions _defaultInstance;
   static void $checkItem(FileOptions v) {
-    if (v is! FileOptions) $pb.checkItemFailed(v, 'FileOptions');
+    if (v is! FileOptions) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get javaPackage => $_getS(0, '');
@@ -931,7 +936,8 @@ class FileOptions extends $pb.GeneratedMessage {
 }
 
 class MessageOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MessageOptions')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MessageOptions',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOB(1, 'messageSetWireFormat')
     ..aOB(2, 'noStandardDescriptorAccessor')
     ..aOB(3, 'deprecated')
@@ -957,7 +963,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   static MessageOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MessageOptions _defaultInstance;
   static void $checkItem(MessageOptions v) {
-    if (v is! MessageOptions) $pb.checkItemFailed(v, 'MessageOptions');
+    if (v is! MessageOptions) $pb.checkItemFailed(v, _i.messageName);
   }
 
   bool get messageSetWireFormat => $_get(0, false);
@@ -996,7 +1002,8 @@ class MessageOptions extends $pb.GeneratedMessage {
 }
 
 class FieldOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FieldOptions')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FieldOptions',
+      package: const $pb.PackageName('google.protobuf'))
     ..e<FieldOptions_CType>(
         1,
         'ctype',
@@ -1036,7 +1043,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   static FieldOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FieldOptions _defaultInstance;
   static void $checkItem(FieldOptions v) {
-    if (v is! FieldOptions) $pb.checkItemFailed(v, 'FieldOptions');
+    if (v is! FieldOptions) $pb.checkItemFailed(v, _i.messageName);
   }
 
   FieldOptions_CType get ctype => $_getN(0);
@@ -1091,7 +1098,8 @@ class FieldOptions extends $pb.GeneratedMessage {
 }
 
 class OneofOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofOptions')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofOptions',
+      package: const $pb.PackageName('google.protobuf'))
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
     ..hasExtensions = true;
@@ -1113,14 +1121,15 @@ class OneofOptions extends $pb.GeneratedMessage {
   static OneofOptions getDefault() => _defaultInstance ??= create()..freeze();
   static OneofOptions _defaultInstance;
   static void $checkItem(OneofOptions v) {
-    if (v is! OneofOptions) $pb.checkItemFailed(v, 'OneofOptions');
+    if (v is! OneofOptions) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(0);
 }
 
 class EnumOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumOptions')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumOptions',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOB(2, 'allowAlias')
     ..aOB(3, 'deprecated')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
@@ -1144,7 +1153,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   static EnumOptions getDefault() => _defaultInstance ??= create()..freeze();
   static EnumOptions _defaultInstance;
   static void $checkItem(EnumOptions v) {
-    if (v is! EnumOptions) $pb.checkItemFailed(v, 'EnumOptions');
+    if (v is! EnumOptions) $pb.checkItemFailed(v, _i.messageName);
   }
 
   bool get allowAlias => $_get(0, false);
@@ -1167,7 +1176,8 @@ class EnumOptions extends $pb.GeneratedMessage {
 }
 
 class EnumValueOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumValueOptions')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumValueOptions',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOB(1, 'deprecated')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
@@ -1191,7 +1201,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static EnumValueOptions _defaultInstance;
   static void $checkItem(EnumValueOptions v) {
-    if (v is! EnumValueOptions) $pb.checkItemFailed(v, 'EnumValueOptions');
+    if (v is! EnumValueOptions) $pb.checkItemFailed(v, _i.messageName);
   }
 
   bool get deprecated => $_get(0, false);
@@ -1206,7 +1216,8 @@ class EnumValueOptions extends $pb.GeneratedMessage {
 }
 
 class ServiceOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ServiceOptions')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ServiceOptions',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOB(33, 'deprecated')
     ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
         UninterpretedOption.$checkItem, UninterpretedOption.create)
@@ -1229,7 +1240,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
   static ServiceOptions getDefault() => _defaultInstance ??= create()..freeze();
   static ServiceOptions _defaultInstance;
   static void $checkItem(ServiceOptions v) {
-    if (v is! ServiceOptions) $pb.checkItemFailed(v, 'ServiceOptions');
+    if (v is! ServiceOptions) $pb.checkItemFailed(v, _i.messageName);
   }
 
   bool get deprecated => $_get(0, false);
@@ -1244,7 +1255,8 @@ class ServiceOptions extends $pb.GeneratedMessage {
 }
 
 class MethodOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MethodOptions')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MethodOptions',
+      package: const $pb.PackageName('google.protobuf'))
     ..aOB(33, 'deprecated')
     ..e<MethodOptions_IdempotencyLevel>(
         34,
@@ -1274,7 +1286,7 @@ class MethodOptions extends $pb.GeneratedMessage {
   static MethodOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MethodOptions _defaultInstance;
   static void $checkItem(MethodOptions v) {
-    if (v is! MethodOptions) $pb.checkItemFailed(v, 'MethodOptions');
+    if (v is! MethodOptions) $pb.checkItemFailed(v, _i.messageName);
   }
 
   bool get deprecated => $_get(0, false);
@@ -1297,10 +1309,11 @@ class MethodOptions extends $pb.GeneratedMessage {
 }
 
 class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('UninterpretedOption_NamePart')
-        ..aQS(1, 'namePart')
-        ..a<bool>(2, 'isExtension', $pb.PbFieldType.QB);
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'UninterpretedOption.NamePart',
+      package: const $pb.PackageName('google.protobuf'))
+    ..aQS(1, 'namePart')
+    ..a<bool>(2, 'isExtension', $pb.PbFieldType.QB);
 
   UninterpretedOption_NamePart() : super();
   UninterpretedOption_NamePart.fromBuffer(List<int> i,
@@ -1325,7 +1338,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   static UninterpretedOption_NamePart _defaultInstance;
   static void $checkItem(UninterpretedOption_NamePart v) {
     if (v is! UninterpretedOption_NamePart)
-      $pb.checkItemFailed(v, 'UninterpretedOption_NamePart');
+      $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get namePart => $_getS(0, '');
@@ -1346,7 +1359,8 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
 }
 
 class UninterpretedOption extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UninterpretedOption')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UninterpretedOption',
+      package: const $pb.PackageName('google.protobuf'))
     ..pp<UninterpretedOption_NamePart>(
         2,
         'name',
@@ -1379,8 +1393,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static UninterpretedOption _defaultInstance;
   static void $checkItem(UninterpretedOption v) {
-    if (v is! UninterpretedOption)
-      $pb.checkItemFailed(v, 'UninterpretedOption');
+    if (v is! UninterpretedOption) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<UninterpretedOption_NamePart> get name => $_getList(0);
@@ -1435,14 +1448,15 @@ class UninterpretedOption extends $pb.GeneratedMessage {
 }
 
 class SourceCodeInfo_Location extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('SourceCodeInfo_Location')
-        ..p<int>(1, 'path', $pb.PbFieldType.K3)
-        ..p<int>(2, 'span', $pb.PbFieldType.K3)
-        ..aOS(3, 'leadingComments')
-        ..aOS(4, 'trailingComments')
-        ..pPS(6, 'leadingDetachedComments')
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'SourceCodeInfo.Location',
+      package: const $pb.PackageName('google.protobuf'))
+    ..p<int>(1, 'path', $pb.PbFieldType.K3)
+    ..p<int>(2, 'span', $pb.PbFieldType.K3)
+    ..aOS(3, 'leadingComments')
+    ..aOS(4, 'trailingComments')
+    ..pPS(6, 'leadingDetachedComments')
+    ..hasRequiredFields = false;
 
   SourceCodeInfo_Location() : super();
   SourceCodeInfo_Location.fromBuffer(List<int> i,
@@ -1464,8 +1478,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static SourceCodeInfo_Location _defaultInstance;
   static void $checkItem(SourceCodeInfo_Location v) {
-    if (v is! SourceCodeInfo_Location)
-      $pb.checkItemFailed(v, 'SourceCodeInfo_Location');
+    if (v is! SourceCodeInfo_Location) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<int> get path => $_getList(0);
@@ -1492,7 +1505,8 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
 }
 
 class SourceCodeInfo extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SourceCodeInfo')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SourceCodeInfo',
+      package: const $pb.PackageName('google.protobuf'))
     ..pp<SourceCodeInfo_Location>(1, 'location', $pb.PbFieldType.PM,
         SourceCodeInfo_Location.$checkItem, SourceCodeInfo_Location.create)
     ..hasRequiredFields = false;
@@ -1514,20 +1528,21 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   static SourceCodeInfo getDefault() => _defaultInstance ??= create()..freeze();
   static SourceCodeInfo _defaultInstance;
   static void $checkItem(SourceCodeInfo v) {
-    if (v is! SourceCodeInfo) $pb.checkItemFailed(v, 'SourceCodeInfo');
+    if (v is! SourceCodeInfo) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<SourceCodeInfo_Location> get location => $_getList(0);
 }
 
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('GeneratedCodeInfo_Annotation')
-        ..p<int>(1, 'path', $pb.PbFieldType.K3)
-        ..aOS(2, 'sourceFile')
-        ..a<int>(3, 'begin', $pb.PbFieldType.O3)
-        ..a<int>(4, 'end', $pb.PbFieldType.O3)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'GeneratedCodeInfo.Annotation',
+      package: const $pb.PackageName('google.protobuf'))
+    ..p<int>(1, 'path', $pb.PbFieldType.K3)
+    ..aOS(2, 'sourceFile')
+    ..a<int>(3, 'begin', $pb.PbFieldType.O3)
+    ..a<int>(4, 'end', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
 
   GeneratedCodeInfo_Annotation() : super();
   GeneratedCodeInfo_Annotation.fromBuffer(List<int> i,
@@ -1552,7 +1567,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   static GeneratedCodeInfo_Annotation _defaultInstance;
   static void $checkItem(GeneratedCodeInfo_Annotation v) {
     if (v is! GeneratedCodeInfo_Annotation)
-      $pb.checkItemFailed(v, 'GeneratedCodeInfo_Annotation');
+      $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<int> get path => $_getList(0);
@@ -1583,7 +1598,8 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
 }
 
 class GeneratedCodeInfo extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GeneratedCodeInfo')
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GeneratedCodeInfo',
+      package: const $pb.PackageName('google.protobuf'))
     ..pp<GeneratedCodeInfo_Annotation>(
         1,
         'annotation',
@@ -1610,7 +1626,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static GeneratedCodeInfo _defaultInstance;
   static void $checkItem(GeneratedCodeInfo v) {
-    if (v is! GeneratedCodeInfo) $pb.checkItemFailed(v, 'GeneratedCodeInfo');
+    if (v is! GeneratedCodeInfo) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
