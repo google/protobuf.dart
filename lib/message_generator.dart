@@ -64,7 +64,8 @@ class MessageGenerator extends ProtobufContainer {
       Map<String, PbMixin> declaredMixins, PbMixin defaultMixin)
       : _descriptor = descriptor,
         _parent = parent,
-        classname = messageClassName(descriptor, parent: parent.classname),
+        classname = messageOrEnumClassName(descriptor.name,
+            parent: parent?.classname ?? ''),
         assert(parent != null),
         fullName = parent.fullName == ''
             ? descriptor.name
@@ -101,10 +102,10 @@ class MessageGenerator extends ProtobufContainer {
   /// [usage] represents the .pb.dart file where the expression will be used.
   String getJsonConstant(FileGenerator usage) {
     var name = "$classname\$json";
-    if (usage.package == fileGen.package || packageImportPrefix.isEmpty) {
+    if (usage.protoFileUri == fileGen.protoFileUri) {
       return name;
     }
-    return "$packageImportPrefix.$name";
+    return "$fileImportPrefix.$name";
   }
 
   /// Adds all mixins used in this message and any submessages.
@@ -233,7 +234,7 @@ class MessageGenerator extends ProtobufContainer {
           ';', () {
         for (ProtobufField field in _fieldList) {
           var dartFieldName = field.memberNames.fieldName;
-          out.println(field.generateBuilderInfoCall(package, dartFieldName));
+          out.println(field.generateBuilderInfoCall(fileGen, dartFieldName));
         }
 
         if (_descriptor.extensionRange.length > 0) {
@@ -375,7 +376,7 @@ class MessageGenerator extends ProtobufContainer {
 
   void generateFieldAccessorsMutators(
       ProtobufField field, IndentingWriter out) {
-    var fieldTypeString = field.getDartType(package);
+    var fieldTypeString = field.getDartType(fileGen);
     var defaultExpr = field.getDefaultExpr();
     var names = field.memberNames;
 

@@ -22,9 +22,8 @@ class EnumGenerator extends ProtobufContainer {
   EnumGenerator(EnumDescriptorProto descriptor, ProtobufContainer parent)
       : assert(parent != null),
         _parent = parent,
-        classname = (parent is FileGenerator)
-            ? descriptor.name
-            : '${parent.classname}_${descriptor.name}',
+        classname = messageOrEnumClassName(descriptor.name,
+            parent: parent?.classname ?? ''),
         fullName = parent.fullName == ''
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
@@ -52,10 +51,10 @@ class EnumGenerator extends ProtobufContainer {
   /// [usage] represents the .pb.dart file where the expression will be used.
   String getJsonConstant(FileGenerator usage) {
     var name = "$classname\$json";
-    if (usage.package == fileGen.package || packageImportPrefix.isEmpty) {
+    if (usage.protoFileUri == fileGen.protoFileUri) {
       return name;
     }
-    return "$packageImportPrefix.$name";
+    return "$fileImportPrefix.$name";
   }
 
   void generate(IndentingWriter out) {
@@ -64,14 +63,17 @@ class EnumGenerator extends ProtobufContainer {
         '}\n', () {
       // -----------------------------------------------------------------
       // Define enum types.
+      var reservedNames = reservedEnumNames;
       for (EnumValueDescriptorProto val in _canonicalValues) {
-        out.println('static const ${classname} ${val.name} = '
-            "const ${classname}._(${val.number}, '${val.name}');");
+        final name = unusedEnumNames(val.name, reservedNames);
+        out.println('static const ${classname} $name = '
+            "const ${classname}._(${val.number}, '$name');");
       }
       if (!_aliases.isEmpty) {
         out.println();
         for (EnumAlias alias in _aliases) {
-          out.println('static const ${classname} ${alias.value.name} ='
+          final name = unusedEnumNames(alias.value.name, reservedNames);
+          out.println('static const ${classname} $name ='
               ' ${alias.canonicalValue.name};');
         }
       }
@@ -79,8 +81,10 @@ class EnumGenerator extends ProtobufContainer {
 
       out.println('static const List<${classname}> values ='
           ' const <${classname}> [');
+      reservedNames = reservedEnumNames;
       for (EnumValueDescriptorProto val in _canonicalValues) {
-        out.println('  ${val.name},');
+        final name = unusedEnumNames(val.name, reservedNames);
+        out.println('  $name,');
       }
       out.println('];');
       out.println();

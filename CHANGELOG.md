@@ -1,3 +1,9 @@
+## 0.10.1
+
+* Breaking change: Prefix generated Dart proto imports by proto file path instead of by package.
+  Tighten up member name checks for generated enum classes.
+  Requires package:protobuf version 0.10.2 or newer.
+
 ## 0.10.0
 
 * Breaking change: Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.

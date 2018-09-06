@@ -45,7 +45,7 @@ String extensionName(FieldDescriptorProto descriptor) {
   var existingNames = new Set<String>()
     ..addAll(_dartReservedWords)
     ..addAll(GeneratedMessage_reservedNames)
-    ..addAll(_generatedNames);
+    ..addAll(_generatedMessageNames);
   return _unusedMemberNames(descriptor, null, existingNames).fieldName;
 }
 
@@ -53,7 +53,7 @@ String extensionName(FieldDescriptorProto descriptor) {
 String extensionClassName(FileDescriptorProto descriptor) {
   var taken = new Set<String>();
   for (var messageType in descriptor.messageType) {
-    taken.add(messageClassName(messageType));
+    taken.add(messageOrEnumClassName(messageType.name));
   }
   for (var enumType in descriptor.enumType) {
     taken.add(enumType.name);
@@ -94,21 +94,43 @@ class DartNameOptionException implements Exception {
   String toString() => "$message";
 }
 
-/// Chooses the name of the Dart class to generate for a protobuf message.
+/// Chooses the name of the Dart class to generate for a proto message or enum.
 ///
-/// For a nested message, [parent] should be provided
+/// For a nested message or enum, [parent] should be provided
 /// with the name of the Dart class for the immediate parent.
-String messageClassName(DescriptorProto descriptor, {String parent: ''}) {
-  var name = descriptor.name;
+String messageOrEnumClassName(String descriptorName, {String parent: ''}) {
+  var name = descriptorName;
   if (parent != '') {
-    name = '${parent}_${descriptor.name}';
+    name = '${parent}_${descriptorName}';
   }
   if (name == 'Function') {
     name = 'Function_'; // Avoid reserved word.
+  } else if (name == 'List') {
+    name = 'List_';
   } else if (name.startsWith('Function_')) {
     // Avoid any further name conflicts due to 'Function' rename (unlikely).
     name = name + '_';
   }
+  return name;
+}
+
+/// Returns the set of names reserved by the ProtobufEnum class and its
+/// generated subclasses.
+Set<String> get reservedEnumNames => new Set<String>()
+  ..addAll(ProtobufEnum_reservedNames)
+  ..addAll(_protobufEnumNames);
+
+/// Chooses the ProtobufEnum names for each value.
+///
+/// Since the values all have the same type as the containing enum class, it
+/// does not require all the same checks as for message member names. Still,
+/// it needs to be checked against a list of reserved names to avoid collisions.
+String unusedEnumNames(String name, Set<String> existingNames) {
+  final suffix = '_';
+  while (existingNames.contains(name)) {
+    name += suffix;
+  }
+  existingNames.add(name);
   return name;
 }
 
@@ -141,7 +163,7 @@ Map<String, MemberNames> messageFieldNames(DescriptorProto descriptor,
   var existingNames = new Set<String>()
     ..addAll(_dartReservedWords)
     ..addAll(GeneratedMessage_reservedNames)
-    ..addAll(_generatedNames)
+    ..addAll(_generatedMessageNames)
     ..addAll(reserved);
 
   var memberNames = <String, MemberNames>{};
@@ -335,10 +357,25 @@ const List<String> _dartReservedWords = const [
   'with'
 ];
 
-// List of names used in the generated class itself.
-const List<String> _generatedNames = const [
+// List of names used in the generated message classes.
+//
+// This is in addition to GeneratedMessage_reservedNames, which are names from
+// the base GeneratedMessage class determined by reflection.
+const _generatedMessageNames = const <String>[
   'create',
   'createRepeated',
   'getDefault',
+  'List',
+  checkItem
+];
+
+// List of names used in the generated enum classes.
+//
+// This is in addition to ProtobufEnum_reservedNames, which are names from the
+// base ProtobufEnum class determined by reflection.
+const _protobufEnumNames = const <String>[
+  'List',
+  'valueOf',
+  'values',
   checkItem
 ];

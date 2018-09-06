@@ -5,6 +5,10 @@
 part of protoc;
 
 abstract class ProtobufContainer {
+  // Internal map of proto file URIs to prefix aliases to resolve name conflicts
+  static final importPrefixes = <String, String>{};
+  static var idx = 0;
+
   String get package;
   String get classname;
   String get fullName;
@@ -14,14 +18,17 @@ abstract class ProtobufContainer {
   /// This exists because names from protoc come like this.
   String get dottedName => '.$fullName';
 
-  String get packageImportPrefix =>
-      _cachedImportPrefix ??= _calculateImportPrefix();
+  String get fileImportPrefix => _getFileImportPrefix();
 
-  String _cachedImportPrefix;
-
-  String _calculateImportPrefix() {
-    final importName = package.replaceAll('.', r'$');
-    return importName.isNotEmpty ? '\$$importName' : '';
+  String _getFileImportPrefix() {
+    String path = fileGen.protoFileUri.toString();
+    if (importPrefixes.containsKey(path)) {
+      return importPrefixes[path];
+    }
+    final alias = '\$$idx';
+    importPrefixes[path] = alias;
+    idx++;
+    return alias;
   }
 
   /// The generator of the .pb.dart file defining this entity.

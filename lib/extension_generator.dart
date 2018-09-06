@@ -76,7 +76,7 @@ class ExtensionGenerator {
 
     String name = _extensionName;
     var type = _field.baseType;
-    var dartType = type.getDartType(package);
+    var dartType = type.getDartType(fileGen);
 
     if (_field.isRepeated) {
       out.print('static final $_protobufImportPrefix.Extension $name = '
@@ -98,12 +98,12 @@ class ExtensionGenerator {
         'new $_protobufImportPrefix.Extension<$dartType>(\'$_extendedFullName\', \'$name\', '
         '${_field.number}, ${_field.typeConstant}');
 
-    String initializer = _field.generateDefaultFunction(package);
+    String initializer = _field.generateDefaultFunction(fileGen);
 
     if (type.isMessage || type.isGroup) {
       out.println(', $initializer, $dartType.create);');
     } else if (type.isEnum) {
-      var dartEnum = type.getDartType(package);
+      var dartEnum = type.getDartType(fileGen);
       String enumParams = '(var v) => $dartEnum.valueOf(v), $dartEnum.values';
       out.println(", $initializer, null, $enumParams);");
     } else if (initializer != null) {

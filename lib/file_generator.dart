@@ -511,7 +511,7 @@ import 'package:grpc/grpc.dart';
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 ''');
   }
 
@@ -522,8 +522,8 @@ import 'package:grpc/grpc.dart';
     Uri resolvedImport =
         config.resolveImport(target.protoFileUri, protoFileUri, extension);
     out.print("import '$resolvedImport'");
-    if (package != target.package && target.package.isNotEmpty) {
-      out.print(' as ${target.packageImportPrefix}');
+    if (protoFileUri != target.protoFileUri) {
+      out.print(' as ${target.fileImportPrefix}');
     }
     out.println(';');
   }
