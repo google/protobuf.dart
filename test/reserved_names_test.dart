@@ -8,14 +8,15 @@ library reserved_names_test;
 
 import 'package:test/test.dart';
 
-import 'package:protobuf/meta.dart' show GeneratedMessage_reservedNames;
+import 'package:protobuf/meta.dart'
+    show GeneratedMessage_reservedNames, ProtobufEnum_reservedNames;
 import 'package:protobuf/mixins_meta.dart' show findMixin;
 
 import 'mirror_util.dart' show findMemberNames;
 
 // Import the libraries we will access via the mirrors.
 // ignore_for_file: unused_import
-import 'package:protobuf/protobuf.dart' show GeneratedMessage;
+import 'package:protobuf/protobuf.dart' show GeneratedMessage, ProtobufEnum;
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin;
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart' show PbMapMixin;
@@ -28,6 +29,14 @@ void main() {
     var actual = new Set<String>.from(GeneratedMessage_reservedNames);
     var expected =
         findMemberNames('package:protobuf/protobuf.dart', #GeneratedMessage);
+
+    expect(actual.toList()..sort(), equals(expected.toList()..sort()));
+  });
+
+  test('ProtobufEnum reserved names are up to date', () {
+    var actual = new Set<String>.from(ProtobufEnum_reservedNames);
+    var expected =
+        findMemberNames('package:protobuf/protobuf.dart', #ProtobufEnum);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
   });

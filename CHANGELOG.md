@@ -1,3 +1,7 @@
+## 0.10.2
+
+* Added ProtobufEnum reserved names.
+
 ## 0.10.1
 
 * Added Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.
