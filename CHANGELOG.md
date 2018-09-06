@@ -1,6 +1,6 @@
 ## 0.10.2
 
-* Update ProtobufEnum reserved names.
+* Added ProtobufEnum reserved names.
 
 ## 0.10.1
 
