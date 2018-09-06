@@ -22,10 +22,11 @@ ServiceDescriptorProto buildServiceDescriptor() {
   return sd;
 }
 
-FileDescriptorProto buildFileDescriptor(String package, List<String> messages) {
+FileDescriptorProto buildFileDescriptor(
+    String package, String fileUri, List<String> messages) {
   var fd = new FileDescriptorProto()
     ..package = package
-    ..name = 'test';
+    ..name = fileUri;
   for (var name in messages) {
     var md = new DescriptorProto()..name = name;
 

@@ -1,21 +1,21 @@
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'package1.pb.dart' as $p1;
-import 'package2.pb.dart' as $p2;
+import 'package1.pb.dart' as $0;
+import 'package2.pb.dart' as $1;
 
 class M extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('M')
     ..a<M>(1, 'm', $pb.PbFieldType.OM, M.getDefault, M.create)
-    ..a<$p1.M>(2, 'm1', $pb.PbFieldType.OM, $p1.M.getDefault, $p1.M.create)
-    ..a<$p2.M>(3, 'm2', $pb.PbFieldType.OM, $p2.M.getDefault, $p2.M.create)
+    ..a<$0.M>(2, 'm1', $pb.PbFieldType.OM, $0.M.getDefault, $0.M.create)
+    ..a<$1.M>(3, 'm2', $pb.PbFieldType.OM, $1.M.getDefault, $1.M.create)
     ..hasRequiredFields = false
   ;
 
@@ -38,13 +38,13 @@ class M extends $pb.GeneratedMessage {
   bool hasM() => $_has(0);
   void clearM() => clearField(1);
 
-  $p1.M get m1 => $_getN(1);
-  set m1($p1.M v) { setField(2, v); }
+  $0.M get m1 => $_getN(1);
+  set m1($0.M v) { setField(2, v); }
   bool hasM1() => $_has(1);
   void clearM1() => clearField(2);
 
-  $p2.M get m2 => $_getN(2);
-  set m2($p2.M v) { setField(3, v); }
+  $1.M get m2 => $_getN(2);
+  set m2($1.M v) { setField(3, v); }
   bool hasM2() => $_has(2);
   void clearM2() => clearField(3);
 }

@@ -113,12 +113,11 @@ class ServiceGenerator {
       var location = _undefinedDeps[fqname];
       throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
     }
-    if (fileGen.package == mg.fileGen.package || mg.fileGen.package == "") {
-      // It's either the same file, or another file with the same package.
-      // (In the second case, we import it without using "as".)
+    if (fileGen.protoFileUri == mg.fileGen.protoFileUri) {
+      // If it's the same file, we import it without using "as".
       return mg.classname;
     }
-    return mg.packageImportPrefix + "." + mg.classname;
+    return mg.fileImportPrefix + "." + mg.classname;
   }
 
   List<MethodDescriptorProto> get _methodDescriptors => _descriptor.method;

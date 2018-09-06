@@ -37,23 +37,23 @@ class BaseType {
   /// (Always the empty string for primitive types.)
   String get package => generator == null ? "" : generator.package;
 
-  /// The Dart expression to use for this type when in a different package.
-  String get prefixed {
-    if (generator == null || generator.packageImportPrefix.isEmpty) {
-      return unprefixed;
-    }
-    return generator.packageImportPrefix + "." + unprefixed;
-  }
+  /// The Dart expression to use for this type when in a different file.
+  String get prefixed => generator == null
+      ? unprefixed
+      : generator.fileImportPrefix + "." + unprefixed;
 
   /// Returns the name to use in generated code for this Dart type.
   ///
   /// Doesn't include the List type for repeated fields.
-  /// [package] is the current package where we are generating code.
-  /// The Dart class might be imported from a different package.
-  String getDartType(String package) =>
-      (package == this.package) ? unprefixed : prefixed;
+  /// [protoFileUri] represents the current proto file where we are generating
+  /// code. The Dart class might be imported from a different proto file.
+  String getDartType(FileGenerator fileGen) =>
+      (fileGen.protoFileUri == generator?.fileGen?.protoFileUri)
+          ? unprefixed
+          : prefixed;
 
-  String getRepeatedDartType(String package) => "List<${getDartType(package)}>";
+  String getRepeatedDartType(FileGenerator fileGen) =>
+      "List<${getDartType(fileGen)}>";
 
   factory BaseType(FieldDescriptorProto field, GenerationContext ctx) {
     String constSuffix;

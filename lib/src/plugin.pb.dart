@@ -1,14 +1,14 @@
 ///
 //  Generated code. Do not modify.
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'descriptor.pb.dart' as $google$protobuf;
+import 'descriptor.pb.dart' as $0;
 
 class Version extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Version',
@@ -78,12 +78,8 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     ..aOS(2, 'parameter')
     ..a<Version>(3, 'compilerVersion', $pb.PbFieldType.OM, Version.getDefault,
         Version.create)
-    ..pp<$google$protobuf.FileDescriptorProto>(
-        15,
-        'protoFile',
-        $pb.PbFieldType.PM,
-        $google$protobuf.FileDescriptorProto.$checkItem,
-        $google$protobuf.FileDescriptorProto.create);
+    ..pp<$0.FileDescriptorProto>(15, 'protoFile', $pb.PbFieldType.PM,
+        $0.FileDescriptorProto.$checkItem, $0.FileDescriptorProto.create);
 
   CodeGeneratorRequest() : super();
   CodeGeneratorRequest.fromBuffer(List<int> i,
@@ -125,7 +121,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   bool hasCompilerVersion() => $_has(2);
   void clearCompilerVersion() => clearField(3);
 
-  List<$google$protobuf.FileDescriptorProto> get protoFile => $_getList(3);
+  List<$0.FileDescriptorProto> get protoFile => $_getList(3);
 }
 
 class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
