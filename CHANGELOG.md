@@ -1,8 +1,11 @@
+## 0.10.2
+
+* Add link to source file in generated code.
+
 ## 0.10.1
 
-* Breaking change: Prefix generated Dart proto imports by proto file path instead of by package.
+* Prefix generated Dart proto imports by proto file path instead of by package.
   Tighten up member name checks for generated enum classes.
-  Requires package:protobuf version 0.10.2 or newer.
 
 ## 0.10.0
 

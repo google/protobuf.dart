@@ -510,6 +510,7 @@ import 'package:grpc/grpc.dart';
     out.println('''
 ///
 //  Generated code. Do not modify.
+//  source: ${descriptor.name}
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 ''');
