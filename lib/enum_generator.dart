@@ -69,7 +69,7 @@ class EnumGenerator extends ProtobufContainer {
         out.println('static const ${classname} $name = '
             "const ${classname}._(${val.number}, '$name');");
       }
-      if (!_aliases.isEmpty) {
+      if (_aliases.isNotEmpty) {
         out.println();
         for (EnumAlias alias in _aliases) {
           final name = unusedEnumNames(alias.value.name, reservedNames);

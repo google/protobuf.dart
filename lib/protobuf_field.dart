@@ -251,9 +251,10 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_ENUM:
         var className = sameProtoFile ? baseType.unprefixed : baseType.prefixed;
         EnumGenerator gen = baseType.generator;
-        if (descriptor.hasDefaultValue() && !descriptor.defaultValue.isEmpty) {
+        if (descriptor.hasDefaultValue() &&
+            descriptor.defaultValue.isNotEmpty) {
           return '$className.${descriptor.defaultValue}';
-        } else if (!gen._canonicalValues.isEmpty) {
+        } else if (gen._canonicalValues.isNotEmpty) {
           return '$className.${gen._canonicalValues[0].name}';
         }
         return null;
