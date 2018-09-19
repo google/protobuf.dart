@@ -36,14 +36,12 @@ pb.Platform createPlatform() {
 get _isDartVM => !identical(1, 1.0);
 
 final bool _checkedMode = () {
-  bool x = true;
-  try {
-    // Trigger an exception if we're in checked mode.
-    x = "" as dynamic;
-    return x != ""; // return false; suppress unused variable warning
-  } catch (e) {
+  var checked = false;
+  assert(() {
+    checked = true;
     return true;
-  }
+  }());
+  return checked;
 }();
 
 /// Given the contents of the pubspec.yaml and pubspec.lock files,
