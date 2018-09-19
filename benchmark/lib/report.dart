@@ -6,6 +6,8 @@ library protoc.benchmark.report;
 
 import 'dart:convert' show jsonEncode;
 
+import 'package:yaml/yaml.dart';
+
 import 'generated/benchmark.pb.dart' as pb;
 
 pb.Response findUpdatedResponse(pb.Report beforeRep, pb.Report afterRep) {
@@ -67,75 +69,23 @@ pb.Packages createPackages(String pubspecYaml, String pubspecLock) {
 /// - assumes all other lines without a value except 'description'
 ///   start a new package
 /// - only allows known keys within a package
-List<pb.PackageVersion> _parseLockFile(String contents) {
-  var out = <pb.PackageVersion>[];
+Iterable<pb.PackageVersion> _parseLockFile(String contents) sync* {
+  var yaml = loadYaml(contents) as YamlMap;
+  var packages = yaml['packages'] as YamlMap;
 
-  bool inPackages = false;
-  bool inDescription = false;
-  pb.PackageVersion pv = null;
-  var lineNumber = 0;
-  for (var line in contents.split("\n")) {
-    lineNumber++;
-    line = line.trim(); // ignore indentation
-    if (line == "" || line.startsWith("#")) continue;
+  for (var entry in packages.entries) {
+    var map = entry.value as YamlMap;
+    var pkgVersion = new pb.PackageVersion()
+      ..name = entry.key as String
+      ..source = map['source']
+      ..version = map['version'];
 
-    // find key and value
-    var colon = line.indexOf(":");
-    if (colon == -1) {
-      throw "can't parse pubspec.lock at line $lineNumber";
+    var path = (map['description'] as YamlMap)['path'];
+    if (path != null) {
+      pkgVersion.path = path;
     }
-    var key = line.substring(0, colon).trim();
-    var value = line.substring(colon + 1).trim();
-    if (value.length >= 2 && value.startsWith('"') && value.endsWith('"')) {
-      value = value.substring(1, value.length - 1);
-    }
-
-    if (!inPackages) {
-      if (key == "packages" && value == "") {
-        inPackages = true;
-        continue;
-      }
-      throw "can't parse pubspec.lock at line $lineNumber";
-    }
-
-    if (value == "") {
-      if (key == "description") {
-        inDescription = true;
-        continue;
-      }
-      if (pv != null) out.add(pv);
-      pv = new pb.PackageVersion()..name = key;
-      continue;
-    }
-
-    if (pv == null) {
-      throw "can't parse pubspec.lock at line $lineNumber - no value for $key";
-    }
-
-    if (inDescription && (key == "name" || key == "url")) continue;
-    inDescription = false;
-
-    switch (key) {
-      case "description":
-        break;
-      case "source":
-        pv.source = value;
-        break;
-      case "version":
-        pv.version = value;
-        break;
-      case "path":
-        pv.path = value;
-        break;
-      case "relative":
-        break; // ignore
-      case "sdk":
-        break; // ignore
-      default:
-        throw "can't parse pubspec.lock at line $lineNumber - unknown key $key";
-    }
+    yield pkgVersion;
   }
-  return out;
 }
 
 /// Encodes a report as nicely-formatted JSON.
