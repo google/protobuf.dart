@@ -95,7 +95,7 @@ void main() {
   test('PbList validates items', () {
     expect(() {
       (new PbList<int>() as dynamic).add('hello');
-    }, throwsA(new isInstanceOf<TypeError>()));
+    }, throwsA(new TypeMatcher<TypeError>()));
   });
 
   test('PbList for signed int32 validates items', () {

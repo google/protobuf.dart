@@ -14,7 +14,7 @@ import 'test_util.dart';
 
 void main() {
   final throwsInvalidProtocolBufferException =
-      throwsA(new isInstanceOf<InvalidProtocolBufferException>());
+      throwsA(new TypeMatcher<InvalidProtocolBufferException>());
 
   group('testCodedBufferReader', () {
     List<int> inputBuffer = <int>[
