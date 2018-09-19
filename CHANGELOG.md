@@ -1,3 +1,8 @@
+## 0.10.3
+
+* Added type argument to `ProtobufEnum.initByValue` which allows the return
+  value to be fully typed.
+
 ## 0.10.2
 
 * Added ProtobufEnum reserved names.
