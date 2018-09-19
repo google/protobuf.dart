@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 import 'golden_file.dart';
 
 FileDescriptorProto buildFileDescriptor(
-    {phoneNumber: true, topLevelEnum: false}) {
+    {phoneNumber = true, topLevelEnum = false}) {
   FileDescriptorProto fd = new FileDescriptorProto()..name = 'test';
 
   if (topLevelEnum) {

@@ -33,14 +33,15 @@ class IndentingWriter {
   }
 
   /// Prints a block of text with the body indented one more level.
-  void addBlock(String start, String end, void body(), {endWithNewline: true}) {
+  void addBlock(String start, String end, void body(),
+      {endWithNewline = true}) {
     _addBlock(start, end, body, endWithNewline, _indent + '  ');
   }
 
   /// Prints a block of text with an unindented body.
   /// (For example, for triple quotes.)
   void addUnindentedBlock(String start, String end, void body(),
-      {endWithNewline: true}) {
+      {endWithNewline = true}) {
     _addBlock(start, end, body, endWithNewline, '');
   }
 

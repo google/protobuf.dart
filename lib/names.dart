@@ -98,7 +98,7 @@ class DartNameOptionException implements Exception {
 ///
 /// For a nested message or enum, [parent] should be provided
 /// with the name of the Dart class for the immediate parent.
-String messageOrEnumClassName(String descriptorName, {String parent: ''}) {
+String messageOrEnumClassName(String descriptorName, {String parent = ''}) {
   var name = descriptorName;
   if (parent != '') {
     name = '${parent}_${descriptorName}';
@@ -145,7 +145,7 @@ String unusedEnumNames(String name, Set<String> existingNames) {
 /// Throws [DartNameOptionException] if a field has this option and
 /// it's set to an invalid name.
 Map<String, MemberNames> messageFieldNames(DescriptorProto descriptor,
-    {Iterable<String> reserved: const []}) {
+    {Iterable<String> reserved = const []}) {
   var sorted = new List<FieldDescriptorProto>.from(descriptor.field)
     ..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
       if (a.number < b.number) return -1;
