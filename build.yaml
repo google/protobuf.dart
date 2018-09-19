@@ -1,0 +1,8 @@
+# Configuration for Dart build system - https://github.com/dart-lang/build
+# Enables running benchmarks via browser: `pub run build_runner serve`
+targets:
+  $default:
+    builders:
+      build_web_compilers|entrypoint:
+        generate_for:
+        - benchmark/*_browser.dart
