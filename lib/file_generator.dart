@@ -208,7 +208,7 @@ class FileGenerator extends ProtobufContainer {
 
     // Generate code for extensions defined at top-level using a class
     // name derived from the file name.
-    if (!extensionGenerators.isEmpty) {
+    if (extensionGenerators.isNotEmpty) {
       // TODO(antonm): do not generate a class.
       String className = extensionClassName(descriptor);
       out.addBlock('class $className {', '}\n', () {
