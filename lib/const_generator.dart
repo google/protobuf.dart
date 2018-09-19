@@ -78,7 +78,7 @@ bool _maybeWriteSingleLineString(IndentingWriter out, String val) {
   }
 }
 
-void _writeListItems(IndentingWriter out, List val, {bool vertical: false}) {
+void _writeListItems(IndentingWriter out, List val, {bool vertical = false}) {
   bool first = true;
   for (var item in val) {
     if (!first && !vertical) {
@@ -93,7 +93,7 @@ void _writeListItems(IndentingWriter out, List val, {bool vertical: false}) {
 }
 
 void _writeMapItems(IndentingWriter out, Map<dynamic, dynamic> val,
-    {bool vertical: false}) {
+    {bool vertical = false}) {
   bool first = true;
   for (var key in val.keys) {
     if (!first && !vertical) out.print(", ");

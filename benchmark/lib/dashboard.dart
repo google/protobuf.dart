@@ -168,7 +168,7 @@ bool isCompatibleBaseline(pb.Suite suite, pb.Report report) {
 }
 
 Future<String> _loadDataFile(String name,
-    {bool optional: false, String advice}) async {
+    {bool optional = false, String advice}) async {
   try {
     return await HttpRequest.getString("/data/$name");
   } catch (e) {

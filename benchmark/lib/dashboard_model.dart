@@ -85,7 +85,7 @@ class Row {
   final Benchmark benchmark;
   final pb.Sample baseline;
   final bool selected;
-  Row(this.request, this.benchmark, this.baseline, {this.selected: true});
+  Row(this.request, this.benchmark, this.baseline, {this.selected = true});
 
   /// Returns the response that should be displayed in this row.
   pb.Response findResponse(pb.Report r) {
