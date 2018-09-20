@@ -6,3 +6,8 @@ targets:
       build_web_compilers|entrypoint:
         generate_for:
         - benchmark/*_browser.dart
+        options:
+          dart2js_args:
+          - --minify
+          #- --trust-primitives
+          #- --omit-implicit-checks
