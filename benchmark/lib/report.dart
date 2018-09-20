@@ -32,18 +32,22 @@ pb.Response findUpdatedResponse(pb.Report beforeRep, pb.Report afterRep) {
 pb.Platform createPlatform() {
   return new pb.Platform()
     ..dartVM = _isDartVM
-    ..checkedMode = _checkedMode;
+    ..checkedMode = _implicitChecksEnabled;
 }
 
 get _isDartVM => !identical(1, 1.0);
 
-final bool _checkedMode = () {
-  var checked = false;
-  assert(() {
-    checked = true;
+/// Returns `false` if running via dart2js and `--omit-implicit-checks` is set
+final bool _implicitChecksEnabled = () {
+  // ignore: unused_local_variable
+  bool x = true;
+  try {
+    // Trigger an exception if we're in checked mode.
+    x = "" as dynamic;
+    return false;
+  } catch (e) {
     return true;
-  }());
-  return checked;
+  }
 }();
 
 /// Given the contents of the pubspec.yaml and pubspec.lock files,
