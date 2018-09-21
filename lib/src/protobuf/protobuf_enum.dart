@@ -37,12 +37,9 @@ class ProtobufEnum {
 
   /// Returns a Map for all of the [ProtobufEnum]s in [byIndex], mapping each
   /// [ProtobufEnum]'s [value] to the [ProtobufEnum].
-
-  // Cannot type return type as Map<int, ProtobufEnum> as it will be
-  // assigned to Map<int, subtype of ProtobufEnum>.
-  static Map<int, dynamic> initByValue(List<ProtobufEnum> byIndex) {
-    var byValue = new Map<int, dynamic>();
-    for (ProtobufEnum v in byIndex) {
+  static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> byIndex) {
+    var byValue = new Map<int, T>();
+    for (T v in byIndex) {
       byValue[v.value] = v;
     }
     return byValue;
