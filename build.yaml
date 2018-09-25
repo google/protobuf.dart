@@ -1,4 +1,4 @@
-# Configuration for Dart build system - https://github.com/dart-lang/build
+# Read about `build.yaml` at https://pub.dartlang.org/packages/build_config
 # Enables running benchmarks via browser: `pub run build_runner serve`
 targets:
   $default:
@@ -11,3 +11,10 @@ targets:
           - --minify
           #- --trust-primitives
           #- --omit-implicit-checks
+
+builders:
+  benchmarkBuilder:
+    import: "tool/builder.dart"
+    builder_factories: ["benchmarkBuilder"]
+    build_extensions: {"lib/$lib$": ["benchmark/data/data.json"]}
+    auto_apply: root_package

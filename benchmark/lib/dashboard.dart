@@ -5,6 +5,7 @@
 library protoc.benchmark.html_runner;
 
 import 'dart:async' show Future;
+import 'dart:convert';
 import 'dart:html';
 import 'dart:js' show context, JsObject;
 
@@ -127,15 +128,14 @@ Future<pb.Env> loadBrowserEnv() async {
 /// Loads all the reports saved to benchmark/data.
 Future<Map<String, pb.Report>> loadReports(pb.Suite suite) async {
   var out = <String, pb.Report>{};
-  // TODO: maybe parallelize?
-  for (var name in data.allReportNames) {
-    String json =
-        await _loadDataFile(name, optional: (name == data.latestVMReportName));
-    if (json != null) {
-      var report = new pb.Report.fromJson(json);
-      if (isCompatibleBaseline(suite, report)) {
-        out[name] = report;
-      }
+
+  var dataJsonContent = await _loadDataFile('data.json');
+  var dataJson = jsonDecode(dataJsonContent) as Map<String, dynamic>;
+
+  for (var entry in dataJson.entries) {
+    var report = new pb.Report.fromJson(entry.value);
+    if (isCompatibleBaseline(suite, report)) {
+      out[entry.key] = report;
     }
   }
   print("loaded ${out.length} reports");
