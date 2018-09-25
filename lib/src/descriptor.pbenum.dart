@@ -68,10 +68,9 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
     TYPE_SINT64,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, FieldDescriptorProto_Type> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldDescriptorProto_Type valueOf(int value) =>
-      _byValue[value] as FieldDescriptorProto_Type;
+  static FieldDescriptorProto_Type valueOf(int value) => _byValue[value];
   static void $checkItem(FieldDescriptorProto_Type v) {
     if (v is! FieldDescriptorProto_Type)
       $pb.checkItemFailed(v, 'FieldDescriptorProto_Type');
@@ -95,10 +94,9 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
     LABEL_REPEATED,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, FieldDescriptorProto_Label> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldDescriptorProto_Label valueOf(int value) =>
-      _byValue[value] as FieldDescriptorProto_Label;
+  static FieldDescriptorProto_Label valueOf(int value) => _byValue[value];
   static void $checkItem(FieldDescriptorProto_Label v) {
     if (v is! FieldDescriptorProto_Label)
       $pb.checkItemFailed(v, 'FieldDescriptorProto_Label');
@@ -122,10 +120,9 @@ class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
     LITE_RUNTIME,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, FileOptions_OptimizeMode> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FileOptions_OptimizeMode valueOf(int value) =>
-      _byValue[value] as FileOptions_OptimizeMode;
+  static FileOptions_OptimizeMode valueOf(int value) => _byValue[value];
   static void $checkItem(FileOptions_OptimizeMode v) {
     if (v is! FileOptions_OptimizeMode)
       $pb.checkItemFailed(v, 'FileOptions_OptimizeMode');
@@ -147,10 +144,9 @@ class FieldOptions_CType extends $pb.ProtobufEnum {
     STRING_PIECE,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, FieldOptions_CType> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldOptions_CType valueOf(int value) =>
-      _byValue[value] as FieldOptions_CType;
+  static FieldOptions_CType valueOf(int value) => _byValue[value];
   static void $checkItem(FieldOptions_CType v) {
     if (v is! FieldOptions_CType) $pb.checkItemFailed(v, 'FieldOptions_CType');
   }
@@ -172,10 +168,9 @@ class FieldOptions_JSType extends $pb.ProtobufEnum {
     JS_NUMBER,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, FieldOptions_JSType> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldOptions_JSType valueOf(int value) =>
-      _byValue[value] as FieldOptions_JSType;
+  static FieldOptions_JSType valueOf(int value) => _byValue[value];
   static void $checkItem(FieldOptions_JSType v) {
     if (v is! FieldOptions_JSType)
       $pb.checkItemFailed(v, 'FieldOptions_JSType');
@@ -199,10 +194,9 @@ class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
     IDEMPOTENT,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, MethodOptions_IdempotencyLevel> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static MethodOptions_IdempotencyLevel valueOf(int value) =>
-      _byValue[value] as MethodOptions_IdempotencyLevel;
+  static MethodOptions_IdempotencyLevel valueOf(int value) => _byValue[value];
   static void $checkItem(MethodOptions_IdempotencyLevel v) {
     if (v is! MethodOptions_IdempotencyLevel)
       $pb.checkItemFailed(v, 'MethodOptions_IdempotencyLevel');

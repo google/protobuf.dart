@@ -1,3 +1,9 @@
+## 0.10.3
+
+* Remove runtime `as` check of enum `valueOf` by using correctly typed `Map` of
+  values.
+  Generated files must require package:protobuf version 0.10.3 or newer.
+
 ## 0.10.2
 
 * Add link to source file in generated code.
