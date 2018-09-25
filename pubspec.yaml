@@ -1,5 +1,5 @@
 name: protoc_plugin
-version: 0.10.2
+version: 0.10.3
 author: Dart Team <misc@dartlang.org>
 description: Protoc compiler plugin to generate Dart code
 homepage: https://github.com/dart-lang/dart-protoc-plugin
@@ -10,7 +10,7 @@ environment:
 dependencies:
   fixnum: ^0.10.5
   path: ^1.0.0
-  protobuf: ^0.10.2
+  protobuf: ^0.10.3
   dart_style: ^1.0.6
 
 dev_dependencies:

@@ -21,8 +21,8 @@ class PhoneType extends $pb.ProtobufEnum {
     WORK,
   ];
 
-  static final Map<int, dynamic> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static PhoneType valueOf(int value) => _byValue[value] as PhoneType;
+  static final Map<int, PhoneType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static PhoneType valueOf(int value) => _byValue[value];
   static void $checkItem(PhoneType v) {
     if (v is! PhoneType) $pb.checkItemFailed(v, 'PhoneType');
   }
