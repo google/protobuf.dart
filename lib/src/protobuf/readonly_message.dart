@@ -53,7 +53,7 @@ abstract class ReadonlyMessageMixin {
       _readonly("setField");
 
   void _readonly(String methodName) {
-    String messageType = info_.messageName;
+    String messageType = info_.qualifiedMessageName;
     frozenMessageModificationHandler(messageType, methodName);
   }
 }

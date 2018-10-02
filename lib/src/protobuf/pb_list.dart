@@ -154,9 +154,9 @@ abstract class PbListBase<E> extends ListBase<E> {
   final List<E> _wrappedList;
   final CheckFunc<E> check;
 
-  PbListBase._(this._wrappedList, {this.check: _checkNotNull}) {}
+  PbListBase._(this._wrappedList, {this.check = _checkNotNull}) {}
 
-  PbListBase._noList({this.check: _checkNotNull}) : _wrappedList = <E>[] {
+  PbListBase._noList({this.check = _checkNotNull}) : _wrappedList = <E>[] {
     assert(check != null);
   }
 
@@ -222,7 +222,7 @@ abstract class PbListBase<E> extends ListBase<E> {
   bool any(bool test(E element)) => _wrappedList.any(test);
 
   /// Creates a [List] containing the elements of this [Iterable].
-  List<E> toList({bool growable: true}) =>
+  List<E> toList({bool growable = true}) =>
       _wrappedList.toList(growable: growable);
 
   /// Creates a [Set] containing the same elements as this iterable.
