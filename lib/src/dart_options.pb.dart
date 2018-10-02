@@ -33,7 +33,7 @@ class DartMixin extends $pb.GeneratedMessage {
   static DartMixin getDefault() => _defaultInstance ??= create()..freeze();
   static DartMixin _defaultInstance;
   static void $checkItem(DartMixin v) {
-    if (v is! DartMixin) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DartMixin) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -84,7 +84,7 @@ class Imports extends $pb.GeneratedMessage {
   static Imports getDefault() => _defaultInstance ??= create()..freeze();
   static Imports _defaultInstance;
   static void $checkItem(Imports v) {
-    if (v is! Imports) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! Imports) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<DartMixin> get mixins => $_getList(0);

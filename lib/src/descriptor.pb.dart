@@ -38,7 +38,8 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static FileDescriptorSet _defaultInstance;
   static void $checkItem(FileDescriptorSet v) {
-    if (v is! FileDescriptorSet) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! FileDescriptorSet)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<FileDescriptorProto> get file => $_getList(0);
@@ -85,7 +86,8 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static FileDescriptorProto _defaultInstance;
   static void $checkItem(FileDescriptorProto v) {
-    if (v is! FileDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! FileDescriptorProto)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -174,7 +176,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   static DescriptorProto_ExtensionRange _defaultInstance;
   static void $checkItem(DescriptorProto_ExtensionRange v) {
     if (v is! DescriptorProto_ExtensionRange)
-      $pb.checkItemFailed(v, _i.messageName);
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get start => $_get(0, 0);
@@ -225,7 +227,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   static DescriptorProto_ReservedRange _defaultInstance;
   static void $checkItem(DescriptorProto_ReservedRange v) {
     if (v is! DescriptorProto_ReservedRange)
-      $pb.checkItemFailed(v, _i.messageName);
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get start => $_get(0, 0);
@@ -293,7 +295,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static DescriptorProto _defaultInstance;
   static void $checkItem(DescriptorProto v) {
-    if (v is! DescriptorProto) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DescriptorProto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -375,7 +377,8 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static FieldDescriptorProto _defaultInstance;
   static void $checkItem(FieldDescriptorProto v) {
-    if (v is! FieldDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! FieldDescriptorProto)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -485,7 +488,8 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static OneofDescriptorProto _defaultInstance;
   static void $checkItem(OneofDescriptorProto v) {
-    if (v is! OneofDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! OneofDescriptorProto)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -533,7 +537,8 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static EnumDescriptorProto _defaultInstance;
   static void $checkItem(EnumDescriptorProto v) {
-    if (v is! EnumDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! EnumDescriptorProto)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -584,7 +589,8 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static EnumValueDescriptorProto _defaultInstance;
   static void $checkItem(EnumValueDescriptorProto v) {
-    if (v is! EnumValueDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! EnumValueDescriptorProto)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -642,7 +648,8 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static ServiceDescriptorProto _defaultInstance;
   static void $checkItem(ServiceDescriptorProto v) {
-    if (v is! ServiceDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! ServiceDescriptorProto)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -695,7 +702,8 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static MethodDescriptorProto _defaultInstance;
   static void $checkItem(MethodDescriptorProto v) {
-    if (v is! MethodDescriptorProto) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! MethodDescriptorProto)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -794,7 +802,7 @@ class FileOptions extends $pb.GeneratedMessage {
   static FileOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FileOptions _defaultInstance;
   static void $checkItem(FileOptions v) {
-    if (v is! FileOptions) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! FileOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get javaPackage => $_getS(0, '');
@@ -964,7 +972,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   static MessageOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MessageOptions _defaultInstance;
   static void $checkItem(MessageOptions v) {
-    if (v is! MessageOptions) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! MessageOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   bool get messageSetWireFormat => $_get(0, false);
@@ -1044,7 +1052,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   static FieldOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FieldOptions _defaultInstance;
   static void $checkItem(FieldOptions v) {
-    if (v is! FieldOptions) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! FieldOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   FieldOptions_CType get ctype => $_getN(0);
@@ -1122,7 +1130,7 @@ class OneofOptions extends $pb.GeneratedMessage {
   static OneofOptions getDefault() => _defaultInstance ??= create()..freeze();
   static OneofOptions _defaultInstance;
   static void $checkItem(OneofOptions v) {
-    if (v is! OneofOptions) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! OneofOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<UninterpretedOption> get uninterpretedOption => $_getList(0);
@@ -1154,7 +1162,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   static EnumOptions getDefault() => _defaultInstance ??= create()..freeze();
   static EnumOptions _defaultInstance;
   static void $checkItem(EnumOptions v) {
-    if (v is! EnumOptions) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! EnumOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   bool get allowAlias => $_get(0, false);
@@ -1202,7 +1210,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static EnumValueOptions _defaultInstance;
   static void $checkItem(EnumValueOptions v) {
-    if (v is! EnumValueOptions) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! EnumValueOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   bool get deprecated => $_get(0, false);
@@ -1241,7 +1249,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
   static ServiceOptions getDefault() => _defaultInstance ??= create()..freeze();
   static ServiceOptions _defaultInstance;
   static void $checkItem(ServiceOptions v) {
-    if (v is! ServiceOptions) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! ServiceOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   bool get deprecated => $_get(0, false);
@@ -1287,7 +1295,7 @@ class MethodOptions extends $pb.GeneratedMessage {
   static MethodOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MethodOptions _defaultInstance;
   static void $checkItem(MethodOptions v) {
-    if (v is! MethodOptions) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! MethodOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   bool get deprecated => $_get(0, false);
@@ -1339,7 +1347,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   static UninterpretedOption_NamePart _defaultInstance;
   static void $checkItem(UninterpretedOption_NamePart v) {
     if (v is! UninterpretedOption_NamePart)
-      $pb.checkItemFailed(v, _i.messageName);
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get namePart => $_getS(0, '');
@@ -1394,7 +1402,8 @@ class UninterpretedOption extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static UninterpretedOption _defaultInstance;
   static void $checkItem(UninterpretedOption v) {
-    if (v is! UninterpretedOption) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! UninterpretedOption)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<UninterpretedOption_NamePart> get name => $_getList(0);
@@ -1479,7 +1488,8 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static SourceCodeInfo_Location _defaultInstance;
   static void $checkItem(SourceCodeInfo_Location v) {
-    if (v is! SourceCodeInfo_Location) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! SourceCodeInfo_Location)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<int> get path => $_getList(0);
@@ -1529,7 +1539,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   static SourceCodeInfo getDefault() => _defaultInstance ??= create()..freeze();
   static SourceCodeInfo _defaultInstance;
   static void $checkItem(SourceCodeInfo v) {
-    if (v is! SourceCodeInfo) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! SourceCodeInfo) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<SourceCodeInfo_Location> get location => $_getList(0);
@@ -1568,7 +1578,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   static GeneratedCodeInfo_Annotation _defaultInstance;
   static void $checkItem(GeneratedCodeInfo_Annotation v) {
     if (v is! GeneratedCodeInfo_Annotation)
-      $pb.checkItemFailed(v, _i.messageName);
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<int> get path => $_getList(0);
@@ -1627,7 +1637,8 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static GeneratedCodeInfo _defaultInstance;
   static void $checkItem(GeneratedCodeInfo v) {
-    if (v is! GeneratedCodeInfo) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! GeneratedCodeInfo)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
