@@ -1,3 +1,7 @@
+## 0.10.4
+
+* Added separate getter for `BuilderInfo.qualifiedMessageName`.
+
 ## 0.10.3
 
 * Added type argument to `ProtobufEnum.initByValue` which allows the return
