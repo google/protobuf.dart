@@ -1,3 +1,9 @@
+## 0.10.4
+
+* Change the fully qualfiied message name of generated messages to use
+  `BuilderInfo.qualifiedMessageName`.
+  Requires package:protobuf version 0.10.4 or newer.
+
 ## 0.10.3
 
 * Remove runtime `as` check of enum `valueOf` by using correctly typed `Map` of
