@@ -1,211 +1,203 @@
 ## 0.10.4
 
-*   Added `qualifiedMessageName` getter to `BuilderInfo`.
+* Added separate getter for `BuilderInfo.qualifiedMessageName`.
 
 ## 0.10.3
 
-*   Added type argument to `ProtobufEnum.initByValue` which allows the return
-    value to be fully typed.
+* Added type argument to `ProtobufEnum.initByValue` which allows the return
+  value to be fully typed.
 
 ## 0.10.2
 
-*   Added ProtobufEnum reserved names.
+* Added ProtobufEnum reserved names.
 
 ## 0.10.1
 
-*   Added Support for
-    [any](https://developers.google.com/protocol-buffers/docs/proto3#any)
-    messages.
+* Added Support for [any](https://developers.google.com/protocol-buffers/docs/proto3#any) messages.
 
 ## 0.10.0
 
-*   Breaking change: Add `GeneratedMessage.freeze()`. A frozen message and its
-    sub-messages cannot be changed.
+* Breaking change: Add `GeneratedMessage.freeze()`. A frozen message and its
+  sub-messages cannot be changed.
 
 ## 0.9.1
 
-*   Fix problem with encoding negative enum values.
-*   Fix problem with encoding byte arrays.
+* Fix problem with encoding negative enum values.
+* Fix problem with encoding byte arrays.
 
 ## 0.9.0+1
 
-*   Dart SDK upper constraint raised to declare compatability with Dart 2.0
-    stable.
+* Dart SDK upper constraint raised to declare compatability with Dart 2.0 stable.
 
 ## 0.9.0
 
-*   Breaking change: Changed signature of `CodedBufferWriter.writeTo` to require
-    `Uint8List` for performance.
-*   More Dart 2 fixes.
+* Breaking change: Changed signature of `CodedBufferWriter.writeTo` to require
+  `Uint8List` for performance.
+* More Dart 2 fixes.
 
 ## 0.8.0
 
-*   Breaking change: Added generics to RpcClient.invoke(). Proto files must be
-    rebuilt using Dart protoc_plugin version 0.8.0 or newer to match.
-*   Dart 2 fixes.
+* Breaking change: Added generics to RpcClient.invoke(). Proto files must be
+  rebuilt using Dart protoc_plugin version 0.8.0 or newer to match.
+* Dart 2 fixes.
 
 ## 0.7.2+1
 
--   Updated SDK version to 2.0.0-dev.17.0
+- Updated SDK version to 2.0.0-dev.17.0
 
 ## 0.7.2
 
-*   Fix hashing for PbList.
+* Fix hashing for PbList.
 
 ## 0.7.1
 
-*   Fix type in PbList.fold() for Dart 2.
-*   Small performance tweaks for DDC.
+* Fix type in PbList.fold() for Dart 2.
+* Small performance tweaks for DDC.
 
 ## 0.7.0
 
-*   Added fast getters for common types.
-*   Only pass index instead of both tag and index to accessors.
-*   Delegate more methods to underlying list in PbList.
-*   Small fixes for Dart 2.0.
+* Added fast getters for common types.
+* Only pass index instead of both tag and index to accessors.
+* Delegate more methods to underlying list in PbList.
+* Small fixes for Dart 2.0.
 
 ## 0.6.0
 
-*   Added enumValues to FieldInfo. Fixes #63.
-*   Small performance optimization when deserializing repeated messages from
-    JSON.
-*   Type annotations for strong mode.
+* Added enumValues to FieldInfo. Fixes #63.
+* Small performance optimization when deserializing repeated messages
+  from JSON.
+* Type annotations for strong mode.
 
 ## 0.5.5
 
-*   Use real generic syntax instead of comment-based.
-*   Support v2 dev SDKs.
+* Use real generic syntax instead of comment-based.
+* Support v2 dev SDKs.
 
 ## 0.5.4
 
-*   Unknown enum values are ignored when parsing JSON, instead of throwing an
-    exception.
+* Unknown enum values are ignored when parsing JSON, instead of throwing an
+  exception.
 
 ## 0.5.3+2
 
-*   Resolved a strong-mode error.
+* Resolved a strong-mode error.
 
 ## 0.5.3+1
 
-*   Performance: Avoid excessive cloning in merge.
-*   Performance: Use code patterns that dart2js handles better.
+* Performance: Avoid excessive cloning in merge.
+* Performance: Use code patterns that dart2js handles better.
 
 ## 0.5.3
 
-*   fix zigzag function so all coded buffer reader tests work on dart2js.
+* fix zigzag function so all coded buffer reader tests work on dart2js.
 
 ## 0.5.2
 
-*   make PbMixin constructor public for use within protoc plugin.
+* make PbMixin constructor public for use within protoc plugin.
 
 ## 0.5.1+5
 
-*   Revert previous change because it causes strong mode type error in the
-    generated code. We will revisit this in a new version of mixin support.
+* Revert previous change because it causes strong mode type error
+in the generated code. We will revisit this in a new version of
+mixin support.
 
 ## 0.5.1+4
 
-*   Use a more refined implementation of `Map` in `PbMapMixin`
+* Use a more refined implementation of `Map` in `PbMapMixin`
 
 ## 0.5.1+3
 
-*   Performance: eliminate some dynamic calls.
+* Performance: eliminate some dynamic calls.
 
 ## 0.5.1+2
 
-*   Bugfix: remove dependency on `pkg/crypto` for real.
+* Bugfix: remove dependency on `pkg/crypto` for real.
 
 ## 0.5.1+1
 
-*   Require at least Dart SDK 1.13.
+* Require at least Dart SDK 1.13.
 
-*   Removed dependency on `pkg/crypto`.
+* Removed dependency on `pkg/crypto`.
 
 ## 0.5.1
 
-*   Experimental support for strong mode.
-*   Fixed an issue with GeneratedMessage operator== and Map mixins
-*   Added declaration of GeneratedMessage clone method
+* Experimental support for strong mode.
+* Fixed an issue with GeneratedMessage operator== and Map mixins
+* Added declaration of GeneratedMessage clone method
 
 ## 0.5.0+1
 
-*   Support the latest version of package `fixnum`.
+* Support the latest version of package `fixnum`.
 
 ## 0.5.0
-
-*   Reorganized internals to improve performance. We now store field values in a
-    list instead of a map. Private properties and methods are all moved to the
-    \_FieldSet class. There are new entry points for generated getters, hazzers,
-    and setters. Improved JSON decoding performance.
-*   Dropped compatibility with .pb.dart files before 0.4.2 by removing internal
-    constants from GeneratedMessage. Also, protoc plugins before 0.5.0 won't
-    work.
+ * Reorganized internals to improve performance. We now store
+   field values in a list instead of a map. Private properties
+   and methods are all moved to the \_FieldSet class. There
+   are new entry points for generated getters, hazzers, and
+   setters. Improved JSON decoding performance.
+ * Dropped compatibility with .pb.dart files before 0.4.2
+   by removing internal constants from GeneratedMessage. Also,
+   protoc plugins before 0.5.0 won't work.
 
 ## 0.4.2
-
-*   Renamed FieldType to PbFieldType.
+ * Renamed FieldType to PbFieldType.
 
 ## 0.4.1 - DO NOT USE
-
-*   added FieldType class. It turned out that FieldType is a commonly used name,
-    even in .proto files. This is renamed to PbFieldType in 0.4.2.
-*   Added support for observing field changes. For now, this can only be enabled
-    by using a mixin to override the eventPlugin getter.
-*   Removed optional third parameter from setField(). It was only intended for
-    internal use, and could be used to defeat type checks on fields.
-*   clearExtension() removes the value and extension in all cases. (Before, the
-    extension would be kept and the list cleared for repeated fields.)
-*   Upcoming: clearField() will require its argument to be a known tag number
-    (which could be an extension). For now, this is only enforced when a mixin
-    provides an eventPlugin.
+ * added FieldType class. It turned out that FieldType is a
+   commonly used name, even in .proto files. This is renamed to
+   PbFieldType in 0.4.2.
+ * Added support for observing field changes.
+   For now, this can only be enabled by using a mixin to override
+   the eventPlugin getter.
+ * Removed optional third parameter from setField().
+   It was only intended for internal use, and could be used to
+   defeat type checks on fields.
+ * clearExtension() removes the value and extension in all cases.
+   (Before, the extension would be kept and the list cleared
+   for repeated fields.)
+ * Upcoming: clearField() will require its argument to be a known
+   tag number (which could be an extension). For now, this is only
+   enforced when a mixin provides an eventPlugin.
 
 ## 0.4.0
-
-*   Add ReadonlyMessageMixin. The generated message classes use this to for the
-    default values of message fields.
+ * Add ReadonlyMessageMixin. The generated message classes use this to
+   for the default values of message fields.
 
 ## 0.3.11
-
-*   Add meta.dart which declares reserved names for the plugin.
+ * Add meta.dart which declares reserved names for the plugin.
 
 ## 0.3.10
-
-*   Add GeneratedService and ProtobufClient interfaces.
+ * Add GeneratedService and ProtobufClient interfaces.
 
 ## 0.3.9
-
-*   Add experimental mixins_meta library
-*   Add experimental PbMapMixin class (in a separate library).
-*   Fix bug where ExtensionRegistry would not be used for nested messages.
+ * Add experimental mixins_meta library
+ * Add experimental PbMapMixin class (in a separate library).
+ * Fix bug where ExtensionRegistry would not be used for nested messages.
 
 ## 0.3.7
-
-*   More docs.
+ * More docs.
 
 ## 0.3.6
-
-*   Added mergeFromMap() and writeToJsonMap()
-*   Fixed an analyzer warning.
+ * Added mergeFromMap() and writeToJsonMap()
+ * Fixed an analyzer warning.
 
 ## 0.3.5+3
-
-*   Bugfix for `setRange()`: Do not assume Iterable has a `sublist()` method.
+ * Bugfix for `setRange()`: Do not assume Iterable has a `sublist()` method.
 
 ## 0.3.5+2
-
-*   Simplify some types used in is checks and correct PbList to match the
-*   signature of the List setRange method.
+ * Simplify some types used in is checks and correct PbList to match the
+ * signature of the List setRange method.
 
 ## 0.3.5+1
 
-*   Bugfix for incorrect decoding of protobuf messages: Uint8List views with
-    non-zero offsets were handled incorrectly.
+ * Bugfix for incorrect decoding of protobuf messages: Uint8List views with
+   non-zero offsets were handled incorrectly.
 
 ## 0.3.5
 
-*   Allow constants as field initial values as well as creation thunks to reduce
-    generated code size.
+ * Allow constants as field initial values as well as creation thunks to reduce
+   generated code size.
 
-*   Improve the performance of reading a protobuf buffer.
+ * Improve the performance of reading a protobuf buffer.
 
-*   Fixed truncation error in least significant bits with large Int64 constants.
+ * Fixed truncation error in least significant bits with large Int64 constants.
