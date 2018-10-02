@@ -17,8 +17,8 @@ class CodedBufferReader {
   final int _sizeLimit;
 
   CodedBufferReader(List<int> buffer,
-      {int recursionLimit: DEFAULT_RECURSION_LIMIT,
-      int sizeLimit: DEFAULT_SIZE_LIMIT})
+      {int recursionLimit = DEFAULT_RECURSION_LIMIT,
+      int sizeLimit = DEFAULT_SIZE_LIMIT})
       : _buffer = buffer is Uint8List ? buffer : new Uint8List(buffer.length)
           ..setRange(0, buffer.length, buffer),
         _recursionLimit = recursionLimit,
