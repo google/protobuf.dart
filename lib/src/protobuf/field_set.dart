@@ -63,7 +63,7 @@ class _FieldSet {
 
   // Metadata about multiple fields
 
-  String get _messageName => _meta.messageName;
+  String get _messageName => _meta.qualifiedMessageName;
   bool get _hasRequiredFields => _meta.hasRequiredFields;
 
   /// The FieldInfo for each non-extension field.
