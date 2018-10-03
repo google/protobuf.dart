@@ -315,9 +315,6 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   T $_getN<T>(int index) {
-    if (_fieldSet == null) {
-      throw new StateError('Unable to access $index in the proto message');
-    }
     return _fieldSet._$getN<T>(index);
   }
 
