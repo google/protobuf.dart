@@ -132,7 +132,7 @@ class ServiceGenerator {
     var inputClass = _getDartClassName(m.inputType);
     var outputClass = _getDartClassName(m.outputType);
 
-    out.println('Future<$outputClass> $methodName('
+    out.println('\$async.Future<$outputClass> $methodName('
         'ServerContext ctx, $inputClass request);');
   }
 
@@ -159,7 +159,7 @@ class ServiceGenerator {
 
   void _generateDispatchMethod(out) {
     out.addBlock(
-        'Future<GeneratedMessage> handleCall(ServerContext ctx, '
+        r'$async.Future<GeneratedMessage> handleCall(ServerContext ctx, '
         'String method, GeneratedMessage request) {',
         '}', () {
       out.addBlock("switch (method) {", "}", () {

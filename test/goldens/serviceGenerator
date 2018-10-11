@@ -1,6 +1,6 @@
 abstract class TestServiceBase extends GeneratedService {
-  Future<SomeReply> aMethod(ServerContext ctx, SomeRequest request);
-  Future<$0.AnotherReply> anotherMethod(ServerContext ctx, $0.EmptyMessage request);
+  $async.Future<SomeReply> aMethod(ServerContext ctx, SomeRequest request);
+  $async.Future<$0.AnotherReply> anotherMethod(ServerContext ctx, $0.EmptyMessage request);
 
   GeneratedMessage createRequest(String method) {
     switch (method) {
@@ -10,7 +10,7 @@ abstract class TestServiceBase extends GeneratedService {
     }
   }
 
-  Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
+  $async.Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
     switch (method) {
       case 'AMethod': return this.aMethod(ctx, request);
       case 'AnotherMethod': return this.anotherMethod(ctx, request);

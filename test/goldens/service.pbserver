@@ -4,7 +4,7 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-import 'dart:async';
+import 'dart:async' as $async;
 
 import 'package:protobuf/protobuf.dart';
 
@@ -14,7 +14,7 @@ import 'test.pbjson.dart';
 export 'test.pb.dart';
 
 abstract class TestServiceBase extends GeneratedService {
-  Future<Empty> ping(ServerContext ctx, Empty request);
+  $async.Future<Empty> ping(ServerContext ctx, Empty request);
 
   GeneratedMessage createRequest(String method) {
     switch (method) {
@@ -23,7 +23,7 @@ abstract class TestServiceBase extends GeneratedService {
     }
   }
 
-  Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
+  $async.Future<GeneratedMessage> handleCall(ServerContext ctx, String method, GeneratedMessage request) {
     switch (method) {
       case 'Ping': return this.ping(ctx, request);
       default: throw new ArgumentError('Unknown method: $method');

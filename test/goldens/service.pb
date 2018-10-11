@@ -4,7 +4,7 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-import 'dart:async';
+import 'dart:async' as $async;
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
@@ -34,7 +34,7 @@ class TestApi {
   $pb.RpcClient _client;
   TestApi(this._client);
 
-  Future<Empty> ping($pb.ClientContext ctx, Empty request) {
+  $async.Future<Empty> ping($pb.ClientContext ctx, Empty request) {
     var emptyResponse = new Empty();
     return _client.invoke<Empty>(ctx, 'Test', 'Ping', request, emptyResponse);
   }
