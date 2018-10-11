@@ -4,7 +4,7 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-import 'dart:async';
+import 'dart:async' as $async;
 
 import 'package:grpc/grpc.dart';
 
@@ -33,12 +33,12 @@ class TestClient extends Client {
       : super(channel, options: options);
 
   ResponseFuture<Output> unary(Input request, {CallOptions options}) {
-    final call = $createCall(_$unary, new Stream.fromIterable([request]),
+    final call = $createCall(_$unary, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<Output> clientStreaming(Stream<Input> request,
+  ResponseFuture<Output> clientStreaming($async.Stream<Input> request,
       {CallOptions options}) {
     final call = $createCall(_$clientStreaming, request, options: options);
     return new ResponseFuture(call);
@@ -46,12 +46,12 @@ class TestClient extends Client {
 
   ResponseStream<Output> serverStreaming(Input request, {CallOptions options}) {
     final call = $createCall(
-        _$serverStreaming, new Stream.fromIterable([request]),
+        _$serverStreaming, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseStream(call);
   }
 
-  ResponseStream<Output> bidirectional(Stream<Input> request,
+  ResponseStream<Output> bidirectional($async.Stream<Input> request,
       {CallOptions options}) {
     final call = $createCall(_$bidirectional, request, options: options);
     return new ResponseStream(call);
@@ -92,16 +92,20 @@ abstract class TestServiceBase extends Service {
         (Output value) => value.writeToBuffer()));
   }
 
-  Future<Output> unary_Pre(ServiceCall call, Future request) async {
+  $async.Future<Output> unary_Pre(
+      ServiceCall call, $async.Future request) async {
     return unary(call, await request);
   }
 
-  Stream<Output> serverStreaming_Pre(ServiceCall call, Future request) async* {
+  $async.Stream<Output> serverStreaming_Pre(
+      ServiceCall call, $async.Future request) async* {
     yield* serverStreaming(call, (await request) as Input);
   }
 
-  Future<Output> unary(ServiceCall call, Input request);
-  Future<Output> clientStreaming(ServiceCall call, Stream<Input> request);
-  Stream<Output> serverStreaming(ServiceCall call, Input request);
-  Stream<Output> bidirectional(ServiceCall call, Stream<Input> request);
+  $async.Future<Output> unary(ServiceCall call, Input request);
+  $async.Future<Output> clientStreaming(
+      ServiceCall call, $async.Stream<Input> request);
+  $async.Stream<Output> serverStreaming(ServiceCall call, Input request);
+  $async.Stream<Output> bidirectional(
+      ServiceCall call, $async.Stream<Input> request);
 }

@@ -239,7 +239,7 @@ class FileGenerator extends ProtobufContainer {
     // We only add the dart:async import if there are generic client API
     // generators for services in the FileDescriptorProto.
     if (clientApiGenerators.isNotEmpty) {
-      out.println("import 'dart:async';");
+      out.println(r"import 'dart:async' as $async;");
     }
 
     // Make sure any other symbols in dart:core don't cause name conflicts with
@@ -393,8 +393,8 @@ class FileGenerator extends ProtobufContainer {
     _writeHeading(out);
 
     if (serviceGenerators.isNotEmpty) {
-      out.println('''
-import 'dart:async';
+      out.println(r'''
+import 'dart:async' as $async;
 
 import 'package:protobuf/protobuf.dart';
 ''');
@@ -434,8 +434,8 @@ import 'package:protobuf/protobuf.dart';
     var out = new IndentingWriter();
     _writeHeading(out);
 
-    out.println('''
-import 'dart:async';
+    out.println(r'''
+import 'dart:async' as $async;
 
 import 'package:grpc/grpc.dart';
 ''');

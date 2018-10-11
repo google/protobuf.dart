@@ -1,6 +1,11 @@
+## 0.10.5
+
+* Generated files now import `dart:async` with a prefix to prevent name
+  collisions.
+
 ## 0.10.4
 
-* Change the fully qualfiied message name of generated messages to use
+* Change the fully qualified message name of generated messages to use
   `BuilderInfo.qualifiedMessageName`.
   Requires package:protobuf version 0.10.4 or newer.
 

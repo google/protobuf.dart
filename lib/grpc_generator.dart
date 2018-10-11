@@ -187,12 +187,14 @@ class _GrpcMethod {
     final requestType = service._getDartClassName(method.inputType);
     final responseType = service._getDartClassName(method.outputType);
 
-    final argumentType = clientStreaming ? 'Stream<$requestType>' : requestType;
+    final argumentType =
+        clientStreaming ? '\$async.Stream<$requestType>' : requestType;
     final clientReturnType = serverStreaming
         ? 'ResponseStream<$responseType>'
         : 'ResponseFuture<$responseType>';
-    final serverReturnType =
-        serverStreaming ? 'Stream<$responseType>' : 'Future<$responseType>';
+    final serverReturnType = serverStreaming
+        ? '\$async.Stream<$responseType>'
+        : '\$async.Future<$responseType>';
 
     return new _GrpcMethod._(
         grpcName,
@@ -221,8 +223,9 @@ class _GrpcMethod {
     out.addBlock(
         '$_clientReturnType $_dartName($_argumentType request, {CallOptions options}) {',
         '}', () {
-      final requestStream =
-          _clientStreaming ? 'request' : 'new Stream.fromIterable([request])';
+      final requestStream = _clientStreaming
+          ? 'request'
+          : r'new $async.Stream.fromIterable([request])';
       out.println(
           'final call = \$createCall(_\$$_dartName, $requestStream, options: options);');
       if (_serverStreaming) {
@@ -249,7 +252,7 @@ class _GrpcMethod {
     if (_clientStreaming) return;
 
     out.addBlock(
-        '$_serverReturnType ${_dartName}_Pre(ServiceCall call, Future request) async${_serverStreaming ? '*' : ''} {',
+        '$_serverReturnType ${_dartName}_Pre(ServiceCall call, \$async.Future request) async${_serverStreaming ? '*' : ''} {',
         '}', () {
       if (_serverStreaming) {
         out.println(
