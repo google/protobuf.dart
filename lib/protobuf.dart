@@ -5,7 +5,7 @@
 library protobuf;
 
 import 'dart:async' show Future;
-import 'dart:collection' show ListBase;
+import 'dart:collection' show ListBase, MapBase;
 import 'dart:convert'
     show base64Decode, base64Encode, jsonEncode, jsonDecode, Utf8Codec;
 import 'dart:math' as math;
@@ -30,6 +30,7 @@ part 'src/protobuf/generated_message.dart';
 part 'src/protobuf/generated_service.dart';
 part 'src/protobuf/json.dart';
 part 'src/protobuf/pb_list.dart';
+part 'src/protobuf/pb_map.dart';
 part 'src/protobuf/protobuf_enum.dart';
 part 'src/protobuf/readonly_message.dart';
 part 'src/protobuf/rpc_client.dart';

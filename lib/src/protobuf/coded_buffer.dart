@@ -217,6 +217,9 @@ void _mergeFromCodedBufferReader(
         input.readMessage(subMessage, registry);
         fs._ensureRepeatedField(fi).add(subMessage);
         break;
+      case PbFieldType._MAP:
+        fs._ensureMapField(fi).add(input, registry);
+        break;
       default:
         throw 'Unknown field type $fieldType';
     }

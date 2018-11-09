@@ -79,13 +79,30 @@ class CodedBufferWriter {
 
     final int wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
+    if ((fieldType & PbFieldType._MAP_BIT) != 0) {
+      final int keyWireFormat =
+          _wireTypes[_valueTypeIndex(fieldValue.keyFieldType)];
+      final int valueWireFormat =
+          _wireTypes[_valueTypeIndex(fieldValue.valueFieldType)];
+
+      for (var e in fieldValue.entries) {
+        _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
+        final mark = _startLengthDelimited();
+        _writeValue(PbMap.KEY_FIELD_NUMBER, fieldValue.keyFieldType, e.key,
+            keyWireFormat);
+        _writeValue(PbMap.VALUE_FIELD_NUMBER, fieldValue.valueFieldType,
+            e.value, valueWireFormat);
+        _endLengthDelimited(mark);
+      }
+      return;
+    }
+
     if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
       for (var i = 0; i < fieldValue.length; i++) {
         _writeValue(fieldNumber, valueType, fieldValue[i], wireFormat);
       }
       return;
     }
-
     _writeValue(fieldNumber, valueType, fieldValue, wireFormat);
   }
 

@@ -187,6 +187,17 @@ class _FieldSet {
     return value;
   }
 
+  Map<K, V> _getDefaultMap<K, V>(MapFieldInfo<K, V> fi) {
+    assert(fi.isMapField);
+    if (_isReadOnly)
+      return PbMap<K, V>.unmodifiable(PbMap<K, V>(fi.keyFieldType,
+          fi.valueFieldType, fi.valueCreator, fi.valueOf, fi.enumValues));
+
+    var value = fi._createMapField(_message);
+    _setNonExtensionFieldUnchecked(fi, value);
+    return value;
+  }
+
   _getFieldOrNullByTag(int tagNumber) {
     var fi = _getFieldInfoOrNull(tagNumber);
     if (fi == null) return null;
@@ -292,6 +303,19 @@ class _FieldSet {
     return newValue;
   }
 
+  PbMap<K, V> _ensureMapField<K, V>(MapFieldInfo<K, V> fi) {
+    assert(!_isReadOnly);
+    assert(fi.isMapField);
+    assert(fi.index != null); // Map fields are not allowed to be extensions.
+
+    var value = _getFieldOrNull(fi);
+    if (value != null) return value as Map<K, V>;
+
+    var newValue = fi._createMapField(_message);
+    _setNonExtensionFieldUnchecked(fi, newValue);
+    return newValue;
+  }
+
   /// Sets a non-extended field and fires events.
   void _setNonExtensionFieldUnchecked(FieldInfo fi, value) {
     if (_hasObservers) {
@@ -322,6 +346,13 @@ class _FieldSet {
     var value = _values[index];
     if (value != null) return value as List<T>;
     return _getDefaultList<T>(_nonExtensionInfoByIndex(index));
+  }
+
+  /// The implementation of a generated getter for map fields.
+  Map<K, V> _$getMap<K, V>(int index) {
+    var value = _values[index];
+    if (value != null) return value as Map<K, V>;
+    return _getDefaultMap<K, V>(_nonExtensionInfoByIndex(index));
   }
 
   /// The implementation of a generated getter for String fields.
@@ -511,6 +542,8 @@ class _FieldSet {
         out.write('$indent$key: {\n');
         value._fieldSet.writeString(out, '$indent  ');
         out.write('$indent}\n');
+      } else if (value is MapEntry) {
+        out.write('$indent$key: {${value.key} : ${value.value}} \n');
       } else {
         out.write('$indent$key: $value\n');
       }
@@ -526,6 +559,10 @@ class _FieldSet {
       } else if (fieldValue is List) {
         for (var value in fieldValue) {
           renderValue(fi.name, value);
+        }
+      } else if (fieldValue is Map) {
+        for (var entry in fieldValue.entries) {
+          renderValue(fi.name, entry);
         }
       } else {
         renderValue(fi.name, fieldValue);
@@ -580,6 +617,20 @@ class _FieldSet {
     }
 
     bool mustClone = _isGroupOrMessage(otherFi.type);
+
+    if (fi.isMapField) {
+      MapFieldInfo f = fi;
+      mustClone = _isGroupOrMessage(f.valueFieldType);
+      PbMap map = f._ensureMapField(this);
+      if (mustClone) {
+        for (MapEntry entry in fieldValue.entries) {
+          map[entry.key] = _cloneMessage(entry.value);
+        }
+      } else {
+        map.addAll(fieldValue);
+      }
+      return;
+    }
 
     if (fi.isRepeated) {
       if (mustClone) {

@@ -1,3 +1,7 @@
+## 0.10.5
+
+* Added support for [map fields](https://developers.google.com/protocol-buffers/docs/proto3#maps).
+
 ## 0.10.4
 
 * Added separate getter for `BuilderInfo.qualifiedMessageName`.
