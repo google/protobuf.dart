@@ -8,8 +8,8 @@ class PbMap<K, V> extends MapBase<K, V> {
   final int keyFieldType;
   final int valueFieldType;
 
-  static const int KEY_FIELD_NUMBER = 1;
-  static const int VALUE_FIELD_NUMBER = 2;
+  static const int _keyFieldNumber = 1;
+  static const int _valueFieldNumber = 2;
 
   final Map<K, V> _wrappedMap;
 
@@ -20,11 +20,10 @@ class PbMap<K, V> extends MapBase<K, V> {
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues])
       : _wrappedMap = <K, V>{} {
-    BuilderInfo entryInfo = new BuilderInfo("entry");
-    entryInfo.add(
-        KEY_FIELD_NUMBER, "key", keyFieldType, null, null, null, null);
-    entryInfo.add(VALUE_FIELD_NUMBER, "value", valueFieldType, null,
-        valueCreator, valueOf, enumValues);
+    BuilderInfo entryInfo = new BuilderInfo("entry")
+      ..add(_keyFieldNumber, "key", keyFieldType, null, null, null, null)
+      ..add(_valueFieldNumber, "value", valueFieldType, null, valueCreator,
+          valueOf, enumValues);
     _entryFieldSet = new _FieldSet(null, entryInfo, null);
   }
 

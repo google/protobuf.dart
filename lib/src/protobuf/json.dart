@@ -44,9 +44,8 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 
   _writeMap(dynamic fieldValue, MapFieldInfo fi) {
     return new List.from(fieldValue.entries.map((MapEntry e) => {
-          '${PbMap.KEY_FIELD_NUMBER}': convertToMap(e.key, fi.keyFieldType),
-          '${PbMap.VALUE_FIELD_NUMBER}':
-              convertToMap(e.value, fi.valueFieldType)
+          '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
+          '${PbMap._valueFieldNumber}': convertToMap(e.value, fi.valueFieldType)
         }));
   }
 
@@ -119,16 +118,16 @@ void _appendJsonMap(
     _FieldSet fs, List jsonList, MapFieldInfo fi, ExtensionRegistry registry) {
   PbMap map = fi._ensureMapField(fs);
   for (Map<String, dynamic> jsonEntry in jsonList) {
-    var convertedKey = _convertJsonValue(
+    final convertedKey = _convertJsonValue(
         map._entryFieldSet,
-        jsonEntry['${PbMap.KEY_FIELD_NUMBER}'],
-        PbMap.KEY_FIELD_NUMBER,
+        jsonEntry['${PbMap._keyFieldNumber}'],
+        PbMap._keyFieldNumber,
         fi.keyFieldType,
         registry);
-    var convertedValue = _convertJsonValue(
+    final convertedValue = _convertJsonValue(
         map._entryFieldSet,
-        jsonEntry['${PbMap.VALUE_FIELD_NUMBER}'],
-        PbMap.VALUE_FIELD_NUMBER,
+        jsonEntry['${PbMap._valueFieldNumber}'],
+        PbMap._valueFieldNumber,
         fi.valueFieldType,
         registry);
     map[convertedKey] = convertedValue;
