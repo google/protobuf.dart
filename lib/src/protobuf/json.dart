@@ -42,11 +42,22 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     }
   }
 
+  _writeMap(dynamic fieldValue, MapFieldInfo fi) {
+    return new List.from(fieldValue.entries.map((MapEntry e) => {
+          '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
+          '${PbMap._valueFieldNumber}': convertToMap(e.value, fi.valueFieldType)
+        }));
+  }
+
   var result = <String, dynamic>{};
   for (var fi in fs._infosSortedByTag) {
     var value = fs._values[fi.index];
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
+    }
+    if (_isMapField(fi.type)) {
+      result['${fi.tagNumber}'] = _writeMap(value, fi);
+      continue;
     }
     result['${fi.tagNumber}'] = convertToMap(value, fi.type);
   }
@@ -76,7 +87,9 @@ void _mergeFromJsonMap(
       fi = registry.getExtension(fs._messageName, int.parse(key));
       if (fi == null) continue; // Unknown tag; skip
     }
-    if (fi.isRepeated) {
+    if (fi.isMapField) {
+      _appendJsonMap(fs, json[key], fi, registry);
+    } else if (fi.isRepeated) {
       _appendJsonList(fs, json[key], fi, registry);
     } else {
       _setJsonField(fs, json[key], fi, registry);
@@ -98,6 +111,26 @@ void _appendJsonList(
     if (convertedValue != null) {
       repeated.add(convertedValue);
     }
+  }
+}
+
+void _appendJsonMap(
+    _FieldSet fs, List jsonList, MapFieldInfo fi, ExtensionRegistry registry) {
+  PbMap map = fi._ensureMapField(fs);
+  for (Map<String, dynamic> jsonEntry in jsonList) {
+    final convertedKey = _convertJsonValue(
+        map._entryFieldSet,
+        jsonEntry['${PbMap._keyFieldNumber}'],
+        PbMap._keyFieldNumber,
+        fi.keyFieldType,
+        registry);
+    final convertedValue = _convertJsonValue(
+        map._entryFieldSet,
+        jsonEntry['${PbMap._valueFieldNumber}'],
+        PbMap._valueFieldNumber,
+        fi.valueFieldType,
+        registry);
+    map[convertedKey] = convertedValue;
   }
 }
 
