@@ -1,3 +1,16 @@
+## 0.11.0
+
+* Breaking change: Support for [map fields](https://developers.google.com/protocol-buffers/docs/proto3#maps)
+  Generated files require package:protobuf version 0.10.5 or newer.
+  Protobuf map fields such as:
+
+  message Foo {
+    map<int32, string> map_field = 1;
+  }
+  are now no longer represented as List<Foo_MapFieldEntry> but as Map<int, String>.
+
+  All code handling these fields needs to be updated.
+
 ## 0.10.5
 
 * Generated files now import `dart:async` with a prefix to prevent name

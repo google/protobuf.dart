@@ -245,7 +245,7 @@ class FileGenerator extends ProtobufContainer {
     // Make sure any other symbols in dart:core don't cause name conflicts with
     // protobuf classes that have the same name.
     out.println("// ignore: UNUSED_SHOWN_NAME\n"
-        "import 'dart:core' show int, bool, double, String, List, override;\n");
+        "import 'dart:core' show int, bool, double, String, List, Map, override;\n");
 
     if (_needsFixnumImport) {
       out.println("import 'package:fixnum/fixnum.dart';");
