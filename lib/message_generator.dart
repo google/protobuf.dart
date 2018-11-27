@@ -213,6 +213,9 @@ class MessageGenerator extends ProtobufContainer {
     checkResolved();
 
     for (MessageGenerator m in _messageGenerators) {
+      // Don't output the generated map entry type. Instead, the `PbMap` type
+      // from the protobuf library is used to hold the keys and values.
+      if (m._descriptor.options.hasMapEntry()) continue;
       m.generate(out);
     }
 
@@ -381,8 +384,8 @@ class MessageGenerator extends ProtobufContainer {
     var names = field.memberNames;
 
     _emitOverrideIf(field.overridesGetter, out);
-    var getterExpr = _getterExpression(
-        fieldTypeString, field.index, defaultExpr, field.isRepeated);
+    final getterExpr = _getterExpression(fieldTypeString, field.index,
+        defaultExpr, field.isRepeated, field.isMapField);
     out.println('${fieldTypeString} get ${names.fieldName} => ${getterExpr};');
 
     if (field.isRepeated) {
@@ -421,8 +424,11 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
-  String _getterExpression(
-      String fieldType, int index, String defaultExpr, bool isRepeated) {
+  String _getterExpression(String fieldType, int index, String defaultExpr,
+      bool isRepeated, bool isMapField) {
+    if (isMapField) {
+      return '\$_getMap($index)';
+    }
     if (fieldType == 'String') {
       return '\$_getS($index, $defaultExpr)';
     }

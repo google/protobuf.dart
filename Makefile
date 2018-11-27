@@ -24,6 +24,7 @@ TEST_PROTO_LIST = \
 	import_clash \
 	map_api \
 	map_api2 \
+	map_field \
 	mixins \
 	multiple_files_test \
 	nested_extension \
