@@ -55,6 +55,16 @@ class FieldInfo<T> {
     assert(!_isEnum(type) || valueOf != null);
   }
 
+  FieldInfo._map(
+      this.name, this.tagNumber, this.index, int type, this.makeDefault,
+      [dynamic defaultOrMaker, this.subBuilder, this.valueOf, this.enumValues])
+      : this.type = type,
+        this.check = null {
+    assert(name != null);
+    assert(tagNumber != null);
+    assert(_isMapField(type));
+  }
+
   static MakeDefaultFunc findMakeDefault(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
@@ -65,6 +75,7 @@ class FieldInfo<T> {
   bool get isRepeated => _isRepeated(type);
   bool get isGroupOrMessage => _isGroupOrMessage(type);
   bool get isEnum => _isEnum(type);
+  bool get isMapField => _isMapField(type);
 
   /// Returns a read-only default value for a field.
   /// (Unlike getField, doesn't create a repeated field.)
@@ -146,4 +157,39 @@ class FieldInfo<T> {
   }
 
   String toString() => name;
+}
+
+class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
+  int keyFieldType;
+  int valueFieldType;
+  CreateBuilderFunc valueCreator;
+
+  MapFieldInfo.map(String name, int tagNumber, int index, int type,
+      this.keyFieldType, this.valueFieldType,
+      [this.valueCreator, ValueOfFunc valueOf, List<ProtobufEnum> enumValues])
+      : super._map(
+            name,
+            tagNumber,
+            index,
+            type,
+            () => PbMap<K, V>(keyFieldType, valueFieldType, valueCreator,
+                valueOf, enumValues),
+            null,
+            null,
+            valueOf,
+            enumValues) {
+    assert(name != null);
+    assert(tagNumber != null);
+    assert(_isMapField(type));
+    assert(!_isEnum(type) || valueOf != null);
+  }
+
+  Map<K, V> _ensureMapField(_FieldSet fs) {
+    return fs._ensureMapField<K, V>(this);
+  }
+
+  Map<K, V> _createMapField(GeneratedMessage m) {
+    assert(isMapField);
+    return m.createMapField<K, V>(tagNumber, this);
+  }
 }

@@ -14,12 +14,14 @@ bool _isEnum(int fieldType) =>
 bool _isGroupOrMessage(int fieldType) =>
     (fieldType & (PbFieldType._GROUP_BIT | PbFieldType._MESSAGE_BIT)) != 0;
 
+bool _isMapField(int fieldType) => (fieldType & PbFieldType._MAP_BIT) != 0;
+
 /// Defines constants and functions for dealing with fieldType bits.
 class PbFieldType {
   /// Returns the base field type without any of the required, repeated
   /// and packed bits.
   static int _baseType(int fieldType) =>
-      fieldType & ~(_REQUIRED_BIT | _REPEATED_BIT | _PACKED_BIT);
+      fieldType & ~(_REQUIRED_BIT | _REPEATED_BIT | _PACKED_BIT | _MAP_BIT);
 
   static MakeDefaultFunc _defaultForType(int type) {
     switch (type) {
@@ -92,6 +94,7 @@ class PbFieldType {
   static const int _SFIXED32_BIT = 0x80000;
   static const int _SFIXED64_BIT = 0x100000;
   static const int _MESSAGE_BIT = 0x200000;
+  static const int _MAP_BIT = 0x400000;
 
   static const int _OPTIONAL_BOOL = _BOOL_BIT;
   static const int _OPTIONAL_BYTES = _BYTES_BIT;
@@ -167,6 +170,7 @@ class PbFieldType {
   static const int _PACKED_SFIXED64 =
       _REPEATED_BIT | _PACKED_BIT | _SFIXED64_BIT;
 
+  static const int _MAP = _MAP_BIT | _MESSAGE_BIT;
   // Short names for use in generated code.
 
   // _O_ptional.
@@ -244,4 +248,6 @@ class PbFieldType {
   static const int KF6 = _PACKED_FIXED64;
   static const int KSF3 = _PACKED_SFIXED32;
   static const int KSF6 = _PACKED_SFIXED64;
+
+  static const int M = _MAP;
 }

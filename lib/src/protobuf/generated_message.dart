@@ -252,6 +252,12 @@ abstract class GeneratedMessage {
     return new PbList<T>(check: fi.check);
   }
 
+  /// Creates a Map representing a map field.
+  Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) {
+    return PbMap<K, V>(fi.keyFieldType, fi.valueFieldType, fi.valueCreator,
+        fi.valueOf, fi.enumValues);
+  }
+
   /// Returns the value of a field, ignoring any defaults.
   ///
   /// For unset or cleared fields, returns null.
@@ -320,6 +326,9 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   List<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
+
+  /// For generated code only.
+  Map<K, V> $_getMap<K, V>(int index) => _fieldSet._$getMap<K, V>(index);
 
   /// For generated code only.
   String $_getS(int index, String defaultValue) =>
