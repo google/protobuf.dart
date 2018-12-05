@@ -1,0 +1,13 @@
+
+syntax = "proto2";
+package a0.a1.a232;
+import "f1.proto";
+import "f21.proto";
+import "f22.proto";
+message A230 {
+  optional string a222 = 1;
+  optional string a224 = 2;
+  optional a0.a1.A231 a241 = 5;
+  optional A232 a242 = 3;
+  reserved 4;
+}

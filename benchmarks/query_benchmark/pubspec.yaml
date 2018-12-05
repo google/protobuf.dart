@@ -1,0 +1,9 @@
+name: query_benchmark
+description: Measuring encoding and decoding of a "real-world" protobuf.
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  protobuf:
+    path: '../../'

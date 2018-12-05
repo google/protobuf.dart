@@ -1,0 +1,7 @@
+
+syntax = "proto3";
+package a205.a206;
+message A190 {
+  int64 a258 = 1;
+  int32 a259 = 2;
+}

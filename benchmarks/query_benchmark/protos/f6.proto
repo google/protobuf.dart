@@ -1,0 +1,11 @@
+
+syntax = "proto2";
+package a7;
+message A61 {
+  enum A62 {
+    A63 = 0;
+    A64 = 1;
+    A65 = 2;
+  }
+  optional A62 a28 = 1;
+}

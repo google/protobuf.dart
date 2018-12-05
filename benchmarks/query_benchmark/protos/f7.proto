@@ -1,0 +1,8 @@
+
+syntax = "proto2";
+package a0.a1;
+enum A66 {
+  A67 = 0;
+  A68 = 1;
+  A69 = 2;
+}

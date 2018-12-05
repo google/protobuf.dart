@@ -1,0 +1,7 @@
+
+syntax = "proto2";
+package a0.a1;
+import "f12.proto";
+message A293 {
+  optional string a5 = 1 ;
+}

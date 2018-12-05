@@ -1,0 +1,13 @@
+
+syntax = "proto2";
+package a0.a1;
+import "f4.proto";
+import "f12.proto";
+message A320 {
+  optional string a375 = 1 ;
+  optional bytes a376 = 2 ;
+}
+message A216 {
+  optional string a377 = 1;
+  optional A320 a105 = 2;
+}

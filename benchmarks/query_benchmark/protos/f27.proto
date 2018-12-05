@@ -1,0 +1,8 @@
+
+syntax = "proto2";
+package a0.a1;
+import "f17.proto";
+import "f12.proto";
+message A321 {
+  repeated A216 a292 = 1;
+}
