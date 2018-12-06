@@ -17,6 +17,7 @@ import 'hash_code_test.dart' as hash_code;
 import 'indenting_writer_test.dart' as indenting_writer;
 import 'import_test.dart' as import_prefix;
 import 'json_test.dart' as json;
+import 'leading_underscores_test.dart' as leading_underscores;
 import 'map_test.dart' as map;
 import 'message_generator_test.dart' as message_generator;
 import 'message_test.dart' as message;
@@ -43,6 +44,7 @@ void main() {
   indenting_writer.main();
   import_prefix.main();
   json.main();
+  leading_underscores.main();
   map.main();
   message_generator.main();
   message.main();

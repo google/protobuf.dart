@@ -27,15 +27,21 @@ class ServiceGenerator {
   /// Populated by [resolve].
   final _undefinedDeps = <String, String>{};
 
-  ServiceGenerator(this._descriptor, this.fileGen);
+  final String classname;
 
-  String get classname {
-    if (_descriptor.name.endsWith("Service")) {
-      return _descriptor.name + "Base"; // avoid: ServiceServiceBase
+  static String serviceBaseName(String originalName) {
+    if (originalName.endsWith("Service")) {
+      return originalName + "Base"; // avoid: ServiceServiceBase
     } else {
-      return _descriptor.name + "ServiceBase";
+      return originalName + "ServiceBase";
     }
   }
+
+  ServiceGenerator(this._descriptor, this.fileGen, Set<String> usedNames)
+      : classname = disambiguateName(
+            serviceBaseName(avoidInitialUnderscore(_descriptor.name)),
+            usedNames,
+            defaultSuffixes());
 
   /// Finds all message types used by this service.
   ///
@@ -194,8 +200,8 @@ class ServiceGenerator {
     out.println();
   }
 
-  String get jsonConstant => "${_descriptor.name}\$json";
-  String get messageJsonConstant => "${_descriptor.name}\$messageJson";
+  String get jsonConstant => "$classname\$json";
+  String get messageJsonConstant => "$classname\$messageJson";
 
   /// Writes Dart constants for the service and message descriptors.
   ///

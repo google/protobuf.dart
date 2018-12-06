@@ -291,7 +291,7 @@ class ProtobufField {
             descriptor.defaultValue.isNotEmpty) {
           return '$className.${descriptor.defaultValue}';
         } else if (gen._canonicalValues.isNotEmpty) {
-          return '$className.${gen._canonicalValues[0].name}';
+          return '$className.${gen.dartNames[gen._canonicalValues[0].name]}';
         }
         return null;
       default:

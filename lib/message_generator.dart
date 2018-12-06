@@ -60,11 +60,15 @@ class MessageGenerator extends ProtobufContainer {
   // populated by resolve()
   List<ProtobufField> _fieldList;
 
-  MessageGenerator(DescriptorProto descriptor, ProtobufContainer parent,
-      Map<String, PbMixin> declaredMixins, PbMixin defaultMixin)
+  MessageGenerator(
+      DescriptorProto descriptor,
+      ProtobufContainer parent,
+      Map<String, PbMixin> declaredMixins,
+      PbMixin defaultMixin,
+      Set<String> usedNames)
       : _descriptor = descriptor,
         _parent = parent,
-        classname = messageOrEnumClassName(descriptor.name,
+        classname = messageOrEnumClassName(descriptor.name, usedNames,
             parent: parent?.classname ?? ''),
         assert(parent != null),
         fullName = parent.fullName == ''
@@ -73,16 +77,16 @@ class MessageGenerator extends ProtobufContainer {
         mixin = _getMixin(descriptor, parent.fileGen.descriptor, declaredMixins,
             defaultMixin) {
     for (EnumDescriptorProto e in _descriptor.enumType) {
-      _enumGenerators.add(new EnumGenerator(e, this));
+      _enumGenerators.add(new EnumGenerator(e, this, usedNames));
     }
 
     for (DescriptorProto n in _descriptor.nestedType) {
-      _messageGenerators
-          .add(new MessageGenerator(n, this, declaredMixins, defaultMixin));
+      _messageGenerators.add(new MessageGenerator(
+          n, this, declaredMixins, defaultMixin, usedNames));
     }
 
     for (FieldDescriptorProto x in _descriptor.extension) {
-      _extensionGenerators.add(new ExtensionGenerator(x, this));
+      _extensionGenerators.add(new ExtensionGenerator(x, this, usedNames));
     }
   }
 

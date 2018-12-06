@@ -61,7 +61,8 @@ void main() {
         new CodeGeneratorRequest(), new CodeGeneratorResponse());
 
     FileGenerator fg = new FileGenerator(fd, options);
-    MessageGenerator mg = new MessageGenerator(md, fg, {}, null);
+    MessageGenerator mg =
+        new MessageGenerator(md, fg, {}, null, new Set<String>());
 
     var ctx = new GenerationContext(options);
     mg.register(ctx);

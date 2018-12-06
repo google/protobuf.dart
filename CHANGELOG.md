@@ -1,3 +1,27 @@
+## 0.12.0
+
+* Breaking change: Handle identifiers starting with a leading underscore.
+  This covers message names, enum names, enum value identifiers and file names.
+
+  Before, these would appear in the generated Dart code as private identifiers.
+  Now the underscore is moved to the end.
+
+  Field names and extension field names already had all underscores removed, and these are not
+  affected by this change.
+
+  If there is a conflicting name with a trailing underscore defined later in the same scope, a
+  disambiguation will happen that can potentially lead to existing identifiers getting a new name in
+  the generated Dart.
+
+  For example:
+
+  ```
+  message _Foo {}
+  message Foo_ {}
+  ```
+
+  `_Foo` will get the name `Foo_` and `Foo_` will now end up being called `Foo__`.
+
 ## 0.11.0
 
 * Breaking change: Support for [map fields](https://developers.google.com/protocol-buffers/docs/proto3#maps)
