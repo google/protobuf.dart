@@ -86,6 +86,61 @@ void main() {
     new pb.Function_()..fun = 'renamed';
     new pb.Function__()..fun1 = 'also renamed';
   });
+
+  test('disambiguateName', () {
+    Iterable<String> oneTwoThree() sync* {
+      yield* ['_one', '_two', '_three'];
+    }
+
+    {
+      final used = Set<String>.from(['moo']);
+      expect(names.disambiguateName('foo', used, oneTwoThree()), 'foo');
+      expect(used, Set<String>.from(['moo', 'foo']));
+    }
+    {
+      final used = Set<String>.from(['foo']);
+      expect(names.disambiguateName('foo', used, oneTwoThree()), 'foo_one');
+      expect(used, Set<String>.from(['foo', 'foo_one']));
+    }
+    {
+      final used = Set<String>.from(['foo', 'foo_one']);
+      expect(names.disambiguateName('foo', used, oneTwoThree()), 'foo_two');
+      expect(used, Set<String>.from(['foo', 'foo_one', 'foo_two']));
+    }
+
+    {
+      List<String> variants(String s) {
+        return ['a_' + s, 'b_' + s];
+      }
+
+      final used = Set<String>.from(['a_foo', 'b_foo_one']);
+      expect(
+          names.disambiguateName('foo', used, oneTwoThree(),
+              generateVariants: variants),
+          'foo_two');
+      expect(used,
+          Set<String>.from(['a_foo', 'b_foo_one', 'a_foo_two', 'b_foo_two']));
+    }
+  });
+
+  test('avoidInitialUnderscore', () {
+    expect(names.avoidInitialUnderscore('foo'), 'foo');
+    expect(names.avoidInitialUnderscore('foo_'), 'foo_');
+    expect(names.avoidInitialUnderscore('_foo'), 'foo_');
+    expect(names.avoidInitialUnderscore('__foo'), 'foo__');
+  });
+
+  test('legalDartIdentifier', () {
+    expect(names.legalDartIdentifier("foo"), "foo");
+    expect(names.legalDartIdentifier("_foo"), "_foo");
+    expect(names.legalDartIdentifier("-foo"), "_foo");
+    expect(names.legalDartIdentifier("foo.\$a{b}c(d)e_"), "foo_\$a_b_c_d_e_");
+  });
+
+  test('defaultSuffixes', () {
+    expect(names.defaultSuffixes().take(5).toList(),
+        ['_', '_0', '_1', '_2', '_3']);
+  });
 }
 
 FieldDescriptorProto stringField(String name, int number, String dartName) {

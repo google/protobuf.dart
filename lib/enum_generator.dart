@@ -19,15 +19,20 @@ class EnumGenerator extends ProtobufContainer {
       <EnumValueDescriptorProto>[];
   final List<EnumAlias> _aliases = <EnumAlias>[];
 
-  EnumGenerator(EnumDescriptorProto descriptor, ProtobufContainer parent)
+  /// Maps the name of an enum value to the Dart name we will use for it.
+  final Map<String, String> dartNames = <String, String>{};
+
+  EnumGenerator(EnumDescriptorProto descriptor, ProtobufContainer parent,
+      Set<String> usedClassNames)
       : assert(parent != null),
         _parent = parent,
-        classname = messageOrEnumClassName(descriptor.name,
+        classname = messageOrEnumClassName(descriptor.name, usedClassNames,
             parent: parent?.classname ?? ''),
         fullName = parent.fullName == ''
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
         _descriptor = descriptor {
+    final usedNames = reservedEnumNames;
     for (EnumValueDescriptorProto value in descriptor.value) {
       EnumValueDescriptorProto canonicalValue =
           descriptor.value.firstWhere((v) => v.number == value.number);
@@ -36,6 +41,8 @@ class EnumGenerator extends ProtobufContainer {
       } else {
         _aliases.add(new EnumAlias(value, canonicalValue));
       }
+      dartNames[value.name] = disambiguateName(
+          avoidInitialUnderscore(value.name), usedNames, enumSuffixes());
     }
   }
 
@@ -63,27 +70,25 @@ class EnumGenerator extends ProtobufContainer {
         '}\n', () {
       // -----------------------------------------------------------------
       // Define enum types.
-      var reservedNames = reservedEnumNames;
       for (EnumValueDescriptorProto val in _canonicalValues) {
-        final name = unusedEnumNames(val.name, reservedNames);
+        final name = dartNames[val.name];
         out.println('static const ${classname} $name = '
-            "const ${classname}._(${val.number}, '$name');");
+            "const ${classname}._(${val.number}, ${singleQuote(name)});");
       }
       if (_aliases.isNotEmpty) {
         out.println();
         for (EnumAlias alias in _aliases) {
-          final name = unusedEnumNames(alias.value.name, reservedNames);
+          final name = dartNames[alias.value.name];
           out.println('static const ${classname} $name ='
-              ' ${alias.canonicalValue.name};');
+              ' ${dartNames[alias.canonicalValue.name]};');
         }
       }
       out.println();
 
       out.println('static const List<${classname}> values ='
           ' const <${classname}> [');
-      reservedNames = reservedEnumNames;
       for (EnumValueDescriptorProto val in _canonicalValues) {
-        final name = unusedEnumNames(val.name, reservedNames);
+        final name = dartNames[val.name];
         out.println('  $name,');
       }
       out.println('];');
@@ -95,7 +100,7 @@ class EnumGenerator extends ProtobufContainer {
           ' _byValue[value];');
       out.addBlock('static void $checkItem($classname v) {', '}', () {
         out.println('if (v is! $classname)'
-            " $_protobufImportPrefix.checkItemFailed(v, '$classname');");
+            " $_protobufImportPrefix.checkItemFailed(v, ${singleQuote(classname)});");
       });
       out.println();
 

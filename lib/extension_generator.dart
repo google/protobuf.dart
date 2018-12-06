@@ -10,13 +10,13 @@ class ExtensionGenerator {
 
   // populated by resolve()
   ProtobufField _field;
-  String _extensionName;
+  final String _extensionName;
   String _extendedFullName = "";
 
-  ExtensionGenerator(this._descriptor, this._parent);
+  ExtensionGenerator(this._descriptor, this._parent, Set<String> usedNames)
+      : _extensionName = extensionName(_descriptor, usedNames);
 
   void resolve(GenerationContext ctx) {
-    _extensionName = extensionName(_descriptor);
     _field = new ProtobufField.extension(_descriptor, _parent, ctx);
 
     ProtobufContainer extendedType = ctx.getFieldType(_descriptor.extendee);

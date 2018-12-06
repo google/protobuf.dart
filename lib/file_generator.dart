@@ -104,6 +104,19 @@ class FileGenerator extends ProtobufContainer {
   final serviceGenerators = <ServiceGenerator>[];
   final grpcGenerators = <GrpcServiceGenerator>[];
 
+  /// Used to avoid collisions after names have been mangled to match the Dart
+  /// style.
+  final Set<String> usedTopLevelNames = Set<String>()
+    ..addAll(toplevelReservedCapitalizedNames);
+
+  /// Used to avoid collisions in the service file after names have been mangled
+  /// to match the dart style.
+  final Set<String> usedTopLevelServiceNames = Set<String>()
+    ..addAll(toplevelReservedCapitalizedNames);
+
+  final Set<String> usedExtensionNames = Set<String>()
+    ..addAll(forbiddenExtensionNames);
+
   /// True if cross-references have been resolved.
   bool _linked = false;
 
@@ -126,22 +139,25 @@ class FileGenerator extends ProtobufContainer {
 
     // Load and register all enum and message types.
     for (EnumDescriptorProto enumType in descriptor.enumType) {
-      enumGenerators.add(new EnumGenerator(enumType, this));
+      enumGenerators.add(new EnumGenerator(enumType, this, usedTopLevelNames));
     }
     for (DescriptorProto messageType in descriptor.messageType) {
       messageGenerators.add(new MessageGenerator(
-          messageType, this, declaredMixins, defaultMixin));
+          messageType, this, declaredMixins, defaultMixin, usedTopLevelNames));
     }
     for (FieldDescriptorProto extension in descriptor.extension) {
-      extensionGenerators.add(new ExtensionGenerator(extension, this));
+      extensionGenerators
+          .add(new ExtensionGenerator(extension, this, usedExtensionNames));
     }
     for (ServiceDescriptorProto service in descriptor.service) {
       if (options.useGrpc) {
         grpcGenerators.add(new GrpcServiceGenerator(service, this));
       } else {
-        var serviceGen = new ServiceGenerator(service, this);
+        var serviceGen =
+            new ServiceGenerator(service, this, usedTopLevelServiceNames);
         serviceGenerators.add(serviceGen);
-        clientApiGenerators.add(new ClientApiGenerator(serviceGen));
+        clientApiGenerators
+            .add(new ClientApiGenerator(serviceGen, usedTopLevelNames));
       }
     }
   }
@@ -210,7 +226,7 @@ class FileGenerator extends ProtobufContainer {
     // name derived from the file name.
     if (extensionGenerators.isNotEmpty) {
       // TODO(antonm): do not generate a class.
-      String className = extensionClassName(descriptor);
+      String className = extensionClassName(descriptor, usedTopLevelNames);
       out.addBlock('class $className {', '}\n', () {
         for (ExtensionGenerator x in extensionGenerators) {
           x.generate(out);

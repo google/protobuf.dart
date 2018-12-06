@@ -1,0 +1,31 @@
+///
+//  Generated code. Do not modify.
+//  source: testpkg.proto
+///
+// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+
+import 'foobar.pbjson.dart' as $0;
+
+const SomeRequest$json = const {
+  '1': 'SomeRequest',
+};
+
+const SomeReply$json = const {
+  '1': 'SomeReply',
+};
+
+const TestServiceBase$json = const {
+  '1': 'Test',
+  '2': const [
+    const {'1': 'AMethod', '2': '.testpkg.SomeRequest', '3': '.testpkg.SomeReply'},
+    const {'1': 'AnotherMethod', '2': '.foo.bar.EmptyMessage', '3': '.foo.bar.AnotherReply'},
+  ],
+};
+
+const TestServiceBase$messageJson = const {
+  '.testpkg.SomeRequest': SomeRequest$json,
+  '.testpkg.SomeReply': SomeReply$json,
+  '.foo.bar.EmptyMessage': $0.EmptyMessage$json,
+  '.foo.bar.AnotherReply': $0.AnotherReply$json,
+};
+
