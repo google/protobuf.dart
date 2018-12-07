@@ -9,7 +9,7 @@ import 'package:query_benchmark/benchmark.dart';
 import 'package:query_benchmark/readfile.dart';
 
 main() {
-  String path = const String.fromEnvironment("testfile") ?? 'testdata/500.pb';
+  String path = const String.fromEnvironment('testfile') ?? 'testdata/500.pb';
 
   List<int> encoded = readfile(path);
   f0.A0 a = f0.A0.fromBuffer(encoded)..freeze();
@@ -19,7 +19,7 @@ main() {
       duration: measure(() => a.copyWith((f0.A0 a0Builder) {
             a0Builder.a4.last = a0Builder.a4.last.copyWith((f2.A1 a1builder) {
               a1builder.a378.copyWith(
-                  (f19.A220 a220builder) => a220builder.a234 = "new_value");
+                  (f19.A220 a220builder) => a220builder.a234 = 'new_value');
             });
           })),
     ),

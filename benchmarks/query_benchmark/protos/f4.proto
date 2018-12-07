@@ -1,3 +1,6 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
 syntax = "proto2";
 import "f5.proto";
@@ -50,18 +53,18 @@ enum A10 {
   A55 = 206;
 };
 extend a10.A56 {
-  optional A10 a11 = 21713708 ;
-  optional bool a12 = 21623477 ;
-  optional bool a13 = 23459630 ;
-  optional bool a14 = 21596320 ;
-  optional bool a15 = 26652850 ;
+  optional A10 a11 = 21713708;
+  optional bool a12 = 21623477;
+  optional bool a13 = 23459630;
+  optional bool a14 = 21596320;
+  optional bool a15 = 26652850;
   optional int32 a16 = 53697879;
   optional string a17 = 56871503;
 };
 extend a10.A57 {
-  optional A10 a18 = 21713708 ;
-  optional bool a19 = 21623477 ;
-  optional bool a20 = 21596320 ;
+  optional A10 a18 = 21713708;
+  optional bool a19 = 21623477;
+  optional bool a20 = 21596320;
   optional A58 a21 = 21467048;
   optional string a22 = 26652850;
 }
@@ -73,6 +76,6 @@ message A58 {
   repeated A59 a25 = 1;
 };
 extend a10.A60 {
-  optional bool a26 = 21596320 ;
-  optional bool a27 = 28993747 ;
+  optional bool a26 = 21596320;
+  optional bool a27 = 28993747;
 };

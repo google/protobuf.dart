@@ -1,3 +1,6 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
 syntax = "proto2";
 package a10;
@@ -5,7 +8,7 @@ message A108 {
   repeated A109 a79 = 1;
 }
 message A109 {
-  optional string a52 = 1;       
+  optional string a52 = 1;
   optional string a407 = 2;
   repeated string a80 = 3;
   repeated int32 a81 = 10;
@@ -33,8 +36,8 @@ message A110 {
   repeated A117 a93 = 8;
   optional A57 a87 = 7;
   message A118 {
-    optional int32 a90 = 1; 
-    optional int32 a91 = 2;   
+    optional int32 a90 = 1;
+    optional int32 a91 = 2;
   }
   repeated A118 a94 = 9;
   repeated string a95 = 10;
@@ -45,29 +48,29 @@ message A116 {
 }
 message A113 {
   enum A59 {
-    A120         = 1;
-    A121          = 2;
-    A122          = 3;
-    A123         = 4;
-    A124          = 5;
-    A125        = 6;
-    A126        = 7;
-    A127           = 8;
-    A128         = 9;
-    A129          = 10;
-    A130        = 11;  
-    A131          = 12;
-    A132         = 13;
-    A133           = 14;
-    A134       = 15;
-    A135       = 16;
-    A136         = 17;  
-    A137         = 18;  
+    A120 = 1;
+    A121 = 2;
+    A122 = 3;
+    A123 = 4;
+    A124 = 5;
+    A125 = 6;
+    A126 = 7;
+    A127 = 8;
+    A128 = 9;
+    A129 = 10;
+    A130 = 11;
+    A131 = 12;
+    A132 = 13;
+    A133 = 14;
+    A134 = 15;
+    A135 = 16;
+    A136 = 17;
+    A137 = 18;
   };
   enum A138 {
-    A139      = 1;
-    A140      = 2;
-    A141      = 3;
+    A139 = 1;
+    A140 = 2;
+    A141 = 3;
   };
   optional string a52 = 1;
   optional int32 a97 = 3;
@@ -89,8 +92,8 @@ message A111 {
   repeated A143 a105 = 2;
   optional A70 a87 = 3;
   message A144 {
-    optional int32 a90 = 1; 
-    optional int32 a91 = 2;   
+    optional int32 a90 = 1;
+    optional int32 a91 = 2;
   }
   repeated A144 a94 = 4;
   repeated string a95 = 5;
@@ -111,8 +114,8 @@ message A145 {
   optional string a108 = 2;
   optional string a109 = 3;
   optional A98 a87 = 4;
-  optional bool a110 = 5 [default=false];
-  optional bool a111 = 6 [default=false];
+  optional bool a110 = 5 [default = false];
+  optional bool a111 = 6 [default = false];
 }
 message A146 {
   optional string a52 = 1;
@@ -121,44 +124,44 @@ message A146 {
   optional A148 a87 = 4;
 }
 message A60 {
-  optional int32 a114 = 2 [default=2];
-  reserved 15;  
-  reserved 22;  
-  optional bool a115 = 24 [default=true];
-  reserved 25;  
+  optional int32 a114 = 2 [default = 2];
+  reserved 15;
+  reserved 22;
+  optional bool a115 = 24 [default = true];
+  reserved 25;
   optional string a116 = 1;
-  optional int32 a117 = 4 [default=2];
-  optional int32 a118 = 5 [default=2];
-  optional bool a119 = 6 [default=true];
-  optional bool a120 = 7 [default=true];
-  reserved 13;  
-  optional bool a121 = 21 [default=false];
+  optional int32 a117 = 4 [default = 2];
+  optional int32 a118 = 5 [default = 2];
+  optional bool a119 = 6 [default = true];
+  optional bool a120 = 7 [default = true];
+  reserved 13;
+  optional bool a121 = 21 [default = false];
   optional string a122 = 19;
-  optional bool a123 = 26 [default=false];
+  optional bool a123 = 26 [default = false];
   optional string a124 = 8;
-  optional bool a125 = 10 [default=false];
-  optional bool a126 = 27 [default=false];
-  optional bool a127 = 28 [default=false];
+  optional bool a125 = 10 [default = false];
+  optional bool a126 = 27 [default = false];
+  optional bool a127 = 28 [default = false];
   optional string a128 = 29;
   enum A149 {
-    A150 = 1;        
-    A151 = 2;    
-    A152 = 3; 
+    A150 = 1;
+    A151 = 2;
+    A152 = 3;
   }
-  optional A149 a129 = 9 [default=A150];
+  optional A149 a129 = 9 [default = A150];
   optional string a130 = 11;
   optional string a131 = 12;
-  optional int32 a132 = 14 [default=1];
-  optional bool a133 = 16 [default=false];
-  optional bool a134 = 17 [default=false];
-  optional bool a135 = 18 [default=false];
-  optional bool a136 = 42 [default=false];
-  optional bool a31 = 23 [default=false];
-  optional bool a137 = 31 [default=false];
-  reserved 32;  
-  reserved 33;  
-  reserved 34;  
-  reserved 35;  
+  optional int32 a132 = 14 [default = 1];
+  optional bool a133 = 16 [default = false];
+  optional bool a134 = 17 [default = false];
+  optional bool a135 = 18 [default = false];
+  optional bool a136 = 42 [default = false];
+  optional bool a31 = 23 [default = false];
+  optional bool a137 = 31 [default = false];
+  reserved 32;
+  reserved 33;
+  reserved 34;
+  reserved 35;
   optional string a138 = 36;
   optional string a139 = 37;
   optional string a140 = 39;
@@ -172,15 +175,15 @@ message A60 {
   reserved 38;
 }
 message A57 {
-  repeated string a146 = 4 ;
-  repeated string a147 = 5 ;
-  repeated string a148 = 6 ;
-  optional bool a149 = 1 [default=false];
-  optional bool a150 = 2 [default=false];
-  optional bool a31 = 3 [default=false];
+  repeated string a146 = 4;
+  repeated string a147 = 5;
+  repeated string a148 = 6;
+  optional bool a149 = 1 [default = false];
+  optional bool a150 = 2 [default = false];
+  optional bool a31 = 3 [default = false];
   optional bool a151 = 7;
-  reserved 8;  
-  reserved 9;  
+  reserved 8;
+  reserved 9;
   repeated A119 a96 = 999;
   extensions 1000 to max;
 }
@@ -198,19 +201,19 @@ message A56 {
     A159 = 1;
     A160 = 2;
   }
-  optional bool a154 = 5 [default=false];
-  optional bool a31 = 3 [default=false];
-  optional bool a155 = 10 [default=false];
+  optional bool a154 = 5 [default = false];
+  optional bool a31 = 3 [default = false];
+  optional bool a155 = 10 [default = false];
   message A161 {
     optional string a52 = 1;
     optional string a105 = 2;
   };
   repeated A161 a156 = 11;
-  optional bool a157 = 12 [default=false];
-  optional bool a158 = 13 [default=true];
+  optional bool a157 = 12 [default = false];
+  optional bool a158 = 13 [default = true];
   repeated A119 a96 = 999;
   extensions 1000 to max;
-  reserved 4;  
+  reserved 4;
 }
 message A142 {
   repeated A119 a96 = 999;
@@ -218,22 +221,22 @@ message A142 {
 }
 message A70 {
   optional string a159 = 1;
-  reserved 4;  
+  reserved 4;
   optional bool a160 = 2;
-  optional bool a31 = 3 [default=false];
-  reserved 5;  
+  optional bool a31 = 3 [default = false];
+  reserved 5;
   repeated A119 a96 = 999;
   extensions 1000 to max;
 }
 message A76 {
-  optional bool a31 = 1 [default=false];
+  optional bool a31 = 1 [default = false];
   repeated A119 a96 = 999;
   extensions 1000 to max;
 }
 message A147 {
-  optional bool a161 = 20 [default=false];
-  optional double a162 = 16 [default=-1.0];
-  optional bool a31 = 33 [default=false];
+  optional bool a161 = 20 [default = false];
+  optional double a162 = 16 [default = -1.0];
+  optional bool a31 = 33 [default = false];
   repeated A119 a96 = 999;
   extensions 1000 to max;
 }
@@ -259,40 +262,38 @@ message A98 {
     A176 = 3;
     A177 = 4;
   }
-  optional A162      a163              = 7  [default=A163];
-  optional double        a164              = 8  [default=-1.0];
-  optional bool          a165 = 9  [default=false];
-  optional bool          a166             = 10 [default=false];
-  optional bool a167       = 26 [default=false];
-  optional sint32        a168        = 11 [default=256];
-  optional sint32        a169        = 12 [default=256];
-  optional A165 a170        = 13 [default=A67];
-  optional A169        a171       = 15 [default=A170];
-  optional A169        a172        = 17 [default=A170];
-  optional string        a173           = 18;
-  optional string        a174       = 19;
+  optional A162 a163 = 7 [default = A163];
+  optional double a164 = 8 [default = -1.0];
+  optional bool a165 = 9 [default = false];
+  optional bool a166 = 10 [default = false];
+  optional bool a167 = 26 [default = false];
+  optional sint32 a168 = 11 [default = 256];
+  optional sint32 a169 = 12 [default = 256];
+  optional A165 a170 = 13 [default = A67];
+  optional A169 a171 = 15 [default = A170];
+  optional A169 a172 = 17 [default = A170];
+  optional string a173 = 18;
+  optional string a174 = 19;
   optional bool a110 = 20;
   optional bool a111 = 21;
   optional string a175 = 22;
   optional string a176 = 23;
   optional bool a177 = 29;
-  optional int64 a178 = 24 [default=-1];
-  optional int64 a179 = 25 [default=-1];
+  optional int64 a178 = 24 [default = -1];
+  optional int64 a179 = 25 [default = -1];
   enum A178 {
     A179 = 0;
     A180 = 1;
   }
-  optional A178 a180 = 28 [default=A180];
-  optional A172 a181 =
-      27 [default = A175];
-  optional bool a31 = 33 [default=false];
+  optional A178 a180 = 28 [default = A180];
+  optional A172 a181 = 27 [default = A175];
+  optional bool a31 = 33 [default = false];
   enum A181 {
     A182 = 0;
-    A183     = 1; 
-    A184          = 2; 
+    A183 = 1;
+    A184 = 2;
   }
-  optional A181 a182 =
-      34 [default=A182];
+  optional A181 a182 = 34 [default = A182];
   repeated A119 a96 = 999;
   extensions 1000 to max;
 }
@@ -301,19 +302,18 @@ message A148 {
     A179 = 0;
     A180 = 1;
   }
-  optional int64 a183 = 1 [default=-1];
-  optional int64 a184 = 2 [default=-1];
-  optional A178 a185 = 3 [default=A179];
-  optional A98.A165 a170 = 4 [default=A67];
+  optional int64 a183 = 1 [default = -1];
+  optional int64 a184 = 2 [default = -1];
+  optional A178 a185 = 3 [default = A179];
+  optional A98.A165 a170 = 4 [default = A67];
   optional string a174 = 5;
-  optional int32 a168 = 6 [default=256];
-  optional int32 a169 = 7 [default=256];
-  optional double a164 = 8 [default=-1.0];
-  optional bool a166 = 9 [default=false];
-  optional bool a167 = 10 [default=false];
-  optional A98.A172 a181 =
-      11 [default = A175];
-  optional bool a31 = 33 [default=false];
+  optional int32 a168 = 6 [default = 256];
+  optional int32 a169 = 7 [default = 256];
+  optional double a164 = 8 [default = -1.0];
+  optional bool a166 = 9 [default = false];
+  optional bool a167 = 10 [default = false];
+  optional A98.A172 a181 = 11 [default = A175];
+  optional bool a31 = 33 [default = false];
   repeated A119 a96 = 999;
   extensions 1000 to max;
 }
@@ -333,8 +333,8 @@ message A119 {
 message A114 {
   repeated A186 a194 = 1;
   message A186 {
-    repeated int32 a195 = 1 [packed=true];
-    repeated int32 a196 = 2 [packed=true];
+    repeated int32 a195 = 1 [packed = true];
+    repeated int32 a196 = 2 [packed = true];
     optional string a197 = 3;
     optional string a198 = 4;
     repeated string a199 = 6;
@@ -343,7 +343,7 @@ message A114 {
 message A187 {
   repeated A188 a200 = 1;
   message A188 {
-    repeated int32 a195 = 1 [packed=true];
+    repeated int32 a195 = 1 [packed = true];
     optional string a201 = 2;
     optional int32 a202 = 3;
     optional int32 a91 = 4;

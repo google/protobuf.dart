@@ -7,14 +7,14 @@ import 'package:query_benchmark/benchmark.dart';
 import 'package:query_benchmark/readfile.dart';
 
 main() {
-  String path = const String.fromEnvironment("testfile") ?? 'testdata/500.pb';
+  String path = const String.fromEnvironment('testfile') ?? 'testdata/500.pb';
 
   List<int> encoded = readfile(path);
   f0.A0 a = f0.A0.fromBuffer(encoded);
   String json = a.writeToJson();
   print(
     formatReport(
-      title: "protobuf_decode_json",
+      title: 'protobuf_decode_json',
       duration: measure(() => f0.A0.fromJson(json)),
     ),
   );
