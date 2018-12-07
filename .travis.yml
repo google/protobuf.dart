@@ -1,5 +1,9 @@
 language: dart
 
+before_install:
+  - sudo apt-get protobuf-compiler
+  - cd benchmark/query_benchmark; pub get; ./compile-protos.sh
+
 dart:
 - dev
 
@@ -8,7 +12,6 @@ dart_task:
 - test: --platform chrome
 - dartfmt
 - dartanalyzer
-
 # Only building master means that we don't run two builds for each pull request.
 branches:
   only: [master]

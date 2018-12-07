@@ -10,4 +10,10 @@ environment:
 
 dependencies:
   protobuf:
+
+dev_dependencies:
+  protoc_plugin:
+
+dependency_overrides:
+  protobuf:
     path: '../../'
