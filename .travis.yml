@@ -2,7 +2,8 @@ language: dart
 
 before_install:
   - sudo apt-get install -y protobuf-compiler
-  - cd benchmark/query_benchmark; pub get; ./compile-protos.sh
+  - pushd benchmarks/query_benchmark; pub get; ./compile_protos.sh ; popd
+
 
 dart:
 - dev
