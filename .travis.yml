@@ -1,18 +1,39 @@
+# Created with package:mono_repo v1.2.1
 language: dart
 
-dart:
-- dev
+jobs:
+  include:
+    - stage: analyzer_and_format
+      name: "SDK: dev - DIR: protobuf - TASKS: dartanalyzer --fatal-infos --fatal-warnings ."
+      script: ./tool/travis.sh dartanalyzer_0
+      env: PKG="protobuf"
+      dart: dev
+    - stage: analyzer_and_format_stable
+      name: "SDK: stable - DIR: protobuf - TASKS: [dartfmt -n --set-exit-if-changed ., dartanalyzer --fatal-warnings .]"
+      script: ./tool/travis.sh dartfmt dartanalyzer_1
+      env: PKG="protobuf"
+      dart: stable
+    - stage: unit_test
+      name: "SDK: stable - DIR: protobuf - TASKS: pub run test"
+      script: ./tool/travis.sh test
+      env: PKG="protobuf"
+      dart: stable
+    - stage: unit_test
+      name: "SDK: dev - DIR: protobuf - TASKS: pub run test"
+      script: ./tool/travis.sh test
+      env: PKG="protobuf"
+      dart: dev
 
-dart_task:
-- test: --platform vm
-- test: --platform chrome
-- dartfmt
-- dartanalyzer
+stages:
+  - analyzer_and_format
+  - analyzer_and_format_stable
+  - unit_test
 
 # Only building master means that we don't run two builds for each pull request.
 branches:
-  only: [master]
+  only:
+    - master
 
 cache:
   directories:
-  - $HOME/.pub-cache
+    - "$HOME/.pub-cache"
