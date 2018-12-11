@@ -712,7 +712,7 @@ class _FieldSet {
   }
 
   /// Copies all values from [original] to this.
-  _FieldSet _shallowCopyValues(_FieldSet original) {
+  void _shallowCopyValues(_FieldSet original) {
     _values.setRange(0, original._values.length, original._values);
     for (int index = 0; index < _meta.byIndex.length; index++) {
       FieldInfo fieldInfo = _meta.byIndex[index];
@@ -725,9 +725,7 @@ class _FieldSet {
       }
     }
     if (original.hasUnknownFields) {
-      _ensureUnknownFields()
-          ._fields
-          ?.addAll(original._unknownFields._fields);
+      _ensureUnknownFields()._fields?.addAll(original._unknownFields._fields);
     }
   }
 }
