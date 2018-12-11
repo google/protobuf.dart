@@ -1,0 +1,176 @@
+// Copyright (c) 2015, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+
+package benchmark;
+
+// A Suite requests that some benchmarks should be run.
+message Suite {
+  repeated Request requests = 1;
+}
+
+// A Request asks for samples for one benchmark.
+message Request {
+  // The id of the benchmark to run.
+  optional BenchmarkID id = 1;
+
+  // The parameters to pass to the benchmark.
+  optional Params params = 2;
+
+  // The number of samples to collect.
+  optional int32 samples = 3;
+
+  // The duration of each sample in milliseconds.
+  optional int32 duration = 4;
+}
+
+enum BenchmarkID {
+  READ_INT32_FIELDS_JSON = 1;
+  READ_INT32_REPEATED_JSON = 2;
+  READ_INT64_FIELDS_JSON = 3;
+  READ_INT64_REPEATED_JSON = 4;
+  READ_STRING_FIELDS_JSON = 5;
+  READ_STRING_REPEATED_JSON = 6;
+
+  GET_STRINGS = 20;
+  SET_STRINGS = 21;
+  HAS_STRINGS = 22;
+}
+
+// Parameters to a particular benchmark.
+// (See the class for the ones it actually uses.)
+message Params {
+  // The number of (leaf) messages to use.
+  optional int32 message_count = 1;
+
+  // The number of int32 fields to set in each leaf.
+  optional int32 int32_field_count = 2;
+
+  // For repeated int32 fields, the number of values each should have.
+  optional int32 int32_repeat_count = 3;
+
+  // The number of int64 fields to set in each leaf.
+  optional int32 int64_field_count = 4;
+
+  // For repeated int64 fields, the number of values each should have.
+  optional int32 int64_repeat_count = 5;
+
+  // The number of string fields to set in each leaf.
+  optional int32 string_field_count = 6;
+
+  // For repeated string fields, the number of values each should have.
+  optional int32 string_repeat_count = 7;
+
+  // The size of the strings used in the benchmark.
+  optional int32 string_size = 8;
+
+  // An initial string value for filling the grid.
+  optional string string_value = 9;
+}
+
+// A Report records what is happening while a suite is being run.
+message Report {
+  // status code.
+  optional Status status = 1;
+  // Top-level summary of what is happening.
+  // (May provide an error if there are no responses).
+  optional string message = 2;
+  // Describes the experimental setup.
+  optional Env env = 3;
+  // The result of each request.
+  repeated Response responses = 4;
+}
+
+enum Status {
+  RUNNING = 1;
+  DONE = 2;
+  FAILED = 3;
+}
+
+// An Env describes the environment in which the benchmark ran.
+message Env {
+  // The script that was run, relative to "benchmarks" directory (VM only).
+  optional string script = 1;
+
+  // The path to the HTML page. (Browser tests only.)
+  optional string page = 2;
+
+  // The platform the benchmark was run on.
+  optional Platform platform = 10;
+  // The Dart package versions being exercised.
+  optional Packages packages = 11;
+}
+
+// A Platform describes the hardware, OS, and perhaps browser.
+message Platform {
+
+  // values we can get from dart:io Platform
+  optional string hostname = 1;
+  optional OSType os_type = 2;
+  optional string dart_version = 3;
+
+  // values we can get from dart:html Navigator
+  optional string user_agent = 10;
+
+  // values we can get on any platform
+  optional bool checked_mode = 20;
+  optional bool dart_VM = 21;
+}
+
+enum OSType {
+  LINUX = 1;
+  MAC = 2;
+  WINDOWS = 3;
+  ANDROID = 4;
+}
+
+// Packages contains the Dart packages used.
+message Packages {
+  // The dart-protoc-plugin version (from pubspec.yaml)
+  optional string version = 1;
+
+  // Package versions from pubspec.lock
+  repeated PackageVersion packages = 2;
+}
+
+// One entry in pubspec.lock, describing a Dart package.
+message PackageVersion {
+  optional string name = 1;
+  optional string source = 2;
+  optional string version = 3;
+  optional string path = 4; // if set, this is a path dependency
+}
+
+// The result of running one Request.
+message Response {
+  optional Request request = 1;
+  repeated Sample samples = 2;
+}
+
+// The output of running the benchmark in a loop.
+message Sample {
+
+  // The wall-clock duration of the entire loop in microseconds.
+  optional int32 duration = 1;
+  // The number of times the loop iterated.
+  optional int32 loop_count = 2;
+  // Various other counters.
+  optional Counts counts = 3;
+}
+
+// Various counts measured for one sample in a benchmark run.
+message Counts {
+  // The number of times an int32 was read during one sample.
+  optional int32 int32Reads = 1;
+
+  // The number of times an int64 was read during one sample.
+  optional int32 int64Reads = 2;
+
+  // The number of strings read during a sample.
+  optional int32 stringReads = 4;
+
+  // The number of strings written during a sample.
+  optional int32 stringWrites = 5;
+}

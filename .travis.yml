@@ -1,33 +1,63 @@
 # Created with package:mono_repo v1.2.1
 language: dart
 
+# Custom configuration
+before_install:
+  - "wget -O protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip"
+  - "unzip -d protoc protoc.zip"
+  - "export PATH=$PWD/protoc/bin:$PATH"
+  - echo $PATH
+
 jobs:
   include:
-    - stage: analyzer_and_format
+    - stage: format_analyzer_tests
       name: "SDK: dev - DIR: protobuf - TASKS: dartanalyzer --fatal-infos --fatal-warnings ."
       script: ./tool/travis.sh dartanalyzer_0
       env: PKG="protobuf"
       dart: dev
-    - stage: analyzer_and_format_stable
-      name: "SDK: stable - DIR: protobuf - TASKS: [dartfmt -n --set-exit-if-changed ., dartanalyzer --fatal-warnings .]"
-      script: ./tool/travis.sh dartfmt dartanalyzer_1
+    - stage: format_analyzer_tests
+      name: "SDK: stable - DIR: protobuf - TASKS: dartfmt -n --set-exit-if-changed ."
+      script: ./tool/travis.sh dartfmt
       env: PKG="protobuf"
       dart: stable
-    - stage: unit_test
+    - stage: format_analyzer_tests
+      name: "SDK: stable - DIR: protobuf - TASKS: dartanalyzer --fatal-warnings ."
+      script: ./tool/travis.sh dartanalyzer_1
+      env: PKG="protobuf"
+      dart: stable
+    - stage: format_analyzer_tests
       name: "SDK: stable - DIR: protobuf - TASKS: pub run test"
       script: ./tool/travis.sh test
       env: PKG="protobuf"
       dart: stable
-    - stage: unit_test
+    - stage: format_analyzer_tests
       name: "SDK: dev - DIR: protobuf - TASKS: pub run test"
       script: ./tool/travis.sh test
       env: PKG="protobuf"
       dart: dev
+    - stage: format_analyzer_tests
+      name: "SDK: dev - DIR: protoc_plugin - TASKS: [make protos, dartanalyzer --fatal-infos --fatal-warnings .]"
+      script: ./tool/travis.sh command dartanalyzer_0
+      env: PKG="protoc_plugin"
+      dart: dev
+    - stage: format_analyzer_tests
+      name: "SDK: stable - DIR: protoc_plugin - TASKS: [make protos, dartfmt -n --set-exit-if-changed ., dartanalyzer --fatal-warnings .]"
+      script: ./tool/travis.sh command dartfmt dartanalyzer_1
+      env: PKG="protoc_plugin"
+      dart: stable
+    - stage: format_analyzer_tests
+      name: "SDK: stable - DIR: protoc_plugin - TASKS: [make protos, pub run test]"
+      script: ./tool/travis.sh command test
+      env: PKG="protoc_plugin"
+      dart: stable
+    - stage: format_analyzer_tests
+      name: "SDK: dev - DIR: protoc_plugin - TASKS: [make protos, pub run test]"
+      script: ./tool/travis.sh command test
+      env: PKG="protoc_plugin"
+      dart: dev
 
 stages:
-  - analyzer_and_format
-  - analyzer_and_format_stable
-  - unit_test
+  - format_analyzer_tests
 
 # Only building master means that we don't run two builds for each pull request.
 branches:

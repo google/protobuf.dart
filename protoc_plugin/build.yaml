@@ -1,0 +1,20 @@
+# Read about `build.yaml` at https://pub.dartlang.org/packages/build_config
+# Enables running benchmarks via browser: `pub run build_runner serve`
+targets:
+  $default:
+    builders:
+      build_web_compilers|entrypoint:
+        generate_for:
+        - benchmark/*_browser.dart
+        options:
+          dart2js_args:
+          - --minify
+          #- --trust-primitives
+          #- --omit-implicit-checks
+
+builders:
+  benchmarkBuilder:
+    import: "tool/builder.dart"
+    builder_factories: ["benchmarkBuilder"]
+    build_extensions: {"lib/$lib$": ["benchmark/data/data.json"]}
+    auto_apply: root_package
