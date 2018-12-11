@@ -8,3 +8,11 @@ package foo;
 
 message Foo {
 }
+
+message Outer {
+  optional Inner inner = 1;
+}
+
+message Inner {
+  optional string value = 1;
+}

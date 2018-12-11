@@ -11,6 +11,7 @@ const GeneratedMessage_reservedNames = const <String>[
   'hashCode',
   'noSuchMethod',
   'copyWith',
+  'createEmptyInstance',
   'runtimeType',
   'toString',
   'freeze',

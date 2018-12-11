@@ -27,6 +27,7 @@ class M extends $pb.GeneratedMessage {
   M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M));
   $pb.BuilderInfo get info_ => _i;
   static M create() => new M();
+  M createEmptyInstance() => create();
   static $pb.PbList<M> createRepeated() => new $pb.PbList<M>();
   static M getDefault() => _defaultInstance ??= create()..freeze();
   static M _defaultInstance;

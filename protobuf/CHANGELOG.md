@@ -1,3 +1,9 @@
+## 0.11.0
+
+* Breaking change: changed semantics of `GeneratedMessage.toBuilder()`` to only make a shallow copy.
+
+  Proto files must be rebuilt using protoc_plugin 0.13.0 or newer.
+
 ## 0.10.5
 
 * Added support for [map fields](https://developers.google.com/protocol-buffers/docs/proto3#maps).

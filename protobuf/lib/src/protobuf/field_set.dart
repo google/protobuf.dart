@@ -710,4 +710,24 @@ class _FieldSet {
     // TODO(skybrian): search extensions as well
     // https://github.com/dart-lang/protobuf/issues/46
   }
+
+  /// Copies all values from [original] to this.
+  _FieldSet _shallowCopyValues(_FieldSet original) {
+    _values.setRange(0, original._values.length, original._values);
+    for (int index = 0; index < _meta.byIndex.length; index++) {
+      FieldInfo fieldInfo = _meta.byIndex[index];
+      if (fieldInfo.isRepeated) {
+        PbListBase list = _values[index];
+        if (list != null) {
+          _values[index] = fieldInfo._createRepeatedField(_message)
+            ..addAll(list._wrappedList);
+        }
+      }
+    }
+    if (original.hasUnknownFields) {
+      _ensureUnknownFields()
+          ._fields
+          ?.addAll(original._unknownFields._fields);
+    }
+  }
 }
