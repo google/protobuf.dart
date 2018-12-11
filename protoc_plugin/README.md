@@ -1,6 +1,5 @@
 # Dart plugin for the protoc compiler
 
-[![Build Status](https://travis-ci.org/dart-lang/dart-protoc-plugin.svg?branch=master)](https://travis-ci.org/dart-lang/dart-protoc-plugin)
 [![pub package](https://img.shields.io/pub/v/protoc_plugin.svg)](https://pub.dartlang.org/packages/protoc_plugin)
 
 This repository provides a plugin for the [protoc

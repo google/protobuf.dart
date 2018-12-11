@@ -1,6 +1,9 @@
-# Protobuf support for Dart
+# Protobuf support for dart
 
-This repository is home to packages related to support for the protobuf format for Dart.
+[![Build Status](https://travis-ci.org/dart-lang/protobuf.svg?branch=master)](https://travis-ci.org/dart-lang/protobuf)
+
+This repository is home to packages related to support for the protobuf format for dart.
 It contains:
 
-  [protobuf](protobuf/) the support library for generated code.
+ - [protoc_plugin](protoc_plugin/) A dart back-end for the protoc compiler.
+ - [protobuf](protobuf/) Support library for the generated code.

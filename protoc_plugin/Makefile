@@ -61,6 +61,7 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
+	dartfmt -w $(TEST_PROTO_DIR)
 
 .PHONY: build-plugin build-benchmark-protos build-benchmarks \
 	update-pregenerated protos run-tests clean
@@ -81,6 +82,7 @@ protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 		-Ibenchmark/protos \
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) \
 		$(BENCHMARK_PROTOS)
+	dartfmt -w benchmark/lib/generated
 
 run-tests: protos
 	pub run test
