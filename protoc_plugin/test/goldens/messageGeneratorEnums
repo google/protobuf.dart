@@ -1,0 +1,22 @@
+class PhoneNumber_PhoneType extends $pb.ProtobufEnum {
+  static const PhoneNumber_PhoneType MOBILE = const PhoneNumber_PhoneType._(0, 'MOBILE');
+  static const PhoneNumber_PhoneType HOME = const PhoneNumber_PhoneType._(1, 'HOME');
+  static const PhoneNumber_PhoneType WORK = const PhoneNumber_PhoneType._(2, 'WORK');
+
+  static const PhoneNumber_PhoneType BUSINESS = WORK;
+
+  static const List<PhoneNumber_PhoneType> values = const <PhoneNumber_PhoneType> [
+    MOBILE,
+    HOME,
+    WORK,
+  ];
+
+  static final Map<int, PhoneNumber_PhoneType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static PhoneNumber_PhoneType valueOf(int value) => _byValue[value];
+  static void $checkItem(PhoneNumber_PhoneType v) {
+    if (v is! PhoneNumber_PhoneType) $pb.checkItemFailed(v, 'PhoneNumber_PhoneType');
+  }
+
+  const PhoneNumber_PhoneType._(int v, String n) : super(v, n);
+}
+

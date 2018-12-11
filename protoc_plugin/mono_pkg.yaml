@@ -1,0 +1,20 @@
+# See https://github.com/dart-lang/mono_repo for details
+dart:
+  - dev
+  - stable
+
+stages:
+  - format_analyzer_tests:
+    - group:
+      - command: make protos
+      - dartanalyzer: --fatal-infos --fatal-warnings .
+      dart: [dev]
+    - group:
+      - command: make protos
+      - dartfmt
+      - dartanalyzer: --fatal-warnings .
+      dart: [stable]
+    - group:
+      - command: make protos
+      - test
+      dart: [stable, dev]
