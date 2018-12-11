@@ -1,0 +1,111 @@
+///
+//  Generated code. Do not modify.
+//  source: test
+///
+// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+
+import 'dart:async' as $async;
+
+import 'package:grpc/grpc.dart';
+
+import 'test.pb.dart';
+export 'test.pb.dart';
+
+class TestClient extends Client {
+  static final _$unary = new ClientMethod<Input, Output>(
+      '/Test/Unary',
+      (Input value) => value.writeToBuffer(),
+      (List<int> value) => new Output.fromBuffer(value));
+  static final _$clientStreaming = new ClientMethod<Input, Output>(
+      '/Test/ClientStreaming',
+      (Input value) => value.writeToBuffer(),
+      (List<int> value) => new Output.fromBuffer(value));
+  static final _$serverStreaming = new ClientMethod<Input, Output>(
+      '/Test/ServerStreaming',
+      (Input value) => value.writeToBuffer(),
+      (List<int> value) => new Output.fromBuffer(value));
+  static final _$bidirectional = new ClientMethod<Input, Output>(
+      '/Test/Bidirectional',
+      (Input value) => value.writeToBuffer(),
+      (List<int> value) => new Output.fromBuffer(value));
+
+  TestClient(ClientChannel channel, {CallOptions options})
+      : super(channel, options: options);
+
+  ResponseFuture<Output> unary(Input request, {CallOptions options}) {
+    final call = $createCall(_$unary, new $async.Stream.fromIterable([request]),
+        options: options);
+    return new ResponseFuture(call);
+  }
+
+  ResponseFuture<Output> clientStreaming($async.Stream<Input> request,
+      {CallOptions options}) {
+    final call = $createCall(_$clientStreaming, request, options: options);
+    return new ResponseFuture(call);
+  }
+
+  ResponseStream<Output> serverStreaming(Input request, {CallOptions options}) {
+    final call = $createCall(
+        _$serverStreaming, new $async.Stream.fromIterable([request]),
+        options: options);
+    return new ResponseStream(call);
+  }
+
+  ResponseStream<Output> bidirectional($async.Stream<Input> request,
+      {CallOptions options}) {
+    final call = $createCall(_$bidirectional, request, options: options);
+    return new ResponseStream(call);
+  }
+}
+
+abstract class TestServiceBase extends Service {
+  String get $name => 'Test';
+
+  TestServiceBase() {
+    $addMethod(new ServiceMethod<Input, Output>(
+        'Unary',
+        unary_Pre,
+        false,
+        false,
+        (List<int> value) => new Input.fromBuffer(value),
+        (Output value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<Input, Output>(
+        'ClientStreaming',
+        clientStreaming,
+        true,
+        false,
+        (List<int> value) => new Input.fromBuffer(value),
+        (Output value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<Input, Output>(
+        'ServerStreaming',
+        serverStreaming_Pre,
+        false,
+        true,
+        (List<int> value) => new Input.fromBuffer(value),
+        (Output value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<Input, Output>(
+        'Bidirectional',
+        bidirectional,
+        true,
+        true,
+        (List<int> value) => new Input.fromBuffer(value),
+        (Output value) => value.writeToBuffer()));
+  }
+
+  $async.Future<Output> unary_Pre(
+      ServiceCall call, $async.Future request) async {
+    return unary(call, await request);
+  }
+
+  $async.Stream<Output> serverStreaming_Pre(
+      ServiceCall call, $async.Future request) async* {
+    yield* serverStreaming(call, (await request) as Input);
+  }
+
+  $async.Future<Output> unary(ServiceCall call, Input request);
+  $async.Future<Output> clientStreaming(
+      ServiceCall call, $async.Stream<Input> request);
+  $async.Stream<Output> serverStreaming(ServiceCall call, Input request);
+  $async.Stream<Output> bidirectional(
+      ServiceCall call, $async.Stream<Input> request);
+}

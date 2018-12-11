@@ -1,0 +1,38 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+
+package protobuf_unittest;
+
+message TestMap {
+    message MessageValue {
+        optional int32 value = 1;
+        optional int32 secondValue = 2 [default = 42];
+    }
+
+    enum EnumValue {
+        FOO = 0;
+        BAR = 1;
+        BAZ = 2;
+        ZOP = 3;
+    }
+
+    map<int32, int32>        int32_to_int32_field = 1;
+    map<int32, string>       int32_to_string_field = 2;
+    map<int32, bytes>        int32_to_bytes_field = 3;
+    map<int32, EnumValue>    int32_to_enum_field = 4;
+    map<int32, MessageValue> int32_to_message_field = 5;
+    map<string, int32>       string_to_int32_field = 6;
+    map<uint32, int32>       uint32_to_int32_field = 7;
+    map<int64, int32>        int64_to_int32_field = 8;
+}
+
+message Inner  {
+    map<string, string> inner_map = 1;
+}
+
+message Outer {
+    optional Inner i = 1;
+}
