@@ -13,7 +13,8 @@ dependencies:
 
 dev_dependencies:
   protoc_plugin:
+    path: "../protoc_plugin"
 
 dependency_overrides:
   protobuf:
-    path: '../../'
+    path: "../protobuf"
