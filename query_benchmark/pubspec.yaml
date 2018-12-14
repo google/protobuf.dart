@@ -1,0 +1,20 @@
+# Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+name: query_benchmark
+description: Measuring encoding and decoding of a "real-world" protobuf.
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  protobuf:
+
+dev_dependencies:
+  protoc_plugin:
+    path: "../protoc_plugin"
+
+dependency_overrides:
+  protobuf:
+    path: "../protobuf"

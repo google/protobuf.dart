@@ -1,0 +1,22 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+package a0.a1.a2.a3;
+import "f2.proto";
+import "f3.proto";
+message A0 {
+  repeated .a0.a1.a2.a3.A1 a4 = 1;
+  optional string a5 = 3;
+  enum A2 {
+    A3 = 0;
+    A4 = 1;
+    A5 = 2;
+    A6 = 3;
+    A7 = 4;
+    A8 = 5;
+  }
+  optional A2 a6 = 2;
+  optional a7.A9 a8 = 4;
+}

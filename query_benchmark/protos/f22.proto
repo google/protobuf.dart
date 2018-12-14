@@ -1,0 +1,96 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+package a0.a1;
+import "f8.proto";
+import "f1.proto";
+import "f21.proto";
+import "f16.proto";
+import "f7.proto";
+import "f27.proto";
+import "f28.proto";
+import "f23.proto";
+import "f11.proto";
+import "f24.proto";
+import "f4.proto";
+import "f12.proto";
+message A419 {
+  repeated A420 a320 = 1;
+  optional A321 a291 = 2;
+};
+message A421 {
+  optional bytes a321 = 1;
+  optional bool a322 = 6 [default = false];
+  optional bytes a323 = 2;
+  repeated A420 a324 = 3;
+  optional A321 a325 = 4;
+  optional A231 a241 = 5;
+  map<string, A231> a326 = 7;
+  optional A422 a327 = 8;
+  optional string a224 = 9;
+};
+message A420 {
+  optional int32 a328 = 1;
+  optional int32 a329 = 2;
+  oneof a99 {
+    A423 a330 = 3;
+    A424 a331 = 4;
+  }
+}
+message A423 {
+  optional a0.a1.a232.A239 a332 = 6;
+  optional string a224 = 7;
+  optional A231 a241 = 8;
+  oneof a99 {
+    a0.a1.A106 a333 = 1;
+    a0.a1.A293 a334 = 4;
+    A217 a335 = 3;
+    A232 a242 = 5;
+  }
+  reserved 2;
+}
+message A424 {
+  optional a0.a1.a232.A239 a336 = 3;
+  optional a0.a1.a232.A241 a337 = 7;
+  optional a0.a1.A107 a338 = 1;
+  optional A210 a2 = 2;
+  optional A425 a339 = 5;
+  optional bytes a340 = 4;
+  optional bool a341 = 6 [default = false];
+  optional A231 a241 = 16;
+}
+message A425 {
+  enum A426 {
+    A235 = 0;
+    A427 = 1;
+    A428 = 2;
+    A429 = 3;
+  }
+  optional A426 a342 = 1;
+}
+message A231 {
+  optional bool a322 = 1 [default = false];
+  optional bool a341 = 2 [default = false];
+  optional bool a343 = 3 [default = false];
+  optional int32 a344 = 4;
+  optional bool a345 = 6;
+  optional A430 a346 = 5;
+  optional bytes a347 = 7;
+  optional A66 a348 = 8;
+};
+message A430 {
+  repeated a0.a1.a349.A431 a350 = 5;
+  repeated A420 a320 = 6;
+}
+message A432 {
+  optional string a351 = 1;
+  optional string a278 = 2;
+  optional bytes a352 = 3;
+  optional A66 a348 = 4;
+}
+message A422 {
+  repeated A432 a353 = 1;
+  repeated string a354 = 2;
+}

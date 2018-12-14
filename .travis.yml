@@ -37,24 +37,29 @@ jobs:
       dart: dev
     - stage: format_analyzer_tests
       name: "SDK: dev - DIR: protoc_plugin - TASKS: [make protos, dartanalyzer --fatal-infos --fatal-warnings .]"
-      script: ./tool/travis.sh command dartanalyzer_0
+      script: ./tool/travis.sh command_0 dartanalyzer_0
       env: PKG="protoc_plugin"
       dart: dev
     - stage: format_analyzer_tests
       name: "SDK: stable - DIR: protoc_plugin - TASKS: [make protos, dartfmt -n --set-exit-if-changed ., dartanalyzer --fatal-warnings .]"
-      script: ./tool/travis.sh command dartfmt dartanalyzer_1
+      script: ./tool/travis.sh command_0 dartfmt dartanalyzer_1
       env: PKG="protoc_plugin"
       dart: stable
     - stage: format_analyzer_tests
       name: "SDK: stable - DIR: protoc_plugin - TASKS: [make protos, pub run test]"
-      script: ./tool/travis.sh command test
+      script: ./tool/travis.sh command_0 test
       env: PKG="protoc_plugin"
       dart: stable
     - stage: format_analyzer_tests
       name: "SDK: dev - DIR: protoc_plugin - TASKS: [make protos, pub run test]"
-      script: ./tool/travis.sh command test
+      script: ./tool/travis.sh command_0 test
       env: PKG="protoc_plugin"
       dart: dev
+    - stage: format_analyzer_tests
+      name: "SDK: stable - DIR: query_benchmark - TASKS: [./compile_protos.sh, dartfmt -n --set-exit-if-changed ., dartanalyzer --fatal-warnings .]"
+      script: ./tool/travis.sh command_1 dartfmt dartanalyzer_1
+      env: PKG="query_benchmark"
+      dart: stable
 
 stages:
   - format_analyzer_tests
