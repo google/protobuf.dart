@@ -12,6 +12,8 @@ class BuilderInfo {
   final Map<int, FieldInfo> fieldInfo = new Map<int, FieldInfo>();
   final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
+  // Maps a tag number to the corresponding oneof index (if any).
+  final Map<int, int> oneofs = <int, int>{};
   bool hasExtensions = false;
   bool hasRequiredFields = true;
   List<FieldInfo> _sortedByTag;
@@ -124,6 +126,11 @@ class BuilderInfo {
     assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
     addRepeated<T>(
         tagNumber, name, fieldType, check, subBuilder, valueOf, enumValues);
+  }
+
+  // oneof declarations.
+  void oo(int oneofIndex, List<int> tags) {
+    tags.forEach((int tag) => oneofs[tag] = oneofIndex);
   }
 
   // Map field.

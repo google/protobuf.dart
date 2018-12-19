@@ -10,8 +10,14 @@ import 'package:protoc_plugin/src/descriptor.pb.dart';
 /// to check its type and range.
 const checkItem = '\$checkItem';
 
-/// The Dart member names in a GeneratedMessage subclass for one protobuf field.
 class MemberNames {
+  List<FieldNames> fieldNames;
+  List<OneofNames> oneofNames;
+  MemberNames(this.fieldNames, this.oneofNames);
+}
+
+/// The Dart member names in a GeneratedMessage subclass for one protobuf field.
+class FieldNames {
   /// The descriptor of the field these member names apply to.
   final FieldDescriptorProto descriptor;
 
@@ -32,8 +38,31 @@ class MemberNames {
   /// `null` for repeated fields.
   final String clearMethodName;
 
-  MemberNames(this.descriptor, this.index, this.fieldName,
+  FieldNames(this.descriptor, this.index, this.fieldName,
       {this.hasMethodName, this.clearMethodName});
+}
+
+// The Dart names associated with a oneof declaration.
+class OneofNames {
+  final OneofDescriptorProto descriptor;
+
+  // Index in the containing type's oneof_decl list.
+  final int index;
+
+  // Identifier for the generated whichX() method, without braces.
+  final String whichOneofMethodName;
+
+  // Identifier for the generated clearX() method, without braces.
+  final String clearMethodName;
+
+  // Identifier for the generated enum definition.
+  final String oneofEnumName;
+
+  //  Identifier for the _XByTag map.
+  final String byTagMapName;
+
+  OneofNames(this.descriptor, this.index, this.clearMethodName,
+      this.whichOneofMethodName, this.oneofEnumName, this.byTagMapName);
 }
 
 /// Move any initial underscores in [input] to the end.
@@ -143,6 +172,13 @@ Iterable<String> defaultSuffixes() sync* {
   }
 }
 
+String oneofEnumClassName(
+    String descriptorName, Set<String> usedNames, String parent) {
+  descriptorName = '${parent}_${underscoresToCamelCase(descriptorName)}';
+  return disambiguateName(
+      avoidInitialUnderscore(descriptorName), usedNames, defaultSuffixes());
+}
+
 /// Chooses the name of the Dart class to generate for a proto message or enum.
 ///
 /// For a nested message or enum, [parent] should be provided
@@ -170,17 +206,18 @@ Iterable<String> enumSuffixes() sync* {
   }
 }
 
-/// Chooses the GeneratedMessage member names for each field.
+/// Chooses the GeneratedMessage member names for each field and names
+/// associated with each oneof declaration.
 ///
 /// Additional names to avoid can be supplied using [reserved].
 /// (This should only be used for mixins.)
 ///
-/// Returns a map from the field name in the .proto file to its
-/// corresponding MemberNames.
+/// Returns [MemberNames] which holds a list with [FieldNames] and a list with [OneofNames].
 ///
 /// Throws [DartNameOptionException] if a field has this option and
 /// it's set to an invalid name.
-Map<String, MemberNames> messageFieldNames(DescriptorProto descriptor,
+MemberNames messageMemberNames(DescriptorProto descriptor,
+    String parentClassName, Set<String> usedTopLevelNames,
     {Iterable<String> reserved = const []}) {
   var sorted = new List<FieldDescriptorProto>.from(descriptor.field)
     ..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
@@ -200,10 +237,10 @@ Map<String, MemberNames> messageFieldNames(DescriptorProto descriptor,
     ..addAll(reservedMemberNames)
     ..addAll(reserved);
 
-  var memberNames = <String, MemberNames>{};
+  List<FieldNames> fieldNames = <FieldNames>[];
 
-  void takeNames(MemberNames chosen) {
-    memberNames[chosen.descriptor.name] = chosen;
+  void takeFieldNames(FieldNames chosen) {
+    fieldNames.add(chosen);
 
     existingNames.add(chosen.fieldName);
     if (chosen.hasMethodName != null) {
@@ -219,7 +256,7 @@ Map<String, MemberNames> messageFieldNames(DescriptorProto descriptor,
   // Explicitly setting a name that's already taken is a build error.
   for (var field in sorted) {
     if (_nameOption(field).isNotEmpty) {
-      takeNames(_memberNamesFromOption(
+      takeFieldNames(_memberNamesFromOption(
           descriptor, field, indexes[field.name], existingNames));
     }
   }
@@ -229,23 +266,55 @@ Map<String, MemberNames> messageFieldNames(DescriptorProto descriptor,
   for (var field in sorted) {
     if (_nameOption(field).isEmpty) {
       var index = indexes[field.name];
-      takeNames(_unusedMemberNames(field, index, existingNames));
+      takeFieldNames(_unusedMemberNames(field, index, existingNames));
     }
   }
 
-  // Return a map with entries in sorted order.
-  var result = <String, MemberNames>{};
-  for (var field in sorted) {
-    result[field.name] = memberNames[field.name];
+  List<OneofNames> oneofNames = <OneofNames>[];
+
+  void takeOneofNames(OneofNames chosen) {
+    oneofNames.add(chosen);
+
+    if (chosen.whichOneofMethodName != null) {
+      existingNames.add(chosen.whichOneofMethodName);
+    }
+    if (chosen.clearMethodName != null) {
+      existingNames.add(chosen.clearMethodName);
+    }
+    if (chosen.byTagMapName != null) {
+      existingNames.add(chosen.byTagMapName);
+    }
   }
-  return result;
+
+  List<String> oneofNameVariants(String name) {
+    return [_defaultWhichMethodName(name), _defaultClearMethodName(name)];
+  }
+
+  for (int i = 0; i < descriptor.oneofDecl.length; i++) {
+    OneofDescriptorProto oneof = descriptor.oneofDecl[i];
+
+    String oneofName = disambiguateName(
+        underscoresToCamelCase(oneof.name), existingNames, defaultSuffixes(),
+        generateVariants: oneofNameVariants);
+
+    String oneofEnumName =
+        oneofEnumClassName(oneof.name, usedTopLevelNames, parentClassName);
+
+    String enumMapName = disambiguateName(
+        '_${oneofEnumName}ByTag', existingNames, defaultSuffixes());
+
+    takeOneofNames(OneofNames(oneof, i, _defaultClearMethodName(oneofName),
+        _defaultWhichMethodName(oneofName), oneofEnumName, enumMapName));
+  }
+
+  return MemberNames(fieldNames, oneofNames);
 }
 
 /// Chooses the member names for a field that has the 'dart_name' option.
 ///
 /// If the explicitly-set Dart name is already taken, throw an exception.
 /// (Fails the build.)
-MemberNames _memberNamesFromOption(DescriptorProto message,
+FieldNames _memberNamesFromOption(DescriptorProto message,
     FieldDescriptorProto field, int index, Set<String> existingNames) {
   // TODO(skybrian): provide more context in errors (filename).
   var where = "${message.name}.${field.name}";
@@ -268,7 +337,7 @@ MemberNames _memberNamesFromOption(DescriptorProto message,
   checkAvailable(name);
 
   if (_isRepeated(field)) {
-    return new MemberNames(field, index, name);
+    return new FieldNames(field, index, name);
   }
 
   String hasMethod = "has${_capitalize(name)}";
@@ -277,7 +346,7 @@ MemberNames _memberNamesFromOption(DescriptorProto message,
   String clearMethod = "clear${_capitalize(name)}";
   checkAvailable(clearMethod);
 
-  return new MemberNames(field, index, name,
+  return new FieldNames(field, index, name,
       hasMethodName: hasMethod, clearMethodName: clearMethod);
 }
 
@@ -289,10 +358,10 @@ Iterable<String> _memberNamesSuffix(int number) sync* {
   }
 }
 
-MemberNames _unusedMemberNames(
+FieldNames _unusedMemberNames(
     FieldDescriptorProto field, int index, Set<String> existingNames) {
   if (_isRepeated(field)) {
-    return new MemberNames(
+    return new FieldNames(
         field,
         index,
         disambiguateName(_defaultFieldName(_fieldMethodSuffix(field)),
@@ -310,7 +379,7 @@ MemberNames _unusedMemberNames(
   String name = disambiguateName(_fieldMethodSuffix(field), existingNames,
       _memberNamesSuffix(field.number),
       generateVariants: generateNameVariants);
-  return new MemberNames(field, index, _defaultFieldName(name),
+  return new FieldNames(field, index, _defaultFieldName(name),
       hasMethodName: _defaultHasMethodName(name),
       clearMethodName: _defaultClearMethodName(name));
 }
@@ -327,6 +396,9 @@ String _defaultHasMethodName(String fieldMethodSuffix) =>
 String _defaultClearMethodName(String fieldMethodSuffix) =>
     'clear$fieldMethodSuffix';
 
+String _defaultWhichMethodName(String oneofMethodSuffix) =>
+    'which$oneofMethodSuffix';
+
 /// The suffix to use for this field in Dart method names.
 /// (It should be camelcase and begin with an uppercase letter.)
 String _fieldMethodSuffix(FieldDescriptorProto field) {
@@ -334,7 +406,7 @@ String _fieldMethodSuffix(FieldDescriptorProto field) {
   if (name.isNotEmpty) return _capitalize(name);
 
   if (field.type != FieldDescriptorProto_Type.TYPE_GROUP) {
-    return _underscoresToCamelCase(field.name);
+    return underscoresToCamelCase(field.name);
   }
 
   // For groups, use capitalization of 'typeName' rather than 'name'.
@@ -343,10 +415,10 @@ String _fieldMethodSuffix(FieldDescriptorProto field) {
   if (index != -1) {
     name = name.substring(index + 1);
   }
-  return _underscoresToCamelCase(name);
+  return underscoresToCamelCase(name);
 }
 
-String _underscoresToCamelCase(s) => s.split('_').map(_capitalize).join('');
+String underscoresToCamelCase(s) => s.split('_').map(_capitalize).join('');
 
 String _capitalize(s) =>
     s.isEmpty ? s : '${s[0].toUpperCase()}${s.substring(1)}';

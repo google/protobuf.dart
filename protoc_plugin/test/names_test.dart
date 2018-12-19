@@ -51,7 +51,7 @@ void main() {
       ..name = 'Example'
       ..field.add(stringField("first", 1, "hello world"));
     expect(() {
-      names.messageFieldNames(descriptor);
+      names.messageMemberNames(descriptor, '', Set());
     },
         throwsMessage("Example.first: dart_name option is invalid: "
             "'hello world' is not a valid Dart field name"));
@@ -62,7 +62,7 @@ void main() {
       ..name = 'Example'
       ..field.add(stringField("first", 1, "class"));
     expect(() {
-      names.messageFieldNames(descriptor);
+      names.messageMemberNames(descriptor, '', Set());
     },
         throwsMessage("Example.first: "
             "dart_name option is invalid: 'class' is already used"));
@@ -76,7 +76,7 @@ void main() {
         stringField("second", 2, "renamed"),
       ]);
     expect(() {
-      names.messageFieldNames(descriptor);
+      names.messageMemberNames(descriptor, '', Set());
     },
         throwsMessage("Example.second: "
             "dart_name option is invalid: 'renamed' is already used"));
@@ -141,6 +141,76 @@ void main() {
     expect(names.defaultSuffixes().take(5).toList(),
         ['_', '_0', '_1', '_2', '_3']);
   });
+
+  test('oneof names no disambiguation', () {
+    OneofDescriptorProto oneofDescriptor = oneofField('foo');
+    DescriptorProto descriptor = new DescriptorProto()
+      ..name = 'Parent'
+      ..field.addAll([stringFieldOneof('first', 1, 0)])
+      ..oneofDecl.add(oneofDescriptor);
+
+    Set<String> usedTopLevelNames = Set<String>();
+    names.MemberNames memberNames =
+        names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
+
+    expect(usedTopLevelNames.length, 1);
+    expect(usedTopLevelNames, Set()..add('Parent_Foo'));
+    expect(memberNames.oneofNames.length, 1);
+    names.OneofNames oneof = memberNames.oneofNames[0];
+    expect(oneof.descriptor, oneofDescriptor);
+    expect(oneof.index, 0);
+    expect(oneof.oneofEnumName, 'Parent_Foo');
+    expect(oneof.byTagMapName, '_Parent_FooByTag');
+    expect(oneof.whichOneofMethodName, 'whichFoo');
+    expect(oneof.clearMethodName, 'clearFoo');
+  });
+
+  test('oneof names disambiguate method names', () {
+    OneofDescriptorProto oneofDescriptor = oneofField('foo');
+    DescriptorProto descriptor = new DescriptorProto()
+      ..name = 'Parent'
+      ..field.addAll([stringFieldOneof('first', 1, 0)])
+      ..oneofDecl.add(oneofDescriptor);
+
+    Set<String> usedTopLevelNames = Set<String>();
+    names.MemberNames memberNames = names.messageMemberNames(
+        descriptor, 'Parent', usedTopLevelNames,
+        reserved: ['clearFoo']);
+
+    expect(usedTopLevelNames.length, 1);
+    expect(usedTopLevelNames, Set()..add('Parent_Foo'));
+    expect(memberNames.oneofNames.length, 1);
+    names.OneofNames oneof = memberNames.oneofNames[0];
+    expect(oneof.descriptor, oneofDescriptor);
+    expect(oneof.index, 0);
+    expect(oneof.oneofEnumName, 'Parent_Foo');
+    expect(oneof.byTagMapName, '_Parent_FooByTag');
+    expect(oneof.whichOneofMethodName, 'whichFoo_');
+    expect(oneof.clearMethodName, 'clearFoo_');
+  });
+
+  test('oneof names disambiguate top level name', () {
+    OneofDescriptorProto oneofDescriptor = oneofField('foo');
+    DescriptorProto descriptor = new DescriptorProto()
+      ..name = 'Parent'
+      ..field.addAll([stringFieldOneof('first', 1, 0)])
+      ..oneofDecl.add(oneofDescriptor);
+
+    Set<String> usedTopLevelNames = Set<String>()..add('Parent_Foo');
+    names.MemberNames memberNames =
+        names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
+
+    expect(usedTopLevelNames.length, 2);
+    expect(usedTopLevelNames, Set()..add('Parent_Foo')..add('Parent_Foo_'));
+    expect(memberNames.oneofNames.length, 1);
+    names.OneofNames oneof = memberNames.oneofNames[0];
+    expect(oneof.descriptor, oneofDescriptor);
+    expect(oneof.index, 0);
+    expect(oneof.oneofEnumName, 'Parent_Foo_');
+    expect(oneof.byTagMapName, '_Parent_Foo_ByTag');
+    expect(oneof.whichOneofMethodName, 'whichFoo');
+    expect(oneof.clearMethodName, 'clearFoo');
+  });
 }
 
 FieldDescriptorProto stringField(String name, int number, String dartName) {
@@ -151,4 +221,17 @@ FieldDescriptorProto stringField(String name, int number, String dartName) {
     ..type = FieldDescriptorProto_Type.TYPE_STRING
     ..options =
         (new FieldOptions()..setExtension(Dart_options.dartName, dartName));
+}
+
+FieldDescriptorProto stringFieldOneof(String name, int number, int oneofIndex) {
+  return new FieldDescriptorProto()
+    ..name = name
+    ..number = number
+    ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+    ..type = FieldDescriptorProto_Type.TYPE_STRING
+    ..oneofIndex = oneofIndex;
+}
+
+OneofDescriptorProto oneofField(String name) {
+  return OneofDescriptorProto()..name = name;
 }

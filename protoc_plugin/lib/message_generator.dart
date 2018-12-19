@@ -4,6 +4,19 @@
 
 part of protoc;
 
+class OneofEnumGenerator {
+  static void generate(
+      IndentingWriter out, String classname, List<ProtobufField> fields) {
+    out.addBlock('enum ${classname} {', '}\n', () {
+      for (ProtobufField field in fields) {
+        final name = field.memberNames.fieldName;
+        out.println('$name, ');
+      }
+      out.println('unset');
+    });
+  }
+}
+
 class MessageGenerator extends ProtobufContainer {
   /// Returns the mixin for this message, or null if none.
   ///
@@ -56,37 +69,46 @@ class MessageGenerator extends ProtobufContainer {
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
   final List<MessageGenerator> _messageGenerators = <MessageGenerator>[];
   final List<ExtensionGenerator> _extensionGenerators = <ExtensionGenerator>[];
+  // Stores the list of fields belonging to each oneof declaration identified
+  // by the index in the containing types's oneof_decl list.
+  final List<List<ProtobufField>> _oneofFields;
+  List<OneofNames> _oneofNames;
 
   // populated by resolve()
   List<ProtobufField> _fieldList;
+
+  Set<String> _usedTopLevelNames;
 
   MessageGenerator(
       DescriptorProto descriptor,
       ProtobufContainer parent,
       Map<String, PbMixin> declaredMixins,
       PbMixin defaultMixin,
-      Set<String> usedNames)
+      this._usedTopLevelNames)
       : _descriptor = descriptor,
         _parent = parent,
-        classname = messageOrEnumClassName(descriptor.name, usedNames,
+        classname = messageOrEnumClassName(descriptor.name, _usedTopLevelNames,
             parent: parent?.classname ?? ''),
         assert(parent != null),
         fullName = parent.fullName == ''
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
         mixin = _getMixin(descriptor, parent.fileGen.descriptor, declaredMixins,
-            defaultMixin) {
+            defaultMixin),
+        _oneofFields =
+            List.generate(descriptor.oneofDecl.length, (int index) => []) {
     for (EnumDescriptorProto e in _descriptor.enumType) {
-      _enumGenerators.add(new EnumGenerator(e, this, usedNames));
+      _enumGenerators.add(new EnumGenerator(e, this, _usedTopLevelNames));
     }
 
     for (DescriptorProto n in _descriptor.nestedType) {
       _messageGenerators.add(new MessageGenerator(
-          n, this, declaredMixins, defaultMixin, usedNames));
+          n, this, declaredMixins, defaultMixin, _usedTopLevelNames));
     }
 
     for (FieldDescriptorProto x in _descriptor.extension) {
-      _extensionGenerators.add(new ExtensionGenerator(x, this, usedNames));
+      _extensionGenerators
+          .add(new ExtensionGenerator(x, this, _usedTopLevelNames));
     }
   }
 
@@ -138,12 +160,19 @@ class MessageGenerator extends ProtobufContainer {
     if (_fieldList != null) throw new StateError("message already resolved");
 
     var reserved = mixin?.findReservedNames() ?? const <String>[];
-    var fields = messageFieldNames(_descriptor, reserved: reserved);
+    MemberNames members = messageMemberNames(
+        _descriptor, classname, _usedTopLevelNames,
+        reserved: reserved);
 
     _fieldList = <ProtobufField>[];
-    for (MemberNames names in fields.values) {
-      _fieldList.add(new ProtobufField.message(names, this, ctx));
+    for (FieldNames names in members.fieldNames) {
+      ProtobufField field = new ProtobufField.message(names, this, ctx);
+      if (field.descriptor.hasOneofIndex()) {
+        _oneofFields[field.descriptor.oneofIndex].add(field);
+      }
+      _fieldList.add(field);
     }
+    _oneofNames = members.oneofNames;
 
     for (var m in _messageGenerators) {
       m.resolve(ctx);
@@ -223,6 +252,11 @@ class MessageGenerator extends ProtobufContainer {
       m.generate(out);
     }
 
+    for (OneofNames oneof in _oneofNames) {
+      OneofEnumGenerator.generate(
+          out, oneof.oneofEnumName, _oneofFields[oneof.index]);
+    }
+
     var mixinClause = '';
     if (mixin != null) {
       var mixinNames = mixin.findMixinsToApply().map((m) => m.name);
@@ -235,6 +269,17 @@ class MessageGenerator extends ProtobufContainer {
     out.addBlock(
         'class ${classname} extends $_protobufImportPrefix.GeneratedMessage${mixinClause} {',
         '}', () {
+      for (OneofNames oneof in _oneofNames) {
+        out.addBlock(
+            'static const Map<int, ${oneof.oneofEnumName}> ${oneof.byTagMapName} = {',
+            '};', () {
+          for (ProtobufField field in _oneofFields[oneof.index]) {
+            out.println(
+                '${field.number} : ${oneof.oneofEnumName}.${field.memberNames.fieldName},');
+          }
+          out.println('0 : ${oneof.oneofEnumName}.unset');
+        });
+      }
       out.addBlock(
           'static final $_protobufImportPrefix.BuilderInfo _i = '
           'new $_protobufImportPrefix.BuilderInfo(\'${messageName}\'$packageClause)',
@@ -242,6 +287,12 @@ class MessageGenerator extends ProtobufContainer {
         for (ProtobufField field in _fieldList) {
           var dartFieldName = field.memberNames.fieldName;
           out.println(field.generateBuilderInfoCall(fileGen, dartFieldName));
+        }
+
+        for (int oneof = 0; oneof < _oneofFields.length; oneof++) {
+          List<int> tags =
+              _oneofFields[oneof].map((ProtobufField f) => f.number).toList();
+          out.println("..oo($oneof, ${tags})");
         }
 
         if (_descriptor.extensionRange.length > 0) {
@@ -375,10 +426,21 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   void generateFieldsAccessorsMutators(IndentingWriter out) {
+    _oneofNames
+        .forEach((OneofNames oneof) => generateoneOfAccessors(out, oneof));
+
     for (ProtobufField field in _fieldList) {
       out.println();
       generateFieldAccessorsMutators(field, out);
     }
+  }
+
+  void generateoneOfAccessors(IndentingWriter out, OneofNames oneof) {
+    out.println();
+    out.println("${oneof.oneofEnumName} ${oneof.whichOneofMethodName}() "
+        "=> ${oneof.byTagMapName}[\$_whichOneof(${oneof.index})];");
+    out.println('void ${oneof.clearMethodName}() '
+        '=> clearField(\$_whichOneof(${oneof.index}));');
   }
 
   void generateFieldAccessorsMutators(
