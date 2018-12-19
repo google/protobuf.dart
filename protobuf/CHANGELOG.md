@@ -1,3 +1,8 @@
+## 0.10.6
+
+* Added support for [oneof](https://developers.google.com/protocol-buffers/docs/proto3#oneof).
+
+
 ## 0.10.5
 
 * Added support for [map fields](https://developers.google.com/protocol-buffers/docs/proto3#maps).
