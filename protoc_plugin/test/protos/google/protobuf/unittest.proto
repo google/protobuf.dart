@@ -64,6 +64,7 @@ message TestAllTypes {
     // a local variable named "b" in one of the generated methods.  Doh.
     // This file needs to compile in proto1 to test backwards-compatibility.
     optional int32 bb = 1;
+    optional int32 i = 2;
   }
 
   enum NestedEnum {

@@ -676,8 +676,18 @@ class _FieldSet {
       fieldValue = _cloneMessage(fieldValue);
     }
     if (fi.index == null) {
+      final current = _ensureExtensions()._getFieldOrNull(fi);
+      if (current != null) {
+        fieldValue = current..mergeFromMessage(fieldValue);
+      }
       _ensureExtensions()._setFieldAndInfo(fi, fieldValue);
     } else {
+      if (fi.isGroupOrMessage) {
+        final currentFieldValue = _values[fi.index];
+        if (currentFieldValue != null) {
+          fieldValue = currentFieldValue..mergeFromMessage(fieldValue);
+        }
+      }
       _validateField(fi, fieldValue);
       _setNonExtensionFieldUnchecked(fi, fieldValue);
     }
