@@ -11,7 +11,7 @@ import '../out/protos/oneof.pb.dart';
 void main() {
   test('empty oneof', () {
     Foo foo = Foo();
-    expectOneofUnset(foo);
+    expectOneofNotSet(foo);
   });
 
   test('set oneof', () {
@@ -88,13 +88,13 @@ void main() {
     expectFirstSet(foo);
 
     foo.clearOneofField();
-    expectOneofUnset(foo);
+    expectOneofNotSet(foo);
 
     foo.first = 'oneof';
     expectFirstSet(foo);
 
     foo.clearFirst();
-    expectOneofUnset(foo);
+    expectOneofNotSet(foo);
   });
 
   test('serialize and parse oneof', () {
@@ -144,7 +144,7 @@ void main() {
 
   test('set and clear second oneof field', () {
     Foo foo = Foo();
-    expectOneofUnset(foo);
+    expectOneofNotSet(foo);
 
     foo.red = 'r';
     expect(foo.whichColors(), Foo_Colors.red);
@@ -194,8 +194,8 @@ void expectFirstSet(Foo foo) {
   expect(foo.sixth, enum_type.A);
 }
 
-void expectOneofUnset(Foo foo) {
-  expect(foo.whichOneofField(), Foo_OneofField.unset);
+void expectOneofNotSet(Foo foo) {
+  expect(foo.whichOneofField(), Foo_OneofField.notSet);
   expect(foo.hasFirst(), false);
   expect(foo.first, '');
   expect(foo.hasSecond(), false);
@@ -209,7 +209,7 @@ void expectOneofUnset(Foo foo) {
   expect(foo.hasSixth(), false);
   expect(foo.sixth, enum_type.A);
 
-  expect(foo.whichColors(), Foo_Colors.unset);
+  expect(foo.whichColors(), Foo_Colors.notSet);
   expect(foo.hasRed(), false);
   expect(foo.red, '');
   expect(foo.hasGreen(), false);

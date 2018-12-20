@@ -1,6 +1,6 @@
 ## 0.13.0
 
-* Breaking change: Support for [oneof](https://developers.google.com/protocol-buffers/docs/proto3#maps)
+* Breaking change: Support for [oneof](https://developers.google.com/protocol-buffers/docs/proto3#oneof)
   Generated files require package:protobuf version 0.10.6 or newer.
 
 ## 0.12.0

@@ -173,8 +173,8 @@ Iterable<String> defaultSuffixes() sync* {
 }
 
 String oneofEnumClassName(
-    String descriptorName, Set<String> usedNames, String parent) {
-  descriptorName = '${parent}_${underscoresToCamelCase(descriptorName)}';
+    String descriptorName, Set<String> usedNames, String parentName) {
+  descriptorName = '${parentName}_${underscoresToCamelCase(descriptorName)}';
   return disambiguateName(
       avoidInitialUnderscore(descriptorName), usedNames, defaultSuffixes());
 }
@@ -498,7 +498,8 @@ const _generatedMessageNames = const <String>[
   'createRepeated',
   'getDefault',
   'List',
-  checkItem
+  checkItem,
+  'notSet'
 ];
 
 // List of names used in the generated enum classes.

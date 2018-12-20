@@ -4,6 +4,10 @@
 
 part of protoc;
 
+/// Generates the Dart enum corresponding to a oneof declaration.
+///
+/// The enum is used to represent the state of a oneof when using the
+/// corresponding which-method.
 class OneofEnumGenerator {
   static void generate(
       IndentingWriter out, String classname, List<ProtobufField> fields) {
@@ -12,7 +16,7 @@ class OneofEnumGenerator {
         final name = field.memberNames.fieldName;
         out.println('$name, ');
       }
-      out.println('unset');
+      out.println('notSet');
     });
   }
 }
@@ -277,7 +281,7 @@ class MessageGenerator extends ProtobufContainer {
             out.println(
                 '${field.number} : ${oneof.oneofEnumName}.${field.memberNames.fieldName},');
           }
-          out.println('0 : ${oneof.oneofEnumName}.unset');
+          out.println('0 : ${oneof.oneofEnumName}.notSet');
         });
       }
       out.addBlock(
