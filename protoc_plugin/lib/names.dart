@@ -237,10 +237,10 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     ..addAll(reservedMemberNames)
     ..addAll(reserved);
 
-  List<FieldNames> fieldNames = <FieldNames>[];
+  List<FieldNames> fieldNames = List<FieldNames>(indexes.length);
 
   void takeFieldNames(FieldNames chosen) {
-    fieldNames.add(chosen);
+    fieldNames[chosen.index] = chosen;
 
     existingNames.add(chosen.fieldName);
     if (chosen.hasMethodName != null) {
