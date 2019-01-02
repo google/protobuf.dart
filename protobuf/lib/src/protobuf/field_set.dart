@@ -48,6 +48,10 @@ class _FieldSet {
   /// Contains all the unknown fields, or null if there aren't any.
   UnknownFieldSet _unknownFields;
 
+  // Maps a oneof decl index to the tag number which is currently set. If the
+  // index is not present, the oneof field is unset.
+  final Map<int, int> oneofCases = <int, int>{};
+
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
       : this._meta = meta,
         _values = _makeValueList(meta.byIndex.length);
@@ -228,6 +232,13 @@ class _FieldSet {
       // clear a non-extension field
       if (_hasObservers) _eventPlugin.beforeClearField(fi);
       _values[fi.index] = null;
+
+      if (_meta.oneofs.containsKey(fi.tagNumber)) {
+        oneofCases.remove(_meta.oneofs[fi.tagNumber]);
+      }
+
+      int oneofIndex = _meta.oneofs[fi.tagNumber];
+      if (oneofIndex != null) oneofCases[oneofIndex] = 0;
       return;
     }
 
@@ -321,6 +332,12 @@ class _FieldSet {
     if (_hasObservers) {
       _eventPlugin.beforeSetField(fi, value);
     }
+    int tag = fi.tagNumber;
+    int oneofIndex = _meta.oneofs[tag];
+    if (oneofIndex != null) {
+      _clearField(oneofCases[oneofIndex]);
+      oneofCases[oneofIndex] = tag;
+    }
     _values[fi.index] = value;
   }
 
@@ -398,6 +415,13 @@ class _FieldSet {
     }
     if (_hasObservers) {
       _eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
+    }
+    int tag = _meta.byIndex[index].tagNumber;
+    int oneofIndex = _meta.oneofs[tag];
+
+    if (oneofIndex != null) {
+      _clearField(oneofCases[oneofIndex]);
+      oneofCases[oneofIndex] = tag;
     }
     _values[index] = value;
   }
