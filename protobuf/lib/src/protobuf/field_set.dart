@@ -50,7 +50,7 @@ class _FieldSet {
 
   // Maps a oneof decl index to the tag number which is currently set. If the
   // index is not present, the oneof field is unset.
-  Map<int, int> oneofCases = <int, int>{};
+  final Map<int, int> oneofCases = <int, int>{};
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
       : this._meta = meta,
