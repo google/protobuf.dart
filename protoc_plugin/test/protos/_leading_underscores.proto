@@ -29,6 +29,11 @@ message A {
   optional _Enum _e = 8;
   map<string, _A> _amap = 9;
   repeated _A _r = 10;
+
+  oneof _colors {
+    string _red = 11;
+    string _green = 12;
+  }
 }
 
 extend _A {

@@ -30,6 +30,22 @@ void main() {
     messageA.amap['foo'] = message;
     expect(messageA.amap['foo'], message);
 
+    messageA.red = 'r';
+    expect(messageA.red, 'r');
+    expect(messageA.green, '');
+    messageA.clearColors();
+    expect(messageA.red, '');
+    expect(messageA.green, '');
+    messageA.red = 'r';
+    messageA.clearRed();
+    expect(messageA.red, '');
+    expect(messageA.green, '');
+    messageA.green = 'g';
+    expect(messageA.green, 'g');
+    messageA.clearGreen();
+    expect(messageA.red, '');
+    expect(messageA.green, '');
+
     messageA.e = Enum_.constant;
     expect(messageA.e, Enum_.constant);
     messageA.clearE();
