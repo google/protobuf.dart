@@ -620,7 +620,7 @@ class _FieldSet {
       for (int tagNumber in others._tagNumbers) {
         var extension = others._getInfoOrNull(tagNumber);
         var value = others._getFieldOrNull(extension);
-        _mergeField(extension, value);
+        _mergeField(extension, value, isExtension: true);
       }
     }
 
@@ -629,12 +629,12 @@ class _FieldSet {
     }
   }
 
-  void _mergeField(FieldInfo otherFi, fieldValue) {
+  void _mergeField(FieldInfo otherFi, fieldValue, {bool isExtension: false}) {
     int tagNumber = otherFi.tagNumber;
 
     // Determine the FieldInfo to use.
     // Don't allow regular fields to be overwritten by extensions.
-    var fi = _nonExtensionInfo(tagNumber);
+    FieldInfo fi = _nonExtensionInfo(tagNumber);
     if (fi == null && otherFi is Extension) {
       // This will overwrite any existing extension field info.
       fi = otherFi;
@@ -672,22 +672,19 @@ class _FieldSet {
       return;
     }
 
-    if (mustClone) {
-      fieldValue = _cloneMessage(fieldValue);
+    if (otherFi.isGroupOrMessage) {
+      final currentFi = isExtension
+          ? _ensureExtensions()._getFieldOrNull(fi)
+          : _values[fi.index];
+
+      fieldValue = currentFi == null
+          ? _cloneMessage(fieldValue)
+          : currentFi..mergeFromMessage(fieldValue);
     }
-    if (fi.index == null) {
-      final current = _ensureExtensions()._getFieldOrNull(fi);
-      if (current != null) {
-        fieldValue = current..mergeFromMessage(fieldValue);
-      }
+
+    if (isExtension) {
       _ensureExtensions()._setFieldAndInfo(fi, fieldValue);
     } else {
-      if (fi.isGroupOrMessage) {
-        final currentFieldValue = _values[fi.index];
-        if (currentFieldValue != null) {
-          fieldValue = currentFieldValue..mergeFromMessage(fieldValue);
-        }
-      }
       _validateField(fi, fieldValue);
       _setNonExtensionFieldUnchecked(fi, fieldValue);
     }
