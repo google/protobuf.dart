@@ -1,0 +1,81 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+import "f5.proto";
+package a9;
+enum A10 {
+  A11 = 0;
+  A12 = 1;
+  A13 = 2;
+  A14 = 3;
+  A15 = 4;
+  A16 = 5;
+  A17 = 15;
+  A18 = 6;
+  A19 = 9;
+  A20 = 7;
+  A21 = 8;
+  A22 = 16;
+  A23 = 10;
+  A24 = 11;
+  A25 = 12;
+  A26 = 13;
+  A27 = 14;
+  A28 = 20;
+  A29 = 21;
+  A30 = 22;
+  A31 = 23;
+  A32 = 24;
+  A33 = 207;
+  A34 = 30;
+  A35 = 31;
+  A36 = 32;
+  A37 = 35;
+  A38 = 33;
+  A39 = 34;
+  A40 = 50;
+  A41 = 51;
+  A42 = 52;
+  A43 = 53;
+  A44 = 54;
+  A45 = 55;
+  A46 = 56;
+  A47 = 57;
+  A48 = 100;
+  A49 = 200;
+  A50 = 201;
+  A51 = 202;
+  A52 = 203;
+  A53 = 204;
+  A54 = 205;
+  A55 = 206;
+};
+extend a10.A56 {
+  optional A10 a11 = 21713708;
+  optional bool a12 = 21623477;
+  optional bool a13 = 23459630;
+  optional bool a14 = 21596320;
+  optional bool a15 = 26652850;
+  optional int32 a16 = 53697879;
+  optional string a17 = 56871503;
+};
+extend a10.A57 {
+  optional A10 a18 = 21713708;
+  optional bool a19 = 21623477;
+  optional bool a20 = 21596320;
+  optional A58 a21 = 21467048;
+  optional string a22 = 26652850;
+}
+message A58 {
+  message A59 {
+    required string a23 = 1;
+    required string a24 = 2;
+  };
+  repeated A59 a25 = 1;
+};
+extend a10.A60 {
+  optional bool a26 = 21596320;
+  optional bool a27 = 28993747;
+};

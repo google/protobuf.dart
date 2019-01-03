@@ -1,0 +1,65 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+package a0.a1.a2.a3;
+import "f1.proto";
+import "f19.proto";
+import "f20.proto";
+import "f15.proto";
+import "f9.proto";
+message A1 {
+  optional .a0.a1.a232.A220 a378 = 1;
+  optional .a0.a1.a232.A220 a379 = 2;
+  optional .a46.a47.a1.a48.a49.a4.A196 a380 = 5;
+  message A465 {
+    optional string a381 = 1;
+    optional string a234 = 2;
+    optional string a382 = 3;
+    optional string a383 = 4;
+    optional string a384 = 10;
+    optional string a385 = 5;
+    optional string a386 = 6;
+    optional string a387 = 7;
+    optional int64 a388 = 8;
+    optional string a194 = 9;
+  }
+  optional A465 a389 = 3;
+  message A466 {
+    optional float a390 = 1;
+    optional float a391 = 2;
+    optional float a392 = 3;
+    optional float a393 = 4;
+  }
+  optional A466 a394 = 4;
+  optional string a395 = 6;
+  optional A467 a274 = 7;
+  repeated A468 a396 = 8;
+  optional bool a397 = 9;
+  message A469 {
+    optional .a0.a1.a232.A230 a397 = 1;
+    optional .a0.a1.a232.A230 a398 = 2;
+    optional .a0.a1.a232.A230 a399 = 3;
+  }
+  optional A469 a400 = 10;
+}
+message A467 {
+  message A470 {
+    optional .a46.a47.a1.a48.a49.a4.A99 a401 = 9;
+    optional .a46.a47.a1.a48.a49.a4.A100 a402 = 10;
+    optional .a46.a47.a1.a48.a49.a4.A101 a403 = 11;
+  }
+  optional A470 a404 = 1;
+}
+message A468 {
+  optional string a395 = 1;
+  optional A471 a405 = 2;
+  optional string a406 = 3;
+}
+message A471 {
+  optional float a390 = 1;
+  optional float a392 = 2;
+  optional float a391 = 3;
+  optional float a393 = 4;
+}

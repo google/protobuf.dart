@@ -1,0 +1,30 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+package a10.a68;
+import "f10.proto";
+import "f5.proto";
+message A309 {
+  optional int32 a263 = 1;
+  optional int32 a264 = 2;
+  optional int32 a265 = 3;
+  optional string a266 = 4;
+}
+message A310 {
+  repeated string a267 = 1;
+  optional string a268 = 2;
+  repeated A109 a269 = 15;
+  optional A309 a270 = 3;
+  optional A104 a271 = 16;
+}
+message A311 {
+  optional string a272 = 1;
+  message A312 {
+    optional string a52 = 1;
+    optional string a273 = 2;
+    optional string a235 = 15;
+  }
+  repeated A312 a79 = 15;
+}
