@@ -239,6 +239,8 @@ abstract class GeneratedMessage {
   /// The tagNumber should be a valid tag or extension.
   void clearField(int tagNumber) => _fieldSet._clearField(tagNumber);
 
+  int $_whichOneof(int oneofIndex) => _fieldSet.oneofCases[oneofIndex] ?? 0;
+
   bool extensionsAreInitialized() => _fieldSet._hasRequiredExtensionValues();
 
   /// Returns the value of [extension].

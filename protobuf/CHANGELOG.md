@@ -2,7 +2,14 @@
 
 * Breaking change: changed semantics of `GeneratedMessage.toBuilder()`` to only make a shallow copy.
 
+  `GeneratedMessage` has a new abstract method: `createEmptyInstance()` that subclasses must
+  implement.
+
   Proto files must be rebuilt using protoc_plugin 0.13.0 or newer.
+
+## 0.10.6
+
+* Added support for [oneof](https://developers.google.com/protocol-buffers/docs/proto3#oneof).
 
 ## 0.10.5
 

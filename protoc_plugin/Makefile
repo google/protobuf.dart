@@ -30,6 +30,7 @@ TEST_PROTO_LIST = \
 	multiple_files_test \
 	nested_extension \
 	non_nested_extension \
+	oneof \
 	reserved_names \
 	duplicate_names_import \
 	package1 \

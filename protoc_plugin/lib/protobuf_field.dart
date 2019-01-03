@@ -20,20 +20,20 @@ class ProtobufField {
   final FieldDescriptorProto descriptor;
 
   /// Dart names within a GeneratedMessage or `null` for an extension.
-  final MemberNames memberNames;
+  final FieldNames memberNames;
 
   final String fullName;
   final BaseType baseType;
 
   ProtobufField.message(
-      MemberNames names, ProtobufContainer parent, GenerationContext ctx)
+      FieldNames names, ProtobufContainer parent, GenerationContext ctx)
       : this._(names.descriptor, names, parent, ctx);
 
   ProtobufField.extension(FieldDescriptorProto descriptor,
       ProtobufContainer parent, GenerationContext ctx)
       : this._(descriptor, null, parent, ctx);
 
-  ProtobufField._(FieldDescriptorProto descriptor, MemberNames dartNames,
+  ProtobufField._(FieldDescriptorProto descriptor, FieldNames dartNames,
       ProtobufContainer parent, GenerationContext ctx)
       : this.descriptor = descriptor,
         this.memberNames = dartNames,

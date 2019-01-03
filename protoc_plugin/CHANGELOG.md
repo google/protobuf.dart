@@ -1,8 +1,13 @@
-## 0.13.0
+## 0.14.0
 
 * Breaking change: generated message classes now have a new instance method `createNewInstance` that
   is used to support the new `toBuilder()` semantics of protobuf 0.11.0.
   The generated code requires at least protobuf 0.11.0.
+
+## 0.13.0
+
+* Breaking change: Support for [oneof](https://developers.google.com/protocol-buffers/docs/proto3#oneof)
+  Generated files require package:protobuf version 0.10.6 or newer.
 
 ## 0.12.0
 

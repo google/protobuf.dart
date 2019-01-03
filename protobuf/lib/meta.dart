@@ -68,6 +68,7 @@ const GeneratedMessage_reservedNames = const <String>[
   r'$_setSignedInt32',
   r'$_setUnsignedInt32',
   r'$_setInt64',
+  r'$_whichOneof',
   'toBuilder',
   'toDebugString',
 ];
