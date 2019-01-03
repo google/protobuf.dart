@@ -613,7 +613,7 @@ class _FieldSet {
 
     for (FieldInfo fi in other._infosSortedByTag) {
       var value = other._values[fi.index];
-      if (value != null) _mergeField(fi, value);
+      if (value != null) _mergeField(fi, value, isExtension: false);
     }
     if (other._hasExtensions) {
       var others = other._extensions;
@@ -629,13 +629,13 @@ class _FieldSet {
     }
   }
 
-  void _mergeField(FieldInfo otherFi, fieldValue, {bool isExtension: false}) {
+  void _mergeField(FieldInfo otherFi, fieldValue, {bool isExtension}) {
     int tagNumber = otherFi.tagNumber;
 
     // Determine the FieldInfo to use.
     // Don't allow regular fields to be overwritten by extensions.
     FieldInfo fi = _nonExtensionInfo(tagNumber);
-    if (fi == null && otherFi is Extension) {
+    if (fi == null && isExtension) {
       // This will overwrite any existing extension field info.
       fi = otherFi;
     }
