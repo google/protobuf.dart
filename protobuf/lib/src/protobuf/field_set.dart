@@ -677,8 +677,9 @@ class _FieldSet {
           ? _ensureExtensions()._getFieldOrNull(fi)
           : _values[fi.index];
 
-      fieldValue =
-          currentFi?.mergeFromMessage(fieldValue) ?? _cloneMessage(fieldValue);
+      fieldValue = currentFi == null
+          ? _cloneMessage(fieldValue)
+          : currentFi..mergeFromMessage(fieldValue);
     }
 
     if (isExtension) {
