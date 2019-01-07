@@ -11,8 +11,19 @@ message Foo {
 
 message Outer {
   optional Inner inner = 1;
+  repeated Inner inners = 2;
+  extensions 3 to 4;
+}
+
+message OuterWithMap {
+  map<int32, Inner> innerMap = 3;
 }
 
 message Inner {
   optional string value = 1;
+}
+
+extend Outer {
+  optional Inner inner = 3;
+  repeated Inner inners = 4;
 }

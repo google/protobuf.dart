@@ -83,7 +83,7 @@ class _FieldSet {
   bool get hasUnknownFields => _unknownFields != null;
 
   _ExtensionFieldSet _ensureExtensions() {
-    assert(!_isReadOnly);
+    _ensureWritable();
     if (!_hasExtensions) _extensions = new _ExtensionFieldSet(this);
     return _extensions;
   }
@@ -735,19 +735,32 @@ class _FieldSet {
     // https://github.com/dart-lang/protobuf/issues/46
   }
 
-  /// Copies all values from [original] to this.
+  /// Makes a shallow copy of all values from [original] to this.
+  ///
+  /// Map fields and repeated fields are copied.
   void _shallowCopyValues(_FieldSet original) {
     _values.setRange(0, original._values.length, original._values);
     for (int index = 0; index < _meta.byIndex.length; index++) {
       FieldInfo fieldInfo = _meta.byIndex[index];
-      if (fieldInfo.isRepeated) {
+      if (fieldInfo.isMapField) {
+        PbMap map = _values[index];
+        if (map != null) {
+          _values[index] = (fieldInfo as MapFieldInfo)._createMapField(_message)
+            ..addAll(map);
+        }
+      } else if (fieldInfo.isRepeated) {
         PbListBase list = _values[index];
         if (list != null) {
           _values[index] = fieldInfo._createRepeatedField(_message)
-            ..addAll(list._wrappedList);
+            ..addAll(list);
         }
       }
     }
+
+    if (original._hasExtensions) {
+      _ensureExtensions()._shallowCopyValues(original._extensions);
+    }
+
     if (original.hasUnknownFields) {
       _ensureUnknownFields()._fields?.addAll(original._unknownFields._fields);
     }

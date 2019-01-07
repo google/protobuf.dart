@@ -5,7 +5,7 @@
   `GeneratedMessage` has a new abstract method: `createEmptyInstance()` that subclasses must
   implement.
 
-  Proto files must be rebuilt using protoc_plugin 0.13.0 or newer.
+  Proto files must be rebuilt using protoc_plugin 0.14.0 or newer.
 
 ## 0.10.6
 
