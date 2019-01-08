@@ -245,7 +245,6 @@ void main() {
     expect(merge.int32ToStringField[1], 'bar');
   });
 
-  // TODO(zarah): remove skip once https://github.com/dart-lang/protobuf/issues/139 is fixed.
   test('Deep merge from other message', () {
     Inner i1 = Inner()..innerMap['a'] = 'a';
     Inner i2 = Inner()..innerMap['b'] = 'b';
@@ -255,7 +254,7 @@ void main() {
 
     o1.mergeFromMessage(o2);
     expect(o1.i.innerMap.length, 2);
-  }, skip: true);
+  });
 
   test('retain explicit default values of sub-messages', () {
     TestMap testMap = TestMap()
@@ -267,5 +266,20 @@ void main() {
 
     testMap.mergeFromBuffer(testMap2.writeToBuffer());
     expect(testMap.int32ToMessageField[2].secondValue, 42);
+  });
+
+  test('Freeze message with map field', () {
+    TestMap testMap = TestMap();
+    _setValues(testMap);
+    testMap.freeze();
+
+    expect(() => _updateValues(testMap),
+        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => testMap.int32ToMessageField[1].value = 42,
+        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => testMap.int32ToStringField.remove(1),
+        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => testMap.int32ToStringField.clear(),
+        throwsA(const TypeMatcher<UnsupportedError>()));
   });
 }

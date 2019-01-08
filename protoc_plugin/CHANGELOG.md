@@ -1,15 +1,19 @@
-## 0.14.0
+## 14.0.0
 
 * Breaking change: generated message classes now have a new instance method `createEmptyInstance`
   that is used to support the new `toBuilder()` semantics of protobuf 0.11.0.
   The generated code requires at least protobuf 0.11.0.
 
-## 0.13.0
+## 13.0.1
+
+* Add test for recursive merging and update protobuf dependency to 0.10.7.
+
+## 13.0.0
 
 * Breaking change: Support for [oneof](https://developers.google.com/protocol-buffers/docs/proto3#oneof)
   Generated files require package:protobuf version 0.10.6 or newer.
 
-## 0.12.0
+## 12.0.0
 
 * Breaking change: Handle identifiers starting with a leading underscore.
   This covers message names, enum names, enum value identifiers and file names.
@@ -33,7 +37,7 @@
 
   `_Foo` will get the name `Foo_` and `Foo_` will now end up being called `Foo__`.
 
-## 0.11.0
+## 11.0.0
 
 * Breaking change: Support for [map fields](https://developers.google.com/protocol-buffers/docs/proto3#maps)
   Generated files require package:protobuf version 0.10.5 or newer.
@@ -45,6 +49,8 @@
   are now no longer represented as List<Foo_MapFieldEntry> but as Map<int, String>.
 
   All code handling these fields needs to be updated.
+
+  Accidentally published as 11.0.0 instead of 0.11.0. Continuing from here.
 
 ## 0.10.5
 

@@ -7,6 +7,7 @@ before_install:
   - "unzip -d protoc protoc.zip"
   - "export PATH=$PWD/protoc/bin:$PATH"
   - echo $PATH
+  - "echo \"dependency_overrides: {protobuf: {path: ../protobuf}}\" >> protoc_plugin/pubspec.yaml"
 
 jobs:
   include:

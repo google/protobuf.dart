@@ -131,6 +131,10 @@ class _FieldSet {
           }
         }
         _values[field.index] = entries.toFrozenPbList();
+      } else if (field.isMapField) {
+        PbMap map = _values[field.index];
+        if (map == null) continue;
+        _values[field.index] = map.freeze();
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.index];
         if (entry != null) {
@@ -613,14 +617,14 @@ class _FieldSet {
 
     for (FieldInfo fi in other._infosSortedByTag) {
       var value = other._values[fi.index];
-      if (value != null) _mergeField(fi, value);
+      if (value != null) _mergeField(fi, value, isExtension: false);
     }
     if (other._hasExtensions) {
       var others = other._extensions;
       for (int tagNumber in others._tagNumbers) {
         var extension = others._getInfoOrNull(tagNumber);
         var value = others._getFieldOrNull(extension);
-        _mergeField(extension, value);
+        _mergeField(extension, value, isExtension: true);
       }
     }
 
@@ -629,13 +633,13 @@ class _FieldSet {
     }
   }
 
-  void _mergeField(FieldInfo otherFi, fieldValue) {
+  void _mergeField(FieldInfo otherFi, fieldValue, {bool isExtension}) {
     int tagNumber = otherFi.tagNumber;
 
     // Determine the FieldInfo to use.
     // Don't allow regular fields to be overwritten by extensions.
-    var fi = _nonExtensionInfo(tagNumber);
-    if (fi == null && otherFi is Extension) {
+    FieldInfo fi = _nonExtensionInfo(tagNumber);
+    if (fi == null && isExtension) {
       // This will overwrite any existing extension field info.
       fi = otherFi;
     }
@@ -672,10 +676,16 @@ class _FieldSet {
       return;
     }
 
-    if (mustClone) {
-      fieldValue = _cloneMessage(fieldValue);
+    if (otherFi.isGroupOrMessage) {
+      final currentFi = isExtension
+          ? _ensureExtensions()._getFieldOrNull(fi)
+          : _values[fi.index];
+
+      fieldValue = currentFi == null ? _cloneMessage(fieldValue) : currentFi
+        ..mergeFromMessage(fieldValue);
     }
-    if (fi.index == null) {
+
+    if (isExtension) {
       _ensureExtensions()._setFieldAndInfo(fi, fieldValue);
     } else {
       _validateField(fi, fieldValue);
