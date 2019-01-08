@@ -17,7 +17,6 @@
   Map fields are now represented as Dart maps and are accessed through a getter with the same name as the map field.
   To use the map support, use Dart protoc_plugin version 11.0 or newer.
 
-
 ## 0.10.4
 
 * Added separate getter for `BuilderInfo.qualifiedMessageName`.

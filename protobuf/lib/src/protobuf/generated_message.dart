@@ -61,12 +61,15 @@ abstract class GeneratedMessage {
     return this;
   }
 
-  /// Returns a writable copy of this message.
+  /// Returns a writable, shallow copy of this message.
   ///
-  /// The lists for repeated fields are also copied.
+  /// Sub messages will be shared with [this] and will still be frozen if [this]
+  /// is frozen.
   ///
-  /// If [this] is frozen, the sub-messages of the return value are still
-  /// frozen.
+  /// The lists representing repeated fields are copied. But their elements will
+  /// be shared with the corresponding list in [this].
+  ///
+  /// Similarly for map fields, the maps will be copied, but share the elements.
   // TODO(nichite, sigurdm): Consider returning an actual builder object that
   // lazily creates builders.
   GeneratedMessage toBuilder() {

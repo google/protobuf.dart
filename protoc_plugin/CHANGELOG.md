@@ -1,7 +1,7 @@
 ## 0.14.0
 
-* Breaking change: generated message classes now have a new instance method `createNewInstance` that
-  is used to support the new `toBuilder()` semantics of protobuf 0.11.0.
+* Breaking change: generated message classes now have a new instance method `createEmptyInstance`
+  that is used to support the new `toBuilder()` semantics of protobuf 0.11.0.
   The generated code requires at least protobuf 0.11.0.
 
 ## 0.13.0
