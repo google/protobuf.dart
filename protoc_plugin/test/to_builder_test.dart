@@ -89,7 +89,7 @@ main() {
     });
     test('the builder is mutable', () {
       outerBuilder.innerMap[1] = (Inner()..value = 'mob');
-      expect(outerBuilder.innerMap[1].value, 'mop');
+      expect(outerBuilder.innerMap[1].value, 'mob');
     });
-  }, skip: 'https://github.com/dart-lang/protobuf/issues/165');
+  });
 }
