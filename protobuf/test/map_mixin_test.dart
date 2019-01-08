@@ -18,6 +18,7 @@ import 'mock_util.dart' show MockMessage, mockInfo;
 class Rec extends MockMessage with MapMixin, PbMapMixin {
   get info_ => _info;
   static final _info = mockInfo("Rec", () => new Rec());
+  Rec createEmptyInstance() => new Rec();
 
   @override
   String toString() => "Rec(${val}, \"${str}\")";

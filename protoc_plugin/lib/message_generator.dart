@@ -330,6 +330,8 @@ class MessageGenerator extends ProtobufContainer {
       // Factory functions which can be used as default value closures.
       out.println('static ${classname} create() =>'
           ' new ${classname}();');
+      out.println('${classname} createEmptyInstance() => create();');
+
       out.println(
           'static $_protobufImportPrefix.PbList<${classname}> createRepeated() =>'
           ' new $_protobufImportPrefix.PbList<${classname}>();');

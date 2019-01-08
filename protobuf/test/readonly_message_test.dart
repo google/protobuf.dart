@@ -26,6 +26,7 @@ throwsError(Type expectedType, Matcher expectedMessage) =>
 class Rec extends GeneratedMessage {
   static Rec getDefault() => new Rec()..freeze();
   static Rec create() => new Rec();
+  Rec createEmptyInstance() => new Rec();
 
   @override
   BuilderInfo info_ = new BuilderInfo('rec')
@@ -221,7 +222,7 @@ main() {
     expect(rebuilt.sub.length, 2);
   });
 
-  test("can modify sub-messages while rebuilding a frozen message", () {
+  test("cannot modify sub-messages while rebuilding a frozen message", () {
     final subMessage = Rec.create()..value = 1;
     final orig = Rec.create()
       ..sub.add(Rec.create()..sub.add(subMessage))
@@ -232,7 +233,12 @@ main() {
           () => subMessage.value = 5,
           throwsError(UnsupportedError,
               equals('Attempted to change a read-only message (rec)')));
-      m.sub[0].sub[0].value = 2;
+      expect(
+          () => m.sub[0].sub[0].value = 2,
+          throwsError(UnsupportedError,
+              equals('Attempted to change a read-only message (rec)')));
+      m.sub[0] = m.sub[0].copyWith(
+          (m2) => m2.sub[0] = m2.sub[0].copyWith((m3) => m3.value = 2));
     });
     expect(identical(subMessage, orig.sub[0].sub[0]), true);
     expect(identical(subMessage, rebuilt.sub[0].sub[0]), false);

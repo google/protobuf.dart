@@ -21,6 +21,7 @@ class Empty extends $pb.GeneratedMessage {
   Empty copyWith(void Function(Empty) updates) => super.copyWith((message) => updates(message as Empty));
   $pb.BuilderInfo get info_ => _i;
   static Empty create() => new Empty();
+  Empty createEmptyInstance() => create();
   static $pb.PbList<Empty> createRepeated() => new $pb.PbList<Empty>();
   static Empty getDefault() => _defaultInstance ??= create()..freeze();
   static Empty _defaultInstance;

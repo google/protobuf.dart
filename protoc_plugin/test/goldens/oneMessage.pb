@@ -23,6 +23,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber));
   $pb.BuilderInfo get info_ => _i;
   static PhoneNumber create() => new PhoneNumber();
+  PhoneNumber createEmptyInstance() => create();
   static $pb.PbList<PhoneNumber> createRepeated() => new $pb.PbList<PhoneNumber>();
   static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
   static PhoneNumber _defaultInstance;

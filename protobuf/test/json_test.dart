@@ -68,7 +68,6 @@ checkJsonMap(Map m) {
   expect(m.length, 3);
   expect(m["1"], 123);
   expect(m["2"], "hello");
-  print(m.toString());
   expect(m["4"], [1, 2, 3]);
 }
 
