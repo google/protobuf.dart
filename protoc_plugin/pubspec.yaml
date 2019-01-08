@@ -23,3 +23,7 @@ dev_dependencies:
 
 executables:
   protoc-gen-dart: protoc_plugin
+
+dependency_overrides:
+  protobuf:
+    path: ../../protobuf/protobuf
