@@ -63,7 +63,7 @@ abstract class GeneratedMessage {
 
   /// Returns a writable copy of this message.
   ///
-  /// The lists for repeated field fields are also copied.
+  /// The lists for repeated fields are also copied.
   ///
   /// If [this] is frozen, the sub-messages of the return value are still
   /// frozen.
