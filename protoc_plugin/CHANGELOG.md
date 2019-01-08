@@ -1,4 +1,4 @@
-## 13.1.0
+## 13.0.1
 
 * Add test for recursive merging and update protobuf dependency to 0.10.7.
 
@@ -44,7 +44,7 @@
 
   All code handling these fields needs to be updated.
 
-  Accidentally published 11.0.0 instead of 0.11.0. Continuing from here.
+  Accidentally published as 11.0.0 instead of 0.11.0. Continuing from here.
 
 ## 0.10.5
 
