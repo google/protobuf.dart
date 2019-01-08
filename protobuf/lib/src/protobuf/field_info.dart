@@ -6,6 +6,8 @@ part of protobuf;
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
+  FrozenPbList<T> _emptyList;
+
   final String name;
   final int tagNumber;
   final int index; // index of the field's value. Null for extensions.
@@ -80,7 +82,9 @@ class FieldInfo<T> {
   /// Returns a read-only default value for a field.
   /// (Unlike getField, doesn't create a repeated field.)
   get readonlyDefault {
-    if (isRepeated) return const <Null>[];
+    if (isRepeated) {
+      return _emptyList ??= FrozenPbList._([]);
+    }
     return makeDefault();
   }
 

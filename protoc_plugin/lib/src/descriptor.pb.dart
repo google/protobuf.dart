@@ -32,6 +32,7 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FileDescriptorSet));
   $pb.BuilderInfo get info_ => _i;
   static FileDescriptorSet create() => new FileDescriptorSet();
+  FileDescriptorSet createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorSet> createRepeated() =>
       new $pb.PbList<FileDescriptorSet>();
   static FileDescriptorSet getDefault() =>
@@ -80,6 +81,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FileDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static FileDescriptorProto create() => new FileDescriptorProto();
+  FileDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorProto> createRepeated() =>
       new $pb.PbList<FileDescriptorProto>();
   static FileDescriptorProto getDefault() =>
@@ -169,6 +171,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
   static DescriptorProto_ExtensionRange create() =>
       new DescriptorProto_ExtensionRange();
+  DescriptorProto_ExtensionRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ExtensionRange> createRepeated() =>
       new $pb.PbList<DescriptorProto_ExtensionRange>();
   static DescriptorProto_ExtensionRange getDefault() =>
@@ -220,6 +223,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
   static DescriptorProto_ReservedRange create() =>
       new DescriptorProto_ReservedRange();
+  DescriptorProto_ReservedRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ReservedRange> createRepeated() =>
       new $pb.PbList<DescriptorProto_ReservedRange>();
   static DescriptorProto_ReservedRange getDefault() =>
@@ -289,6 +293,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static DescriptorProto create() => new DescriptorProto();
+  DescriptorProto createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto> createRepeated() =>
       new $pb.PbList<DescriptorProto>();
   static DescriptorProto getDefault() =>
@@ -371,6 +376,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FieldDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static FieldDescriptorProto create() => new FieldDescriptorProto();
+  FieldDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FieldDescriptorProto> createRepeated() =>
       new $pb.PbList<FieldDescriptorProto>();
   static FieldDescriptorProto getDefault() =>
@@ -482,6 +488,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as OneofDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static OneofDescriptorProto create() => new OneofDescriptorProto();
+  OneofDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<OneofDescriptorProto> createRepeated() =>
       new $pb.PbList<OneofDescriptorProto>();
   static OneofDescriptorProto getDefault() =>
@@ -531,6 +538,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as EnumDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static EnumDescriptorProto create() => new EnumDescriptorProto();
+  EnumDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumDescriptorProto> createRepeated() =>
       new $pb.PbList<EnumDescriptorProto>();
   static EnumDescriptorProto getDefault() =>
@@ -583,6 +591,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as EnumValueDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static EnumValueDescriptorProto create() => new EnumValueDescriptorProto();
+  EnumValueDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumValueDescriptorProto> createRepeated() =>
       new $pb.PbList<EnumValueDescriptorProto>();
   static EnumValueDescriptorProto getDefault() =>
@@ -642,6 +651,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ServiceDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static ServiceDescriptorProto create() => new ServiceDescriptorProto();
+  ServiceDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<ServiceDescriptorProto> createRepeated() =>
       new $pb.PbList<ServiceDescriptorProto>();
   static ServiceDescriptorProto getDefault() =>
@@ -696,6 +706,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as MethodDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
   static MethodDescriptorProto create() => new MethodDescriptorProto();
+  MethodDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<MethodDescriptorProto> createRepeated() =>
       new $pb.PbList<MethodDescriptorProto>();
   static MethodDescriptorProto getDefault() =>
@@ -797,6 +808,7 @@ class FileOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FileOptions));
   $pb.BuilderInfo get info_ => _i;
   static FileOptions create() => new FileOptions();
+  FileOptions createEmptyInstance() => create();
   static $pb.PbList<FileOptions> createRepeated() =>
       new $pb.PbList<FileOptions>();
   static FileOptions getDefault() => _defaultInstance ??= create()..freeze();
@@ -967,6 +979,7 @@ class MessageOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as MessageOptions));
   $pb.BuilderInfo get info_ => _i;
   static MessageOptions create() => new MessageOptions();
+  MessageOptions createEmptyInstance() => create();
   static $pb.PbList<MessageOptions> createRepeated() =>
       new $pb.PbList<MessageOptions>();
   static MessageOptions getDefault() => _defaultInstance ??= create()..freeze();
@@ -1047,6 +1060,7 @@ class FieldOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FieldOptions));
   $pb.BuilderInfo get info_ => _i;
   static FieldOptions create() => new FieldOptions();
+  FieldOptions createEmptyInstance() => create();
   static $pb.PbList<FieldOptions> createRepeated() =>
       new $pb.PbList<FieldOptions>();
   static FieldOptions getDefault() => _defaultInstance ??= create()..freeze();
@@ -1125,6 +1139,7 @@ class OneofOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as OneofOptions));
   $pb.BuilderInfo get info_ => _i;
   static OneofOptions create() => new OneofOptions();
+  OneofOptions createEmptyInstance() => create();
   static $pb.PbList<OneofOptions> createRepeated() =>
       new $pb.PbList<OneofOptions>();
   static OneofOptions getDefault() => _defaultInstance ??= create()..freeze();
@@ -1157,6 +1172,7 @@ class EnumOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as EnumOptions));
   $pb.BuilderInfo get info_ => _i;
   static EnumOptions create() => new EnumOptions();
+  EnumOptions createEmptyInstance() => create();
   static $pb.PbList<EnumOptions> createRepeated() =>
       new $pb.PbList<EnumOptions>();
   static EnumOptions getDefault() => _defaultInstance ??= create()..freeze();
@@ -1204,6 +1220,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as EnumValueOptions));
   $pb.BuilderInfo get info_ => _i;
   static EnumValueOptions create() => new EnumValueOptions();
+  EnumValueOptions createEmptyInstance() => create();
   static $pb.PbList<EnumValueOptions> createRepeated() =>
       new $pb.PbList<EnumValueOptions>();
   static EnumValueOptions getDefault() =>
@@ -1244,6 +1261,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ServiceOptions));
   $pb.BuilderInfo get info_ => _i;
   static ServiceOptions create() => new ServiceOptions();
+  ServiceOptions createEmptyInstance() => create();
   static $pb.PbList<ServiceOptions> createRepeated() =>
       new $pb.PbList<ServiceOptions>();
   static ServiceOptions getDefault() => _defaultInstance ??= create()..freeze();
@@ -1290,6 +1308,7 @@ class MethodOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as MethodOptions));
   $pb.BuilderInfo get info_ => _i;
   static MethodOptions create() => new MethodOptions();
+  MethodOptions createEmptyInstance() => create();
   static $pb.PbList<MethodOptions> createRepeated() =>
       new $pb.PbList<MethodOptions>();
   static MethodOptions getDefault() => _defaultInstance ??= create()..freeze();
@@ -1340,6 +1359,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
   static UninterpretedOption_NamePart create() =>
       new UninterpretedOption_NamePart();
+  UninterpretedOption_NamePart createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption_NamePart> createRepeated() =>
       new $pb.PbList<UninterpretedOption_NamePart>();
   static UninterpretedOption_NamePart getDefault() =>
@@ -1396,6 +1416,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as UninterpretedOption));
   $pb.BuilderInfo get info_ => _i;
   static UninterpretedOption create() => new UninterpretedOption();
+  UninterpretedOption createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption> createRepeated() =>
       new $pb.PbList<UninterpretedOption>();
   static UninterpretedOption getDefault() =>
@@ -1482,6 +1503,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as SourceCodeInfo_Location));
   $pb.BuilderInfo get info_ => _i;
   static SourceCodeInfo_Location create() => new SourceCodeInfo_Location();
+  SourceCodeInfo_Location createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo_Location> createRepeated() =>
       new $pb.PbList<SourceCodeInfo_Location>();
   static SourceCodeInfo_Location getDefault() =>
@@ -1534,6 +1556,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as SourceCodeInfo));
   $pb.BuilderInfo get info_ => _i;
   static SourceCodeInfo create() => new SourceCodeInfo();
+  SourceCodeInfo createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo> createRepeated() =>
       new $pb.PbList<SourceCodeInfo>();
   static SourceCodeInfo getDefault() => _defaultInstance ??= create()..freeze();
@@ -1571,6 +1594,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
   static GeneratedCodeInfo_Annotation create() =>
       new GeneratedCodeInfo_Annotation();
+  GeneratedCodeInfo_Annotation createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo_Annotation> createRepeated() =>
       new $pb.PbList<GeneratedCodeInfo_Annotation>();
   static GeneratedCodeInfo_Annotation getDefault() =>
@@ -1631,6 +1655,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GeneratedCodeInfo));
   $pb.BuilderInfo get info_ => _i;
   static GeneratedCodeInfo create() => new GeneratedCodeInfo();
+  GeneratedCodeInfo createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo> createRepeated() =>
       new $pb.PbList<GeneratedCodeInfo>();
   static GeneratedCodeInfo getDefault() =>

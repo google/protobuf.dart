@@ -125,4 +125,24 @@ class _ExtensionFieldSet {
       _areMapsEqual(_values, other._values);
 
   void _clearValues() => _values.clear();
+
+  /// Makes a shallow copy of all values from [original] to this.
+  ///
+  /// Repeated fields are copied.
+  /// Extensions cannot contain map fields.
+  void _shallowCopyValues(_ExtensionFieldSet original) {
+    for (int tagNumber in original._tagNumbers) {
+      Extension extension = original._getInfoOrNull(tagNumber);
+      _addInfoUnchecked(extension);
+
+      final value = original._getFieldOrNull(extension);
+      if (value == null) continue;
+      if (extension.isRepeated) {
+        assert(value is PbList);
+        _ensureRepeatedField(extension)..addAll(value);
+      } else {
+        _setFieldUnchecked(extension, value);
+      }
+    }
+  }
 }

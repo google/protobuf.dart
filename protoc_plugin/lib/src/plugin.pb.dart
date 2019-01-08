@@ -32,6 +32,7 @@ class Version extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as Version));
   $pb.BuilderInfo get info_ => _i;
   static Version create() => new Version();
+  Version createEmptyInstance() => create();
   static $pb.PbList<Version> createRepeated() => new $pb.PbList<Version>();
   static Version getDefault() => _defaultInstance ??= create()..freeze();
   static Version _defaultInstance;
@@ -95,6 +96,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CodeGeneratorRequest));
   $pb.BuilderInfo get info_ => _i;
   static CodeGeneratorRequest create() => new CodeGeneratorRequest();
+  CodeGeneratorRequest createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorRequest> createRepeated() =>
       new $pb.PbList<CodeGeneratorRequest>();
   static CodeGeneratorRequest getDefault() =>
@@ -151,6 +153,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
   static CodeGeneratorResponse_File create() =>
       new CodeGeneratorResponse_File();
+  CodeGeneratorResponse_File createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorResponse_File> createRepeated() =>
       new $pb.PbList<CodeGeneratorResponse_File>();
   static CodeGeneratorResponse_File getDefault() =>
@@ -212,6 +215,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CodeGeneratorResponse));
   $pb.BuilderInfo get info_ => _i;
   static CodeGeneratorResponse create() => new CodeGeneratorResponse();
+  CodeGeneratorResponse createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorResponse> createRepeated() =>
       new $pb.PbList<CodeGeneratorResponse>();
   static CodeGeneratorResponse getDefault() =>

@@ -29,6 +29,7 @@ class DartMixin extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DartMixin));
   $pb.BuilderInfo get info_ => _i;
   static DartMixin create() => new DartMixin();
+  DartMixin createEmptyInstance() => create();
   static $pb.PbList<DartMixin> createRepeated() => new $pb.PbList<DartMixin>();
   static DartMixin getDefault() => _defaultInstance ??= create()..freeze();
   static DartMixin _defaultInstance;
@@ -80,6 +81,7 @@ class Imports extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as Imports));
   $pb.BuilderInfo get info_ => _i;
   static Imports create() => new Imports();
+  Imports createEmptyInstance() => create();
   static $pb.PbList<Imports> createRepeated() => new $pb.PbList<Imports>();
   static Imports getDefault() => _defaultInstance ??= create()..freeze();
   static Imports _defaultInstance;

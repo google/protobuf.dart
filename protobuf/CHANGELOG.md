@@ -1,3 +1,12 @@
+## 0.11.0
+
+* Breaking change: changed semantics of `GeneratedMessage.toBuilder()`` to only make a shallow copy.
+
+  `GeneratedMessage` has a new abstract method: `createEmptyInstance()` that subclasses must
+  implement.
+
+  Proto files must be rebuilt using protoc_plugin 0.15.0 or newer.
+
 ## 0.10.8
 
 * Fix freezing of map fields.

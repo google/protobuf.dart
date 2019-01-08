@@ -18,6 +18,7 @@ import 'mock_util.dart' show MockMessage, mockInfo;
 class Rec extends MockMessage with PbEventMixin {
   get info_ => _info;
   static final _info = mockInfo("Rec", () => new Rec());
+  Rec createEmptyInstance() => new Rec();
 }
 
 Extension comment = new Extension("Rec", "comment", 6, PbFieldType.OS);

@@ -45,4 +45,5 @@ abstract class MockMessage extends GeneratedMessage {
 class T extends MockMessage {
   get info_ => _info;
   static final _info = mockInfo("T", () => new T());
+  T createEmptyInstance() => new T();
 }

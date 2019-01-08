@@ -46,8 +46,10 @@ abstract class GeneratedMessage {
 
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)
-  // TODO(nichite): preserve frozen state on clone.
   GeneratedMessage clone();
+
+  /// Creates an empty instance of the same message type as this.
+  GeneratedMessage createEmptyInstance();
 
   UnknownFieldSet get unknownFields => _fieldSet._ensureUnknownFields();
 
@@ -59,10 +61,22 @@ abstract class GeneratedMessage {
     return this;
   }
 
-  /// Returns a writable copy of this message.
-  // TODO(nichite): Return an actual builder object that lazily creates builders
-  // for sub-messages, instead of cloning everything here.
-  GeneratedMessage toBuilder() => clone();
+  /// Returns a writable, shallow copy of this message.
+  ///
+  /// Sub messages will be shared with [this] and will still be frozen if [this]
+  /// is frozen.
+  ///
+  /// The lists representing repeated fields are copied. But their elements will
+  /// be shared with the corresponding list in [this].
+  ///
+  /// Similarly for map fields, the maps will be copied, but share the elements.
+  // TODO(nichite, sigurdm): Consider returning an actual builder object that
+  // lazily creates builders.
+  GeneratedMessage toBuilder() {
+    final result = createEmptyInstance();
+    result._fieldSet._shallowCopyValues(_fieldSet);
+    return result;
+  }
 
   /// Apply [updates] to a copy of this message.
   ///
