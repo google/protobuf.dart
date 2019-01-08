@@ -131,6 +131,10 @@ class _FieldSet {
           }
         }
         _values[field.index] = entries.toFrozenPbList();
+      } else if (field.isMapField) {
+        PbMap map = _values[field.index];
+        if (map == null) continue;
+        _values[field.index] = map.freeze();
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.index];
         if (entry != null) {
