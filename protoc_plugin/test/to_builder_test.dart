@@ -8,11 +8,11 @@ main() {
       ..inners.add(Inner()..value = 'repeatedInner')
       ..setExtension(FooExt.inner, Inner()..value = 'extension')
       ..getExtension(FooExt.inners).add(Inner()..value = 'repeatedExtension')
-      ..freeze()
-    ;
+      ..freeze();
     test('can read extensions', () {
       expect(original.getExtension(FooExt.inner).value, 'extension');
-      expect(original.getExtension(FooExt.inners)[0].value, 'repeatedExtension');
+      expect(
+          original.getExtension(FooExt.inners)[0].value, 'repeatedExtension');
     }, skip: 'https://github.com/dart-lang/protobuf/issues/171');
 
     test('frozen message cannot be modified', () {
@@ -26,7 +26,7 @@ main() {
       expect(() => original.setExtension(FooExt.inner, Inner()..value = 'bar'),
           throwsA(TypeMatcher<UnsupportedError>()));
       expect(
-              () =>
+          () =>
               original.getExtension(FooExt.inners).add(Inner()..value = 'bar'),
           throwsA(TypeMatcher<UnsupportedError>()));
     });
@@ -43,7 +43,6 @@ main() {
     test('repeated fields are cloned', () {
       expect(builder.inners, isNot(same(original.inners)));
       expect(builder.inners[0], same(original.inners[0]));
-
     });
 
     test('repeated extensions are cloned', () {
@@ -92,6 +91,5 @@ main() {
       outerBuilder.innerMap[1] = (Inner()..value = 'mob');
       expect(outerBuilder.innerMap[1].value, 'mop');
     });
-  },
-      skip: 'https://github.com/dart-lang/protobuf/issues/165');
+  }, skip: 'https://github.com/dart-lang/protobuf/issues/165');
 }
