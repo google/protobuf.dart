@@ -13,6 +13,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   final Map<K, V> _wrappedMap;
 
+  bool _isReadonly = false;
   _FieldSet _entryFieldSet;
 
   PbMap(this.keyFieldType, this.valueFieldType,
@@ -31,26 +32,37 @@ class PbMap<K, V> extends MapBase<K, V> {
       : keyFieldType = other.keyFieldType,
         valueFieldType = other.valueFieldType,
         _wrappedMap = Map.unmodifiable(other._wrappedMap),
-        _entryFieldSet = other._entryFieldSet;
+        _entryFieldSet = other._entryFieldSet,
+        _isReadonly = other._isReadonly;
 
   @override
   V operator [](Object key) => _wrappedMap[key];
 
   @override
   void operator []=(K key, V value) {
+    if (_isReadonly)
+      throw new UnsupportedError('Attempted to change a read-only map field');
     _checkNotNull(key);
     _checkNotNull(value);
     _wrappedMap[key] = value;
   }
 
   @override
-  void clear() => _wrappedMap.clear();
+  void clear() {
+    if (_isReadonly)
+      throw new UnsupportedError('Attempted to change a read-only map field');
+    _wrappedMap.clear();
+  }
 
   @override
   Iterable<K> get keys => _wrappedMap.keys;
 
   @override
-  V remove(Object key) => _wrappedMap.remove(key);
+  V remove(Object key) {
+    if (_isReadonly)
+      throw new UnsupportedError('Attempted to change a read-only map field');
+    _wrappedMap.remove(key);
+  }
 
   void add(CodedBufferReader input, [ExtensionRegistry registry]) {
     int length = input.readInt32();
@@ -68,5 +80,15 @@ class PbMap<K, V> extends MapBase<K, V> {
     if (val == null) {
       throw new ArgumentError("Can't add a null to a map field");
     }
+  }
+
+  PbMap freeze() {
+    _isReadonly = true;
+    if (_isGroupOrMessage(valueFieldType)) {
+      for (var subMessage in values as Iterable<GeneratedMessage>) {
+        subMessage.freeze();
+      }
+    }
+    return this;
   }
 }

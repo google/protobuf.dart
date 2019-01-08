@@ -267,4 +267,39 @@ void main() {
     testMap.mergeFromBuffer(testMap2.writeToBuffer());
     expect(testMap.int32ToMessageField[2].secondValue, 42);
   });
+
+  test('Freeze message with map field', () {
+    TestMap testMap = TestMap();
+    _setValues(testMap);
+    testMap.freeze();
+
+    try {
+      _updateValues(testMap);
+      fail('Should have thrown an exception.');
+    } on UnsupportedError catch (e) {
+      expect(e.message, 'Attempted to change a read-only map field');
+    }
+
+    try {
+      testMap.int32ToMessageField[1].value = 42;
+      fail('Should have thrown an exception.');
+    } on UnsupportedError catch (e) {
+      expect(e.message,
+          'Attempted to change a read-only message (protobuf_unittest.TestMap.MessageValue)');
+    }
+
+    try {
+      testMap.int32ToStringField.remove(1);
+      fail('Should have thrown an exception.');
+    } on UnsupportedError catch (e) {
+      expect(e.message, 'Attempted to change a read-only map field');
+    }
+
+    try {
+      testMap.int32ToStringField.clear();
+      fail('Should have thrown an exception.');
+    } on UnsupportedError catch (e) {
+      expect(e.message, 'Attempted to change a read-only map field');
+    }
+  });
 }
