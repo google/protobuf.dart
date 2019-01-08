@@ -23,4 +23,3 @@ dev_dependencies:
 
 executables:
   protoc-gen-dart: protoc_plugin
-
