@@ -4,13 +4,14 @@
 
 ## 0.10.6
 
-* Added support for [oneof](https://developers.google.com/protocol-buffers/docs/proto3#oneof).
+* Added support for [oneof](https://developers.google.com/protocol-buffers/docs/proto3#oneof). To use oneof support
+  use Dart protoc_plugin version 13.0.0.
 
 ## 0.10.5
 
 * Added support for [map fields](https://developers.google.com/protocol-buffers/docs/proto3#maps).
   Map fields are now represented as Dart maps and are accessed through a getter with the same name as the map field.
-  To use the map support, use Dart protoc_plugin version 11.0 or newer.
+  To use the map support, use Dart protoc_plugin version 11.0.0 or newer.
 
 ## 0.10.4
 
