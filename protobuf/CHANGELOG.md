@@ -1,6 +1,6 @@
 ## 0.11.0
 
-* Breaking change: changed semantics of `GeneratedMessage.toBuilder()`` to only make a shallow copy.
+* Breaking change: changed semantics of `GeneratedMessage.toBuilder()` to only make a shallow copy.
 
   `GeneratedMessage` has a new abstract method: `createEmptyInstance()` that subclasses must
   implement.
