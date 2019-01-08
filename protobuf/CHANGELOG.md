@@ -1,6 +1,6 @@
 ## 0.10.8
 
-* Add freeze support for map fields.
+* Fix freezing of map fields.
 
 ## 0.10.7
 

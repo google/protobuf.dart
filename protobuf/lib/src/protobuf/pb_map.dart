@@ -61,7 +61,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   V remove(Object key) {
     if (_isReadonly)
       throw new UnsupportedError('Attempted to change a read-only map field');
-    _wrappedMap.remove(key);
+    return _wrappedMap.remove(key);
   }
 
   void add(CodedBufferReader input, [ExtensionRegistry registry]) {
