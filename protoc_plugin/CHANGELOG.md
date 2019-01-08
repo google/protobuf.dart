@@ -44,6 +44,8 @@
 
   All code handling these fields needs to be updated.
 
+  Accidentally published 11.0.0 instead of 0.11.0. Continuing from here.
+
 ## 0.10.5
 
 * Generated files now import `dart:async` with a prefix to prevent name
