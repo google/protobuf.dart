@@ -273,9 +273,13 @@ void main() {
     _setValues(testMap);
     testMap.freeze();
 
-    expect(() => _updateValues(testMap), throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToMessageField[1].value = 42, throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToStringField.remove(1), throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToStringField.clear(), throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => _updateValues(testMap),
+        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => testMap.int32ToMessageField[1].value = 42,
+        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => testMap.int32ToStringField.remove(1),
+        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => testMap.int32ToStringField.clear(),
+        throwsA(const TypeMatcher<UnsupportedError>()));
   });
 }
