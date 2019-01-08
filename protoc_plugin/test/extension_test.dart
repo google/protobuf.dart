@@ -74,6 +74,25 @@ void main() {
     assertAllExtensionsSet(getAllExtensionsSet().clone());
   });
 
+  test('can merge extension', () {
+    TestAllTypes_NestedMessage nestedMessage = TestAllTypes_NestedMessage()
+      ..i = 42;
+    TestAllExtensions mergeSource = TestAllExtensions()
+      ..setExtension(Unittest.optionalNestedMessageExtension, nestedMessage);
+
+    TestAllTypes_NestedMessage nestedMessage2 = TestAllTypes_NestedMessage()
+      ..bb = 43;
+    TestAllExtensions mergeDest = TestAllExtensions()
+      ..setExtension(Unittest.optionalNestedMessageExtension, nestedMessage2);
+
+    TestAllExtensions result = new TestAllExtensions()
+      ..mergeFromMessage(mergeSource)
+      ..mergeFromMessage(mergeDest);
+
+    expect(result.getExtension(Unittest.optionalNestedMessageExtension).i, 42);
+    expect(result.getExtension(Unittest.optionalNestedMessageExtension).bb, 43);
+  });
+
   test("throws if field number isn't allowed for extension", () {
     var message = new TestAllTypes(); // does not allow extensions
     expect(() {

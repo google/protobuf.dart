@@ -1,3 +1,7 @@
+## 0.10.7
+
+* Fixed problem with recursive merging of sub messages.
+
 ## 0.10.6
 
 * Added support for [oneof](https://developers.google.com/protocol-buffers/docs/proto3#oneof).
