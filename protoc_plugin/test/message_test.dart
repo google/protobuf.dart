@@ -26,6 +26,7 @@ void main() {
       ..optionalInt32 = 1
       ..optionalString = 'foo'
       ..optionalForeignMessage = new ForeignMessage()
+      ..optionalNestedMessage = (new TestAllTypes_NestedMessage()..i = 42)
       ..repeatedString.add('bar');
 
     TestAllTypes mergeDest = new TestAllTypes()
@@ -33,12 +34,17 @@ void main() {
       ..optionalString = 'baz'
       ..optionalForeignMessage = new ForeignMessage()
       ..optionalForeignMessage = (new ForeignMessage()..c = 3)
+      ..optionalNestedMessage = (new TestAllTypes_NestedMessage()..bb = 43)
       ..repeatedString.add('qux');
 
     String mergeResultExpected = '''
 optionalInt32: 1
 optionalInt64: 2
 optionalString: baz
+optionalNestedMessage: {
+  bb: 43
+  i: 42
+}
 optionalForeignMessage: {
   c: 3
 }
