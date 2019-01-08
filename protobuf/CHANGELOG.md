@@ -1,3 +1,7 @@
+## 0.10.8
+
+* Fix freezing of map fields.
+
 ## 0.10.7
 
 * Fixed problem with recursive merging of sub messages.

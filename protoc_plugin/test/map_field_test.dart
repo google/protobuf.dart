@@ -267,4 +267,19 @@ void main() {
     testMap.mergeFromBuffer(testMap2.writeToBuffer());
     expect(testMap.int32ToMessageField[2].secondValue, 42);
   });
+
+  test('Freeze message with map field', () {
+    TestMap testMap = TestMap();
+    _setValues(testMap);
+    testMap.freeze();
+
+    expect(() => _updateValues(testMap),
+        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => testMap.int32ToMessageField[1].value = 42,
+        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => testMap.int32ToStringField.remove(1),
+        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => testMap.int32ToStringField.clear(),
+        throwsA(const TypeMatcher<UnsupportedError>()));
+  });
 }
