@@ -15,9 +15,8 @@ class _BenchmarkBuilder implements Builder {
   Future build(BuildStep buildStep) async {
     var data = <String, String>{};
 
-    await for (var item in buildStep
-        .findAssets(Glob('benchmark/**/*.pb.json'))
-        .where((id) =>
+    await for (var item in buildStep.findAssets(Glob('**/*.pb.json')).where(
+        (id) =>
             id.pathSegments.length > 2 &&
             id.pathSegments[0] == 'benchmark' &&
             id.pathSegments[1] == 'data')) {
@@ -26,12 +25,12 @@ class _BenchmarkBuilder implements Builder {
     }
 
     await buildStep.writeAsString(
-        AssetId(buildStep.inputId.package, 'benchmark/data/data.json'),
+        AssetId(buildStep.inputId.package, 'web/data/data.json'),
         JsonEncoder.withIndent(' ').convert(data));
   }
 
   @override
   final buildExtensions = const {
-    r'lib/$lib$': ['benchmark/data/data.json']
+    r'lib/$lib$': ['web/data/data.json']
   };
 }

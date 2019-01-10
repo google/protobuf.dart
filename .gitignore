@@ -4,5 +4,6 @@
 .packages
 .pub
 build/
+generated/
 packages
 pubspec.lock

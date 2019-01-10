@@ -1,0 +1,25 @@
+# Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+name: api_benchmark
+description: Benchmarking a number of different api calls.
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  protobuf:
+
+dev_dependencies:
+  build: ^1.0.0
+  build_runner: ^1.0.0
+  build_web_compilers: ^0.4.0
+  glob: ^1.1.7
+  yaml: ^2.1.15
+  protoc_plugin:
+    path: "../protoc_plugin"
+
+dependency_overrides:
+  protobuf:
+    path: "../protobuf"

@@ -7,7 +7,7 @@ library protoc.benchmark.vm;
 import 'dart:async' show Future;
 import 'dart:io' show File, Directory, Link, Platform, stdout;
 
-import '../data/index.dart'
+import 'data_index.dart'
     show latestVMReportName, pubspecYamlName, pubspecLockName, hostfileName;
 import 'benchmarks/index.dart' show createBenchmark;
 import 'generated/benchmark.pb.dart' as pb;
@@ -46,7 +46,7 @@ runSuiteInVM(pb.Suite suite) async {
   var tmpFile = new File("$outFile.tmp");
   await tmpFile.writeAsString(encodeReport(lastReport));
   await tmpFile.rename(outFile);
-  print("\nWrote result to benchmark/data/${latestVMReportName}");
+  print("\nWrote result to ${outFile}");
 }
 
 String _summarize(pb.Response r) {
@@ -123,7 +123,7 @@ final Link pubspecYaml = new Link("${dataDir.path}/$pubspecYamlName");
 final Link pubspecLock = new Link("${dataDir.path}/$pubspecLockName");
 
 final Directory dataDir = () {
-  var d = new Directory("${pubspecDir.path}/benchmark/data");
+  var d = new Directory("${pubspecDir.path}/web/data");
   if (!d.existsSync()) {
     throw "data dir doesn't exist at ${d.path}";
   }
