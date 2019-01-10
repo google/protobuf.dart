@@ -34,17 +34,11 @@ class BuilderInfo {
         defaultOrMaker, subBuilder, valueOf, enumValues));
   }
 
-  void addMapField<K, V>(
-      int tagNumber,
-      String name,
-      int keyFieldType,
-      int valueFieldType,
-      CreateBuilderFunc valueCreator,
-      ValueOfFunc valueOf,
-      List<ProtobufEnum> enumValues) {
+  void addMapField<K, V>(int tagNumber, String name, int keyFieldType,
+      int valueFieldType, BuilderInfo mapEntryBuilderInfo) {
     var index = byIndex.length;
     _addField(MapFieldInfo<K, V>.map(name, tagNumber, index, PbFieldType.M,
-        keyFieldType, valueFieldType, valueCreator, valueOf, enumValues));
+        keyFieldType, valueFieldType, mapEntryBuilderInfo));
   }
 
   void addRepeated<T>(
@@ -135,11 +129,9 @@ class BuilderInfo {
 
   // Map field.
   void m<K, V>(int tagNumber, String name, int keyFieldType, int valueFieldType,
-      [CreateBuilderFunc valueCreator,
-      ValueOfFunc valueOf,
-      List<ProtobufEnum> enumValues]) {
-    addMapField<K, V>(tagNumber, name, keyFieldType, valueFieldType,
-        valueCreator, valueOf, enumValues);
+      BuilderInfo mapEntryBuilderInfo) {
+    addMapField<K, V>(
+        tagNumber, name, keyFieldType, valueFieldType, mapEntryBuilderInfo);
   }
 
   bool containsTagNumber(int tagNumber) => fieldInfo.containsKey(tagNumber);

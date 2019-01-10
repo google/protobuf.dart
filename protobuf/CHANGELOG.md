@@ -1,3 +1,8 @@
+## 0.12.0
+
+* Breaking change: changed PbMap to not create a map entry BuilderInfo object for each PbMap instance, instead it
+  is passed through the static BuilderInfo object in the generated subclasses of GeneratedMessage.
+
 ## 0.11.0
 
 * Breaking change: changed semantics of `GeneratedMessage.toBuilder()` to only make a shallow copy.

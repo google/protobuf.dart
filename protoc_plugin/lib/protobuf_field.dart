@@ -127,18 +127,18 @@ class ProtobufField {
       String valueType = value.baseType.getDartType(fileGen);
       String keyTypeConstant = key.typeConstant;
       String valTypeConstant = value.typeConstant;
+      String valueCreator = (value.baseType.isMessage || value.baseType.isGroup)
+          ? '$valueType.create'
+          : 'null';
+      String valueOf = value.baseType.isEnum ? '$valueType.valueOf' : 'null';
+      String enumValues = value.baseType.isEnum ? '$valueType.values' : 'null';
+      String mapEntryBuildInfo =
+          "new $_protobufImportPrefix.BuilderInfo('entry')\n"
+          "  ..add(1, 'key', $keyTypeConstant, null, null, null, null)\n"
+          "  ..add(2, 'value', $valTypeConstant, null, $valueCreator, $valueOf, $enumValues)";
 
-      if (value.baseType.isMessage || value.baseType.isGroup) {
-        return '..m<$keyType, $valueType>($number, $quotedName, '
-            '$keyTypeConstant, $valTypeConstant, $valueType.create)';
-      }
-      if (value.baseType.isEnum) {
-        return '..m<$keyType, $valueType>($number, $quotedName, '
-            '$keyTypeConstant, $valTypeConstant, null, $valueType.valueOf, '
-            '$valueType.values)';
-      }
       return '..m<$keyType, $valueType>($number, $quotedName, '
-          '$keyTypeConstant, $valTypeConstant)';
+          '$keyTypeConstant, $valTypeConstant, $mapEntryBuildInfo)';
     }
 
     if (isRepeated) {

@@ -8,6 +8,9 @@ part of protobuf;
 class FieldInfo<T> {
   FrozenPbList<T> _emptyList;
 
+  // BuilderInfo used when creating a field set for a map field.
+  final BuilderInfo _mapEntryBuilderInfo;
+
   final String name;
   final int tagNumber;
   final int index; // index of the field's value. Null for extensions.
@@ -59,7 +62,11 @@ class FieldInfo<T> {
 
   FieldInfo._map(
       this.name, this.tagNumber, this.index, int type, this.makeDefault,
-      [dynamic defaultOrMaker, this.subBuilder, this.valueOf, this.enumValues])
+      [dynamic defaultOrMaker,
+      this.subBuilder,
+      this.valueOf,
+      this.enumValues,
+      this._mapEntryBuilderInfo])
       : this.type = type,
         this.check = null {
     assert(name != null);
@@ -169,19 +176,19 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
   CreateBuilderFunc valueCreator;
 
   MapFieldInfo.map(String name, int tagNumber, int index, int type,
-      this.keyFieldType, this.valueFieldType,
-      [this.valueCreator, ValueOfFunc valueOf, List<ProtobufEnum> enumValues])
+      this.keyFieldType, this.valueFieldType, BuilderInfo mapEntryBuilderInfo)
       : super._map(
             name,
             tagNumber,
             index,
             type,
-            () => PbMap<K, V>(keyFieldType, valueFieldType, valueCreator,
-                valueOf, enumValues),
+            () =>
+                PbMap<K, V>(keyFieldType, valueFieldType, mapEntryBuilderInfo),
             null,
             null,
-            valueOf,
-            enumValues) {
+            null,
+            null,
+            mapEntryBuilderInfo) {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isMapField(type));
