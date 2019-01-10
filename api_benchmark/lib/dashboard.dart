@@ -11,13 +11,13 @@ import 'dart:js' show context, JsObject;
 
 import 'generated/benchmark.pb.dart' as pb;
 
-import 'benchmark.dart' show Profiler;
+import 'package:api_benchmark/benchmark.dart' show Profiler;
 import 'dashboard_model.dart' show DashboardModel, Table, SelectEvent;
 import 'dashboard_view.dart' show DashboardView;
-import 'report.dart' show createPlatform, createPackages;
-import 'suite.dart' show runSuite;
+import 'package:api_benchmark/report.dart' show createPlatform, createPackages;
+import 'package:api_benchmark/suite.dart' show runSuite;
 
-import '../data/index.dart' as data;
+import 'package:api_benchmark/data_index.dart' as data;
 
 /// Displays a dashboard that can be used to run benchmarks.
 Future showDashboard(pb.Suite suite, Element container) async {

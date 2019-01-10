@@ -6,7 +6,7 @@ library protoc.benchmark.dashboard_model;
 
 import 'generated/benchmark.pb.dart' as pb;
 
-import 'benchmark.dart' show Benchmark;
+import 'package:api_benchmark/benchmark.dart' show Benchmark;
 import 'benchmarks/index.dart' show createBenchmark;
 
 /// Contains the viewable state of the dashboard. (Immutable.)

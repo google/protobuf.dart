@@ -4,7 +4,7 @@
 
 library protoc.benchmark.index;
 
-import "../benchmark.dart";
+import '../benchmark.dart';
 
 import "int32_json.dart";
 import "int64_json.dart";
