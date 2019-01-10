@@ -15,9 +15,8 @@ class _BenchmarkBuilder implements Builder {
   Future build(BuildStep buildStep) async {
     var data = <String, String>{};
 
-    await for (var item in buildStep
-        .findAssets(Glob('**/*.pb.json'))
-        .where((id) =>
+    await for (var item in buildStep.findAssets(Glob('**/*.pb.json')).where(
+        (id) =>
             id.pathSegments.length > 2 &&
             id.pathSegments[0] == 'benchmark' &&
             id.pathSegments[1] == 'data')) {
