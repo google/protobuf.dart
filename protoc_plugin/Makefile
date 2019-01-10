@@ -9,8 +9,6 @@ OUTPUT_DIR=out
 PLUGIN_NAME=protoc-gen-dart
 PLUGIN_PATH=bin/$(PLUGIN_NAME)
 
-BENCHMARK_PROTOS = $(wildcard benchmark/protos/*.proto)
-
 TEST_PROTO_LIST = \
 	_leading_underscores \
 	google/protobuf/any \
@@ -64,9 +62,6 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 		$(TEST_PROTO_SRCS)
 	dartfmt -w $(TEST_PROTO_DIR)
 
-.PHONY: build-plugin build-benchmark-protos build-benchmarks \
-	update-pregenerated protos run-tests clean
-
 build-plugin: $(PLUGIN_PATH)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
@@ -77,13 +72,6 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 	dartfmt -w lib/src
 
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
-	mkdir -p benchmark/lib/generated
-	protoc \
-		--dart_out=benchmark/lib/generated \
-		-Ibenchmark/protos \
-		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) \
-		$(BENCHMARK_PROTOS)
-	dartfmt -w benchmark/lib/generated
 
 run-tests: protos
 	pub run test

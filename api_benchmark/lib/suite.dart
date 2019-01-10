@@ -4,7 +4,7 @@
 
 library protoc.benchmark.suite;
 
-import 'benchmark.dart';
+import 'package:api_benchmark/benchmark.dart';
 import 'benchmarks/index.dart' show createBenchmark;
 import 'generated/benchmark.pb.dart' as pb;
 

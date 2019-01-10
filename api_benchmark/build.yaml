@@ -5,7 +5,7 @@ targets:
     builders:
       build_web_compilers|entrypoint:
         generate_for:
-        - benchmark/*_browser.dart
+        - web/*_browser.dart
         options:
           dart2js_args:
           - --minify
@@ -16,5 +16,5 @@ builders:
   benchmarkBuilder:
     import: "tool/builder.dart"
     builder_factories: ["benchmarkBuilder"]
-    build_extensions: {"lib/$lib$": ["benchmark/data/data.json"]}
+    build_extensions: {"lib/$lib$": ["web/data/data.json"]}
     auto_apply: root_package

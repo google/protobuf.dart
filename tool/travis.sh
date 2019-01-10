@@ -21,23 +21,23 @@ while (( "$#" )); do
   case $TASK in
   command_0) echo
     echo -e '\033[1mTASK: command_0\033[22m'
-    echo -e 'make protos'
-    make protos || EXIT_CODE=$?
-    ;;
-  command_1) echo
-    echo -e '\033[1mTASK: command_1\033[22m'
     echo -e './compile_protos.sh'
     ./compile_protos.sh || EXIT_CODE=$?
     ;;
+  command_1) echo
+    echo -e '\033[1mTASK: command_1\033[22m'
+    echo -e 'make protos'
+    make protos || EXIT_CODE=$?
+    ;;
   dartanalyzer_0) echo
     echo -e '\033[1mTASK: dartanalyzer_0\033[22m'
-    echo -e 'dartanalyzer --fatal-infos --fatal-warnings .'
-    dartanalyzer --fatal-infos --fatal-warnings . || EXIT_CODE=$?
+    echo -e 'dartanalyzer --fatal-warnings .'
+    dartanalyzer --fatal-warnings . || EXIT_CODE=$?
     ;;
   dartanalyzer_1) echo
     echo -e '\033[1mTASK: dartanalyzer_1\033[22m'
-    echo -e 'dartanalyzer --fatal-warnings .'
-    dartanalyzer --fatal-warnings . || EXIT_CODE=$?
+    echo -e 'dartanalyzer --fatal-infos --fatal-warnings .'
+    dartanalyzer --fatal-infos --fatal-warnings . || EXIT_CODE=$?
     ;;
   dartfmt) echo
     echo -e '\033[1mTASK: dartfmt\033[22m'
