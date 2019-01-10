@@ -1,7 +1,7 @@
 ## 14.0.1
 
-* Remove the benchmark from the protoc_package. (it can be found in
-  [https://github.com/dart-lang/protobuf] as api_benchmark.).
+* Remove the benchmark from the protoc_package. It now lives in
+  [https://github.com/dart-lang/protobuf] as `api_benchmark`.
   This simplifies the dev_dependencies of this package.
 
 ## 14.0.0
