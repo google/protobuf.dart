@@ -23,5 +23,3 @@ dev_dependencies:
 dependency_overrides:
   protobuf:
     path: "../protobuf"
-  bazel_worker:
-    path: "../../bazel_worker"
