@@ -9,9 +9,11 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class DartMixin extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DartMixin',
-      package: const $pb.PackageName('dart_options'))
+class DartMixin extends $pb.GeneratedMessage<DartMixin> {
+  static final $pb.BuilderInfo<DartMixin> _i = new $pb.BuilderInfo<DartMixin>(
+      'DartMixin',
+      package: const $pb.PackageName('dart_options'),
+      builder: create)
     ..aOS(1, 'name')
     ..aOS(2, 'importFrom')
     ..aOS(3, 'parent')
@@ -24,12 +26,8 @@ class DartMixin extends $pb.GeneratedMessage {
   DartMixin.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  DartMixin clone() => new DartMixin()..mergeFromMessage(this);
-  DartMixin copyWith(void Function(DartMixin) updates) =>
-      super.copyWith((message) => updates(message as DartMixin));
-  $pb.BuilderInfo get info_ => _i;
+  $pb.BuilderInfo<DartMixin> get info_ => _i;
   static DartMixin create() => new DartMixin();
-  DartMixin createEmptyInstance() => create();
   static $pb.PbList<DartMixin> createRepeated() => new $pb.PbList<DartMixin>();
   static DartMixin getDefault() => _defaultInstance ??= create()..freeze();
   static DartMixin _defaultInstance;
@@ -62,9 +60,11 @@ class DartMixin extends $pb.GeneratedMessage {
   void clearParent() => clearField(3);
 }
 
-class Imports extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Imports',
-      package: const $pb.PackageName('dart_options'))
+class Imports extends $pb.GeneratedMessage<Imports> {
+  static final $pb.BuilderInfo<Imports> _i = new $pb.BuilderInfo<Imports>(
+      'Imports',
+      package: const $pb.PackageName('dart_options'),
+      builder: create)
     ..pp<DartMixin>(
         1, 'mixins', $pb.PbFieldType.PM, DartMixin.$checkItem, DartMixin.create)
     ..hasRequiredFields = false;
@@ -76,12 +76,8 @@ class Imports extends $pb.GeneratedMessage {
   Imports.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  Imports clone() => new Imports()..mergeFromMessage(this);
-  Imports copyWith(void Function(Imports) updates) =>
-      super.copyWith((message) => updates(message as Imports));
-  $pb.BuilderInfo get info_ => _i;
+  $pb.BuilderInfo<Imports> get info_ => _i;
   static Imports create() => new Imports();
-  Imports createEmptyInstance() => create();
   static $pb.PbList<Imports> createRepeated() => new $pb.PbList<Imports>();
   static Imports getDefault() => _defaultInstance ??= create()..freeze();
   static Imports _defaultInstance;

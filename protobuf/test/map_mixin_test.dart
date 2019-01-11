@@ -15,9 +15,9 @@ import 'package:test/test.dart' show expect, same, test, throwsArgumentError;
 import 'mock_util.dart' show MockMessage, mockInfo;
 
 // A minimal protobuf implementation compatible with PbMapMixin.
-class Rec extends MockMessage with MapMixin, PbMapMixin {
+class Rec extends MockMessage<Rec> with MapMixin, PbMapMixin<Rec> {
   get info_ => _info;
-  static final _info = mockInfo("Rec", () => new Rec());
+  static final _info = mockInfo<Rec>("Rec", () => new Rec());
   Rec createEmptyInstance() => new Rec();
 
   @override

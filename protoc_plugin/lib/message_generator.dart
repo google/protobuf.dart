@@ -271,7 +271,7 @@ class MessageGenerator extends ProtobufContainer {
         ? ''
         : ', package: const $_protobufImportPrefix.PackageName(\'$package\')';
     out.addBlock(
-        'class ${classname} extends $_protobufImportPrefix.GeneratedMessage${mixinClause} {',
+        'class ${classname} extends $_protobufImportPrefix.GeneratedMessage<$classname>${mixinClause} {',
         '}', () {
       for (OneofNames oneof in _oneofNames) {
         out.addBlock(
@@ -285,8 +285,8 @@ class MessageGenerator extends ProtobufContainer {
         });
       }
       out.addBlock(
-          'static final $_protobufImportPrefix.BuilderInfo _i = '
-          'new $_protobufImportPrefix.BuilderInfo(\'${messageName}\'$packageClause)',
+          'static final $_protobufImportPrefix.BuilderInfo<$classname> _i = '
+          'new $_protobufImportPrefix.BuilderInfo<$classname>(\'${messageName}\'$packageClause, builder: create)',
           ';', () {
         for (ProtobufField field in _fieldList) {
           var dartFieldName = field.memberNames.fieldName;
@@ -320,17 +320,12 @@ class MessageGenerator extends ProtobufContainer {
       out.println('${classname}.fromJson(String i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' : super.fromJson(i, r);');
-      out.println('${classname} clone() =>'
-          ' new ${classname}()..mergeFromMessage(this);');
-      out.println('$classname copyWith(void Function($classname) updates) =>'
-          ' super.copyWith((message) => updates(message as $classname));');
 
-      out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
+      out.println('$_protobufImportPrefix.BuilderInfo<$classname> get info_ => _i;');
 
       // Factory functions which can be used as default value closures.
       out.println('static ${classname} create() =>'
           ' new ${classname}();');
-      out.println('${classname} createEmptyInstance() => create();');
 
       out.println(
           'static $_protobufImportPrefix.PbList<${classname}> createRepeated() =>'
@@ -404,7 +399,7 @@ class MessageGenerator extends ProtobufContainer {
   /// A typical usage would be `any.unpackInto(new Message())`.
   ///
   /// Returns [instance].
-  T unpackInto<T extends $_protobufImportPrefix.GeneratedMessage>(T instance,
+  T unpackInto<T extends $_protobufImportPrefix.GeneratedMessage<T>>(T instance,
       {$_protobufImportPrefix.ExtensionRegistry extensionRegistry = $_protobufImportPrefix.ExtensionRegistry.EMPTY}) {
     $_protobufImportPrefix.unpackIntoHelper(value, instance, typeUrl,
         extensionRegistry: extensionRegistry);
@@ -415,15 +410,15 @@ class MessageGenerator extends ProtobufContainer {
   ///
   /// Can be used with a default instance:
   /// `any.canUnpackInto(Message.getDefault())`
-  bool canUnpackInto($_protobufImportPrefix.GeneratedMessage instance) {
-    return $_protobufImportPrefix.canUnpackIntoHelper(instance, typeUrl);
+  bool canUnpackInto<T extends $_protobufImportPrefix.GeneratedMessage<T>>($_protobufImportPrefix.GeneratedMessage<T> instance) {
+    return $_protobufImportPrefix.canUnpackIntoHelper<T>(instance, typeUrl);
   }
 
   /// Creates a new [Any] encoding [message].
   ///
   /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
   /// the fully qualified name of the type of [message].
-  static Any pack($_protobufImportPrefix.GeneratedMessage message,
+  static Any pack<T extends $_protobufImportPrefix.GeneratedMessage<T>>(T message,
       {String typeUrlPrefix = 'type.googleapis.com'}) {
     return new Any()
       ..value = message.writeToBuffer()

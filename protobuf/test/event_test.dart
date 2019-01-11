@@ -15,9 +15,9 @@ import 'package:test/test.dart' show test, expect;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
-class Rec extends MockMessage with PbEventMixin {
+class Rec extends MockMessage<Rec> with PbEventMixin {
   get info_ => _info;
-  static final _info = mockInfo("Rec", () => new Rec());
+  static final _info = mockInfo<Rec>("Rec", () => new Rec());
   Rec createEmptyInstance() => new Rec();
 }
 

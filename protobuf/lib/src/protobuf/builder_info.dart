@@ -5,7 +5,7 @@
 part of protobuf;
 
 /// Per-message type setup.
-class BuilderInfo {
+class BuilderInfo<M extends GeneratedMessage<M>> {
   /// The fully qualified name of this message.
   final String qualifiedMessageName;
   final List<FieldInfo> byIndex = <FieldInfo>[];
@@ -17,9 +17,11 @@ class BuilderInfo {
   bool hasExtensions = false;
   bool hasRequiredFields = true;
   List<FieldInfo> _sortedByTag;
+  CreateBuilderFunc<M> _builder;
 
-  BuilderInfo(String messageName, {PackageName package = const PackageName('')})
-      : qualifiedMessageName = "${package.prefix}$messageName";
+  BuilderInfo(String messageName, {CreateBuilderFunc<M> builder, PackageName package = const PackageName('')})
+      : qualifiedMessageName = "${package.prefix}$messageName",
+        _builder = builder;
 
   void add<T>(
       int tagNumber,
@@ -216,4 +218,6 @@ class BuilderInfo {
     }
     return f(rawValue);
   }
+
+  M _makeEmpty() => _builder();
 }

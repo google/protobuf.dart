@@ -9,8 +9,8 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class PhoneNumber extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('PhoneNumber')
+class PhoneNumber extends $pb.GeneratedMessage<PhoneNumber> {
+  static final $pb.BuilderInfo<PhoneNumber> _i = new $pb.BuilderInfo<PhoneNumber>('PhoneNumber', builder: create)
     ..aQS(1, 'number')
     ..a<int>(2, 'type', $pb.PbFieldType.O3)
     ..a<String>(3, 'name', $pb.PbFieldType.OS, '\$')
@@ -19,11 +19,8 @@ class PhoneNumber extends $pb.GeneratedMessage {
   PhoneNumber() : super();
   PhoneNumber.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
   PhoneNumber.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
-  PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber));
-  $pb.BuilderInfo get info_ => _i;
+  $pb.BuilderInfo<PhoneNumber> get info_ => _i;
   static PhoneNumber create() => new PhoneNumber();
-  PhoneNumber createEmptyInstance() => create();
   static $pb.PbList<PhoneNumber> createRepeated() => new $pb.PbList<PhoneNumber>();
   static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
   static PhoneNumber _defaultInstance;

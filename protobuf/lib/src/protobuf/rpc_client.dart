@@ -24,7 +24,7 @@ abstract class RpcClient {
   /// The implementation should serialize the request as binary or JSON, as
   /// appropriate. It should merge the reply into [emptyResponse] and
   /// return it.
-  Future<T> invoke<T extends GeneratedMessage>(
+  Future<T> invoke<T extends GeneratedMessage<T>>(
       ClientContext ctx,
       String serviceName,
       String methodName,

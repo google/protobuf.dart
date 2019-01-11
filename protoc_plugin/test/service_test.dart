@@ -57,7 +57,7 @@ class FakeJsonClient implements RpcClient {
 
   FakeJsonClient(this.server);
 
-  Future<T> invoke<T extends GeneratedMessage>(
+  Future<T> invoke<T extends GeneratedMessage<T>>(
       ClientContext ctx,
       String serviceName,
       String methodName,

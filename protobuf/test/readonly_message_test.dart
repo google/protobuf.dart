@@ -23,13 +23,13 @@ throwsError(Type expectedType, Matcher expectedMessage) =>
       return true;
     }));
 
-class Rec extends GeneratedMessage {
+class Rec extends GeneratedMessage<Rec> {
   static Rec getDefault() => new Rec()..freeze();
   static Rec create() => new Rec();
   Rec createEmptyInstance() => new Rec();
 
   @override
-  BuilderInfo info_ = new BuilderInfo('rec')
+  BuilderInfo<Rec> info_ = new BuilderInfo<Rec>('rec')
     ..a(1, 'value', PbFieldType.O3)
     ..pp<Rec>(2, 'sub', PbFieldType.PM, (_) {}, Rec.create)
     ..p<int>(10, 'ints', PbFieldType.P3);

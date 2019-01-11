@@ -4,7 +4,7 @@
 
 part of protobuf;
 
-typedef GeneratedMessage CreateBuilderFunc();
+typedef GeneratedMessage<M> CreateBuilderFunc<M extends GeneratedMessage<M>>();
 typedef MakeDefaultFunc();
 typedef ProtobufEnum ValueOfFunc(int value);
 
@@ -16,7 +16,7 @@ typedef ProtobufEnum ValueOfFunc(int value);
 /// Public properties and methods added here should also be added to
 /// GeneratedMessage_reservedNames and should be unlikely to be used in
 /// a proto file.
-abstract class GeneratedMessage {
+abstract class GeneratedMessage<M extends GeneratedMessage<M>> {
   _FieldSet _fieldSet;
 
   GeneratedMessage() {
@@ -38,7 +38,7 @@ abstract class GeneratedMessage {
   }
 
   // Overridden by subclasses.
-  BuilderInfo get info_;
+  BuilderInfo<M> get info_;
 
   /// Subclasses can override this getter to be notified of changes
   /// to protobuf fields.
@@ -46,17 +46,17 @@ abstract class GeneratedMessage {
 
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)
-  GeneratedMessage clone();
+  M clone() => createEmptyInstance()..mergeFromMessage(this);
 
   /// Creates an empty instance of the same message type as this.
-  GeneratedMessage createEmptyInstance();
+  M createEmptyInstance() => info_._makeEmpty();
 
   UnknownFieldSet get unknownFields => _fieldSet._ensureUnknownFields();
 
   /// Make this message read-only.
   ///
   /// Marks this message, and any sub-messages, as read-only.
-  GeneratedMessage freeze() {
+  M freeze() {
     _fieldSet._markReadOnly();
     return this;
   }
@@ -72,7 +72,7 @@ abstract class GeneratedMessage {
   /// Similarly for map fields, the maps will be copied, but share the elements.
   // TODO(nichite, sigurdm): Consider returning an actual builder object that
   // lazily creates builders.
-  GeneratedMessage toBuilder() {
+  M toBuilder() {
     final result = createEmptyInstance();
     result._fieldSet._shallowCopyValues(_fieldSet);
     return result;
@@ -82,7 +82,7 @@ abstract class GeneratedMessage {
   ///
   /// Makes a writable copy of this message, applies the [updates] to it, and
   /// marks the copy read-only before returning it.
-  GeneratedMessage copyWith(void Function(GeneratedMessage) updates) {
+  M copyWith(void Function(M builder) updates) {
     final builder = toBuilder();
     updates(builder);
     return builder.freeze();
@@ -301,7 +301,7 @@ abstract class GeneratedMessage {
   /// Singular fields that are set in [other] overwrite the corresponding fields
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
-  void mergeFromMessage(GeneratedMessage other) =>
+  void mergeFromMessage(M other) =>
       _fieldSet._mergeFromMessage(other._fieldSet);
 
   void mergeUnknownFields(UnknownFieldSet unknownFieldSet) => _fieldSet

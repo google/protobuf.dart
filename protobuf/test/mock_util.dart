@@ -8,8 +8,8 @@ import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart'
     show GeneratedMessage, BuilderInfo, CreateBuilderFunc, PbFieldType;
 
-BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
-  return new BuilderInfo(className)
+BuilderInfo<M> mockInfo<M extends GeneratedMessage<M>>(String className, CreateBuilderFunc create) {
+  return new BuilderInfo<M>(className)
     ..a(1, "val", PbFieldType.O3, 42)
     ..a(2, "str", PbFieldType.OS)
     ..a(3, "child", PbFieldType.OM, create, create)
@@ -18,9 +18,9 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
 }
 
 /// A minimal protobuf implementation for testing.
-abstract class MockMessage extends GeneratedMessage {
+abstract class MockMessage<T extends MockMessage<T>> extends GeneratedMessage<T> {
   // subclasses must provide these
-  BuilderInfo get info_;
+  BuilderInfo<T> get info_;
 
   int get val => $_get(0, 42);
   set val(x) => setField(1, x);
@@ -35,15 +35,9 @@ abstract class MockMessage extends GeneratedMessage {
 
   Int64 get int64 => $_get(4, new Int64(0));
   set int64(x) => setField(5, x);
-
-  clone() {
-    CreateBuilderFunc create = info_.byName["child"].subBuilder;
-    return create()..mergeFromMessage(this);
-  }
 }
 
-class T extends MockMessage {
+class T extends MockMessage<T> {
   get info_ => _info;
-  static final _info = mockInfo("T", () => new T());
-  T createEmptyInstance() => new T();
+  static final _info = mockInfo<T>("T", () => new T());
 }

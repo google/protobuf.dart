@@ -4,7 +4,7 @@
 
 library protobuf.mixins.map;
 
-import "package:protobuf/protobuf.dart" show BuilderInfo;
+import "package:protobuf/protobuf.dart" show BuilderInfo, GeneratedMessage;
 
 /// Note that this class does not claim to implement [Map]. Instead, this needs
 /// to be specified using a dart_options.imports clause specifying MapMixin as a
@@ -12,10 +12,10 @@ import "package:protobuf/protobuf.dart" show BuilderInfo;
 ///
 /// Since PbMapMixin is built in, this is done automatically, so this mixin can
 /// be enabled by specifying only a dart_options.mixin option.
-abstract class PbMapMixin {
+abstract class PbMapMixin<M extends GeneratedMessage<M>> {
   // GeneratedMessage properties and methods used by this mixin.
 
-  BuilderInfo get info_;
+  BuilderInfo<M> get info_;
   void clear();
   int getTagNumber(String fieldName);
   getField(int tagNumber);

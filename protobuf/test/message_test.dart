@@ -9,9 +9,9 @@ import 'package:test/test.dart' show test, expect, predicate, throwsA;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
-class Rec extends MockMessage {
+class Rec extends MockMessage<Rec> {
   get info_ => _info;
-  static final _info = mockInfo("Rec", () => new Rec());
+  static final _info = mockInfo<Rec>("Rec", () => new Rec());
   Rec createEmptyInstance() => new Rec();
 }
 

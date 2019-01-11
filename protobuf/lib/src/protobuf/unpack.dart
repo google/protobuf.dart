@@ -10,8 +10,8 @@ part of protobuf;
 /// with the type of [instance].
 ///
 /// This is a helper method for `Any.unpackInto`.
-void unpackIntoHelper<T extends GeneratedMessage>(
-    List<int> value, T instance, String typeUrl,
+void unpackIntoHelper<M extends GeneratedMessage<M>>(
+    List<int> value, M instance, String typeUrl,
     {ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY}) {
   // From "google/protobuf/any.proto":
   //
@@ -32,7 +32,7 @@ void unpackIntoHelper<T extends GeneratedMessage>(
 /// `typeUrl`.
 ///
 /// This is a helper method for `Any.canUnpackInto`.
-bool canUnpackIntoHelper(GeneratedMessage instance, String typeUrl) {
+bool canUnpackIntoHelper<M extends GeneratedMessage<M>>(M instance, String typeUrl) {
   return instance.info_.qualifiedMessageName == _typeNameFromUrl(typeUrl);
 }
 
