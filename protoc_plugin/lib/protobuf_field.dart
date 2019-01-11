@@ -115,7 +115,8 @@ class ProtobufField {
   /// Returns Dart code adding this field to a BuilderInfo object.
   /// The call will start with ".." and a method name.
   /// [fileGen] represents the .proto file where the code will be evaluated.
-  String generateBuilderInfoCall(FileGenerator fileGen, String dartFieldName) {
+  String generateBuilderInfoCall(
+      FileGenerator fileGen, String dartFieldName, String package) {
     String quotedName = "'$dartFieldName'";
     String type = baseType.getDartType(fileGen);
 
@@ -132,13 +133,13 @@ class ProtobufField {
           : 'null';
       String valueOf = value.baseType.isEnum ? '$valueType.valueOf' : 'null';
       String enumValues = value.baseType.isEnum ? '$valueType.values' : 'null';
-      String mapEntryBuildInfo =
-          "new $_protobufImportPrefix.BuilderInfo('entry')\n"
-          "  ..add(1, 'key', $keyTypeConstant, null, null, null, null)\n"
-          "  ..add(2, 'value', $valTypeConstant, null, $valueCreator, $valueOf, $enumValues)";
+      String mapEntryClassName = "'${generator.messageName}'";
+      String packageClause = package == ''
+          ? ''
+          : ", const $_protobufImportPrefix.PackageName(\'$package\')";
 
-      return '..m<$keyType, $valueType>($number, $quotedName, '
-          '$keyTypeConstant, $valTypeConstant, $mapEntryBuildInfo)';
+      return '..m<$keyType, $valueType>($number, $quotedName, $mapEntryClassName,'
+          '$keyTypeConstant, $valTypeConstant $packageClause, $valueCreator, $valueOf, $enumValues)';
     }
 
     if (isRepeated) {

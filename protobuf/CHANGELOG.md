@@ -1,7 +1,13 @@
 ## 0.12.0
 
-* Breaking change: changed PbMap to not create a map entry BuilderInfo object for each PbMap instance, instead it
-  is passed through the static BuilderInfo object in the generated subclasses of GeneratedMessage.
+* Breaking change: Changed `BuilderInfo.m` to take class and package name of the protobuf message representing the map
+  entry. Also changed `BuilderInfo.addMapField` as well as the constructors `PbMap` and `MapFieldInfo.map` to take a map
+  entry BuilderInfo object.
+
+  This mostly affects generated code, which should now be built with protoc_plugin 15.0.0 or newer.
+
+  With this change we avoid creating a map entry BuilderInfo object for each PbMap instance, instead it is passed
+  through the static BuilderInfo object in the generated subclasses of GeneratedMessage.
 
 ## 0.11.0
 
@@ -10,7 +16,7 @@
   `GeneratedMessage` has a new abstract method: `createEmptyInstance()` that subclasses must
   implement.
 
-  Proto files must be rebuilt using protoc_plugin 0.15.0 or newer.
+  Proto files must be rebuilt using protoc_plugin 14.0.0 or newer.
 
 ## 0.10.8
 

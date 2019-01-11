@@ -128,8 +128,19 @@ class BuilderInfo {
   }
 
   // Map field.
-  void m<K, V>(int tagNumber, String name, int keyFieldType, int valueFieldType,
-      BuilderInfo mapEntryBuilderInfo) {
+  void m<K, V>(int tagNumber, String name, String entryClassName,
+      int keyFieldType, int valueFieldType,
+      [PackageName packageName,
+      CreateBuilderFunc valueCreator,
+      ValueOfFunc valueOf,
+      List<ProtobufEnum> enumValues]) {
+    BuilderInfo mapEntryBuilderInfo = packageName == null
+        ? BuilderInfo(entryClassName)
+        : BuilderInfo(entryClassName, package: packageName)
+      ..add(1, 'key', keyFieldType, null, null, null, null)
+      ..add(
+          2, 'value', valueFieldType, null, valueCreator, valueOf, enumValues);
+
     addMapField<K, V>(
         tagNumber, name, keyFieldType, valueFieldType, mapEntryBuilderInfo);
   }

@@ -42,7 +42,8 @@ class FieldInfo<T> {
       [dynamic defaultOrMaker, this.subBuilder, this.valueOf, this.enumValues])
       : this.type = type,
         this.makeDefault = findMakeDefault(type, defaultOrMaker),
-        this.check = null {
+        this.check = null,
+        _mapEntryBuilderInfo = null {
     assert(type != 0);
     assert(!_isGroupOrMessage(type) || subBuilder != null);
     assert(!_isEnum(type) || valueOf != null);
@@ -52,7 +53,8 @@ class FieldInfo<T> {
       this.check, this.subBuilder,
       [this.valueOf, this.enumValues])
       : this.type = type,
-        this.makeDefault = (() => new PbList<T>(check: check)) {
+        this.makeDefault = (() => new PbList<T>(check: check)),
+        _mapEntryBuilderInfo = null {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isRepeated(type));
