@@ -263,7 +263,8 @@ class MessageGenerator extends ProtobufContainer {
 
     var mixinClause = '';
     if (mixin != null) {
-      var mixinNames = mixin.findMixinsToApply().map((m) => m.name);
+      var mixinNames = mixin.findMixinsToApply().map(
+          (m) => m.takesGenericArgument ? "${m.name}<$classname>" : m.name);
       mixinClause = ' with ${mixinNames.join(", ")}';
     }
 
@@ -321,7 +322,8 @@ class MessageGenerator extends ProtobufContainer {
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' : super.fromJson(i, r);');
 
-      out.println('$_protobufImportPrefix.BuilderInfo<$classname> get info_ => _i;');
+      out.println(
+          '$_protobufImportPrefix.BuilderInfo<$classname> get info_ => _i;');
 
       // Factory functions which can be used as default value closures.
       out.println('static ${classname} create() =>'

@@ -35,7 +35,15 @@ class PbMixin {
   /// May be null if the mixin doesn't reserve any new names.
   final List<String> reservedNames;
 
-  const PbMixin(this.name, {this.importFrom, this.parent, this.reservedNames});
+  /// True if this should be applied with the generic type of the message as a
+  /// generic argument.
+  final bool takesGenericArgument;
+
+  const PbMixin(this.name,
+      {this.importFrom,
+      this.parent,
+      this.reservedNames,
+      this.takesGenericArgument: false});
 
   /// Returns the mixin and its ancestors, in the order they should be applied.
   Iterable<PbMixin> findMixinsToApply() {
@@ -64,7 +72,8 @@ final _exportedMixins = [_pbMapMixin, _pbEventMixin];
 
 const _pbMapMixin = const PbMixin("PbMapMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/map_mixin.dart",
-    parent: _mapMixin);
+    parent: _mapMixin,
+    takesGenericArgument: true);
 
 const _pbEventMixin = const PbMixin("PbEventMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/event_mixin.dart",
