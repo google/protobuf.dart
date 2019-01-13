@@ -383,11 +383,15 @@ class CodedBufferWriter {
         _writeInt64(value);
         break;
       case PbFieldType._MESSAGE_BIT:
-        final mark = _startLengthDelimited();
-        value.writeToCodedBufferWriter(this);
-        _endLengthDelimited(mark);
+        writeMessage(value);
         break;
     }
+  }
+
+  void writeMessage(GeneratedMessage message) {
+    final mark = _startLengthDelimited();
+    message.writeToCodedBufferWriter(this);
+    _endLengthDelimited(mark);
   }
 
   _writeBytesNoTag(dynamic value) {
