@@ -287,7 +287,7 @@ class MessageGenerator extends ProtobufContainer {
       }
       out.addBlock(
           'static final $_protobufImportPrefix.BuilderInfo<$classname> _i = '
-          'new $_protobufImportPrefix.BuilderInfo<$classname>(\'${messageName}\'$packageClause, builder: create)',
+          'new $_protobufImportPrefix.BuilderInfo<$classname>(\'${messageName}\', create$packageClause)',
           ';', () {
         for (ProtobufField field in _fieldList) {
           var dartFieldName = field.memberNames.fieldName;

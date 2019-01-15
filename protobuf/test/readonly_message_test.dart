@@ -29,7 +29,7 @@ class Rec extends GeneratedMessage<Rec> {
   Rec createEmptyInstance() => new Rec();
 
   @override
-  BuilderInfo<Rec> info_ = new BuilderInfo<Rec>('rec')
+  BuilderInfo<Rec> info_ = new BuilderInfo<Rec>('rec', Rec.create)
     ..a(1, 'value', PbFieldType.O3)
     ..pp<Rec>(2, 'sub', PbFieldType.PM, (_) {}, Rec.create)
     ..p<int>(10, 'ints', PbFieldType.P3);

@@ -13,9 +13,8 @@ import 'descriptor.pb.dart' as $0;
 
 class Version extends $pb.GeneratedMessage<Version> {
   static final $pb.BuilderInfo<Version> _i = new $pb.BuilderInfo<Version>(
-      'Version',
-      package: const $pb.PackageName('google.protobuf.compiler'),
-      builder: create)
+      'Version', create,
+      package: const $pb.PackageName('google.protobuf.compiler'))
     ..a<int>(1, 'major', $pb.PbFieldType.O3)
     ..a<int>(2, 'minor', $pb.PbFieldType.O3)
     ..a<int>(3, 'patch', $pb.PbFieldType.O3)
@@ -73,9 +72,8 @@ class Version extends $pb.GeneratedMessage<Version> {
 
 class CodeGeneratorRequest extends $pb.GeneratedMessage<CodeGeneratorRequest> {
   static final $pb.BuilderInfo<CodeGeneratorRequest> _i =
-      new $pb.BuilderInfo<CodeGeneratorRequest>('CodeGeneratorRequest',
-          package: const $pb.PackageName('google.protobuf.compiler'),
-          builder: create)
+      new $pb.BuilderInfo<CodeGeneratorRequest>('CodeGeneratorRequest', create,
+          package: const $pb.PackageName('google.protobuf.compiler'))
         ..pPS(1, 'fileToGenerate')
         ..aOS(2, 'parameter')
         ..a<Version>(3, 'compilerVersion', $pb.PbFieldType.OM,
@@ -127,9 +125,8 @@ class CodeGeneratorResponse_File
     extends $pb.GeneratedMessage<CodeGeneratorResponse_File> {
   static final $pb.BuilderInfo<CodeGeneratorResponse_File> _i =
       new $pb.BuilderInfo<CodeGeneratorResponse_File>(
-          'CodeGeneratorResponse.File',
-          package: const $pb.PackageName('google.protobuf.compiler'),
-          builder: create)
+          'CodeGeneratorResponse.File', create,
+          package: const $pb.PackageName('google.protobuf.compiler'))
         ..aOS(1, 'name')
         ..aOS(2, 'insertionPoint')
         ..aOS(15, 'content')
@@ -183,9 +180,9 @@ class CodeGeneratorResponse_File
 class CodeGeneratorResponse
     extends $pb.GeneratedMessage<CodeGeneratorResponse> {
   static final $pb.BuilderInfo<CodeGeneratorResponse> _i =
-      new $pb.BuilderInfo<CodeGeneratorResponse>('CodeGeneratorResponse',
-          package: const $pb.PackageName('google.protobuf.compiler'),
-          builder: create)
+      new $pb.BuilderInfo<CodeGeneratorResponse>(
+          'CodeGeneratorResponse', create,
+          package: const $pb.PackageName('google.protobuf.compiler'))
         ..aOS(1, 'error')
         ..pp<CodeGeneratorResponse_File>(
             15,

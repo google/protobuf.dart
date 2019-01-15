@@ -7,7 +7,6 @@ import 'package:test/test.dart';
 
 class Foo extends GeneratedMessage<Foo> {
   @override
-  // TODO: implement info_
   BuilderInfo<Foo> get info_ => null;
 }
 
@@ -16,12 +15,12 @@ main() {
     final qualifiedmessageName = 'proto.test.TestMessage';
     final expectedMessageName = 'TestMessage';
     test('truncates qualifiedMessageName containing dots', () {
-      final info = new BuilderInfo<Foo>(qualifiedmessageName);
+      final info = new BuilderInfo<Foo>(qualifiedmessageName, () => new Foo());
       expect(info.messageName, expectedMessageName);
     });
 
     test('uses qualifiedMessageName if it contains no dots', () {
-      final info = new BuilderInfo<Foo>(expectedMessageName);
+      final info = new BuilderInfo<Foo>(expectedMessageName, () => new Foo());
       expect(info.messageName, expectedMessageName);
     });
   });

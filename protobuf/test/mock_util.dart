@@ -8,8 +8,9 @@ import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart'
     show GeneratedMessage, BuilderInfo, CreateBuilderFunc, PbFieldType;
 
-BuilderInfo<M> mockInfo<M extends GeneratedMessage<M>>(String className, CreateBuilderFunc create) {
-  return new BuilderInfo<M>(className)
+BuilderInfo<M> mockInfo<M extends GeneratedMessage<M>>(
+    String className, CreateBuilderFunc create) {
+  return new BuilderInfo<M>(className, create)
     ..a(1, "val", PbFieldType.O3, 42)
     ..a(2, "str", PbFieldType.OS)
     ..a(3, "child", PbFieldType.OM, create, create)
@@ -18,7 +19,8 @@ BuilderInfo<M> mockInfo<M extends GeneratedMessage<M>>(String className, CreateB
 }
 
 /// A minimal protobuf implementation for testing.
-abstract class MockMessage<T extends MockMessage<T>> extends GeneratedMessage<T> {
+abstract class MockMessage<T extends MockMessage<T>>
+    extends GeneratedMessage<T> {
   // subclasses must provide these
   BuilderInfo<T> get info_;
 

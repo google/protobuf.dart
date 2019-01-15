@@ -4,19 +4,23 @@
 
 part of protobuf;
 
-
 class _MapEntry<K, V> extends GeneratedMessage<_MapEntry<K, V>> {
-  _MapEntry(int keyFieldType, int valueFieldType, CreateBuilderFunc valueCreator, ValueOfFunc valueOf, List<ProtobufEnum> enumValues);
+  _MapEntry(
+      int keyFieldType,
+      int valueFieldType,
+      CreateBuilderFunc valueCreator,
+      ValueOfFunc valueOf,
+      List<ProtobufEnum> enumValues);
 
   @override
   _MapEntry<K, V> clone() {
-    throw "Should not be instantiated";
+    throw StateError("Should not be instantiated");
   }
 
   @override
-  // TODO: implement info_
-  BuilderInfo<_MapEntry<K, V>> get info_ => throw "Should not be instantiated";
-
+  BuilderInfo<_MapEntry<K, V>> get info_ {
+    throw StateError("Should not be instantiated");
+  }
 }
 
 class PbMap<K, V> extends MapBase<K, V> {
@@ -36,7 +40,7 @@ class PbMap<K, V> extends MapBase<K, V> {
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues])
       : _wrappedMap = <K, V>{} {
-    BuilderInfo entryInfo = new BuilderInfo<_MapEntry<K, V>>("entry")
+    BuilderInfo entryInfo = new BuilderInfo<_MapEntry<K, V>>("entry", null)
       ..add(_keyFieldNumber, "key", keyFieldType, null, null, null, null)
       ..add(_valueFieldNumber, "value", valueFieldType, null, valueCreator,
           valueOf, enumValues);

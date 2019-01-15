@@ -11,9 +11,8 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class DartMixin extends $pb.GeneratedMessage<DartMixin> {
   static final $pb.BuilderInfo<DartMixin> _i = new $pb.BuilderInfo<DartMixin>(
-      'DartMixin',
-      package: const $pb.PackageName('dart_options'),
-      builder: create)
+      'DartMixin', create,
+      package: const $pb.PackageName('dart_options'))
     ..aOS(1, 'name')
     ..aOS(2, 'importFrom')
     ..aOS(3, 'parent')
@@ -62,9 +61,7 @@ class DartMixin extends $pb.GeneratedMessage<DartMixin> {
 
 class Imports extends $pb.GeneratedMessage<Imports> {
   static final $pb.BuilderInfo<Imports> _i = new $pb.BuilderInfo<Imports>(
-      'Imports',
-      package: const $pb.PackageName('dart_options'),
-      builder: create)
+      'Imports', create, package: const $pb.PackageName('dart_options'))
     ..pp<DartMixin>(
         1, 'mixins', $pb.PbFieldType.PM, DartMixin.$checkItem, DartMixin.create)
     ..hasRequiredFields = false;

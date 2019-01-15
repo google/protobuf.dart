@@ -19,7 +19,8 @@ class BuilderInfo<M extends GeneratedMessage<M>> {
   List<FieldInfo> _sortedByTag;
   CreateBuilderFunc<M> _builder;
 
-  BuilderInfo(String messageName, {CreateBuilderFunc<M> builder, PackageName package = const PackageName('')})
+  BuilderInfo(String messageName, CreateBuilderFunc<M> builder,
+      {PackageName package = const PackageName('')})
       : qualifiedMessageName = "${package.prefix}$messageName",
         _builder = builder;
 
