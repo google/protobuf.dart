@@ -16,6 +16,14 @@ typedef ProtobufEnum ValueOfFunc(int value);
 /// Public properties and methods added here should also be added to
 /// GeneratedMessage_reservedNames and should be unlikely to be used in
 /// a proto file.
+///
+/// [M] will usually be the concrete subclass. For example:
+///
+/// ```dart
+/// class Foo extends GeneratedMessage<Foo> {
+///   ...
+/// }
+/// ```
 abstract class GeneratedMessage<M extends GeneratedMessage<M>> {
   _FieldSet _fieldSet;
 

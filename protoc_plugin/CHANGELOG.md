@@ -1,3 +1,10 @@
+## 16.0.0
+* Breaking change:
+
+  Generates type-arguments to `GeneratedMessage`.
+
+  The generated code requires at least protobuf 0.13.0.
+
 ## 14.0.1
 
 * Remove the benchmark from the protoc_package. It now lives in

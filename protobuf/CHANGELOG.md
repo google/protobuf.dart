@@ -1,3 +1,22 @@
+## 0.13.0
+* Breaking change:
+  - `GeneratedMessage` and `BuilderInfo` are now generic, taking as type-argument `M` the concrete message subclass.
+
+    The methods: `GeneratedMessage.clone()`, and `GeneratedMessage.createEmptyInstance()` are no longer abstract and do
+    not need to be overridden by the subclass.
+
+    The methods: `GeneratedMessage.clone()`, and `GeneratedMessage.createEmptyInstance()`, `GeneratedMessage.freeze()`,
+    `GeneratedMessage.copyWith()`
+    now have return type `M` instead of `GeneratedMessage`.
+
+    `GeneratedMessage.mergeFromMessage()` now takes an argument of type `M` instead of `GeneratedMessage`.
+
+
+  - `BuilderInfo` now takes a second mandatory argument, a builder-function that constructs the described message type.
+
+
+  Proto files must be rebuilt using protoc_plugin 16.0.0 or newer.
+
 ## 0.11.0
 
 * Breaking change: changed semantics of `GeneratedMessage.toBuilder()` to only make a shallow copy.
