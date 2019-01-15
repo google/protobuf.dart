@@ -32,7 +32,8 @@ void unpackIntoHelper<M extends GeneratedMessage<M>>(
 /// `typeUrl`.
 ///
 /// This is a helper method for `Any.canUnpackInto`.
-bool canUnpackIntoHelper<M extends GeneratedMessage<M>>(M instance, String typeUrl) {
+bool canUnpackIntoHelper<M extends GeneratedMessage<M>>(
+    M instance, String typeUrl) {
   return instance.info_.qualifiedMessageName == _typeNameFromUrl(typeUrl);
 }
 
