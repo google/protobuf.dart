@@ -1,6 +1,6 @@
 ## 0.12.0
 
-* Breaking change: Changed `BuilderInfo.m` to take class and package name of the protobuf message representing the map
+* Breaking change: Changed `BuilderInfo.m()` to take class and package name of the protobuf message representing the map
   entry. Also changed `BuilderInfo.addMapField` as well as the constructors `PbMap` and `MapFieldInfo.map` to take a map
   entry BuilderInfo object.
 

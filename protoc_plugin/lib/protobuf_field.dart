@@ -139,7 +139,7 @@ class ProtobufField {
           : ", const $_protobufImportPrefix.PackageName(\'$package\')";
 
       return '..m<$keyType, $valueType>($number, $quotedName, $mapEntryClassName,'
-          '$keyTypeConstant, $valTypeConstant $packageClause, $valueCreator, $valueOf, $enumValues)';
+          '$keyTypeConstant, $valTypeConstant, $valueCreator, $valueOf, $enumValues $packageClause)';
     }
 
     if (isRepeated) {
