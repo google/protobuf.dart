@@ -16,16 +16,9 @@ class PbMap<K, V> extends MapBase<K, V> {
   bool _isReadonly = false;
   _FieldSet _entryFieldSet;
 
-  PbMap(this.keyFieldType, this.valueFieldType,
-      [CreateBuilderFunc valueCreator,
-      ValueOfFunc valueOf,
-      List<ProtobufEnum> enumValues])
+  PbMap(this.keyFieldType, this.valueFieldType, BuilderInfo entryBuilderInfo)
       : _wrappedMap = <K, V>{} {
-    BuilderInfo entryInfo = new BuilderInfo("entry")
-      ..add(_keyFieldNumber, "key", keyFieldType, null, null, null, null)
-      ..add(_valueFieldNumber, "value", valueFieldType, null, valueCreator,
-          valueOf, enumValues);
-    _entryFieldSet = new _FieldSet(null, entryInfo, null);
+    _entryFieldSet = new _FieldSet(null, entryBuilderInfo, null);
   }
 
   PbMap.unmodifiable(PbMap other)

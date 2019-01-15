@@ -1,3 +1,8 @@
+## 15.0.0
+
+*  Breaking change: Changed BuilderInfo call for map fields to include the BuilderInfo object for map entries.
+   Generated files require package:protobuf version 0.12.0 or newer.
+
 ## 14.0.1
 
 * Remove the benchmark from the protoc_package. It now lives in
