@@ -270,8 +270,8 @@ abstract class GeneratedMessage {
 
   /// Creates a Map representing a map field.
   Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) {
-    return PbMap<K, V>(fi.keyFieldType, fi.valueFieldType, fi.valueCreator,
-        fi.valueOf, fi.enumValues);
+    return PbMap<K, V>(
+        fi.keyFieldType, fi.valueFieldType, fi._mapEntryBuilderInfo);
   }
 
   /// Returns the value of a field, ignoring any defaults.

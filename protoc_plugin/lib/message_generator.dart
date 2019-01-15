@@ -290,7 +290,8 @@ class MessageGenerator extends ProtobufContainer {
           ';', () {
         for (ProtobufField field in _fieldList) {
           var dartFieldName = field.memberNames.fieldName;
-          out.println(field.generateBuilderInfoCall(fileGen, dartFieldName));
+          out.println(
+              field.generateBuilderInfoCall(fileGen, dartFieldName, package));
         }
 
         for (int oneof = 0; oneof < _oneofFields.length; oneof++) {
