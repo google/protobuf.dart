@@ -40,6 +40,13 @@ void main() {
     assertExtensionsClear(new TestAllExtensions());
   });
 
+  test('can read after freeze', () {
+    TestAllExtensions message = new TestAllExtensions();
+    setAllExtensions(message);
+    message.freeze();
+    assertAllExtensionsSet(message);
+  });
+
   // void testExtensionReflectionGetters() {} // UNSUPPORTED -- reflection
   // void testExtensionReflectionSetters() {} // UNSUPPORTED -- reflection
   // void testExtensionReflectionSettersRejectNull() {} // UNSUPPORTED

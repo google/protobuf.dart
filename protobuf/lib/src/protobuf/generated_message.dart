@@ -249,10 +249,9 @@ abstract class GeneratedMessage {
   /// Returns the value of [extension].
   ///
   /// If not set, returns the extension's default value.
-  getExtension(Extension extension) {
-    if (_fieldSet._isReadOnly) return extension.readonlyDefault;
-    return _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
-  }
+  getExtension(Extension extension) =>
+      _fieldSet._extensions?._getFieldOrNull(extension) ??
+      extension.readonlyDefault;
 
   /// Returns the value of the field associated with [tagNumber], or the
   /// default value if it is not set.
