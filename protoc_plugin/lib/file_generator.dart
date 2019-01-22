@@ -13,7 +13,7 @@ final String _protobufImport =
     "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;";
 final String _asyncImport = "import 'dart:async' as $_asyncImportPrefix;";
 final String _grpcImport =
-    "import 'package:grpc/grpc.dart' as $_grpcImportPrefix;";
+    "import 'package:grpc/service_api.dart' as $_grpcImportPrefix;";
 
 /// Generates the Dart output files for one .proto input file.
 ///
