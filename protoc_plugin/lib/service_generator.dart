@@ -233,9 +233,11 @@ class ServiceGenerator {
       out.println();
     }
   }
-  static final String _future = '$_asyncImportPrefix.Future';
-  static final String _generatedMessage = '$_protobufImportPrefix.GeneratedMessage';
-  static final String _serverContext = '$_protobufImportPrefix.ServerContext';
-  static final String _generatedService = '$_protobufImportPrefix.GeneratedService';
 
+  static final String _future = '$_asyncImportPrefix.Future';
+  static final String _generatedMessage =
+      '$_protobufImportPrefix.GeneratedMessage';
+  static final String _serverContext = '$_protobufImportPrefix.ServerContext';
+  static final String _generatedService =
+      '$_protobufImportPrefix.GeneratedService';
 }

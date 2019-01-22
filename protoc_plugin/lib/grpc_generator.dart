@@ -197,9 +197,8 @@ class _GrpcMethod {
     final clientReturnType = serverStreaming
         ? '$_responseStream<$responseType>'
         : '$_responseFuture<$responseType>';
-    final serverReturnType = serverStreaming
-        ? '$_stream<$responseType>'
-        : '$_future<$responseType>';
+    final serverReturnType =
+        serverStreaming ? '$_stream<$responseType>' : '$_future<$responseType>';
 
     return new _GrpcMethod._(
         grpcName,
@@ -228,9 +227,8 @@ class _GrpcMethod {
     out.addBlock(
         '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions} options}) {',
         '}', () {
-      final requestStream = _clientStreaming
-          ? 'request'
-          : 'new $_stream.fromIterable([request])';
+      final requestStream =
+          _clientStreaming ? 'request' : 'new $_stream.fromIterable([request])';
       out.println(
           'final call = \$createCall(_\$$_dartName, $requestStream, options: options);');
       if (_serverStreaming) {

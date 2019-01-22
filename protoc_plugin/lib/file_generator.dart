@@ -9,10 +9,11 @@ final _formatter = new DartFormatter();
 final String _protobufImportPrefix = r'$pb';
 final String _asyncImportPrefix = r'$async';
 final String _grpcImportPrefix = r'$grpc';
-final String _protobufImport = "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;";
+final String _protobufImport =
+    "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;";
 final String _asyncImport = "import 'dart:async' as $_asyncImportPrefix;";
-final String _grpcImport = "import 'package:grpc/grpc.dart' as $_grpcImportPrefix;";
-
+final String _grpcImport =
+    "import 'package:grpc/grpc.dart' as $_grpcImportPrefix;";
 
 /// Generates the Dart output files for one .proto input file.
 ///
