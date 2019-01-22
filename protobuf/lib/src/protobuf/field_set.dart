@@ -83,7 +83,6 @@ class _FieldSet {
   bool get hasUnknownFields => _unknownFields != null;
 
   _ExtensionFieldSet _ensureExtensions() {
-    _ensureWritable();
     if (!_hasExtensions) _extensions = new _ExtensionFieldSet(this);
     return _extensions;
   }
@@ -141,6 +140,9 @@ class _FieldSet {
           (entry as GeneratedMessage).freeze();
         }
       }
+    }
+    if (_hasExtensions) {
+      _ensureExtensions()._markReadOnly();
     }
   }
 

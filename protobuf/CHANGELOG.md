@@ -1,3 +1,7 @@
+## 0.13.0
+
+* Breaking change: Fix issue with not being able to read extensions after freezing.
+
 ## 0.12.0
 
 * Breaking change: Changed `BuilderInfo.m()` to take class and package name of the protobuf message representing the map

@@ -13,17 +13,21 @@ main() {
       expect(original.getExtension(FooExt.inner).value, 'extension');
       expect(
           original.getExtension(FooExt.inners)[0].value, 'repeatedExtension');
-    }, skip: 'https://github.com/dart-lang/protobuf/issues/171');
+    });
 
     test('frozen message cannot be modified', () {
       expect(() => original.inner = (Inner()..value = 'bar'),
           throwsA(TypeMatcher<UnsupportedError>()));
       expect(() => original.inner..value = 'bar',
           throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => original.inners.add(Inner()..value = 'bar'),
+          throwsA(TypeMatcher<UnsupportedError>()));
     });
 
     test('extensions cannot be modified', () {
       expect(() => original.setExtension(FooExt.inner, Inner()..value = 'bar'),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => original.getExtension(FooExt.inner).value = 'bar',
           throwsA(TypeMatcher<UnsupportedError>()));
       expect(
           () =>
@@ -38,7 +42,7 @@ main() {
     test('builder extensions are also copied shallowly', () {
       expect(builder.getExtension(FooExt.inner),
           same(original.getExtension(FooExt.inner)));
-    }, skip: 'https://github.com/dart-lang/protobuf/issues/171');
+    });
 
     test('repeated fields are cloned', () {
       expect(builder.inners, isNot(same(original.inners)));
@@ -50,7 +54,7 @@ main() {
           isNot(same(original.getExtension(FooExt.inners))));
       expect(builder.getExtension(FooExt.inners)[0],
           same(original.getExtension(FooExt.inners)[0]));
-    }, skip: 'https://github.com/dart-lang/protobuf/issues/171');
+    });
 
     test(
         'the builder is only a shallow copy, the nested message is still frozen.',

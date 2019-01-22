@@ -250,7 +250,6 @@ abstract class GeneratedMessage {
   ///
   /// If not set, returns the extension's default value.
   getExtension(Extension extension) {
-    if (_fieldSet._isReadOnly) return extension.readonlyDefault;
     return _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
   }
 
