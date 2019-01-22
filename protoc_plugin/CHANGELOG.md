@@ -1,4 +1,8 @@
-+## 15.0.1
+## 15.0.2
+
+* The generated `pbgrpc.dart` files now import `package:grpc/grpc.dart` with a prefix.
+
+## 15.0.1
 
 * Add test for frozen messages with extension fields and update protobuf dependency to 0.13.0.
 
