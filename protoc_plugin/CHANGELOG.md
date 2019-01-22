@@ -1,3 +1,7 @@
++## 15.0.1
+
+* Add test for frozen messages with extension fields and update protobuf dependency to 0.13.0.
+
 ## 15.0.0
 
 *  Breaking change: Changed BuilderInfo call for map fields to include the BuilderInfo object for map entries.
