@@ -88,8 +88,10 @@ class _FieldSet {
   }
 
   UnknownFieldSet _ensureUnknownFields() {
-    if (_isReadOnly) return _ReadonlyUnknownFieldSet._empty;
-    if (_unknownFields == null) _unknownFields = new UnknownFieldSet();
+    if (_unknownFields == null) {
+      if (_isReadOnly) return UnknownFieldSet().._markReadOnly();
+      _unknownFields = new UnknownFieldSet();
+    }
     return _unknownFields;
   }
 
@@ -143,6 +145,10 @@ class _FieldSet {
     }
     if (_hasExtensions) {
       _ensureExtensions()._markReadOnly();
+    }
+
+    if (hasUnknownFields) {
+      _ensureUnknownFields()._markReadOnly();
     }
   }
 

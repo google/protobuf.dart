@@ -1,3 +1,7 @@
+## 15.0.3
+
+* Add test for frozen messages with unknown fields and update protobuf dependency to 0.14.0.
+
 ## 15.0.2
 
 * The generated `pbgrpc.dart` files now import `package:grpc/grpc.dart` with a prefix.

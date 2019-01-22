@@ -18,10 +18,12 @@ class UnknownFieldSet {
 
   bool get isEmpty => _fields.isEmpty;
   bool get isNotEmpty => _fields.isNotEmpty;
+  bool _isReadOnly = false;
 
   Map<int, UnknownFieldSetField> asMap() => new Map.from(_fields);
 
   void clear() {
+    _ensureWritable('clear');
     _fields.clear();
   }
 
@@ -30,11 +32,13 @@ class UnknownFieldSet {
   bool hasField(int tagNumber) => _fields.containsKey(tagNumber);
 
   void addField(int number, UnknownFieldSetField field) {
+    _ensureWritable('addField');
     _checkFieldNumber(number);
     _fields[number] = field;
   }
 
   void mergeField(int number, UnknownFieldSetField field) {
+    _ensureWritable('mergeField');
     _getField(number)
       ..varints.addAll(field.varints)
       ..fixed32s.addAll(field.fixed32s)
@@ -44,6 +48,7 @@ class UnknownFieldSet {
   }
 
   bool mergeFieldFromBuffer(int tag, CodedBufferReader input) {
+    _ensureWritable('mergeFieldFromBuffer');
     int number = getTagFieldNumber(tag);
     switch (getTagWireType(tag)) {
       case WIRETYPE_VARINT:
@@ -70,6 +75,7 @@ class UnknownFieldSet {
   }
 
   void mergeFromCodedBufferReader(CodedBufferReader input) {
+    _ensureWritable('mergeFromCodedBufferReader');
     while (true) {
       int tag = input.readTag();
       if (tag == 0 || !mergeFieldFromBuffer(tag, input)) {
@@ -79,6 +85,7 @@ class UnknownFieldSet {
   }
 
   void mergeFromUnknownFieldSet(UnknownFieldSet other) {
+    _ensureWritable('mergeFromUnknownFieldSet');
     for (int key in other._fields.keys) {
       mergeField(key, other._fields[key]);
     }
@@ -91,27 +98,33 @@ class UnknownFieldSet {
   }
 
   void mergeFixed32Field(int number, int value) {
+    _ensureWritable('mergeFixed32Field');
     _getField(number).addFixed32(value);
   }
 
   void mergeFixed64Field(int number, Int64 value) {
+    _ensureWritable('mergeFixed64Field');
     _getField(number).addFixed64(value);
   }
 
   void mergeGroupField(int number, UnknownFieldSet value) {
+    _ensureWritable('mergeGroupField');
     _getField(number).addGroup(value);
   }
 
   void mergeLengthDelimitedField(int number, List<int> value) {
+    _ensureWritable('mergeLengthDelimitedField');
     _getField(number).addLengthDelimited(value);
   }
 
   void mergeVarintField(int number, Int64 value) {
+    _ensureWritable('mergeVarintField');
     _getField(number).addVarint(value);
   }
 
   UnknownFieldSetField _getField(int number) {
     _checkFieldNumber(number);
+    if (_isReadOnly) assert(_fields.containsKey(number));
     return _fields.putIfAbsent(number, () => new UnknownFieldSetField());
   }
 
@@ -162,14 +175,43 @@ class UnknownFieldSet {
       _fields[key].writeTo(key, output);
     }
   }
+
+  void _markReadOnly() {
+    if (_isReadOnly) return;
+    _fields.values.forEach((UnknownFieldSetField f) => f._markReadOnly());
+    _isReadOnly = true;
+  }
+
+  void _ensureWritable(String methodName) {
+    if (_isReadOnly)
+      frozenMessageModificationHandler('UnknownFieldSet', methodName);
+  }
 }
 
 class UnknownFieldSetField {
-  final List<List<int>> lengthDelimited = <List<int>>[];
-  final List<Int64> varints = <Int64>[];
-  final List<int> fixed32s = <int>[];
-  final List<Int64> fixed64s = <Int64>[];
-  final List<UnknownFieldSet> groups = <UnknownFieldSet>[];
+  List<List<int>> _lengthDelimited = <List<int>>[];
+  List<Int64> _varints = <Int64>[];
+  List<int> _fixed32s = <int>[];
+  List<Int64> _fixed64s = <Int64>[];
+  List<UnknownFieldSet> _groups = <UnknownFieldSet>[];
+
+  List<List<int>> get lengthDelimited => _lengthDelimited;
+  List<Int64> get varints => _varints;
+  List<int> get fixed32s => _fixed32s;
+  List<Int64> get fixed64s => _fixed64s;
+  List<UnknownFieldSet> get groups => _groups;
+
+  bool _isReadOnly = false;
+
+  void _markReadOnly() {
+    if (_isReadOnly) return;
+    _isReadOnly = true;
+    _lengthDelimited = List.unmodifiable(_lengthDelimited);
+    _varints = List.unmodifiable(_varints);
+    _fixed32s = List.unmodifiable(_fixed32s);
+    _fixed64s = List.unmodifiable(_fixed64s);
+    _groups = List.unmodifiable(_groups);
+  }
 
   bool operator ==(other) {
     if (other is! UnknownFieldSetField) return false;
