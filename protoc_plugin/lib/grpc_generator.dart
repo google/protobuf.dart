@@ -110,13 +110,13 @@ class GrpcServiceGenerator {
   }
 
   void _generateClient(IndentingWriter out) {
-    out.addBlock('class $_clientClassname extends Client {', '}', () {
+    out.addBlock('class $_clientClassname extends $_client {', '}', () {
       for (final method in _methods) {
         method.generateClientMethodDescriptor(out);
       }
       out.println();
       out.println(
-          '$_clientClassname(ClientChannel channel, {CallOptions options})');
+          '$_clientClassname($_clientChannel channel, {$_callOptions options})');
       out.println('    : super(channel, options: options);');
       for (final method in _methods) {
         method.generateClientStub(out);
@@ -125,7 +125,7 @@ class GrpcServiceGenerator {
   }
 
   void _generateService(IndentingWriter out) {
-    out.addBlock('abstract class $_serviceClassname extends Service {', '}',
+    out.addBlock('abstract class $_serviceClassname extends $_service {', '}',
         () {
       out.println('String get \$name => \'$_fullServiceName\';');
       out.println();
@@ -143,6 +143,11 @@ class GrpcServiceGenerator {
       }
     });
   }
+
+  static final String _callOptions = '$_grpcImportPrefix.CallOptions';
+  static final String _client = '$_grpcImportPrefix.Client';
+  static final String _clientChannel = '$_grpcImportPrefix.ClientChannel';
+  static final String _service = '$_grpcImportPrefix.Service';
 }
 
 class _GrpcMethod {
@@ -188,13 +193,13 @@ class _GrpcMethod {
     final responseType = service._getDartClassName(method.outputType);
 
     final argumentType =
-        clientStreaming ? '\$async.Stream<$requestType>' : requestType;
+        clientStreaming ? '$_stream<$requestType>' : requestType;
     final clientReturnType = serverStreaming
-        ? 'ResponseStream<$responseType>'
-        : 'ResponseFuture<$responseType>';
+        ? '$_responseStream<$responseType>'
+        : '$_responseFuture<$responseType>';
     final serverReturnType = serverStreaming
-        ? '\$async.Stream<$responseType>'
-        : '\$async.Future<$responseType>';
+        ? '$_stream<$responseType>'
+        : '$_future<$responseType>';
 
     return new _GrpcMethod._(
         grpcName,
@@ -211,7 +216,7 @@ class _GrpcMethod {
 
   void generateClientMethodDescriptor(IndentingWriter out) {
     out.println(
-        'static final _\$$_dartName = new ClientMethod<$_requestType, $_responseType>(');
+        'static final _\$$_dartName = new $_clientMethod<$_requestType, $_responseType>(');
     out.println('    \'/$_serviceName/$_grpcName\',');
     out.println('    ($_requestType value) => value.writeToBuffer(),');
     out.println(
@@ -221,24 +226,24 @@ class _GrpcMethod {
   void generateClientStub(IndentingWriter out) {
     out.println();
     out.addBlock(
-        '$_clientReturnType $_dartName($_argumentType request, {CallOptions options}) {',
+        '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions} options}) {',
         '}', () {
       final requestStream = _clientStreaming
           ? 'request'
-          : r'new $async.Stream.fromIterable([request])';
+          : 'new $_stream.fromIterable([request])';
       out.println(
           'final call = \$createCall(_\$$_dartName, $requestStream, options: options);');
       if (_serverStreaming) {
-        out.println('return new ResponseStream(call);');
+        out.println('return new $_responseStream(call);');
       } else {
-        out.println('return new ResponseFuture(call);');
+        out.println('return new $_responseFuture(call);');
       }
     });
   }
 
   void generateServiceMethodRegistration(IndentingWriter out) {
     out.println(
-        '\$addMethod(new ServiceMethod<$_requestType, $_responseType>(');
+        '\$addMethod(new $_serviceMethod<$_requestType, $_responseType>(');
     out.println('    \'$_grpcName\',');
     out.println('    $_dartName${_clientStreaming ? '' : '_Pre'},');
     out.println('    $_clientStreaming,');
@@ -252,7 +257,7 @@ class _GrpcMethod {
     if (_clientStreaming) return;
 
     out.addBlock(
-        '$_serverReturnType ${_dartName}_Pre(ServiceCall call, \$async.Future request) async${_serverStreaming ? '*' : ''} {',
+        '$_serverReturnType ${_dartName}_Pre($_serviceCall call, $_future request) async${_serverStreaming ? '*' : ''} {',
         '}', () {
       if (_serverStreaming) {
         out.println(
@@ -266,6 +271,14 @@ class _GrpcMethod {
 
   void generateServiceMethodStub(IndentingWriter out) {
     out.println(
-        '$_serverReturnType $_dartName(ServiceCall call, $_argumentType request);');
+        '$_serverReturnType $_dartName($_serviceCall call, $_argumentType request);');
   }
+
+  static final String _serviceCall = '$_grpcImportPrefix.ServiceCall';
+  static final String _serviceMethod = '$_grpcImportPrefix.ServiceMethod';
+  static final String _clientMethod = '$_grpcImportPrefix.ClientMethod';
+  static final String _future = '$_asyncImportPrefix.Future';
+  static final String _stream = '$_asyncImportPrefix.Stream';
+  static final String _responseFuture = '$_grpcImportPrefix.ResponseFuture';
+  static final String _responseStream = '$_grpcImportPrefix.ResponseStream';
 }

@@ -6,84 +6,85 @@
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart';
-
+import 'package:grpc/grpc.dart' as $grpc;
 import 'test.pb.dart';
 export 'test.pb.dart';
 
-class TestClient extends Client {
-  static final _$unary = new ClientMethod<Input, Output>(
+class TestClient extends $grpc.Client {
+  static final _$unary = new $grpc.ClientMethod<Input, Output>(
       '/Test/Unary',
       (Input value) => value.writeToBuffer(),
       (List<int> value) => new Output.fromBuffer(value));
-  static final _$clientStreaming = new ClientMethod<Input, Output>(
+  static final _$clientStreaming = new $grpc.ClientMethod<Input, Output>(
       '/Test/ClientStreaming',
       (Input value) => value.writeToBuffer(),
       (List<int> value) => new Output.fromBuffer(value));
-  static final _$serverStreaming = new ClientMethod<Input, Output>(
+  static final _$serverStreaming = new $grpc.ClientMethod<Input, Output>(
       '/Test/ServerStreaming',
       (Input value) => value.writeToBuffer(),
       (List<int> value) => new Output.fromBuffer(value));
-  static final _$bidirectional = new ClientMethod<Input, Output>(
+  static final _$bidirectional = new $grpc.ClientMethod<Input, Output>(
       '/Test/Bidirectional',
       (Input value) => value.writeToBuffer(),
       (List<int> value) => new Output.fromBuffer(value));
 
-  TestClient(ClientChannel channel, {CallOptions options})
+  TestClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<Output> unary(Input request, {CallOptions options}) {
+  $grpc.ResponseFuture<Output> unary(Input request,
+      {$grpc.CallOptions options}) {
     final call = $createCall(_$unary, new $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseFuture(call);
+    return new $grpc.ResponseFuture(call);
   }
 
-  ResponseFuture<Output> clientStreaming($async.Stream<Input> request,
-      {CallOptions options}) {
+  $grpc.ResponseFuture<Output> clientStreaming($async.Stream<Input> request,
+      {$grpc.CallOptions options}) {
     final call = $createCall(_$clientStreaming, request, options: options);
-    return new ResponseFuture(call);
+    return new $grpc.ResponseFuture(call);
   }
 
-  ResponseStream<Output> serverStreaming(Input request, {CallOptions options}) {
+  $grpc.ResponseStream<Output> serverStreaming(Input request,
+      {$grpc.CallOptions options}) {
     final call = $createCall(
         _$serverStreaming, new $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseStream(call);
+    return new $grpc.ResponseStream(call);
   }
 
-  ResponseStream<Output> bidirectional($async.Stream<Input> request,
-      {CallOptions options}) {
+  $grpc.ResponseStream<Output> bidirectional($async.Stream<Input> request,
+      {$grpc.CallOptions options}) {
     final call = $createCall(_$bidirectional, request, options: options);
-    return new ResponseStream(call);
+    return new $grpc.ResponseStream(call);
   }
 }
 
-abstract class TestServiceBase extends Service {
+abstract class TestServiceBase extends $grpc.Service {
   String get $name => 'Test';
 
   TestServiceBase() {
-    $addMethod(new ServiceMethod<Input, Output>(
+    $addMethod(new $grpc.ServiceMethod<Input, Output>(
         'Unary',
         unary_Pre,
         false,
         false,
         (List<int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<Input, Output>(
+    $addMethod(new $grpc.ServiceMethod<Input, Output>(
         'ClientStreaming',
         clientStreaming,
         true,
         false,
         (List<int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<Input, Output>(
+    $addMethod(new $grpc.ServiceMethod<Input, Output>(
         'ServerStreaming',
         serverStreaming_Pre,
         false,
         true,
         (List<int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<Input, Output>(
+    $addMethod(new $grpc.ServiceMethod<Input, Output>(
         'Bidirectional',
         bidirectional,
         true,
@@ -93,19 +94,19 @@ abstract class TestServiceBase extends Service {
   }
 
   $async.Future<Output> unary_Pre(
-      ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future request) async {
     return unary(call, await request);
   }
 
   $async.Stream<Output> serverStreaming_Pre(
-      ServiceCall call, $async.Future request) async* {
+      $grpc.ServiceCall call, $async.Future request) async* {
     yield* serverStreaming(call, (await request) as Input);
   }
 
-  $async.Future<Output> unary(ServiceCall call, Input request);
+  $async.Future<Output> unary($grpc.ServiceCall call, Input request);
   $async.Future<Output> clientStreaming(
-      ServiceCall call, $async.Stream<Input> request);
-  $async.Stream<Output> serverStreaming(ServiceCall call, Input request);
+      $grpc.ServiceCall call, $async.Stream<Input> request);
+  $async.Stream<Output> serverStreaming($grpc.ServiceCall call, Input request);
   $async.Stream<Output> bidirectional(
-      ServiceCall call, $async.Stream<Input> request);
+      $grpc.ServiceCall call, $async.Stream<Input> request);
 }

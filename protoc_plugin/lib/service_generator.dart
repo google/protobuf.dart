@@ -131,15 +131,15 @@ class ServiceGenerator {
   String _methodName(String name) =>
       name.substring(0, 1).toLowerCase() + name.substring(1);
 
-  String get _parentClass => 'GeneratedService';
+  String get _parentClass => _generatedService;
 
   void _generateStub(IndentingWriter out, MethodDescriptorProto m) {
     var methodName = _methodName(m.name);
     var inputClass = _getDartClassName(m.inputType);
     var outputClass = _getDartClassName(m.outputType);
 
-    out.println('\$async.Future<$outputClass> $methodName('
-        'ServerContext ctx, $inputClass request);');
+    out.println('$_future<$outputClass> $methodName('
+        '$_serverContext ctx, $inputClass request);');
   }
 
   void _generateStubs(IndentingWriter out) {
@@ -150,7 +150,7 @@ class ServiceGenerator {
   }
 
   void _generateRequestMethod(IndentingWriter out) {
-    out.addBlock('GeneratedMessage createRequest(String method) {', '}', () {
+    out.addBlock('$_generatedMessage createRequest(String method) {', '}', () {
       out.addBlock("switch (method) {", "}", () {
         for (MethodDescriptorProto m in _methodDescriptors) {
           var inputClass = _getDartClassName(m.inputType);
@@ -165,8 +165,8 @@ class ServiceGenerator {
 
   void _generateDispatchMethod(out) {
     out.addBlock(
-        r'$async.Future<GeneratedMessage> handleCall(ServerContext ctx, '
-        'String method, GeneratedMessage request) {',
+        '$_future<$_generatedMessage> handleCall($_serverContext ctx, '
+        'String method, $_generatedMessage request) {',
         '}', () {
       out.addBlock("switch (method) {", "}", () {
         for (MethodDescriptorProto m in _methodDescriptors) {
@@ -233,4 +233,9 @@ class ServiceGenerator {
       out.println();
     }
   }
+  static final String _future = '$_asyncImportPrefix.Future';
+  static final String _generatedMessage = '$_protobufImportPrefix.GeneratedMessage';
+  static final String _serverContext = '$_protobufImportPrefix.ServerContext';
+  static final String _generatedService = '$_protobufImportPrefix.GeneratedService';
+
 }

@@ -7,6 +7,12 @@ part of protoc;
 final _dartIdentifier = new RegExp(r'^\w+$');
 final _formatter = new DartFormatter();
 final String _protobufImportPrefix = r'$pb';
+final String _asyncImportPrefix = r'$async';
+final String _grpcImportPrefix = r'$grpc';
+final String _protobufImport = "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;";
+final String _asyncImport = "import 'dart:async' as $_asyncImportPrefix;";
+final String _grpcImport = "import 'package:grpc/grpc.dart' as $_grpcImportPrefix;";
+
 
 /// Generates the Dart output files for one .proto input file.
 ///
@@ -255,7 +261,7 @@ class FileGenerator extends ProtobufContainer {
     // We only add the dart:async import if there are generic client API
     // generators for services in the FileDescriptorProto.
     if (clientApiGenerators.isNotEmpty) {
-      out.println(r"import 'dart:async' as $async;");
+      out.println(_asyncImport);
     }
 
     // Make sure any other symbols in dart:core don't cause name conflicts with
@@ -268,8 +274,7 @@ class FileGenerator extends ProtobufContainer {
     }
 
     if (_needsProtobufImport) {
-      out.println(
-          "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;");
+      out.println(_protobufImport);
       out.println();
     }
 
@@ -376,8 +381,7 @@ class FileGenerator extends ProtobufContainer {
       // with enums that have the same name.
       out.println("// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME\n"
           "import 'dart:core' show int, dynamic, String, List, Map;");
-      out.println(
-          "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;");
+      out.println(_protobufImport);
       out.println();
     }
 
@@ -409,11 +413,9 @@ class FileGenerator extends ProtobufContainer {
     _writeHeading(out);
 
     if (serviceGenerators.isNotEmpty) {
-      out.println(r'''
-import 'dart:async' as $async;
-
-import 'package:protobuf/protobuf.dart';
-''');
+      out.println(_asyncImport);
+      out.println();
+      out.println(_protobufImport);
     }
 
     // Import .pb.dart files needed for requests and responses.
@@ -450,11 +452,9 @@ import 'package:protobuf/protobuf.dart';
     var out = new IndentingWriter();
     _writeHeading(out);
 
-    out.println(r'''
-import 'dart:async' as $async;
-
-import 'package:grpc/grpc.dart';
-''');
+    out.println(_asyncImport);
+    out.println();
+    out.println(_grpcImport);
 
     // Import .pb.dart files needed for requests and responses.
     var imports = new Set<FileGenerator>();
