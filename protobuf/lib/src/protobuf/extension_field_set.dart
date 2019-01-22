@@ -8,16 +8,14 @@ class _ExtensionFieldSet {
   final _FieldSet _parent;
   final Map<int, Extension> _info = <int, Extension>{};
   final Map<int, dynamic> _values = <int, dynamic>{};
+  bool _isReadOnly = false;
 
-  _ExtensionFieldSet(this._parent) {
-    // Read-only fieldsets shouldn't have extension fields.
-    assert(!_parent._isReadOnly);
-  }
+  _ExtensionFieldSet(this._parent);
 
   Extension _getInfoOrNull(int tagNumber) => _info[tagNumber];
 
   _getFieldOrDefault(Extension fi) {
-    if (fi.isRepeated) return _ensureRepeatedField(fi);
+    if (fi.isRepeated) return _getList(fi);
     _validateInfo(fi);
     // TODO(skybrian) seems unnecessary to add info?
     // I think this was originally here for repeated extensions.
@@ -39,13 +37,24 @@ class _ExtensionFieldSet {
   /// If it doesn't exist, creates the list and saves the extension.
   /// Suitable for public API and decoders.
   List<T> _ensureRepeatedField<T>(Extension<T> fi) {
+    assert(!_isReadOnly);
     assert(fi.isRepeated);
     assert(fi.extendee == _parent._messageName);
 
     var list = _values[fi.tagNumber];
     if (list != null) return list as List<T>;
 
-    // Add info and create list.
+    return _addInfoAndCreateList(fi);
+  }
+
+  List<T> _getList<T>(Extension<T> fi) {
+    var value = _values[fi.tagNumber];
+    if (value != null) return value as List<T>;
+    if (_isReadOnly) return new List<T>.unmodifiable(const []);
+    return _addInfoAndCreateList(fi);
+  }
+
+  List _addInfoAndCreateList(Extension fi) {
     _validateInfo(fi);
     var newList = fi._createRepeatedField(_parent._message);
     _addInfoUnchecked(fi);
@@ -61,6 +70,7 @@ class _ExtensionFieldSet {
   }
 
   void _clearField(Extension fi) {
+    _ensureWritable();
     _validateInfo(fi);
     if (_parent._hasObservers) _parent._eventPlugin.beforeClearField(fi);
     _values.remove(fi.tagNumber);
@@ -78,6 +88,7 @@ class _ExtensionFieldSet {
       throw new ArgumentError(_parent._setFieldFailedMessage(
           fi, value, 'repeating field (use get + .add())'));
     }
+    _ensureWritable();
     _parent._validateField(fi, value);
     _setFieldUnchecked(fi, value);
   }
@@ -85,14 +96,20 @@ class _ExtensionFieldSet {
   /// Sets a non-repeated value and extension.
   /// Overwrites any existing extension.
   void _setFieldAndInfo(Extension fi, value) {
+    _ensureWritable();
     if (fi.isRepeated) {
       throw new ArgumentError(_parent._setFieldFailedMessage(
           fi, value, 'repeating field (use get + .add())'));
     }
+    _ensureWritable();
     _validateInfo(fi);
     _parent._validateField(fi, value);
     _addInfoUnchecked(fi);
     _setFieldUnchecked(fi, value);
+  }
+
+  void _ensureWritable() {
+    if (_isReadOnly) frozenMessageModificationHandler(_parent._messageName);
   }
 
   void _validateInfo(Extension fi) {
@@ -138,10 +155,32 @@ class _ExtensionFieldSet {
       final value = original._getFieldOrNull(extension);
       if (value == null) continue;
       if (extension.isRepeated) {
-        assert(value is PbList);
+        assert(value is PbListBase);
         _ensureRepeatedField(extension)..addAll(value);
       } else {
         _setFieldUnchecked(extension, value);
+      }
+    }
+  }
+
+  void _markReadOnly() {
+    if (_isReadOnly) return;
+    _isReadOnly = true;
+    for (Extension field in _info.values) {
+      if (field.isRepeated) {
+        final entries = _values[field.tagNumber];
+        if (entries == null) continue;
+        if (field.isGroupOrMessage) {
+          for (var subMessage in entries as List<GeneratedMessage>) {
+            subMessage.freeze();
+          }
+        }
+        _values[field.tagNumber] = entries.toFrozenPbList();
+      } else if (field.isGroupOrMessage) {
+        final entry = _values[field.tagNumber];
+        if (entry != null) {
+          (entry as GeneratedMessage).freeze();
+        }
       }
     }
   }
