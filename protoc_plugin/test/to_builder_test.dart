@@ -8,6 +8,7 @@ import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 import 'package:fixnum/fixnum.dart' show Int64;
 import '../out/protos/foo.pb.dart';
+import '../out/protos/google/protobuf/unittest.pb.dart';
 
 main() {
   group('frozen and tobuilder', () {
@@ -107,14 +108,14 @@ main() {
 
   group('frozen unknown fields', () {
     Inner inner;
-    EmptyMessage emptyMessage;
+    TestEmptyMessage emptyMessage;
     int tagNumber;
     UnknownFieldSet unknownFieldSet;
     UnknownFieldSetField field;
 
     setUp(() {
       inner = Inner()..value = 'bob';
-      emptyMessage = EmptyMessage.fromBuffer(inner.writeToBuffer());
+      emptyMessage = TestEmptyMessage.fromBuffer(inner.writeToBuffer());
       tagNumber = inner.getTagNumber('value');
       unknownFieldSet = emptyMessage.unknownFields;
       field = unknownFieldSet.getField(tagNumber);
@@ -130,6 +131,25 @@ main() {
 
       expect(unknownFieldSet.hasField(tagNumber), isTrue);
       expect(field.lengthDelimited[0], utf8.encode(inner.value));
+    });
+
+    test('can add fields to a builder with unknown fields', () {
+      emptyMessage.freeze();
+      TestEmptyMessage builder = emptyMessage.toBuilder();
+
+      builder.unknownFields
+          .addField(2, UnknownFieldSetField()..fixed32s.add(42));
+      expect(builder.unknownFields.getField(2).fixed32s[0], 42);
+    });
+
+    test('cannot mutate already added UnknownFieldSetField on builder', () {
+      emptyMessage.freeze();
+      TestEmptyMessage builder = emptyMessage.toBuilder();
+
+      expect(
+          () => builder.unknownFields.getField(1).lengthDelimited[0] =
+              utf8.encode('alice'),
+          throwsA(TypeMatcher<UnsupportedError>()));
     });
 
     test('cannot add to a frozen UnknownFieldSetField', () {
@@ -168,7 +188,7 @@ main() {
 
     test('cannot merge message into a frozen UnknownFieldSet', () {
       emptyMessage.freeze();
-      EmptyMessage other = emptyMessage.clone();
+      TestEmptyMessage other = emptyMessage.clone();
 
       expect(() => emptyMessage.mergeFromBuffer(other.writeToBuffer()),
           throwsA(TypeMatcher<UnsupportedError>()));

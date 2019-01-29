@@ -27,7 +27,3 @@ extend Outer {
   optional Inner inner = 3;
   repeated Inner inners = 4;
 }
-
-// EmptyMessage is used to test unknown fields.
-message EmptyMessage {
-}

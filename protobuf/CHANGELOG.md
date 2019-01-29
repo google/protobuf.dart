@@ -1,9 +1,8 @@
-## 0.14.0
+## 0.13.1
 
-* Breaking change: Fix issue with not being able to read unknown fields after freezing.
+* Fix issue with not being able to read unknown fields after freezing.
 
-Reading an unknown field set after freeze() now returns the existing field set before freezing instead of an empty field set.
-
+Reading an unknown field set after freeze() now returns the existing field set before freezing instead of an empty UnknownFieldSet.
 
 ## 0.13.0
 

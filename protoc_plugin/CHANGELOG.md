@@ -1,6 +1,6 @@
 ## 15.0.3
 
-* Add test for frozen messages with unknown fields and update protobuf dependency to 0.14.0.
+* Add test for frozen messages with unknown fields and update protobuf dependency to 0.13.1.
 
 ## 15.0.2
 

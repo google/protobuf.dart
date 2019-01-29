@@ -80,7 +80,7 @@ class _FieldSet {
   bool get _hasObservers => _eventPlugin != null && _eventPlugin.hasObservers;
 
   bool get _hasExtensions => _extensions != null;
-  bool get hasUnknownFields => _unknownFields != null;
+  bool get _hasUnknownFields => _unknownFields != null;
 
   _ExtensionFieldSet _ensureExtensions() {
     if (!_hasExtensions) _extensions = new _ExtensionFieldSet(this);
@@ -89,7 +89,7 @@ class _FieldSet {
 
   UnknownFieldSet _ensureUnknownFields() {
     if (_unknownFields == null) {
-      if (_isReadOnly) return UnknownFieldSet().._markReadOnly();
+      if (_isReadOnly) return UnknownFieldSet.emptyUnknownFieldSet;
       _unknownFields = new UnknownFieldSet();
     }
     return _unknownFields;
@@ -147,7 +147,7 @@ class _FieldSet {
       _ensureExtensions()._markReadOnly();
     }
 
-    if (hasUnknownFields) {
+    if (_hasUnknownFields) {
       _ensureUnknownFields()._markReadOnly();
     }
   }
@@ -566,7 +566,7 @@ class _FieldSet {
     // Hash with fields.
     hashEachField();
     // Hash with unknown fields.
-    if (hasUnknownFields) {
+    if (_hasUnknownFields) {
       hash = 0x1fffffff & ((29 * hash) + _unknownFields.hashCode);
     }
     return hash;
@@ -605,7 +605,7 @@ class _FieldSet {
       }
     }
     // TODO(skybrian) write extension fields? So far we haven't.
-    if (hasUnknownFields) {
+    if (_hasUnknownFields) {
       out.write(_unknownFields.toString());
     } else {
       out.write(new UnknownFieldSet().toString());
@@ -636,7 +636,7 @@ class _FieldSet {
       }
     }
 
-    if (other.hasUnknownFields) {
+    if (other._hasUnknownFields) {
       _ensureUnknownFields().mergeFromUnknownFieldSet(other._unknownFields);
     }
   }
@@ -779,7 +779,7 @@ class _FieldSet {
       _ensureExtensions()._shallowCopyValues(original._extensions);
     }
 
-    if (original.hasUnknownFields) {
+    if (original._hasUnknownFields) {
       _ensureUnknownFields()._fields?.addAll(original._unknownFields._fields);
     }
   }
