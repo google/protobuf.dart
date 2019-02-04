@@ -1,5 +1,14 @@
-import '../out/protos/foo.pb.dart';
+#!/usr/bin/env dart
+// Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+import 'dart:convert';
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
+import 'package:fixnum/fixnum.dart' show Int64;
+import '../out/protos/foo.pb.dart';
+import '../out/protos/google/protobuf/unittest.pb.dart';
 
 main() {
   group('frozen and tobuilder', () {
@@ -94,6 +103,104 @@ main() {
     test('the builder is mutable', () {
       outerBuilder.innerMap[1] = (Inner()..value = 'mob');
       expect(outerBuilder.innerMap[1].value, 'mob');
+    });
+  });
+
+  group('frozen unknown fields', () {
+    Inner inner;
+    TestEmptyMessage emptyMessage;
+    int tagNumber;
+    UnknownFieldSet unknownFieldSet;
+    UnknownFieldSetField field;
+
+    setUp(() {
+      inner = Inner()..value = 'bob';
+      emptyMessage = TestEmptyMessage.fromBuffer(inner.writeToBuffer());
+      tagNumber = inner.getTagNumber('value');
+      unknownFieldSet = emptyMessage.unknownFields;
+      field = unknownFieldSet.getField(tagNumber);
+    });
+
+    test('can read from a frozen unknown fieldset', () {
+      expect(unknownFieldSet.hasField(tagNumber), isTrue);
+      expect(field.lengthDelimited[0], utf8.encode(inner.value));
+
+      emptyMessage.freeze();
+      unknownFieldSet = emptyMessage.unknownFields;
+      field = unknownFieldSet.getField(tagNumber);
+
+      expect(unknownFieldSet.hasField(tagNumber), isTrue);
+      expect(field.lengthDelimited[0], utf8.encode(inner.value));
+    });
+
+    test('can add fields to a builder with unknown fields', () {
+      emptyMessage.freeze();
+      TestEmptyMessage builder = emptyMessage.toBuilder();
+
+      builder.unknownFields
+          .addField(2, UnknownFieldSetField()..fixed32s.add(42));
+      expect(builder.unknownFields.getField(2).fixed32s[0], 42);
+    });
+
+    test('cannot mutate already added UnknownFieldSetField on builder', () {
+      emptyMessage.freeze();
+      TestEmptyMessage builder = emptyMessage.toBuilder();
+
+      expect(
+          () => builder.unknownFields.getField(1).lengthDelimited[0] =
+              utf8.encode('alice'),
+          throwsA(TypeMatcher<UnsupportedError>()));
+    });
+
+    test('cannot add to a frozen UnknownFieldSetField', () {
+      emptyMessage.freeze();
+
+      expect(
+          () => field.addFixed32(1), throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => field.fixed32s.add(1),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => field.addFixed64(Int64(1)),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => field.fixed64s.add(Int64(1)),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => field.addLengthDelimited([1]),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => field.lengthDelimited.add([1]),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => field.addGroup(unknownFieldSet.clone()),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => field.groups.add(unknownFieldSet.clone()),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => field.addVarint(Int64(1)),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => field.varints.add(Int64(1)),
+          throwsA(TypeMatcher<UnsupportedError>()));
+    });
+
+    test('cannot add or merge field to a frozen UnknownFieldSet', () {
+      emptyMessage.freeze();
+
+      expect(() => unknownFieldSet.addField(2, field),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => unknownFieldSet.mergeField(2, field),
+          throwsA(TypeMatcher<UnsupportedError>()));
+    });
+
+    test('cannot merge message into a frozen UnknownFieldSet', () {
+      emptyMessage.freeze();
+      TestEmptyMessage other = emptyMessage.clone();
+
+      expect(() => emptyMessage.mergeFromBuffer(other.writeToBuffer()),
+          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(() => emptyMessage.mergeFromMessage(other),
+          throwsA(TypeMatcher<UnsupportedError>()));
+    });
+
+    test('cannot add a field to a frozen UnknownFieldSet', () {
+      emptyMessage.freeze();
+
+      expect(() => unknownFieldSet.addField(tagNumber, field),
+          throwsA(TypeMatcher<UnsupportedError>()));
     });
   });
 }

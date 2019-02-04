@@ -21,7 +21,7 @@ void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
       out.writeField(tagNumber, fi.type, fs._extensions._getFieldOrNull(fi));
     }
   }
-  if (fs.hasUnknownFields) {
+  if (fs._hasUnknownFields) {
     fs._unknownFields.writeToCodedBufferWriter(out);
   }
 }
