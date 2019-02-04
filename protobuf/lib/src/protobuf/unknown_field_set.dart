@@ -5,7 +5,8 @@
 part of protobuf;
 
 class UnknownFieldSet {
-  static final UnknownFieldSet emptyUnknownFieldSet = UnknownFieldSet().._markReadOnly();
+  static final UnknownFieldSet emptyUnknownFieldSet = UnknownFieldSet()
+    .._markReadOnly();
   final Map<int, UnknownFieldSetField> _fields =
       new Map<int, UnknownFieldSetField>();
 
