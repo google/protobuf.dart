@@ -1,5 +1,5 @@
 name: protobuf
-version: 0.13.0
+version: 0.13.1
 author: Dart Team <misc@dartlang.org>
 description: >
   Runtime library for protocol buffers support.

@@ -1,6 +1,14 @@
+## 0.13.1
+
+* Fix issue with not being able to read unknown fields after freezing.
+
+Reading an unknown field set after freeze() now returns the existing field set before freezing instead of an empty UnknownFieldSet.
+
 ## 0.13.0
 
 * Breaking change: Fix issue with not being able to read extensions after freezing.
+
+Reading an extension field after freeze() now returns the value set before freezing instead of the default value.
 
 ## 0.12.0
 
