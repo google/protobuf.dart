@@ -189,4 +189,25 @@ void main() {
   test('extension class was renamed to avoid conflict with enum', () {
     expect(ExtensionEnumNameConflictExt.enumConflictExtension.tagNumber, 1);
   });
+
+  test('to toDebugString', () {
+    TestAllExtensions value = new TestAllExtensions()
+      ..setExtension(Unittest.optionalInt32Extension, 1)
+      ..addExtension(Unittest.repeatedStringExtension, 'hello')
+      ..addExtension(Unittest.repeatedStringExtension, 'world')
+      ..setExtension(Unittest.optionalNestedMessageExtension,
+          TestAllTypes_NestedMessage()..i = 42)
+      ..setExtension(
+          Unittest.optionalNestedEnumExtension, TestAllTypes_NestedEnum.BAR);
+
+    String expected = '[optionalInt32Extension]: 1\n'
+        '[repeatedStringExtension]: hello\n'
+        '[repeatedStringExtension]: world\n'
+        '[optionalNestedMessageExtension]: {\n'
+        '  i: 42\n'
+        '}\n'
+        '[optionalNestedEnumExtension]: BAR\n';
+
+    expect(value.toString(), expected);
+  });
 }

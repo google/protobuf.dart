@@ -1,3 +1,7 @@
+## 0.13.2
+
+* Print extension fields int toString().
+
 ## 0.13.1
 
 * Fix issue with not being able to read unknown fields after freezing.
