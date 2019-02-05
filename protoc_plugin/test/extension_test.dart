@@ -201,12 +201,12 @@ void main() {
           Unittest.optionalNestedEnumExtension, TestAllTypes_NestedEnum.BAR);
 
     String expected = '[optionalInt32Extension]: 1\n'
-        '[repeatedStringExtension]: hello\n'
-        '[repeatedStringExtension]: world\n'
         '[optionalNestedMessageExtension]: {\n'
         '  i: 42\n'
         '}\n'
-        '[optionalNestedEnumExtension]: BAR\n';
+        '[optionalNestedEnumExtension]: BAR\n'
+        '[repeatedStringExtension]: hello\n'
+        '[repeatedStringExtension]: world\n';
 
     expect(value.toString(), expected);
   });

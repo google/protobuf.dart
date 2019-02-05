@@ -1,6 +1,6 @@
 ## 0.13.2
 
-* Print extension fields int toString().
+* Include extension fields in GeneratedMessage.toString().
 
 ## 0.13.1
 

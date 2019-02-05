@@ -608,8 +608,11 @@ class _FieldSet {
         .forEach((FieldInfo fi) => writeFieldValue(_values[fi.index], fi.name));
 
     if (_hasExtensions) {
-      _extensions._info.values.forEach((Extension fi) =>
-          writeFieldValue(_extensions._values[fi.tagNumber], '[${fi.name}]'));
+      _extensions._info.keys.toList()
+        ..sort()
+        ..forEach((int tagNumber) => writeFieldValue(
+            _extensions._values[tagNumber],
+            '[${_extensions._info[tagNumber].name}]'));
     }
     if (_hasUnknownFields) {
       out.write(_unknownFields.toString());
