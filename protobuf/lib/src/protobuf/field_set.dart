@@ -585,26 +585,35 @@ class _FieldSet {
       }
     }
 
-    for (FieldInfo fi in _infosSortedByTag) {
-      var fieldValue = _values[fi.index];
-      if (fieldValue == null) continue;
+    void writeFieldValue(fieldValue, String name) {
+      if (fieldValue == null) return;
       if (fieldValue is ByteData) {
         // TODO(skybrian): possibly unused. Delete?
         final value = fieldValue.getUint64(0, Endian.little);
-        renderValue(fi.name, value);
+        renderValue(name, value);
       } else if (fieldValue is List) {
         for (var value in fieldValue) {
-          renderValue(fi.name, value);
+          renderValue(name, value);
         }
       } else if (fieldValue is Map) {
         for (var entry in fieldValue.entries) {
-          renderValue(fi.name, entry);
+          renderValue(name, entry);
         }
       } else {
-        renderValue(fi.name, fieldValue);
+        renderValue(name, fieldValue);
       }
     }
-    // TODO(skybrian) write extension fields? So far we haven't.
+
+    _infosSortedByTag
+        .forEach((FieldInfo fi) => writeFieldValue(_values[fi.index], fi.name));
+
+    if (_hasExtensions) {
+      _extensions._info.keys.toList()
+        ..sort()
+        ..forEach((int tagNumber) => writeFieldValue(
+            _extensions._values[tagNumber],
+            '[${_extensions._info[tagNumber].name}]'));
+    }
     if (_hasUnknownFields) {
       out.write(_unknownFields.toString());
     } else {
