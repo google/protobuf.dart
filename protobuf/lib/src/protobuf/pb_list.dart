@@ -48,6 +48,7 @@ class PbList<E> extends PbListBase<E> {
 
   PbList.from(List from) : super._from(from);
 
+  @deprecated
   PbList.forFieldType(int fieldType)
       : super._noList(check: getCheckFunction(fieldType));
 

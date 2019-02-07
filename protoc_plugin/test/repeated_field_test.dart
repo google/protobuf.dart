@@ -52,18 +52,18 @@ void main() {
         (msg.info_.byName["repeatedNestedMessage"]
                 as FieldInfo<TestAllTypes_NestedMessage>)
             .check,
-        same(TestAllTypes_NestedMessage.$checkItem));
+        isNotNull);
 
     expect(
         (msg.info_.byName["repeatedGroup"]
                 as FieldInfo<TestAllTypes_RepeatedGroup>)
             .check,
-        same(TestAllTypes_RepeatedGroup.$checkItem));
+        isNotNull);
 
     expect(
         (msg.info_.byName["repeatedNestedEnum"]
                 as FieldInfo<TestAllTypes_NestedEnum>)
             .check,
-        same(TestAllTypes_NestedEnum.$checkItem));
+        isNotNull);
   });
 }
