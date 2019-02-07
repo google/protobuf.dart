@@ -17,8 +17,8 @@ export 'descriptor.pbenum.dart';
 class FileDescriptorSet extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileDescriptorSet',
       package: const $pb.PackageName('google.protobuf'))
-    ..pp<FileDescriptorProto>(1, 'file', $pb.PbFieldType.PM,
-        FileDescriptorProto.$checkItem, FileDescriptorProto.create);
+    ..pc<FileDescriptorProto>(
+        1, 'file', $pb.PbFieldType.PM, FileDescriptorProto.create);
 
   FileDescriptorSet() : super();
   FileDescriptorSet.fromBuffer(List<int> i,
@@ -52,14 +52,14 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(1, 'name')
     ..aOS(2, 'package')
     ..pPS(3, 'dependency')
-    ..pp<DescriptorProto>(4, 'messageType', $pb.PbFieldType.PM,
-        DescriptorProto.$checkItem, DescriptorProto.create)
-    ..pp<EnumDescriptorProto>(5, 'enumType', $pb.PbFieldType.PM,
-        EnumDescriptorProto.$checkItem, EnumDescriptorProto.create)
-    ..pp<ServiceDescriptorProto>(6, 'service', $pb.PbFieldType.PM,
-        ServiceDescriptorProto.$checkItem, ServiceDescriptorProto.create)
-    ..pp<FieldDescriptorProto>(7, 'extension', $pb.PbFieldType.PM,
-        FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
+    ..pc<DescriptorProto>(
+        4, 'messageType', $pb.PbFieldType.PM, DescriptorProto.create)
+    ..pc<EnumDescriptorProto>(
+        5, 'enumType', $pb.PbFieldType.PM, EnumDescriptorProto.create)
+    ..pc<ServiceDescriptorProto>(
+        6, 'service', $pb.PbFieldType.PM, ServiceDescriptorProto.create)
+    ..pc<FieldDescriptorProto>(
+        7, 'extension', $pb.PbFieldType.PM, FieldDescriptorProto.create)
     ..a<FileOptions>(8, 'options', $pb.PbFieldType.OM, FileOptions.getDefault,
         FileOptions.create)
     ..a<SourceCodeInfo>(9, 'sourceCodeInfo', $pb.PbFieldType.OM,
@@ -255,29 +255,21 @@ class DescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
-    ..pp<FieldDescriptorProto>(2, 'field', $pb.PbFieldType.PM,
-        FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
-    ..pp<DescriptorProto>(3, 'nestedType', $pb.PbFieldType.PM,
-        DescriptorProto.$checkItem, DescriptorProto.create)
-    ..pp<EnumDescriptorProto>(4, 'enumType', $pb.PbFieldType.PM,
-        EnumDescriptorProto.$checkItem, EnumDescriptorProto.create)
-    ..pp<DescriptorProto_ExtensionRange>(
-        5,
-        'extensionRange',
-        $pb.PbFieldType.PM,
-        DescriptorProto_ExtensionRange.$checkItem,
-        DescriptorProto_ExtensionRange.create)
-    ..pp<FieldDescriptorProto>(6, 'extension', $pb.PbFieldType.PM,
-        FieldDescriptorProto.$checkItem, FieldDescriptorProto.create)
+    ..pc<FieldDescriptorProto>(
+        2, 'field', $pb.PbFieldType.PM, FieldDescriptorProto.create)
+    ..pc<DescriptorProto>(
+        3, 'nestedType', $pb.PbFieldType.PM, DescriptorProto.create)
+    ..pc<EnumDescriptorProto>(
+        4, 'enumType', $pb.PbFieldType.PM, EnumDescriptorProto.create)
+    ..pc<DescriptorProto_ExtensionRange>(5, 'extensionRange',
+        $pb.PbFieldType.PM, DescriptorProto_ExtensionRange.create)
+    ..pc<FieldDescriptorProto>(
+        6, 'extension', $pb.PbFieldType.PM, FieldDescriptorProto.create)
     ..a<MessageOptions>(7, 'options', $pb.PbFieldType.OM,
         MessageOptions.getDefault, MessageOptions.create)
-    ..pp<OneofDescriptorProto>(8, 'oneofDecl', $pb.PbFieldType.PM,
-        OneofDescriptorProto.$checkItem, OneofDescriptorProto.create)
-    ..pp<DescriptorProto_ReservedRange>(
-        9,
-        'reservedRange',
-        $pb.PbFieldType.PM,
-        DescriptorProto_ReservedRange.$checkItem,
+    ..pc<OneofDescriptorProto>(
+        8, 'oneofDecl', $pb.PbFieldType.PM, OneofDescriptorProto.create)
+    ..pc<DescriptorProto_ReservedRange>(9, 'reservedRange', $pb.PbFieldType.PM,
         DescriptorProto_ReservedRange.create)
     ..pPS(10, 'reservedName');
 
@@ -520,8 +512,8 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
-    ..pp<EnumValueDescriptorProto>(2, 'value', $pb.PbFieldType.PM,
-        EnumValueDescriptorProto.$checkItem, EnumValueDescriptorProto.create)
+    ..pc<EnumValueDescriptorProto>(
+        2, 'value', $pb.PbFieldType.PM, EnumValueDescriptorProto.create)
     ..a<EnumOptions>(3, 'options', $pb.PbFieldType.OM, EnumOptions.getDefault,
         EnumOptions.create);
 
@@ -632,8 +624,8 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
       'ServiceDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
-    ..pp<MethodDescriptorProto>(2, 'method', $pb.PbFieldType.PM,
-        MethodDescriptorProto.$checkItem, MethodDescriptorProto.create)
+    ..pc<MethodDescriptorProto>(
+        2, 'method', $pb.PbFieldType.PM, MethodDescriptorProto.create)
     ..a<ServiceOptions>(3, 'options', $pb.PbFieldType.OM,
         ServiceOptions.getDefault, ServiceOptions.create);
 
@@ -792,8 +784,8 @@ class FileOptions extends $pb.GeneratedMessage {
     ..aOS(39, 'swiftPrefix')
     ..aOS(40, 'phpClassPrefix')
     ..aOS(41, 'phpNamespace')
-    ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        UninterpretedOption.$checkItem, UninterpretedOption.create)
+    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+        UninterpretedOption.create)
     ..hasExtensions = true;
 
   FileOptions() : super();
@@ -963,8 +955,8 @@ class MessageOptions extends $pb.GeneratedMessage {
     ..aOB(2, 'noStandardDescriptorAccessor')
     ..aOB(3, 'deprecated')
     ..aOB(7, 'mapEntry')
-    ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        UninterpretedOption.$checkItem, UninterpretedOption.create)
+    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+        UninterpretedOption.create)
     ..hasExtensions = true;
 
   MessageOptions() : super();
@@ -1044,8 +1036,8 @@ class FieldOptions extends $pb.GeneratedMessage {
         FieldOptions_JSType.valueOf,
         FieldOptions_JSType.values)
     ..aOB(10, 'weak')
-    ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        UninterpretedOption.$checkItem, UninterpretedOption.create)
+    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+        UninterpretedOption.create)
     ..hasExtensions = true;
 
   FieldOptions() : super();
@@ -1123,8 +1115,8 @@ class FieldOptions extends $pb.GeneratedMessage {
 class OneofOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofOptions',
       package: const $pb.PackageName('google.protobuf'))
-    ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        UninterpretedOption.$checkItem, UninterpretedOption.create)
+    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+        UninterpretedOption.create)
     ..hasExtensions = true;
 
   OneofOptions() : super();
@@ -1156,8 +1148,8 @@ class EnumOptions extends $pb.GeneratedMessage {
       package: const $pb.PackageName('google.protobuf'))
     ..aOB(2, 'allowAlias')
     ..aOB(3, 'deprecated')
-    ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        UninterpretedOption.$checkItem, UninterpretedOption.create)
+    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+        UninterpretedOption.create)
     ..hasExtensions = true;
 
   EnumOptions() : super();
@@ -1204,8 +1196,8 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumValueOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..aOB(1, 'deprecated')
-    ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        UninterpretedOption.$checkItem, UninterpretedOption.create)
+    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+        UninterpretedOption.create)
     ..hasExtensions = true;
 
   EnumValueOptions() : super();
@@ -1245,8 +1237,8 @@ class ServiceOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ServiceOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..aOB(33, 'deprecated')
-    ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        UninterpretedOption.$checkItem, UninterpretedOption.create)
+    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+        UninterpretedOption.create)
     ..hasExtensions = true;
 
   ServiceOptions() : super();
@@ -1292,8 +1284,8 @@ class MethodOptions extends $pb.GeneratedMessage {
         MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
         MethodOptions_IdempotencyLevel.valueOf,
         MethodOptions_IdempotencyLevel.values)
-    ..pp<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        UninterpretedOption.$checkItem, UninterpretedOption.create)
+    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+        UninterpretedOption.create)
     ..hasExtensions = true;
 
   MethodOptions() : super();
@@ -1390,12 +1382,8 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
 class UninterpretedOption extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UninterpretedOption',
       package: const $pb.PackageName('google.protobuf'))
-    ..pp<UninterpretedOption_NamePart>(
-        2,
-        'name',
-        $pb.PbFieldType.PM,
-        UninterpretedOption_NamePart.$checkItem,
-        UninterpretedOption_NamePart.create)
+    ..pc<UninterpretedOption_NamePart>(
+        2, 'name', $pb.PbFieldType.PM, UninterpretedOption_NamePart.create)
     ..aOS(3, 'identifierValue')
     ..a<Int64>(4, 'positiveIntValue', $pb.PbFieldType.OU6, Int64.ZERO)
     ..aInt64(5, 'negativeIntValue')
@@ -1540,8 +1528,8 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
 class SourceCodeInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SourceCodeInfo',
       package: const $pb.PackageName('google.protobuf'))
-    ..pp<SourceCodeInfo_Location>(1, 'location', $pb.PbFieldType.PM,
-        SourceCodeInfo_Location.$checkItem, SourceCodeInfo_Location.create)
+    ..pc<SourceCodeInfo_Location>(
+        1, 'location', $pb.PbFieldType.PM, SourceCodeInfo_Location.create)
     ..hasRequiredFields = false;
 
   SourceCodeInfo() : super();
@@ -1635,11 +1623,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
 class GeneratedCodeInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GeneratedCodeInfo',
       package: const $pb.PackageName('google.protobuf'))
-    ..pp<GeneratedCodeInfo_Annotation>(
-        1,
-        'annotation',
-        $pb.PbFieldType.PM,
-        GeneratedCodeInfo_Annotation.$checkItem,
+    ..pc<GeneratedCodeInfo_Annotation>(1, 'annotation', $pb.PbFieldType.PM,
         GeneratedCodeInfo_Annotation.create)
     ..hasRequiredFields = false;
 

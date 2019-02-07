@@ -144,12 +144,12 @@ class ProtobufField {
 
     if (isRepeated) {
       if (baseType.isMessage || baseType.isGroup) {
-        return '..pp<$type>($number, $quotedName, $typeConstant,'
-            ' $type.$checkItem, $type.create)';
+        return '..pc<$type>($number, $quotedName, $typeConstant,'
+            '$type.create)';
       }
       if (baseType.isEnum) {
-        return '..pp<$type>($number, $quotedName, $typeConstant,'
-            ' $type.$checkItem, null, $type.valueOf, $type.values)';
+        return '..pc<$type>($number, $quotedName, $typeConstant,'
+            ' null, $type.valueOf, $type.values)';
       }
       if (typeConstant == '$_protobufImportPrefix.PbFieldType.PS') {
         return '..pPS($number, $quotedName)';

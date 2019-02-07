@@ -73,29 +73,17 @@ void checkItemFailed(val, String className) {
 
 /// Returns a function for validating items in a repeated field.
 ///
-/// For enum, group, and message fields, the check is only approximate,
-/// because the exact type isn't included in [fieldType].
+/// For most types this is a not-null check, except for floats, and signed and
+/// unsigned 32 bit ints where there also is a range check.
 CheckFunc getCheckFunction(int fieldType) {
   switch (fieldType & ~0x7) {
     case PbFieldType._BOOL_BIT:
-      return _checkBool;
     case PbFieldType._BYTES_BIT:
-      return _checkBytes;
     case PbFieldType._STRING_BIT:
-      return _checkString;
-    case PbFieldType._FLOAT_BIT:
-      return _checkFloat;
     case PbFieldType._DOUBLE_BIT:
-      return _checkDouble;
-
-    case PbFieldType._INT32_BIT:
-    case PbFieldType._SINT32_BIT:
-    case PbFieldType._SFIXED32_BIT:
-      return _checkSigned32;
-
-    case PbFieldType._UINT32_BIT:
-    case PbFieldType._FIXED32_BIT:
-      return _checkUnsigned32;
+    case PbFieldType._ENUM_BIT:
+    case PbFieldType._GROUP_BIT:
+    case PbFieldType._MESSAGE_BIT:
 
     case PbFieldType._INT64_BIT:
     case PbFieldType._SINT64_BIT:
@@ -105,13 +93,19 @@ CheckFunc getCheckFunction(int fieldType) {
       // We always use the full range of the same Dart type.
       // It's up to the caller to treat the Int64 as signed or unsigned.
       // See: https://github.com/dart-lang/protobuf/issues/44
-      return _checkAnyInt64;
+      return _checkNotNull;
 
-    case PbFieldType._ENUM_BIT:
-      return _checkAnyEnum;
-    case PbFieldType._GROUP_BIT:
-    case PbFieldType._MESSAGE_BIT:
-      return _checkAnyMessage;
+    case PbFieldType._FLOAT_BIT:
+      return _checkFloat;
+
+    case PbFieldType._INT32_BIT:
+    case PbFieldType._SINT32_BIT:
+    case PbFieldType._SFIXED32_BIT:
+      return _checkSigned32;
+
+    case PbFieldType._UINT32_BIT:
+    case PbFieldType._FIXED32_BIT:
+      return _checkUnsigned32;
   }
   throw new ArgumentError('check function not implemented: ${fieldType}');
 }
@@ -124,59 +118,19 @@ void _checkNotNull(Object val) {
   }
 }
 
-void _checkBool(Object val) {
-  if (val is! bool) throw _createFieldTypeError(val, 'a bool');
-}
-
-void _checkBytes(Object val) {
-  if (val is! List<int>) throw _createFieldTypeError(val, 'a List<int>');
-}
-
-void _checkString(Object val) {
-  if (val is! String) throw _createFieldTypeError(val, 'a String');
-}
-
 void _checkFloat(Object val) {
-  _checkDouble(val);
   if (!_isFloat32(val)) throw _createFieldRangeError(val, 'a float');
 }
 
-void _checkDouble(Object val) {
-  if (val is! double) throw _createFieldTypeError(val, 'a double');
-}
-
-void _checkInt(Object val) {
-  if (val is! int) throw _createFieldTypeError(val, 'an int');
-}
-
 void _checkSigned32(Object val) {
-  _checkInt(val);
   if (!_isSigned32(val)) throw _createFieldRangeError(val, 'a signed int32');
 }
 
 void _checkUnsigned32(Object val) {
-  _checkInt(val);
   if (!_isUnsigned32(val)) {
     throw _createFieldRangeError(val, 'an unsigned int32');
   }
 }
-
-void _checkAnyInt64(Object val) {
-  if (val is! Int64) throw _createFieldTypeError(val, 'an Int64');
-}
-
-void _checkAnyEnum(Object val) {
-  if (val is! ProtobufEnum) throw _createFieldTypeError(val, 'a ProtobufEnum');
-}
-
-void _checkAnyMessage(Object val) {
-  if (val is! GeneratedMessage) {
-    throw _createFieldTypeError(val, 'a GeneratedMessage');
-  }
-}
-
-ArgumentError _createFieldTypeError(val, String wantedType) =>
-    new ArgumentError('Value ($val) is not ${wantedType}');
 
 RangeError _createFieldRangeError(val, String wantedType) =>
     new RangeError('Value ($val) is not ${wantedType}');
