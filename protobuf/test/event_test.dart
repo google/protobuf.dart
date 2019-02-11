@@ -186,6 +186,7 @@ main() {
     r.mergeFromBuffer(bytes);
     // The changes should not include the repeated message.
     r.deliverChanges();
+    print(r);
     checkLog(log, [
       [
         [1, 42, 123],
@@ -194,9 +195,9 @@ main() {
         [
           4,
           [],
-          [456]
-        ]
-      ]
+          [456],
+        ],
+      ],
     ]);
   });
 

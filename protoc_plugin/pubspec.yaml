@@ -13,6 +13,10 @@ dependencies:
   protobuf: ^0.13.2
   dart_style: ^1.0.6
 
+dependency_overrides:
+  protobuf:
+    path: ../protobuf
+
 dev_dependencies:
   test: ^1.3.0
 
