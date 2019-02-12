@@ -118,14 +118,15 @@ void _appendJsonMap(
     _FieldSet fs, List jsonList, MapFieldInfo fi, ExtensionRegistry registry) {
   PbMap map = fi._ensureMapField(fs);
   for (Map<String, dynamic> jsonEntry in jsonList) {
+    _FieldSet entryFieldSet = map._entryFieldSet();
     final convertedKey = _convertJsonValue(
-        map._entryFieldSet,
+        entryFieldSet,
         jsonEntry['${PbMap._keyFieldNumber}'],
         PbMap._keyFieldNumber,
         fi.keyFieldType,
         registry);
     final convertedValue = _convertJsonValue(
-        map._entryFieldSet,
+        entryFieldSet,
         jsonEntry['${PbMap._valueFieldNumber}'],
         PbMap._valueFieldNumber,
         fi.valueFieldType,
