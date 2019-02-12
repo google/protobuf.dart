@@ -1,3 +1,10 @@
+## 0.13.3
+
+* Fix issue with parsing map field entries. The values for two different keys would sometimes be
+  merged.
+  
+* Deprecated `PBMap.add`.
+  
 ## 0.13.2
 
 * Include extension fields in GeneratedMessage.toString().
