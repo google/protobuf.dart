@@ -282,4 +282,27 @@ void main() {
     expect(() => testMap.int32ToStringField.clear(),
         throwsA(const TypeMatcher<UnsupportedError>()));
   });
+
+  test('Values for different keys are not merged together when decoding', () {
+    TestMap testMap = TestMap();
+    testMap.int32ToMessageField[1] = (TestMap_MessageValue()..value = 11);
+    testMap.int32ToMessageField[2] = (TestMap_MessageValue()..secondValue = 12);
+
+    void testValues(TestMap candidate) {
+      final message1 = candidate.int32ToMessageField[1];
+      final message2 = candidate.int32ToMessageField[2];
+
+      expect(message1.hasValue(), true);
+      expect(message1.value, 11);
+      expect(message1.hasSecondValue(), false);
+      expect(message1.secondValue, 42);
+      expect(message2.hasValue(), false);
+      expect(message2.value, 0);
+      expect(message2.hasSecondValue(), true);
+      expect(message2.secondValue, 12);
+    }
+
+    testValues(TestMap.fromBuffer(testMap.writeToBuffer()));
+    testValues(TestMap.fromJson(testMap.writeToJson()));
+  });
 }
