@@ -48,7 +48,8 @@ class PbList<E> extends PbListBase<E> {
 
   PbList.from(List from) : super._from(from);
 
-  @deprecated
+  @Deprecated('Instead use the default constructor with a check function.'
+      'This constructor will be removed in the next major version.')
   PbList.forFieldType(int fieldType)
       : super._noList(check: getCheckFunction(fieldType));
 

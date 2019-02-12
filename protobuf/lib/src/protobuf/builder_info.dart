@@ -122,8 +122,8 @@ class BuilderInfo {
         valueOf, enumValues);
   }
 
-  // Deprecated, use [pc] instead.
-  @deprecated
+  @Deprecated('Use [pc] instead. The given [check] function is ignored.'
+      'This function will be removed in the next major version.')
   void pp<T>(int tagNumber, String name, int fieldType, CheckFunc<T> check,
       [CreateBuilderFunc subBuilder,
       ValueOfFunc valueOf,
