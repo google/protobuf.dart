@@ -28,6 +28,10 @@ Protocol message had too many levels of nesting.  May be malicious.
 Use CodedBufferReader.setRecursionLimit() to increase the depth limit.
 ''');
 
+  InvalidProtocolBufferException.negativeLength() : this._('''
+CodedBufferReader encountered an embedded string or message'
+which claimed to have negative size.''');
+
   InvalidProtocolBufferException.truncatedMessage() : this._('''
 While parsing a protocol message, the input ended unexpectedly
 in the middle of a field.  This could mean either than the

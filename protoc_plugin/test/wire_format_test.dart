@@ -15,7 +15,7 @@ import 'test_util.dart';
 void main() {
   test('testSerialization', () {
     assertAllFieldsSet(
-        new TestAllTypes.fromBuffer(getAllSet().writeToBuffer()));
+        new TestAllTypes.fromBuffer((getAllSet()).writeToBuffer()));
   });
 
   test('testSerializationPacked', () {

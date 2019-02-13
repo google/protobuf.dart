@@ -29,31 +29,42 @@ void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
 void _mergeFromCodedBufferReader(
     _FieldSet fieldSet, CodedBufferReader input, ExtensionRegistry registry,
     {int recursionLimit = 64}) {
-  final status = _CodedBufferMerger(input: input, extensionRegistry: registry, fieldSet: fieldSet).mergeMore();
+  final status = _CodedBufferMerger(
+          input: input, extensionRegistry: registry, fieldSet: fieldSet)
+      .mergeMore();
   assert(status == _CodedBufferMergingStatus.done);
 }
 
-enum _CodedBufferMergingStatus {
-  done, notDone
-}
+enum _CodedBufferMergingStatus { done, notDone }
 
-typedef Insert = void Function(dynamic value);
+typedef _Finish = void Function();
+
+class _StackItem {
+  final _Finish finish;
+  final _FieldSet fieldSet;
+  _StackItem(this.fieldSet, {this.finish});
+}
 
 class _CodedBufferMerger {
   CodedBufferReader input;
   ExtensionRegistry extensionRegistry;
 
-  final List<_FieldSet> stack;
-//  final List<FieldInfo> fieldInfoStack = <FieldInfo>[];
+  final List<_StackItem> stack;
   final int recursionLimit;
 
+  _StackItem get top => stack.last;
+  _FieldSet get topFieldSet => top.fieldSet;
+
   _CodedBufferMerger(
-      {this.input, this.extensionRegistry, _FieldSet fieldSet, this.recursionLimit = 64})
-      : stack = <_FieldSet>[fieldSet],
+      {this.input,
+      this.extensionRegistry,
+      _FieldSet fieldSet,
+      this.recursionLimit = 64})
+      : stack = <_StackItem>[_StackItem(fieldSet)],
         assert(extensionRegistry != null);
 
-  void _readPackableToList(int wireType, FieldInfo fi, Function readToList) {
-    List list = stack.last._ensureRepeatedField(fi);
+  void _readPackableToList<T>(int wireType, FieldInfo fieldInfo, void Function(List<T> l) readToList) {
+    List<T> list = topFieldSet._ensureRepeatedField(fieldInfo);
 
     if (wireType == WIRETYPE_LENGTH_DELIMITED) {
       // Packed.
@@ -68,19 +79,31 @@ class _CodedBufferMerger {
     }
   }
 
-  void _readPackable(int wireType, FieldInfo fi, Function readFunc) {
+  void _readPackable<T>(int wireType, FieldInfo fi, T Function() readFunc) {
     void readToList(List list) => list.add(readFunc());
     _readPackableToList(wireType, fi, readToList);
   }
 
+  /// Reads at least [byteLimit] bytes from [input].
+  ///
+  /// Returns [_CodedBufferMergingStatus.done] if the message is read to end,
+  /// and [_CodedBufferMergingStatus.notDone] otherwise.
+  ///
+  /// The fieldSet is not in a complete state until
+  /// [_CodedBufferMergingStatus.done] has been returned.
   _CodedBufferMergingStatus mergeMore({int byteLimit = -1}) {
     int start = input._bufferPos;
     while (byteLimit == -1 || input._bufferPos - start < byteLimit) {
-      _FieldSet currentFieldSet = stack.last;
+      _FieldSet currentFieldSet = topFieldSet;
       int tag = input.readTag();
-      if (tag == 0) {
-        input.stopReadingMessage();
-        stack.removeLast();
+      if (tag == 0 || getTagWireType(tag) == WIRETYPE_END_GROUP) {
+        input._stopReadingMessageOrGroup();
+        _StackItem stackItem = stack.removeLast();
+
+        if (stackItem.finish != null) {
+          stackItem.finish();
+        }
+
         if (stack.isEmpty) {
           return _CodedBufferMergingStatus.done;
         }
@@ -95,10 +118,11 @@ class _CodedBufferMerger {
             currentFieldSet._messageName, tagNumber);
       }
 
-      stderr.writeln("fi: $fi $tagNumber ${fi?.name}");
-
       if (fi == null || !_wireTypeMatches(fi.type, wireType)) {
-        !currentFieldSet._ensureUnknownFields().mergeFieldFromBuffer(tag, input);
+        currentFieldSet
+            ._ensureUnknownFields()
+            .mergeFieldFromBuffer(tag, input);
+        continue;
       }
 
       // Ignore required/optional packed/unpacked.
@@ -113,7 +137,6 @@ class _CodedBufferMerger {
           break;
         case PbFieldType._OPTIONAL_STRING:
           final s = input.readString();
-          stderr.writeln(s);
           currentFieldSet._setFieldUnchecked(fi, s);
           break;
         case PbFieldType._OPTIONAL_FLOAT:
@@ -124,8 +147,8 @@ class _CodedBufferMerger {
           break;
         case PbFieldType._OPTIONAL_ENUM:
           int rawValue = input.readEnum();
-          var value = currentFieldSet._meta._decodeEnum(
-              tagNumber, extensionRegistry, rawValue);
+          var value = currentFieldSet._meta
+              ._decodeEnum(tagNumber, extensionRegistry, rawValue);
           if (value == null) {
             var unknown = currentFieldSet._ensureUnknownFields();
             unknown.mergeVarintField(tagNumber, new Int64(rawValue));
@@ -134,14 +157,16 @@ class _CodedBufferMerger {
           }
           break;
         case PbFieldType._OPTIONAL_GROUP:
-          GeneratedMessage subMessage =
-          currentFieldSet._meta._makeEmptyMessage(tagNumber, extensionRegistry);
+          GeneratedMessage subMessage = currentFieldSet._meta
+              ._makeEmptyMessage(tagNumber, extensionRegistry);
           var oldValue = currentFieldSet._getFieldOrNull(fi);
           if (oldValue != null) {
             subMessage.mergeFromMessage(oldValue);
           }
-          input.startReadingMessage();
-          stack.add(subMessage._fieldSet);
+          input._startReadingGroup();
+          stack.add(_StackItem(subMessage._fieldSet, finish: () {
+            input.checkLastTagWas(makeTag(tagNumber, WIRETYPE_END_GROUP));
+          }));
           currentFieldSet._setFieldUnchecked(fi, subMessage);
           break;
         case PbFieldType._OPTIONAL_INT32:
@@ -175,15 +200,14 @@ class _CodedBufferMerger {
           currentFieldSet._setFieldUnchecked(fi, input.readSfixed64());
           break;
         case PbFieldType._OPTIONAL_MESSAGE:
-          GeneratedMessage subMessage =
-          currentFieldSet._meta._makeEmptyMessage(tagNumber, extensionRegistry);
+          GeneratedMessage subMessage = currentFieldSet._meta
+              ._makeEmptyMessage(tagNumber, extensionRegistry);
           var oldValue = currentFieldSet._getFieldOrNull(fi);
           if (oldValue != null) {
-            // TODO(sigurdm): Consider using clone().
             subMessage.mergeFromMessage(oldValue);
           }
-          stack.add(subMessage._fieldSet);
-          input.startReadingMessage();
+          stack.add(_StackItem(subMessage._fieldSet));
+          input._startReadingMessage();
           currentFieldSet._setFieldUnchecked(fi, subMessage);
           break;
         case PbFieldType._REPEATED_BOOL:
@@ -204,8 +228,8 @@ class _CodedBufferMerger {
         case PbFieldType._REPEATED_ENUM:
           _readPackableToList(wireType, fi, (List list) {
             int rawValue = input.readEnum();
-            var value = currentFieldSet._meta._decodeEnum(
-                tagNumber, extensionRegistry, rawValue);
+            var value = currentFieldSet._meta
+                ._decodeEnum(tagNumber, extensionRegistry, rawValue);
             if (value == null) {
               var unknown = currentFieldSet._ensureUnknownFields();
               unknown.mergeVarintField(tagNumber, new Int64(rawValue));
@@ -215,10 +239,10 @@ class _CodedBufferMerger {
           });
           break;
         case PbFieldType._REPEATED_GROUP:
-          GeneratedMessage subMessage =
-          currentFieldSet._meta._makeEmptyMessage(tagNumber, extensionRegistry);
-          input.startReadingMessage();
-          stack.add(subMessage._fieldSet);
+          GeneratedMessage subMessage = currentFieldSet._meta
+              ._makeEmptyMessage(tagNumber, extensionRegistry);
+          input._startReadingGroup();
+          stack.add(_StackItem(subMessage._fieldSet));
           currentFieldSet._ensureRepeatedField(fi).add(subMessage);
           break;
         case PbFieldType._REPEATED_INT32:
@@ -252,24 +276,19 @@ class _CodedBufferMerger {
           _readPackable(wireType, fi, input.readSfixed64);
           break;
         case PbFieldType._REPEATED_MESSAGE:
-          GeneratedMessage subMessage =
-          currentFieldSet._meta._makeEmptyMessage(tagNumber, extensionRegistry);
-          input.startReadingMessage();
-          stack.add(subMessage._fieldSet);
+          GeneratedMessage subMessage = currentFieldSet._meta
+              ._makeEmptyMessage(tagNumber, extensionRegistry);
+          input._startReadingMessage();
+          stack.add(_StackItem(subMessage._fieldSet));
           currentFieldSet._ensureRepeatedField(fi).add(subMessage);
           break;
         case PbFieldType._MAP:
-
-          input.startReadingMessage();
           PbMap map = currentFieldSet._ensureMapField(fi);
           _FieldSet entryFieldSet = map._entryFieldSet();
-          stack.add(entryFieldSet);
-
-          K key = _entryFieldSet._$get(0, null);
-          V value = _entryFieldSet._$get(1, null);
-          _wrappedMap[key] = value;
-
-          .add(input, extensionRegistry);
+          input._startReadingMessage();
+          stack.add(_StackItem(entryFieldSet, finish: () {
+            map._addEntry(entryFieldSet);
+          }));
           break;
         default:
           throw 'Unknown field type $fieldType';

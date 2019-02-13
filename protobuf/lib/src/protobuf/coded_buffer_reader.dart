@@ -32,13 +32,9 @@ class CodedBufferReader {
 
   bool isAtEnd() => _bufferPos >= _currentLimit;
 
-  void _withLimit(int byteLimit, callback) {
-    if (byteLimit < 0) {
-      throw new ArgumentError(
-          'CodedBufferReader encountered an embedded string or message'
-          ' which claimed to have negative size.');
-    }
-    byteLimit += _bufferPos;
+  void _withLimit(int length, callback) {
+    _checkLengthIsNonNegative(length);
+    final byteLimit = length + _bufferPos;
     if ((_currentLimit != -1 && byteLimit > _currentLimit) || byteLimit > _sizeLimit) {
       throw new InvalidProtocolBufferException.truncatedMessage();
     }
@@ -57,21 +53,23 @@ class CodedBufferReader {
   }
 
   void _checkRecursionLimit() {
-    if (_limitStack.length >= _recursionLimit) {
+    if (_limitStack.length > _recursionLimit) {
       throw new InvalidProtocolBufferException.recursionLimitExceeded();
     }
   }
 
-//  void readGroup(int fieldNumber, GeneratedMessage message,
-//      ExtensionRegistry extensionRegistry) {
-//    if (_recursionDepth >= _recursionLimit) {
-//      throw new InvalidProtocolBufferException.recursionLimitExceeded();
-//    }
-//    ++_recursionDepth;
-//    message.mergeFromCodedBufferReader(this, extensionRegistry);
-//    checkLastTagWas(makeTag(fieldNumber, WIRETYPE_END_GROUP));
-//    --_recursionDepth;
-//  }
+  void _checkLengthIsNonNegative(int length) {
+    if (length < 0) {
+      throw new InvalidProtocolBufferException.recursionLimitExceeded();
+    }
+  }
+
+  void readGroup(int fieldNumber, GeneratedMessage message,
+      ExtensionRegistry extensionRegistry) {
+    _startReadingGroup();
+    message.mergeFromCodedBufferReader(this, extensionRegistry);
+    _stopReadingMessageOrGroup();
+  }
 
   UnknownFieldSet readUnknownFieldSetGroup(int fieldNumber) {
     UnknownFieldSet unknownFieldSet = new UnknownFieldSet();
@@ -80,37 +78,28 @@ class CodedBufferReader {
     return unknownFieldSet;
   }
 
-//  void readMessage(
-//      GeneratedMessage message, ExtensionRegistry extensionRegistry) {
-//    int length = readInt32();
-//    if (_recursionDepth >= _recursionLimit) {
-//      throw new InvalidProtocolBufferException.recursionLimitExceeded();
-//    }
-//    if (length < 0) {
-//      throw new ArgumentError(
-//          'CodedBufferReader encountered an embedded string or message'
-//          ' which claimed to have negative size.');
-//    }
-//
-//    int oldLimit = _currentLimit;
-//    _currentLimit = _bufferPos + length;
-//    if (_currentLimit > oldLimit) {
-//      throw new InvalidProtocolBufferException.truncatedMessage();
-//    }
-//    ++_recursionDepth;
-//    message.mergeFromCodedBufferReader(this, extensionRegistry);
-//    checkLastTagWas(0);
-//    --_recursionDepth;
-//    _currentLimit = oldLimit;
-//  }
-
-  void startReadingMessage() {
-    int length = readInt32();
-    _limitStack.add(_bufferPos + length);
-    stderr.writeln("Reading message: $_limitStack $length $_bufferPos");
+  void readMessage(
+      GeneratedMessage message, ExtensionRegistry extensionRegistry) {
+    _startReadingMessage();
+    message.mergeFromCodedBufferReader(this, extensionRegistry);
+    checkLastTagWas(0);
+    _stopReadingMessageOrGroup();
   }
 
-  void stopReadingMessage() {
+  void _startReadingGroup() {
+    _checkRecursionLimit();
+    // Add a dummy element to handle recursion depth.
+    _limitStack.add(_currentLimit);
+  }
+
+  void _startReadingMessage() {
+    int length = readInt32();
+    _checkLengthIsNonNegative(length);
+    _checkRecursionLimit();
+    _limitStack.add(_bufferPos + length);
+  }
+
+  void _stopReadingMessageOrGroup() {
     _limitStack.removeLast();
   }
 
@@ -147,7 +136,6 @@ class CodedBufferReader {
   double readDouble() => _readByteData(8).getFloat64(0, Endian.little);
 
   int readTag() {
-    stderr.writeln("L ${_limitStack}, ${isAtEnd()}");
     if (isAtEnd()) {
       _lastTag = 0;
       return 0;
