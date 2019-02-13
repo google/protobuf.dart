@@ -31,9 +31,6 @@ class M extends $pb.GeneratedMessage {
   static $pb.PbList<M> createRepeated() => new $pb.PbList<M>();
   static M getDefault() => _defaultInstance ??= create()..freeze();
   static M _defaultInstance;
-  static void $checkItem(M v) {
-    if (v is! M) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
   M get m => $_getN(0);
   set m(M v) { setField(1, v); }

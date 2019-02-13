@@ -118,7 +118,7 @@ class BuilderInfo {
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues]) {
     assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
-    addRepeated<T>(tagNumber, name, fieldType, _checkNotNull, subBuilder,
+    addRepeated<T>(tagNumber, name, fieldType, checkNotNull, subBuilder,
         valueOf, enumValues);
   }
 
@@ -129,7 +129,7 @@ class BuilderInfo {
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues]) {
     assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
-    addRepeated<T>(tagNumber, name, fieldType, _checkNotNull, subBuilder,
+    addRepeated<T>(tagNumber, name, fieldType, checkNotNull, subBuilder,
         valueOf, enumValues);
   }
 

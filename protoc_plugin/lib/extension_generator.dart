@@ -83,9 +83,10 @@ class ExtensionGenerator {
           'new $_protobufImportPrefix.Extension<$dartType>.repeated(\'$_extendedFullName\','
           ' \'$name\', ${_field.number}, ${_field.typeConstant}');
       if (type.isMessage || type.isGroup) {
-        out.println(', $dartType.$checkItem, $dartType.create);');
+        out.println(
+            ', $_protobufImportPrefix.checkNotNull, $dartType.create);');
       } else if (type.isEnum) {
-        out.println(', $dartType.$checkItem, null, '
+        out.println(', $_protobufImportPrefix.checkNotNull, null, '
             '$dartType.valueOf, $dartType.values);');
       } else {
         out.println(

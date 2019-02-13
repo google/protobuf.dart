@@ -42,7 +42,7 @@ class FrozenPbList<E> extends PbListBase<E> {
 }
 
 class PbList<E> extends PbListBase<E> {
-  PbList({check = _checkNotNull}) : super._noList(check: check);
+  PbList({check = checkNotNull}) : super._noList(check: check);
 
   PbList._(List<E> wrappedList) : super._(wrappedList);
 
@@ -156,16 +156,16 @@ abstract class PbListBase<E> extends ListBase<E> {
   final List<E> _wrappedList;
   final CheckFunc<E> check;
 
-  PbListBase._(this._wrappedList, {this.check = _checkNotNull}) {}
+  PbListBase._(this._wrappedList, {this.check = checkNotNull}) {}
 
-  PbListBase._noList({this.check = _checkNotNull}) : _wrappedList = <E>[] {
+  PbListBase._noList({this.check = checkNotNull}) : _wrappedList = <E>[] {
     assert(check != null);
   }
 
   PbListBase._from(List from)
       // TODO(sra): Should this be validated?
       : _wrappedList = new List<E>.from(from),
-        check = _checkNotNull;
+        check = checkNotNull;
 
   @override
   bool operator ==(other) =>

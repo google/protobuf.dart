@@ -339,10 +339,6 @@ class MessageGenerator extends ProtobufContainer {
       out.println(
           'static ${classname} getDefault() => _defaultInstance ??= create()..freeze();');
       out.println('static ${classname} _defaultInstance;');
-      out.addBlock('static void $checkItem($classname v) {', '}', () {
-        out.println('if (v is! $classname)'
-            " $_protobufImportPrefix.checkItemFailed(v, _i.qualifiedMessageName);");
-      });
       generateFieldsAccessorsMutators(out);
       if (fullName == 'google.protobuf.Any') {
         generateAnyMethods(out);

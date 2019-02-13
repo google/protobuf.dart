@@ -1,10 +1,17 @@
+## 0.13.4
+
+* Add new method `pc` on BuilderInfo for adding repeated composite fields and remove redundant type check on items added
+  to a PbList.
+
+  Deprecated `BuilderInfo.pp` and `PbList.forFieldType`.
+
 ## 0.13.3
 
 * Fix issue with parsing map field entries. The values for two different keys would sometimes be
   merged.
   
 * Deprecated `PBMap.add`.
-  
+
 ## 0.13.2
 
 * Include extension fields in GeneratedMessage.toString().
