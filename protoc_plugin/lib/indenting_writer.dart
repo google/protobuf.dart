@@ -4,15 +4,35 @@
 
 library protoc.indenting_writer;
 
+import 'src/descriptor.pb.dart';
+
+/// Specifies code locations where metadata annotations should be attached and
+/// where they should point to in the original proto.
+class NamedLocation {
+  final String name;
+  final List<int> fieldPathSegment;
+  final int start;
+  NamedLocation({this.name, this.fieldPathSegment, this.start});
+}
+
 /// A buffer for writing indented source code.
 class IndentingWriter {
   final StringBuffer _buffer = new StringBuffer();
+  final GeneratedCodeInfo sourceLocationInfo = new GeneratedCodeInfo();
   String _indent = "";
   bool _needIndent = true;
+  // After writing any chunk, _previousOffset is the size of everything that was
+  // written to the buffer before the latest call to print or addBlock.
+  int get _offset => _buffer.length;
+  int _previousOffset = 0;
+  final String _sourceFile;
+
+  IndentingWriter({filename = null}) : _sourceFile = filename;
 
   /// Appends a string indented to the current level.
   /// (Indentation will be added after newline characters where needed.)
   void print(String text) {
+    _previousOffset = _buffer.length;
     var lastNewline = text.lastIndexOf('\n');
     if (lastNewline == -1) {
       _writeChunk(text);
@@ -32,22 +52,41 @@ class IndentingWriter {
     _newline();
   }
 
+  void printAnnotated(String text, List<NamedLocation> namedLocations) {
+    print(text);
+    for (final location in namedLocations) {
+      addAnnotation(location.fieldPathSegment, location.name, location.start);
+    }
+  }
+
+  void printlnAnnotated(String text, List<NamedLocation> namedLocations) {
+    printAnnotated(text, namedLocations);
+    _newline();
+  }
+
   /// Prints a block of text with the body indented one more level.
   void addBlock(String start, String end, void body(),
       {endWithNewline = true}) {
-    _addBlock(start, end, body, endWithNewline, _indent + '  ');
+    println(start);
+    _addBlockBodyAndEnd(end, body, endWithNewline, _indent + '  ');
   }
 
   /// Prints a block of text with an unindented body.
   /// (For example, for triple quotes.)
   void addUnindentedBlock(String start, String end, void body(),
       {endWithNewline = true}) {
-    _addBlock(start, end, body, endWithNewline, '');
+    println(start);
+    _addBlockBodyAndEnd(end, body, endWithNewline, '');
   }
 
-  void _addBlock(
-      String start, String end, void body(), endWithNewline, newIndent) {
-    println(start);
+  void addAnnotatedBlock(
+      String start, String end, List<NamedLocation> namedLocations, void body(),
+      {endWithNewline = true}) {
+    printlnAnnotated(start, namedLocations);
+    _addBlockBodyAndEnd(end, body, endWithNewline, _indent + '  ');
+  }
+
+  void _addBlockBodyAndEnd(String end, void body(), endWithNewline, newIndent) {
     var oldIndent = _indent;
     _indent = newIndent;
     body();
@@ -77,5 +116,21 @@ class IndentingWriter {
   void _newline() {
     _buffer.writeln();
     _needIndent = true;
+  }
+
+  /// Creates an annotation, given the starting offset and ending offset.
+  /// [start] should be the location of the identifier as it appears in the
+  /// string that was passed to the previous [print]. Name should be the string
+  /// that was written to file.
+  void addAnnotation(List<int> fieldPath, String name, int start) {
+    if (_sourceFile == null) {
+      return;
+    }
+    var annotation = new GeneratedCodeInfo_Annotation()
+      ..path.addAll(fieldPath)
+      ..sourceFile = _sourceFile
+      ..begin = _previousOffset + start
+      ..end = _previousOffset + start + name.length;
+    sourceLocationInfo.annotation.add(annotation);
   }
 }

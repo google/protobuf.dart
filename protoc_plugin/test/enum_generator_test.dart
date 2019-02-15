@@ -30,11 +30,13 @@ void main() {
           ..name = 'BUSINESS'
           ..number = 2
       ]);
-    IndentingWriter writer = new IndentingWriter();
+    IndentingWriter writer = new IndentingWriter(filename: 'sample.proto');
     FileGenerator fg =
         new FileGenerator(new FileDescriptorProto(), new GenerationOptions());
-    EnumGenerator eg = new EnumGenerator(ed, fg, new Set<String>());
+    EnumGenerator eg = new EnumGenerator.topLevel(ed, fg, new Set<String>(), 0);
     eg.generate(writer);
     expectMatchesGoldenFile(writer.toString(), 'test/goldens/enum');
+    expectMatchesGoldenFile(writer.sourceLocationInfo.toString(),
+        'test/goldens/enum.meta');
   });
 }
