@@ -26,7 +26,7 @@ class IndentingWriter {
   int _previousOffset = 0;
   final String _sourceFile;
 
-  IndentingWriter({filename = null}) : _sourceFile = filename;
+  IndentingWriter({String filename}) : _sourceFile = filename;
 
   /// Appends a string indented to the current level.
   /// (Indentation will be added after newline characters where needed.)
