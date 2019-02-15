@@ -455,6 +455,7 @@ final List<String> forbiddenExtensionNames = <String>[]
 // subclass of GeneratedMessage.
 const List<String> _dartReservedWords = const [
   'assert',
+  'bool',
   'break',
   'case',
   'catch',
@@ -463,6 +464,7 @@ const List<String> _dartReservedWords = const [
   'continue',
   'default',
   'do',
+  'double',
   'else',
   'enum',
   'extends',
@@ -472,6 +474,7 @@ const List<String> _dartReservedWords = const [
   'for',
   'if',
   'in',
+  'int',
   'is',
   'new',
   'null',
