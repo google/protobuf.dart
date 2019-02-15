@@ -113,13 +113,13 @@ class MessageGenerator extends ProtobufContainer {
             List.generate(descriptor.oneofDecl.length, (int index) => []) {
     for (var i = 0; i < _descriptor.enumType.length; i++) {
       EnumDescriptorProto e = _descriptor.enumType[i];
-      _enumGenerators.add(new EnumGenerator.nested(e, this, usedNames, i));
+      _enumGenerators.add(new EnumGenerator.nested(e, this, _usedTopLevelNames, i));
     }
 
     for (var i = 0; i < _descriptor.nestedType.length; i++) {
       DescriptorProto n = _descriptor.nestedType[i];
       _messageGenerators.add(new MessageGenerator.nested(
-          n, this, declaredMixins, defaultMixin, usedNames, i));
+          n, this, declaredMixins, defaultMixin, _usedTopLevelNames, i));
     }
 
     // Extensions within messages won't create top-level classes and don't need
@@ -309,9 +309,14 @@ class MessageGenerator extends ProtobufContainer {
     String packageClause = package == ''
         ? ''
         : ', package: const $_protobufImportPrefix.PackageName(\'$package\')';
-    out.addBlock(
+    out.addAnnotatedBlock(
         'class ${classname} extends $_protobufImportPrefix.GeneratedMessage${mixinClause} {',
-        '}', () {
+        '}', [
+      new NamedLocation(
+          name: classname,
+          fieldPathSegment: new List.from(fieldPath)..addAll([1]),
+          start: 'class '.length)
+    ], () {
       for (OneofNames oneof in _oneofNames) {
         out.addBlock(
             'static const Map<int, ${oneof.oneofEnumName}> ${oneof.byTagMapName} = {',
