@@ -330,12 +330,25 @@ class FileGenerator extends ProtobufContainer {
     }
     if (enumImports.isNotEmpty) out.println();
 
+    _writeWellKnownImports(out);
+
     // Export enums in main file for backward compatibility.
     if (enumCount > 0) {
       Uri resolvedImport =
           config.resolveImport(protoFileUri, protoFileUri, ".pbenum.dart");
       out.println("export '$resolvedImport';");
       out.println();
+    }
+  }
+
+  void _writeWellKnownImports(IndentingWriter out) {
+    for (final message in messageGenerators) {
+      final importStatements =
+          wellKnownTypeForFullName(message.fullName)?.extraImports ??
+              <String>[];
+      for (String importStatement in importStatements) {
+        out.println(importStatement);
+      }
     }
   }
 

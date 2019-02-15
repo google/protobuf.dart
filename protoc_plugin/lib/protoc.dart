@@ -29,3 +29,4 @@ part 'options.dart';
 part 'output_config.dart';
 part 'protobuf_field.dart';
 part 'service_generator.dart';
+part 'well_known_types.dart';
