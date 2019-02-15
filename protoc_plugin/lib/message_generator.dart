@@ -78,19 +78,29 @@ class MessageGenerator extends ProtobufContainer {
   final List<List<ProtobufField>> _oneofFields;
   List<OneofNames> _oneofNames;
 
+  List<int> _fieldPath;
+  final List<int> _fieldPathSegment;
+
+  /// See [[ProtobufContainer]
+  List<int> get fieldPath =>
+      _fieldPath ??= List.from(_parent.fieldPath)..addAll(_fieldPathSegment);
+
   // populated by resolve()
   List<ProtobufField> _fieldList;
 
   Set<String> _usedTopLevelNames;
 
-  MessageGenerator(
+  MessageGenerator._(
       DescriptorProto descriptor,
       ProtobufContainer parent,
       Map<String, PbMixin> declaredMixins,
       PbMixin defaultMixin,
-      this._usedTopLevelNames)
+      this._usedTopLevelNames,
+      int repeatedFieldIndex,
+      int fieldIdTag)
       : _descriptor = descriptor,
         _parent = parent,
+        _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
         classname = messageOrEnumClassName(descriptor.name, _usedTopLevelNames,
             parent: parent?.classname ?? ''),
         assert(parent != null),
@@ -101,20 +111,49 @@ class MessageGenerator extends ProtobufContainer {
             defaultMixin),
         _oneofFields =
             List.generate(descriptor.oneofDecl.length, (int index) => []) {
-    for (EnumDescriptorProto e in _descriptor.enumType) {
-      _enumGenerators.add(new EnumGenerator(e, this, _usedTopLevelNames));
+    for (var i = 0; i < _descriptor.enumType.length; i++) {
+      EnumDescriptorProto e = _descriptor.enumType[i];
+      _enumGenerators.add(new EnumGenerator.nested(e, this, usedNames, i));
     }
 
-    for (DescriptorProto n in _descriptor.nestedType) {
-      _messageGenerators.add(new MessageGenerator(
-          n, this, declaredMixins, defaultMixin, _usedTopLevelNames));
+    for (var i = 0; i < _descriptor.nestedType.length; i++) {
+      DescriptorProto n = _descriptor.nestedType[i];
+      _messageGenerators.add(new MessageGenerator.nested(
+          n, this, declaredMixins, defaultMixin, usedNames, i));
     }
 
-    for (FieldDescriptorProto x in _descriptor.extension) {
+    // Extensions within messages won't create top-level classes and don't need
+    // to check against / be added to top-level reserved names.
+    final usedExtensionNames = Set<String>()..addAll(forbiddenExtensionNames);
+    for (var i = 0; i < _descriptor.extension.length; i++) {
+      FieldDescriptorProto x = _descriptor.extension[i];
       _extensionGenerators
-          .add(new ExtensionGenerator(x, this, _usedTopLevelNames));
+          .add(new ExtensionGenerator.nested(x, this, usedExtensionNames, i));
     }
   }
+
+  static const _topLevelFieldTag = 4;
+  static const _nestedFieldTag = 3;
+
+  MessageGenerator.topLevel(
+      DescriptorProto descriptor,
+      ProtobufContainer parent,
+      Map<String, PbMixin> declaredMixins,
+      PbMixin defaultMixin,
+      Set<String> usedNames,
+      int repeatedFieldIndex)
+      : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
+            repeatedFieldIndex, _topLevelFieldTag);
+
+  MessageGenerator.nested(
+      DescriptorProto descriptor,
+      ProtobufContainer parent,
+      Map<String, PbMixin> declaredMixins,
+      PbMixin defaultMixin,
+      Set<String> usedNames,
+      int repeatedFieldIndex)
+      : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
+            repeatedFieldIndex, _nestedFieldTag);
 
   String get package => _parent.package;
 

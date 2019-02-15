@@ -13,7 +13,7 @@ import 'src/descriptor.pb.dart';
 import 'src/plugin.pb.dart';
 
 import 'const_generator.dart' show writeJsonConst;
-import 'indenting_writer.dart' show IndentingWriter;
+import 'indenting_writer.dart';
 import 'names.dart';
 
 part 'base_type.dart';
