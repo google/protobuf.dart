@@ -74,7 +74,7 @@ void main() {
     expectMatchesGoldenFile(writer.sourceLocationInfo.toString(),
         'test/goldens/messageGenerator.meta');
 
-    var writer = new IndentingWriter(filename: '');
+    writer = new IndentingWriter(filename: '');
     mg.generateEnums(writer);
     expectMatchesGoldenFile(
         writer.toString(), 'test/goldens/messageGeneratorEnums');
