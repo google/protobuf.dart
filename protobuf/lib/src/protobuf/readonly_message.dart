@@ -49,7 +49,7 @@ abstract class ReadonlyMessageMixin {
   void setExtension(Extension extension, var value) =>
       _readonly("setExtension");
 
-  void setField(int tagNumber, var value, [int fieldType = null]) =>
+  void setField(int tagNumber, var value, [int fieldType]) =>
       _readonly("setField");
 
   void _readonly(String methodName) {
