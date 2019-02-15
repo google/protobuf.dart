@@ -23,7 +23,6 @@ class IndentingWriter {
   bool _needIndent = true;
   // After writing any chunk, _previousOffset is the size of everything that was
   // written to the buffer before the latest call to print or addBlock.
-  int get _offset => _buffer.length;
   int _previousOffset = 0;
   final String _sourceFile;
 
