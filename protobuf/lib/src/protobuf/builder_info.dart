@@ -113,13 +113,24 @@ class BuilderInfo {
   }
 
   // Repeated message, group, or enum.
+  void pc<T>(int tagNumber, String name, int fieldType,
+      [CreateBuilderFunc subBuilder,
+      ValueOfFunc valueOf,
+      List<ProtobufEnum> enumValues]) {
+    assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
+    addRepeated<T>(tagNumber, name, fieldType, _checkNotNull, subBuilder,
+        valueOf, enumValues);
+  }
+
+  @Deprecated('Use [pc] instead. The given [check] function is ignored.'
+      'This function will be removed in the next major version.')
   void pp<T>(int tagNumber, String name, int fieldType, CheckFunc<T> check,
       [CreateBuilderFunc subBuilder,
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues]) {
     assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
-    addRepeated<T>(
-        tagNumber, name, fieldType, check, subBuilder, valueOf, enumValues);
+    addRepeated<T>(tagNumber, name, fieldType, _checkNotNull, subBuilder,
+        valueOf, enumValues);
   }
 
   // oneof declarations.
