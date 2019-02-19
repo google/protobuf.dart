@@ -6,10 +6,6 @@ import 'package:protobuf/meta.dart';
 import 'package:protoc_plugin/src/dart_options.pb.dart';
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 
-/// A Dart function called on each item added to a repeated list
-/// to check its type and range.
-const checkItem = '\$checkItem';
-
 class MemberNames {
   List<FieldNames> fieldNames;
   List<OneofNames> oneofNames;
@@ -501,7 +497,6 @@ const _generatedMessageNames = const <String>[
   'createRepeated',
   'getDefault',
   'List',
-  checkItem,
   'notSet'
 ];
 
@@ -513,5 +508,4 @@ const _protobufEnumNames = const <String>[
   'List',
   'valueOf',
   'values',
-  checkItem
 ];

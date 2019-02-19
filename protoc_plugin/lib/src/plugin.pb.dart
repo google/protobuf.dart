@@ -80,8 +80,8 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     ..aOS(2, 'parameter')
     ..a<Version>(3, 'compilerVersion', $pb.PbFieldType.OM, Version.getDefault,
         Version.create)
-    ..pp<$0.FileDescriptorProto>(15, 'protoFile', $pb.PbFieldType.PM,
-        $0.FileDescriptorProto.$checkItem, $0.FileDescriptorProto.create);
+    ..pc<$0.FileDescriptorProto>(
+        15, 'protoFile', $pb.PbFieldType.PM, $0.FileDescriptorProto.create);
 
   CodeGeneratorRequest() : super();
   CodeGeneratorRequest.fromBuffer(List<int> i,
@@ -193,12 +193,8 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CodeGeneratorResponse',
       package: const $pb.PackageName('google.protobuf.compiler'))
     ..aOS(1, 'error')
-    ..pp<CodeGeneratorResponse_File>(
-        15,
-        'file',
-        $pb.PbFieldType.PM,
-        CodeGeneratorResponse_File.$checkItem,
-        CodeGeneratorResponse_File.create)
+    ..pc<CodeGeneratorResponse_File>(
+        15, 'file', $pb.PbFieldType.PM, CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse() : super();
