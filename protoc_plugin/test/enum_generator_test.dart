@@ -36,7 +36,7 @@ void main() {
     EnumGenerator eg = new EnumGenerator.topLevel(ed, fg, new Set<String>(), 0);
     eg.generate(writer);
     expectMatchesGoldenFile(writer.toString(), 'test/goldens/enum');
-    expectMatchesGoldenFile(writer.sourceLocationInfo.toString(),
-        'test/goldens/enum.meta');
+    expectMatchesGoldenFile(
+        writer.sourceLocationInfo.toString(), 'test/goldens/enum.meta');
   });
 }

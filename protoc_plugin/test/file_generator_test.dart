@@ -209,8 +209,8 @@ void main() {
 
     var writer = new IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
-    expectMatchesGoldenFile(fg.generateMainFile().toString(),
-        'test/goldens/service.pb');
+    expectMatchesGoldenFile(
+        fg.generateMainFile().toString(), 'test/goldens/service.pb');
     expectMatchesGoldenFile(
         fg.generateServerFile(), 'test/goldens/service.pbserver');
   });
@@ -391,8 +391,8 @@ void main() {
     FileGenerator fg = new FileGenerator(fd, options);
     link(options,
         [fg, new FileGenerator(fd1, options), new FileGenerator(fd2, options)]);
-    expectMatchesGoldenFile(fg.generateMainFile().toString(),
-        'test/goldens/imports.pb');
+    expectMatchesGoldenFile(
+        fg.generateMainFile().toString(), 'test/goldens/imports.pb');
     expectMatchesGoldenFile(
         fg.generateEnumFile().toString(), 'test/goldens/imports.pbjson');
   });
