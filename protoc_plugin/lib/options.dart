@@ -47,8 +47,9 @@ bool genericOptionsParser(CodeGeneratorRequest request,
 /// Options expected by the protoc code generation compiler.
 class GenerationOptions {
   final bool useGrpc;
+  final bool generateMetadata;
 
-  GenerationOptions({this.useGrpc = false});
+  GenerationOptions({this.useGrpc = false, this.generateMetadata = false});
 }
 
 /// A parser for a name-value pair option. Options parsed in
@@ -75,6 +76,19 @@ class GrpcOptionParser implements SingleOptionParser {
   }
 }
 
+class GenerateMetadataParser implements SingleOptionParser {
+  bool generateKytheInfo = false;
+
+  @override
+  void parse(String name, String value, onError(String details)) {
+    if (value != null) {
+      onError('Invalid metadata option. No Value expected.');
+      return;
+    }
+    generateKytheInfo = true;
+  }
+}
+
 /// Parser used by the compiler, which supports the `rpc` option (see
 /// [RpcOptionParser]) and any additional option added in [parsers]. If
 /// [parsers] has a key for `rpc`, it will be ignored.
@@ -86,9 +100,13 @@ GenerationOptions parseGenerationOptions(
 
   final grpcOptionParser = new GrpcOptionParser();
   newParsers['grpc'] = grpcOptionParser;
+  final generateMetadataParser = new GenerateMetadataParser();
+  newParsers['generate_kythe_info'] = generateMetadataParser;
 
   if (genericOptionsParser(request, response, newParsers)) {
-    return new GenerationOptions(useGrpc: grpcOptionParser.grpcEnabled);
+    return new GenerationOptions(
+        useGrpc: grpcOptionParser.grpcEnabled,
+        generateMetadata: generateMetadataParser.generateKytheInfo);
   }
   return null;
 }

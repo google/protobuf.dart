@@ -1,3 +1,8 @@
+## 16.1.0
+
+* Add ability to generate Kythe metadata files via the
+  `generate_kythe_info` option.
+
 ## 16.0.0
 
 * Breaking change: Remove the '$checkItem' function from generated message classes and use the new method 'pc' on
