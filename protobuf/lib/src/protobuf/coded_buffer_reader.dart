@@ -166,6 +166,8 @@ class CodedBufferReader {
 
   int _readRawVarint32(bool signed) {
     // Read up to 10 bytes.
+    // We use a local [bufferPos] variable to avoid repeatedly loading/store the
+    // this._bufferpos field.
     int bufferPos = _bufferPos;
     int bytes = _currentLimit - bufferPos;
     if (bytes > 10) bytes = 10;
