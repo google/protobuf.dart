@@ -44,7 +44,7 @@ class _EmptyExtensionRegistry implements ExtensionRegistry {
   void add(Extension extension) {
     throw new UnsupportedError('Immutable ExtensionRegistry');
   }
-  
+
   void addAll(Iterable<Extension> extensions) {
     throw new UnsupportedError('Immutable ExtensionRegistry');
   }
