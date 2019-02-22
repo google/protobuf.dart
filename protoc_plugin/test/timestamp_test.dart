@@ -19,7 +19,7 @@ void main() {
     DateTime dateTime = new DateTime.utc(2019, 02, 15, 10, 21, 25, 5, 5);
     DateTime fromProto = Timestamp.fromDateTime(dateTime).toDateTime();
 
-    /// The time zone information is lost, so cannot use equality on these dates.s
+    /// The time zone information is lost, so cannot use equality on these dates.
     expect(fromProto.isAtSameMomentAs(dateTime), true,
         reason: "$fromProto is not at the same moment as $dateTime");
   });
