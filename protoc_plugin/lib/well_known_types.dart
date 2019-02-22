@@ -73,6 +73,8 @@ class _Timestamp extends WellKnownType {
       seconds.toInt() * $core.Duration.microsecondsPerSecond + nanos ~/ 1000);
 
   /// Creates a new instance from [dateTime].
+  ///
+  /// Time zone information will not be preserved.
   static Timestamp fromDateTime($core.DateTime dateTime) {
     int micros = dateTime.microsecondsSinceEpoch;
     return new Timestamp()
