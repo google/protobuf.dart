@@ -68,7 +68,7 @@ class _Timestamp extends WellKnownType {
   /// Converts an instance to [DateTime].
   ///
   /// The result has microsecond precision, as [DateTime] does not support
-  /// nanosecond precision
+  /// nanosecond precision.
   $core.DateTime toDateTime() => new $core.DateTime.fromMicrosecondsSinceEpoch(
       seconds.toInt() * $core.Duration.microsecondsPerSecond + nanos ~/ 1000);
 
