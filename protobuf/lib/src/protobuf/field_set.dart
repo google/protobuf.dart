@@ -33,7 +33,6 @@ FrozenMessageErrorHandler frozenMessageModificationHandler =
 /// be faster when compiled to JavaScript.
 class _FieldSet {
   final GeneratedMessage _message;
-  final BuilderInfo _meta;
   final EventPlugin _eventPlugin;
   bool _isReadOnly = false;
 
@@ -53,8 +52,9 @@ class _FieldSet {
   final Map<int, int> oneofCases = <int, int>{};
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
-      : this._meta = meta,
-        _values = _makeValueList(meta.byIndex.length);
+      : _values = _makeValueList(_message.info_.byIndex.length);
+
+  BuilderInfo get _meta => _message.info_;
 
   static _makeValueList(int length) {
     if (length == 0) return _zeroList;

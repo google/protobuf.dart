@@ -4,6 +4,23 @@
 
 part of protobuf;
 
+class _PBMapEntry extends GeneratedMessage {
+  _PBMapEntry(this.info_);
+
+  @override
+  GeneratedMessage clone() {
+    throw StateError('This method should not have been called');
+  }
+
+  @override
+  GeneratedMessage createEmptyInstance() {
+    throw StateError('This method should not have been called');
+  }
+
+  @override
+  final BuilderInfo info_;
+}
+
 class PbMap<K, V> extends MapBase<K, V> {
   final int keyFieldType;
   final int valueFieldType;
@@ -15,7 +32,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   final BuilderInfo _entryBuilderInfo;
 
   bool _isReadonly = false;
-  _FieldSet _entryFieldSet() => new _FieldSet(null, _entryBuilderInfo, null);
+  _FieldSet _entryFieldSet() => new _FieldSet(_PBMapEntry(_entryBuilderInfo), null, null);
 
   PbMap(this.keyFieldType, this.valueFieldType, this._entryBuilderInfo)
       : _wrappedMap = <K, V>{};
