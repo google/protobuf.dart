@@ -1,6 +1,7 @@
 ## 17.0.0
 
-* Breaking change: The generated `pbgrpc.dart` files now import `package:grpc/service_api.dart`.
+* Breaking change: The generated `*.pbgrpc.dart` files now import `package:grpc/service_api.dart`
+  instead of `package:grpc/grpc.dart`.
   Generated code needs at least package:grpc 1.0.1.
 
 ## 16.1.0
