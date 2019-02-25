@@ -1,3 +1,7 @@
+## 0.13.5
+
+* Add new method `addAll` on ExtensionRegistry for more conveniently adding multiple extensions at once.
+
 ## 0.13.4
 
 * Add new method `pc` on BuilderInfo for adding repeated composite fields and remove redundant type check on items added

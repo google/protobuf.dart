@@ -19,6 +19,11 @@ class ExtensionRegistry {
     map[extension.tagNumber] = extension;
   }
 
+  /// Stores all [extensions] in the registry.
+  void addAll(Iterable<Extension> extensions) {
+    extensions.forEach(add);
+  }
+
   /// Retrieves an extension from the registry that adds tag number [tagNumber]
   /// to the [messageName] message type.
   Extension getExtension(String messageName, int tagNumber) {
@@ -37,6 +42,10 @@ class _EmptyExtensionRegistry implements ExtensionRegistry {
   get _extensions => null;
 
   void add(Extension extension) {
+    throw new UnsupportedError('Immutable ExtensionRegistry');
+  }
+
+  void addAll(Iterable<Extension> extensions) {
     throw new UnsupportedError('Immutable ExtensionRegistry');
   }
 
