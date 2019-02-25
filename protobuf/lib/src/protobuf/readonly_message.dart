@@ -49,50 +49,11 @@ abstract class ReadonlyMessageMixin {
   void setExtension(Extension extension, var value) =>
       _readonly("setExtension");
 
-  void setField(int tagNumber, var value, [int fieldType = null]) =>
+  void setField(int tagNumber, var value, [int fieldType]) =>
       _readonly("setField");
 
   void _readonly(String methodName) {
     String messageType = info_.qualifiedMessageName;
     frozenMessageModificationHandler(messageType, methodName);
-  }
-}
-
-class _ReadonlyUnknownFieldSet extends UnknownFieldSet {
-  static final _empty = new _ReadonlyUnknownFieldSet();
-
-  @override
-  void clear() => _readonly("clear");
-
-  @override
-  void addField(int number, UnknownFieldSetField field) =>
-      _readonly("addField");
-
-  @override
-  void mergeField(int number, UnknownFieldSetField field) =>
-      _readonly("mergeField");
-
-  @override
-  bool mergeFieldFromBuffer(int tag, CodedBufferReader input) {
-    _readonly("mergeFieldFromBuffer");
-    return false; // not reached
-  }
-
-  @override
-  void mergeFromCodedBufferReader(CodedBufferReader input) =>
-      _readonly("mergeFromCodedBufferReader");
-
-  @override
-  void mergeFromUnknownFieldSet(UnknownFieldSet other) =>
-      _readonly("mergeFromUnknownFieldSet");
-
-  @override
-  UnknownFieldSetField _getField(int number) {
-    _readonly("a merge method");
-    return null; // not reached
-  }
-
-  void _readonly(String methodName) {
-    frozenMessageModificationHandler('UnknownFieldSet', methodName);
   }
 }

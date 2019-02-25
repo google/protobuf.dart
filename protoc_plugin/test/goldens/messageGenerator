@@ -16,9 +16,6 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static $pb.PbList<PhoneNumber> createRepeated() => new $pb.PbList<PhoneNumber>();
   static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
   static PhoneNumber _defaultInstance;
-  static void $checkItem(PhoneNumber v) {
-    if (v is! PhoneNumber) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
   String get number => $_getS(0, '');
   set number(String v) { $_setString(0, v); }

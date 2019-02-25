@@ -1,6 +1,32 @@
+## 0.13.4
+
+* Add new method `pc` on BuilderInfo for adding repeated composite fields and remove redundant type check on items added
+  to a PbList.
+
+  Deprecated `BuilderInfo.pp` and `PbList.forFieldType`.
+
+## 0.13.3
+
+* Fix issue with parsing map field entries. The values for two different keys would sometimes be
+  merged.
+  
+* Deprecated `PBMap.add`.
+
+## 0.13.2
+
+* Include extension fields in GeneratedMessage.toString().
+
+## 0.13.1
+
+* Fix issue with not being able to read unknown fields after freezing.
+
+Reading an unknown field set after freeze() now returns the existing field set before freezing instead of an empty UnknownFieldSet.
+
 ## 0.13.0
 
 * Breaking change: Fix issue with not being able to read extensions after freezing.
+
+Reading an extension field after freeze() now returns the value set before freezing instead of the default value.
 
 ## 0.12.0
 

@@ -1,7 +1,22 @@
-## 15.1.0
+## 17.0.0
 
 * Breaking change: The generated `pbgrpc.dart` files now import `package:grpc/service_api.dart`.
   Generated code needs at least package:grpc 1.0.1.
+
+## 16.1.0
+
+* Add ability to generate Kythe metadata files via the
+  `generate_kythe_info` option.
+
+## 16.0.0
+
+* Breaking change: Remove the '$checkItem' function from generated message classes and use the new method 'pc' on
+  'BuilderInfo' to add repeated composite fields.
+  Generated files require package:protobuf version 0.13.4 or newer.
+
+## 15.0.3
+
+* Add test for frozen messages with unknown fields and update protobuf dependency to 0.13.1.
 
 ## 15.0.2
 
