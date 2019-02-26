@@ -67,10 +67,11 @@ class _Timestamp extends WellKnownType {
     out.println(r'''
   /// Converts an instance to [DateTime].
   ///
-  /// The result has microsecond precision, as [DateTime] does not support
-  /// nanosecond precision.
+  /// The result is in UTC time zone and has microsecond precision, as
+  /// [DateTime] does not support nanosecond precision.
   $core.DateTime toDateTime() => new $core.DateTime.fromMicrosecondsSinceEpoch(
-      seconds.toInt() * $core.Duration.microsecondsPerSecond + nanos ~/ 1000);
+      seconds.toInt() * $core.Duration.microsecondsPerSecond + nanos ~/ 1000,
+      isUtc: true);
 
   /// Creates a new instance from [dateTime].
   ///

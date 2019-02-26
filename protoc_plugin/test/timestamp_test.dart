@@ -15,12 +15,19 @@ void main() {
     expect(Timestamp.fromDateTime(timestamp.toDateTime()), timestamp);
   });
 
-  test('datetime -> timestamp -> datetime', () {
+  test('utc datetime -> timestamp -> datetime', () {
     DateTime dateTime = new DateTime.utc(2019, 02, 15, 10, 21, 25, 5, 5);
     DateTime fromProto = Timestamp.fromDateTime(dateTime).toDateTime();
 
-    /// The time zone information is lost, so cannot use equality on these dates.
-    expect(fromProto.isAtSameMomentAs(dateTime), true,
-        reason: "$fromProto is not at the same moment as $dateTime");
+    expect(fromProto.isUtc, true, reason: "$fromProto is not a UTC time.");
+    expect(fromProto, dateTime);
+  });
+
+  test('local datetime -> timestamp -> datetime', () {
+    DateTime dateTime = new DateTime(2019, 02, 15, 10, 21, 25, 5, 5);
+    DateTime fromProto = Timestamp.fromDateTime(dateTime).toDateTime();
+
+    expect(fromProto.isUtc, true, reason: "$fromProto is not a UTC time.");
+    expect(fromProto, dateTime.toUtc());
   });
 }
