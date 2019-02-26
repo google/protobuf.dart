@@ -385,9 +385,7 @@ class MessageGenerator extends ProtobufContainer {
           'static ${classname} getDefault() => _defaultInstance ??= create()..freeze();');
       out.println('static ${classname} _defaultInstance;');
       generateFieldsAccessorsMutators(out);
-      if (fullName == 'google.protobuf.Any') {
-        generateAnyMethods(out);
-      }
+      wellKnownTypeForFullName(fullName)?.generateMethods(out);
     });
     out.println();
   }
@@ -432,45 +430,6 @@ class MessageGenerator extends ProtobufContainer {
       }
     }
     return false;
-  }
-
-  /// Generates methods for the Any message class for packing and unpacking
-  /// values.
-  void generateAnyMethods(IndentingWriter out) {
-    out.println('''
-  /// Unpacks the message in [value] into [instance].
-  ///
-  /// Throws a [InvalidProtocolBufferException] if [typeUrl] does not correspond
-  /// to the type of [instance].
-  ///
-  /// A typical usage would be `any.unpackInto(new Message())`.
-  ///
-  /// Returns [instance].
-  T unpackInto<T extends $_protobufImportPrefix.GeneratedMessage>(T instance,
-      {$_protobufImportPrefix.ExtensionRegistry extensionRegistry = $_protobufImportPrefix.ExtensionRegistry.EMPTY}) {
-    $_protobufImportPrefix.unpackIntoHelper(value, instance, typeUrl,
-        extensionRegistry: extensionRegistry);
-    return instance;
-  }
-
-  /// Returns `true` if the encoded message matches the type of [instance].
-  ///
-  /// Can be used with a default instance:
-  /// `any.canUnpackInto(Message.getDefault())`
-  bool canUnpackInto($_protobufImportPrefix.GeneratedMessage instance) {
-    return $_protobufImportPrefix.canUnpackIntoHelper(instance, typeUrl);
-  }
-
-  /// Creates a new [Any] encoding [message].
-  ///
-  /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
-  /// the fully qualified name of the type of [message].
-  static Any pack($_protobufImportPrefix.GeneratedMessage message,
-      {String typeUrlPrefix = 'type.googleapis.com'}) {
-    return new Any()
-      ..value = message.writeToBuffer()
-      ..typeUrl = '\${typeUrlPrefix}/\${message.info_.qualifiedMessageName}';
-  }''');
   }
 
   void generateFieldsAccessorsMutators(IndentingWriter out) {

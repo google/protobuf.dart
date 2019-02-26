@@ -1,3 +1,7 @@
+## 16.0.1
+
+* Add `DateTime` conversion methods to `google.protobuf.Timestamp`.
+
 ## 16.0.0
 
 * Add ability to generate Kythe metadata files via the
