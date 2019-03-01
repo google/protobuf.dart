@@ -11,6 +11,7 @@ class CodedBufferReader {
   final Uint8List _buffer;
   int _bufferPos = 0;
   int _lastTag = 0;
+  int _currentLimit;
   final int _recursionLimit;
   final int _sizeLimit;
 
@@ -20,8 +21,10 @@ class CodedBufferReader {
       : _buffer = buffer is Uint8List ? buffer : new Uint8List(buffer.length)
           ..setRange(0, buffer.length, buffer),
         _recursionLimit = recursionLimit,
-        _sizeLimit = math.min(sizeLimit, buffer.length) {
-    _limitStack = [_sizeLimit];
+        _currentLimit = math.min(sizeLimit, buffer.length),
+        _sizeLimit = math.min(sizeLimit, buffer.length)
+        {
+    _limitStack.add(_sizeLimit);
   }
 
   void checkLastTagWas(int value) {
@@ -39,9 +42,11 @@ class CodedBufferReader {
       throw new InvalidProtocolBufferException.truncatedMessage();
     }
     _limitStack.add(byteLimit);
+    _currentLimit = byteLimit;
 
     callback();
     _limitStack.removeLast();
+    _currentLimit = _limitStack.last;
   }
 
   void _checkLimit(int increment) {
@@ -96,14 +101,15 @@ class CodedBufferReader {
     int length = readInt32();
     _checkLengthIsNonNegative(length);
     _checkRecursionLimit();
+    int newLimit = _bufferPos + length;
+    _currentLimit = newLimit;
     _limitStack.add(_bufferPos + length);
   }
 
   void _stopReadingMessageOrGroup() {
     _limitStack.removeLast();
+    _currentLimit = _limitStack.last;
   }
-
-  int get _currentLimit => _limitStack.last;
 
   List<int> _limitStack = [-1];
 

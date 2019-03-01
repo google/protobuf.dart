@@ -62,30 +62,30 @@ class _CodedBufferMerger {
       : stack = <_StackItem>[_StackItem(fieldSet)],
         assert(extensionRegistry != null);
 
-  void _readPackable<T>(_FieldSet fieldSet, CodedBufferReader input, int wireType,
+  void _readPackable<T>(CodedBufferReader input, int wireType,
       FieldInfo fi, T Function() readFunc) {
     void readToList(List list) => list.add(readFunc());
-    _readPackableToList(fieldSet, input, wireType, fi, readToList);
+    _readPackableToList(input, wireType, fi, readToList);
   }
 
-  void _readPackableToListEnum(_FieldSet fieldSet, CodedBufferReader input,
+  void _readPackableToListEnum(CodedBufferReader input,
       int wireType, FieldInfo fieldInfo, int tagNumber, ExtensionRegistry registry) {
     void readToList(List list) {
       int rawValue = input.readEnum();
-      var value = fieldSet._meta._decodeEnum(tagNumber, registry, rawValue);
+      var value = topFieldSet._meta._decodeEnum(tagNumber, registry, rawValue);
       if (value == null) {
-        var unknown = fieldSet._ensureUnknownFields();
+        var unknown = topFieldSet._ensureUnknownFields();
         unknown.mergeVarintField(tagNumber, new Int64(rawValue));
       } else {
         list.add(value);
       }
     }
-    _readPackableToList(fieldSet, input, wireType, fieldInfo, readToList);
+    _readPackableToList(input, wireType, fieldInfo, readToList);
   }
 
-  void _readPackableToList<T>(_FieldSet fs, CodedBufferReader input, int wireType,
+  void _readPackableToList<T>(CodedBufferReader input, int wireType,
       FieldInfo fieldInfo, void Function(List<T> l) readToList) {
-    List<T> list = fs._ensureRepeatedField(fieldInfo);
+    List<T> list = topFieldSet._ensureRepeatedField(fieldInfo);
     if (wireType == WIRETYPE_LENGTH_DELIMITED) {
       // Packed.
       input._withLimit(input.readInt32(), () {
@@ -228,7 +228,7 @@ class _CodedBufferMerger {
           currentFieldSet._setFieldUnchecked(fi, subMessage);
           break;
         case PbFieldType._REPEATED_BOOL:
-          _readPackable(currentFieldSet, input, wireType, fi, input.readBool);
+          _readPackable(input, wireType, fi, input.readBool);
           break;
         case PbFieldType._REPEATED_BYTES:
           currentFieldSet._ensureRepeatedField(fi).add(input.readBytes());
@@ -237,14 +237,13 @@ class _CodedBufferMerger {
           currentFieldSet._ensureRepeatedField(fi).add(input.readString());
           break;
         case PbFieldType._REPEATED_FLOAT:
-          _readPackable(currentFieldSet, input, wireType, fi, input.readFloat);
+          _readPackable(input, wireType, fi, input.readFloat);
           break;
         case PbFieldType._REPEATED_DOUBLE:
-          _readPackable(currentFieldSet, input, wireType, fi, input.readDouble);
+          _readPackable(input, wireType, fi, input.readDouble);
           break;
         case PbFieldType._REPEATED_ENUM:
-          _readPackableToListEnum(
-              currentFieldSet, input, wireType, fi, tagNumber,
+          _readPackableToListEnum(input, wireType, fi, tagNumber,
               extensionRegistry);
           break;
         case PbFieldType._REPEATED_GROUP:
@@ -255,38 +254,34 @@ class _CodedBufferMerger {
           currentFieldSet._ensureRepeatedField(fi).add(subMessage);
           break;
         case PbFieldType._REPEATED_INT32:
-          _readPackable(currentFieldSet, input, wireType, fi, input.readInt32);
+          _readPackable(input, wireType, fi, input.readInt32);
           break;
         case PbFieldType._REPEATED_INT64:
-          _readPackable(currentFieldSet, input, wireType, fi, input.readInt64);
+          _readPackable(input, wireType, fi, input.readInt64);
           break;
         case PbFieldType._REPEATED_SINT32:
-          _readPackable(currentFieldSet, input, wireType, fi, input.readSint32);
+          _readPackable(input, wireType, fi, input.readSint32);
           break;
         case PbFieldType._REPEATED_SINT64:
-          _readPackable(currentFieldSet, input, wireType, fi, input.readSint64);
+          _readPackable(input, wireType, fi, input.readSint64);
           break;
         case PbFieldType._REPEATED_UINT32:
-          _readPackable(currentFieldSet, input, wireType, fi, input.readUint32);
+          _readPackable(input, wireType, fi, input.readUint32);
           break;
         case PbFieldType._REPEATED_UINT64:
-          _readPackable(currentFieldSet, input, wireType, fi, input.readUint64);
+          _readPackable(input, wireType, fi, input.readUint64);
           break;
         case PbFieldType._REPEATED_FIXED32:
-          _readPackable(
-              currentFieldSet, input, wireType, fi, input.readFixed32);
+          _readPackable(input, wireType, fi, input.readFixed32);
           break;
         case PbFieldType._REPEATED_FIXED64:
-          _readPackable(
-              currentFieldSet, input, wireType, fi, input.readFixed64);
+          _readPackable(input, wireType, fi, input.readFixed64);
           break;
         case PbFieldType._REPEATED_SFIXED32:
-          _readPackable(
-              currentFieldSet, input, wireType, fi, input.readSfixed32);
+          _readPackable(input, wireType, fi, input.readSfixed32);
           break;
         case PbFieldType._REPEATED_SFIXED64:
-          _readPackable(
-              currentFieldSet, input, wireType, fi, input.readSfixed64);
+          _readPackable(input, wireType, fi, input.readSfixed64);
           break;
         case PbFieldType._REPEATED_MESSAGE:
           GeneratedMessage subMessage = currentFieldSet._meta
