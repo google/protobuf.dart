@@ -52,8 +52,7 @@ class _CodedBufferMerger {
   final List<_StackItem> stack;
   final int recursionLimit;
 
-  _StackItem get top => stack.last;
-  _FieldSet get topFieldSet => top.fieldSet;
+  _FieldSet get topFieldSet => stack.last.fieldSet;
 
   _CodedBufferMerger(
       {this.input,
@@ -86,7 +85,7 @@ class _CodedBufferMerger {
 
   void _readPackableToList<T>(_FieldSet fs, CodedBufferReader input, int wireType,
       FieldInfo fieldInfo, void Function(List<T> l) readToList) {
-    List<T> list = topFieldSet._ensureRepeatedField(fieldInfo);
+    List<T> list = fs._ensureRepeatedField(fieldInfo);
     if (wireType == WIRETYPE_LENGTH_DELIMITED) {
       // Packed.
       input._withLimit(input.readInt32(), () {
@@ -100,7 +99,7 @@ class _CodedBufferMerger {
     }
   }
 
-  /// Reads at least [byteLimit] bytes from [input].
+  /// Process at least [byteLimit] bytes from [input].
   ///
   /// Returns [_CodedBufferMergingStatus.done] if the message is read to end,
   /// and [_CodedBufferMergingStatus.notDone] otherwise.
@@ -108,6 +107,9 @@ class _CodedBufferMerger {
   /// The fieldSet is not in a complete state until
   /// [_CodedBufferMergingStatus.done] has been returned.
   _CodedBufferMergingStatus mergeMore({int byteLimit = -1}) {
+    // Take a local copy. That seems to be slightly faster in benchmarks.
+    final input = this.input;
+
     int start = input._bufferPos;
     while (byteLimit == -1 || input._bufferPos - start < byteLimit) {
       int tag = input.readTag();
