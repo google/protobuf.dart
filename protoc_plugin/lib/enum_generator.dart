@@ -17,15 +17,24 @@ class EnumGenerator extends ProtobufContainer {
   final EnumDescriptorProto _descriptor;
   final List<EnumValueDescriptorProto> _canonicalValues =
       <EnumValueDescriptorProto>[];
+  final List<int> _originalCanonicalIndices = <int>[];
   final List<EnumAlias> _aliases = <EnumAlias>[];
 
   /// Maps the name of an enum value to the Dart name we will use for it.
   final Map<String, String> dartNames = <String, String>{};
+  final List<int> _originalAliasIndices = <int>[];
+  List<int> _fieldPath;
+  final List<int> _fieldPathSegment;
 
-  EnumGenerator(EnumDescriptorProto descriptor, ProtobufContainer parent,
-      Set<String> usedClassNames)
+  /// See [[ProtobufContainer]
+  List<int> get fieldPath =>
+      _fieldPath ??= List.from(_parent.fieldPath)..addAll(_fieldPathSegment);
+
+  EnumGenerator._(EnumDescriptorProto descriptor, ProtobufContainer parent,
+      Set<String> usedClassNames, int repeatedFieldIndex, int fieldIdTag)
       : assert(parent != null),
         _parent = parent,
+        _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
         classname = messageOrEnumClassName(descriptor.name, usedClassNames,
             parent: parent?.classname ?? ''),
         fullName = parent.fullName == ''
@@ -33,18 +42,37 @@ class EnumGenerator extends ProtobufContainer {
             : '${parent.fullName}.${descriptor.name}',
         _descriptor = descriptor {
     final usedNames = reservedEnumNames;
-    for (EnumValueDescriptorProto value in descriptor.value) {
+    for (var i = 0; i < descriptor.value.length; i++) {
+      EnumValueDescriptorProto value = descriptor.value[i];
       EnumValueDescriptorProto canonicalValue =
           descriptor.value.firstWhere((v) => v.number == value.number);
       if (value == canonicalValue) {
         _canonicalValues.add(value);
+        _originalCanonicalIndices.add(i);
       } else {
         _aliases.add(new EnumAlias(value, canonicalValue));
+        _originalAliasIndices.add(i);
       }
       dartNames[value.name] = disambiguateName(
           avoidInitialUnderscore(value.name), usedNames, enumSuffixes());
     }
   }
+
+  static const _topLevelFieldTag = 5;
+  static const _nestedFieldTag = 4;
+
+  EnumGenerator.topLevel(
+      EnumDescriptorProto descriptor,
+      ProtobufContainer parent,
+      Set<String> usedClassNames,
+      int repeatedFieldIndex)
+      : this._(descriptor, parent, usedClassNames, repeatedFieldIndex,
+            _topLevelFieldTag);
+
+  EnumGenerator.nested(EnumDescriptorProto descriptor, ProtobufContainer parent,
+      Set<String> usedClassNames, int repeatedFieldIndex)
+      : this._(descriptor, parent, usedClassNames, repeatedFieldIndex,
+            _nestedFieldTag);
 
   String get package => _parent.package;
   FileGenerator get fileGen => _parent.fileGen;
@@ -64,23 +92,58 @@ class EnumGenerator extends ProtobufContainer {
     return "$fileImportPrefix.$name";
   }
 
+  static const int _enumNameTag = 1;
+  static const int _enumValueTag = 2;
+  static const int _enumValueNameTag = 1;
+
   void generate(IndentingWriter out) {
-    out.addBlock(
+    out.addAnnotatedBlock(
         'class ${classname} extends $_protobufImportPrefix.ProtobufEnum {',
-        '}\n', () {
+        '}\n', [
+      new NamedLocation(
+          name: classname,
+          fieldPathSegment: new List.from(fieldPath)..add(_enumNameTag),
+          start: 'class '.length)
+    ], () {
       // -----------------------------------------------------------------
       // Define enum types.
-      for (EnumValueDescriptorProto val in _canonicalValues) {
+      for (var i = 0; i < _canonicalValues.length; i++) {
+        EnumValueDescriptorProto val = _canonicalValues[i];
         final name = dartNames[val.name];
-        out.println('static const ${classname} $name = '
-            "const ${classname}._(${val.number}, ${singleQuote(name)});");
+        out.printlnAnnotated(
+            'static const ${classname} $name = '
+            "const ${classname}._(${val.number}, ${singleQuote(name)});",
+            [
+              new NamedLocation(
+                  name: name,
+                  fieldPathSegment: new List.from(fieldPath)
+                    ..addAll([
+                      _enumValueTag,
+                      _originalCanonicalIndices[i],
+                      _enumValueNameTag
+                    ]),
+                  start: 'static const ${classname} '.length)
+            ]);
       }
       if (_aliases.isNotEmpty) {
         out.println();
-        for (EnumAlias alias in _aliases) {
+        for (var i = 0; i < _aliases.length; i++) {
+          EnumAlias alias = _aliases[i];
           final name = dartNames[alias.value.name];
-          out.println('static const ${classname} $name ='
-              ' ${dartNames[alias.canonicalValue.name]};');
+          out.printlnAnnotated(
+              'static const ${classname} $name ='
+              ' ${dartNames[alias.canonicalValue.name]};',
+              [
+                new NamedLocation(
+                    name: name,
+                    fieldPathSegment: new List.from(fieldPath)
+                      ..addAll([
+                        _enumValueTag,
+                        _originalAliasIndices[i],
+                        _enumValueNameTag
+                      ]),
+                    start: 'static const ${classname} '.length)
+              ]);
         }
       }
       out.println();
@@ -98,10 +161,6 @@ class EnumGenerator extends ProtobufContainer {
           ' $_protobufImportPrefix.ProtobufEnum.initByValue(values);');
       out.println('static ${classname} valueOf(int value) =>'
           ' _byValue[value];');
-      out.addBlock('static void $checkItem($classname v) {', '}', () {
-        out.println('if (v is! $classname)'
-            " $_protobufImportPrefix.checkItemFailed(v, ${singleQuote(classname)});");
-      });
       out.println();
 
       out.println('const ${classname}._(int v, String n) '

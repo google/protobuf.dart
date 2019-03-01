@@ -13,7 +13,7 @@ final String _protobufImport =
     "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;";
 final String _asyncImport = "import 'dart:async' as $_asyncImportPrefix;";
 final String _grpcImport =
-    "import 'package:grpc/grpc.dart' as $_grpcImportPrefix;";
+    "import 'package:grpc/service_api.dart' as $_grpcImportPrefix;";
 
 /// Generates the Dart output files for one .proto input file.
 ///
@@ -145,16 +145,22 @@ class FileGenerator extends ProtobufContainer {
     }
 
     // Load and register all enum and message types.
-    for (EnumDescriptorProto enumType in descriptor.enumType) {
-      enumGenerators.add(new EnumGenerator(enumType, this, usedTopLevelNames));
+    for (var i = 0; i < descriptor.enumType.length; i++) {
+      enumGenerators.add(new EnumGenerator.topLevel(
+          descriptor.enumType[i], this, usedTopLevelNames, i));
     }
-    for (DescriptorProto messageType in descriptor.messageType) {
-      messageGenerators.add(new MessageGenerator(
-          messageType, this, declaredMixins, defaultMixin, usedTopLevelNames));
+    for (var i = 0; i < descriptor.messageType.length; i++) {
+      messageGenerators.add(new MessageGenerator.topLevel(
+          descriptor.messageType[i],
+          this,
+          declaredMixins,
+          defaultMixin,
+          usedTopLevelNames,
+          i));
     }
-    for (FieldDescriptorProto extension in descriptor.extension) {
-      extensionGenerators
-          .add(new ExtensionGenerator(extension, this, usedExtensionNames));
+    for (var i = 0; i < descriptor.extension.length; i++) {
+      extensionGenerators.add(new ExtensionGenerator.topLevel(
+          descriptor.extension[i], this, usedTopLevelNames, i));
     }
     for (ServiceDescriptorProto service in descriptor.service) {
       if (options.useGrpc) {
@@ -188,6 +194,7 @@ class FileGenerator extends ProtobufContainer {
   String get classname => '';
   String get fullName => descriptor.package;
   FileGenerator get fileGen => this;
+  List<int> get fieldPath => [];
 
   /// Generates all the Dart files for this .proto file.
   List<CodeGeneratorResponse_File> generateFiles(OutputConfiguration config) {
@@ -201,11 +208,27 @@ class FileGenerator extends ProtobufContainer {
         ..content = content;
     }
 
+    IndentingWriter mainWriter = generateMainFile(config);
+    IndentingWriter enumWriter = generateEnumFile(config);
+
     final files = [
-      makeFile(".pb.dart", generateMainFile(config)),
-      makeFile(".pbenum.dart", generateEnumFile(config)),
+      makeFile(".pb.dart", mainWriter.toString()),
+      makeFile(".pbenum.dart", enumWriter.toString()),
       makeFile(".pbjson.dart", generateJsonFile(config)),
     ];
+
+    if (options.generateMetadata) {
+      files.addAll([
+        makeFile(
+            ".pb.dart.meta",
+            new String.fromCharCodes(
+                mainWriter.sourceLocationInfo.writeToBuffer())),
+        makeFile(
+            ".pbenum.dart.meta",
+            new String.fromCharCodes(
+                enumWriter.sourceLocationInfo.writeToBuffer()))
+      ]);
+    }
     if (options.useGrpc) {
       if (grpcGenerators.isNotEmpty) {
         files.add(makeFile(".pbgrpc.dart", generateGrpcFile(config)));
@@ -216,11 +239,15 @@ class FileGenerator extends ProtobufContainer {
     return files;
   }
 
+  /// Creates an IndentingWriter with metadata generation enabled or disabled.
+  IndentingWriter makeWriter() => new IndentingWriter(
+      filename: options.generateMetadata ? descriptor.name : null);
+
   /// Returns the contents of the .pb.dart file for this .proto file.
-  String generateMainFile(
+  IndentingWriter generateMainFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
-    IndentingWriter out = new IndentingWriter();
+    IndentingWriter out = makeWriter();
 
     writeMainHeader(out, config);
 
@@ -251,7 +278,7 @@ class FileGenerator extends ProtobufContainer {
     for (ClientApiGenerator c in clientApiGenerators) {
       c.generate(out);
     }
-    return out.toString();
+    return out;
   }
 
   /// Writes the header and imports for the .pb.dart file.
@@ -303,12 +330,25 @@ class FileGenerator extends ProtobufContainer {
     }
     if (enumImports.isNotEmpty) out.println();
 
+    _writeWellKnownImports(out);
+
     // Export enums in main file for backward compatibility.
     if (enumCount > 0) {
       Uri resolvedImport =
           config.resolveImport(protoFileUri, protoFileUri, ".pbenum.dart");
       out.println("export '$resolvedImport';");
       out.println();
+    }
+  }
+
+  void _writeWellKnownImports(IndentingWriter out) {
+    for (final message in messageGenerators) {
+      final importStatements =
+          wellKnownTypeForFullName(message.fullName)?.extraImports ??
+              <String>[];
+      for (String importStatement in importStatements) {
+        out.println(importStatement);
+      }
     }
   }
 
@@ -370,11 +410,11 @@ class FileGenerator extends ProtobufContainer {
   }
 
   /// Returns the contents of the .pbenum.dart file for this .proto file.
-  String generateEnumFile(
+  IndentingWriter generateEnumFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
 
-    var out = new IndentingWriter();
+    var out = makeWriter();
     _writeHeading(out);
 
     if (enumCount > 0) {
@@ -394,7 +434,7 @@ class FileGenerator extends ProtobufContainer {
       m.generateEnums(out);
     }
 
-    return out.toString();
+    return out;
   }
 
   /// Returns the number of enum types generated in the .pbenum.dart file.
@@ -410,7 +450,7 @@ class FileGenerator extends ProtobufContainer {
   String generateServerFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
-    var out = new IndentingWriter();
+    var out = makeWriter();
     _writeHeading(out);
 
     if (serviceGenerators.isNotEmpty) {
@@ -450,7 +490,7 @@ class FileGenerator extends ProtobufContainer {
   String generateGrpcFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
-    var out = new IndentingWriter();
+    var out = makeWriter();
     _writeHeading(out);
 
     out.println(_asyncImport);
@@ -482,7 +522,7 @@ class FileGenerator extends ProtobufContainer {
   String generateJsonFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw new StateError("not linked");
-    var out = new IndentingWriter();
+    var out = makeWriter();
     _writeHeading(out);
 
     // Import the .pbjson.dart files we depend on.

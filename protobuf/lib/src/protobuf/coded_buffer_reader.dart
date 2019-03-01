@@ -108,7 +108,7 @@ class CodedBufferReader {
   List<int> _limitStack = [-1];
 
   int readEnum() => readInt32();
-  int readInt32() => _readRawVarint32();
+  int readInt32() => _readRawVarint32(true);
   Int64 readInt64() => _readRawVarint64();
   int readUint32() => _readRawVarint32(false);
   Int64 readUint64() => _readRawVarint64();
@@ -123,7 +123,7 @@ class CodedBufferReader {
     return new Int64.fromBytes(view);
   }
 
-  bool readBool() => _readRawVarint32() != 0;
+  bool readBool() => _readRawVarint32(true) != 0;
   List<int> readBytes() {
     int length = readInt32();
     _checkLimit(length);
@@ -166,19 +166,24 @@ class CodedBufferReader {
     return _buffer[_bufferPos - 1];
   }
 
-  int _readRawVarint32([bool signed = true]) {
+  int _readRawVarint32(bool signed) {
     // Read up to 10 bytes.
-    int bytes = _currentLimit - _bufferPos;
+    // We use a local [bufferPos] variable to avoid repeatedly loading/store the
+    // this._bufferpos field.
+    int bufferPos = _bufferPos;
+    int bytes = _currentLimit - bufferPos;
     if (bytes > 10) bytes = 10;
     int result = 0;
     for (int i = 0; i < bytes; i++) {
-      int byte = _buffer[_bufferPos++];
+      int byte = _buffer[bufferPos++];
       result |= (byte & 0x7f) << (i * 7);
       if ((byte & 0x80) == 0) {
         result &= 0xffffffff;
+        _bufferPos = bufferPos;
         return signed ? result - 2 * (0x80000000 & result) : result;
       }
     }
+    _bufferPos = bufferPos;
     throw new InvalidProtocolBufferException.malformedVarint();
   }
 

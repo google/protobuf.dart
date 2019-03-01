@@ -13,6 +13,14 @@ abstract class ProtobufContainer {
   String get classname;
   String get fullName;
 
+  /// The field path contains the field IDs and indices (for repeated fields)
+  /// that lead to the proto memeber corresponding to a piece of generated code.
+  /// Repeated fields in the descriptor are further identified by the index of
+  /// the message in question.
+  /// For more information see
+  /// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/descriptor.proto#L728
+  List<int> get fieldPath;
+
   /// The fully qualified name with a leading '.'.
   ///
   /// This exists because names from protoc come like this.
@@ -98,4 +106,5 @@ class CodeGenerator extends ProtobufContainer {
   String get classname => null;
   String get fullName => '';
   get fileGen => null;
+  List<int> get fieldPath => [];
 }

@@ -6,7 +6,7 @@
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart' as $grpc;
+import 'package:grpc/service_api.dart' as $grpc;
 import 'test.pb.dart';
 export 'test.pb.dart';
 

@@ -62,19 +62,23 @@ void main() {
 
     FileGenerator fg = new FileGenerator(fd, options);
     MessageGenerator mg =
-        new MessageGenerator(md, fg, {}, null, new Set<String>());
+        new MessageGenerator.topLevel(md, fg, {}, null, new Set<String>(), 0);
 
     var ctx = new GenerationContext(options);
     mg.register(ctx);
     mg.resolve(ctx);
 
-    var writer = new IndentingWriter();
+    var writer = new IndentingWriter(filename: '');
     mg.generate(writer);
     expectMatchesGoldenFile(writer.toString(), 'test/goldens/messageGenerator');
+    expectMatchesGoldenFile(writer.sourceLocationInfo.toString(),
+        'test/goldens/messageGenerator.meta');
 
-    writer = new IndentingWriter();
+    writer = new IndentingWriter(filename: '');
     mg.generateEnums(writer);
     expectMatchesGoldenFile(
         writer.toString(), 'test/goldens/messageGeneratorEnums');
+    expectMatchesGoldenFile(writer.sourceLocationInfo.toString(),
+        'test/goldens/messageGeneratorEnums.meta');
   });
 }

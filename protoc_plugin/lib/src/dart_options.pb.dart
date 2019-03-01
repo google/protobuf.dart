@@ -65,8 +65,7 @@ class DartMixin extends $pb.GeneratedMessage {
 class Imports extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Imports',
       package: const $pb.PackageName('dart_options'))
-    ..pp<DartMixin>(
-        1, 'mixins', $pb.PbFieldType.PM, DartMixin.$checkItem, DartMixin.create)
+    ..pc<DartMixin>(1, 'mixins', $pb.PbFieldType.PM, DartMixin.create)
     ..hasRequiredFields = false;
 
   Imports() : super();

@@ -48,6 +48,8 @@ class PbList<E> extends PbListBase<E> {
 
   PbList.from(List from) : super._from(from);
 
+  @Deprecated('Instead use the default constructor with a check function.'
+      'This constructor will be removed in the next major version.')
   PbList.forFieldType(int fieldType)
       : super._noList(check: getCheckFunction(fieldType));
 
@@ -57,7 +59,7 @@ class PbList<E> extends PbListBase<E> {
   /// Adds [value] at the end of the list, extending the length by one.
   /// Throws an [UnsupportedError] if the list is not extendable.
   void add(E value) {
-    _validate(value);
+    check(value);
     _wrappedList.add(value);
   }
 
@@ -65,7 +67,7 @@ class PbList<E> extends PbListBase<E> {
   /// Extends the length of the list by the length of [collection].
   /// Throws an [UnsupportedError] if the list is not extendable.
   void addAll(Iterable<E> collection) {
-    collection.forEach(_validate);
+    collection.forEach(check);
     _wrappedList.addAll(collection);
   }
 
@@ -85,7 +87,7 @@ class PbList<E> extends PbListBase<E> {
   /// Inserts a new element in the list.
   /// The element must be valid (and not nullable) for the PbList type.
   void insert(int index, E element) {
-    _validate(element);
+    check(element);
     _wrappedList.insert(index, element);
   }
 
@@ -93,7 +95,7 @@ class PbList<E> extends PbListBase<E> {
   ///
   /// Elements in [iterable] must be valid and not nullable for the PbList type.
   void insertAll(int index, Iterable<E> iterable) {
-    iterable.forEach(_validate);
+    iterable.forEach(check);
     _wrappedList.insertAll(index, iterable);
   }
 
@@ -102,7 +104,7 @@ class PbList<E> extends PbListBase<E> {
   ///
   /// Elements in [iterable] must be valid and not nullable for the PbList type.
   void setAll(int index, Iterable<E> iterable) {
-    iterable.forEach(_validate);
+    iterable.forEach(check);
     _wrappedList.setAll(index, iterable);
   }
 
@@ -127,7 +129,7 @@ class PbList<E> extends PbListBase<E> {
   void setRange(int start, int end, Iterable<E> from, [int skipCount = 0]) {
     // NOTE: In case `take()` returns less than `end - start` elements, the
     // _wrappedList will fail with a `StateError`.
-    from.skip(skipCount).take(end - start).forEach(_validate);
+    from.skip(skipCount).take(end - start).forEach(check);
     _wrappedList.setRange(start, end, from, skipCount);
   }
 
@@ -137,7 +139,7 @@ class PbList<E> extends PbListBase<E> {
   /// Sets the objects in the range [start] inclusive to [end] exclusive to the
   /// given [fillValue].
   void fillRange(int start, int end, [E fillValue]) {
-    _validate(fillValue);
+    check(fillValue);
     _wrappedList.fillRange(start, end, fillValue);
   }
 
@@ -145,7 +147,7 @@ class PbList<E> extends PbListBase<E> {
   /// inserts the contents of [replacement] in its place.
   void replaceRange(int start, int end, Iterable<E> replacement) {
     final values = replacement.toList();
-    replacement.forEach(_validate);
+    replacement.forEach(check);
     _wrappedList.replaceRange(start, end, values);
   }
 }
@@ -308,7 +310,7 @@ abstract class PbListBase<E> extends ListBase<E> {
   /// Throws an [IndexOutOfRangeException] if [index] is out of bounds.
   @override
   void operator []=(int index, E value) {
-    _validate(value);
+    check(value);
     _wrappedList[index] = value;
   }
 
@@ -322,13 +324,5 @@ abstract class PbListBase<E> extends ListBase<E> {
       throw new UnsupportedError('Extending protobuf lists is not supported');
     }
     _wrappedList.length = newLength;
-  }
-
-  void _validate(E val) {
-    check(val);
-    // TODO: remove after migration to check functions is finished
-    if (val is! E) {
-      throw new ArgumentError('Value ($val) is not of the correct type');
-    }
   }
 }

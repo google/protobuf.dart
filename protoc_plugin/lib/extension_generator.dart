@@ -12,9 +12,29 @@ class ExtensionGenerator {
   ProtobufField _field;
   final String _extensionName;
   String _extendedFullName = "";
+  List<int> _fieldPath;
+  final List<int> _fieldPathSegment;
 
-  ExtensionGenerator(this._descriptor, this._parent, Set<String> usedNames)
-      : _extensionName = extensionName(_descriptor, usedNames);
+  /// See [[ProtobufContainer]
+  List<int> get fieldPath =>
+      _fieldPath ??= List.from(_parent.fieldPath)..addAll(_fieldPathSegment);
+
+  ExtensionGenerator._(this._descriptor, this._parent, Set<String> usedNames,
+      int repeatedFieldIndex, int fieldIdTag)
+      : _extensionName = extensionName(_descriptor, usedNames),
+        _fieldPathSegment = [fieldIdTag, repeatedFieldIndex];
+
+  static const _topLevelFieldTag = 7;
+  static const _nestedFieldTag = 6;
+
+  ExtensionGenerator.topLevel(FieldDescriptorProto descriptor,
+      ProtobufContainer parent, Set<String> usedNames, int repeatedFieldIndex)
+      : this._(descriptor, parent, usedNames, repeatedFieldIndex,
+            _topLevelFieldTag);
+  ExtensionGenerator.nested(FieldDescriptorProto descriptor,
+      ProtobufContainer parent, Set<String> usedNames, int repeatedFieldIndex)
+      : this._(
+            descriptor, parent, usedNames, repeatedFieldIndex, _nestedFieldTag);
 
   void resolve(GenerationContext ctx) {
     _field = new ProtobufField.extension(_descriptor, _parent, ctx);
@@ -79,13 +99,22 @@ class ExtensionGenerator {
     var dartType = type.getDartType(fileGen);
 
     if (_field.isRepeated) {
-      out.print('static final $_protobufImportPrefix.Extension $name = '
+      out.printAnnotated(
+          'static final $_protobufImportPrefix.Extension $name = '
           'new $_protobufImportPrefix.Extension<$dartType>.repeated(\'$_extendedFullName\','
-          ' \'$name\', ${_field.number}, ${_field.typeConstant}');
+          ' \'$name\', ${_field.number}, ${_field.typeConstant}',
+          [
+            new NamedLocation(
+                name: name,
+                fieldPathSegment: new List.from(fieldPath)..add(1),
+                start: 'static final $_protobufImportPrefix.Extension '.length)
+          ]);
       if (type.isMessage || type.isGroup) {
-        out.println(', $dartType.$checkItem, $dartType.create);');
+        out.println(
+            ', $_protobufImportPrefix.getCheckFunction(${_field.typeConstant}), $dartType.create);');
       } else if (type.isEnum) {
-        out.println(', $dartType.$checkItem, null, '
+        out.println(
+            ', $_protobufImportPrefix.getCheckFunction(${_field.typeConstant}), null, '
             '$dartType.valueOf, $dartType.values);');
       } else {
         out.println(
@@ -94,9 +123,16 @@ class ExtensionGenerator {
       return;
     }
 
-    out.print('static final $_protobufImportPrefix.Extension $name = '
+    out.printAnnotated(
+        'static final $_protobufImportPrefix.Extension $name = '
         'new $_protobufImportPrefix.Extension<$dartType>(\'$_extendedFullName\', \'$name\', '
-        '${_field.number}, ${_field.typeConstant}');
+        '${_field.number}, ${_field.typeConstant}',
+        [
+          new NamedLocation(
+              name: name,
+              fieldPathSegment: new List.from(fieldPath)..add(1),
+              start: 'static final $_protobufImportPrefix.Extension '.length)
+        ]);
 
     String initializer = _field.generateDefaultFunction(fileGen);
 

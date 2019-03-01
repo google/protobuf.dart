@@ -78,19 +78,29 @@ class MessageGenerator extends ProtobufContainer {
   final List<List<ProtobufField>> _oneofFields;
   List<OneofNames> _oneofNames;
 
+  List<int> _fieldPath;
+  final List<int> _fieldPathSegment;
+
+  /// See [[ProtobufContainer]
+  List<int> get fieldPath =>
+      _fieldPath ??= List.from(_parent.fieldPath)..addAll(_fieldPathSegment);
+
   // populated by resolve()
   List<ProtobufField> _fieldList;
 
   Set<String> _usedTopLevelNames;
 
-  MessageGenerator(
+  MessageGenerator._(
       DescriptorProto descriptor,
       ProtobufContainer parent,
       Map<String, PbMixin> declaredMixins,
       PbMixin defaultMixin,
-      this._usedTopLevelNames)
+      this._usedTopLevelNames,
+      int repeatedFieldIndex,
+      int fieldIdTag)
       : _descriptor = descriptor,
         _parent = parent,
+        _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
         classname = messageOrEnumClassName(descriptor.name, _usedTopLevelNames,
             parent: parent?.classname ?? ''),
         assert(parent != null),
@@ -101,20 +111,50 @@ class MessageGenerator extends ProtobufContainer {
             defaultMixin),
         _oneofFields =
             List.generate(descriptor.oneofDecl.length, (int index) => []) {
-    for (EnumDescriptorProto e in _descriptor.enumType) {
-      _enumGenerators.add(new EnumGenerator(e, this, _usedTopLevelNames));
+    for (var i = 0; i < _descriptor.enumType.length; i++) {
+      EnumDescriptorProto e = _descriptor.enumType[i];
+      _enumGenerators
+          .add(new EnumGenerator.nested(e, this, _usedTopLevelNames, i));
     }
 
-    for (DescriptorProto n in _descriptor.nestedType) {
-      _messageGenerators.add(new MessageGenerator(
-          n, this, declaredMixins, defaultMixin, _usedTopLevelNames));
+    for (var i = 0; i < _descriptor.nestedType.length; i++) {
+      DescriptorProto n = _descriptor.nestedType[i];
+      _messageGenerators.add(new MessageGenerator.nested(
+          n, this, declaredMixins, defaultMixin, _usedTopLevelNames, i));
     }
 
-    for (FieldDescriptorProto x in _descriptor.extension) {
+    // Extensions within messages won't create top-level classes and don't need
+    // to check against / be added to top-level reserved names.
+    final usedExtensionNames = Set<String>()..addAll(forbiddenExtensionNames);
+    for (var i = 0; i < _descriptor.extension.length; i++) {
+      FieldDescriptorProto x = _descriptor.extension[i];
       _extensionGenerators
-          .add(new ExtensionGenerator(x, this, _usedTopLevelNames));
+          .add(new ExtensionGenerator.nested(x, this, usedExtensionNames, i));
     }
   }
+
+  static const _topLevelFieldTag = 4;
+  static const _nestedFieldTag = 3;
+
+  MessageGenerator.topLevel(
+      DescriptorProto descriptor,
+      ProtobufContainer parent,
+      Map<String, PbMixin> declaredMixins,
+      PbMixin defaultMixin,
+      Set<String> usedNames,
+      int repeatedFieldIndex)
+      : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
+            repeatedFieldIndex, _topLevelFieldTag);
+
+  MessageGenerator.nested(
+      DescriptorProto descriptor,
+      ProtobufContainer parent,
+      Map<String, PbMixin> declaredMixins,
+      PbMixin defaultMixin,
+      Set<String> usedNames,
+      int repeatedFieldIndex)
+      : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
+            repeatedFieldIndex, _nestedFieldTag);
 
   String get package => _parent.package;
 
@@ -270,9 +310,14 @@ class MessageGenerator extends ProtobufContainer {
     String packageClause = package == ''
         ? ''
         : ', package: const $_protobufImportPrefix.PackageName(\'$package\')';
-    out.addBlock(
+    out.addAnnotatedBlock(
         'class ${classname} extends $_protobufImportPrefix.GeneratedMessage${mixinClause} {',
-        '}', () {
+        '}', [
+      new NamedLocation(
+          name: classname,
+          fieldPathSegment: new List.from(fieldPath)..addAll([1]),
+          start: 'class '.length)
+    ], () {
       for (OneofNames oneof in _oneofNames) {
         out.addBlock(
             'static const Map<int, ${oneof.oneofEnumName}> ${oneof.byTagMapName} = {',
@@ -339,14 +384,8 @@ class MessageGenerator extends ProtobufContainer {
       out.println(
           'static ${classname} getDefault() => _defaultInstance ??= create()..freeze();');
       out.println('static ${classname} _defaultInstance;');
-      out.addBlock('static void $checkItem($classname v) {', '}', () {
-        out.println('if (v is! $classname)'
-            " $_protobufImportPrefix.checkItemFailed(v, _i.qualifiedMessageName);");
-      });
       generateFieldsAccessorsMutators(out);
-      if (fullName == 'google.protobuf.Any') {
-        generateAnyMethods(out);
-      }
+      wellKnownTypeForFullName(fullName)?.generateMethods(out);
     });
     out.println();
   }
@@ -391,45 +430,6 @@ class MessageGenerator extends ProtobufContainer {
       }
     }
     return false;
-  }
-
-  /// Generates methods for the Any message class for packing and unpacking
-  /// values.
-  void generateAnyMethods(IndentingWriter out) {
-    out.println('''
-  /// Unpacks the message in [value] into [instance].
-  ///
-  /// Throws a [InvalidProtocolBufferException] if [typeUrl] does not correspond
-  /// to the type of [instance].
-  ///
-  /// A typical usage would be `any.unpackInto(new Message())`.
-  ///
-  /// Returns [instance].
-  T unpackInto<T extends $_protobufImportPrefix.GeneratedMessage>(T instance,
-      {$_protobufImportPrefix.ExtensionRegistry extensionRegistry = $_protobufImportPrefix.ExtensionRegistry.EMPTY}) {
-    $_protobufImportPrefix.unpackIntoHelper(value, instance, typeUrl,
-        extensionRegistry: extensionRegistry);
-    return instance;
-  }
-
-  /// Returns `true` if the encoded message matches the type of [instance].
-  ///
-  /// Can be used with a default instance:
-  /// `any.canUnpackInto(Message.getDefault())`
-  bool canUnpackInto($_protobufImportPrefix.GeneratedMessage instance) {
-    return $_protobufImportPrefix.canUnpackIntoHelper(instance, typeUrl);
-  }
-
-  /// Creates a new [Any] encoding [message].
-  ///
-  /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
-  /// the fully qualified name of the type of [message].
-  static Any pack($_protobufImportPrefix.GeneratedMessage message,
-      {String typeUrlPrefix = 'type.googleapis.com'}) {
-    return new Any()
-      ..value = message.writeToBuffer()
-      ..typeUrl = '\${typeUrlPrefix}/\${message.info_.qualifiedMessageName}';
-  }''');
   }
 
   void generateFieldsAccessorsMutators(IndentingWriter out) {

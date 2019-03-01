@@ -12,6 +12,7 @@ PLUGIN_PATH=bin/$(PLUGIN_NAME)
 TEST_PROTO_LIST = \
 	_leading_underscores \
 	google/protobuf/any \
+	google/protobuf/timestamp \
 	google/protobuf/unittest_import \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest \
