@@ -2,11 +2,14 @@
 //  Generated code. Do not modify.
 //  source: test
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
 
 import 'dart:async' as $async;
 
 import 'package:grpc/service_api.dart' as $grpc;
+
+import 'dart:core' as $core show int, String, List;
+
 import 'test.pb.dart';
 export 'test.pb.dart';
 
@@ -14,19 +17,19 @@ class TestClient extends $grpc.Client {
   static final _$unary = new $grpc.ClientMethod<Input, Output>(
       '/Test/Unary',
       (Input value) => value.writeToBuffer(),
-      (List<int> value) => new Output.fromBuffer(value));
+      ($core.List<$core.int> value) => new Output.fromBuffer(value));
   static final _$clientStreaming = new $grpc.ClientMethod<Input, Output>(
       '/Test/ClientStreaming',
       (Input value) => value.writeToBuffer(),
-      (List<int> value) => new Output.fromBuffer(value));
+      ($core.List<$core.int> value) => new Output.fromBuffer(value));
   static final _$serverStreaming = new $grpc.ClientMethod<Input, Output>(
       '/Test/ServerStreaming',
       (Input value) => value.writeToBuffer(),
-      (List<int> value) => new Output.fromBuffer(value));
+      ($core.List<$core.int> value) => new Output.fromBuffer(value));
   static final _$bidirectional = new $grpc.ClientMethod<Input, Output>(
       '/Test/Bidirectional',
       (Input value) => value.writeToBuffer(),
-      (List<int> value) => new Output.fromBuffer(value));
+      ($core.List<$core.int> value) => new Output.fromBuffer(value));
 
   TestClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
@@ -60,7 +63,7 @@ class TestClient extends $grpc.Client {
 }
 
 abstract class TestServiceBase extends $grpc.Service {
-  String get $name => 'Test';
+  $core.String get $name => 'Test';
 
   TestServiceBase() {
     $addMethod(new $grpc.ServiceMethod<Input, Output>(
@@ -68,28 +71,28 @@ abstract class TestServiceBase extends $grpc.Service {
         unary_Pre,
         false,
         false,
-        (List<int> value) => new Input.fromBuffer(value),
+        ($core.List<$core.int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
     $addMethod(new $grpc.ServiceMethod<Input, Output>(
         'ClientStreaming',
         clientStreaming,
         true,
         false,
-        (List<int> value) => new Input.fromBuffer(value),
+        ($core.List<$core.int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
     $addMethod(new $grpc.ServiceMethod<Input, Output>(
         'ServerStreaming',
         serverStreaming_Pre,
         false,
         true,
-        (List<int> value) => new Input.fromBuffer(value),
+        ($core.List<$core.int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
     $addMethod(new $grpc.ServiceMethod<Input, Output>(
         'Bidirectional',
         bidirectional,
         true,
         true,
-        (List<int> value) => new Input.fromBuffer(value),
+        ($core.List<$core.int> value) => new Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
   }
 

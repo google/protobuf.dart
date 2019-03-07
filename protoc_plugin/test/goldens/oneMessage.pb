@@ -2,23 +2,23 @@
 //  Generated code. Do not modify.
 //  source: test
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class PhoneNumber extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('PhoneNumber')
     ..aQS(1, 'number')
-    ..a<int>(2, 'type', $pb.PbFieldType.O3)
-    ..a<String>(3, 'name', $pb.PbFieldType.OS, '\$')
+    ..a<$core.int>(2, 'type', $pb.PbFieldType.O3)
+    ..a<$core.String>(3, 'name', $pb.PbFieldType.OS, '\$')
   ;
 
   PhoneNumber() : super();
-  PhoneNumber.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  PhoneNumber.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
   PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber));
   $pb.BuilderInfo get info_ => _i;
@@ -28,19 +28,19 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
   static PhoneNumber _defaultInstance;
 
-  String get number => $_getS(0, '');
-  set number(String v) { $_setString(0, v); }
-  bool hasNumber() => $_has(0);
+  $core.String get number => $_getS(0, '');
+  set number($core.String v) { $_setString(0, v); }
+  $core.bool hasNumber() => $_has(0);
   void clearNumber() => clearField(1);
 
-  int get type => $_get(1, 0);
-  set type(int v) { $_setSignedInt32(1, v); }
-  bool hasType() => $_has(1);
+  $core.int get type => $_get(1, 0);
+  set type($core.int v) { $_setSignedInt32(1, v); }
+  $core.bool hasType() => $_has(1);
   void clearType() => clearField(2);
 
-  String get name => $_getS(2, '\$');
-  set name(String v) { $_setString(2, v); }
-  bool hasName() => $_has(2);
+  $core.String get name => $_getS(2, '\$');
+  set name($core.String v) { $_setString(2, v); }
+  $core.bool hasName() => $_has(2);
   void clearName() => clearField(3);
 }
 

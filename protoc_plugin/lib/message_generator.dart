@@ -320,7 +320,7 @@ class MessageGenerator extends ProtobufContainer {
     ], () {
       for (OneofNames oneof in _oneofNames) {
         out.addBlock(
-            'static const Map<int, ${oneof.oneofEnumName}> ${oneof.byTagMapName} = {',
+            'static const $_coreImportPrefix.Map<$_coreImportPrefix.int, ${oneof.oneofEnumName}> ${oneof.byTagMapName} = {',
             '};', () {
           for (ProtobufField field in _oneofFields[oneof.index]) {
             out.println(
@@ -360,10 +360,11 @@ class MessageGenerator extends ProtobufContainer {
       out.println();
 
       out.println('${classname}() : super();');
-      out.println('${classname}.fromBuffer(List<int> i,'
+      out.println(
+          '${classname}.fromBuffer($_coreImportPrefix.List<$_coreImportPrefix.int> i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' : super.fromBuffer(i, r);');
-      out.println('${classname}.fromJson(String i,'
+      out.println('${classname}.fromJson($_coreImportPrefix.String i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' : super.fromJson(i, r);');
       out.println('${classname} clone() =>'
@@ -459,7 +460,7 @@ class MessageGenerator extends ProtobufContainer {
     _emitOverrideIf(field.overridesGetter, out);
     final getterExpr = _getterExpression(fieldTypeString, field.index,
         defaultExpr, field.isRepeated, field.isMapField);
-    out.println('${fieldTypeString} get ${names.fieldName} => ${getterExpr};');
+    out.println('$fieldTypeString get ${names.fieldName} => ${getterExpr};');
 
     if (field.isRepeated) {
       if (field.overridesSetter) {
@@ -489,7 +490,7 @@ class MessageGenerator extends ProtobufContainer {
             ' }');
       }
       _emitOverrideIf(field.overridesHasMethod, out);
-      out.println('bool ${names.hasMethodName}() =>'
+      out.println('$_coreImportPrefix.bool ${names.hasMethodName}() =>'
           ' \$_has(${field.index});');
       _emitOverrideIf(field.overridesClearMethod, out);
       out.println('void ${names.clearMethodName}() =>'
@@ -502,7 +503,7 @@ class MessageGenerator extends ProtobufContainer {
     if (isMapField) {
       return '\$_getMap($index)';
     }
-    if (fieldType == 'String') {
+    if (fieldType == '$_coreImportPrefix.String') {
       return '\$_getS($index, $defaultExpr)';
     }
     if (fieldType == 'Int64' && defaultExpr == 'null') {
@@ -516,7 +517,7 @@ class MessageGenerator extends ProtobufContainer {
 
   void _emitOverrideIf(bool condition, IndentingWriter out) {
     if (condition) {
-      out.println('@override');
+      out.println('@$_coreImportPrefix.override');
     }
   }
 

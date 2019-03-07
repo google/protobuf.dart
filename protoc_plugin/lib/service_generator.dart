@@ -150,14 +150,16 @@ class ServiceGenerator {
   }
 
   void _generateRequestMethod(IndentingWriter out) {
-    out.addBlock('$_generatedMessage createRequest(String method) {', '}', () {
+    out.addBlock(
+        '$_generatedMessage createRequest($_coreImportPrefix.String method) {',
+        '}', () {
       out.addBlock("switch (method) {", "}", () {
         for (MethodDescriptorProto m in _methodDescriptors) {
           var inputClass = _getDartClassName(m.inputType);
           out.println("case '${m.name}': return new $inputClass();");
         }
         out.println("default: "
-            "throw new ArgumentError('Unknown method: \$method');");
+            "throw new $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
       });
     });
     out.println();
@@ -166,7 +168,7 @@ class ServiceGenerator {
   void _generateDispatchMethod(out) {
     out.addBlock(
         '$_future<$_generatedMessage> handleCall($_serverContext ctx, '
-        'String method, $_generatedMessage request) {',
+        '$_coreImportPrefix.String method, $_generatedMessage request) {',
         '}', () {
       out.addBlock("switch (method) {", "}", () {
         for (MethodDescriptorProto m in _methodDescriptors) {
@@ -175,7 +177,7 @@ class ServiceGenerator {
               "case '${m.name}': return this.$methodName(ctx, request);");
         }
         out.println("default: "
-            "throw new ArgumentError('Unknown method: \$method');");
+            "throw new $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
       });
     });
     out.println();
@@ -193,8 +195,10 @@ class ServiceGenerator {
       _generateRequestMethod(out);
       _generateDispatchMethod(out);
       _generateMoreClassMembers(out);
-      out.println("Map<String, dynamic> get \$json => $jsonConstant;");
-      out.println("Map<String, Map<String, dynamic>> get \$messageJson =>"
+      out.println(
+          "$_coreImportPrefix.Map<$_coreImportPrefix.String, $_coreImportPrefix.dynamic> get \$json => $jsonConstant;");
+      out.println(
+          "$_coreImportPrefix.Map<$_coreImportPrefix.String, $_coreImportPrefix.Map<$_coreImportPrefix.String, $_coreImportPrefix.dynamic>> get \$messageJson =>"
           " $messageJsonConstant;");
     });
     out.println();

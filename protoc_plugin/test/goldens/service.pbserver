@@ -2,11 +2,13 @@
 //  Generated code. Do not modify.
 //  source: test
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
 
 import 'dart:async' as $async;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+
+import 'dart:core' as $core show String, Map, ArgumentError, dynamic;
 import 'test.pb.dart';
 import 'test.pbjson.dart';
 
@@ -15,21 +17,21 @@ export 'test.pb.dart';
 abstract class TestServiceBase extends $pb.GeneratedService {
   $async.Future<Empty> ping($pb.ServerContext ctx, Empty request);
 
-  $pb.GeneratedMessage createRequest(String method) {
+  $pb.GeneratedMessage createRequest($core.String method) {
     switch (method) {
       case 'Ping': return new Empty();
-      default: throw new ArgumentError('Unknown method: $method');
+      default: throw new $core.ArgumentError('Unknown method: $method');
     }
   }
 
-  $async.Future<$pb.GeneratedMessage> handleCall($pb.ServerContext ctx, String method, $pb.GeneratedMessage request) {
+  $async.Future<$pb.GeneratedMessage> handleCall($pb.ServerContext ctx, $core.String method, $pb.GeneratedMessage request) {
     switch (method) {
       case 'Ping': return this.ping(ctx, request);
-      default: throw new ArgumentError('Unknown method: $method');
+      default: throw new $core.ArgumentError('Unknown method: $method');
     }
   }
 
-  Map<String, dynamic> get $json => TestServiceBase$json;
-  Map<String, Map<String, dynamic>> get $messageJson => TestServiceBase$messageJson;
+  $core.Map<$core.String, $core.dynamic> get $json => TestServiceBase$json;
+  $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> get $messageJson => TestServiceBase$messageJson;
 }
 

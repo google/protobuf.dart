@@ -127,7 +127,8 @@ class GrpcServiceGenerator {
   void _generateService(IndentingWriter out) {
     out.addBlock('abstract class $_serviceClassname extends $_service {', '}',
         () {
-      out.println('String get \$name => \'$_fullServiceName\';');
+      out.println(
+          '$_coreImportPrefix.String get \$name => \'$_fullServiceName\';');
       out.println();
       out.addBlock('$_serviceClassname() {', '}', () {
         for (final method in _methods) {
@@ -219,7 +220,7 @@ class _GrpcMethod {
     out.println('    \'/$_serviceName/$_grpcName\',');
     out.println('    ($_requestType value) => value.writeToBuffer(),');
     out.println(
-        '    (List<int> value) => new $_responseType.fromBuffer(value));');
+        '    ($_coreImportPrefix.List<$_coreImportPrefix.int> value) => new $_responseType.fromBuffer(value));');
   }
 
   void generateClientStub(IndentingWriter out) {
@@ -247,7 +248,7 @@ class _GrpcMethod {
     out.println('    $_clientStreaming,');
     out.println('    $_serverStreaming,');
     out.println(
-        '    (List<int> value) => new $_requestType.fromBuffer(value),');
+        '    ($_coreImportPrefix.List<$_coreImportPrefix.int> value) => new $_requestType.fromBuffer(value),');
     out.println('    ($_responseType value) => value.writeToBuffer()));');
   }
 

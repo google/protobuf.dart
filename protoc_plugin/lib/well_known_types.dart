@@ -39,7 +39,7 @@ class _Any extends WellKnownType {
   ///
   /// Can be used with a default instance:
   /// `any.canUnpackInto(Message.getDefault())`
-  bool canUnpackInto($_protobufImportPrefix.GeneratedMessage instance) {
+  $_coreImportPrefix.bool canUnpackInto($_protobufImportPrefix.GeneratedMessage instance) {
     return $_protobufImportPrefix.canUnpackIntoHelper(instance, typeUrl);
   }
 
@@ -48,7 +48,7 @@ class _Any extends WellKnownType {
   /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
   /// the fully qualified name of the type of [message].
   static Any pack($_protobufImportPrefix.GeneratedMessage message,
-      {String typeUrlPrefix = 'type.googleapis.com'}) {
+      {$_coreImportPrefix.String typeUrlPrefix = 'type.googleapis.com'}) {
     return new Any()
       ..value = message.writeToBuffer()
       ..typeUrl = '\${typeUrlPrefix}/\${message.info_.qualifiedMessageName}';
@@ -64,23 +64,23 @@ class _Timestamp extends WellKnownType {
 
   @override
   void generateMethods(IndentingWriter out) {
-    out.println(r'''
+    out.println('''
   /// Converts an instance to [DateTime].
   ///
   /// The result is in UTC time zone and has microsecond precision, as
   /// [DateTime] does not support nanosecond precision.
-  $core.DateTime toDateTime() => new $core.DateTime.fromMicrosecondsSinceEpoch(
-      seconds.toInt() * $core.Duration.microsecondsPerSecond + nanos ~/ 1000,
+  $_coreImportPrefix.DateTime toDateTime() => new $_coreImportPrefix.DateTime.fromMicrosecondsSinceEpoch(
+      seconds.toInt() * $_coreImportPrefix.Duration.microsecondsPerSecond + nanos ~/ 1000,
       isUtc: true);
 
   /// Creates a new instance from [dateTime].
   ///
   /// Time zone information will not be preserved.
-  static Timestamp fromDateTime($core.DateTime dateTime) {
-    int micros = dateTime.microsecondsSinceEpoch;
+  static Timestamp fromDateTime($_coreImportPrefix.DateTime dateTime) {
+    $_coreImportPrefix.int micros = dateTime.microsecondsSinceEpoch;
     return new Timestamp()
-      ..seconds = new Int64(micros ~/ $core.Duration.microsecondsPerSecond)
-      ..nanos = (micros % $core.Duration.microsecondsPerSecond).toInt() * 1000;
+      ..seconds = new Int64(micros ~/ $_coreImportPrefix.Duration.microsecondsPerSecond)
+      ..nanos = (micros % $_coreImportPrefix.Duration.microsecondsPerSecond).toInt() * 1000;
   }''');
   }
 }

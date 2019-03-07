@@ -21,3 +21,4 @@ linter:
     - unrelated_type_equality_checks
     - use_rethrow_when_possible
     - valid_regexps
+    - camel_case_types
