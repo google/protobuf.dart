@@ -1,3 +1,8 @@
+## 16.0.2
+
+* Generated files now import 'dart:core' with a prefix
+* Add 'camel_case_types' to analysis_options and add it in the 'ignore_for_file' header of the generated files.
+
 ## 16.0.1
 
 * Add `DateTime` conversion methods to `google.protobuf.Timestamp`.

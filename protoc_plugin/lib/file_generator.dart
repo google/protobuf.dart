@@ -8,10 +8,12 @@ final _dartIdentifier = new RegExp(r'^\w+$');
 final _formatter = new DartFormatter();
 final String _protobufImportPrefix = r'$pb';
 final String _asyncImportPrefix = r'$async';
+const String _coreImportPrefix = r'$core';
 final String _grpcImportPrefix = r'$grpc';
 final String _protobufImport =
     "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;";
 final String _asyncImport = "import 'dart:async' as $_asyncImportPrefix;";
+final String _coreImport = "import 'dart:core' as $_coreImportPrefix";
 final String _grpcImport =
     "import 'package:grpc/service_api.dart' as $_grpcImportPrefix;";
 
@@ -292,10 +294,9 @@ class FileGenerator extends ProtobufContainer {
       out.println(_asyncImport);
     }
 
-    // Make sure any other symbols in dart:core don't cause name conflicts with
-    // protobuf classes that have the same name.
-    out.println("// ignore: UNUSED_SHOWN_NAME\n"
-        "import 'dart:core' show int, bool, double, String, List, Map, override;\n");
+    out.println('// ignore: UNUSED_SHOWN_NAME');
+    out.println(
+        '$_coreImport show int, bool, double, String, List, Map, override;\n');
 
     if (_needsFixnumImport) {
       out.println("import 'package:fixnum/fixnum.dart';");
@@ -420,8 +421,8 @@ class FileGenerator extends ProtobufContainer {
     if (enumCount > 0) {
       // Make sure any other symbols in dart:core don't cause name conflicts
       // with enums that have the same name.
-      out.println("// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME\n"
-          "import 'dart:core' show int, dynamic, String, List, Map;");
+      out.println("// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME");
+      out.println("$_coreImport show int, dynamic, String, List, Map;");
       out.println(_protobufImport);
       out.println();
     }
@@ -457,6 +458,8 @@ class FileGenerator extends ProtobufContainer {
       out.println(_asyncImport);
       out.println();
       out.println(_protobufImport);
+      out.println();
+      out.println("$_coreImport show String, Map, ArgumentError, dynamic;");
     }
 
     // Import .pb.dart files needed for requests and responses.
@@ -496,6 +499,8 @@ class FileGenerator extends ProtobufContainer {
     out.println(_asyncImport);
     out.println();
     out.println(_grpcImport);
+    out.println();
+    out.println("$_coreImport show int, String, List;\n");
 
     // Import .pb.dart files needed for requests and responses.
     var imports = new Set<FileGenerator>();
@@ -569,7 +574,7 @@ class FileGenerator extends ProtobufContainer {
 //  Generated code. Do not modify.
 //  source: ${descriptor.name}
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
 ''');
   }
 

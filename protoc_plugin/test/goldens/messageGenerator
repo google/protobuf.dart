@@ -2,12 +2,12 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('PhoneNumber')
     ..aQS(1, 'number')
     ..e<PhoneNumber_PhoneType>(2, 'type', $pb.PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf, PhoneNumber_PhoneType.values)
-    ..a<String>(3, 'name', $pb.PbFieldType.OS, '\$')
+    ..a<$core.String>(3, 'name', $pb.PbFieldType.OS, '\$')
   ;
 
   PhoneNumber() : super();
-  PhoneNumber.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  PhoneNumber.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
   PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
   PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber));
   $pb.BuilderInfo get info_ => _i;
@@ -17,19 +17,19 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
   static PhoneNumber _defaultInstance;
 
-  String get number => $_getS(0, '');
-  set number(String v) { $_setString(0, v); }
-  bool hasNumber() => $_has(0);
+  $core.String get number => $_getS(0, '');
+  set number($core.String v) { $_setString(0, v); }
+  $core.bool hasNumber() => $_has(0);
   void clearNumber() => clearField(1);
 
   PhoneNumber_PhoneType get type => $_getN(1);
   set type(PhoneNumber_PhoneType v) { setField(2, v); }
-  bool hasType() => $_has(1);
+  $core.bool hasType() => $_has(1);
   void clearType() => clearField(2);
 
-  String get name => $_getS(2, '\$');
-  set name(String v) { $_setString(2, v); }
-  bool hasName() => $_has(2);
+  $core.String get name => $_getS(2, '\$');
+  set name($core.String v) { $_setString(2, v); }
+  $core.bool hasName() => $_has(2);
   void clearName() => clearField(3);
 }
 

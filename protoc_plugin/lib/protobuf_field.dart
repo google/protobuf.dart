@@ -88,7 +88,7 @@ class ProtobufField {
       MessageGenerator d = baseType.generator;
       String keyType = d._fieldList[0].baseType.getDartType(fileGen);
       String valueType = d._fieldList[1].baseType.getDartType(fileGen);
-      return 'Map<$keyType, $valueType>';
+      return '$_coreImportPrefix.Map<$keyType, $valueType>';
     }
     if (isRepeated) return baseType.getRepeatedDartType(fileGen);
     return baseType.getDartType(fileGen);
@@ -167,14 +167,14 @@ class ProtobufField {
     String prefix = '..a<$type>($number, $quotedName, $typeConstant';
     if (makeDefault == null) {
       switch (type) {
-        case 'String':
+        case '$_coreImportPrefix.String':
           if (typeConstant == '$_protobufImportPrefix.PbFieldType.OS') {
             return '..aOS($number, $quotedName)';
           } else if (typeConstant == '$_protobufImportPrefix.PbFieldType.QS') {
             return '..aQS($number, $quotedName)';
           }
           break;
-        case 'bool':
+        case '$_coreImportPrefix.bool':
           if (typeConstant == '$_protobufImportPrefix.PbFieldType.OB') {
             return '..aOB($number, $quotedName)';
           }
@@ -242,11 +242,11 @@ class ProtobufField {
             '0' == descriptor.defaultValue) {
           return null;
         } else if (descriptor.defaultValue == 'inf') {
-          return 'double.infinity';
+          return '$_coreImportPrefix.double.infinity';
         } else if (descriptor.defaultValue == '-inf') {
-          return 'double.negativeInfinity';
+          return '$_coreImportPrefix.double.negativeInfinity';
         } else if (descriptor.defaultValue == 'nan') {
-          return 'double.nan';
+          return '$_coreImportPrefix.double.nan';
         } else if (HEX_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
           return '(${descriptor.defaultValue}).toDouble()';
         } else if (INTEGER_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
@@ -280,7 +280,7 @@ class ProtobufField {
         String byteList = descriptor.defaultValue.codeUnits
             .map((b) => '0x${b.toRadixString(16)}')
             .join(',');
-        return '() => <int>[$byteList]';
+        return '() => <$_coreImportPrefix.int>[$byteList]';
       case FieldDescriptorProto_Type.TYPE_GROUP:
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
         if (sameProtoFile) return '${baseType.unprefixed}.getDefault';

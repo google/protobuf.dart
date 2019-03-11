@@ -148,7 +148,7 @@ class EnumGenerator extends ProtobufContainer {
       }
       out.println();
 
-      out.println('static const List<${classname}> values ='
+      out.println('static const $_coreImportPrefix.List<${classname}> values ='
           ' const <${classname}> [');
       for (EnumValueDescriptorProto val in _canonicalValues) {
         final name = dartNames[val.name];
@@ -157,13 +157,15 @@ class EnumGenerator extends ProtobufContainer {
       out.println('];');
       out.println();
 
-      out.println('static final Map<int, $classname> _byValue ='
+      out.println(
+          'static final $_coreImportPrefix.Map<$_coreImportPrefix.int, $classname> _byValue ='
           ' $_protobufImportPrefix.ProtobufEnum.initByValue(values);');
-      out.println('static ${classname} valueOf(int value) =>'
+      out.println('static ${classname} valueOf($_coreImportPrefix.int value) =>'
           ' _byValue[value];');
       out.println();
 
-      out.println('const ${classname}._(int v, String n) '
+      out.println(
+          'const ${classname}._($_coreImportPrefix.int v, $_coreImportPrefix.String n) '
           ': super(v, n);');
     });
   }

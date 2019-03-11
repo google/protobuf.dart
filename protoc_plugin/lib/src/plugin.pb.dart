@@ -2,10 +2,10 @@
 //  Generated code. Do not modify.
 //  source: plugin.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
@@ -14,17 +14,17 @@ import 'descriptor.pb.dart' as $0;
 class Version extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Version',
       package: const $pb.PackageName('google.protobuf.compiler'))
-    ..a<int>(1, 'major', $pb.PbFieldType.O3)
-    ..a<int>(2, 'minor', $pb.PbFieldType.O3)
-    ..a<int>(3, 'patch', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, 'major', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, 'minor', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, 'patch', $pb.PbFieldType.O3)
     ..aOS(4, 'suffix')
     ..hasRequiredFields = false;
 
   Version() : super();
-  Version.fromBuffer(List<int> i,
+  Version.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  Version.fromJson(String i,
+  Version.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   Version clone() => new Version()..mergeFromMessage(this);
@@ -36,40 +36,37 @@ class Version extends $pb.GeneratedMessage {
   static $pb.PbList<Version> createRepeated() => new $pb.PbList<Version>();
   static Version getDefault() => _defaultInstance ??= create()..freeze();
   static Version _defaultInstance;
-  static void $checkItem(Version v) {
-    if (v is! Version) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  int get major => $_get(0, 0);
-  set major(int v) {
+  $core.int get major => $_get(0, 0);
+  set major($core.int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasMajor() => $_has(0);
+  $core.bool hasMajor() => $_has(0);
   void clearMajor() => clearField(1);
 
-  int get minor => $_get(1, 0);
-  set minor(int v) {
+  $core.int get minor => $_get(1, 0);
+  set minor($core.int v) {
     $_setSignedInt32(1, v);
   }
 
-  bool hasMinor() => $_has(1);
+  $core.bool hasMinor() => $_has(1);
   void clearMinor() => clearField(2);
 
-  int get patch => $_get(2, 0);
-  set patch(int v) {
+  $core.int get patch => $_get(2, 0);
+  set patch($core.int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasPatch() => $_has(2);
+  $core.bool hasPatch() => $_has(2);
   void clearPatch() => clearField(3);
 
-  String get suffix => $_getS(3, '');
-  set suffix(String v) {
+  $core.String get suffix => $_getS(3, '');
+  set suffix($core.String v) {
     $_setString(3, v);
   }
 
-  bool hasSuffix() => $_has(3);
+  $core.bool hasSuffix() => $_has(3);
   void clearSuffix() => clearField(4);
 }
 
@@ -84,10 +81,10 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
         15, 'protoFile', $pb.PbFieldType.PM, $0.FileDescriptorProto.create);
 
   CodeGeneratorRequest() : super();
-  CodeGeneratorRequest.fromBuffer(List<int> i,
+  CodeGeneratorRequest.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  CodeGeneratorRequest.fromJson(String i,
+  CodeGeneratorRequest.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CodeGeneratorRequest clone() =>
@@ -102,19 +99,15 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   static CodeGeneratorRequest getDefault() =>
       _defaultInstance ??= create()..freeze();
   static CodeGeneratorRequest _defaultInstance;
-  static void $checkItem(CodeGeneratorRequest v) {
-    if (v is! CodeGeneratorRequest)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<String> get fileToGenerate => $_getList(0);
+  $core.List<$core.String> get fileToGenerate => $_getList(0);
 
-  String get parameter => $_getS(1, '');
-  set parameter(String v) {
+  $core.String get parameter => $_getS(1, '');
+  set parameter($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasParameter() => $_has(1);
+  $core.bool hasParameter() => $_has(1);
   void clearParameter() => clearField(2);
 
   Version get compilerVersion => $_getN(2);
@@ -122,10 +115,10 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     setField(3, v);
   }
 
-  bool hasCompilerVersion() => $_has(2);
+  $core.bool hasCompilerVersion() => $_has(2);
   void clearCompilerVersion() => clearField(3);
 
-  List<$0.FileDescriptorProto> get protoFile => $_getList(3);
+  $core.List<$0.FileDescriptorProto> get protoFile => $_getList(3);
 }
 
 class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
@@ -138,10 +131,10 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse_File() : super();
-  CodeGeneratorResponse_File.fromBuffer(List<int> i,
+  CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  CodeGeneratorResponse_File.fromJson(String i,
+  CodeGeneratorResponse_File.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CodeGeneratorResponse_File clone() =>
@@ -159,33 +152,29 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   static CodeGeneratorResponse_File getDefault() =>
       _defaultInstance ??= create()..freeze();
   static CodeGeneratorResponse_File _defaultInstance;
-  static void $checkItem(CodeGeneratorResponse_File v) {
-    if (v is! CodeGeneratorResponse_File)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get insertionPoint => $_getS(1, '');
-  set insertionPoint(String v) {
+  $core.String get insertionPoint => $_getS(1, '');
+  set insertionPoint($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasInsertionPoint() => $_has(1);
+  $core.bool hasInsertionPoint() => $_has(1);
   void clearInsertionPoint() => clearField(2);
 
-  String get content => $_getS(2, '');
-  set content(String v) {
+  $core.String get content => $_getS(2, '');
+  set content($core.String v) {
     $_setString(2, v);
   }
 
-  bool hasContent() => $_has(2);
+  $core.bool hasContent() => $_has(2);
   void clearContent() => clearField(15);
 }
 
@@ -198,10 +187,10 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse() : super();
-  CodeGeneratorResponse.fromBuffer(List<int> i,
+  CodeGeneratorResponse.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  CodeGeneratorResponse.fromJson(String i,
+  CodeGeneratorResponse.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CodeGeneratorResponse clone() =>
@@ -217,18 +206,14 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   static CodeGeneratorResponse getDefault() =>
       _defaultInstance ??= create()..freeze();
   static CodeGeneratorResponse _defaultInstance;
-  static void $checkItem(CodeGeneratorResponse v) {
-    if (v is! CodeGeneratorResponse)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get error => $_getS(0, '');
-  set error(String v) {
+  $core.String get error => $_getS(0, '');
+  set error($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasError() => $_has(0);
+  $core.bool hasError() => $_has(0);
   void clearError() => clearField(1);
 
-  List<CodeGeneratorResponse_File> get file => $_getList(1);
+  $core.List<CodeGeneratorResponse_File> get file => $_getList(1);
 }

@@ -5,15 +5,15 @@ class PhoneNumber_PhoneType extends $pb.ProtobufEnum {
 
   static const PhoneNumber_PhoneType BUSINESS = WORK;
 
-  static const List<PhoneNumber_PhoneType> values = const <PhoneNumber_PhoneType> [
+  static const $core.List<PhoneNumber_PhoneType> values = const <PhoneNumber_PhoneType> [
     MOBILE,
     HOME,
     WORK,
   ];
 
-  static final Map<int, PhoneNumber_PhoneType> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static PhoneNumber_PhoneType valueOf(int value) => _byValue[value];
+  static final $core.Map<$core.int, PhoneNumber_PhoneType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static PhoneNumber_PhoneType valueOf($core.int value) => _byValue[value];
 
-  const PhoneNumber_PhoneType._(int v, String n) : super(v, n);
+  const PhoneNumber_PhoneType._($core.int v, $core.String n) : super(v, n);
 }
 
