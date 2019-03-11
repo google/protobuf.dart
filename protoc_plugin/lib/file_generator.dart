@@ -295,7 +295,8 @@ class FileGenerator extends ProtobufContainer {
     }
 
     out.println('// ignore: UNUSED_SHOWN_NAME');
-    out.println('$_coreImport show int, bool, double, String, List, Map, override;\n');
+    out.println(
+        '$_coreImport show int, bool, double, String, List, Map, override;\n');
 
     if (_needsFixnumImport) {
       out.println("import 'package:fixnum/fixnum.dart';");
@@ -458,7 +459,7 @@ class FileGenerator extends ProtobufContainer {
       out.println();
       out.println(_protobufImport);
       out.println();
-      out.println( "$_coreImport show String, Map, ArgumentError, dynamic;");
+      out.println("$_coreImport show String, Map, ArgumentError, dynamic;");
     }
 
     // Import .pb.dart files needed for requests and responses.
@@ -499,7 +500,7 @@ class FileGenerator extends ProtobufContainer {
     out.println();
     out.println(_grpcImport);
     out.println();
-    out.println( "$_coreImport show int, String, List;\n");
+    out.println("$_coreImport show int, String, List;\n");
 
     // Import .pb.dart files needed for requests and responses.
     var imports = new Set<FileGenerator>();

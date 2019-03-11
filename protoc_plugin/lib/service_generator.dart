@@ -198,8 +198,8 @@ class ServiceGenerator {
       out.println(
           "$_coreImportPrefix.Map<$_coreImportPrefix.String, $_coreImportPrefix.dynamic> get \$json => $jsonConstant;");
       out.println(
-          "$_coreImportPrefix.Map<$_coreImportPrefix.String, $_coreImportPrefix.Map<$_coreImportPrefix.String, $_coreImportPrefix.dynamic>> get \$messageJson =>"
-          " $messageJsonConstant;");
+          "$_coreImportPrefix.Map<$_coreImportPrefix.String, $_coreImportPrefix.Map<$_coreImportPrefix.String,"
+          " $_coreImportPrefix.dynamic>> get \$messageJson => $messageJsonConstant;");
     });
     out.println();
   }
