@@ -2,10 +2,10 @@
 //  Generated code. Do not modify.
 //  source: descriptor.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core show int, bool, double, String, List, Map, override;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
@@ -21,10 +21,10 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
         1, 'file', $pb.PbFieldType.PM, FileDescriptorProto.create);
 
   FileDescriptorSet() : super();
-  FileDescriptorSet.fromBuffer(List<int> i,
+  FileDescriptorSet.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  FileDescriptorSet.fromJson(String i,
+  FileDescriptorSet.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   FileDescriptorSet clone() => new FileDescriptorSet()..mergeFromMessage(this);
@@ -38,12 +38,8 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   static FileDescriptorSet getDefault() =>
       _defaultInstance ??= create()..freeze();
   static FileDescriptorSet _defaultInstance;
-  static void $checkItem(FileDescriptorSet v) {
-    if (v is! FileDescriptorSet)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<FileDescriptorProto> get file => $_getList(0);
+  $core.List<FileDescriptorProto> get file => $_getList(0);
 }
 
 class FileDescriptorProto extends $pb.GeneratedMessage {
@@ -64,15 +60,15 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
         FileOptions.create)
     ..a<SourceCodeInfo>(9, 'sourceCodeInfo', $pb.PbFieldType.OM,
         SourceCodeInfo.getDefault, SourceCodeInfo.create)
-    ..p<int>(10, 'publicDependency', $pb.PbFieldType.P3)
-    ..p<int>(11, 'weakDependency', $pb.PbFieldType.P3)
+    ..p<$core.int>(10, 'publicDependency', $pb.PbFieldType.P3)
+    ..p<$core.int>(11, 'weakDependency', $pb.PbFieldType.P3)
     ..aOS(12, 'syntax');
 
   FileDescriptorProto() : super();
-  FileDescriptorProto.fromBuffer(List<int> i,
+  FileDescriptorProto.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  FileDescriptorProto.fromJson(String i,
+  FileDescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   FileDescriptorProto clone() =>
@@ -87,43 +83,39 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   static FileDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static FileDescriptorProto _defaultInstance;
-  static void $checkItem(FileDescriptorProto v) {
-    if (v is! FileDescriptorProto)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get package => $_getS(1, '');
-  set package(String v) {
+  $core.String get package => $_getS(1, '');
+  set package($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasPackage() => $_has(1);
+  $core.bool hasPackage() => $_has(1);
   void clearPackage() => clearField(2);
 
-  List<String> get dependency => $_getList(2);
+  $core.List<$core.String> get dependency => $_getList(2);
 
-  List<DescriptorProto> get messageType => $_getList(3);
+  $core.List<DescriptorProto> get messageType => $_getList(3);
 
-  List<EnumDescriptorProto> get enumType => $_getList(4);
+  $core.List<EnumDescriptorProto> get enumType => $_getList(4);
 
-  List<ServiceDescriptorProto> get service => $_getList(5);
+  $core.List<ServiceDescriptorProto> get service => $_getList(5);
 
-  List<FieldDescriptorProto> get extension => $_getList(6);
+  $core.List<FieldDescriptorProto> get extension => $_getList(6);
 
   FileOptions get options => $_getN(7);
   set options(FileOptions v) {
     setField(8, v);
   }
 
-  bool hasOptions() => $_has(7);
+  $core.bool hasOptions() => $_has(7);
   void clearOptions() => clearField(8);
 
   SourceCodeInfo get sourceCodeInfo => $_getN(8);
@@ -131,19 +123,19 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
     setField(9, v);
   }
 
-  bool hasSourceCodeInfo() => $_has(8);
+  $core.bool hasSourceCodeInfo() => $_has(8);
   void clearSourceCodeInfo() => clearField(9);
 
-  List<int> get publicDependency => $_getList(9);
+  $core.List<$core.int> get publicDependency => $_getList(9);
 
-  List<int> get weakDependency => $_getList(10);
+  $core.List<$core.int> get weakDependency => $_getList(10);
 
-  String get syntax => $_getS(11, '');
-  set syntax(String v) {
+  $core.String get syntax => $_getS(11, '');
+  set syntax($core.String v) {
     $_setString(11, v);
   }
 
-  bool hasSyntax() => $_has(11);
+  $core.bool hasSyntax() => $_has(11);
   void clearSyntax() => clearField(12);
 }
 
@@ -151,15 +143,15 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'DescriptorProto.ExtensionRange',
       package: const $pb.PackageName('google.protobuf'))
-    ..a<int>(1, 'start', $pb.PbFieldType.O3)
-    ..a<int>(2, 'end', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, 'start', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DescriptorProto_ExtensionRange() : super();
-  DescriptorProto_ExtensionRange.fromBuffer(List<int> i,
+  DescriptorProto_ExtensionRange.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  DescriptorProto_ExtensionRange.fromJson(String i,
+  DescriptorProto_ExtensionRange.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DescriptorProto_ExtensionRange clone() =>
@@ -177,25 +169,21 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   static DescriptorProto_ExtensionRange getDefault() =>
       _defaultInstance ??= create()..freeze();
   static DescriptorProto_ExtensionRange _defaultInstance;
-  static void $checkItem(DescriptorProto_ExtensionRange v) {
-    if (v is! DescriptorProto_ExtensionRange)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  int get start => $_get(0, 0);
-  set start(int v) {
+  $core.int get start => $_get(0, 0);
+  set start($core.int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasStart() => $_has(0);
+  $core.bool hasStart() => $_has(0);
   void clearStart() => clearField(1);
 
-  int get end => $_get(1, 0);
-  set end(int v) {
+  $core.int get end => $_get(1, 0);
+  set end($core.int v) {
     $_setSignedInt32(1, v);
   }
 
-  bool hasEnd() => $_has(1);
+  $core.bool hasEnd() => $_has(1);
   void clearEnd() => clearField(2);
 }
 
@@ -203,15 +191,15 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'DescriptorProto.ReservedRange',
       package: const $pb.PackageName('google.protobuf'))
-    ..a<int>(1, 'start', $pb.PbFieldType.O3)
-    ..a<int>(2, 'end', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, 'start', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DescriptorProto_ReservedRange() : super();
-  DescriptorProto_ReservedRange.fromBuffer(List<int> i,
+  DescriptorProto_ReservedRange.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  DescriptorProto_ReservedRange.fromJson(String i,
+  DescriptorProto_ReservedRange.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DescriptorProto_ReservedRange clone() =>
@@ -229,25 +217,21 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   static DescriptorProto_ReservedRange getDefault() =>
       _defaultInstance ??= create()..freeze();
   static DescriptorProto_ReservedRange _defaultInstance;
-  static void $checkItem(DescriptorProto_ReservedRange v) {
-    if (v is! DescriptorProto_ReservedRange)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  int get start => $_get(0, 0);
-  set start(int v) {
+  $core.int get start => $_get(0, 0);
+  set start($core.int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasStart() => $_has(0);
+  $core.bool hasStart() => $_has(0);
   void clearStart() => clearField(1);
 
-  int get end => $_get(1, 0);
-  set end(int v) {
+  $core.int get end => $_get(1, 0);
+  set end($core.int v) {
     $_setSignedInt32(1, v);
   }
 
-  bool hasEnd() => $_has(1);
+  $core.bool hasEnd() => $_has(1);
   void clearEnd() => clearField(2);
 }
 
@@ -274,10 +258,10 @@ class DescriptorProto extends $pb.GeneratedMessage {
     ..pPS(10, 'reservedName');
 
   DescriptorProto() : super();
-  DescriptorProto.fromBuffer(List<int> i,
+  DescriptorProto.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  DescriptorProto.fromJson(String i,
+  DescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DescriptorProto clone() => new DescriptorProto()..mergeFromMessage(this);
@@ -291,41 +275,38 @@ class DescriptorProto extends $pb.GeneratedMessage {
   static DescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static DescriptorProto _defaultInstance;
-  static void $checkItem(DescriptorProto v) {
-    if (v is! DescriptorProto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  List<FieldDescriptorProto> get field => $_getList(1);
+  $core.List<FieldDescriptorProto> get field => $_getList(1);
 
-  List<DescriptorProto> get nestedType => $_getList(2);
+  $core.List<DescriptorProto> get nestedType => $_getList(2);
 
-  List<EnumDescriptorProto> get enumType => $_getList(3);
+  $core.List<EnumDescriptorProto> get enumType => $_getList(3);
 
-  List<DescriptorProto_ExtensionRange> get extensionRange => $_getList(4);
+  $core.List<DescriptorProto_ExtensionRange> get extensionRange => $_getList(4);
 
-  List<FieldDescriptorProto> get extension => $_getList(5);
+  $core.List<FieldDescriptorProto> get extension => $_getList(5);
 
   MessageOptions get options => $_getN(6);
   set options(MessageOptions v) {
     setField(7, v);
   }
 
-  bool hasOptions() => $_has(6);
+  $core.bool hasOptions() => $_has(6);
   void clearOptions() => clearField(7);
 
-  List<OneofDescriptorProto> get oneofDecl => $_getList(7);
+  $core.List<OneofDescriptorProto> get oneofDecl => $_getList(7);
 
-  List<DescriptorProto_ReservedRange> get reservedRange => $_getList(8);
+  $core.List<DescriptorProto_ReservedRange> get reservedRange => $_getList(8);
 
-  List<String> get reservedName => $_getList(9);
+  $core.List<$core.String> get reservedName => $_getList(9);
 }
 
 class FieldDescriptorProto extends $pb.GeneratedMessage {
@@ -333,7 +314,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..aOS(2, 'extendee')
-    ..a<int>(3, 'number', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, 'number', $pb.PbFieldType.O3)
     ..e<FieldDescriptorProto_Label>(
         4,
         'label',
@@ -352,14 +333,14 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(7, 'defaultValue')
     ..a<FieldOptions>(8, 'options', $pb.PbFieldType.OM, FieldOptions.getDefault,
         FieldOptions.create)
-    ..a<int>(9, 'oneofIndex', $pb.PbFieldType.O3)
+    ..a<$core.int>(9, 'oneofIndex', $pb.PbFieldType.O3)
     ..aOS(10, 'jsonName');
 
   FieldDescriptorProto() : super();
-  FieldDescriptorProto.fromBuffer(List<int> i,
+  FieldDescriptorProto.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  FieldDescriptorProto.fromJson(String i,
+  FieldDescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   FieldDescriptorProto clone() =>
@@ -374,33 +355,29 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   static FieldDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static FieldDescriptorProto _defaultInstance;
-  static void $checkItem(FieldDescriptorProto v) {
-    if (v is! FieldDescriptorProto)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get extendee => $_getS(1, '');
-  set extendee(String v) {
+  $core.String get extendee => $_getS(1, '');
+  set extendee($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasExtendee() => $_has(1);
+  $core.bool hasExtendee() => $_has(1);
   void clearExtendee() => clearField(2);
 
-  int get number => $_get(2, 0);
-  set number(int v) {
+  $core.int get number => $_get(2, 0);
+  set number($core.int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasNumber() => $_has(2);
+  $core.bool hasNumber() => $_has(2);
   void clearNumber() => clearField(3);
 
   FieldDescriptorProto_Label get label => $_getN(3);
@@ -408,7 +385,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     setField(4, v);
   }
 
-  bool hasLabel() => $_has(3);
+  $core.bool hasLabel() => $_has(3);
   void clearLabel() => clearField(4);
 
   FieldDescriptorProto_Type get type => $_getN(4);
@@ -416,23 +393,23 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     setField(5, v);
   }
 
-  bool hasType() => $_has(4);
+  $core.bool hasType() => $_has(4);
   void clearType() => clearField(5);
 
-  String get typeName => $_getS(5, '');
-  set typeName(String v) {
+  $core.String get typeName => $_getS(5, '');
+  set typeName($core.String v) {
     $_setString(5, v);
   }
 
-  bool hasTypeName() => $_has(5);
+  $core.bool hasTypeName() => $_has(5);
   void clearTypeName() => clearField(6);
 
-  String get defaultValue => $_getS(6, '');
-  set defaultValue(String v) {
+  $core.String get defaultValue => $_getS(6, '');
+  set defaultValue($core.String v) {
     $_setString(6, v);
   }
 
-  bool hasDefaultValue() => $_has(6);
+  $core.bool hasDefaultValue() => $_has(6);
   void clearDefaultValue() => clearField(7);
 
   FieldOptions get options => $_getN(7);
@@ -440,23 +417,23 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     setField(8, v);
   }
 
-  bool hasOptions() => $_has(7);
+  $core.bool hasOptions() => $_has(7);
   void clearOptions() => clearField(8);
 
-  int get oneofIndex => $_get(8, 0);
-  set oneofIndex(int v) {
+  $core.int get oneofIndex => $_get(8, 0);
+  set oneofIndex($core.int v) {
     $_setSignedInt32(8, v);
   }
 
-  bool hasOneofIndex() => $_has(8);
+  $core.bool hasOneofIndex() => $_has(8);
   void clearOneofIndex() => clearField(9);
 
-  String get jsonName => $_getS(9, '');
-  set jsonName(String v) {
+  $core.String get jsonName => $_getS(9, '');
+  set jsonName($core.String v) {
     $_setString(9, v);
   }
 
-  bool hasJsonName() => $_has(9);
+  $core.bool hasJsonName() => $_has(9);
   void clearJsonName() => clearField(10);
 }
 
@@ -468,10 +445,10 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
         OneofOptions.create);
 
   OneofDescriptorProto() : super();
-  OneofDescriptorProto.fromBuffer(List<int> i,
+  OneofDescriptorProto.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  OneofDescriptorProto.fromJson(String i,
+  OneofDescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   OneofDescriptorProto clone() =>
@@ -486,17 +463,13 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   static OneofDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static OneofDescriptorProto _defaultInstance;
-  static void $checkItem(OneofDescriptorProto v) {
-    if (v is! OneofDescriptorProto)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
   OneofOptions get options => $_getN(1);
@@ -504,7 +477,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
     setField(2, v);
   }
 
-  bool hasOptions() => $_has(1);
+  $core.bool hasOptions() => $_has(1);
   void clearOptions() => clearField(2);
 }
 
@@ -518,10 +491,10 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
         EnumOptions.create);
 
   EnumDescriptorProto() : super();
-  EnumDescriptorProto.fromBuffer(List<int> i,
+  EnumDescriptorProto.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  EnumDescriptorProto.fromJson(String i,
+  EnumDescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   EnumDescriptorProto clone() =>
@@ -536,27 +509,23 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   static EnumDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static EnumDescriptorProto _defaultInstance;
-  static void $checkItem(EnumDescriptorProto v) {
-    if (v is! EnumDescriptorProto)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  List<EnumValueDescriptorProto> get value => $_getList(1);
+  $core.List<EnumValueDescriptorProto> get value => $_getList(1);
 
   EnumOptions get options => $_getN(2);
   set options(EnumOptions v) {
     setField(3, v);
   }
 
-  bool hasOptions() => $_has(2);
+  $core.bool hasOptions() => $_has(2);
   void clearOptions() => clearField(3);
 }
 
@@ -565,15 +534,15 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       'EnumValueDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
-    ..a<int>(2, 'number', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, 'number', $pb.PbFieldType.O3)
     ..a<EnumValueOptions>(3, 'options', $pb.PbFieldType.OM,
         EnumValueOptions.getDefault, EnumValueOptions.create);
 
   EnumValueDescriptorProto() : super();
-  EnumValueDescriptorProto.fromBuffer(List<int> i,
+  EnumValueDescriptorProto.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  EnumValueDescriptorProto.fromJson(String i,
+  EnumValueDescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   EnumValueDescriptorProto clone() =>
@@ -589,25 +558,21 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   static EnumValueDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static EnumValueDescriptorProto _defaultInstance;
-  static void $checkItem(EnumValueDescriptorProto v) {
-    if (v is! EnumValueDescriptorProto)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  int get number => $_get(1, 0);
-  set number(int v) {
+  $core.int get number => $_get(1, 0);
+  set number($core.int v) {
     $_setSignedInt32(1, v);
   }
 
-  bool hasNumber() => $_has(1);
+  $core.bool hasNumber() => $_has(1);
   void clearNumber() => clearField(2);
 
   EnumValueOptions get options => $_getN(2);
@@ -615,7 +580,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
     setField(3, v);
   }
 
-  bool hasOptions() => $_has(2);
+  $core.bool hasOptions() => $_has(2);
   void clearOptions() => clearField(3);
 }
 
@@ -630,10 +595,10 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
         ServiceOptions.getDefault, ServiceOptions.create);
 
   ServiceDescriptorProto() : super();
-  ServiceDescriptorProto.fromBuffer(List<int> i,
+  ServiceDescriptorProto.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  ServiceDescriptorProto.fromJson(String i,
+  ServiceDescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ServiceDescriptorProto clone() =>
@@ -649,27 +614,23 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   static ServiceDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static ServiceDescriptorProto _defaultInstance;
-  static void $checkItem(ServiceDescriptorProto v) {
-    if (v is! ServiceDescriptorProto)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  List<MethodDescriptorProto> get method => $_getList(1);
+  $core.List<MethodDescriptorProto> get method => $_getList(1);
 
   ServiceOptions get options => $_getN(2);
   set options(ServiceOptions v) {
     setField(3, v);
   }
 
-  bool hasOptions() => $_has(2);
+  $core.bool hasOptions() => $_has(2);
   void clearOptions() => clearField(3);
 }
 
@@ -685,10 +646,10 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
     ..aOB(6, 'serverStreaming');
 
   MethodDescriptorProto() : super();
-  MethodDescriptorProto.fromBuffer(List<int> i,
+  MethodDescriptorProto.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  MethodDescriptorProto.fromJson(String i,
+  MethodDescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   MethodDescriptorProto clone() =>
@@ -704,33 +665,29 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   static MethodDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static MethodDescriptorProto _defaultInstance;
-  static void $checkItem(MethodDescriptorProto v) {
-    if (v is! MethodDescriptorProto)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get inputType => $_getS(1, '');
-  set inputType(String v) {
+  $core.String get inputType => $_getS(1, '');
+  set inputType($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasInputType() => $_has(1);
+  $core.bool hasInputType() => $_has(1);
   void clearInputType() => clearField(2);
 
-  String get outputType => $_getS(2, '');
-  set outputType(String v) {
+  $core.String get outputType => $_getS(2, '');
+  set outputType($core.String v) {
     $_setString(2, v);
   }
 
-  bool hasOutputType() => $_has(2);
+  $core.bool hasOutputType() => $_has(2);
   void clearOutputType() => clearField(3);
 
   MethodOptions get options => $_getN(3);
@@ -738,23 +695,23 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
     setField(4, v);
   }
 
-  bool hasOptions() => $_has(3);
+  $core.bool hasOptions() => $_has(3);
   void clearOptions() => clearField(4);
 
-  bool get clientStreaming => $_get(4, false);
-  set clientStreaming(bool v) {
+  $core.bool get clientStreaming => $_get(4, false);
+  set clientStreaming($core.bool v) {
     $_setBool(4, v);
   }
 
-  bool hasClientStreaming() => $_has(4);
+  $core.bool hasClientStreaming() => $_has(4);
   void clearClientStreaming() => clearField(5);
 
-  bool get serverStreaming => $_get(5, false);
-  set serverStreaming(bool v) {
+  $core.bool get serverStreaming => $_get(5, false);
+  set serverStreaming($core.bool v) {
     $_setBool(5, v);
   }
 
-  bool hasServerStreaming() => $_has(5);
+  $core.bool hasServerStreaming() => $_has(5);
   void clearServerStreaming() => clearField(6);
 }
 
@@ -789,10 +746,10 @@ class FileOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   FileOptions() : super();
-  FileOptions.fromBuffer(List<int> i,
+  FileOptions.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  FileOptions.fromJson(String i,
+  FileOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   FileOptions clone() => new FileOptions()..mergeFromMessage(this);
@@ -805,24 +762,21 @@ class FileOptions extends $pb.GeneratedMessage {
       new $pb.PbList<FileOptions>();
   static FileOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FileOptions _defaultInstance;
-  static void $checkItem(FileOptions v) {
-    if (v is! FileOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get javaPackage => $_getS(0, '');
-  set javaPackage(String v) {
+  $core.String get javaPackage => $_getS(0, '');
+  set javaPackage($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasJavaPackage() => $_has(0);
+  $core.bool hasJavaPackage() => $_has(0);
   void clearJavaPackage() => clearField(1);
 
-  String get javaOuterClassname => $_getS(1, '');
-  set javaOuterClassname(String v) {
+  $core.String get javaOuterClassname => $_getS(1, '');
+  set javaOuterClassname($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasJavaOuterClassname() => $_has(1);
+  $core.bool hasJavaOuterClassname() => $_has(1);
   void clearJavaOuterClassname() => clearField(8);
 
   FileOptions_OptimizeMode get optimizeFor => $_getN(2);
@@ -830,122 +784,122 @@ class FileOptions extends $pb.GeneratedMessage {
     setField(9, v);
   }
 
-  bool hasOptimizeFor() => $_has(2);
+  $core.bool hasOptimizeFor() => $_has(2);
   void clearOptimizeFor() => clearField(9);
 
-  bool get javaMultipleFiles => $_get(3, false);
-  set javaMultipleFiles(bool v) {
+  $core.bool get javaMultipleFiles => $_get(3, false);
+  set javaMultipleFiles($core.bool v) {
     $_setBool(3, v);
   }
 
-  bool hasJavaMultipleFiles() => $_has(3);
+  $core.bool hasJavaMultipleFiles() => $_has(3);
   void clearJavaMultipleFiles() => clearField(10);
 
-  String get goPackage => $_getS(4, '');
-  set goPackage(String v) {
+  $core.String get goPackage => $_getS(4, '');
+  set goPackage($core.String v) {
     $_setString(4, v);
   }
 
-  bool hasGoPackage() => $_has(4);
+  $core.bool hasGoPackage() => $_has(4);
   void clearGoPackage() => clearField(11);
 
-  bool get ccGenericServices => $_get(5, false);
-  set ccGenericServices(bool v) {
+  $core.bool get ccGenericServices => $_get(5, false);
+  set ccGenericServices($core.bool v) {
     $_setBool(5, v);
   }
 
-  bool hasCcGenericServices() => $_has(5);
+  $core.bool hasCcGenericServices() => $_has(5);
   void clearCcGenericServices() => clearField(16);
 
-  bool get javaGenericServices => $_get(6, false);
-  set javaGenericServices(bool v) {
+  $core.bool get javaGenericServices => $_get(6, false);
+  set javaGenericServices($core.bool v) {
     $_setBool(6, v);
   }
 
-  bool hasJavaGenericServices() => $_has(6);
+  $core.bool hasJavaGenericServices() => $_has(6);
   void clearJavaGenericServices() => clearField(17);
 
-  bool get pyGenericServices => $_get(7, false);
-  set pyGenericServices(bool v) {
+  $core.bool get pyGenericServices => $_get(7, false);
+  set pyGenericServices($core.bool v) {
     $_setBool(7, v);
   }
 
-  bool hasPyGenericServices() => $_has(7);
+  $core.bool hasPyGenericServices() => $_has(7);
   void clearPyGenericServices() => clearField(18);
 
-  bool get javaGenerateEqualsAndHash => $_get(8, false);
-  set javaGenerateEqualsAndHash(bool v) {
+  $core.bool get javaGenerateEqualsAndHash => $_get(8, false);
+  set javaGenerateEqualsAndHash($core.bool v) {
     $_setBool(8, v);
   }
 
-  bool hasJavaGenerateEqualsAndHash() => $_has(8);
+  $core.bool hasJavaGenerateEqualsAndHash() => $_has(8);
   void clearJavaGenerateEqualsAndHash() => clearField(20);
 
-  bool get deprecated => $_get(9, false);
-  set deprecated(bool v) {
+  $core.bool get deprecated => $_get(9, false);
+  set deprecated($core.bool v) {
     $_setBool(9, v);
   }
 
-  bool hasDeprecated() => $_has(9);
+  $core.bool hasDeprecated() => $_has(9);
   void clearDeprecated() => clearField(23);
 
-  bool get javaStringCheckUtf8 => $_get(10, false);
-  set javaStringCheckUtf8(bool v) {
+  $core.bool get javaStringCheckUtf8 => $_get(10, false);
+  set javaStringCheckUtf8($core.bool v) {
     $_setBool(10, v);
   }
 
-  bool hasJavaStringCheckUtf8() => $_has(10);
+  $core.bool hasJavaStringCheckUtf8() => $_has(10);
   void clearJavaStringCheckUtf8() => clearField(27);
 
-  bool get ccEnableArenas => $_get(11, false);
-  set ccEnableArenas(bool v) {
+  $core.bool get ccEnableArenas => $_get(11, false);
+  set ccEnableArenas($core.bool v) {
     $_setBool(11, v);
   }
 
-  bool hasCcEnableArenas() => $_has(11);
+  $core.bool hasCcEnableArenas() => $_has(11);
   void clearCcEnableArenas() => clearField(31);
 
-  String get objcClassPrefix => $_getS(12, '');
-  set objcClassPrefix(String v) {
+  $core.String get objcClassPrefix => $_getS(12, '');
+  set objcClassPrefix($core.String v) {
     $_setString(12, v);
   }
 
-  bool hasObjcClassPrefix() => $_has(12);
+  $core.bool hasObjcClassPrefix() => $_has(12);
   void clearObjcClassPrefix() => clearField(36);
 
-  String get csharpNamespace => $_getS(13, '');
-  set csharpNamespace(String v) {
+  $core.String get csharpNamespace => $_getS(13, '');
+  set csharpNamespace($core.String v) {
     $_setString(13, v);
   }
 
-  bool hasCsharpNamespace() => $_has(13);
+  $core.bool hasCsharpNamespace() => $_has(13);
   void clearCsharpNamespace() => clearField(37);
 
-  String get swiftPrefix => $_getS(14, '');
-  set swiftPrefix(String v) {
+  $core.String get swiftPrefix => $_getS(14, '');
+  set swiftPrefix($core.String v) {
     $_setString(14, v);
   }
 
-  bool hasSwiftPrefix() => $_has(14);
+  $core.bool hasSwiftPrefix() => $_has(14);
   void clearSwiftPrefix() => clearField(39);
 
-  String get phpClassPrefix => $_getS(15, '');
-  set phpClassPrefix(String v) {
+  $core.String get phpClassPrefix => $_getS(15, '');
+  set phpClassPrefix($core.String v) {
     $_setString(15, v);
   }
 
-  bool hasPhpClassPrefix() => $_has(15);
+  $core.bool hasPhpClassPrefix() => $_has(15);
   void clearPhpClassPrefix() => clearField(40);
 
-  String get phpNamespace => $_getS(16, '');
-  set phpNamespace(String v) {
+  $core.String get phpNamespace => $_getS(16, '');
+  set phpNamespace($core.String v) {
     $_setString(16, v);
   }
 
-  bool hasPhpNamespace() => $_has(16);
+  $core.bool hasPhpNamespace() => $_has(16);
   void clearPhpNamespace() => clearField(41);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getList(17);
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(17);
 }
 
 class MessageOptions extends $pb.GeneratedMessage {
@@ -960,10 +914,10 @@ class MessageOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   MessageOptions() : super();
-  MessageOptions.fromBuffer(List<int> i,
+  MessageOptions.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  MessageOptions.fromJson(String i,
+  MessageOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   MessageOptions clone() => new MessageOptions()..mergeFromMessage(this);
@@ -976,43 +930,40 @@ class MessageOptions extends $pb.GeneratedMessage {
       new $pb.PbList<MessageOptions>();
   static MessageOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MessageOptions _defaultInstance;
-  static void $checkItem(MessageOptions v) {
-    if (v is! MessageOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  bool get messageSetWireFormat => $_get(0, false);
-  set messageSetWireFormat(bool v) {
+  $core.bool get messageSetWireFormat => $_get(0, false);
+  set messageSetWireFormat($core.bool v) {
     $_setBool(0, v);
   }
 
-  bool hasMessageSetWireFormat() => $_has(0);
+  $core.bool hasMessageSetWireFormat() => $_has(0);
   void clearMessageSetWireFormat() => clearField(1);
 
-  bool get noStandardDescriptorAccessor => $_get(1, false);
-  set noStandardDescriptorAccessor(bool v) {
+  $core.bool get noStandardDescriptorAccessor => $_get(1, false);
+  set noStandardDescriptorAccessor($core.bool v) {
     $_setBool(1, v);
   }
 
-  bool hasNoStandardDescriptorAccessor() => $_has(1);
+  $core.bool hasNoStandardDescriptorAccessor() => $_has(1);
   void clearNoStandardDescriptorAccessor() => clearField(2);
 
-  bool get deprecated => $_get(2, false);
-  set deprecated(bool v) {
+  $core.bool get deprecated => $_get(2, false);
+  set deprecated($core.bool v) {
     $_setBool(2, v);
   }
 
-  bool hasDeprecated() => $_has(2);
+  $core.bool hasDeprecated() => $_has(2);
   void clearDeprecated() => clearField(3);
 
-  bool get mapEntry => $_get(3, false);
-  set mapEntry(bool v) {
+  $core.bool get mapEntry => $_get(3, false);
+  set mapEntry($core.bool v) {
     $_setBool(3, v);
   }
 
-  bool hasMapEntry() => $_has(3);
+  $core.bool hasMapEntry() => $_has(3);
   void clearMapEntry() => clearField(7);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getList(4);
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(4);
 }
 
 class FieldOptions extends $pb.GeneratedMessage {
@@ -1041,10 +992,10 @@ class FieldOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   FieldOptions() : super();
-  FieldOptions.fromBuffer(List<int> i,
+  FieldOptions.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  FieldOptions.fromJson(String i,
+  FieldOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   FieldOptions clone() => new FieldOptions()..mergeFromMessage(this);
@@ -1057,40 +1008,37 @@ class FieldOptions extends $pb.GeneratedMessage {
       new $pb.PbList<FieldOptions>();
   static FieldOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FieldOptions _defaultInstance;
-  static void $checkItem(FieldOptions v) {
-    if (v is! FieldOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
   FieldOptions_CType get ctype => $_getN(0);
   set ctype(FieldOptions_CType v) {
     setField(1, v);
   }
 
-  bool hasCtype() => $_has(0);
+  $core.bool hasCtype() => $_has(0);
   void clearCtype() => clearField(1);
 
-  bool get packed => $_get(1, false);
-  set packed(bool v) {
+  $core.bool get packed => $_get(1, false);
+  set packed($core.bool v) {
     $_setBool(1, v);
   }
 
-  bool hasPacked() => $_has(1);
+  $core.bool hasPacked() => $_has(1);
   void clearPacked() => clearField(2);
 
-  bool get deprecated => $_get(2, false);
-  set deprecated(bool v) {
+  $core.bool get deprecated => $_get(2, false);
+  set deprecated($core.bool v) {
     $_setBool(2, v);
   }
 
-  bool hasDeprecated() => $_has(2);
+  $core.bool hasDeprecated() => $_has(2);
   void clearDeprecated() => clearField(3);
 
-  bool get lazy => $_get(3, false);
-  set lazy(bool v) {
+  $core.bool get lazy => $_get(3, false);
+  set lazy($core.bool v) {
     $_setBool(3, v);
   }
 
-  bool hasLazy() => $_has(3);
+  $core.bool hasLazy() => $_has(3);
   void clearLazy() => clearField(5);
 
   FieldOptions_JSType get jstype => $_getN(4);
@@ -1098,18 +1046,18 @@ class FieldOptions extends $pb.GeneratedMessage {
     setField(6, v);
   }
 
-  bool hasJstype() => $_has(4);
+  $core.bool hasJstype() => $_has(4);
   void clearJstype() => clearField(6);
 
-  bool get weak => $_get(5, false);
-  set weak(bool v) {
+  $core.bool get weak => $_get(5, false);
+  set weak($core.bool v) {
     $_setBool(5, v);
   }
 
-  bool hasWeak() => $_has(5);
+  $core.bool hasWeak() => $_has(5);
   void clearWeak() => clearField(10);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getList(6);
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(6);
 }
 
 class OneofOptions extends $pb.GeneratedMessage {
@@ -1120,10 +1068,10 @@ class OneofOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   OneofOptions() : super();
-  OneofOptions.fromBuffer(List<int> i,
+  OneofOptions.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  OneofOptions.fromJson(String i,
+  OneofOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   OneofOptions clone() => new OneofOptions()..mergeFromMessage(this);
@@ -1136,11 +1084,8 @@ class OneofOptions extends $pb.GeneratedMessage {
       new $pb.PbList<OneofOptions>();
   static OneofOptions getDefault() => _defaultInstance ??= create()..freeze();
   static OneofOptions _defaultInstance;
-  static void $checkItem(OneofOptions v) {
-    if (v is! OneofOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<UninterpretedOption> get uninterpretedOption => $_getList(0);
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(0);
 }
 
 class EnumOptions extends $pb.GeneratedMessage {
@@ -1153,10 +1098,10 @@ class EnumOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   EnumOptions() : super();
-  EnumOptions.fromBuffer(List<int> i,
+  EnumOptions.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  EnumOptions.fromJson(String i,
+  EnumOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   EnumOptions clone() => new EnumOptions()..mergeFromMessage(this);
@@ -1169,27 +1114,24 @@ class EnumOptions extends $pb.GeneratedMessage {
       new $pb.PbList<EnumOptions>();
   static EnumOptions getDefault() => _defaultInstance ??= create()..freeze();
   static EnumOptions _defaultInstance;
-  static void $checkItem(EnumOptions v) {
-    if (v is! EnumOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  bool get allowAlias => $_get(0, false);
-  set allowAlias(bool v) {
+  $core.bool get allowAlias => $_get(0, false);
+  set allowAlias($core.bool v) {
     $_setBool(0, v);
   }
 
-  bool hasAllowAlias() => $_has(0);
+  $core.bool hasAllowAlias() => $_has(0);
   void clearAllowAlias() => clearField(2);
 
-  bool get deprecated => $_get(1, false);
-  set deprecated(bool v) {
+  $core.bool get deprecated => $_get(1, false);
+  set deprecated($core.bool v) {
     $_setBool(1, v);
   }
 
-  bool hasDeprecated() => $_has(1);
+  $core.bool hasDeprecated() => $_has(1);
   void clearDeprecated() => clearField(3);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getList(2);
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(2);
 }
 
 class EnumValueOptions extends $pb.GeneratedMessage {
@@ -1201,10 +1143,10 @@ class EnumValueOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   EnumValueOptions() : super();
-  EnumValueOptions.fromBuffer(List<int> i,
+  EnumValueOptions.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  EnumValueOptions.fromJson(String i,
+  EnumValueOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   EnumValueOptions clone() => new EnumValueOptions()..mergeFromMessage(this);
@@ -1218,19 +1160,16 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   static EnumValueOptions getDefault() =>
       _defaultInstance ??= create()..freeze();
   static EnumValueOptions _defaultInstance;
-  static void $checkItem(EnumValueOptions v) {
-    if (v is! EnumValueOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  bool get deprecated => $_get(0, false);
-  set deprecated(bool v) {
+  $core.bool get deprecated => $_get(0, false);
+  set deprecated($core.bool v) {
     $_setBool(0, v);
   }
 
-  bool hasDeprecated() => $_has(0);
+  $core.bool hasDeprecated() => $_has(0);
   void clearDeprecated() => clearField(1);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getList(1);
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(1);
 }
 
 class ServiceOptions extends $pb.GeneratedMessage {
@@ -1242,10 +1181,10 @@ class ServiceOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   ServiceOptions() : super();
-  ServiceOptions.fromBuffer(List<int> i,
+  ServiceOptions.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  ServiceOptions.fromJson(String i,
+  ServiceOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ServiceOptions clone() => new ServiceOptions()..mergeFromMessage(this);
@@ -1258,19 +1197,16 @@ class ServiceOptions extends $pb.GeneratedMessage {
       new $pb.PbList<ServiceOptions>();
   static ServiceOptions getDefault() => _defaultInstance ??= create()..freeze();
   static ServiceOptions _defaultInstance;
-  static void $checkItem(ServiceOptions v) {
-    if (v is! ServiceOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  bool get deprecated => $_get(0, false);
-  set deprecated(bool v) {
+  $core.bool get deprecated => $_get(0, false);
+  set deprecated($core.bool v) {
     $_setBool(0, v);
   }
 
-  bool hasDeprecated() => $_has(0);
+  $core.bool hasDeprecated() => $_has(0);
   void clearDeprecated() => clearField(33);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getList(1);
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(1);
 }
 
 class MethodOptions extends $pb.GeneratedMessage {
@@ -1289,10 +1225,10 @@ class MethodOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   MethodOptions() : super();
-  MethodOptions.fromBuffer(List<int> i,
+  MethodOptions.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  MethodOptions.fromJson(String i,
+  MethodOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   MethodOptions clone() => new MethodOptions()..mergeFromMessage(this);
@@ -1305,16 +1241,13 @@ class MethodOptions extends $pb.GeneratedMessage {
       new $pb.PbList<MethodOptions>();
   static MethodOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MethodOptions _defaultInstance;
-  static void $checkItem(MethodOptions v) {
-    if (v is! MethodOptions) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  bool get deprecated => $_get(0, false);
-  set deprecated(bool v) {
+  $core.bool get deprecated => $_get(0, false);
+  set deprecated($core.bool v) {
     $_setBool(0, v);
   }
 
-  bool hasDeprecated() => $_has(0);
+  $core.bool hasDeprecated() => $_has(0);
   void clearDeprecated() => clearField(33);
 
   MethodOptions_IdempotencyLevel get idempotencyLevel => $_getN(1);
@@ -1322,10 +1255,10 @@ class MethodOptions extends $pb.GeneratedMessage {
     setField(34, v);
   }
 
-  bool hasIdempotencyLevel() => $_has(1);
+  $core.bool hasIdempotencyLevel() => $_has(1);
   void clearIdempotencyLevel() => clearField(34);
 
-  List<UninterpretedOption> get uninterpretedOption => $_getList(2);
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(2);
 }
 
 class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
@@ -1333,13 +1266,13 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
       'UninterpretedOption.NamePart',
       package: const $pb.PackageName('google.protobuf'))
     ..aQS(1, 'namePart')
-    ..a<bool>(2, 'isExtension', $pb.PbFieldType.QB);
+    ..a<$core.bool>(2, 'isExtension', $pb.PbFieldType.QB);
 
   UninterpretedOption_NamePart() : super();
-  UninterpretedOption_NamePart.fromBuffer(List<int> i,
+  UninterpretedOption_NamePart.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  UninterpretedOption_NamePart.fromJson(String i,
+  UninterpretedOption_NamePart.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   UninterpretedOption_NamePart clone() =>
@@ -1357,25 +1290,21 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   static UninterpretedOption_NamePart getDefault() =>
       _defaultInstance ??= create()..freeze();
   static UninterpretedOption_NamePart _defaultInstance;
-  static void $checkItem(UninterpretedOption_NamePart v) {
-    if (v is! UninterpretedOption_NamePart)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get namePart => $_getS(0, '');
-  set namePart(String v) {
+  $core.String get namePart => $_getS(0, '');
+  set namePart($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasNamePart() => $_has(0);
+  $core.bool hasNamePart() => $_has(0);
   void clearNamePart() => clearField(1);
 
-  bool get isExtension => $_get(1, false);
-  set isExtension(bool v) {
+  $core.bool get isExtension => $_get(1, false);
+  set isExtension($core.bool v) {
     $_setBool(1, v);
   }
 
-  bool hasIsExtension() => $_has(1);
+  $core.bool hasIsExtension() => $_has(1);
   void clearIsExtension() => clearField(2);
 }
 
@@ -1387,15 +1316,15 @@ class UninterpretedOption extends $pb.GeneratedMessage {
     ..aOS(3, 'identifierValue')
     ..a<Int64>(4, 'positiveIntValue', $pb.PbFieldType.OU6, Int64.ZERO)
     ..aInt64(5, 'negativeIntValue')
-    ..a<double>(6, 'doubleValue', $pb.PbFieldType.OD)
-    ..a<List<int>>(7, 'stringValue', $pb.PbFieldType.OY)
+    ..a<$core.double>(6, 'doubleValue', $pb.PbFieldType.OD)
+    ..a<$core.List<$core.int>>(7, 'stringValue', $pb.PbFieldType.OY)
     ..aOS(8, 'aggregateValue');
 
   UninterpretedOption() : super();
-  UninterpretedOption.fromBuffer(List<int> i,
+  UninterpretedOption.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  UninterpretedOption.fromJson(String i,
+  UninterpretedOption.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   UninterpretedOption clone() =>
@@ -1410,19 +1339,15 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   static UninterpretedOption getDefault() =>
       _defaultInstance ??= create()..freeze();
   static UninterpretedOption _defaultInstance;
-  static void $checkItem(UninterpretedOption v) {
-    if (v is! UninterpretedOption)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<UninterpretedOption_NamePart> get name => $_getList(0);
+  $core.List<UninterpretedOption_NamePart> get name => $_getList(0);
 
-  String get identifierValue => $_getS(1, '');
-  set identifierValue(String v) {
+  $core.String get identifierValue => $_getS(1, '');
+  set identifierValue($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasIdentifierValue() => $_has(1);
+  $core.bool hasIdentifierValue() => $_has(1);
   void clearIdentifierValue() => clearField(3);
 
   Int64 get positiveIntValue => $_getI64(2);
@@ -1430,7 +1355,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
     $_setInt64(2, v);
   }
 
-  bool hasPositiveIntValue() => $_has(2);
+  $core.bool hasPositiveIntValue() => $_has(2);
   void clearPositiveIntValue() => clearField(4);
 
   Int64 get negativeIntValue => $_getI64(3);
@@ -1438,31 +1363,31 @@ class UninterpretedOption extends $pb.GeneratedMessage {
     $_setInt64(3, v);
   }
 
-  bool hasNegativeIntValue() => $_has(3);
+  $core.bool hasNegativeIntValue() => $_has(3);
   void clearNegativeIntValue() => clearField(5);
 
-  double get doubleValue => $_getN(4);
-  set doubleValue(double v) {
+  $core.double get doubleValue => $_getN(4);
+  set doubleValue($core.double v) {
     $_setDouble(4, v);
   }
 
-  bool hasDoubleValue() => $_has(4);
+  $core.bool hasDoubleValue() => $_has(4);
   void clearDoubleValue() => clearField(6);
 
-  List<int> get stringValue => $_getN(5);
-  set stringValue(List<int> v) {
+  $core.List<$core.int> get stringValue => $_getN(5);
+  set stringValue($core.List<$core.int> v) {
     $_setBytes(5, v);
   }
 
-  bool hasStringValue() => $_has(5);
+  $core.bool hasStringValue() => $_has(5);
   void clearStringValue() => clearField(7);
 
-  String get aggregateValue => $_getS(6, '');
-  set aggregateValue(String v) {
+  $core.String get aggregateValue => $_getS(6, '');
+  set aggregateValue($core.String v) {
     $_setString(6, v);
   }
 
-  bool hasAggregateValue() => $_has(6);
+  $core.bool hasAggregateValue() => $_has(6);
   void clearAggregateValue() => clearField(8);
 }
 
@@ -1470,18 +1395,18 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'SourceCodeInfo.Location',
       package: const $pb.PackageName('google.protobuf'))
-    ..p<int>(1, 'path', $pb.PbFieldType.K3)
-    ..p<int>(2, 'span', $pb.PbFieldType.K3)
+    ..p<$core.int>(1, 'path', $pb.PbFieldType.K3)
+    ..p<$core.int>(2, 'span', $pb.PbFieldType.K3)
     ..aOS(3, 'leadingComments')
     ..aOS(4, 'trailingComments')
     ..pPS(6, 'leadingDetachedComments')
     ..hasRequiredFields = false;
 
   SourceCodeInfo_Location() : super();
-  SourceCodeInfo_Location.fromBuffer(List<int> i,
+  SourceCodeInfo_Location.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  SourceCodeInfo_Location.fromJson(String i,
+  SourceCodeInfo_Location.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   SourceCodeInfo_Location clone() =>
@@ -1497,32 +1422,28 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   static SourceCodeInfo_Location getDefault() =>
       _defaultInstance ??= create()..freeze();
   static SourceCodeInfo_Location _defaultInstance;
-  static void $checkItem(SourceCodeInfo_Location v) {
-    if (v is! SourceCodeInfo_Location)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<int> get path => $_getList(0);
+  $core.List<$core.int> get path => $_getList(0);
 
-  List<int> get span => $_getList(1);
+  $core.List<$core.int> get span => $_getList(1);
 
-  String get leadingComments => $_getS(2, '');
-  set leadingComments(String v) {
+  $core.String get leadingComments => $_getS(2, '');
+  set leadingComments($core.String v) {
     $_setString(2, v);
   }
 
-  bool hasLeadingComments() => $_has(2);
+  $core.bool hasLeadingComments() => $_has(2);
   void clearLeadingComments() => clearField(3);
 
-  String get trailingComments => $_getS(3, '');
-  set trailingComments(String v) {
+  $core.String get trailingComments => $_getS(3, '');
+  set trailingComments($core.String v) {
     $_setString(3, v);
   }
 
-  bool hasTrailingComments() => $_has(3);
+  $core.bool hasTrailingComments() => $_has(3);
   void clearTrailingComments() => clearField(4);
 
-  List<String> get leadingDetachedComments => $_getList(4);
+  $core.List<$core.String> get leadingDetachedComments => $_getList(4);
 }
 
 class SourceCodeInfo extends $pb.GeneratedMessage {
@@ -1533,10 +1454,10 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   SourceCodeInfo() : super();
-  SourceCodeInfo.fromBuffer(List<int> i,
+  SourceCodeInfo.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  SourceCodeInfo.fromJson(String i,
+  SourceCodeInfo.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   SourceCodeInfo clone() => new SourceCodeInfo()..mergeFromMessage(this);
@@ -1549,28 +1470,25 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
       new $pb.PbList<SourceCodeInfo>();
   static SourceCodeInfo getDefault() => _defaultInstance ??= create()..freeze();
   static SourceCodeInfo _defaultInstance;
-  static void $checkItem(SourceCodeInfo v) {
-    if (v is! SourceCodeInfo) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<SourceCodeInfo_Location> get location => $_getList(0);
+  $core.List<SourceCodeInfo_Location> get location => $_getList(0);
 }
 
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'GeneratedCodeInfo.Annotation',
       package: const $pb.PackageName('google.protobuf'))
-    ..p<int>(1, 'path', $pb.PbFieldType.K3)
+    ..p<$core.int>(1, 'path', $pb.PbFieldType.K3)
     ..aOS(2, 'sourceFile')
-    ..a<int>(3, 'begin', $pb.PbFieldType.O3)
-    ..a<int>(4, 'end', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, 'begin', $pb.PbFieldType.O3)
+    ..a<$core.int>(4, 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   GeneratedCodeInfo_Annotation() : super();
-  GeneratedCodeInfo_Annotation.fromBuffer(List<int> i,
+  GeneratedCodeInfo_Annotation.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  GeneratedCodeInfo_Annotation.fromJson(String i,
+  GeneratedCodeInfo_Annotation.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   GeneratedCodeInfo_Annotation clone() =>
@@ -1588,35 +1506,31 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   static GeneratedCodeInfo_Annotation getDefault() =>
       _defaultInstance ??= create()..freeze();
   static GeneratedCodeInfo_Annotation _defaultInstance;
-  static void $checkItem(GeneratedCodeInfo_Annotation v) {
-    if (v is! GeneratedCodeInfo_Annotation)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<int> get path => $_getList(0);
+  $core.List<$core.int> get path => $_getList(0);
 
-  String get sourceFile => $_getS(1, '');
-  set sourceFile(String v) {
+  $core.String get sourceFile => $_getS(1, '');
+  set sourceFile($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasSourceFile() => $_has(1);
+  $core.bool hasSourceFile() => $_has(1);
   void clearSourceFile() => clearField(2);
 
-  int get begin => $_get(2, 0);
-  set begin(int v) {
+  $core.int get begin => $_get(2, 0);
+  set begin($core.int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasBegin() => $_has(2);
+  $core.bool hasBegin() => $_has(2);
   void clearBegin() => clearField(3);
 
-  int get end => $_get(3, 0);
-  set end(int v) {
+  $core.int get end => $_get(3, 0);
+  set end($core.int v) {
     $_setSignedInt32(3, v);
   }
 
-  bool hasEnd() => $_has(3);
+  $core.bool hasEnd() => $_has(3);
   void clearEnd() => clearField(4);
 }
 
@@ -1628,10 +1542,10 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   GeneratedCodeInfo() : super();
-  GeneratedCodeInfo.fromBuffer(List<int> i,
+  GeneratedCodeInfo.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  GeneratedCodeInfo.fromJson(String i,
+  GeneratedCodeInfo.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   GeneratedCodeInfo clone() => new GeneratedCodeInfo()..mergeFromMessage(this);
@@ -1645,10 +1559,6 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   static GeneratedCodeInfo getDefault() =>
       _defaultInstance ??= create()..freeze();
   static GeneratedCodeInfo _defaultInstance;
-  static void $checkItem(GeneratedCodeInfo v) {
-    if (v is! GeneratedCodeInfo)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
+  $core.List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
 }

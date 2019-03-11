@@ -2,10 +2,10 @@
 //  Generated code. Do not modify.
 //  source: dart_options.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
@@ -18,10 +18,10 @@ class DartMixin extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   DartMixin() : super();
-  DartMixin.fromBuffer(List<int> i,
+  DartMixin.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  DartMixin.fromJson(String i,
+  DartMixin.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DartMixin clone() => new DartMixin()..mergeFromMessage(this);
@@ -33,32 +33,29 @@ class DartMixin extends $pb.GeneratedMessage {
   static $pb.PbList<DartMixin> createRepeated() => new $pb.PbList<DartMixin>();
   static DartMixin getDefault() => _defaultInstance ??= create()..freeze();
   static DartMixin _defaultInstance;
-  static void $checkItem(DartMixin v) {
-    if (v is! DartMixin) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get importFrom => $_getS(1, '');
-  set importFrom(String v) {
+  $core.String get importFrom => $_getS(1, '');
+  set importFrom($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasImportFrom() => $_has(1);
+  $core.bool hasImportFrom() => $_has(1);
   void clearImportFrom() => clearField(2);
 
-  String get parent => $_getS(2, '');
-  set parent(String v) {
+  $core.String get parent => $_getS(2, '');
+  set parent($core.String v) {
     $_setString(2, v);
   }
 
-  bool hasParent() => $_has(2);
+  $core.bool hasParent() => $_has(2);
   void clearParent() => clearField(3);
 }
 
@@ -69,10 +66,10 @@ class Imports extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   Imports() : super();
-  Imports.fromBuffer(List<int> i,
+  Imports.fromBuffer($core.List<$core.int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  Imports.fromJson(String i,
+  Imports.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   Imports clone() => new Imports()..mergeFromMessage(this);
@@ -84,11 +81,8 @@ class Imports extends $pb.GeneratedMessage {
   static $pb.PbList<Imports> createRepeated() => new $pb.PbList<Imports>();
   static Imports getDefault() => _defaultInstance ??= create()..freeze();
   static Imports _defaultInstance;
-  static void $checkItem(Imports v) {
-    if (v is! Imports) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<DartMixin> get mixins => $_getList(0);
+  $core.List<DartMixin> get mixins => $_getList(0);
 }
 
 class Dart_options {
@@ -99,34 +93,32 @@ class Dart_options {
       $pb.PbFieldType.OM,
       Imports.getDefault,
       Imports.create);
-  static final $pb.Extension defaultMixin = new $pb.Extension<String>(
+  static final $pb.Extension defaultMixin = new $pb.Extension<$core.String>(
       'google.protobuf.FileOptions',
       'defaultMixin',
       96128839,
       $pb.PbFieldType.OS);
-  static final $pb.Extension mixin = new $pb.Extension<String>(
+  static final $pb.Extension mixin = new $pb.Extension<$core.String>(
       'google.protobuf.MessageOptions', 'mixin', 96128839, $pb.PbFieldType.OS);
-  static final $pb.Extension overrideGetter = new $pb.Extension<bool>(
+  static final $pb.Extension overrideGetter = new $pb.Extension<$core.bool>(
       'google.protobuf.FieldOptions',
       'overrideGetter',
       28205290,
       $pb.PbFieldType.OB);
-  static final $pb.Extension overrideSetter = new $pb.Extension<bool>(
+  static final $pb.Extension overrideSetter = new $pb.Extension<$core.bool>(
       'google.protobuf.FieldOptions',
       'overrideSetter',
       28937366,
       $pb.PbFieldType.OB);
-  static final $pb.Extension overrideHasMethod = new $pb.Extension<bool>(
+  static final $pb.Extension overrideHasMethod = new $pb.Extension<$core.bool>(
       'google.protobuf.FieldOptions',
       'overrideHasMethod',
       28937461,
       $pb.PbFieldType.OB);
-  static final $pb.Extension overrideClearMethod = new $pb.Extension<bool>(
-      'google.protobuf.FieldOptions',
-      'overrideClearMethod',
-      28907907,
-      $pb.PbFieldType.OB);
-  static final $pb.Extension dartName = new $pb.Extension<String>(
+  static final $pb.Extension overrideClearMethod =
+      new $pb.Extension<$core.bool>('google.protobuf.FieldOptions',
+          'overrideClearMethod', 28907907, $pb.PbFieldType.OB);
+  static final $pb.Extension dartName = new $pb.Extension<$core.String>(
       'google.protobuf.FieldOptions', 'dartName', 28700919, $pb.PbFieldType.OS);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
     registry.add(imports);
