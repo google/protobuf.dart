@@ -133,8 +133,9 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
-  static const _topLevelFieldTag = 4;
-  static const _nestedFieldTag = 3;
+  static const _topLevelMessageTag = 4;
+  static const _nestedMessageTag = 3;
+  static const _messageFieldTag = 2;
 
   MessageGenerator.topLevel(
       DescriptorProto descriptor,
@@ -144,7 +145,7 @@ class MessageGenerator extends ProtobufContainer {
       Set<String> usedNames,
       int repeatedFieldIndex)
       : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
-            repeatedFieldIndex, _topLevelFieldTag);
+            repeatedFieldIndex, _topLevelMessageTag);
 
   MessageGenerator.nested(
       DescriptorProto descriptor,
@@ -154,7 +155,7 @@ class MessageGenerator extends ProtobufContainer {
       Set<String> usedNames,
       int repeatedFieldIndex)
       : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
-            repeatedFieldIndex, _nestedFieldTag);
+            repeatedFieldIndex, _nestedMessageTag);
 
   String get package => _parent.package;
 
@@ -314,9 +315,7 @@ class MessageGenerator extends ProtobufContainer {
         'class ${classname} extends $_protobufImportPrefix.GeneratedMessage${mixinClause} {',
         '}', [
       new NamedLocation(
-          name: classname,
-          fieldPathSegment: new List.from(fieldPath)..addAll([1]),
-          start: 'class '.length)
+          name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
       for (OneofNames oneof in _oneofNames) {
         out.addBlock(
@@ -359,7 +358,9 @@ class MessageGenerator extends ProtobufContainer {
 
       out.println();
 
-      out.println('${classname}() : super();');
+      out.printlnAnnotated('${classname}() : super();', [
+        NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
+      ]);
       out.println(
           '${classname}.fromBuffer($_coreImportPrefix.List<$_coreImportPrefix.int> i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
@@ -437,9 +438,11 @@ class MessageGenerator extends ProtobufContainer {
     _oneofNames
         .forEach((OneofNames oneof) => generateoneOfAccessors(out, oneof));
 
-    for (ProtobufField field in _fieldList) {
+    for (var i = 0; i < _fieldList.length; i++) {
       out.println();
-      generateFieldAccessorsMutators(field, out);
+      List<int> memberFieldPath = new List.from(fieldPath)
+        ..addAll([_messageFieldTag, i]);
+      generateFieldAccessorsMutators(_fieldList[i], out, memberFieldPath);
     }
   }
 
@@ -452,7 +455,7 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   void generateFieldAccessorsMutators(
-      ProtobufField field, IndentingWriter out) {
+      ProtobufField field, IndentingWriter out, List<int> memberFieldPath) {
     var fieldTypeString = field.getDartType(fileGen);
     var defaultExpr = field.getDefaultExpr();
     var names = field.memberNames;
@@ -460,7 +463,13 @@ class MessageGenerator extends ProtobufContainer {
     _emitOverrideIf(field.overridesGetter, out);
     final getterExpr = _getterExpression(fieldTypeString, field.index,
         defaultExpr, field.isRepeated, field.isMapField);
-    out.println('$fieldTypeString get ${names.fieldName} => ${getterExpr};');
+    out.printlnAnnotated(
+        '${fieldTypeString} get ${names.fieldName} => ${getterExpr};', [
+      NamedLocation(
+          name: names.fieldName,
+          fieldPathSegment: memberFieldPath,
+          start: '${fieldTypeString} get '.length)
+    ]);
 
     if (field.isRepeated) {
       if (field.overridesSetter) {
@@ -479,22 +488,50 @@ class MessageGenerator extends ProtobufContainer {
       var fastSetter = field.baseType.setter;
       _emitOverrideIf(field.overridesSetter, out);
       if (fastSetter != null) {
-        out.println('set ${names.fieldName}'
+        out.printlnAnnotated(
+            'set ${names.fieldName}'
             '($fieldTypeString v) { '
             '$fastSetter(${field.index}, v);'
-            ' }');
+            ' }',
+            [
+              NamedLocation(
+                  name: names.fieldName,
+                  fieldPathSegment: memberFieldPath,
+                  start: 'set '.length)
+            ]);
       } else {
-        out.println('set ${names.fieldName}'
+        out.printlnAnnotated(
+            'set ${names.fieldName}'
             '($fieldTypeString v) { '
             'setField(${field.number}, v);'
-            ' }');
+            ' }',
+            [
+              NamedLocation(
+                  name: names.fieldName,
+                  fieldPathSegment: memberFieldPath,
+                  start: 'set '.length)
+            ]);
       }
       _emitOverrideIf(field.overridesHasMethod, out);
-      out.println('$_coreImportPrefix.bool ${names.hasMethodName}() =>'
-          ' \$_has(${field.index});');
+      out.printlnAnnotated(
+          '$_coreImportPrefix.bool ${names.hasMethodName}() =>'
+          ' \$_has(${field.index});',
+          [
+            NamedLocation(
+                name: names.hasMethodName,
+                fieldPathSegment: memberFieldPath,
+                start: 'bool '.length)
+          ]);
       _emitOverrideIf(field.overridesClearMethod, out);
-      out.println('void ${names.clearMethodName}() =>'
-          ' clearField(${field.number});');
+      out.printlnAnnotated(
+          'void ${names.clearMethodName}() =>'
+          ' clearField(${field.number});',
+          [
+            NamedLocation(
+                name: names.clearMethodName,
+                fieldPathSegment: memberFieldPath,
+                start: 'void '.length)
+          ]);
     }
   }
 

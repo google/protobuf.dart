@@ -106,7 +106,7 @@ class ExtensionGenerator {
           [
             new NamedLocation(
                 name: name,
-                fieldPathSegment: new List.from(fieldPath)..add(1),
+                fieldPathSegment: new List.from(fieldPath),
                 start: 'static final $_protobufImportPrefix.Extension '.length)
           ]);
       if (type.isMessage || type.isGroup) {
@@ -130,7 +130,7 @@ class ExtensionGenerator {
         [
           new NamedLocation(
               name: name,
-              fieldPathSegment: new List.from(fieldPath)..add(1),
+              fieldPathSegment: new List.from(fieldPath),
               start: 'static final $_protobufImportPrefix.Extension '.length)
         ]);
 
