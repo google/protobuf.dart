@@ -1,5 +1,5 @@
 name: protoc_plugin
-version: 16.0.2
+version: 16.0.3
 author: Dart Team <misc@dartlang.org>
 description: Protoc compiler plugin to generate Dart code
 homepage: https://github.com/dart-lang/protobuf
