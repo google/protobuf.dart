@@ -221,14 +221,10 @@ class FileGenerator extends ProtobufContainer {
 
     if (options.generateMetadata) {
       files.addAll([
-        makeFile(
-            ".pb.dart.meta",
-            new String.fromCharCodes(
-                mainWriter.sourceLocationInfo.writeToBuffer())),
-        makeFile(
-            ".pbenum.dart.meta",
-            new String.fromCharCodes(
-                enumWriter.sourceLocationInfo.writeToBuffer()))
+        makeFile(".pb.dart.meta",
+            mainWriter.sourceLocationInfo.writeToJson().toString()),
+        makeFile(".pbenum.dart.meta",
+            enumWriter.sourceLocationInfo.writeToJson().toString())
       ]);
     }
     if (options.useGrpc) {
