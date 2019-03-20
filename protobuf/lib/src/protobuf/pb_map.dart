@@ -40,6 +40,35 @@ class PbMap<K, V> extends MapBase<K, V> {
   }
 
   @override
+  bool operator ==(other) {
+    if (identical(other, this)) {
+      return true;
+    }
+    if (other is! PbMap) {
+      return false;
+    }
+    if (other.length != length) {
+      return false;
+    }
+    if (other.hashCode != hashCode) {
+      return false;
+    }
+    for (final key in keys) {
+      if (other[key] != this[key]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  int get hashCode {
+    return hashObjects(_wrappedMap.keys
+        .map((key) => hash2(key.hashCode, _wrappedMap[key].hashCode))
+        .toList(growable: false)
+          ..sort());
+  }
+
+  @override
   void clear() {
     if (_isReadonly)
       throw new UnsupportedError('Attempted to change a read-only map field');

@@ -1,3 +1,7 @@
+## 16.0.3
+
+* Add test for PbMap equality and update protobuf dependency to 0.13.6.
+
 ## 16.0.2
 
 * Generated files now import 'dart:core' with a prefix
