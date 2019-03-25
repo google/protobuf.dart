@@ -92,18 +92,14 @@ class EnumGenerator extends ProtobufContainer {
     return "$fileImportPrefix.$name";
   }
 
-  static const int _enumNameTag = 1;
   static const int _enumValueTag = 2;
-  static const int _enumValueNameTag = 1;
 
   void generate(IndentingWriter out) {
     out.addAnnotatedBlock(
         'class ${classname} extends $_protobufImportPrefix.ProtobufEnum {',
         '}\n', [
       new NamedLocation(
-          name: classname,
-          fieldPathSegment: new List.from(fieldPath)..add(_enumNameTag),
-          start: 'class '.length)
+          name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
       // -----------------------------------------------------------------
       // Define enum types.
@@ -117,11 +113,7 @@ class EnumGenerator extends ProtobufContainer {
               new NamedLocation(
                   name: name,
                   fieldPathSegment: new List.from(fieldPath)
-                    ..addAll([
-                      _enumValueTag,
-                      _originalCanonicalIndices[i],
-                      _enumValueNameTag
-                    ]),
+                    ..addAll([_enumValueTag, _originalCanonicalIndices[i]]),
                   start: 'static const ${classname} '.length)
             ]);
       }
@@ -137,11 +129,7 @@ class EnumGenerator extends ProtobufContainer {
                 new NamedLocation(
                     name: name,
                     fieldPathSegment: new List.from(fieldPath)
-                      ..addAll([
-                        _enumValueTag,
-                        _originalAliasIndices[i],
-                        _enumValueNameTag
-                      ]),
+                      ..addAll([_enumValueTag, _originalAliasIndices[i]]),
                     start: 'static const ${classname} '.length)
               ]);
         }

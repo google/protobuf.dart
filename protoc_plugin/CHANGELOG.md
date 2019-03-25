@@ -1,3 +1,15 @@
+## 16.0.3
+* Sync Kythe metadata updates from internal repo:
+* Remove the extra 1 (field name) from generated field paths,
+  so they refer to the whole field rather than the name.
+* Add missing proto message field metadata to the Dart proto generator
+  (attached to setter/getter/has/clear methods). Fix a bug with indented space counting,
+  which would cause all indented fields to use the incorrect count (off by the size of the indent)
+* Add metadata to the unnamed constructors in the generated dart proto files.
+  Removed extra list copy constructor calls when the field path isn't being modified.
+  The named constructors (e.g. fromJson) don't need this because, at the call site,
+  the class name and the constructor name are two separate links.
+
 ## 16.0.2
 
 * Generated files now import 'dart:core' with a prefix

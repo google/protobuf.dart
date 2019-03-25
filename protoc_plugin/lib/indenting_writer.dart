@@ -52,9 +52,11 @@ class IndentingWriter {
   }
 
   void printAnnotated(String text, List<NamedLocation> namedLocations) {
+    final indentOffset = _needIndent ? _indent.length : 0;
     print(text);
     for (final location in namedLocations) {
-      addAnnotation(location.fieldPathSegment, location.name, location.start);
+      _addAnnotation(location.fieldPathSegment, location.name,
+          location.start + indentOffset);
     }
   }
 
@@ -121,7 +123,7 @@ class IndentingWriter {
   /// [start] should be the location of the identifier as it appears in the
   /// string that was passed to the previous [print]. Name should be the string
   /// that was written to file.
-  void addAnnotation(List<int> fieldPath, String name, int start) {
+  void _addAnnotation(List<int> fieldPath, String name, int start) {
     if (_sourceFile == null) {
       return;
     }
