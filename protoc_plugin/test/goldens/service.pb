@@ -6,7 +6,7 @@
 
 import 'dart:async' as $async;
 // ignore: UNUSED_SHOWN_NAME
-import 'dart:core' as $core show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core show int, bool, double, String, List, Map, override, Deprecated;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 

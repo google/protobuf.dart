@@ -292,7 +292,7 @@ class FileGenerator extends ProtobufContainer {
 
     out.println('// ignore: UNUSED_SHOWN_NAME');
     out.println(
-        '$_coreImport show int, bool, double, String, List, Map, override;\n');
+        '$_coreImport show int, bool, double, String, List, Map, override, Deprecated;\n');
 
     if (_needsFixnumImport) {
       out.println("import 'package:fixnum/fixnum.dart';");

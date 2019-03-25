@@ -460,6 +460,7 @@ class MessageGenerator extends ProtobufContainer {
     var defaultExpr = field.getDefaultExpr();
     var names = field.memberNames;
 
+    _emitDeprecatedIf(field.isDeprecated, out);
     _emitOverrideIf(field.overridesGetter, out);
     final getterExpr = _getterExpression(fieldTypeString, field.index,
         defaultExpr, field.isRepeated, field.isMapField);
@@ -486,6 +487,7 @@ class MessageGenerator extends ProtobufContainer {
       }
     } else {
       var fastSetter = field.baseType.setter;
+      _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesSetter, out);
       if (fastSetter != null) {
         out.printlnAnnotated(
@@ -512,6 +514,7 @@ class MessageGenerator extends ProtobufContainer {
                   start: 'set '.length)
             ]);
       }
+      _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesHasMethod, out);
       out.printlnAnnotated(
           '$_coreImportPrefix.bool ${names.hasMethodName}() =>'
@@ -522,6 +525,7 @@ class MessageGenerator extends ProtobufContainer {
                 fieldPathSegment: memberFieldPath,
                 start: 'bool '.length)
           ]);
+      _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesClearMethod, out);
       out.printlnAnnotated(
           'void ${names.clearMethodName}() =>'
@@ -550,6 +554,13 @@ class MessageGenerator extends ProtobufContainer {
       return isRepeated ? '\$_getList($index)' : '\$_getN($index)';
     }
     return '\$_get($index, $defaultExpr)';
+  }
+
+  void _emitDeprecatedIf(bool condition, IndentingWriter out) {
+    if (condition) {
+      out.println(
+          '@$_coreImportPrefix.Deprecated(\'This field is deprecated.\')');
+    }
   }
 
   void _emitOverrideIf(bool condition, IndentingWriter out) {

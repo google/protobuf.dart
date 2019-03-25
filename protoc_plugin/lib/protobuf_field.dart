@@ -45,6 +45,9 @@ class ProtobufField {
   /// `null` for an extension.
   int get index => memberNames?.index;
 
+  /// True if the field is to be encoded with [deprecated = true] encoding.
+  bool get isDeprecated => descriptor.options?.deprecated;
+
   bool get isRequired =>
       descriptor.label == FieldDescriptorProto_Label.LABEL_REQUIRED;
 
