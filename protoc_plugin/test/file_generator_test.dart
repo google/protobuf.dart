@@ -15,33 +15,33 @@ import 'golden_file.dart';
 
 FileDescriptorProto buildFileDescriptor(
     {phoneNumber = true, topLevelEnum = false}) {
-  FileDescriptorProto fd = new FileDescriptorProto()..name = 'test';
+  FileDescriptorProto fd = FileDescriptorProto()..name = 'test';
 
   if (topLevelEnum) {
-    fd.enumType.add(new EnumDescriptorProto()
+    fd.enumType.add(EnumDescriptorProto()
       ..name = 'PhoneType'
       ..value.addAll([
-        new EnumValueDescriptorProto()
+        EnumValueDescriptorProto()
           ..name = 'MOBILE'
           ..number = 0,
-        new EnumValueDescriptorProto()
+        EnumValueDescriptorProto()
           ..name = 'HOME'
           ..number = 1,
-        new EnumValueDescriptorProto()
+        EnumValueDescriptorProto()
           ..name = 'WORK'
           ..number = 2,
-        new EnumValueDescriptorProto()
+        EnumValueDescriptorProto()
           ..name = 'BUSINESS'
           ..number = 2
       ]));
   }
 
   if (phoneNumber) {
-    fd.messageType.add(new DescriptorProto()
+    fd.messageType.add(DescriptorProto()
       ..name = 'PhoneNumber'
       ..field.addAll([
         // required string number = 1;
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'number'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
@@ -49,7 +49,7 @@ FileDescriptorProto buildFileDescriptor(
         // optional int32 type = 2;
         // OR
         // optional PhoneType type = 2;
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'type'
           ..number = 2
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
@@ -58,7 +58,7 @@ FileDescriptorProto buildFileDescriptor(
               : FieldDescriptorProto_Type.TYPE_INT32
           ..typeName = topLevelEnum ? '.PhoneType' : '',
         // optional string name = 3 [default = "$"];
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'name'
           ..number = 3
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
@@ -75,8 +75,8 @@ void main() {
       () {
     FileDescriptorProto fd = buildFileDescriptor();
     var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    FileGenerator fg = new FileGenerator(fd, options);
+        CodeGeneratorRequest(), CodeGeneratorResponse());
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
         fg.generateMainFile().toString(), 'test/goldens/oneMessage.pb');
@@ -87,9 +87,9 @@ void main() {
       () {
     FileDescriptorProto fd = buildFileDescriptor();
     var options = parseGenerationOptions(
-        new CodeGeneratorRequest()..parameter = 'generate_kythe_info',
-        new CodeGeneratorResponse());
-    FileGenerator fg = new FileGenerator(fd, options);
+        CodeGeneratorRequest()..parameter = 'generate_kythe_info',
+        CodeGeneratorResponse());
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(fg.generateMainFile().sourceLocationInfo.toString(),
         'test/goldens/oneMessage.pb.meta');
@@ -99,8 +99,8 @@ void main() {
       () {
     FileDescriptorProto fd = buildFileDescriptor();
     var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
-    FileGenerator fg = new FileGenerator(fd, options);
+        CodeGeneratorRequest(), CodeGeneratorResponse());
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
         fg.generateJsonFile(), 'test/goldens/oneMessage.pbjson');
@@ -110,9 +110,9 @@ void main() {
     FileDescriptorProto fd =
         buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+        CodeGeneratorRequest(), CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd, options);
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
         fg.generateMainFile().toString(), 'test/goldens/topLevelEnum.pb');
@@ -124,9 +124,9 @@ void main() {
     FileDescriptorProto fd =
         buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options = parseGenerationOptions(
-        new CodeGeneratorRequest()..parameter = 'generate_kythe_info',
-        new CodeGeneratorResponse());
-    FileGenerator fg = new FileGenerator(fd, options);
+        CodeGeneratorRequest()..parameter = 'generate_kythe_info',
+        CodeGeneratorResponse());
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
 
     expectMatchesGoldenFile(fg.generateMainFile().sourceLocationInfo.toString(),
@@ -139,9 +139,9 @@ void main() {
     FileDescriptorProto fd =
         buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+        CodeGeneratorRequest(), CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd, options);
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
         fg.generateJsonFile(), 'test/goldens/topLevelEnum.pbjson');
@@ -151,63 +151,63 @@ void main() {
     FileDescriptorProto fd = buildFileDescriptor();
     fd.package = "pb_library";
     var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+        CodeGeneratorRequest(), CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd, options);
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    var writer = new IndentingWriter(filename: '');
+    var writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
     expectMatchesGoldenFile(
         writer.toString(), 'test/goldens/header_in_package.pb');
   });
 
   test('FileGenerator outputs a fixnum import when needed', () {
-    FileDescriptorProto fd = new FileDescriptorProto()
+    FileDescriptorProto fd = FileDescriptorProto()
       ..name = 'test'
-      ..messageType.add(new DescriptorProto()
+      ..messageType.add(DescriptorProto()
         ..name = 'Count'
         ..field.addAll([
-          new FieldDescriptorProto()
+          FieldDescriptorProto()
             ..name = 'count'
             ..number = 1
             ..type = FieldDescriptorProto_Type.TYPE_INT64
         ]));
 
     var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+        CodeGeneratorRequest(), CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd, options);
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    var writer = new IndentingWriter(filename: '');
+    var writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
     expectMatchesGoldenFile(
         writer.toString(), 'test/goldens/header_with_fixnum.pb');
   });
 
   test('FileGenerator outputs files for a service', () {
-    DescriptorProto empty = new DescriptorProto()..name = "Empty";
+    DescriptorProto empty = DescriptorProto()..name = "Empty";
 
-    ServiceDescriptorProto sd = new ServiceDescriptorProto()
+    ServiceDescriptorProto sd = ServiceDescriptorProto()
       ..name = 'Test'
-      ..method.add(new MethodDescriptorProto()
+      ..method.add(MethodDescriptorProto()
         ..name = 'Ping'
         ..inputType = '.Empty'
         ..outputType = '.Empty');
 
-    FileDescriptorProto fd = new FileDescriptorProto()
+    FileDescriptorProto fd = FileDescriptorProto()
       ..name = 'test'
       ..messageType.add(empty)
       ..service.add(sd);
 
     var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+        CodeGeneratorRequest(), CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd, options);
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    var writer = new IndentingWriter(filename: '');
+    var writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
     expectMatchesGoldenFile(
         fg.generateMainFile().toString(), 'test/goldens/service.pb');
@@ -217,75 +217,75 @@ void main() {
 
   test('FileGenerator does not output legacy service stubs if gRPC is selected',
       () {
-    DescriptorProto empty = new DescriptorProto()..name = "Empty";
+    DescriptorProto empty = DescriptorProto()..name = "Empty";
 
-    ServiceDescriptorProto sd = new ServiceDescriptorProto()
+    ServiceDescriptorProto sd = ServiceDescriptorProto()
       ..name = 'Test'
-      ..method.add(new MethodDescriptorProto()
+      ..method.add(MethodDescriptorProto()
         ..name = 'Ping'
         ..inputType = '.Empty'
         ..outputType = '.Empty');
 
-    FileDescriptorProto fd = new FileDescriptorProto()
+    FileDescriptorProto fd = FileDescriptorProto()
       ..name = 'test'
       ..messageType.add(empty)
       ..service.add(sd);
 
-    var options = new GenerationOptions(useGrpc: true);
+    var options = GenerationOptions(useGrpc: true);
 
-    FileGenerator fg = new FileGenerator(fd, options);
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    var writer = new IndentingWriter(filename: '');
+    var writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
     expectMatchesGoldenFile(
         fg.generateMainFile().toString(), 'test/goldens/grpc_service.pb');
   });
 
   test('FileGenerator outputs gRPC stubs if gRPC is selected', () {
-    final input = new DescriptorProto()..name = 'Input';
-    final output = new DescriptorProto()..name = 'Output';
+    final input = DescriptorProto()..name = 'Input';
+    final output = DescriptorProto()..name = 'Output';
 
-    final unary = new MethodDescriptorProto()
+    final unary = MethodDescriptorProto()
       ..name = 'Unary'
       ..inputType = '.Input'
       ..outputType = '.Output'
       ..clientStreaming = false
       ..serverStreaming = false;
-    final clientStreaming = new MethodDescriptorProto()
+    final clientStreaming = MethodDescriptorProto()
       ..name = 'ClientStreaming'
       ..inputType = '.Input'
       ..outputType = '.Output'
       ..clientStreaming = true
       ..serverStreaming = false;
-    final serverStreaming = new MethodDescriptorProto()
+    final serverStreaming = MethodDescriptorProto()
       ..name = 'ServerStreaming'
       ..inputType = '.Input'
       ..outputType = '.Output'
       ..clientStreaming = false
       ..serverStreaming = true;
-    final bidirectional = new MethodDescriptorProto()
+    final bidirectional = MethodDescriptorProto()
       ..name = 'Bidirectional'
       ..inputType = '.Input'
       ..outputType = '.Output'
       ..clientStreaming = true
       ..serverStreaming = true;
 
-    ServiceDescriptorProto sd = new ServiceDescriptorProto()
+    ServiceDescriptorProto sd = ServiceDescriptorProto()
       ..name = 'Test'
       ..method.addAll([unary, clientStreaming, serverStreaming, bidirectional]);
 
-    FileDescriptorProto fd = new FileDescriptorProto()
+    FileDescriptorProto fd = FileDescriptorProto()
       ..name = 'test'
       ..messageType.addAll([input, output])
       ..service.add(sd);
 
-    var options = new GenerationOptions(useGrpc: true);
+    var options = GenerationOptions(useGrpc: true);
 
-    FileGenerator fg = new FileGenerator(fd, options);
+    FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    var writer = new IndentingWriter(filename: '');
+    var writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
     expectMatchesGoldenFile(
         fg.generateGrpcFile(), 'test/goldens/grpc_service.pbgrpc');
@@ -321,76 +321,76 @@ void main() {
     // }
 
     // Description of package1.proto.
-    DescriptorProto md1 = new DescriptorProto()
+    DescriptorProto md1 = DescriptorProto()
       ..name = 'M'
       ..field.addAll([
         // optional M m = 1;
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'm'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
           ..typeName = ".p1.M",
       ]);
-    FileDescriptorProto fd1 = new FileDescriptorProto()
+    FileDescriptorProto fd1 = FileDescriptorProto()
       ..package = 'p1'
       ..name = 'package1.proto'
       ..messageType.add(md1);
 
     // Description of package1.proto.
-    DescriptorProto md2 = new DescriptorProto()
+    DescriptorProto md2 = DescriptorProto()
       ..name = 'M'
       ..field.addAll([
         // optional M m = 1;
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'x'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
           ..typeName = ".p2.M",
       ]);
-    FileDescriptorProto fd2 = new FileDescriptorProto()
+    FileDescriptorProto fd2 = FileDescriptorProto()
       ..package = 'p2'
       ..name = 'package2.proto'
       ..messageType.add(md2);
 
     // Description of test.proto.
-    DescriptorProto md = new DescriptorProto()
+    DescriptorProto md = DescriptorProto()
       ..name = 'M'
       ..field.addAll([
         // optional M m = 1;
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'm'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
           ..typeName = ".M",
         // optional p1.M m1 = 2;
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'm1'
           ..number = 2
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
           ..typeName = ".p1.M",
         // optional p2.M m2 = 3;
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'm2'
           ..number = 3
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
           ..typeName = ".p2.M",
       ]);
-    FileDescriptorProto fd = new FileDescriptorProto()
+    FileDescriptorProto fd = FileDescriptorProto()
       ..name = 'test.proto'
       ..messageType.add(md);
     fd.dependency.addAll(['package1.proto', 'package2.proto']);
-    var request = new CodeGeneratorRequest();
-    var response = new CodeGeneratorResponse();
+    var request = CodeGeneratorRequest();
+    var response = CodeGeneratorResponse();
     var options = parseGenerationOptions(request, response);
 
-    FileGenerator fg = new FileGenerator(fd, options);
+    FileGenerator fg = FileGenerator(fd, options);
     link(options,
-        [fg, new FileGenerator(fd1, options), new FileGenerator(fd2, options)]);
+        [fg, FileGenerator(fd1, options), FileGenerator(fd2, options)]);
     expectMatchesGoldenFile(
         fg.generateMainFile().toString(), 'test/goldens/imports.pb');
     expectMatchesGoldenFile(

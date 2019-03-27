@@ -4,9 +4,9 @@ abstract class TestServiceBase extends $pb.GeneratedService {
 
   $pb.GeneratedMessage createRequest($core.String method) {
     switch (method) {
-      case 'AMethod': return new SomeRequest();
-      case 'AnotherMethod': return new $0.EmptyMessage();
-      default: throw new $core.ArgumentError('Unknown method: $method');
+      case 'AMethod': return SomeRequest();
+      case 'AnotherMethod': return $0.EmptyMessage();
+      default: throw $core.ArgumentError('Unknown method: $method');
     }
   }
 
@@ -14,7 +14,7 @@ abstract class TestServiceBase extends $pb.GeneratedService {
     switch (method) {
       case 'AMethod': return this.aMethod(ctx, request);
       case 'AnotherMethod': return this.anotherMethod(ctx, request);
-      default: throw new $core.ArgumentError('Unknown method: $method');
+      default: throw $core.ArgumentError('Unknown method: $method');
     }
   }
 

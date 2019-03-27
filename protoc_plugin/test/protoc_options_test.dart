@@ -12,11 +12,11 @@ import 'package:test/test.dart';
 void main() {
   test('testValidGeneratorOptions', () {
     checkValid(String parameter) {
-      var request = new CodeGeneratorRequest();
+      var request = CodeGeneratorRequest();
       if (parameter != null) request.parameter = parameter;
-      var response = new CodeGeneratorResponse();
+      var response = CodeGeneratorResponse();
       var options = parseGenerationOptions(request, response);
-      expect(options, new TypeMatcher<GenerationOptions>());
+      expect(options, TypeMatcher<GenerationOptions>());
       expect(response.error, '');
     }
 
@@ -29,9 +29,9 @@ void main() {
 
   test('testInvalidGeneratorOptions', () {
     checkInvalid(String parameter) {
-      var request = new CodeGeneratorRequest();
+      var request = CodeGeneratorRequest();
       if (parameter != null) request.parameter = parameter;
-      var response = new CodeGeneratorResponse();
+      var response = CodeGeneratorResponse();
       var options = parseGenerationOptions(request, response);
       expect(options, isNull);
     }

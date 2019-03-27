@@ -60,19 +60,19 @@ class CodeGenerator extends ProtobufContainer {
       {Map<String, SingleOptionParser> optionParsers,
       OutputConfiguration config}) {
     if (config == null) {
-      config = new DefaultOutputConfiguration();
+      config = DefaultOutputConfiguration();
     }
 
-    var extensions = new ExtensionRegistry();
+    var extensions = ExtensionRegistry();
     Dart_options.registerAllExtensions(extensions);
 
     _streamIn
-        .fold(new BytesBuilder(),
+        .fold(BytesBuilder(),
             (BytesBuilder builder, data) => builder..add(data))
         .then((builder) => builder.takeBytes())
         .then((List<int> bytes) {
-      var request = new CodeGeneratorRequest.fromBuffer(bytes, extensions);
-      var response = new CodeGeneratorResponse();
+      var request = CodeGeneratorRequest.fromBuffer(bytes, extensions);
+      var response = CodeGeneratorResponse();
 
       // Parse the options in the request. Return the errors is any.
       var options = parseGenerationOptions(request, response, optionParsers);
@@ -85,7 +85,7 @@ class CodeGenerator extends ProtobufContainer {
       // (We may import it even if we don't generate the .pb.dart file.)
       List<FileGenerator> generators = <FileGenerator>[];
       for (FileDescriptorProto file in request.protoFile) {
-        generators.add(new FileGenerator(file, options));
+        generators.add(FileGenerator(file, options));
       }
 
       // Collect field types and importable files.

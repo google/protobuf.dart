@@ -19,6 +19,7 @@ linter:
     - recursive_getters
     - throw_in_finally
     - unrelated_type_equality_checks
+    - unnecessary_new
     - use_rethrow_when_possible
     - valid_regexps
     - camel_case_types
