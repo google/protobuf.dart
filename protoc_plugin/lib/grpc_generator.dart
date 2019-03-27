@@ -241,8 +241,7 @@ class _GrpcMethod {
   }
 
   void generateServiceMethodRegistration(IndentingWriter out) {
-    out.println(
-        '\$addMethod($_serviceMethod<$_requestType, $_responseType>(');
+    out.println('\$addMethod($_serviceMethod<$_requestType, $_responseType>(');
     out.println('    \'$_grpcName\',');
     out.println('    $_dartName${_clientStreaming ? '' : '_Pre'},');
     out.println('    $_clientStreaming,');

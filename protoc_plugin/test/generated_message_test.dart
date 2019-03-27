@@ -151,8 +151,7 @@ void main() {
     TestAllTypes message = TestAllTypes();
 
     expect(() {
-      message.repeatedForeignMessage
-          .addAll([ForeignMessage()..c = 12, null]);
+      message.repeatedForeignMessage.addAll([ForeignMessage()..c = 12, null]);
     }, throwsArgumentError);
 
     expect(() {
@@ -222,8 +221,7 @@ void main() {
   // void testReflectionDefaults() {} // UNSUPPORTED -- until reflection
 
   test('testEnumInterface', () {
-    expect(
-        TestAllTypes().defaultNestedEnum, TypeMatcher<ProtobufEnum>());
+    expect(TestAllTypes().defaultNestedEnum, TypeMatcher<ProtobufEnum>());
   });
 
   test('testEnumMap', () {
@@ -278,8 +276,7 @@ void main() {
     expect(TestOptionalOptimizedForSize().isInitialized(), isTrue);
 
     expect(
-        (TestOptionalOptimizedForSize()
-              ..o = TestRequiredOptimizedForSize())
+        (TestOptionalOptimizedForSize()..o = TestRequiredOptimizedForSize())
             .isInitialized(),
         isFalse);
 
@@ -313,8 +310,7 @@ void main() {
     TestAllTypes message = getAllSet();
     message.optionalBytes = blob;
 
-    TestAllTypes message2 =
-        TestAllTypes.fromBuffer(message.writeToBuffer());
+    TestAllTypes message2 = TestAllTypes.fromBuffer(message.writeToBuffer());
     expect(message2.optionalBytes, message.optionalBytes);
   });
 

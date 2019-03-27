@@ -85,8 +85,7 @@ void main() {
   test('testBase64Decode', () {
     optionalBytes(from, to) {
       String json = TEST_ALL_TYPES_JSON.replaceAll(from, to);
-      return String.fromCharCodes(
-          TestAllTypes.fromJson(json).optionalBytes);
+      return String.fromCharCodes(TestAllTypes.fromJson(json).optionalBytes);
     }
 
     expect(optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'), 'Hello, world');

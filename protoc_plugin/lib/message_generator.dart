@@ -113,8 +113,7 @@ class MessageGenerator extends ProtobufContainer {
             List.generate(descriptor.oneofDecl.length, (int index) => []) {
     for (var i = 0; i < _descriptor.enumType.length; i++) {
       EnumDescriptorProto e = _descriptor.enumType[i];
-      _enumGenerators
-          .add(EnumGenerator.nested(e, this, _usedTopLevelNames, i));
+      _enumGenerators.add(EnumGenerator.nested(e, this, _usedTopLevelNames, i));
     }
 
     for (var i = 0; i < _descriptor.nestedType.length; i++) {

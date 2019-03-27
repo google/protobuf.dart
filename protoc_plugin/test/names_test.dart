@@ -219,8 +219,7 @@ FieldDescriptorProto stringField(String name, int number, String dartName) {
     ..number = number
     ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
     ..type = FieldDescriptorProto_Type.TYPE_STRING
-    ..options =
-        (FieldOptions()..setExtension(Dart_options.dartName, dartName));
+    ..options = (FieldOptions()..setExtension(Dart_options.dartName, dartName));
 }
 
 FieldDescriptorProto stringFieldOneof(String name, int number, int oneofIndex) {

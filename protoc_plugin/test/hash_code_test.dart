@@ -54,10 +54,8 @@ void main() {
   });
 
   test('testHashCodeOptionalEnum', () {
-    var m1 = TestAllTypes()
-      ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
-    var m2 = TestAllTypes()
-      ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
+    var m1 = TestAllTypes()..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
+    var m2 = TestAllTypes()..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
     expect(m1.hashCode, m2.hashCode);
 
     m1.optionalNestedEnum = TestAllTypes_NestedEnum.BAZ;

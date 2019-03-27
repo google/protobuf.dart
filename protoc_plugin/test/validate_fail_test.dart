@@ -171,8 +171,7 @@ void main() {
     }, throwsArgumentError);
 
     expect(() {
-      TestAllExtensions()
-          .setExtension(Unittest.optionalInt32Extension, '101');
+      TestAllExtensions().setExtension(Unittest.optionalInt32Extension, '101');
     }, throwsArgumentError);
   });
 }

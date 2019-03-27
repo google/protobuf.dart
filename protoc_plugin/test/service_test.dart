@@ -91,8 +91,7 @@ void main() {
   });
 
   test('can read service descriptor from JSON', () {
-    var descriptor = ServiceDescriptorProto()
-      ..mergeFromJsonMap(service.$json);
+    var descriptor = ServiceDescriptorProto()..mergeFromJsonMap(service.$json);
     expect(descriptor.name, "SearchService");
     var methodNames = descriptor.method.map((m) => m.name).toList();
     expect(methodNames, ["Search", "Search2"]);

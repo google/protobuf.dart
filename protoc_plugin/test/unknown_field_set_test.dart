@@ -15,8 +15,7 @@ import 'test_util.dart';
 void main() {
   TestAllTypes testAllTypes = getAllSet();
   List<int> allFieldsData = testAllTypes.writeToBuffer();
-  TestEmptyMessage emptyMessage =
-      TestEmptyMessage.fromBuffer(allFieldsData);
+  TestEmptyMessage emptyMessage = TestEmptyMessage.fromBuffer(allFieldsData);
   UnknownFieldSet unknownFields = emptyMessage.unknownFields;
 
   UnknownFieldSetField getField(String name) {
@@ -166,8 +165,7 @@ void main() {
     UnknownFieldSetField varintField = UnknownFieldSetField()
       ..addVarint(make64(1));
 
-    UnknownFieldSetField fixed32Field = UnknownFieldSetField()
-      ..addFixed32(1);
+    UnknownFieldSetField fixed32Field = UnknownFieldSetField()..addFixed32(1);
 
     unknownFields.asMap().forEach((int tag, UnknownFieldSetField value) {
       if (value.varints.isEmpty) {
@@ -188,8 +186,7 @@ void main() {
     // when parsing.
     List<int> bizarroData = getBizarroData();
     TestAllTypes allTypesMessage = TestAllTypes.fromBuffer(bizarroData);
-    TestEmptyMessage emptyMessage_ =
-        TestEmptyMessage.fromBuffer(bizarroData);
+    TestEmptyMessage emptyMessage_ = TestEmptyMessage.fromBuffer(bizarroData);
     // All fields should have been interpreted as unknown, so the debug strings
     // should be the same.
     expect(allTypesMessage.toString(), emptyMessage_.toString());
@@ -212,8 +209,7 @@ void main() {
     List<int> bizarroData = getBizarroData();
     TestAllExtensions allExtensionsMessage =
         TestAllExtensions.fromBuffer(bizarroData);
-    TestEmptyMessage emptyMessage_ =
-        TestEmptyMessage.fromBuffer(bizarroData);
+    TestEmptyMessage emptyMessage_ = TestEmptyMessage.fromBuffer(bizarroData);
 
     // All fields should have been interpreted as unknown, so the debug strings
     // should be the same.
@@ -280,9 +276,7 @@ void main() {
   test('testLargeVarint', () {
     UnknownFieldSet unknownFieldSet = UnknownFieldSet()
       ..addField(
-          1,
-          UnknownFieldSetField()
-            ..addVarint(make64(0x7FFFFFFF, 0xFFFFFFFF)));
+          1, UnknownFieldSetField()..addVarint(make64(0x7FFFFFFF, 0xFFFFFFFF)));
     CodedBufferWriter writer = CodedBufferWriter();
     unknownFieldSet.writeToCodedBufferWriter(writer);
 

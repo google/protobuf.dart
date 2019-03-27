@@ -33,10 +33,9 @@ void main() {
     expect(any.typeUrl, 'type.googleapis.com/google.protobuf.Any');
     expect(any.canUnpackInto(Any.getDefault()), true);
     expect(any.canUnpackInto(SearchRequest.getDefault()), false);
-    expect(any.unpackInto(Any()).canUnpackInto(SearchRequest.getDefault()),
-        true);
-    expect(any.unpackInto(Any()).unpackInto(SearchRequest()).query,
-        'hest');
+    expect(
+        any.unpackInto(Any()).canUnpackInto(SearchRequest.getDefault()), true);
+    expect(any.unpackInto(Any()).unpackInto(SearchRequest()).query, 'hest');
   });
 
   test('toplevel', () {
@@ -65,17 +64,13 @@ void main() {
       ..anyValue = any
       ..repeatedAnyValue.addAll(<Any>[any1, any2]);
     TestAny testAnyFromBuffer = TestAny.fromBuffer(testAny.writeToBuffer());
-    expect(testAnyFromBuffer.anyValue.unpackInto(SearchRequest()).query,
-        'hest');
     expect(
-        testAnyFromBuffer.repeatedAnyValue[0]
-            .unpackInto(SearchRequest())
-            .query,
+        testAnyFromBuffer.anyValue.unpackInto(SearchRequest()).query, 'hest');
+    expect(
+        testAnyFromBuffer.repeatedAnyValue[0].unpackInto(SearchRequest()).query,
         'hest1');
     expect(
-        testAnyFromBuffer.repeatedAnyValue[1]
-            .unpackInto(SearchRequest())
-            .query,
+        testAnyFromBuffer.repeatedAnyValue[1].unpackInto(SearchRequest()).query,
         'hest2');
   });
 }

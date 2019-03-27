@@ -74,8 +74,8 @@ void main() {
   test('FileGenerator outputs a .pb.dart file for a proto with one message',
       () {
     FileDescriptorProto fd = buildFileDescriptor();
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
     FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
@@ -98,8 +98,8 @@ void main() {
   test('FileGenerator outputs a pbjson.dart file for a proto with one message',
       () {
     FileDescriptorProto fd = buildFileDescriptor();
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
     FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
@@ -109,8 +109,8 @@ void main() {
   test('FileGenerator generates files for a top-level enum', () {
     FileDescriptorProto fd =
         buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
     FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -138,8 +138,8 @@ void main() {
   test('FileGenerator generates a .pbjson.dart file for a top-level enum', () {
     FileDescriptorProto fd =
         buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
     FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -150,8 +150,8 @@ void main() {
   test('FileGenerator outputs library for a .proto in a package', () {
     FileDescriptorProto fd = buildFileDescriptor();
     fd.package = "pb_library";
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
     FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -174,8 +174,8 @@ void main() {
             ..type = FieldDescriptorProto_Type.TYPE_INT64
         ]));
 
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
     FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -201,8 +201,8 @@ void main() {
       ..messageType.add(empty)
       ..service.add(sd);
 
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
     FileGenerator fg = FileGenerator(fd, options);
     link(options, [fg]);

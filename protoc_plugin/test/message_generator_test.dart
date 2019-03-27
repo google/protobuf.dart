@@ -57,8 +57,8 @@ void main() {
           ..defaultValue = r'$'
       ])
       ..enumType.add(ed);
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
     FileGenerator fg = FileGenerator(fd, options);
     MessageGenerator mg =

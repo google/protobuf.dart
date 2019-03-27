@@ -14,8 +14,7 @@ import 'test_util.dart';
 
 void main() {
   test('testSerialization', () {
-    assertAllFieldsSet(
-        TestAllTypes.fromBuffer(getAllSet().writeToBuffer()));
+    assertAllFieldsSet(TestAllTypes.fromBuffer(getAllSet().writeToBuffer()));
   });
 
   test('testSerializationPacked', () {
@@ -40,8 +39,7 @@ void main() {
     List<int> rawBytes = getAllSet().writeToBuffer();
     ExtensionRegistry registry = getExtensionRegistry();
 
-    assertAllExtensionsSet(
-        TestAllExtensions.fromBuffer(rawBytes, registry));
+    assertAllExtensionsSet(TestAllExtensions.fromBuffer(rawBytes, registry));
   });
 
   test('testParsePackedExtensions', () {
