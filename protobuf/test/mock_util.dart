@@ -9,7 +9,7 @@ import 'package:protobuf/protobuf.dart'
     show GeneratedMessage, BuilderInfo, CreateBuilderFunc, PbFieldType;
 
 BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
-  return new BuilderInfo(className)
+  return BuilderInfo(className)
     ..a(1, "val", PbFieldType.O3, 42)
     ..a(2, "str", PbFieldType.OS)
     ..a(3, "child", PbFieldType.OM, create, create)
@@ -33,7 +33,7 @@ abstract class MockMessage extends GeneratedMessage {
 
   List<int> get int32s => $_getList(3);
 
-  Int64 get int64 => $_get(4, new Int64(0));
+  Int64 get int64 => $_get(4, Int64(0));
   set int64(x) => setField(5, x);
 
   clone() {
@@ -44,6 +44,6 @@ abstract class MockMessage extends GeneratedMessage {
 
 class T extends MockMessage {
   get info_ => _info;
-  static final _info = mockInfo("T", () => new T());
-  T createEmptyInstance() => new T();
+  static final _info = mockInfo("T", () => T());
+  T createEmptyInstance() => T();
 }

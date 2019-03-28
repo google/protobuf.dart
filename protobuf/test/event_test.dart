@@ -17,16 +17,16 @@ import 'mock_util.dart' show MockMessage, mockInfo;
 
 class Rec extends MockMessage with PbEventMixin {
   get info_ => _info;
-  static final _info = mockInfo("Rec", () => new Rec());
-  Rec createEmptyInstance() => new Rec();
+  static final _info = mockInfo("Rec", () => Rec());
+  Rec createEmptyInstance() => Rec();
 }
 
-Extension comment = new Extension("Rec", "comment", 6, PbFieldType.OS);
+Extension comment = Extension("Rec", "comment", 6, PbFieldType.OS);
 
 main() {
   test('Events are sent when setting and clearing a non-repeated field', () {
     var log = makeLog();
-    var r = new Rec();
+    var r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       log.add(changes);
     });
@@ -54,7 +54,7 @@ main() {
 
   test('Events are sent when creating and clearing a repeated field', () {
     var log = makeLog();
-    var r = new Rec();
+    var r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       log.add(changes);
     });
@@ -82,10 +82,10 @@ main() {
 
   test('Events are sent when clearing multiple fields', () {
     var log = makeLog();
-    var r = new Rec()
+    var r = Rec()
       ..val = 123
       ..str = "hello"
-      ..child = new Rec()
+      ..child = Rec()
       ..int32s.add(456);
 
     r.changes.listen((List<PbFieldChange> changes) {
@@ -112,13 +112,13 @@ main() {
 
   test('Events are sent when merging from another protobuf', () {
     var log = makeLog();
-    var src = new Rec()
+    var src = Rec()
       ..val = 123
       ..str = "hello"
-      ..child = new Rec()
+      ..child = Rec()
       ..int32s.add(456);
 
-    var dest = new Rec();
+    var dest = Rec();
     dest.changes.listen((List<PbFieldChange> changes) {
       checkHasAllFields(dest, true);
       log.add(changes);
@@ -142,7 +142,7 @@ main() {
 
   test('Events are sent when merging JSON', () {
     var log = makeLog();
-    var r = new Rec();
+    var r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       // verify that we are not called until all fields are set
       checkHasAllFields(r, true);
@@ -169,14 +169,14 @@ main() {
   test('Events are sent when merging binary', () {
     var log = makeLog();
 
-    Uint8List bytes = (new Rec()
+    Uint8List bytes = (Rec()
           ..val = 123
           ..str = "hello"
-          ..child = new Rec()
+          ..child = Rec()
           ..int32s.add(456))
         .writeToBuffer();
 
-    var r = new Rec();
+    var r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       // verify that we are not called until all fields are set
       checkHasAllFields(r, true);
@@ -202,7 +202,7 @@ main() {
 
   test('Events are sent for extensions', () {
     var log = makeLog();
-    var r = new Rec();
+    var r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       log.add(changes);
     });
@@ -240,14 +240,14 @@ main() {
     r.deliverChanges();
     checkLogOnce(log, [tag, "hello", ""]);
 
-    var registry = new ExtensionRegistry()..add(comment);
+    var registry = ExtensionRegistry()..add(comment);
     r.mergeFromJson('{"$tag": "hello"}', registry);
     expect(r.getExtension(comment), "hello");
     r.deliverChanges();
     checkLogOnce(log, [tag, "", "hello"]);
     clear("hello");
 
-    var src = new Rec()..setExtension(comment, "hello");
+    var src = Rec()..setExtension(comment, "hello");
     r.mergeFromMessage(src);
     expect(r.getExtension(comment), "hello");
     r.deliverChanges();

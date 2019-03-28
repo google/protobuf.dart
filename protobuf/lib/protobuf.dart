@@ -40,7 +40,7 @@ part 'src/protobuf/unpack.dart';
 part 'src/protobuf/wire_format.dart';
 
 // TODO(sra): Remove this method when clients upgrade to protoc 0.3.5
-Int64 makeLongInt(int n) => new Int64(n);
+Int64 makeLongInt(int n) => Int64(n);
 
 // TODO(sra): Use Int64.parse() when available - see http://dartbug.com/21915.
 Int64 parseLongInt(String text) {
@@ -50,4 +50,4 @@ Int64 parseLongInt(String text) {
   return Int64.parseInt(text);
 }
 
-const _utf8 = const Utf8Codec(allowMalformed: true);
+const _utf8 = Utf8Codec(allowMalformed: true);

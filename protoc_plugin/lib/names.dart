@@ -449,7 +449,7 @@ final List<String> forbiddenExtensionNames = <String>[]
 
 // List of Dart language reserved words in names which cannot be used in a
 // subclass of GeneratedMessage.
-const List<String> _dartReservedWords = const [
+const List<String> _dartReservedWords = [
   'assert',
   'bool',
   'break',
@@ -492,7 +492,7 @@ const List<String> _dartReservedWords = const [
 //
 // This is in addition to GeneratedMessage_reservedNames, which are names from
 // the base GeneratedMessage class determined by reflection.
-const _generatedMessageNames = const <String>[
+const _generatedMessageNames = <String>[
   'create',
   'createRepeated',
   'getDefault',
@@ -504,7 +504,7 @@ const _generatedMessageNames = const <String>[
 //
 // This is in addition to ProtobufEnum_reservedNames, which are names from the
 // base ProtobufEnum class determined by reflection.
-const _protobufEnumNames = const <String>[
+const _protobufEnumNames = <String>[
   'List',
   'valueOf',
   'values',

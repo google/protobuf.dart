@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 
 Int64 make64(int lo, [int hi]) {
   if (hi == null) hi = lo < 0 ? -1 : 0;
-  return new Int64.fromInts(hi, lo);
+  return Int64.fromInts(hi, lo);
 }
 
 expect64(int lo, [int hi]) {

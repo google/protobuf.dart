@@ -22,7 +22,7 @@ void unpackIntoHelper<T extends GeneratedMessage>(
   //   name "y.z".
   if (!canUnpackIntoHelper(instance, typeUrl)) {
     String typeName = instance.info_.qualifiedMessageName;
-    throw new InvalidProtocolBufferException.wrongAnyMessage(
+    throw InvalidProtocolBufferException.wrongAnyMessage(
         _typeNameFromUrl(typeUrl), typeName);
   }
   instance.mergeFromBuffer(value, extensionRegistry);

@@ -24,7 +24,7 @@ import '../generated/benchmark.pb.dart' as pb;
 Benchmark createBenchmark(pb.Request r) {
   var type = allBenchmarks[r.id];
   if (type == null) {
-    throw new ArgumentError("unknown benchmark: ${r.id.name}");
+    throw ArgumentError("unknown benchmark: ${r.id.name}");
   }
   return type.create(r);
 }
@@ -49,5 +49,5 @@ Map<pb.BenchmarkID, BenchmarkType> _makeTypeMap(List<BenchmarkType> types) {
     }
     out[type.id] = type;
   }
-  return new Map.unmodifiable(out);
+  return Map.unmodifiable(out);
 }

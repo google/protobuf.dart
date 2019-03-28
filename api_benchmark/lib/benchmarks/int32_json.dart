@@ -22,7 +22,7 @@ class Int32Benchmark extends Benchmark {
   get summary => "${id.name}($width x $height int32s)";
 
   @override
-  Params makeParams() => new Params()
+  Params makeParams() => Params()
     ..int32FieldCount = width
     ..messageCount = height;
 
@@ -30,7 +30,7 @@ class Int32Benchmark extends Benchmark {
   void setup() {
     var grid = _makeGrid(width, height);
     json = grid.writeToJson();
-    lastFieldTag = getTagForColumn(new pb.Line10(), width - 1);
+    lastFieldTag = getTagForColumn(pb.Line10(), width - 1);
   }
 
   // makes a rectangle of the of the form:
@@ -38,11 +38,11 @@ class Int32Benchmark extends Benchmark {
   // 1 2 3 4
   // 2 3 4 5
   static pb.Grid10 _makeGrid(int width, int height) {
-    if (width > 10) throw new ArgumentError("width out of range: ${width}");
-    var grid = new pb.Grid10();
+    if (width > 10) throw ArgumentError("width out of range: ${width}");
+    var grid = pb.Grid10();
 
     for (int y = 0; y < height; y++) {
-      var line = new pb.Line10();
+      var line = pb.Line10();
       for (int x = 0; x < width; x++) {
         int tag = getTagForColumn(line, x);
         line.setField(tag, x + y);
@@ -59,7 +59,7 @@ class Int32Benchmark extends Benchmark {
 
   @override
   void run() {
-    pb.Grid10 grid = new pb.Grid10.fromJson(json);
+    pb.Grid10 grid = pb.Grid10.fromJson(json);
     var actual = grid.lines[height - 1].getField(lastFieldTag);
     if (actual != width + height - 2) throw "failed; got ${actual}";
   }
@@ -76,11 +76,11 @@ class Int32Benchmark extends Benchmark {
   get measureSampleUnits => "int32 reads/ms";
 
   static const $id = BenchmarkID.READ_INT32_FIELDS_JSON;
-  static final $type = new BenchmarkType($id, $create);
+  static final $type = BenchmarkType($id, $create);
 
   static Int32Benchmark $create(Request r) {
     assert(r.params.hasInt32FieldCount());
     assert(r.params.hasMessageCount());
-    return new Int32Benchmark(r.params.int32FieldCount, r.params.messageCount);
+    return Int32Benchmark(r.params.int32FieldCount, r.params.messageCount);
   }
 }

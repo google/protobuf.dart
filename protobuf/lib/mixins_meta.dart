@@ -48,7 +48,7 @@ class PbMixin {
 
   /// Returns all the reserved names, including from ancestor mixins.
   Iterable<String> findReservedNames() {
-    var names = new Set<String>();
+    var names = Set<String>();
     for (var m = this; m != null; m = m.parent) {
       names.add(m.name);
       if (m.reservedNames != null) {
@@ -62,15 +62,15 @@ class PbMixin {
 /// The mixins that findMixin() can return.
 final _exportedMixins = [_pbMapMixin, _pbEventMixin];
 
-const _pbMapMixin = const PbMixin("PbMapMixin",
+const _pbMapMixin = PbMixin("PbMapMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/map_mixin.dart",
     parent: _mapMixin);
 
-const _pbEventMixin = const PbMixin("PbEventMixin",
+const _pbEventMixin = PbMixin("PbEventMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/event_mixin.dart",
-    reservedNames: const ["changes", "deliverChanges"]);
+    reservedNames: ["changes", "deliverChanges"]);
 
-const List<String> _reservedNamesForMap = const [
+const List<String> _reservedNamesForMap = [
   '[]',
   '[]=',
   'addAll',
@@ -94,5 +94,5 @@ const List<String> _reservedNamesForMap = const [
   'values',
 ];
 
-const _mapMixin = const PbMixin("MapMixin",
+const _mapMixin = PbMixin("MapMixin",
     importFrom: "dart:collection", reservedNames: _reservedNamesForMap);

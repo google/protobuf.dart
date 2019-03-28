@@ -45,13 +45,13 @@ class Dataset {
   /// Create [Dataset] from a [BenchmarkDataset] proto.
   factory Dataset.fromBinary(List<int> binary) {
     final dataSet =
-        new BenchmarkDataset.fromBuffer(binary); // ignore: undefined_class
+        BenchmarkDataset.fromBuffer(binary); // ignore: undefined_class
 
     final factories = Factories.forMessage(dataSet.messageName);
-    final ds = new Dataset._(dataSet.name, factories);
+    final ds = Dataset._(dataSet.name, factories);
 
     for (var payload in dataSet.payload) {
-      final bytes = new Uint8List.fromList(payload);
+      final bytes = Uint8List.fromList(payload);
       final msg = factories.fromBuffer(bytes);
       ds.packed.add(bytes);
       ds.unpacked.add(msg);
@@ -77,23 +77,21 @@ class Factories {
   /// Mapping between [BenchmarkProto.messageName] and corresponding
   /// deserialization factories.
   static final _factories = {
-    "benchmarks.proto2.GoogleMessage1": new Factories._(
-        fromBuffer: (List<int> binary) =>
-            new p2.GoogleMessage1.fromBuffer(binary),
-        fromJson: (String json) => new p2.GoogleMessage1.fromJson(json)),
-    "benchmarks.proto3.GoogleMessage1": new Factories._(
-        fromBuffer: (List<int> binary) =>
-            new p3.GoogleMessage1.fromBuffer(binary),
-        fromJson: (String json) => new p3.GoogleMessage1.fromJson(json)),
-    "benchmarks.proto2.GoogleMessage2": new Factories._(
-        fromBuffer: (List<int> binary) => new GoogleMessage2.fromBuffer(binary),
-        fromJson: (String json) => new GoogleMessage2.fromJson(json)),
-    "benchmarks.google_message3.GoogleMessage3": new Factories._(
-        fromBuffer: (List<int> binary) => new GoogleMessage3.fromBuffer(binary),
-        fromJson: (String json) => new GoogleMessage3.fromJson(json)),
-    "benchmarks.google_message4.GoogleMessage4": new Factories._(
-        fromBuffer: (List<int> binary) => new GoogleMessage4.fromBuffer(binary),
-        fromJson: (String json) => new GoogleMessage4.fromJson(json)),
+    "benchmarks.proto2.GoogleMessage1": Factories._(
+        fromBuffer: (List<int> binary) => p2.GoogleMessage1.fromBuffer(binary),
+        fromJson: (String json) => p2.GoogleMessage1.fromJson(json)),
+    "benchmarks.proto3.GoogleMessage1": Factories._(
+        fromBuffer: (List<int> binary) => p3.GoogleMessage1.fromBuffer(binary),
+        fromJson: (String json) => p3.GoogleMessage1.fromJson(json)),
+    "benchmarks.proto2.GoogleMessage2": Factories._(
+        fromBuffer: (List<int> binary) => GoogleMessage2.fromBuffer(binary),
+        fromJson: (String json) => GoogleMessage2.fromJson(json)),
+    "benchmarks.google_message3.GoogleMessage3": Factories._(
+        fromBuffer: (List<int> binary) => GoogleMessage3.fromBuffer(binary),
+        fromJson: (String json) => GoogleMessage3.fromJson(json)),
+    "benchmarks.google_message4.GoogleMessage4": Factories._(
+        fromBuffer: (List<int> binary) => GoogleMessage4.fromBuffer(binary),
+        fromJson: (String json) => GoogleMessage4.fromJson(json)),
   };
 
   Factories._({this.fromBuffer, this.fromJson});

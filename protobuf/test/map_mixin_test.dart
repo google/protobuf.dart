@@ -17,8 +17,8 @@ import 'mock_util.dart' show MockMessage, mockInfo;
 // A minimal protobuf implementation compatible with PbMapMixin.
 class Rec extends MockMessage with MapMixin, PbMapMixin {
   get info_ => _info;
-  static final _info = mockInfo("Rec", () => new Rec());
-  Rec createEmptyInstance() => new Rec();
+  static final _info = mockInfo("Rec", () => Rec());
+  Rec createEmptyInstance() => Rec();
 
   @override
   String toString() => "Rec(${val}, \"${str}\")";
@@ -26,7 +26,7 @@ class Rec extends MockMessage with MapMixin, PbMapMixin {
 
 main() {
   test('PbMapMixin methods return default field values', () {
-    var r = new Rec();
+    var r = Rec();
 
     expect(r.isEmpty, false);
     expect(r.isNotEmpty, true);
@@ -47,7 +47,7 @@ main() {
   });
 
   test('operator []= sets record fields', () {
-    var r = new Rec();
+    var r = Rec();
 
     r["val"] = 123;
     expect(r.val, 123);
@@ -57,7 +57,7 @@ main() {
     expect(r.str, "hello");
     expect(r["str"], "hello");
 
-    var child = new Rec();
+    var child = Rec();
     r["child"] = child;
     expect(r.child, same(child));
     expect(r["child"], same(child));
@@ -69,12 +69,12 @@ main() {
   });
 
   test('operator== and hashCode work for Map mixin', () {
-    var a = new Rec();
+    var a = Rec();
     expect(a == a, true);
     expect(a == {}, false);
     expect({} == a, false);
 
-    var b = new Rec();
+    var b = Rec();
     expect(a.info_ == b.info_, true, reason: "BuilderInfo should be the same");
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);
@@ -85,24 +85,24 @@ main() {
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);
 
-    a.child = new Rec();
+    a.child = Rec();
     expect(a == b, false);
-    b.child = new Rec();
+    b.child = Rec();
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);
   });
 
   test("protobuf doesn't compare equal to a map with the same values", () {
-    var a = new Rec();
-    expect(a == new Map.from(a), false);
-    expect(new Map.from(a) == a, false);
+    var a = Rec();
+    expect(a == Map.from(a), false);
+    expect(Map.from(a) == a, false);
   });
 
   test("reading protobuf values shouldn't change equality", () {
-    var a = new Rec();
-    var b = new Rec();
+    var a = Rec();
+    var b = Rec();
     expect(a == b, true);
-    new Map.from(a);
+    Map.from(a);
     expect(a == b, true);
   });
 }

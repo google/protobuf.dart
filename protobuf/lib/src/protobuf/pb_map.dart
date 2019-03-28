@@ -15,7 +15,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   final BuilderInfo _entryBuilderInfo;
 
   bool _isReadonly = false;
-  _FieldSet _entryFieldSet() => new _FieldSet(null, _entryBuilderInfo, null);
+  _FieldSet _entryFieldSet() => _FieldSet(null, _entryBuilderInfo, null);
 
   PbMap(this.keyFieldType, this.valueFieldType, this._entryBuilderInfo)
       : _wrappedMap = <K, V>{};
@@ -33,7 +33,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   @override
   void operator []=(K key, V value) {
     if (_isReadonly)
-      throw new UnsupportedError('Attempted to change a read-only map field');
+      throw UnsupportedError('Attempted to change a read-only map field');
     _checkNotNull(key);
     _checkNotNull(value);
     _wrappedMap[key] = value;
@@ -42,7 +42,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   @override
   void clear() {
     if (_isReadonly)
-      throw new UnsupportedError('Attempted to change a read-only map field');
+      throw UnsupportedError('Attempted to change a read-only map field');
     _wrappedMap.clear();
   }
 
@@ -52,7 +52,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   @override
   V remove(Object key) {
     if (_isReadonly)
-      throw new UnsupportedError('Attempted to change a read-only map field');
+      throw UnsupportedError('Attempted to change a read-only map field');
     return _wrappedMap.remove(key);
   }
 
@@ -77,7 +77,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   void _checkNotNull(Object val) {
     if (val == null) {
-      throw new ArgumentError("Can't add a null to a map field");
+      throw ArgumentError("Can't add a null to a map field");
     }
   }
 

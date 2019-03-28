@@ -19,14 +19,14 @@ class DashboardModel {
 
   DashboardModel withBaseline(String name) {
     var nextTable = table.withBaseline(name, savedReports[name]);
-    return new DashboardModel(savedReports, nextTable, latest);
+    return DashboardModel(savedReports, nextTable, latest);
   }
 
   DashboardModel withReport(pb.Report right) =>
-      new DashboardModel(savedReports, table, right);
+      DashboardModel(savedReports, table, right);
 
   DashboardModel withTable(Table table) =>
-      new DashboardModel(savedReports, table, latest);
+      DashboardModel(savedReports, table, latest);
 
   /// Returns true if the Run button should be enabled.
   bool get canRun => !latest.hasStatus() || latest.status != pb.Status.RUNNING;
@@ -40,8 +40,8 @@ class Table {
   final Set<pb.Request> selections;
   final rows = <Row>[];
 
-  factory Table(pb.Suite suite) => new Table._raw(
-      suite, null, null, new Set<pb.Request>.from(suite.requests));
+  factory Table(pb.Suite suite) =>
+      Table._raw(suite, null, null, Set<pb.Request>.from(suite.requests));
 
   Table._raw(this.suite, this.baseline, this.report, this.selections) {
     Iterator it = report == null ? [].iterator : report.responses.iterator;
@@ -52,30 +52,30 @@ class Table {
         b.checkRequest(it.current.request);
         baseline = b.medianSample(it.current);
       }
-      rows.add(new Row(r, b, baseline, selected: this.selections.contains(r)));
+      rows.add(Row(r, b, baseline, selected: this.selections.contains(r)));
     }
   }
 
   Table withBaseline(String baseline, pb.Report report) =>
-      new Table._raw(suite, baseline, report, selections);
+      Table._raw(suite, baseline, report, selections);
 
   Table withAllSelected() {
-    return new Table._raw(
-        suite, baseline, report, new Set<pb.Request>.from(suite.requests));
+    return Table._raw(
+        suite, baseline, report, Set<pb.Request>.from(suite.requests));
   }
 
   Table withNoneSelected() {
-    return new Table._raw(suite, baseline, report, new Set<pb.Request>());
+    return Table._raw(suite, baseline, report, Set<pb.Request>());
   }
 
   Table withSelection(pb.Request request, bool selected) {
-    var s = new Set<pb.Request>.from(selections);
+    var s = Set<pb.Request>.from(selections);
     if (selected) {
       s.add(request);
     } else {
       s.remove(request);
     }
-    return new Table._raw(suite, baseline, report, s);
+    return Table._raw(suite, baseline, report, s);
   }
 }
 

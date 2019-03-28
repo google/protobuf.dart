@@ -33,7 +33,7 @@ abstract class Benchmark {
   pb.Request makeRequest(
           [Duration duration = const Duration(milliseconds: 50),
           int samples = 20]) =>
-      new pb.Request()
+      pb.Request()
         ..id = id
         ..params = makeParams()
         ..duration = duration.inMilliseconds
@@ -72,10 +72,10 @@ abstract class Benchmark {
 
   void checkRequest(pb.Request r) {
     if (r.id != id) {
-      throw new ArgumentError("invalid benchmark id: ${r.id}");
+      throw ArgumentError("invalid benchmark id: ${r.id}");
     }
     if (r.params != makeParams()) {
-      throw new ArgumentError("parameters don't match: ${r.params}");
+      throw ArgumentError("parameters don't match: ${r.params}");
     }
   }
 
@@ -171,15 +171,15 @@ abstract class Benchmark {
     int minimumMicros = minimumMillis * 1000;
     int reps = 0;
     int elapsed = 0;
-    Stopwatch watch = new Stopwatch()..start();
+    Stopwatch watch = Stopwatch()..start();
     while (elapsed < minimumMicros) {
       reps += runner();
       elapsed = watch.elapsedMicroseconds;
     }
-    return new pb.Sample()
+    return pb.Sample()
       ..duration = elapsed
       ..loopCount = reps
-      ..counts = new pb.Counts();
+      ..counts = pb.Counts();
   }
 }
 

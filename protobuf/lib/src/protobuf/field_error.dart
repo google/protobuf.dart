@@ -68,7 +68,7 @@ String _getFieldError(int fieldType, var value) {
 
 // generated checkItem for message, group, enum calls this
 void checkItemFailed(val, String className) {
-  throw new ArgumentError('Value ($val) is not an instance of ${className}');
+  throw ArgumentError('Value ($val) is not an instance of ${className}');
 }
 
 /// Returns a function for validating items in a repeated field.
@@ -107,14 +107,14 @@ CheckFunc getCheckFunction(int fieldType) {
     case PbFieldType._FIXED32_BIT:
       return _checkUnsigned32;
   }
-  throw new ArgumentError('check function not implemented: ${fieldType}');
+  throw ArgumentError('check function not implemented: ${fieldType}');
 }
 
 // check functions for repeated fields
 
 void _checkNotNull(Object val) {
   if (val == null) {
-    throw new ArgumentError("Can't add a null to a repeated field");
+    throw ArgumentError("Can't add a null to a repeated field");
   }
 }
 
@@ -133,7 +133,7 @@ void _checkUnsigned32(Object val) {
 }
 
 RangeError _createFieldRangeError(val, String wantedType) =>
-    new RangeError('Value ($val) is not ${wantedType}');
+    RangeError('Value ($val) is not ${wantedType}');
 
 bool _isSigned32(int value) => (-2147483648 <= value) && (value <= 2147483647);
 
