@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: uri_has_not_been_generated,undefined_class
+// ignore_for_file: uri_has_not_been_generated,undefined_identifier
 
 /// Common platform independent benchmark infrastructure that can run
 /// both on the VM and when compiled to JavaScript.
@@ -45,7 +45,7 @@ class Dataset {
   /// Create [Dataset] from a [BenchmarkDataset] proto.
   factory Dataset.fromBinary(List<int> binary) {
     final dataSet =
-        BenchmarkDataset.fromBuffer(binary); // ignore: undefined_class
+        BenchmarkDataset.fromBuffer(binary);
 
     final factories = Factories.forMessage(dataSet.messageName);
     final ds = Dataset._(dataSet.name, factories);
