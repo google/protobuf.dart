@@ -17,8 +17,8 @@ class NamedLocation {
 
 /// A buffer for writing indented source code.
 class IndentingWriter {
-  final StringBuffer _buffer = new StringBuffer();
-  final GeneratedCodeInfo sourceLocationInfo = new GeneratedCodeInfo();
+  final StringBuffer _buffer = StringBuffer();
+  final GeneratedCodeInfo sourceLocationInfo = GeneratedCodeInfo();
   String _indent = "";
   bool _needIndent = true;
   // After writing any chunk, _previousOffset is the size of everything that was
@@ -127,7 +127,7 @@ class IndentingWriter {
     if (_sourceFile == null) {
       return;
     }
-    var annotation = new GeneratedCodeInfo_Annotation()
+    var annotation = GeneratedCodeInfo_Annotation()
       ..path.addAll(fieldPath)
       ..sourceFile = _sourceFile
       ..begin = _previousOffset + start

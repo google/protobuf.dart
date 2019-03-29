@@ -120,7 +120,7 @@ class BaseType {
         break;
 
       default:
-        throw new ArgumentError("unimplemented type: ${field.type.name}");
+        throw ArgumentError("unimplemented type: ${field.type.name}");
     }
 
     ProtobufContainer generator = ctx.getFieldType(field.typeName);
@@ -128,7 +128,7 @@ class BaseType {
       throw 'FAILURE: Unknown type reference ${field.typeName}';
     }
 
-    return new BaseType._raw(
+    return BaseType._raw(
         field.type, constSuffix, generator.classname, null, generator);
   }
 }

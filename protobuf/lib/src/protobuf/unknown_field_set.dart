@@ -8,7 +8,7 @@ class UnknownFieldSet {
   static final UnknownFieldSet emptyUnknownFieldSet = UnknownFieldSet()
     .._markReadOnly();
   final Map<int, UnknownFieldSetField> _fields =
-      new Map<int, UnknownFieldSetField>();
+      Map<int, UnknownFieldSetField>();
 
   UnknownFieldSet();
 
@@ -16,13 +16,13 @@ class UnknownFieldSet {
     mergeFromUnknownFieldSet(unknownFieldSet);
   }
 
-  UnknownFieldSet clone() => new UnknownFieldSet._clone(this);
+  UnknownFieldSet clone() => UnknownFieldSet._clone(this);
 
   bool get isEmpty => _fields.isEmpty;
   bool get isNotEmpty => _fields.isNotEmpty;
   bool _isReadOnly = false;
 
-  Map<int, UnknownFieldSetField> asMap() => new Map.from(_fields);
+  Map<int, UnknownFieldSetField> asMap() => Map.from(_fields);
 
   void clear() {
     _ensureWritable('clear');
@@ -72,7 +72,7 @@ class UnknownFieldSet {
         mergeFixed32Field(number, input.readFixed32());
         return true;
       default:
-        throw new InvalidProtocolBufferException.invalidWireType();
+        throw InvalidProtocolBufferException.invalidWireType();
     }
   }
 
@@ -95,7 +95,7 @@ class UnknownFieldSet {
 
   _checkFieldNumber(int number) {
     if (number == 0) {
-      throw new ArgumentError('Zero is not a valid field number.');
+      throw ArgumentError('Zero is not a valid field number.');
     }
   }
 
@@ -127,7 +127,7 @@ class UnknownFieldSet {
   UnknownFieldSetField _getField(int number) {
     _checkFieldNumber(number);
     if (_isReadOnly) assert(_fields.containsKey(number));
-    return _fields.putIfAbsent(number, () => new UnknownFieldSetField());
+    return _fields.putIfAbsent(number, () => UnknownFieldSetField());
   }
 
   bool operator ==(other) {
@@ -149,7 +149,7 @@ class UnknownFieldSet {
   String toString() => _toString('');
 
   String _toString(String indent) {
-    var stringBuffer = new StringBuffer();
+    var stringBuffer = StringBuffer();
 
     for (int tag in sorted(_fields.keys)) {
       var field = _fields[tag];

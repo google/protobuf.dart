@@ -9,7 +9,7 @@ class BuilderInfo {
   /// The fully qualified name of this message.
   final String qualifiedMessageName;
   final List<FieldInfo> byIndex = <FieldInfo>[];
-  final Map<int, FieldInfo> fieldInfo = new Map<int, FieldInfo>();
+  final Map<int, FieldInfo> fieldInfo = Map<int, FieldInfo>();
   final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
   // Maps a tag number to the corresponding oneof index (if any).
@@ -30,8 +30,8 @@ class BuilderInfo {
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues) {
     var index = byIndex.length;
-    _addField(new FieldInfo<T>(name, tagNumber, index, fieldType,
-        defaultOrMaker, subBuilder, valueOf, enumValues));
+    _addField(FieldInfo<T>(name, tagNumber, index, fieldType, defaultOrMaker,
+        subBuilder, valueOf, enumValues));
   }
 
   void addMapField<K, V>(int tagNumber, String name, int keyFieldType,
@@ -50,8 +50,8 @@ class BuilderInfo {
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues) {
     var index = byIndex.length;
-    _addField(new FieldInfo<T>.repeated(name, tagNumber, index, fieldType,
-        check, subBuilder, valueOf, enumValues));
+    _addField(FieldInfo<T>.repeated(name, tagNumber, index, fieldType, check,
+        subBuilder, valueOf, enumValues));
   }
 
   void _addField(FieldInfo fi) {
@@ -207,7 +207,7 @@ class BuilderInfo {
   List<FieldInfo> _computeSortedByTag() {
     // TODO(skybrian): perhaps the code generator should insert the FieldInfos
     // in tag number order, to avoid sorting them?
-    return new List<FieldInfo>.from(fieldInfo.values, growable: false)
+    return List<FieldInfo>.from(fieldInfo.values, growable: false)
       ..sort((FieldInfo a, FieldInfo b) => a.tagNumber.compareTo(b.tagNumber));
   }
 

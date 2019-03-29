@@ -26,22 +26,22 @@ Future showDashboard(pb.Suite suite, Element container) async {
   var env = await loadBrowserEnv();
   var reports = await loadReports(suite);
 
-  var defaultReport = new pb.Report()..env = env;
-  var model = new DashboardModel(reports, new Table(suite), defaultReport);
+  var defaultReport = pb.Report()..env = env;
+  var model = DashboardModel(reports, Table(suite), defaultReport);
 
   var baseline = chooseBaseline(env, reports);
   if (baseline != null) {
     model = model.withBaseline(baseline);
   }
 
-  var view = new DashboardView();
+  var view = DashboardView();
 
   Future render(pb.Report report) async {
     report.env = env;
     model = model.withReport(report);
     await window.animationFrame;
     view.render(model);
-    await new Future(() => null); // exit to regular timer task
+    await Future(() => null); // exit to regular timer task
   }
 
   // Set up the main loop that runs the suite.
@@ -49,7 +49,7 @@ Future showDashboard(pb.Suite suite, Element container) async {
   bool running = false;
   void runBenchmarks() {
     if (running) return;
-    var profiler = new JsProfiler();
+    var profiler = JsProfiler();
     running = true;
     () async {
       var requests = model.table.selections.toList();
@@ -119,7 +119,7 @@ Future<pb.Env> loadBrowserEnv() async {
     ..hostname = hostname
     ..userAgent = window.navigator.userAgent;
 
-  return new pb.Env()
+  return pb.Env()
     ..page = window.location.pathname
     ..platform = platform
     ..packages = createPackages(pubspecYaml, pubspecLock);
@@ -133,7 +133,7 @@ Future<Map<String, pb.Report>> loadReports(pb.Suite suite) async {
   var dataJson = jsonDecode(dataJsonContent) as Map<String, dynamic>;
 
   for (var entry in dataJson.entries) {
-    var report = new pb.Report.fromJson(entry.value);
+    var report = pb.Report.fromJson(entry.value);
     if (isCompatibleBaseline(suite, report)) {
       out[entry.key] = report;
     }

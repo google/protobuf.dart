@@ -31,7 +31,7 @@ abstract class PbMapMixin {
   operator []=(key, val) {
     var tag = getTagNumber(key as String);
     if (tag == null) {
-      throw new ArgumentError(
+      throw ArgumentError(
           "field '${key}' not found in ${info_.qualifiedMessageName}");
     }
     setField(tag, val);
@@ -44,7 +44,7 @@ abstract class PbMapMixin {
   int get length => info_.byName.length;
 
   remove(key) {
-    throw new UnsupportedError(
+    throw UnsupportedError(
         "remove() not supported by ${info_.qualifiedMessageName}");
   }
 }

@@ -21,7 +21,7 @@ class RepeatedInt32Benchmark extends Benchmark {
   get summary => "${id.name}($width x $height ints)";
 
   @override
-  Params makeParams() => new Params()
+  Params makeParams() => Params()
     ..int32RepeatCount = width
     ..messageCount = height;
 
@@ -36,10 +36,10 @@ class RepeatedInt32Benchmark extends Benchmark {
   // 1 2 3 4
   // 2 3 4 5
   static pb.Grid _makeGrid(int width, int height) {
-    var grid = new pb.Grid();
+    var grid = pb.Grid();
 
     for (int y = 0; y < height; y++) {
-      var line = new pb.Line();
+      var line = pb.Line();
       for (int x = 0; x < width; x++) {
         line.cells.add(x + y);
       }
@@ -51,7 +51,7 @@ class RepeatedInt32Benchmark extends Benchmark {
 
   @override
   void run() {
-    pb.Grid grid = new pb.Grid.fromJson(json);
+    pb.Grid grid = pb.Grid.fromJson(json);
     var actual = grid.lines[height - 1].cells[width - 1];
     if (actual != width + height - 2) throw "failed; got ${actual}";
   }
@@ -68,11 +68,11 @@ class RepeatedInt32Benchmark extends Benchmark {
   get measureSampleUnits => "int32 reads/ms";
 
   static const $id = BenchmarkID.READ_INT32_REPEATED_JSON;
-  static final $type = new BenchmarkType($id, $create);
+  static final $type = BenchmarkType($id, $create);
   static RepeatedInt32Benchmark $create(Request r) {
     assert(r.params.hasInt32RepeatCount());
     assert(r.params.hasMessageCount());
-    return new RepeatedInt32Benchmark(
+    return RepeatedInt32Benchmark(
         r.params.int32RepeatCount, r.params.messageCount);
   }
 }

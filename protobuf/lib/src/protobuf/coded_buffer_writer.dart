@@ -107,7 +107,7 @@ class CodedBufferWriter {
   }
 
   Uint8List toBuffer() {
-    Uint8List result = new Uint8List(_bytesTotal);
+    Uint8List result = Uint8List(_bytesTotal);
     writeTo(result);
     return result;
   }
@@ -184,9 +184,9 @@ class CodedBufferWriter {
     }
 
     if (allocateNew) {
-      _outputChunk = new Uint8List(_chunkLength);
+      _outputChunk = Uint8List(_chunkLength);
       _bytesInChunk = 0;
-      _outputChunkAsByteData = new ByteData.view(_outputChunk.buffer);
+      _outputChunkAsByteData = ByteData.view(_outputChunk.buffer);
     } else {
       _outputChunk = _outputChunkAsByteData = null;
       _bytesInChunk = 0;
@@ -335,7 +335,7 @@ class CodedBufferWriter {
         break;
       case PbFieldType._BYTES_BIT:
         _writeBytesNoTag(
-            value is TypedData ? value : new Uint8List.fromList(value));
+            value is TypedData ? value : Uint8List.fromList(value));
         break;
       case PbFieldType._STRING_BIT:
         _writeBytesNoTag(_utf8.encode(value));
@@ -424,7 +424,7 @@ class CodedBufferWriter {
       return pos;
     } else {
       int len = value.lengthInBytes;
-      Uint8List u8 = new Uint8List.view(
+      Uint8List u8 = Uint8List.view(
           value.buffer, value.offsetInBytes, value.lengthInBytes);
       for (int j = 0; j < len; j++) {
         buffer[pos++] = u8[j];
@@ -470,7 +470,7 @@ class CodedBufferWriter {
   static const _MESSAGE_BIT_INDEX = 20;
 
   /// Mapping from value types to wire-types indexed by _valueTypeIndex(...).
-  static final Uint8List _wireTypes = new Uint8List(32)
+  static final Uint8List _wireTypes = Uint8List(32)
     ..[_BOOL_BIT_INDEX] = WIRETYPE_VARINT
     ..[_BYTES_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
     ..[_STRING_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED

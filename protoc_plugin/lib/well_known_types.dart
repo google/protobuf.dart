@@ -25,7 +25,7 @@ class _Any extends WellKnownType {
   /// Throws a [InvalidProtocolBufferException] if [typeUrl] does not correspond
   /// to the type of [instance].
   ///
-  /// A typical usage would be `any.unpackInto(new Message())`.
+  /// A typical usage would be `any.unpackInto(Message())`.
   ///
   /// Returns [instance].
   T unpackInto<T extends $_protobufImportPrefix.GeneratedMessage>(T instance,
@@ -49,7 +49,7 @@ class _Any extends WellKnownType {
   /// the fully qualified name of the type of [message].
   static Any pack($_protobufImportPrefix.GeneratedMessage message,
       {$_coreImportPrefix.String typeUrlPrefix = 'type.googleapis.com'}) {
-    return new Any()
+    return Any()
       ..value = message.writeToBuffer()
       ..typeUrl = '\${typeUrlPrefix}/\${message.info_.qualifiedMessageName}';
   }''');
@@ -69,7 +69,7 @@ class _Timestamp extends WellKnownType {
   ///
   /// The result is in UTC time zone and has microsecond precision, as
   /// [DateTime] does not support nanosecond precision.
-  $_coreImportPrefix.DateTime toDateTime() => new $_coreImportPrefix.DateTime.fromMicrosecondsSinceEpoch(
+  $_coreImportPrefix.DateTime toDateTime() => $_coreImportPrefix.DateTime.fromMicrosecondsSinceEpoch(
       seconds.toInt() * $_coreImportPrefix.Duration.microsecondsPerSecond + nanos ~/ 1000,
       isUtc: true);
 
@@ -78,8 +78,8 @@ class _Timestamp extends WellKnownType {
   /// Time zone information will not be preserved.
   static Timestamp fromDateTime($_coreImportPrefix.DateTime dateTime) {
     $_coreImportPrefix.int micros = dateTime.microsecondsSinceEpoch;
-    return new Timestamp()
-      ..seconds = new Int64(micros ~/ $_coreImportPrefix.Duration.microsecondsPerSecond)
+    return Timestamp()
+      ..seconds = Int64(micros ~/ $_coreImportPrefix.Duration.microsecondsPerSecond)
       ..nanos = (micros % $_coreImportPrefix.Duration.microsecondsPerSecond).toInt() * 1000;
   }''');
   }

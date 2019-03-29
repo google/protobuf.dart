@@ -14,51 +14,51 @@ import 'test.pb.dart';
 export 'test.pb.dart';
 
 class TestClient extends $grpc.Client {
-  static final _$unary = new $grpc.ClientMethod<Input, Output>(
+  static final _$unary = $grpc.ClientMethod<Input, Output>(
       '/Test/Unary',
       (Input value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => new Output.fromBuffer(value));
-  static final _$clientStreaming = new $grpc.ClientMethod<Input, Output>(
+      ($core.List<$core.int> value) => Output.fromBuffer(value));
+  static final _$clientStreaming = $grpc.ClientMethod<Input, Output>(
       '/Test/ClientStreaming',
       (Input value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => new Output.fromBuffer(value));
-  static final _$serverStreaming = new $grpc.ClientMethod<Input, Output>(
+      ($core.List<$core.int> value) => Output.fromBuffer(value));
+  static final _$serverStreaming = $grpc.ClientMethod<Input, Output>(
       '/Test/ServerStreaming',
       (Input value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => new Output.fromBuffer(value));
-  static final _$bidirectional = new $grpc.ClientMethod<Input, Output>(
+      ($core.List<$core.int> value) => Output.fromBuffer(value));
+  static final _$bidirectional = $grpc.ClientMethod<Input, Output>(
       '/Test/Bidirectional',
       (Input value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => new Output.fromBuffer(value));
+      ($core.List<$core.int> value) => Output.fromBuffer(value));
 
   TestClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
   $grpc.ResponseFuture<Output> unary(Input request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$unary, new $async.Stream.fromIterable([request]),
+    final call = $createCall(_$unary, $async.Stream.fromIterable([request]),
         options: options);
-    return new $grpc.ResponseFuture(call);
+    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseFuture<Output> clientStreaming($async.Stream<Input> request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$clientStreaming, request, options: options);
-    return new $grpc.ResponseFuture(call);
+    return $grpc.ResponseFuture(call);
   }
 
   $grpc.ResponseStream<Output> serverStreaming(Input request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
-        _$serverStreaming, new $async.Stream.fromIterable([request]),
+        _$serverStreaming, $async.Stream.fromIterable([request]),
         options: options);
-    return new $grpc.ResponseStream(call);
+    return $grpc.ResponseStream(call);
   }
 
   $grpc.ResponseStream<Output> bidirectional($async.Stream<Input> request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$bidirectional, request, options: options);
-    return new $grpc.ResponseStream(call);
+    return $grpc.ResponseStream(call);
   }
 }
 
@@ -66,33 +66,33 @@ abstract class TestServiceBase extends $grpc.Service {
   $core.String get $name => 'Test';
 
   TestServiceBase() {
-    $addMethod(new $grpc.ServiceMethod<Input, Output>(
+    $addMethod($grpc.ServiceMethod<Input, Output>(
         'Unary',
         unary_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => new Input.fromBuffer(value),
+        ($core.List<$core.int> value) => Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
-    $addMethod(new $grpc.ServiceMethod<Input, Output>(
+    $addMethod($grpc.ServiceMethod<Input, Output>(
         'ClientStreaming',
         clientStreaming,
         true,
         false,
-        ($core.List<$core.int> value) => new Input.fromBuffer(value),
+        ($core.List<$core.int> value) => Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
-    $addMethod(new $grpc.ServiceMethod<Input, Output>(
+    $addMethod($grpc.ServiceMethod<Input, Output>(
         'ServerStreaming',
         serverStreaming_Pre,
         false,
         true,
-        ($core.List<$core.int> value) => new Input.fromBuffer(value),
+        ($core.List<$core.int> value) => Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
-    $addMethod(new $grpc.ServiceMethod<Input, Output>(
+    $addMethod($grpc.ServiceMethod<Input, Output>(
         'Bidirectional',
         bidirectional,
         true,
         true,
-        ($core.List<$core.int> value) => new Input.fromBuffer(value),
+        ($core.List<$core.int> value) => Input.fromBuffer(value),
         (Output value) => value.writeToBuffer()));
   }
 

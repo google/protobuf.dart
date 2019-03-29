@@ -15,17 +15,17 @@ import 'test_util.dart';
 typedef void RoundtripTester<T>(T value, List<int> bytes);
 
 void main() {
-  ByteData makeData(Uint8List bytes) => new ByteData.view(bytes.buffer);
+  ByteData makeData(Uint8List bytes) => ByteData.view(bytes.buffer);
 
   convertToBytes(fieldType) => (value) {
-        var writer = new CodedBufferWriter()..writeField(0, fieldType, value);
+        var writer = CodedBufferWriter()..writeField(0, fieldType, value);
         return writer.toBuffer().sublist(1);
       };
 
   RoundtripTester<T> roundtripTester<T>(
       {T fromBytes(CodedBufferReader bytes), List<int> toBytes(T value)}) {
     return (T value, List<int> bytes) {
-      expect(fromBytes(new CodedBufferReader(bytes)), equals(value));
+      expect(fromBytes(CodedBufferReader(bytes)), equals(value));
       expect(toBytes(value), bytes);
     };
   }
@@ -126,7 +126,7 @@ void main() {
   });
 
   test('testBool', () {
-    readBool(List<int> bytes) => new CodedBufferReader(bytes).readBool();
+    readBool(List<int> bytes) => CodedBufferReader(bytes).readBool();
 
     expect(readBool([0x00]), isFalse);
     expect(readBool([0x01]), isTrue);
@@ -139,17 +139,15 @@ void main() {
       ? predicate((x) => x.isNaN, 'NaN expected')
       : equals(expected);
 
-  List<int> dataToBytes(ByteData byteData) =>
-      new Uint8List.view(byteData.buffer);
+  List<int> dataToBytes(ByteData byteData) => Uint8List.view(byteData.buffer);
   final floatToBytes = convertToBytes(PbFieldType.OF);
   floatToBits(double value) =>
       makeData(floatToBytes(value)).getUint32(0, Endian.little);
 
   void _test32(int bits, double value) {
     readFloat(int bits) {
-      var bytes =
-          dataToBytes(new ByteData(4)..setUint32(0, bits, Endian.little));
-      return new CodedBufferReader(bytes).readFloat();
+      var bytes = dataToBytes(ByteData(4)..setUint32(0, bits, Endian.little));
+      return CodedBufferReader(bytes).readFloat();
     }
 
     expect(floatToBits(value), bits);
@@ -170,7 +168,7 @@ void main() {
 
     // Decode it again (round trip).
     List<int> bytes = dataToBytes(data);
-    double reencoded = new CodedBufferReader(bytes).readDouble();
+    double reencoded = CodedBufferReader(bytes).readDouble();
     expect(reencoded, doubleEquals(value));
   }
 
@@ -715,9 +713,9 @@ void main() {
   });
 
   test('testWriteTo', () {
-    var writer = new CodedBufferWriter()..writeField(0, PbFieldType.O3, 1337);
+    var writer = CodedBufferWriter()..writeField(0, PbFieldType.O3, 1337);
     expect(writer.lengthInBytes, 3);
-    var buffer = new Uint8List(5);
+    var buffer = Uint8List(5);
     buffer[0] = 0x55;
     buffer[4] = 0xAA;
     var expected = writer.toBuffer();

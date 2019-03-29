@@ -8,7 +8,7 @@ void main() {
     pb.Mixin1PB proto;
 
     setUp(() {
-      proto = new pb.Mixin1PB();
+      proto = pb.Mixin1PB();
     });
 
     test('is a Mixin1', () {
@@ -27,7 +27,7 @@ void main() {
     pb.Mixin2PB proto;
 
     setUp(() {
-      proto = new pb.Mixin2PB();
+      proto = pb.Mixin2PB();
     });
 
     test('overrides has method', () {
@@ -42,7 +42,7 @@ void main() {
     pb.NoMixinPB proto;
 
     setUp(() {
-      proto = new pb.NoMixinPB();
+      proto = pb.NoMixinPB();
     });
 
     test('is neither Mixin1 nor Mixin2', () {
@@ -55,7 +55,7 @@ void main() {
     pb.Mixin3PB proto;
 
     setUp(() {
-      proto = new pb.Mixin3PB();
+      proto = pb.Mixin3PB();
     });
 
     test('is both Mixin1 (from parent) and Mixin3', () {

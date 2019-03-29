@@ -12,8 +12,8 @@ Uint8List readfile(String path) {
   js.JsObject jsArrayBuffer = js.context.callMethod('readbuffer', [path]);
   int length = jsArrayBuffer['byteLength'];
   js.JsObject jsInt8View =
-      new js.JsObject(js.context['Int8Array'], [jsArrayBuffer]);
-  Uint8List result = new Uint8List(length);
+      js.JsObject(js.context['Int8Array'], [jsArrayBuffer]);
+  Uint8List result = Uint8List(length);
   for (int i = 0; i < length; i++) {
     result[i] = jsInt8View[i];
   }

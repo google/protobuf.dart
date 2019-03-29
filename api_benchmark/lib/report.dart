@@ -28,7 +28,7 @@ pb.Response findUpdatedResponse(pb.Report beforeRep, pb.Report afterRep) {
 ///
 /// It only includes the values we can determine without dart:html or dart:io.
 pb.Platform createPlatform() {
-  return new pb.Platform()
+  return pb.Platform()
     ..dartVM = _isDartVM
     ..checkedMode = _implicitChecksEnabled;
 }
@@ -51,7 +51,7 @@ final bool _implicitChecksEnabled = () {
 /// Given the contents of the pubspec.yaml and pubspec.lock files,
 /// create a pb.Packages object.
 pb.Packages createPackages(String pubspecYaml, String pubspecLock) {
-  var out = new pb.Packages();
+  var out = pb.Packages();
 
   for (var line in pubspecYaml.split("\n")) {
     line = line.trim();
@@ -77,7 +77,7 @@ Iterable<pb.PackageVersion> _parseLockFile(String contents) sync* {
 
   for (var entry in packages.entries) {
     var map = entry.value as YamlMap;
-    var pkgVersion = new pb.PackageVersion()
+    var pkgVersion = pb.PackageVersion()
       ..name = entry.key as String
       ..source = map['source']
       ..version = map['version'];
@@ -93,7 +93,7 @@ Iterable<pb.PackageVersion> _parseLockFile(String contents) sync* {
 /// Encodes a report as nicely-formatted JSON.
 String encodeReport(pb.Report report) {
   var json = report.writeToJsonMap();
-  var out = new StringBuffer();
+  var out = StringBuffer();
   _stringifyMap(out, json, "");
   out.writeln();
   return out.toString();

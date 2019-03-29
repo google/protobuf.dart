@@ -19,7 +19,7 @@ cast(x) => x;
 
 void main() {
   test('testValidationFailureMessages', () {
-    TestAllTypes builder = new TestAllTypes();
+    TestAllTypes builder = TestAllTypes();
 
     expect(() {
       builder.optionalInt32 = null;
@@ -171,8 +171,7 @@ void main() {
     }, throwsArgumentError);
 
     expect(() {
-      new TestAllExtensions()
-          .setExtension(Unittest.optionalInt32Extension, '101');
+      TestAllExtensions().setExtension(Unittest.optionalInt32Extension, '101');
     }, throwsArgumentError);
   });
 }

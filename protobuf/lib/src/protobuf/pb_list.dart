@@ -10,10 +10,10 @@ class FrozenPbList<E> extends PbListBase<E> {
   FrozenPbList._(List<E> wrappedList) : super._(wrappedList);
 
   factory FrozenPbList.from(PbList<E> other) =>
-      new FrozenPbList._(other._wrappedList);
+      FrozenPbList._(other._wrappedList);
 
   UnsupportedError _unsupported(String method) =>
-      new UnsupportedError("Cannot call $method on an unmodifiable list");
+      UnsupportedError("Cannot call $method on an unmodifiable list");
 
   void operator []=(int index, E value) => throw _unsupported("set");
   set length(int newLength) => throw _unsupported("set length");
@@ -54,7 +54,7 @@ class PbList<E> extends PbListBase<E> {
       : super._noList(check: getCheckFunction(fieldType));
 
   /// Freezes the list by converting to [FrozenPbList].
-  FrozenPbList<E> toFrozenPbList() => new FrozenPbList<E>.from(this);
+  FrozenPbList<E> toFrozenPbList() => FrozenPbList<E>.from(this);
 
   /// Adds [value] at the end of the list, extending the length by one.
   /// Throws an [UnsupportedError] if the list is not extendable.
@@ -164,7 +164,7 @@ abstract class PbListBase<E> extends ListBase<E> {
 
   PbListBase._from(List from)
       // TODO(sra): Should this be validated?
-      : _wrappedList = new List<E>.from(from),
+      : _wrappedList = List<E>.from(from),
         check = _checkNotNull;
 
   @override
@@ -321,7 +321,7 @@ abstract class PbListBase<E> extends ListBase<E> {
   /// [UnsupportedError] if the list is not extendable.
   set length(int newLength) {
     if (newLength > length) {
-      throw new UnsupportedError('Extending protobuf lists is not supported');
+      throw UnsupportedError('Extending protobuf lists is not supported');
     }
     _wrappedList.length = newLength;
   }

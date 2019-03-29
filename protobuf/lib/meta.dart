@@ -7,7 +7,7 @@
 library protobuf.meta;
 
 // List of names which cannot be used in a subclass of GeneratedMessage.
-const GeneratedMessage_reservedNames = const <String>[
+const GeneratedMessage_reservedNames = <String>[
   'hashCode',
   'noSuchMethod',
   'copyWith',
@@ -74,7 +74,7 @@ const GeneratedMessage_reservedNames = const <String>[
 ];
 
 // List of names which cannot be used in a subclass of ProtobufEnum.
-const ProtobufEnum_reservedNames = const <String>[
+const ProtobufEnum_reservedNames = <String>[
   '==',
   'Object',
   'ProtobufEnum',

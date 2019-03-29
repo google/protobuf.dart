@@ -31,8 +31,8 @@ bool _areMapsEqual(Map lhs, Map rhs) {
 }
 
 bool _areByteDataEqual(ByteData lhs, ByteData rhs) {
-  asBytes(d) => new Uint8List.view(d.buffer, d.offsetInBytes, d.lengthInBytes);
+  asBytes(d) => Uint8List.view(d.buffer, d.offsetInBytes, d.lengthInBytes);
   return _areListsEqual(asBytes(lhs), asBytes(rhs));
 }
 
-List<T> sorted<T>(Iterable<T> list) => new List.from(list)..sort();
+List<T> sorted<T>(Iterable<T> list) => List.from(list)..sort();

@@ -15,7 +15,7 @@ cast(x) => x;
 
 void main() {
   test("check properties are initialized for repeated fields", () {
-    var msg = new TestAllTypes();
+    var msg = TestAllTypes();
     expect(
         (msg.info_.byName["repeatedNestedMessage"]
                 as FieldInfo<TestAllTypes_NestedMessage>)

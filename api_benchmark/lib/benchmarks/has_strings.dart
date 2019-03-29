@@ -26,7 +26,7 @@ class HasStringsBenchmark extends Benchmark {
 
   @override
   Params makeParams() {
-    var p = new Params()..messageCount = height;
+    var p = Params()..messageCount = height;
     if (fillValue != null) p.stringValue = fillValue;
     return p;
   }
@@ -38,10 +38,10 @@ class HasStringsBenchmark extends Benchmark {
 
   // makes a rectangle where no fields have been set.
   static pb.Grid10 _makeGrid(int width, int height, String fillValue) {
-    var grid = new pb.Grid10();
+    var grid = pb.Grid10();
 
     for (int y = 0; y < height; y++) {
-      var line = new pb.Line10();
+      var line = pb.Line10();
       if (fillValue != null) {
         for (int x = 0; x < width; x++) {
           int tag = getTagForColumn(line, x);
@@ -122,12 +122,12 @@ class HasStringsBenchmark extends Benchmark {
   get measureSampleUnits => "string reads/ms";
 
   static const $id = BenchmarkID.HAS_STRINGS;
-  static final $type = new BenchmarkType($id, $create);
+  static final $type = BenchmarkType($id, $create);
 
   static HasStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());
     var value = null;
     if (r.params.hasStringValue()) value = r.params.stringValue;
-    return new HasStringsBenchmark(r.params.messageCount, value);
+    return HasStringsBenchmark(r.params.messageCount, value);
   }
 }

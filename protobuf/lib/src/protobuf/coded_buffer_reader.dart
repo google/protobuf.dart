@@ -19,7 +19,7 @@ class CodedBufferReader {
   CodedBufferReader(List<int> buffer,
       {int recursionLimit = DEFAULT_RECURSION_LIMIT,
       int sizeLimit = DEFAULT_SIZE_LIMIT})
-      : _buffer = buffer is Uint8List ? buffer : new Uint8List(buffer.length)
+      : _buffer = buffer is Uint8List ? buffer : Uint8List(buffer.length)
           ..setRange(0, buffer.length, buffer),
         _recursionLimit = recursionLimit,
         _sizeLimit = math.min(sizeLimit, buffer.length) {
@@ -28,7 +28,7 @@ class CodedBufferReader {
 
   void checkLastTagWas(int value) {
     if (_lastTag != value) {
-      throw new InvalidProtocolBufferException.invalidEndTag();
+      throw InvalidProtocolBufferException.invalidEndTag();
     }
   }
 
@@ -36,14 +36,14 @@ class CodedBufferReader {
 
   void _withLimit(int byteLimit, callback) {
     if (byteLimit < 0) {
-      throw new ArgumentError(
+      throw ArgumentError(
           'CodedBufferReader encountered an embedded string or message'
           ' which claimed to have negative size.');
     }
     byteLimit += _bufferPos;
     int oldLimit = _currentLimit;
     if ((oldLimit != -1 && byteLimit > oldLimit) || byteLimit > _sizeLimit) {
-      throw new InvalidProtocolBufferException.truncatedMessage();
+      throw InvalidProtocolBufferException.truncatedMessage();
     }
     _currentLimit = byteLimit;
     callback();
@@ -54,14 +54,14 @@ class CodedBufferReader {
     assert(_currentLimit != -1);
     _bufferPos += increment;
     if (_bufferPos > _currentLimit) {
-      throw new InvalidProtocolBufferException.truncatedMessage();
+      throw InvalidProtocolBufferException.truncatedMessage();
     }
   }
 
   void readGroup(int fieldNumber, GeneratedMessage message,
       ExtensionRegistry extensionRegistry) {
     if (_recursionDepth >= _recursionLimit) {
-      throw new InvalidProtocolBufferException.recursionLimitExceeded();
+      throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
     ++_recursionDepth;
     message.mergeFromCodedBufferReader(this, extensionRegistry);
@@ -71,10 +71,10 @@ class CodedBufferReader {
 
   UnknownFieldSet readUnknownFieldSetGroup(int fieldNumber) {
     if (_recursionDepth >= _recursionLimit) {
-      throw new InvalidProtocolBufferException.recursionLimitExceeded();
+      throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
     ++_recursionDepth;
-    UnknownFieldSet unknownFieldSet = new UnknownFieldSet();
+    UnknownFieldSet unknownFieldSet = UnknownFieldSet();
     unknownFieldSet.mergeFromCodedBufferReader(this);
     checkLastTagWas(makeTag(fieldNumber, WIRETYPE_END_GROUP));
     --_recursionDepth;
@@ -85,10 +85,10 @@ class CodedBufferReader {
       GeneratedMessage message, ExtensionRegistry extensionRegistry) {
     int length = readInt32();
     if (_recursionDepth >= _recursionLimit) {
-      throw new InvalidProtocolBufferException.recursionLimitExceeded();
+      throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
     if (length < 0) {
-      throw new ArgumentError(
+      throw ArgumentError(
           'CodedBufferReader encountered an embedded string or message'
           ' which claimed to have negative size.');
     }
@@ -96,7 +96,7 @@ class CodedBufferReader {
     int oldLimit = _currentLimit;
     _currentLimit = _bufferPos + length;
     if (_currentLimit > oldLimit) {
-      throw new InvalidProtocolBufferException.truncatedMessage();
+      throw InvalidProtocolBufferException.truncatedMessage();
     }
     ++_recursionDepth;
     message.mergeFromCodedBufferReader(this, extensionRegistry);
@@ -117,15 +117,15 @@ class CodedBufferReader {
   int readSfixed32() => _readByteData(4).getInt32(0, Endian.little);
   Int64 readSfixed64() {
     var data = _readByteData(8);
-    var view = new Uint8List.view(data.buffer, data.offsetInBytes, 8);
-    return new Int64.fromBytes(view);
+    var view = Uint8List.view(data.buffer, data.offsetInBytes, 8);
+    return Int64.fromBytes(view);
   }
 
   bool readBool() => _readRawVarint32(true) != 0;
   List<int> readBytes() {
     int length = readInt32();
     _checkLimit(length);
-    return new Uint8List.view(
+    return Uint8List.view(
         _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
   }
 
@@ -141,7 +141,7 @@ class CodedBufferReader {
 
     _lastTag = readInt32();
     if (getTagFieldNumber(_lastTag) == 0) {
-      throw new InvalidProtocolBufferException.invalidTag();
+      throw InvalidProtocolBufferException.invalidTag();
     }
     return _lastTag;
   }
@@ -182,7 +182,7 @@ class CodedBufferReader {
       }
     }
     _bufferPos = bufferPos;
-    throw new InvalidProtocolBufferException.malformedVarint();
+    throw InvalidProtocolBufferException.malformedVarint();
   }
 
   Int64 _readRawVarint64() {
@@ -193,7 +193,7 @@ class CodedBufferReader {
     for (int i = 0; i < 4; i++) {
       int byte = _readRawVarintByte();
       lo |= (byte & 0x7f) << (i * 7);
-      if ((byte & 0x80) == 0) return new Int64.fromInts(hi, lo);
+      if ((byte & 0x80) == 0) return Int64.fromInts(hi, lo);
     }
 
     // Read middle 7 bits: 4 low belong to low part above,
@@ -202,21 +202,21 @@ class CodedBufferReader {
     lo |= (byte & 0xf) << 28;
     hi = (byte >> 4) & 0x7;
     if ((byte & 0x80) == 0) {
-      return new Int64.fromInts(hi, lo);
+      return Int64.fromInts(hi, lo);
     }
 
     // Read remaining bits of hi.
     for (int i = 0; i < 5; i++) {
       int byte = _readRawVarintByte();
       hi |= (byte & 0x7f) << ((i * 7) + 3);
-      if ((byte & 0x80) == 0) return new Int64.fromInts(hi, lo);
+      if ((byte & 0x80) == 0) return Int64.fromInts(hi, lo);
     }
-    throw new InvalidProtocolBufferException.malformedVarint();
+    throw InvalidProtocolBufferException.malformedVarint();
   }
 
   ByteData _readByteData(int sizeInBytes) {
     _checkLimit(sizeInBytes);
-    return new ByteData.view(_buffer.buffer,
+    return ByteData.view(_buffer.buffer,
         _buffer.offsetInBytes + _bufferPos - sizeInBytes, sizeInBytes);
   }
 }
