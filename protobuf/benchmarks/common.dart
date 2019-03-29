@@ -44,8 +44,7 @@ class Dataset {
 
   /// Create [Dataset] from a [BenchmarkDataset] proto.
   factory Dataset.fromBinary(List<int> binary) {
-    final dataSet =
-        BenchmarkDataset.fromBuffer(binary);
+    final dataSet = BenchmarkDataset.fromBuffer(binary);
 
     final factories = Factories.forMessage(dataSet.messageName);
     final ds = Dataset._(dataSet.name, factories);
