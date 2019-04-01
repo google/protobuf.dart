@@ -5,6 +5,7 @@
 
 library extension_test;
 
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
@@ -209,5 +210,26 @@ void main() {
         '[repeatedStringExtension]: world\n';
 
     expect(value.toString(), expected);
+  });
+
+  test('can compare messages with and without extensions', () {
+    final withExtension = TestFieldOrderings()
+      ..myString = 'foo'
+      ..setExtension(Unittest.myExtensionString, 'bar');
+    final b = withExtension.writeToBuffer();
+    final withUnknownField = TestFieldOrderings.fromBuffer(b);
+    ExtensionRegistry r = ExtensionRegistry();
+    Unittest.registerAllExtensions(r);
+    final decodedWithExtension = TestFieldOrderings.fromBuffer(b, r);
+    final noExtension = TestFieldOrderings()..myString = 'foo';
+    expect(withExtension == decodedWithExtension, true);
+    expect(withUnknownField == decodedWithExtension, false);
+    expect(decodedWithExtension == withUnknownField, false);
+    expect(withUnknownField == noExtension, false);
+    expect(noExtension == withUnknownField, false);
+    decodedWithExtension.setExtension(Unittest.myExtensionInt, 42);
+    expect(withExtension == decodedWithExtension, false);
+    expect(decodedWithExtension == withExtension, false);
+    expect(decodedWithExtension == withExtension, false);
   });
 }

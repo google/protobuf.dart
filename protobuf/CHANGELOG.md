@@ -1,3 +1,7 @@
+## 0.13.6
+
+* Fixed equality check between messages with and without extensions.
+
 ## 0.13.5
 
 * Add new method `addAll` on ExtensionRegistry for more conveniently adding multiple extensions at once.
