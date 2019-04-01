@@ -213,24 +213,23 @@ void main() {
   });
 
   test('can compare messages with and without extensions', () {
-    final f = TestFieldOrderings()
+    final withExtension = TestFieldOrderings()
       ..myString = 'foo'
       ..setExtension(Unittest.myExtensionString, 'bar');
-    final b = f.writeToBuffer();
-    final f2 = TestFieldOrderings.fromBuffer(b);
+    final b = withExtension.writeToBuffer();
+    final withUnknownField = TestFieldOrderings.fromBuffer(b);
     ExtensionRegistry r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
-    final f3 = TestFieldOrderings.fromBuffer(b, r);
-    final f4 = TestFieldOrderings()
-      ..myString = 'foo';
-    expect(f == f3, true);
-    expect(f2 == f3, false);
-    expect(f3 == f2, false);
-    expect(f2 == f4, false);
-    expect(f4 == f2, false);
-    expect(f2 == f4, false);
-    f3.setExtension(Unittest.myExtensionInt, 42);
-    expect(f == f3, false);
-    expect(f3 == f, false);
+    final decodedWithExtension = TestFieldOrderings.fromBuffer(b, r);
+    final noExtension = TestFieldOrderings()..myString = 'foo';
+    expect(withExtension == decodedWithExtension, true);
+    expect(withUnknownField == decodedWithExtension, false);
+    expect(decodedWithExtension == withUnknownField, false);
+    expect(withUnknownField == noExtension, false);
+    expect(noExtension == withUnknownField, false);
+    decodedWithExtension.setExtension(Unittest.myExtensionInt, 42);
+    expect(withExtension == decodedWithExtension, false);
+    expect(decodedWithExtension == withExtension, false);
+    expect(decodedWithExtension == withExtension, false);
   });
 }
