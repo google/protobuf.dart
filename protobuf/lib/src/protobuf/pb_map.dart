@@ -50,8 +50,10 @@ class PbMap<K, V> extends MapBase<K, V> {
     if (other.length != length) {
       return false;
     }
-    if (other.hashCode != hashCode) {
-      return false;
+    for (final key in keys) {
+      if (!other.containsKey(key)) {
+        return false;
+      }
     }
     for (final key in keys) {
       if (other[key] != this[key]) {
@@ -61,11 +63,10 @@ class PbMap<K, V> extends MapBase<K, V> {
     return true;
   }
 
+  @override
   int get hashCode {
-    return hashObjects(_wrappedMap.keys
-        .map((key) => hash2(key.hashCode, _wrappedMap[key].hashCode))
-        .toList(growable: false)
-          ..sort());
+    return _wrappedMap.entries
+        .fold(0, (h, entry) => h ^ _hash2(entry.key, entry.value));
   }
 
   @override
