@@ -172,7 +172,7 @@ abstract class PbListBase<E> extends ListBase<E> {
       (other is PbListBase) && _areListsEqual(other, this);
 
   @override
-  int get hashCode => _hashObjects(_wrappedList);
+  int get hashCode => _HashUtils._hashObjects(_wrappedList);
 
   /// Returns an [Iterator] for the list.
   Iterator<E> get iterator => _wrappedList.iterator;

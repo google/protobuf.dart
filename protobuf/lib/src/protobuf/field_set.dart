@@ -523,21 +523,20 @@ class _FieldSet {
   /// The hash may change when any field changes (recursively).
   /// Therefore, protobufs used as map keys shouldn't be changed.
   int get _hashCode {
-
     // Hashes the value of one field (recursively).
     int hashField(int hash, FieldInfo fi, value) {
       if (value is List && value.isEmpty) {
         return hash; // It's either repeated or an empty byte array.
       }
 
-      hash = _combine(hash, fi.tagNumber);
+      hash = _HashUtils._combine(hash, fi.tagNumber);
       if (!_isEnum(fi.type)) {
-        hash = _combine(hash, value.hashCode);
+        hash = _HashUtils._combine(hash, value.hashCode);
       } else if (fi.isRepeated) {
-        hash = _hashObjects(value.map((enm) => enm.value));
+        hash = _HashUtils._hashObjects(value.map((enm) => enm.value));
       } else {
         ProtobufEnum enm = value;
-        hash = _combine(hash, enm.value);
+        hash = _HashUtils._combine(hash, enm.value);
       }
 
       return hash;
@@ -550,7 +549,8 @@ class _FieldSet {
 
       if (!_hasExtensions) return hash;
 
-      hash = sorted(_extensions._tagNumbers).fold(hash, (int h, int tagNumber) {
+      hash =
+          _sorted(_extensions._tagNumbers).fold(hash, (int h, int tagNumber) {
         var fi = _extensions._getInfoOrNull(tagNumber);
         return hashField(h, fi, _extensions._getFieldOrNull(fi));
       });
@@ -559,12 +559,12 @@ class _FieldSet {
     }
 
     // Hash with descriptor.
-    int hash = _combine(0, _meta.hashCode);
+    int hash = _HashUtils._combine(0, _meta.hashCode);
     // Hash with fields.
     hash = hashEachField(hash);
     // Hash with unknown fields.
     if (_hasUnknownFields) {
-      hash = _combine(hash, _unknownFields.hashCode);
+      hash = _HashUtils._combine(hash, _unknownFields.hashCode);
     }
     return hash;
   }

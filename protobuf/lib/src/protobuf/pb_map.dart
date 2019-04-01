@@ -39,6 +39,8 @@ class PbMap<K, V> extends MapBase<K, V> {
     _wrappedMap[key] = value;
   }
 
+  /// A [PbMap] is equal to another [PbMap] with equal key/value
+  /// pairs in any order.
   @override
   bool operator ==(other) {
     if (identical(other, this)) {
@@ -63,10 +65,12 @@ class PbMap<K, V> extends MapBase<K, V> {
     return true;
   }
 
+  /// A [PbMap] is equal to another [PbMap] with equal key/value
+  /// pairs in any order. Then, the `hashCode` is guaranteed to be the same.
   @override
   int get hashCode {
     return _wrappedMap.entries
-        .fold(0, (h, entry) => h ^ _hash2(entry.key, entry.value));
+        .fold(0, (h, entry) => h ^ _HashUtils._hash2(entry.key, entry.value));
   }
 
   @override

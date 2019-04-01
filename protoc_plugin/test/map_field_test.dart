@@ -222,9 +222,12 @@ void main() {
     TestMap t2 = TestMap()
       ..int32ToStringField[1] = 'test'
       ..int32ToStringField[2] = 'test2';
+    TestMap t3 = TestMap()
+      ..int32ToStringField[1] = 'test';
 
     PbMap<int, String> m = t.int32ToStringField;
     PbMap<int, String> m2 = t2.int32ToStringField;
+    PbMap<int, String> m3 = t3.int32ToStringField;
 
     expect(t, t2);
     expect(t.hashCode, t2.hashCode);
@@ -232,6 +235,10 @@ void main() {
     expect(m, m2);
     expect(m == m2, isTrue);
     expect(m.hashCode, m2.hashCode);
+
+    expect(m, isNot(m3));
+    expect(m == m3, isFalse);
+    expect(m.hashCode, isNot(m3.hashCode));
   });
 
   test('merge from other message', () {

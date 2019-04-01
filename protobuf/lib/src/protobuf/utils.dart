@@ -35,27 +35,32 @@ bool _areByteDataEqual(ByteData lhs, ByteData rhs) {
   return _areListsEqual(asBytes(lhs), asBytes(rhs));
 }
 
+@Deprecated("This function was not intended to be public. "
+    "It will be removed from the public api in next major version. ")
 List<T> sorted<T>(Iterable<T> list) => new List.from(list)..sort();
 
-// Jenkins hash functions
+List<T> _sorted<T>(Iterable<T> list) => new List.from(list)..sort();
 
-int _combine(int hash, int value) {
-  hash = 0x1fffffff & (hash + value);
-  hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-  return hash ^ (hash >> 6);
+class _HashUtils {
+// Jenkins hash functions copied from https://github.com/google/quiver-dart/blob/master/lib/src/core/hash.dart.
+
+  static int _combine(int hash, int value) {
+    hash = 0x1fffffff & (hash + value);
+    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    return hash ^ (hash >> 6);
+  }
+
+  static int _finish(int hash) {
+    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    hash = hash ^ (hash >> 11);
+    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  }
+
+  /// Generates a hash code for multiple [objects].
+  static int _hashObjects(Iterable objects) =>
+      _finish(objects.fold(0, (h, i) => _combine(h, i.hashCode)));
+
+  /// Generates a hash code for two objects.
+  static int _hash2(a, b) =>
+      _finish(_combine(_combine(0, a.hashCode), b.hashCode));
 }
-
-int _finish(int hash) {
-  hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-  hash = hash ^ (hash >> 11);
-  return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-}
-
-
-/// Generates a hash code for multiple [objects].
-int _hashObjects(Iterable objects) =>
-    _finish(objects.fold(0, (h, i) => _combine(h, i.hashCode)));
-
-/// Generates a hash code for two objects.
-int _hash2(a, b) => _finish(_combine(_combine(0, a.hashCode), b.hashCode));
-

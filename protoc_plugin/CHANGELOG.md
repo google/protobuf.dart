@@ -1,7 +1,3 @@
-## 16.0.4
-
-* Add test for PbMap equality and update protobuf dependency to 0.13.6.
-
 ## 16.0.3
 
 * Sync Kythe metadata updates from internal repo:

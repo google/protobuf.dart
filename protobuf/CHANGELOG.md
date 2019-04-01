@@ -1,4 +1,4 @@
-## 0.13.6
+## 0.13.7
 
 * Override `operator ==` and `hashCode` in `PbMap` so that two `PbMap`s are equal if they have equal key/value pairs.
 
