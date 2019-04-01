@@ -59,5 +59,3 @@ int _hashObjects(Iterable objects) =>
 /// Generates a hash code for two objects.
 int _hash2(a, b) => _finish(_combine(_combine(0, a.hashCode), b.hashCode));
 
-List<T> sorted<T>(Iterable<T> list) => List.from(list)..sort();
-
