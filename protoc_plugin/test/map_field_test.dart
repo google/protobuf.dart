@@ -222,8 +222,7 @@ void main() {
     TestMap t2 = TestMap()
       ..int32ToStringField[1] = 'test'
       ..int32ToStringField[2] = 'test2';
-    TestMap t3 = TestMap()
-      ..int32ToStringField[1] = 'test';
+    TestMap t3 = TestMap()..int32ToStringField[1] = 'test';
 
     PbMap<int, String> m = t.int32ToStringField;
     PbMap<int, String> m2 = t2.int32ToStringField;
