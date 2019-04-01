@@ -139,7 +139,7 @@ class _ExtensionFieldSet {
   get _hasValues => _values.isNotEmpty;
 
   bool _equalValues(_ExtensionFieldSet other) =>
-      _areMapsEqual(_values, other._values);
+      other != null && _areMapsEqual(_values, other._values);
 
   void _clearValues() => _values.clear();
 
