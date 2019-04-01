@@ -17,8 +17,8 @@ class NamedLocation {
 
 /// A buffer for writing indented source code.
 class IndentingWriter {
-  final StringBuffer _buffer = new StringBuffer();
-  final GeneratedCodeInfo sourceLocationInfo = new GeneratedCodeInfo();
+  final StringBuffer _buffer = StringBuffer();
+  final GeneratedCodeInfo sourceLocationInfo = GeneratedCodeInfo();
   String _indent = "";
   bool _needIndent = true;
   // After writing any chunk, _previousOffset is the size of everything that was
@@ -52,9 +52,11 @@ class IndentingWriter {
   }
 
   void printAnnotated(String text, List<NamedLocation> namedLocations) {
+    final indentOffset = _needIndent ? _indent.length : 0;
     print(text);
     for (final location in namedLocations) {
-      addAnnotation(location.fieldPathSegment, location.name, location.start);
+      _addAnnotation(location.fieldPathSegment, location.name,
+          location.start + indentOffset);
     }
   }
 
@@ -121,11 +123,11 @@ class IndentingWriter {
   /// [start] should be the location of the identifier as it appears in the
   /// string that was passed to the previous [print]. Name should be the string
   /// that was written to file.
-  void addAnnotation(List<int> fieldPath, String name, int start) {
+  void _addAnnotation(List<int> fieldPath, String name, int start) {
     if (_sourceFile == null) {
       return;
     }
-    var annotation = new GeneratedCodeInfo_Annotation()
+    var annotation = GeneratedCodeInfo_Annotation()
       ..path.addAll(fieldPath)
       ..sourceFile = _sourceFile
       ..begin = _previousOffset + start

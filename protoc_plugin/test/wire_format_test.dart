@@ -14,18 +14,17 @@ import 'test_util.dart';
 
 void main() {
   test('testSerialization', () {
-    assertAllFieldsSet(
-        new TestAllTypes.fromBuffer(getAllSet().writeToBuffer()));
+    assertAllFieldsSet(TestAllTypes.fromBuffer(getAllSet().writeToBuffer()));
   });
 
   test('testSerializationPacked', () {
     assertPackedFieldsSet(
-        new TestPackedTypes.fromBuffer(getPackedSet().writeToBuffer()));
+        TestPackedTypes.fromBuffer(getPackedSet().writeToBuffer()));
   });
 
   test('testSerializeExtensions', () {
     assertAllFieldsSet(
-        new TestAllTypes.fromBuffer(getAllExtensionsSet().writeToBuffer()));
+        TestAllTypes.fromBuffer(getAllExtensionsSet().writeToBuffer()));
   });
 
   test('testSerializePackedExtensions', () {
@@ -40,8 +39,7 @@ void main() {
     List<int> rawBytes = getAllSet().writeToBuffer();
     ExtensionRegistry registry = getExtensionRegistry();
 
-    assertAllExtensionsSet(
-        new TestAllExtensions.fromBuffer(rawBytes, registry));
+    assertAllExtensionsSet(TestAllExtensions.fromBuffer(rawBytes, registry));
   });
 
   test('testParsePackedExtensions', () {
@@ -50,7 +48,7 @@ void main() {
     ExtensionRegistry registry = getExtensionRegistry();
 
     assertPackedExtensionsSet(
-        new TestPackedExtensions.fromBuffer(rawBytes, registry));
+        TestPackedExtensions.fromBuffer(rawBytes, registry));
   });
 
   test('testExtensionsSerialized', () {
@@ -60,19 +58,19 @@ void main() {
   test('testParseMultipleExtensionRanges', () {
     // Make sure we can parse a message that contains multiple extensions
     // ranges.
-    TestFieldOrderings source = new TestFieldOrderings()
+    TestFieldOrderings source = TestFieldOrderings()
       ..myInt = make64(1)
       ..myString = 'foo'
       ..myFloat = 1.0
       ..setExtension(Unittest.myExtensionInt, 23)
       ..setExtension(Unittest.myExtensionString, 'bar');
 
-    ExtensionRegistry registry = new ExtensionRegistry()
+    ExtensionRegistry registry = ExtensionRegistry()
       ..add(Unittest.myExtensionInt)
       ..add(Unittest.myExtensionString);
 
     TestFieldOrderings dest =
-        new TestFieldOrderings.fromBuffer(source.writeToBuffer(), registry);
+        TestFieldOrderings.fromBuffer(source.writeToBuffer(), registry);
 
     expect(dest, source);
   });

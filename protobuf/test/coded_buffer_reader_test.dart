@@ -14,7 +14,7 @@ import 'test_util.dart';
 
 void main() {
   final throwsInvalidProtocolBufferException =
-      throwsA(new TypeMatcher<InvalidProtocolBufferException>());
+      throwsA(TypeMatcher<InvalidProtocolBufferException>());
 
   group('testCodedBufferReader', () {
     List<int> inputBuffer = <int>[
@@ -40,7 +40,7 @@ void main() {
     ];
 
     testWithList(List<int> inputBuffer) {
-      CodedBufferReader cis = new CodedBufferReader(inputBuffer);
+      CodedBufferReader cis = CodedBufferReader(inputBuffer);
 
       expect(cis.readTag(), makeTag(103, WIRETYPE_VARINT));
       expect(cis.readInt32(), 32);
@@ -87,24 +87,24 @@ void main() {
     });
 
     test('uint8-list', () {
-      var uint8List = new Uint8List.fromList(inputBuffer);
+      var uint8List = Uint8List.fromList(inputBuffer);
       testWithList(uint8List);
     });
 
     test('uint8-list-view', () {
-      var uint8List = new Uint8List(inputBuffer.length + 4);
+      var uint8List = Uint8List(inputBuffer.length + 4);
       uint8List[0] = 0xc0;
       uint8List[1] = 0xc8;
       uint8List.setRange(2, 2 + inputBuffer.length, inputBuffer);
       uint8List[inputBuffer.length + 2] = 0xe0;
       uint8List[inputBuffer.length + 3] = 0xed;
-      var view = new Uint8List.view(uint8List.buffer, 2, inputBuffer.length);
+      var view = Uint8List.view(uint8List.buffer, 2, inputBuffer.length);
       testWithList(view);
     });
   });
 
   test('testReadMaliciouslyLargeBlob', () {
-    CodedBufferWriter output = new CodedBufferWriter();
+    CodedBufferWriter output = CodedBufferWriter();
 
     int tag = makeTag(1, WIRETYPE_LENGTH_DELIMITED);
     output.writeInt32NoTag(tag);
@@ -114,7 +114,7 @@ void main() {
     output.writeInt32NoTag(32);
     output.writeInt32NoTag(47);
 
-    CodedBufferReader input = new CodedBufferReader(output.toBuffer());
+    CodedBufferReader input = CodedBufferReader(output.toBuffer());
     expect(input.readTag(), tag);
 
     expect(() {
@@ -126,7 +126,7 @@ void main() {
   /// is thrown. Instead, the invalid bytes are replaced with the Unicode
   /// 'replacement character' U+FFFD.
   test('testReadInvalidUtf8', () {
-    CodedBufferReader input = new CodedBufferReader([1, 0x80]);
+    CodedBufferReader input = CodedBufferReader([1, 0x80]);
     String text = input.readString();
     expect(text.codeUnitAt(0), 0xfffd);
   });
@@ -136,7 +136,7 @@ void main() {
     // should throw InvalidProtocolBufferException.
     for (int i = 0; i < 8; i++) {
       expect(() {
-        new CodedBufferReader([i]).readTag();
+        CodedBufferReader([i]).readTag();
       }, throwsInvalidProtocolBufferException);
     }
   });

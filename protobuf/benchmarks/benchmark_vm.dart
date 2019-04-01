@@ -13,15 +13,15 @@ import 'dart:io';
 import 'common.dart';
 
 void main(List<String> arguments) {
-  final datasetPattern = new RegExp(r'dataset\.[._\w]*\.pb$');
-  final datasets = new Directory(Platform.script.resolve('..').toFilePath())
+  final datasetPattern = RegExp(r'dataset\.[._\w]*\.pb$');
+  final datasets = Directory(Platform.script.resolve('..').toFilePath())
       .listSync(recursive: true)
       .where((file) => datasetPattern.hasMatch(file.path))
-      .map((file) => new Dataset.fromBinary((file as File).readAsBytesSync()))
+      .map((file) => Dataset.fromBinary((file as File).readAsBytesSync()))
       .toList(growable: false);
 
-  new FromBinaryBenchmark(datasets).report();
-  new ToBinaryBenchmark(datasets).report();
-  new ToJsonBenchmark(datasets).report();
-  new FromJsonBenchmark(datasets).report();
+  FromBinaryBenchmark(datasets).report();
+  ToBinaryBenchmark(datasets).report();
+  ToJsonBenchmark(datasets).report();
+  FromJsonBenchmark(datasets).report();
 }

@@ -11,7 +11,7 @@ import 'package:protoc_plugin/src/dart_options.pb.dart';
 
 import '../out/protos/dart_name.pb.dart' as pb;
 
-Matcher throwsMessage(String msg) => throwsA(new _ToStringMatcher(equals(msg)));
+Matcher throwsMessage(String msg) => throwsA(_ToStringMatcher(equals(msg)));
 
 class _ToStringMatcher extends CustomMatcher {
   _ToStringMatcher(Matcher matcher)
@@ -21,7 +21,7 @@ class _ToStringMatcher extends CustomMatcher {
 
 void main() {
   test('Can access a field that was renamed using dart_name option', () {
-    var msg = new pb.DartName();
+    var msg = pb.DartName();
     expect(msg.hasRenamedField(), false);
     msg.renamedField = 'test';
     expect(msg.hasRenamedField(), true);
@@ -31,7 +31,7 @@ void main() {
   });
 
   test('Can swap field names using dart_name option', () {
-    var msg = new pb.SwapNames();
+    var msg = pb.SwapNames();
     msg.first = "one";
     msg.second = "two";
     expect(msg.getField(1), "two");
@@ -39,7 +39,7 @@ void main() {
   });
 
   test("Can take another field's name using dart_name option", () {
-    var msg = new pb.TakeExistingName();
+    var msg = pb.TakeExistingName();
     msg.first = "one";
     expect(msg.getField(2), "one");
     msg.first_1 = "renamed";
@@ -47,7 +47,7 @@ void main() {
   });
 
   test('Throws exception for dart_name option containing a space', () {
-    var descriptor = new DescriptorProto()
+    var descriptor = DescriptorProto()
       ..name = 'Example'
       ..field.add(stringField("first", 1, "hello world"));
     expect(() {
@@ -58,7 +58,7 @@ void main() {
   });
 
   test('Throws exception for dart_name option set to reserved word', () {
-    var descriptor = new DescriptorProto()
+    var descriptor = DescriptorProto()
       ..name = 'Example'
       ..field.add(stringField("first", 1, "class"));
     expect(() {
@@ -69,7 +69,7 @@ void main() {
   });
 
   test('Throws exception for duplicate dart_name options', () {
-    var descriptor = new DescriptorProto()
+    var descriptor = DescriptorProto()
       ..name = 'Example'
       ..field.addAll([
         stringField("first", 1, "renamed"),
@@ -83,8 +83,8 @@ void main() {
   });
 
   test('message classes renamed to avoid Function keyword', () {
-    new pb.Function_()..fun = 'renamed';
-    new pb.Function__()..fun1 = 'also renamed';
+    pb.Function_()..fun = 'renamed';
+    pb.Function__()..fun1 = 'also renamed';
   });
 
   test('disambiguateName', () {
@@ -144,7 +144,7 @@ void main() {
 
   test('oneof names no disambiguation', () {
     OneofDescriptorProto oneofDescriptor = oneofField('foo');
-    DescriptorProto descriptor = new DescriptorProto()
+    DescriptorProto descriptor = DescriptorProto()
       ..name = 'Parent'
       ..field.addAll([stringFieldOneof('first', 1, 0)])
       ..oneofDecl.add(oneofDescriptor);
@@ -167,7 +167,7 @@ void main() {
 
   test('oneof names disambiguate method names', () {
     OneofDescriptorProto oneofDescriptor = oneofField('foo');
-    DescriptorProto descriptor = new DescriptorProto()
+    DescriptorProto descriptor = DescriptorProto()
       ..name = 'Parent'
       ..field.addAll([stringFieldOneof('first', 1, 0)])
       ..oneofDecl.add(oneofDescriptor);
@@ -191,7 +191,7 @@ void main() {
 
   test('oneof names disambiguate top level name', () {
     OneofDescriptorProto oneofDescriptor = oneofField('foo');
-    DescriptorProto descriptor = new DescriptorProto()
+    DescriptorProto descriptor = DescriptorProto()
       ..name = 'Parent'
       ..field.addAll([stringFieldOneof('first', 1, 0)])
       ..oneofDecl.add(oneofDescriptor);
@@ -214,17 +214,16 @@ void main() {
 }
 
 FieldDescriptorProto stringField(String name, int number, String dartName) {
-  return new FieldDescriptorProto()
+  return FieldDescriptorProto()
     ..name = name
     ..number = number
     ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
     ..type = FieldDescriptorProto_Type.TYPE_STRING
-    ..options =
-        (new FieldOptions()..setExtension(Dart_options.dartName, dartName));
+    ..options = (FieldOptions()..setExtension(Dart_options.dartName, dartName));
 }
 
 FieldDescriptorProto stringFieldOneof(String name, int number, int oneofIndex) {
-  return new FieldDescriptorProto()
+  return FieldDescriptorProto()
     ..name = name
     ..number = number
     ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL

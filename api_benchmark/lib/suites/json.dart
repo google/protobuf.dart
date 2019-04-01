@@ -13,7 +13,7 @@ import '../benchmarks/repeated_string_json.dart';
 import '../generated/benchmark.pb.dart' show Suite;
 
 final Suite jsonSuite = () {
-  var suite = new Suite();
+  var suite = Suite();
   suite.requests.addAll([
     _int32(1, 100),
     _int32(2, 100),
@@ -46,20 +46,18 @@ final Suite jsonSuite = () {
   return suite;
 }();
 
-_int32(int width, int height) =>
-    new Int32Benchmark(width, height).makeRequest();
+_int32(int width, int height) => Int32Benchmark(width, height).makeRequest();
 
 _repeatedInt32(int width, int height) =>
-    new RepeatedInt32Benchmark(width, height).makeRequest();
+    RepeatedInt32Benchmark(width, height).makeRequest();
 
-_int64(int width, int height) =>
-    new Int64Benchmark(width, height).makeRequest();
+_int64(int width, int height) => Int64Benchmark(width, height).makeRequest();
 
 _repeatedInt64(int width, int height) =>
-    new RepeatedInt64Benchmark(width, height).makeRequest();
+    RepeatedInt64Benchmark(width, height).makeRequest();
 
 _string(int width, int height, int size) =>
-    new StringBenchmark(width, height, size).makeRequest();
+    StringBenchmark(width, height, size).makeRequest();
 
 _repeatedString(int width, int height, int size) =>
-    new RepeatedStringBenchmark(width, height, size).makeRequest();
+    RepeatedStringBenchmark(width, height, size).makeRequest();

@@ -24,7 +24,7 @@ class RepeatedStringBenchmark extends Benchmark {
   get summary => "${id.name}($width x $height x $stringSize)";
 
   @override
-  Params makeParams() => new Params()
+  Params makeParams() => Params()
     ..stringFieldCount = width
     ..messageCount = height
     ..stringSize = stringSize;
@@ -40,19 +40,19 @@ class RepeatedStringBenchmark extends Benchmark {
   // "12" "23" "34" "45"
   // "23" "34" "45" "56"
   static pb.Grid _makeGrid(int width, int height, int stringSize) {
-    if (width > 10) throw new ArgumentError("width out of range: ${width}");
-    var grid = new pb.Grid();
+    if (width > 10) throw ArgumentError("width out of range: ${width}");
+    var grid = pb.Grid();
 
     int zero = "0".codeUnits[0];
 
     for (int y = 0; y < height; y++) {
-      var line = new pb.Line();
+      var line = pb.Line();
       for (int x = 0; x < width; x++) {
         var charCodes = <int>[];
         for (var i = 0; i < stringSize; i++) {
           charCodes.add(zero + ((x + y + i) % 10));
         }
-        line.cells.add(new String.fromCharCodes(charCodes));
+        line.cells.add(String.fromCharCodes(charCodes));
       }
       grid.lines.add(line);
     }
@@ -61,7 +61,7 @@ class RepeatedStringBenchmark extends Benchmark {
 
   @override
   void run() {
-    pb.Grid grid = new pb.Grid.fromJson(json);
+    pb.Grid grid = pb.Grid.fromJson(json);
     var actual = grid.lines[height - 1].cells[width - 1];
     if (actual.length != stringSize) throw "failed; got ${actual}";
   }
@@ -78,13 +78,13 @@ class RepeatedStringBenchmark extends Benchmark {
   get measureSampleUnits => "string reads/ms";
 
   static const $id = BenchmarkID.READ_STRING_REPEATED_JSON;
-  static final $type = new BenchmarkType($id, $create);
+  static final $type = BenchmarkType($id, $create);
 
   static RepeatedStringBenchmark $create(Request r) {
     assert(r.params.hasStringFieldCount());
     assert(r.params.hasMessageCount());
     assert(r.params.hasStringSize());
-    return new RepeatedStringBenchmark(
+    return RepeatedStringBenchmark(
         r.params.stringFieldCount, r.params.messageCount, r.params.stringSize);
   }
 }

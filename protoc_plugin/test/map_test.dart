@@ -15,45 +15,45 @@ throwsError(Type expectedType, String expectedMessage) =>
 
 void main() {
   test("message doesn't implement Map when turned off", () {
-    expect(new pb.NonMap(), predicate((x) => x is! Map));
-    expect(new pb2.NonMap2(), predicate((x) => x is! Map));
+    expect(pb.NonMap(), predicate((x) => x is! Map));
+    expect(pb2.NonMap2(), predicate((x) => x is! Map));
   });
 
   test("message implements Map when turned on", () {
-    expect(new pb.Rec(), predicate((x) => x is Map));
-    expect(new pb2.Rec2(), predicate((x) => x is Map));
+    expect(pb.Rec(), predicate((x) => x is Map));
+    expect(pb2.Rec2(), predicate((x) => x is Map));
   });
 
   test('operator [] returns null for unrecognized keys', () {
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     expect(rec["noSuchField"], null);
     expect(rec[1234], null);
     expect(rec[null], null);
   });
 
   test('operator [] returns default value when not set', () {
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     expect(rec["num"], 0);
     expect(rec["nums"], []);
     expect(rec["str"], "");
     expect(rec["msg"], predicate((x) => x is pb.NonMap));
   });
 
-  test('operator [] returns new value when set', () {
-    var rec = new pb.Rec();
+  test('operator [] returns value when set', () {
+    var rec = pb.Rec();
     rec.num = 42;
     expect(rec["num"], 42);
     rec.nums.add(123);
     expect(rec["nums"], [123]);
     rec.str = "hello";
     expect(rec["str"], "hello");
-    var msg = new pb.NonMap();
+    var msg = pb.NonMap();
     rec.msg = msg;
     expect(rec["msg"], same(msg));
   });
 
   test('operator []= throws exception for invalid key', () {
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     expect(() {
       rec["unknown"] = 123;
     },
@@ -63,14 +63,14 @@ void main() {
 
   test('operator []= throws exception for repeated field', () {
     // Copying the values would be confusing.
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     expect(() {
       rec["nums"] = [1, 2];
     }, throwsArgumentError);
   });
 
   test('operator []= throws exception for invalid value type', () {
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     expect(() {
       rec["num"] = "hello";
     }, throwsArgumentError);
@@ -80,7 +80,7 @@ void main() {
   });
 
   test('operator []= sets the field', () {
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     rec["num"] = 123;
     expect(rec.num, 123);
     rec["str"] = "hello";
@@ -88,12 +88,12 @@ void main() {
   });
 
   test('keys returns each field name (even when unset)', () {
-    var rec = new pb.Rec();
-    expect(new Set.from(rec.keys), new Set.from(["msg", "num", "nums", "str"]));
+    var rec = pb.Rec();
+    expect(Set.from(rec.keys), Set.from(["msg", "num", "nums", "str"]));
   });
 
   test('containsKey returns true for fields that exist (even when unset)', () {
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     expect(rec.containsKey("unknown"), false);
     expect(rec.containsKey("str"), true);
     expect(rec.containsKey("num"), true);
@@ -102,14 +102,14 @@ void main() {
   });
 
   test('length is constant', () {
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     expect(rec.length, 4);
     rec.str = "hello";
     expect(rec.length, 4);
   });
 
   test("remove isn't supported", () {
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     rec.str = "hello";
     expect(() {
       rec.remove("str");
@@ -121,7 +121,7 @@ void main() {
 
   test("clear sets each field to its default value (unlike a regular Map)", () {
     // We have little choice here since the clear() method already existed.
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     rec.str = "hello";
     rec.num = 123;
     rec.nums.add(456);
@@ -132,8 +132,8 @@ void main() {
     expect(rec["nums"], []);
   });
 
-  test("addAll sets each field to a new value", () {
-    var rec = new pb.Rec();
+  test("addAll sets each field to a value", () {
+    var rec = pb.Rec();
     rec.addAll({"str": "hello", "num": 123});
     expect(rec["str"], "hello");
     expect(rec["num"], 123);
@@ -141,7 +141,7 @@ void main() {
 
   test("addAll doesn't work for repeated fields", () {
     // It would be confusing to copy the values.
-    var rec = new pb.Rec();
+    var rec = pb.Rec();
     expect(() {
       rec.addAll({
         "nums": [1, 2, 3]

@@ -10,12 +10,12 @@ main() {
     final qualifiedmessageName = 'proto.test.TestMessage';
     final expectedMessageName = 'TestMessage';
     test('truncates qualifiedMessageName containing dots', () {
-      final info = new BuilderInfo(qualifiedmessageName);
+      final info = BuilderInfo(qualifiedmessageName);
       expect(info.messageName, expectedMessageName);
     });
 
     test('uses qualifiedMessageName if it contains no dots', () {
-      final info = new BuilderInfo(expectedMessageName);
+      final info = BuilderInfo(expectedMessageName);
       expect(info.messageName, expectedMessageName);
     });
   });

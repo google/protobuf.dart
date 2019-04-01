@@ -56,7 +56,7 @@ class BazelOptionParser implements SingleOptionParser {
             'ERROR: expected package_name|input_root|output_root. Got: $entry');
         continue;
       }
-      var pkg = new BazelPackage(fields[0], fields[1], fields[2]);
+      var pkg = BazelPackage(fields[0], fields[1], fields[2]);
       if (!output.containsKey(pkg.input_root)) {
         output[pkg.input_root] = pkg;
       } else {
@@ -108,14 +108,14 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
   Uri outputPathFor(Uri input, String extension) {
     var pkg = _findPackage(input.path);
     if (pkg == null) {
-      throw new ArgumentError('Unable to locate package for input $input.');
+      throw ArgumentError('Unable to locate package for input $input.');
     }
 
     // Bazel package-relative paths.
     var relativeInput = input.path.substring('${pkg.input_root}/'.length);
     var base = p.withoutExtension(relativeInput);
     var outputPath = p.join(pkg.output_root, "$base$extension");
-    return new Uri.file(outputPath);
+    return Uri.file(outputPath);
   }
 
   @override
@@ -142,6 +142,6 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
     var pkg = _findPackage(target);
     if (pkg == null) return null;
     var relPath = target.substring(pkg.input_root.length + 1);
-    return new _PackageUri(pkg.name, relPath);
+    return _PackageUri(pkg.name, relPath);
   }
 }

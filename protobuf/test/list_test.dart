@@ -19,7 +19,7 @@ cast(x) => x;
 
 void main() {
   test('testPbList handles basic operations', () {
-    PbList<int> lb1 = new PbList();
+    PbList<int> lb1 = PbList();
     expect(lb1, []);
 
     lb1.add(1);
@@ -52,7 +52,7 @@ void main() {
     expect(count, 108);
 
     bool isEven(int i) => i % 2 == 0;
-    List<int> evens = new List<int>.from(lb1.where(isEven));
+    List<int> evens = List<int>.from(lb1.where(isEven));
     expect(evens, [0, 2, 6]);
 
     expect(lb1.any(isEven), isTrue);
@@ -65,7 +65,7 @@ void main() {
   });
 
   test('PbList handles range operations', () {
-    PbList<int> lb2 = new PbList();
+    PbList<int> lb2 = PbList();
 
     lb2.addAll([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     expect(lb2.sublist(3, 7), [4, 5, 6, 7]);
@@ -94,12 +94,12 @@ void main() {
 
   test('PbList validates items', () {
     expect(() {
-      (new PbList<int>() as dynamic).add('hello');
-    }, throwsA(new TypeMatcher<TypeError>()));
+      (PbList<int>() as dynamic).add('hello');
+    }, throwsA(TypeMatcher<TypeError>()));
   });
 
   test('PbList for signed int32 validates items', () {
-    List<int> list = new PbList(check: getCheckFunction(PbFieldType.P3));
+    List<int> list = PbList(check: getCheckFunction(PbFieldType.P3));
 
     expect(() {
       list.add(-2147483649);
@@ -119,7 +119,7 @@ void main() {
   });
 
   test('PBList for unsigned int32 validates items', () {
-    List<int> list = new PbList(check: getCheckFunction(PbFieldType.PU3));
+    List<int> list = PbList(check: getCheckFunction(PbFieldType.PU3));
 
     expect(() {
       list.add(-1);
@@ -139,7 +139,7 @@ void main() {
   });
 
   test('PbList for float validates items', () {
-    List<double> list = new PbList(check: getCheckFunction(PbFieldType.PF));
+    List<double> list = PbList(check: getCheckFunction(PbFieldType.PF));
 
     expect(() {
       list.add(3.4028234663852886E39);
@@ -159,13 +159,13 @@ void main() {
   });
 
   test('PbList for signed Int64 validates items', () {
-    List<Int64> list = new PbList();
+    List<Int64> list = PbList();
     expect(() {
       list.add(cast(0)); // not an Int64
     }, badArgument);
 
     expect(() {
-      list.add(new Int64(0));
+      list.add(Int64(0));
     }, returnsNormally, reason: 'could not add Int64(0) to a PbList');
 
     expect(() {
@@ -178,20 +178,20 @@ void main() {
   });
 
   test('PbList for unsigned Int64 validates items', () {
-    List<Int64> list = new PbList();
+    List<Int64> list = PbList();
     expect(() {
       list.add(cast(0)); // not an Int64
     }, badArgument);
 
     expect(() {
-      list.add(new Int64(0));
+      list.add(Int64(0));
     }, returnsNormally, reason: 'could not add Int64(0) to a PbList');
 
     // Adding -1 should work because we are storing the bits as-is.
     // (It will be interpreted as a positive number.)
     // See: https://github.com/dart-lang/protobuf/issues/44
     expect(() {
-      list.add(new Int64(-1));
+      list.add(Int64(-1));
     }, returnsNormally, reason: 'could not add Int64(-1) to a PbList');
 
     expect(() {

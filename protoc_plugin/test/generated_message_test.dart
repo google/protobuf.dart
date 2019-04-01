@@ -24,12 +24,12 @@ import 'test_util.dart';
 
 void main() {
   final throwsInvalidProtocolBufferException =
-      throwsA(new TypeMatcher<InvalidProtocolBufferException>());
+      throwsA(TypeMatcher<InvalidProtocolBufferException>());
   test('testProtosShareRepeatedArraysIfDidntChange', () {
-    TestAllTypes value1 = new TestAllTypes()
+    TestAllTypes value1 = TestAllTypes()
       ..repeatedInt32.add(100)
       ..repeatedImportEnum.add(ImportEnum.IMPORT_BAR)
-      ..repeatedForeignMessage.add(new ForeignMessage());
+      ..repeatedForeignMessage.add(ForeignMessage());
 
     TestAllTypes value2 = value1.clone();
 
@@ -39,7 +39,7 @@ void main() {
   });
 
   test('testSettersRejectNull', () {
-    TestAllTypes message = new TestAllTypes();
+    TestAllTypes message = TestAllTypes();
     expect(() {
       message.optionalString = null;
     }, throwsArgumentError);
@@ -73,7 +73,7 @@ void main() {
   });
 
   test('testDefaultMessageIsReadOnly', () {
-    var message = new TestAllTypes();
+    var message = TestAllTypes();
     expect(message.optionalNestedMessage,
         same(TestAllTypes_NestedMessage.getDefault()));
     expect(() {
@@ -108,7 +108,7 @@ void main() {
   });
 
   test('testRepeatedSettersRejectNull', () {
-    TestAllTypes message = new TestAllTypes();
+    TestAllTypes message = TestAllTypes();
 
     message.repeatedString.addAll(['one', 'two']);
     expect(() {
@@ -121,8 +121,8 @@ void main() {
     }, throwsArgumentError);
 
     message.repeatedNestedMessage.addAll([
-      new TestAllTypes_NestedMessage()..bb = 318,
-      new TestAllTypes_NestedMessage()..bb = 456
+      TestAllTypes_NestedMessage()..bb = 318,
+      TestAllTypes_NestedMessage()..bb = 456
     ]);
     expect(() {
       message.repeatedNestedMessage[1] = null;
@@ -136,10 +136,10 @@ void main() {
   });
 
   test('testRepeatedAppend', () {
-    TestAllTypes message = new TestAllTypes()
+    TestAllTypes message = TestAllTypes()
       ..repeatedInt32.addAll([1, 2, 3, 4])
       ..repeatedForeignEnum.addAll([ForeignEnum.FOREIGN_BAZ])
-      ..repeatedForeignMessage.addAll([new ForeignMessage()..c = 12]);
+      ..repeatedForeignMessage.addAll([ForeignMessage()..c = 12]);
 
     expect(message.repeatedInt32, [1, 2, 3, 4]);
     expect(message.repeatedForeignEnum, [ForeignEnum.FOREIGN_BAZ]);
@@ -148,11 +148,10 @@ void main() {
   });
 
   test('testRepeatedAppendRejectsNull', () {
-    TestAllTypes message = new TestAllTypes();
+    TestAllTypes message = TestAllTypes();
 
     expect(() {
-      message.repeatedForeignMessage
-          .addAll([new ForeignMessage()..c = 12, null]);
+      message.repeatedForeignMessage.addAll([ForeignMessage()..c = 12, null]);
     }, throwsArgumentError);
 
     expect(() {
@@ -169,29 +168,29 @@ void main() {
   });
 
   test('testSettingForeignMessage', () {
-    TestAllTypes message = new TestAllTypes()
-      ..optionalForeignMessage = (new ForeignMessage()..c = 123);
+    TestAllTypes message = TestAllTypes()
+      ..optionalForeignMessage = (ForeignMessage()..c = 123);
 
-    TestAllTypes expectedMessage = new TestAllTypes()
-      ..optionalForeignMessage = (new ForeignMessage()..c = 123);
+    TestAllTypes expectedMessage = TestAllTypes()
+      ..optionalForeignMessage = (ForeignMessage()..c = 123);
 
     expect(message, expectedMessage);
   });
 
   test('testSettingRepeatedForeignMessage', () {
-    TestAllTypes message = new TestAllTypes()
-      ..repeatedForeignMessage.add(new ForeignMessage()..c = 456);
+    TestAllTypes message = TestAllTypes()
+      ..repeatedForeignMessage.add(ForeignMessage()..c = 456);
 
-    TestAllTypes expectedMessage = new TestAllTypes()
-      ..repeatedForeignMessage.add(new ForeignMessage()..c = 456);
+    TestAllTypes expectedMessage = TestAllTypes()
+      ..repeatedForeignMessage.add(ForeignMessage()..c = 456);
 
     expect(message, expectedMessage);
   });
 
   test('testDefaults', () {
-    assertClear(new TestAllTypes());
+    assertClear(TestAllTypes());
 
-    TestExtremeDefaultValues message = new TestExtremeDefaultValues();
+    TestExtremeDefaultValues message = TestExtremeDefaultValues();
 
     expect(message.utf8String, '\u1234');
     expect(message.infDouble, same(double.infinity));
@@ -206,7 +205,7 @@ void main() {
   });
 
   test('testClear', () {
-    TestAllTypes message = new TestAllTypes();
+    TestAllTypes message = TestAllTypes();
 
     assertClear(message);
     setAllFields(message);
@@ -222,8 +221,7 @@ void main() {
   // void testReflectionDefaults() {} // UNSUPPORTED -- until reflection
 
   test('testEnumInterface', () {
-    expect(
-        new TestAllTypes().defaultNestedEnum, new TypeMatcher<ProtobufEnum>());
+    expect(TestAllTypes().defaultNestedEnum, TypeMatcher<ProtobufEnum>());
   });
 
   test('testEnumMap', () {
@@ -235,26 +233,26 @@ void main() {
 
   test('testParsePackedToUnpacked', () {
     TestUnpackedTypes message =
-        new TestUnpackedTypes.fromBuffer(getPackedSet().writeToBuffer());
+        TestUnpackedTypes.fromBuffer(getPackedSet().writeToBuffer());
     assertUnpackedFieldsSet(message);
   });
 
   test('testParseUnpackedToPacked', () {
     TestPackedTypes message =
-        new TestPackedTypes.fromBuffer(getUnpackedSet().writeToBuffer());
+        TestPackedTypes.fromBuffer(getUnpackedSet().writeToBuffer());
     assertPackedFieldsSet(message);
   });
 
   test('testIgnoreJavaMultipleFilesOption', () {
     // UNSUPPORTED getFile
     // We mostly just want to check that things compile.
-    MessageWithNoOuter message = new MessageWithNoOuter()
-      ..nested = (new MessageWithNoOuter_NestedMessage()..i = 1)
-      ..foreign.add(new TestAllTypes()..optionalInt32 = 1)
+    MessageWithNoOuter message = MessageWithNoOuter()
+      ..nested = (MessageWithNoOuter_NestedMessage()..i = 1)
+      ..foreign.add(TestAllTypes()..optionalInt32 = 1)
       ..nestedEnum = MessageWithNoOuter_NestedEnum.BAZ
       ..foreignEnum = EnumWithNoOuter.BAR;
 
-    expect(new MessageWithNoOuter.fromBuffer(message.writeToBuffer()), message);
+    expect(MessageWithNoOuter.fromBuffer(message.writeToBuffer()), message);
 
     // Not currently supported in Dart protobuf.
     // expect(MessageWithNoOuter.getDescriptor().getFile(),
@@ -269,23 +267,22 @@ void main() {
     //        MultipleFilesTestProto.getDescriptor());
 
     expect(
-        new TestAllExtensions()
+        TestAllExtensions()
             .hasExtension(Multiple_files_test.extensionWithOuter),
         isFalse);
   });
 
   test('testOptionalFieldWithRequiredSubfieldsOptimizedForSize', () {
-    expect(new TestOptionalOptimizedForSize().isInitialized(), isTrue);
+    expect(TestOptionalOptimizedForSize().isInitialized(), isTrue);
 
     expect(
-        (new TestOptionalOptimizedForSize()
-              ..o = new TestRequiredOptimizedForSize())
+        (TestOptionalOptimizedForSize()..o = TestRequiredOptimizedForSize())
             .isInitialized(),
         isFalse);
 
     expect(
-        (new TestOptionalOptimizedForSize()
-              ..o = (new TestRequiredOptimizedForSize()..x = 5))
+        (TestOptionalOptimizedForSize()
+              ..o = (TestRequiredOptimizedForSize()..x = 5))
             .isInitialized(),
         isTrue);
   });
@@ -299,12 +296,12 @@ void main() {
   test('testReadWholeMessage', () {
     TestAllTypes message = getAllSet();
     List<int> rawBytes = message.writeToBuffer();
-    assertAllFieldsSet(new TestAllTypes.fromBuffer(rawBytes));
+    assertAllFieldsSet(TestAllTypes.fromBuffer(rawBytes));
   });
 
   test('testReadHugeBlob', () {
     // Allocate and initialize a 1MB blob.
-    List<int> blob = new List<int>(1 << 20);
+    List<int> blob = List<int>(1 << 20);
     for (int i = 0; i < blob.length; i++) {
       blob[i] = i % 256;
     }
@@ -313,13 +310,12 @@ void main() {
     TestAllTypes message = getAllSet();
     message.optionalBytes = blob;
 
-    TestAllTypes message2 =
-        new TestAllTypes.fromBuffer(message.writeToBuffer());
+    TestAllTypes message2 = TestAllTypes.fromBuffer(message.writeToBuffer());
     expect(message2.optionalBytes, message.optionalBytes);
   });
 
   test('testRecursiveMessageDefaultInstance', () {
-    TestRecursiveMessage message = new TestRecursiveMessage();
+    TestRecursiveMessage message = TestRecursiveMessage();
     expect(message.a, isNotNull);
     expect(message, message.a);
   });
@@ -327,8 +323,8 @@ void main() {
   test('testMaliciousRecursion', () {
     GeneratedMessage _makeRecursiveMessage(int depth) {
       return depth == 0
-          ? (new TestRecursiveMessage()..i = 5)
-          : (new TestRecursiveMessage()..a = _makeRecursiveMessage(depth - 1));
+          ? (TestRecursiveMessage()..i = 5)
+          : (TestRecursiveMessage()..a = _makeRecursiveMessage(depth - 1));
     }
 
     _assertMessageDepth(TestRecursiveMessage message, int depth) {
@@ -344,32 +340,32 @@ void main() {
     List<int> data64 = _makeRecursiveMessage(64).writeToBuffer();
     List<int> data65 = _makeRecursiveMessage(65).writeToBuffer();
 
-    _assertMessageDepth(new TestRecursiveMessage.fromBuffer(data64), 64);
+    _assertMessageDepth(TestRecursiveMessage.fromBuffer(data64), 64);
 
     expect(() {
-      new TestRecursiveMessage.fromBuffer(data65);
+      TestRecursiveMessage.fromBuffer(data65);
     }, throwsInvalidProtocolBufferException);
 
-    CodedBufferReader input = new CodedBufferReader(data64, recursionLimit: 8);
+    CodedBufferReader input = CodedBufferReader(data64, recursionLimit: 8);
     expect(() {
       // Uncomfortable alternative to below...
-      new TestRecursiveMessage().mergeFromCodedBufferReader(input);
+      TestRecursiveMessage().mergeFromCodedBufferReader(input);
     }, throwsInvalidProtocolBufferException);
   });
 
   test('testSizeLimit', () {
     CodedBufferReader input =
-        new CodedBufferReader(getAllSet().writeToBuffer(), sizeLimit: 16);
+        CodedBufferReader(getAllSet().writeToBuffer(), sizeLimit: 16);
 
     expect(() {
       // Uncomfortable alternative to below...
-      new TestAllTypes().mergeFromCodedBufferReader(input);
+      TestAllTypes().mergeFromCodedBufferReader(input);
     }, throwsInvalidProtocolBufferException);
   });
   test('testSerialize', () {
     TestAllTypes expected = getAllSet();
     List<int> out = expected.writeToBuffer();
-    TestAllTypes actual = new TestAllTypes.fromBuffer(out);
+    TestAllTypes actual = TestAllTypes.fromBuffer(out);
     expect(actual, expected);
   });
 
@@ -452,18 +448,18 @@ void main() {
   });
 
   test('testWriteMessageWithNegativeEnumValue', () {
-    SparseEnumMessage message = new SparseEnumMessage()
+    SparseEnumMessage message = SparseEnumMessage()
       ..sparseEnum = TestSparseEnum.SPARSE_E;
     expect(message.sparseEnum.value < 0, isTrue,
         reason: 'enum.value should be -53452');
     SparseEnumMessage message2 =
-        new SparseEnumMessage.fromBuffer(message.writeToBuffer());
+        SparseEnumMessage.fromBuffer(message.writeToBuffer());
     expect(message2.sparseEnum, TestSparseEnum.SPARSE_E,
         reason: 'should resolve back to SPARSE_E');
   });
 
   test('testReservedNamesOptional', () {
-    ReservedNamesOptional message = new ReservedNamesOptional();
+    ReservedNamesOptional message = ReservedNamesOptional();
     message.hashCode_1 = 1;
     expect(message.hashCode_1, 1);
     expect(message.hasHashCode_1(), isTrue);
@@ -506,7 +502,7 @@ void main() {
   });
 
   test('testReservedNamesRepeated', () {
-    ReservedNamesRepeated message = new ReservedNamesRepeated();
+    ReservedNamesRepeated message = ReservedNamesRepeated();
     message.hashCode_1.clear();
     message.noSuchMethod_2.clear();
     message.runtimeType_3.clear();
@@ -545,7 +541,7 @@ void main() {
   });
 
   test('testReservedNamesRequired', () {
-    ReservedNamesRequired message = new ReservedNamesRequired();
+    ReservedNamesRequired message = ReservedNamesRequired();
     message.hashCode_1 = 1;
     expect(message.hashCode_1, 1);
     expect(message.hasHashCode_1(), isTrue);
@@ -588,7 +584,7 @@ void main() {
   });
 
   test('testReservedWordsOptional', () {
-    ReservedWordsOptional message = new ReservedWordsOptional();
+    ReservedWordsOptional message = ReservedWordsOptional();
     message.assert_1 = 1;
     message.break_2 = 1;
     message.case_3 = 1;
@@ -625,7 +621,7 @@ void main() {
   });
 
   test('testReservedWordsRepeated', () {
-    ReservedWordsRepeated message = new ReservedWordsRepeated();
+    ReservedWordsRepeated message = ReservedWordsRepeated();
     message.assert_1.clear();
     message.break_2.clear();
     message.case_3.clear();
@@ -662,7 +658,7 @@ void main() {
   });
 
   test('testReservedWordsRequired', () {
-    ReservedWordsRequired message = new ReservedWordsRequired();
+    ReservedWordsRequired message = ReservedWordsRequired();
     message.assert_1 = 1;
     message.break_2 = 1;
     message.case_3 = 1;
@@ -699,23 +695,23 @@ void main() {
   });
 
   test('testImportDuplicatenames', () {
-    M message = new M();
-    message.m1 = new p1.M();
-    message.m1M = new p1.M_M();
-    message.m2 = new p2.M();
-    message.m2M = new p2.M_M();
-    message.m3 = new p3.M();
-    message.m3M = new p3.M_M();
+    M message = M();
+    message.m1 = p1.M();
+    message.m1M = p1.M_M();
+    message.m2 = p2.M();
+    message.m2M = p2.M_M();
+    message.m3 = p3.M();
+    message.m3M = p3.M_M();
   });
 
   test('testToplevel', () {
-    t.M message = new t.M();
-    message.t = new T();
-    new t.SApi(null);
+    t.M message = t.M();
+    message.t = T();
+    t.SApi(null);
   });
 
   test('to toDebugString', () {
-    TestAllTypes value1 = new TestAllTypes()..optionalString = "test 123";
+    TestAllTypes value1 = TestAllTypes()..optionalString = "test 123";
     expect(value1.toString(), 'optionalString: test 123\n');
   });
 }

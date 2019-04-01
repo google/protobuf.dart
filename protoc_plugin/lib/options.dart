@@ -98,13 +98,13 @@ GenerationOptions parseGenerationOptions(
   final newParsers = <String, SingleOptionParser>{};
   if (parsers != null) newParsers.addAll(parsers);
 
-  final grpcOptionParser = new GrpcOptionParser();
+  final grpcOptionParser = GrpcOptionParser();
   newParsers['grpc'] = grpcOptionParser;
-  final generateMetadataParser = new GenerateMetadataParser();
+  final generateMetadataParser = GenerateMetadataParser();
   newParsers['generate_kythe_info'] = generateMetadataParser;
 
   if (genericOptionsParser(request, response, newParsers)) {
-    return new GenerationOptions(
+    return GenerationOptions(
         useGrpc: grpcOptionParser.grpcEnabled,
         generateMetadata: generateMetadataParser.generateKytheInfo);
   }

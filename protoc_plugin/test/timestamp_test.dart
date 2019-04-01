@@ -9,14 +9,14 @@ import '../out/protos/google/protobuf/timestamp.pb.dart';
 
 void main() {
   test('timestamp -> datetime -> timestamp', () {
-    Timestamp timestamp = new Timestamp()
-      ..seconds = new Int64(1550225928)
+    Timestamp timestamp = Timestamp()
+      ..seconds = Int64(1550225928)
       ..nanos = 12345000;
     expect(Timestamp.fromDateTime(timestamp.toDateTime()), timestamp);
   });
 
   test('utc datetime -> timestamp -> datetime', () {
-    DateTime dateTime = new DateTime.utc(2019, 02, 15, 10, 21, 25, 5, 5);
+    DateTime dateTime = DateTime.utc(2019, 02, 15, 10, 21, 25, 5, 5);
     DateTime fromProto = Timestamp.fromDateTime(dateTime).toDateTime();
 
     expect(fromProto.isUtc, true, reason: "$fromProto is not a UTC time.");
@@ -24,7 +24,7 @@ void main() {
   });
 
   test('local datetime -> timestamp -> datetime', () {
-    DateTime dateTime = new DateTime(2019, 02, 15, 10, 21, 25, 5, 5);
+    DateTime dateTime = DateTime(2019, 02, 15, 10, 21, 25, 5, 5);
     DateTime fromProto = Timestamp.fromDateTime(dateTime).toDateTime();
 
     expect(fromProto.isUtc, true, reason: "$fromProto is not a UTC time.");

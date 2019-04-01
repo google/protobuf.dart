@@ -43,7 +43,7 @@ runSuiteInVM(pb.Suite suite) async {
 
   // save the report to a file
   var outFile = "${dataDir.path}/$latestVMReportName";
-  var tmpFile = new File("$outFile.tmp");
+  var tmpFile = File("$outFile.tmp");
   await tmpFile.writeAsString(encodeReport(lastReport));
   await tmpFile.rename(outFile);
   print("\nWrote result to ${outFile}");
@@ -55,7 +55,7 @@ String _summarize(pb.Response r) {
   return b.summarizeResponse(r);
 }
 
-final _escapeChar = new String.fromCharCode(27);
+final _escapeChar = String.fromCharCode(27);
 final _clearLine = "\r$_escapeChar[2K";
 
 /// Overwrite the last line printed to the terminal.
@@ -71,10 +71,10 @@ Future<pb.Env> _loadEnv() async {
     ..osType = _osType
     ..dartVersion = Platform.version;
 
-  var pubspec = await (new File(pubspecYaml.path).readAsString());
-  var lock = await (new File(pubspecLock.path).readAsString());
+  var pubspec = await (File(pubspecYaml.path).readAsString());
+  var lock = await (File(pubspecLock.path).readAsString());
 
-  return new pb.Env()
+  return pb.Env()
     ..script = _script
     ..platform = platform
     ..packages = createPackages(pubspec, lock);
@@ -118,12 +118,12 @@ pb.OSType get _osType {
   throw "unknown OS type";
 }
 
-final File hostnameFile = new File("${dataDir.path}/$hostfileName");
-final Link pubspecYaml = new Link("${dataDir.path}/$pubspecYamlName");
-final Link pubspecLock = new Link("${dataDir.path}/$pubspecLockName");
+final File hostnameFile = File("${dataDir.path}/$hostfileName");
+final Link pubspecYaml = Link("${dataDir.path}/$pubspecYamlName");
+final Link pubspecLock = Link("${dataDir.path}/$pubspecLockName");
 
 final Directory dataDir = () {
-  var d = new Directory("${pubspecDir.path}/web/data");
+  var d = Directory("${pubspecDir.path}/web/data");
   if (!d.existsSync()) {
     throw "data dir doesn't exist at ${d.path}";
   }
@@ -133,7 +133,7 @@ final Directory dataDir = () {
 /// Returns the drectory containing the pubspec.yaml file.
 final Directory pubspecDir = () {
   for (var d = Directory.current; d.parent != d; d = d.parent) {
-    if (new File("${d.path}/pubspec.yaml").existsSync()) {
+    if (File("${d.path}/pubspec.yaml").existsSync()) {
       return d;
     }
   }

@@ -17,9 +17,9 @@ import 'generated/benchmark.pb.dart' as pb;
 Iterable<pb.Report> runSuite(List<pb.Request> requests,
     {samplesPerBatch = 1, Profiler profiler}) sync* {
   // Create a blank report with one response per request.
-  var report = new pb.Report()..status = pb.Status.RUNNING;
+  var report = pb.Report()..status = pb.Status.RUNNING;
   for (var request in requests) {
-    var r = new pb.Response()..request = request;
+    var r = pb.Response()..request = request;
     report.responses.add(r);
   }
 

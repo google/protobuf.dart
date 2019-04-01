@@ -11,11 +11,11 @@ import 'package:test/test.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 
-final Matcher throwsATypeError = throwsA(new TypeMatcher<TypeError>());
+final Matcher throwsATypeError = throwsA(TypeMatcher<TypeError>());
 
 Int64 make64(int lo, [int hi]) {
   if (hi == null) hi = lo < 0 ? -1 : 0;
-  return new Int64.fromInts(hi, lo);
+  return Int64.fromInts(hi, lo);
 }
 
 expect64(int lo, [int hi]) {
@@ -1271,7 +1271,7 @@ void assertUnpackedFieldsSet(TestUnpackedTypes message) {
 }
 
 TestAllExtensions getAllExtensionsSet() {
-  TestAllExtensions message = new TestAllExtensions();
+  TestAllExtensions message = TestAllExtensions();
   setAllExtensions(message);
   return message;
 }
@@ -1281,31 +1281,31 @@ TestAllExtensions getAllExtensionsSet() {
  * be by [setAllFields(TestAllTypes)].
  */
 TestAllTypes getAllSet() {
-  TestAllTypes message = new TestAllTypes();
+  TestAllTypes message = TestAllTypes();
   setAllFields(message);
   return message;
 }
 
 ExtensionRegistry getExtensionRegistry() {
-  ExtensionRegistry registry = new ExtensionRegistry();
+  ExtensionRegistry registry = ExtensionRegistry();
   registerAllExtensions(registry);
   return registry /*.getUnmodifiable()*/;
 }
 
 TestPackedExtensions getPackedExtensionsSet() {
-  TestPackedExtensions message = new TestPackedExtensions();
+  TestPackedExtensions message = TestPackedExtensions();
   setPackedExtensions(message);
   return message;
 }
 
 TestPackedTypes getPackedSet() {
-  TestPackedTypes message = new TestPackedTypes();
+  TestPackedTypes message = TestPackedTypes();
   setPackedFields(message);
   return message;
 }
 
 TestUnpackedTypes getUnpackedSet() {
-  TestUnpackedTypes message = new TestUnpackedTypes();
+  TestUnpackedTypes message = TestUnpackedTypes();
   setUnpackedFields(message);
   return message;
 }
@@ -1329,19 +1329,19 @@ void modifyRepeatedExtensions(TestAllExtensions message) {
 
   var msg;
 
-  msg = new RepeatedGroup_extension();
+  msg = RepeatedGroup_extension();
   msg.a = 517;
   message.getExtension(Unittest.repeatedGroupExtension)[1] = msg;
 
-  msg = new TestAllTypes_NestedMessage();
+  msg = TestAllTypes_NestedMessage();
   msg.bb = 518;
   message.getExtension(Unittest.repeatedNestedMessageExtension)[1] = msg;
 
-  msg = new ForeignMessage();
+  msg = ForeignMessage();
   msg.c = 519;
   message.getExtension(Unittest.repeatedForeignMessageExtension)[1] = msg;
 
-  msg = new ImportMessage();
+  msg = ImportMessage();
   msg.d = 520;
   message.getExtension(Unittest.repeatedImportMessageExtension)[1] = msg;
 
@@ -1377,20 +1377,20 @@ void modifyRepeatedFields(TestAllTypes message) {
   message.repeatedString[1] = '515';
   message.repeatedBytes[1] = '516'.codeUnits;
 
-  TestAllTypes_RepeatedGroup repeatedGroup = new TestAllTypes_RepeatedGroup();
+  TestAllTypes_RepeatedGroup repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 517;
   message.repeatedGroup[1] = repeatedGroup;
 
   TestAllTypes_NestedMessage optionalNestedMessage =
-      new TestAllTypes_NestedMessage();
+      TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 518;
   message.repeatedNestedMessage[1] = optionalNestedMessage;
 
-  ForeignMessage optionalForeignMessage = new ForeignMessage();
+  ForeignMessage optionalForeignMessage = ForeignMessage();
   optionalForeignMessage.c = 519;
   message.repeatedForeignMessage[1] = optionalForeignMessage;
 
-  ImportMessage optionalImportMessage = new ImportMessage();
+  ImportMessage optionalImportMessage = ImportMessage();
   optionalImportMessage.d = 520;
   message.repeatedImportMessage[1] = optionalImportMessage;
 
@@ -1425,19 +1425,19 @@ void setAllExtensions(TestAllExtensions message) {
 
   var msg;
 
-  msg = new OptionalGroup_extension();
+  msg = OptionalGroup_extension();
   msg.a = 117;
   message.setExtension(Unittest.optionalGroupExtension, msg);
 
-  msg = new TestAllTypes_NestedMessage();
+  msg = TestAllTypes_NestedMessage();
   msg.bb = 118;
   message.setExtension(Unittest.optionalNestedMessageExtension, msg);
 
-  msg = new ForeignMessage();
+  msg = ForeignMessage();
   msg.c = 119;
   message.setExtension(Unittest.optionalForeignMessageExtension, msg);
 
-  msg = new ImportMessage();
+  msg = ImportMessage();
   msg.d = 120;
   message.setExtension(Unittest.optionalImportMessageExtension, msg);
 
@@ -1469,19 +1469,19 @@ void setAllExtensions(TestAllExtensions message) {
   message.addExtension(Unittest.repeatedStringExtension, '215');
   message.addExtension(Unittest.repeatedBytesExtension, '216'.codeUnits);
 
-  msg = new RepeatedGroup_extension();
+  msg = RepeatedGroup_extension();
   msg.a = 217;
   message.addExtension(Unittest.repeatedGroupExtension, msg);
 
-  msg = new TestAllTypes_NestedMessage();
+  msg = TestAllTypes_NestedMessage();
   msg.bb = 218;
   message.addExtension(Unittest.repeatedNestedMessageExtension, msg);
 
-  msg = new ForeignMessage();
+  msg = ForeignMessage();
   msg.c = 219;
   message.addExtension(Unittest.repeatedForeignMessageExtension, msg);
 
-  msg = new ImportMessage();
+  msg = ImportMessage();
   msg.d = 220;
   message.addExtension(Unittest.repeatedImportMessageExtension, msg);
 
@@ -1512,19 +1512,19 @@ void setAllExtensions(TestAllExtensions message) {
   message.addExtension(Unittest.repeatedStringExtension, '315');
   message.addExtension(Unittest.repeatedBytesExtension, '316'.codeUnits);
 
-  msg = new RepeatedGroup_extension();
+  msg = RepeatedGroup_extension();
   msg.a = 317;
   message.addExtension(Unittest.repeatedGroupExtension, msg);
 
-  msg = new TestAllTypes_NestedMessage();
+  msg = TestAllTypes_NestedMessage();
   msg.bb = 318;
   message.addExtension(Unittest.repeatedNestedMessageExtension, msg);
 
-  msg = new ForeignMessage();
+  msg = ForeignMessage();
   msg.c = 319;
   message.addExtension(Unittest.repeatedForeignMessageExtension, msg);
 
-  msg = new ImportMessage();
+  msg = ImportMessage();
   msg.d = 320;
   message.addExtension(Unittest.repeatedImportMessageExtension, msg);
 
@@ -1588,20 +1588,20 @@ void setAllFields(TestAllTypes message) {
   message.optionalString = '115';
   message.optionalBytes = '116'.codeUnits;
 
-  TestAllTypes_OptionalGroup optionalGroup = new TestAllTypes_OptionalGroup();
+  TestAllTypes_OptionalGroup optionalGroup = TestAllTypes_OptionalGroup();
   optionalGroup.a = 117;
   message.optionalGroup = optionalGroup;
 
   TestAllTypes_NestedMessage optionalNestedMessage =
-      new TestAllTypes_NestedMessage();
+      TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 118;
   message.optionalNestedMessage = optionalNestedMessage;
 
-  ForeignMessage optionalForeignMessage = new ForeignMessage();
+  ForeignMessage optionalForeignMessage = ForeignMessage();
   optionalForeignMessage.c = 119;
   message.optionalForeignMessage = optionalForeignMessage;
 
-  ImportMessage optionalImportMessage = new ImportMessage();
+  ImportMessage optionalImportMessage = ImportMessage();
   optionalImportMessage.d = 120;
   message.optionalImportMessage = optionalImportMessage;
 
@@ -1630,19 +1630,19 @@ void setAllFields(TestAllTypes message) {
   message.repeatedString.add('215');
   message.repeatedBytes.add('216'.codeUnits);
 
-  TestAllTypes_RepeatedGroup repeatedGroup = new TestAllTypes_RepeatedGroup();
+  TestAllTypes_RepeatedGroup repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 217;
   message.repeatedGroup.add(repeatedGroup);
 
-  TestAllTypes_NestedMessage repeatedNested = new TestAllTypes_NestedMessage();
+  TestAllTypes_NestedMessage repeatedNested = TestAllTypes_NestedMessage();
   repeatedNested.bb = 218;
   message.repeatedNestedMessage.add(repeatedNested);
 
-  ForeignMessage repeatedForeignMessage = new ForeignMessage();
+  ForeignMessage repeatedForeignMessage = ForeignMessage();
   repeatedForeignMessage.c = 219;
   message.repeatedForeignMessage.add(repeatedForeignMessage);
 
-  ImportMessage repeatedImportMessage = new ImportMessage();
+  ImportMessage repeatedImportMessage = ImportMessage();
   repeatedImportMessage.d = 220;
   message.repeatedImportMessage.add(repeatedImportMessage);
 
@@ -1670,19 +1670,19 @@ void setAllFields(TestAllTypes message) {
   message.repeatedString.add('315');
   message.repeatedBytes.add('316'.codeUnits);
 
-  repeatedGroup = new TestAllTypes_RepeatedGroup();
+  repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 317;
   message.repeatedGroup.add(repeatedGroup);
 
-  repeatedNested = new TestAllTypes_NestedMessage();
+  repeatedNested = TestAllTypes_NestedMessage();
   repeatedNested.bb = 318;
   message.repeatedNestedMessage.add(repeatedNested);
 
-  repeatedForeignMessage = new ForeignMessage();
+  repeatedForeignMessage = ForeignMessage();
   repeatedForeignMessage.c = 319;
   message.repeatedForeignMessage.add(repeatedForeignMessage);
 
-  repeatedImportMessage = new ImportMessage();
+  repeatedImportMessage = ImportMessage();
   repeatedImportMessage.d = 320;
   message.repeatedImportMessage.add(repeatedImportMessage);
 

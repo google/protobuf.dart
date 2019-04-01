@@ -8,7 +8,7 @@ class ClientApiGenerator {
   // The service that this Client API connects to.
   final ServiceGenerator service;
   final String className;
-  final Set<String> usedMethodNames = new Set<String>()
+  final Set<String> usedMethodNames = Set<String>()
     ..addAll(reservedMemberNames);
 
   ClientApiGenerator(this.service, Set<String> usedNames)
@@ -45,7 +45,7 @@ class ClientApiGenerator {
         '$_asyncImportPrefix.Future<$outputType> $methodName('
         '$_protobufImportPrefix.ClientContext ctx, $inputType request) {',
         '}', () {
-      out.println('var emptyResponse = new $outputType();');
+      out.println('var emptyResponse = $outputType();');
       out.println('return _client.invoke<$outputType>(ctx, \'${className}\', '
           '\'${m.name}\', request, emptyResponse);');
     });

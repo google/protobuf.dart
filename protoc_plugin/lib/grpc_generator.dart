@@ -57,7 +57,7 @@ class GrpcServiceGenerator {
   /// Precondition: messages have been registered and resolved.
   void resolve(GenerationContext ctx) {
     for (var method in _descriptor.method) {
-      _methods.add(new _GrpcMethod(this, ctx, method));
+      _methods.add(_GrpcMethod(this, ctx, method));
     }
   }
 
@@ -201,7 +201,7 @@ class _GrpcMethod {
     final serverReturnType =
         serverStreaming ? '$_stream<$responseType>' : '$_future<$responseType>';
 
-    return new _GrpcMethod._(
+    return _GrpcMethod._(
         grpcName,
         dartName,
         service._fullServiceName,
@@ -216,11 +216,11 @@ class _GrpcMethod {
 
   void generateClientMethodDescriptor(IndentingWriter out) {
     out.println(
-        'static final _\$$_dartName = new $_clientMethod<$_requestType, $_responseType>(');
+        'static final _\$$_dartName = $_clientMethod<$_requestType, $_responseType>(');
     out.println('    \'/$_serviceName/$_grpcName\',');
     out.println('    ($_requestType value) => value.writeToBuffer(),');
     out.println(
-        '    ($_coreImportPrefix.List<$_coreImportPrefix.int> value) => new $_responseType.fromBuffer(value));');
+        '    ($_coreImportPrefix.List<$_coreImportPrefix.int> value) => $_responseType.fromBuffer(value));');
   }
 
   void generateClientStub(IndentingWriter out) {
@@ -229,26 +229,25 @@ class _GrpcMethod {
         '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions} options}) {',
         '}', () {
       final requestStream =
-          _clientStreaming ? 'request' : 'new $_stream.fromIterable([request])';
+          _clientStreaming ? 'request' : '$_stream.fromIterable([request])';
       out.println(
           'final call = \$createCall(_\$$_dartName, $requestStream, options: options);');
       if (_serverStreaming) {
-        out.println('return new $_responseStream(call);');
+        out.println('return $_responseStream(call);');
       } else {
-        out.println('return new $_responseFuture(call);');
+        out.println('return $_responseFuture(call);');
       }
     });
   }
 
   void generateServiceMethodRegistration(IndentingWriter out) {
-    out.println(
-        '\$addMethod(new $_serviceMethod<$_requestType, $_responseType>(');
+    out.println('\$addMethod($_serviceMethod<$_requestType, $_responseType>(');
     out.println('    \'$_grpcName\',');
     out.println('    $_dartName${_clientStreaming ? '' : '_Pre'},');
     out.println('    $_clientStreaming,');
     out.println('    $_serverStreaming,');
     out.println(
-        '    ($_coreImportPrefix.List<$_coreImportPrefix.int> value) => new $_requestType.fromBuffer(value),');
+        '    ($_coreImportPrefix.List<$_coreImportPrefix.int> value) => $_requestType.fromBuffer(value),');
     out.println('    ($_responseType value) => value.writeToBuffer()));');
   }
 

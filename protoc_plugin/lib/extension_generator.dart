@@ -37,7 +37,7 @@ class ExtensionGenerator {
             descriptor, parent, usedNames, repeatedFieldIndex, _nestedFieldTag);
 
   void resolve(GenerationContext ctx) {
-    _field = new ProtobufField.extension(_descriptor, _parent, ctx);
+    _field = ProtobufField.extension(_descriptor, _parent, ctx);
 
     ProtobufContainer extendedType = ctx.getFieldType(_descriptor.extendee);
     // TODO(skybrian) When would this be null?
@@ -52,13 +52,13 @@ class ExtensionGenerator {
   FileGenerator get fileGen => _parent.fileGen;
 
   String get name {
-    if (_field == null) throw new StateError("resolve not called");
+    if (_field == null) throw StateError("resolve not called");
     String name = _extensionName;
     return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
   }
 
   bool get needsFixnumImport {
-    if (_field == null) throw new StateError("resolve not called");
+    if (_field == null) throw StateError("resolve not called");
     return _field.needsFixnumImport;
   }
 
@@ -68,7 +68,7 @@ class ExtensionGenerator {
   /// add its generator.
   void addImportsTo(
       Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
-    if (_field == null) throw new StateError("resolve not called");
+    if (_field == null) throw StateError("resolve not called");
     var typeGen = _field.baseType.generator;
     if (typeGen != null) {
       // The type of this extension is defined in a different file,
@@ -87,12 +87,12 @@ class ExtensionGenerator {
   /// For each .pb.dart file that the generated code needs to import,
   /// add its generator.
   void addConstantImportsTo(Set<FileGenerator> imports) {
-    if (_field == null) throw new StateError("resolve not called");
+    if (_field == null) throw StateError("resolve not called");
     // No dependencies - nothing to do.
   }
 
   void generate(IndentingWriter out) {
-    if (_field == null) throw new StateError("resolve not called");
+    if (_field == null) throw StateError("resolve not called");
 
     String name = _extensionName;
     var type = _field.baseType;
@@ -101,12 +101,12 @@ class ExtensionGenerator {
     if (_field.isRepeated) {
       out.printAnnotated(
           'static final $_protobufImportPrefix.Extension $name = '
-          'new $_protobufImportPrefix.Extension<$dartType>.repeated(\'$_extendedFullName\','
+          '$_protobufImportPrefix.Extension<$dartType>.repeated(\'$_extendedFullName\','
           ' \'$name\', ${_field.number}, ${_field.typeConstant}',
           [
-            new NamedLocation(
+            NamedLocation(
                 name: name,
-                fieldPathSegment: new List.from(fieldPath)..add(1),
+                fieldPathSegment: List.from(fieldPath),
                 start: 'static final $_protobufImportPrefix.Extension '.length)
           ]);
       if (type.isMessage || type.isGroup) {
@@ -125,12 +125,12 @@ class ExtensionGenerator {
 
     out.printAnnotated(
         'static final $_protobufImportPrefix.Extension $name = '
-        'new $_protobufImportPrefix.Extension<$dartType>(\'$_extendedFullName\', \'$name\', '
+        '$_protobufImportPrefix.Extension<$dartType>(\'$_extendedFullName\', \'$name\', '
         '${_field.number}, ${_field.typeConstant}',
         [
-          new NamedLocation(
+          NamedLocation(
               name: name,
-              fieldPathSegment: new List.from(fieldPath)..add(1),
+              fieldPathSegment: List.from(fieldPath),
               start: 'static final $_protobufImportPrefix.Extension '.length)
         ]);
 

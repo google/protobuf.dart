@@ -24,12 +24,12 @@ throwsError(Type expectedType, Matcher expectedMessage) =>
     }));
 
 class Rec extends GeneratedMessage {
-  static Rec getDefault() => new Rec()..freeze();
-  static Rec create() => new Rec();
-  Rec createEmptyInstance() => new Rec();
+  static Rec getDefault() => Rec()..freeze();
+  static Rec create() => Rec();
+  Rec createEmptyInstance() => Rec();
 
   @override
-  BuilderInfo info_ = new BuilderInfo('rec')
+  BuilderInfo info_ = BuilderInfo('rec')
     ..a(1, 'value', PbFieldType.O3)
     ..pc<Rec>(2, 'sub', PbFieldType.PM, Rec.create)
     ..p<int>(10, 'ints', PbFieldType.P3);
@@ -46,7 +46,7 @@ class Rec extends GeneratedMessage {
   List<int> get ints => $_getList<int>(2);
 
   @override
-  Rec clone() => new Rec()..mergeFromMessage(this);
+  Rec clone() => Rec()..mergeFromMessage(this);
 
   Rec copyWith(void Function(Rec) updates) =>
       super.copyWith((message) => updates(message as Rec));
@@ -248,7 +248,7 @@ main() {
 
   test("can modify unknown fields while rebuilding a frozen message", () {
     final orig = Rec.create()
-      ..unknownFields.addField(20, new UnknownFieldSetField()..fixed32s.add(1));
+      ..unknownFields.addField(20, UnknownFieldSetField()..fixed32s.add(1));
     final rebuilt = orig.copyWith((m) => m.unknownFields.clear());
     expect(orig.unknownFields.hasField(20), true);
     expect(rebuilt.unknownFields.hasField(20), false);

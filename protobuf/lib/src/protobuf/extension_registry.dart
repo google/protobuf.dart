@@ -10,12 +10,12 @@ class ExtensionRegistry {
   final Map<String, Map<int, Extension>> _extensions =
       <String, Map<int, Extension>>{};
 
-  static const ExtensionRegistry EMPTY = const _EmptyExtensionRegistry();
+  static const ExtensionRegistry EMPTY = _EmptyExtensionRegistry();
 
   /// Stores an [extension] in the registry.
   void add(Extension extension) {
     var map = _extensions.putIfAbsent(
-        extension.extendee, () => new Map<int, Extension>());
+        extension.extendee, () => Map<int, Extension>());
     map[extension.tagNumber] = extension;
   }
 
@@ -42,11 +42,11 @@ class _EmptyExtensionRegistry implements ExtensionRegistry {
   get _extensions => null;
 
   void add(Extension extension) {
-    throw new UnsupportedError('Immutable ExtensionRegistry');
+    throw UnsupportedError('Immutable ExtensionRegistry');
   }
 
   void addAll(Iterable<Extension> extensions) {
-    throw new UnsupportedError('Immutable ExtensionRegistry');
+    throw UnsupportedError('Immutable ExtensionRegistry');
   }
 
   Extension getExtension(String messageName, int tagNumber) => null;

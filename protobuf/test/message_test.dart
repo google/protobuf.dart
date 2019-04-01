@@ -11,8 +11,8 @@ import 'mock_util.dart' show MockMessage, mockInfo;
 
 class Rec extends MockMessage {
   get info_ => _info;
-  static final _info = mockInfo("Rec", () => new Rec());
-  Rec createEmptyInstance() => new Rec();
+  static final _info = mockInfo("Rec", () => Rec());
+  Rec createEmptyInstance() => Rec();
 }
 
 throwsError(Type expectedType, String expectedMessage) =>
@@ -24,25 +24,25 @@ throwsError(Type expectedType, String expectedMessage) =>
 
 main() {
   test('getField with invalid tag throws exception', () {
-    var r = new Rec();
+    var r = Rec();
     expect(() {
       r.getField(123);
     }, throwsError(ArgumentError, "tag 123 not defined in Rec"));
   });
 
   test('getDefaultForField with invalid tag throws exception', () {
-    var r = new Rec();
+    var r = Rec();
     expect(() {
       r.getDefaultForField(123);
     }, throwsError(ArgumentError, "tag 123 not defined in Rec"));
   });
 
   test('operator== and hashCode works for frozen message', () {
-    final a = new Rec()
+    final a = Rec()
       ..val = 123
       ..int32s.addAll([1, 2, 3])
       ..freeze();
-    final b = new Rec()
+    final b = Rec()
       ..val = 123
       ..int32s.addAll([1, 2, 3]);
 
@@ -52,10 +52,10 @@ main() {
   });
 
   test('operator== and hashCode work for a simple record', () {
-    var a = new Rec();
+    var a = Rec();
     expect(a == a, true);
 
-    var b = new Rec();
+    var b = Rec();
     expect(a.info_ == b.info_, true, reason: "BuilderInfo should be the same");
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);
@@ -66,9 +66,9 @@ main() {
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);
 
-    a.child = new Rec();
+    a.child = Rec();
     expect(a == b, false);
-    b.child = new Rec();
+    b.child = Rec();
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);
   });

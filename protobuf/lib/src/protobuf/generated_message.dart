@@ -20,19 +20,19 @@ abstract class GeneratedMessage {
   _FieldSet _fieldSet;
 
   GeneratedMessage() {
-    _fieldSet = new _FieldSet(this, info_, eventPlugin);
+    _fieldSet = _FieldSet(this, info_, eventPlugin);
     if (eventPlugin != null) eventPlugin.attach(this);
   }
 
   GeneratedMessage.fromBuffer(
       List<int> input, ExtensionRegistry extensionRegistry) {
-    _fieldSet = new _FieldSet(this, info_, eventPlugin);
+    _fieldSet = _FieldSet(this, info_, eventPlugin);
     if (eventPlugin != null) eventPlugin.attach(this);
     mergeFromBuffer(input, extensionRegistry);
   }
 
   GeneratedMessage.fromJson(String input, ExtensionRegistry extensionRegistry) {
-    _fieldSet = new _FieldSet(this, info_, eventPlugin);
+    _fieldSet = _FieldSet(this, info_, eventPlugin);
     if (eventPlugin != null) eventPlugin.attach(this);
     mergeFromJson(input, extensionRegistry);
   }
@@ -132,7 +132,7 @@ abstract class GeneratedMessage {
   /// This generates the same output as [toString], but can be used by mixins
   /// to compose debug strings with additional information.
   String toDebugString() {
-    var out = new StringBuffer();
+    var out = StringBuffer();
     _fieldSet.writeString(out, '');
     return out.toString();
   }
@@ -142,12 +142,12 @@ abstract class GeneratedMessage {
       List<String> invalidFields = <String>[];
       _fieldSet._appendInvalidFields(invalidFields, "");
       String missingFields = (invalidFields..sort()).join(', ');
-      throw new StateError('Message missing required fields: $missingFields');
+      throw StateError('Message missing required fields: $missingFields');
     }
   }
 
   Uint8List writeToBuffer() {
-    CodedBufferWriter out = new CodedBufferWriter();
+    CodedBufferWriter out = CodedBufferWriter();
     writeToCodedBufferWriter(out);
     return out.toBuffer();
   }
@@ -169,7 +169,7 @@ abstract class GeneratedMessage {
   ///   the existing sub-message.
   void mergeFromBuffer(List<int> input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    CodedBufferReader codedInput = new CodedBufferReader(input);
+    CodedBufferReader codedInput = CodedBufferReader(input);
     _mergeFromCodedBufferReader(_fieldSet, codedInput, extensionRegistry);
     codedInput.checkLastTagWas(0);
   }
@@ -223,7 +223,7 @@ abstract class GeneratedMessage {
   /// If the list already exists, the old extension won't be overwritten.
   void addExtension(Extension extension, var value) {
     if (!extension.isRepeated) {
-      throw new ArgumentError(
+      throw ArgumentError(
           'Cannot add to a non-repeated field (use setExtension())');
     }
     _fieldSet._ensureExtensions().._ensureRepeatedField(extension).add(value);
@@ -264,7 +264,7 @@ abstract class GeneratedMessage {
   /// validate all items added to it. This can most easily be done
   /// using the FieldInfo.check function.
   List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
-    return new PbList<T>(check: fi.check);
+    return PbList<T>(check: fi.check);
   }
 
   /// Creates a Map representing a map field.
@@ -309,9 +309,9 @@ abstract class GeneratedMessage {
 
   /// Sets the value of a non-repeated extension field to [value].
   void setExtension(Extension extension, value) {
-    if (value == null) throw new ArgumentError('value is null');
+    if (value == null) throw ArgumentError('value is null');
     if (_isRepeated(extension.type)) {
-      throw new ArgumentError(_fieldSet._setFieldFailedMessage(
+      throw ArgumentError(_fieldSet._setFieldFailedMessage(
           extension, value, 'repeating field (use get + .add())'));
     }
     _fieldSet._ensureExtensions()._setFieldAndInfo(extension, value);

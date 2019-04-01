@@ -50,7 +50,7 @@ class EnumGenerator extends ProtobufContainer {
         _canonicalValues.add(value);
         _originalCanonicalIndices.add(i);
       } else {
-        _aliases.add(new EnumAlias(value, canonicalValue));
+        _aliases.add(EnumAlias(value, canonicalValue));
         _originalAliasIndices.add(i);
       }
       dartNames[value.name] = disambiguateName(
@@ -92,18 +92,14 @@ class EnumGenerator extends ProtobufContainer {
     return "$fileImportPrefix.$name";
   }
 
-  static const int _enumNameTag = 1;
   static const int _enumValueTag = 2;
-  static const int _enumValueNameTag = 1;
 
   void generate(IndentingWriter out) {
     out.addAnnotatedBlock(
         'class ${classname} extends $_protobufImportPrefix.ProtobufEnum {',
         '}\n', [
-      new NamedLocation(
-          name: classname,
-          fieldPathSegment: new List.from(fieldPath)..add(_enumNameTag),
-          start: 'class '.length)
+      NamedLocation(
+          name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
       // -----------------------------------------------------------------
       // Define enum types.
@@ -114,14 +110,10 @@ class EnumGenerator extends ProtobufContainer {
             'static const ${classname} $name = '
             "const ${classname}._(${val.number}, ${singleQuote(name)});",
             [
-              new NamedLocation(
+              NamedLocation(
                   name: name,
-                  fieldPathSegment: new List.from(fieldPath)
-                    ..addAll([
-                      _enumValueTag,
-                      _originalCanonicalIndices[i],
-                      _enumValueNameTag
-                    ]),
+                  fieldPathSegment: List.from(fieldPath)
+                    ..addAll([_enumValueTag, _originalCanonicalIndices[i]]),
                   start: 'static const ${classname} '.length)
             ]);
       }
@@ -134,14 +126,10 @@ class EnumGenerator extends ProtobufContainer {
               'static const ${classname} $name ='
               ' ${dartNames[alias.canonicalValue.name]};',
               [
-                new NamedLocation(
+                NamedLocation(
                     name: name,
-                    fieldPathSegment: new List.from(fieldPath)
-                      ..addAll([
-                        _enumValueTag,
-                        _originalAliasIndices[i],
-                        _enumValueNameTag
-                      ]),
+                    fieldPathSegment: List.from(fieldPath)
+                      ..addAll([_enumValueTag, _originalAliasIndices[i]]),
                     start: 'static const ${classname} '.length)
               ]);
         }

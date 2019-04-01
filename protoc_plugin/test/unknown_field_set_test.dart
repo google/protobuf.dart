@@ -15,8 +15,7 @@ import 'test_util.dart';
 void main() {
   TestAllTypes testAllTypes = getAllSet();
   List<int> allFieldsData = testAllTypes.writeToBuffer();
-  TestEmptyMessage emptyMessage =
-      new TestEmptyMessage.fromBuffer(allFieldsData);
+  TestEmptyMessage emptyMessage = TestEmptyMessage.fromBuffer(allFieldsData);
   UnknownFieldSet unknownFields = emptyMessage.unknownFields;
 
   UnknownFieldSetField getField(String name) {
@@ -77,7 +76,7 @@ void main() {
   });
 
   test('testGroup', () {
-    int tagNumberA = new TestAllTypes_OptionalGroup().getTagNumber('a');
+    int tagNumberA = TestAllTypes_OptionalGroup().getTagNumber('a');
     expect(tagNumberA != null, isTrue);
 
     UnknownFieldSetField optionalGroupField = getField('optionalGroup');
@@ -100,19 +99,19 @@ void main() {
 
   test('testMergeFrom', () {
     // Source.
-    UnknownFieldSet sourceFieldSet = new UnknownFieldSet()
-      ..addField(2, new UnknownFieldSetField()..addVarint(make64(2)))
-      ..addField(3, new UnknownFieldSetField()..addVarint(make64(3)));
+    UnknownFieldSet sourceFieldSet = UnknownFieldSet()
+      ..addField(2, UnknownFieldSetField()..addVarint(make64(2)))
+      ..addField(3, UnknownFieldSetField()..addVarint(make64(3)));
 
-    TestEmptyMessage source = new TestEmptyMessage()
+    TestEmptyMessage source = TestEmptyMessage()
       ..mergeUnknownFields(sourceFieldSet);
 
     // Destination.
-    UnknownFieldSet destinationFieldSet = new UnknownFieldSet()
-      ..addField(1, new UnknownFieldSetField()..addVarint(make64(1)))
-      ..addField(3, new UnknownFieldSetField()..addVarint(make64(4)));
+    UnknownFieldSet destinationFieldSet = UnknownFieldSet()
+      ..addField(1, UnknownFieldSetField()..addVarint(make64(1)))
+      ..addField(3, UnknownFieldSetField()..addVarint(make64(4)));
 
-    TestEmptyMessage destination = new TestEmptyMessage()
+    TestEmptyMessage destination = TestEmptyMessage()
       ..mergeUnknownFields(destinationFieldSet)
       ..mergeFromMessage(source);
 
@@ -130,7 +129,7 @@ void main() {
   });
 
   test('testEmpty', () {
-    expect(new UnknownFieldSet().asMap(), isEmpty);
+    expect(UnknownFieldSet().asMap(), isEmpty);
   });
 
   test('testClearMessage', () {
@@ -142,12 +141,12 @@ void main() {
   test('testParseKnownAndUnknown', () {
     // Test mixing known and unknown fields when parsing.
     UnknownFieldSet fields = unknownFields.clone()
-      ..addField(123456, new UnknownFieldSetField()..addVarint(make64(654321)));
+      ..addField(123456, UnknownFieldSetField()..addVarint(make64(654321)));
 
-    CodedBufferWriter writer = new CodedBufferWriter();
+    CodedBufferWriter writer = CodedBufferWriter();
     fields.writeToCodedBufferWriter(writer);
 
-    TestAllTypes destination = new TestAllTypes.fromBuffer(writer.toBuffer());
+    TestAllTypes destination = TestAllTypes.fromBuffer(writer.toBuffer());
 
     assertAllFieldsSet(destination);
     expect(destination.unknownFields.asMap().length, 1);
@@ -161,13 +160,12 @@ void main() {
   // numbers as allFieldsData except that each field is some other wire
   // type.
   List<int> getBizarroData() {
-    UnknownFieldSet bizarroFields = new UnknownFieldSet();
+    UnknownFieldSet bizarroFields = UnknownFieldSet();
 
-    UnknownFieldSetField varintField = new UnknownFieldSetField()
+    UnknownFieldSetField varintField = UnknownFieldSetField()
       ..addVarint(make64(1));
 
-    UnknownFieldSetField fixed32Field = new UnknownFieldSetField()
-      ..addFixed32(1);
+    UnknownFieldSetField fixed32Field = UnknownFieldSetField()..addFixed32(1);
 
     unknownFields.asMap().forEach((int tag, UnknownFieldSetField value) {
       if (value.varints.isEmpty) {
@@ -178,7 +176,7 @@ void main() {
         bizarroFields.addField(tag, fixed32Field);
       }
     });
-    CodedBufferWriter writer = new CodedBufferWriter();
+    CodedBufferWriter writer = CodedBufferWriter();
     bizarroFields.writeToCodedBufferWriter(writer);
     return writer.toBuffer();
   }
@@ -187,9 +185,8 @@ void main() {
     // Test that fields of the wrong wire type are treated like unknown fields
     // when parsing.
     List<int> bizarroData = getBizarroData();
-    TestAllTypes allTypesMessage = new TestAllTypes.fromBuffer(bizarroData);
-    TestEmptyMessage emptyMessage_ =
-        new TestEmptyMessage.fromBuffer(bizarroData);
+    TestAllTypes allTypesMessage = TestAllTypes.fromBuffer(bizarroData);
+    TestEmptyMessage emptyMessage_ = TestEmptyMessage.fromBuffer(bizarroData);
     // All fields should have been interpreted as unknown, so the debug strings
     // should be the same.
     expect(allTypesMessage.toString(), emptyMessage_.toString());
@@ -199,7 +196,7 @@ void main() {
     // Make sure fields are properly parsed to the UnknownFieldSet even when
     // they are declared as extension numbers.
     TestEmptyMessageWithExtensions message =
-        new TestEmptyMessageWithExtensions.fromBuffer(allFieldsData);
+        TestEmptyMessageWithExtensions.fromBuffer(allFieldsData);
 
     expect(message.unknownFields.asMap().length, unknownFields.asMap().length);
     expect(message.writeToBuffer(), allFieldsData);
@@ -211,9 +208,8 @@ void main() {
 
     List<int> bizarroData = getBizarroData();
     TestAllExtensions allExtensionsMessage =
-        new TestAllExtensions.fromBuffer(bizarroData);
-    TestEmptyMessage emptyMessage_ =
-        new TestEmptyMessage.fromBuffer(bizarroData);
+        TestAllExtensions.fromBuffer(bizarroData);
+    TestEmptyMessage emptyMessage_ = TestEmptyMessage.fromBuffer(bizarroData);
 
     // All fields should have been interpreted as unknown, so the debug strings
     // should be the same.
@@ -226,24 +222,24 @@ void main() {
     expect(singularFieldNum, isNotNull);
     expect(repeatedFieldNum, isNotNull);
 
-    UnknownFieldSet fieldSet = new UnknownFieldSet()
+    UnknownFieldSet fieldSet = UnknownFieldSet()
       ..addField(
           singularFieldNum,
-          new UnknownFieldSetField()
+          UnknownFieldSetField()
             ..addVarint(make64(TestAllTypes_NestedEnum.BAR.value))
             ..addVarint(make64(5)))
       ..addField(
           repeatedFieldNum,
-          new UnknownFieldSetField()
+          UnknownFieldSetField()
             ..addVarint(make64(TestAllTypes_NestedEnum.FOO.value))
             ..addVarint(make64(4))
             ..addVarint(make64(TestAllTypes_NestedEnum.BAZ.value))
             ..addVarint(make64(6)));
 
-    CodedBufferWriter writer = new CodedBufferWriter();
+    CodedBufferWriter writer = CodedBufferWriter();
     fieldSet.writeToCodedBufferWriter(writer);
     {
-      TestAllTypes message = new TestAllTypes.fromBuffer(writer.toBuffer());
+      TestAllTypes message = TestAllTypes.fromBuffer(writer.toBuffer());
       expect(message.optionalNestedEnum, TestAllTypes_NestedEnum.BAR);
       expect(message.repeatedNestedEnum,
           [TestAllTypes_NestedEnum.FOO, TestAllTypes_NestedEnum.BAZ]);
@@ -258,7 +254,7 @@ void main() {
       expect(repeatedVarints[1], expect64(6));
     }
     {
-      TestAllExtensions message = new TestAllExtensions.fromBuffer(
+      TestAllExtensions message = TestAllExtensions.fromBuffer(
           writer.toBuffer(), getExtensionRegistry());
       expect(message.getExtension(Unittest.optionalNestedEnumExtension),
           TestAllTypes_NestedEnum.BAR);
@@ -278,36 +274,34 @@ void main() {
   });
 
   test('testLargeVarint', () {
-    UnknownFieldSet unknownFieldSet = new UnknownFieldSet()
+    UnknownFieldSet unknownFieldSet = UnknownFieldSet()
       ..addField(
-          1,
-          new UnknownFieldSetField()
-            ..addVarint(make64(0x7FFFFFFF, 0xFFFFFFFF)));
-    CodedBufferWriter writer = new CodedBufferWriter();
+          1, UnknownFieldSetField()..addVarint(make64(0x7FFFFFFF, 0xFFFFFFFF)));
+    CodedBufferWriter writer = CodedBufferWriter();
     unknownFieldSet.writeToCodedBufferWriter(writer);
 
-    var parsed = new UnknownFieldSet()
-      ..mergeFromCodedBufferReader(new CodedBufferReader(writer.toBuffer()));
+    var parsed = UnknownFieldSet()
+      ..mergeFromCodedBufferReader(CodedBufferReader(writer.toBuffer()));
     var field = parsed.getField(1);
     expect(field.varints.length, 1);
     expect(field.varints[0], expect64(0x7FFFFFFF, 0xFFFFFFFFF));
   });
 
   test('testEquals', () {
-    UnknownFieldSet a = new UnknownFieldSet()
-      ..addField(1, new UnknownFieldSetField()..addFixed32(1));
+    UnknownFieldSet a = UnknownFieldSet()
+      ..addField(1, UnknownFieldSetField()..addFixed32(1));
 
-    UnknownFieldSet b = new UnknownFieldSet()
-      ..addField(1, new UnknownFieldSetField()..addFixed64(make64(1)));
+    UnknownFieldSet b = UnknownFieldSet()
+      ..addField(1, UnknownFieldSetField()..addFixed64(make64(1)));
 
-    UnknownFieldSet c = new UnknownFieldSet()
-      ..addField(1, new UnknownFieldSetField()..addVarint(make64(1)));
+    UnknownFieldSet c = UnknownFieldSet()
+      ..addField(1, UnknownFieldSetField()..addVarint(make64(1)));
 
-    UnknownFieldSet d = new UnknownFieldSet()
-      ..addField(1, new UnknownFieldSetField()..addLengthDelimited([]));
+    UnknownFieldSet d = UnknownFieldSet()
+      ..addField(1, UnknownFieldSetField()..addLengthDelimited([]));
 
-    UnknownFieldSet e = new UnknownFieldSet()
-      ..addField(1, new UnknownFieldSetField()..addGroup(unknownFields));
+    UnknownFieldSet e = UnknownFieldSet()
+      ..addField(1, UnknownFieldSetField()..addGroup(unknownFields));
 
     _checkEqualsIsConsistent(a);
     _checkEqualsIsConsistent(b);
@@ -326,10 +320,10 @@ void main() {
     _checkNotEqual(c, e);
     _checkNotEqual(d, e);
 
-    UnknownFieldSet f1 = new UnknownFieldSet()
-      ..addField(1, new UnknownFieldSetField()..addLengthDelimited([1, 2]));
-    UnknownFieldSet f2 = new UnknownFieldSet()
-      ..addField(1, new UnknownFieldSetField()..addLengthDelimited([2, 1]));
+    UnknownFieldSet f1 = UnknownFieldSet()
+      ..addField(1, UnknownFieldSetField()..addLengthDelimited([1, 2]));
+    UnknownFieldSet f2 = UnknownFieldSet()
+      ..addField(1, UnknownFieldSetField()..addLengthDelimited([2, 1]));
 
     _checkEqualsIsConsistent(f1);
     _checkEqualsIsConsistent(f2);

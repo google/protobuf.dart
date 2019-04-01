@@ -9,10 +9,10 @@ typedef void FrozenMessageErrorHandler(String messageName, [String methodName]);
 void defaultFrozenMessageModificationHandler(String messageName,
     [String methodName]) {
   if (methodName != null) {
-    throw new UnsupportedError(
+    throw UnsupportedError(
         "Attempted to call $methodName on a read-only message ($messageName)");
   }
-  throw new UnsupportedError(
+  throw UnsupportedError(
       "Attempted to change a read-only message ($messageName)");
 }
 
@@ -58,12 +58,12 @@ class _FieldSet {
 
   static _makeValueList(int length) {
     if (length == 0) return _zeroList;
-    return new List(length);
+    return List(length);
   }
 
   // Use a fixed length list and not a constant list to ensure that _values
   // always has the same implementation type.
-  static List _zeroList = new List(0);
+  static List _zeroList = List(0);
 
   // Metadata about multiple fields
 
@@ -83,14 +83,14 @@ class _FieldSet {
   bool get _hasUnknownFields => _unknownFields != null;
 
   _ExtensionFieldSet _ensureExtensions() {
-    if (!_hasExtensions) _extensions = new _ExtensionFieldSet(this);
+    if (!_hasExtensions) _extensions = _ExtensionFieldSet(this);
     return _extensions;
   }
 
   UnknownFieldSet _ensureUnknownFields() {
     if (_unknownFields == null) {
       if (_isReadOnly) return UnknownFieldSet.emptyUnknownFieldSet;
-      _unknownFields = new UnknownFieldSet();
+      _unknownFields = UnknownFieldSet();
     }
     return _unknownFields;
   }
@@ -108,7 +108,7 @@ class _FieldSet {
   FieldInfo _ensureInfo(int tagNumber) {
     var fi = _getFieldInfoOrNull(tagNumber);
     if (fi != null) return fi;
-    throw new ArgumentError("tag $tagNumber not defined in $_messageName");
+    throw ArgumentError("tag $tagNumber not defined in $_messageName");
   }
 
   /// Returns the FieldInfo for a regular or extension field.
@@ -176,7 +176,7 @@ class _FieldSet {
         return _extensions._getFieldOrDefault(fi);
       }
     }
-    throw new ArgumentError("tag $tagNumber not defined in $_messageName");
+    throw ArgumentError("tag $tagNumber not defined in $_messageName");
   }
 
   _getDefault(FieldInfo fi) {
@@ -193,7 +193,7 @@ class _FieldSet {
 
   List<T> _getDefaultList<T>(FieldInfo<T> fi) {
     assert(fi.isRepeated);
-    if (_isReadOnly) return new List.unmodifiable(const []);
+    if (_isReadOnly) return List.unmodifiable(const []);
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:
@@ -271,19 +271,19 @@ class _FieldSet {
   /// Works for both extended and non-extended fields.
   /// Suitable for public API.
   void _setField(int tagNumber, value) {
-    if (value == null) throw new ArgumentError('value is null');
+    if (value == null) throw ArgumentError('value is null');
 
     var fi = _nonExtensionInfo(tagNumber);
     if (fi == null) {
       if (!_hasExtensions) {
-        throw new ArgumentError("tag $tagNumber not defined in $_messageName");
+        throw ArgumentError("tag $tagNumber not defined in $_messageName");
       }
       _extensions._setField(tagNumber, value);
       return;
     }
 
     if (fi.isRepeated) {
-      throw new ArgumentError(_setFieldFailedMessage(
+      throw ArgumentError(_setFieldFailedMessage(
           fi, value, 'repeating field (use get + .add())'));
     }
     _validateField(fi, value);
@@ -614,7 +614,7 @@ class _FieldSet {
     if (_hasUnknownFields) {
       out.write(_unknownFields.toString());
     } else {
-      out.write(new UnknownFieldSet().toString());
+      out.write(UnknownFieldSet().toString());
     }
   }
 
@@ -721,7 +721,7 @@ class _FieldSet {
     _ensureWritable();
     var message = _getFieldError(fi.type, newValue);
     if (message != null) {
-      throw new ArgumentError(_setFieldFailedMessage(fi, newValue, message));
+      throw ArgumentError(_setFieldFailedMessage(fi, newValue, message));
     }
   }
 

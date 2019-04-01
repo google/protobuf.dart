@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 import 'mock_util.dart' show T;
 
 main() {
-  T example = new T()
+  T example = T()
     ..val = 123
     ..str = "hello"
     ..int32s.addAll(<int>[1, 2, 3]);
@@ -32,34 +32,34 @@ main() {
   });
 
   test('testMergeFromJson', () {
-    var t = new T();
+    var t = T();
     t.mergeFromJson('''{"1": 123, "2": "hello"}''');
     checkMessage(t);
   });
 
   test('testMergeFromJsonMap', () {
-    var t = new T();
+    var t = T();
     t.mergeFromJsonMap({"1": 123, "2": "hello"});
     checkMessage(t);
   });
 
   test('testInt64JsonEncoding', () {
     final value = Int64.parseInt('1234567890123456789');
-    final t = new T()..int64 = value;
+    final t = T()..int64 = value;
     final encoded = t.writeToJsonMap();
     expect(encoded["5"], "$value");
-    final decoded = new T()..mergeFromJsonMap(encoded);
+    final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
 
   test('tesFrozentInt64JsonEncoding', () {
     final value = Int64.parseInt('1234567890123456789');
-    final frozen = new T()
+    final frozen = T()
       ..int64 = value
       ..freeze();
     final encoded = frozen.writeToJsonMap();
     expect(encoded["5"], "$value");
-    final decoded = new T()..mergeFromJsonMap(encoded);
+    final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
 }

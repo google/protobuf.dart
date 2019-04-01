@@ -19,11 +19,11 @@ final files = [
 
 void main(List<String> arguments) {
   final List<Dataset> datasets = files
-      .map((file) => new Dataset.fromBinary(readAsBytesSync(file)))
+      .map((file) => Dataset.fromBinary(readAsBytesSync(file)))
       .toList(growable: false);
 
-  new FromBinaryBenchmark(datasets).report();
-  new ToBinaryBenchmark(datasets).report();
-  new ToJsonBenchmark(datasets).report();
-  new FromJsonBenchmark(datasets).report();
+  FromBinaryBenchmark(datasets).report();
+  ToBinaryBenchmark(datasets).report();
+  ToJsonBenchmark(datasets).report();
+  FromJsonBenchmark(datasets).report();
 }

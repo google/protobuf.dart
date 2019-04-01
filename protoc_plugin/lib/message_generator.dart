@@ -113,13 +113,12 @@ class MessageGenerator extends ProtobufContainer {
             List.generate(descriptor.oneofDecl.length, (int index) => []) {
     for (var i = 0; i < _descriptor.enumType.length; i++) {
       EnumDescriptorProto e = _descriptor.enumType[i];
-      _enumGenerators
-          .add(new EnumGenerator.nested(e, this, _usedTopLevelNames, i));
+      _enumGenerators.add(EnumGenerator.nested(e, this, _usedTopLevelNames, i));
     }
 
     for (var i = 0; i < _descriptor.nestedType.length; i++) {
       DescriptorProto n = _descriptor.nestedType[i];
-      _messageGenerators.add(new MessageGenerator.nested(
+      _messageGenerators.add(MessageGenerator.nested(
           n, this, declaredMixins, defaultMixin, _usedTopLevelNames, i));
     }
 
@@ -129,12 +128,13 @@ class MessageGenerator extends ProtobufContainer {
     for (var i = 0; i < _descriptor.extension.length; i++) {
       FieldDescriptorProto x = _descriptor.extension[i];
       _extensionGenerators
-          .add(new ExtensionGenerator.nested(x, this, usedExtensionNames, i));
+          .add(ExtensionGenerator.nested(x, this, usedExtensionNames, i));
     }
   }
 
-  static const _topLevelFieldTag = 4;
-  static const _nestedFieldTag = 3;
+  static const _topLevelMessageTag = 4;
+  static const _nestedMessageTag = 3;
+  static const _messageFieldTag = 2;
 
   MessageGenerator.topLevel(
       DescriptorProto descriptor,
@@ -144,7 +144,7 @@ class MessageGenerator extends ProtobufContainer {
       Set<String> usedNames,
       int repeatedFieldIndex)
       : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
-            repeatedFieldIndex, _topLevelFieldTag);
+            repeatedFieldIndex, _topLevelMessageTag);
 
   MessageGenerator.nested(
       DescriptorProto descriptor,
@@ -154,7 +154,7 @@ class MessageGenerator extends ProtobufContainer {
       Set<String> usedNames,
       int repeatedFieldIndex)
       : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
-            repeatedFieldIndex, _nestedFieldTag);
+            repeatedFieldIndex, _nestedMessageTag);
 
   String get package => _parent.package;
 
@@ -164,7 +164,7 @@ class MessageGenerator extends ProtobufContainer {
   /// Throws an exception if [resolve] hasn't been called yet.
   void checkResolved() {
     if (_fieldList == null) {
-      throw new StateError("message not resolved: ${fullName}");
+      throw StateError("message not resolved: ${fullName}");
     }
   }
 
@@ -201,7 +201,7 @@ class MessageGenerator extends ProtobufContainer {
 
   // Creates fields and resolves extension targets.
   void resolve(GenerationContext ctx) {
-    if (_fieldList != null) throw new StateError("message already resolved");
+    if (_fieldList != null) throw StateError("message already resolved");
 
     var reserved = mixin?.findReservedNames() ?? const <String>[];
     MemberNames members = messageMemberNames(
@@ -210,7 +210,7 @@ class MessageGenerator extends ProtobufContainer {
 
     _fieldList = <ProtobufField>[];
     for (FieldNames names in members.fieldNames) {
-      ProtobufField field = new ProtobufField.message(names, this, ctx);
+      ProtobufField field = ProtobufField.message(names, this, ctx);
       if (field.descriptor.hasOneofIndex()) {
         _oneofFields[field.descriptor.oneofIndex].add(field);
       }
@@ -227,7 +227,7 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   bool get needsFixnumImport {
-    if (_fieldList == null) throw new StateError("message not resolved");
+    if (_fieldList == null) throw StateError("message not resolved");
     for (var field in _fieldList) {
       if (field.needsFixnumImport) return true;
     }
@@ -246,7 +246,7 @@ class MessageGenerator extends ProtobufContainer {
   /// add its generator.
   void addImportsTo(
       Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
-    if (_fieldList == null) throw new StateError("message not resolved");
+    if (_fieldList == null) throw StateError("message not resolved");
     for (var field in _fieldList) {
       var typeGen = field.baseType.generator;
       if (typeGen is EnumGenerator) {
@@ -277,7 +277,7 @@ class MessageGenerator extends ProtobufContainer {
   /// For each .pbjson.dart file that the generated code needs to import,
   /// add its generator.
   void addConstantImportsTo(Set<FileGenerator> imports) {
-    if (_fieldList == null) throw new StateError("message not resolved");
+    if (_fieldList == null) throw StateError("message not resolved");
     for (var m in _messageGenerators) {
       m.addConstantImportsTo(imports);
     }
@@ -313,10 +313,8 @@ class MessageGenerator extends ProtobufContainer {
     out.addAnnotatedBlock(
         'class ${classname} extends $_protobufImportPrefix.GeneratedMessage${mixinClause} {',
         '}', [
-      new NamedLocation(
-          name: classname,
-          fieldPathSegment: new List.from(fieldPath)..addAll([1]),
-          start: 'class '.length)
+      NamedLocation(
+          name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
       for (OneofNames oneof in _oneofNames) {
         out.addBlock(
@@ -331,7 +329,7 @@ class MessageGenerator extends ProtobufContainer {
       }
       out.addBlock(
           'static final $_protobufImportPrefix.BuilderInfo _i = '
-          'new $_protobufImportPrefix.BuilderInfo(\'${messageName}\'$packageClause)',
+          '$_protobufImportPrefix.BuilderInfo(\'${messageName}\'$packageClause)',
           ';', () {
         for (ProtobufField field in _fieldList) {
           var dartFieldName = field.memberNames.fieldName;
@@ -348,7 +346,7 @@ class MessageGenerator extends ProtobufContainer {
         if (_descriptor.extensionRange.length > 0) {
           out.println('..hasExtensions = true');
         }
-        if (!_hasRequiredFields(this, new Set())) {
+        if (!_hasRequiredFields(this, Set())) {
           out.println('..hasRequiredFields = false');
         }
       });
@@ -359,7 +357,9 @@ class MessageGenerator extends ProtobufContainer {
 
       out.println();
 
-      out.println('${classname}() : super();');
+      out.printlnAnnotated('${classname}() : super();', [
+        NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
+      ]);
       out.println(
           '${classname}.fromBuffer($_coreImportPrefix.List<$_coreImportPrefix.int> i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
@@ -368,7 +368,7 @@ class MessageGenerator extends ProtobufContainer {
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' : super.fromJson(i, r);');
       out.println('${classname} clone() =>'
-          ' new ${classname}()..mergeFromMessage(this);');
+          ' ${classname}()..mergeFromMessage(this);');
       out.println('$classname copyWith(void Function($classname) updates) =>'
           ' super.copyWith((message) => updates(message as $classname));');
 
@@ -376,12 +376,12 @@ class MessageGenerator extends ProtobufContainer {
 
       // Factory functions which can be used as default value closures.
       out.println('static ${classname} create() =>'
-          ' new ${classname}();');
+          ' ${classname}();');
       out.println('${classname} createEmptyInstance() => create();');
 
       out.println(
           'static $_protobufImportPrefix.PbList<${classname}> createRepeated() =>'
-          ' new $_protobufImportPrefix.PbList<${classname}>();');
+          ' $_protobufImportPrefix.PbList<${classname}>();');
       out.println(
           'static ${classname} getDefault() => _defaultInstance ??= create()..freeze();');
       out.println('static ${classname} _defaultInstance;');
@@ -398,7 +398,7 @@ class MessageGenerator extends ProtobufContainer {
   // already_seen is used to avoid checking the same type multiple times
   // (and also to protect against unbounded recursion).
   bool _hasRequiredFields(MessageGenerator type, Set alreadySeen) {
-    if (type._fieldList == null) throw new StateError("message not resolved");
+    if (type._fieldList == null) throw StateError("message not resolved");
 
     if (alreadySeen.contains(type.fullName)) {
       // The type is already in cache.  This means that either:
@@ -437,9 +437,11 @@ class MessageGenerator extends ProtobufContainer {
     _oneofNames
         .forEach((OneofNames oneof) => generateoneOfAccessors(out, oneof));
 
-    for (ProtobufField field in _fieldList) {
+    for (var i = 0; i < _fieldList.length; i++) {
       out.println();
-      generateFieldAccessorsMutators(field, out);
+      List<int> memberFieldPath = List.from(fieldPath)
+        ..addAll([_messageFieldTag, i]);
+      generateFieldAccessorsMutators(_fieldList[i], out, memberFieldPath);
     }
   }
 
@@ -452,7 +454,7 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   void generateFieldAccessorsMutators(
-      ProtobufField field, IndentingWriter out) {
+      ProtobufField field, IndentingWriter out, List<int> memberFieldPath) {
     var fieldTypeString = field.getDartType(fileGen);
     var defaultExpr = field.getDefaultExpr();
     var names = field.memberNames;
@@ -460,7 +462,13 @@ class MessageGenerator extends ProtobufContainer {
     _emitOverrideIf(field.overridesGetter, out);
     final getterExpr = _getterExpression(fieldTypeString, field.index,
         defaultExpr, field.isRepeated, field.isMapField);
-    out.println('$fieldTypeString get ${names.fieldName} => ${getterExpr};');
+    out.printlnAnnotated(
+        '${fieldTypeString} get ${names.fieldName} => ${getterExpr};', [
+      NamedLocation(
+          name: names.fieldName,
+          fieldPathSegment: memberFieldPath,
+          start: '${fieldTypeString} get '.length)
+    ]);
 
     if (field.isRepeated) {
       if (field.overridesSetter) {
@@ -479,22 +487,50 @@ class MessageGenerator extends ProtobufContainer {
       var fastSetter = field.baseType.setter;
       _emitOverrideIf(field.overridesSetter, out);
       if (fastSetter != null) {
-        out.println('set ${names.fieldName}'
+        out.printlnAnnotated(
+            'set ${names.fieldName}'
             '($fieldTypeString v) { '
             '$fastSetter(${field.index}, v);'
-            ' }');
+            ' }',
+            [
+              NamedLocation(
+                  name: names.fieldName,
+                  fieldPathSegment: memberFieldPath,
+                  start: 'set '.length)
+            ]);
       } else {
-        out.println('set ${names.fieldName}'
+        out.printlnAnnotated(
+            'set ${names.fieldName}'
             '($fieldTypeString v) { '
             'setField(${field.number}, v);'
-            ' }');
+            ' }',
+            [
+              NamedLocation(
+                  name: names.fieldName,
+                  fieldPathSegment: memberFieldPath,
+                  start: 'set '.length)
+            ]);
       }
       _emitOverrideIf(field.overridesHasMethod, out);
-      out.println('$_coreImportPrefix.bool ${names.hasMethodName}() =>'
-          ' \$_has(${field.index});');
+      out.printlnAnnotated(
+          '$_coreImportPrefix.bool ${names.hasMethodName}() =>'
+          ' \$_has(${field.index});',
+          [
+            NamedLocation(
+                name: names.hasMethodName,
+                fieldPathSegment: memberFieldPath,
+                start: 'bool '.length)
+          ]);
       _emitOverrideIf(field.overridesClearMethod, out);
-      out.println('void ${names.clearMethodName}() =>'
-          ' clearField(${field.number});');
+      out.printlnAnnotated(
+          'void ${names.clearMethodName}() =>'
+          ' clearField(${field.number});',
+          [
+            NamedLocation(
+                name: names.clearMethodName,
+                fieldPathSegment: memberFieldPath,
+                start: 'void '.length)
+          ]);
     }
   }
 
