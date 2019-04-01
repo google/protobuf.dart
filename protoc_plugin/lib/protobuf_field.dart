@@ -6,13 +6,13 @@ part of protoc;
 
 class ProtobufField {
   static final RegExp HEX_LITERAL_REGEX =
-      new RegExp(r'^0x[0-9a-f]+$', multiLine: false, caseSensitive: false);
-  static final RegExp INTEGER_LITERAL_REGEX = new RegExp(r'^[+-]?[0-9]+$');
-  static final RegExp DECIMAL_LITERAL_REGEX_A = new RegExp(
+      RegExp(r'^0x[0-9a-f]+$', multiLine: false, caseSensitive: false);
+  static final RegExp INTEGER_LITERAL_REGEX = RegExp(r'^[+-]?[0-9]+$');
+  static final RegExp DECIMAL_LITERAL_REGEX_A = RegExp(
       r'^[+-]?([0-9]*)\.[0-9]+(e[+-]?[0-9]+)?$',
       multiLine: false,
       caseSensitive: false);
-  static final RegExp DECIMAL_LITERAL_REGEX_B = new RegExp(
+  static final RegExp DECIMAL_LITERAL_REGEX_B = RegExp(
       r'^[+-]?[0-9]+e[+-]?[0-9]+$',
       multiLine: false,
       caseSensitive: false);
@@ -38,7 +38,7 @@ class ProtobufField {
       : this.descriptor = descriptor,
         this.memberNames = dartNames,
         fullName = '${parent.fullName}.${descriptor.name}',
-        baseType = new BaseType(descriptor, ctx);
+        baseType = BaseType(descriptor, ctx);
 
   /// The index of this field in MessageGenerator.fieldList.
   ///
@@ -229,7 +229,7 @@ class ProtobufField {
   /// evaluated.
   String generateDefaultFunction(FileGenerator fileGen) {
     if (isRepeated) {
-      return '() => new $_protobufImportPrefix.PbList()';
+      return '() => $_protobufImportPrefix.PbList()';
     }
     bool sameProtoFile =
         fileGen.protoFileUri == baseType.generator?.fileGen?.protoFileUri;

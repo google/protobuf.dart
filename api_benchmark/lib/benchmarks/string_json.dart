@@ -23,7 +23,7 @@ class StringBenchmark extends Benchmark {
   get summary => "${id.name}($width x $height x $stringSize)";
 
   @override
-  Params makeParams() => new Params()
+  Params makeParams() => Params()
     ..stringFieldCount = width
     ..messageCount = height
     ..stringSize = stringSize;
@@ -32,7 +32,7 @@ class StringBenchmark extends Benchmark {
   void setup() {
     var grid = _makeGrid(width, height, stringSize);
     json = grid.writeToJson();
-    lastFieldTag = getTagForColumn(new pb.Line10(), width - 1);
+    lastFieldTag = getTagForColumn(pb.Line10(), width - 1);
   }
 
   // makes a rectangle of the of the form:
@@ -40,20 +40,20 @@ class StringBenchmark extends Benchmark {
   // "12" "23" "34" "45"
   // "23" "34" "45" "56"
   static pb.Grid10 _makeGrid(int width, int height, int stringSize) {
-    if (width > 10) throw new ArgumentError("width out of range: ${width}");
-    var grid = new pb.Grid10();
+    if (width > 10) throw ArgumentError("width out of range: ${width}");
+    var grid = pb.Grid10();
 
     int zero = "0".codeUnits[0];
 
     for (int y = 0; y < height; y++) {
-      var line = new pb.Line10();
+      var line = pb.Line10();
       for (int x = 0; x < width; x++) {
         int tag = getTagForColumn(line, x);
         var charCodes = <int>[];
         for (var i = 0; i < stringSize; i++) {
           charCodes.add(zero + ((x + y + i) % 10));
         }
-        line.setField(tag, new String.fromCharCodes(charCodes));
+        line.setField(tag, String.fromCharCodes(charCodes));
       }
       grid.lines.add(line);
     }
@@ -67,7 +67,7 @@ class StringBenchmark extends Benchmark {
 
   @override
   void run() {
-    pb.Grid10 grid = new pb.Grid10.fromJson(json);
+    pb.Grid10 grid = pb.Grid10.fromJson(json);
     var actual = grid.lines[height - 1].getField(lastFieldTag);
     if (actual.length != stringSize) throw "failed; got ${actual}";
   }
@@ -84,13 +84,13 @@ class StringBenchmark extends Benchmark {
   get measureSampleUnits => "string reads/ms";
 
   static const $id = BenchmarkID.READ_STRING_FIELDS_JSON;
-  static final $type = new BenchmarkType($id, $create);
+  static final $type = BenchmarkType($id, $create);
 
   static StringBenchmark $create(Request r) {
     assert(r.params.hasStringFieldCount());
     assert(r.params.hasMessageCount());
     assert(r.params.hasStringSize());
-    return new StringBenchmark(
+    return StringBenchmark(
         r.params.stringFieldCount, r.params.messageCount, r.params.stringSize);
   }
 }

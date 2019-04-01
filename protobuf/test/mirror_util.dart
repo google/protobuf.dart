@@ -12,7 +12,7 @@ Set<String> findMemberNames(String importName, Symbol classSymbol) {
   var lib = currentMirrorSystem().libraries[Uri.parse(importName)];
   ClassMirror cls = lib.declarations[classSymbol];
 
-  var result = new Set<String>();
+  var result = Set<String>();
 
   addNames(ClassMirror cls) {
     String prefixToRemove = MirrorSystem.getName(cls.simpleName) + ".";

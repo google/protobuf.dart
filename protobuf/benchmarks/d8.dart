@@ -18,5 +18,5 @@ external ByteBuffer readbuffer(String path);
 /// Read the file at the given [path] and return its contents in
 /// a Uint8List.
 Uint8List readAsBytesSync(String file) {
-  return new Uint8List.view(readbuffer(file));
+  return Uint8List.view(readbuffer(file));
 }

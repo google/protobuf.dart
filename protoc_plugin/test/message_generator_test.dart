@@ -16,40 +16,40 @@ import 'golden_file.dart';
 
 void main() {
   test('testMessageGenerator', () {
-    FileDescriptorProto fd = new FileDescriptorProto();
-    EnumDescriptorProto ed = new EnumDescriptorProto()
+    FileDescriptorProto fd = FileDescriptorProto();
+    EnumDescriptorProto ed = EnumDescriptorProto()
       ..name = 'PhoneType'
       ..value.addAll([
-        new EnumValueDescriptorProto()
+        EnumValueDescriptorProto()
           ..name = 'MOBILE'
           ..number = 0,
-        new EnumValueDescriptorProto()
+        EnumValueDescriptorProto()
           ..name = 'HOME'
           ..number = 1,
-        new EnumValueDescriptorProto()
+        EnumValueDescriptorProto()
           ..name = 'WORK'
           ..number = 2,
-        new EnumValueDescriptorProto()
+        EnumValueDescriptorProto()
           ..name = 'BUSINESS'
           ..number = 2
       ]);
-    DescriptorProto md = new DescriptorProto()
+    DescriptorProto md = DescriptorProto()
       ..name = 'PhoneNumber'
       ..field.addAll([
         // optional PhoneType type = 2 [default = HOME];
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'type'
           ..number = 2
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_ENUM
           ..typeName = '.PhoneNumber.PhoneType',
         // required string number = 1;
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'number'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
           ..type = FieldDescriptorProto_Type.TYPE_STRING,
-        new FieldDescriptorProto()
+        FieldDescriptorProto()
           ..name = 'name'
           ..number = 3
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
@@ -63,24 +63,24 @@ void main() {
           ..options = (new FieldOptions()..deprecated = true),
       ])
       ..enumType.add(ed);
-    var options = parseGenerationOptions(
-        new CodeGeneratorRequest(), new CodeGeneratorResponse());
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
-    FileGenerator fg = new FileGenerator(fd, options);
+    FileGenerator fg = FileGenerator(fd, options);
     MessageGenerator mg =
-        new MessageGenerator.topLevel(md, fg, {}, null, new Set<String>(), 0);
+        MessageGenerator.topLevel(md, fg, {}, null, Set<String>(), 0);
 
-    var ctx = new GenerationContext(options);
+    var ctx = GenerationContext(options);
     mg.register(ctx);
     mg.resolve(ctx);
 
-    var writer = new IndentingWriter(filename: '');
+    var writer = IndentingWriter(filename: '');
     mg.generate(writer);
     expectMatchesGoldenFile(writer.toString(), 'test/goldens/messageGenerator');
     expectMatchesGoldenFile(writer.sourceLocationInfo.toString(),
         'test/goldens/messageGenerator.meta');
 
-    writer = new IndentingWriter(filename: '');
+    writer = IndentingWriter(filename: '');
     mg.generateEnums(writer);
     expectMatchesGoldenFile(
         writer.toString(), 'test/goldens/messageGeneratorEnums');

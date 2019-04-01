@@ -10,7 +10,7 @@ import '../benchmarks/has_strings.dart';
 import '../generated/benchmark.pb.dart' show Suite;
 
 final Suite propsSuite = () {
-  var suite = new Suite();
+  var suite = Suite();
   suite.requests.addAll([
     _getStrings(10, null),
     _getStrings(10, "x"),
@@ -24,8 +24,8 @@ final Suite propsSuite = () {
 }();
 
 _getStrings(int height, String fill) =>
-    new GetStringsBenchmark(height, fill).makeRequest();
+    GetStringsBenchmark(height, fill).makeRequest();
 _setStrings(int height, String fill) =>
-    new SetStringsBenchmark(height, fill).makeRequest();
+    SetStringsBenchmark(height, fill).makeRequest();
 _hasStrings(int height, String fill) =>
-    new HasStringsBenchmark(height, fill).makeRequest();
+    HasStringsBenchmark(height, fill).makeRequest();

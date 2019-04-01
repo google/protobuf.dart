@@ -5,6 +5,7 @@
 
 library extension_test;
 
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
@@ -24,20 +25,20 @@ throwsArgError(String expectedMessage) => throwsA(predicate((x) {
 
 void main() {
   test('can set all extension types', () {
-    TestAllExtensions message = new TestAllExtensions();
+    TestAllExtensions message = TestAllExtensions();
     setAllExtensions(message);
     assertAllExtensionsSet(message);
   });
 
   test('can modify all repeated extension types', () {
-    TestAllExtensions message = new TestAllExtensions();
+    TestAllExtensions message = TestAllExtensions();
     setAllExtensions(message);
     modifyRepeatedExtensions(message);
     assertRepeatedExtensionsModified(message);
   });
 
   test('unset extensions return default values', () {
-    assertExtensionsClear(new TestAllExtensions());
+    assertExtensionsClear(TestAllExtensions());
   });
 
   // void testExtensionReflectionGetters() {} // UNSUPPORTED -- reflection
@@ -49,21 +50,21 @@ void main() {
 
   test('can clear an optional extension', () {
     // clearExtension() is not actually used in test_util, so try it manually.
-    var message = new TestAllExtensions();
+    var message = TestAllExtensions();
     message.setExtension(Unittest.optionalInt32Extension, 1);
     message.clearExtension(Unittest.optionalInt32Extension);
     expect(message.hasExtension(Unittest.optionalInt32Extension), isFalse);
   });
 
   test('can clear a repeated extension', () {
-    var message = new TestAllExtensions();
+    var message = TestAllExtensions();
     message.addExtension(Unittest.repeatedInt32Extension, 1);
     message.clearExtension(Unittest.repeatedInt32Extension);
     expect(message.getExtension(Unittest.repeatedInt32Extension).length, 0);
   });
 
   test('can clone an extension field', () {
-    TestAllExtensions original = new TestAllExtensions();
+    TestAllExtensions original = TestAllExtensions();
     original.setExtension(Unittest.optionalInt32Extension, 1);
     TestAllExtensions clone = original.clone();
     expect(clone.hasExtension(Unittest.optionalInt32Extension), isTrue);
@@ -85,7 +86,7 @@ void main() {
     TestAllExtensions mergeDest = TestAllExtensions()
       ..setExtension(Unittest.optionalNestedMessageExtension, nestedMessage2);
 
-    TestAllExtensions result = new TestAllExtensions()
+    TestAllExtensions result = TestAllExtensions()
       ..mergeFromMessage(mergeSource)
       ..mergeFromMessage(mergeDest);
 
@@ -94,7 +95,7 @@ void main() {
   });
 
   test("throws if field number isn't allowed for extension", () {
-    var message = new TestAllTypes(); // does not allow extensions
+    var message = TestAllTypes(); // does not allow extensions
     expect(() {
       message.setExtension(Unittest.optionalInt32Extension, 0);
     },
@@ -109,7 +110,7 @@ void main() {
   });
 
   test("throws if an int32 extension is set to a bad value", () {
-    var message = new TestAllExtensions();
+    var message = TestAllExtensions();
     expect(() {
       message.setExtension(Unittest.optionalInt32Extension, "hello");
     },
@@ -119,7 +120,7 @@ void main() {
   });
 
   test('throws if an int64 extension is set to a bad value', () {
-    var message = new TestAllExtensions();
+    var message = TestAllExtensions();
     expect(() {
       message.setExtension(Unittest.optionalInt64Extension, 123);
     },
@@ -129,7 +130,7 @@ void main() {
   });
 
   test('throws if a message extension is set to a bad value', () {
-    var message = new TestAllExtensions();
+    var message = TestAllExtensions();
 
     // For a non-repeated message, we only check for a GeneratedMessage.
     expect(() {
@@ -142,12 +143,12 @@ void main() {
     // For a repeated message, the type check is exact.
     expect(() {
       message.addExtension(
-          Unittest.repeatedNestedMessageExtension, new TestAllTypes());
+          Unittest.repeatedNestedMessageExtension, TestAllTypes());
     }, throwsATypeError);
   });
 
   test('throws if an enum extension is set to a bad value', () {
-    var message = new TestAllExtensions();
+    var message = TestAllExtensions();
 
     // For a non-repeated enum, we only check for a ProtobufEnum.
     expect(() {
@@ -165,7 +166,7 @@ void main() {
 
   test('can extend a message with a message field with a different type', () {
     expect(Non_nested_extension.nonNestedExtension.makeDefault(),
-        new TypeMatcher<MyNonNestedExtension>());
+        TypeMatcher<MyNonNestedExtension>());
     expect(Non_nested_extension.nonNestedExtension.name, 'nonNestedExtension');
   });
 
@@ -178,7 +179,7 @@ void main() {
   });
 
   test('can extend message with enum', () {
-    var msg = new Extendable();
+    var msg = Extendable();
     msg.setExtension(Enum_extension.animal, Animal.CAT);
   });
 
@@ -191,7 +192,7 @@ void main() {
   });
 
   test('to toDebugString', () {
-    TestAllExtensions value = new TestAllExtensions()
+    TestAllExtensions value = TestAllExtensions()
       ..setExtension(Unittest.optionalInt32Extension, 1)
       ..addExtension(Unittest.repeatedStringExtension, 'hello')
       ..addExtension(Unittest.repeatedStringExtension, 'world')
@@ -209,5 +210,26 @@ void main() {
         '[repeatedStringExtension]: world\n';
 
     expect(value.toString(), expected);
+  });
+
+  test('can compare messages with and without extensions', () {
+    final withExtension = TestFieldOrderings()
+      ..myString = 'foo'
+      ..setExtension(Unittest.myExtensionString, 'bar');
+    final b = withExtension.writeToBuffer();
+    final withUnknownField = TestFieldOrderings.fromBuffer(b);
+    ExtensionRegistry r = ExtensionRegistry();
+    Unittest.registerAllExtensions(r);
+    final decodedWithExtension = TestFieldOrderings.fromBuffer(b, r);
+    final noExtension = TestFieldOrderings()..myString = 'foo';
+    expect(withExtension == decodedWithExtension, true);
+    expect(withUnknownField == decodedWithExtension, false);
+    expect(decodedWithExtension == withUnknownField, false);
+    expect(withUnknownField == noExtension, false);
+    expect(noExtension == withUnknownField, false);
+    decodedWithExtension.setExtension(Unittest.myExtensionInt, 42);
+    expect(withExtension == decodedWithExtension, false);
+    expect(decodedWithExtension == withExtension, false);
+    expect(decodedWithExtension == withExtension, false);
   });
 }

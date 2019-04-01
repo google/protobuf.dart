@@ -38,7 +38,7 @@ class ProtobufEnum {
   /// Returns a Map for all of the [ProtobufEnum]s in [byIndex], mapping each
   /// [ProtobufEnum]'s [value] to the [ProtobufEnum].
   static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> byIndex) {
-    var byValue = new Map<int, T>();
+    var byValue = Map<int, T>();
     for (T v in byIndex) {
       byValue[v.value] = v;
     }

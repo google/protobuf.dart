@@ -1,5 +1,5 @@
 class PhoneNumber extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('PhoneNumber')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('PhoneNumber')
     ..aQS(1, 'number')
     ..e<PhoneNumber_PhoneType>(2, 'type', $pb.PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf, PhoneNumber_PhoneType.values)
     ..a<$core.String>(3, 'name', $pb.PbFieldType.OS, '\$')
@@ -9,12 +9,12 @@ class PhoneNumber extends $pb.GeneratedMessage {
   PhoneNumber() : super();
   PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
   PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  PhoneNumber clone() => new PhoneNumber()..mergeFromMessage(this);
+  PhoneNumber clone() => PhoneNumber()..mergeFromMessage(this);
   PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber));
   $pb.BuilderInfo get info_ => _i;
-  static PhoneNumber create() => new PhoneNumber();
+  static PhoneNumber create() => PhoneNumber();
   PhoneNumber createEmptyInstance() => create();
-  static $pb.PbList<PhoneNumber> createRepeated() => new $pb.PbList<PhoneNumber>();
+  static $pb.PbList<PhoneNumber> createRepeated() => $pb.PbList<PhoneNumber>();
   static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
   static PhoneNumber _defaultInstance;
 

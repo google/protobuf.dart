@@ -16,7 +16,7 @@ import 'descriptor.pbenum.dart';
 export 'descriptor.pbenum.dart';
 
 class FileDescriptorSet extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileDescriptorSet',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileDescriptorSet',
       package: const $pb.PackageName('google.protobuf'))
     ..pc<FileDescriptorProto>(
         1, 'file', $pb.PbFieldType.PM, FileDescriptorProto.create);
@@ -28,14 +28,14 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   FileDescriptorSet.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  FileDescriptorSet clone() => new FileDescriptorSet()..mergeFromMessage(this);
+  FileDescriptorSet clone() => FileDescriptorSet()..mergeFromMessage(this);
   FileDescriptorSet copyWith(void Function(FileDescriptorSet) updates) =>
       super.copyWith((message) => updates(message as FileDescriptorSet));
   $pb.BuilderInfo get info_ => _i;
-  static FileDescriptorSet create() => new FileDescriptorSet();
+  static FileDescriptorSet create() => FileDescriptorSet();
   FileDescriptorSet createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorSet> createRepeated() =>
-      new $pb.PbList<FileDescriptorSet>();
+      $pb.PbList<FileDescriptorSet>();
   static FileDescriptorSet getDefault() =>
       _defaultInstance ??= create()..freeze();
   static FileDescriptorSet _defaultInstance;
@@ -44,7 +44,7 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
 }
 
 class FileDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileDescriptorProto',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..aOS(2, 'package')
@@ -72,15 +72,14 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   FileDescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  FileDescriptorProto clone() =>
-      new FileDescriptorProto()..mergeFromMessage(this);
+  FileDescriptorProto clone() => FileDescriptorProto()..mergeFromMessage(this);
   FileDescriptorProto copyWith(void Function(FileDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as FileDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
-  static FileDescriptorProto create() => new FileDescriptorProto();
+  static FileDescriptorProto create() => FileDescriptorProto();
   FileDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorProto> createRepeated() =>
-      new $pb.PbList<FileDescriptorProto>();
+      $pb.PbList<FileDescriptorProto>();
   static FileDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static FileDescriptorProto _defaultInstance;
@@ -141,7 +140,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'DescriptorProto.ExtensionRange',
       package: const $pb.PackageName('google.protobuf'))
     ..a<$core.int>(1, 'start', $pb.PbFieldType.O3)
@@ -156,17 +155,17 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DescriptorProto_ExtensionRange clone() =>
-      new DescriptorProto_ExtensionRange()..mergeFromMessage(this);
+      DescriptorProto_ExtensionRange()..mergeFromMessage(this);
   DescriptorProto_ExtensionRange copyWith(
           void Function(DescriptorProto_ExtensionRange) updates) =>
       super.copyWith(
           (message) => updates(message as DescriptorProto_ExtensionRange));
   $pb.BuilderInfo get info_ => _i;
   static DescriptorProto_ExtensionRange create() =>
-      new DescriptorProto_ExtensionRange();
+      DescriptorProto_ExtensionRange();
   DescriptorProto_ExtensionRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ExtensionRange> createRepeated() =>
-      new $pb.PbList<DescriptorProto_ExtensionRange>();
+      $pb.PbList<DescriptorProto_ExtensionRange>();
   static DescriptorProto_ExtensionRange getDefault() =>
       _defaultInstance ??= create()..freeze();
   static DescriptorProto_ExtensionRange _defaultInstance;
@@ -189,7 +188,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'DescriptorProto.ReservedRange',
       package: const $pb.PackageName('google.protobuf'))
     ..a<$core.int>(1, 'start', $pb.PbFieldType.O3)
@@ -204,17 +203,17 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DescriptorProto_ReservedRange clone() =>
-      new DescriptorProto_ReservedRange()..mergeFromMessage(this);
+      DescriptorProto_ReservedRange()..mergeFromMessage(this);
   DescriptorProto_ReservedRange copyWith(
           void Function(DescriptorProto_ReservedRange) updates) =>
       super.copyWith(
           (message) => updates(message as DescriptorProto_ReservedRange));
   $pb.BuilderInfo get info_ => _i;
   static DescriptorProto_ReservedRange create() =>
-      new DescriptorProto_ReservedRange();
+      DescriptorProto_ReservedRange();
   DescriptorProto_ReservedRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ReservedRange> createRepeated() =>
-      new $pb.PbList<DescriptorProto_ReservedRange>();
+      $pb.PbList<DescriptorProto_ReservedRange>();
   static DescriptorProto_ReservedRange getDefault() =>
       _defaultInstance ??= create()..freeze();
   static DescriptorProto_ReservedRange _defaultInstance;
@@ -237,7 +236,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DescriptorProto',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..pc<FieldDescriptorProto>(
@@ -265,14 +264,14 @@ class DescriptorProto extends $pb.GeneratedMessage {
   DescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  DescriptorProto clone() => new DescriptorProto()..mergeFromMessage(this);
+  DescriptorProto clone() => DescriptorProto()..mergeFromMessage(this);
   DescriptorProto copyWith(void Function(DescriptorProto) updates) =>
       super.copyWith((message) => updates(message as DescriptorProto));
   $pb.BuilderInfo get info_ => _i;
-  static DescriptorProto create() => new DescriptorProto();
+  static DescriptorProto create() => DescriptorProto();
   DescriptorProto createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto> createRepeated() =>
-      new $pb.PbList<DescriptorProto>();
+      $pb.PbList<DescriptorProto>();
   static DescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static DescriptorProto _defaultInstance;
@@ -311,7 +310,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
 }
 
 class FieldDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FieldDescriptorProto',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FieldDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..aOS(2, 'extendee')
@@ -345,14 +344,14 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   FieldDescriptorProto clone() =>
-      new FieldDescriptorProto()..mergeFromMessage(this);
+      FieldDescriptorProto()..mergeFromMessage(this);
   FieldDescriptorProto copyWith(void Function(FieldDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as FieldDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
-  static FieldDescriptorProto create() => new FieldDescriptorProto();
+  static FieldDescriptorProto create() => FieldDescriptorProto();
   FieldDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FieldDescriptorProto> createRepeated() =>
-      new $pb.PbList<FieldDescriptorProto>();
+      $pb.PbList<FieldDescriptorProto>();
   static FieldDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static FieldDescriptorProto _defaultInstance;
@@ -439,7 +438,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class OneofDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofDescriptorProto',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('OneofDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..a<OneofOptions>(2, 'options', $pb.PbFieldType.OM, OneofOptions.getDefault,
@@ -453,14 +452,14 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   OneofDescriptorProto clone() =>
-      new OneofDescriptorProto()..mergeFromMessage(this);
+      OneofDescriptorProto()..mergeFromMessage(this);
   OneofDescriptorProto copyWith(void Function(OneofDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as OneofDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
-  static OneofDescriptorProto create() => new OneofDescriptorProto();
+  static OneofDescriptorProto create() => OneofDescriptorProto();
   OneofDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<OneofDescriptorProto> createRepeated() =>
-      new $pb.PbList<OneofDescriptorProto>();
+      $pb.PbList<OneofDescriptorProto>();
   static OneofDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static OneofDescriptorProto _defaultInstance;
@@ -483,7 +482,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class EnumDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumDescriptorProto',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..pc<EnumValueDescriptorProto>(
@@ -498,15 +497,14 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   EnumDescriptorProto.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  EnumDescriptorProto clone() =>
-      new EnumDescriptorProto()..mergeFromMessage(this);
+  EnumDescriptorProto clone() => EnumDescriptorProto()..mergeFromMessage(this);
   EnumDescriptorProto copyWith(void Function(EnumDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as EnumDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
-  static EnumDescriptorProto create() => new EnumDescriptorProto();
+  static EnumDescriptorProto create() => EnumDescriptorProto();
   EnumDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumDescriptorProto> createRepeated() =>
-      new $pb.PbList<EnumDescriptorProto>();
+      $pb.PbList<EnumDescriptorProto>();
   static EnumDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static EnumDescriptorProto _defaultInstance;
@@ -531,8 +529,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
-      'EnumValueDescriptorProto',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumValueDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..a<$core.int>(2, 'number', $pb.PbFieldType.O3)
@@ -547,15 +544,15 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   EnumValueDescriptorProto clone() =>
-      new EnumValueDescriptorProto()..mergeFromMessage(this);
+      EnumValueDescriptorProto()..mergeFromMessage(this);
   EnumValueDescriptorProto copyWith(
           void Function(EnumValueDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as EnumValueDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
-  static EnumValueDescriptorProto create() => new EnumValueDescriptorProto();
+  static EnumValueDescriptorProto create() => EnumValueDescriptorProto();
   EnumValueDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumValueDescriptorProto> createRepeated() =>
-      new $pb.PbList<EnumValueDescriptorProto>();
+      $pb.PbList<EnumValueDescriptorProto>();
   static EnumValueDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static EnumValueDescriptorProto _defaultInstance;
@@ -586,8 +583,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class ServiceDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
-      'ServiceDescriptorProto',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ServiceDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..pc<MethodDescriptorProto>(
@@ -603,15 +599,15 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ServiceDescriptorProto clone() =>
-      new ServiceDescriptorProto()..mergeFromMessage(this);
+      ServiceDescriptorProto()..mergeFromMessage(this);
   ServiceDescriptorProto copyWith(
           void Function(ServiceDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as ServiceDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
-  static ServiceDescriptorProto create() => new ServiceDescriptorProto();
+  static ServiceDescriptorProto create() => ServiceDescriptorProto();
   ServiceDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<ServiceDescriptorProto> createRepeated() =>
-      new $pb.PbList<ServiceDescriptorProto>();
+      $pb.PbList<ServiceDescriptorProto>();
   static ServiceDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static ServiceDescriptorProto _defaultInstance;
@@ -636,7 +632,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class MethodDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MethodDescriptorProto',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MethodDescriptorProto',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'name')
     ..aOS(2, 'inputType')
@@ -654,15 +650,15 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   MethodDescriptorProto clone() =>
-      new MethodDescriptorProto()..mergeFromMessage(this);
+      MethodDescriptorProto()..mergeFromMessage(this);
   MethodDescriptorProto copyWith(
           void Function(MethodDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as MethodDescriptorProto));
   $pb.BuilderInfo get info_ => _i;
-  static MethodDescriptorProto create() => new MethodDescriptorProto();
+  static MethodDescriptorProto create() => MethodDescriptorProto();
   MethodDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<MethodDescriptorProto> createRepeated() =>
-      new $pb.PbList<MethodDescriptorProto>();
+      $pb.PbList<MethodDescriptorProto>();
   static MethodDescriptorProto getDefault() =>
       _defaultInstance ??= create()..freeze();
   static MethodDescriptorProto _defaultInstance;
@@ -717,7 +713,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class FileOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FileOptions',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..aOS(1, 'javaPackage')
     ..aOS(8, 'javaOuterClassname')
@@ -753,14 +749,13 @@ class FileOptions extends $pb.GeneratedMessage {
   FileOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  FileOptions clone() => new FileOptions()..mergeFromMessage(this);
+  FileOptions clone() => FileOptions()..mergeFromMessage(this);
   FileOptions copyWith(void Function(FileOptions) updates) =>
       super.copyWith((message) => updates(message as FileOptions));
   $pb.BuilderInfo get info_ => _i;
-  static FileOptions create() => new FileOptions();
+  static FileOptions create() => FileOptions();
   FileOptions createEmptyInstance() => create();
-  static $pb.PbList<FileOptions> createRepeated() =>
-      new $pb.PbList<FileOptions>();
+  static $pb.PbList<FileOptions> createRepeated() => $pb.PbList<FileOptions>();
   static FileOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FileOptions _defaultInstance;
 
@@ -908,7 +903,7 @@ class FileOptions extends $pb.GeneratedMessage {
 }
 
 class MessageOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MessageOptions',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MessageOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..aOB(1, 'messageSetWireFormat')
     ..aOB(2, 'noStandardDescriptorAccessor')
@@ -925,14 +920,14 @@ class MessageOptions extends $pb.GeneratedMessage {
   MessageOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  MessageOptions clone() => new MessageOptions()..mergeFromMessage(this);
+  MessageOptions clone() => MessageOptions()..mergeFromMessage(this);
   MessageOptions copyWith(void Function(MessageOptions) updates) =>
       super.copyWith((message) => updates(message as MessageOptions));
   $pb.BuilderInfo get info_ => _i;
-  static MessageOptions create() => new MessageOptions();
+  static MessageOptions create() => MessageOptions();
   MessageOptions createEmptyInstance() => create();
   static $pb.PbList<MessageOptions> createRepeated() =>
-      new $pb.PbList<MessageOptions>();
+      $pb.PbList<MessageOptions>();
   static MessageOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MessageOptions _defaultInstance;
 
@@ -972,7 +967,7 @@ class MessageOptions extends $pb.GeneratedMessage {
 }
 
 class FieldOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('FieldOptions',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FieldOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..e<FieldOptions_CType>(
         1,
@@ -1003,14 +998,14 @@ class FieldOptions extends $pb.GeneratedMessage {
   FieldOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  FieldOptions clone() => new FieldOptions()..mergeFromMessage(this);
+  FieldOptions clone() => FieldOptions()..mergeFromMessage(this);
   FieldOptions copyWith(void Function(FieldOptions) updates) =>
       super.copyWith((message) => updates(message as FieldOptions));
   $pb.BuilderInfo get info_ => _i;
-  static FieldOptions create() => new FieldOptions();
+  static FieldOptions create() => FieldOptions();
   FieldOptions createEmptyInstance() => create();
   static $pb.PbList<FieldOptions> createRepeated() =>
-      new $pb.PbList<FieldOptions>();
+      $pb.PbList<FieldOptions>();
   static FieldOptions getDefault() => _defaultInstance ??= create()..freeze();
   static FieldOptions _defaultInstance;
 
@@ -1066,7 +1061,7 @@ class FieldOptions extends $pb.GeneratedMessage {
 }
 
 class OneofOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('OneofOptions',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('OneofOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
         UninterpretedOption.create)
@@ -1079,14 +1074,14 @@ class OneofOptions extends $pb.GeneratedMessage {
   OneofOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  OneofOptions clone() => new OneofOptions()..mergeFromMessage(this);
+  OneofOptions clone() => OneofOptions()..mergeFromMessage(this);
   OneofOptions copyWith(void Function(OneofOptions) updates) =>
       super.copyWith((message) => updates(message as OneofOptions));
   $pb.BuilderInfo get info_ => _i;
-  static OneofOptions create() => new OneofOptions();
+  static OneofOptions create() => OneofOptions();
   OneofOptions createEmptyInstance() => create();
   static $pb.PbList<OneofOptions> createRepeated() =>
-      new $pb.PbList<OneofOptions>();
+      $pb.PbList<OneofOptions>();
   static OneofOptions getDefault() => _defaultInstance ??= create()..freeze();
   static OneofOptions _defaultInstance;
 
@@ -1094,7 +1089,7 @@ class OneofOptions extends $pb.GeneratedMessage {
 }
 
 class EnumOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumOptions',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..aOB(2, 'allowAlias')
     ..aOB(3, 'deprecated')
@@ -1109,14 +1104,13 @@ class EnumOptions extends $pb.GeneratedMessage {
   EnumOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  EnumOptions clone() => new EnumOptions()..mergeFromMessage(this);
+  EnumOptions clone() => EnumOptions()..mergeFromMessage(this);
   EnumOptions copyWith(void Function(EnumOptions) updates) =>
       super.copyWith((message) => updates(message as EnumOptions));
   $pb.BuilderInfo get info_ => _i;
-  static EnumOptions create() => new EnumOptions();
+  static EnumOptions create() => EnumOptions();
   EnumOptions createEmptyInstance() => create();
-  static $pb.PbList<EnumOptions> createRepeated() =>
-      new $pb.PbList<EnumOptions>();
+  static $pb.PbList<EnumOptions> createRepeated() => $pb.PbList<EnumOptions>();
   static EnumOptions getDefault() => _defaultInstance ??= create()..freeze();
   static EnumOptions _defaultInstance;
 
@@ -1140,7 +1134,7 @@ class EnumOptions extends $pb.GeneratedMessage {
 }
 
 class EnumValueOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('EnumValueOptions',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumValueOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..aOB(1, 'deprecated')
     ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
@@ -1154,14 +1148,14 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   EnumValueOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  EnumValueOptions clone() => new EnumValueOptions()..mergeFromMessage(this);
+  EnumValueOptions clone() => EnumValueOptions()..mergeFromMessage(this);
   EnumValueOptions copyWith(void Function(EnumValueOptions) updates) =>
       super.copyWith((message) => updates(message as EnumValueOptions));
   $pb.BuilderInfo get info_ => _i;
-  static EnumValueOptions create() => new EnumValueOptions();
+  static EnumValueOptions create() => EnumValueOptions();
   EnumValueOptions createEmptyInstance() => create();
   static $pb.PbList<EnumValueOptions> createRepeated() =>
-      new $pb.PbList<EnumValueOptions>();
+      $pb.PbList<EnumValueOptions>();
   static EnumValueOptions getDefault() =>
       _defaultInstance ??= create()..freeze();
   static EnumValueOptions _defaultInstance;
@@ -1178,7 +1172,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
 }
 
 class ServiceOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ServiceOptions',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ServiceOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..aOB(33, 'deprecated')
     ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
@@ -1192,14 +1186,14 @@ class ServiceOptions extends $pb.GeneratedMessage {
   ServiceOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  ServiceOptions clone() => new ServiceOptions()..mergeFromMessage(this);
+  ServiceOptions clone() => ServiceOptions()..mergeFromMessage(this);
   ServiceOptions copyWith(void Function(ServiceOptions) updates) =>
       super.copyWith((message) => updates(message as ServiceOptions));
   $pb.BuilderInfo get info_ => _i;
-  static ServiceOptions create() => new ServiceOptions();
+  static ServiceOptions create() => ServiceOptions();
   ServiceOptions createEmptyInstance() => create();
   static $pb.PbList<ServiceOptions> createRepeated() =>
-      new $pb.PbList<ServiceOptions>();
+      $pb.PbList<ServiceOptions>();
   static ServiceOptions getDefault() => _defaultInstance ??= create()..freeze();
   static ServiceOptions _defaultInstance;
 
@@ -1215,7 +1209,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
 }
 
 class MethodOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MethodOptions',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MethodOptions',
       package: const $pb.PackageName('google.protobuf'))
     ..aOB(33, 'deprecated')
     ..e<MethodOptions_IdempotencyLevel>(
@@ -1236,14 +1230,14 @@ class MethodOptions extends $pb.GeneratedMessage {
   MethodOptions.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  MethodOptions clone() => new MethodOptions()..mergeFromMessage(this);
+  MethodOptions clone() => MethodOptions()..mergeFromMessage(this);
   MethodOptions copyWith(void Function(MethodOptions) updates) =>
       super.copyWith((message) => updates(message as MethodOptions));
   $pb.BuilderInfo get info_ => _i;
-  static MethodOptions create() => new MethodOptions();
+  static MethodOptions create() => MethodOptions();
   MethodOptions createEmptyInstance() => create();
   static $pb.PbList<MethodOptions> createRepeated() =>
-      new $pb.PbList<MethodOptions>();
+      $pb.PbList<MethodOptions>();
   static MethodOptions getDefault() => _defaultInstance ??= create()..freeze();
   static MethodOptions _defaultInstance;
 
@@ -1267,7 +1261,7 @@ class MethodOptions extends $pb.GeneratedMessage {
 }
 
 class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'UninterpretedOption.NamePart',
       package: const $pb.PackageName('google.protobuf'))
     ..aQS(1, 'namePart')
@@ -1281,17 +1275,17 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   UninterpretedOption_NamePart clone() =>
-      new UninterpretedOption_NamePart()..mergeFromMessage(this);
+      UninterpretedOption_NamePart()..mergeFromMessage(this);
   UninterpretedOption_NamePart copyWith(
           void Function(UninterpretedOption_NamePart) updates) =>
       super.copyWith(
           (message) => updates(message as UninterpretedOption_NamePart));
   $pb.BuilderInfo get info_ => _i;
   static UninterpretedOption_NamePart create() =>
-      new UninterpretedOption_NamePart();
+      UninterpretedOption_NamePart();
   UninterpretedOption_NamePart createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption_NamePart> createRepeated() =>
-      new $pb.PbList<UninterpretedOption_NamePart>();
+      $pb.PbList<UninterpretedOption_NamePart>();
   static UninterpretedOption_NamePart getDefault() =>
       _defaultInstance ??= create()..freeze();
   static UninterpretedOption_NamePart _defaultInstance;
@@ -1314,7 +1308,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
 }
 
 class UninterpretedOption extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UninterpretedOption',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('UninterpretedOption',
       package: const $pb.PackageName('google.protobuf'))
     ..pc<UninterpretedOption_NamePart>(
         2, 'name', $pb.PbFieldType.PM, UninterpretedOption_NamePart.create)
@@ -1332,15 +1326,14 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   UninterpretedOption.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  UninterpretedOption clone() =>
-      new UninterpretedOption()..mergeFromMessage(this);
+  UninterpretedOption clone() => UninterpretedOption()..mergeFromMessage(this);
   UninterpretedOption copyWith(void Function(UninterpretedOption) updates) =>
       super.copyWith((message) => updates(message as UninterpretedOption));
   $pb.BuilderInfo get info_ => _i;
-  static UninterpretedOption create() => new UninterpretedOption();
+  static UninterpretedOption create() => UninterpretedOption();
   UninterpretedOption createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption> createRepeated() =>
-      new $pb.PbList<UninterpretedOption>();
+      $pb.PbList<UninterpretedOption>();
   static UninterpretedOption getDefault() =>
       _defaultInstance ??= create()..freeze();
   static UninterpretedOption _defaultInstance;
@@ -1397,8 +1390,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
 }
 
 class SourceCodeInfo_Location extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
-      'SourceCodeInfo.Location',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SourceCodeInfo.Location',
       package: const $pb.PackageName('google.protobuf'))
     ..p<$core.int>(1, 'path', $pb.PbFieldType.K3)
     ..p<$core.int>(2, 'span', $pb.PbFieldType.K3)
@@ -1415,15 +1407,15 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   SourceCodeInfo_Location clone() =>
-      new SourceCodeInfo_Location()..mergeFromMessage(this);
+      SourceCodeInfo_Location()..mergeFromMessage(this);
   SourceCodeInfo_Location copyWith(
           void Function(SourceCodeInfo_Location) updates) =>
       super.copyWith((message) => updates(message as SourceCodeInfo_Location));
   $pb.BuilderInfo get info_ => _i;
-  static SourceCodeInfo_Location create() => new SourceCodeInfo_Location();
+  static SourceCodeInfo_Location create() => SourceCodeInfo_Location();
   SourceCodeInfo_Location createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo_Location> createRepeated() =>
-      new $pb.PbList<SourceCodeInfo_Location>();
+      $pb.PbList<SourceCodeInfo_Location>();
   static SourceCodeInfo_Location getDefault() =>
       _defaultInstance ??= create()..freeze();
   static SourceCodeInfo_Location _defaultInstance;
@@ -1452,7 +1444,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
 }
 
 class SourceCodeInfo extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SourceCodeInfo',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SourceCodeInfo',
       package: const $pb.PackageName('google.protobuf'))
     ..pc<SourceCodeInfo_Location>(
         1, 'location', $pb.PbFieldType.PM, SourceCodeInfo_Location.create)
@@ -1465,14 +1457,14 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   SourceCodeInfo.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  SourceCodeInfo clone() => new SourceCodeInfo()..mergeFromMessage(this);
+  SourceCodeInfo clone() => SourceCodeInfo()..mergeFromMessage(this);
   SourceCodeInfo copyWith(void Function(SourceCodeInfo) updates) =>
       super.copyWith((message) => updates(message as SourceCodeInfo));
   $pb.BuilderInfo get info_ => _i;
-  static SourceCodeInfo create() => new SourceCodeInfo();
+  static SourceCodeInfo create() => SourceCodeInfo();
   SourceCodeInfo createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo> createRepeated() =>
-      new $pb.PbList<SourceCodeInfo>();
+      $pb.PbList<SourceCodeInfo>();
   static SourceCodeInfo getDefault() => _defaultInstance ??= create()..freeze();
   static SourceCodeInfo _defaultInstance;
 
@@ -1480,7 +1472,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
 }
 
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'GeneratedCodeInfo.Annotation',
       package: const $pb.PackageName('google.protobuf'))
     ..p<$core.int>(1, 'path', $pb.PbFieldType.K3)
@@ -1497,17 +1489,17 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   GeneratedCodeInfo_Annotation clone() =>
-      new GeneratedCodeInfo_Annotation()..mergeFromMessage(this);
+      GeneratedCodeInfo_Annotation()..mergeFromMessage(this);
   GeneratedCodeInfo_Annotation copyWith(
           void Function(GeneratedCodeInfo_Annotation) updates) =>
       super.copyWith(
           (message) => updates(message as GeneratedCodeInfo_Annotation));
   $pb.BuilderInfo get info_ => _i;
   static GeneratedCodeInfo_Annotation create() =>
-      new GeneratedCodeInfo_Annotation();
+      GeneratedCodeInfo_Annotation();
   GeneratedCodeInfo_Annotation createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo_Annotation> createRepeated() =>
-      new $pb.PbList<GeneratedCodeInfo_Annotation>();
+      $pb.PbList<GeneratedCodeInfo_Annotation>();
   static GeneratedCodeInfo_Annotation getDefault() =>
       _defaultInstance ??= create()..freeze();
   static GeneratedCodeInfo_Annotation _defaultInstance;
@@ -1540,7 +1532,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
 }
 
 class GeneratedCodeInfo extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GeneratedCodeInfo',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('GeneratedCodeInfo',
       package: const $pb.PackageName('google.protobuf'))
     ..pc<GeneratedCodeInfo_Annotation>(1, 'annotation', $pb.PbFieldType.PM,
         GeneratedCodeInfo_Annotation.create)
@@ -1553,14 +1545,14 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   GeneratedCodeInfo.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  GeneratedCodeInfo clone() => new GeneratedCodeInfo()..mergeFromMessage(this);
+  GeneratedCodeInfo clone() => GeneratedCodeInfo()..mergeFromMessage(this);
   GeneratedCodeInfo copyWith(void Function(GeneratedCodeInfo) updates) =>
       super.copyWith((message) => updates(message as GeneratedCodeInfo));
   $pb.BuilderInfo get info_ => _i;
-  static GeneratedCodeInfo create() => new GeneratedCodeInfo();
+  static GeneratedCodeInfo create() => GeneratedCodeInfo();
   GeneratedCodeInfo createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo> createRepeated() =>
-      new $pb.PbList<GeneratedCodeInfo>();
+      $pb.PbList<GeneratedCodeInfo>();
   static GeneratedCodeInfo getDefault() =>
       _defaultInstance ??= create()..freeze();
   static GeneratedCodeInfo _defaultInstance;

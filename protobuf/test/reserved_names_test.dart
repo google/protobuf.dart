@@ -26,7 +26,7 @@ import 'dart:mirrors';
 
 void main() {
   test('GeneratedMessage reserved names are up to date', () {
-    var actual = new Set<String>.from(GeneratedMessage_reservedNames);
+    var actual = Set<String>.from(GeneratedMessage_reservedNames);
     var expected =
         findMemberNames('package:protobuf/protobuf.dart', #GeneratedMessage);
 
@@ -34,7 +34,7 @@ void main() {
   });
 
   test('ProtobufEnum reserved names are up to date', () {
-    var actual = new Set<String>.from(ProtobufEnum_reservedNames);
+    var actual = Set<String>.from(ProtobufEnum_reservedNames);
     var expected =
         findMemberNames('package:protobuf/protobuf.dart', #ProtobufEnum);
 
@@ -44,7 +44,7 @@ void main() {
   test("ReadonlyMessageMixin doesn't add any reserved names", () {
     var mixinNames = findMemberNames(
         'package:protobuf/protobuf.dart', #ReadonlyMessageMixin);
-    var reservedNames = new Set<String>.from(GeneratedMessage_reservedNames);
+    var reservedNames = Set<String>.from(GeneratedMessage_reservedNames);
     for (var name in mixinNames) {
       if (name == "ReadonlyMessageMixin" || name == "unknownFields") continue;
       if (!reservedNames.contains(name)) {
@@ -55,7 +55,7 @@ void main() {
 
   test('PbMapMixin reserved names are up to date', () {
     var meta = findMixin("PbMapMixin");
-    var actual = new Set<String>.from(meta.findReservedNames());
+    var actual = Set<String>.from(meta.findReservedNames());
 
     var expected = findMemberNames(meta.importFrom, #PbMapMixin)
       ..addAll(findMemberNames("dart:collection", #MapMixin))
@@ -67,7 +67,7 @@ void main() {
 
   test('PbEventMixin reserved names are up to date', () {
     var meta = findMixin("PbEventMixin");
-    var actual = new Set<String>.from(meta.findReservedNames());
+    var actual = Set<String>.from(meta.findReservedNames());
 
     var expected = findMemberNames(meta.importFrom, #PbEventMixin)
       ..removeAll(GeneratedMessage_reservedNames);

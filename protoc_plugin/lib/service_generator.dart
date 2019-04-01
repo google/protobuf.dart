@@ -156,10 +156,10 @@ class ServiceGenerator {
       out.addBlock("switch (method) {", "}", () {
         for (MethodDescriptorProto m in _methodDescriptors) {
           var inputClass = _getDartClassName(m.inputType);
-          out.println("case '${m.name}': return new $inputClass();");
+          out.println("case '${m.name}': return $inputClass();");
         }
         out.println("default: "
-            "throw new $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
+            "throw $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
       });
     });
     out.println();
@@ -177,7 +177,7 @@ class ServiceGenerator {
               "case '${m.name}': return this.$methodName(ctx, request);");
         }
         out.println("default: "
-            "throw new $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
+            "throw $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
       });
     });
     out.println();

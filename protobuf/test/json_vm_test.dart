@@ -11,11 +11,11 @@ import 'mock_util.dart' show T;
 
 main() {
   test('testInt64JsonEncoding', () {
-    final value = new Int64(1234567890123456789);
-    final t = new T()..int64 = value;
+    final value = Int64(1234567890123456789);
+    final t = T()..int64 = value;
     final encoded = t.writeToJsonMap();
     expect(encoded["5"], "$value");
-    final decoded = new T()..mergeFromJsonMap(encoded);
+    final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
 }

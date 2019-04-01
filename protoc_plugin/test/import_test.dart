@@ -11,6 +11,6 @@ import '../out/protos/foo.pb.dart' as foo;
 
 void main() {
   test('Import prefixes in generated files do not clash with fields', () {
-    new pb.Clasher()..foo = new foo.Foo();
+    pb.Clasher()..foo = foo.Foo();
   });
 }

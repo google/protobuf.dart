@@ -13,7 +13,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 import 'descriptor.pb.dart' as $0;
 
 class Version extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Version',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Version',
       package: const $pb.PackageName('google.protobuf.compiler'))
     ..a<$core.int>(1, 'major', $pb.PbFieldType.O3)
     ..a<$core.int>(2, 'minor', $pb.PbFieldType.O3)
@@ -28,13 +28,13 @@ class Version extends $pb.GeneratedMessage {
   Version.fromJson($core.String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  Version clone() => new Version()..mergeFromMessage(this);
+  Version clone() => Version()..mergeFromMessage(this);
   Version copyWith(void Function(Version) updates) =>
       super.copyWith((message) => updates(message as Version));
   $pb.BuilderInfo get info_ => _i;
-  static Version create() => new Version();
+  static Version create() => Version();
   Version createEmptyInstance() => create();
-  static $pb.PbList<Version> createRepeated() => new $pb.PbList<Version>();
+  static $pb.PbList<Version> createRepeated() => $pb.PbList<Version>();
   static Version getDefault() => _defaultInstance ??= create()..freeze();
   static Version _defaultInstance;
 
@@ -72,7 +72,7 @@ class Version extends $pb.GeneratedMessage {
 }
 
 class CodeGeneratorRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CodeGeneratorRequest',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeGeneratorRequest',
       package: const $pb.PackageName('google.protobuf.compiler'))
     ..pPS(1, 'fileToGenerate')
     ..aOS(2, 'parameter')
@@ -89,14 +89,14 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CodeGeneratorRequest clone() =>
-      new CodeGeneratorRequest()..mergeFromMessage(this);
+      CodeGeneratorRequest()..mergeFromMessage(this);
   CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
       super.copyWith((message) => updates(message as CodeGeneratorRequest));
   $pb.BuilderInfo get info_ => _i;
-  static CodeGeneratorRequest create() => new CodeGeneratorRequest();
+  static CodeGeneratorRequest create() => CodeGeneratorRequest();
   CodeGeneratorRequest createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorRequest> createRepeated() =>
-      new $pb.PbList<CodeGeneratorRequest>();
+      $pb.PbList<CodeGeneratorRequest>();
   static CodeGeneratorRequest getDefault() =>
       _defaultInstance ??= create()..freeze();
   static CodeGeneratorRequest _defaultInstance;
@@ -123,7 +123,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
 }
 
 class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'CodeGeneratorResponse.File',
       package: const $pb.PackageName('google.protobuf.compiler'))
     ..aOS(1, 'name')
@@ -139,17 +139,16 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CodeGeneratorResponse_File clone() =>
-      new CodeGeneratorResponse_File()..mergeFromMessage(this);
+      CodeGeneratorResponse_File()..mergeFromMessage(this);
   CodeGeneratorResponse_File copyWith(
           void Function(CodeGeneratorResponse_File) updates) =>
       super.copyWith(
           (message) => updates(message as CodeGeneratorResponse_File));
   $pb.BuilderInfo get info_ => _i;
-  static CodeGeneratorResponse_File create() =>
-      new CodeGeneratorResponse_File();
+  static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File();
   CodeGeneratorResponse_File createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorResponse_File> createRepeated() =>
-      new $pb.PbList<CodeGeneratorResponse_File>();
+      $pb.PbList<CodeGeneratorResponse_File>();
   static CodeGeneratorResponse_File getDefault() =>
       _defaultInstance ??= create()..freeze();
   static CodeGeneratorResponse_File _defaultInstance;
@@ -180,7 +179,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
 }
 
 class CodeGeneratorResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CodeGeneratorResponse',
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeGeneratorResponse',
       package: const $pb.PackageName('google.protobuf.compiler'))
     ..aOS(1, 'error')
     ..pc<CodeGeneratorResponse_File>(
@@ -195,15 +194,15 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CodeGeneratorResponse clone() =>
-      new CodeGeneratorResponse()..mergeFromMessage(this);
+      CodeGeneratorResponse()..mergeFromMessage(this);
   CodeGeneratorResponse copyWith(
           void Function(CodeGeneratorResponse) updates) =>
       super.copyWith((message) => updates(message as CodeGeneratorResponse));
   $pb.BuilderInfo get info_ => _i;
-  static CodeGeneratorResponse create() => new CodeGeneratorResponse();
+  static CodeGeneratorResponse create() => CodeGeneratorResponse();
   CodeGeneratorResponse createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorResponse> createRepeated() =>
-      new $pb.PbList<CodeGeneratorResponse>();
+      $pb.PbList<CodeGeneratorResponse>();
   static CodeGeneratorResponse getDefault() =>
       _defaultInstance ??= create()..freeze();
   static CodeGeneratorResponse _defaultInstance;

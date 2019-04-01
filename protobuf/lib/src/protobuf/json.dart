@@ -9,7 +9,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     int baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
-      return new List.from(fieldValue.map((e) => convertToMap(e, baseType)));
+      return List.from(fieldValue.map((e) => convertToMap(e, baseType)));
     }
 
     switch (baseType) {
@@ -43,7 +43,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
   }
 
   _writeMap(dynamic fieldValue, MapFieldInfo fi) {
-    return new List.from(fieldValue.entries.map((MapEntry e) => {
+    return List.from(fieldValue.entries.map((MapEntry e) => {
           '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
           '${PbMap._valueFieldNumber}': convertToMap(e.value, fi.valueFieldType)
         }));
@@ -228,7 +228,7 @@ _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
     case PbFieldType._UINT64_BIT:
     case PbFieldType._FIXED64_BIT:
     case PbFieldType._SFIXED64_BIT:
-      if (value is int) return new Int64(value);
+      if (value is int) return Int64(value);
       if (value is String) return Int64.parseInt(value);
       expectedType = 'int or stringified int';
       break;
@@ -244,7 +244,7 @@ _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
       expectedType = 'nested message or group';
       break;
     default:
-      throw new ArgumentError('Unknown type $fieldType');
+      throw ArgumentError('Unknown type $fieldType');
   }
-  throw new ArgumentError('Expected type $expectedType, got $value');
+  throw ArgumentError('Expected type $expectedType, got $value');
 }

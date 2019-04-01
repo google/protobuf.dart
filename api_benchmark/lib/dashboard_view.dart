@@ -16,7 +16,7 @@ import 'package:api_benchmark/report.dart' show encodeReport;
 class DashboardView {
   static const noBaseline = "<none>";
 
-  static final _template = new DivElement()
+  static final _template = DivElement()
     ..innerHtml = '''
 <div>
   <button class="dv-run"></button>
@@ -59,7 +59,7 @@ Choose baseline: <select class="dv-menu"></select>
   final rowViews = <_ResponseView>[];
 
   final _selectionChanges =
-      new StreamController<SelectEvent<pb.Request>>.broadcast();
+      StreamController<SelectEvent<pb.Request>>.broadcast();
 
   DashboardView._raw(
       this.elt,
@@ -75,11 +75,11 @@ Choose baseline: <select class="dv-menu"></select>
   factory DashboardView() {
     Element elt = _template.clone(true);
     find(String q) => elt.querySelector(q);
-    _Button button(q) => new _Button(find(q));
-    label(q) => new _Label(find(q));
-    menu(q) => new _Menu(find(q));
-    json(q) => new _JsonView(find(q));
-    return new DashboardView._raw(
+    _Button button(q) => _Button(find(q));
+    label(q) => _Label(find(q));
+    menu(q) => _Menu(find(q));
+    json(q) => _JsonView(find(q));
+    return DashboardView._raw(
         elt,
         button('.dv-run')
           ..elt.style.color = "#FFFFFF"
@@ -142,8 +142,7 @@ Choose baseline: <select class="dv-menu"></select>
 
     // Add any new rows
     while (rowIt.moveNext()) {
-      var row = new _ResponseView()
-        ..render(rowIt.current, r, _selectionChanges);
+      var row = _ResponseView()..render(rowIt.current, r, _selectionChanges);
       _responseTable.append(row.elt);
       rowViews.add(row);
     }
@@ -155,14 +154,14 @@ Choose baseline: <select class="dv-menu"></select>
 /// Displays how many samples were collected and the median and max samples.
 /// Also displays a baseline sample for comparison.
 class _ResponseView {
-  final elt = new TableRowElement();
-  final _selected = new _Checkbox<pb.Request>();
-  final _summary = new _Label(new TableCellElement());
-  final _baseline = new _SampleView();
-  final _median = new _SampleView();
-  final _max = new _SampleView();
-  final _count = new _Label(new TableCellElement()..style.textAlign = "right");
-  final _units = new _Label(new TableCellElement());
+  final elt = TableRowElement();
+  final _selected = _Checkbox<pb.Request>();
+  final _summary = _Label(TableCellElement());
+  final _baseline = _SampleView();
+  final _median = _SampleView();
+  final _max = _SampleView();
+  final _count = _Label(TableCellElement()..style.textAlign = "right");
+  final _units = _Label(TableCellElement());
 
   _ResponseView() {
     elt.children.addAll([
@@ -192,7 +191,7 @@ class _ResponseView {
 
 /// A table cell holding the measurement for one sample.
 class _SampleView {
-  final elt = new TableCellElement()..style.textAlign = "right";
+  final elt = TableCellElement()..style.textAlign = "right";
   double _rendered;
 
   void render(double value) {
@@ -225,8 +224,8 @@ class _JsonView {
     elt.children.clear();
     if (json == "") return;
     elt.children.addAll([
-      new HeadingElement.h2()..text = "Report data as JSON:",
-      new PreElement()..text = json
+      HeadingElement.h2()..text = "Report data as JSON:",
+      PreElement()..text = json
     ]);
     _rendered = json;
   }
@@ -235,8 +234,8 @@ class _JsonView {
 /// A menu of selectable text items.
 class _Menu {
   final SelectElement elt;
-  final _changes = new StreamController<String>.broadcast();
-  final _options = new List<_MenuOption>();
+  final _changes = StreamController<String>.broadcast();
+  final _options = List<_MenuOption>();
 
   _Menu(this.elt) {
     elt.onChange.listen((e) => _changes.add(elt.value));
@@ -256,7 +255,7 @@ class _Menu {
 
     // Add any new items
     while (it.moveNext()) {
-      var opt = new _MenuOption();
+      var opt = _MenuOption();
       opt.render(it.current, it.current == selected);
       elt.append(opt.elt);
       _options.add(opt);
@@ -265,7 +264,7 @@ class _Menu {
 }
 
 class _MenuOption {
-  final elt = new OptionElement();
+  final elt = OptionElement();
   String _renderedItem;
   bool _renderedSelected;
 
@@ -296,7 +295,7 @@ class _Label {
 
 class _Button {
   final ButtonElement elt;
-  final _clicks = new StreamController.broadcast();
+  final _clicks = StreamController.broadcast();
   String _renderedLabel;
   bool _renderedEnabled;
 
@@ -319,7 +318,7 @@ class _Button {
 }
 
 class _Checkbox<T> {
-  final elt = new CheckboxInputElement();
+  final elt = CheckboxInputElement();
 
   bool _renderedChecked;
   EventSink<SelectEvent<T>> _sink;
@@ -328,7 +327,7 @@ class _Checkbox<T> {
   _Checkbox() {
     elt.onChange.listen((e) {
       if (_sink != null) {
-        _sink.add(new SelectEvent<T>(elt.checked, _item));
+        _sink.add(SelectEvent<T>(elt.checked, _item));
       }
     });
   }

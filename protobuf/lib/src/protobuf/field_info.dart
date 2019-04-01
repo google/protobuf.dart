@@ -53,7 +53,7 @@ class FieldInfo<T> {
       this.check, this.subBuilder,
       [this.valueOf, this.enumValues])
       : this.type = type,
-        this.makeDefault = (() => new PbList<T>(check: check)),
+        this.makeDefault = (() => PbList<T>(check: check)),
         _mapEntryBuilderInfo = null {
     assert(name != null);
     assert(tagNumber != null);

@@ -50,7 +50,7 @@ class _ExtensionFieldSet {
   List<T> _getList<T>(Extension<T> fi) {
     var value = _values[fi.tagNumber];
     if (value != null) return value as List<T>;
-    if (_isReadOnly) return new List<T>.unmodifiable(const []);
+    if (_isReadOnly) return List<T>.unmodifiable(const []);
     return _addInfoAndCreateList(fi);
   }
 
@@ -81,11 +81,11 @@ class _ExtensionFieldSet {
   void _setField(int tagNumber, value) {
     var fi = _getInfoOrNull(tagNumber);
     if (fi == null) {
-      throw new ArgumentError(
+      throw ArgumentError(
           "tag $tagNumber not defined in $_parent._messageName");
     }
     if (fi.isRepeated) {
-      throw new ArgumentError(_parent._setFieldFailedMessage(
+      throw ArgumentError(_parent._setFieldFailedMessage(
           fi, value, 'repeating field (use get + .add())'));
     }
     _ensureWritable();
@@ -98,7 +98,7 @@ class _ExtensionFieldSet {
   void _setFieldAndInfo(Extension fi, value) {
     _ensureWritable();
     if (fi.isRepeated) {
-      throw new ArgumentError(_parent._setFieldFailedMessage(
+      throw ArgumentError(_parent._setFieldFailedMessage(
           fi, value, 'repeating field (use get + .add())'));
     }
     _ensureWritable();
@@ -114,7 +114,7 @@ class _ExtensionFieldSet {
 
   void _validateInfo(Extension fi) {
     if (fi.extendee != _parent._messageName) {
-      throw new ArgumentError(
+      throw ArgumentError(
           'Extension $fi not legal for message ${_parent._messageName}');
     }
   }
@@ -139,7 +139,7 @@ class _ExtensionFieldSet {
   get _hasValues => _values.isNotEmpty;
 
   bool _equalValues(_ExtensionFieldSet other) =>
-      _areMapsEqual(_values, other._values);
+      other != null && _areMapsEqual(_values, other._values);
 
   void _clearValues() => _values.clear();
 

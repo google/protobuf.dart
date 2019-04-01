@@ -72,7 +72,7 @@ void _mergeFromCodedBufferReader(
         var value = fs._meta._decodeEnum(tagNumber, registry, rawValue);
         if (value == null) {
           var unknown = fs._ensureUnknownFields();
-          unknown.mergeVarintField(tagNumber, new Int64(rawValue));
+          unknown.mergeVarintField(tagNumber, Int64(rawValue));
         } else {
           fs._setFieldUnchecked(fi, value);
         }
@@ -209,7 +209,7 @@ void _readPackableToListEnum(_FieldSet fs, CodedBufferReader input,
     var value = fs._meta._decodeEnum(tagNumber, registry, rawValue);
     if (value == null) {
       var unknown = fs._ensureUnknownFields();
-      unknown.mergeVarintField(tagNumber, new Int64(rawValue));
+      unknown.mergeVarintField(tagNumber, Int64(rawValue));
     } else {
       list.add(value);
     }

@@ -15,7 +15,7 @@ void main() {
 
     setUp(() {
       packages = {};
-      optionParser = new BazelOptionParser(packages);
+      optionParser = BazelOptionParser(packages);
       errors = [];
     });
 
@@ -116,12 +116,12 @@ void main() {
 
     setUp(() {
       packages = {
-        'foo/bar': new BazelPackage('a.b.c', 'foo/bar', 'baz/flob'),
-        'foo/bar/baz': new BazelPackage('d.e.f', 'foo/bar/baz', 'baz/flob/foo'),
+        'foo/bar': BazelPackage('a.b.c', 'foo/bar', 'baz/flob'),
+        'foo/bar/baz': BazelPackage('d.e.f', 'foo/bar/baz', 'baz/flob/foo'),
         'wibble/wobble':
-            new BazelPackage('wibble.wobble', 'wibble/wobble', 'womble/wumble'),
+            BazelPackage('wibble.wobble', 'wibble/wobble', 'womble/wumble'),
       };
-      config = new BazelOutputConfiguration(packages);
+      config = BazelOutputConfiguration(packages);
     });
 
     group('outputPathForUri', () {

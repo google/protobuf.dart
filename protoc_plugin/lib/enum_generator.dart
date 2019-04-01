@@ -50,7 +50,7 @@ class EnumGenerator extends ProtobufContainer {
         _canonicalValues.add(value);
         _originalCanonicalIndices.add(i);
       } else {
-        _aliases.add(new EnumAlias(value, canonicalValue));
+        _aliases.add(EnumAlias(value, canonicalValue));
         _originalAliasIndices.add(i);
       }
       dartNames[value.name] = disambiguateName(
@@ -98,7 +98,7 @@ class EnumGenerator extends ProtobufContainer {
     out.addAnnotatedBlock(
         'class ${classname} extends $_protobufImportPrefix.ProtobufEnum {',
         '}\n', [
-      new NamedLocation(
+      NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
       // -----------------------------------------------------------------
@@ -110,9 +110,9 @@ class EnumGenerator extends ProtobufContainer {
             'static const ${classname} $name = '
             "const ${classname}._(${val.number}, ${singleQuote(name)});",
             [
-              new NamedLocation(
+              NamedLocation(
                   name: name,
-                  fieldPathSegment: new List.from(fieldPath)
+                  fieldPathSegment: List.from(fieldPath)
                     ..addAll([_enumValueTag, _originalCanonicalIndices[i]]),
                   start: 'static const ${classname} '.length)
             ]);
@@ -126,9 +126,9 @@ class EnumGenerator extends ProtobufContainer {
               'static const ${classname} $name ='
               ' ${dartNames[alias.canonicalValue.name]};',
               [
-                new NamedLocation(
+                NamedLocation(
                     name: name,
-                    fieldPathSegment: new List.from(fieldPath)
+                    fieldPathSegment: List.from(fieldPath)
                       ..addAll([_enumValueTag, _originalAliasIndices[i]]),
                     start: 'static const ${classname} '.length)
               ]);

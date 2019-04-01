@@ -85,8 +85,7 @@ void main() {
   test('testBase64Decode', () {
     optionalBytes(from, to) {
       String json = TEST_ALL_TYPES_JSON.replaceAll(from, to);
-      return new String.fromCharCodes(
-          new TestAllTypes.fromJson(json).optionalBytes);
+      return String.fromCharCodes(TestAllTypes.fromJson(json).optionalBytes);
     }
 
     expect(optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'), 'Hello, world');
@@ -107,7 +106,7 @@ void main() {
   });
 
   test('testParse', () {
-    expect(new TestAllTypes.fromJson(TEST_ALL_TYPES_JSON), getAllSet());
+    expect(TestAllTypes.fromJson(TEST_ALL_TYPES_JSON), getAllSet());
   });
 
   test('testExtensionsOutput', () {
@@ -116,25 +115,25 @@ void main() {
 
   test('testExtensionsParse', () {
     ExtensionRegistry registry = getExtensionRegistry();
-    expect(new TestAllExtensions.fromJson(TEST_ALL_TYPES_JSON, registry),
+    expect(TestAllExtensions.fromJson(TEST_ALL_TYPES_JSON, registry),
         getAllExtensionsSet());
   });
 
   test('testUnknownEnumValueInOptionalField', () {
     // optional NestedEnum optional_nested_enum = 21;
-    var message = new TestAllTypes.fromJson('{"21": 4}');
+    var message = TestAllTypes.fromJson('{"21": 4}');
     // 4 is an unknown value.
     expect(message.optionalNestedEnum, equals(TestAllTypes_NestedEnum.FOO));
   });
 
   test('testUnknownEnumValueInRepeatedField', () {
     // repeated NestedEnum repeated_nested_enum = 51;
-    var message = new TestAllTypes.fromJson('{"51": [4]}');
+    var message = TestAllTypes.fromJson('{"51": [4]}');
     // 4 is an unknown value.
     expect(message.repeatedNestedEnum, isEmpty);
 
     // 1 (FOO) and 2 (BAR) are known values.
-    message = new TestAllTypes.fromJson('{"51": [1, 4, 2, 4, 1, 4]}');
+    message = TestAllTypes.fromJson('{"51": [1, 4, 2, 4, 1, 4]}');
     expect(
         message.repeatedNestedEnum,
         equals([

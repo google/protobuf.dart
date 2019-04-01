@@ -13,7 +13,7 @@ import 'package1.pb.dart' as $0;
 import 'package2.pb.dart' as $1;
 
 class M extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('M')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('M')
     ..a<M>(1, 'm', $pb.PbFieldType.OM, M.getDefault, M.create)
     ..a<$0.M>(2, 'm1', $pb.PbFieldType.OM, $0.M.getDefault, $0.M.create)
     ..a<$1.M>(3, 'm2', $pb.PbFieldType.OM, $1.M.getDefault, $1.M.create)
@@ -23,12 +23,12 @@ class M extends $pb.GeneratedMessage {
   M() : super();
   M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
   M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  M clone() => new M()..mergeFromMessage(this);
+  M clone() => M()..mergeFromMessage(this);
   M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M));
   $pb.BuilderInfo get info_ => _i;
-  static M create() => new M();
+  static M create() => M();
   M createEmptyInstance() => create();
-  static $pb.PbList<M> createRepeated() => new $pb.PbList<M>();
+  static $pb.PbList<M> createRepeated() => $pb.PbList<M>();
   static M getDefault() => _defaultInstance ??= create()..freeze();
   static M _defaultInstance;
 
