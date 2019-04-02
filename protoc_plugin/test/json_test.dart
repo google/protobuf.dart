@@ -41,7 +41,7 @@ void main() {
   }
 
   test('testUnsignedOutput', () {
-    TestAllTypes message = new TestAllTypes();
+    TestAllTypes message = TestAllTypes();
     // These values selected because:
     // (1) large enough to set the sign bit
     // (2) don't set all of the first 10 bits under the sign bit
@@ -121,9 +121,9 @@ void main() {
   });
 
   test('testParseUnsigned', () {
-    TestAllTypes parsed = new TestAllTypes.fromJson(
+    TestAllTypes parsed = TestAllTypes.fromJson(
         '{"4":"17293822573397606400","8":"17293822573397606401"}');
-    TestAllTypes expected = new TestAllTypes();
+    TestAllTypes expected = TestAllTypes();
     expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
     expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
 
@@ -131,9 +131,9 @@ void main() {
   });
 
   test('testParseUnsignedLegacy', () {
-    TestAllTypes parsed = new TestAllTypes.fromJson(
+    TestAllTypes parsed = TestAllTypes.fromJson(
         '{"4":"-1152921500311945216","8":"-1152921500311945215"}');
-    TestAllTypes expected = new TestAllTypes();
+    TestAllTypes expected = TestAllTypes();
     expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
     expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
 
