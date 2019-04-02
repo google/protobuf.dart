@@ -39,7 +39,7 @@ void main() {
     expect(rec["msg"], predicate((x) => x is pb.NonMap));
   });
 
-  test('operator [] returns value when set', () {
+  test('operator [] returns new value when set', () {
     var rec = pb.Rec();
     rec.num = 42;
     expect(rec["num"], 42);
@@ -132,7 +132,7 @@ void main() {
     expect(rec["nums"], []);
   });
 
-  test("addAll sets each field to a value", () {
+  test("addAll sets each field to a new value", () {
     var rec = pb.Rec();
     rec.addAll({"str": "hello", "num": 123});
     expect(rec["str"], "hello");

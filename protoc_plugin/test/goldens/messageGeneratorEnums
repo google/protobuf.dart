@@ -1,11 +1,11 @@
 class PhoneNumber_PhoneType extends $pb.ProtobufEnum {
-  static const PhoneNumber_PhoneType MOBILE = const PhoneNumber_PhoneType._(0, 'MOBILE');
-  static const PhoneNumber_PhoneType HOME = const PhoneNumber_PhoneType._(1, 'HOME');
-  static const PhoneNumber_PhoneType WORK = const PhoneNumber_PhoneType._(2, 'WORK');
+  static const PhoneNumber_PhoneType MOBILE = PhoneNumber_PhoneType._(0, 'MOBILE');
+  static const PhoneNumber_PhoneType HOME = PhoneNumber_PhoneType._(1, 'HOME');
+  static const PhoneNumber_PhoneType WORK = PhoneNumber_PhoneType._(2, 'WORK');
 
   static const PhoneNumber_PhoneType BUSINESS = WORK;
 
-  static const $core.List<PhoneNumber_PhoneType> values = const <PhoneNumber_PhoneType> [
+  static const $core.List<PhoneNumber_PhoneType> values = <PhoneNumber_PhoneType> [
     MOBILE,
     HOME,
     WORK,

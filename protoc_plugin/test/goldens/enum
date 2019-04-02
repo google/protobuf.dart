@@ -1,11 +1,11 @@
 class PhoneType extends $pb.ProtobufEnum {
-  static const PhoneType MOBILE = const PhoneType._(0, 'MOBILE');
-  static const PhoneType HOME = const PhoneType._(1, 'HOME');
-  static const PhoneType WORK = const PhoneType._(2, 'WORK');
+  static const PhoneType MOBILE = PhoneType._(0, 'MOBILE');
+  static const PhoneType HOME = PhoneType._(1, 'HOME');
+  static const PhoneType WORK = PhoneType._(2, 'WORK');
 
   static const PhoneType BUSINESS = WORK;
 
-  static const $core.List<PhoneType> values = const <PhoneType> [
+  static const $core.List<PhoneType> values = <PhoneType> [
     MOBILE,
     HOME,
     WORK,

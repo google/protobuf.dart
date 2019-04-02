@@ -2,20 +2,20 @@
 //  Generated code. Do not modify.
 //  source: test
 ///
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 // ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME
 import 'dart:core' as $core show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class PhoneType extends $pb.ProtobufEnum {
-  static const PhoneType MOBILE = const PhoneType._(0, 'MOBILE');
-  static const PhoneType HOME = const PhoneType._(1, 'HOME');
-  static const PhoneType WORK = const PhoneType._(2, 'WORK');
+  static const PhoneType MOBILE = PhoneType._(0, 'MOBILE');
+  static const PhoneType HOME = PhoneType._(1, 'HOME');
+  static const PhoneType WORK = PhoneType._(2, 'WORK');
 
   static const PhoneType BUSINESS = WORK;
 
-  static const $core.List<PhoneType> values = const <PhoneType> [
+  static const $core.List<PhoneType> values = <PhoneType> [
     MOBILE,
     HOME,
     WORK,
