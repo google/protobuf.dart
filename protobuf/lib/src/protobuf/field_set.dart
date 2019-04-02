@@ -523,51 +523,48 @@ class _FieldSet {
   /// The hash may change when any field changes (recursively).
   /// Therefore, protobufs used as map keys shouldn't be changed.
   int get _hashCode {
-    int hash;
-
-    void hashEnumList(PbListBase enums) {
-      for (ProtobufEnum enm in enums) {
-        hash = 0x1fffffff & ((31 * hash) + enm.value);
-      }
-    }
-
     // Hashes the value of one field (recursively).
-    void hashField(FieldInfo fi, value) {
+    int hashField(int hash, FieldInfo fi, value) {
       if (value is List && value.isEmpty) {
-        return; // It's either repeated or an empty byte array.
+        return hash; // It's either repeated or an empty byte array.
       }
-      hash = 0x1fffffff & ((37 * hash) + fi.tagNumber);
+
+      hash = _HashUtils._combine(hash, fi.tagNumber);
       if (!_isEnum(fi.type)) {
-        hash = 0x1fffffff & ((53 * hash) + value.hashCode);
+        hash = _HashUtils._combine(hash, value.hashCode);
       } else if (fi.isRepeated) {
-        hashEnumList(value);
+        hash = _HashUtils._hashObjects(value.map((enm) => enm.value));
       } else {
         ProtobufEnum enm = value;
-        hash = 0x1fffffff & ((53 * hash) + enm.value);
+        hash = _HashUtils._combine(hash, enm.value);
       }
+
+      return hash;
     }
 
-    void hashEachField() {
-      for (var fi in _infosSortedByTag) {
-        var v = _values[fi.index];
-        if (v != null) hashField(fi, v);
-      }
-      if (!_hasExtensions) return;
-      for (int tagNumber in sorted(_extensions._tagNumbers)) {
+    int hashEachField(int hash) {
+      //non-extension fields
+      hash = _infosSortedByTag.where((fi) => _values[fi.index] != null).fold(
+          hash, (int h, FieldInfo fi) => hashField(h, fi, _values[fi.index]));
+
+      if (!_hasExtensions) return hash;
+
+      hash =
+          _sorted(_extensions._tagNumbers).fold(hash, (int h, int tagNumber) {
         var fi = _extensions._getInfoOrNull(tagNumber);
-        hashField(fi, _extensions._getFieldOrNull(fi));
-      }
+        return hashField(h, fi, _extensions._getFieldOrNull(fi));
+      });
+
+      return hash;
     }
 
-    // Generate hash.
-    hash = 41;
     // Hash with descriptor.
-    hash = 0x1fffffff & ((19 * hash) + _meta.hashCode);
+    int hash = _HashUtils._combine(0, _meta.hashCode);
     // Hash with fields.
-    hashEachField();
+    hash = hashEachField(hash);
     // Hash with unknown fields.
     if (_hasUnknownFields) {
-      hash = 0x1fffffff & ((29 * hash) + _unknownFields.hashCode);
+      hash = _HashUtils._combine(hash, _unknownFields.hashCode);
     }
     return hash;
   }

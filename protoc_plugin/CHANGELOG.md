@@ -1,4 +1,5 @@
 ## 16.0.3
+
 * Sync Kythe metadata updates from internal repo:
 * Remove the extra 1 (field name) from generated field paths,
   so they refer to the whole field rather than the name.

@@ -1,3 +1,7 @@
+## 0.13.7
+
+* Override `operator ==` and `hashCode` in `PbMap` so that two `PbMap`s are equal if they have equal key/value pairs.
+
 ## 0.13.6
 
 * Fixed equality check between messages with and without extensions.
