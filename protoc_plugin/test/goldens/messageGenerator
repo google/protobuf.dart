@@ -3,6 +3,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
     ..aQS(1, 'number')
     ..e<PhoneNumber_PhoneType>(2, 'type', $pb.PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf, PhoneNumber_PhoneType.values)
     ..a<$core.String>(3, 'name', $pb.PbFieldType.OS, '\$')
+    ..aOS(4, 'deprecatedField')
   ;
 
   PhoneNumber() : super();
@@ -31,5 +32,14 @@ class PhoneNumber extends $pb.GeneratedMessage {
   set name($core.String v) { $_setString(2, v); }
   $core.bool hasName() => $_has(2);
   void clearName() => clearField(3);
+
+  @$core.Deprecated('This field is deprecated.')
+  $core.String get deprecatedField => $_getS(3, '');
+  @$core.Deprecated('This field is deprecated.')
+  set deprecatedField($core.String v) { $_setString(3, v); }
+  @$core.Deprecated('This field is deprecated.')
+  $core.bool hasDeprecatedField() => $_has(3);
+  @$core.Deprecated('This field is deprecated.')
+  void clearDeprecatedField() => clearField(4);
 }
 

@@ -2,8 +2,8 @@ annotation: {
   path: 5
   path: 0
   sourceFile: test
-  begin: 339
-  end: 348
+  begin: 357
+  end: 366
 }
 annotation: {
   path: 5
@@ -11,8 +11,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 401
-  end: 407
+  begin: 419
+  end: 425
 }
 annotation: {
   path: 5
@@ -20,8 +20,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 467
-  end: 471
+  begin: 479
+  end: 483
 }
 annotation: {
   path: 5
@@ -29,8 +29,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 529
-  end: 533
+  begin: 535
+  end: 539
 }
 annotation: {
   path: 5

@@ -2,10 +2,10 @@
 //  Generated code. Do not modify.
 //  source: descriptor.proto
 ///
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' as $core show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core
+    show bool, Deprecated, double, int, List, Map, override, String;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
@@ -822,12 +822,16 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasPyGenericServices() => $_has(7);
   void clearPyGenericServices() => clearField(18);
 
+  @$core.Deprecated('This field is deprecated.')
   $core.bool get javaGenerateEqualsAndHash => $_get(8, false);
+  @$core.Deprecated('This field is deprecated.')
   set javaGenerateEqualsAndHash($core.bool v) {
     $_setBool(8, v);
   }
 
+  @$core.Deprecated('This field is deprecated.')
   $core.bool hasJavaGenerateEqualsAndHash() => $_has(8);
+  @$core.Deprecated('This field is deprecated.')
   void clearJavaGenerateEqualsAndHash() => clearField(20);
 
   $core.bool get deprecated => $_get(9, false);

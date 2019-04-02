@@ -108,7 +108,7 @@ class EnumGenerator extends ProtobufContainer {
         final name = dartNames[val.name];
         out.printlnAnnotated(
             'static const ${classname} $name = '
-            "const ${classname}._(${val.number}, ${singleQuote(name)});",
+            "${classname}._(${val.number}, ${singleQuote(name)});",
             [
               NamedLocation(
                   name: name,
@@ -137,7 +137,7 @@ class EnumGenerator extends ProtobufContainer {
       out.println();
 
       out.println('static const $_coreImportPrefix.List<${classname}> values ='
-          ' const <${classname}> [');
+          ' <${classname}> [');
       for (EnumValueDescriptorProto val in _canonicalValues) {
         final name = dartNames[val.name];
         out.println('  $name,');

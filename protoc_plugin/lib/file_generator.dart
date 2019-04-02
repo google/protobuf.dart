@@ -285,9 +285,8 @@ class FileGenerator extends ProtobufContainer {
       out.println(_asyncImport);
     }
 
-    out.println('// ignore: UNUSED_SHOWN_NAME');
     out.println(
-        '$_coreImport show int, bool, double, String, List, Map, override;\n');
+        '$_coreImport show bool, Deprecated, double, int, List, Map, override, String;\n');
 
     if (_needsFixnumImport) {
       out.println("import 'package:fixnum/fixnum.dart';");
@@ -565,7 +564,7 @@ class FileGenerator extends ProtobufContainer {
 //  Generated code. Do not modify.
 //  source: ${descriptor.name}
 ///
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 ''');
   }
 

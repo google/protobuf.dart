@@ -54,7 +54,13 @@ void main() {
           ..number = 3
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_STRING
-          ..defaultValue = r'$'
+          ..defaultValue = r'$',
+        FieldDescriptorProto()
+          ..name = 'deprecated_field'
+          ..number = 4
+          ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+          ..type = FieldDescriptorProto_Type.TYPE_STRING
+          ..options = (FieldOptions()..deprecated = true),
       ])
       ..enumType.add(ed);
     var options =
