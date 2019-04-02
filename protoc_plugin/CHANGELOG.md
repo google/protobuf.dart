@@ -1,3 +1,8 @@
+## 16.0.4
+
+* Generate '@Deprecated' annotations on fields that have been deprecated in the
+  corresponding .proto file.
+
 ## 16.0.3
 * Sync Kythe metadata updates from internal repo:
 * Remove the extra 1 (field name) from generated field paths,
