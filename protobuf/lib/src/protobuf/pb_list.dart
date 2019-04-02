@@ -171,17 +171,8 @@ abstract class PbListBase<E> extends ListBase<E> {
   bool operator ==(other) =>
       (other is PbListBase) && _areListsEqual(other, this);
 
-  int get hashCode {
-    int hash = 0;
-    for (final value in _wrappedList) {
-      hash = 0x1fffffff & (hash + value.hashCode);
-      hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-      hash = hash ^ (hash >> 6);
-    }
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
+  @override
+  int get hashCode => _HashUtils._hashObjects(_wrappedList);
 
   /// Returns an [Iterator] for the list.
   Iterator<E> get iterator => _wrappedList.iterator;

@@ -151,7 +151,7 @@ class UnknownFieldSet {
   String _toString(String indent) {
     var stringBuffer = StringBuffer();
 
-    for (int tag in sorted(_fields.keys)) {
+    for (int tag in _sorted(_fields.keys)) {
       var field = _fields[tag];
       for (var value in field.values) {
         if (value is UnknownFieldSet) {

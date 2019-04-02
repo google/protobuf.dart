@@ -62,7 +62,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     result['${fi.tagNumber}'] = convertToMap(value, fi.type);
   }
   if (fs._hasExtensions) {
-    for (int tagNumber in sorted(fs._extensions._tagNumbers)) {
+    for (int tagNumber in _sorted(fs._extensions._tagNumbers)) {
       var value = fs._extensions._values[tagNumber];
       if (value is List && value.isEmpty) {
         continue; // It's repeated or an empty byte array.

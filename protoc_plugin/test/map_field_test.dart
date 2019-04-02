@@ -7,6 +7,7 @@ library map_field_test;
 
 import 'dart:convert';
 
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/map_field.pb.dart';
@@ -210,6 +211,33 @@ void main() {
     testMap.clear();
     testMap = TestMap.fromJson(testMap.writeToJson());
     _expectEmpty(testMap);
+  });
+
+  test(
+      'PbMap` is equal to another PbMap with equal key/value pairs in any order',
+      () {
+    TestMap t = TestMap()
+      ..int32ToStringField[2] = 'test2'
+      ..int32ToStringField[1] = 'test';
+    TestMap t2 = TestMap()
+      ..int32ToStringField[1] = 'test'
+      ..int32ToStringField[2] = 'test2';
+    TestMap t3 = TestMap()..int32ToStringField[1] = 'test';
+
+    PbMap<int, String> m = t.int32ToStringField;
+    PbMap<int, String> m2 = t2.int32ToStringField;
+    PbMap<int, String> m3 = t3.int32ToStringField;
+
+    expect(t, t2);
+    expect(t.hashCode, t2.hashCode);
+
+    expect(m, m2);
+    expect(m == m2, isTrue);
+    expect(m.hashCode, m2.hashCode);
+
+    expect(m, isNot(m3));
+    expect(m == m3, isFalse);
+    expect(m.hashCode, isNot(m3.hashCode));
   });
 
   test('merge from other message', () {
