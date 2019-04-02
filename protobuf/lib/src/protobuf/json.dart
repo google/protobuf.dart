@@ -30,10 +30,11 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         return fieldValue.value; // assume |value| < 2^52
       case PbFieldType._INT64_BIT:
       case PbFieldType._SINT64_BIT:
-      case PbFieldType._UINT64_BIT:
-      case PbFieldType._FIXED64_BIT:
       case PbFieldType._SFIXED64_BIT:
         return fieldValue.toString();
+      case PbFieldType._UINT64_BIT:
+      case PbFieldType._FIXED64_BIT:
+        return fieldValue.toStringUnsigned();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
         return fieldValue.writeToJsonMap();
