@@ -322,9 +322,9 @@ class MessageGenerator extends ProtobufContainer {
             '};', () {
           for (ProtobufField field in _oneofFields[oneof.index]) {
             final oneofMemberName =
-                  oneofEnumMemberName(field.memberNames.fieldName);
-              out.println(
-                  '${field.number} : ${oneof.oneofEnumName}.${oneofMemberName},');
+                oneofEnumMemberName(field.memberNames.fieldName);
+            out.println(
+                '${field.number} : ${oneof.oneofEnumName}.${oneofMemberName},');
           }
           out.println('0 : ${oneof.oneofEnumName}.notSet');
         });
