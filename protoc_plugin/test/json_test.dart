@@ -5,6 +5,7 @@
 
 library json_test;
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
@@ -38,6 +39,20 @@ void main() {
     return predicate(
         (message) => message.writeToJson() == expectedJson, 'Incorrect output');
   }
+
+  test('testUnsignedOutput', () {
+    TestAllTypes message = TestAllTypes();
+    // These values selected because:
+    // (1) large enough to set the sign bit
+    // (2) don't set all of the first 10 bits under the sign bit
+    // (3) are near each other
+    message.optionalUint64 = Int64.parseHex("f0000000ffff0000");
+    message.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
+
+    String expectedJsonValue =
+        '{"4":"17293822573397606400","8":"17293822573397606401"}';
+    expect(message.writeToJson(), expectedJsonValue);
+  });
 
   test('testOutput', () {
     expect(getAllSet().writeToJson(), TEST_ALL_TYPES_JSON);
@@ -103,6 +118,26 @@ void main() {
     expect(optionalBytes(':"MTE2",', ':"",'), isEmpty);
 
     expect(optionalBytes(':"MTE2",', ':"YQ==",'), 'a');
+  });
+
+  test('testParseUnsigned', () {
+    TestAllTypes parsed = TestAllTypes.fromJson(
+        '{"4":"17293822573397606400","8":"17293822573397606401"}');
+    TestAllTypes expected = TestAllTypes();
+    expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
+    expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
+
+    expect(parsed, expected);
+  });
+
+  test('testParseUnsignedLegacy', () {
+    TestAllTypes parsed = TestAllTypes.fromJson(
+        '{"4":"-1152921500311945216","8":"-1152921500311945215"}');
+    TestAllTypes expected = TestAllTypes();
+    expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
+    expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
+
+    expect(parsed, expected);
   });
 
   test('testParse', () {

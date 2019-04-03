@@ -1,3 +1,7 @@
+## 0.13.8
+
+* Fix JSON serialization of unsigned 64-bit fields.
+
 ## 0.13.7
 
 * Override `operator ==` and `hashCode` in `PbMap` so that two `PbMap`s are equal if they have equal key/value pairs.
