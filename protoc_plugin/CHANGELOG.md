@@ -1,3 +1,8 @@
+## 16.0.5
+
+* Fix generation of oneof enums that created invalid dart code
+  by adding list of reserved enum names.
+
 ## 16.0.4
 
 * Generate '@Deprecated' annotations on fields that have been deprecated in the

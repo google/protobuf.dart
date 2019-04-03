@@ -13,7 +13,7 @@ class OneofEnumGenerator {
       IndentingWriter out, String classname, List<ProtobufField> fields) {
     out.addBlock('enum ${classname} {', '}\n', () {
       for (ProtobufField field in fields) {
-        final name = field.memberNames.fieldName;
+        final name = oneofEnumMemberName(field.memberNames.fieldName);
         out.println('$name, ');
       }
       out.println('notSet');
@@ -321,8 +321,10 @@ class MessageGenerator extends ProtobufContainer {
             'static const $_coreImportPrefix.Map<$_coreImportPrefix.int, ${oneof.oneofEnumName}> ${oneof.byTagMapName} = {',
             '};', () {
           for (ProtobufField field in _oneofFields[oneof.index]) {
-            out.println(
-                '${field.number} : ${oneof.oneofEnumName}.${field.memberNames.fieldName},');
+            final oneofMemberName =
+                  oneofEnumMemberName(field.memberNames.fieldName);
+              out.println(
+                  '${field.number} : ${oneof.oneofEnumName}.${oneofMemberName},');
           }
           out.println('0 : ${oneof.oneofEnumName}.notSet');
         });

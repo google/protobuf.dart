@@ -175,6 +175,9 @@ String oneofEnumClassName(
       avoidInitialUnderscore(descriptorName), usedNames, defaultSuffixes());
 }
 
+String oneofEnumMemberName(String fieldName) => disambiguateName(
+    fieldName, Set<String>.from(_oneofEnumMemberNames), defaultSuffixes());
+
 /// Chooses the name of the Dart class to generate for a proto message or enum.
 ///
 /// For a nested message or enum, [parent] should be provided
@@ -509,3 +512,6 @@ const _protobufEnumNames = <String>[
   'valueOf',
   'values',
 ];
+
+// List of names used in Dart enums, which can't be used as enum member names.
+const _oneofEnumMemberNames = const <String>['index', 'values'];
