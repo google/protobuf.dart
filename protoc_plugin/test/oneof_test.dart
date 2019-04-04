@@ -32,10 +32,10 @@ void main() {
     expect(foo.third, true);
     expect(foo.hasFourth(), false);
     expect(foo.fourth, []);
-    expect(foo.hasFifth(), false);
-    expect(foo.fifth, Bar());
-    expect(foo.hasSixth(), false);
-    expect(foo.sixth, enum_type.A);
+    expect(foo.hasIndex(), false);
+    expect(foo.index, Bar());
+    expect(foo.hasValues(), false);
+    expect(foo.values, EnumType.DEFAULT);
 
     foo.fourth = [1, 2];
     expect(foo.whichOneofField(), Foo_OneofField.fourth);
@@ -47,13 +47,13 @@ void main() {
     expect(foo.third, false);
     expect(foo.hasFourth(), true);
     expect(foo.fourth, [1, 2]);
-    expect(foo.hasFifth(), false);
-    expect(foo.fifth, Bar());
-    expect(foo.hasSixth(), false);
-    expect(foo.sixth, enum_type.A);
+    expect(foo.hasIndex(), false);
+    expect(foo.index, Bar());
+    expect(foo.hasValues(), false);
+    expect(foo.values, EnumType.DEFAULT);
 
-    foo.fifth = Bar()..i = 1;
-    expect(foo.whichOneofField(), Foo_OneofField.fifth);
+    foo.index = Bar()..i = 1;
+    expect(foo.whichOneofField(), Foo_OneofField.index_);
     expect(foo.hasFirst(), false);
     expect(foo.first, '');
     expect(foo.hasSecond(), false);
@@ -62,13 +62,13 @@ void main() {
     expect(foo.third, false);
     expect(foo.hasFourth(), false);
     expect(foo.fourth, []);
-    expect(foo.hasFifth(), true);
-    expect(foo.fifth, Bar()..i = 1);
-    expect(foo.hasSixth(), false);
-    expect(foo.sixth, enum_type.A);
+    expect(foo.hasIndex(), true);
+    expect(foo.index, Bar()..i = 1);
+    expect(foo.hasValues(), false);
+    expect(foo.values, EnumType.DEFAULT);
 
-    foo.sixth = enum_type.B;
-    expect(foo.whichOneofField(), Foo_OneofField.sixth);
+    foo.values = EnumType.A;
+    expect(foo.whichOneofField(), Foo_OneofField.values_);
     expect(foo.hasFirst(), false);
     expect(foo.first, '');
     expect(foo.hasSecond(), false);
@@ -77,10 +77,10 @@ void main() {
     expect(foo.third, false);
     expect(foo.hasFourth(), false);
     expect(foo.fourth, []);
-    expect(foo.hasFifth(), false);
-    expect(foo.fifth, Bar());
-    expect(foo.hasSixth(), true);
-    expect(foo.sixth, enum_type.B);
+    expect(foo.hasIndex(), false);
+    expect(foo.index, Bar());
+    expect(foo.hasValues(), true);
+    expect(foo.values, EnumType.A);
   });
 
   test('set and clear oneof', () {
@@ -172,10 +172,10 @@ void expectSecondSet(Foo foo) {
   expect(foo.third, false);
   expect(foo.hasFourth(), false);
   expect(foo.fourth, []);
-  expect(foo.hasFifth(), false);
-  expect(foo.fifth, Bar());
-  expect(foo.hasSixth(), false);
-  expect(foo.sixth, enum_type.A);
+  expect(foo.hasIndex(), false);
+  expect(foo.index, Bar());
+  expect(foo.hasValues(), false);
+  expect(foo.values, EnumType.DEFAULT);
 }
 
 void expectFirstSet(Foo foo) {
@@ -188,10 +188,10 @@ void expectFirstSet(Foo foo) {
   expect(foo.third, false);
   expect(foo.hasFourth(), false);
   expect(foo.fourth, []);
-  expect(foo.hasFifth(), false);
-  expect(foo.fifth, Bar());
-  expect(foo.hasSixth(), false);
-  expect(foo.sixth, enum_type.A);
+  expect(foo.hasIndex(), false);
+  expect(foo.index, Bar());
+  expect(foo.hasValues(), false);
+  expect(foo.values, EnumType.DEFAULT);
 }
 
 void expectOneofNotSet(Foo foo) {
@@ -204,10 +204,10 @@ void expectOneofNotSet(Foo foo) {
   expect(foo.third, false);
   expect(foo.hasFourth(), false);
   expect(foo.fourth, []);
-  expect(foo.hasFifth(), false);
-  expect(foo.fifth, Bar());
-  expect(foo.hasSixth(), false);
-  expect(foo.sixth, enum_type.A);
+  expect(foo.hasIndex(), false);
+  expect(foo.index, Bar());
+  expect(foo.hasValues(), false);
+  expect(foo.values, EnumType.DEFAULT);
 
   expect(foo.whichColors(), Foo_Colors.notSet);
   expect(foo.hasRed(), false);
