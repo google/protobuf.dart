@@ -1,3 +1,7 @@
+## 0.13.9
+
+* Fix recursive merging of repeated elements.
+
 ## 0.13.8
 
 * Fix JSON serialization of unsigned 64-bit fields.

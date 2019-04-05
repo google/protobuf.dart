@@ -19,6 +19,7 @@ import 'import_test.dart' as import_prefix;
 import 'json_test.dart' as json;
 import 'leading_underscores_test.dart' as leading_underscores;
 import 'map_test.dart' as map;
+import 'merge_test.dart' as merge;
 import 'message_generator_test.dart' as message_generator;
 import 'message_test.dart' as message;
 import 'mixin_test.dart' as mixin_test;
@@ -46,6 +47,7 @@ void main() {
   json.main();
   leading_underscores.main();
   map.main();
+  merge.main();
   message_generator.main();
   message.main();
   mixin_test.main();
