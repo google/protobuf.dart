@@ -1,3 +1,7 @@
+## 0.13.9
+
+* Move 'eventPlugin' callback when setting a field in order to notify observers about field updates in the correct order.
+
 ## 0.13.8
 
 * Fix JSON serialization of unsigned 64-bit fields.
