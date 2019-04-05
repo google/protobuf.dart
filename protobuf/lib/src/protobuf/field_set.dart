@@ -341,14 +341,19 @@ class _FieldSet {
 
   /// Sets a non-extended field and fires events.
   void _setNonExtensionFieldUnchecked(FieldInfo fi, value) {
-    if (_hasObservers) {
-      _eventPlugin.beforeSetField(fi, value);
-    }
     int tag = fi.tagNumber;
     int oneofIndex = _meta.oneofs[tag];
     if (oneofIndex != null) {
       _clearField(oneofCases[oneofIndex]);
       oneofCases[oneofIndex] = tag;
+    }
+
+    // It is important that the callback to the observers is not moved to the
+    // beginning of this method but happens just before the value is set.
+    // Otherwise the observers will be notified about 'clearField' and
+    // 'setField' events in an incorrect order.
+    if (_hasObservers) {
+      _eventPlugin.beforeSetField(fi, value);
     }
     _values[fi.index] = value;
   }
