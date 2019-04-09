@@ -8,3 +8,9 @@ travis:
 # Run the protoc_plugin tests with the protobuf from the repo, not from pub.
 # This could be avoided with a fix of: https://github.com/dart-lang/mono_repo/issues/117.
     - "echo \"dependency_overrides: {protobuf: {path: ../protobuf}}\" >> protoc_plugin/pubspec.yaml"
+
+  os:
+    - linux
+    - osx
+    - windows
+

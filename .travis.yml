@@ -8,6 +8,10 @@ before_install:
   - "export PATH=$PWD/protoc/bin:$PATH"
   - echo $PATH
   - "echo \"dependency_overrides: {protobuf: {path: ../protobuf}}\" >> protoc_plugin/pubspec.yaml"
+os:
+  - linux
+  - osx
+  - windows
 
 jobs:
   include:
