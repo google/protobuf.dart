@@ -10,9 +10,12 @@ message Foo {
 }
 
 message Outer {
-  optional Inner inner = 1;
-  repeated Inner inners = 2;
-  extensions 3 to 4;
+  optional string value = 1;
+  repeated string strings = 2;
+  optional int64 id = 3;
+  optional Inner inner = 4;
+  repeated Inner inners = 5;
+  extensions 6 to 7;
 }
 
 message OuterWithMap {
@@ -21,9 +24,12 @@ message OuterWithMap {
 
 message Inner {
   optional string value = 1;
+  optional int64 id = 2;
+  repeated string strings = 3;
+  optional Inner inner = 4;
 }
 
 extend Outer {
-  optional Inner inner = 3;
-  repeated Inner inners = 4;
+  optional Inner inner = 6;
+  repeated Inner inners = 7;
 }

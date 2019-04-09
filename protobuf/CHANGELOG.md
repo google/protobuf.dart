@@ -1,3 +1,7 @@
+## 0.13.10
+
+* Fix recursive merging of repeated elements.
+
 ## 0.13.9
 
 * Move 'eventPlugin' callback when setting a field in order to notify observers about field updates in the correct order.
