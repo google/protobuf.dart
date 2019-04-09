@@ -70,6 +70,11 @@ jobs:
 stages:
   - format_analyzer_tests
 
+os:
+  - linux
+  - osx
+  - windows
+  
 # Only building master means that we don't run two builds for each pull request.
 branches:
   only:
