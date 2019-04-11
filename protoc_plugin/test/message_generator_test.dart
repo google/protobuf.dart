@@ -110,7 +110,7 @@ void main() {
     mg.generate(writer);
 
     var eq = ListEquality();
-    var fieldStringsMap = new HashMap(
+    var fieldStringsMap = HashMap(
         equals: eq.equals, hashCode: eq.hash, isValidKey: eq.isValidKey);
     fieldStringsMap[[4, 0]] = ['PhoneNumber'];
     fieldStringsMap[[4, 0, 2, 0]] = ['type', 'hasType', 'clearType'];
@@ -124,7 +124,6 @@ void main() {
 
     String generatedContents = writer.toString();
     GeneratedCodeInfo metadata = writer.sourceLocationInfo;
-    var comparator = IterableEquality();
     for (var annotation in metadata.annotation) {
       String annotatedName =
           generatedContents.substring(annotation.begin, annotation.end);
