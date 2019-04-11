@@ -55,7 +55,7 @@ class _FieldSet {
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
       : this._meta = meta,
         _values = _makeValueList(meta.byIndex.length),
-        _oneofCases = meta.oneofs.isEmpty ? null : <int,int>{};
+        _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
   static _makeValueList(int length) {
     if (length == 0) return _zeroList;
