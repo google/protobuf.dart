@@ -1,3 +1,7 @@
+## 0.13.11
+
+* Save memory by only initializing `_FieldSet.oneofCases` if the message contains oneofs.
+
 ## 0.13.10
 
 * Fix recursive merging of repeated elements.

@@ -50,11 +50,12 @@ class _FieldSet {
 
   // Maps a oneof decl index to the tag number which is currently set. If the
   // index is not present, the oneof field is unset.
-  final Map<int, int> oneofCases = <int, int>{};
+  final Map<int, int> _oneofCases;
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
       : this._meta = meta,
-        _values = _makeValueList(meta.byIndex.length);
+        _values = _makeValueList(meta.byIndex.length),
+        _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
   static _makeValueList(int length) {
     if (length == 0) return _zeroList;
@@ -246,11 +247,11 @@ class _FieldSet {
       _values[fi.index] = null;
 
       if (_meta.oneofs.containsKey(fi.tagNumber)) {
-        oneofCases.remove(_meta.oneofs[fi.tagNumber]);
+        _oneofCases.remove(_meta.oneofs[fi.tagNumber]);
       }
 
       int oneofIndex = _meta.oneofs[fi.tagNumber];
-      if (oneofIndex != null) oneofCases[oneofIndex] = 0;
+      if (oneofIndex != null) _oneofCases[oneofIndex] = 0;
       return;
     }
 
@@ -344,8 +345,8 @@ class _FieldSet {
     int tag = fi.tagNumber;
     int oneofIndex = _meta.oneofs[tag];
     if (oneofIndex != null) {
-      _clearField(oneofCases[oneofIndex]);
-      oneofCases[oneofIndex] = tag;
+      _clearField(_oneofCases[oneofIndex]);
+      _oneofCases[oneofIndex] = tag;
     }
 
     // It is important that the callback to the observers is not moved to the
@@ -437,8 +438,8 @@ class _FieldSet {
     int oneofIndex = _meta.oneofs[tag];
 
     if (oneofIndex != null) {
-      _clearField(oneofCases[oneofIndex]);
-      oneofCases[oneofIndex] = tag;
+      _clearField(_oneofCases[oneofIndex]);
+      _oneofCases[oneofIndex] = tag;
     }
     _values[index] = value;
   }
