@@ -36,8 +36,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1474
-  end: 1483
+  begin: 1480
+  end: 1489
 }
 annotation: {
   path: 4
@@ -72,8 +72,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 1641
-  end: 1648
+  begin: 1647
+  end: 1654
 }
 annotation: {
   path: 4
@@ -108,8 +108,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1809
-  end: 1816
+  begin: 1815
+  end: 1822
 }
 annotation: {
   path: 4

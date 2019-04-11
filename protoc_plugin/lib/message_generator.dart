@@ -439,11 +439,11 @@ class MessageGenerator extends ProtobufContainer {
     _oneofNames
         .forEach((OneofNames oneof) => generateoneOfAccessors(out, oneof));
 
-    for (var i = 0; i < _fieldList.length; i++) {
+    for (var field in _fieldList) {
       out.println();
       List<int> memberFieldPath = List.from(fieldPath)
-        ..addAll([_messageFieldTag, i]);
-      generateFieldAccessorsMutators(_fieldList[i], out, memberFieldPath);
+        ..addAll([_messageFieldTag, field.sourcePosition]);
+      generateFieldAccessorsMutators(field, out, memberFieldPath);
     }
   }
 
@@ -524,7 +524,7 @@ class MessageGenerator extends ProtobufContainer {
             NamedLocation(
                 name: names.hasMethodName,
                 fieldPathSegment: memberFieldPath,
-                start: 'bool '.length)
+                start: '$_coreImportPrefix.bool '.length)
           ]);
       _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesClearMethod, out);
