@@ -5,6 +5,8 @@
 
 library message_generator_test;
 
+import 'dart:collection';
+import 'package:collection/collection.dart';
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
@@ -15,9 +17,12 @@ import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'golden_file.dart';
 
 void main() {
-  test('testMessageGenerator', () {
-    FileDescriptorProto fd = FileDescriptorProto();
-    EnumDescriptorProto ed = EnumDescriptorProto()
+  FileDescriptorProto fd;
+  EnumDescriptorProto ed;
+  DescriptorProto md;
+  setUp(() async {
+    fd = FileDescriptorProto();
+    ed = EnumDescriptorProto()
       ..name = 'PhoneType'
       ..value.addAll([
         EnumValueDescriptorProto()
@@ -33,7 +38,7 @@ void main() {
           ..name = 'BUSINESS'
           ..number = 2
       ]);
-    DescriptorProto md = DescriptorProto()
+    md = DescriptorProto()
       ..name = 'PhoneNumber'
       ..field.addAll([
         // optional PhoneType type = 2 [default = HOME];
@@ -63,6 +68,8 @@ void main() {
           ..options = (FieldOptions()..deprecated = true),
       ])
       ..enumType.add(ed);
+  });
+  test('testMessageGenerator', () {
     var options =
         parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
@@ -86,5 +93,46 @@ void main() {
         writer.toString(), 'test/goldens/messageGeneratorEnums');
     expectMatchesGoldenFile(writer.sourceLocationInfo.toString(),
         'test/goldens/messageGeneratorEnums.meta');
+  });
+
+  test('testMetadataIndices', () {
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    FileGenerator fg = FileGenerator(fd, options);
+    MessageGenerator mg =
+        MessageGenerator.topLevel(md, fg, {}, null, Set<String>(), 0);
+
+    var ctx = GenerationContext(options);
+    mg.register(ctx);
+    mg.resolve(ctx);
+
+    var writer = IndentingWriter(filename: '');
+    mg.generate(writer);
+
+    var eq = ListEquality();
+    var fieldStringsMap = HashMap(
+        equals: eq.equals, hashCode: eq.hash, isValidKey: eq.isValidKey);
+    fieldStringsMap[[4, 0]] = ['PhoneNumber'];
+    fieldStringsMap[[4, 0, 2, 0]] = ['type', 'hasType', 'clearType'];
+    fieldStringsMap[[4, 0, 2, 1]] = ['number', 'hasNumber', 'clearNumber'];
+    fieldStringsMap[[4, 0, 2, 2]] = ['name', 'hasName', 'clearName'];
+    fieldStringsMap[[4, 0, 2, 3]] = [
+      'deprecatedField',
+      'hasDeprecatedField',
+      'clearDeprecatedField'
+    ];
+
+    String generatedContents = writer.toString();
+    GeneratedCodeInfo metadata = writer.sourceLocationInfo;
+    for (var annotation in metadata.annotation) {
+      String annotatedName =
+          generatedContents.substring(annotation.begin, annotation.end);
+      var expectedStrings = fieldStringsMap[annotation.path];
+      if (expectedStrings == null) {
+        fail('The field path ${annotation.path} '
+            'did not match any expected field path.');
+      }
+      expect(annotatedName, isIn(expectedStrings));
+    }
   });
 }

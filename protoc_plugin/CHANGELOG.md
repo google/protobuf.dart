@@ -1,3 +1,8 @@
+## 16.0.6
+
+* Track the original order of proto fields and include it in metadata
+  to ensure the correct fields are being referenced.
+
 ## 16.0.5
 
 * Fix generation of invalid Dart code for oneof enums

@@ -21,6 +21,10 @@ class FieldNames {
   /// The same index will be stored in FieldInfo.index.
   final int index;
 
+  /// The position of this field as it appeared in the original DescriptorProto.
+  /// Used to construct metadata.
+  final int sourcePosition;
+
   /// Identifier for generated getters/setters.
   final String fieldName;
 
@@ -34,7 +38,7 @@ class FieldNames {
   /// `null` for repeated fields.
   final String clearMethodName;
 
-  FieldNames(this.descriptor, this.index, this.fieldName,
+  FieldNames(this.descriptor, this.index, this.sourcePosition, this.fieldName,
       {this.hasMethodName, this.clearMethodName});
 }
 
@@ -81,7 +85,7 @@ String singleQuote(String input) {
 
 /// Chooses the Dart name of an extension.
 String extensionName(FieldDescriptorProto descriptor, Set<String> usedNames) {
-  return _unusedMemberNames(descriptor, null, usedNames).fieldName;
+  return _unusedMemberNames(descriptor, null, null, usedNames).fieldName;
 }
 
 Iterable<String> extensionSuffixes() sync* {
@@ -218,7 +222,10 @@ Iterable<String> enumSuffixes() sync* {
 MemberNames messageMemberNames(DescriptorProto descriptor,
     String parentClassName, Set<String> usedTopLevelNames,
     {Iterable<String> reserved = const []}) {
-  var sorted = List<FieldDescriptorProto>.from(descriptor.field)
+  var fieldList = List<FieldDescriptorProto>.from(descriptor.field);
+  var sourcePositions =
+      fieldList.asMap().map((index, field) => MapEntry(field.name, index));
+  var sorted = fieldList
     ..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
       if (a.number < b.number) return -1;
       if (a.number > b.number) return 1;
@@ -255,8 +262,8 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
   // Explicitly setting a name that's already taken is a build error.
   for (var field in sorted) {
     if (_nameOption(field).isNotEmpty) {
-      takeFieldNames(_memberNamesFromOption(
-          descriptor, field, indexes[field.name], existingNames));
+      takeFieldNames(_memberNamesFromOption(descriptor, field,
+          indexes[field.name], sourcePositions[field.name], existingNames));
     }
   }
 
@@ -265,7 +272,9 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
   for (var field in sorted) {
     if (_nameOption(field).isEmpty) {
       var index = indexes[field.name];
-      takeFieldNames(_unusedMemberNames(field, index, existingNames));
+      var sourcePosition = sourcePositions[field.name];
+      takeFieldNames(
+          _unusedMemberNames(field, index, sourcePosition, existingNames));
     }
   }
 
@@ -313,8 +322,12 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
 ///
 /// If the explicitly-set Dart name is already taken, throw an exception.
 /// (Fails the build.)
-FieldNames _memberNamesFromOption(DescriptorProto message,
-    FieldDescriptorProto field, int index, Set<String> existingNames) {
+FieldNames _memberNamesFromOption(
+    DescriptorProto message,
+    FieldDescriptorProto field,
+    int index,
+    int sourcePosition,
+    Set<String> existingNames) {
   // TODO(skybrian): provide more context in errors (filename).
   var where = "${message.name}.${field.name}";
 
@@ -336,7 +349,7 @@ FieldNames _memberNamesFromOption(DescriptorProto message,
   checkAvailable(name);
 
   if (_isRepeated(field)) {
-    return FieldNames(field, index, name);
+    return FieldNames(field, index, sourcePosition, name);
   }
 
   String hasMethod = "has${_capitalize(name)}";
@@ -345,7 +358,7 @@ FieldNames _memberNamesFromOption(DescriptorProto message,
   String clearMethod = "clear${_capitalize(name)}";
   checkAvailable(clearMethod);
 
-  return FieldNames(field, index, name,
+  return FieldNames(field, index, sourcePosition, name,
       hasMethodName: hasMethod, clearMethodName: clearMethod);
 }
 
@@ -357,12 +370,13 @@ Iterable<String> _memberNamesSuffix(int number) sync* {
   }
 }
 
-FieldNames _unusedMemberNames(
-    FieldDescriptorProto field, int index, Set<String> existingNames) {
+FieldNames _unusedMemberNames(FieldDescriptorProto field, int index,
+    int sourcePosition, Set<String> existingNames) {
   if (_isRepeated(field)) {
     return FieldNames(
         field,
         index,
+        sourcePosition,
         disambiguateName(_defaultFieldName(_fieldMethodSuffix(field)),
             existingNames, _memberNamesSuffix(field.number)));
   }
@@ -378,7 +392,7 @@ FieldNames _unusedMemberNames(
   String name = disambiguateName(_fieldMethodSuffix(field), existingNames,
       _memberNamesSuffix(field.number),
       generateVariants: generateNameVariants);
-  return FieldNames(field, index, _defaultFieldName(name),
+  return FieldNames(field, index, sourcePosition, _defaultFieldName(name),
       hasMethodName: _defaultHasMethodName(name),
       clearMethodName: _defaultClearMethodName(name));
 }

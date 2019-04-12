@@ -45,6 +45,9 @@ class ProtobufField {
   /// `null` for an extension.
   int get index => memberNames?.index;
 
+  /// The position of this field as it appeared in the original DescriptorProto.
+  int get sourcePosition => memberNames.sourcePosition;
+
   /// True if the field is to be encoded with [deprecated = true] encoding.
   bool get isDeprecated => descriptor.options?.deprecated;
 
