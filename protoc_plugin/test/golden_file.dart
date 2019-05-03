@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 /// Will test [actual] against the contests of the file at [goldenFilePath].
@@ -13,6 +15,13 @@ void expectMatchesGoldenFile(String actual, String goldenFilePath) {
   if (goldenFile.existsSync()) {
     expect(actual, equals(goldenFile.readAsStringSync()));
   } else {
+    // This enables writing the updated file when the run in otherwise hermetic
+    // settings.
+    String workspaceDirectory =
+        Platform.environment['BUILD_WORKSPACE_DIRECTORY'];
+    if (workspaceDirectory != null) {
+      goldenFile = File(path.join(workspaceDirectory, goldenFilePath));
+    }
     goldenFile
       ..createSync(recursive: true)
       ..writeAsStringSync(actual);
