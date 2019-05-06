@@ -57,9 +57,14 @@ class BuilderInfo {
   void _addField(FieldInfo fi) {
     byIndex.add(fi);
     assert(byIndex[fi.index] == fi);
-    fieldInfo[fi.tagNumber] = fi;
-    byTagAsString["${fi.tagNumber}"] = fi;
-    byName[fi.name] = fi;
+    // Fields with tag number 0 are considered dummy fields added to avoid
+    // index calculations add up. They should not be reflected in the following
+    // maps.
+    if (fi.tagNumber != 0) {
+      fieldInfo[fi.tagNumber] = fi;
+      byTagAsString["${fi.tagNumber}"] = fi;
+      byName[fi.name] = fi;
+    }
   }
 
   void a<T>(int tagNumber, String name, int fieldType,
