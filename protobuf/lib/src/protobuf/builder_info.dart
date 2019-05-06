@@ -57,9 +57,11 @@ class BuilderInfo {
   void _addField(FieldInfo fi) {
     byIndex.add(fi);
     assert(byIndex[fi.index] == fi);
-    fieldInfo[fi.tagNumber] = fi;
-    byTagAsString["${fi.tagNumber}"] = fi;
-    byName[fi.name] = fi;
+    if (fi.tagNumber != 0) {
+      fieldInfo[fi.tagNumber] = fi;
+      byTagAsString["${fi.tagNumber}"] = fi;
+      byName[fi.name] = fi;
+    }
   }
 
   void a<T>(int tagNumber, String name, int fieldType,
