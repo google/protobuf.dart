@@ -168,7 +168,7 @@ class ServiceGenerator {
   void _generateDispatchMethod(out) {
     out.addBlock(
         '$_future<$_generatedMessage> handleCall($_serverContext ctx, '
-        '$_coreImportPrefix.String method, $_generatedMessage request) {',
+            '$_coreImportPrefix.String method, $_generatedMessage request) {',
         '}', () {
       out.addBlock("switch (method) {", "}", () {
         for (MethodDescriptorProto m in _methodDescriptors) {
@@ -189,7 +189,7 @@ class ServiceGenerator {
   void generate(IndentingWriter out) {
     out.addBlock(
         'abstract class $classname extends '
-        '$_parentClass {',
+            '$_parentClass {',
         '}', () {
       _generateStubs(out);
       _generateRequestMethod(out);
