@@ -38,7 +38,7 @@ bool genericOptionsParser(CodeGeneratorRequest request,
     parser.parse(name, value, reportError);
   }
 
-  if (errors.length == 0) return true;
+  if (errors.isEmpty) return true;
 
   response.error = errors.join('\n');
   return false;

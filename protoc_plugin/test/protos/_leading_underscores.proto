@@ -46,7 +46,7 @@ extend A {
 }
 
 enum _Enum {
-  _constant = 0;
+  _default = 0;
   constant = 1;
 }
 

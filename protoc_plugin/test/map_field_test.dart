@@ -24,7 +24,7 @@ void main() {
       ..int32ToBytesField[1] = utf8.encode('11')
       ..int32ToBytesField[2] = utf8.encode('22')
       ..int32ToBytesField[3] = utf8.encode('33')
-      ..int32ToEnumField[1] = TestMap_EnumValue.FOO
+      ..int32ToEnumField[1] = TestMap_EnumValue.DEFAULT
       ..int32ToEnumField[2] = TestMap_EnumValue.BAR
       ..int32ToEnumField[3] = TestMap_EnumValue.BAZ
       ..int32ToMessageField[1] = (TestMap_MessageValue()..value = 11)
@@ -79,7 +79,7 @@ void main() {
     expect(testMap.int32ToBytesField[2], utf8.encode('22'));
     expect(testMap.int32ToBytesField[3], utf8.encode('33'));
 
-    expect(testMap.int32ToEnumField[1], TestMap_EnumValue.FOO);
+    expect(testMap.int32ToEnumField[1], TestMap_EnumValue.DEFAULT);
     expect(testMap.int32ToEnumField[2], TestMap_EnumValue.BAR);
     expect(testMap.int32ToEnumField[3], TestMap_EnumValue.BAZ);
 
