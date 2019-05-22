@@ -8,17 +8,17 @@ library protobuf.meta;
 
 // List of names which cannot be used in a subclass of GeneratedMessage.
 const GeneratedMessage_reservedNames = <String>[
- '==',
+  '==',
   'GeneratedMessage',
   'Object',
   'addExtension',
-  'changes_',
   'check',
   'clear',
   'clearExtension',
   'clearField',
   'clone',
   'copyWith',
+  'createEmptyInstance',
   'createMapField',
   'createRepeatedField',
   'eventPlugin',
