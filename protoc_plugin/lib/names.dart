@@ -42,23 +42,23 @@ class FieldNames {
       {this.hasMethodName, this.clearMethodName});
 }
 
-// The Dart names associated with a oneof declaration.
+/// The Dart names associated with a oneof declaration.
 class OneofNames {
   final OneofDescriptorProto descriptor;
 
-  // Index in the containing type's oneof_decl list.
+  /// Index in the containing type's oneof_decl list.
   final int index;
 
-  // Identifier for the generated whichX() method, without braces.
+  /// Identifier for the generated whichX() method, without braces.
   final String whichOneofMethodName;
 
-  // Identifier for the generated clearX() method, without braces.
+  /// Identifier for the generated clearX() method, without braces.
   final String clearMethodName;
 
-  // Identifier for the generated enum definition.
+  /// Identifier for the generated enum definition.
   final String oneofEnumName;
 
-  //  Identifier for the _XByTag map.
+  ///  Identifier for the _XByTag map.
   final String byTagMapName;
 
   OneofNames(this.descriptor, this.index, this.clearMethodName,
@@ -528,4 +528,4 @@ const _protobufEnumNames = <String>[
 ];
 
 // List of names used in Dart enums, which can't be used as enum member names.
-const _oneofEnumMemberNames = const <String>['index', 'values'];
+const _oneofEnumMemberNames = <String>['default', 'index', 'values'];

@@ -49,7 +49,7 @@ void main() {
     messageA.e = Enum_.constant;
     expect(messageA.e, Enum_.constant);
     messageA.clearE();
-    expect(messageA.e, Enum_.constant_);
+    expect(messageA.e, Enum_.default_);
     messageA.r.add(message);
     expect(messageA.r, [message]);
     messageA.setExtension(Leading_underscores_.q, Int64(100));

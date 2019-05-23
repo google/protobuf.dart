@@ -9,11 +9,11 @@ package protobuf_unittest;
 message TestMap {
     message MessageValue {
         optional int32 value = 1;
-        optional int32 secondValue = 2 [default = 42];
+        optional int32 second_value = 2 [default = 42];
     }
 
     enum EnumValue {
-        FOO = 0;
+        DEFAULT = 0;
         BAR = 1;
         BAZ = 2;
         ZOP = 3;

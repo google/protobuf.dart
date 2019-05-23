@@ -19,7 +19,7 @@ message Outer {
 }
 
 message OuterWithMap {
-  map<int32, Inner> innerMap = 3;
+  map<int32, Inner> inner_map = 3;
 }
 
 message Inner {
