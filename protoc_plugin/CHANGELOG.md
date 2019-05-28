@@ -1,3 +1,7 @@
+## 16.0.7
+
+* Always prefix .pb.dart imports in .pbserver, .pb.json, .pbgrpc files.
+
 ## 16.0.6
 
 * Track the original order of proto fields and include it in metadata
