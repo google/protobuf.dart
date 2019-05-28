@@ -93,7 +93,7 @@ class GrpcServiceGenerator {
     var mg = _deps[fqname];
     if (mg == null) {
       var location = _undefinedDeps[fqname];
-      // TODO(jakobr): Throw more actionable error.
+      // TODO(nichite): Throw more actionable error.
       throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
     }
     if (fileGen.protoFileUri == mg.fileGen.protoFileUri) {

@@ -312,12 +312,12 @@ class FileGenerator extends ProtobufContainer {
     _findProtosToImport(imports, enumImports);
 
     for (var target in imports) {
-      _writeImport(out, config, target, ".pb.dart");
+      _writeImport(out, config, target, ".pb.dart", true);
     }
     if (imports.isNotEmpty) out.println();
 
     for (var target in enumImports) {
-      _writeImport(out, config, target, ".pbenum.dart");
+      _writeImport(out, config, target, ".pbenum.dart", true);
     }
     if (enumImports.isNotEmpty) out.println();
 
@@ -570,12 +570,20 @@ class FileGenerator extends ProtobufContainer {
 
   /// Writes an import of a .dart file corresponding to a .proto file.
   /// (Possibly the same .proto file.)
+  ///
+  /// When generating the main file (if [forMainFile] is true), all imports
+  /// should be prefixed unless the target file is the main file. For other
+  /// files (e.g. .pbserver.dart, .pbgrpc.dart), all .pb.dart imports should
+  /// always be prefixed, even if they're for the main proto file.
   void _writeImport(IndentingWriter out, OutputConfiguration config,
-      FileGenerator target, String extension) {
+      FileGenerator target, String extension,
+      [bool forMainFile = false]) {
     Uri resolvedImport =
         config.resolveImport(target.protoFileUri, protoFileUri, extension);
     out.print("import '$resolvedImport'");
-    if (protoFileUri != target.protoFileUri) {
+
+    if ((!forMainFile && extension == ".pb.dart") ||
+        protoFileUri != target.protoFileUri) {
       out.print(' as ${target.fileImportPrefix}');
     }
     out.println(';');
