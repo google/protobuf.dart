@@ -10,7 +10,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'dart:core' as $core show String, Map, ArgumentError, dynamic;
 import 'test.pb.dart' as $0;
-import 'test.pbjson.dart';
+import 'test.pbjson.dart' as $0;
 
 export 'test.pb.dart';
 
