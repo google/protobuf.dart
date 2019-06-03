@@ -10,7 +10,7 @@ import 'dart:core' as $core
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'descriptor.pbenum.dart' as $0;
+import 'descriptor.pbenum.dart';
 
 export 'descriptor.pbenum.dart';
 

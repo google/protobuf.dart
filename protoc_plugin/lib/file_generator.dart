@@ -574,6 +574,11 @@ class FileGenerator extends ProtobufContainer {
       FileGenerator target, String extension) {
     Uri resolvedImport =
         config.resolveImport(target.protoFileUri, protoFileUri, extension);
-    out.println("import '$resolvedImport' as ${target.fileImportPrefix};");
+    out.print("import '$resolvedImport'");
+
+     if ((extension == ".pb.dart") || protoFileUri != target.protoFileUri) {
+      out.print(' as ${target.fileImportPrefix}');
+    }
+    out.println(';');
   }
 }
