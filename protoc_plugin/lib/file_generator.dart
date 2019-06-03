@@ -576,7 +576,7 @@ class FileGenerator extends ProtobufContainer {
         config.resolveImport(target.protoFileUri, protoFileUri, extension);
     out.print("import '$resolvedImport'");
 
-     if ((extension == ".pb.dart") || protoFileUri != target.protoFileUri) {
+    if ((extension == ".pb.dart") || protoFileUri != target.protoFileUri) {
       out.print(' as ${target.fileImportPrefix}');
     }
     out.println(';');
