@@ -576,6 +576,9 @@ class FileGenerator extends ProtobufContainer {
         config.resolveImport(target.protoFileUri, protoFileUri, extension);
     out.print("import '$resolvedImport'");
 
+    // .pb.dart files should always be prefixed--the protoFileUri check
+    // will evaluate to true not just for the main .pb.dart file based off
+    // the proto file, but also for the .pbserver.dart, .pbgrpc.dart files.
     if ((extension == ".pb.dart") || protoFileUri != target.protoFileUri) {
       out.print(' as ${target.fileImportPrefix}');
     }
