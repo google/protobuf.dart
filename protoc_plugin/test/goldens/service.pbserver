@@ -9,17 +9,17 @@ import 'dart:async' as $async;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'dart:core' as $core show String, Map, ArgumentError, dynamic;
-import 'test.pb.dart';
+import 'test.pb.dart' as $0;
 import 'test.pbjson.dart';
 
 export 'test.pb.dart';
 
 abstract class TestServiceBase extends $pb.GeneratedService {
-  $async.Future<Empty> ping($pb.ServerContext ctx, Empty request);
+  $async.Future<$0.Empty> ping($pb.ServerContext ctx, $0.Empty request);
 
   $pb.GeneratedMessage createRequest($core.String method) {
     switch (method) {
-      case 'Ping': return Empty();
+      case 'Ping': return $0.Empty();
       default: throw $core.ArgumentError('Unknown method: $method');
     }
   }

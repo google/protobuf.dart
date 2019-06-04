@@ -10,7 +10,7 @@ import 'package:grpc/service_api.dart' as $grpc;
 
 import 'dart:core' as $core show int, String, List;
 
-import 'test.pb.dart';
+import 'test.pb.dart' as $0;
 export 'test.pb.dart';
 
 class TestClient extends $grpc.Client {
