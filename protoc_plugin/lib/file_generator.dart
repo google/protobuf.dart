@@ -285,8 +285,9 @@ class FileGenerator extends ProtobufContainer {
       out.println(_asyncImport);
     }
 
-    out.println(
-        '$_coreImport show bool, Deprecated, double, int, List, Map, override, String;\n');
+    out.println('$_coreImport show '
+        'bool, Deprecated, double, int, List, Map, override, pragma, String;');
+    out.println();
 
     if (_needsFixnumImport) {
       out.println("import 'package:fixnum/fixnum.dart';");

@@ -359,16 +359,17 @@ class MessageGenerator extends ProtobufContainer {
 
       out.println();
 
-      out.printlnAnnotated('${classname}() : super();', [
+      out.printlnAnnotated('${classname}._() : super();', [
         NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
       ]);
+      out.println('factory ${classname}() => create();');
       out.println(
-          '${classname}.fromBuffer($_coreImportPrefix.List<$_coreImportPrefix.int> i,'
+          'factory ${classname}.fromBuffer($_coreImportPrefix.List<$_coreImportPrefix.int> i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' : super.fromBuffer(i, r);');
-      out.println('${classname}.fromJson($_coreImportPrefix.String i,'
+          ' => create()..mergeFromBuffer(i, r);');
+      out.println('factory ${classname}.fromJson($_coreImportPrefix.String i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' : super.fromJson(i, r);');
+          ' => create()..mergeFromJson(i, r);');
       out.println('${classname} clone() =>'
           ' ${classname}()..mergeFromMessage(this);');
       out.println('$classname copyWith(void Function($classname) updates) =>'
@@ -377,8 +378,8 @@ class MessageGenerator extends ProtobufContainer {
       out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
 
       // Factory functions which can be used as default value closures.
-      out.println('static ${classname} create() =>'
-          ' ${classname}();');
+      out.println("@${_coreImportPrefix}.pragma('dart2js:noInline')");
+      out.println('static ${classname} create() => ${classname}._();');
       out.println('${classname} createEmptyInstance() => create();');
 
       out.println(
