@@ -5,7 +5,7 @@
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 import 'dart:core' as $core
-    show bool, Deprecated, double, int, List, Map, override, String;
+    show bool, Deprecated, double, int, List, Map, override, pragma, String;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
@@ -17,18 +17,20 @@ class DartMixin extends $pb.GeneratedMessage {
     ..aOS(3, 'parent')
     ..hasRequiredFields = false;
 
-  DartMixin() : super();
-  DartMixin.fromBuffer($core.List<$core.int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  DartMixin.fromJson($core.String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
+  DartMixin._() : super();
+  factory DartMixin() => create();
+  factory DartMixin.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory DartMixin.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
   DartMixin clone() => DartMixin()..mergeFromMessage(this);
   DartMixin copyWith(void Function(DartMixin) updates) =>
       super.copyWith((message) => updates(message as DartMixin));
   $pb.BuilderInfo get info_ => _i;
-  static DartMixin create() => DartMixin();
+  @$core.pragma('dart2js:noInline')
+  static DartMixin create() => DartMixin._();
   DartMixin createEmptyInstance() => create();
   static $pb.PbList<DartMixin> createRepeated() => $pb.PbList<DartMixin>();
   static DartMixin getDefault() => _defaultInstance ??= create()..freeze();
@@ -65,18 +67,20 @@ class Imports extends $pb.GeneratedMessage {
         ..pc<DartMixin>(1, 'mixins', $pb.PbFieldType.PM, DartMixin.create)
         ..hasRequiredFields = false;
 
-  Imports() : super();
-  Imports.fromBuffer($core.List<$core.int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  Imports.fromJson($core.String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
+  Imports._() : super();
+  factory Imports() => create();
+  factory Imports.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory Imports.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
   Imports clone() => Imports()..mergeFromMessage(this);
   Imports copyWith(void Function(Imports) updates) =>
       super.copyWith((message) => updates(message as Imports));
   $pb.BuilderInfo get info_ => _i;
-  static Imports create() => Imports();
+  @$core.pragma('dart2js:noInline')
+  static Imports create() => Imports._();
   Imports createEmptyInstance() => create();
   static $pb.PbList<Imports> createRepeated() => $pb.PbList<Imports>();
   static Imports getDefault() => _defaultInstance ??= create()..freeze();

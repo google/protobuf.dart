@@ -4,7 +4,7 @@
 ///
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
-import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, override, String;
+import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, override, pragma, String;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
@@ -19,13 +19,15 @@ class M extends $pb.GeneratedMessage {
     ..hasRequiredFields = false
   ;
 
-  M() : super();
-  M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  M._() : super();
+  factory M() => create();
+  factory M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   M clone() => M()..mergeFromMessage(this);
   M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M));
   $pb.BuilderInfo get info_ => _i;
-  static M create() => M();
+  @$core.pragma('dart2js:noInline')
+  static M create() => M._();
   M createEmptyInstance() => create();
   static $pb.PbList<M> createRepeated() => $pb.PbList<M>();
   static M getDefault() => _defaultInstance ??= create()..freeze();

@@ -6,13 +6,15 @@ class PhoneNumber extends $pb.GeneratedMessage {
     ..aOS(4, 'deprecatedField')
   ;
 
-  PhoneNumber() : super();
-  PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  PhoneNumber._() : super();
+  factory PhoneNumber() => create();
+  factory PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   PhoneNumber clone() => PhoneNumber()..mergeFromMessage(this);
   PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber));
   $pb.BuilderInfo get info_ => _i;
-  static PhoneNumber create() => PhoneNumber();
+  @$core.pragma('dart2js:noInline')
+  static PhoneNumber create() => PhoneNumber._();
   PhoneNumber createEmptyInstance() => create();
   static $pb.PbList<PhoneNumber> createRepeated() => $pb.PbList<PhoneNumber>();
   static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
