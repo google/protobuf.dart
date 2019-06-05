@@ -1,3 +1,8 @@
+## 17.0.0
+
+* Breaking change: seal protobuf message classes by using an internal
+  private constructor and changing the rest to factories.
+
 ## 16.0.7
 
 * Always prefix .pb.dart imports in .pbserver, .pb.json, .pbgrpc files.
