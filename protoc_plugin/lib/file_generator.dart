@@ -489,9 +489,9 @@ class FileGenerator extends ProtobufContainer {
 
     out.println(_asyncImport);
     out.println();
-    out.println(_grpcImport);
-    out.println();
     out.println("$_coreImport show int, String, List;\n");
+    out.println();
+    out.println(_grpcImport);
 
     // Import .pb.dart files needed for requests and responses.
     var imports = Set<FileGenerator>();
