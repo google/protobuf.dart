@@ -18,6 +18,7 @@ TEST_PROTO_LIST = \
 	google/protobuf/unittest \
 	dart_name \
 	enum_extension \
+	extend_unittest \
 	ExtensionEnumNameConflict \
 	ExtensionNameConflict \
 	foo \

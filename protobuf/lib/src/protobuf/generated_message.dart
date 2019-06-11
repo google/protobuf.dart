@@ -253,6 +253,53 @@ abstract class GeneratedMessage {
     return _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
   }
 
+  /// Returns the value of [extension].
+  ///
+  /// If [extension] was not in the original `extensionRegistry` used for
+  /// parsing `this`, the extension will be attempted parsed from the unknown
+  /// fields using [extensionRegistry].
+  ///
+  /// If [extensionRegistry] is non-null, it must contain [extension].
+  ///
+  /// If the extension is not present as an unknown field, return the default
+  /// value.
+  ///
+  /// This instance will not be modified.
+  ///
+  /// An [InvalidProtocolBufferException] will be thrown in case the encoded
+  /// extension is malformed.
+  getExtensionReparsing(Extension extension,
+      {ExtensionRegistry extensionRegistry}) {
+    assert(
+        extensionRegistry == null ??
+            extensionRegistry._extensions[extension.extendee]
+                    [extension.tagNumber] ==
+                extension,
+        'The extensionRegistry passed to getExtensionReparsing() must contain the extension itself.');
+    dynamic result = _fieldSet._extensions?._getFieldOrNull(extension);
+    if (result == null) {
+      UnknownFieldSetField unknownField =
+          _fieldSet._unknownFields?.getField(extension.tagNumber);
+      if (unknownField != null) {
+        // Serialize the unknown field into a new message with
+        // only that field, deserialize with the registry and pick it out
+        // again.
+        // TODO(sigurdm): Here is some room for optimization if this turns out
+        // to be a hot spot.
+        CodedBufferWriter buffer = CodedBufferWriter();
+        unknownField.writeTo(extension.tagNumber, buffer);
+        final emptyInstance = createEmptyInstance();
+        emptyInstance.mergeFromBuffer(
+            buffer.toBuffer(),
+            extensionRegistry ?? ExtensionRegistry()
+              ..add(extension));
+        result =
+            emptyInstance._fieldSet._extensions?._getFieldOrNull(extension);
+      }
+    }
+    return result ??= extension.makeDefault();
+  }
+
   /// Returns the value of the field associated with [tagNumber], or the
   /// default value if it is not set.
   getField(int tagNumber) => _fieldSet._getField(tagNumber);
