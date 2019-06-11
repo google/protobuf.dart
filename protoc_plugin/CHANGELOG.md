@@ -1,3 +1,7 @@
+## 17.0.1
+
+* Fix: Actually use prefixed imports from .pbserver, .pb.json, .pbgrpc files.
+
 ## 17.0.0
 
 * Breaking change: seal protobuf message classes by using an internal

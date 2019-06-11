@@ -96,10 +96,6 @@ class GrpcServiceGenerator {
       // TODO(nichite): Throw more actionable error.
       throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
     }
-    if (fileGen.protoFileUri == mg.fileGen.protoFileUri) {
-      // If it's the same file, we import it without using "as".
-      return mg.classname;
-    }
     return mg.fileImportPrefix + '.' + mg.classname;
   }
 
