@@ -30,7 +30,7 @@ class Version extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   Version clone() => Version()..mergeFromMessage(this);
   Version copyWith(void Function(Version) updates) =>
-      super.copyWith((message) => updates(message as Version));
+      super.copyWith((message) => updates(message as Version)) as Version;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Version create() => Version._();
@@ -93,7 +93,8 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   CodeGeneratorRequest clone() =>
       CodeGeneratorRequest()..mergeFromMessage(this);
   CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
-      super.copyWith((message) => updates(message as CodeGeneratorRequest));
+      super.copyWith((message) => updates(message as CodeGeneratorRequest))
+          as CodeGeneratorRequest;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest create() => CodeGeneratorRequest._();
@@ -147,7 +148,8 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   CodeGeneratorResponse_File copyWith(
           void Function(CodeGeneratorResponse_File) updates) =>
       super.copyWith(
-          (message) => updates(message as CodeGeneratorResponse_File));
+              (message) => updates(message as CodeGeneratorResponse_File))
+          as CodeGeneratorResponse_File;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File._();
@@ -203,7 +205,8 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       CodeGeneratorResponse()..mergeFromMessage(this);
   CodeGeneratorResponse copyWith(
           void Function(CodeGeneratorResponse) updates) =>
-      super.copyWith((message) => updates(message as CodeGeneratorResponse));
+      super.copyWith((message) => updates(message as CodeGeneratorResponse))
+          as CodeGeneratorResponse;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse create() => CodeGeneratorResponse._();

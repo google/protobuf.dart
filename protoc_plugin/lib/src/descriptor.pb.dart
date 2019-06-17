@@ -30,7 +30,8 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   FileDescriptorSet clone() => FileDescriptorSet()..mergeFromMessage(this);
   FileDescriptorSet copyWith(void Function(FileDescriptorSet) updates) =>
-      super.copyWith((message) => updates(message as FileDescriptorSet));
+      super.copyWith((message) => updates(message as FileDescriptorSet))
+          as FileDescriptorSet;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FileDescriptorSet create() => FileDescriptorSet._();
@@ -76,7 +77,8 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   FileDescriptorProto clone() => FileDescriptorProto()..mergeFromMessage(this);
   FileDescriptorProto copyWith(void Function(FileDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as FileDescriptorProto));
+      super.copyWith((message) => updates(message as FileDescriptorProto))
+          as FileDescriptorProto;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FileDescriptorProto create() => FileDescriptorProto._();
@@ -163,7 +165,8 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   DescriptorProto_ExtensionRange copyWith(
           void Function(DescriptorProto_ExtensionRange) updates) =>
       super.copyWith(
-          (message) => updates(message as DescriptorProto_ExtensionRange));
+              (message) => updates(message as DescriptorProto_ExtensionRange))
+          as DescriptorProto_ExtensionRange;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ExtensionRange create() =>
@@ -213,7 +216,8 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   DescriptorProto_ReservedRange copyWith(
           void Function(DescriptorProto_ReservedRange) updates) =>
       super.copyWith(
-          (message) => updates(message as DescriptorProto_ReservedRange));
+              (message) => updates(message as DescriptorProto_ReservedRange))
+          as DescriptorProto_ReservedRange;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ReservedRange create() =>
@@ -274,7 +278,8 @@ class DescriptorProto extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   DescriptorProto clone() => DescriptorProto()..mergeFromMessage(this);
   DescriptorProto copyWith(void Function(DescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as DescriptorProto));
+      super.copyWith((message) => updates(message as DescriptorProto))
+          as DescriptorProto;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DescriptorProto create() => DescriptorProto._();
@@ -356,7 +361,8 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   FieldDescriptorProto clone() =>
       FieldDescriptorProto()..mergeFromMessage(this);
   FieldDescriptorProto copyWith(void Function(FieldDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as FieldDescriptorProto));
+      super.copyWith((message) => updates(message as FieldDescriptorProto))
+          as FieldDescriptorProto;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FieldDescriptorProto create() => FieldDescriptorProto._();
@@ -466,7 +472,8 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   OneofDescriptorProto clone() =>
       OneofDescriptorProto()..mergeFromMessage(this);
   OneofDescriptorProto copyWith(void Function(OneofDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as OneofDescriptorProto));
+      super.copyWith((message) => updates(message as OneofDescriptorProto))
+          as OneofDescriptorProto;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static OneofDescriptorProto create() => OneofDescriptorProto._();
@@ -513,7 +520,8 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   EnumDescriptorProto clone() => EnumDescriptorProto()..mergeFromMessage(this);
   EnumDescriptorProto copyWith(void Function(EnumDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as EnumDescriptorProto));
+      super.copyWith((message) => updates(message as EnumDescriptorProto))
+          as EnumDescriptorProto;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto create() => EnumDescriptorProto._();
@@ -563,7 +571,8 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       EnumValueDescriptorProto()..mergeFromMessage(this);
   EnumValueDescriptorProto copyWith(
           void Function(EnumValueDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as EnumValueDescriptorProto));
+      super.copyWith((message) => updates(message as EnumValueDescriptorProto))
+          as EnumValueDescriptorProto;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static EnumValueDescriptorProto create() => EnumValueDescriptorProto._();
@@ -620,7 +629,8 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
       ServiceDescriptorProto()..mergeFromMessage(this);
   ServiceDescriptorProto copyWith(
           void Function(ServiceDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as ServiceDescriptorProto));
+      super.copyWith((message) => updates(message as ServiceDescriptorProto))
+          as ServiceDescriptorProto;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ServiceDescriptorProto create() => ServiceDescriptorProto._();
@@ -673,7 +683,8 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
       MethodDescriptorProto()..mergeFromMessage(this);
   MethodDescriptorProto copyWith(
           void Function(MethodDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as MethodDescriptorProto));
+      super.copyWith((message) => updates(message as MethodDescriptorProto))
+          as MethodDescriptorProto;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static MethodDescriptorProto create() => MethodDescriptorProto._();
@@ -773,7 +784,8 @@ class FileOptions extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   FileOptions clone() => FileOptions()..mergeFromMessage(this);
   FileOptions copyWith(void Function(FileOptions) updates) =>
-      super.copyWith((message) => updates(message as FileOptions));
+      super.copyWith((message) => updates(message as FileOptions))
+          as FileOptions;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FileOptions create() => FileOptions._();
@@ -946,7 +958,8 @@ class MessageOptions extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   MessageOptions clone() => MessageOptions()..mergeFromMessage(this);
   MessageOptions copyWith(void Function(MessageOptions) updates) =>
-      super.copyWith((message) => updates(message as MessageOptions));
+      super.copyWith((message) => updates(message as MessageOptions))
+          as MessageOptions;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static MessageOptions create() => MessageOptions._();
@@ -1026,7 +1039,8 @@ class FieldOptions extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   FieldOptions clone() => FieldOptions()..mergeFromMessage(this);
   FieldOptions copyWith(void Function(FieldOptions) updates) =>
-      super.copyWith((message) => updates(message as FieldOptions));
+      super.copyWith((message) => updates(message as FieldOptions))
+          as FieldOptions;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FieldOptions create() => FieldOptions._();
@@ -1104,7 +1118,8 @@ class OneofOptions extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   OneofOptions clone() => OneofOptions()..mergeFromMessage(this);
   OneofOptions copyWith(void Function(OneofOptions) updates) =>
-      super.copyWith((message) => updates(message as OneofOptions));
+      super.copyWith((message) => updates(message as OneofOptions))
+          as OneofOptions;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static OneofOptions create() => OneofOptions._();
@@ -1136,7 +1151,8 @@ class EnumOptions extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   EnumOptions clone() => EnumOptions()..mergeFromMessage(this);
   EnumOptions copyWith(void Function(EnumOptions) updates) =>
-      super.copyWith((message) => updates(message as EnumOptions));
+      super.copyWith((message) => updates(message as EnumOptions))
+          as EnumOptions;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static EnumOptions create() => EnumOptions._();
@@ -1182,7 +1198,8 @@ class EnumValueOptions extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   EnumValueOptions clone() => EnumValueOptions()..mergeFromMessage(this);
   EnumValueOptions copyWith(void Function(EnumValueOptions) updates) =>
-      super.copyWith((message) => updates(message as EnumValueOptions));
+      super.copyWith((message) => updates(message as EnumValueOptions))
+          as EnumValueOptions;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static EnumValueOptions create() => EnumValueOptions._();
@@ -1222,7 +1239,8 @@ class ServiceOptions extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   ServiceOptions clone() => ServiceOptions()..mergeFromMessage(this);
   ServiceOptions copyWith(void Function(ServiceOptions) updates) =>
-      super.copyWith((message) => updates(message as ServiceOptions));
+      super.copyWith((message) => updates(message as ServiceOptions))
+          as ServiceOptions;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ServiceOptions create() => ServiceOptions._();
@@ -1268,7 +1286,8 @@ class MethodOptions extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   MethodOptions clone() => MethodOptions()..mergeFromMessage(this);
   MethodOptions copyWith(void Function(MethodOptions) updates) =>
-      super.copyWith((message) => updates(message as MethodOptions));
+      super.copyWith((message) => updates(message as MethodOptions))
+          as MethodOptions;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static MethodOptions create() => MethodOptions._();
@@ -1317,7 +1336,8 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   UninterpretedOption_NamePart copyWith(
           void Function(UninterpretedOption_NamePart) updates) =>
       super.copyWith(
-          (message) => updates(message as UninterpretedOption_NamePart));
+              (message) => updates(message as UninterpretedOption_NamePart))
+          as UninterpretedOption_NamePart;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption_NamePart create() =>
@@ -1368,7 +1388,8 @@ class UninterpretedOption extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   UninterpretedOption clone() => UninterpretedOption()..mergeFromMessage(this);
   UninterpretedOption copyWith(void Function(UninterpretedOption) updates) =>
-      super.copyWith((message) => updates(message as UninterpretedOption));
+      super.copyWith((message) => updates(message as UninterpretedOption))
+          as UninterpretedOption;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption create() => UninterpretedOption._();
@@ -1452,7 +1473,8 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
       SourceCodeInfo_Location()..mergeFromMessage(this);
   SourceCodeInfo_Location copyWith(
           void Function(SourceCodeInfo_Location) updates) =>
-      super.copyWith((message) => updates(message as SourceCodeInfo_Location));
+      super.copyWith((message) => updates(message as SourceCodeInfo_Location))
+          as SourceCodeInfo_Location;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo_Location create() => SourceCodeInfo_Location._();
@@ -1503,7 +1525,8 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   SourceCodeInfo clone() => SourceCodeInfo()..mergeFromMessage(this);
   SourceCodeInfo copyWith(void Function(SourceCodeInfo) updates) =>
-      super.copyWith((message) => updates(message as SourceCodeInfo));
+      super.copyWith((message) => updates(message as SourceCodeInfo))
+          as SourceCodeInfo;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo create() => SourceCodeInfo._();
@@ -1539,7 +1562,8 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   GeneratedCodeInfo_Annotation copyWith(
           void Function(GeneratedCodeInfo_Annotation) updates) =>
       super.copyWith(
-          (message) => updates(message as GeneratedCodeInfo_Annotation));
+              (message) => updates(message as GeneratedCodeInfo_Annotation))
+          as GeneratedCodeInfo_Annotation;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo_Annotation create() =>
@@ -1595,7 +1619,8 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   GeneratedCodeInfo clone() => GeneratedCodeInfo()..mergeFromMessage(this);
   GeneratedCodeInfo copyWith(void Function(GeneratedCodeInfo) updates) =>
-      super.copyWith((message) => updates(message as GeneratedCodeInfo));
+      super.copyWith((message) => updates(message as GeneratedCodeInfo))
+          as GeneratedCodeInfo;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo create() => GeneratedCodeInfo._();

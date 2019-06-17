@@ -20,7 +20,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   factory PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   PhoneNumber clone() => PhoneNumber()..mergeFromMessage(this);
-  PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber));
+  PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber)) as PhoneNumber;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static PhoneNumber create() => PhoneNumber._();

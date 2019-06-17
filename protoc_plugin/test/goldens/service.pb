@@ -19,7 +19,7 @@ class Empty extends $pb.GeneratedMessage {
   factory Empty.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Empty.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   Empty clone() => Empty()..mergeFromMessage(this);
-  Empty copyWith(void Function(Empty) updates) => super.copyWith((message) => updates(message as Empty));
+  Empty copyWith(void Function(Empty) updates) => super.copyWith((message) => updates(message as Empty)) as Empty;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Empty create() => Empty._();

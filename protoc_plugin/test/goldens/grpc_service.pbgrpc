@@ -97,12 +97,12 @@ abstract class TestServiceBase extends $grpc.Service {
   }
 
   $async.Future<$0.Output> unary_Pre(
-      $grpc.ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future<$0.Input> request) async {
     return unary(call, await request);
   }
 
   $async.Stream<$0.Output> serverStreaming_Pre(
-      $grpc.ServiceCall call, $async.Future request) async* {
+      $grpc.ServiceCall call, $async.Future<$0.Input> request) async* {
     yield* serverStreaming(call, (await request) as $0.Input);
   }
 

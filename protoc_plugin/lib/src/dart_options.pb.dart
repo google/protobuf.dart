@@ -27,7 +27,7 @@ class DartMixin extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   DartMixin clone() => DartMixin()..mergeFromMessage(this);
   DartMixin copyWith(void Function(DartMixin) updates) =>
-      super.copyWith((message) => updates(message as DartMixin));
+      super.copyWith((message) => updates(message as DartMixin)) as DartMixin;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DartMixin create() => DartMixin._();
@@ -77,7 +77,7 @@ class Imports extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   Imports clone() => Imports()..mergeFromMessage(this);
   Imports copyWith(void Function(Imports) updates) =>
-      super.copyWith((message) => updates(message as Imports));
+      super.copyWith((message) => updates(message as Imports)) as Imports;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Imports create() => Imports._();

@@ -24,7 +24,7 @@ class M extends $pb.GeneratedMessage {
   factory M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   M clone() => M()..mergeFromMessage(this);
-  M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M));
+  M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M)) as M;
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static M create() => M._();
