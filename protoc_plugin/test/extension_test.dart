@@ -264,7 +264,7 @@ void main() {
   });
 
   test(
-      'getExtensionReparsing reparses extensions that was not in the original registry',
+      'getExtension with explicit registry parses extensions that was not in the original registry',
       () {
     ExtensionRegistry r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
@@ -273,47 +273,48 @@ void main() {
     final withUnknownField =
         TestAllExtensions.fromBuffer(withExtension.writeToBuffer());
     expect(
-        withUnknownField.getExtensionReparsing(Unittest.defaultStringExtension),
-        'bar');
+        withUnknownField.getExtension(Unittest.defaultStringExtension),
+        'hello');
     expect(
-        withUnknownField.getExtensionReparsing(Unittest.defaultStringExtension,
+        withUnknownField.getExtension(Unittest.defaultStringExtension,
             extensionRegistry: r),
         'bar');
     expect(
         withUnknownField
-            .getExtensionReparsing(Unittest.optionalForeignMessageExtension)
+            .getExtension(Unittest.optionalForeignMessageExtension, extensionRegistry: r)
             .c,
         3);
     expect(
         withUnknownField
-            .getExtensionReparsing(Unittest.optionalForeignMessageExtension,
+            .getExtension(Unittest.optionalForeignMessageExtension,
                 extensionRegistry: r)
             .c,
         3);
 
     expect(
         withUnknownField
-            .getExtensionReparsing(Extend_unittest.outer)
+            .getExtension(Extend_unittest.outer, extensionRegistry: r)
             .inner
             .value,
         'abc');
     expect(
         withUnknownField
-            .getExtensionReparsing(Extend_unittest.outer)
+            .getExtension(Extend_unittest.outer, extensionRegistry: ExtensionRegistry()..add(Extend_unittest.outer))
             .hasExtension(Extend_unittest.extensionInner),
         false);
 
     expect(
         withUnknownField
-            .getExtensionReparsing(Extend_unittest.outer, extensionRegistry: r)
+            .getExtension(Extend_unittest.outer, extensionRegistry: r)
             .getExtension(Extend_unittest.extensionInner)
             .value,
         'def');
   });
 
-  test('getExtensionReparsing will throw on wrongly encoded buffers', () {
+  test('getExtension with explicit registry will throw on malformed buffers', () {
     final ExtensionRegistry r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
+    Extend_unittest.registerAllExtensions(r);
     // The message encoded in this buffer has an encoding error in the
     // Extend_unittest.outer extension field.
     final withMalformedExtensionEncoding = TestAllExtensions.fromBuffer([
@@ -323,22 +324,26 @@ void main() {
     ]);
     expect(
         withMalformedExtensionEncoding
-            .getExtensionReparsing(Unittest.defaultStringExtension),
+            .getExtension(Unittest.defaultStringExtension, extensionRegistry: r),
         'bar');
     expect(
         () => withMalformedExtensionEncoding
-            .getExtensionReparsing(Extend_unittest.outer),
+            .getExtension(Extend_unittest.outer, extensionRegistry: r),
         throwsA(const TypeMatcher<InvalidProtocolBufferException>()));
   });
 
-  test('getExtensionReparsing gives correct default values', () {
+  test('getExtension with explicit registry gives correct default values', () {
+    final ExtensionRegistry r = ExtensionRegistry();
+    Unittest.registerAllExtensions(r);
+    Extend_unittest.registerAllExtensions(r);
     final withoutExtension = TestAllExtensions();
     expect(
-        withoutExtension.getExtensionReparsing(Unittest.defaultStringExtension),
+        withoutExtension.getExtension(Unittest.defaultStringExtension, extensionRegistry: r),
         'hello');
+
     expect(
         withoutExtension
-            .getExtensionReparsing(Unittest.optionalForeignMessageExtension)
+            .getExtension(Unittest.optionalForeignMessageExtension, extensionRegistry: r)
             .c,
         0);
   });

@@ -248,56 +248,22 @@ abstract class GeneratedMessage {
 
   /// Returns the value of [extension].
   ///
-  /// If not set, returns the extension's default value.
-  getExtension(Extension extension) {
-    return _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
-  }
-
-  /// Returns the value of [extension].
+  /// If the extension is not set, and [extensionRegistry] is `null` the
+  /// extension's default value is returned.
   ///
-  /// If [extension] was not in the original `extensionRegistry` used for
-  /// parsing `this`, the extension will be attempted parsed from the unknown
-  /// fields using [extensionRegistry].
+  /// If the extension is not set , and [extensionRegistry] is non-null this
+  /// method will parse the extension from the corresponding unknown
+  /// field using [extensionRegistry].
   ///
   /// If [extensionRegistry] is non-null, it must contain [extension].
   ///
-  /// If the extension is not present as an unknown field, return the default
-  /// value.
+  /// If [extension] is also not present as an unknown field, the default value
+  /// is returned.
   ///
-  /// This instance will not be modified.
-  ///
-  /// An [InvalidProtocolBufferException] will be thrown in case the encoded
-  /// extension is malformed.
-  getExtensionReparsing(Extension extension,
-      {ExtensionRegistry extensionRegistry}) {
-    assert(
-        extensionRegistry == null ??
-            extensionRegistry._extensions[extension.extendee]
-                    [extension.tagNumber] ==
-                extension,
-        'The extensionRegistry passed to getExtensionReparsing() must contain the extension itself.');
-    dynamic result = _fieldSet._extensions?._getFieldOrNull(extension);
-    if (result == null) {
-      UnknownFieldSetField unknownField =
-          _fieldSet._unknownFields?.getField(extension.tagNumber);
-      if (unknownField != null) {
-        // Serialize the unknown field into a new message with
-        // only that field, deserialize with the registry and pick it out
-        // again.
-        // TODO(sigurdm): Here is some room for optimization if this turns out
-        // to be a hot spot.
-        CodedBufferWriter buffer = CodedBufferWriter();
-        unknownField.writeTo(extension.tagNumber, buffer);
-        final emptyInstance = createEmptyInstance();
-        emptyInstance.mergeFromBuffer(
-            buffer.toBuffer(),
-            extensionRegistry ?? ExtensionRegistry()
-              ..add(extension));
-        result =
-            emptyInstance._fieldSet._extensions?._getFieldOrNull(extension);
-      }
-    }
-    return result ??= extension.makeDefault();
+  /// An [InvalidProtocolBufferException] will be thrown in case the
+  /// extension encoded in the unknown field is malformed.
+  getExtension(Extension extension, {ExtensionRegistry extensionRegistry}) {
+    return _fieldSet._getExtension(extension, extensionRegistry: extensionRegistry);
   }
 
   /// Returns the value of the field associated with [tagNumber], or the
