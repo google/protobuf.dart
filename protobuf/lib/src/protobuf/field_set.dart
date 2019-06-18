@@ -802,7 +802,7 @@ class _FieldSet {
   Object _getExtension(Extension extension,
       {ExtensionRegistry extensionRegistry}) {
     assert(
-        extensionRegistry == null ||
+        extensionRegistry == null ??
             extensionRegistry._extensions[extension.extendee]
                     [extension.tagNumber] ==
                 extension,
@@ -825,12 +825,6 @@ class _FieldSet {
             emptyInstance._fieldSet._extensions?._getFieldOrNull(extension);
       }
     }
-    return result ?? extension.makeDefault();
-  }
-
-  bool _hasExtension(Extension extension, {bool includeUnknownFields: false}) {
-    return _extensions?._hasField(extension.tagNumber) != null ||
-        (includeUnknownFields &&
-            (_unknownFields?.getField(extension.tagNumber) != null));
+    return result ??= extension.makeDefault();
   }
 }
