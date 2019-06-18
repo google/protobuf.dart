@@ -263,7 +263,8 @@ abstract class GeneratedMessage {
   /// An [InvalidProtocolBufferException] will be thrown in case the
   /// extension encoded in the unknown field is malformed.
   getExtension(Extension extension, {ExtensionRegistry extensionRegistry}) {
-    return _fieldSet._getExtension(extension, extensionRegistry: extensionRegistry);
+    return _fieldSet._getExtension(extension,
+        extensionRegistry: extensionRegistry);
   }
 
   /// Returns the value of the field associated with [tagNumber], or the
@@ -301,9 +302,12 @@ abstract class GeneratedMessage {
       _fieldSet._ensureInfo(tagNumber).readonlyDefault;
 
   /// Returns [:true:] if a value of [extension] is present.
-  bool hasExtension(Extension extension) =>
-      _fieldSet._hasExtensions &&
-      _fieldSet._extensions._getFieldOrNull(extension) != null;
+  ///
+  /// If [includeUnknownFields] is `true` then [extension] is also considered
+  /// present if the corresponding tag is present in the unknown fields.
+  bool hasExtension(Extension extension, {bool includeUnknownFields: false}) =>
+      _fieldSet._hasExtension(extension,
+          includeUnknownFields: includeUnknownFields);
 
   /// Returns [:true:] if this message has a field associated with [tagNumber].
   bool hasField(int tagNumber) => _fieldSet._hasField(tagNumber);
