@@ -798,33 +798,4 @@ class _FieldSet {
       _ensureUnknownFields()._fields?.addAll(original._unknownFields._fields);
     }
   }
-
-  Object _getExtension(Extension extension,
-      {ExtensionRegistry extensionRegistry}) {
-    assert(
-        extensionRegistry == null ??
-            extensionRegistry._extensions[extension.extendee]
-                    [extension.tagNumber] ==
-                extension,
-        'The extensionRegistry passed to getExtensionReparsing() must contain the extension itself.');
-    dynamic result = _extensions?._getFieldOrNull(extension);
-    if (result == null && extensionRegistry != null) {
-      UnknownFieldSetField unknownField =
-          _unknownFields?.getField(extension.tagNumber);
-      if (unknownField != null) {
-        // Serialize the unknown field into a new message with
-        // only that field, deserialize with the registry and pick it out
-        // again.
-        // TODO(sigurdm): Here is some room for optimization if this turns out
-        // to be a hot spot.
-        CodedBufferWriter buffer = CodedBufferWriter();
-        unknownField.writeTo(extension.tagNumber, buffer);
-        final emptyInstance = _message.createEmptyInstance();
-        emptyInstance.mergeFromBuffer(buffer.toBuffer(), extensionRegistry);
-        result =
-            emptyInstance._fieldSet._extensions?._getFieldOrNull(extension);
-      }
-    }
-    return result ??= extension.makeDefault();
-  }
 }

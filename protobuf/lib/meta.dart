@@ -32,6 +32,7 @@ const GeneratedMessage_reservedNames = <String>[
   'mergeFromJsonMap',
   'addExtension',
   'getExtension',
+  'getExtensionReparsing',
   'setExtension',
   'hasExtension',
   'clearExtension',
