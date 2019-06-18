@@ -33,13 +33,45 @@ class ExtensionRegistry {
     }
     return null;
   }
+
+  /// Returns a shallow copy of [message], with all extensions in [this] parsed
+  /// from its unknownFields.
+  ///
+  /// If [message] is frozen the result will be as well.
+  T reparseMessage<T extends GeneratedMessage>(T message) =>
+      _reparseMessage(message, this);
+}
+
+T _reparseMessage<T extends GeneratedMessage>(
+    T message, ExtensionRegistry extensionRegistry) {
+  T result = message.createEmptyInstance();
+
+  result._fieldSet._shallowCopyValues(message._fieldSet);
+  UnknownFieldSet resultUnknownFields = result._fieldSet._unknownFields;
+  if (resultUnknownFields != null) {
+    CodedBufferWriter codedBufferWriter = CodedBufferWriter();
+    extensionRegistry._extensions[message.info_.qualifiedMessageName]
+        ?.forEach((tagNumber, extension) {
+      final UnknownFieldSetField unknownField =
+          resultUnknownFields._fields[tagNumber];
+      if (unknownField != null) {
+        unknownField.writeTo(tagNumber, codedBufferWriter);
+      }
+      resultUnknownFields._fields.remove(tagNumber);
+    });
+
+    result.mergeFromBuffer(codedBufferWriter.toBuffer(), extensionRegistry);
+  }
+  if (message._fieldSet._isReadOnly) {
+    result.freeze();
+  }
+  return result;
 }
 
 class _EmptyExtensionRegistry implements ExtensionRegistry {
   const _EmptyExtensionRegistry();
 
-  // Needed to quiet missing member warning.
-  get _extensions => null;
+  get _extensions => const <String, Map<int, Extension>>{};
 
   void add(Extension extension) {
     throw UnsupportedError('Immutable ExtensionRegistry');
@@ -50,4 +82,7 @@ class _EmptyExtensionRegistry implements ExtensionRegistry {
   }
 
   Extension getExtension(String messageName, int tagNumber) => null;
+
+  T reparseMessage<T extends GeneratedMessage>(T message) =>
+      _reparseMessage(message, this);
 }

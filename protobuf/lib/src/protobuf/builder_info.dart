@@ -7,7 +7,7 @@ part of protobuf;
 /// Per-message type setup.
 class BuilderInfo {
   /// The fully qualified name of this message.
-  final String qualifiedMessageName;
+    final String qualifiedMessageName;
   final List<FieldInfo> byIndex = <FieldInfo>[];
   final Map<int, FieldInfo> fieldInfo = Map<int, FieldInfo>();
   final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
