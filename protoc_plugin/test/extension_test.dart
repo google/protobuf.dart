@@ -269,7 +269,7 @@ void main() {
   });
 
   test(
-      'ExtensionRegistry.reparseMessage reparses extensions that was not in the original registry',
+      'ExtensionRegistry.reparseMessage reparses extensions that were not in the original registry',
       () {
     ExtensionRegistry r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
