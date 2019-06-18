@@ -35,9 +35,58 @@ class ExtensionRegistry {
   }
 
   /// Returns a shallow copy of [message], with all extensions in [this] parsed
-  /// from its unknownFields.
+  /// from its unknown fields.
   ///
-  /// If [message] is frozen the result will be as well.
+  /// Extensions already present in [message] will
+  ///
+  /// If [message] is frozen, the result will be as well.
+  ///
+  ///
+  /// Throws an [InvalidProtocolBufferException] if the parsed extensions are
+  /// malformed.
+  ///
+  /// Using this method to retrieve extensions is more expensive overall than
+  /// using an [ExtensionRegistry] with all the needed extensions when doing
+  /// [GeneratedMessage.fromBuffer].
+  ///
+  /// Example:
+  ///
+  /// `foo.proto`
+  /// ```proto
+  /// syntax = "proto2";
+  ///
+  /// message Foo {
+  ///   extensions 1 to max;
+  /// }
+  ///
+  /// extend Foo {
+  ///   optional string val1 = 1;
+  ///   optional string val2 = 2;
+  /// }
+  /// ```
+  /// `main.dart`
+  /// ```
+  /// import 'package:protobuf/protobuf.dart';
+  /// import 'package:test/test.dart';
+  /// import 'src/generated/sample.pb.dart';
+  ///
+  /// void main() {
+  ///   ExtensionRegistry r1 = ExtensionRegistry()..add(Sample.val1);
+  ///   ExtensionRegistry r2 = ExtensionRegistry()..add(Sample.val2);
+  ///   Foo original = Foo()..setExtension(Sample.val1, 'a')..setExtension(Sample.val2, 'b');
+  ///   Foo withUnknownFields = Foo.fromBuffer(original.writeToBuffer());
+  ///   Foo reparsed1 = r1.reparseMessage(withUnknownFields);
+  ///   Foo reparsed2 = r2.reparseMessage(reparsed1);
+  ///   expect(withUnknownFields.hasExtension(Sample.val1), isFalse);
+  ///   expect(withUnknownFields.hasExtension(Sample.val2), isFalse);
+  ///   expect(reparsed1.hasExtension(Sample.val1), isTrue);
+  ///   expect(reparsed1.hasExtension(Sample.val2), isFalse);
+  ///   expect(reparsed2.hasExtension(Sample.val1), isTrue);
+  ///   expect(reparsed2.hasExtension(Sample.val2), isTrue);
+  /// }
+  /// ```
+  ///
+
   T reparseMessage<T extends GeneratedMessage>(T message) =>
       _reparseMessage(message, this);
 }
