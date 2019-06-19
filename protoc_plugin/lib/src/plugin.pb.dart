@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: plugin.proto
 ///
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
 import 'dart:core' as $core
     show bool, Deprecated, double, int, List, Map, override, pragma, String;
@@ -30,7 +30,7 @@ class Version extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   Version clone() => Version()..mergeFromMessage(this);
   Version copyWith(void Function(Version) updates) =>
-      super.copyWith((message) => updates(message as Version)) as Version;
+      super.copyWith((message) => updates(message as Version));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Version create() => Version._();
@@ -93,8 +93,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   CodeGeneratorRequest clone() =>
       CodeGeneratorRequest()..mergeFromMessage(this);
   CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
-      super.copyWith((message) => updates(message as CodeGeneratorRequest))
-          as CodeGeneratorRequest;
+      super.copyWith((message) => updates(message as CodeGeneratorRequest));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest create() => CodeGeneratorRequest._();
@@ -148,8 +147,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   CodeGeneratorResponse_File copyWith(
           void Function(CodeGeneratorResponse_File) updates) =>
       super.copyWith(
-              (message) => updates(message as CodeGeneratorResponse_File))
-          as CodeGeneratorResponse_File;
+          (message) => updates(message as CodeGeneratorResponse_File));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File._();
@@ -205,8 +203,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       CodeGeneratorResponse()..mergeFromMessage(this);
   CodeGeneratorResponse copyWith(
           void Function(CodeGeneratorResponse) updates) =>
-      super.copyWith((message) => updates(message as CodeGeneratorResponse))
-          as CodeGeneratorResponse;
+      super.copyWith((message) => updates(message as CodeGeneratorResponse));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse create() => CodeGeneratorResponse._();

@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: dart_options.proto
 ///
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
 import 'dart:core' as $core
     show bool, Deprecated, double, int, List, Map, override, pragma, String;
@@ -27,7 +27,7 @@ class DartMixin extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   DartMixin clone() => DartMixin()..mergeFromMessage(this);
   DartMixin copyWith(void Function(DartMixin) updates) =>
-      super.copyWith((message) => updates(message as DartMixin)) as DartMixin;
+      super.copyWith((message) => updates(message as DartMixin));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DartMixin create() => DartMixin._();
@@ -77,7 +77,7 @@ class Imports extends $pb.GeneratedMessage {
       create()..mergeFromJson(i, r);
   Imports clone() => Imports()..mergeFromMessage(this);
   Imports copyWith(void Function(Imports) updates) =>
-      super.copyWith((message) => updates(message as Imports)) as Imports;
+      super.copyWith((message) => updates(message as Imports));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Imports create() => Imports._();
