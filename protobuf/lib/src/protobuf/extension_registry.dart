@@ -35,12 +35,11 @@ class ExtensionRegistry {
   }
 
   /// Returns a shallow copy of [message], with all extensions in [this] parsed
-  /// from its unknown fields.
+  /// from the unknown fields of [message].
   ///
-  /// Extensions already present in [message] will
+  /// Extensions already present in [message] will be preserved.
   ///
   /// If [message] is frozen, the result will be as well.
-  ///
   ///
   /// Throws an [InvalidProtocolBufferException] if the parsed extensions are
   /// malformed.
@@ -85,8 +84,6 @@ class ExtensionRegistry {
   ///   expect(reparsed2.hasExtension(Sample.val2), isTrue);
   /// }
   /// ```
-  ///
-
   T reparseMessage<T extends GeneratedMessage>(T message) =>
       _reparseMessage(message, this);
 }
