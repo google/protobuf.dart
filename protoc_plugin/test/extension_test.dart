@@ -10,6 +10,7 @@ import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/enum_extension.pb.dart';
+import '../out/protos/extend_unittest.pb.dart';
 import '../out/protos/nested_extension.pb.dart';
 import '../out/protos/non_nested_extension.pb.dart';
 import '../out/protos/ExtensionNameConflict.pb.dart';
@@ -22,6 +23,17 @@ throwsArgError(String expectedMessage) => throwsA(predicate((x) {
       expect(x.message, expectedMessage);
       return true;
     }));
+
+final withExtensions = TestAllExtensions()
+  ..setExtension(
+      Unittest.optionalForeignMessageExtension, ForeignMessage()..c = 3)
+  ..setExtension(Unittest.defaultStringExtension, 'bar')
+  ..getExtension(Unittest.repeatedBytesExtension).add('pop'.codeUnits)
+  ..setExtension(
+      Extend_unittest.outer,
+      Outer()
+        ..inner = (Inner()..value = 'abc')
+        ..setExtension(Extend_unittest.extensionInner, Inner()..value = 'def'));
 
 void main() {
   test('can set all extension types', () {
@@ -231,5 +243,147 @@ void main() {
     expect(withExtension == decodedWithExtension, false);
     expect(decodedWithExtension == withExtension, false);
     expect(decodedWithExtension == withExtension, false);
+  });
+
+  test(
+      'ExtensionRegistry.reparseMessage will preserve already registered extensions',
+      () {
+    ExtensionRegistry r1 = ExtensionRegistry();
+    Unittest.registerAllExtensions(r1);
+
+    ExtensionRegistry r2 = ExtensionRegistry();
+    Extend_unittest.registerAllExtensions(r2);
+    final withUnknownFields =
+        TestAllExtensions.fromBuffer(withExtensions.writeToBuffer());
+    final reparsedR1 = r1.reparseMessage(withUnknownFields);
+
+    expect(
+        reparsedR1.getExtension(Unittest.optionalForeignMessageExtension).c, 3);
+
+    expect(
+        r2
+            .reparseMessage(reparsedR1)
+            .getExtension(Unittest.optionalForeignMessageExtension)
+            .c,
+        3);
+  });
+
+  test(
+      'ExtensionRegistry.reparseMessage reparses extensions that were not in the original registry',
+      () {
+    ExtensionRegistry r = ExtensionRegistry();
+    Unittest.registerAllExtensions(r);
+    Extend_unittest.registerAllExtensions(r);
+
+    final withUnknownFields =
+        TestAllExtensions.fromBuffer(withExtensions.writeToBuffer());
+    final reparsed = r.reparseMessage(withUnknownFields);
+
+    expect(withUnknownFields.getExtension(Unittest.defaultStringExtension),
+        'hello');
+
+    expect(reparsed.getExtension(Unittest.defaultStringExtension), 'bar');
+
+    expect(
+        reparsed.unknownFields
+            .getField(Unittest.defaultStringExtension.tagNumber),
+        null,
+        reason:
+            'ExtensionRegistry.reparseMessage does not leave reparsed fields in unknownFields');
+    expect(reparsed.getExtension(Unittest.repeatedBytesExtension),
+        ['pop'.codeUnits]);
+
+    expect(
+        reparsed.getExtension(Unittest.optionalForeignMessageExtension).c, 3);
+
+    expect(reparsed.getExtension(Extend_unittest.outer).inner.value, 'abc');
+
+    final onlyOuter = ExtensionRegistry()..add(Extend_unittest.outer);
+    final onlyOuterReparsed = onlyOuter.reparseMessage(withUnknownFields);
+    expect(
+        onlyOuterReparsed
+            .getExtension(Extend_unittest.outer)
+            .hasExtension(Extend_unittest.extensionInner),
+        isFalse);
+    expect(
+        onlyOuter
+            .reparseMessage(withUnknownFields)
+            .getExtension(Extend_unittest.outer)
+            .getExtension(Extend_unittest.extensionInner)
+            .value,
+        '');
+
+    expect(
+        reparsed
+            .getExtension(Extend_unittest.outer)
+            .hasExtension(Extend_unittest.extensionInner),
+        isTrue);
+    expect(
+        reparsed
+            .getExtension(Extend_unittest.outer)
+            .getExtension(Extend_unittest.extensionInner)
+            .value,
+        'def');
+  });
+
+  test('ExtensionRegistry.reparseMessage does not update the original', () {
+    ExtensionRegistry r = ExtensionRegistry();
+    Unittest.registerAllExtensions(r);
+    Extend_unittest.registerAllExtensions(r);
+
+    final withUnknownFields =
+        TestAllExtensions.fromBuffer(withExtensions.writeToBuffer());
+
+    final reparsedWithEmpty =
+        ExtensionRegistry().reparseMessage(withUnknownFields);
+    expect(reparsedWithEmpty, isNot(same(withUnknownFields)));
+
+    final reparsed = r.reparseMessage(withUnknownFields);
+
+    List<String> strings =
+        withUnknownFields.getExtension(Unittest.repeatedStringExtension);
+    expect(strings, []);
+    strings.add('pop2');
+    expect(reparsed.getExtension(Unittest.repeatedStringExtension), []);
+  });
+
+  test('ExtensionRegistry.reparseMessage will throw on malformed buffers', () {
+    final ExtensionRegistry r = ExtensionRegistry();
+    Unittest.registerAllExtensions(r);
+    final ExtensionRegistry r2 = ExtensionRegistry();
+
+    Extend_unittest.registerAllExtensions(r2);
+
+    // The message encoded in this buffer has an encoding error in the
+    // Extend_unittest.outer extension field.
+    final withMalformedExtensionEncoding = TestAllExtensions.fromBuffer([
+      154, 1, 2, 8, 3, 210, //
+      4, 3, 98, 97, 114, 194, 6, 14, 10, 5, 10, 4,
+      97, 98, 99, 18, 5, 10, 3, 100, 101, 102
+    ]);
+    expect(
+        r
+            .reparseMessage(withMalformedExtensionEncoding)
+            .getExtension(Unittest.defaultStringExtension),
+        'bar',
+        reason:
+            'this succeeds because it does not decode Extend_unittest.outer');
+    expect(() => r2.reparseMessage(withMalformedExtensionEncoding),
+        throwsA(const TypeMatcher<InvalidProtocolBufferException>()));
+  });
+
+  test('ExtensionRegistry.reparseMessage preserves frozenness', () {
+    final ExtensionRegistry r = ExtensionRegistry();
+    Unittest.registerAllExtensions(r);
+
+    final withUnknownFields =
+        TestAllExtensions.fromBuffer(withExtensions.writeToBuffer());
+    withUnknownFields.freeze();
+
+    expect(
+        () => r
+            .reparseMessage(withUnknownFields)
+            .setExtension(Unittest.defaultStringExtension, 'blah'),
+        throwsA(TypeMatcher<UnsupportedError>()));
   });
 }

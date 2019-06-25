@@ -1,3 +1,8 @@
+## 0.13.13
+
+* `Added `ExtensionRegistry.reparseMessage()` for decoding extensions from unknown fields after the initial
+   decoding.
+
 ## 0.13.12
 
 * `BuilderInfo.add` now ignores fields with tag number 0.
