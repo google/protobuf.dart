@@ -1,4 +1,4 @@
-## 0.13.12
+## 0.13.13
 
 * `Added `ExtensionRegistry.reparse()` for decoding extensions from unknown fields after the initial
    decoding.
