@@ -110,16 +110,19 @@ class ServiceGenerator {
     }
   }
 
-  /// Returns the Dart class name to use for a message type.
+  /// Returns the Dart class name to use for a message type or throws an
+  /// exception if it can't be resolved.
   ///
-  /// Throws an exception if it can't be resolved.
-  String _getDartClassName(String fqname) {
+  /// When generating the main file (if [forMainFile] is true), all imports
+  /// should be prefixed unless the target file is the main file (the client
+  /// generator calls this method). Otherwise, prefix everything.
+  String _getDartClassName(String fqname, {forMainFile = false}) {
     var mg = _deps[fqname];
     if (mg == null) {
       var location = _undefinedDeps[fqname];
       throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
     }
-    if (fileGen.protoFileUri == mg.fileGen.protoFileUri) {
+    if (forMainFile && fileGen.protoFileUri == mg.fileGen.protoFileUri) {
       // If it's the same file, we import it without using "as".
       return mg.classname;
     }
@@ -168,7 +171,7 @@ class ServiceGenerator {
   void _generateDispatchMethod(out) {
     out.addBlock(
         '$_future<$_generatedMessage> handleCall($_serverContext ctx, '
-        '$_coreImportPrefix.String method, $_generatedMessage request) {',
+            '$_coreImportPrefix.String method, $_generatedMessage request) {',
         '}', () {
       out.addBlock("switch (method) {", "}", () {
         for (MethodDescriptorProto m in _methodDescriptors) {
@@ -189,7 +192,7 @@ class ServiceGenerator {
   void generate(IndentingWriter out) {
     out.addBlock(
         'abstract class $classname extends '
-        '$_parentClass {',
+            '$_parentClass {',
         '}', () {
       _generateStubs(out);
       _generateRequestMethod(out);

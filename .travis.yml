@@ -1,4 +1,4 @@
-# Created with package:mono_repo v2.0.0
+# Created with package:mono_repo v2.1.0
 language: dart
 
 # Custom configuration
@@ -16,33 +16,23 @@ os:
 jobs:
   include:
     - stage: format_analyzer_tests
-      name: "SDK: stable; PKG: api_benchmark; TASKS: [`./compile_protos.sh`, `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings .`]"
-      dart: stable
-      env: PKGS="api_benchmark"
-      script: ./tool/travis.sh command_0 dartfmt dartanalyzer_0
-    - stage: format_analyzer_tests
-      name: "SDK: stable; PKG: query_benchmark; TASKS: [`./compile_protos.sh`, `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings .`]"
-      dart: stable
-      env: PKGS="query_benchmark"
-      script: ./tool/travis.sh command_0 dartfmt dartanalyzer_0
-    - stage: format_analyzer_tests
-      name: "SDK: dev; PKG: protobuf; TASKS: `dartanalyzer --fatal-infos --fatal-warnings .`"
+      name: "SDK: dev; PKGS: api_benchmark, query_benchmark; TASKS: [`./compile_protos.sh`, `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings .`]"
       dart: dev
-      env: PKGS="protobuf"
-      script: ./tool/travis.sh dartanalyzer_1
+      env: PKGS="api_benchmark query_benchmark"
+      script: ./tool/travis.sh command_0 dartfmt dartanalyzer_0
     - stage: format_analyzer_tests
-      name: "SDK: stable; PKG: protobuf; TASKS: `dartfmt -n --set-exit-if-changed .`"
-      dart: stable
-      env: PKGS="protobuf"
-      script: ./tool/travis.sh dartfmt
-    - stage: format_analyzer_tests
-      name: "SDK: stable; PKG: protobuf; TASKS: `dartanalyzer --fatal-warnings .`"
-      dart: stable
+      name: "SDK: 2.0.0; PKG: protobuf; TASKS: `dartanalyzer --fatal-warnings .`"
+      dart: "2.0.0"
       env: PKGS="protobuf"
       script: ./tool/travis.sh dartanalyzer_0
     - stage: format_analyzer_tests
-      name: "SDK: stable; PKG: protobuf; TASKS: `pub run test`"
-      dart: stable
+      name: "SDK: dev; PKG: protobuf; TASKS: [`dartanalyzer --fatal-infos --fatal-warnings .`, `dartfmt -n --set-exit-if-changed .`]"
+      dart: dev
+      env: PKGS="protobuf"
+      script: ./tool/travis.sh dartanalyzer_1 dartfmt
+    - stage: format_analyzer_tests
+      name: "SDK: 2.0.0; PKG: protobuf; TASKS: `pub run test`"
+      dart: "2.0.0"
       env: PKGS="protobuf"
       script: ./tool/travis.sh test
     - stage: format_analyzer_tests
@@ -51,18 +41,18 @@ jobs:
       env: PKGS="protobuf"
       script: ./tool/travis.sh test
     - stage: format_analyzer_tests
-      name: "SDK: dev; PKG: protoc_plugin; TASKS: [`make protos`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      name: "SDK: 2.0.0; PKG: protoc_plugin; TASKS: [`make protos`, `dartanalyzer --fatal-warnings .`]"
+      dart: "2.0.0"
+      env: PKGS="protoc_plugin"
+      script: ./tool/travis.sh command_1 dartanalyzer_0
+    - stage: format_analyzer_tests
+      name: "SDK: dev; PKG: protoc_plugin; TASKS: [`make protos`, `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
       dart: dev
       env: PKGS="protoc_plugin"
-      script: ./tool/travis.sh command_1 dartanalyzer_1
+      script: ./tool/travis.sh command_1 dartfmt dartanalyzer_1
     - stage: format_analyzer_tests
-      name: "SDK: stable; PKG: protoc_plugin; TASKS: [`make protos`, `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings .`]"
-      dart: stable
-      env: PKGS="protoc_plugin"
-      script: ./tool/travis.sh command_1 dartfmt dartanalyzer_0
-    - stage: format_analyzer_tests
-      name: "SDK: stable; PKG: protoc_plugin; TASKS: [`make protos`, `pub run test`]"
-      dart: stable
+      name: "SDK: 2.0.0; PKG: protoc_plugin; TASKS: [`make protos`, `pub run test`]"
+      dart: "2.0.0"
       env: PKGS="protoc_plugin"
       script: ./tool/travis.sh command_1 test
     - stage: format_analyzer_tests

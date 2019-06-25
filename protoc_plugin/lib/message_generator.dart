@@ -64,7 +64,7 @@ class MessageGenerator extends ProtobufContainer {
   /// The nested message will have a `fullName` of 'foo.Container.Nested', and a
   /// `messageName` of 'Container.Nested'.
   String get messageName =>
-      fullName.substring(package.length == 0 ? 0 : package.length + 1);
+      fullName.substring(package.isEmpty ? 0 : package.length + 1);
 
   final PbMixin mixin;
 
@@ -331,21 +331,21 @@ class MessageGenerator extends ProtobufContainer {
       }
       out.addBlock(
           'static final $_protobufImportPrefix.BuilderInfo _i = '
-          '$_protobufImportPrefix.BuilderInfo(\'${messageName}\'$packageClause)',
+              '$_protobufImportPrefix.BuilderInfo(\'${messageName}\'$packageClause)',
           ';', () {
-        for (ProtobufField field in _fieldList) {
-          var dartFieldName = field.memberNames.fieldName;
-          out.println(
-              field.generateBuilderInfoCall(fileGen, dartFieldName, package));
-        }
-
         for (int oneof = 0; oneof < _oneofFields.length; oneof++) {
           List<int> tags =
               _oneofFields[oneof].map((ProtobufField f) => f.number).toList();
           out.println("..oo($oneof, ${tags})");
         }
 
-        if (_descriptor.extensionRange.length > 0) {
+        for (ProtobufField field in _fieldList) {
+          var dartFieldName = field.memberNames.fieldName;
+          out.println(
+              field.generateBuilderInfoCall(fileGen, dartFieldName, package));
+        }
+
+        if (_descriptor.extensionRange.isNotEmpty) {
           out.println('..hasExtensions = true');
         }
         if (!_hasRequiredFields(this, Set())) {
@@ -359,16 +359,17 @@ class MessageGenerator extends ProtobufContainer {
 
       out.println();
 
-      out.printlnAnnotated('${classname}() : super();', [
+      out.printlnAnnotated('${classname}._() : super();', [
         NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
       ]);
+      out.println('factory ${classname}() => create();');
       out.println(
-          '${classname}.fromBuffer($_coreImportPrefix.List<$_coreImportPrefix.int> i,'
+          'factory ${classname}.fromBuffer($_coreImportPrefix.List<$_coreImportPrefix.int> i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' : super.fromBuffer(i, r);');
-      out.println('${classname}.fromJson($_coreImportPrefix.String i,'
+          ' => create()..mergeFromBuffer(i, r);');
+      out.println('factory ${classname}.fromJson($_coreImportPrefix.String i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' : super.fromJson(i, r);');
+          ' => create()..mergeFromJson(i, r);');
       out.println('${classname} clone() =>'
           ' ${classname}()..mergeFromMessage(this);');
       out.println('$classname copyWith(void Function($classname) updates) =>'
@@ -377,8 +378,8 @@ class MessageGenerator extends ProtobufContainer {
       out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
 
       // Factory functions which can be used as default value closures.
-      out.println('static ${classname} create() =>'
-          ' ${classname}();');
+      out.println("@${_coreImportPrefix}.pragma('dart2js:noInline')");
+      out.println('static ${classname} create() => ${classname}._();');
       out.println('${classname} createEmptyInstance() => create();');
 
       out.println(
@@ -417,7 +418,7 @@ class MessageGenerator extends ProtobufContainer {
     // If the type has extensions, an extension with message type could contain
     // required fields, so we have to be conservative and assume such an
     // extension exists.
-    if (type._descriptor.extensionRange.length > 0) {
+    if (type._descriptor.extensionRange.isNotEmpty) {
       return true;
     }
 
@@ -437,7 +438,7 @@ class MessageGenerator extends ProtobufContainer {
 
   void generateFieldsAccessorsMutators(IndentingWriter out) {
     _oneofNames
-        .forEach((OneofNames oneof) => generateoneOfAccessors(out, oneof));
+        .forEach((OneofNames oneof) => generateOneofAccessors(out, oneof));
 
     for (var field in _fieldList) {
       out.println();
@@ -447,7 +448,7 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
-  void generateoneOfAccessors(IndentingWriter out, OneofNames oneof) {
+  void generateOneofAccessors(IndentingWriter out, OneofNames oneof) {
     out.println();
     out.println("${oneof.oneofEnumName} ${oneof.whichOneofMethodName}() "
         "=> ${oneof.byTagMapName}[\$_whichOneof(${oneof.index})];");

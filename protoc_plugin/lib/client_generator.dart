@@ -39,11 +39,11 @@ class ClientApiGenerator {
         avoidInitialUnderscore(service._methodName(m.name)),
         usedMethodNames,
         defaultSuffixes());
-    var inputType = service._getDartClassName(m.inputType);
-    var outputType = service._getDartClassName(m.outputType);
+    var inputType = service._getDartClassName(m.inputType, forMainFile: true);
+    var outputType = service._getDartClassName(m.outputType, forMainFile: true);
     out.addBlock(
         '$_asyncImportPrefix.Future<$outputType> $methodName('
-        '$_protobufImportPrefix.ClientContext ctx, $inputType request) {',
+            '$_protobufImportPrefix.ClientContext ctx, $inputType request) {',
         '}', () {
       out.println('var emptyResponse = $outputType();');
       out.println('return _client.invoke<$outputType>(ctx, \'${className}\', '

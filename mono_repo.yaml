@@ -14,3 +14,5 @@ travis:
     - osx
     - windows
 
+merge_stages:
+- format_analyzer_tests

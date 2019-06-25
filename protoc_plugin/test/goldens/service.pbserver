@@ -2,24 +2,24 @@
 //  Generated code. Do not modify.
 //  source: test
 ///
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
 import 'dart:async' as $async;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'dart:core' as $core show String, Map, ArgumentError, dynamic;
-import 'test.pb.dart';
+import 'test.pb.dart' as $0;
 import 'test.pbjson.dart';
 
 export 'test.pb.dart';
 
 abstract class TestServiceBase extends $pb.GeneratedService {
-  $async.Future<Empty> ping($pb.ServerContext ctx, Empty request);
+  $async.Future<$0.Empty> ping($pb.ServerContext ctx, $0.Empty request);
 
   $pb.GeneratedMessage createRequest($core.String method) {
     switch (method) {
-      case 'Ping': return Empty();
+      case 'Ping': return $0.Empty();
       default: throw $core.ArgumentError('Unknown method: $method');
     }
   }

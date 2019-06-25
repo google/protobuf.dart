@@ -93,12 +93,8 @@ class GrpcServiceGenerator {
     var mg = _deps[fqname];
     if (mg == null) {
       var location = _undefinedDeps[fqname];
-      // TODO(jakobr): Throw more actionable error.
+      // TODO(nichite): Throw more actionable error.
       throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
-    }
-    if (fileGen.protoFileUri == mg.fileGen.protoFileUri) {
-      // If it's the same file, we import it without using "as".
-      return mg.classname;
     }
     return mg.fileImportPrefix + '.' + mg.classname;
   }
@@ -255,7 +251,7 @@ class _GrpcMethod {
     if (_clientStreaming) return;
 
     out.addBlock(
-        '$_serverReturnType ${_dartName}_Pre($_serviceCall call, $_future request) async${_serverStreaming ? '*' : ''} {',
+        '$_serverReturnType ${_dartName}_Pre($_serviceCall call, $_future<$_requestType> request) async${_serverStreaming ? '*' : ''} {',
         '}', () {
       if (_serverStreaming) {
         out.println(

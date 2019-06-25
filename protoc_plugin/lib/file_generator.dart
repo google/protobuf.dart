@@ -285,8 +285,9 @@ class FileGenerator extends ProtobufContainer {
       out.println(_asyncImport);
     }
 
-    out.println(
-        '$_coreImport show bool, Deprecated, double, int, List, Map, override, String;\n');
+    out.println('$_coreImport show '
+        'bool, Deprecated, double, int, List, Map, override, pragma, String;');
+    out.println();
 
     if (_needsFixnumImport) {
       out.println("import 'package:fixnum/fixnum.dart';");
@@ -488,9 +489,9 @@ class FileGenerator extends ProtobufContainer {
 
     out.println(_asyncImport);
     out.println();
-    out.println(_grpcImport);
-    out.println();
     out.println("$_coreImport show int, String, List;\n");
+    out.println();
+    out.println(_grpcImport);
 
     // Import .pb.dart files needed for requests and responses.
     var imports = Set<FileGenerator>();
@@ -564,7 +565,7 @@ class FileGenerator extends ProtobufContainer {
 //  Generated code. Do not modify.
 //  source: ${descriptor.name}
 ///
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 ''');
   }
 
@@ -575,7 +576,11 @@ class FileGenerator extends ProtobufContainer {
     Uri resolvedImport =
         config.resolveImport(target.protoFileUri, protoFileUri, extension);
     out.print("import '$resolvedImport'");
-    if (protoFileUri != target.protoFileUri) {
+
+    // .pb.dart files should always be prefixed--the protoFileUri check
+    // will evaluate to true not just for the main .pb.dart file based off
+    // the proto file, but also for the .pbserver.dart, .pbgrpc.dart files.
+    if ((extension == ".pb.dart") || protoFileUri != target.protoFileUri) {
       out.print(' as ${target.fileImportPrefix}');
     }
     out.println(';');

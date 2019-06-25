@@ -78,7 +78,8 @@ class ProtobufField {
   /// True if this field uses the Int64 from the fixnum package.
   bool get needsFixnumImport => baseType.unprefixed == "Int64";
 
-  /// True if this field is a map field definition: `map<key_type, value_type> map_field = N`.
+  /// True if this field is a map field definition:
+  /// `map<key_type, value_type> map_field = N`.
   bool get isMapField {
     if (!isRepeated || !baseType.isMessage) return false;
     MessageGenerator generator = baseType.generator;

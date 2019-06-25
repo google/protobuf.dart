@@ -594,11 +594,11 @@ class _FieldSet {
         // TODO(skybrian): possibly unused. Delete?
         final value = fieldValue.getUint64(0, Endian.little);
         renderValue(name, value);
-      } else if (fieldValue is List) {
+      } else if (fieldValue is PbListBase) {
         for (var value in fieldValue) {
           renderValue(name, value);
         }
-      } else if (fieldValue is Map) {
+      } else if (fieldValue is PbMap) {
         for (var entry in fieldValue.entries) {
           renderValue(name, entry);
         }

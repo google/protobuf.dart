@@ -1,3 +1,20 @@
+## 17.0.2
+
+* Fix: Avoiding argument_type_not_assignable and return_of_invalid_type lint warnings.
+
+## 17.0.1
+
+* Fix: Actually use prefixed imports from .pbserver, .pb.json, .pbgrpc files.
+
+## 17.0.0
+
+* Breaking change: seal protobuf message classes by using an internal
+  private constructor and changing the rest to factories.
+
+## 16.0.7
+
+* Always prefix .pb.dart imports in .pbserver, .pb.json, .pbgrpc files.
+
 ## 16.0.6
 
 * Track the original order of proto fields and include it in metadata
