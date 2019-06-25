@@ -1,3 +1,7 @@
+## 17.0.2
+
+* Fix: Avoiding argument_type_not_assignable and return_of_invalid_type lint warnings.
+
 ## 17.0.1
 
 * Fix: Actually use prefixed imports from .pbserver, .pb.json, .pbgrpc files.
