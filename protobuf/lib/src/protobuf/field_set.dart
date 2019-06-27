@@ -797,5 +797,7 @@ class _FieldSet {
     if (original._hasUnknownFields) {
       _ensureUnknownFields()._fields?.addAll(original._unknownFields._fields);
     }
+
+    _oneofCases?.addAll(original._oneofCases);
   }
 }

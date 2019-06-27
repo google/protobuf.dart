@@ -160,6 +160,17 @@ void main() {
     expect(foo.hasGreen(), true);
     expect(foo.green, 'g');
   });
+
+  test('copyWith preserves oneof state', () {
+    Foo foo = Foo();
+    expectOneofNotSet(foo);
+    Foo copy1 = foo.copyWith((_) {});
+    expectOneofNotSet(copy1);
+    foo..first = 'oneof';
+    expectFirstSet(foo);
+    Foo copy2 = foo.copyWith((_) {});
+    expectFirstSet(copy2);
+  });
 }
 
 void expectSecondSet(Foo foo) {

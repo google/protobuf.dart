@@ -1,3 +1,7 @@
+## 17.0.3
+
+* Fix: Copy oneof state when doing `copyWith()`.
+
 ## 17.0.2
 
 * Fix: Avoiding argument_type_not_assignable and return_of_invalid_type lint warnings.
