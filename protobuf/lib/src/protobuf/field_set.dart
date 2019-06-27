@@ -799,6 +799,5 @@ class _FieldSet {
     }
 
     _oneofCases?.addAll(original._oneofCases);
-
   }
 }
