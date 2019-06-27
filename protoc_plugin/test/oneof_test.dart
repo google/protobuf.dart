@@ -164,11 +164,11 @@ void main() {
   test('copyWith preserves oneof state', () {
     Foo foo = Foo();
     expectOneofNotSet(foo);
-    Foo copy1 = foo.copyWith((_){});
+    Foo copy1 = foo.copyWith((_) {});
     expectOneofNotSet(copy1);
     foo..first = 'oneof';
     expectFirstSet(foo);
-    Foo copy2 = foo.copyWith((_){});
+    Foo copy2 = foo.copyWith((_) {});
     expectFirstSet(copy2);
   });
 }
