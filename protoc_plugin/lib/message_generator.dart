@@ -340,8 +340,7 @@ class MessageGenerator extends ProtobufContainer {
         }
 
         for (ProtobufField field in _fieldList) {
-          out.println(
-              field.generateBuilderInfoCall(fileGen, package));
+          out.println(field.generateBuilderInfoCall(fileGen, package));
         }
 
         if (_descriptor.extensionRange.isNotEmpty) {

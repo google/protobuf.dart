@@ -44,6 +44,7 @@ void main() {
         // optional PhoneType type = 2 [default = HOME];
         FieldDescriptorProto()
           ..name = 'type'
+          ..jsonName = 'type'
           ..number = 2
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_ENUM
@@ -51,17 +52,20 @@ void main() {
         // required string number = 1;
         FieldDescriptorProto()
           ..name = 'number'
+          ..jsonName = 'number'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
           ..type = FieldDescriptorProto_Type.TYPE_STRING,
         FieldDescriptorProto()
           ..name = 'name'
+          ..jsonName = 'name'
           ..number = 3
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_STRING
           ..defaultValue = r'$',
         FieldDescriptorProto()
           ..name = 'deprecated_field'
+          ..jsonName = 'deprecatedField'
           ..number = 4
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_STRING

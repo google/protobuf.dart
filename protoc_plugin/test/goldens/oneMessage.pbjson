@@ -7,9 +7,9 @@
 const PhoneNumber$json = const {
   '1': 'PhoneNumber',
   '2': const [
-    const {'1': 'number', '3': 1, '4': 2, '5': 9},
-    const {'1': 'type', '3': 2, '4': 1, '5': 5, '6': ''},
-    const {'1': 'name', '3': 3, '4': 1, '5': 9, '7': r'$'},
+    const {'1': 'number', '3': 1, '4': 2, '5': 9, '10': 'number'},
+    const {'1': 'type', '3': 2, '4': 1, '5': 5, '6': '', '10': 'type'},
+    const {'1': 'name', '3': 3, '4': 1, '5': 9, '7': r'$', '10': 'name'},
   ],
 };
 

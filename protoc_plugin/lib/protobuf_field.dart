@@ -123,6 +123,7 @@ class ProtobufField {
   /// The call will start with ".." and a method name.
   /// [fileGen] represents the .proto file where the code will be evaluated.
   String generateBuilderInfoCall(FileGenerator fileGen, String package) {
+    assert(descriptor.hasJsonName());
     String quotedName = "'${descriptor.jsonName}'";
     String type = baseType.getDartType(fileGen);
 
