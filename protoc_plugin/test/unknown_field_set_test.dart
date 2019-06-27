@@ -79,7 +79,7 @@ void main() {
     int tagNumberA = TestAllTypes_OptionalGroup().getTagNumber('a');
     expect(tagNumberA != null, isTrue);
 
-    UnknownFieldSetField optionalGroupField = getField('optionalGroup');
+    UnknownFieldSetField optionalGroupField = getField('optionalgroup');
     expect(optionalGroupField.groups.length, 1);
     UnknownFieldSet group = optionalGroupField.groups[0];
     expect(group.hasField(tagNumberA), isTrue);

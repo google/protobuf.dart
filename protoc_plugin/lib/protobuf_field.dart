@@ -122,9 +122,8 @@ class ProtobufField {
   /// Returns Dart code adding this field to a BuilderInfo object.
   /// The call will start with ".." and a method name.
   /// [fileGen] represents the .proto file where the code will be evaluated.
-  String generateBuilderInfoCall(
-      FileGenerator fileGen, String dartFieldName, String package) {
-    String quotedName = "'$dartFieldName'";
+  String generateBuilderInfoCall(FileGenerator fileGen, String package) {
+    String quotedName = "'${descriptor.jsonName}'";
     String type = baseType.getDartType(fileGen);
 
     if (isMapField) {

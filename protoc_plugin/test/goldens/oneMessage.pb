@@ -10,9 +10,9 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class PhoneNumber extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('PhoneNumber')
-    ..aQS(1, 'number')
-    ..a<$core.int>(2, 'type', $pb.PbFieldType.O3)
-    ..a<$core.String>(3, 'name', $pb.PbFieldType.OS, '\$')
+    ..aQS(1, '')
+    ..a<$core.int>(2, '', $pb.PbFieldType.O3)
+    ..a<$core.String>(3, '', $pb.PbFieldType.OS, '\$')
   ;
 
   PhoneNumber._() : super();

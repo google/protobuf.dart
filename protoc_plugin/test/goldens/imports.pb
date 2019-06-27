@@ -13,9 +13,9 @@ import 'package2.pb.dart' as $2;
 
 class M extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('M')
-    ..a<M>(1, 'm', $pb.PbFieldType.OM, M.getDefault, M.create)
-    ..a<$1.M>(2, 'm1', $pb.PbFieldType.OM, $1.M.getDefault, $1.M.create)
-    ..a<$2.M>(3, 'm2', $pb.PbFieldType.OM, $2.M.getDefault, $2.M.create)
+    ..a<M>(1, '', $pb.PbFieldType.OM, M.getDefault, M.create)
+    ..a<$1.M>(2, '', $pb.PbFieldType.OM, $1.M.getDefault, $1.M.create)
+    ..a<$2.M>(3, '', $pb.PbFieldType.OM, $2.M.getDefault, $2.M.create)
     ..hasRequiredFields = false
   ;
 
