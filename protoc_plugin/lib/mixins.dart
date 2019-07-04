@@ -4,16 +4,15 @@
 
 /// Provides metadata about mixins to dart-protoc-plugin.
 /// (Experimental API; subject to change.)
-library protobuf.mixins.meta;
+import 'indenting_writer.dart';
 
-/// Entry point called by dart-protoc-plugin.
+/// Finds [name] in the exported mixins.
 PbMixin findMixin(String name) {
-  for (var m in _exportedMixins) {
-    if (m.name == name) {
-      return m;
-    }
-  }
-  return null; // not found
+  const _exportedMixins = {
+    'PbMapMixin': _pbMapMixin,
+    'PbEventMixin': _pbEventMixin,
+  };
+  return _exportedMixins[name];
 }
 
 /// PbMixin contains metadata needed by dart-protoc-plugin to apply a mixin.
@@ -35,7 +34,13 @@ class PbMixin {
   /// May be null if the mixin doesn't reserve any new names.
   final List<String> reservedNames;
 
-  const PbMixin(this.name, {this.importFrom, this.parent, this.reservedNames});
+  ///  Code to inject into the class using the mixin.
+  ///
+  /// Typically used for static helpers since you cannot mix in static members.
+  final List<String> injectedHelpers;
+
+  const PbMixin(this.name,
+      {this.importFrom, this.parent, this.reservedNames, this.injectedHelpers});
 
   /// Returns the mixin and its ancestors, in the order they should be applied.
   Iterable<PbMixin> findMixinsToApply() {
@@ -57,10 +62,13 @@ class PbMixin {
     }
     return names;
   }
-}
 
-/// The mixins that findMixin() can return.
-final _exportedMixins = [_pbMapMixin, _pbEventMixin];
+  void injectHelpers(IndentingWriter out) {
+    if (injectedHelpers != null && injectedHelpers.isNotEmpty) {
+      out.println(injectedHelpers.join('\n'));
+    }
+  }
+}
 
 const _pbMapMixin = PbMixin("PbMapMixin",
     importFrom: "package:protobuf/src/protobuf/mixins/map_mixin.dart",
