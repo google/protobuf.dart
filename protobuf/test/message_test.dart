@@ -51,6 +51,19 @@ main() {
     expect(b == a, true);
   });
 
+  test('isFrozen works', () {
+    final a = Rec()
+      ..val = 123
+      ..int32s.addAll([1, 2, 3])
+      ..child = (Rec()..val = 100);
+    expect(a.isFrozen, false);
+    a.child.freeze();
+    expect(a.child.isFrozen, true);
+    expect(a.isFrozen, false);
+    a.freeze();
+    expect(a.isFrozen, true);
+  });
+
   test('operator== and hashCode work for a simple record', () {
     var a = Rec();
     expect(a == a, true);

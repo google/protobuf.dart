@@ -1,3 +1,7 @@
+## 0.13.15
+
+* Add new getter `GeneratedMessage.isFrozen` to query if the message has been frozen. 
+
 ## 0.13.14
 
 * Avoid needless copy when reading from a Uint8List buffer.
