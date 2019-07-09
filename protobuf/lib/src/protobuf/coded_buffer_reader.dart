@@ -19,8 +19,7 @@ class CodedBufferReader {
   CodedBufferReader(List<int> buffer,
       {int recursionLimit = DEFAULT_RECURSION_LIMIT,
       int sizeLimit = DEFAULT_SIZE_LIMIT})
-      : _buffer = buffer is Uint8List ? buffer : Uint8List(buffer.length)
-          ..setRange(0, buffer.length, buffer),
+      : _buffer = buffer is Uint8List ? buffer : Uint8List.fromList(buffer),
         _recursionLimit = recursionLimit,
         _sizeLimit = math.min(sizeLimit, buffer.length) {
     _currentLimit = _sizeLimit;
