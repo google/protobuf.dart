@@ -1,3 +1,7 @@
+## 0.13.14
+
+* Avoid needless copy when reading from a Uint8List buffer.
+
 ## 0.13.13
 
 * `Added `ExtensionRegistry.reparseMessage()` for decoding extensions from unknown fields after the initial
