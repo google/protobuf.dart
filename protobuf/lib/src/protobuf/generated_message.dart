@@ -63,7 +63,7 @@ abstract class GeneratedMessage {
 
   /// Returns `true` if this message is marked read-only. Otherwise `false`.
   ///
-  /// Even when false, some sub-message could be read-only.
+  /// Even when `false`, some sub-message could be read-only.
   ///
   /// If `true` all sub-messages (and lists and maps) are frozen.
   bool get isFrozen => _fieldSet._isReadOnly;
