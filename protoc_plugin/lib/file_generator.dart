@@ -489,9 +489,9 @@ class FileGenerator extends ProtobufContainer {
 
     out.println(_asyncImport);
     out.println();
-    out.println(_grpcImport);
-    out.println();
     out.println("$_coreImport show int, String, List;\n");
+    out.println();
+    out.println(_grpcImport);
 
     // Import .pb.dart files needed for requests and responses.
     var imports = Set<FileGenerator>();
@@ -564,8 +564,9 @@ class FileGenerator extends ProtobufContainer {
 ///
 //  Generated code. Do not modify.
 //  source: ${descriptor.name}
-///
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
+//
+// @dart = 2.3
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 ''');
   }
 

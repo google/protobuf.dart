@@ -17,7 +17,7 @@ void main() {
       throwsA(TypeMatcher<InvalidProtocolBufferException>());
 
   group('testCodedBufferReader', () {
-    List<int> inputBuffer = <int>[
+    final inputBuffer = List<int>.unmodifiable([
       0xb8, 0x06, 0x20, // 103 int32 = 32
       0xc0, 0x06, 0x40, // 104 int64 = 64
       0xc8, 0x06, 0x20, // 105 uint32 = 32
@@ -37,10 +37,10 @@ void main() {
       0x9a, 0x07, 0x0e, 0x6f, 0x70, 0x74, 0x69, 0x6f,
       0x6e, 0x61, 0x6c, 0x5f, 0x62, 0x79, 0x74,
       0x65, 0x73 // 115 bytes 14 optional_bytes
-    ];
+    ]);
 
     testWithList(List<int> inputBuffer) {
-      CodedBufferReader cis = CodedBufferReader(inputBuffer);
+      final cis = CodedBufferReader(inputBuffer);
 
       expect(cis.readTag(), makeTag(103, WIRETYPE_VARINT));
       expect(cis.readInt32(), 32);
@@ -83,22 +83,21 @@ void main() {
     }
 
     test('normal-list', () {
-      testWithList(inputBuffer);
+      testWithList(Uint8List.fromList(inputBuffer));
     });
 
-    test('uint8-list', () {
-      var uint8List = Uint8List.fromList(inputBuffer);
-      testWithList(uint8List);
+    test('unmodifiable-uint8-list-view', () {
+      testWithList(UnmodifiableUint8ListView(Uint8List.fromList(inputBuffer)));
     });
 
     test('uint8-list-view', () {
-      var uint8List = Uint8List(inputBuffer.length + 4);
+      final uint8List = Uint8List(inputBuffer.length + 4);
       uint8List[0] = 0xc0;
       uint8List[1] = 0xc8;
       uint8List.setRange(2, 2 + inputBuffer.length, inputBuffer);
       uint8List[inputBuffer.length + 2] = 0xe0;
       uint8List[inputBuffer.length + 3] = 0xed;
-      var view = Uint8List.view(uint8List.buffer, 2, inputBuffer.length);
+      final view = Uint8List.view(uint8List.buffer, 2, inputBuffer.length);
       testWithList(view);
     });
   });

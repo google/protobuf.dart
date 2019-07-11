@@ -1,3 +1,16 @@
+## 0.13.15
+
+* Add new getter `GeneratedMessage.isFrozen` to query if the message has been frozen. 
+
+## 0.13.14
+
+* Avoid needless copy when reading from a Uint8List buffer.
+
+## 0.13.13
+
+* `Added `ExtensionRegistry.reparseMessage()` for decoding extensions from unknown fields after the initial
+   decoding.
+
 ## 0.13.12
 
 * `BuilderInfo.add` now ignores fields with tag number 0.
