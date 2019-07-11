@@ -1,3 +1,7 @@
+## 0.13.16
+
+* Change getDefault behavior to reduce code size.
+
 ## 0.13.15
 
 * Add new getter `GeneratedMessage.isFrozen` to query if the message has been frozen. 

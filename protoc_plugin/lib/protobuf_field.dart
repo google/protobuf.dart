@@ -198,6 +198,13 @@ class ProtobufField {
       return '..aInt64($number, $quotedName)';
     }
 
+    if (baseType.isMessage) {
+      if (isRequired) {
+        return '..aQM<$type>($number, $quotedName, $type.create)';
+      }
+      return '..aOM<$type>($number, $quotedName, $type.create)';
+    }
+
     if (baseType.isMessage || baseType.isGroup) {
       return prefix + ', $makeDefault, $type.create)';
     }
