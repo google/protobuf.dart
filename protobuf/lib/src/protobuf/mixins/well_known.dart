@@ -31,14 +31,14 @@ abstract class AnyMixin {
     return instance;
   }
 
-  /// Updates this to be the packed representation of [message].
+  /// Updates [target] to be the packed representation of [message].
   ///
   /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
   /// the fully qualified name of the type of [message].
-  void packIntoThis(GeneratedMessage message,
+  static void packIntoAny(AnyMixin target, GeneratedMessage message,
       {String typeUrlPrefix = 'type.googleapis.com'}) {
-    value = message.writeToBuffer();
-    typeUrl = '${typeUrlPrefix}/${message.info_.qualifiedMessageName}';
+    target.value = message.writeToBuffer();
+    target.typeUrl = '${typeUrlPrefix}/${message.info_.qualifiedMessageName}';
   }
 }
 
@@ -57,12 +57,12 @@ abstract class TimestampMixin {
       seconds.toInt() * Duration.microsecondsPerSecond + nanos ~/ 1000,
       isUtc: true);
 
-  /// Updates this [Timestamp] to be the time at [datetime].
+  /// Updates [target] to be the time at [datetime].
   ///
   /// Time zone information will not be preserved.
-  void setFromDateTime(DateTime dateTime) {
+  static void setFromDateTime(TimestampMixin target, DateTime dateTime) {
     int micros = dateTime.microsecondsSinceEpoch;
-    seconds = Int64(micros ~/ Duration.microsecondsPerSecond);
-    nanos = (micros % Duration.microsecondsPerSecond).toInt() * 1000;
+    target.seconds = Int64(micros ~/ Duration.microsecondsPerSecond);
+    target.nanos = (micros % Duration.microsecondsPerSecond).toInt() * 1000;
   }
 }
