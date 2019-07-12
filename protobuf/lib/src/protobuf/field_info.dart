@@ -6,8 +6,18 @@ part of protobuf;
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
+  static final RegExp _upperCase = RegExp('[A-Z]');
+
+  static String _unCamelCase(String name) {
+    return name.replaceAllMapped(
+        _upperCase, (match) => '_${match.group(0).toLowerCase()}');
+  }
+
   FrozenPbList<T> _emptyList;
 
+  /// Name of this field as the `json_name` reported by protoc.
+  ///
+  /// This will typically be in camel case.
   final String name;
 
   /// The name of this field as written in the proto-definition.
@@ -188,25 +198,33 @@ String _unCamelCase(String name) {
 }
 
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
-  int keyFieldType;
-  int valueFieldType;
-  CreateBuilderFunc valueCreator;
+  final int keyFieldType;
+  final int valueFieldType;
+  /// Creates a new empty instance of the value type.
+  ///
+  /// `null` if the value type is not a Message type.
+  final CreateBuilderFunc valueCreator;
 
-  // BuilderInfo used when creating a field set for a map field.
   final BuilderInfo _mapEntryBuilderInfo;
 
   MapFieldInfo(String name, int tagNumber, int index, int type,
-      this.keyFieldType, this.valueFieldType, this._mapEntryBuilderInfo,
-      {String protoName})
-      : super(name, tagNumber, index, type,
+      this.keyFieldType, this.valueFieldType, this._mapEntryBuilderInfo, this.valueCreator, {String protoName})
+      : super(
+            name,
+            tagNumber,
+            index,
+            type,
             defaultOrMaker: () =>
                 PbMap<K, V>(keyFieldType, valueFieldType, _mapEntryBuilderInfo),
-            protoName: protoName) {
+                protoName: protoName) {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isMapField(type));
     assert(!_isEnum(type) || valueOf != null);
   }
+
+  FieldInfo get valueFieldInfo =>
+      _mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber];
 
   Map<K, V> _ensureMapField(_FieldSet fs) {
     return fs._ensureMapField<K, V>(this);

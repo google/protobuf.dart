@@ -13,6 +13,9 @@ import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endian;
 
 import 'package:fixnum/fixnum.dart' show Int64;
 
+import 'src/protobuf/type_registry.dart';
+export 'src/protobuf/type_registry.dart' show TypeRegistry;
+
 part 'src/protobuf/coded_buffer.dart';
 part 'src/protobuf/coded_buffer_reader.dart';
 part 'src/protobuf/coded_buffer_writer.dart';
@@ -32,6 +35,7 @@ part 'src/protobuf/json.dart';
 part 'src/protobuf/pb_list.dart';
 part 'src/protobuf/pb_map.dart';
 part 'src/protobuf/protobuf_enum.dart';
+part 'src/protobuf/proto3_json.dart';
 part 'src/protobuf/readonly_message.dart';
 part 'src/protobuf/rpc_client.dart';
 part 'src/protobuf/unknown_field_set.dart';

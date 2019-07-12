@@ -18,8 +18,24 @@ class BuilderInfo {
   bool hasRequiredFields = true;
   List<FieldInfo> _sortedByTag;
 
-  BuilderInfo(String messageName, {PackageName package = const PackageName('')})
-      : qualifiedMessageName = "${package.prefix}$messageName";
+  // For well-known types.
+  final Object Function(GeneratedMessage message, TypeRegistry typeRegistry)
+      toProto3Json;
+  final Function(GeneratedMessage targetMessage, Object json,
+      TypeRegistry typeRegistry) fromProto3Json;
+  final CreateBuilderFunc createEmptyInstance;
+
+  BuilderInfo(String messageName,
+      {PackageName package = const PackageName(''),
+      this.createEmptyInstance,
+      Object Function(GeneratedMessage message, TypeRegistry typeRegistry)
+          toProto3Json,
+      Function(GeneratedMessage targetMessage, Object json,
+              TypeRegistry typeRegistry)
+          fromProto3Json})
+      : qualifiedMessageName = "${package.prefix}$messageName",
+        toProto3Json = toProto3Json,
+        fromProto3Json = fromProto3Json;
 
   void add<T>(
       int tagNumber,
@@ -43,12 +59,10 @@ class BuilderInfo {
   }
 
   void addMapField<K, V>(int tagNumber, String name, int keyFieldType,
-      int valueFieldType, BuilderInfo mapEntryBuilderInfo,
-      {String protoName}) {
+      int valueFieldType, BuilderInfo mapEntryBuilderInfo, CreateBuilderFunc valueCreator, {String protoName}) {
     var index = byIndex.length;
     _addField(MapFieldInfo<K, V>(name, tagNumber, index, PbFieldType.M,
-        keyFieldType, valueFieldType, mapEntryBuilderInfo,
-        protoName: protoName));
+        keyFieldType, valueFieldType, mapEntryBuilderInfo, valueCreator, protoName: protoName));
   }
 
   void addRepeated<T>(
@@ -167,6 +181,7 @@ class BuilderInfo {
 
     addMapField<K, V>(
         tagNumber, name, keyFieldType, valueFieldType, mapEntryBuilderInfo,
+        valueCreator,
         protoName: protoName);
   }
 

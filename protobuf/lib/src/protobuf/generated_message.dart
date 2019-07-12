@@ -199,7 +199,56 @@ abstract class GeneratedMessage {
   /// literals; values with a 64-bit integer datatype (regardless of their
   /// actual runtime value) are represented as strings. Enumerated values are
   /// represented as their integer value.
+  ///
+  /// For the proto3 JSON format use: writeToProto3JSON.
   String writeToJson() => jsonEncode(writeToJsonMap());
+
+  /// Returns an Object representing Proto3 JSON serialization of [this].
+  ///
+  /// The key for each field will be the Json-name (camel-cased) of the field.
+  ///
+  /// Well-known types and their special JSON encoding is supported.
+  /// Except `FieldMask`.
+  ///
+  /// Extensions and unknown fields will not be encoded.
+  ///
+  /// The [typeRegistry] will be used for encoding `Any` messages. If an `Any`
+  /// message encoding a type not in [typeRegistry] is encountered an
+  /// [InvalidProtocolBufferException] is thrown.
+  ///
+  /// This function will not be called recursively, so should not be overridden.
+  /// For defining special JSON encoding for a message type, pass helpers to the
+  /// [BuilderInfo] constructor.
+  Object toProto3Json(
+          {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
+      _writeToProto3Json(_fieldSet, typeRegistry);
+
+  /// Merges field values from [data], a proto3 JSON object.
+  ///
+  // TODO(sigurdm): fix this.
+  /// Only supports field named with camel-case names.
+  ///
+  /// Well-known types and their special JSON encoding is supported.
+  /// Except `FieldMask`.
+  ///
+  /// If [ignoreUnknownFields] is `false` (the default) an
+  /// [InvalidProtocolBufferException] will be raised if an unknown field name
+  /// is encountered. Otherwise the unknown field is ignored.
+  ///
+  /// If [supportNamesWithUnderscores] is `true` (the default) field names in
+  /// the json can be represented as either camel-case json-names or names with
+  /// underscores.
+  /// If `false` only the json names are supported.
+  ///
+  /// The [typeRegistry] will be used for decoding `Any` messages. If an `Any`
+  /// message encoding a type not in [typeRegistry] is encountered an
+  /// [InvalidProtocolBufferException] is thrown.
+  void mergeFromProto3Json(Object json,
+          {TypeRegistry typeRegistry = const TypeRegistry.empty(),
+          bool ignoreUnknownFields = false,
+          bool supportNamesWithUnderscores = true}) =>
+      _mergeFromProto3Json(json, _fieldSet, typeRegistry, ignoreUnknownFields,
+          supportNamesWithUnderscores);
 
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].

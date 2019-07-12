@@ -7,9 +7,12 @@ part of protoc;
 PbMixin wellKnownMixinForFullName(String qualifiedName) =>
     _wellKnownMixins[qualifiedName];
 
+const _wellKnownImportPath =
+    'package:protobuf/src/protobuf/mixins/well_known.dart';
+
 const _wellKnownMixins = {
   'google.protobuf.Any': PbMixin('AnyMixin',
-      importFrom: 'package:protobuf/src/protobuf/mixins/well_known.dart',
+      importFrom: _wellKnownImportPath,
       injectedHelpers: [
         '''
 /// Creates a new [Any] encoding [message].
@@ -23,9 +26,10 @@ static Any pack($_protobufImportPrefix.GeneratedMessage message,
       typeUrlPrefix: typeUrlPrefix);
   return result;
 }'''
-      ]),
+      ],
+      hasProto3JsonHelpers: true),
   'google.protobuf.Timestamp': PbMixin('TimestampMixin',
-      importFrom: 'package:protobuf/src/protobuf/mixins/well_known.dart',
+      importFrom: _wellKnownImportPath,
       injectedHelpers: [
         '''
 /// Creates a new instance from [dateTime].
@@ -36,5 +40,76 @@ static Timestamp fromDateTime($_coreImportPrefix.DateTime dateTime) {
   $_mixinImportPrefix.TimestampMixin.setFromDateTime(result, dateTime);
   return result;
 }'''
-      ]),
+      ],
+      hasProto3JsonHelpers: true),
+  'google.protobuf.Duration': PbMixin(
+    'DurationMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.Struct': PbMixin(
+    'StructMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.Value': PbMixin(
+    'ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.ListValue': PbMixin(
+    'ListValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.DoubleValue': PbMixin(
+    'DoubleValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.FloatValue': PbMixin(
+    'FloatValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.Int64Value': PbMixin(
+    'Int64ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.UInt64Value': PbMixin(
+    'UInt64ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.Int32Value': PbMixin(
+    'Int32ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.UInt32Value': PbMixin(
+    'UInt32ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.BoolValue': PbMixin(
+    'BoolValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.StringValue': PbMixin(
+    'StringValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.BytesValue': PbMixin(
+    'BytesValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.FieldMask': PbMixin(
+    'FieldMaskMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  )
 };
