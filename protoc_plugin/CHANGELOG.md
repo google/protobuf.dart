@@ -1,3 +1,7 @@
+## 17.0.5
+
+* Remove unnecessary cast from generated grpc stubs. 
+
 ## 17.0.4
 
 * Output [language versioning](https://github.com/dart-lang/language/blob/7eeb67b0d29b696b3c3ec8f9fe322334a2d5d87a/accepted/future-releases/language-versioning/feature-specification.md)
