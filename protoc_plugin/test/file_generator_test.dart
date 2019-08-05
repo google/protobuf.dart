@@ -43,6 +43,7 @@ FileDescriptorProto buildFileDescriptor(
         // required string number = 1;
         FieldDescriptorProto()
           ..name = 'number'
+          ..jsonName = 'number'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
           ..type = FieldDescriptorProto_Type.TYPE_STRING,
@@ -51,6 +52,7 @@ FileDescriptorProto buildFileDescriptor(
         // optional PhoneType type = 2;
         FieldDescriptorProto()
           ..name = 'type'
+          ..jsonName = 'type'
           ..number = 2
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = topLevelEnum
@@ -60,6 +62,7 @@ FileDescriptorProto buildFileDescriptor(
         // optional string name = 3 [default = "$"];
         FieldDescriptorProto()
           ..name = 'name'
+          ..jsonName = 'name'
           ..number = 3
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_STRING
@@ -170,6 +173,7 @@ void main() {
         ..field.addAll([
           FieldDescriptorProto()
             ..name = 'count'
+            ..jsonName = 'count'
             ..number = 1
             ..type = FieldDescriptorProto_Type.TYPE_INT64
         ]));
@@ -327,6 +331,7 @@ void main() {
         // optional M m = 1;
         FieldDescriptorProto()
           ..name = 'm'
+          ..jsonName = 'm'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
@@ -344,6 +349,7 @@ void main() {
         // optional M m = 1;
         FieldDescriptorProto()
           ..name = 'x'
+          ..jsonName = 'x'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
@@ -361,6 +367,7 @@ void main() {
         // optional M m = 1;
         FieldDescriptorProto()
           ..name = 'm'
+          ..jsonName = 'm'
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
@@ -368,6 +375,7 @@ void main() {
         // optional p1.M m1 = 2;
         FieldDescriptorProto()
           ..name = 'm1'
+          ..jsonName = 'm1'
           ..number = 2
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
@@ -375,6 +383,7 @@ void main() {
         // optional p2.M m2 = 3;
         FieldDescriptorProto()
           ..name = 'm2'
+          ..jsonName = 'm2'
           ..number = 3
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
