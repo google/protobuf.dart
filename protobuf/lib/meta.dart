@@ -36,6 +36,7 @@ const GeneratedMessage_reservedNames = <String>[
   'hasRequiredFields',
   'hashCode',
   'info_',
+  'isFrozen',
   'isInitialized',
   'mergeFromBuffer',
   'mergeFromCodedBufferReader',
