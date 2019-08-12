@@ -8,8 +8,7 @@ part of protobuf;
 class FieldInfo<T> {
   FrozenPbList<T> _emptyList;
 
-  // BuilderInfo used when creating a field set for a map field.
-  final BuilderInfo _mapEntryBuilderInfo;
+
 
   final String name;
   final int tagNumber;
@@ -192,10 +191,12 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
   int keyFieldType;
   int valueFieldType;
   CreateBuilderFunc valueCreator;
+  // BuilderInfo used when creating a field set for a map field.
+  final BuilderInfo _mapEntryBuilderInfo;
 
-  MapFieldInfo.map(String name, int tagNumber, int index, int type,
+  MapFieldInfo(String name, int tagNumber, int index, int type,
       this.keyFieldType, this.valueFieldType, BuilderInfo mapEntryBuilderInfo)
-      : super._map(
+      : super._(
             name,
             tagNumber,
             index,
@@ -205,8 +206,8 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
             null,
             null,
             null,
-            null,
-            mapEntryBuilderInfo) {
+            null
+            ) {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isMapField(type));

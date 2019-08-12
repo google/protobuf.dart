@@ -17,7 +17,6 @@ class Message extends GeneratedMessage {
 
 main() {
   test('Has no known fields', () {
-    expect(Message(), Message());
     expect(Message().info_.fieldInfo, isEmpty);
   });
 }
