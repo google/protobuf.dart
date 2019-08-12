@@ -1,3 +1,8 @@
+## 0.13.16
+
+* Better handling of dummy calls to `BuilderInfo.add` with a tag number of 0.
+  These would trigger assertions before.
+
 ## 0.13.15
 
 * Add new getter `GeneratedMessage.isFrozen` to query if the message has been frozen. 

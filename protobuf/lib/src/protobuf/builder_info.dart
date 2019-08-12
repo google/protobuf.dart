@@ -30,8 +30,11 @@ class BuilderInfo {
       ValueOfFunc valueOf,
       List<ProtobufEnum> enumValues) {
     var index = byIndex.length;
-    _addField(FieldInfo<T>(name, tagNumber, index, fieldType, defaultOrMaker,
-        subBuilder, valueOf, enumValues));
+    final fieldInfo = (tagNumber == 0)
+        ? FieldInfo.dummy(index)
+        : FieldInfo<T>(name, tagNumber, index, fieldType, defaultOrMaker,
+            subBuilder, valueOf, enumValues);
+    _addField(fieldInfo);
   }
 
   void addMapField<K, V>(int tagNumber, String name, int keyFieldType,
@@ -60,7 +63,7 @@ class BuilderInfo {
     // Fields with tag number 0 are considered dummy fields added to avoid
     // index calculations add up. They should not be reflected in the following
     // maps.
-    if (fi.tagNumber != 0) {
+    if (!fi.isDummy) {
       fieldInfo[fi.tagNumber] = fi;
       byTagAsString["${fi.tagNumber}"] = fi;
       byName[fi.name] = fi;

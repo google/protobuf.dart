@@ -49,6 +49,18 @@ class FieldInfo<T> {
     assert(!_isEnum(type) || valueOf != null);
   }
 
+  // Represents a field that has been removed by a program transformation.
+  FieldInfo.dummy(this.index)
+      : name = '<removed field>',
+        tagNumber = 0,
+        type = 0,
+        makeDefault = null,
+        valueOf = null,
+        check = null,
+        enumValues = null,
+        subBuilder = null,
+        _mapEntryBuilderInfo = null;
+
   FieldInfo.repeated(this.name, this.tagNumber, this.index, int type,
       this.check, this.subBuilder,
       [this.valueOf, this.enumValues])
@@ -81,6 +93,10 @@ class FieldInfo<T> {
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
   }
+
+  /// Returns `true` if this represents a dummy field standing in for a field
+  /// that has been removed by a program transformation.
+  bool get isDummy => tagNumber == 0;
 
   bool get isRequired => _isRequired(type);
   bool get isRepeated => _isRepeated(type);
