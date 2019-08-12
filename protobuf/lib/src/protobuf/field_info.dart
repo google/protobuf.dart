@@ -8,8 +8,7 @@ part of protobuf;
 class FieldInfo<T> {
   FrozenPbList<T> _emptyList;
 
-  // BuilderInfo used when creating a field set for a map field.
-  final BuilderInfo _mapEntryBuilderInfo;
+
 
   final String name;
   final int tagNumber;
@@ -49,6 +48,18 @@ class FieldInfo<T> {
     assert(!_isEnum(type) || valueOf != null);
   }
 
+  // Represents a field that has been removed by a program transformation.
+  FieldInfo.dummy(this.index)
+      : name = '<removed field>',
+        tagNumber = 0,
+        type = 0,
+        makeDefault = null,
+        valueOf = null,
+        check = null,
+        enumValues = null,
+        subBuilder = null,
+        _mapEntryBuilderInfo = null;
+
   FieldInfo.repeated(this.name, this.tagNumber, this.index, int type,
       this.check, this.subBuilder,
       [this.valueOf, this.enumValues])
@@ -81,6 +92,10 @@ class FieldInfo<T> {
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
   }
+
+  /// Returns `true` if this represents a dummy field standing in for a field
+  /// that has been removed by a program transformation.
+  bool get isDummy => tagNumber == 0;
 
   bool get isRequired => _isRequired(type);
   bool get isRepeated => _isRepeated(type);
@@ -176,10 +191,12 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
   int keyFieldType;
   int valueFieldType;
   CreateBuilderFunc valueCreator;
+  // BuilderInfo used when creating a field set for a map field.
+  final BuilderInfo _mapEntryBuilderInfo;
 
-  MapFieldInfo.map(String name, int tagNumber, int index, int type,
+  MapFieldInfo(String name, int tagNumber, int index, int type,
       this.keyFieldType, this.valueFieldType, BuilderInfo mapEntryBuilderInfo)
-      : super._map(
+      : super._(
             name,
             tagNumber,
             index,
@@ -189,8 +206,8 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
             null,
             null,
             null,
-            null,
-            mapEntryBuilderInfo) {
+            null
+            ) {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isMapField(type));
