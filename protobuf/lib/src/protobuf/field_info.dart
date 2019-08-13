@@ -96,7 +96,7 @@ class FieldInfo<T> {
 
   /// Returns `true` if this represents a dummy field standing in for a field
   /// that has been removed by a program transformation.
-  bool get isDummy => tagNumber == 0;
+  bool get _isDummy => tagNumber == 0;
 
   bool get isRequired => _isRequired(type);
   bool get isRepeated => _isRepeated(type);
