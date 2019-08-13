@@ -63,7 +63,7 @@ class BuilderInfo {
     // Fields with tag number 0 are considered dummy fields added to avoid
     // index calculations add up. They should not be reflected in the following
     // maps.
-    if (!fi.isDummy) {
+    if (!fi._isDummy) {
       fieldInfo[fi.tagNumber] = fi;
       byTagAsString["${fi.tagNumber}"] = fi;
       byName[fi.name] = fi;
