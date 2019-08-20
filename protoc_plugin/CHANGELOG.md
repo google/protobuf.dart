@@ -1,7 +1,10 @@
-## 18.0.0-dev
+## 18.0.0
+
+* Breaking: Generates code that requires at least `protobuf` 0.14.0.
+* Generate the non-camel-case name of fields when it cannot be derived from the json name.
 
 * Breaking: Use the correct proto3 Json CamelCase names for the string representation of field
-  names, instead of using the name of the dart identifier for that field.
+  names (also for extensions), instead of using the name of the dart identifier for that field.
 
   In most cases this name coincides with the name have emitted until now and require no change.
 
@@ -14,7 +17,8 @@
   `GeneratedMessage.getTagNumber(String FieldName)`, and calls to name-related methods of
   `GeneratedMessage._info`.
 
-  `GeneratedMessage.toString()` also uses the string representation.
+  `GeneratedMessage.toString()` also uses the string representation. It will now print the
+  json-name.
 
 ## 17.0.5
 

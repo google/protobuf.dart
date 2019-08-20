@@ -97,55 +97,45 @@ class ExtensionGenerator {
     String name = _extensionName;
     var type = _field.baseType;
     var dartType = type.getDartType(fileGen);
+    String invocation;
+    List<String> positionals = <String>[];
+    positionals.add("'$_extendedFullName'");
+    positionals.add("'${_descriptor.jsonName}'");
+    positionals.add('${_field.number}');
+    positionals.add(_field.typeConstant);
 
+    Map<String, String> named = <String, String>{};
+    named['protoName'] = _field.quotedProtoName;
     if (_field.isRepeated) {
-      out.printAnnotated(
-          'static final $_protobufImportPrefix.Extension $name = '
-          '$_protobufImportPrefix.Extension<$dartType>.repeated(\'$_extendedFullName\','
-          ' \'$name\', ${_field.number}, ${_field.typeConstant}',
-          [
-            NamedLocation(
-                name: name,
-                fieldPathSegment: List.from(fieldPath),
-                start: 'static final $_protobufImportPrefix.Extension '.length)
-          ]);
+      invocation = '$_protobufImportPrefix.Extension<$dartType>.repeated';
+      named['check'] =
+          '$_protobufImportPrefix.getCheckFunction(${_field.typeConstant})';
       if (type.isMessage || type.isGroup) {
-        out.println(
-            ', $_protobufImportPrefix.getCheckFunction(${_field.typeConstant}), $dartType.create);');
+        named['subBuilder'] = '$dartType.create';
       } else if (type.isEnum) {
-        out.println(
-            ', $_protobufImportPrefix.getCheckFunction(${_field.typeConstant}), null, '
-            '$dartType.valueOf, $dartType.values);');
-      } else {
-        out.println(
-            ", $_protobufImportPrefix.getCheckFunction(${_field.typeConstant}));");
+        named['valueOf'] = '$dartType.valueOf';
+        named['enumValues'] = '$dartType.values';
       }
-      return;
+    } else {
+      invocation = '$_protobufImportPrefix.Extension<$dartType>';
+      named['defaultOrMaker'] = _field.generateDefaultFunction(fileGen);
+      if (type.isMessage || type.isGroup) {
+        named['subBuilder'] = '$dartType.create';
+      } else if (type.isEnum) {
+        var dartEnum = type.getDartType(fileGen);
+        named['valueOf'] = '$dartEnum.valueOf';
+        named['enumValues'] = '$dartEnum.values';
+      }
     }
-
+    assert(invocation != null);
     out.printAnnotated(
         'static final $_protobufImportPrefix.Extension $name = '
-        '$_protobufImportPrefix.Extension<$dartType>(\'$_extendedFullName\', \'$name\', '
-        '${_field.number}, ${_field.typeConstant}',
+        '$invocation(${ProtobufField._formatArguments(positionals, named)});\n',
         [
           NamedLocation(
               name: name,
               fieldPathSegment: List.from(fieldPath),
               start: 'static final $_protobufImportPrefix.Extension '.length)
         ]);
-
-    String initializer = _field.generateDefaultFunction(fileGen);
-
-    if (type.isMessage || type.isGroup) {
-      out.println(', $initializer, $dartType.create);');
-    } else if (type.isEnum) {
-      var dartEnum = type.getDartType(fileGen);
-      String enumParams = '(var v) => $dartEnum.valueOf(v), $dartEnum.values';
-      out.println(", $initializer, null, $enumParams);");
-    } else if (initializer != null) {
-      out.println(", $initializer);");
-    } else {
-      out.println(");");
-    }
   }
 }
