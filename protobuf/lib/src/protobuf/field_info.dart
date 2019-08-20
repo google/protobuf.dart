@@ -51,7 +51,9 @@ class FieldInfo<T> {
         check = null,
         protoName = protoName ?? _unCamelCase(name),
         assert(type != 0),
-        assert(!_isGroupOrMessage(type) || subBuilder != null || _isMapField(type)),
+        assert(!_isGroupOrMessage(type) ||
+            subBuilder != null ||
+            _isMapField(type)),
         assert(!_isEnum(type) || valueOf != null);
 
   // Represents a field that has been removed by a program transformation.
