@@ -9,8 +9,8 @@ annotation: {
   path: 4
   path: 0
   sourceFile: test
-  begin: 620
-  end: 631
+  begin: 636
+  end: 647
 }
 annotation: {
   path: 4
@@ -18,8 +18,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1548
-  end: 1554
+  begin: 1564
+  end: 1570
 }
 annotation: {
   path: 4
@@ -27,8 +27,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1579
-  end: 1585
+  begin: 1595
+  end: 1601
 }
 annotation: {
   path: 4
@@ -36,8 +36,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1638
-  end: 1647
+  begin: 1654
+  end: 1663
 }
 annotation: {
   path: 4
@@ -45,17 +45,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1670
-  end: 1681
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 1
-  sourceFile: test
-  begin: 1719
-  end: 1723
+  begin: 1686
+  end: 1697
 }
 annotation: {
   path: 4
@@ -63,8 +54,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 1746
-  end: 1750
+  begin: 1735
+  end: 1739
 }
 annotation: {
   path: 4
@@ -72,8 +63,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 1805
-  end: 1812
+  begin: 1762
+  end: 1766
 }
 annotation: {
   path: 4
@@ -81,8 +72,17 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 1835
-  end: 1844
+  begin: 1821
+  end: 1828
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 1
+  sourceFile: test
+  begin: 1851
+  end: 1860
 }
 annotation: {
   path: 4
@@ -90,8 +90,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1885
-  end: 1889
+  begin: 1901
+  end: 1905
 }
 annotation: {
   path: 4
@@ -99,8 +99,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1916
-  end: 1920
+  begin: 1932
+  end: 1936
 }
 annotation: {
   path: 4
@@ -108,8 +108,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1973
-  end: 1980
+  begin: 1989
+  end: 1996
 }
 annotation: {
   path: 4
@@ -117,6 +117,6 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 2003
-  end: 2012
+  begin: 2019
+  end: 2028
 }

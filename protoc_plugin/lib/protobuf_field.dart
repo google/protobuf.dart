@@ -45,6 +45,11 @@ class ProtobufField {
   /// `null` for an extension.
   int get index => memberNames?.index;
 
+  String get quotedProtoName =>
+      (_unCamelCase(descriptor.jsonName) == descriptor.name)
+          ? null
+          : "'${descriptor.name}'";
+
   /// The position of this field as it appeared in the original DescriptorProto.
   int get sourcePosition => memberNames.sourcePosition;
 
@@ -119,13 +124,40 @@ class ProtobufField {
         baseType.typeConstantSuffix;
   }
 
+  static String _formatArguments(
+      List<String> positionals, Map<String, String> named) {
+    final args = positionals.toList();
+    while (args.last == null) {
+      args.removeLast();
+    }
+    for (int i = 0; i < args.length; i++) {
+      if (args[i] == null) {
+        args[i] = 'null';
+      }
+    }
+    named.forEach((key, value) {
+      if (value != null) {
+        args.add('$key: $value');
+      }
+    });
+    return '${args.join(', ')}';
+  }
+
   /// Returns Dart code adding this field to a BuilderInfo object.
   /// The call will start with ".." and a method name.
   /// [fileGen] represents the .proto file where the code will be evaluated.
   String generateBuilderInfoCall(FileGenerator fileGen, String package) {
     assert(descriptor.hasJsonName());
     String quotedName = "'${descriptor.jsonName}'";
+
     String type = baseType.getDartType(fileGen);
+
+    String invocation;
+
+    List<String> args = <String>[];
+    Map<String, String> named = {'protoName': quotedProtoName};
+    args.add('$number');
+    args.add(quotedName);
 
     if (isMapField) {
       MessageGenerator generator = baseType.generator;
@@ -133,76 +165,94 @@ class ProtobufField {
       ProtobufField value = generator._fieldList[1];
       String keyType = key.baseType.getDartType(fileGen);
       String valueType = value.baseType.getDartType(fileGen);
-      String keyTypeConstant = key.typeConstant;
-      String valTypeConstant = value.typeConstant;
-      String valueCreator = (value.baseType.isMessage || value.baseType.isGroup)
-          ? '$valueType.create'
-          : 'null';
-      String valueOf = value.baseType.isEnum ? '$valueType.valueOf' : 'null';
-      String enumValues = value.baseType.isEnum ? '$valueType.values' : 'null';
-      String mapEntryClassName = "'${generator.messageName}'";
-      String packageClause = package == ''
-          ? ''
-          : ", const $_protobufImportPrefix.PackageName(\'$package\')";
 
-      return '..m<$keyType, $valueType>($number, $quotedName, $mapEntryClassName,'
-          '$keyTypeConstant, $valTypeConstant, $valueCreator, $valueOf, $enumValues $packageClause)';
-    }
+      invocation = 'm<$keyType, $valueType>';
 
-    if (isRepeated) {
-      if (baseType.isMessage || baseType.isGroup) {
-        return '..pc<$type>($number, $quotedName, $typeConstant,'
-            '$type.create)';
+      named['entryClassName'] = "'${generator.messageName}'";
+      named['keyFieldType'] = key.typeConstant;
+      named['valueFieldType'] = value.typeConstant;
+      if (value.baseType.isMessage || value.baseType.isGroup) {
+        named['valueCreator'] = '$valueType.create';
       }
-      if (baseType.isEnum) {
-        return '..pc<$type>($number, $quotedName, $typeConstant,'
-            ' null, $type.valueOf, $type.values)';
+      if (value.baseType.isEnum) {
+        named['valueOf'] = '$valueType.valueOf';
+        named['enumValues'] = '$valueType.values';
       }
+      if (package != '') {
+        named['packageName'] =
+            'const $_protobufImportPrefix.PackageName(\'$package\')';
+      }
+    } else if (isRepeated) {
       if (typeConstant == '$_protobufImportPrefix.PbFieldType.PS') {
-        return '..pPS($number, $quotedName)';
+        invocation = 'pPS';
+      } else {
+        args.add(typeConstant);
+        if (baseType.isMessage || baseType.isGroup || baseType.isEnum) {
+          invocation = 'pc<$type>';
+        } else {
+          invocation = 'p<$type>';
+        }
+
+        if (baseType.isMessage || baseType.isGroup) {
+          named['subBuilder'] = '$type.create';
+        } else if (baseType.isEnum) {
+          named['valueOf'] = '$type.valueOf';
+          named['enumValues'] = '$type.values';
+        }
       }
-      return '..p<$type>($number, $quotedName, $typeConstant)';
-    }
+    } else {
+      // Singular field.
+      String makeDefault = generateDefaultFunction(fileGen);
 
-    String makeDefault = generateDefaultFunction(fileGen);
-    if (baseType.isEnum) {
-      String enumParams = '$type.valueOf, $type.values';
-      return '..e<$type>('
-          '$number, $quotedName, $typeConstant, $makeDefault, $enumParams)';
-    }
-
-    String prefix = '..a<$type>($number, $quotedName, $typeConstant';
-    if (makeDefault == null) {
-      switch (type) {
-        case '$_coreImportPrefix.String':
-          if (typeConstant == '$_protobufImportPrefix.PbFieldType.OS') {
-            return '..aOS($number, $quotedName)';
-          } else if (typeConstant == '$_protobufImportPrefix.PbFieldType.QS') {
-            return '..aQS($number, $quotedName)';
+      if (baseType.isEnum) {
+        args.add(typeConstant);
+        named['defaultOrMaker'] = makeDefault;
+        named['valueOf'] = '$type.valueOf';
+        named['enumValues'] = '$type.values';
+        invocation = 'e<$type>';
+      } else if (makeDefault == null) {
+        switch (type) {
+          case '$_coreImportPrefix.String':
+            if (typeConstant == '$_protobufImportPrefix.PbFieldType.OS') {
+              invocation = 'aOS';
+            } else if (typeConstant ==
+                '$_protobufImportPrefix.PbFieldType.QS') {
+              invocation = 'aQS';
+            } else {
+              invocation = 'a<$type>';
+              args.add(typeConstant);
+            }
+            break;
+          case '$_coreImportPrefix.bool':
+            if (typeConstant == '$_protobufImportPrefix.PbFieldType.OB') {
+              invocation = 'aOB';
+            } else {
+              invocation = 'a<$type>';
+              args.add(typeConstant);
+            }
+            break;
+          default:
+            invocation = 'a<$type>';
+            args.add(typeConstant);
+            break;
+        }
+      } else {
+        if (makeDefault == 'Int64.ZERO' &&
+            type == 'Int64' &&
+            typeConstant == '$_protobufImportPrefix.PbFieldType.O6') {
+          invocation = 'aInt64';
+        } else {
+          invocation = 'a<$type>';
+          named['defaultOrMaker'] = makeDefault;
+          args.add(typeConstant);
+          if (baseType.isMessage || baseType.isGroup) {
+            named['subBuilder'] = '$type.create';
           }
-          break;
-        case '$_coreImportPrefix.bool':
-          if (typeConstant == '$_protobufImportPrefix.PbFieldType.OB') {
-            return '..aOB($number, $quotedName)';
-          }
-          break;
-        default:
-          break;
+        }
       }
-      return prefix + ')';
     }
-
-    if (makeDefault == 'Int64.ZERO' &&
-        type == 'Int64' &&
-        typeConstant == '$_protobufImportPrefix.PbFieldType.O6') {
-      return '..aInt64($number, $quotedName)';
-    }
-
-    if (baseType.isMessage || baseType.isGroup) {
-      return prefix + ', $makeDefault, $type.create)';
-    }
-
-    return prefix + ', $makeDefault)';
+    assert(invocation != null);
+    return '..$invocation(${_formatArguments(args, named)})';
   }
 
   /// Returns a Dart expression that evaluates to this field's default value.
@@ -232,12 +282,7 @@ class ProtobufField {
   /// [fileGen] represents the .proto file where the expression will be
   /// evaluated.
   String generateDefaultFunction(FileGenerator fileGen) {
-    if (isRepeated) {
-      return '() => $_protobufImportPrefix.PbList()';
-    }
-    bool sameProtoFile =
-        fileGen.protoFileUri == baseType.generator?.fileGen?.protoFileUri;
-
+    assert(!isRepeated);
     switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
         return _getDefaultAsBoolExpr(null);
@@ -290,10 +335,9 @@ class ProtobufField {
         return '() => <$_coreImportPrefix.int>[$byteList]';
       case FieldDescriptorProto_Type.TYPE_GROUP:
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
-        if (sameProtoFile) return '${baseType.unprefixed}.getDefault';
-        return "${baseType.prefixed}.getDefault";
+        return '${baseType.getDartType(fileGen)}.getDefault';
       case FieldDescriptorProto_Type.TYPE_ENUM:
-        var className = sameProtoFile ? baseType.unprefixed : baseType.prefixed;
+        var className = baseType.getDartType(fileGen);
         EnumGenerator gen = baseType.generator;
         if (descriptor.hasDefaultValue() &&
             descriptor.defaultValue.isNotEmpty) {
@@ -340,4 +384,11 @@ class ProtobufField {
   _typeNotImplemented(String methodName) => "dart-protoc-plugin:"
       " $methodName not implemented for type (${descriptor.type})"
       " found in field $fullName";
+
+  static final RegExp _upperCase = RegExp('[A-Z]');
+
+  static String _unCamelCase(String name) {
+    return name.replaceAllMapped(
+        _upperCase, (match) => '_${match.group(0).toLowerCase()}');
+  }
 }
