@@ -10,9 +10,9 @@ import 'package:protobuf/protobuf.dart'
 
 BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
   return BuilderInfo(className)
-    ..a(1, "val", PbFieldType.O3, 42)
+    ..a(1, "val", PbFieldType.O3, defaultOrMaker: 42)
     ..a(2, "str", PbFieldType.OS)
-    ..a(3, "child", PbFieldType.OM, create, create)
+    ..a(3, "child", PbFieldType.OM, defaultOrMaker: create, subBuilder: create)
     ..p<int>(4, "int32s", PbFieldType.P3)
     ..a(5, "int64", PbFieldType.O6);
 }

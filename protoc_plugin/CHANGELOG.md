@@ -1,3 +1,29 @@
+## 18.0.0
+
+* Breaking: Generates code that requires at least `protobuf` 0.14.0.
+* Generate the non-camel-case name of fields when it cannot be derived from the json name.
+
+* Breaking: Use the correct proto3 Json CamelCase names for the string representation of field
+  names (also for extensions), instead of using the name of the dart identifier for that field.
+
+  In most cases this name coincides with the name have emitted until now and require no change.
+
+  Exceptions are:
+    - Fields with a name that was disambiguated to not clash with other dart entities.
+    - fields with an explicit `json_name` option.
+    - groups have a different camel-casing scheme.
+
+  For any field with an updated name, this might require changes to uses of
+  `GeneratedMessage.getTagNumber(String FieldName)`, and calls to name-related methods of
+  `GeneratedMessage._info`.
+
+  `GeneratedMessage.toString()` also uses the string representation. It will now print the
+  json-name.
+
+## 17.0.5
+
+* Remove unnecessary cast from generated grpc stubs. 
+
 ## 17.0.4
 
 * Output [language versioning](https://github.com/dart-lang/language/blob/7eeb67b0d29b696b3c3ec8f9fe322334a2d5d87a/accepted/future-releases/language-versioning/feature-specification.md)
@@ -6,11 +32,11 @@
 
 ## 17.0.3
 
-* Fix: Copy oneof state when doing `copyWith()`.
+* Fix: Copy oneof state when doing `GeneratedMessage.copyWith()`.
 
 ## 17.0.2
 
-* Fix: Avoiding argument_type_not_assignable and return_of_invalid_type lint warnings.
+* Fix: Avoiding `argument_type_not_assignable` and `return_of_invalid_type lint warnings`.
 
 ## 17.0.1
 

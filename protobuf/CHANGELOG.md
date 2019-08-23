@@ -1,3 +1,24 @@
+## 0.14.0
+
+* `FieldInfo` objects have a new getter `.protoName` that gives the non-camel-case name of the field
+  as in the `.proto`-file.
+* **Breaking**: The field-adder methods on `BuilderInfo` now takes only named optional arguments.
+  To migrate, update `protoc_plugin` to version 18.0.0 or higher.
+* The field-adder methods on `BuilderInfo` all take a new argument `protoName`.
+
+## 0.13.16
+
+* Better handling of dummy calls to `BuilderInfo.add` with a tag number of 0.
+  These would trigger assertions before.
+
+## 0.13.15
+
+* Add new getter `GeneratedMessage.isFrozen` to query if the message has been frozen. 
+
+## 0.13.14
+
+* Avoid needless copy when reading from a Uint8List buffer.
+
 ## 0.13.13
 
 * `Added `ExtensionRegistry.reparseMessage()` for decoding extensions from unknown fields after the initial
