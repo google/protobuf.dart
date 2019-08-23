@@ -360,15 +360,18 @@ class FileGenerator extends ProtobufContainer {
     imports.remove(this);
   }
 
-  /// Returns list of imports needed to support all mixins.
+  /// Returns a sorted list of imports needed to support all mixins.
   List<String> findMixinImports() {
     var mixins = Set<PbMixin>();
     for (MessageGenerator m in messageGenerators) {
       m.addMixinsTo(mixins);
     }
 
-    return mixins.map((mixin) => mixin.importFrom).toList(growable: false)
-      ..sort();
+    return mixins
+        .map((mixin) => mixin.importFrom)
+        .toSet()
+        .toList(growable: false)
+          ..sort();
   }
 
   /// Returns the contents of the .pbenum.dart file for this .proto file.
