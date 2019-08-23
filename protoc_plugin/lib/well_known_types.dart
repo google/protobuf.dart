@@ -36,5 +36,5 @@ static Timestamp fromDateTime($_coreImportPrefix.DateTime dateTime) {
   $_mixinImportPrefix.TimestampMixin.setFromDateTime(result, dateTime);
   return result;
 }'''
-    ]),
+      ]),
 };
