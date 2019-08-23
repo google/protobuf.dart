@@ -1,6 +1,7 @@
 ## 18.0.0
 
 * Breaking: Generates code that requires at least `protobuf` 0.14.0.
+
 * Generate the non-camel-case name of fields when it cannot be derived from the json name.
 
 * Breaking: Use the correct proto3 Json CamelCase names for the string representation of field
@@ -19,6 +20,9 @@
 
   `GeneratedMessage.toString()` also uses the string representation. It will now print the
   json-name.
+
+* Well-known types (for now only `google.protobuf.Any` and `google.protobuf.Timestamp`) now uses a
+  mixin to add special handling code instead of hardcoding it in the compiler.
 
 ## 17.0.5
 

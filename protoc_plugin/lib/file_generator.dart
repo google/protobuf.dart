@@ -6,15 +6,16 @@ part of protoc;
 
 final _dartIdentifier = RegExp(r'^\w+$');
 final _formatter = DartFormatter();
-final String _protobufImportPrefix = r'$pb';
-final String _asyncImportPrefix = r'$async';
+const String _protobufImportPrefix = r'$pb';
+const String _asyncImportPrefix = r'$async';
 const String _coreImportPrefix = r'$core';
-final String _grpcImportPrefix = r'$grpc';
-final String _protobufImport =
+const String _grpcImportPrefix = r'$grpc';
+const String _mixinImportPrefix = r'$mixin';
+const String _protobufImport =
     "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;";
-final String _asyncImport = "import 'dart:async' as $_asyncImportPrefix;";
-final String _coreImport = "import 'dart:core' as $_coreImportPrefix";
-final String _grpcImport =
+const String _asyncImport = "import 'dart:async' as $_asyncImportPrefix;";
+const String _coreImport = "import 'dart:core' as $_coreImportPrefix;";
+const String _grpcImport =
     "import 'package:grpc/service_api.dart' as $_grpcImportPrefix;";
 
 /// Generates the Dart output files for one .proto input file.
@@ -285,8 +286,7 @@ class FileGenerator extends ProtobufContainer {
       out.println(_asyncImport);
     }
 
-    out.println('$_coreImport show '
-        'bool, Deprecated, double, int, List, Map, override, pragma, String;');
+    out.println(_coreImport);
     out.println();
 
     if (_needsFixnumImport) {
@@ -298,12 +298,9 @@ class FileGenerator extends ProtobufContainer {
       out.println();
     }
 
-    var mixinImports = findMixinsToImport();
-    var importNames = mixinImports.keys.toList();
-    importNames.sort();
-    for (var imp in importNames) {
-      var symbols = mixinImports[imp];
-      out.println("import '${imp}' show ${symbols.join(', ')};");
+    final mixinImports = findMixinImports();
+    for (var libraryUri in mixinImports) {
+      out.println("import '$libraryUri' as $_mixinImportPrefix;");
     }
     if (mixinImports.isNotEmpty) out.println();
 
@@ -322,25 +319,12 @@ class FileGenerator extends ProtobufContainer {
     }
     if (enumImports.isNotEmpty) out.println();
 
-    _writeWellKnownImports(out);
-
     // Export enums in main file for backward compatibility.
     if (enumCount > 0) {
       Uri resolvedImport =
           config.resolveImport(protoFileUri, protoFileUri, ".pbenum.dart");
       out.println("export '$resolvedImport';");
       out.println();
-    }
-  }
-
-  void _writeWellKnownImports(IndentingWriter out) {
-    for (final message in messageGenerators) {
-      final importStatements =
-          wellKnownTypeForFullName(message.fullName)?.extraImports ??
-              <String>[];
-      for (String importStatement in importStatements) {
-        out.println(importStatement);
-      }
     }
   }
 
@@ -376,29 +360,18 @@ class FileGenerator extends ProtobufContainer {
     imports.remove(this);
   }
 
-  /// Returns a map from import names to the Dart symbols to be imported.
-  Map<String, List<String>> findMixinsToImport() {
+  /// Returns a sorted list of imports needed to support all mixins.
+  List<String> findMixinImports() {
     var mixins = Set<PbMixin>();
     for (MessageGenerator m in messageGenerators) {
       m.addMixinsTo(mixins);
     }
 
-    var imports = <String, List<String>>{};
-    for (var m in mixins) {
-      var imp = m.importFrom;
-      List<String> symbols = imports[imp];
-      if (symbols == null) {
-        symbols = [];
-        imports[imp] = symbols;
-      }
-      symbols.add(m.name);
-    }
-
-    for (var imp in imports.keys) {
-      imports[imp].sort();
-    }
-
-    return imports;
+    return mixins
+        .map((mixin) => mixin.importFrom)
+        .toSet()
+        .toList(growable: false)
+          ..sort();
   }
 
   /// Returns the contents of the .pbenum.dart file for this .proto file.
@@ -413,7 +386,7 @@ class FileGenerator extends ProtobufContainer {
       // Make sure any other symbols in dart:core don't cause name conflicts
       // with enums that have the same name.
       out.println("// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME");
-      out.println("$_coreImport show int, dynamic, String, List, Map;");
+      out.println(_coreImport);
       out.println(_protobufImport);
       out.println();
     }
@@ -450,7 +423,7 @@ class FileGenerator extends ProtobufContainer {
       out.println();
       out.println(_protobufImport);
       out.println();
-      out.println("$_coreImport show String, Map, ArgumentError, dynamic;");
+      out.println(_coreImport);
     }
 
     // Import .pb.dart files needed for requests and responses.
@@ -489,7 +462,7 @@ class FileGenerator extends ProtobufContainer {
 
     out.println(_asyncImport);
     out.println();
-    out.println("$_coreImport show int, String, List;\n");
+    out.println(_coreImport);
     out.println();
     out.println(_grpcImport);
 

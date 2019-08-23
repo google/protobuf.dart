@@ -9,7 +9,7 @@ import 'dart:async' as $async;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'dart:core' as $core show String, Map, ArgumentError, dynamic;
+import 'dart:core' as $core;
 import 'test.pb.dart' as $0;
 import 'test.pbjson.dart';
 

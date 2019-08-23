@@ -22,25 +22,6 @@ class OneofEnumGenerator {
 }
 
 class MessageGenerator extends ProtobufContainer {
-  /// Returns the mixin for this message, or null if none.
-  ///
-  /// First searches [declaredMixins], then internal mixins declared by
-  /// [findMixin].
-  static PbMixin _getMixin(DescriptorProto desc, FileDescriptorProto file,
-      Map<String, PbMixin> declaredMixins, PbMixin defaultMixin) {
-    if (!desc.hasOptions() || !desc.options.hasExtension(Dart_options.mixin)) {
-      return defaultMixin;
-    }
-
-    String name = desc.options.getExtension(Dart_options.mixin);
-    if (name.isEmpty) return null; // don't use any mixins (override default)
-    var mixin = declaredMixins[name] ?? findMixin(name);
-    if (mixin == null) {
-      throw '${desc.name} in ${file.name}: mixin "$name" not found';
-    }
-    return mixin;
-  }
-
   /// The name of the Dart class to generate.
   final String classname;
 
@@ -66,7 +47,7 @@ class MessageGenerator extends ProtobufContainer {
   String get messageName =>
       fullName.substring(package.isEmpty ? 0 : package.length + 1);
 
-  final PbMixin mixin;
+  PbMixin mixin;
 
   final ProtobufContainer _parent;
   final DescriptorProto _descriptor;
@@ -107,10 +88,9 @@ class MessageGenerator extends ProtobufContainer {
         fullName = parent.fullName == ''
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
-        mixin = _getMixin(descriptor, parent.fileGen.descriptor, declaredMixins,
-            defaultMixin),
         _oneofFields =
             List.generate(descriptor.oneofDecl.length, (int index) => []) {
+    mixin = _getMixin(declaredMixins, defaultMixin);
     for (var i = 0; i < _descriptor.enumType.length; i++) {
       EnumDescriptorProto e = _descriptor.enumType[i];
       _enumGenerators.add(EnumGenerator.nested(e, this, _usedTopLevelNames, i));
@@ -303,7 +283,8 @@ class MessageGenerator extends ProtobufContainer {
 
     var mixinClause = '';
     if (mixin != null) {
-      var mixinNames = mixin.findMixinsToApply().map((m) => m.name);
+      var mixinNames =
+          mixin.findMixinsToApply().map((m) => '$_mixinImportPrefix.${m.name}');
       mixinClause = ' with ${mixinNames.join(", ")}';
     }
 
@@ -387,7 +368,7 @@ class MessageGenerator extends ProtobufContainer {
           'static ${classname} getDefault() => _defaultInstance ??= create()..freeze();');
       out.println('static ${classname} _defaultInstance;');
       generateFieldsAccessorsMutators(out);
-      wellKnownTypeForFullName(fullName)?.generateMethods(out);
+      mixin?.injectHelpers(out);
     });
     out.println();
   }
@@ -620,5 +601,26 @@ class MessageGenerator extends ProtobufContainer {
     for (var e in _enumGenerators) {
       e.generateConstants(out);
     }
+  }
+
+  /// Returns the mixin for this message, or null if none.
+  ///
+  /// First searches [wellKnownMixins], then [declaredMixins],
+  /// then internal mixins declared by [findMixin].
+  PbMixin _getMixin(Map<String, PbMixin> declaredMixins, PbMixin defaultMixin) {
+    PbMixin wellKnownMixin = wellKnownMixinForFullName(fullName);
+    if (wellKnownMixin != null) return wellKnownMixin;
+    if (!_descriptor.hasOptions() ||
+        !_descriptor.options.hasExtension(Dart_options.mixin)) {
+      return defaultMixin;
+    }
+
+    String name = _descriptor.options.getExtension(Dart_options.mixin);
+    if (name.isEmpty) return null; // don't use any mixins (override default)
+    var mixin = declaredMixins[name] ?? findMixin(name);
+    if (mixin == null) {
+      throw '${_descriptor.name} in ${_parent.fileGen.descriptor.name}: mixin "$name" not found';
+    }
+    return mixin;
   }
 }

@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 
 import 'package:protobuf/meta.dart'
     show GeneratedMessage_reservedNames, ProtobufEnum_reservedNames;
-import 'package:protobuf/mixins_meta.dart' show findMixin;
+import 'package:protoc_plugin/mixins.dart' show findMixin;
 
 import 'mirror_util.dart' show findMemberNames;
 
