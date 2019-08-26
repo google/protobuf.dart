@@ -1,9 +1,10 @@
 ## 0.14.0
 
-* Support for proto3 json (with field-name keys). Encoding and decoding.
-  Support for well-known types.
-  Use `GeneratedMessage.toProto3Json()` to encode and `GeneratedMessage.mergeFromProto3Json(msg)` to
-  decode.
+* Support for proto3 json (json with field names as keys) 
+  - encoding and decoding.
+  - Support for well-known types.
+  - Use `GeneratedMessage.toProto3Json()` to encode and `GeneratedMessage.mergeFromProto3Json(json)`
+    to decode.
 
 * `FieldInfo` objects have a new getter `.protoName` that gives the non-camel-case name of the field
   as in the `.proto`-file.

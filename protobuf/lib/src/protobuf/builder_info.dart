@@ -22,7 +22,7 @@ class BuilderInfo {
   final Object Function(GeneratedMessage message, TypeRegistry typeRegistry)
       toProto3Json;
   final Function(GeneratedMessage targetMessage, Object json,
-      TypeRegistry typeRegistry) fromProto3Json;
+      TypeRegistry typeRegistry, JsonParsingContext context) fromProto3Json;
   final CreateBuilderFunc createEmptyInstance;
 
   BuilderInfo(String messageName,
@@ -31,7 +31,7 @@ class BuilderInfo {
       Object Function(GeneratedMessage message, TypeRegistry typeRegistry)
           toProto3Json,
       Function(GeneratedMessage targetMessage, Object json,
-              TypeRegistry typeRegistry)
+              TypeRegistry typeRegistry, JsonParsingContext context)
           fromProto3Json})
       : qualifiedMessageName = "${package.prefix}$messageName",
         toProto3Json = toProto3Json,

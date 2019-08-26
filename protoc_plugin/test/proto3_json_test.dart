@@ -1,7 +1,8 @@
 #!/usr/bin/env dart
-// Copyright (c) 2013, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+
 import 'dart:core' hide Duration;
 
 import 'package:fixnum/fixnum.dart';
@@ -189,9 +190,9 @@ void main() {
       expect(Timestamp.fromDateTime(DateTime.utc(420)).toProto3Json(),
           '0420-01-01T00:00:00Z');
       expect(() => Timestamp.fromDateTime(DateTime.utc(42001)).toProto3Json(),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(TypeMatcher<ArgumentError>()));
       expect(() => Timestamp.fromDateTime(DateTime.utc(-1)).toProto3Json(),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(TypeMatcher<ArgumentError>()));
       expect(
           Timestamp.fromDateTime(DateTime.utc(9999, 12, 31, 23, 59, 59))
               .toProto3Json(),
@@ -202,11 +203,11 @@ void main() {
       expect((Timestamp()..nanos = 8200000).toProto3Json(),
           '1970-01-01T00:00:00.008200Z');
       expect(() => (Timestamp()..nanos = -8200000).toProto3Json(),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(TypeMatcher<ArgumentError>()));
       expect(() => (Timestamp()..nanos = -8200000).toProto3Json(),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(TypeMatcher<ArgumentError>()));
       expect(() => (Timestamp()..nanos = 1000000000).toProto3Json(),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(TypeMatcher<ArgumentError>()));
     });
 
     test('Duration', () {
@@ -260,7 +261,7 @@ void main() {
       expect(
           () => Any.pack(Timestamp.fromDateTime(DateTime(1969, 7, 20, 20, 17)))
               .toProto3Json(),
-          throwsA(TypeMatcher<InvalidProtocolBufferException>()));
+          throwsA(TypeMatcher<ArgumentError>()));
     });
 
     test('struct', () {
@@ -270,7 +271,8 @@ void main() {
         ..fields['string'] = (Value()..stringValue = 'foo')
         ..fields['bool'] = (Value()..boolValue = false)
         ..fields['struct'] = (Value()
-          ..structValue = (Struct()..fields['a'] = (Value()..numberValue = 0)))
+          ..structValue =
+              (Struct()..fields['a'] = (Value()..numberValue = 0.0)))
         ..fields['list'] = (Value()
           ..listValue = (ListValue()
             ..values.addAll([
@@ -286,8 +288,8 @@ void main() {
         'struct': {'a': 0},
         'list': [{}, [], 'why']
       });
-      expect(() => Value().toProto3Json(),
-          throwsA(TypeMatcher<InvalidProtocolBufferException>()));
+      expect(
+          () => Value().toProto3Json(), throwsA(TypeMatcher<ArgumentError>()));
     });
 
     test('empty', () {
@@ -297,7 +299,7 @@ void main() {
     test('wrapper types', () {
       final t = TestWellKnownTypes()
         ..doubleField = (DoubleValue()..value = 10.01)
-        ..floatField = (FloatValue()..value = 3)
+        ..floatField = (FloatValue()..value = 3.0)
         ..int64Field = (Int64Value()..value = Int64.MIN_VALUE)
         ..uint64Field = (UInt64Value()..value = Int64.MIN_VALUE)
         ..int32Field = (Int32Value()..value = 101)
@@ -325,15 +327,32 @@ void main() {
       expect((FieldMask()..paths.addAll(['foo_bar', 'zop'])).toProto3Json(),
           'fooBar,zop');
       expect(() => (FieldMask()..paths.add('foo_3_bar')).toProto3Json(),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(TypeMatcher<ArgumentError>()));
       expect(() => (FieldMask()..paths.add('foo__bar')).toProto3Json(),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(TypeMatcher<ArgumentError>()));
       expect(() => (FieldMask()..paths.add('fooBar')).toProto3Json(),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(TypeMatcher<ArgumentError>()));
     });
   });
 
   group('decode', () {
+    parseFailure(List<String> expectedPath) => throwsA(predicate((e) {
+          if (e is FormatException) {
+            final pathExpression =
+                RegExp(r'root(\["[^"]*"]*\])*').firstMatch(e.message)[0];
+            final actualPath = RegExp(r'\["([^"]*)"\]')
+                .allMatches(pathExpression)
+                .map((match) => match[1])
+                .toList();
+            if (actualPath.length != expectedPath.length) return false;
+            for (int i = 0; i < actualPath.length; i++) {
+              if (actualPath[i] != expectedPath[i]) return false;
+            }
+            return true;
+          }
+          return false;
+        }));
+
     test('Nulls', () {
       final decoded = TestAllTypes()
         ..mergeFromProto3Json({'defaultString': null});
@@ -344,44 +363,44 @@ void main() {
       expect(decoded, getAllSet());
     });
     test('Type expectations', () {
-      expect(() => TestAllTypes()..mergeFromProto3Json({1: 1}),
-          throwsA(TypeMatcher<FormatException>()));
+      expect(
+          () => TestAllTypes()..mergeFromProto3Json({1: 1}), parseFailure([]));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalBool': 1}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalBool']));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalBytes': 1}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalBytes']));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalBytes': '()'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalBytes']));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalInt32': '()'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalInt32']));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalInt32': 20.4}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalInt32']));
       expect(TestAllTypes()..mergeFromProto3Json({'optionalInt32': '28'}),
           TestAllTypes()..optionalInt32 = 28);
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalInt64': '()'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalInt64']));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalInt64': 20.4}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalInt64']));
       expect(TestAllTypes()..mergeFromProto3Json({'optionalInt64': '28'}),
           TestAllTypes()..optionalInt64 = Int64(28));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalDouble': 'a'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalDouble']));
       expect(TestAllTypes()..mergeFromProto3Json({'optionalDouble': 28}),
           TestAllTypes()..optionalDouble = 28.0);
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalDouble': 'a'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalDouble']));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalString': 11}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalString']));
       expect(
           () => TestAllTypes()
             ..mergeFromProto3Json({'optionalEnum': 'wrongValue'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalEnum']));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalEnum': []}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalEnum']));
       expect(
           () =>
               TestAllTypes()..mergeFromProto3Json({'optionalNestedEnum': 100}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optionalNestedEnum']));
       expect(
           TestAllTypes()..mergeFromProto3Json({'optionalNestedEnum': 1}),
           TestAllTypes()
@@ -389,9 +408,15 @@ void main() {
       expect(TestAllTypes()..mergeFromProto3Json({'repeatedBool': null}),
           TestAllTypes());
       expect(() => TestAllTypes()..mergeFromProto3Json({'repeatedBool': 100}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['repeatedBool']));
+      expect(
+          () => TestAllTypes()
+            ..mergeFromProto3Json({
+              'repeatedBool': [true, false, 1]
+            }),
+          parseFailure(['repeatedBool', '2']));
       expect(() => TestAllTypes()..mergeFromProto3Json(Object()),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure([]));
     });
 
     test('merging behavior', () {
@@ -426,7 +451,7 @@ void main() {
             ..mergeFromProto3Json({
               'optional_foreign_message': {'c': 1}
             }, supportNamesWithUnderscores: false),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['optional_foreign_message']));
     });
 
     test('map value', () {
@@ -469,8 +494,13 @@ void main() {
               'uint64ToInt32Field': {'9223372036854775808': -2},
             }),
           expected);
-      expect(() => TestMap()..mergeFromProto3Json([]),
-          throwsA(TypeMatcher<FormatException>()));
+      expect(() => TestMap()..mergeFromProto3Json([]), parseFailure([]));
+      expect(
+          () => TestMap()
+            ..mergeFromProto3Json({
+              'int32ToInt32Field': {'32': 'a'}
+            }),
+          parseFailure(['int32ToInt32Field', '32']));
     });
     test('unsigned', () {
       expect(
@@ -527,22 +557,49 @@ void main() {
               '@type': 'type.googleapis.com/google.protobuf.Timestamp',
               'value': '1969-07-20T19:17:00Z'
             }),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure([]));
 
       expect(
           () => Any()
             ..mergeFromProto3Json(
                 {'@type': 11, 'value': '1969-07-20T19:17:00Z'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure([]));
 
-      expect(() => Any()..mergeFromProto3Json('@type'),
-          throwsA(TypeMatcher<FormatException>()));
+      final m3 = Any()
+        ..mergeFromProto3Json({
+          '@type': 'type.googleapis.com/google.protobuf.Any',
+          'value': {
+            '@type': 'type.googleapis.com/google.protobuf.Timestamp',
+            'value': '1969-07-20T19:17:00Z'
+          }
+        }, typeRegistry: TypeRegistry([Timestamp(), Any()]));
 
-      expect(() => Any()..mergeFromProto3Json(11),
-          throwsA(TypeMatcher<FormatException>()));
+      expect(
+          m3
+              .unpackInto(Any())
+              .unpackInto(Timestamp())
+              .toDateTime()
+              .millisecondsSinceEpoch,
+          DateTime.utc(1969, 7, 20, 19, 17).millisecondsSinceEpoch);
 
-      expect(() => Any()..mergeFromProto3Json(['@type']),
-          throwsA(TypeMatcher<FormatException>()));
+      // TODO(sigurdm): We would ideally like the error path to be
+      // ['value', 'value'].
+      expect(
+          () => Any()
+            ..mergeFromProto3Json({
+              '@type': 'type.googleapis.com/google.protobuf.Any',
+              'value': {
+                '@type': 'type.googleapis.com/google.protobuf.Timestamp',
+                'value': '1969'
+              }
+            }, typeRegistry: TypeRegistry([Timestamp(), Any()])),
+          parseFailure([]));
+
+      expect(() => Any()..mergeFromProto3Json('@type'), parseFailure([]));
+
+      expect(() => Any()..mergeFromProto3Json(11), parseFailure([]));
+
+      expect(() => Any()..mergeFromProto3Json(['@type']), parseFailure([]));
 
       expect(
           () => Any()
@@ -550,7 +607,7 @@ void main() {
               '@type': 'type.googleapis.com/google.protobuf.Timestamp',
               'value': '1969-07-20T19:17:00Z'
             }),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure([]));
     });
 
     test('Duration', () {
@@ -600,10 +657,8 @@ void main() {
           Duration()
             ..seconds = Int64(5)
             ..nanos = 0);
-      expect(() => Duration()..mergeFromProto3Json('0.5'),
-          throwsA(TypeMatcher<FormatException>()));
-      expect(() => Duration()..mergeFromProto3Json(100),
-          throwsA(TypeMatcher<FormatException>()));
+      expect(() => Duration()..mergeFromProto3Json('0.5'), parseFailure([]));
+      expect(() => Duration()..mergeFromProto3Json(100), parseFailure([]));
     });
 
     test('Timestamp', () {
@@ -634,9 +689,8 @@ void main() {
       expect(
           () => Timestamp()
             ..mergeFromProto3Json('1970-01-01T00:00:00.0000000001Z'),
-          throwsA(TypeMatcher<FormatException>()));
-      expect(() => Timestamp()..mergeFromProto3Json(1970),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure([]));
+      expect(() => Timestamp()..mergeFromProto3Json(1970), parseFailure([]));
     });
 
     test('wrapper types', () {
@@ -655,7 +709,7 @@ void main() {
             }),
           TestWellKnownTypes()
             ..doubleField = (DoubleValue()..value = 10.01)
-            ..floatField = (FloatValue()..value = 3)
+            ..floatField = (FloatValue()..value = 3.0)
             ..int64Field = (Int64Value()..value = Int64.MIN_VALUE)
             ..uint64Field = (UInt64Value()..value = Int64.MIN_VALUE)
             ..int32Field = (Int32Value()..value = 101)
@@ -677,7 +731,7 @@ void main() {
             }),
           TestWellKnownTypes()
             ..doubleField = (DoubleValue()..value = 10.01)
-            ..floatField = (FloatValue()..value = 3)
+            ..floatField = (FloatValue()..value = 3.0)
             ..int64Field = (Int64Value()..value = Int64(-854775808))
             ..uint64Field = (UInt64Value()..value = Int64(854775808))
             ..int32Field = (Int32Value()..value = 101)
@@ -687,59 +741,59 @@ void main() {
 
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'doubleField': 'a'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['doubleField']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'doubleField': {}}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['doubleField']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'floatField': 'a'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['floatField']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'floatField': {}}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['floatField']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'int64Field': 'a'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['int64Field']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'int64Field': {}}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['int64Field']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'int64Field': 10.4}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['int64Field']));
 
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'uint64Field': 'a'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['uint64Field']));
       expect(
           () =>
               TestWellKnownTypes()..mergeFromProto3Json({'uint64Field': 10.4}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['uint64Field']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'int32Field': 'a'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['int32Field']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'int32Field': 10.4}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['int32Field']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'uint32Field': 'a'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['uint32Field']));
       expect(
           () =>
               TestWellKnownTypes()..mergeFromProto3Json({'uint32Field': 10.4}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['uint32Field']));
       expect(
           () =>
               TestWellKnownTypes()..mergeFromProto3Json({'boolField': 'false'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['boolField']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'stringField': 22}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['stringField']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'bytesField': 22}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['bytesField']));
       expect(
           () => TestWellKnownTypes()..mergeFromProto3Json({'bytesField': '()'}),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure(['bytesField']));
 
       expect(
           TestWellKnownTypes()
@@ -764,8 +818,8 @@ void main() {
             ..boolField = BoolValue()
             ..stringField = StringValue()
             ..bytesField = BytesValue(),
-          reason: 'having fields of wrapper types set to null will return a '
-              'default wrapper (with unset .value field)');
+          reason: 'having fields of wrapper types set to null will return an '
+              'empty wrapper (with unset .value field)');
     });
 
     test('struct', () {
@@ -784,7 +838,8 @@ void main() {
         ..fields['string'] = (Value()..stringValue = 'foo')
         ..fields['bool'] = (Value()..boolValue = false)
         ..fields['struct'] = (Value()
-          ..structValue = (Struct()..fields['a'] = (Value()..numberValue = 0)))
+          ..structValue =
+              (Struct()..fields['a'] = (Value()..numberValue = 0.0)))
         ..fields['list'] = (Value()
           ..listValue = (ListValue()
             ..values.addAll([
@@ -795,27 +850,22 @@ void main() {
       expect(Struct()..mergeFromProto3Json(f), s);
 
       expect(Struct()..mergeFromProto3Json(<dynamic, dynamic>{'a': 12}),
-          (Struct()..fields['a'] = (Value()..numberValue = 12)),
+          (Struct()..fields['a'] = (Value()..numberValue = 12.0)),
           reason: 'Allow key type to be `dynamic`');
 
-      expect(() => Struct()..mergeFromProto3Json({1: 2}),
-          throwsA(TypeMatcher<FormatException>()),
+      expect(() => Struct()..mergeFromProto3Json({1: 2}), parseFailure([]),
           reason: 'Non-string key in JSON object literal');
 
-      expect(() => Struct()..mergeFromProto3Json([]),
-          throwsA(TypeMatcher<FormatException>()),
+      expect(() => Struct()..mergeFromProto3Json([]), parseFailure([]),
           reason: 'Non object literal');
 
-      expect(() => Struct()..mergeFromProto3Json([]),
-          throwsA(TypeMatcher<FormatException>()),
+      expect(() => Struct()..mergeFromProto3Json([]), parseFailure([]),
           reason: 'Non-string key in JSON object literal');
 
-      expect(() => Value()..mergeFromProto3Json(Object()),
-          throwsA(TypeMatcher<FormatException>()),
+      expect(() => Value()..mergeFromProto3Json(Object()), parseFailure([]),
           reason: 'Non JSON value');
 
-      expect(() => ListValue()..mergeFromProto3Json({}),
-          throwsA(TypeMatcher<FormatException>()),
+      expect(() => ListValue()..mergeFromProto3Json({}), parseFailure([]),
           reason: 'Non-list');
     });
 
@@ -826,11 +876,10 @@ void main() {
           TestWellKnownTypes()
             ..fieldMaskField = (FieldMask()..paths.addAll(['foo', 'bar_baz'])));
       expect(() => FieldMask()..mergeFromProto3Json('foo,bar_bar'),
-          throwsA(TypeMatcher<FormatException>()));
+          parseFailure([]));
 
       expect(FieldMask()..mergeFromProto3Json(''), FieldMask());
-      expect(() => FieldMask()..mergeFromProto3Json(12),
-          throwsA(TypeMatcher<FormatException>()));
+      expect(() => FieldMask()..mergeFromProto3Json(12), parseFailure([]));
     });
   });
 }

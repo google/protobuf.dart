@@ -41,12 +41,4 @@ misreported its own length.
 The type of the Any message ($anyTypeName) does not match the given
 unpacker ($unpackerTypeName).
 ''');
-
-  InvalidProtocolBufferException.anyMessageNotInRegistry(String anyTypeName)
-      : this._('''
-The type of the Any message ($anyTypeName) is not in the given typeRegistry.
-''');
-
-  InvalidProtocolBufferException.noValueSet()
-      : this._('''Encountered google.protobuf.Value with no value.''');
 }
