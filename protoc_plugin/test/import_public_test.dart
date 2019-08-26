@@ -7,8 +7,8 @@ import 'package:test/test.dart';
 import '../out/protos/import_public.pb.dart';
 
 main() {
-  // Validate that we can reference a message type imported publicly.
-  expect(Foo(), TypeMatcher<Foo>());
-
-  expect(A, TypeMatcher<A>());
+  test('can reference a message type imported publicly', () {
+    expect(Foo(), TypeMatcher<Foo>());
+    expect(A(), TypeMatcher<A>());
+  });
 }
