@@ -23,6 +23,7 @@ TEST_PROTO_LIST = \
 	ExtensionNameConflict \
 	foo \
 	import_clash \
+	import_public \
 	json_name \
 	map_api \
 	map_api2 \

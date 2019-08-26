@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+import public "foo.proto";
+
+message A {
+  optional foo.Foo a = 1;
+}
