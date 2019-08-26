@@ -291,10 +291,10 @@ class MessageGenerator extends ProtobufContainer {
     String packageClause = package == ''
         ? ''
         : ', package: const $_protobufImportPrefix.PackageName(\'$package\')';
-    String proto3JsonClause = (mixin?.hasProto3JsonHelpers ?? false) ?
-      ', toProto3Json: $_mixinImportPrefix.${mixin.name}.toProto3JsonHelper, '
-      'fromProto3Json: $_mixinImportPrefix.${mixin.name}.fromProto3JsonHelper'
-      : '';
+    String proto3JsonClause = (mixin?.hasProto3JsonHelpers ?? false)
+        ? ', toProto3Json: $_mixinImportPrefix.${mixin.name}.toProto3JsonHelper, '
+            'fromProto3Json: $_mixinImportPrefix.${mixin.name}.fromProto3JsonHelper'
+        : '';
     out.addAnnotatedBlock(
         'class ${classname} extends $_protobufImportPrefix.GeneratedMessage${mixinClause} {',
         '}', [

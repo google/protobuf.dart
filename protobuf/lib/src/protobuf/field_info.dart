@@ -200,6 +200,7 @@ String _unCamelCase(String name) {
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
   final int keyFieldType;
   final int valueFieldType;
+
   /// Creates a new empty instance of the value type.
   ///
   /// `null` if the value type is not a Message type.
@@ -207,16 +208,20 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
 
   final BuilderInfo _mapEntryBuilderInfo;
 
-  MapFieldInfo(String name, int tagNumber, int index, int type,
-      this.keyFieldType, this.valueFieldType, this._mapEntryBuilderInfo, this.valueCreator, {String protoName})
-      : super(
-            name,
-            tagNumber,
-            index,
-            type,
+  MapFieldInfo(
+      String name,
+      int tagNumber,
+      int index,
+      int type,
+      this.keyFieldType,
+      this.valueFieldType,
+      this._mapEntryBuilderInfo,
+      this.valueCreator,
+      {String protoName})
+      : super(name, tagNumber, index, type,
             defaultOrMaker: () =>
                 PbMap<K, V>(keyFieldType, valueFieldType, _mapEntryBuilderInfo),
-                protoName: protoName) {
+            protoName: protoName) {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isMapField(type));

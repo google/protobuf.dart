@@ -58,11 +58,18 @@ class BuilderInfo {
     _addField(fieldInfo);
   }
 
-  void addMapField<K, V>(int tagNumber, String name, int keyFieldType,
-      int valueFieldType, BuilderInfo mapEntryBuilderInfo, CreateBuilderFunc valueCreator, {String protoName}) {
+  void addMapField<K, V>(
+      int tagNumber,
+      String name,
+      int keyFieldType,
+      int valueFieldType,
+      BuilderInfo mapEntryBuilderInfo,
+      CreateBuilderFunc valueCreator,
+      {String protoName}) {
     var index = byIndex.length;
     _addField(MapFieldInfo<K, V>(name, tagNumber, index, PbFieldType.M,
-        keyFieldType, valueFieldType, mapEntryBuilderInfo, valueCreator, protoName: protoName));
+        keyFieldType, valueFieldType, mapEntryBuilderInfo, valueCreator,
+        protoName: protoName));
   }
 
   void addRepeated<T>(
@@ -179,9 +186,8 @@ class BuilderInfo {
       ..add(PbMap._valueFieldNumber, 'value', valueFieldType, null,
           valueCreator, valueOf, enumValues);
 
-    addMapField<K, V>(
-        tagNumber, name, keyFieldType, valueFieldType, mapEntryBuilderInfo,
-        valueCreator,
+    addMapField<K, V>(tagNumber, name, keyFieldType, valueFieldType,
+        mapEntryBuilderInfo, valueCreator,
         protoName: protoName);
   }
 

@@ -189,9 +189,9 @@ void main() {
       expect(Timestamp.fromDateTime(DateTime.utc(420)).toProto3Json(),
           '0420-01-01T00:00:00Z');
       expect(() => Timestamp.fromDateTime(DateTime.utc(42001)).toProto3Json(),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => Timestamp.fromDateTime(DateTime.utc(-1)).toProto3Json(),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(
           Timestamp.fromDateTime(DateTime.utc(9999, 12, 31, 23, 59, 59))
               .toProto3Json(),
@@ -202,11 +202,11 @@ void main() {
       expect((Timestamp()..nanos = 8200000).toProto3Json(),
           '1970-01-01T00:00:00.008200Z');
       expect(() => (Timestamp()..nanos = -8200000).toProto3Json(),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => (Timestamp()..nanos = -8200000).toProto3Json(),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => (Timestamp()..nanos = 1000000000).toProto3Json(),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
     });
 
     test('Duration', () {
@@ -260,7 +260,7 @@ void main() {
       expect(
           () => Any.pack(Timestamp.fromDateTime(DateTime(1969, 7, 20, 20, 17)))
               .toProto3Json(),
-          throwsA(isA<InvalidProtocolBufferException>()));
+          throwsA(TypeMatcher<InvalidProtocolBufferException>()));
     });
 
     test('struct', () {
@@ -345,43 +345,43 @@ void main() {
     });
     test('Type expectations', () {
       expect(() => TestAllTypes()..mergeFromProto3Json({1: 1}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalBool': 1}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalBytes': 1}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalBytes': '()'}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalInt32': '()'}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalInt32': 20.4}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(TestAllTypes()..mergeFromProto3Json({'optionalInt32': '28'}),
           TestAllTypes()..optionalInt32 = 28);
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalInt64': '()'}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalInt64': 20.4}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(TestAllTypes()..mergeFromProto3Json({'optionalInt64': '28'}),
           TestAllTypes()..optionalInt64 = Int64(28));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalDouble': 'a'}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(TestAllTypes()..mergeFromProto3Json({'optionalDouble': 28}),
           TestAllTypes()..optionalDouble = 28.0);
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalDouble': 'a'}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalString': 11}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(
           () => TestAllTypes()
             ..mergeFromProto3Json({'optionalEnum': 'wrongValue'}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalEnum': []}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(
           () =>
               TestAllTypes()..mergeFromProto3Json({'optionalNestedEnum': 100}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(
           TestAllTypes()..mergeFromProto3Json({'optionalNestedEnum': 1}),
           TestAllTypes()
@@ -389,9 +389,9 @@ void main() {
       expect(TestAllTypes()..mergeFromProto3Json({'repeatedBool': null}),
           TestAllTypes());
       expect(() => TestAllTypes()..mergeFromProto3Json({'repeatedBool': 100}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
       expect(() => TestAllTypes()..mergeFromProto3Json(Object()),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
     });
 
     test('merging behavior', () {
@@ -426,7 +426,7 @@ void main() {
             ..mergeFromProto3Json({
               'optional_foreign_message': {'c': 1}
             }, supportNamesWithUnderscores: false),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
     });
 
     test('map value', () {
@@ -470,7 +470,7 @@ void main() {
             }),
           expected);
       expect(() => TestMap()..mergeFromProto3Json([]),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
     });
     test('unsigned', () {
       expect(
@@ -527,22 +527,22 @@ void main() {
               '@type': 'type.googleapis.com/google.protobuf.Timestamp',
               'value': '1969-07-20T19:17:00Z'
             }),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
 
       expect(
           () => Any()
             ..mergeFromProto3Json(
                 {'@type': 11, 'value': '1969-07-20T19:17:00Z'}),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
 
       expect(() => Any()..mergeFromProto3Json('@type'),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
 
       expect(() => Any()..mergeFromProto3Json(11),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
 
       expect(() => Any()..mergeFromProto3Json(['@type']),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
 
       expect(
           () => Any()
@@ -550,7 +550,7 @@ void main() {
               '@type': 'type.googleapis.com/google.protobuf.Timestamp',
               'value': '1969-07-20T19:17:00Z'
             }),
-          throwsA(isA<FormatException>()));
+          throwsA(TypeMatcher<FormatException>()));
     });
 
     test('Duration', () {
