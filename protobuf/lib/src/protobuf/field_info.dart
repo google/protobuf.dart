@@ -6,13 +6,6 @@ part of protobuf;
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
-  static final RegExp _upperCase = RegExp('[A-Z]');
-
-  static String _unCamelCase(String name) {
-    return name.replaceAllMapped(
-        _upperCase, (match) => '_${match.group(0).toLowerCase()}');
-  }
-
   FrozenPbList<T> _emptyList;
 
   /// Name of this field as the `json_name` reported by protoc.
