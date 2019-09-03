@@ -121,6 +121,37 @@ void _mergeFromProto3Json(
       JsonParsingContext(ignoreUnknownFields, supportNamesWithUnderscores);
 
   void recursionHelper(Object json, _FieldSet fieldSet) {
+    int tryParse32Bit(String s) {
+      return int.tryParse(s) ??
+          (throw context.parseException('expected integer, found $s'));
+    }
+
+    int check32BitSigned(int n) {
+      if (n < -2147483648 || n > 2147483647) {
+        throw context
+            .parseException('expected 32 bit unsigned integer, found $n');
+      }
+      return n;
+    }
+
+    int check32BitUnsigned(int n) {
+      if (n < 0 || n > 0xFFFFFFFF) {
+        throw context
+            .parseException('expected 32 bit unsigned integer, found $n');
+      }
+      return n;
+    }
+
+    Int64 tryParse64Bit(String s) {
+      Int64 result;
+      try {
+        result = Int64.parseInt(s);
+      } on FormatException {
+        throw context.parseException('expected integer, found $s');
+      }
+      return result;
+    }
+
     Object convertProto3JsonValue(Object value, FieldInfo fieldInfo) {
       if (value == null) {
         return fieldInfo.makeDefault();
@@ -175,22 +206,43 @@ void _mergeFromProto3Json(
           }
           throw context.parseException(
               'Expected enum as a string or integer, found $value');
+        case PbFieldType._UINT32_BIT:
+          int result;
+          if (value is int) {
+            result = value;
+          } else if (value is String) {
+            result = tryParse32Bit(value);
+          } else {
+            throw context.parseException('Expected int or stringified int');
+          }
+          return check32BitUnsigned(result);
         case PbFieldType._INT32_BIT:
         case PbFieldType._SINT32_BIT:
         case PbFieldType._UINT32_BIT:
         case PbFieldType._FIXED32_BIT:
         case PbFieldType._SFIXED32_BIT:
-          if (value is int) return value;
-          if (value is String) {
-            return int.tryParse(value) ??
-                (throw context
-                    .parseException('expected integer, found $value'));
+          int result;
+          if (value is int) {
+            result = value;
+          } else if (value is String) {
+            result = tryParse32Bit(value);
+          } else {
+            throw context.parseException('Expected int or stringified int');
           }
-          throw context.parseException('Expected int or stringified int');
-          break;
+          check32BitSigned(result);
+          return result;
+        case PbFieldType._UINT64_BIT:
+          Int64 result;
+          if (value is int) {
+            result = Int64(value);
+          } else if (value is String) {
+            result = tryParse64Bit(value);
+          } else {
+            throw context.parseException('Expected int or stringified int');
+          }
+          return result;
         case PbFieldType._INT64_BIT:
         case PbFieldType._SINT64_BIT:
-        case PbFieldType._UINT64_BIT:
         case PbFieldType._FIXED64_BIT:
         case PbFieldType._SFIXED64_BIT:
           if (value is int) return Int64(value);
@@ -231,36 +283,21 @@ void _mergeFromProto3Json(
         case PbFieldType._STRING_BIT:
           return key;
         case PbFieldType._UINT64_BIT:
-          Int64 result;
-          try {
-            // TODO(sigurdm): unsigned...
-            result = Int64.parseInt(key);
-          } on FormatException {
-            throw context.parseException('expected integer, found $key');
-          }
-          return result;
+          // TODO(sigurdm): We do not throw on negative values here.
+          // That would probably require going via bignum.
+          return tryParse64Bit(key);
         case PbFieldType._INT64_BIT:
         case PbFieldType._SINT64_BIT:
         case PbFieldType._SFIXED64_BIT:
         case PbFieldType._FIXED64_BIT:
-          Int64 result;
-          try {
-            result = Int64.parseInt(key);
-          } on FormatException {
-            throw context.parseException('expected integer, found $key');
-          }
-          return result;
+          return tryParse64Bit(key);
         case PbFieldType._INT32_BIT:
         case PbFieldType._SINT32_BIT:
         case PbFieldType._FIXED32_BIT:
         case PbFieldType._SFIXED32_BIT:
-          // TODO(sigurdm): Restrict to 32 bits.
-          return int.tryParse(key) ??
-              (throw context.parseException('expected integer, found $key'));
+          return check32BitSigned(tryParse32Bit(key));
         case PbFieldType._UINT32_BIT:
-          // TODO(sigurdm): unsigned...
-          return int.tryParse(key) ??
-              (throw context.parseException('expected integer, found $key'));
+          return check32BitUnsigned(tryParse32Bit(key));
         default:
           throw StateError('Not a valid key type $fieldType');
       }

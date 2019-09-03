@@ -501,8 +501,26 @@ void main() {
               'int32ToInt32Field': {'32': 'a'}
             }),
           parseFailure(['int32ToInt32Field', '32']));
+      expect(
+              () => TestMap()
+            ..mergeFromProto3Json({
+              'int32ToInt32Field': {'2147483648': 1}
+            }),
+          parseFailure(['int32ToInt32Field', '2147483648']));
+      expect(
+          () => TestMap()
+            ..mergeFromProto3Json({
+              'uint32ToInt32Field': {'-32': 21}
+            }),
+          parseFailure(['uint32ToInt32Field', '-32']));
+      expect(
+          () => TestMap()
+            ..mergeFromProto3Json({
+              'uint32ToInt32Field': {'4294967296': 21}
+            }),
+          parseFailure(['uint32ToInt32Field', '4294967296']));
     });
-    test('unsigned', () {
+    test('ints', () {
       expect(
           (TestAllTypes()
                 ..mergeFromProto3Json({
@@ -510,7 +528,72 @@ void main() {
                 }))
               .optionalUint64,
           Int64.parseHex('f0000000ffff0000'));
-      // TODO(sigurdm): test errors.
+
+      // TODO(sigurdm): This should throw.
+      expect(
+          TestAllTypes()
+            ..mergeFromProto3Json({
+              'optionalUint64': '-1',
+            }),
+          TestAllTypes()
+            ..optionalUint64 =
+                Int64.fromBytes([255, 255, 255, 255, 255, 255, 255, 255]));
+
+      expect(
+          () => TestAllTypes()
+            ..mergeFromProto3Json({
+              'optionalUint32': '-1',
+            }),
+          parseFailure(['optionalUint32']));
+
+      expect(
+          () => TestAllTypes()
+            ..mergeFromProto3Json({
+              'optionalUint32': -1,
+            }),
+          parseFailure(['optionalUint32']));
+
+      expect(
+          () => TestAllTypes()
+            ..mergeFromProto3Json({
+              'optionalUint32': 0xFFFFFFFF + 1,
+            }),
+          parseFailure(['optionalUint32']));
+
+      expect(
+          TestAllTypes()
+            ..mergeFromProto3Json({
+              'optionalInt32': '2147483647',
+            }),
+          TestAllTypes()..optionalInt32 = 2147483647);
+
+      expect(
+          TestAllTypes()
+            ..mergeFromProto3Json({
+              'optionalInt32': '-2147483648',
+            }),
+          TestAllTypes()..optionalInt32 = -2147483648);
+
+      expect(
+          () => TestAllTypes()
+            ..mergeFromProto3Json({
+              'optionalInt32': 2147483647 + 1,
+            }),
+          parseFailure(['optionalInt32']));
+
+      expect(
+          () => TestAllTypes()
+            ..mergeFromProto3Json({
+              'optionalInt32': (2147483647 + 1).toString(),
+            }),
+          parseFailure(['optionalInt32']));
+
+      expect(
+          () => TestAllTypes()
+            ..mergeFromProto3Json({
+              'optionalInt32': -2147483648 - 1,
+            }),
+          parseFailure(['optionalInt32']));
     });
 
     test('unknown fields', () {
