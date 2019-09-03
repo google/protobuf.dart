@@ -502,7 +502,7 @@ void main() {
             }),
           parseFailure(['int32ToInt32Field', '32']));
       expect(
-              () => TestMap()
+          () => TestMap()
             ..mergeFromProto3Json({
               'int32ToInt32Field': {'2147483648': 1}
             }),
@@ -519,6 +519,12 @@ void main() {
               'uint32ToInt32Field': {'4294967296': 21}
             }),
           parseFailure(['uint32ToInt32Field', '4294967296']));
+      expect(
+          TestMap()
+            ..mergeFromProto3Json({
+              'int32ToInt32Field': <dynamic, dynamic>{'2': 21}
+            }),
+          TestMap()..int32ToInt32Field[2] = 21);
     });
     test('ints', () {
       expect(
