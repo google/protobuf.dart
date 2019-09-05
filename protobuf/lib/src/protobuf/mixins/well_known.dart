@@ -100,9 +100,9 @@ abstract class AnyMixin implements GeneratedMessage {
       TypeRegistry typeRegistry, JsonParsingContext context) {
     if (json is! Map<String, dynamic>) {
       throw context.parseException(
-          'Expected Any message encoded as {@type,...}, found $json');
+          'Expected Any message encoded as {@type,...},', json);
     }
-    Map<String, dynamic> object = json as Map<String, dynamic>;
+    final object = json as Map<String, dynamic>;
     final typeUrl = object['@type'];
 
     if (typeUrl is String) {
@@ -110,7 +110,8 @@ abstract class AnyMixin implements GeneratedMessage {
       BuilderInfo info = typeRegistry.lookup(_typeNameFromUrl(typeUrl));
       if (info == null) {
         throw context.parseException(
-            'Decoding Any of type ${typeUrl} not in TypeRegistry $typeRegistry');
+            'Decoding Any of type ${typeUrl} not in TypeRegistry $typeRegistry',
+            json);
       }
 
       Object subJson = info.fromProto3Json == null
@@ -127,18 +128,18 @@ abstract class AnyMixin implements GeneratedMessage {
       any.value = packedMessage.writeToBuffer();
       any.typeUrl = typeUrl;
     } else {
-      throw context.parseException('Expected a string');
+      throw context.parseException('Expected a string', json);
     }
   }
 }
 
 String _typeNameFromUrl(String typeUrl) {
   int index = typeUrl.lastIndexOf('/');
-  return index == -1 ? '' : typeUrl.substring(index + 1);
+  return index < 0 ? '' : typeUrl.substring(index + 1);
 }
 
 abstract class TimestampMixin {
-  static final RegExp finalGroupsOfThreeZeroes = RegExp('(000)*\$');
+  static final RegExp finalGroupsOfThreeZeroes = RegExp(r'(?:000)*$');
 
   Int64 get seconds;
   set seconds(Int64 value);
@@ -213,42 +214,44 @@ abstract class TimestampMixin {
     String h = _twoDigits(dateTime.hour);
     String min = _twoDigits(dateTime.minute);
     String sec = _twoDigits(dateTime.second);
-    String secFrac = timestamp.nanos
-        .toString()
-        .padLeft(9, '0')
-        .replaceFirst(finalGroupsOfThreeZeroes, '');
-    if (secFrac != '') secFrac = '.$secFrac';
+    String secFrac = "";
+    if (timestamp.nanos > 0) {
+      secFrac = "." +
+          timestamp.nanos
+              .toString()
+              .padLeft(9, "0")
+              .replaceFirst(finalGroupsOfThreeZeroes, '');
+    }
     return "$y-$m-${d}T$h:$min:$sec${secFrac}Z";
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
       TypeRegistry typeRegistry, JsonParsingContext context) {
     if (json is String) {
-      Match fracSecsMatch = RegExp(r'\.(\d*)').firstMatch(json);
-      String fracSecs = fracSecsMatch?.group(1) ?? '0';
-      if (fracSecs.length > 9) {
-        throw context
-            .parseException('Timestamp with more than 9 decimal digits '
-                'does not fit into nanoseconds');
+      String jsonWithoutFracSec = json;
+      int nanos = 0;
+      Match fracSecsMatch = RegExp(r'\.(\d+)').firstMatch(json);
+      if (fracSecsMatch != null) {
+        String fracSecs = fracSecsMatch[1];
+        if (fracSecs.length > 9) {
+          throw context.parseException(
+              'Timestamp can have at most than 9 decimal digits', json);
+        }
+        nanos = int.parse(fracSecs.padRight(9, '0'));
+        jsonWithoutFracSec =
+            json.replaceRange(fracSecsMatch.start, fracSecsMatch.end, '');
       }
-      int nanos = int.tryParse(fracSecs.padRight(9, '0')) ?? 0;
-
-      String jsonWithoutFracSec = fracSecsMatch == null
-          ? json
-          : json.replaceRange(fracSecsMatch.start, fracSecsMatch.end, '');
-      DateTime dateTimeWithoutFractionalSeconds;
-      try {
-        dateTimeWithoutFractionalSeconds = DateTime.parse(jsonWithoutFracSec);
-      } on FormatException {
-        throw context.parseException('Timestamp not well formatted: $json');
-      }
+      DateTime dateTimeWithoutFractionalSeconds =
+          DateTime.tryParse(jsonWithoutFracSec) ??
+              (throw context.parseException(
+                  'Timestamp not well formatted. ', json));
 
       TimestampMixin timestamp = message as TimestampMixin;
       setFromDateTime(timestamp, dateTimeWithoutFractionalSeconds);
       timestamp.nanos = nanos;
     } else {
       throw context.parseException(
-          'Expected timestamp represented as String, found: $json');
+          'Expected timestamp represented as String', json);
     }
   }
 }
@@ -260,7 +263,7 @@ abstract class DurationMixin {
   int get nanos;
   set nanos(int value);
 
-  static final RegExp finalZeroes = RegExp('(0)*\$');
+  static final RegExp finalZeroes = RegExp(r'0+$');
 
   static Object toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
@@ -284,18 +287,18 @@ abstract class DurationMixin {
       Match match = durationPattern.matchAsPrefix(json);
       if (match == null) {
         throw context.parseException(
-            'Expected a String of the form `<seconds>.<nanos>s` but found $json');
+            'Expected a String of the form `<seconds>.<nanos>s`', json);
       } else {
-        String secondsString = match.group(1);
+        String secondsString = match[1];
         Int64 seconds =
             secondsString == '' ? Int64.ZERO : Int64.parseInt(secondsString);
         duration.seconds = seconds;
-        int nanos = int.parse((match.group(2) ?? '').padRight(9, '0'));
+        int nanos = int.parse((match[2] ?? '').padRight(9, '0'));
         duration.nanos = seconds < 0 ? -nanos : nanos;
       }
     } else {
       throw context.parseException(
-          'Expected a String of the form `<seconds>.<nanos>s`, but found $json');
+          'Expected a String of the form `<seconds>.<nanos>s`', json);
     }
   }
 }
@@ -326,18 +329,18 @@ abstract class StructMixin implements GeneratedMessage {
 
         json.forEach((key, value) {
           if (key is! String) {
-            throw context.parseException('Expected String key. Found $json.');
+            throw context.parseException('Expected String key', json);
           }
           ValueMixin v = valueCreator();
-          context.path.add(key);
+          context.addMapIndex(key);
           ValueMixin.fromProto3JsonHelper(v, value, typeRegistry, context);
-          context.path.removeLast();
+          context.popIndex();
           fields[key] = v;
         });
       }
     } else {
-      throw context
-          .parseException('Expected a JSON object literal (map). Found $json.');
+      throw context.parseException(
+          'Expected a JSON object literal (map)', json);
     }
   }
 }
@@ -412,7 +415,8 @@ abstract class ValueMixin implements GeneratedMessage {
       value.listValue = listValue;
     } else {
       throw context.parseException(
-          'Expected a json-value (Map, List, String, number, bool or null). Found $json');
+          'Expected a json-value (Map, List, String, number, bool or null)',
+          json);
     }
   }
 }
@@ -438,17 +442,16 @@ abstract class ListValueMixin implements GeneratedMessage {
     if (json is List) {
       CreateBuilderFunc subBuilder =
           message.info_.subBuilder(_valueFieldTagNumber);
-      context.path.add('0');
       for (int i = 0; i < json.length; i++) {
         Object element = json[i];
         ValueMixin v = subBuilder();
+        context.addListIndex(i);
         ValueMixin.fromProto3JsonHelper(v, element, typeRegistry, context);
+        context.popIndex();
         list.values.add(v);
-        context.path.last += i.toString();
       }
-      context.path.removeLast();
     } else {
-      throw context.parseException('Expected a json-List. Found: $json');
+      throw context.parseException('Expected a json-List', json);
     }
   }
 }
@@ -478,7 +481,8 @@ abstract class FieldMaskMixin {
       TypeRegistry typeRegistry, JsonParsingContext context) {
     if (json is String) {
       if (json.indexOf('_') != -1) {
-        throw context.parseException('Invalid Character `_` in FieldMask');
+        throw context.parseException(
+            'Invalid Character `_` in FieldMask', json);
       }
       if (json == '') {
         // The empty string splits to a single value. So this is a special case.
@@ -488,7 +492,7 @@ abstract class FieldMaskMixin {
         ..addAll(json.split(',').map(_fromCamelCase));
     } else {
       throw context.parseException(
-          'Expected String formatted as FieldMask, found $json');
+          'Expected String formatted as FieldMask', json);
     }
   }
 
@@ -521,10 +525,10 @@ abstract class DoubleValueMixin {
     } else if (json is String) {
       (message as DoubleValueMixin).value = double.tryParse(json) ??
           (throw context.parseException(
-              'Expected string to encode a double, found $json'));
+              'Expected string to encode a double', json));
     } else {
       throw context.parseException(
-          'Expected a double as a String or number, found $json');
+          'Expected a double as a String or number', json);
     }
   }
 }
@@ -547,10 +551,10 @@ abstract class FloatValueMixin {
     } else if (json is String) {
       (message as FloatValueMixin).value = double.tryParse(json) ??
           (throw context.parseException(
-              'Expected a float as a String or number, found $json'));
+              'Expected a float as a String or number', json));
     } else {
       throw context.parseException(
-          'Expected a float as a String or number, found $json');
+          'Expected a float as a String or number', json);
     }
   }
 }
@@ -574,12 +578,11 @@ abstract class Int64ValueMixin {
       try {
         (message as Int64ValueMixin).value = Int64.parseInt(json);
       } on FormatException {
-        throw context
-            .parseException('Expected string to encode integer, found $json');
+        throw context.parseException('Expected string to encode integer', json);
       }
     } else {
       throw context.parseException(
-          'Expected an integer encoded as a String or number, found $json');
+          'Expected an integer encoded as a String or number', json);
     }
   }
 }
@@ -604,11 +607,11 @@ abstract class UInt64ValueMixin {
         (message as UInt64ValueMixin).value = Int64.parseInt(json);
       } on FormatException {
         throw context.parseException(
-            'Expected string to encode unsigned integer, found $json');
+            'Expected string to encode unsigned integer', json);
       }
     } else {
       throw context.parseException(
-          'Expected an unsigned integer as a String or integer, found $json');
+          'Expected an unsigned integer as a String or integer', json);
     }
   }
 }
@@ -631,10 +634,10 @@ abstract class Int32ValueMixin {
     } else if (json is String) {
       (message as Int32ValueMixin).value = int.tryParse(json) ??
           (throw context.parseException(
-              'Expected string to encode integer, but found $json'));
+              'Expected string to encode integer', json));
     } else {
       throw context.parseException(
-          'Expected an integer encoded as a String or number, found $json');
+          'Expected an integer encoded as a String or number', json);
     }
   }
 }
@@ -656,10 +659,10 @@ abstract class UInt32ValueMixin {
     } else if (json is String) {
       (message as UInt32ValueMixin).value = int.tryParse(json) ??
           (throw context.parseException(
-              'Expected String to encode an integer, found $json'));
+              'Expected String to encode an integer', json));
     } else {
       throw context.parseException(
-          'Expected an unsigned integer as a String or integer, found $json');
+          'Expected an unsigned integer as a String or integer', json);
     }
   }
 }
@@ -680,7 +683,7 @@ abstract class BoolValueMixin {
     if (json is bool) {
       (message as BoolValueMixin).value = json;
     } else {
-      throw context.parseException('Expected a bool, found $json');
+      throw context.parseException('Expected a bool', json);
     }
   }
 }
@@ -701,7 +704,7 @@ abstract class StringValueMixin {
     if (json is String) {
       (message as StringValueMixin).value = json;
     } else {
-      throw context.parseException('Expected a String, found $json');
+      throw context.parseException('Expected a String', json);
     }
   }
 }
@@ -724,11 +727,11 @@ abstract class BytesValueMixin {
         (message as BytesValueMixin).value = base64.decode(json);
       } on FormatException {
         throw context.parseException(
-            'Expected bytes encoded as base64 String. Found $json');
+            'Expected bytes encoded as base64 String', json);
       }
     } else {
       throw context.parseException(
-          'Expected bytes encoded as base64 String. Found $json');
+          'Expected bytes encoded as base64 String', json);
     }
   }
 }

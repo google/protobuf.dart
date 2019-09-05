@@ -746,6 +746,11 @@ void main() {
           Duration()
             ..seconds = Int64(5)
             ..nanos = 0);
+      expect(
+          Duration()..mergeFromProto3Json('.s'),
+          Duration()
+            ..seconds = Int64(0)
+            ..nanos = 0);
       expect(() => Duration()..mergeFromProto3Json('0.5'), parseFailure([]));
       expect(() => Duration()..mergeFromProto3Json(100), parseFailure([]));
     });
@@ -780,6 +785,8 @@ void main() {
             ..mergeFromProto3Json('1970-01-01T00:00:00.0000000001Z'),
           parseFailure([]));
       expect(() => Timestamp()..mergeFromProto3Json(1970), parseFailure([]));
+      expect(() => Timestamp()..mergeFromProto3Json('1970-01-01T18:50:00.'),
+          parseFailure([]));
     });
 
     test('wrapper types', () {

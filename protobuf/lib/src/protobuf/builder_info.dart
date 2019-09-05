@@ -28,14 +28,9 @@ class BuilderInfo {
   BuilderInfo(String messageName,
       {PackageName package = const PackageName(''),
       this.createEmptyInstance,
-      Object Function(GeneratedMessage message, TypeRegistry typeRegistry)
-          toProto3Json,
-      Function(GeneratedMessage targetMessage, Object json,
-              TypeRegistry typeRegistry, JsonParsingContext context)
-          fromProto3Json})
-      : qualifiedMessageName = "${package.prefix}$messageName",
-        toProto3Json = toProto3Json,
-        fromProto3Json = fromProto3Json;
+      this.toProto3Json,
+      this.fromProto3Json})
+      : qualifiedMessageName = "${package.prefix}$messageName";
 
   void add<T>(
       int tagNumber,

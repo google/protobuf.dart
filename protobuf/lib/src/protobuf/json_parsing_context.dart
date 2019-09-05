@@ -4,16 +4,29 @@
 
 class JsonParsingContext {
   // A list of indices into maps and lists pointing to the current root.
-  final List<String> path = <String>[];
+  final List<String> _path = <String>[];
   final bool ignoreUnknownFields;
   final bool supportNamesWithUnderscores;
   JsonParsingContext(
       this.ignoreUnknownFields, this.supportNamesWithUnderscores);
 
-  /// Returns a FormatException pointing to the current [path].
-  Exception parseException(String message) {
-    String formattedPath = path.map((s) => '[\"$s\"]').join();
+  void addMapIndex(String index) {
+    _path.add(index);
+  }
+
+  void addListIndex(int index) {
+    _path.add(index.toString());
+  }
+
+  void popIndex() {
+    _path.removeLast();
+  }
+
+  /// Returns a FormatException indicating the indices to the current [path].
+  Exception parseException(String message, Object source) {
+    String formattedPath = _path.map((s) => '[\"$s\"]').join();
     return FormatException(
-        'Protobuf JSON decoding failed at: root$formattedPath. $message');
+        'Protobuf JSON decoding failed at: root$formattedPath. $message',
+        source);
   }
 }

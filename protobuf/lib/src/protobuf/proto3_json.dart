@@ -123,21 +123,19 @@ void _mergeFromProto3Json(
   void recursionHelper(Object json, _FieldSet fieldSet) {
     int tryParse32Bit(String s) {
       return int.tryParse(s) ??
-          (throw context.parseException('expected integer, found $s'));
+          (throw context.parseException('expected integer', s));
     }
 
     int check32BitSigned(int n) {
       if (n < -2147483648 || n > 2147483647) {
-        throw context
-            .parseException('expected 32 bit unsigned integer, found $n');
+        throw context.parseException('expected 32 bit unsigned integer', n);
       }
       return n;
     }
 
     int check32BitUnsigned(int n) {
       if (n < 0 || n > 0xFFFFFFFF) {
-        throw context
-            .parseException('expected 32 bit unsigned integer, found $n');
+        throw context.parseException('expected 32 bit unsigned integer', n);
       }
       return n;
     }
@@ -147,7 +145,7 @@ void _mergeFromProto3Json(
       try {
         result = Int64.parseInt(s);
       } on FormatException {
-        throw context.parseException('expected integer, found $s');
+        throw context.parseException('expected integer', json);
       }
       return result;
     }
@@ -162,7 +160,7 @@ void _mergeFromProto3Json(
           if (value is bool) {
             return value;
           }
-          throw context.parseException('Expected bool value');
+          throw context.parseException('Expected bool value', json);
         case PbFieldType._BYTES_BIT:
           if (value is String) {
             Uint8List result;
@@ -170,17 +168,17 @@ void _mergeFromProto3Json(
               result = base64Decode(value);
             } on FormatException {
               throw context.parseException(
-                  'Expected bytes encoded as base64 String. Found $json');
+                  'Expected bytes encoded as base64 String', json);
             }
             return result;
           }
           throw context.parseException(
-              'Expected bytes encoded as base64 String. Found $json');
+              'Expected bytes encoded as base64 String', value);
         case PbFieldType._STRING_BIT:
           if (value is String) {
             return value;
           }
-          throw context.parseException('Expected String value');
+          throw context.parseException('Expected String value', value);
         case PbFieldType._FLOAT_BIT:
         case PbFieldType._DOUBLE_BIT:
           if (value is double) {
@@ -190,22 +188,22 @@ void _mergeFromProto3Json(
           } else if (value is String) {
             return double.tryParse(value) ??
                 (throw context.parseException(
-                    'Expected String to encode a double, found $value'));
+                    'Expected String to encode a double', value));
           }
           throw context.parseException(
-              'Expected a double represented as a String or number');
+              'Expected a double represented as a String or number', value);
         case PbFieldType._ENUM_BIT:
           if (value is String) {
             // TODO(sigurdm): Do we want to avoid linear search here? Measure...
             return fieldInfo.enumValues.firstWhere((e) => e.name == value,
                 orElse: () =>
-                    throw context.parseException('Unknown enum value: $value'));
+                    throw context.parseException('Unknown enum value', value));
           } else if (value is int) {
             return fieldInfo.valueOf(value) ??
-                (throw context.parseException('Unknown enum value: $value'));
+                (throw context.parseException('Unknown enum value', value));
           }
           throw context.parseException(
-              'Expected enum as a string or integer, found $value');
+              'Expected enum as a string or integer', value);
         case PbFieldType._UINT32_BIT:
           int result;
           if (value is int) {
@@ -213,7 +211,8 @@ void _mergeFromProto3Json(
           } else if (value is String) {
             result = tryParse32Bit(value);
           } else {
-            throw context.parseException('Expected int or stringified int');
+            throw context.parseException(
+                'Expected int or stringified int', value);
           }
           return check32BitUnsigned(result);
         case PbFieldType._INT32_BIT:
@@ -227,7 +226,8 @@ void _mergeFromProto3Json(
           } else if (value is String) {
             result = tryParse32Bit(value);
           } else {
-            throw context.parseException('Expected int or stringified int');
+            throw context.parseException(
+                'Expected int or stringified int', value);
           }
           check32BitSigned(result);
           return result;
@@ -238,7 +238,8 @@ void _mergeFromProto3Json(
           } else if (value is String) {
             result = tryParse64Bit(value);
           } else {
-            throw context.parseException('Expected int or stringified int');
+            throw context.parseException(
+                'Expected int or stringified int', value);
           }
           return result;
         case PbFieldType._INT64_BIT:
@@ -251,11 +252,13 @@ void _mergeFromProto3Json(
             try {
               result = Int64.parseInt(value);
             } on FormatException {
-              throw context.parseException('Expected int or stringified int');
+              throw context.parseException(
+                  'Expected int or stringified int', value);
             }
             return result;
           }
-          throw context.parseException('Expected int or stringified int');
+          throw context.parseException(
+              'Expected int or stringified int', value);
         case PbFieldType._GROUP_BIT:
         case PbFieldType._MESSAGE_BIT:
           GeneratedMessage subMessage = fieldInfo.subBuilder();
@@ -276,7 +279,7 @@ void _mergeFromProto3Json(
               return false;
             default:
               throw context.parseException(
-                  'Wrong boolean key "$key", should be one of ("true", "false")');
+                  'Wrong boolean key, should be one of ("true", "false")', key);
           }
           // ignore: dead_code
           throw StateError('(Should have been) unreachable statement');
@@ -319,9 +322,9 @@ void _mergeFromProto3Json(
 
         json.forEach((key, value) {
           if (key is! String) {
-            throw context.parseException('Key $key was not a String ');
+            throw context.parseException('Key was not a String', key);
           }
-          context.path.add(key);
+          context.addMapIndex(key);
 
           FieldInfo fieldInfo = byName[key];
           if (fieldInfo == null && supportNamesWithUnderscores) {
@@ -335,7 +338,7 @@ void _mergeFromProto3Json(
             if (ignoreUnknownFields) {
               return;
             } else {
-              throw context.parseException('Unknown field name \'$key\'');
+              throw context.parseException('Unknown field name \'$key\'', key);
             }
           }
 
@@ -344,20 +347,19 @@ void _mergeFromProto3Json(
               MapFieldInfo mapFieldInfo = fieldInfo;
               Map fieldValues = fieldSet._ensureMapField(fieldInfo);
               value.forEach((subKey, subValue) {
-                context.path.add(subKey);
                 if (subKey is! String) {
-                  throw context.parseException(
-                      'Expected a String key, but found $subKey');
+                  throw context.parseException('Expected a String key', subKey);
                 }
+                context.addMapIndex(subKey);
                 final result = fieldValues[
                         decodeMapKey(subKey, mapFieldInfo.keyFieldType)] =
                     convertProto3JsonValue(
                         subValue, mapFieldInfo.valueFieldInfo);
-                context.path.removeLast();
+                context.popIndex();
                 return result;
               });
             } else {
-              throw context.parseException('Expected a map, but found $value');
+              throw context.parseException('Expected a map', value);
             }
           } else if (_isRepeated(fieldInfo.type)) {
             if (value == null) {
@@ -365,15 +367,14 @@ void _mergeFromProto3Json(
               fieldSet._ensureRepeatedField(fieldInfo);
             } else if (value is List) {
               List values = fieldSet._ensureRepeatedField(fieldInfo);
-              context.path.add('0');
               for (int i = 0; i < value.length; i++) {
                 final entry = value[i];
-                context.path.last = i.toString();
+                context.addListIndex(i);
                 values.add(convertProto3JsonValue(entry, fieldInfo));
+                context.popIndex();
               }
-              context.path.removeLast();
             } else {
-              throw context.parseException('Expected a list, but found $value');
+              throw context.parseException('Expected a list', value);
             }
           } else if (_isGroupOrMessage(fieldInfo.type)) {
             // TODO(sigurdm) consider a cleaner separation between parsing and merging.
@@ -389,10 +390,10 @@ void _mergeFromProto3Json(
             fieldSet._setFieldUnchecked(
                 fieldInfo, convertProto3JsonValue(value, fieldInfo));
           }
-          context.path.removeLast();
+          context.popIndex();
         });
       } else {
-        throw context.parseException('Expected JSON object but found: $json');
+        throw context.parseException('Expected JSON object', json);
       }
     }
   }

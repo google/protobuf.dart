@@ -205,17 +205,17 @@ abstract class GeneratedMessage {
 
   /// Returns an Object representing Proto3 JSON serialization of [this].
   ///
-  /// The key for each field will be the Json-name (camel-cased) of the field.
+  /// The key for each field is be the camel-cased name of the field.
   ///
   /// Well-known types and their special JSON encoding are supported.
   /// If a well-known type cannot be encoded (eg. a `google.protobuf.Timestamp`
-  /// with negative `nanoseconds`) an [ArgumentError] is thrown.
+  /// with negative `nanoseconds`) an error is thrown.
   ///
-  /// Extensions and unknown fields will not be encoded.
+  /// Extensions and unknown fields are not encoded.
   ///
-  /// The [typeRegistry] will be used for encoding `Any` messages. If an `Any`
-  /// message encoding a type not in [typeRegistry] is encountered an
-  /// [ArgumentError] is thrown.
+  /// The [typeRegistry] is be used for encoding `Any` messages. If an `Any`
+  /// message encoding a type not in [typeRegistry] is encountered, an
+  /// error is thrown.
   Object toProto3Json(
           {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
       _writeToProto3Json(_fieldSet, typeRegistry);
@@ -226,7 +226,7 @@ abstract class GeneratedMessage {
   /// Except `FieldMask`.
   ///
   /// If [ignoreUnknownFields] is `false` (the default) an
-  /// [FormatException] will be thrown if an unknown field name
+  /// [FormatException] is be thrown if an unknown field name
   /// is encountered. Otherwise the unknown field is ignored.
   ///
   /// If [supportNamesWithUnderscores] is `true` (the default) field names in
@@ -234,11 +234,11 @@ abstract class GeneratedMessage {
   /// underscores.
   /// If `false` only the JSON names are supported.
   ///
-  /// The [typeRegistry] will be used for decoding `Any` messages. If an `Any`
-  /// message encoding a type not in [typeRegistry] is encountered an
+  /// The [typeRegistry] is be used for decoding `Any` messages. If an `Any`
+  /// message encoding a type not in [typeRegistry] is encountered, a
   /// [FormatException] is thrown.
   ///
-  /// If the json is otherwise not formatted correctly (a String where a
+  /// If the JSON is otherwise not formatted correctly (a String where a
   /// number was expected etc.) a [FormatException] is thrown.
   void mergeFromProto3Json(Object json,
           {TypeRegistry typeRegistry = const TypeRegistry.empty(),
