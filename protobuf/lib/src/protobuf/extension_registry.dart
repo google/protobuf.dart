@@ -92,73 +92,89 @@ class ExtensionRegistry {
 
 T _reparseMessage<T extends GeneratedMessage>(
     T message, ExtensionRegistry extensionRegistry) {
-  T result = message.createEmptyInstance();
+  T result;
+  T ensureResult() {
+    if (result == null) {
+      result ??= message.createEmptyInstance();
+      result._fieldSet._shallowCopyValues(message._fieldSet);
+    }
+    return result;
+  }
 
-  bool reparsedExtensions = false;
-  result._fieldSet._shallowCopyValues(message._fieldSet);
-  UnknownFieldSet resultUnknownFields = result._fieldSet._unknownFields;
-  if (resultUnknownFields != null) {
+  UnknownFieldSet resultUnknownFields;
+  UnknownFieldSet ensureUnknownFields() =>
+      resultUnknownFields ??= ensureResult()._fieldSet._unknownFields;
+
+  UnknownFieldSet messageUnknownFields = message._fieldSet._unknownFields;
+  if (messageUnknownFields != null) {
     CodedBufferWriter codedBufferWriter = CodedBufferWriter();
     extensionRegistry._extensions[message.info_.qualifiedMessageName]
         ?.forEach((tagNumber, extension) {
       final UnknownFieldSetField unknownField =
-          resultUnknownFields._fields[tagNumber];
+          messageUnknownFields._fields[tagNumber];
       if (unknownField != null) {
         unknownField.writeTo(tagNumber, codedBufferWriter);
+        ensureUnknownFields()._fields.remove(tagNumber);
       }
-      resultUnknownFields._fields.remove(tagNumber);
-      reparsedExtensions = true;
     });
 
-    result.mergeFromBuffer(codedBufferWriter.toBuffer(), extensionRegistry);
+    if (codedBufferWriter.toBuffer().length > 0) {
+      ensureResult()
+          .mergeFromBuffer(codedBufferWriter.toBuffer(), extensionRegistry);
+    }
   }
 
-  result._fieldSet._meta.byIndex.forEach((FieldInfo field) {
+  message._fieldSet._meta.byIndex.forEach((FieldInfo field) {
+    PbList resultEntries;
+    PbList ensureEntries() =>
+        resultEntries ??= ensureResult()._fieldSet._values[field.index];
+
+    PbMap resultMap;
+    PbMap ensureMap() =>
+        resultMap ??= ensureResult()._fieldSet._values[field.index];
+
     if (field.isRepeated) {
-      final entries = result._fieldSet._values[field.index];
-      if (entries == null) return;
+      final messageEntries = message._fieldSet._values[field.index];
+      if (messageEntries == null) return;
       if (field.isGroupOrMessage) {
-        for (int i = 0; i < entries.length; i++) {
-          final GeneratedMessage entry = entries[i];
+        for (int i = 0; i < messageEntries.length; i++) {
+          final GeneratedMessage entry = messageEntries[i];
           final GeneratedMessage reparsedEntry =
               _reparseMessage(entry, extensionRegistry);
           if (!identical(entry, reparsedEntry)) {
-            reparsedExtensions = true;
-            entries[i] = reparsedEntry;
+            ensureEntries()[i] = reparsedEntry;
           }
         }
       }
     } else if (field.isMapField) {
-      final map = result._fieldSet._values[field.index];
-      if (map == null) return;
+      final messageMap = message._fieldSet._values[field.index];
+      if (messageMap == null) return;
       if (field.isGroupOrMessage) {
-        for (var key in map.keys) {
-          final GeneratedMessage value = map[key];
+        for (var key in messageMap.keys) {
+          final GeneratedMessage value = messageMap[key];
           final GeneratedMessage reparsedValue =
               _reparseMessage(value, extensionRegistry);
           if (!identical(value, reparsedValue)) {
-            reparsedExtensions = true;
-            map[key] = reparsedValue;
+            ensureMap()[key] = reparsedValue;
           }
         }
       }
     } else if (field.isGroupOrMessage) {
-      final subField = result._fieldSet._values[field.index];
-      if (subField == null) return;
+      final messageSubField = message._fieldSet._values[field.index];
+      if (messageSubField == null) return;
       final GeneratedMessage reparsedSubField =
-          _reparseMessage(subField, extensionRegistry);
-      if (!identical(subField, reparsedSubField)) {
-        reparsedExtensions = true;
-        result._fieldSet._values[field.index] = reparsedSubField;
+          _reparseMessage(messageSubField, extensionRegistry);
+      if (!identical(messageSubField, reparsedSubField)) {
+        ensureResult()._fieldSet._values[field.index] = reparsedSubField;
       }
     }
   });
 
-  if (message._fieldSet._isReadOnly) {
+  if (result != null && message.isFrozen) {
     result.freeze();
   }
 
-  return reparsedExtensions ? result : message;
+  return result ?? message;
 }
 
 class _EmptyExtensionRegistry implements ExtensionRegistry {
