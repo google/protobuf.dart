@@ -222,7 +222,7 @@ abstract class GeneratedMessage {
 
   /// Merges field values from [json], a JSON object using proto3 encoding.
   ///
-  /// Well-known types and their special JSON encoding is supported.
+  /// Well-known types and their special JSON encoding are supported.
   /// Except `FieldMask`.
   ///
   /// If [ignoreUnknownFields] is `false` (the default) an
