@@ -5,6 +5,9 @@
 * **Breaking**: The field-adder methods on `BuilderInfo` now takes only named optional arguments.
   To migrate, update `protoc_plugin` to version 18.0.0 or higher.
 * The field-adder methods on `BuilderInfo` all take a new argument `protoName`.
+* **Breaking**: Changed `ExtensionRegistry.reparseMessage` to reparse extensions deeply, that is it looks at every
+nested message and tries to reparse extensions from its unknown fields.
+
 
 ## 0.13.16
 

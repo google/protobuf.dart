@@ -336,7 +336,7 @@ void main() {
 
     final reparsedWithEmpty =
         ExtensionRegistry().reparseMessage(withUnknownFields);
-    expect(reparsedWithEmpty, isNot(same(withUnknownFields)));
+    expect(reparsedWithEmpty, same(withUnknownFields));
 
     final reparsed = r.reparseMessage(withUnknownFields);
 
@@ -385,5 +385,166 @@ void main() {
             .reparseMessage(withUnknownFields)
             .setExtension(Unittest.defaultStringExtension, 'blah'),
         throwsA(TypeMatcher<UnsupportedError>()));
+  });
+
+  test(
+      'ExtensionRegistry.reparseMessage returns the same object when no new extensions are parsed',
+      () {
+    final original = Outer()
+      ..inner = (Inner()
+        ..innerMost = (InnerMost()
+          ..setExtension(Extend_unittest.innerMostExtensionString, 'a')))
+      ..inners.addAll([
+        (Inner()..setExtension(Extend_unittest.innerExtensionString, "a")),
+        Inner()..value = 'value'
+      ])
+      ..innerMap[0] =
+          (Inner()..setExtension(Extend_unittest.innerExtensionString, "a"));
+
+    final reparsed = ExtensionRegistry().reparseMessage(original);
+    expect(identical(reparsed, original), isTrue);
+  });
+
+  test(
+      'ExtensionRegistry.reparseMessage reparses extension in deeply nested subfield',
+      () {
+    final original = Outer()
+      ..inner = (Inner()
+        ..innerMost = (InnerMost()
+          ..setExtension(Extend_unittest.innerMostExtensionString, 'a')));
+
+    final withUnknownFields = Outer.fromBuffer(original.writeToBuffer());
+
+    expect(
+        withUnknownFields.inner.innerMost
+            .hasExtension(Extend_unittest.innerMostExtensionString),
+        isFalse);
+
+    final r = ExtensionRegistry()
+      ..add(Extend_unittest.innerMostExtensionString);
+    final reparsed = r.reparseMessage(withUnknownFields);
+
+    expect(identical(reparsed.inner, withUnknownFields.inner), isFalse);
+    expect(
+        identical(reparsed.inner.innerMost, withUnknownFields.inner.innerMost),
+        isFalse);
+    expect(
+        reparsed.inner.innerMost
+            .hasExtension(Extend_unittest.innerMostExtensionString),
+        isTrue);
+  });
+
+  test(
+      'ExtensionRegistry.reparseMessage reparses extensions in all nested subfields',
+      () {
+    final original = Outer()
+      ..inner = (Inner()
+        ..setExtension(Extend_unittest.innerExtensionString, "a")
+        ..innerMost = (InnerMost()
+          ..setExtension(Extend_unittest.innerMostExtensionString, 'a')));
+
+    final withUnknownFields = Outer.fromBuffer(original.writeToBuffer());
+
+    expect(
+        withUnknownFields.inner
+            .hasExtension(Extend_unittest.innerExtensionString),
+        isFalse);
+    expect(
+        withUnknownFields.inner.innerMost
+            .hasExtension(Extend_unittest.innerMostExtensionString),
+        isFalse);
+
+    final r = ExtensionRegistry()
+      ..addAll([
+        Extend_unittest.innerExtensionString,
+        Extend_unittest.innerMostExtensionString
+      ]);
+    final reparsed = r.reparseMessage(withUnknownFields);
+
+    expect(identical(reparsed.inner, withUnknownFields.inner), isFalse);
+    expect(
+        identical(reparsed.inner.innerMost, withUnknownFields.inner.innerMost),
+        isFalse);
+    expect(reparsed.inner.hasExtension(Extend_unittest.innerExtensionString),
+        isTrue);
+    expect(
+        reparsed.inner.innerMost
+            .hasExtension(Extend_unittest.innerMostExtensionString),
+        isTrue);
+  });
+
+  test(
+      'ExtensionRegistry.reparseMessage doesn\'t copy deepest subfield without extensions',
+      () {
+    final original = Outer()
+      ..inner = (Inner()
+        ..setExtension(Extend_unittest.innerExtensionString, "a")
+        ..innerMost = InnerMost());
+
+    final withUnknownFields = Outer.fromBuffer(original.writeToBuffer());
+
+    expect(
+        withUnknownFields.inner
+            .hasExtension(Extend_unittest.innerExtensionString),
+        false);
+
+    final r = ExtensionRegistry()..add(Extend_unittest.innerExtensionString);
+    final reparsed = r.reparseMessage(withUnknownFields);
+
+    expect(identical(reparsed.inner, withUnknownFields.inner), isFalse);
+    expect(
+        identical(reparsed.inner.innerMost, withUnknownFields.inner.innerMost),
+        isTrue);
+    expect(reparsed.inner.hasExtension(Extend_unittest.innerExtensionString),
+        isTrue);
+  });
+
+  test(
+      'ExtensionRegistry.reparseMessage reparses extensions in repeated fields',
+      () {
+    final original = Outer()
+      ..inners.addAll([
+        (Inner()..setExtension(Extend_unittest.innerExtensionString, "a")),
+        Inner()..value = 'value'
+      ]);
+
+    final withUnknownFields = Outer.fromBuffer(original.writeToBuffer());
+
+    expect(
+        withUnknownFields.inners.first
+            .hasExtension(Extend_unittest.innerExtensionString),
+        isFalse);
+
+    final r = ExtensionRegistry()..add(Extend_unittest.innerExtensionString);
+    final reparsed = r.reparseMessage(withUnknownFields);
+
+    expect(
+        reparsed.inners[0].hasExtension(Extend_unittest.innerExtensionString),
+        isTrue);
+    expect(identical(withUnknownFields.inners[1], reparsed.inners[1]), isTrue);
+  });
+
+  test('ExtensionRegistry.reparseMessage reparses extensions in map fields',
+      () {
+    final original = Outer()
+      ..innerMap[0] =
+          (Inner()..setExtension(Extend_unittest.innerExtensionString, "a"))
+      ..innerMap[1] = (Inner());
+
+    final withUnknownFields = Outer.fromBuffer(original.writeToBuffer());
+
+    expect(
+        withUnknownFields.innerMap[0]
+            .hasExtension(Extend_unittest.innerExtensionString),
+        isFalse);
+
+    final r = ExtensionRegistry()..add(Extend_unittest.innerExtensionString);
+    final reparsed = r.reparseMessage(withUnknownFields);
+
+    expect(
+        reparsed.innerMap[0].hasExtension(Extend_unittest.innerExtensionString),
+        isTrue);
+    expect(
+        identical(withUnknownFields.innerMap[1], reparsed.innerMap[1]), isTrue);
   });
 }
