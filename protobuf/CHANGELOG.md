@@ -1,3 +1,10 @@
+## 0.14.1
+
+* Support for `import public`.
+
+  The generated code for a protofile `a.proto` that `import public "b.proto"`;  will export the
+  generated code for `b.proto`.
+
 ## 0.14.0
 
 * Support for proto3 json (json with field names as keys) 
