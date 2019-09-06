@@ -319,6 +319,11 @@ class FileGenerator extends ProtobufContainer {
     }
     if (enumImports.isNotEmpty) out.println();
 
+    for (int publicDependency in descriptor.publicDependency) {
+      _writeExport(out, config,
+          Uri.file(descriptor.dependency[publicDependency]), '.pb.dart');
+    }
+
     // Export enums in main file for backward compatibility.
     if (enumCount > 0) {
       Uri resolvedImport =
@@ -558,5 +563,13 @@ class FileGenerator extends ProtobufContainer {
       out.print(' as ${target.fileImportPrefix}');
     }
     out.println(';');
+  }
+
+  /// Writes an export of a pb.dart file corresponding to a .proto file.
+  /// (Possibly the same .proto file.)
+  void _writeExport(IndentingWriter out, OutputConfiguration config, Uri target,
+      String extension) {
+    Uri resolvedImport = config.resolveImport(target, protoFileUri, extension);
+    out.println("export '$resolvedImport';");
   }
 }
