@@ -13,7 +13,7 @@ import 'package1.pb.dart' as $1;
 import 'package2.pb.dart' as $2;
 
 class M extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('M')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('M', createEmptyInstance: create)
     ..a<M>(1, 'm', $pb.PbFieldType.OM, defaultOrMaker: M.getDefault, subBuilder: M.create)
     ..a<$1.M>(2, 'm1', $pb.PbFieldType.OM, defaultOrMaker: $1.M.getDefault, subBuilder: $1.M.create)
     ..a<$2.M>(3, 'm2', $pb.PbFieldType.OM, defaultOrMaker: $2.M.getDefault, subBuilder: $2.M.create)

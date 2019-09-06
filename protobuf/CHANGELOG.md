@@ -1,10 +1,20 @@
 ## 0.14.0
 
+* Support for proto3 json (json with field names as keys) 
+  - encoding and decoding.
+  - Support for well-known types.
+  - Use `GeneratedMessage.toProto3Json()` to encode and `GeneratedMessage.mergeFromProto3Json(json)`
+    to decode.
+
 * `FieldInfo` objects have a new getter `.protoName` that gives the non-camel-case name of the field
   as in the `.proto`-file.
+
 * **Breaking**: The field-adder methods on `BuilderInfo` now takes only named optional arguments.
   To migrate, update `protoc_plugin` to version 18.0.0 or higher.
 * The field-adder methods on `BuilderInfo` all take a new argument `protoName`.
+* **Breaking**: Changed `ExtensionRegistry.reparseMessage` to reparse extensions deeply, that is it looks at every
+nested message and tries to reparse extensions from its unknown fields.
+
 
 ## 0.13.16
 

@@ -27,6 +27,7 @@ message TestMap {
     map<string, int32>       string_to_int32_field = 6;
     map<uint32, int32>       uint32_to_int32_field = 7;
     map<int64, int32>        int64_to_int32_field = 8;
+    map<uint64, int32>       uint64_to_int32_field = 9;
 }
 
 message Inner  {

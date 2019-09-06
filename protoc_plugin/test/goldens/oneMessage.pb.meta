@@ -9,8 +9,8 @@ annotation: {
   path: 4
   path: 0
   sourceFile: test
-  begin: 564
-  end: 575
+  begin: 593
+  end: 604
 }
 annotation: {
   path: 4
@@ -18,8 +18,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1492
-  end: 1498
+  begin: 1521
+  end: 1527
 }
 annotation: {
   path: 4
@@ -27,8 +27,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1523
-  end: 1529
+  begin: 1552
+  end: 1558
 }
 annotation: {
   path: 4
@@ -36,8 +36,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1582
-  end: 1591
+  begin: 1611
+  end: 1620
 }
 annotation: {
   path: 4
@@ -45,17 +45,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1614
-  end: 1625
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 1
-  sourceFile: test
-  begin: 1663
-  end: 1667
+  begin: 1643
+  end: 1654
 }
 annotation: {
   path: 4
@@ -63,8 +54,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 1690
-  end: 1694
+  begin: 1692
+  end: 1696
 }
 annotation: {
   path: 4
@@ -72,8 +63,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 1749
-  end: 1756
+  begin: 1719
+  end: 1723
 }
 annotation: {
   path: 4
@@ -81,8 +72,17 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 1779
-  end: 1788
+  begin: 1778
+  end: 1785
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 1
+  sourceFile: test
+  begin: 1808
+  end: 1817
 }
 annotation: {
   path: 4
@@ -90,8 +90,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1829
-  end: 1833
+  begin: 1858
+  end: 1862
 }
 annotation: {
   path: 4
@@ -99,8 +99,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1860
-  end: 1864
+  begin: 1889
+  end: 1893
 }
 annotation: {
   path: 4
@@ -108,8 +108,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1917
-  end: 1924
+  begin: 1946
+  end: 1953
 }
 annotation: {
   path: 4
@@ -117,6 +117,6 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1947
-  end: 1956
+  begin: 1976
+  end: 1985
 }

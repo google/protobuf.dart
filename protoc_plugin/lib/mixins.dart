@@ -34,13 +34,23 @@ class PbMixin {
   /// May be null if the mixin doesn't reserve any new names.
   final List<String> reservedNames;
 
-  ///  Code to inject into the class using the mixin.
+  /// Code to inject into the class using the mixin.
   ///
   /// Typically used for static helpers since you cannot mix in static members.
   final List<String> injectedHelpers;
 
-  const PbMixin(this.name,
-      {this.importFrom, this.parent, this.reservedNames, this.injectedHelpers});
+  /// If `True` the mixin should have static methods for converting to and from
+  /// proto3 Json.
+  final bool hasProto3JsonHelpers;
+
+  const PbMixin(
+    this.name, {
+    this.importFrom,
+    this.parent,
+    this.reservedNames,
+    this.injectedHelpers,
+    this.hasProto3JsonHelpers = false,
+  });
 
   /// Returns the mixin and its ancestors, in the order they should be applied.
   Iterable<PbMixin> findMixinsToApply() {
