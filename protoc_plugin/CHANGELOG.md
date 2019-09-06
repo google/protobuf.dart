@@ -1,3 +1,9 @@
+## 19.0.0
+
+* Breaking: Generates code that requires at least `protobuf` 0.14.2.
+
+* Annotate generated accessors with the tag number of the associated field. 
+
 ## 18.0.0
 
 * Breaking: Generates code that requires at least `protobuf` 0.14.0.

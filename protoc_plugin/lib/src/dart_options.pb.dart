@@ -11,7 +11,8 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class DartMixin extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('DartMixin',
-      package: const $pb.PackageName('dart_options'))
+      package: const $pb.PackageName('dart_options'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..aOS(2, 'importFrom')
     ..aOS(3, 'parent')
@@ -36,37 +37,50 @@ class DartMixin extends $pb.GeneratedMessage {
   static DartMixin getDefault() => _defaultInstance ??= create()..freeze();
   static DartMixin _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.String get name => $_getS(0, '');
+  @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
   }
 
+  @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
+  @$pb.TagNumber(1)
   void clearName() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.String get importFrom => $_getS(1, '');
+  @$pb.TagNumber(2)
   set importFrom($core.String v) {
     $_setString(1, v);
   }
 
+  @$pb.TagNumber(2)
   $core.bool hasImportFrom() => $_has(1);
+  @$pb.TagNumber(2)
   void clearImportFrom() => clearField(2);
 
+  @$pb.TagNumber(3)
   $core.String get parent => $_getS(2, '');
+  @$pb.TagNumber(3)
   set parent($core.String v) {
     $_setString(2, v);
   }
 
+  @$pb.TagNumber(3)
   $core.bool hasParent() => $_has(2);
+  @$pb.TagNumber(3)
   void clearParent() => clearField(3);
 }
 
 class Imports extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      $pb.BuilderInfo('Imports', package: const $pb.PackageName('dart_options'))
-        ..pc<DartMixin>(1, 'mixins', $pb.PbFieldType.PM,
-            subBuilder: DartMixin.create)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Imports',
+      package: const $pb.PackageName('dart_options'),
+      createEmptyInstance: create)
+    ..pc<DartMixin>(1, 'mixins', $pb.PbFieldType.PM,
+        subBuilder: DartMixin.create)
+    ..hasRequiredFields = false;
 
   Imports._() : super();
   factory Imports() => create();
@@ -87,6 +101,7 @@ class Imports extends $pb.GeneratedMessage {
   static Imports getDefault() => _defaultInstance ??= create()..freeze();
   static Imports _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<DartMixin> get mixins => $_getList(0);
 }
 

@@ -261,3 +261,15 @@ class BuilderInfo {
     return f(rawValue);
   }
 }
+
+/// Annotation for marking accessors that belong together.
+class TagNumber {
+  final int tagNumber;
+
+  /// Annotation for marking accessors that belong together.
+  ///
+  /// Allows tooling to associate related accessors.
+  /// [tagNumber] is the protobuf tagnumber associated with the annotated
+  /// accessor.
+  const TagNumber(this.tagNumber);
+}

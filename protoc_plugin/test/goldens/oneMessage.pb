@@ -30,19 +30,31 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
   static PhoneNumber _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.String get number => $_getS(0, '');
+  @$pb.TagNumber(1)
   set number($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasNumber() => $_has(0);
+  @$pb.TagNumber(1)
   void clearNumber() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.int get type => $_get(1, 0);
+  @$pb.TagNumber(2)
   set type($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasType() => $_has(1);
+  @$pb.TagNumber(2)
   void clearType() => clearField(2);
 
+  @$pb.TagNumber(3)
   $core.String get name => $_getS(2, '\$');
+  @$pb.TagNumber(3)
   set name($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
   $core.bool hasName() => $_has(2);
+  @$pb.TagNumber(3)
   void clearName() => clearField(3);
 }
 

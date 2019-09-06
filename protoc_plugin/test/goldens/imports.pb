@@ -34,19 +34,31 @@ class M extends $pb.GeneratedMessage {
   static M getDefault() => _defaultInstance ??= create()..freeze();
   static M _defaultInstance;
 
+  @$pb.TagNumber(1)
   M get m => $_getN(0);
+  @$pb.TagNumber(1)
   set m(M v) { setField(1, v); }
+  @$pb.TagNumber(1)
   $core.bool hasM() => $_has(0);
+  @$pb.TagNumber(1)
   void clearM() => clearField(1);
 
+  @$pb.TagNumber(2)
   $1.M get m1 => $_getN(1);
+  @$pb.TagNumber(2)
   set m1($1.M v) { setField(2, v); }
+  @$pb.TagNumber(2)
   $core.bool hasM1() => $_has(1);
+  @$pb.TagNumber(2)
   void clearM1() => clearField(2);
 
+  @$pb.TagNumber(3)
   $2.M get m2 => $_getN(2);
+  @$pb.TagNumber(3)
   set m2($2.M v) { setField(3, v); }
+  @$pb.TagNumber(3)
   $core.bool hasM2() => $_has(2);
+  @$pb.TagNumber(3)
   void clearM2() => clearField(3);
 }
 
