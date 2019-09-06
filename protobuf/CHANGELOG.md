@@ -2,8 +2,10 @@
 
 * Support for `import public`.
 
-  The generated code for a protofile `a.proto` that `import public "b.proto"`;  will export the
+  The generated code for a protofile `a.proto` that `import public "b.proto"` will export the
   generated code for `b.proto`.
+  
+  See https://developers.google.com/protocol-buffers/docs/proto#importing-definitions.
 
 ## 0.14.0
 
