@@ -18,7 +18,18 @@ class BuilderInfo {
   bool hasRequiredFields = true;
   List<FieldInfo> _sortedByTag;
 
-  BuilderInfo(String messageName, {PackageName package = const PackageName('')})
+  // For well-known types.
+  final Object Function(GeneratedMessage message, TypeRegistry typeRegistry)
+      toProto3Json;
+  final Function(GeneratedMessage targetMessage, Object json,
+      TypeRegistry typeRegistry, JsonParsingContext context) fromProto3Json;
+  final CreateBuilderFunc createEmptyInstance;
+
+  BuilderInfo(String messageName,
+      {PackageName package = const PackageName(''),
+      this.createEmptyInstance,
+      this.toProto3Json,
+      this.fromProto3Json})
       : qualifiedMessageName = "${package.prefix}$messageName";
 
   void add<T>(
@@ -42,12 +53,17 @@ class BuilderInfo {
     _addField(fieldInfo);
   }
 
-  void addMapField<K, V>(int tagNumber, String name, int keyFieldType,
-      int valueFieldType, BuilderInfo mapEntryBuilderInfo,
+  void addMapField<K, V>(
+      int tagNumber,
+      String name,
+      int keyFieldType,
+      int valueFieldType,
+      BuilderInfo mapEntryBuilderInfo,
+      CreateBuilderFunc valueCreator,
       {String protoName}) {
     var index = byIndex.length;
     _addField(MapFieldInfo<K, V>(name, tagNumber, index, PbFieldType.M,
-        keyFieldType, valueFieldType, mapEntryBuilderInfo,
+        keyFieldType, valueFieldType, mapEntryBuilderInfo, valueCreator,
         protoName: protoName));
   }
 
@@ -165,8 +181,8 @@ class BuilderInfo {
       ..add(PbMap._valueFieldNumber, 'value', valueFieldType, null,
           valueCreator, valueOf, enumValues);
 
-    addMapField<K, V>(
-        tagNumber, name, keyFieldType, valueFieldType, mapEntryBuilderInfo,
+    addMapField<K, V>(tagNumber, name, keyFieldType, valueFieldType,
+        mapEntryBuilderInfo, valueCreator,
         protoName: protoName);
   }
 
