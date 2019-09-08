@@ -199,7 +199,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
   /// `null` if the value type is not a Message type.
   final CreateBuilderFunc valueCreator;
 
-  final BuilderInfo _mapEntryBuilderInfo;
+  final BuilderInfo mapEntryBuilderInfo;
 
   MapFieldInfo(
       String name,
@@ -208,12 +208,12 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
       int type,
       this.keyFieldType,
       this.valueFieldType,
-      this._mapEntryBuilderInfo,
+      this.mapEntryBuilderInfo,
       this.valueCreator,
       {String protoName})
       : super(name, tagNumber, index, type,
             defaultOrMaker: () =>
-                PbMap<K, V>(keyFieldType, valueFieldType, _mapEntryBuilderInfo),
+                PbMap<K, V>(keyFieldType, valueFieldType, mapEntryBuilderInfo),
             protoName: protoName) {
     assert(name != null);
     assert(tagNumber != null);
@@ -222,7 +222,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
   }
 
   FieldInfo get valueFieldInfo =>
-      _mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber];
+      mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber];
 
   Map<K, V> _ensureMapField(_FieldSet fs) {
     return fs._ensureMapField<K, V>(this);
