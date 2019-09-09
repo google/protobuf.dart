@@ -1,3 +1,7 @@
+## 0.14.2
+
+*  Expose `mapEntryBuilderInfo` in `MapFieldInfo`.
+
 ## 0.14.1
 
 * Support for `import public`.
