@@ -1,3 +1,8 @@
+## 18.0.1
+
+* Add a `bin/protoc-gen-dart.bat` script making it easier to compile on windows using a local
+  checkout.
+
 ## 18.0.0
 
 * Breaking: Generates code that requires at least `protobuf` 0.14.0.
