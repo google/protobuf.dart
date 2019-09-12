@@ -1,3 +1,14 @@
+## 0.13.16+1
+
+* Reverts `0.13.16` which accidentally introduced a breaking change,
+  [#284](https://github.com/dart-lang/protobuf/issues/284). This release is
+  identical to `0.13.15`.
+
+## 0.13.16
+
+* Better handling of dummy calls to `BuilderInfo.add` with a tag number of 0.
+  These would trigger assertions before.
+
 ## 0.13.15
 
 * Add new getter `GeneratedMessage.isFrozen` to query if the message has been frozen. 
