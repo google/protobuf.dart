@@ -23,7 +23,7 @@ void main() {
         isNotNull);
 
     expect(
-        (msg.info_.byName["repeatedGroup"]
+        (msg.info_.byName["repeatedgroup"]
                 as FieldInfo<TestAllTypes_RepeatedGroup>)
             .check,
         isNotNull);

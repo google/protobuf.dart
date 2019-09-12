@@ -1,3 +1,33 @@
+## 0.14.2
+
+*  Expose `mapEntryBuilderInfo` in `MapFieldInfo`.
+
+## 0.14.1
+
+* Support for `import public`.
+
+  The generated code for a protofile `a.proto` that `import public "b.proto"` will export the
+  generated code for `b.proto`.
+  
+  See https://developers.google.com/protocol-buffers/docs/proto#importing-definitions.
+
+## 0.14.0
+
+* Support for proto3 json (json with field names as keys) 
+  - encoding and decoding.
+  - Support for well-known types.
+  - Use `GeneratedMessage.toProto3Json()` to encode and `GeneratedMessage.mergeFromProto3Json(json)`
+    to decode.
+
+* `FieldInfo` objects have a new getter `.protoName` that gives the non-camel-case name of the field
+  as in the `.proto`-file.
+
+* **Breaking**: The field-adder methods on `BuilderInfo` now takes only named optional arguments.
+  To migrate, update `protoc_plugin` to version 18.0.0 or higher.
+* The field-adder methods on `BuilderInfo` all take a new argument `protoName`.
+* **Breaking**: Changed `ExtensionRegistry.reparseMessage` to reparse extensions deeply, that is it looks at every
+nested message and tries to reparse extensions from its unknown fields.
+
 ## 0.13.16+1
 
 * Reverts `0.13.16` which accidentally introduced a breaking change,

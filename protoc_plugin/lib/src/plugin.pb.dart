@@ -5,8 +5,7 @@
 // @dart = 2.3
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
-import 'dart:core' as $core
-    show bool, Deprecated, double, int, List, Map, override, pragma, String;
+import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
@@ -78,10 +77,10 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       package: const $pb.PackageName('google.protobuf.compiler'))
     ..pPS(1, 'fileToGenerate')
     ..aOS(2, 'parameter')
-    ..a<Version>(3, 'compilerVersion', $pb.PbFieldType.OM, Version.getDefault,
-        Version.create)
-    ..pc<$0.FileDescriptorProto>(
-        15, 'protoFile', $pb.PbFieldType.PM, $0.FileDescriptorProto.create);
+    ..a<Version>(3, 'compilerVersion', $pb.PbFieldType.OM,
+        defaultOrMaker: Version.getDefault, subBuilder: Version.create)
+    ..pc<$0.FileDescriptorProto>(15, 'protoFile', $pb.PbFieldType.PM,
+        subBuilder: $0.FileDescriptorProto.create);
 
   CodeGeneratorRequest._() : super();
   factory CodeGeneratorRequest() => create();
@@ -188,8 +187,8 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeGeneratorResponse',
       package: const $pb.PackageName('google.protobuf.compiler'))
     ..aOS(1, 'error')
-    ..pc<CodeGeneratorResponse_File>(
-        15, 'file', $pb.PbFieldType.PM, CodeGeneratorResponse_File.create)
+    ..pc<CodeGeneratorResponse_File>(15, 'file', $pb.PbFieldType.PM,
+        subBuilder: CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse._() : super();

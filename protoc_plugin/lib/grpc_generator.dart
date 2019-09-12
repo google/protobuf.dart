@@ -254,8 +254,7 @@ class _GrpcMethod {
         '$_serverReturnType ${_dartName}_Pre($_serviceCall call, $_future<$_requestType> request) async${_serverStreaming ? '*' : ''} {',
         '}', () {
       if (_serverStreaming) {
-        out.println(
-            'yield* $_dartName(call, (await request) as $_requestType);');
+        out.println('yield* $_dartName(call, await request);');
       } else {
         out.println('return $_dartName(call, await request);');
       }

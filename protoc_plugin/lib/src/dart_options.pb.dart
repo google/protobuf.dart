@@ -5,8 +5,7 @@
 // @dart = 2.3
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
-import 'dart:core' as $core
-    show bool, Deprecated, double, int, List, Map, override, pragma, String;
+import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
@@ -65,7 +64,8 @@ class DartMixin extends $pb.GeneratedMessage {
 class Imports extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       $pb.BuilderInfo('Imports', package: const $pb.PackageName('dart_options'))
-        ..pc<DartMixin>(1, 'mixins', $pb.PbFieldType.PM, DartMixin.create)
+        ..pc<DartMixin>(1, 'mixins', $pb.PbFieldType.PM,
+            subBuilder: DartMixin.create)
         ..hasRequiredFields = false;
 
   Imports._() : super();
@@ -92,12 +92,8 @@ class Imports extends $pb.GeneratedMessage {
 
 class Dart_options {
   static final $pb.Extension imports = $pb.Extension<Imports>(
-      'google.protobuf.FileOptions',
-      'imports',
-      28125061,
-      $pb.PbFieldType.OM,
-      Imports.getDefault,
-      Imports.create);
+      'google.protobuf.FileOptions', 'imports', 28125061, $pb.PbFieldType.OM,
+      defaultOrMaker: Imports.getDefault, subBuilder: Imports.create);
   static final $pb.Extension defaultMixin = $pb.Extension<$core.String>(
       'google.protobuf.FileOptions',
       'defaultMixin',

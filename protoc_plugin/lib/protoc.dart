@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
-import 'package:protobuf/mixins_meta.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:path/path.dart' as path;
 
@@ -15,6 +14,7 @@ import 'src/plugin.pb.dart';
 import 'const_generator.dart' show writeJsonConst;
 import 'indenting_writer.dart';
 import 'names.dart';
+import 'mixins.dart';
 
 part 'base_type.dart';
 part 'client_generator.dart';

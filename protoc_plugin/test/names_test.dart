@@ -10,6 +10,7 @@ import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/dart_options.pb.dart';
 
 import '../out/protos/dart_name.pb.dart' as pb;
+import '../out/protos/json_name.pb.dart' as json_name;
 
 Matcher throwsMessage(String msg) => throwsA(_ToStringMatcher(equals(msg)));
 
@@ -210,6 +211,10 @@ void main() {
     expect(oneof.byTagMapName, '_Parent_Foo_ByTag');
     expect(oneof.whichOneofMethodName, 'whichFoo');
     expect(oneof.clearMethodName, 'clearFoo');
+  });
+
+  test('The field name is the json_name as given by protoc', () {
+    expect(json_name.JsonNamedMessage().getTagNumber('barName'), 1);
   });
 }
 

@@ -7,7 +7,7 @@
 
 import 'dart:async' as $async;
 
-import 'dart:core' as $core show int, String, List;
+import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
 import 'test.pb.dart' as $0;
@@ -104,7 +104,7 @@ abstract class TestServiceBase extends $grpc.Service {
 
   $async.Stream<$0.Output> serverStreaming_Pre(
       $grpc.ServiceCall call, $async.Future<$0.Input> request) async* {
-    yield* serverStreaming(call, (await request) as $0.Input);
+    yield* serverStreaming(call, await request);
   }
 
   $async.Future<$0.Output> unary($grpc.ServiceCall call, $0.Input request);

@@ -199,10 +199,58 @@ abstract class GeneratedMessage {
   /// literals; values with a 64-bit integer datatype (regardless of their
   /// actual runtime value) are represented as strings. Enumerated values are
   /// represented as their integer value.
+  ///
+  /// For the proto3 JSON format use: [toProto3JSON].
   String writeToJson() => jsonEncode(writeToJsonMap());
+
+  /// Returns an Object representing Proto3 JSON serialization of [this].
+  ///
+  /// The key for each field is be the camel-cased name of the field.
+  ///
+  /// Well-known types and their special JSON encoding are supported.
+  /// If a well-known type cannot be encoded (eg. a `google.protobuf.Timestamp`
+  /// with negative `nanoseconds`) an error is thrown.
+  ///
+  /// Extensions and unknown fields are not encoded.
+  ///
+  /// The [typeRegistry] is be used for encoding `Any` messages. If an `Any`
+  /// message encoding a type not in [typeRegistry] is encountered, an
+  /// error is thrown.
+  Object toProto3Json(
+          {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
+      _writeToProto3Json(_fieldSet, typeRegistry);
+
+  /// Merges field values from [json], a JSON object using proto3 encoding.
+  ///
+  /// Well-known types and their special JSON encoding are supported.
+  /// Except `FieldMask`.
+  ///
+  /// If [ignoreUnknownFields] is `false` (the default) an
+  /// [FormatException] is be thrown if an unknown field name
+  /// is encountered. Otherwise the unknown field is ignored.
+  ///
+  /// If [supportNamesWithUnderscores] is `true` (the default) field names in
+  /// the JSON can be represented as either camel-case JSON-names or names with
+  /// underscores.
+  /// If `false` only the JSON names are supported.
+  ///
+  /// The [typeRegistry] is be used for decoding `Any` messages. If an `Any`
+  /// message encoding a type not in [typeRegistry] is encountered, a
+  /// [FormatException] is thrown.
+  ///
+  /// If the JSON is otherwise not formatted correctly (a String where a
+  /// number was expected etc.) a [FormatException] is thrown.
+  void mergeFromProto3Json(Object json,
+          {TypeRegistry typeRegistry = const TypeRegistry.empty(),
+          bool ignoreUnknownFields = false,
+          bool supportNamesWithUnderscores = true}) =>
+      _mergeFromProto3Json(json, _fieldSet, typeRegistry, ignoreUnknownFields,
+          supportNamesWithUnderscores);
 
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].
+  ///
+  /// For the proto3 JSON format use: [mergeFromProto3JSON].
   void mergeFromJson(String data,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     /// Disable lazy creation of Dart objects for a dart2js speedup.
@@ -277,7 +325,7 @@ abstract class GeneratedMessage {
   /// Creates a Map representing a map field.
   Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) {
     return PbMap<K, V>(
-        fi.keyFieldType, fi.valueFieldType, fi._mapEntryBuilderInfo);
+        fi.keyFieldType, fi.valueFieldType, fi.mapEntryBuilderInfo);
   }
 
   /// Returns the value of a field, ignoring any defaults.

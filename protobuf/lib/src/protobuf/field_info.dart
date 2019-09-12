@@ -8,10 +8,16 @@ part of protobuf;
 class FieldInfo<T> {
   FrozenPbList<T> _emptyList;
 
-  // BuilderInfo used when creating a field set for a map field.
-  final BuilderInfo _mapEntryBuilderInfo;
-
+  /// Name of this field as the `json_name` reported by protoc.
+  ///
+  /// This will typically be in camel case.
   final String name;
+
+  /// The name of this field as written in the proto-definition.
+  ///
+  /// This will typically consist of words separated with underscores.
+  final String protoName;
+
   final int tagNumber;
   final int index; // index of the field's value. Null for extensions.
   final int type;
@@ -38,23 +44,38 @@ class FieldInfo<T> {
   // (Not used for non-repeated fields.)
   final CheckFunc<T> check;
 
-  FieldInfo(this.name, this.tagNumber, this.index, int type,
-      [dynamic defaultOrMaker, this.subBuilder, this.valueOf, this.enumValues])
-      : this.type = type,
-        this.makeDefault = findMakeDefault(type, defaultOrMaker),
-        this.check = null,
-        _mapEntryBuilderInfo = null {
-    assert(type != 0);
-    assert(!_isGroupOrMessage(type) || subBuilder != null);
-    assert(!_isEnum(type) || valueOf != null);
-  }
+  FieldInfo(this.name, this.tagNumber, this.index, this.type,
+      {dynamic defaultOrMaker,
+      this.subBuilder,
+      this.valueOf,
+      this.enumValues,
+      String protoName})
+      : makeDefault = findMakeDefault(type, defaultOrMaker),
+        check = null,
+        protoName = protoName ?? _unCamelCase(name),
+        assert(type != 0),
+        assert(!_isGroupOrMessage(type) ||
+            subBuilder != null ||
+            _isMapField(type)),
+        assert(!_isEnum(type) || valueOf != null);
 
-  FieldInfo.repeated(this.name, this.tagNumber, this.index, int type,
+  // Represents a field that has been removed by a program transformation.
+  FieldInfo.dummy(this.index)
+      : name = '<removed field>',
+        protoName = '<removed field>',
+        tagNumber = 0,
+        type = 0,
+        makeDefault = null,
+        valueOf = null,
+        check = null,
+        enumValues = null,
+        subBuilder = null;
+
+  FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
       this.check, this.subBuilder,
-      [this.valueOf, this.enumValues])
-      : this.type = type,
-        this.makeDefault = (() => PbList<T>(check: check)),
-        _mapEntryBuilderInfo = null {
+      {this.valueOf, this.enumValues, String protoName})
+      : makeDefault = (() => PbList<T>(check: check)),
+        protoName = protoName ?? _unCamelCase(name) {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isRepeated(type));
@@ -62,25 +83,15 @@ class FieldInfo<T> {
     assert(!_isEnum(type) || valueOf != null);
   }
 
-  FieldInfo._map(
-      this.name, this.tagNumber, this.index, int type, this.makeDefault,
-      [dynamic defaultOrMaker,
-      this.subBuilder,
-      this.valueOf,
-      this.enumValues,
-      this._mapEntryBuilderInfo])
-      : this.type = type,
-        this.check = null {
-    assert(name != null);
-    assert(tagNumber != null);
-    assert(_isMapField(type));
-  }
-
   static MakeDefaultFunc findMakeDefault(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
   }
+
+  /// Returns `true` if this represents a dummy field standing in for a field
+  /// that has been removed by a program transformation.
+  bool get _isDummy => tagNumber == 0;
 
   bool get isRequired => _isRequired(type);
   bool get isRepeated => _isRepeated(type);
@@ -172,30 +183,46 @@ class FieldInfo<T> {
   String toString() => name;
 }
 
-class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
-  int keyFieldType;
-  int valueFieldType;
-  CreateBuilderFunc valueCreator;
+final RegExp _upperCase = RegExp('[A-Z]');
 
-  MapFieldInfo.map(String name, int tagNumber, int index, int type,
-      this.keyFieldType, this.valueFieldType, BuilderInfo mapEntryBuilderInfo)
-      : super._map(
-            name,
-            tagNumber,
-            index,
-            type,
-            () =>
+String _unCamelCase(String name) {
+  return name.replaceAllMapped(
+      _upperCase, (match) => '_${match.group(0).toLowerCase()}');
+}
+
+class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
+  final int keyFieldType;
+  final int valueFieldType;
+
+  /// Creates a new empty instance of the value type.
+  ///
+  /// `null` if the value type is not a Message type.
+  final CreateBuilderFunc valueCreator;
+
+  final BuilderInfo mapEntryBuilderInfo;
+
+  MapFieldInfo(
+      String name,
+      int tagNumber,
+      int index,
+      int type,
+      this.keyFieldType,
+      this.valueFieldType,
+      this.mapEntryBuilderInfo,
+      this.valueCreator,
+      {String protoName})
+      : super(name, tagNumber, index, type,
+            defaultOrMaker: () =>
                 PbMap<K, V>(keyFieldType, valueFieldType, mapEntryBuilderInfo),
-            null,
-            null,
-            null,
-            null,
-            mapEntryBuilderInfo) {
+            protoName: protoName) {
     assert(name != null);
     assert(tagNumber != null);
     assert(_isMapField(type));
     assert(!_isEnum(type) || valueOf != null);
   }
+
+  FieldInfo get valueFieldInfo =>
+      mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber];
 
   Map<K, V> _ensureMapField(_FieldSet fs) {
     return fs._ensureMapField<K, V>(this);

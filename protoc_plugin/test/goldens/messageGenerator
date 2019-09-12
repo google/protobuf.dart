@@ -1,8 +1,8 @@
 class PhoneNumber extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('PhoneNumber')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('PhoneNumber', createEmptyInstance: create)
     ..aQS(1, 'number')
-    ..e<PhoneNumber_PhoneType>(2, 'type', $pb.PbFieldType.OE, PhoneNumber_PhoneType.MOBILE, PhoneNumber_PhoneType.valueOf, PhoneNumber_PhoneType.values)
-    ..a<$core.String>(3, 'name', $pb.PbFieldType.OS, '\$')
+    ..e<PhoneNumber_PhoneType>(2, 'type', $pb.PbFieldType.OE, defaultOrMaker: PhoneNumber_PhoneType.MOBILE, valueOf: PhoneNumber_PhoneType.valueOf, enumValues: PhoneNumber_PhoneType.values)
+    ..a<$core.String>(3, 'name', $pb.PbFieldType.OS, defaultOrMaker: '\$')
     ..aOS(4, 'deprecatedField')
   ;
 

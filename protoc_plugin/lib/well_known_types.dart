@@ -4,91 +4,112 @@
 
 part of protoc;
 
-abstract class WellKnownType {
-  const WellKnownType();
+PbMixin wellKnownMixinForFullName(String qualifiedName) =>
+    _wellKnownMixins[qualifiedName];
 
-  List<String> get extraImports => <String>[];
+const _wellKnownImportPath =
+    'package:protobuf/src/protobuf/mixins/well_known.dart';
 
-  void generateMethods(IndentingWriter out);
-}
-
-class _Any extends WellKnownType {
-  const _Any();
-
-  /// Generates methods for the Any message class for packing and unpacking
-  /// values.
-  @override
-  void generateMethods(IndentingWriter out) {
-    out.println('''
-  /// Unpacks the message in [value] into [instance].
-  ///
-  /// Throws a [InvalidProtocolBufferException] if [typeUrl] does not correspond
-  /// to the type of [instance].
-  ///
-  /// A typical usage would be `any.unpackInto(Message())`.
-  ///
-  /// Returns [instance].
-  T unpackInto<T extends $_protobufImportPrefix.GeneratedMessage>(T instance,
-      {$_protobufImportPrefix.ExtensionRegistry extensionRegistry = $_protobufImportPrefix.ExtensionRegistry.EMPTY}) {
-    $_protobufImportPrefix.unpackIntoHelper(value, instance, typeUrl,
-        extensionRegistry: extensionRegistry);
-    return instance;
-  }
-
-  /// Returns `true` if the encoded message matches the type of [instance].
-  ///
-  /// Can be used with a default instance:
-  /// `any.canUnpackInto(Message.getDefault())`
-  $_coreImportPrefix.bool canUnpackInto($_protobufImportPrefix.GeneratedMessage instance) {
-    return $_protobufImportPrefix.canUnpackIntoHelper(instance, typeUrl);
-  }
-
-  /// Creates a new [Any] encoding [message].
-  ///
-  /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
-  /// the fully qualified name of the type of [message].
-  static Any pack($_protobufImportPrefix.GeneratedMessage message,
-      {$_coreImportPrefix.String typeUrlPrefix = 'type.googleapis.com'}) {
-    return Any()
-      ..value = message.writeToBuffer()
-      ..typeUrl = '\${typeUrlPrefix}/\${message.info_.qualifiedMessageName}';
-  }''');
-  }
-}
-
-class _Timestamp extends WellKnownType {
-  const _Timestamp();
-
-  List<String> get extraImports =>
-      [r"import 'dart:core' as $core show DateTime, Duration;"];
-
-  @override
-  void generateMethods(IndentingWriter out) {
-    out.println('''
-  /// Converts an instance to [DateTime].
-  ///
-  /// The result is in UTC time zone and has microsecond precision, as
-  /// [DateTime] does not support nanosecond precision.
-  $_coreImportPrefix.DateTime toDateTime() => $_coreImportPrefix.DateTime.fromMicrosecondsSinceEpoch(
-      seconds.toInt() * $_coreImportPrefix.Duration.microsecondsPerSecond + nanos ~/ 1000,
-      isUtc: true);
-
-  /// Creates a new instance from [dateTime].
-  ///
-  /// Time zone information will not be preserved.
-  static Timestamp fromDateTime($_coreImportPrefix.DateTime dateTime) {
-    $_coreImportPrefix.int micros = dateTime.microsecondsSinceEpoch;
-    return Timestamp()
-      ..seconds = Int64(micros ~/ $_coreImportPrefix.Duration.microsecondsPerSecond)
-      ..nanos = (micros % $_coreImportPrefix.Duration.microsecondsPerSecond).toInt() * 1000;
-  }''');
-  }
-}
-
-const _wellKnownTypes = {
-  'google.protobuf.Any': _Any(),
-  'google.protobuf.Timestamp': _Timestamp(),
+const _wellKnownMixins = {
+  'google.protobuf.Any': PbMixin('AnyMixin',
+      importFrom: _wellKnownImportPath,
+      injectedHelpers: [
+        '''
+/// Creates a new [Any] encoding [message].
+///
+/// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
+/// the fully qualified name of the type of [message].
+static Any pack($_protobufImportPrefix.GeneratedMessage message,
+{$_coreImportPrefix.String typeUrlPrefix = 'type.googleapis.com'}) {
+  final result = create();
+  $_mixinImportPrefix.AnyMixin.packIntoAny(result, message,
+      typeUrlPrefix: typeUrlPrefix);
+  return result;
+}'''
+      ],
+      hasProto3JsonHelpers: true),
+  'google.protobuf.Timestamp': PbMixin('TimestampMixin',
+      importFrom: _wellKnownImportPath,
+      injectedHelpers: [
+        '''
+/// Creates a new instance from [dateTime].
+///
+/// Time zone information will not be preserved.
+static Timestamp fromDateTime($_coreImportPrefix.DateTime dateTime) {
+  final result = create();
+  $_mixinImportPrefix.TimestampMixin.setFromDateTime(result, dateTime);
+  return result;
+}'''
+      ],
+      hasProto3JsonHelpers: true),
+  'google.protobuf.Duration': PbMixin(
+    'DurationMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.Struct': PbMixin(
+    'StructMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.Value': PbMixin(
+    'ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.ListValue': PbMixin(
+    'ListValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.DoubleValue': PbMixin(
+    'DoubleValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.FloatValue': PbMixin(
+    'FloatValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.Int64Value': PbMixin(
+    'Int64ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.UInt64Value': PbMixin(
+    'UInt64ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.Int32Value': PbMixin(
+    'Int32ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.UInt32Value': PbMixin(
+    'UInt32ValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.BoolValue': PbMixin(
+    'BoolValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.StringValue': PbMixin(
+    'StringValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.BytesValue': PbMixin(
+    'BytesValueMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.FieldMask': PbMixin(
+    'FieldMaskMixin',
+    importFrom: _wellKnownImportPath,
+    hasProto3JsonHelpers: true,
+  )
 };
-
-WellKnownType wellKnownTypeForFullName(String fullName) =>
-    _wellKnownTypes[fullName];
