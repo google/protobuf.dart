@@ -1,3 +1,9 @@
+## 18.0.1
+
+* Fix mangling of extension names and enum names that coincide with dart keywords.
+
+  Now you can have an extension called `is` and an enum called `class`.
+
 ## 18.0.0
 
 * Breaking: Generates code that requires at least `protobuf` 0.14.0.

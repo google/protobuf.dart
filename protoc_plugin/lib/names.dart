@@ -199,6 +199,7 @@ String messageOrEnumClassName(String descriptorName, Set<String> usedNames,
 /// generated subclasses.
 Set<String> get reservedEnumNames => Set<String>()
   ..addAll(ProtobufEnum_reservedNames)
+  ..addAll(_dartReservedWords)
   ..addAll(_protobufEnumNames);
 
 Iterable<String> enumSuffixes() sync* {

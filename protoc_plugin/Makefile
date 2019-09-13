@@ -43,6 +43,7 @@ TEST_PROTO_LIST = \
 	non_nested_extension \
 	oneof \
 	reserved_names \
+	reserved_names_extension \
 	duplicate_names_import \
 	package1 \
 	package2 \
