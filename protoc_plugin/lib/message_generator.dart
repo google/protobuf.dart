@@ -525,10 +525,8 @@ class MessageGenerator extends ProtobufContainer {
           ]);
       if (field.baseType.isMessage) {
         out.printlnAnnotated(
-            '${fieldTypeString} ${names.ensureMethodName}() => \$_ensure('
-            '${field.index}, '
-            '${field.number}, '
-            '${fieldTypeString}.create);',
+            '${fieldTypeString} ${names.ensureMethodName}() => '
+            '\$_ensure(${field.index});',
             <NamedLocation>[
               NamedLocation(
                   name: names.ensureMethodName,

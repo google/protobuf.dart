@@ -395,9 +395,9 @@ abstract class GeneratedMessage {
   }
 
   /// For generated code only.
-  T $_ensure<T>(int index, int tagNumber, CreateBuilderFunc create) {
+  T $_ensure<T>(int index) {
     if (!$_has(index)) {
-      setField(tagNumber, create());
+      _fieldSet._$set(index, _fieldSet._nonExtensionInfoByIndex(index).subBuilder());
     }
     return _fieldSet._$getN<T>(index);
   }
