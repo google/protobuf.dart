@@ -58,6 +58,7 @@ const GeneratedMessage_reservedNames = <String>[
   'writeToCodedBufferWriter',
   'writeToJson',
   'writeToJsonMap',
+  r'$_ensure',
   r'$_get',
   r'$_getI64',
   r'$_getList',

@@ -1,3 +1,7 @@
+## 0.14.3
+
+* Added 'ensureX' methods on GeneratedMessage classes for each message field X.
+
 ## 0.14.2
 
 *  Expose `mapEntryBuilderInfo` in `MapFieldInfo`.

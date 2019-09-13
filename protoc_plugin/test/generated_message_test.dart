@@ -213,6 +213,13 @@ void main() {
     assertClear(message);
   });
 
+  test('test ensure method', () {
+    TestAllTypes message = TestAllTypes();
+    expect(message.hasOptionalNestedMessage(), isFalse);
+    expect(message.ensureOptionalNestedMessage(), TestAllTypes_NestedMessage());
+    expect(message.hasOptionalNestedMessage(), isTrue);
+  });
+
   // void testReflectionGetters() {} // UNSUPPORTED -- until reflection
   // void testReflectionSetters() {} // UNSUPPORTED -- until reflection
   // void testReflectionSettersRejectNull() {} // UNSUPPORTED - reflection

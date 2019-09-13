@@ -38,15 +38,18 @@ class M extends $pb.GeneratedMessage {
   set m(M v) { setField(1, v); }
   $core.bool hasM() => $_has(0);
   void clearM() => clearField(1);
+  M ensureM() => $_ensure(0, 1, M.create);
 
   $1.M get m1 => $_getN(1);
   set m1($1.M v) { setField(2, v); }
   $core.bool hasM1() => $_has(1);
   void clearM1() => clearField(2);
+  $1.M ensureM1() => $_ensure(1, 2, $1.M.create);
 
   $2.M get m2 => $_getN(2);
   set m2($2.M v) { setField(3, v); }
   $core.bool hasM2() => $_has(2);
   void clearM2() => clearField(3);
+  $2.M ensureM2() => $_ensure(2, 3, $2.M.create);
 }
 
