@@ -14,6 +14,7 @@ import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
 import '../out/protos/multiple_files_test.pb.dart';
 import '../out/protos/reserved_names.pb.dart';
 import '../out/protos/reserved_names_extension.pb.dart';
+import '../out/protos/reserved_names_message.pb.dart';
 import '../out/protos/duplicate_names_import.pb.dart';
 import '../out/protos/package1.pb.dart' as p1;
 import '../out/protos/package2.pb.dart' as p2;
@@ -767,6 +768,42 @@ void main() {
     message.setExtension(Reserved_names_extension.void_1031, 1);
     message.setExtension(Reserved_names_extension.while_1032, 1);
     message.setExtension(Reserved_names_extension.with_1033, 1);
+  });
+
+  test('testReservedWordsMessage', () {
+    assert_();
+    break_();
+    case_();
+    catch_();
+    class_();
+    const_();
+    continue_();
+    default_();
+    do_();
+    else_();
+    enum_();
+    extends_();
+    false_();
+    final_();
+    finally_();
+    for_();
+    if_();
+    in_();
+    is_();
+    new_();
+    null_();
+    rethrow_();
+    return_();
+    super_();
+    switch_();
+    this_();
+    throw_();
+    true_();
+    try_();
+    var_();
+    void_();
+    while_();
+    with_();
   });
 
   test('testImportDuplicatenames', () {

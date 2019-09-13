@@ -44,6 +44,7 @@ TEST_PROTO_LIST = \
 	oneof \
 	reserved_names \
 	reserved_names_extension \
+	reserved_names_message \
 	duplicate_names_import \
 	package1 \
 	package2 \
