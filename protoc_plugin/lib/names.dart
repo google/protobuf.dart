@@ -204,6 +204,7 @@ String messageOrEnumClassName(String descriptorName, Set<String> usedNames,
 /// generated subclasses.
 Set<String> get reservedEnumNames => Set<String>()
   ..addAll(ProtobufEnum_reservedNames)
+  ..addAll(_dartReservedWords)
   ..addAll(_protobufEnumNames);
 
 Iterable<String> enumSuffixes() sync* {
@@ -474,13 +475,12 @@ bool _isDartFieldName(name) => name.startsWith(_dartFieldNameExpr);
 
 final _dartFieldNameExpr = RegExp(r'^[a-z]\w+$');
 
-/// Names that would collide with capitalized core Dart names as top-level
-/// identifiers.
-final List<String> toplevelReservedCapitalizedNames = const <String>[
+/// Names that would collide as top-level identifiers.
+final List<String> forbiddenTopLevelNames = <String>[
   'List',
   'Function',
   'Map',
-];
+]..addAll(_dartReservedWords);
 
 final List<String> reservedMemberNames = <String>[]
   ..addAll(_dartReservedWords)

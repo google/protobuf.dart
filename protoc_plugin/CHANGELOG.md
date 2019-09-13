@@ -3,6 +3,12 @@
 * Breaking: GeneratedMessage classes now have methods `ensureX` for each message field X.
 Generates code that requires at least `protobuf` 0.14.3.
 
+## 18.0.2
+
+* Fix mangling of extension names, message type names, and enum names that are Dart keywords.
+
+  Now you can have an extension called `is` and an enum called `class`.
+
 ## 18.0.1
 
 * Add a `bin/protoc-gen-dart.bat` script making it easier to compile on windows using a local
