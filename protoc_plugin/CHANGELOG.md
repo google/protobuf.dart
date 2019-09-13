@@ -1,3 +1,9 @@
+## 18.0.2
+
+* Fix mangling of extension names, message type names, and enum names that are Dart keywords.
+
+  Now you can have an extension called `is` and an enum called `class`.
+
 ## 18.0.1
 
 * Add a `bin/protoc-gen-dart.bat` script making it easier to compile on windows using a local
