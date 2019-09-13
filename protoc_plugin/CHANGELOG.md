@@ -1,6 +1,6 @@
 ## 18.0.2
 
-* Fix mangling of extension names, message type names, and enum names that are dart keywords.
+* Fix mangling of extension names, message type names, and enum names that are Dart keywords.
 
   Now you can have an extension called `is` and an enum called `class`.
 
