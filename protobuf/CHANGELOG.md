@@ -2,8 +2,7 @@
 
 * Added 'ensureX' methods on GeneratedMessage classes for each message field X.
 
- The method `ensureX()`` for a message field X will return the value of X if it is set, that is when `hasX()`` returns true.
- Otherwise, it will set X to the default value and return that value. Subsequent calls to `hasX()`` will return true.
+ The method `ensureX()` will set X to an empty instance if `hasX()` returns false and then returns the value of X.
 
 ## 0.14.2
 

@@ -396,10 +396,7 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   T $_ensure<T>(int index) {
-    if (!$_has(index)) {
-      _fieldSet._$set(index, _fieldSet._nonExtensionInfoByIndex(index).subBuilder());
-    }
-    return _fieldSet._$getN<T>(index);
+    return _fieldSet._$ensure<T>(index);
   }
 
   /// For generated code only.

@@ -171,6 +171,19 @@ void main() {
     Foo copy2 = foo.copyWith((_) {});
     expectFirstSet(copy2);
   });
+
+  test('oneof semantics is preserved when using ensure method', () {
+    Foo foo = Foo();
+    foo.first = 'oneof';
+    expectFirstSet(foo);
+    foo.ensureIndex();
+    expect(foo.hasFirst(), false);
+    expect(foo.first, '');
+    expect(foo.whichOneofField(), Foo_OneofField.index_);
+    expect(foo.hasIndex(), true);
+    expect(foo.index, Bar());
+
+  });
 }
 
 void expectSecondSet(Foo foo) {

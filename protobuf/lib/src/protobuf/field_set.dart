@@ -377,6 +377,14 @@ class _FieldSet {
     return _getDefault(_nonExtensionInfoByIndex(index)) as T;
   }
 
+  T _$ensure<T>(int index) {
+    if (!_$has(index)) {
+      dynamic value = _nonExtensionInfoByIndex(index).subBuilder();
+      _$set(index, value);
+      return value;
+    }
+    return _$getN<T>(index);
+  }
   /// The implementation of a generated getter for repeated fields.
   List<T> _$getList<T>(int index) {
     var value = _values[index];
