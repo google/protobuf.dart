@@ -1,3 +1,7 @@
+## 18.0.3
+
+* Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
+
 ## 18.0.2
 
 * Fix mangling of extension names, message type names, and enum names that are Dart keywords.
