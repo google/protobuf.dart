@@ -117,12 +117,12 @@ class FileGenerator extends ProtobufContainer {
   /// Used to avoid collisions after names have been mangled to match the Dart
   /// style.
   final Set<String> usedTopLevelNames = Set<String>()
-    ..addAll(toplevelReservedCapitalizedNames);
+    ..addAll(forbiddenTopLevelNames);
 
   /// Used to avoid collisions in the service file after names have been mangled
   /// to match the dart style.
   final Set<String> usedTopLevelServiceNames = Set<String>()
-    ..addAll(toplevelReservedCapitalizedNames);
+    ..addAll(forbiddenTopLevelNames);
 
   final Set<String> usedExtensionNames = Set<String>()
     ..addAll(forbiddenExtensionNames);
@@ -158,7 +158,7 @@ class FileGenerator extends ProtobufContainer {
     }
     for (var i = 0; i < descriptor.extension.length; i++) {
       extensionGenerators.add(ExtensionGenerator.topLevel(
-          descriptor.extension[i], this, usedTopLevelNames, i));
+          descriptor.extension[i], this, usedExtensionNames, i));
     }
     for (ServiceDescriptorProto service in descriptor.service) {
       if (options.useGrpc) {

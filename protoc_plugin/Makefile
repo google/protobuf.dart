@@ -31,6 +31,7 @@ TEST_PROTO_LIST = \
 	ExtensionEnumNameConflict \
 	ExtensionNameConflict \
 	foo \
+	high_tagnumber \
 	import_clash \
 	import_public \
 	json_name \
@@ -43,6 +44,8 @@ TEST_PROTO_LIST = \
 	non_nested_extension \
 	oneof \
 	reserved_names \
+	reserved_names_extension \
+	reserved_names_message \
 	duplicate_names_import \
 	package1 \
 	package2 \

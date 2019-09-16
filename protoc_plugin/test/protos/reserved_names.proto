@@ -251,3 +251,43 @@ message ReservedWordsRequired {
   required int32 while = 32;
   required int32 with = 33;
 }
+
+message MessageWithReservedEnum {
+  optional ReservedEnum enum = 1;
+}
+
+enum ReservedEnum {
+  assert = 0;
+  break = 1;
+  case = 2;
+  catch = 3;
+  class = 4;
+  const = 5;
+  continue = 6;
+  default = 7;
+  do = 8;
+  else = 9;
+  enum = 10;
+  extends = 11;
+  false = 12;
+  final = 13;
+  finally = 14;
+  for = 15;
+  if = 16;
+  in = 17;
+  is = 18;
+  new = 19;
+  null = 20;
+  rethrow = 21;
+  return = 22;
+  super = 23;
+  switch = 24;
+  this = 25;
+  throw = 26;
+  true = 27;
+  try = 28;
+  var = 29;
+  void = 30;
+  while = 31;
+  with = 32;
+}

@@ -6,6 +6,21 @@
 
 * Annotate generated accessors with the tag number of the associated field. 
 
+## 18.0.3
+
+* Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
+
+## 18.0.2
+
+* Fix mangling of extension names, message type names, and enum names that are Dart keywords.
+
+  Now you can have an extension called `is` and an enum called `class`.
+
+## 18.0.1
+
+* Add a `bin/protoc-gen-dart.bat` script making it easier to compile on windows using a local
+  checkout.
+
 ## 18.0.0
 
 * Breaking: Generates code that requires at least `protobuf` 0.14.0.
