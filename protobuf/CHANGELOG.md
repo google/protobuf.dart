@@ -1,3 +1,7 @@
+## 14.0.3
+
+* Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
+
 ## 0.14.2
 
 *  Expose `mapEntryBuilderInfo` in `MapFieldInfo`.
