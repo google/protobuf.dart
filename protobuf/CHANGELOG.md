@@ -6,7 +6,7 @@
   - `camelCaseEnums` implies `caseInsensitiveEnums`, but also tries to match
     against the known enum values without `_`s.
 
-## 14.0.3
+## 0.14.3
 
 * Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
 
