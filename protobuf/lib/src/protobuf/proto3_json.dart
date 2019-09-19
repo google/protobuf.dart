@@ -116,9 +116,11 @@ void _mergeFromProto3Json(
     _FieldSet fieldSet,
     TypeRegistry typeRegistry,
     bool ignoreUnknownFields,
-    bool supportNamesWithUnderscores) {
-  JsonParsingContext context =
-      JsonParsingContext(ignoreUnknownFields, supportNamesWithUnderscores);
+    bool supportNamesWithUnderscores,
+    bool caseInsensitiveEnums,
+    bool camelCaseEnums) {
+  JsonParsingContext context = JsonParsingContext(ignoreUnknownFields,
+      supportNamesWithUnderscores, caseInsensitiveEnums, camelCaseEnums);
 
   void recursionHelper(Object json, _FieldSet fieldSet) {
     int tryParse32Bit(String s) {
@@ -194,10 +196,36 @@ void _mergeFromProto3Json(
               'Expected a double represented as a String or number', value);
         case PbFieldType._ENUM_BIT:
           if (value is String) {
+            // The logic here tries to mimic DataPiece::ToEnum from
+            // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/util/internal/datapiece.cc
+            // It means that [camelCaseEnums] implies
+            // [caseInsensitiveEnums].
+            //
+            // It also means that if your enum value names are not all upper
+            // case they will not be matched in spite of [caseInsensitiveEnums].
+            //
             // TODO(sigurdm): Do we want to avoid linear search here? Measure...
-            return fieldInfo.enumValues.firstWhere((e) => e.name == value,
-                orElse: () =>
-                    throw context.parseException('Unknown enum value', value));
+            var result = fieldInfo.enumValues
+                .firstWhere((e) => e.name == value, orElse: () => null);
+
+            if (result != null) return result;
+
+            bool shouldNormalize = caseInsensitiveEnums || camelCaseEnums;
+            final name = shouldNormalize ? _normalizeEnumName(value) : value;
+            if (shouldNormalize) {
+              result = fieldInfo.enumValues
+                  .firstWhere((e) => e.name == name, orElse: () => null);
+            }
+            if (result != null) return result;
+            if (camelCaseEnums) {
+              // This will also accept camel case names as `name` has been
+              // normalized.
+              result = fieldInfo.enumValues.firstWhere(
+                  (e) => e.name.replaceAll('_', '') == name,
+                  orElse: () => null);
+            }
+            if (result != null) return result;
+            throw context.parseException('Unknown enum value', value);
           } else if (value is int) {
             return fieldInfo.valueOf(value) ??
                 (throw context.parseException('Unknown enum value', value));
@@ -399,4 +427,23 @@ void _mergeFromProto3Json(
   }
 
   recursionHelper(json, fieldSet);
+}
+
+String _normalizeEnumName(String s) {
+  const dash = 45;
+  const underscore = 95;
+  const lowerA = 97;
+  const lowerZ = 122;
+  const capitalA = 65;
+
+  // Enum names are always ascii, so we can use a Uint8List for the result.
+  final resultBuffer = Uint8List(s.length);
+  final codeUnits = s.codeUnits;
+  for (int i = 0; i < codeUnits.length; i++) {
+    int c = codeUnits[i];
+    resultBuffer[i] = c == dash
+        ? underscore
+        : (lowerA <= c && c <= lowerZ ? (c - (lowerA - capitalA)) : c);
+  }
+  return String.fromCharCodes(resultBuffer);
 }

@@ -123,7 +123,9 @@ abstract class AnyMixin implements GeneratedMessage {
         ..mergeFromProto3Json(subJson,
             typeRegistry: typeRegistry,
             supportNamesWithUnderscores: context.supportNamesWithUnderscores,
-            ignoreUnknownFields: context.ignoreUnknownFields);
+            ignoreUnknownFields: context.ignoreUnknownFields,
+            caseInsensitiveEnums: context.caseInsensitiveEnums,
+            camelCaseEnums: context.camelCaseEnums);
 
       any.value = packedMessage.writeToBuffer();
       any.typeUrl = typeUrl;

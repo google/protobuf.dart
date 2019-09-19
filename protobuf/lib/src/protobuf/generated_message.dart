@@ -234,6 +234,14 @@ abstract class GeneratedMessage {
   /// underscores.
   /// If `false` only the JSON names are supported.
   ///
+  /// If [caseInsensitiveEnums] is `true` (default `false`) enum values in the
+  /// json will be upper-cased and `-`-s will be replaced with `_` before
+  /// matching.
+  ///
+  /// If [camelCaseEnums] is `true` (default `false`) first matching will
+  /// be done as for [caseInsensitiveEnums]. If that fails case-insensitive
+  /// matching will be done against the enum names with all `_`s removed.
+  ///
   /// The [typeRegistry] is be used for decoding `Any` messages. If an `Any`
   /// message encoding a type not in [typeRegistry] is encountered, a
   /// [FormatException] is thrown.
@@ -243,9 +251,11 @@ abstract class GeneratedMessage {
   void mergeFromProto3Json(Object json,
           {TypeRegistry typeRegistry = const TypeRegistry.empty(),
           bool ignoreUnknownFields = false,
-          bool supportNamesWithUnderscores = true}) =>
+          bool supportNamesWithUnderscores = true,
+          bool caseInsensitiveEnums = false,
+          bool camelCaseEnums = false}) =>
       _mergeFromProto3Json(json, _fieldSet, typeRegistry, ignoreUnknownFields,
-          supportNamesWithUnderscores);
+          supportNamesWithUnderscores, caseInsensitiveEnums, camelCaseEnums);
 
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].

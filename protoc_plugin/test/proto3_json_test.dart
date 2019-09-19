@@ -453,6 +453,113 @@ void main() {
             }, supportNamesWithUnderscores: false),
           parseFailure(['optional_foreign_message']));
     });
+    test('enum options', () {
+      final sparseB = SparseEnumMessage()..sparseEnum = TestSparseEnum.SPARSE_B;
+      expect(
+          SparseEnumMessage()..mergeFromProto3Json({'sparseEnum': 'SPARSE_B'}),
+          sparseB);
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparse_b'}),
+          parseFailure(['sparseEnum']));
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'SPARSE-B'}),
+          parseFailure(['sparseEnum']));
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sPaRsE_b'}),
+          parseFailure(['sparseEnum']));
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparseB'}),
+          parseFailure(['sparseEnum']));
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'spaRSEB'}),
+          parseFailure(['sparseEnum']));
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparse_b'},
+                caseInsensitiveEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'SPARSE-B'},
+                caseInsensitiveEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sPaRsE_b'},
+                caseInsensitiveEnums: true),
+          sparseB);
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparseB'},
+                caseInsensitiveEnums: true),
+          parseFailure(['sparseEnum']));
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'spaRSEB'},
+                caseInsensitiveEnums: true),
+          parseFailure(['sparseEnum']));
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparse_b'},
+                caseInsensitiveEnums: true, camelCaseEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'SPARSE-B'},
+                caseInsensitiveEnums: true, camelCaseEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sPaRsE-b'},
+                caseInsensitiveEnums: true, camelCaseEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparseB'},
+                caseInsensitiveEnums: true, camelCaseEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'spaRSEB'},
+                caseInsensitiveEnums: true, camelCaseEnums: true),
+          sparseB);
+
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparse_b'},
+                caseInsensitiveEnums: false, camelCaseEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'SPARSEB'},
+                caseInsensitiveEnums: false, camelCaseEnums: true),
+          sparseB);
+
+      expect(
+          () => Any()
+            ..mergeFromProto3Json({
+              '@type':
+                  'type.googleapis.com/protobuf_unittest.SparseEnumMessage',
+              'sparseEnum': 'SPARSEB'
+            }, typeRegistry: TypeRegistry([SparseEnumMessage()])),
+          parseFailure(['sparseEnum']));
+
+      expect(
+          Any()
+            ..mergeFromProto3Json({
+              '@type':
+                  'type.googleapis.com/protobuf_unittest.SparseEnumMessage',
+              'sparseEnum': 'SPARSEB'
+            },
+                typeRegistry: TypeRegistry([SparseEnumMessage()]),
+                camelCaseEnums: true),
+          Any.pack(sparseB));
+    });
 
     test('map value', () {
       TestMap expected = TestMap()
