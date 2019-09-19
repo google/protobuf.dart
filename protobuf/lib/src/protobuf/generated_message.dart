@@ -234,13 +234,12 @@ abstract class GeneratedMessage {
   /// underscores.
   /// If `false` only the JSON names are supported.
   ///
-  /// If [caseInsensitiveEnums] is `true` (default `false`) enum values in the
-  /// json will be upper-cased and `-`-s will be replaced with `_` before
-  /// matching.
-  ///
-  /// If [camelCaseEnums] is `true` (default `false`) first matching will
-  /// be done as for [caseInsensitiveEnums]. If that fails case-insensitive
-  /// matching will be done against the enum names with all `_`s removed.
+  /// If [permissiveEnums] is `true` (default `false`) enum values in the
+  /// JSON will be matched without case insensitivity and ignoring `-`s and `_`.
+  /// This allows JSON values like `camelCase` and `kebab-case` to match the
+  /// enum values `CAMEL_CASE` and `KEBAB_CASE`.
+  /// In case of ambiguities between the enum values, the first matching value
+  /// will be found.
   ///
   /// The [typeRegistry] is be used for decoding `Any` messages. If an `Any`
   /// message encoding a type not in [typeRegistry] is encountered, a
@@ -252,10 +251,9 @@ abstract class GeneratedMessage {
           {TypeRegistry typeRegistry = const TypeRegistry.empty(),
           bool ignoreUnknownFields = false,
           bool supportNamesWithUnderscores = true,
-          bool caseInsensitiveEnums = false,
-          bool camelCaseEnums = false}) =>
+          bool permissiveEnums = false}) =>
       _mergeFromProto3Json(json, _fieldSet, typeRegistry, ignoreUnknownFields,
-          supportNamesWithUnderscores, caseInsensitiveEnums, camelCaseEnums);
+          supportNamesWithUnderscores, permissiveEnums);
 
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].

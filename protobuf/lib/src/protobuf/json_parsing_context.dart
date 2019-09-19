@@ -7,11 +7,10 @@ class JsonParsingContext {
   final List<String> _path = <String>[];
   final bool ignoreUnknownFields;
   final bool supportNamesWithUnderscores;
-  final bool caseInsensitiveEnums;
-  final bool camelCaseEnums;
+  final bool permissiveEnums;
 
   JsonParsingContext(this.ignoreUnknownFields, this.supportNamesWithUnderscores,
-      this.caseInsensitiveEnums, this.camelCaseEnums);
+      this.permissiveEnums);
 
   void addMapIndex(String index) {
     _path.add(index);

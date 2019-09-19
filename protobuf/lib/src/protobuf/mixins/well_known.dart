@@ -124,8 +124,7 @@ abstract class AnyMixin implements GeneratedMessage {
             typeRegistry: typeRegistry,
             supportNamesWithUnderscores: context.supportNamesWithUnderscores,
             ignoreUnknownFields: context.ignoreUnknownFields,
-            caseInsensitiveEnums: context.caseInsensitiveEnums,
-            camelCaseEnums: context.camelCaseEnums);
+            permissiveEnums: context.permissiveEnums);
 
       any.value = packedMessage.writeToBuffer();
       any.typeUrl = typeUrl;

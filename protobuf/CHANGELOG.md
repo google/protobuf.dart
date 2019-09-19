@@ -1,10 +1,7 @@
 ## 0.14.4
 
-* Add options to do fuzzy enum value matching to `mergeFromProto3Json`.
-  - `caseInsensitiveEnums` normalizes the json enum name to upper-case and
-    translates '-'s to '_' before matching it.
-  - `camelCaseEnums` implies `caseInsensitiveEnums`, but also tries to match
-    against the known enum values without `_`s.
+* Add `permissiveEnums` option to `mergeFromProto3Json`.
+  It will do a case-insensitive matching of enum values ignoring `-` and `_`.
 
 ## 0.14.3
 

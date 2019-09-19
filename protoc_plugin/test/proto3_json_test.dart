@@ -453,7 +453,7 @@ void main() {
             }, supportNamesWithUnderscores: false),
           parseFailure(['optional_foreign_message']));
     });
-    test('enum options', () {
+    test('permissive enums', () {
       final sparseB = SparseEnumMessage()..sparseEnum = TestSparseEnum.SPARSE_B;
       expect(
           SparseEnumMessage()..mergeFromProto3Json({'sparseEnum': 'SPARSE_B'}),
@@ -481,65 +481,33 @@ void main() {
       expect(
           SparseEnumMessage()
             ..mergeFromProto3Json({'sparseEnum': 'sparse_b'},
-                caseInsensitiveEnums: true),
+                permissiveEnums: true),
           sparseB);
       expect(
           SparseEnumMessage()
             ..mergeFromProto3Json({'sparseEnum': 'SPARSE-B'},
-                caseInsensitiveEnums: true),
+                permissiveEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'S-P-A-R-S-E-B'},
+                permissiveEnums: true),
           sparseB);
       expect(
           SparseEnumMessage()
             ..mergeFromProto3Json({'sparseEnum': 'sPaRsE_b'},
-                caseInsensitiveEnums: true),
-          sparseB);
-      expect(
-          () => SparseEnumMessage()
-            ..mergeFromProto3Json({'sparseEnum': 'sparseB'},
-                caseInsensitiveEnums: true),
-          parseFailure(['sparseEnum']));
-      expect(
-          () => SparseEnumMessage()
-            ..mergeFromProto3Json({'sparseEnum': 'spaRSEB'},
-                caseInsensitiveEnums: true),
-          parseFailure(['sparseEnum']));
-      expect(
-          SparseEnumMessage()
-            ..mergeFromProto3Json({'sparseEnum': 'sparse_b'},
-                caseInsensitiveEnums: true, camelCaseEnums: true),
-          sparseB);
-      expect(
-          SparseEnumMessage()
-            ..mergeFromProto3Json({'sparseEnum': 'SPARSE-B'},
-                caseInsensitiveEnums: true, camelCaseEnums: true),
-          sparseB);
-      expect(
-          SparseEnumMessage()
-            ..mergeFromProto3Json({'sparseEnum': 'sPaRsE-b'},
-                caseInsensitiveEnums: true, camelCaseEnums: true),
+                permissiveEnums: true),
           sparseB);
       expect(
           SparseEnumMessage()
             ..mergeFromProto3Json({'sparseEnum': 'sparseB'},
-                caseInsensitiveEnums: true, camelCaseEnums: true),
+                permissiveEnums: true),
           sparseB);
       expect(
           SparseEnumMessage()
             ..mergeFromProto3Json({'sparseEnum': 'spaRSEB'},
-                caseInsensitiveEnums: true, camelCaseEnums: true),
+                permissiveEnums: true),
           sparseB);
-
-      expect(
-          SparseEnumMessage()
-            ..mergeFromProto3Json({'sparseEnum': 'sparse_b'},
-                caseInsensitiveEnums: false, camelCaseEnums: true),
-          sparseB);
-      expect(
-          SparseEnumMessage()
-            ..mergeFromProto3Json({'sparseEnum': 'SPARSEB'},
-                caseInsensitiveEnums: false, camelCaseEnums: true),
-          sparseB);
-
       expect(
           () => Any()
             ..mergeFromProto3Json({
@@ -548,7 +516,6 @@ void main() {
               'sparseEnum': 'SPARSEB'
             }, typeRegistry: TypeRegistry([SparseEnumMessage()])),
           parseFailure(['sparseEnum']));
-
       expect(
           Any()
             ..mergeFromProto3Json({
@@ -557,8 +524,9 @@ void main() {
               'sparseEnum': 'SPARSEB'
             },
                 typeRegistry: TypeRegistry([SparseEnumMessage()]),
-                camelCaseEnums: true),
-          Any.pack(sparseB));
+                permissiveEnums: true),
+          Any.pack(sparseB),
+          reason: 'Parsing options are passed through Any messages');
     });
 
     test('map value', () {
