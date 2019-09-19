@@ -1,3 +1,11 @@
+## 0.14.4
+
+* Add options to do fuzzy enum value matching to `mergeFromProto3Json`.
+  - `caseInsensitiveEnums` normalizes the json enum name to upper-case and
+    translates '-'s to '_' before matching it.
+  - `camelCaseEnums` implies `caseInsensitiveEnums`, but also tries to match
+    against the known enum values without `_`s.
+
 ## 14.0.3
 
 * Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
@@ -12,12 +20,12 @@
 
   The generated code for a protofile `a.proto` that `import public "b.proto"` will export the
   generated code for `b.proto`.
-  
+
   See https://developers.google.com/protocol-buffers/docs/proto#importing-definitions.
 
 ## 0.14.0
 
-* Support for proto3 json (json with field names as keys) 
+* Support for proto3 json (json with field names as keys)
   - encoding and decoding.
   - Support for well-known types.
   - Use `GeneratedMessage.toProto3Json()` to encode and `GeneratedMessage.mergeFromProto3Json(json)`
@@ -45,7 +53,7 @@ nested message and tries to reparse extensions from its unknown fields.
 
 ## 0.13.15
 
-* Add new getter `GeneratedMessage.isFrozen` to query if the message has been frozen. 
+* Add new getter `GeneratedMessage.isFrozen` to query if the message has been frozen.
 
 ## 0.13.14
 
@@ -100,7 +108,7 @@ nested message and tries to reparse extensions from its unknown fields.
 
 * Fix issue with parsing map field entries. The values for two different keys would sometimes be
   merged.
-  
+
 * Deprecated `PBMap.add`.
 
 ## 0.13.2
