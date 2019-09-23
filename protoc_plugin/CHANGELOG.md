@@ -1,3 +1,7 @@
+## 19.0.0
+
+* Breaking: Use unmangled names for enum values.
+
 ## 18.0.2
 
 * Fix mangling of extension names, message type names, and enum names that are Dart keywords.

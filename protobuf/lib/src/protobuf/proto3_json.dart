@@ -411,10 +411,8 @@ bool _isAsciiLetter(int char) {
   const lowerA = 97;
   const lowerZ = 122;
   const capitalA = 65;
-  const capitalZ = 90;
-
-  return (capitalA <= char && char <= capitalZ) ||
-      (lowerA <= char && char <= lowerZ);
+  char |= lowerA ^ capitalA;
+  return lowerA <= char && char <= lowerZ;
 }
 
 /// Returns true if [a] and [b] are the same ignoring case and all instances of
@@ -427,6 +425,7 @@ bool _permissiveCompare(String a, String b) {
   int i = 0;
   int j = 0;
 
+  outer:
   while (i < a.length && j < b.length) {
     int ca = a.codeUnitAt(i);
     if (ca == dash || ca == underscore) {
@@ -434,20 +433,13 @@ bool _permissiveCompare(String a, String b) {
       continue;
     }
     int cb = b.codeUnitAt(j);
-    if (cb == dash || cb == underscore) {
+    while (cb == dash || cb == underscore) {
       j++;
-      continue;
+      if (j == b.length) break outer;
+      cb = b.codeUnitAt(j);
     }
 
-    if (_isAsciiLetter(ca)) {
-      if (ca | 0x20 != cb | 0x20) {
-        return false;
-      }
-    } else {
-      if (ca != cb) {
-        return false;
-      }
-    }
+    if (ca != cb && (ca ^ cb != 0x20 || !_isAsciiLetter(ca))) return false;
     i++;
     j++;
   }
