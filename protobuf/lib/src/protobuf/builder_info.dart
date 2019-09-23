@@ -160,16 +160,28 @@ class BuilderInfo {
         valueOf, enumValues);
   }
 
-  void aOM<T extends GeneratedMessage>(
-      int tagNumber, String name, T Function() create) {
-    add<T>(tagNumber, name, PbFieldType.OM,
-        GeneratedMessage._defaultMakerFor<T>(create), create, null, null);
+  void aOM<T extends GeneratedMessage>(int tagNumber, String name,
+      {T Function() subBuilder, String protoName}) {
+    add<T>(
+        tagNumber,
+        name,
+        PbFieldType.OM,
+        GeneratedMessage._defaultMakerFor<T>(subBuilder),
+        subBuilder,
+        null,
+        null);
   }
 
-  void aQM<T extends GeneratedMessage>(
-      int tagNumber, String name, T Function() create) {
-    add<T>(tagNumber, name, PbFieldType.QM,
-        GeneratedMessage._defaultMakerFor<T>(create), create, null, null);
+  void aQM<T extends GeneratedMessage>(int tagNumber, String name,
+      {T Function() subBuilder, String protoName}) {
+    add<T>(
+        tagNumber,
+        name,
+        PbFieldType.QM,
+        GeneratedMessage._defaultMakerFor<T>(subBuilder),
+        subBuilder,
+        null,
+        null);
   }
 
   // oneof declarations.

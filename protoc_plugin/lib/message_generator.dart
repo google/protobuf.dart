@@ -371,11 +371,10 @@ class MessageGenerator extends ProtobufContainer {
           'static $_protobufImportPrefix.PbList<${classname}> createRepeated() =>'
           ' $_protobufImportPrefix.PbList<${classname}>();');
       out.println("@${_coreImportPrefix}.pragma('dart2js:noInline')");
-      out.println(
-        'static ${classname} getDefault() =>'
-        ' _defaultInstance ??='
-        ' $_protobufImportPrefix.GeneratedMessage.\$_defaultFor<${classname}>'
-        '(create);');
+      out.println('static ${classname} getDefault() =>'
+          ' _defaultInstance ??='
+          ' $_protobufImportPrefix.GeneratedMessage.\$_defaultFor<${classname}>'
+          '(create);');
       out.println('static ${classname} _defaultInstance;');
 
       generateFieldsAccessorsMutators(out);
