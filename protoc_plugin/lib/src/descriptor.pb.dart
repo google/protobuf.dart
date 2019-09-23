@@ -16,7 +16,8 @@ export 'descriptor.pbenum.dart';
 
 class FileDescriptorSet extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileDescriptorSet',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..pc<FileDescriptorProto>(1, 'file', $pb.PbFieldType.PM,
         subBuilder: FileDescriptorProto.create);
 
@@ -37,8 +38,9 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   FileDescriptorSet createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorSet> createRepeated() =>
       $pb.PbList<FileDescriptorSet>();
-  static FileDescriptorSet getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FileDescriptorSet getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FileDescriptorSet>(create);
   static FileDescriptorSet _defaultInstance;
 
   $core.List<FileDescriptorProto> get file => $_getList(0);
@@ -46,7 +48,8 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
 
 class FileDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..aOS(2, 'package')
     ..pPS(3, 'dependency')
@@ -58,10 +61,8 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
         subBuilder: ServiceDescriptorProto.create)
     ..pc<FieldDescriptorProto>(7, 'extension', $pb.PbFieldType.PM,
         subBuilder: FieldDescriptorProto.create)
-    ..a<FileOptions>(8, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: FileOptions.getDefault, subBuilder: FileOptions.create)
-    ..a<SourceCodeInfo>(9, 'sourceCodeInfo', $pb.PbFieldType.OM,
-        defaultOrMaker: SourceCodeInfo.getDefault,
+    ..aOM<FileOptions>(8, 'options', subBuilder: FileOptions.create)
+    ..aOM<SourceCodeInfo>(9, 'sourceCodeInfo',
         subBuilder: SourceCodeInfo.create)
     ..p<$core.int>(10, 'publicDependency', $pb.PbFieldType.P3)
     ..p<$core.int>(11, 'weakDependency', $pb.PbFieldType.P3)
@@ -84,11 +85,12 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   FileDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorProto> createRepeated() =>
       $pb.PbList<FileDescriptorProto>();
-  static FileDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FileDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FileDescriptorProto>(create);
   static FileDescriptorProto _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -96,7 +98,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  $core.String get package => $_getS(1, '');
+  $core.String get package => $_getSZ(1);
   set package($core.String v) {
     $_setString(1, v);
   }
@@ -134,7 +136,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 
   $core.List<$core.int> get weakDependency => $_getList(10);
 
-  $core.String get syntax => $_getS(11, '');
+  $core.String get syntax => $_getSZ(11);
   set syntax($core.String v) {
     $_setString(11, v);
   }
@@ -146,7 +148,8 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'DescriptorProto.ExtensionRange',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..a<$core.int>(1, 'start', $pb.PbFieldType.O3)
     ..a<$core.int>(2, 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -172,11 +175,12 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   DescriptorProto_ExtensionRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ExtensionRange> createRepeated() =>
       $pb.PbList<DescriptorProto_ExtensionRange>();
-  static DescriptorProto_ExtensionRange getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static DescriptorProto_ExtensionRange getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ExtensionRange>(create);
   static DescriptorProto_ExtensionRange _defaultInstance;
 
-  $core.int get start => $_get(0, 0);
+  $core.int get start => $_getIZ(0);
   set start($core.int v) {
     $_setSignedInt32(0, v);
   }
@@ -184,7 +188,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   $core.bool hasStart() => $_has(0);
   void clearStart() => clearField(1);
 
-  $core.int get end => $_get(1, 0);
+  $core.int get end => $_getIZ(1);
   set end($core.int v) {
     $_setSignedInt32(1, v);
   }
@@ -196,7 +200,8 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
 class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'DescriptorProto.ReservedRange',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..a<$core.int>(1, 'start', $pb.PbFieldType.O3)
     ..a<$core.int>(2, 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -222,11 +227,12 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   DescriptorProto_ReservedRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ReservedRange> createRepeated() =>
       $pb.PbList<DescriptorProto_ReservedRange>();
-  static DescriptorProto_ReservedRange getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static DescriptorProto_ReservedRange getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ReservedRange>(create);
   static DescriptorProto_ReservedRange _defaultInstance;
 
-  $core.int get start => $_get(0, 0);
+  $core.int get start => $_getIZ(0);
   set start($core.int v) {
     $_setSignedInt32(0, v);
   }
@@ -234,7 +240,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   $core.bool hasStart() => $_has(0);
   void clearStart() => clearField(1);
 
-  $core.int get end => $_get(1, 0);
+  $core.int get end => $_getIZ(1);
   set end($core.int v) {
     $_setSignedInt32(1, v);
   }
@@ -245,7 +251,8 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
 
 class DescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('DescriptorProto',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..pc<FieldDescriptorProto>(2, 'field', $pb.PbFieldType.PM,
         subBuilder: FieldDescriptorProto.create)
@@ -258,9 +265,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
         subBuilder: DescriptorProto_ExtensionRange.create)
     ..pc<FieldDescriptorProto>(6, 'extension', $pb.PbFieldType.PM,
         subBuilder: FieldDescriptorProto.create)
-    ..a<MessageOptions>(7, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: MessageOptions.getDefault,
-        subBuilder: MessageOptions.create)
+    ..aOM<MessageOptions>(7, 'options', subBuilder: MessageOptions.create)
     ..pc<OneofDescriptorProto>(8, 'oneofDecl', $pb.PbFieldType.PM,
         subBuilder: OneofDescriptorProto.create)
     ..pc<DescriptorProto_ReservedRange>(9, 'reservedRange', $pb.PbFieldType.PM,
@@ -284,11 +289,12 @@ class DescriptorProto extends $pb.GeneratedMessage {
   DescriptorProto createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto> createRepeated() =>
       $pb.PbList<DescriptorProto>();
-  static DescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static DescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DescriptorProto>(create);
   static DescriptorProto _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -323,7 +329,8 @@ class DescriptorProto extends $pb.GeneratedMessage {
 
 class FieldDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('FieldDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..aOS(2, 'extendee')
     ..a<$core.int>(3, 'number', $pb.PbFieldType.O3)
@@ -337,9 +344,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
         enumValues: FieldDescriptorProto_Type.values)
     ..aOS(6, 'typeName')
     ..aOS(7, 'defaultValue')
-    ..a<FieldOptions>(8, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: FieldOptions.getDefault,
-        subBuilder: FieldOptions.create)
+    ..aOM<FieldOptions>(8, 'options', subBuilder: FieldOptions.create)
     ..a<$core.int>(9, 'oneofIndex', $pb.PbFieldType.O3)
     ..aOS(10, 'jsonName');
 
@@ -361,11 +366,12 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   FieldDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FieldDescriptorProto> createRepeated() =>
       $pb.PbList<FieldDescriptorProto>();
-  static FieldDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FieldDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FieldDescriptorProto>(create);
   static FieldDescriptorProto _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -373,7 +379,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  $core.String get extendee => $_getS(1, '');
+  $core.String get extendee => $_getSZ(1);
   set extendee($core.String v) {
     $_setString(1, v);
   }
@@ -381,7 +387,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasExtendee() => $_has(1);
   void clearExtendee() => clearField(2);
 
-  $core.int get number => $_get(2, 0);
+  $core.int get number => $_getIZ(2);
   set number($core.int v) {
     $_setSignedInt32(2, v);
   }
@@ -405,7 +411,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasType() => $_has(4);
   void clearType() => clearField(5);
 
-  $core.String get typeName => $_getS(5, '');
+  $core.String get typeName => $_getSZ(5);
   set typeName($core.String v) {
     $_setString(5, v);
   }
@@ -413,7 +419,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasTypeName() => $_has(5);
   void clearTypeName() => clearField(6);
 
-  $core.String get defaultValue => $_getS(6, '');
+  $core.String get defaultValue => $_getSZ(6);
   set defaultValue($core.String v) {
     $_setString(6, v);
   }
@@ -429,7 +435,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(7);
   void clearOptions() => clearField(8);
 
-  $core.int get oneofIndex => $_get(8, 0);
+  $core.int get oneofIndex => $_getIZ(8);
   set oneofIndex($core.int v) {
     $_setSignedInt32(8, v);
   }
@@ -437,7 +443,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOneofIndex() => $_has(8);
   void clearOneofIndex() => clearField(9);
 
-  $core.String get jsonName => $_getS(9, '');
+  $core.String get jsonName => $_getSZ(9);
   set jsonName($core.String v) {
     $_setString(9, v);
   }
@@ -448,11 +454,10 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
 
 class OneofDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('OneofDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
-    ..a<OneofOptions>(2, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: OneofOptions.getDefault,
-        subBuilder: OneofOptions.create);
+    ..aOM<OneofOptions>(2, 'options', subBuilder: OneofOptions.create);
 
   OneofDescriptorProto._() : super();
   factory OneofDescriptorProto() => create();
@@ -472,11 +477,12 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   OneofDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<OneofDescriptorProto> createRepeated() =>
       $pb.PbList<OneofDescriptorProto>();
-  static OneofDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static OneofDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<OneofDescriptorProto>(create);
   static OneofDescriptorProto _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -495,12 +501,12 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
 
 class EnumDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..pc<EnumValueDescriptorProto>(2, 'value', $pb.PbFieldType.PM,
         subBuilder: EnumValueDescriptorProto.create)
-    ..a<EnumOptions>(3, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: EnumOptions.getDefault, subBuilder: EnumOptions.create);
+    ..aOM<EnumOptions>(3, 'options', subBuilder: EnumOptions.create);
 
   EnumDescriptorProto._() : super();
   factory EnumDescriptorProto() => create();
@@ -519,11 +525,12 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   EnumDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumDescriptorProto> createRepeated() =>
       $pb.PbList<EnumDescriptorProto>();
-  static EnumDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static EnumDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<EnumDescriptorProto>(create);
   static EnumDescriptorProto _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -544,12 +551,11 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
 
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumValueDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..a<$core.int>(2, 'number', $pb.PbFieldType.O3)
-    ..a<EnumValueOptions>(3, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: EnumValueOptions.getDefault,
-        subBuilder: EnumValueOptions.create);
+    ..aOM<EnumValueOptions>(3, 'options', subBuilder: EnumValueOptions.create);
 
   EnumValueDescriptorProto._() : super();
   factory EnumValueDescriptorProto() => create();
@@ -570,11 +576,12 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   EnumValueDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumValueDescriptorProto> createRepeated() =>
       $pb.PbList<EnumValueDescriptorProto>();
-  static EnumValueDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static EnumValueDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<EnumValueDescriptorProto>(create);
   static EnumValueDescriptorProto _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -582,7 +589,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  $core.int get number => $_get(1, 0);
+  $core.int get number => $_getIZ(1);
   set number($core.int v) {
     $_setSignedInt32(1, v);
   }
@@ -601,13 +608,12 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
 
 class ServiceDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ServiceDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..pc<MethodDescriptorProto>(2, 'method', $pb.PbFieldType.PM,
         subBuilder: MethodDescriptorProto.create)
-    ..a<ServiceOptions>(3, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: ServiceOptions.getDefault,
-        subBuilder: ServiceOptions.create);
+    ..aOM<ServiceOptions>(3, 'options', subBuilder: ServiceOptions.create);
 
   ServiceDescriptorProto._() : super();
   factory ServiceDescriptorProto() => create();
@@ -628,11 +634,12 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   ServiceDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<ServiceDescriptorProto> createRepeated() =>
       $pb.PbList<ServiceDescriptorProto>();
-  static ServiceDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static ServiceDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ServiceDescriptorProto>(create);
   static ServiceDescriptorProto _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -653,13 +660,12 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
 
 class MethodDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('MethodDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..aOS(2, 'inputType')
     ..aOS(3, 'outputType')
-    ..a<MethodOptions>(4, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: MethodOptions.getDefault,
-        subBuilder: MethodOptions.create)
+    ..aOM<MethodOptions>(4, 'options', subBuilder: MethodOptions.create)
     ..aOB(5, 'clientStreaming')
     ..aOB(6, 'serverStreaming');
 
@@ -682,11 +688,12 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   MethodDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<MethodDescriptorProto> createRepeated() =>
       $pb.PbList<MethodDescriptorProto>();
-  static MethodDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static MethodDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MethodDescriptorProto>(create);
   static MethodDescriptorProto _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -694,7 +701,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  $core.String get inputType => $_getS(1, '');
+  $core.String get inputType => $_getSZ(1);
   set inputType($core.String v) {
     $_setString(1, v);
   }
@@ -702,7 +709,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasInputType() => $_has(1);
   void clearInputType() => clearField(2);
 
-  $core.String get outputType => $_getS(2, '');
+  $core.String get outputType => $_getSZ(2);
   set outputType($core.String v) {
     $_setString(2, v);
   }
@@ -718,7 +725,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(3);
   void clearOptions() => clearField(4);
 
-  $core.bool get clientStreaming => $_get(4, false);
+  $core.bool get clientStreaming => $_getBF(4);
   set clientStreaming($core.bool v) {
     $_setBool(4, v);
   }
@@ -726,7 +733,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasClientStreaming() => $_has(4);
   void clearClientStreaming() => clearField(5);
 
-  $core.bool get serverStreaming => $_get(5, false);
+  $core.bool get serverStreaming => $_getBF(5);
   set serverStreaming($core.bool v) {
     $_setBool(5, v);
   }
@@ -737,7 +744,8 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
 
 class FileOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileOptions',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOS(1, 'javaPackage')
     ..aOS(8, 'javaOuterClassname')
     ..e<FileOptions_OptimizeMode>(9, 'optimizeFor', $pb.PbFieldType.OE,
@@ -778,10 +786,12 @@ class FileOptions extends $pb.GeneratedMessage {
   static FileOptions create() => FileOptions._();
   FileOptions createEmptyInstance() => create();
   static $pb.PbList<FileOptions> createRepeated() => $pb.PbList<FileOptions>();
-  static FileOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FileOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FileOptions>(create);
   static FileOptions _defaultInstance;
 
-  $core.String get javaPackage => $_getS(0, '');
+  $core.String get javaPackage => $_getSZ(0);
   set javaPackage($core.String v) {
     $_setString(0, v);
   }
@@ -789,7 +799,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasJavaPackage() => $_has(0);
   void clearJavaPackage() => clearField(1);
 
-  $core.String get javaOuterClassname => $_getS(1, '');
+  $core.String get javaOuterClassname => $_getSZ(1);
   set javaOuterClassname($core.String v) {
     $_setString(1, v);
   }
@@ -805,7 +815,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasOptimizeFor() => $_has(2);
   void clearOptimizeFor() => clearField(9);
 
-  $core.bool get javaMultipleFiles => $_get(3, false);
+  $core.bool get javaMultipleFiles => $_getBF(3);
   set javaMultipleFiles($core.bool v) {
     $_setBool(3, v);
   }
@@ -813,7 +823,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasJavaMultipleFiles() => $_has(3);
   void clearJavaMultipleFiles() => clearField(10);
 
-  $core.String get goPackage => $_getS(4, '');
+  $core.String get goPackage => $_getSZ(4);
   set goPackage($core.String v) {
     $_setString(4, v);
   }
@@ -821,7 +831,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasGoPackage() => $_has(4);
   void clearGoPackage() => clearField(11);
 
-  $core.bool get ccGenericServices => $_get(5, false);
+  $core.bool get ccGenericServices => $_getBF(5);
   set ccGenericServices($core.bool v) {
     $_setBool(5, v);
   }
@@ -829,7 +839,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasCcGenericServices() => $_has(5);
   void clearCcGenericServices() => clearField(16);
 
-  $core.bool get javaGenericServices => $_get(6, false);
+  $core.bool get javaGenericServices => $_getBF(6);
   set javaGenericServices($core.bool v) {
     $_setBool(6, v);
   }
@@ -837,7 +847,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasJavaGenericServices() => $_has(6);
   void clearJavaGenericServices() => clearField(17);
 
-  $core.bool get pyGenericServices => $_get(7, false);
+  $core.bool get pyGenericServices => $_getBF(7);
   set pyGenericServices($core.bool v) {
     $_setBool(7, v);
   }
@@ -846,7 +856,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearPyGenericServices() => clearField(18);
 
   @$core.Deprecated('This field is deprecated.')
-  $core.bool get javaGenerateEqualsAndHash => $_get(8, false);
+  $core.bool get javaGenerateEqualsAndHash => $_getBF(8);
   @$core.Deprecated('This field is deprecated.')
   set javaGenerateEqualsAndHash($core.bool v) {
     $_setBool(8, v);
@@ -857,7 +867,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('This field is deprecated.')
   void clearJavaGenerateEqualsAndHash() => clearField(20);
 
-  $core.bool get deprecated => $_get(9, false);
+  $core.bool get deprecated => $_getBF(9);
   set deprecated($core.bool v) {
     $_setBool(9, v);
   }
@@ -865,7 +875,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasDeprecated() => $_has(9);
   void clearDeprecated() => clearField(23);
 
-  $core.bool get javaStringCheckUtf8 => $_get(10, false);
+  $core.bool get javaStringCheckUtf8 => $_getBF(10);
   set javaStringCheckUtf8($core.bool v) {
     $_setBool(10, v);
   }
@@ -873,7 +883,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasJavaStringCheckUtf8() => $_has(10);
   void clearJavaStringCheckUtf8() => clearField(27);
 
-  $core.bool get ccEnableArenas => $_get(11, false);
+  $core.bool get ccEnableArenas => $_getBF(11);
   set ccEnableArenas($core.bool v) {
     $_setBool(11, v);
   }
@@ -881,7 +891,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasCcEnableArenas() => $_has(11);
   void clearCcEnableArenas() => clearField(31);
 
-  $core.String get objcClassPrefix => $_getS(12, '');
+  $core.String get objcClassPrefix => $_getSZ(12);
   set objcClassPrefix($core.String v) {
     $_setString(12, v);
   }
@@ -889,7 +899,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasObjcClassPrefix() => $_has(12);
   void clearObjcClassPrefix() => clearField(36);
 
-  $core.String get csharpNamespace => $_getS(13, '');
+  $core.String get csharpNamespace => $_getSZ(13);
   set csharpNamespace($core.String v) {
     $_setString(13, v);
   }
@@ -897,7 +907,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasCsharpNamespace() => $_has(13);
   void clearCsharpNamespace() => clearField(37);
 
-  $core.String get swiftPrefix => $_getS(14, '');
+  $core.String get swiftPrefix => $_getSZ(14);
   set swiftPrefix($core.String v) {
     $_setString(14, v);
   }
@@ -905,7 +915,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasSwiftPrefix() => $_has(14);
   void clearSwiftPrefix() => clearField(39);
 
-  $core.String get phpClassPrefix => $_getS(15, '');
+  $core.String get phpClassPrefix => $_getSZ(15);
   set phpClassPrefix($core.String v) {
     $_setString(15, v);
   }
@@ -913,7 +923,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasPhpClassPrefix() => $_has(15);
   void clearPhpClassPrefix() => clearField(40);
 
-  $core.String get phpNamespace => $_getS(16, '');
+  $core.String get phpNamespace => $_getSZ(16);
   set phpNamespace($core.String v) {
     $_setString(16, v);
   }
@@ -926,7 +936,8 @@ class FileOptions extends $pb.GeneratedMessage {
 
 class MessageOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('MessageOptions',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOB(1, 'messageSetWireFormat')
     ..aOB(2, 'noStandardDescriptorAccessor')
     ..aOB(3, 'deprecated')
@@ -952,10 +963,12 @@ class MessageOptions extends $pb.GeneratedMessage {
   MessageOptions createEmptyInstance() => create();
   static $pb.PbList<MessageOptions> createRepeated() =>
       $pb.PbList<MessageOptions>();
-  static MessageOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static MessageOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MessageOptions>(create);
   static MessageOptions _defaultInstance;
 
-  $core.bool get messageSetWireFormat => $_get(0, false);
+  $core.bool get messageSetWireFormat => $_getBF(0);
   set messageSetWireFormat($core.bool v) {
     $_setBool(0, v);
   }
@@ -963,7 +976,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   $core.bool hasMessageSetWireFormat() => $_has(0);
   void clearMessageSetWireFormat() => clearField(1);
 
-  $core.bool get noStandardDescriptorAccessor => $_get(1, false);
+  $core.bool get noStandardDescriptorAccessor => $_getBF(1);
   set noStandardDescriptorAccessor($core.bool v) {
     $_setBool(1, v);
   }
@@ -971,7 +984,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   $core.bool hasNoStandardDescriptorAccessor() => $_has(1);
   void clearNoStandardDescriptorAccessor() => clearField(2);
 
-  $core.bool get deprecated => $_get(2, false);
+  $core.bool get deprecated => $_getBF(2);
   set deprecated($core.bool v) {
     $_setBool(2, v);
   }
@@ -979,7 +992,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   $core.bool hasDeprecated() => $_has(2);
   void clearDeprecated() => clearField(3);
 
-  $core.bool get mapEntry => $_get(3, false);
+  $core.bool get mapEntry => $_getBF(3);
   set mapEntry($core.bool v) {
     $_setBool(3, v);
   }
@@ -992,7 +1005,8 @@ class MessageOptions extends $pb.GeneratedMessage {
 
 class FieldOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('FieldOptions',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..e<FieldOptions_CType>(1, 'ctype', $pb.PbFieldType.OE,
         defaultOrMaker: FieldOptions_CType.STRING,
         valueOf: FieldOptions_CType.valueOf,
@@ -1026,7 +1040,9 @@ class FieldOptions extends $pb.GeneratedMessage {
   FieldOptions createEmptyInstance() => create();
   static $pb.PbList<FieldOptions> createRepeated() =>
       $pb.PbList<FieldOptions>();
-  static FieldOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FieldOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FieldOptions>(create);
   static FieldOptions _defaultInstance;
 
   FieldOptions_CType get ctype => $_getN(0);
@@ -1037,7 +1053,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   $core.bool hasCtype() => $_has(0);
   void clearCtype() => clearField(1);
 
-  $core.bool get packed => $_get(1, false);
+  $core.bool get packed => $_getBF(1);
   set packed($core.bool v) {
     $_setBool(1, v);
   }
@@ -1045,7 +1061,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   $core.bool hasPacked() => $_has(1);
   void clearPacked() => clearField(2);
 
-  $core.bool get deprecated => $_get(2, false);
+  $core.bool get deprecated => $_getBF(2);
   set deprecated($core.bool v) {
     $_setBool(2, v);
   }
@@ -1053,7 +1069,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   $core.bool hasDeprecated() => $_has(2);
   void clearDeprecated() => clearField(3);
 
-  $core.bool get lazy => $_get(3, false);
+  $core.bool get lazy => $_getBF(3);
   set lazy($core.bool v) {
     $_setBool(3, v);
   }
@@ -1069,7 +1085,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   $core.bool hasJstype() => $_has(4);
   void clearJstype() => clearField(6);
 
-  $core.bool get weak => $_get(5, false);
+  $core.bool get weak => $_getBF(5);
   set weak($core.bool v) {
     $_setBool(5, v);
   }
@@ -1082,7 +1098,8 @@ class FieldOptions extends $pb.GeneratedMessage {
 
 class OneofOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('OneofOptions',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
@@ -1104,7 +1121,9 @@ class OneofOptions extends $pb.GeneratedMessage {
   OneofOptions createEmptyInstance() => create();
   static $pb.PbList<OneofOptions> createRepeated() =>
       $pb.PbList<OneofOptions>();
-  static OneofOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static OneofOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<OneofOptions>(create);
   static OneofOptions _defaultInstance;
 
   $core.List<UninterpretedOption> get uninterpretedOption => $_getList(0);
@@ -1112,7 +1131,8 @@ class OneofOptions extends $pb.GeneratedMessage {
 
 class EnumOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumOptions',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOB(2, 'allowAlias')
     ..aOB(3, 'deprecated')
     ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
@@ -1135,10 +1155,12 @@ class EnumOptions extends $pb.GeneratedMessage {
   static EnumOptions create() => EnumOptions._();
   EnumOptions createEmptyInstance() => create();
   static $pb.PbList<EnumOptions> createRepeated() => $pb.PbList<EnumOptions>();
-  static EnumOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static EnumOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<EnumOptions>(create);
   static EnumOptions _defaultInstance;
 
-  $core.bool get allowAlias => $_get(0, false);
+  $core.bool get allowAlias => $_getBF(0);
   set allowAlias($core.bool v) {
     $_setBool(0, v);
   }
@@ -1146,7 +1168,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   $core.bool hasAllowAlias() => $_has(0);
   void clearAllowAlias() => clearField(2);
 
-  $core.bool get deprecated => $_get(1, false);
+  $core.bool get deprecated => $_getBF(1);
   set deprecated($core.bool v) {
     $_setBool(1, v);
   }
@@ -1159,7 +1181,8 @@ class EnumOptions extends $pb.GeneratedMessage {
 
 class EnumValueOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumValueOptions',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOB(1, 'deprecated')
     ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
@@ -1182,11 +1205,12 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   EnumValueOptions createEmptyInstance() => create();
   static $pb.PbList<EnumValueOptions> createRepeated() =>
       $pb.PbList<EnumValueOptions>();
-  static EnumValueOptions getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static EnumValueOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<EnumValueOptions>(create);
   static EnumValueOptions _defaultInstance;
 
-  $core.bool get deprecated => $_get(0, false);
+  $core.bool get deprecated => $_getBF(0);
   set deprecated($core.bool v) {
     $_setBool(0, v);
   }
@@ -1199,7 +1223,8 @@ class EnumValueOptions extends $pb.GeneratedMessage {
 
 class ServiceOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ServiceOptions',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOB(33, 'deprecated')
     ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
@@ -1222,10 +1247,12 @@ class ServiceOptions extends $pb.GeneratedMessage {
   ServiceOptions createEmptyInstance() => create();
   static $pb.PbList<ServiceOptions> createRepeated() =>
       $pb.PbList<ServiceOptions>();
-  static ServiceOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static ServiceOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ServiceOptions>(create);
   static ServiceOptions _defaultInstance;
 
-  $core.bool get deprecated => $_get(0, false);
+  $core.bool get deprecated => $_getBF(0);
   set deprecated($core.bool v) {
     $_setBool(0, v);
   }
@@ -1238,7 +1265,8 @@ class ServiceOptions extends $pb.GeneratedMessage {
 
 class MethodOptions extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('MethodOptions',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aOB(33, 'deprecated')
     ..e<MethodOptions_IdempotencyLevel>(
         34, 'idempotencyLevel', $pb.PbFieldType.OE,
@@ -1266,10 +1294,12 @@ class MethodOptions extends $pb.GeneratedMessage {
   MethodOptions createEmptyInstance() => create();
   static $pb.PbList<MethodOptions> createRepeated() =>
       $pb.PbList<MethodOptions>();
-  static MethodOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static MethodOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MethodOptions>(create);
   static MethodOptions _defaultInstance;
 
-  $core.bool get deprecated => $_get(0, false);
+  $core.bool get deprecated => $_getBF(0);
   set deprecated($core.bool v) {
     $_setBool(0, v);
   }
@@ -1291,7 +1321,8 @@ class MethodOptions extends $pb.GeneratedMessage {
 class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'UninterpretedOption.NamePart',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..aQS(1, 'namePart')
     ..a<$core.bool>(2, 'isExtension', $pb.PbFieldType.QB);
 
@@ -1316,11 +1347,12 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   UninterpretedOption_NamePart createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption_NamePart> createRepeated() =>
       $pb.PbList<UninterpretedOption_NamePart>();
-  static UninterpretedOption_NamePart getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static UninterpretedOption_NamePart getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<UninterpretedOption_NamePart>(create);
   static UninterpretedOption_NamePart _defaultInstance;
 
-  $core.String get namePart => $_getS(0, '');
+  $core.String get namePart => $_getSZ(0);
   set namePart($core.String v) {
     $_setString(0, v);
   }
@@ -1328,7 +1360,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   $core.bool hasNamePart() => $_has(0);
   void clearNamePart() => clearField(1);
 
-  $core.bool get isExtension => $_get(1, false);
+  $core.bool get isExtension => $_getBF(1);
   set isExtension($core.bool v) {
     $_setBool(1, v);
   }
@@ -1339,7 +1371,8 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
 
 class UninterpretedOption extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('UninterpretedOption',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..pc<UninterpretedOption_NamePart>(2, 'name', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption_NamePart.create)
     ..aOS(3, 'identifierValue')
@@ -1367,13 +1400,14 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   UninterpretedOption createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption> createRepeated() =>
       $pb.PbList<UninterpretedOption>();
-  static UninterpretedOption getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static UninterpretedOption getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<UninterpretedOption>(create);
   static UninterpretedOption _defaultInstance;
 
   $core.List<UninterpretedOption_NamePart> get name => $_getList(0);
 
-  $core.String get identifierValue => $_getS(1, '');
+  $core.String get identifierValue => $_getSZ(1);
   set identifierValue($core.String v) {
     $_setString(1, v);
   }
@@ -1413,7 +1447,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   $core.bool hasStringValue() => $_has(5);
   void clearStringValue() => clearField(7);
 
-  $core.String get aggregateValue => $_getS(6, '');
+  $core.String get aggregateValue => $_getSZ(6);
   set aggregateValue($core.String v) {
     $_setString(6, v);
   }
@@ -1424,7 +1458,8 @@ class UninterpretedOption extends $pb.GeneratedMessage {
 
 class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('SourceCodeInfo.Location',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..p<$core.int>(1, 'path', $pb.PbFieldType.K3)
     ..p<$core.int>(2, 'span', $pb.PbFieldType.K3)
     ..aOS(3, 'leadingComments')
@@ -1451,15 +1486,16 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   SourceCodeInfo_Location createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo_Location> createRepeated() =>
       $pb.PbList<SourceCodeInfo_Location>();
-  static SourceCodeInfo_Location getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static SourceCodeInfo_Location getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SourceCodeInfo_Location>(create);
   static SourceCodeInfo_Location _defaultInstance;
 
   $core.List<$core.int> get path => $_getList(0);
 
   $core.List<$core.int> get span => $_getList(1);
 
-  $core.String get leadingComments => $_getS(2, '');
+  $core.String get leadingComments => $_getSZ(2);
   set leadingComments($core.String v) {
     $_setString(2, v);
   }
@@ -1467,7 +1503,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   $core.bool hasLeadingComments() => $_has(2);
   void clearLeadingComments() => clearField(3);
 
-  $core.String get trailingComments => $_getS(3, '');
+  $core.String get trailingComments => $_getSZ(3);
   set trailingComments($core.String v) {
     $_setString(3, v);
   }
@@ -1480,7 +1516,8 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
 
 class SourceCodeInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('SourceCodeInfo',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..pc<SourceCodeInfo_Location>(1, 'location', $pb.PbFieldType.PM,
         subBuilder: SourceCodeInfo_Location.create)
     ..hasRequiredFields = false;
@@ -1502,7 +1539,9 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   SourceCodeInfo createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo> createRepeated() =>
       $pb.PbList<SourceCodeInfo>();
-  static SourceCodeInfo getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static SourceCodeInfo getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SourceCodeInfo>(create);
   static SourceCodeInfo _defaultInstance;
 
   $core.List<SourceCodeInfo_Location> get location => $_getList(0);
@@ -1511,7 +1550,8 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'GeneratedCodeInfo.Annotation',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..p<$core.int>(1, 'path', $pb.PbFieldType.K3)
     ..aOS(2, 'sourceFile')
     ..a<$core.int>(3, 'begin', $pb.PbFieldType.O3)
@@ -1539,13 +1579,14 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   GeneratedCodeInfo_Annotation createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo_Annotation> createRepeated() =>
       $pb.PbList<GeneratedCodeInfo_Annotation>();
-  static GeneratedCodeInfo_Annotation getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GeneratedCodeInfo_Annotation getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GeneratedCodeInfo_Annotation>(create);
   static GeneratedCodeInfo_Annotation _defaultInstance;
 
   $core.List<$core.int> get path => $_getList(0);
 
-  $core.String get sourceFile => $_getS(1, '');
+  $core.String get sourceFile => $_getSZ(1);
   set sourceFile($core.String v) {
     $_setString(1, v);
   }
@@ -1553,7 +1594,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   $core.bool hasSourceFile() => $_has(1);
   void clearSourceFile() => clearField(2);
 
-  $core.int get begin => $_get(2, 0);
+  $core.int get begin => $_getIZ(2);
   set begin($core.int v) {
     $_setSignedInt32(2, v);
   }
@@ -1561,7 +1602,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   $core.bool hasBegin() => $_has(2);
   void clearBegin() => clearField(3);
 
-  $core.int get end => $_get(3, 0);
+  $core.int get end => $_getIZ(3);
   set end($core.int v) {
     $_setSignedInt32(3, v);
   }
@@ -1572,7 +1613,8 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
 
 class GeneratedCodeInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('GeneratedCodeInfo',
-      package: const $pb.PackageName('google.protobuf'))
+      package: const $pb.PackageName('google.protobuf'),
+      createEmptyInstance: create)
     ..pc<GeneratedCodeInfo_Annotation>(1, 'annotation', $pb.PbFieldType.PM,
         subBuilder: GeneratedCodeInfo_Annotation.create)
     ..hasRequiredFields = false;
@@ -1594,8 +1636,9 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   GeneratedCodeInfo createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo> createRepeated() =>
       $pb.PbList<GeneratedCodeInfo>();
-  static GeneratedCodeInfo getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GeneratedCodeInfo getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GeneratedCodeInfo>(create);
   static GeneratedCodeInfo _defaultInstance;
 
   $core.List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);

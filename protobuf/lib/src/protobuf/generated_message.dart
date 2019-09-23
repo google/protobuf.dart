@@ -391,7 +391,14 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   T $_getN<T>(int index) {
-    return _fieldSet._$getN<T>(index);
+    // The implicit downcast at the return is always correct by construction
+    // from the protoc generator. dart2js will omit the implicit downcast when
+    // compiling with `-O3` or higher. We should introduce some way to
+    // communicate that the downcast cannot fail to the other compilers.
+    //
+    // TODO(sra): With NNDB we will need to add 'as T', and a dart2js annotation
+    // (to be implemented) to omit the 'as' check.
+    return _fieldSet._$getND(index);
   }
 
   /// For generated code only.
@@ -401,8 +408,25 @@ abstract class GeneratedMessage {
   Map<K, V> $_getMap<K, V>(int index) => _fieldSet._$getMap<K, V>(index);
 
   /// For generated code only.
+  bool $_getB(int index, bool defaultValue) =>
+      _fieldSet._$getB(index, defaultValue);
+
+  /// For generated code only.
+  bool $_getBF(int index) => _fieldSet._$getBF(index);
+
+  /// For generated code only.
+  int $_getI(int index, int defaultValue) =>
+      _fieldSet._$getI(index, defaultValue);
+
+  /// For generated code only.
+  int $_getIZ(int index) => _fieldSet._$getIZ(index);
+
+  /// For generated code only.
   String $_getS(int index, String defaultValue) =>
       _fieldSet._$getS(index, defaultValue);
+
+  /// For generated code only.
+  String $_getSZ(int index) => _fieldSet._$getSZ(index);
 
   /// For generated code only.
   Int64 $_getI64(int index) => _fieldSet._$getI64(index);
@@ -448,6 +472,29 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   void $_setInt64(int index, Int64 value) => _fieldSet._$set(index, value);
+
+  // Support for generating a read-only default singleton instance.
+
+  static final Map<Function, Function> _defaultMakers = {};
+
+  static T Function() _defaultMakerFor<T extends GeneratedMessage>(
+      T Function() createFn) {
+    return _defaultMakers[createFn] ??= _createDefaultMakerFor<T>(createFn);
+  }
+
+  static T Function() _createDefaultMakerFor<T extends GeneratedMessage>(
+      T Function() createFn) {
+    T defaultValue;
+    T defaultMaker() {
+      return defaultValue ??= createFn()..freeze();
+    }
+
+    return defaultMaker;
+  }
+
+  /// For generated code only.
+  static T $_defaultFor<T extends GeneratedMessage>(T Function() createFn) =>
+      _defaultMakerFor<T>(createFn)();
 }
 
 /// The package name of a protobuf message.

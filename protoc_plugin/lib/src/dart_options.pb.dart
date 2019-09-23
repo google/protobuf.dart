@@ -11,7 +11,8 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class DartMixin extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('DartMixin',
-      package: const $pb.PackageName('dart_options'))
+      package: const $pb.PackageName('dart_options'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..aOS(2, 'importFrom')
     ..aOS(3, 'parent')
@@ -33,10 +34,12 @@ class DartMixin extends $pb.GeneratedMessage {
   static DartMixin create() => DartMixin._();
   DartMixin createEmptyInstance() => create();
   static $pb.PbList<DartMixin> createRepeated() => $pb.PbList<DartMixin>();
-  static DartMixin getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static DartMixin getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DartMixin>(create);
   static DartMixin _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -44,7 +47,7 @@ class DartMixin extends $pb.GeneratedMessage {
   $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  $core.String get importFrom => $_getS(1, '');
+  $core.String get importFrom => $_getSZ(1);
   set importFrom($core.String v) {
     $_setString(1, v);
   }
@@ -52,7 +55,7 @@ class DartMixin extends $pb.GeneratedMessage {
   $core.bool hasImportFrom() => $_has(1);
   void clearImportFrom() => clearField(2);
 
-  $core.String get parent => $_getS(2, '');
+  $core.String get parent => $_getSZ(2);
   set parent($core.String v) {
     $_setString(2, v);
   }
@@ -62,11 +65,12 @@ class DartMixin extends $pb.GeneratedMessage {
 }
 
 class Imports extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      $pb.BuilderInfo('Imports', package: const $pb.PackageName('dart_options'))
-        ..pc<DartMixin>(1, 'mixins', $pb.PbFieldType.PM,
-            subBuilder: DartMixin.create)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Imports',
+      package: const $pb.PackageName('dart_options'),
+      createEmptyInstance: create)
+    ..pc<DartMixin>(1, 'mixins', $pb.PbFieldType.PM,
+        subBuilder: DartMixin.create)
+    ..hasRequiredFields = false;
 
   Imports._() : super();
   factory Imports() => create();
@@ -84,7 +88,9 @@ class Imports extends $pb.GeneratedMessage {
   static Imports create() => Imports._();
   Imports createEmptyInstance() => create();
   static $pb.PbList<Imports> createRepeated() => $pb.PbList<Imports>();
-  static Imports getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static Imports getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Imports>(create);
   static Imports _defaultInstance;
 
   $core.List<DartMixin> get mixins => $_getList(0);

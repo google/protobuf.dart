@@ -1,3 +1,8 @@
+## 0.14.4
+
+* Add specialized getters for `String`, `int`, and `bool` with usual default values.
+* Shrink dart2js generated code for `getDefault()`.
+
 ## 0.14.3
 
 * Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
