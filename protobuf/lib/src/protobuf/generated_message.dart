@@ -402,6 +402,11 @@ abstract class GeneratedMessage {
   }
 
   /// For generated code only.
+  T $_ensure<T>(int index) {
+    return _fieldSet._$ensure<T>(index);
+  }
+
+  /// For generated code only.
   List<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
 
   /// For generated code only.

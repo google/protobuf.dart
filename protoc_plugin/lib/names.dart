@@ -38,8 +38,13 @@ class FieldNames {
   /// `null` for repeated fields.
   final String clearMethodName;
 
+  // Identifier for the generated ensureX() method, without braces.
+  //
+  //'null' for scalar, repeated, and map fields.
+  final String ensureMethodName;
+
   FieldNames(this.descriptor, this.index, this.sourcePosition, this.fieldName,
-      {this.hasMethodName, this.clearMethodName});
+      {this.hasMethodName, this.clearMethodName, this.ensureMethodName});
 }
 
 /// The Dart names associated with a oneof declaration.
@@ -359,8 +364,16 @@ FieldNames _memberNamesFromOption(
   String clearMethod = "clear${_capitalize(name)}";
   checkAvailable(clearMethod);
 
+  String ensureMethod;
+
+  if (_isGroupOrMessage(field)) {
+    ensureMethod = 'ensure${_capitalize(name)}';
+    checkAvailable(ensureMethod);
+  }
   return FieldNames(field, index, sourcePosition, name,
-      hasMethodName: hasMethod, clearMethodName: clearMethod);
+      hasMethodName: hasMethod,
+      clearMethodName: clearMethod,
+      ensureMethodName: ensureMethod);
 }
 
 Iterable<String> _memberNamesSuffix(int number) sync* {
@@ -383,19 +396,27 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int index,
   }
 
   List<String> generateNameVariants(String name) {
-    return [
+    List<String> result = [
       _defaultFieldName(name),
       _defaultHasMethodName(name),
-      _defaultClearMethodName(name)
+      _defaultClearMethodName(name),
     ];
+
+    // TODO(zarah): Use 'collection if' when sdk dependency is updated.
+    if (_isGroupOrMessage(field)) result.add(_defaultEnsureMethodName(name));
+
+    return result;
   }
 
   String name = disambiguateName(_fieldMethodSuffix(field), existingNames,
       _memberNamesSuffix(field.number),
       generateVariants: generateNameVariants);
+
   return FieldNames(field, index, sourcePosition, _defaultFieldName(name),
       hasMethodName: _defaultHasMethodName(name),
-      clearMethodName: _defaultClearMethodName(name));
+      clearMethodName: _defaultClearMethodName(name),
+      ensureMethodName:
+          _isGroupOrMessage(field) ? _defaultEnsureMethodName(name) : null);
 }
 
 /// The name to use by default for the Dart getter and setter.
@@ -412,6 +433,9 @@ String _defaultClearMethodName(String fieldMethodSuffix) =>
 
 String _defaultWhichMethodName(String oneofMethodSuffix) =>
     'which$oneofMethodSuffix';
+
+String _defaultEnsureMethodName(String fieldMethodSuffix) =>
+    'ensure$fieldMethodSuffix';
 
 /// The suffix to use for this field in Dart method names.
 /// (It should be camelcase and begin with an uppercase letter.)
@@ -439,6 +463,10 @@ String _capitalize(s) =>
 
 bool _isRepeated(FieldDescriptorProto field) =>
     field.label == FieldDescriptorProto_Label.LABEL_REPEATED;
+
+bool _isGroupOrMessage(FieldDescriptorProto field) =>
+    field.type == FieldDescriptorProto_Type.TYPE_MESSAGE ||
+    field.type == FieldDescriptorProto_Type.TYPE_GROUP;
 
 String _nameOption(FieldDescriptorProto field) =>
     field.options.getExtension(Dart_options.dartName);

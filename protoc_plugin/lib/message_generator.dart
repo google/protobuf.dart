@@ -527,6 +527,17 @@ class MessageGenerator extends ProtobufContainer {
                 fieldPathSegment: memberFieldPath,
                 start: 'void '.length)
           ]);
+      if (field.baseType.isMessage) {
+        out.printlnAnnotated(
+            '${fieldTypeString} ${names.ensureMethodName}() => '
+            '\$_ensure(${field.index});',
+            <NamedLocation>[
+              NamedLocation(
+                  name: names.ensureMethodName,
+                  fieldPathSegment: memberFieldPath,
+                  start: '${fieldTypeString} '.length)
+            ]);
+      }
     }
   }
 
