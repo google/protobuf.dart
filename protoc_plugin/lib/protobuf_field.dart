@@ -242,11 +242,15 @@ class ProtobufField {
             typeConstant == '$_protobufImportPrefix.PbFieldType.O6') {
           invocation = 'aInt64';
         } else {
-          invocation = 'a<$type>';
-          named['defaultOrMaker'] = makeDefault;
-          args.add(typeConstant);
           if (baseType.isMessage || baseType.isGroup) {
             named['subBuilder'] = '$type.create';
+          }
+          if (baseType.isMessage) {
+            invocation = isRequired ? 'aQM<$type>' : 'aOM<$type>';
+          } else {
+            invocation = 'a<$type>';
+            named['defaultOrMaker'] = makeDefault;
+            args.add(typeConstant);
           }
         }
       }

@@ -1,6 +1,9 @@
-## 19.0.0
-
-* Breaking: Use unmangled names for enum values.
+## 19.0.0-dev
+* Breaking: Generates code that requires at least `protobuf` 0.14.4.
+  - GeneratedMessage classes now have methods `ensureX` for each message field X.
+  - Add specialized getters for `String`, `int`, and `bool` with usual default values.
+* Breaking: Use unmangled names for the string representation of enum values.
+  Mangled names would lead to wrong proto3 json en- and decoding.
 
 ## 18.0.2
 
@@ -41,7 +44,7 @@
 
 ## 17.0.5
 
-* Remove unnecessary cast from generated grpc stubs. 
+* Remove unnecessary cast from generated grpc stubs.
 
 ## 17.0.4
 
