@@ -13,7 +13,8 @@ import 'descriptor.pb.dart' as $0;
 
 class Version extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Version',
-      package: const $pb.PackageName('google.protobuf.compiler'))
+      package: const $pb.PackageName('google.protobuf.compiler'),
+      createEmptyInstance: create)
     ..a<$core.int>(1, 'major', $pb.PbFieldType.O3)
     ..a<$core.int>(2, 'minor', $pb.PbFieldType.O3)
     ..a<$core.int>(3, 'patch', $pb.PbFieldType.O3)
@@ -36,10 +37,12 @@ class Version extends $pb.GeneratedMessage {
   static Version create() => Version._();
   Version createEmptyInstance() => create();
   static $pb.PbList<Version> createRepeated() => $pb.PbList<Version>();
-  static Version getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static Version getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Version>(create);
   static Version _defaultInstance;
 
-  $core.int get major => $_get(0, 0);
+  $core.int get major => $_getIZ(0);
   set major($core.int v) {
     $_setSignedInt32(0, v);
   }
@@ -47,7 +50,7 @@ class Version extends $pb.GeneratedMessage {
   $core.bool hasMajor() => $_has(0);
   void clearMajor() => clearField(1);
 
-  $core.int get minor => $_get(1, 0);
+  $core.int get minor => $_getIZ(1);
   set minor($core.int v) {
     $_setSignedInt32(1, v);
   }
@@ -55,7 +58,7 @@ class Version extends $pb.GeneratedMessage {
   $core.bool hasMinor() => $_has(1);
   void clearMinor() => clearField(2);
 
-  $core.int get patch => $_get(2, 0);
+  $core.int get patch => $_getIZ(2);
   set patch($core.int v) {
     $_setSignedInt32(2, v);
   }
@@ -63,7 +66,7 @@ class Version extends $pb.GeneratedMessage {
   $core.bool hasPatch() => $_has(2);
   void clearPatch() => clearField(3);
 
-  $core.String get suffix => $_getS(3, '');
+  $core.String get suffix => $_getSZ(3);
   set suffix($core.String v) {
     $_setString(3, v);
   }
@@ -74,11 +77,11 @@ class Version extends $pb.GeneratedMessage {
 
 class CodeGeneratorRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeGeneratorRequest',
-      package: const $pb.PackageName('google.protobuf.compiler'))
+      package: const $pb.PackageName('google.protobuf.compiler'),
+      createEmptyInstance: create)
     ..pPS(1, 'fileToGenerate')
     ..aOS(2, 'parameter')
-    ..a<Version>(3, 'compilerVersion', $pb.PbFieldType.OM,
-        defaultOrMaker: Version.getDefault, subBuilder: Version.create)
+    ..aOM<Version>(3, 'compilerVersion', subBuilder: Version.create)
     ..pc<$0.FileDescriptorProto>(15, 'protoFile', $pb.PbFieldType.PM,
         subBuilder: $0.FileDescriptorProto.create);
 
@@ -100,13 +103,14 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   CodeGeneratorRequest createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorRequest> createRepeated() =>
       $pb.PbList<CodeGeneratorRequest>();
-  static CodeGeneratorRequest getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static CodeGeneratorRequest getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<CodeGeneratorRequest>(create);
   static CodeGeneratorRequest _defaultInstance;
 
   $core.List<$core.String> get fileToGenerate => $_getList(0);
 
-  $core.String get parameter => $_getS(1, '');
+  $core.String get parameter => $_getSZ(1);
   set parameter($core.String v) {
     $_setString(1, v);
   }
@@ -128,7 +132,8 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
 class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       'CodeGeneratorResponse.File',
-      package: const $pb.PackageName('google.protobuf.compiler'))
+      package: const $pb.PackageName('google.protobuf.compiler'),
+      createEmptyInstance: create)
     ..aOS(1, 'name')
     ..aOS(2, 'insertionPoint')
     ..aOS(15, 'content')
@@ -154,11 +159,12 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   CodeGeneratorResponse_File createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorResponse_File> createRepeated() =>
       $pb.PbList<CodeGeneratorResponse_File>();
-  static CodeGeneratorResponse_File getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static CodeGeneratorResponse_File getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse_File>(create);
   static CodeGeneratorResponse_File _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   set name($core.String v) {
     $_setString(0, v);
   }
@@ -166,7 +172,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  $core.String get insertionPoint => $_getS(1, '');
+  $core.String get insertionPoint => $_getSZ(1);
   set insertionPoint($core.String v) {
     $_setString(1, v);
   }
@@ -174,7 +180,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   $core.bool hasInsertionPoint() => $_has(1);
   void clearInsertionPoint() => clearField(2);
 
-  $core.String get content => $_getS(2, '');
+  $core.String get content => $_getSZ(2);
   set content($core.String v) {
     $_setString(2, v);
   }
@@ -185,7 +191,8 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
 
 class CodeGeneratorResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeGeneratorResponse',
-      package: const $pb.PackageName('google.protobuf.compiler'))
+      package: const $pb.PackageName('google.protobuf.compiler'),
+      createEmptyInstance: create)
     ..aOS(1, 'error')
     ..pc<CodeGeneratorResponse_File>(15, 'file', $pb.PbFieldType.PM,
         subBuilder: CodeGeneratorResponse_File.create)
@@ -210,11 +217,12 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   CodeGeneratorResponse createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorResponse> createRepeated() =>
       $pb.PbList<CodeGeneratorResponse>();
-  static CodeGeneratorResponse getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static CodeGeneratorResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse>(create);
   static CodeGeneratorResponse _defaultInstance;
 
-  $core.String get error => $_getS(0, '');
+  $core.String get error => $_getSZ(0);
   set error($core.String v) {
     $_setString(0, v);
   }

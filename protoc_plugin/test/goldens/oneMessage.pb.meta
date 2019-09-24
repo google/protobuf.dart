@@ -18,8 +18,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1521
-  end: 1527
+  begin: 1593
+  end: 1599
 }
 annotation: {
   path: 4
@@ -27,8 +27,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1552
-  end: 1558
+  begin: 1621
+  end: 1627
 }
 annotation: {
   path: 4
@@ -36,8 +36,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1611
-  end: 1620
+  begin: 1680
+  end: 1689
 }
 annotation: {
   path: 4
@@ -45,25 +45,7 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 1643
-  end: 1654
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 1
-  sourceFile: test
-  begin: 1692
-  end: 1696
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 1
-  sourceFile: test
-  begin: 1719
+  begin: 1712
   end: 1723
 }
 annotation: {
@@ -72,8 +54,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 1778
-  end: 1785
+  begin: 1761
+  end: 1765
 }
 annotation: {
   path: 4
@@ -81,8 +63,26 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 1808
-  end: 1817
+  begin: 1787
+  end: 1791
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 1
+  sourceFile: test
+  begin: 1846
+  end: 1853
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 1
+  sourceFile: test
+  begin: 1876
+  end: 1885
 }
 annotation: {
   path: 4
@@ -90,8 +90,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1858
-  end: 1862
+  begin: 1926
+  end: 1930
 }
 annotation: {
   path: 4
@@ -99,8 +99,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1889
-  end: 1893
+  begin: 1957
+  end: 1961
 }
 annotation: {
   path: 4
@@ -108,8 +108,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1946
-  end: 1953
+  begin: 2014
+  end: 2021
 }
 annotation: {
   path: 4
@@ -117,6 +117,6 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 1976
-  end: 1985
+  begin: 2044
+  end: 2053
 }

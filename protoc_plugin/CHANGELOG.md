@@ -1,3 +1,8 @@
+## 19.0.0-dev
+
+* Breaking: Add specialized getters for `String`, `int`, and `bool` with usual default values.
+* Breaking: Shrink dart2js generated code for `getDefault()`.
+
 ## 18.0.2
 
 * Fix mangling of extension names, message type names, and enum names that are Dart keywords.

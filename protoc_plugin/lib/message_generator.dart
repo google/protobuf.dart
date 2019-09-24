@@ -370,9 +370,13 @@ class MessageGenerator extends ProtobufContainer {
       out.println(
           'static $_protobufImportPrefix.PbList<${classname}> createRepeated() =>'
           ' $_protobufImportPrefix.PbList<${classname}>();');
-      out.println(
-          'static ${classname} getDefault() => _defaultInstance ??= create()..freeze();');
+      out.println("@${_coreImportPrefix}.pragma('dart2js:noInline')");
+      out.println('static ${classname} getDefault() =>'
+          ' _defaultInstance ??='
+          ' $_protobufImportPrefix.GeneratedMessage.\$_defaultFor<${classname}>'
+          '(create);');
       out.println('static ${classname} _defaultInstance;');
+
       generateFieldsAccessorsMutators(out);
       mixin?.injectHelpers(out);
     });
@@ -532,7 +536,22 @@ class MessageGenerator extends ProtobufContainer {
       return '\$_getMap($index)';
     }
     if (fieldType == '$_coreImportPrefix.String') {
+      if (defaultExpr == '""' || defaultExpr == "''") {
+        return '\$_getSZ($index)';
+      }
       return '\$_getS($index, $defaultExpr)';
+    }
+    if (fieldType == '$_coreImportPrefix.bool') {
+      if (defaultExpr == 'false') {
+        return '\$_getBF($index)';
+      }
+      return '\$_getB($index, $defaultExpr)';
+    }
+    if (fieldType == '$_coreImportPrefix.int') {
+      if (defaultExpr == '0') {
+        return '\$_getIZ($index)';
+      }
+      return '\$_getI($index, $defaultExpr)';
     }
     if (fieldType == 'Int64' && defaultExpr == 'null') {
       return '\$_getI64($index)';
