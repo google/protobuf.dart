@@ -1,7 +1,7 @@
-## 18.0.3
+## 19.0.0
 
-* Add specialized getters for `String`, `int`, and `bool` with usual default values.
-* Shrink dart2js generated code for `getDefault()`.
+* Breaking: Add specialized getters for `String`, `int`, and `bool` with usual default values.
+* Breaking: Shrink dart2js generated code for `getDefault()`.
 
 ## 18.0.2
 
