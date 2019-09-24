@@ -27,6 +27,7 @@ TEST_PROTO_LIST = \
 	google/protobuf/wrappers \
 	dart_name \
 	enum_extension \
+	enum_name \
 	extend_unittest \
 	ExtensionEnumNameConflict \
 	ExtensionNameConflict \
