@@ -385,7 +385,9 @@ class _FieldSet {
       _$set(index, value);
       return value;
     }
-    return _$getN<T>(index);
+    // The implicit downcast at the return is always correct by construction
+    // from the protoc generator. See `GeneratedMessage.$_getN` for details.
+    return _$getND(index);
   }
 
   /// The implementation of a generated getter for repeated fields.
