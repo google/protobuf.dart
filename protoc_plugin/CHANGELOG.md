@@ -1,7 +1,7 @@
-## 19.0.0
-
-* Breaking: GeneratedMessage classes now have methods `ensureX` for each message field X.
-Generates code that requires at least `protobuf` 0.14.3.
+## 19.0.0-dev
+* Breaking: Generates code that requires at least `protobuf` 0.14.4.
+  - GeneratedMessage classes now have methods `ensureX` for each message field X.
+  - Add specialized getters for `String`, `int`, and `bool` with usual default values.
 
 ## 18.0.2
 

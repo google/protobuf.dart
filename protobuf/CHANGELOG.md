@@ -1,8 +1,15 @@
-## 0.14.3
+## 0.14.4
 
 * Added 'ensureX' methods on GeneratedMessage classes for each message field X.
 
  The method `ensureX()` will set X to an empty instance if `hasX()` returns false and then returns the value of X.
+
+* Add specialized getters for `String`, `int`, and `bool` with usual default values.
+* Shrink dart2js generated code for `getDefault()`.
+
+## 0.14.3
+
+* Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
 
 ## 0.14.2
 

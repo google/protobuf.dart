@@ -31,6 +31,7 @@ TEST_PROTO_LIST = \
 	ExtensionEnumNameConflict \
 	ExtensionNameConflict \
 	foo \
+	high_tagnumber \
 	import_clash \
 	import_public \
 	json_name \

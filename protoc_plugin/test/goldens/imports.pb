@@ -14,9 +14,9 @@ import 'package2.pb.dart' as $2;
 
 class M extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('M', createEmptyInstance: create)
-    ..a<M>(1, 'm', $pb.PbFieldType.OM, defaultOrMaker: M.getDefault, subBuilder: M.create)
-    ..a<$1.M>(2, 'm1', $pb.PbFieldType.OM, defaultOrMaker: $1.M.getDefault, subBuilder: $1.M.create)
-    ..a<$2.M>(3, 'm2', $pb.PbFieldType.OM, defaultOrMaker: $2.M.getDefault, subBuilder: $2.M.create)
+    ..aOM<M>(1, 'm', subBuilder: M.create)
+    ..aOM<$1.M>(2, 'm1', subBuilder: $1.M.create)
+    ..aOM<$2.M>(3, 'm2', subBuilder: $2.M.create)
     ..hasRequiredFields = false
   ;
 
@@ -31,7 +31,8 @@ class M extends $pb.GeneratedMessage {
   static M create() => M._();
   M createEmptyInstance() => create();
   static $pb.PbList<M> createRepeated() => $pb.PbList<M>();
-  static M getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static M getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<M>(create);
   static M _defaultInstance;
 
   M get m => $_getN(0);
