@@ -243,8 +243,10 @@ class ProtobufField {
           invocation = 'aInt64';
         } else {
           if (baseType.isMessage || baseType.isGroup) {
-            invocation = isRequired ? 'aQM<$type>' : 'aOM<$type>';
             named['subBuilder'] = '$type.create';
+          }
+          if (baseType.isMessage) {
+            invocation = isRequired ? 'aQM<$type>' : 'aOM<$type>';
           } else {
             invocation = 'a<$type>';
             named['defaultOrMaker'] = makeDefault;
