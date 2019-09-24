@@ -19,6 +19,7 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 
 import '../out/protos/google/protobuf/unittest_well_known_types.pb.dart';
 import '../out/protos/google/protobuf/wrappers.pb.dart';
+import '../out/protos/enum_name.pb.dart';
 import '../out/protos/map_field.pb.dart';
 import 'test_util.dart';
 
@@ -452,6 +453,230 @@ void main() {
               'optional_foreign_message': {'c': 1}
             }, supportNamesWithUnderscores: false),
           parseFailure(['optional_foreign_message']));
+    });
+    test('permissive enums', () {
+      final sparseB = SparseEnumMessage()..sparseEnum = TestSparseEnum.SPARSE_B;
+      expect(
+          SparseEnumMessage()..mergeFromProto3Json({'sparseEnum': 'SPARSE_B'}),
+          sparseB);
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparse_b'}),
+          parseFailure(['sparseEnum']));
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'SPARSE-B'}),
+          parseFailure(['sparseEnum']));
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sPaRsE_b'}),
+          parseFailure(['sparseEnum']));
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparseB'}),
+          parseFailure(['sparseEnum']));
+      expect(
+          () => SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'spaRSEB'}),
+          parseFailure(['sparseEnum']));
+
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'x'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'X'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'x_'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'X_'}),
+          parseFailure(['a']));
+      expect(
+          AMessage()..mergeFromProto3Json({'a': '_x'}), AMessage()..a = A.x_);
+      expect(() => AMessage()..mergeFromProto3Json({'a': '_X'}),
+          parseFailure(['a']));
+
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'y'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'Y'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'y_'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'Y_'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': '_y'}),
+          parseFailure(['a']));
+      expect(
+          AMessage()..mergeFromProto3Json({'a': '_Y'}), AMessage()..a = A.Y_);
+
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'z'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'Z'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'z_'}),
+          parseFailure(['a']));
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'Z_'}), AMessage()..a = A.Z_);
+      expect(() => AMessage()..mergeFromProto3Json({'a': '_z'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': '_Z'}),
+          parseFailure(['a']));
+
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'a_a'}),
+          parseFailure(['a']));
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'A_A'}), AMessage()..a = A.A_A);
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'aA'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'AA'}),
+          parseFailure(['a']));
+
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'b_b'}), AMessage()..a = A.b_b);
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'B_B'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'bB'}),
+          parseFailure(['a']));
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'BB'}),
+          parseFailure(['a']));
+
+      expect(() => AMessage()..mergeFromProto3Json({'a': 'CAMEL_CASE'}),
+          parseFailure(['a']));
+      expect(AMessage()..mergeFromProto3Json({'a': 'camelCase'}),
+          AMessage()..a = A.camelCase);
+
+      expect(AMessage()..mergeFromProto3Json({'a': 'x'}, permissiveEnums: true),
+          AMessage()..a = A.x_);
+      expect(AMessage()..mergeFromProto3Json({'a': 'X'}, permissiveEnums: true),
+          AMessage()..a = A.x_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'x_'}, permissiveEnums: true),
+          AMessage()..a = A.x_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'X_'}, permissiveEnums: true),
+          AMessage()..a = A.x_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': '_x'}, permissiveEnums: true),
+          AMessage()..a = A.x_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': '_X'}, permissiveEnums: true),
+          AMessage()..a = A.x_);
+
+      expect(AMessage()..mergeFromProto3Json({'a': 'y'}, permissiveEnums: true),
+          AMessage()..a = A.Y_);
+      expect(AMessage()..mergeFromProto3Json({'a': 'Y'}, permissiveEnums: true),
+          AMessage()..a = A.Y_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'y_'}, permissiveEnums: true),
+          AMessage()..a = A.Y_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'Y_'}, permissiveEnums: true),
+          AMessage()..a = A.Y_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': '_y'}, permissiveEnums: true),
+          AMessage()..a = A.Y_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': '_Y'}, permissiveEnums: true),
+          AMessage()..a = A.Y_);
+
+      expect(AMessage()..mergeFromProto3Json({'a': 'z'}, permissiveEnums: true),
+          AMessage()..a = A.Z_);
+      expect(AMessage()..mergeFromProto3Json({'a': 'Z'}, permissiveEnums: true),
+          AMessage()..a = A.Z_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'z_'}, permissiveEnums: true),
+          AMessage()..a = A.Z_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'Z_'}, permissiveEnums: true),
+          AMessage()..a = A.Z_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': '_z'}, permissiveEnums: true),
+          AMessage()..a = A.Z_);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': '_Z'}, permissiveEnums: true),
+          AMessage()..a = A.Z_);
+
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'a_a'}, permissiveEnums: true),
+          AMessage()..a = A.A_A);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'A_A'}, permissiveEnums: true),
+          AMessage()..a = A.A_A);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'aA'}, permissiveEnums: true),
+          AMessage()..a = A.A_A);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'AA'}, permissiveEnums: true),
+          AMessage()..a = A.A_A);
+
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'b_b'}, permissiveEnums: true),
+          AMessage()..a = A.b_b);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'B_B'}, permissiveEnums: true),
+          AMessage()..a = A.b_b);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'bB'}, permissiveEnums: true),
+          AMessage()..a = A.b_b);
+      expect(
+          AMessage()..mergeFromProto3Json({'a': 'BB'}, permissiveEnums: true),
+          AMessage()..a = A.b_b);
+
+      expect(
+          AMessage()
+            ..mergeFromProto3Json({'a': 'CAMEL_CASE'}, permissiveEnums: true),
+          AMessage()..a = A.camelCase);
+      expect(
+          AMessage()
+            ..mergeFromProto3Json({'a': 'camelCase'}, permissiveEnums: true),
+          AMessage()..a = A.camelCase);
+
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparse_b'},
+                permissiveEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'SPARSE-B'},
+                permissiveEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'S-P-A-R-S-E-B'},
+                permissiveEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sPaRsE_b'},
+                permissiveEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'sparseB'},
+                permissiveEnums: true),
+          sparseB);
+      expect(
+          SparseEnumMessage()
+            ..mergeFromProto3Json({'sparseEnum': 'spaRSEB'},
+                permissiveEnums: true),
+          sparseB);
+      expect(
+          () => Any()
+            ..mergeFromProto3Json({
+              '@type':
+                  'type.googleapis.com/protobuf_unittest.SparseEnumMessage',
+              'sparseEnum': 'SPARSEB'
+            }, typeRegistry: TypeRegistry([SparseEnumMessage()])),
+          parseFailure(['sparseEnum']));
+      expect(
+          Any()
+            ..mergeFromProto3Json({
+              '@type':
+                  'type.googleapis.com/protobuf_unittest.SparseEnumMessage',
+              'sparseEnum': 'SPARSEB'
+            },
+                typeRegistry: TypeRegistry([SparseEnumMessage()]),
+                permissiveEnums: true),
+          Any.pack(sparseB),
+          reason: 'Parsing options are passed through Any messages');
     });
 
     test('map value', () {

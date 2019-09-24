@@ -34,11 +34,13 @@ class DartMixin extends $pb.GeneratedMessage {
   static DartMixin create() => DartMixin._();
   DartMixin createEmptyInstance() => create();
   static $pb.PbList<DartMixin> createRepeated() => $pb.PbList<DartMixin>();
-  static DartMixin getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static DartMixin getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DartMixin>(create);
   static DartMixin _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
@@ -50,7 +52,7 @@ class DartMixin extends $pb.GeneratedMessage {
   void clearName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get importFrom => $_getS(1, '');
+  $core.String get importFrom => $_getSZ(1);
   @$pb.TagNumber(2)
   set importFrom($core.String v) {
     $_setString(1, v);
@@ -62,7 +64,7 @@ class DartMixin extends $pb.GeneratedMessage {
   void clearImportFrom() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get parent => $_getS(2, '');
+  $core.String get parent => $_getSZ(2);
   @$pb.TagNumber(3)
   set parent($core.String v) {
     $_setString(2, v);
@@ -98,7 +100,9 @@ class Imports extends $pb.GeneratedMessage {
   static Imports create() => Imports._();
   Imports createEmptyInstance() => create();
   static $pb.PbList<Imports> createRepeated() => $pb.PbList<Imports>();
-  static Imports getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static Imports getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Imports>(create);
   static Imports _defaultInstance;
 
   @$pb.TagNumber(1)

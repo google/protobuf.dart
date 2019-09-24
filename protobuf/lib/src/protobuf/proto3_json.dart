@@ -116,9 +116,10 @@ void _mergeFromProto3Json(
     _FieldSet fieldSet,
     TypeRegistry typeRegistry,
     bool ignoreUnknownFields,
-    bool supportNamesWithUnderscores) {
-  JsonParsingContext context =
-      JsonParsingContext(ignoreUnknownFields, supportNamesWithUnderscores);
+    bool supportNamesWithUnderscores,
+    bool permissiveEnums) {
+  JsonParsingContext context = JsonParsingContext(
+      ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
   void recursionHelper(Object json, _FieldSet fieldSet) {
     int tryParse32Bit(String s) {
@@ -195,9 +196,14 @@ void _mergeFromProto3Json(
         case PbFieldType._ENUM_BIT:
           if (value is String) {
             // TODO(sigurdm): Do we want to avoid linear search here? Measure...
-            return fieldInfo.enumValues.firstWhere((e) => e.name == value,
-                orElse: () =>
-                    throw context.parseException('Unknown enum value', value));
+            final result = permissiveEnums
+                ? fieldInfo.enumValues.firstWhere(
+                    (e) => _permissiveCompare(e.name, value),
+                    orElse: () => null)
+                : fieldInfo.enumValues
+                    .firstWhere((e) => e.name == value, orElse: () => null);
+            if (result != null) return result;
+            throw context.parseException('Unknown enum value', value);
           } else if (value is int) {
             return fieldInfo.valueOf(value) ??
                 (throw context.parseException('Unknown enum value', value));
@@ -399,4 +405,43 @@ void _mergeFromProto3Json(
   }
 
   recursionHelper(json, fieldSet);
+}
+
+bool _isAsciiLetter(int char) {
+  const lowerA = 97;
+  const lowerZ = 122;
+  const capitalA = 65;
+  char |= lowerA ^ capitalA;
+  return lowerA <= char && char <= lowerZ;
+}
+
+/// Returns true if [a] and [b] are the same ignoring case and all instances of
+///  `-` and `_`.
+bool _permissiveCompare(String a, String b) {
+  const dash = 45;
+  const underscore = 95;
+
+  // Enum names are always ascii.
+  int i = 0;
+  int j = 0;
+
+  outer:
+  while (i < a.length && j < b.length) {
+    int ca = a.codeUnitAt(i);
+    if (ca == dash || ca == underscore) {
+      i++;
+      continue;
+    }
+    int cb = b.codeUnitAt(j);
+    while (cb == dash || cb == underscore) {
+      j++;
+      if (j == b.length) break outer;
+      cb = b.codeUnitAt(j);
+    }
+
+    if (ca != cb && (ca ^ cb != 0x20 || !_isAsciiLetter(ca))) return false;
+    i++;
+    j++;
+  }
+  return true;
 }

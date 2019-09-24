@@ -38,8 +38,9 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   FileDescriptorSet createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorSet> createRepeated() =>
       $pb.PbList<FileDescriptorSet>();
-  static FileDescriptorSet getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FileDescriptorSet getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FileDescriptorSet>(create);
   static FileDescriptorSet _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -61,10 +62,8 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
         subBuilder: ServiceDescriptorProto.create)
     ..pc<FieldDescriptorProto>(7, 'extension', $pb.PbFieldType.PM,
         subBuilder: FieldDescriptorProto.create)
-    ..a<FileOptions>(8, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: FileOptions.getDefault, subBuilder: FileOptions.create)
-    ..a<SourceCodeInfo>(9, 'sourceCodeInfo', $pb.PbFieldType.OM,
-        defaultOrMaker: SourceCodeInfo.getDefault,
+    ..aOM<FileOptions>(8, 'options', subBuilder: FileOptions.create)
+    ..aOM<SourceCodeInfo>(9, 'sourceCodeInfo',
         subBuilder: SourceCodeInfo.create)
     ..p<$core.int>(10, 'publicDependency', $pb.PbFieldType.P3)
     ..p<$core.int>(11, 'weakDependency', $pb.PbFieldType.P3)
@@ -87,12 +86,13 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   FileDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorProto> createRepeated() =>
       $pb.PbList<FileDescriptorProto>();
-  static FileDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FileDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FileDescriptorProto>(create);
   static FileDescriptorProto _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
@@ -104,7 +104,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   void clearName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get package => $_getS(1, '');
+  $core.String get package => $_getSZ(1);
   @$pb.TagNumber(2)
   set package($core.String v) {
     $_setString(1, v);
@@ -141,6 +141,8 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(7);
   @$pb.TagNumber(8)
   void clearOptions() => clearField(8);
+  @$pb.TagNumber(8)
+  FileOptions ensureOptions() => $_ensure(7);
 
   @$pb.TagNumber(9)
   SourceCodeInfo get sourceCodeInfo => $_getN(8);
@@ -153,6 +155,8 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasSourceCodeInfo() => $_has(8);
   @$pb.TagNumber(9)
   void clearSourceCodeInfo() => clearField(9);
+  @$pb.TagNumber(9)
+  SourceCodeInfo ensureSourceCodeInfo() => $_ensure(8);
 
   @$pb.TagNumber(10)
   $core.List<$core.int> get publicDependency => $_getList(9);
@@ -161,7 +165,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   $core.List<$core.int> get weakDependency => $_getList(10);
 
   @$pb.TagNumber(12)
-  $core.String get syntax => $_getS(11, '');
+  $core.String get syntax => $_getSZ(11);
   @$pb.TagNumber(12)
   set syntax($core.String v) {
     $_setString(11, v);
@@ -203,12 +207,13 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   DescriptorProto_ExtensionRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ExtensionRange> createRepeated() =>
       $pb.PbList<DescriptorProto_ExtensionRange>();
-  static DescriptorProto_ExtensionRange getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static DescriptorProto_ExtensionRange getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ExtensionRange>(create);
   static DescriptorProto_ExtensionRange _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get start => $_get(0, 0);
+  $core.int get start => $_getIZ(0);
   @$pb.TagNumber(1)
   set start($core.int v) {
     $_setSignedInt32(0, v);
@@ -220,7 +225,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   void clearStart() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.int get end => $_get(1, 0);
+  $core.int get end => $_getIZ(1);
   @$pb.TagNumber(2)
   set end($core.int v) {
     $_setSignedInt32(1, v);
@@ -262,12 +267,13 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   DescriptorProto_ReservedRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ReservedRange> createRepeated() =>
       $pb.PbList<DescriptorProto_ReservedRange>();
-  static DescriptorProto_ReservedRange getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static DescriptorProto_ReservedRange getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ReservedRange>(create);
   static DescriptorProto_ReservedRange _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get start => $_get(0, 0);
+  $core.int get start => $_getIZ(0);
   @$pb.TagNumber(1)
   set start($core.int v) {
     $_setSignedInt32(0, v);
@@ -279,7 +285,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   void clearStart() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.int get end => $_get(1, 0);
+  $core.int get end => $_getIZ(1);
   @$pb.TagNumber(2)
   set end($core.int v) {
     $_setSignedInt32(1, v);
@@ -307,9 +313,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
         subBuilder: DescriptorProto_ExtensionRange.create)
     ..pc<FieldDescriptorProto>(6, 'extension', $pb.PbFieldType.PM,
         subBuilder: FieldDescriptorProto.create)
-    ..a<MessageOptions>(7, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: MessageOptions.getDefault,
-        subBuilder: MessageOptions.create)
+    ..aOM<MessageOptions>(7, 'options', subBuilder: MessageOptions.create)
     ..pc<OneofDescriptorProto>(8, 'oneofDecl', $pb.PbFieldType.PM,
         subBuilder: OneofDescriptorProto.create)
     ..pc<DescriptorProto_ReservedRange>(9, 'reservedRange', $pb.PbFieldType.PM,
@@ -333,12 +337,13 @@ class DescriptorProto extends $pb.GeneratedMessage {
   DescriptorProto createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto> createRepeated() =>
       $pb.PbList<DescriptorProto>();
-  static DescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static DescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DescriptorProto>(create);
   static DescriptorProto _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
@@ -375,6 +380,8 @@ class DescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(6);
   @$pb.TagNumber(7)
   void clearOptions() => clearField(7);
+  @$pb.TagNumber(7)
+  MessageOptions ensureOptions() => $_ensure(6);
 
   @$pb.TagNumber(8)
   $core.List<OneofDescriptorProto> get oneofDecl => $_getList(7);
@@ -403,9 +410,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
         enumValues: FieldDescriptorProto_Type.values)
     ..aOS(6, 'typeName')
     ..aOS(7, 'defaultValue')
-    ..a<FieldOptions>(8, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: FieldOptions.getDefault,
-        subBuilder: FieldOptions.create)
+    ..aOM<FieldOptions>(8, 'options', subBuilder: FieldOptions.create)
     ..a<$core.int>(9, 'oneofIndex', $pb.PbFieldType.O3)
     ..aOS(10, 'jsonName');
 
@@ -427,12 +432,13 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   FieldDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FieldDescriptorProto> createRepeated() =>
       $pb.PbList<FieldDescriptorProto>();
-  static FieldDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FieldDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FieldDescriptorProto>(create);
   static FieldDescriptorProto _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
@@ -444,7 +450,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   void clearName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get extendee => $_getS(1, '');
+  $core.String get extendee => $_getSZ(1);
   @$pb.TagNumber(2)
   set extendee($core.String v) {
     $_setString(1, v);
@@ -456,7 +462,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   void clearExtendee() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.int get number => $_get(2, 0);
+  $core.int get number => $_getIZ(2);
   @$pb.TagNumber(3)
   set number($core.int v) {
     $_setSignedInt32(2, v);
@@ -492,7 +498,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   void clearType() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.String get typeName => $_getS(5, '');
+  $core.String get typeName => $_getSZ(5);
   @$pb.TagNumber(6)
   set typeName($core.String v) {
     $_setString(5, v);
@@ -504,7 +510,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   void clearTypeName() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.String get defaultValue => $_getS(6, '');
+  $core.String get defaultValue => $_getSZ(6);
   @$pb.TagNumber(7)
   set defaultValue($core.String v) {
     $_setString(6, v);
@@ -526,9 +532,11 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(7);
   @$pb.TagNumber(8)
   void clearOptions() => clearField(8);
+  @$pb.TagNumber(8)
+  FieldOptions ensureOptions() => $_ensure(7);
 
   @$pb.TagNumber(9)
-  $core.int get oneofIndex => $_get(8, 0);
+  $core.int get oneofIndex => $_getIZ(8);
   @$pb.TagNumber(9)
   set oneofIndex($core.int v) {
     $_setSignedInt32(8, v);
@@ -540,7 +548,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   void clearOneofIndex() => clearField(9);
 
   @$pb.TagNumber(10)
-  $core.String get jsonName => $_getS(9, '');
+  $core.String get jsonName => $_getSZ(9);
   @$pb.TagNumber(10)
   set jsonName($core.String v) {
     $_setString(9, v);
@@ -557,9 +565,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
       package: const $pb.PackageName('google.protobuf'),
       createEmptyInstance: create)
     ..aOS(1, 'name')
-    ..a<OneofOptions>(2, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: OneofOptions.getDefault,
-        subBuilder: OneofOptions.create);
+    ..aOM<OneofOptions>(2, 'options', subBuilder: OneofOptions.create);
 
   OneofDescriptorProto._() : super();
   factory OneofDescriptorProto() => create();
@@ -579,12 +585,13 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   OneofDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<OneofDescriptorProto> createRepeated() =>
       $pb.PbList<OneofDescriptorProto>();
-  static OneofDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static OneofDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<OneofDescriptorProto>(create);
   static OneofDescriptorProto _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
@@ -606,6 +613,8 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(1);
   @$pb.TagNumber(2)
   void clearOptions() => clearField(2);
+  @$pb.TagNumber(2)
+  OneofOptions ensureOptions() => $_ensure(1);
 }
 
 class EnumDescriptorProto extends $pb.GeneratedMessage {
@@ -615,8 +624,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(1, 'name')
     ..pc<EnumValueDescriptorProto>(2, 'value', $pb.PbFieldType.PM,
         subBuilder: EnumValueDescriptorProto.create)
-    ..a<EnumOptions>(3, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: EnumOptions.getDefault, subBuilder: EnumOptions.create);
+    ..aOM<EnumOptions>(3, 'options', subBuilder: EnumOptions.create);
 
   EnumDescriptorProto._() : super();
   factory EnumDescriptorProto() => create();
@@ -635,12 +643,13 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   EnumDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumDescriptorProto> createRepeated() =>
       $pb.PbList<EnumDescriptorProto>();
-  static EnumDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static EnumDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<EnumDescriptorProto>(create);
   static EnumDescriptorProto _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
@@ -665,6 +674,8 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
   void clearOptions() => clearField(3);
+  @$pb.TagNumber(3)
+  EnumOptions ensureOptions() => $_ensure(2);
 }
 
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
@@ -673,9 +684,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOS(1, 'name')
     ..a<$core.int>(2, 'number', $pb.PbFieldType.O3)
-    ..a<EnumValueOptions>(3, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: EnumValueOptions.getDefault,
-        subBuilder: EnumValueOptions.create);
+    ..aOM<EnumValueOptions>(3, 'options', subBuilder: EnumValueOptions.create);
 
   EnumValueDescriptorProto._() : super();
   factory EnumValueDescriptorProto() => create();
@@ -696,12 +705,13 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   EnumValueDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumValueDescriptorProto> createRepeated() =>
       $pb.PbList<EnumValueDescriptorProto>();
-  static EnumValueDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static EnumValueDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<EnumValueDescriptorProto>(create);
   static EnumValueDescriptorProto _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
@@ -713,7 +723,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   void clearName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.int get number => $_get(1, 0);
+  $core.int get number => $_getIZ(1);
   @$pb.TagNumber(2)
   set number($core.int v) {
     $_setSignedInt32(1, v);
@@ -735,6 +745,8 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
   void clearOptions() => clearField(3);
+  @$pb.TagNumber(3)
+  EnumValueOptions ensureOptions() => $_ensure(2);
 }
 
 class ServiceDescriptorProto extends $pb.GeneratedMessage {
@@ -744,9 +756,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(1, 'name')
     ..pc<MethodDescriptorProto>(2, 'method', $pb.PbFieldType.PM,
         subBuilder: MethodDescriptorProto.create)
-    ..a<ServiceOptions>(3, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: ServiceOptions.getDefault,
-        subBuilder: ServiceOptions.create);
+    ..aOM<ServiceOptions>(3, 'options', subBuilder: ServiceOptions.create);
 
   ServiceDescriptorProto._() : super();
   factory ServiceDescriptorProto() => create();
@@ -767,12 +777,13 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   ServiceDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<ServiceDescriptorProto> createRepeated() =>
       $pb.PbList<ServiceDescriptorProto>();
-  static ServiceDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static ServiceDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ServiceDescriptorProto>(create);
   static ServiceDescriptorProto _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
@@ -797,6 +808,8 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
   void clearOptions() => clearField(3);
+  @$pb.TagNumber(3)
+  ServiceOptions ensureOptions() => $_ensure(2);
 }
 
 class MethodDescriptorProto extends $pb.GeneratedMessage {
@@ -806,9 +819,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(1, 'name')
     ..aOS(2, 'inputType')
     ..aOS(3, 'outputType')
-    ..a<MethodOptions>(4, 'options', $pb.PbFieldType.OM,
-        defaultOrMaker: MethodOptions.getDefault,
-        subBuilder: MethodOptions.create)
+    ..aOM<MethodOptions>(4, 'options', subBuilder: MethodOptions.create)
     ..aOB(5, 'clientStreaming')
     ..aOB(6, 'serverStreaming');
 
@@ -831,12 +842,13 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   MethodDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<MethodDescriptorProto> createRepeated() =>
       $pb.PbList<MethodDescriptorProto>();
-  static MethodDescriptorProto getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static MethodDescriptorProto getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MethodDescriptorProto>(create);
   static MethodDescriptorProto _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getS(0, '');
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
@@ -848,7 +860,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   void clearName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get inputType => $_getS(1, '');
+  $core.String get inputType => $_getSZ(1);
   @$pb.TagNumber(2)
   set inputType($core.String v) {
     $_setString(1, v);
@@ -860,7 +872,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   void clearInputType() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get outputType => $_getS(2, '');
+  $core.String get outputType => $_getSZ(2);
   @$pb.TagNumber(3)
   set outputType($core.String v) {
     $_setString(2, v);
@@ -882,9 +894,11 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasOptions() => $_has(3);
   @$pb.TagNumber(4)
   void clearOptions() => clearField(4);
+  @$pb.TagNumber(4)
+  MethodOptions ensureOptions() => $_ensure(3);
 
   @$pb.TagNumber(5)
-  $core.bool get clientStreaming => $_get(4, false);
+  $core.bool get clientStreaming => $_getBF(4);
   @$pb.TagNumber(5)
   set clientStreaming($core.bool v) {
     $_setBool(4, v);
@@ -896,7 +910,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   void clearClientStreaming() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.bool get serverStreaming => $_get(5, false);
+  $core.bool get serverStreaming => $_getBF(5);
   @$pb.TagNumber(6)
   set serverStreaming($core.bool v) {
     $_setBool(5, v);
@@ -952,11 +966,13 @@ class FileOptions extends $pb.GeneratedMessage {
   static FileOptions create() => FileOptions._();
   FileOptions createEmptyInstance() => create();
   static $pb.PbList<FileOptions> createRepeated() => $pb.PbList<FileOptions>();
-  static FileOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FileOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FileOptions>(create);
   static FileOptions _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get javaPackage => $_getS(0, '');
+  $core.String get javaPackage => $_getSZ(0);
   @$pb.TagNumber(1)
   set javaPackage($core.String v) {
     $_setString(0, v);
@@ -968,7 +984,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearJavaPackage() => clearField(1);
 
   @$pb.TagNumber(8)
-  $core.String get javaOuterClassname => $_getS(1, '');
+  $core.String get javaOuterClassname => $_getSZ(1);
   @$pb.TagNumber(8)
   set javaOuterClassname($core.String v) {
     $_setString(1, v);
@@ -992,7 +1008,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearOptimizeFor() => clearField(9);
 
   @$pb.TagNumber(10)
-  $core.bool get javaMultipleFiles => $_get(3, false);
+  $core.bool get javaMultipleFiles => $_getBF(3);
   @$pb.TagNumber(10)
   set javaMultipleFiles($core.bool v) {
     $_setBool(3, v);
@@ -1004,7 +1020,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearJavaMultipleFiles() => clearField(10);
 
   @$pb.TagNumber(11)
-  $core.String get goPackage => $_getS(4, '');
+  $core.String get goPackage => $_getSZ(4);
   @$pb.TagNumber(11)
   set goPackage($core.String v) {
     $_setString(4, v);
@@ -1016,7 +1032,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearGoPackage() => clearField(11);
 
   @$pb.TagNumber(16)
-  $core.bool get ccGenericServices => $_get(5, false);
+  $core.bool get ccGenericServices => $_getBF(5);
   @$pb.TagNumber(16)
   set ccGenericServices($core.bool v) {
     $_setBool(5, v);
@@ -1028,7 +1044,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearCcGenericServices() => clearField(16);
 
   @$pb.TagNumber(17)
-  $core.bool get javaGenericServices => $_get(6, false);
+  $core.bool get javaGenericServices => $_getBF(6);
   @$pb.TagNumber(17)
   set javaGenericServices($core.bool v) {
     $_setBool(6, v);
@@ -1040,7 +1056,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearJavaGenericServices() => clearField(17);
 
   @$pb.TagNumber(18)
-  $core.bool get pyGenericServices => $_get(7, false);
+  $core.bool get pyGenericServices => $_getBF(7);
   @$pb.TagNumber(18)
   set pyGenericServices($core.bool v) {
     $_setBool(7, v);
@@ -1053,7 +1069,7 @@ class FileOptions extends $pb.GeneratedMessage {
 
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(20)
-  $core.bool get javaGenerateEqualsAndHash => $_get(8, false);
+  $core.bool get javaGenerateEqualsAndHash => $_getBF(8);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(20)
   set javaGenerateEqualsAndHash($core.bool v) {
@@ -1068,7 +1084,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearJavaGenerateEqualsAndHash() => clearField(20);
 
   @$pb.TagNumber(23)
-  $core.bool get deprecated => $_get(9, false);
+  $core.bool get deprecated => $_getBF(9);
   @$pb.TagNumber(23)
   set deprecated($core.bool v) {
     $_setBool(9, v);
@@ -1080,7 +1096,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearDeprecated() => clearField(23);
 
   @$pb.TagNumber(27)
-  $core.bool get javaStringCheckUtf8 => $_get(10, false);
+  $core.bool get javaStringCheckUtf8 => $_getBF(10);
   @$pb.TagNumber(27)
   set javaStringCheckUtf8($core.bool v) {
     $_setBool(10, v);
@@ -1092,7 +1108,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearJavaStringCheckUtf8() => clearField(27);
 
   @$pb.TagNumber(31)
-  $core.bool get ccEnableArenas => $_get(11, false);
+  $core.bool get ccEnableArenas => $_getBF(11);
   @$pb.TagNumber(31)
   set ccEnableArenas($core.bool v) {
     $_setBool(11, v);
@@ -1104,7 +1120,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearCcEnableArenas() => clearField(31);
 
   @$pb.TagNumber(36)
-  $core.String get objcClassPrefix => $_getS(12, '');
+  $core.String get objcClassPrefix => $_getSZ(12);
   @$pb.TagNumber(36)
   set objcClassPrefix($core.String v) {
     $_setString(12, v);
@@ -1116,7 +1132,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearObjcClassPrefix() => clearField(36);
 
   @$pb.TagNumber(37)
-  $core.String get csharpNamespace => $_getS(13, '');
+  $core.String get csharpNamespace => $_getSZ(13);
   @$pb.TagNumber(37)
   set csharpNamespace($core.String v) {
     $_setString(13, v);
@@ -1128,7 +1144,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearCsharpNamespace() => clearField(37);
 
   @$pb.TagNumber(39)
-  $core.String get swiftPrefix => $_getS(14, '');
+  $core.String get swiftPrefix => $_getSZ(14);
   @$pb.TagNumber(39)
   set swiftPrefix($core.String v) {
     $_setString(14, v);
@@ -1140,7 +1156,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearSwiftPrefix() => clearField(39);
 
   @$pb.TagNumber(40)
-  $core.String get phpClassPrefix => $_getS(15, '');
+  $core.String get phpClassPrefix => $_getSZ(15);
   @$pb.TagNumber(40)
   set phpClassPrefix($core.String v) {
     $_setString(15, v);
@@ -1152,7 +1168,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearPhpClassPrefix() => clearField(40);
 
   @$pb.TagNumber(41)
-  $core.String get phpNamespace => $_getS(16, '');
+  $core.String get phpNamespace => $_getSZ(16);
   @$pb.TagNumber(41)
   set phpNamespace($core.String v) {
     $_setString(16, v);
@@ -1196,11 +1212,13 @@ class MessageOptions extends $pb.GeneratedMessage {
   MessageOptions createEmptyInstance() => create();
   static $pb.PbList<MessageOptions> createRepeated() =>
       $pb.PbList<MessageOptions>();
-  static MessageOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static MessageOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MessageOptions>(create);
   static MessageOptions _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.bool get messageSetWireFormat => $_get(0, false);
+  $core.bool get messageSetWireFormat => $_getBF(0);
   @$pb.TagNumber(1)
   set messageSetWireFormat($core.bool v) {
     $_setBool(0, v);
@@ -1212,7 +1230,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   void clearMessageSetWireFormat() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.bool get noStandardDescriptorAccessor => $_get(1, false);
+  $core.bool get noStandardDescriptorAccessor => $_getBF(1);
   @$pb.TagNumber(2)
   set noStandardDescriptorAccessor($core.bool v) {
     $_setBool(1, v);
@@ -1224,7 +1242,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   void clearNoStandardDescriptorAccessor() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.bool get deprecated => $_get(2, false);
+  $core.bool get deprecated => $_getBF(2);
   @$pb.TagNumber(3)
   set deprecated($core.bool v) {
     $_setBool(2, v);
@@ -1236,7 +1254,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   void clearDeprecated() => clearField(3);
 
   @$pb.TagNumber(7)
-  $core.bool get mapEntry => $_get(3, false);
+  $core.bool get mapEntry => $_getBF(3);
   @$pb.TagNumber(7)
   set mapEntry($core.bool v) {
     $_setBool(3, v);
@@ -1288,7 +1306,9 @@ class FieldOptions extends $pb.GeneratedMessage {
   FieldOptions createEmptyInstance() => create();
   static $pb.PbList<FieldOptions> createRepeated() =>
       $pb.PbList<FieldOptions>();
-  static FieldOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static FieldOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FieldOptions>(create);
   static FieldOptions _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1304,7 +1324,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   void clearCtype() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.bool get packed => $_get(1, false);
+  $core.bool get packed => $_getBF(1);
   @$pb.TagNumber(2)
   set packed($core.bool v) {
     $_setBool(1, v);
@@ -1316,7 +1336,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   void clearPacked() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.bool get deprecated => $_get(2, false);
+  $core.bool get deprecated => $_getBF(2);
   @$pb.TagNumber(3)
   set deprecated($core.bool v) {
     $_setBool(2, v);
@@ -1328,7 +1348,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   void clearDeprecated() => clearField(3);
 
   @$pb.TagNumber(5)
-  $core.bool get lazy => $_get(3, false);
+  $core.bool get lazy => $_getBF(3);
   @$pb.TagNumber(5)
   set lazy($core.bool v) {
     $_setBool(3, v);
@@ -1352,7 +1372,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   void clearJstype() => clearField(6);
 
   @$pb.TagNumber(10)
-  $core.bool get weak => $_get(5, false);
+  $core.bool get weak => $_getBF(5);
   @$pb.TagNumber(10)
   set weak($core.bool v) {
     $_setBool(5, v);
@@ -1392,7 +1412,9 @@ class OneofOptions extends $pb.GeneratedMessage {
   OneofOptions createEmptyInstance() => create();
   static $pb.PbList<OneofOptions> createRepeated() =>
       $pb.PbList<OneofOptions>();
-  static OneofOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static OneofOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<OneofOptions>(create);
   static OneofOptions _defaultInstance;
 
   @$pb.TagNumber(999)
@@ -1425,11 +1447,13 @@ class EnumOptions extends $pb.GeneratedMessage {
   static EnumOptions create() => EnumOptions._();
   EnumOptions createEmptyInstance() => create();
   static $pb.PbList<EnumOptions> createRepeated() => $pb.PbList<EnumOptions>();
-  static EnumOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static EnumOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<EnumOptions>(create);
   static EnumOptions _defaultInstance;
 
   @$pb.TagNumber(2)
-  $core.bool get allowAlias => $_get(0, false);
+  $core.bool get allowAlias => $_getBF(0);
   @$pb.TagNumber(2)
   set allowAlias($core.bool v) {
     $_setBool(0, v);
@@ -1441,7 +1465,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   void clearAllowAlias() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.bool get deprecated => $_get(1, false);
+  $core.bool get deprecated => $_getBF(1);
   @$pb.TagNumber(3)
   set deprecated($core.bool v) {
     $_setBool(1, v);
@@ -1482,12 +1506,13 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   EnumValueOptions createEmptyInstance() => create();
   static $pb.PbList<EnumValueOptions> createRepeated() =>
       $pb.PbList<EnumValueOptions>();
-  static EnumValueOptions getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static EnumValueOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<EnumValueOptions>(create);
   static EnumValueOptions _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.bool get deprecated => $_get(0, false);
+  $core.bool get deprecated => $_getBF(0);
   @$pb.TagNumber(1)
   set deprecated($core.bool v) {
     $_setBool(0, v);
@@ -1528,11 +1553,13 @@ class ServiceOptions extends $pb.GeneratedMessage {
   ServiceOptions createEmptyInstance() => create();
   static $pb.PbList<ServiceOptions> createRepeated() =>
       $pb.PbList<ServiceOptions>();
-  static ServiceOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static ServiceOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ServiceOptions>(create);
   static ServiceOptions _defaultInstance;
 
   @$pb.TagNumber(33)
-  $core.bool get deprecated => $_get(0, false);
+  $core.bool get deprecated => $_getBF(0);
   @$pb.TagNumber(33)
   set deprecated($core.bool v) {
     $_setBool(0, v);
@@ -1578,11 +1605,13 @@ class MethodOptions extends $pb.GeneratedMessage {
   MethodOptions createEmptyInstance() => create();
   static $pb.PbList<MethodOptions> createRepeated() =>
       $pb.PbList<MethodOptions>();
-  static MethodOptions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static MethodOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MethodOptions>(create);
   static MethodOptions _defaultInstance;
 
   @$pb.TagNumber(33)
-  $core.bool get deprecated => $_get(0, false);
+  $core.bool get deprecated => $_getBF(0);
   @$pb.TagNumber(33)
   set deprecated($core.bool v) {
     $_setBool(0, v);
@@ -1638,12 +1667,13 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   UninterpretedOption_NamePart createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption_NamePart> createRepeated() =>
       $pb.PbList<UninterpretedOption_NamePart>();
-  static UninterpretedOption_NamePart getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static UninterpretedOption_NamePart getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<UninterpretedOption_NamePart>(create);
   static UninterpretedOption_NamePart _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get namePart => $_getS(0, '');
+  $core.String get namePart => $_getSZ(0);
   @$pb.TagNumber(1)
   set namePart($core.String v) {
     $_setString(0, v);
@@ -1655,7 +1685,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   void clearNamePart() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.bool get isExtension => $_get(1, false);
+  $core.bool get isExtension => $_getBF(1);
   @$pb.TagNumber(2)
   set isExtension($core.bool v) {
     $_setBool(1, v);
@@ -1698,15 +1728,16 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   UninterpretedOption createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption> createRepeated() =>
       $pb.PbList<UninterpretedOption>();
-  static UninterpretedOption getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static UninterpretedOption getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<UninterpretedOption>(create);
   static UninterpretedOption _defaultInstance;
 
   @$pb.TagNumber(2)
   $core.List<UninterpretedOption_NamePart> get name => $_getList(0);
 
   @$pb.TagNumber(3)
-  $core.String get identifierValue => $_getS(1, '');
+  $core.String get identifierValue => $_getSZ(1);
   @$pb.TagNumber(3)
   set identifierValue($core.String v) {
     $_setString(1, v);
@@ -1766,7 +1797,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   void clearStringValue() => clearField(7);
 
   @$pb.TagNumber(8)
-  $core.String get aggregateValue => $_getS(6, '');
+  $core.String get aggregateValue => $_getSZ(6);
   @$pb.TagNumber(8)
   set aggregateValue($core.String v) {
     $_setString(6, v);
@@ -1808,8 +1839,9 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   SourceCodeInfo_Location createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo_Location> createRepeated() =>
       $pb.PbList<SourceCodeInfo_Location>();
-  static SourceCodeInfo_Location getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static SourceCodeInfo_Location getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SourceCodeInfo_Location>(create);
   static SourceCodeInfo_Location _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1819,7 +1851,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   $core.List<$core.int> get span => $_getList(1);
 
   @$pb.TagNumber(3)
-  $core.String get leadingComments => $_getS(2, '');
+  $core.String get leadingComments => $_getSZ(2);
   @$pb.TagNumber(3)
   set leadingComments($core.String v) {
     $_setString(2, v);
@@ -1831,7 +1863,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   void clearLeadingComments() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get trailingComments => $_getS(3, '');
+  $core.String get trailingComments => $_getSZ(3);
   @$pb.TagNumber(4)
   set trailingComments($core.String v) {
     $_setString(3, v);
@@ -1871,7 +1903,9 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   SourceCodeInfo createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo> createRepeated() =>
       $pb.PbList<SourceCodeInfo>();
-  static SourceCodeInfo getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static SourceCodeInfo getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SourceCodeInfo>(create);
   static SourceCodeInfo _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1910,15 +1944,16 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   GeneratedCodeInfo_Annotation createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo_Annotation> createRepeated() =>
       $pb.PbList<GeneratedCodeInfo_Annotation>();
-  static GeneratedCodeInfo_Annotation getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GeneratedCodeInfo_Annotation getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GeneratedCodeInfo_Annotation>(create);
   static GeneratedCodeInfo_Annotation _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<$core.int> get path => $_getList(0);
 
   @$pb.TagNumber(2)
-  $core.String get sourceFile => $_getS(1, '');
+  $core.String get sourceFile => $_getSZ(1);
   @$pb.TagNumber(2)
   set sourceFile($core.String v) {
     $_setString(1, v);
@@ -1930,7 +1965,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   void clearSourceFile() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.int get begin => $_get(2, 0);
+  $core.int get begin => $_getIZ(2);
   @$pb.TagNumber(3)
   set begin($core.int v) {
     $_setSignedInt32(2, v);
@@ -1942,7 +1977,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   void clearBegin() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.int get end => $_get(3, 0);
+  $core.int get end => $_getIZ(3);
   @$pb.TagNumber(4)
   set end($core.int v) {
     $_setSignedInt32(3, v);
@@ -1979,8 +2014,9 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   GeneratedCodeInfo createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo> createRepeated() =>
       $pb.PbList<GeneratedCodeInfo>();
-  static GeneratedCodeInfo getDefault() =>
-      _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GeneratedCodeInfo getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<GeneratedCodeInfo>(create);
   static GeneratedCodeInfo _defaultInstance;
 
   @$pb.TagNumber(1)
