@@ -385,6 +385,7 @@ class _FieldSet {
     }
     return _$getN<T>(index);
   }
+
   /// The implementation of a generated getter for repeated fields.
   List<T> _$getList<T>(int index) {
     var value = _values[index];
