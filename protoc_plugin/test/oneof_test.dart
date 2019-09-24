@@ -182,7 +182,6 @@ void main() {
     expect(foo.whichOneofField(), Foo_OneofField.index_);
     expect(foo.hasIndex(), true);
     expect(foo.index, Bar());
-
   });
 }
 
