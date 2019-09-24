@@ -6,6 +6,11 @@
   - Annotate generated accessors with the tag number of the associated field.
 * Breaking: Use unmangled names for the string representation of enum values.
   Mangled names would lead to wrong proto3 json en- and decoding.
+* Annotate generated accessors with the tag number of the associated field.
+
+## 18.0.3
+
+* Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
 
 ## 18.0.2
 
@@ -18,7 +23,6 @@
 * Add a `bin/protoc-gen-dart.bat` script making it easier to compile on windows using a local
   checkout.
 
->>>>>>> master
 ## 18.0.0
 
 * Breaking: Generates code that requires at least `protobuf` 0.14.0.
