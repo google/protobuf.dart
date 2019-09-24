@@ -1,9 +1,16 @@
-## 19.0.0-dev
+## 19.0.0
 * Breaking: Generates code that requires at least `protobuf` 0.14.4.
+  If protoc_plugin is installed in your path with `pub global activate` you can upgrade with `pub global activate protoc_plugin 19.0.0`
   - GeneratedMessage classes now have methods `ensureX` for each message field X.
   - Add specialized getters for `String`, `int`, and `bool` with usual default values.
+  - Annotate generated accessors with the tag number of the associated field.
 * Breaking: Use unmangled names for the string representation of enum values.
   Mangled names would lead to wrong proto3 json en- and decoding.
+* Annotate generated accessors with the tag number of the associated field.
+
+## 18.0.3
+
+* Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
 
 ## 18.0.2
 

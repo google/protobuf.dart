@@ -42,36 +42,52 @@ class Version extends $pb.GeneratedMessage {
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Version>(create);
   static Version _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.int get major => $_getIZ(0);
+  @$pb.TagNumber(1)
   set major($core.int v) {
     $_setSignedInt32(0, v);
   }
 
+  @$pb.TagNumber(1)
   $core.bool hasMajor() => $_has(0);
+  @$pb.TagNumber(1)
   void clearMajor() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.int get minor => $_getIZ(1);
+  @$pb.TagNumber(2)
   set minor($core.int v) {
     $_setSignedInt32(1, v);
   }
 
+  @$pb.TagNumber(2)
   $core.bool hasMinor() => $_has(1);
+  @$pb.TagNumber(2)
   void clearMinor() => clearField(2);
 
+  @$pb.TagNumber(3)
   $core.int get patch => $_getIZ(2);
+  @$pb.TagNumber(3)
   set patch($core.int v) {
     $_setSignedInt32(2, v);
   }
 
+  @$pb.TagNumber(3)
   $core.bool hasPatch() => $_has(2);
+  @$pb.TagNumber(3)
   void clearPatch() => clearField(3);
 
+  @$pb.TagNumber(4)
   $core.String get suffix => $_getSZ(3);
+  @$pb.TagNumber(4)
   set suffix($core.String v) {
     $_setString(3, v);
   }
 
+  @$pb.TagNumber(4)
   $core.bool hasSuffix() => $_has(3);
+  @$pb.TagNumber(4)
   void clearSuffix() => clearField(4);
 }
 
@@ -108,24 +124,36 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorRequest>(create);
   static CodeGeneratorRequest _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$core.String> get fileToGenerate => $_getList(0);
 
+  @$pb.TagNumber(2)
   $core.String get parameter => $_getSZ(1);
+  @$pb.TagNumber(2)
   set parameter($core.String v) {
     $_setString(1, v);
   }
 
+  @$pb.TagNumber(2)
   $core.bool hasParameter() => $_has(1);
+  @$pb.TagNumber(2)
   void clearParameter() => clearField(2);
 
+  @$pb.TagNumber(3)
   Version get compilerVersion => $_getN(2);
+  @$pb.TagNumber(3)
   set compilerVersion(Version v) {
     setField(3, v);
   }
 
+  @$pb.TagNumber(3)
   $core.bool hasCompilerVersion() => $_has(2);
+  @$pb.TagNumber(3)
   void clearCompilerVersion() => clearField(3);
+  @$pb.TagNumber(3)
+  Version ensureCompilerVersion() => $_ensure(2);
 
+  @$pb.TagNumber(15)
   $core.List<$0.FileDescriptorProto> get protoFile => $_getList(3);
 }
 
@@ -164,28 +192,40 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse_File>(create);
   static CodeGeneratorResponse_File _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
+  @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
   }
 
+  @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
+  @$pb.TagNumber(1)
   void clearName() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.String get insertionPoint => $_getSZ(1);
+  @$pb.TagNumber(2)
   set insertionPoint($core.String v) {
     $_setString(1, v);
   }
 
+  @$pb.TagNumber(2)
   $core.bool hasInsertionPoint() => $_has(1);
+  @$pb.TagNumber(2)
   void clearInsertionPoint() => clearField(2);
 
+  @$pb.TagNumber(15)
   $core.String get content => $_getSZ(2);
+  @$pb.TagNumber(15)
   set content($core.String v) {
     $_setString(2, v);
   }
 
+  @$pb.TagNumber(15)
   $core.bool hasContent() => $_has(2);
+  @$pb.TagNumber(15)
   void clearContent() => clearField(15);
 }
 
@@ -222,13 +262,18 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse>(create);
   static CodeGeneratorResponse _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.String get error => $_getSZ(0);
+  @$pb.TagNumber(1)
   set error($core.String v) {
     $_setString(0, v);
   }
 
+  @$pb.TagNumber(1)
   $core.bool hasError() => $_has(0);
+  @$pb.TagNumber(1)
   void clearError() => clearField(1);
 
+  @$pb.TagNumber(15)
   $core.List<CodeGeneratorResponse_File> get file => $_getList(1);
 }

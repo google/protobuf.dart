@@ -39,28 +39,40 @@ class DartMixin extends $pb.GeneratedMessage {
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DartMixin>(create);
   static DartMixin _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
+  @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
   }
 
+  @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
+  @$pb.TagNumber(1)
   void clearName() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.String get importFrom => $_getSZ(1);
+  @$pb.TagNumber(2)
   set importFrom($core.String v) {
     $_setString(1, v);
   }
 
+  @$pb.TagNumber(2)
   $core.bool hasImportFrom() => $_has(1);
+  @$pb.TagNumber(2)
   void clearImportFrom() => clearField(2);
 
+  @$pb.TagNumber(3)
   $core.String get parent => $_getSZ(2);
+  @$pb.TagNumber(3)
   set parent($core.String v) {
     $_setString(2, v);
   }
 
+  @$pb.TagNumber(3)
   $core.bool hasParent() => $_has(2);
+  @$pb.TagNumber(3)
   void clearParent() => clearField(3);
 }
 
@@ -93,6 +105,7 @@ class Imports extends $pb.GeneratedMessage {
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Imports>(create);
   static Imports _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<DartMixin> get mixins => $_getList(0);
 }
 
