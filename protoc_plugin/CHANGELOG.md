@@ -1,4 +1,4 @@
-## 19.0.0
+## 19.0.0-dev
 
 * Breaking: Add specialized getters for `String`, `int`, and `bool` with usual default values.
 * Breaking: Shrink dart2js generated code for `getDefault()`.
