@@ -6,6 +6,7 @@
 library file_generator_test;
 
 import 'package:protoc_plugin/indenting_writer.dart';
+import 'package:protoc_plugin/src/dart_options.pb.dart';
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:protoc_plugin/protoc.dart';
@@ -404,5 +405,121 @@ void main() {
         fg.generateMainFile().toString(), 'test/goldens/imports.pb');
     expectMatchesGoldenFile(
         fg.generateEnumFile().toString(), 'test/goldens/imports.pbjson');
+  });
+
+  test('FileGenerator generates correct dart package imports', () {
+    // This defines a.proto, same_package.proto, other_package.proto,
+    // no_package.proto
+    //
+    // a.proto:
+    // ---------------
+    // import "dart_options.proto";
+    // option (dart_options.dart_package) = 'abc';
+    // message A {
+    // }
+    //
+    // same_package.proto:
+    // ---------------
+    // import "a.proto";
+    // import "dart_options.proto";
+    // option (dart_options.dart_package) = 'abc';
+    //
+    // message B {
+    //   optional A a = 1;
+    // }
+    //
+    // other_package.proto:
+    // ---------------
+    // import "a.proto"
+    // import "dart_options.proto";
+    // option (dart_options.dart_package) = 'def';
+    // message C {
+    //   optional A a = 1;
+    // }
+    //
+    // no_package.proto:
+    // ---------------
+    // import "a.proto"
+    // message D {
+    //   optional A a = 1;
+    // }
+
+    DescriptorProto mA = DescriptorProto()..name = 'A';
+    FileDescriptorProto fda = FileDescriptorProto()
+      ..name = 'a.proto'
+      ..messageType.add(mA)
+      ..options =
+          (FileOptions()..setExtension(Dart_options.dartPackage, 'abc'));
+
+    DescriptorProto mB = DescriptorProto()
+      ..name = 'B'
+      ..field.addAll([
+        FieldDescriptorProto()
+          ..name = 'a'
+          ..jsonName = 'a'
+          ..number = 1
+          ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+          ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
+          ..typeName = ".A",
+      ]);
+    FileDescriptorProto fdSamePackage = FileDescriptorProto()
+      ..name = 'same_package.proto'
+      ..messageType.add(mB)
+      ..options =
+          (FileOptions()..setExtension(Dart_options.dartPackage, 'abc'));
+
+    DescriptorProto mC = DescriptorProto()
+      ..name = 'C'
+      ..field.addAll([
+        FieldDescriptorProto()
+          ..name = 'a'
+          ..jsonName = 'a'
+          ..number = 1
+          ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+          ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
+          ..typeName = ".A",
+      ]);
+    FileDescriptorProto fdOtherPackage = FileDescriptorProto()
+      ..name = 'other_package.proto'
+      ..messageType.add(mC)
+      ..options =
+          (FileOptions()..setExtension(Dart_options.dartPackage, 'def'));
+
+    DescriptorProto mD = DescriptorProto()
+      ..name = 'D'
+      ..field.addAll([
+        FieldDescriptorProto()
+          ..name = 'a'
+          ..jsonName = 'a'
+          ..number = 1
+          ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+          ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
+          ..typeName = ".A",
+      ]);
+    FileDescriptorProto fdNoPackage = FileDescriptorProto()
+      ..name = 'no_package.proto'
+      ..messageType.add(mD);
+
+    void testFile(FileDescriptorProto fileDescriptor, Uri expectedFilePath) {
+      fileDescriptor.dependency.add('a.proto');
+      final options = parseGenerationOptions(
+          CodeGeneratorRequest(), CodeGeneratorResponse());
+      final fga = FileGenerator(fda, options);
+      final fg = FileGenerator(fileDescriptor, options);
+      link(options, [fg, fga]);
+      final filea = fga.outputFile(DefaultOutputConfiguration(), '.pb.dart');
+      final file = fg.outputFile(DefaultOutputConfiguration(), '.pb.dart');
+      expectMatchesGoldenFile(fga.generateMainFile().toString(),
+          'test/goldens/${filea.path}');
+      expectMatchesGoldenFile(fg.generateMainFile().toString(),
+          'test/goldens/${file.path}');
+      expect(
+          file,
+          expectedFilePath);
+    }
+
+    testFile(fdSamePackage, Uri.file('same_package.pb.dart'));
+    testFile(fdOtherPackage, Uri.file('other_package.pb.dart'));
+    testFile(fdNoPackage, Uri.file('no_package.pb.dart'));
   });
 }

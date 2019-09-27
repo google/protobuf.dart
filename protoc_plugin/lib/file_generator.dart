@@ -104,7 +104,9 @@ class FileGenerator extends ProtobufContainer {
   final FileDescriptorProto descriptor;
   final GenerationOptions options;
 
-  // The relative path used to import the .proto file, as a URI.
+  // The path used to import the .proto file, as a URI.
+  // This is a package: URI if a `dart_package` option is given.
+  // Otherwise this is a relative path.
   final Uri protoFileUri;
 
   final enumGenerators = <EnumGenerator>[];
@@ -130,12 +132,22 @@ class FileGenerator extends ProtobufContainer {
   /// True if cross-references have been resolved.
   bool _linked = false;
 
-  FileGenerator(this.descriptor, this.options)
-      : protoFileUri = Uri.file(descriptor.name) {
-    if (protoFileUri.isAbsolute) {
-      // protoc should never generate an import with an absolute path.
-      throw "FAILURE: Import with absolute path is not supported";
+  static Uri calculateUri(FileDescriptorProto descriptor) {
+    if (descriptor.options.hasExtension(Dart_options.dartPackage)) {
+      String dartPackage =
+          descriptor.options.getExtension(Dart_options.dartPackage);
+      return Uri(scheme: 'package', path: '${dartPackage}/${descriptor.name}');
+    } else {
+      return Uri.file(descriptor.name);
     }
+  }
+
+  FileGenerator(this.descriptor, this.options)
+      : protoFileUri = calculateUri(descriptor) {
+    // if (protoFileUri.isAbsolute) {
+    //   // protoc should never generate an import with an absolute path.
+    //   throw "FAILURE: Import with absolute path is not supported";
+    // }
 
     var declaredMixins = _getDeclaredMixins(descriptor);
     var defaultMixinName =
@@ -194,15 +206,18 @@ class FileGenerator extends ProtobufContainer {
   FileGenerator get fileGen => this;
   List<int> get fieldPath => [];
 
+  Uri outputFile(OutputConfiguration config, String extension) {
+    Uri protoUrl = Uri.file(descriptor.name);
+    return config.outputPathFor(protoUrl, extension);
+  }
+
   /// Generates all the Dart files for this .proto file.
   List<CodeGeneratorResponse_File> generateFiles(OutputConfiguration config) {
     if (!_linked) throw StateError("not linked");
 
     makeFile(String extension, String content) {
-      Uri protoUrl = Uri.file(descriptor.name);
-      Uri dartUrl = config.outputPathFor(protoUrl, extension);
       return CodeGeneratorResponse_File()
-        ..name = dartUrl.path
+        ..name = outputFile(config, extension).path
         ..content = content;
     }
 
