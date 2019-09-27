@@ -7,7 +7,7 @@
 
 import 'dart:core' as $core;
 
-import 'package:fixnum/fixnum.dart';
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'descriptor.pbenum.dart';
@@ -1704,8 +1704,8 @@ class UninterpretedOption extends $pb.GeneratedMessage {
     ..pc<UninterpretedOption_NamePart>(2, 'name', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption_NamePart.create)
     ..aOS(3, 'identifierValue')
-    ..a<Int64>(4, 'positiveIntValue', $pb.PbFieldType.OU6,
-        defaultOrMaker: Int64.ZERO)
+    ..a<$fixnum.Int64>(4, 'positiveIntValue', $pb.PbFieldType.OU6,
+        defaultOrMaker: $fixnum.Int64.ZERO)
     ..aInt64(5, 'negativeIntValue')
     ..a<$core.double>(6, 'doubleValue', $pb.PbFieldType.OD)
     ..a<$core.List<$core.int>>(7, 'stringValue', $pb.PbFieldType.OY)
@@ -1749,9 +1749,9 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   void clearIdentifierValue() => clearField(3);
 
   @$pb.TagNumber(4)
-  Int64 get positiveIntValue => $_getI64(2);
+  $fixnum.Int64 get positiveIntValue => $_getI64(2);
   @$pb.TagNumber(4)
-  set positiveIntValue(Int64 v) {
+  set positiveIntValue($fixnum.Int64 v) {
     $_setInt64(2, v);
   }
 
@@ -1761,9 +1761,9 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   void clearPositiveIntValue() => clearField(4);
 
   @$pb.TagNumber(5)
-  Int64 get negativeIntValue => $_getI64(3);
+  $fixnum.Int64 get negativeIntValue => $_getI64(3);
   @$pb.TagNumber(5)
-  set negativeIntValue(Int64 v) {
+  set negativeIntValue($fixnum.Int64 v) {
     $_setInt64(3, v);
   }
 

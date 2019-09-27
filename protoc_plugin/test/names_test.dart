@@ -129,6 +129,8 @@ void main() {
     expect(names.avoidInitialUnderscore('foo_'), 'foo_');
     expect(names.avoidInitialUnderscore('_foo'), 'foo_');
     expect(names.avoidInitialUnderscore('__foo'), 'foo__');
+    expect(names.avoidInitialUnderscore('_6E'), 'x6E_');
+    expect(names.avoidInitialUnderscore('__6E'), 'x6E__');
   });
 
   test('legalDartIdentifier', () {

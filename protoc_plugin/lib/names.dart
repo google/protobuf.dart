@@ -70,6 +70,10 @@ class OneofNames {
       this.whichOneofMethodName, this.oneofEnumName, this.byTagMapName);
 }
 
+// For performance reasons, use code units instead of Regex.
+bool _startsWithDigit(String input) =>
+    input.isNotEmpty && (input.codeUnitAt(0) ^ 0x30) <= 9;
+
 /// Move any initial underscores in [input] to the end.
 ///
 /// According to the spec identifiers cannot start with _, but it seems to be
@@ -79,6 +83,9 @@ class OneofNames {
 String avoidInitialUnderscore(String input) {
   while (input.startsWith('_')) {
     input = '${input.substring(1)}_';
+  }
+  if (_startsWithDigit(input)) {
+    input = 'x$input';
   }
   return input;
 }

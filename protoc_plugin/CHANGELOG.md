@@ -1,3 +1,7 @@
+## 19.0.1
+
+* Fix: avoid naming collisions with Int64 and values beginning with digits.
+
 ## 19.0.0
 * Breaking: Generates code that requires at least `protobuf` 0.14.4.
   If protoc_plugin is installed in your path with `pub global activate` you can upgrade with `pub global activate protoc_plugin 19.0.0`

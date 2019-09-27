@@ -9,6 +9,7 @@ final _formatter = DartFormatter();
 const String _protobufImportPrefix = r'$pb';
 const String _asyncImportPrefix = r'$async';
 const String _coreImportPrefix = r'$core';
+const String _fixnumImportPrefix = r'$fixnum';
 const String _grpcImportPrefix = r'$grpc';
 const String _mixinImportPrefix = r'$mixin';
 const String _protobufImport =
@@ -290,7 +291,8 @@ class FileGenerator extends ProtobufContainer {
     out.println();
 
     if (_needsFixnumImport) {
-      out.println("import 'package:fixnum/fixnum.dart';");
+      out.println(
+          "import 'package:fixnum/fixnum.dart' as $_fixnumImportPrefix;");
     }
 
     if (_needsProtobufImport) {
