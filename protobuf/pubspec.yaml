@@ -17,4 +17,3 @@ dev_dependencies:
   benchmark_harness: any
   js: any
   pedantic: ^1.0.0
-  

@@ -37,9 +37,9 @@ bool _areByteDataEqual(ByteData lhs, ByteData rhs) {
 
 @Deprecated("This function was not intended to be public. "
     "It will be removed from the public api in next major version. ")
-List<T> sorted<T>(Iterable<T> list) => new List.from(list)..sort();
+List<T> sorted<T>(Iterable<T> list) => List.from(list)..sort();
 
-List<T> _sorted<T>(Iterable<T> list) => new List.from(list)..sort();
+List<T> _sorted<T>(Iterable<T> list) => List.from(list)..sort();
 
 class _HashUtils {
 // Jenkins hash functions copied from https://github.com/google/quiver-dart/blob/master/lib/src/core/hash.dart.

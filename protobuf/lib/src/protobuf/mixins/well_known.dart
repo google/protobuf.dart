@@ -153,7 +153,7 @@ abstract class TimestampMixin {
   ///
   /// The result is in UTC time zone and has microsecond precision, as
   /// [DateTime] does not support nanosecond precision.
-  DateTime toDateTime() => new DateTime.fromMicrosecondsSinceEpoch(
+  DateTime toDateTime() => DateTime.fromMicrosecondsSinceEpoch(
       seconds.toInt() * Duration.microsecondsPerSecond + nanos ~/ 1000,
       isUtc: true);
 
