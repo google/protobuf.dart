@@ -1,6 +1,6 @@
 ## 1.0.0
 
-*  Graduate package to 1.0.
+* Graduate package to 1.0. No functional changes.
 
 ## 0.14.4
 * Add `permissiveEnums` option to `mergeFromProto3Json`.
