@@ -156,7 +156,7 @@ abstract class PbListBase<E> extends ListBase<E> {
   final List<E> _wrappedList;
   final CheckFunc<E> check;
 
-  PbListBase._(this._wrappedList, {this.check = _checkNotNull}) {}
+  PbListBase._(this._wrappedList, {this.check = _checkNotNull});
 
   PbListBase._noList({this.check = _checkNotNull}) : _wrappedList = <E>[] {
     assert(check != null);

@@ -81,9 +81,10 @@ abstract class AnyMixin implements GeneratedMessage {
       GeneratedMessage message, TypeRegistry typeRegistry) {
     AnyMixin any = message as AnyMixin;
     BuilderInfo info = typeRegistry.lookup(_typeNameFromUrl(any.typeUrl));
-    if (info == null)
+    if (info == null) {
       throw ArgumentError(
           'The type of the Any message (${any.typeUrl}) is not in the given typeRegistry.');
+    }
     GeneratedMessage unpacked = info.createEmptyInstance()
       ..mergeFromBuffer(any.value);
     Object proto3Json = unpacked.toProto3Json();
@@ -152,7 +153,7 @@ abstract class TimestampMixin {
   ///
   /// The result is in UTC time zone and has microsecond precision, as
   /// [DateTime] does not support nanosecond precision.
-  DateTime toDateTime() => new DateTime.fromMicrosecondsSinceEpoch(
+  DateTime toDateTime() => DateTime.fromMicrosecondsSinceEpoch(
       seconds.toInt() * Duration.microsecondsPerSecond + nanos ~/ 1000,
       isUtc: true);
 
@@ -470,7 +471,7 @@ abstract class FieldMaskMixin {
       GeneratedMessage message, TypeRegistry typeRegistry) {
     FieldMaskMixin fieldMask = message as FieldMaskMixin;
     for (String path in fieldMask.paths) {
-      if (path.indexOf(RegExp('[A-Z]|_[^a-z]')) != -1) {
+      if (path.contains(RegExp('[A-Z]|_[^a-z]'))) {
         throw ArgumentError(
             'Bad fieldmask $path. Does not round-trip to json.');
       }
@@ -481,7 +482,7 @@ abstract class FieldMaskMixin {
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
       TypeRegistry typeRegistry, JsonParsingContext context) {
     if (json is String) {
-      if (json.indexOf('_') != -1) {
+      if (json.contains('_')) {
         throw context.parseException(
             'Invalid Character `_` in FieldMask', json);
       }
