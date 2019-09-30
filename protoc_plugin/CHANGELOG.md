@@ -1,3 +1,8 @@
+## 19.0.1
+
+* Fix: avoid naming collisions with `Int64` and enum names beginning with digits
+  after an initial underscore.
+
 ## 19.0.0+1
 * Updated protobuf dependency to '>=0.14.4 <2.0.0' to allow 1.0.0.
 
