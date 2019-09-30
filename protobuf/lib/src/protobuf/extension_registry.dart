@@ -118,7 +118,7 @@ T _reparseMessage<T extends GeneratedMessage>(
       }
     });
 
-    if (codedBufferWriter.toBuffer().length > 0) {
+    if (codedBufferWriter.toBuffer().isNotEmpty) {
       ensureResult()
           .mergeFromBuffer(codedBufferWriter.toBuffer(), extensionRegistry);
     }

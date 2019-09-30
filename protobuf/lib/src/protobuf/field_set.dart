@@ -207,9 +207,10 @@ class _FieldSet {
   Map<K, V> _getDefaultMap<K, V>(MapFieldInfo<K, V> fi) {
     assert(fi.isMapField);
 
-    if (_isReadOnly)
+    if (_isReadOnly) {
       return PbMap<K, V>.unmodifiable(PbMap<K, V>(
           fi.keyFieldType, fi.valueFieldType, fi.mapEntryBuilderInfo));
+    }
 
     var value = fi._createMapField(_message);
     _setNonExtensionFieldUnchecked(fi, value);
