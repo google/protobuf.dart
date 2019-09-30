@@ -77,9 +77,10 @@ bool _startsWithDigit(String input) =>
 /// Move any initial underscores in [input] to the end.
 ///
 /// According to the spec identifiers cannot start with _, but it seems to be
-/// accepted by protoc.
-///
-/// These identifiers are private in Dart, so they have to be transformed.
+/// accepted by protoc. These identifiers are private in Dart, so they have to
+/// be transformed.
+/// 
+/// If [input] starts with a digit after transformation, prefix with an 'x'.
 String avoidInitialUnderscore(String input) {
   while (input.startsWith('_')) {
     input = '${input.substring(1)}_';

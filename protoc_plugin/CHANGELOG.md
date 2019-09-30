@@ -1,6 +1,7 @@
 ## 19.0.1
 
-* Fix: avoid naming collisions with Int64 and values beginning with digits.
+* Fix: avoid naming collisions with `Int64` and enum names beginning with digits
+  after an initial underscore.
 
 ## 19.0.0
 * Breaking: Generates code that requires at least `protobuf` 0.14.4.
