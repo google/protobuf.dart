@@ -217,8 +217,9 @@ abstract class GeneratedMessage {
   /// message encoding a type not in [typeRegistry] is encountered, an
   /// error is thrown.
   Object toProto3Json(
-          {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
-      _writeToProto3Json(_fieldSet, typeRegistry);
+          {TypeRegistry typeRegistry = const TypeRegistry.empty(),
+          bool useProtoNames = false}) =>
+      _writeToProto3Json(_fieldSet, typeRegistry, useProtoNames);
 
   /// Merges field values from [json], a JSON object using proto3 encoding.
   ///

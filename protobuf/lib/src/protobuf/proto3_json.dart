@@ -4,7 +4,7 @@
 
 part of protobuf;
 
-Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
+Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry, bool useProtoNames) {
   String convertToMapKey(dynamic key, int keyType) {
     int baseType = PbFieldType._baseType(keyType);
 
@@ -37,7 +37,7 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
 
     if (_isGroupOrMessage(fieldType)) {
       return _writeToProto3Json(
-          (fieldValue as GeneratedMessage)._fieldSet, typeRegistry);
+          (fieldValue as GeneratedMessage)._fieldSet, typeRegistry, useProtoNames);
     } else if (_isEnum(fieldType)) {
       return (fieldValue as ProtobufEnum).name;
     } else {
@@ -105,7 +105,11 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     } else {
       jsonValue = valueToProto3Json(value, fieldInfo.type);
     }
-    result[fieldInfo.name] = jsonValue;
+    if (useProtoNames && fieldInfo.protoName != null) {
+      result[fieldInfo.protoName] = jsonValue;
+    } else {
+      result[fieldInfo.name] = jsonValue;
+    }
   }
   // Extensions and unknown fields are not encoded by proto3 JSON.
   return result;
