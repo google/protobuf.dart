@@ -1,3 +1,7 @@
+## 1.0.0
+
+*  Graduate package to 1.0.
+
 ## 0.14.4
 * Add `permissiveEnums` option to `mergeFromProto3Json`.
   It will do a case-insensitive matching of enum values ignoring `-` and `_`.

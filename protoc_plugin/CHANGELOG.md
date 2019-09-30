@@ -1,3 +1,6 @@
+## 19.0.0+1
+* Updated protobuf dependency to '>=0.14.4 <2.0.0'.
+
 ## 19.0.0
 * Breaking: Generates code that requires at least `protobuf` 0.14.4.
   If protoc_plugin is installed in your path with `pub global activate` you can upgrade with `pub global activate protoc_plugin 19.0.0`
