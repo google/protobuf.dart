@@ -133,6 +133,10 @@ class FileGenerator extends ProtobufContainer {
   bool _linked = false;
 
   static Uri calculateUri(FileDescriptorProto descriptor) {
+    // protoc should never generate an import with an absolute path.
+    assert(!Uri.file(descriptor.name).isAbsolute,
+        "Import with absolute path is not supported");
+
     if (descriptor.options.hasExtension(Dart_options.dartPackage)) {
       String dartPackage =
           descriptor.options.getExtension(Dart_options.dartPackage);
@@ -144,11 +148,6 @@ class FileGenerator extends ProtobufContainer {
 
   FileGenerator(this.descriptor, this.options)
       : protoFileUri = calculateUri(descriptor) {
-    // if (protoFileUri.isAbsolute) {
-    //   // protoc should never generate an import with an absolute path.
-    //   throw "FAILURE: Import with absolute path is not supported";
-    // }
-
     var declaredMixins = _getDeclaredMixins(descriptor);
     var defaultMixinName =
         descriptor.options?.getExtension(Dart_options.defaultMixin) ?? '';
