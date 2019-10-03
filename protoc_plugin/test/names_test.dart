@@ -218,6 +218,10 @@ void main() {
   test('The field name is the json_name as given by protoc', () {
     expect(json_name.JsonNamedMessage().getTagNumber('barName'), 1);
   });
+
+  test('Invalid characters are escaped from json_name', () {
+    expect(json_name.JsonNamedMessage().getTagNumber('\$name'), 2);
+  });
 }
 
 FieldDescriptorProto stringField(String name, int number, String dartName) {

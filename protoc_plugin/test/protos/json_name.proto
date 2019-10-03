@@ -6,4 +6,6 @@ syntax = "proto3";
 
 message JsonNamedMessage {
   int32 foo_name = 1 [json_name = "barName"];
+
+  int32 invalid_name = 2 [json_name = "$name"];
 }
