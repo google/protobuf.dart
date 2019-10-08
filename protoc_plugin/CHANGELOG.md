@@ -1,3 +1,7 @@
+## 19.0.2
+
+* Fix: escape the special character `$` in descriptor's `json_name`.
+
 ## 19.0.1
 
 * Fix: avoid naming collisions with `Int64` and enum names beginning with digits
