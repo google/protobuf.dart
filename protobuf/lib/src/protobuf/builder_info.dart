@@ -160,6 +160,30 @@ class BuilderInfo {
         valueOf, enumValues);
   }
 
+  void aOM<T extends GeneratedMessage>(int tagNumber, String name,
+      {T Function() subBuilder, String protoName}) {
+    add<T>(
+        tagNumber,
+        name,
+        PbFieldType.OM,
+        GeneratedMessage._defaultMakerFor<T>(subBuilder),
+        subBuilder,
+        null,
+        null);
+  }
+
+  void aQM<T extends GeneratedMessage>(int tagNumber, String name,
+      {T Function() subBuilder, String protoName}) {
+    add<T>(
+        tagNumber,
+        name,
+        PbFieldType.QM,
+        GeneratedMessage._defaultMakerFor<T>(subBuilder),
+        subBuilder,
+        null,
+        null);
+  }
+
   // oneof declarations.
   void oo(int oneofIndex, List<int> tags) {
     tags.forEach((int tag) => oneofs[tag] = oneofIndex);
@@ -260,4 +284,16 @@ class BuilderInfo {
     }
     return f(rawValue);
   }
+}
+
+/// Annotation for marking accessors that belong together.
+class TagNumber {
+  final int tagNumber;
+
+  /// Annotation for marking accessors that belong together.
+  ///
+  /// Allows tooling to associate related accessors.
+  /// [tagNumber] is the protobuf tagnumber associated with the annotated
+  /// accessor.
+  const TagNumber(this.tagNumber);
 }

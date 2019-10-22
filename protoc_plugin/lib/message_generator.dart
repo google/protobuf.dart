@@ -370,9 +370,13 @@ class MessageGenerator extends ProtobufContainer {
       out.println(
           'static $_protobufImportPrefix.PbList<${classname}> createRepeated() =>'
           ' $_protobufImportPrefix.PbList<${classname}>();');
-      out.println(
-          'static ${classname} getDefault() => _defaultInstance ??= create()..freeze();');
+      out.println("@${_coreImportPrefix}.pragma('dart2js:noInline')");
+      out.println('static ${classname} getDefault() =>'
+          ' _defaultInstance ??='
+          ' $_protobufImportPrefix.GeneratedMessage.\$_defaultFor<${classname}>'
+          '(create);');
       out.println('static ${classname} _defaultInstance;');
+
       generateFieldsAccessorsMutators(out);
       mixin?.injectHelpers(out);
     });
@@ -449,6 +453,7 @@ class MessageGenerator extends ProtobufContainer {
 
     _emitDeprecatedIf(field.isDeprecated, out);
     _emitOverrideIf(field.overridesGetter, out);
+    _emitIndexAnnotation(field.number, out);
     final getterExpr = _getterExpression(fieldTypeString, field.index,
         defaultExpr, field.isRepeated, field.isMapField);
     out.printlnAnnotated(
@@ -476,6 +481,7 @@ class MessageGenerator extends ProtobufContainer {
       var fastSetter = field.baseType.setter;
       _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesSetter, out);
+      _emitIndexAnnotation(field.number, out);
       if (fastSetter != null) {
         out.printlnAnnotated(
             'set ${names.fieldName}'
@@ -503,6 +509,7 @@ class MessageGenerator extends ProtobufContainer {
       }
       _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesHasMethod, out);
+      _emitIndexAnnotation(field.number, out);
       out.printlnAnnotated(
           '$_coreImportPrefix.bool ${names.hasMethodName}() =>'
           ' \$_has(${field.index});',
@@ -514,6 +521,7 @@ class MessageGenerator extends ProtobufContainer {
           ]);
       _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesClearMethod, out);
+      _emitIndexAnnotation(field.number, out);
       out.printlnAnnotated(
           'void ${names.clearMethodName}() =>'
           ' clearField(${field.number});',
@@ -523,6 +531,19 @@ class MessageGenerator extends ProtobufContainer {
                 fieldPathSegment: memberFieldPath,
                 start: 'void '.length)
           ]);
+      if (field.baseType.isMessage) {
+        _emitDeprecatedIf(field.isDeprecated, out);
+        _emitIndexAnnotation(field.number, out);
+        out.printlnAnnotated(
+            '${fieldTypeString} ${names.ensureMethodName}() => '
+            '\$_ensure(${field.index});',
+            <NamedLocation>[
+              NamedLocation(
+                  name: names.ensureMethodName,
+                  fieldPathSegment: memberFieldPath,
+                  start: '${fieldTypeString} '.length)
+            ]);
+      }
     }
   }
 
@@ -532,9 +553,24 @@ class MessageGenerator extends ProtobufContainer {
       return '\$_getMap($index)';
     }
     if (fieldType == '$_coreImportPrefix.String') {
+      if (defaultExpr == '""' || defaultExpr == "''") {
+        return '\$_getSZ($index)';
+      }
       return '\$_getS($index, $defaultExpr)';
     }
-    if (fieldType == 'Int64' && defaultExpr == 'null') {
+    if (fieldType == '$_coreImportPrefix.bool') {
+      if (defaultExpr == 'false') {
+        return '\$_getBF($index)';
+      }
+      return '\$_getB($index, $defaultExpr)';
+    }
+    if (fieldType == '$_coreImportPrefix.int') {
+      if (defaultExpr == '0') {
+        return '\$_getIZ($index)';
+      }
+      return '\$_getI($index, $defaultExpr)';
+    }
+    if (fieldType == '$_fixnumImportPrefix.Int64' && defaultExpr == 'null') {
       return '\$_getI64($index)';
     }
     if (defaultExpr == 'null') {
@@ -554,6 +590,10 @@ class MessageGenerator extends ProtobufContainer {
     if (condition) {
       out.println('@$_coreImportPrefix.override');
     }
+  }
+
+  void _emitIndexAnnotation(int index, IndentingWriter out) {
+    out.println('@$_protobufImportPrefix.TagNumber($index)');
   }
 
   void generateEnums(IndentingWriter out) {

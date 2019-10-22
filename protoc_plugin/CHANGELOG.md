@@ -1,3 +1,40 @@
+## 19.0.2
+
+* Fix: escape the special character `$` in descriptor's `json_name`.
+
+## 19.0.1
+
+* Fix: avoid naming collisions with `Int64` and enum names beginning with digits
+  after an initial underscore.
+
+## 19.0.0+1
+* Updated protobuf dependency to '>=0.14.4 <2.0.0' to allow 1.0.0.
+
+## 19.0.0
+* Breaking: Generates code that requires at least `protobuf` 0.14.4.
+  If protoc_plugin is installed in your path with `pub global activate` you can upgrade with `pub global activate protoc_plugin 19.0.0`
+  - GeneratedMessage classes now have methods `ensureX` for each message field X.
+  - Add specialized getters for `String`, `int`, and `bool` with usual default values.
+  - Annotate generated accessors with the tag number of the associated field.
+* Breaking: Use unmangled names for the string representation of enum values.
+  Mangled names would lead to wrong proto3 json en- and decoding.
+* Annotate generated accessors with the tag number of the associated field.
+
+## 18.0.3
+
+* Fix: Allow decoding tagnumbers of up to 29 bits. Would fail before with more than 28 bits.
+
+## 18.0.2
+
+* Fix mangling of extension names, message type names, and enum names that are Dart keywords.
+
+  Now you can have an extension called `is` and an enum called `class`.
+
+## 18.0.1
+
+* Add a `bin/protoc-gen-dart.bat` script making it easier to compile on windows using a local
+  checkout.
+
 ## 18.0.0
 
 * Breaking: Generates code that requires at least `protobuf` 0.14.0.
@@ -26,7 +63,7 @@
 
 ## 17.0.5
 
-* Remove unnecessary cast from generated grpc stubs. 
+* Remove unnecessary cast from generated grpc stubs.
 
 ## 17.0.4
 

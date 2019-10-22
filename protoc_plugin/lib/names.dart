@@ -38,8 +38,13 @@ class FieldNames {
   /// `null` for repeated fields.
   final String clearMethodName;
 
+  // Identifier for the generated ensureX() method, without braces.
+  //
+  //'null' for scalar, repeated, and map fields.
+  final String ensureMethodName;
+
   FieldNames(this.descriptor, this.index, this.sourcePosition, this.fieldName,
-      {this.hasMethodName, this.clearMethodName});
+      {this.hasMethodName, this.clearMethodName, this.ensureMethodName});
 }
 
 /// The Dart names associated with a oneof declaration.
@@ -65,15 +70,23 @@ class OneofNames {
       this.whichOneofMethodName, this.oneofEnumName, this.byTagMapName);
 }
 
+// For performance reasons, use code units instead of Regex.
+bool _startsWithDigit(String input) =>
+    input.isNotEmpty && (input.codeUnitAt(0) ^ 0x30) <= 9;
+
 /// Move any initial underscores in [input] to the end.
 ///
 /// According to the spec identifiers cannot start with _, but it seems to be
-/// accepted by protoc.
+/// accepted by protoc. These identifiers are private in Dart, so they have to
+/// be transformed.
 ///
-/// These identifiers are private in Dart, so they have to be transformed.
+/// If [input] starts with a digit after transformation, prefix with an 'x'.
 String avoidInitialUnderscore(String input) {
   while (input.startsWith('_')) {
     input = '${input.substring(1)}_';
+  }
+  if (_startsWithDigit(input)) {
+    input = 'x$input';
   }
   return input;
 }
@@ -199,6 +212,7 @@ String messageOrEnumClassName(String descriptorName, Set<String> usedNames,
 /// generated subclasses.
 Set<String> get reservedEnumNames => Set<String>()
   ..addAll(ProtobufEnum_reservedNames)
+  ..addAll(_dartReservedWords)
   ..addAll(_protobufEnumNames);
 
 Iterable<String> enumSuffixes() sync* {
@@ -358,8 +372,16 @@ FieldNames _memberNamesFromOption(
   String clearMethod = "clear${_capitalize(name)}";
   checkAvailable(clearMethod);
 
+  String ensureMethod;
+
+  if (_isGroupOrMessage(field)) {
+    ensureMethod = 'ensure${_capitalize(name)}';
+    checkAvailable(ensureMethod);
+  }
   return FieldNames(field, index, sourcePosition, name,
-      hasMethodName: hasMethod, clearMethodName: clearMethod);
+      hasMethodName: hasMethod,
+      clearMethodName: clearMethod,
+      ensureMethodName: ensureMethod);
 }
 
 Iterable<String> _memberNamesSuffix(int number) sync* {
@@ -382,19 +404,27 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int index,
   }
 
   List<String> generateNameVariants(String name) {
-    return [
+    List<String> result = [
       _defaultFieldName(name),
       _defaultHasMethodName(name),
-      _defaultClearMethodName(name)
+      _defaultClearMethodName(name),
     ];
+
+    // TODO(zarah): Use 'collection if' when sdk dependency is updated.
+    if (_isGroupOrMessage(field)) result.add(_defaultEnsureMethodName(name));
+
+    return result;
   }
 
   String name = disambiguateName(_fieldMethodSuffix(field), existingNames,
       _memberNamesSuffix(field.number),
       generateVariants: generateNameVariants);
+
   return FieldNames(field, index, sourcePosition, _defaultFieldName(name),
       hasMethodName: _defaultHasMethodName(name),
-      clearMethodName: _defaultClearMethodName(name));
+      clearMethodName: _defaultClearMethodName(name),
+      ensureMethodName:
+          _isGroupOrMessage(field) ? _defaultEnsureMethodName(name) : null);
 }
 
 /// The name to use by default for the Dart getter and setter.
@@ -411,6 +441,9 @@ String _defaultClearMethodName(String fieldMethodSuffix) =>
 
 String _defaultWhichMethodName(String oneofMethodSuffix) =>
     'which$oneofMethodSuffix';
+
+String _defaultEnsureMethodName(String fieldMethodSuffix) =>
+    'ensure$fieldMethodSuffix';
 
 /// The suffix to use for this field in Dart method names.
 /// (It should be camelcase and begin with an uppercase letter.)
@@ -439,6 +472,10 @@ String _capitalize(s) =>
 bool _isRepeated(FieldDescriptorProto field) =>
     field.label == FieldDescriptorProto_Label.LABEL_REPEATED;
 
+bool _isGroupOrMessage(FieldDescriptorProto field) =>
+    field.type == FieldDescriptorProto_Type.TYPE_MESSAGE ||
+    field.type == FieldDescriptorProto_Type.TYPE_GROUP;
+
 String _nameOption(FieldDescriptorProto field) =>
     field.options.getExtension(Dart_options.dartName);
 
@@ -446,13 +483,12 @@ bool _isDartFieldName(name) => name.startsWith(_dartFieldNameExpr);
 
 final _dartFieldNameExpr = RegExp(r'^[a-z]\w+$');
 
-/// Names that would collide with capitalized core Dart names as top-level
-/// identifiers.
-final List<String> toplevelReservedCapitalizedNames = const <String>[
+/// Names that would collide as top-level identifiers.
+final List<String> forbiddenTopLevelNames = <String>[
   'List',
   'Function',
   'Map',
-];
+]..addAll(_dartReservedWords);
 
 final List<String> reservedMemberNames = <String>[]
   ..addAll(_dartReservedWords)

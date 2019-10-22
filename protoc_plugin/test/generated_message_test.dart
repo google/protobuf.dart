@@ -13,6 +13,8 @@ import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
 import '../out/protos/multiple_files_test.pb.dart';
 import '../out/protos/reserved_names.pb.dart';
+import '../out/protos/reserved_names_extension.pb.dart';
+import '../out/protos/reserved_names_message.pb.dart';
 import '../out/protos/duplicate_names_import.pb.dart';
 import '../out/protos/package1.pb.dart' as p1;
 import '../out/protos/package2.pb.dart' as p2;
@@ -211,6 +213,13 @@ void main() {
     setAllFields(message);
     message.clear();
     assertClear(message);
+  });
+
+  test('test ensure method', () {
+    TestAllTypes message = TestAllTypes();
+    expect(message.hasOptionalNestedMessage(), isFalse);
+    expect(message.ensureOptionalNestedMessage(), TestAllTypes_NestedMessage());
+    expect(message.hasOptionalNestedMessage(), isTrue);
   });
 
   // void testReflectionGetters() {} // UNSUPPORTED -- until reflection
@@ -692,6 +701,116 @@ void main() {
     message.void_31 = 1;
     message.while_32 = 1;
     message.with_33 = 1;
+  });
+
+  test('testReservedWordsRequired', () {
+    MessageWithReservedEnum message = MessageWithReservedEnum();
+    message.enum_1 = ReservedEnum.assert_;
+    message.enum_1 = ReservedEnum.break_;
+    message.enum_1 = ReservedEnum.case_;
+    message.enum_1 = ReservedEnum.catch_;
+    message.enum_1 = ReservedEnum.class_;
+    message.enum_1 = ReservedEnum.const_;
+    message.enum_1 = ReservedEnum.continue_;
+    message.enum_1 = ReservedEnum.default_;
+    message.enum_1 = ReservedEnum.do_;
+    message.enum_1 = ReservedEnum.else_;
+    message.enum_1 = ReservedEnum.enum_;
+    message.enum_1 = ReservedEnum.extends_;
+    message.enum_1 = ReservedEnum.false_;
+    message.enum_1 = ReservedEnum.final_;
+    message.enum_1 = ReservedEnum.finally_;
+    message.enum_1 = ReservedEnum.for_;
+    message.enum_1 = ReservedEnum.if_;
+    message.enum_1 = ReservedEnum.in_;
+    message.enum_1 = ReservedEnum.is_;
+    message.enum_1 = ReservedEnum.new_;
+    message.enum_1 = ReservedEnum.null_;
+    message.enum_1 = ReservedEnum.rethrow_;
+    message.enum_1 = ReservedEnum.return_;
+    message.enum_1 = ReservedEnum.super_;
+    message.enum_1 = ReservedEnum.switch_;
+    message.enum_1 = ReservedEnum.this_;
+    message.enum_1 = ReservedEnum.throw_;
+    message.enum_1 = ReservedEnum.true_;
+    message.enum_1 = ReservedEnum.try_;
+    message.enum_1 = ReservedEnum.var_;
+    message.enum_1 = ReservedEnum.void_;
+    message.enum_1 = ReservedEnum.while_;
+    message.enum_1 = ReservedEnum.with_;
+  });
+
+  test('testReservedWordsExtension', () {
+    ExtendMe message = ExtendMe();
+    message.setExtension(Reserved_names_extension.assert_1001, 1);
+    message.setExtension(Reserved_names_extension.break_1002, 1);
+    message.setExtension(Reserved_names_extension.case_1003, 1);
+    message.setExtension(Reserved_names_extension.catch_1004, 1);
+    message.setExtension(Reserved_names_extension.class_1005, 1);
+    message.setExtension(Reserved_names_extension.const_1006, 1);
+    message.setExtension(Reserved_names_extension.continue_1007, 1);
+    message.setExtension(Reserved_names_extension.default_1008, 1);
+    message.setExtension(Reserved_names_extension.do_1009, 1);
+    message.setExtension(Reserved_names_extension.else_1010, 1);
+    message.setExtension(Reserved_names_extension.enum_1011, 1);
+    message.setExtension(Reserved_names_extension.extends_1012, 1);
+    message.setExtension(Reserved_names_extension.false_1013, 1);
+    message.setExtension(Reserved_names_extension.final_1014, 1);
+    message.setExtension(Reserved_names_extension.finally_1015, 1);
+    message.setExtension(Reserved_names_extension.for_1016, 1);
+    message.setExtension(Reserved_names_extension.if_1017, 1);
+    message.setExtension(Reserved_names_extension.in_1018, 1);
+    message.setExtension(Reserved_names_extension.is_1019, 1);
+    message.setExtension(Reserved_names_extension.new_1020, 1);
+    message.setExtension(Reserved_names_extension.null_1021, 1);
+    message.setExtension(Reserved_names_extension.rethrow_1022, 1);
+    message.setExtension(Reserved_names_extension.return_1023, 1);
+    message.setExtension(Reserved_names_extension.super_1024, 1);
+    message.setExtension(Reserved_names_extension.switch_1025, 1);
+    message.setExtension(Reserved_names_extension.this_1026, 1);
+    message.setExtension(Reserved_names_extension.throw_1027, 1);
+    message.setExtension(Reserved_names_extension.true_1028, 1);
+    message.setExtension(Reserved_names_extension.try_1029, 1);
+    message.setExtension(Reserved_names_extension.var_1030, 1);
+    message.setExtension(Reserved_names_extension.void_1031, 1);
+    message.setExtension(Reserved_names_extension.while_1032, 1);
+    message.setExtension(Reserved_names_extension.with_1033, 1);
+  });
+
+  test('testReservedWordsMessage', () {
+    assert_();
+    break_();
+    case_();
+    catch_();
+    class_();
+    const_();
+    continue_();
+    default_();
+    do_();
+    else_();
+    enum_();
+    extends_();
+    false_();
+    final_();
+    finally_();
+    for_();
+    if_();
+    in_();
+    is_();
+    new_();
+    null_();
+    rethrow_();
+    return_();
+    super_();
+    switch_();
+    this_();
+    throw_();
+    true_();
+    try_();
+    var_();
+    void_();
+    while_();
+    with_();
   });
 
   test('testImportDuplicatenames', () {

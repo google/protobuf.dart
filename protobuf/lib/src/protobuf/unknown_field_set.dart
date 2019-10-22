@@ -185,8 +185,9 @@ class UnknownFieldSet {
   }
 
   void _ensureWritable(String methodName) {
-    if (_isReadOnly)
+    if (_isReadOnly) {
       frozenMessageModificationHandler('UnknownFieldSet', methodName);
+    }
   }
 }
 

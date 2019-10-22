@@ -27,22 +27,35 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static PhoneNumber create() => PhoneNumber._();
   PhoneNumber createEmptyInstance() => create();
   static $pb.PbList<PhoneNumber> createRepeated() => $pb.PbList<PhoneNumber>();
-  static PhoneNumber getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static PhoneNumber getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(create);
   static PhoneNumber _defaultInstance;
 
-  $core.String get number => $_getS(0, '');
+  @$pb.TagNumber(1)
+  $core.String get number => $_getSZ(0);
+  @$pb.TagNumber(1)
   set number($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasNumber() => $_has(0);
+  @$pb.TagNumber(1)
   void clearNumber() => clearField(1);
 
-  $core.int get type => $_get(1, 0);
+  @$pb.TagNumber(2)
+  $core.int get type => $_getIZ(1);
+  @$pb.TagNumber(2)
   set type($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasType() => $_has(1);
+  @$pb.TagNumber(2)
   void clearType() => clearField(2);
 
+  @$pb.TagNumber(3)
   $core.String get name => $_getS(2, '\$');
+  @$pb.TagNumber(3)
   set name($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
   $core.bool hasName() => $_has(2);
+  @$pb.TagNumber(3)
   void clearName() => clearField(3);
 }
 

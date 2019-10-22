@@ -207,9 +207,10 @@ class _FieldSet {
   Map<K, V> _getDefaultMap<K, V>(MapFieldInfo<K, V> fi) {
     assert(fi.isMapField);
 
-    if (_isReadOnly)
+    if (_isReadOnly) {
       return PbMap<K, V>.unmodifiable(PbMap<K, V>(
           fi.keyFieldType, fi.valueFieldType, fi.mapEntryBuilderInfo));
+    }
 
     var value = fi._createMapField(_message);
     _setNonExtensionFieldUnchecked(fi, value);
@@ -370,11 +371,24 @@ class _FieldSet {
     return _getDefault(_nonExtensionInfoByIndex(index)) as T;
   }
 
-  /// The implementation of a generated getter. Common case for submessages.
-  T _$getN<T>(int index) {
+  /// The implementation of a generated getter for a default value determined by
+  /// the field definition value. Common case for submessages. dynamic type
+  /// pushes the type check to the caller.
+  dynamic _$getND(int index) {
     var value = _values[index];
-    if (value != null) return value as T;
-    return _getDefault(_nonExtensionInfoByIndex(index)) as T;
+    if (value != null) return value;
+    return _getDefault(_nonExtensionInfoByIndex(index));
+  }
+
+  T _$ensure<T>(int index) {
+    if (!_$has(index)) {
+      dynamic value = _nonExtensionInfoByIndex(index).subBuilder();
+      _$set(index, value);
+      return value;
+    }
+    // The implicit downcast at the return is always correct by construction
+    // from the protoc generator. See `GeneratedMessage.$_getN` for details.
+    return _$getND(index);
   }
 
   /// The implementation of a generated getter for repeated fields.
@@ -391,6 +405,46 @@ class _FieldSet {
     return _getDefaultMap<K, V>(_nonExtensionInfoByIndex(index));
   }
 
+  /// The implementation of a generated getter for `bool` fields.
+  bool _$getB(int index, bool defaultValue) {
+    var value = _values[index];
+    if (value == null) {
+      if (defaultValue != null) return defaultValue;
+      value = _getDefault(_nonExtensionInfoByIndex(index));
+    }
+    bool result = value;
+    return result;
+  }
+
+  /// The implementation of a generated getter for `bool` fields that default to
+  /// `false`.
+  bool _$getBF(int index) {
+    var value = _values[index];
+    if (value == null) return false;
+    bool result = value;
+    return result;
+  }
+
+  /// The implementation of a generated getter for int fields.
+  int _$getI(int index, int defaultValue) {
+    var value = _values[index];
+    if (value == null) {
+      if (defaultValue != null) return defaultValue;
+      value = _getDefault(_nonExtensionInfoByIndex(index));
+    }
+    int result = value;
+    return result;
+  }
+
+  /// The implementation of a generated getter for `int` fields (int32, uint32,
+  /// fixed32, sfixed32) that default to `0`.
+  int _$getIZ(int index) {
+    var value = _values[index];
+    if (value == null) return 0;
+    int result = value;
+    return result;
+  }
+
   /// The implementation of a generated getter for String fields.
   String _$getS(int index, String defaultValue) {
     var value = _values[index];
@@ -398,6 +452,15 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
+    String result = value;
+    return result;
+  }
+
+  /// The implementation of a generated getter for String fields that default to
+  /// the empty string.
+  String _$getSZ(int index) {
+    var value = _values[index];
+    if (value == null) return '';
     String result = value;
     return result;
   }

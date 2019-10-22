@@ -41,7 +41,7 @@ class EnumGenerator extends ProtobufContainer {
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
         _descriptor = descriptor {
-    final usedNames = reservedEnumNames;
+    final usedNames = Set<String>()..addAll(reservedEnumNames);
     for (var i = 0; i < descriptor.value.length; i++) {
       EnumValueDescriptorProto value = descriptor.value[i];
       EnumValueDescriptorProto canonicalValue =
@@ -108,7 +108,7 @@ class EnumGenerator extends ProtobufContainer {
         final name = dartNames[val.name];
         out.printlnAnnotated(
             'static const ${classname} $name = '
-            "${classname}._(${val.number}, ${singleQuote(name)});",
+            "${classname}._(${val.number}, ${singleQuote(val.name)});",
             [
               NamedLocation(
                   name: name,

@@ -138,7 +138,7 @@ class CodedBufferReader {
       return 0;
     }
 
-    _lastTag = readInt32();
+    _lastTag = readUint32();
     if (getTagFieldNumber(_lastTag) == 0) {
       throw InvalidProtocolBufferException.invalidTag();
     }
