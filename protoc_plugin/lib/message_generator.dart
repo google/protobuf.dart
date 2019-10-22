@@ -570,7 +570,7 @@ class MessageGenerator extends ProtobufContainer {
       }
       return '\$_getI($index, $defaultExpr)';
     }
-    if (fieldType == 'Int64' && defaultExpr == 'null') {
+    if (fieldType == '$_fixnumImportPrefix.Int64' && defaultExpr == 'null') {
       return '\$_getI64($index)';
     }
     if (defaultExpr == 'null') {

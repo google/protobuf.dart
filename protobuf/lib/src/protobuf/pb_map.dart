@@ -32,8 +32,9 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   @override
   void operator []=(K key, V value) {
-    if (_isReadonly)
+    if (_isReadonly) {
       throw UnsupportedError('Attempted to change a read-only map field');
+    }
     _checkNotNull(key);
     _checkNotNull(value);
     _wrappedMap[key] = value;
@@ -75,8 +76,9 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   @override
   void clear() {
-    if (_isReadonly)
+    if (_isReadonly) {
       throw UnsupportedError('Attempted to change a read-only map field');
+    }
     _wrappedMap.clear();
   }
 
@@ -85,8 +87,9 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   @override
   V remove(Object key) {
-    if (_isReadonly)
+    if (_isReadonly) {
       throw UnsupportedError('Attempted to change a read-only map field');
+    }
     return _wrappedMap.remove(key);
   }
 

@@ -1,3 +1,15 @@
+## 19.0.2
+
+* Fix: escape the special character `$` in descriptor's `json_name`.
+
+## 19.0.1
+
+* Fix: avoid naming collisions with `Int64` and enum names beginning with digits
+  after an initial underscore.
+
+## 19.0.0+1
+* Updated protobuf dependency to '>=0.14.4 <2.0.0' to allow 1.0.0.
+
 ## 19.0.0
 * Breaking: Generates code that requires at least `protobuf` 0.14.4.
   If protoc_plugin is installed in your path with `pub global activate` you can upgrade with `pub global activate protoc_plugin 19.0.0`

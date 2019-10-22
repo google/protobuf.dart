@@ -81,7 +81,8 @@ class ProtobufField {
       _hasBooleanOption(Dart_options.overrideClearMethod);
 
   /// True if this field uses the Int64 from the fixnum package.
-  bool get needsFixnumImport => baseType.unprefixed == "Int64";
+  bool get needsFixnumImport =>
+      baseType.unprefixed == "$_fixnumImportPrefix.Int64";
 
   /// True if this field is a map field definition:
   /// `map<key_type, value_type> map_field = N`.
@@ -148,7 +149,9 @@ class ProtobufField {
   /// [fileGen] represents the .proto file where the code will be evaluated.
   String generateBuilderInfoCall(FileGenerator fileGen, String package) {
     assert(descriptor.hasJsonName());
-    String quotedName = "'${descriptor.jsonName}'";
+    // JSON names should be serialized as-is, but '$' can cause Dart to try to
+    // perform string interpolation on non-existent variables.
+    String quotedName = "'${descriptor.jsonName.replaceAll(r'$', r'\$')}'";
 
     String type = baseType.getDartType(fileGen);
 
@@ -237,8 +240,8 @@ class ProtobufField {
             break;
         }
       } else {
-        if (makeDefault == 'Int64.ZERO' &&
-            type == 'Int64' &&
+        if (makeDefault == '$_fixnumImportPrefix.Int64.ZERO' &&
+            type == '$_fixnumImportPrefix.Int64' &&
             typeConstant == '$_protobufImportPrefix.PbFieldType.O6') {
           invocation = 'aInt64';
         } else {
@@ -325,7 +328,7 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_SFIXED64:
         var value = '0';
         if (descriptor.hasDefaultValue()) value = descriptor.defaultValue;
-        if (value == '0') return 'Int64.ZERO';
+        if (value == '0') return '$_fixnumImportPrefix.Int64.ZERO';
         return "$_protobufImportPrefix.parseLongInt('$value')";
       case FieldDescriptorProto_Type.TYPE_STRING:
         return _getDefaultAsStringExpr(null);

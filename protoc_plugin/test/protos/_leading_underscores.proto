@@ -48,6 +48,7 @@ extend A {
 enum _Enum {
   _default = 0;
   constant = 1;
+  _1digit = 2;
 }
 
 service _service {

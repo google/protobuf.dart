@@ -69,6 +69,22 @@ FileDescriptorProto buildFileDescriptor(
           ..defaultValue = r'$'
       ]));
   }
+  return fd;
+}
+
+FileDescriptorProto createInt64Proto() {
+  FileDescriptorProto fd = FileDescriptorProto()..name = 'test';
+  fd.messageType.add(DescriptorProto()
+    ..name = 'Int64'
+    ..field.add(
+      // optional int64 value = 1;
+      FieldDescriptorProto()
+        ..name = 'value'
+        ..jsonName = 'value'
+        ..number = 1
+        ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+        ..type = FieldDescriptorProto_Type.TYPE_INT64,
+    ));
 
   return fd;
 }
@@ -83,6 +99,16 @@ void main() {
     link(options, [fg]);
     expectMatchesGoldenFile(
         fg.generateMainFile().toString(), 'test/goldens/oneMessage.pb');
+  });
+
+  test('FileGenerator outputs a .pb.dart file for an Int64 message', () {
+    FileDescriptorProto fd = createInt64Proto();
+    var options =
+        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    FileGenerator fg = FileGenerator(fd, options);
+    link(options, [fg]);
+    expectMatchesGoldenFile(
+        fg.generateMainFile().toString(), 'test/goldens/int64.pb');
   });
 
   test(

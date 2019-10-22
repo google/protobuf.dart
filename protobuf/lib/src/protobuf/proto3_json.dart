@@ -227,7 +227,6 @@ void _mergeFromProto3Json(
           return check32BitUnsigned(result);
         case PbFieldType._INT32_BIT:
         case PbFieldType._SINT32_BIT:
-        case PbFieldType._UINT32_BIT:
         case PbFieldType._FIXED32_BIT:
         case PbFieldType._SFIXED32_BIT:
           int result;
