@@ -519,7 +519,7 @@ void main() {
       link(options, fileGenerators);
       final file = fg.outputFile(DefaultOutputConfiguration(), '.pb.dart');
       expectMatchesGoldenFile(
-          fg.generateMainFile().toString(), 'test/goldens/${file.path}');
+          fg.generateMainFile().toString(), 'test/goldens/${file.path}.golden');
       expect(file, expectedFilePath);
     }
 
