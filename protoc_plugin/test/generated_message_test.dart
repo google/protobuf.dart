@@ -5,7 +5,7 @@
 
 library generated_message_test;
 
-import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/protobuf.dart' as protobuf;
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
@@ -26,7 +26,7 @@ import 'test_util.dart';
 
 void main() {
   final throwsInvalidProtocolBufferException =
-      throwsA(TypeMatcher<InvalidProtocolBufferException>());
+      throwsA(TypeMatcher<protobuf.InvalidProtocolBufferException>());
   test('testProtosShareRepeatedArraysIfDidntChange', () {
     TestAllTypes value1 = TestAllTypes()
       ..repeatedInt32.add(100)
@@ -230,7 +230,8 @@ void main() {
   // void testReflectionDefaults() {} // UNSUPPORTED -- until reflection
 
   test('testEnumInterface', () {
-    expect(TestAllTypes().defaultNestedEnum, TypeMatcher<ProtobufEnum>());
+    expect(
+        TestAllTypes().defaultNestedEnum, TypeMatcher<protobuf.ProtobufEnum>());
   });
 
   test('testEnumMap', () {
@@ -330,7 +331,7 @@ void main() {
   });
 
   test('testMaliciousRecursion', () {
-    GeneratedMessage _makeRecursiveMessage(int depth) {
+    protobuf.GeneratedMessage _makeRecursiveMessage(int depth) {
       return depth == 0
           ? (TestRecursiveMessage()..i = 5)
           : (TestRecursiveMessage()..a = _makeRecursiveMessage(depth - 1));
@@ -355,7 +356,8 @@ void main() {
       TestRecursiveMessage.fromBuffer(data65);
     }, throwsInvalidProtocolBufferException);
 
-    CodedBufferReader input = CodedBufferReader(data64, recursionLimit: 8);
+    protobuf.CodedBufferReader input =
+        protobuf.CodedBufferReader(data64, recursionLimit: 8);
     expect(() {
       // Uncomfortable alternative to below...
       TestRecursiveMessage().mergeFromCodedBufferReader(input);
@@ -363,8 +365,8 @@ void main() {
   });
 
   test('testSizeLimit', () {
-    CodedBufferReader input =
-        CodedBufferReader(getAllSet().writeToBuffer(), sizeLimit: 16);
+    protobuf.CodedBufferReader input =
+        protobuf.CodedBufferReader(getAllSet().writeToBuffer(), sizeLimit: 16);
 
     expect(() {
       // Uncomfortable alternative to below...
@@ -832,5 +834,18 @@ void main() {
   test('to toDebugString', () {
     TestAllTypes value1 = TestAllTypes()..optionalString = "test 123";
     expect(value1.toString(), 'optionalString: test 123\n');
+  });
+
+  test('update', () {
+    final value1 = TestAllTypes()
+      ..optionalForeignMessage = (ForeignMessage()..c = 18);
+    final value2 = value1.update((v) {
+      v..optionalFloat = 50.1;
+      v..optionalForeignMessage.c = 10;
+    });
+    expect(value2.isFrozen, true);
+    expect(value2.optionalFloat, 50.1);
+    expect(value1.isFrozen, false);
+    expect(value2.optionalForeignMessage.isFrozen, false);
   });
 }

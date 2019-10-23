@@ -7,7 +7,7 @@ description: >
 homepage: https://github.com/dart-lang/protobuf
 
 environment:
-  sdk: '>=2.0.0 <3.0.0'
+  sdk: '>=2.6.0 <3.0.0'
 
 dependencies:
   fixnum: ^0.10.9

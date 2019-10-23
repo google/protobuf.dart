@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 import 'package:query_benchmark/generated/f0.pb.dart' as f0;
 import 'package:query_benchmark/generated/f2.pb.dart' as f2;
 import 'package:query_benchmark/generated/f19.pb.dart' as f19;
@@ -16,9 +17,9 @@ main() {
   print(
     formatReport(
       title: 'protobuf_decode',
-      duration: measure(() => a.copyWith((f0.A0 a0Builder) {
-            a0Builder.a4.last = a0Builder.a4.last.copyWith((f2.A1 a1builder) {
-              a1builder.a378.copyWith(
+      duration: measure(() => a.update((f0.A0 a0Builder) {
+            a0Builder.a4.last = a0Builder.a4.last.update((f2.A1 a1builder) {
+              a1builder.a378.update(
                   (f19.A220 a220builder) => a220builder.a234 = 'new_value');
             });
           })),

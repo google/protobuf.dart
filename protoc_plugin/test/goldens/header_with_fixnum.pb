@@ -9,4 +9,5 @@ import 'dart:core' as $core;
 
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 

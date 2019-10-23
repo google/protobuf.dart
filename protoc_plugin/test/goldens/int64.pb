@@ -9,6 +9,7 @@ import 'dart:core' as $core;
 
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class Int64 extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Int64', createEmptyInstance: create)
@@ -20,7 +21,15 @@ class Int64 extends $pb.GeneratedMessage {
   factory Int64() => create();
   factory Int64.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Int64.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.copy] instead. '
+  'Will be removed in next major version')
   Int64 clone() => Int64()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.update] instead. '
+  'Will be removed in next major version')
   Int64 copyWith(void Function(Int64) updates) => super.copyWith((message) => updates(message as Int64));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')

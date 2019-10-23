@@ -8,6 +8,7 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 import 'package1.pb.dart' as $1;
 import 'package2.pb.dart' as $2;
@@ -24,7 +25,15 @@ class M extends $pb.GeneratedMessage {
   factory M() => create();
   factory M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.copy] instead. '
+  'Will be removed in next major version')
   M clone() => M()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.update] instead. '
+  'Will be removed in next major version')
   M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')

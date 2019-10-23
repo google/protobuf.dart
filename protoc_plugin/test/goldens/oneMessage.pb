@@ -8,6 +8,7 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class PhoneNumber extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('PhoneNumber', createEmptyInstance: create)
@@ -20,7 +21,15 @@ class PhoneNumber extends $pb.GeneratedMessage {
   factory PhoneNumber() => create();
   factory PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.copy] instead. '
+  'Will be removed in next major version')
   PhoneNumber clone() => PhoneNumber()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.update] instead. '
+  'Will be removed in next major version')
   PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')

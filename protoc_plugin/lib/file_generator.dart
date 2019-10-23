@@ -14,6 +14,8 @@ const String _grpcImportPrefix = r'$grpc';
 const String _mixinImportPrefix = r'$mixin';
 const String _protobufImport =
     "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;";
+const String _extensionExport =
+    "export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;";
 const String _asyncImport = "import 'dart:async' as $_asyncImportPrefix;";
 const String _coreImport = "import 'dart:core' as $_coreImportPrefix;";
 const String _grpcImport =
@@ -297,6 +299,7 @@ class FileGenerator extends ProtobufContainer {
 
     if (_needsProtobufImport) {
       out.println(_protobufImport);
+      out.println(_extensionExport);
       out.println();
     }
 

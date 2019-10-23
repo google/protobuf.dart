@@ -1,3 +1,8 @@
+## 19.1.0
+
+* Emit depreciation of generated `copyWith` and `clone` methods.
+* Emit exports 
+
 ## 19.0.2
 
 * Fix: escape the special character `$` in descriptor's `json_name`.

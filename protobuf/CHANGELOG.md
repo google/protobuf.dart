@@ -1,3 +1,20 @@
+## 1.1.0
+
+* Introduce extension methods `update` and `copy` replacing `copyWith` and
+  `clone`.
+  Using these alternatives can result in smaller binaries, because it is defined
+  once instead of once per class.
+
+  One major gotcha is that if you import your proto files with a prefix these
+  methods will not appear on your instances.
+  Alternatively you can add
+
+  ```
+  import 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
+  ```
+
+  To get the extension methods in scope.
+
 ## 1.0.1
 
 * Fix issue with the non-json name of a field (`protoName`) not being set correctly.

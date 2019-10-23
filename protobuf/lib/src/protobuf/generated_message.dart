@@ -46,6 +46,9 @@ abstract class GeneratedMessage {
 
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)
+  @Deprecated('Using this can add significant overhead to your binary.'
+      'Use [GeneratedMessageGenericExtensions.copy] instead.'
+      'Will be removed in next major version')
   GeneratedMessage clone();
 
   /// Creates an empty instance of the same message type as this.
@@ -89,6 +92,9 @@ abstract class GeneratedMessage {
   ///
   /// Makes a writable copy of this message, applies the [updates] to it, and
   /// marks the copy read-only before returning it.
+  @Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.update] instead. '
+      'Will be removed in next major version')
   GeneratedMessage copyWith(void Function(GeneratedMessage) updates) {
     final builder = toBuilder();
     updates(builder);
@@ -514,4 +520,19 @@ class PackageName {
   final String name;
   const PackageName(this.name);
   String get prefix => name == '' ? '' : '$name.';
+}
+
+extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
+  /// Apply [updates] to a copy of this message.
+  ///
+  /// Makes a writable copy of this message, applies the [updates] to it, and
+  /// marks the copy read-only before returning it.
+  T update(void Function(T) updates) {
+    final t = copy();
+    updates(t);
+    return t..freeze();
+  }
+
+  /// Returns a writable deep copy of this message.
+  T copy() => info_.createEmptyInstance()..mergeFromMessage(this);
 }
