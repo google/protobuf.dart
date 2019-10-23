@@ -14,7 +14,7 @@ const int WIRETYPE_START_GROUP = 3;
 const int WIRETYPE_END_GROUP = 4;
 const int WIRETYPE_FIXED32 = 5;
 
-int getTagFieldNumber(int tag) => (tag & 0x7fffffff) >> TAG_TYPE_BITS;
+int getTagFieldNumber(int tag) => tag >> TAG_TYPE_BITS;
 
 int getTagWireType(int tag) => tag & TAG_TYPE_MASK;
 

@@ -1,6 +1,7 @@
 ## 1.0.1
 
 * Fix issue with the non-json name of a field (`protoName`) not being set correctly.
+* Fix: Allow decoding tagnumbers of unknown fields of up to 29 bits.
 
 ## 1.0.0
 
