@@ -219,6 +219,11 @@ void main() {
     expect(json_name.JsonNamedMessage().getTagNumber('barName'), 1);
   });
 
+  test('The proto name is set correctly', () {
+    expect(json_name.JsonNamedMessage().info_.byName['barName'].protoName,
+        'foo_name');
+  });
+
   test('Invalid characters are escaped from json_name', () {
     expect(json_name.JsonNamedMessage().getTagNumber('\$name'), 2);
   });

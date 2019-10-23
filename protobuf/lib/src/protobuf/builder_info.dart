@@ -102,34 +102,40 @@ class BuilderInfo {
       List<ProtobufEnum> enumValues,
       String protoName}) {
     add<T>(tagNumber, name, fieldType, defaultOrMaker, subBuilder, valueOf,
-        enumValues);
+        enumValues,
+        protoName: protoName);
   }
 
   /// Adds PbFieldType.OS String with no default value to reduce generated
   /// code size.
   void aOS(int tagNumber, String name, {String protoName}) {
-    add<String>(tagNumber, name, PbFieldType.OS, null, null, null, null);
+    add<String>(tagNumber, name, PbFieldType.OS, null, null, null, null,
+        protoName: protoName);
   }
 
   /// Adds PbFieldType.PS String with no default value.
   void pPS(int tagNumber, String name, {String protoName}) {
     addRepeated<String>(tagNumber, name, PbFieldType.PS,
-        getCheckFunction(PbFieldType.PS), null, null, null);
+        getCheckFunction(PbFieldType.PS), null, null, null,
+        protoName: protoName);
   }
 
   /// Adds PbFieldType.QS String with no default value.
   void aQS(int tagNumber, String name, {String protoName}) {
-    add<String>(tagNumber, name, PbFieldType.QS, null, null, null, null);
+    add<String>(tagNumber, name, PbFieldType.QS, null, null, null, null,
+        protoName: protoName);
   }
 
   /// Adds Int64 field with Int64.ZERO default.
   void aInt64(int tagNumber, String name, {String protoName}) {
-    add<Int64>(tagNumber, name, PbFieldType.O6, Int64.ZERO, null, null, null);
+    add<Int64>(tagNumber, name, PbFieldType.O6, Int64.ZERO, null, null, null,
+        protoName: protoName);
   }
 
   /// Adds a boolean with no default value.
   void aOB(int tagNumber, String name, {String protoName}) {
-    add<bool>(tagNumber, name, PbFieldType.OB, null, null, null, null);
+    add<bool>(tagNumber, name, PbFieldType.OB, null, null, null, null,
+        protoName: protoName);
   }
 
   // Enum.
@@ -139,14 +145,16 @@ class BuilderInfo {
       List<ProtobufEnum> enumValues,
       String protoName}) {
     add<T>(
-        tagNumber, name, fieldType, defaultOrMaker, null, valueOf, enumValues);
+        tagNumber, name, fieldType, defaultOrMaker, null, valueOf, enumValues,
+        protoName: protoName);
   }
 
   // Repeated, not a message, group, or enum.
   void p<T>(int tagNumber, String name, int fieldType, {String protoName}) {
     assert(!_isGroupOrMessage(fieldType) && !_isEnum(fieldType));
     addRepeated<T>(tagNumber, name, fieldType, getCheckFunction(fieldType),
-        null, null, null);
+        null, null, null,
+        protoName: protoName);
   }
 
   // Repeated message, group, or enum.
@@ -157,7 +165,8 @@ class BuilderInfo {
       String protoName}) {
     assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
     addRepeated<T>(tagNumber, name, fieldType, _checkNotNull, subBuilder,
-        valueOf, enumValues);
+        valueOf, enumValues,
+        protoName: protoName);
   }
 
   void aOM<T extends GeneratedMessage>(int tagNumber, String name,
@@ -169,7 +178,8 @@ class BuilderInfo {
         GeneratedMessage._defaultMakerFor<T>(subBuilder),
         subBuilder,
         null,
-        null);
+        null,
+        protoName: protoName);
   }
 
   void aQM<T extends GeneratedMessage>(int tagNumber, String name,
@@ -181,7 +191,8 @@ class BuilderInfo {
         GeneratedMessage._defaultMakerFor<T>(subBuilder),
         subBuilder,
         null,
-        null);
+        null,
+        protoName: protoName);
   }
 
   // oneof declarations.
