@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Fix issue with the non-json name of a field (`protoName`) not being set correctly.
+
 ## 1.0.0
 
 * Graduate package to 1.0. No functional changes.
