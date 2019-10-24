@@ -27,32 +27,14 @@ includes generated files should add "protobuf" to its pubspec.yaml file.
 How to build and use
 --------------------
 
-*Note:* currently the workflow is POSIX-oriented.
+Add `protoc_plugin: any` to your dependencies (this way the pub version
+resolution will match up with your version of `protobuf`).
 
-To build standalone `protoc` plugin:
-- run `pub install` to install all dependencies
-- Now you can use the plugin either by adding the `bin` directory to your `PATH`,
-  or passing it directly with `protoc`'s `--plugin` option.
+Run `pub get`.
 
-Please, remember that the plugin is pure Dart script and requires the presence
-of `dart` executable in your `PATH`.
+Now you can compile your proto files like this:
 
-When both the `dart` executable and `bin/protoc-gen-dart` are in the
-`PATH` the protocol buffer compiler can be invoked to generate like this:
-
-    $ protoc --dart_out=. test.proto
-
-### Optionally using `pub global`
-
-    $ pub global activate protoc_plugin
-
-And then add `.pub-cache/bin` in your home dir to your `PATH` if you haven't already.
-
-This will activate the latest published version of the plugin. If you wish to use a
-local working copy, use
-
-    $ pub global activate -s path <path/to/your/dart-protoc-plugin>
-
+    $ protoc --dart_out=lib/ protos/test.proto --plugin "pub run protoc_plugin"
 
 ### Options to control the generated Dart code
 
