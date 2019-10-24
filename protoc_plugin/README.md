@@ -9,11 +9,6 @@ It generates Dart files for working with data in protocol buffers format.
 Requirements
 ------------
 
-We only support the full [proto2](https://developers.google.com/protocol-buffers/docs/proto)
-schema. Proto3 should work due to backwards compatibility. See
-[this issue list](https://github.com/dart-lang/protobuf/issues?q=is%3Aissue+is%3Aopen+label%3Aproto3)
-for proto3 schema features which are currently missing.
-
 To compile a .proto file, you must use the 'protoc' command which is [installed
 separately](https://developers.google.com/protocol-buffers/docs/downloads).
 Protobuf 3.0.0 or above is required.
