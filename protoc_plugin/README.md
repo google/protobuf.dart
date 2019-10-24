@@ -27,7 +27,7 @@ includes generated files should add "protobuf" to its pubspec.yaml file.
 How to build and use
 --------------------
 
-Add `protoc_plugin: any` to your dependencies (this way it the pub version
+Add `protoc_plugin: any` to your dependencies (this way the pub version
 resolution will match up with your version of `protobuf`).
 
 Run `pub get`.
