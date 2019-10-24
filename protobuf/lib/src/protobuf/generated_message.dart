@@ -528,7 +528,7 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
   /// Makes a writable copy of this message, applies the [updates] to it, and
   /// marks the copy read-only before returning it.
   T update(void Function(T) updates) {
-    final t = copy();
+    final t = toBuilder() as T;
     updates(t);
     return t..freeze();
   }
