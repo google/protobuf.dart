@@ -547,8 +547,7 @@ void main() {
         isTrue);
     expect(
         identical(withUnknownFields.innerMap[1], reparsed.innerMap[1]), isTrue);
-    expect(withUnknownFields.stringMap.length == reparsed.stringMap.length,
-        isTrue);
-    expect(withUnknownFields.stringMap[0] == reparsed.stringMap[0], isTrue);
+    expect(withUnknownFields.stringMap.length, reparsed.stringMap.length);
+    expect(withUnknownFields.stringMap[0], reparsed.stringMap[0]);
   });
 }
