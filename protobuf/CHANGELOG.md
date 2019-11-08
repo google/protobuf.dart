@@ -1,6 +1,7 @@
 ## 1.0.2
 
-* Fix issue with `ExtensionRegistry.reparseMessage` not handling map fields with scalar value types correctly.
+* Fix issue with `ExtensionRegistry.reparseMessage` not handling map fields with 
+scalar value types correctly.
 ## 1.0.1
 
 * Fix issue with the non-json name of a field (`protoName`) not being set correctly.
