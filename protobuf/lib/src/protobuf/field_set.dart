@@ -502,13 +502,7 @@ class _FieldSet {
     if (_hasObservers) {
       _eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
     }
-    int tag = _meta.byIndex[index].tagNumber;
-    int oneofIndex = _meta.oneofs[tag];
-
-    if (oneofIndex != null) {
-      _clearField(_oneofCases[oneofIndex]);
-      _oneofCases[oneofIndex] = tag;
-    }
+    _updateOneOfCase(_meta.byIndex[index].tagNumber);
     _values[index] = value;
   }
 
