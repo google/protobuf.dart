@@ -42,6 +42,7 @@ void _mergeFromCodedBufferReader(
     }
 
     if (fi == null || !_wireTypeMatches(fi.type, wireType)) {
+      fs._updateOneOfCase(tagNumber);
       if (!fs._ensureUnknownFields().mergeFieldFromBuffer(tag, input)) {
         return;
       }

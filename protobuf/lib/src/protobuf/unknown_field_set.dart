@@ -31,8 +31,15 @@ class UnknownFieldSet {
 
   UnknownFieldSetField getField(int tagNumber) => _fields[tagNumber];
 
+  /// Returns `true` if [tagNumber] is set in [this].
   bool hasField(int tagNumber) => _fields.containsKey(tagNumber);
 
+  /// Removes [tagNumber] from [this].
+  ///
+  /// Does nothing if [tagNumber] is unset.
+  void _clearField(int tagNumber) => _fields.remove(tagNumber);
+
+  // TODO(sigurdm): Does not update oneofs. Consider deprecating.
   void addField(int number, UnknownFieldSetField field) {
     _ensureWritable('addField');
     _checkFieldNumber(number);
@@ -49,6 +56,10 @@ class UnknownFieldSet {
       ..groups.addAll(field.groups);
   }
 
+  /// Merges the field following [tag] into [this].
+  ///
+  /// Returns `false` if the tag is the end of a group. `true` otherwise.
+  // TODO(sigurdm): Does not update oneofs. Consider deprecating.
   bool mergeFieldFromBuffer(int tag, CodedBufferReader input) {
     _ensureWritable('mergeFieldFromBuffer');
     int number = getTagFieldNumber(tag);
@@ -76,6 +87,7 @@ class UnknownFieldSet {
     }
   }
 
+  // TODO(sigurdm): Does not update oneofs. Consider deprecating.
   void mergeFromCodedBufferReader(CodedBufferReader input) {
     _ensureWritable('mergeFromCodedBufferReader');
     while (true) {
@@ -86,6 +98,7 @@ class UnknownFieldSet {
     }
   }
 
+  // TODO(sigurdm): Does not update oneofs. Consider deprecating.
   void mergeFromUnknownFieldSet(UnknownFieldSet other) {
     _ensureWritable('mergeFromUnknownFieldSet');
     for (int key in other._fields.keys) {
@@ -99,26 +112,31 @@ class UnknownFieldSet {
     }
   }
 
+  // TODO(sigurdm): Does not update oneofs. Consider deprecating.
   void mergeFixed32Field(int number, int value) {
     _ensureWritable('mergeFixed32Field');
     _getField(number).addFixed32(value);
   }
 
+  // TODO(sigurdm): Does not update oneofs. Consider deprecating.
   void mergeFixed64Field(int number, Int64 value) {
     _ensureWritable('mergeFixed64Field');
     _getField(number).addFixed64(value);
   }
 
+  // TODO(sigurdm): Does not update oneofs. Consider deprecating.
   void mergeGroupField(int number, UnknownFieldSet value) {
     _ensureWritable('mergeGroupField');
     _getField(number).addGroup(value);
   }
 
+  // TODO(sigurdm): Does not update oneofs. Consider deprecating.
   void mergeLengthDelimitedField(int number, List<int> value) {
     _ensureWritable('mergeLengthDelimitedField');
     _getField(number).addLengthDelimited(value);
   }
 
+  // TODO(sigurdm): Does not update oneofs. Consider deprecating.
   void mergeVarintField(int number, Int64 value) {
     _ensureWritable('mergeVarintField');
     _getField(number).addVarint(value);

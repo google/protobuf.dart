@@ -1,3 +1,8 @@
+## 1.0.2
+
+* Handle cases where a field that is part of a oneof is removed by the
+  protobuf aware treeshaker.
+
 ## 1.0.1
 
 * Fix issue with the non-json name of a field (`protoName`) not being set correctly.

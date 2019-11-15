@@ -265,8 +265,9 @@ class _FieldSet {
       }
     }
 
-    // neither a regular field nor an extension.
-    // TODO(skybrian) throw?
+    if (_hasUnknownFields) {
+      _unknownFields._clearField(tagNumber);
+    }
   }
 
   /// Sets a non-repeated field with error-checking.
@@ -342,14 +343,17 @@ class _FieldSet {
     return newValue;
   }
 
-  /// Sets a non-extended field and fires events.
-  void _setNonExtensionFieldUnchecked(FieldInfo fi, value) {
-    int tag = fi.tagNumber;
-    int oneofIndex = _meta.oneofs[tag];
+  void _updateOneOfCase(int newTagnumber) {
+    int oneofIndex = _meta.oneofs[newTagnumber];
     if (oneofIndex != null) {
       _clearField(_oneofCases[oneofIndex]);
-      _oneofCases[oneofIndex] = tag;
+      _oneofCases[oneofIndex] = newTagnumber;
     }
+  }
+
+  /// Sets a non-extended field and fires events.
+  void _setNonExtensionFieldUnchecked(FieldInfo fi, value) {
+    _updateOneOfCase(fi.tagNumber);
 
     // It is important that the callback to the observers is not moved to the
     // beginning of this method but happens just before the value is set.
