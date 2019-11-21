@@ -183,6 +183,14 @@ void main() {
     expect(foo.hasIndex(), true);
     expect(foo.index, Bar());
   });
+
+  test('clone', () {
+    Foo foo = Foo()..first = 'oneof';
+    expectFirstSet(foo);
+
+    final foo2 = Foo()..mergeFromMessage(foo);
+    expectFirstSet(foo2);
+  });
 }
 
 void expectSecondSet(Foo foo) {

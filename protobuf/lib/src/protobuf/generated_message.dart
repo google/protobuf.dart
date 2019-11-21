@@ -358,6 +358,8 @@ abstract class GeneratedMessage {
       _fieldSet._extensions._getFieldOrNull(extension) != null;
 
   /// Returns [:true:] if this message has a field associated with [tagNumber].
+  ///
+  /// Will return [:true:] even if that field is an unknown field.
   bool hasField(int tagNumber) => _fieldSet._hasField(tagNumber);
 
   /// Merges the contents of the [other] into this message.

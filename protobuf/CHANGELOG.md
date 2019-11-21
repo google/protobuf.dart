@@ -1,5 +1,10 @@
 ## 1.0.2
 
+* Fixed generic handling of unknown fields.
+  * `GeneratedMessage.clearField(tagNumber)` will now also clear an unknown
+    field.
+  * `GeneratedMessage.hasField(tagNumber)` will now return true if there is an
+  unknown field.
 * Handle cases where a field that is part of a oneof is removed by the
   protobuf aware treeshaker.
 

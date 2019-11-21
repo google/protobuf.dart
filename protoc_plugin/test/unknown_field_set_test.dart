@@ -330,4 +330,9 @@ void main() {
 
     _checkNotEqual(f1, f2);
   });
+
+  test('GeneratedMessage.hasField sees unknown fields', () {
+    expect(emptyMessage.hasField(testAllTypes.getTagNumber('optionalInt32')),
+        true);
+  });
 }

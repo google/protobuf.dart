@@ -236,6 +236,9 @@ class _FieldSet {
   bool _hasField(int tagNumber) {
     var fi = _nonExtensionInfo(tagNumber);
     if (fi != null) return _$has(fi.index);
+    if (_hasUnknownFields && _unknownFields.hasField(tagNumber)) {
+      return true;
+    }
     if (!_hasExtensions) return false;
     return _extensions._hasField(tagNumber);
   }
@@ -346,7 +349,8 @@ class _FieldSet {
   void _updateOneOfCase(int newTagnumber) {
     int oneofIndex = _meta.oneofs[newTagnumber];
     if (oneofIndex != null) {
-      _clearField(_oneofCases[oneofIndex]);
+      final currentTagnumber = _oneofCases[oneofIndex];
+      if (currentTagnumber != null) _clearField(currentTagnumber);
       _oneofCases[oneofIndex] = newTagnumber;
     }
   }
