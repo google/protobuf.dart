@@ -529,7 +529,8 @@ void main() {
     final original = Outer()
       ..innerMap[0] =
           (Inner()..setExtension(Extend_unittest.innerExtensionString, "a"))
-      ..innerMap[1] = (Inner());
+      ..innerMap[1] = (Inner())
+      ..stringMap['hello'] = 'world';
 
     final withUnknownFields = Outer.fromBuffer(original.writeToBuffer());
 
@@ -546,5 +547,7 @@ void main() {
         isTrue);
     expect(
         identical(withUnknownFields.innerMap[1], reparsed.innerMap[1]), isTrue);
+    expect(withUnknownFields.stringMap.length, reparsed.stringMap.length);
+    expect(withUnknownFields.stringMap[0], reparsed.stringMap[0]);
   });
 }

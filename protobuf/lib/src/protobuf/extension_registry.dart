@@ -146,10 +146,10 @@ T _reparseMessage<T extends GeneratedMessage>(
           }
         }
       }
-    } else if (field.isMapField) {
+    } else if (field is MapFieldInfo) {
       final messageMap = message._fieldSet._values[field.index];
       if (messageMap == null) return;
-      if (field.isGroupOrMessage) {
+      if (_isGroupOrMessage(field.valueFieldType)) {
         for (var key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];
           final GeneratedMessage reparsedValue =
