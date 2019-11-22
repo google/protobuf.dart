@@ -245,18 +245,14 @@ class _FieldSet {
 
   void _clearField(int tagNumber) {
     _ensureWritable();
+    int oneofIndex = _meta.oneofs[tagNumber];
+    if (oneofIndex != null) _oneofCases.remove(oneofIndex);
+
     var fi = _nonExtensionInfo(tagNumber);
     if (fi != null) {
       // clear a non-extension field
       if (_hasObservers) _eventPlugin.beforeClearField(fi);
       _values[fi.index] = null;
-
-      if (_meta.oneofs.containsKey(fi.tagNumber)) {
-        _oneofCases.remove(_meta.oneofs[fi.tagNumber]);
-      }
-
-      int oneofIndex = _meta.oneofs[fi.tagNumber];
-      if (oneofIndex != null) _oneofCases[oneofIndex] = 0;
       return;
     }
 
@@ -715,7 +711,12 @@ class _FieldSet {
     }
 
     if (other._hasUnknownFields) {
-      _ensureUnknownFields().mergeFromUnknownFieldSet(other._unknownFields);
+      final unknownFieldSet = _ensureUnknownFields();
+      final otherUnknownFieldSet = other._unknownFields;
+      otherUnknownFieldSet._fields.forEach((key, value) {
+        _updateOneOfCase(key);
+        unknownFieldSet.mergeField(key, value);
+      });
     }
   }
 
