@@ -236,24 +236,23 @@ class _FieldSet {
   bool _hasField(int tagNumber) {
     var fi = _nonExtensionInfo(tagNumber);
     if (fi != null) return _$has(fi.index);
+    if (_hasUnknownFields && _unknownFields.hasField(tagNumber)) {
+      return true;
+    }
     if (!_hasExtensions) return false;
     return _extensions._hasField(tagNumber);
   }
 
   void _clearField(int tagNumber) {
     _ensureWritable();
+    int oneofIndex = _meta.oneofs[tagNumber];
+    if (oneofIndex != null) _oneofCases.remove(oneofIndex);
+
     var fi = _nonExtensionInfo(tagNumber);
     if (fi != null) {
       // clear a non-extension field
       if (_hasObservers) _eventPlugin.beforeClearField(fi);
       _values[fi.index] = null;
-
-      if (_meta.oneofs.containsKey(fi.tagNumber)) {
-        _oneofCases.remove(_meta.oneofs[fi.tagNumber]);
-      }
-
-      int oneofIndex = _meta.oneofs[fi.tagNumber];
-      if (oneofIndex != null) _oneofCases[oneofIndex] = 0;
       return;
     }
 
@@ -265,8 +264,9 @@ class _FieldSet {
       }
     }
 
-    // neither a regular field nor an extension.
-    // TODO(skybrian) throw?
+    if (_hasUnknownFields) {
+      _unknownFields._clearField(tagNumber);
+    }
   }
 
   /// Sets a non-repeated field with error-checking.
@@ -342,14 +342,18 @@ class _FieldSet {
     return newValue;
   }
 
+  void _updateOneOfCase(int newTagnumber) {
+    int oneofIndex = _meta.oneofs[newTagnumber];
+    if (oneofIndex != null) {
+      final currentTagnumber = _oneofCases[oneofIndex];
+      if (currentTagnumber != null) _clearField(currentTagnumber);
+      _oneofCases[oneofIndex] = newTagnumber;
+    }
+  }
+
   /// Sets a non-extended field and fires events.
   void _setNonExtensionFieldUnchecked(FieldInfo fi, value) {
-    int tag = fi.tagNumber;
-    int oneofIndex = _meta.oneofs[tag];
-    if (oneofIndex != null) {
-      _clearField(_oneofCases[oneofIndex]);
-      _oneofCases[oneofIndex] = tag;
-    }
+    _updateOneOfCase(fi.tagNumber);
 
     // It is important that the callback to the observers is not moved to the
     // beginning of this method but happens just before the value is set.
@@ -498,13 +502,7 @@ class _FieldSet {
     if (_hasObservers) {
       _eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
     }
-    int tag = _meta.byIndex[index].tagNumber;
-    int oneofIndex = _meta.oneofs[tag];
-
-    if (oneofIndex != null) {
-      _clearField(_oneofCases[oneofIndex]);
-      _oneofCases[oneofIndex] = tag;
-    }
+    _updateOneOfCase(_meta.byIndex[index].tagNumber);
     _values[index] = value;
   }
 
@@ -713,7 +711,12 @@ class _FieldSet {
     }
 
     if (other._hasUnknownFields) {
-      _ensureUnknownFields().mergeFromUnknownFieldSet(other._unknownFields);
+      final unknownFieldSet = _ensureUnknownFields();
+      final otherUnknownFieldSet = other._unknownFields;
+      otherUnknownFieldSet._fields.forEach((key, value) {
+        _updateOneOfCase(key);
+        unknownFieldSet.mergeField(key, value);
+      });
     }
   }
 

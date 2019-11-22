@@ -1,3 +1,13 @@
+## 1.0.2
+
+* Fixed generic handling of unknown fields.
+  * `GeneratedMessage.clearField(tagNumber)` will now also clear an unknown
+    field.
+  * `GeneratedMessage.hasField(tagNumber)` will now return true if there is an
+  unknown field.
+* Handle cases where a field that is part of a oneof is removed by the
+  protobuf aware treeshaker.
+
 ## 1.0.1
 
 * Fix issue with `ExtensionRegistry.reparseMessage` not handling map fields with

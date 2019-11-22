@@ -300,8 +300,11 @@ abstract class GeneratedMessage {
 
   /// Clears the contents of a given field.
   ///
-  /// If it's an extension field, the Extension will be kept.
-  /// The tagNumber should be a valid tag or extension.
+  /// If it's an extension field, the value will be removed, but the Extension
+  /// will be kept.
+  ///
+  /// If the tagNumber is present as an unknown field, that field will be
+  /// removed.
   void clearField(int tagNumber) => _fieldSet._clearField(tagNumber);
 
   int $_whichOneof(int oneofIndex) => _fieldSet._oneofCases[oneofIndex] ?? 0;
@@ -355,6 +358,8 @@ abstract class GeneratedMessage {
       _fieldSet._extensions._getFieldOrNull(extension) != null;
 
   /// Returns [:true:] if this message has a field associated with [tagNumber].
+  ///
+  /// Will return [:true:] even if that field is an unknown field.
   bool hasField(int tagNumber) => _fieldSet._hasField(tagNumber);
 
   /// Merges the contents of the [other] into this message.
