@@ -168,7 +168,7 @@ abstract class PbListBase<E> extends ListBase<E> {
         check = _checkNotNull;
 
   @override
-  bool operator ==(other) =>
+  bool operator ==(dynamic other) =>
       (other is PbListBase) && _areListsEqual(other, this);
 
   @override
