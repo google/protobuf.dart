@@ -15,5 +15,7 @@ dependencies:
 dev_dependencies:
   test: ^1.3.0
 
+dependency_overrides: {protobuf: {path: ../protobuf/lib}}
+
 executables:
   protoc-gen-dart: protoc_plugin
