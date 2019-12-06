@@ -1,3 +1,8 @@
+## 1.0.2
+
+* Fix issue with the `permissiveEnums` option to `mergeFromProto3Json`.
+  The comparison did not work properly.
+
 ## 1.0.1
 
 * Fix issue with `ExtensionRegistry.reparseMessage` not handling map fields with
