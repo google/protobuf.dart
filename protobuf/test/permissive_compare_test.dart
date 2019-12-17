@@ -11,22 +11,36 @@ void main() {
     expect(permissiveCompare(b, a), expected);
   }
 
+  List<String> variationsFromSeed(String seed) {
+    final result = [
+      seed,
+      seed.toUpperCase(),
+      '-$seed',
+      '-${seed.toUpperCase()}',
+      '_$seed',
+      '_${seed.toUpperCase()}',
+      '$seed-',
+      '${seed}_',
+    ];
+    if (2 <= seed.length) {
+      result.add('${seed.substring(0, 1)}_${seed.substring(1)}');
+      result.add('${seed.substring(0, 1)}-${seed.substring(1)}');
+      result.add('${seed.substring(0, 1).toUpperCase()}${seed.substring(1)}');
+      result.add('${seed.substring(0, 1)}${seed.substring(1).toUpperCase()}');
+    }
+    return result;
+  }
+
   test('permissive compare', () {
-    symmetric('', '', true);
-    symmetric('-', '', true);
-    symmetric('_', '', true);
-    symmetric('a', 'a', true);
-    symmetric('A', 'a', true);
-    symmetric('-a', 'a', true);
-    symmetric('-a', '_a', true);
-    symmetric('----a', '____a', true);
-    symmetric('a-', 'a', true);
-    symmetric('a-', 'a', true);
-    symmetric('a-a', '_a_', false);
-    symmetric('a-a', '_A_A', true);
-    symmetric('aa', 'a', false);
-    symmetric('', 'a', false);
-    symmetric('_x', '_Y', false);
-    symmetric('xx', 'YY', false);
+    final seeds = ['', 'a', 'b', 'aa', 'ab', 'bb', 'aaaa'];
+    for (final a in seeds) {
+      for (final aVariant in variationsFromSeed(a)) {
+        for (final b in seeds) {
+          for (final bVariant in variationsFromSeed(b)) {
+            symmetric(aVariant, bVariant, a == b);
+          }
+        }
+      }
+    }
   });
 }

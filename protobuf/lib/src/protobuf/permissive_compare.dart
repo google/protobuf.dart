@@ -13,47 +13,20 @@ bool permissiveCompare(String a, String b) {
 
   int i = 0;
   int j = 0;
-  bool iReachedEnd = false;
-  bool jReachedEnd = false;
-  int ca;
-  int cb;
 
   while (true) {
-    // Fetch next letter (not dash and not underscore) from a.
-    while (true) {
-      if (i >= a.length) {
-        iReachedEnd = true;
-        break;
-      }
-      ca = a.codeUnitAt(i);
-      i++;
-      if (ca != dash && ca != underscore) {
-        break;
-      }
+    int ca, cb;
+    do {
+      ca = i < a.length ? a.codeUnitAt(i++) : -1;
+    } while (ca == dash || ca == underscore);
+    do {
+      cb = j < b.length ? b.codeUnitAt(j++) : -1;
+    } while (cb == dash || cb == underscore);
+    if (ca == cb) {
+      if (ca == -1) return true; // Both at end
+      continue;
     }
-    // Fetch next letter (not dash and not underscore) from b.
-    while (true) {
-      if (j >= b.length) {
-        jReachedEnd = true;
-        break;
-      }
-      cb = b.codeUnitAt(j);
-      j++;
-      if (cb != dash && cb != underscore) {
-        break;
-      }
-    }
-    if (iReachedEnd != jReachedEnd) {
-      // We reached the end of one of the strings but not the other.
-      return false;
-    }
-    if (iReachedEnd) {
-      assert(jReachedEnd);
-      return true;
-    }
-    assert(!iReachedEnd && !jReachedEnd);
-    if (ca != cb && (ca ^ cb != 0x20 || !_isAsciiLetter(ca))) {
-      // Different characters.
+    if (ca ^ cb != 0x20 || !_isAsciiLetter(ca)) {
       return false;
     }
   }
