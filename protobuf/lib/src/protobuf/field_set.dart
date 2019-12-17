@@ -600,7 +600,11 @@ class _FieldSet {
       }
 
       hash = _HashUtils._combine(hash, fi.tagNumber);
-      if (!_isEnum(fi.type)) {
+      if (_isBytes(fi.type)) {
+        // Bytes are represented as a List<int> (Usually with byte-data).
+        // We special case that to match our equality semantics.
+        hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
+      } else if (!_isEnum(fi.type)) {
         hash = _HashUtils._combine(hash, value.hashCode);
       } else if (fi.isRepeated) {
         hash = _HashUtils._hashObjects(value.map((enm) => enm.value));

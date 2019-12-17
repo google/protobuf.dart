@@ -11,6 +11,9 @@ bool _isRequired(int fieldType) => (fieldType & PbFieldType._REQUIRED_BIT) != 0;
 bool _isEnum(int fieldType) =>
     PbFieldType._baseType(fieldType) == PbFieldType._ENUM_BIT;
 
+bool _isBytes(int fieldType) =>
+    PbFieldType._baseType(fieldType) == PbFieldType._BYTES_BIT;
+
 bool _isGroupOrMessage(int fieldType) =>
     (fieldType & (PbFieldType._GROUP_BIT | PbFieldType._MESSAGE_BIT)) != 0;
 

@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Fix hashcode of bytes fields.
+
 ## 1.0.1
 
 * Fix issue with `ExtensionRegistry.reparseMessage` not handling map fields with
