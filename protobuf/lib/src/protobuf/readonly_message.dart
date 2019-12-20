@@ -8,8 +8,6 @@ part of protobuf;
 abstract class ReadonlyMessageMixin {
   BuilderInfo get info_;
 
-  bool get _isReadOnly => true;
-
   void addExtension(Extension extension, var value) =>
       _readonly("addExtension");
 
