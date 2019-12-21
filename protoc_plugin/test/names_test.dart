@@ -133,6 +133,10 @@ void main() {
     expect(names.avoidInitialUnderscore('__6E'), 'x6E__');
   });
 
+  test('startsWithDigit', () {
+    expect(names.avoidInitialUnderscore('_500'), 'x500_');
+  });
+
   test('legalDartIdentifier', () {
     expect(names.legalDartIdentifier("foo"), "foo");
     expect(names.legalDartIdentifier("_foo"), "_foo");

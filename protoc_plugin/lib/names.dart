@@ -452,7 +452,7 @@ String _fieldMethodSuffix(FieldDescriptorProto field) {
   if (name.isNotEmpty) return _capitalize(name);
 
   if (field.type != FieldDescriptorProto_Type.TYPE_GROUP) {
-    return underscoresToCamelCase(field.name);
+    return underscoresToCamelCase(avoidInitialUnderscore(field.name));
   }
 
   // For groups, use capitalization of 'typeName' rather than 'name'.
