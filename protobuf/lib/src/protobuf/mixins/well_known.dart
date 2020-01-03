@@ -46,7 +46,10 @@ abstract class AnyMixin implements GeneratedMessage {
   static void packIntoAny(AnyMixin target, GeneratedMessage message,
       {String typeUrlPrefix = 'type.googleapis.com'}) {
     target.value = message.writeToBuffer();
-    target.typeUrl = '${typeUrlPrefix}/${message.info_.qualifiedMessageName}';
+    var typeUrl = typeUrlPrefix.isNotEmpty
+        ? '${typeUrlPrefix}/${message.info_.qualifiedMessageName}'
+        : '${message.info_.qualifiedMessageName}';
+    target.typeUrl = typeUrl;
   }
 
   // From google/protobuf/any.proto:
