@@ -198,7 +198,7 @@ void _mergeFromProto3Json(
             // TODO(sigurdm): Do we want to avoid linear search here? Measure...
             final result = permissiveEnums
                 ? fieldInfo.enumValues.firstWhere(
-                    (e) => _permissiveCompare(e.name, value),
+                    (e) => permissiveCompare(e.name, value),
                     orElse: () => null)
                 : fieldInfo.enumValues
                     .firstWhere((e) => e.name == value, orElse: () => null);
@@ -404,43 +404,4 @@ void _mergeFromProto3Json(
   }
 
   recursionHelper(json, fieldSet);
-}
-
-bool _isAsciiLetter(int char) {
-  const lowerA = 97;
-  const lowerZ = 122;
-  const capitalA = 65;
-  char |= lowerA ^ capitalA;
-  return lowerA <= char && char <= lowerZ;
-}
-
-/// Returns true if [a] and [b] are the same ignoring case and all instances of
-///  `-` and `_`.
-bool _permissiveCompare(String a, String b) {
-  const dash = 45;
-  const underscore = 95;
-
-  // Enum names are always ascii.
-  int i = 0;
-  int j = 0;
-
-  outer:
-  while (i < a.length && j < b.length) {
-    int ca = a.codeUnitAt(i);
-    if (ca == dash || ca == underscore) {
-      i++;
-      continue;
-    }
-    int cb = b.codeUnitAt(j);
-    while (cb == dash || cb == underscore) {
-      j++;
-      if (j == b.length) break outer;
-      cb = b.codeUnitAt(j);
-    }
-
-    if (ca != cb && (ca ^ cb != 0x20 || !_isAsciiLetter(ca))) return false;
-    i++;
-    j++;
-  }
-  return true;
 }
