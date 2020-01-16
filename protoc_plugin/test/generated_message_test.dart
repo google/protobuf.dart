@@ -833,4 +833,14 @@ void main() {
     TestAllTypes value1 = TestAllTypes()..optionalString = "test 123";
     expect(value1.toString(), 'optionalString: test 123\n');
   });
+
+  test('operator== and hashCode works for bytes', () {
+    final t1 = TestAllTypes()..optionalBytes = [1];
+    final t2 = TestAllTypes()..optionalBytes = [1];
+    final t3 = TestAllTypes.fromBuffer(t1.writeToBuffer());
+    expect(t1, equals(t2));
+    expect(t1.hashCode, equals(t2.hashCode));
+    expect(t1, equals(t3));
+    expect(t1.hashCode, equals(t3.hashCode));
+  });
 }

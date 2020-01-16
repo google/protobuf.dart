@@ -1,5 +1,6 @@
 ## 1.0.2
 
+* Fix hashcode of bytes fields.
 * Fix issue with the `permissiveEnums` option to `mergeFromProto3Json`.
   The comparison did not work properly.
 
