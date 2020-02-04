@@ -5,8 +5,8 @@
 part of protobuf;
 
 Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
-  convertToMap(dynamic fieldValue, int fieldType) {
-    int baseType = PbFieldType._baseType(fieldType);
+  dynamic convertToMap(dynamic fieldValue, int fieldType) {
+    var baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
       return List.from(fieldValue.map((e) => convertToMap(e, baseType)));
@@ -43,12 +43,12 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     }
   }
 
-  _writeMap(dynamic fieldValue, MapFieldInfo fi) {
-    return List.from(fieldValue.entries.map((MapEntry e) => {
-          '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
-          '${PbMap._valueFieldNumber}': convertToMap(e.value, fi.valueFieldType)
-        }));
-  }
+  List _writeMap(dynamic fieldValue, MapFieldInfo fi) =>
+      List.from(fieldValue.entries.map((MapEntry e) => {
+            '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
+            '${PbMap._valueFieldNumber}':
+                convertToMap(e.value, fi.valueFieldType)
+          }));
 
   var result = <String, dynamic>{};
   for (var fi in fs._infosSortedByTag) {
@@ -63,7 +63,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     result['${fi.tagNumber}'] = convertToMap(value, fi.type);
   }
   if (fs._hasExtensions) {
-    for (int tagNumber in _sorted(fs._extensions._tagNumbers)) {
+    for (var tagNumber in _sorted(fs._extensions._tagNumbers)) {
       var value = fs._extensions._values[tagNumber];
       if (value is List && value.isEmpty) {
         continue; // It's repeated or an empty byte array.
@@ -79,9 +79,9 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 // (Called recursively on nested messages.)
 void _mergeFromJsonMap(
     _FieldSet fs, Map<String, dynamic> json, ExtensionRegistry registry) {
-  Iterable<String> keys = json.keys;
+  var keys = json.keys;
   var meta = fs._meta;
-  for (String key in keys) {
+  for (var key in keys) {
     var fi = meta.byTagAsString[key];
     if (fi == null) {
       if (registry == null) continue; // Unknown tag; skip
@@ -105,7 +105,7 @@ void _appendJsonList(
   // alloc:
   //   for (t1 = J.get$iterator$ax(json), t2 = fi.tagNumber, t3 = fi.type,
   //       t4 = J.getInterceptor$ax(repeated); t1.moveNext$0();)
-  for (int i = 0, len = jsonList.length; i < len; i++) {
+  for (var i = 0, len = jsonList.length; i < len; i++) {
     var value = jsonList[i];
     var convertedValue =
         _convertJsonValue(fs, value, fi.tagNumber, fi.type, registry);
@@ -119,7 +119,7 @@ void _appendJsonMap(
     _FieldSet fs, List jsonList, MapFieldInfo fi, ExtensionRegistry registry) {
   PbMap map = fi._ensureMapField(fs);
   for (Map<String, dynamic> jsonEntry in jsonList) {
-    _FieldSet entryFieldSet = map._entryFieldSet();
+    var entryFieldSet = map._entryFieldSet();
     final convertedKey = _convertJsonValue(
         entryFieldSet,
         jsonEntry['${PbMap._keyFieldNumber}'],
@@ -156,7 +156,7 @@ void _setJsonField(
 /// Returns the converted value.  This function returns [null] if the caller
 /// should ignore the field value, because it is an unknown enum value.
 /// This function throws [ArgumentError] if it cannot convert the value.
-_convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
+dynamic _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
     ExtensionRegistry registry) {
   String expectedType; // for exception message
   switch (PbFieldType._baseType(fieldType)) {
@@ -237,8 +237,7 @@ _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
     case PbFieldType._MESSAGE_BIT:
       if (value is Map) {
         Map<String, dynamic> messageValue = value;
-        GeneratedMessage subMessage =
-            fs._meta._makeEmptyMessage(tagNumber, registry);
+        var subMessage = fs._meta._makeEmptyMessage(tagNumber, registry);
         _mergeFromJsonMap(subMessage._fieldSet, messageValue, registry);
         return subMessage;
       }

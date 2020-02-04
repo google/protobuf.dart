@@ -63,32 +63,32 @@ class Dataset {
   Dataset._(this.name, this.factories);
 }
 
-typedef dynamic FromBufferFactory(List<int> binary);
-typedef dynamic FromJsonFactory(String json);
+typedef FromBufferFactory = dynamic Function(List<int> binary);
+typedef FromJsonFactory = dynamic Function(String json);
 
 class Factories {
   final FromBufferFactory fromBuffer;
   final FromJsonFactory fromJson;
 
   static Factories forMessage(String name) =>
-      _factories[name] ?? (throw "Unsupported message: ${name}");
+      _factories[name] ?? (throw 'Unsupported message: ${name}');
 
   /// Mapping between [BenchmarkProto.messageName] and corresponding
   /// deserialization factories.
   static final _factories = {
-    "benchmarks.proto2.GoogleMessage1": Factories._(
+    'benchmarks.proto2.GoogleMessage1': Factories._(
         fromBuffer: (List<int> binary) => p2.GoogleMessage1.fromBuffer(binary),
         fromJson: (String json) => p2.GoogleMessage1.fromJson(json)),
-    "benchmarks.proto3.GoogleMessage1": Factories._(
+    'benchmarks.proto3.GoogleMessage1': Factories._(
         fromBuffer: (List<int> binary) => p3.GoogleMessage1.fromBuffer(binary),
         fromJson: (String json) => p3.GoogleMessage1.fromJson(json)),
-    "benchmarks.proto2.GoogleMessage2": Factories._(
+    'benchmarks.proto2.GoogleMessage2': Factories._(
         fromBuffer: (List<int> binary) => GoogleMessage2.fromBuffer(binary),
         fromJson: (String json) => GoogleMessage2.fromJson(json)),
-    "benchmarks.google_message3.GoogleMessage3": Factories._(
+    'benchmarks.google_message3.GoogleMessage3': Factories._(
         fromBuffer: (List<int> binary) => GoogleMessage3.fromBuffer(binary),
         fromJson: (String json) => GoogleMessage3.fromJson(json)),
-    "benchmarks.google_message4.GoogleMessage4": Factories._(
+    'benchmarks.google_message4.GoogleMessage4': Factories._(
         fromBuffer: (List<int> binary) => GoogleMessage4.fromBuffer(binary),
         fromJson: (String json) => GoogleMessage4.fromJson(json)),
   };
@@ -105,8 +105,9 @@ abstract class _ProtobufBenchmark extends BenchmarkBase {
 
 /// Binary deserialization benchmark.
 class FromBinaryBenchmark extends _ProtobufBenchmark {
-  FromBinaryBenchmark(datasets) : super(datasets, "FromBinary");
+  FromBinaryBenchmark(datasets) : super(datasets, 'FromBinary');
 
+  @override
   void run() {
     for (var i = 0; i < datasets.length; i++) {
       final ds = datasets[i];
@@ -120,8 +121,9 @@ class FromBinaryBenchmark extends _ProtobufBenchmark {
 
 /// Binary serialization benchmark.
 class ToBinaryBenchmark extends _ProtobufBenchmark {
-  ToBinaryBenchmark(datasets) : super(datasets, "ToBinary");
+  ToBinaryBenchmark(datasets) : super(datasets, 'ToBinary');
 
+  @override
   void run() {
     for (var i = 0; i < datasets.length; i++) {
       final ds = datasets[i];
@@ -134,8 +136,9 @@ class ToBinaryBenchmark extends _ProtobufBenchmark {
 
 /// JSON deserialization benchmark.
 class FromJsonBenchmark extends _ProtobufBenchmark {
-  FromJsonBenchmark(datasets) : super(datasets, "FromJson");
+  FromJsonBenchmark(datasets) : super(datasets, 'FromJson');
 
+  @override
   void run() {
     for (var i = 0; i < datasets.length; i++) {
       final ds = datasets[i];
@@ -149,8 +152,9 @@ class FromJsonBenchmark extends _ProtobufBenchmark {
 
 /// JSON serialization benchmark.
 class ToJsonBenchmark extends _ProtobufBenchmark {
-  ToJsonBenchmark(datasets) : super(datasets, "ToJson");
+  ToJsonBenchmark(datasets) : super(datasets, 'ToJson');
 
+  @override
   void run() {
     for (var i = 0; i < datasets.length; i++) {
       final ds = datasets[i];

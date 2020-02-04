@@ -31,12 +31,13 @@ bool _areMapsEqual(Map lhs, Map rhs) {
 }
 
 bool _areByteDataEqual(ByteData lhs, ByteData rhs) {
-  asBytes(d) => Uint8List.view(d.buffer, d.offsetInBytes, d.lengthInBytes);
+  Uint8List asBytes(d) =>
+      Uint8List.view(d.buffer, d.offsetInBytes, d.lengthInBytes);
   return _areListsEqual(asBytes(lhs), asBytes(rhs));
 }
 
-@Deprecated("This function was not intended to be public. "
-    "It will be removed from the public api in next major version. ")
+@Deprecated('This function was not intended to be public. '
+    'It will be removed from the public api in next major version. ')
 List<T> sorted<T>(Iterable<T> list) => List.from(list)..sort();
 
 List<T> _sorted<T>(Iterable<T> list) => List.from(list)..sort();

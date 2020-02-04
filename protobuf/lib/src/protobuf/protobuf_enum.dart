@@ -38,8 +38,8 @@ class ProtobufEnum {
   /// Returns a Map for all of the [ProtobufEnum]s in [byIndex], mapping each
   /// [ProtobufEnum]'s [value] to the [ProtobufEnum].
   static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> byIndex) {
-    var byValue = Map<int, T>();
-    for (T v in byIndex) {
+    var byValue = <int, T>{};
+    for (var v in byIndex) {
       byValue[v.value] = v;
     }
     return byValue;
@@ -48,10 +48,13 @@ class ProtobufEnum {
   // Subclasses will typically have a private constructor and a fixed set of
   // instances, so `Object.operator==()` will work, and does not need to
   // be overridden explicitly.
+  @override
   bool operator ==(Object o);
 
+  @override
   int get hashCode => value;
 
   /// Returns this enum's [name].
+  @override
   String toString() => name;
 }

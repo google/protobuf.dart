@@ -12,18 +12,19 @@ import 'package:test/test.dart';
 
 import 'test_util.dart';
 
-typedef void RoundtripTester<T>(T value, List<int> bytes);
+typedef RoundtripTester<T> = void Function(T value, List<int> bytes);
 
 void main() {
   ByteData makeData(Uint8List bytes) => ByteData.view(bytes.buffer);
 
-  convertToBytes(fieldType) => (value) {
+  Uint8List Function(dynamic) convertToBytes(fieldType) => (value) {
         var writer = CodedBufferWriter()..writeField(0, fieldType, value);
         return writer.toBuffer().sublist(1);
       };
 
   RoundtripTester<T> roundtripTester<T>(
-      {T fromBytes(CodedBufferReader bytes), List<int> toBytes(T value)}) {
+      {T Function(CodedBufferReader bytes) fromBytes,
+      List<int> Function(T value) toBytes}) {
     return (T value, List<int> bytes) {
       expect(fromBytes(CodedBufferReader(bytes)), equals(value));
       expect(toBytes(value), bytes);
@@ -126,7 +127,7 @@ void main() {
   });
 
   test('testBool', () {
-    readBool(List<int> bytes) => CodedBufferReader(bytes).readBool();
+    bool readBool(List<int> bytes) => CodedBufferReader(bytes).readBool();
 
     expect(readBool([0x00]), isFalse);
     expect(readBool([0x01]), isTrue);
@@ -135,17 +136,17 @@ void main() {
 
   // Compare two doubles, where NaNs and same-sign inifinities compare equal.
   // For normal values, use equals.
-  doubleEquals(expected) => expected.isNaN
+  Matcher doubleEquals(expected) => expected.isNaN
       ? predicate((x) => x.isNaN, 'NaN expected')
       : equals(expected);
 
   List<int> dataToBytes(ByteData byteData) => Uint8List.view(byteData.buffer);
   final floatToBytes = convertToBytes(PbFieldType.OF);
-  floatToBits(double value) =>
+  int floatToBits(double value) =>
       makeData(floatToBytes(value)).getUint32(0, Endian.little);
 
   void _test32(int bits, double value) {
-    readFloat(int bits) {
+    double readFloat(int bits) {
       var bytes = dataToBytes(ByteData(4)..setUint32(0, bits, Endian.little));
       return CodedBufferReader(bytes).readFloat();
     }
@@ -158,7 +159,7 @@ void main() {
 
   void _test64(List<int> hilo, double value) {
     // Encode a double to its wire format.
-    ByteData data = makeData(doubleToBytes(value));
+    var data = makeData(doubleToBytes(value));
     var actualHilo = [
       data.getUint32(4, Endian.little),
       data.getUint32(0, Endian.little)
@@ -167,8 +168,8 @@ void main() {
     expect(actualHilo, hilo);
 
     // Decode it again (round trip).
-    List<int> bytes = dataToBytes(data);
-    double reencoded = CodedBufferReader(bytes).readDouble();
+    var bytes = dataToBytes(data);
+    var reencoded = CodedBufferReader(bytes).readDouble();
     expect(reencoded, doubleEquals(value));
   }
 

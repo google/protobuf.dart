@@ -8,11 +8,11 @@ import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
 Int64 make64(int lo, [int hi]) {
-  if (hi == null) hi = lo < 0 ? -1 : 0;
+  hi ??= lo < 0 ? -1 : 0;
   return Int64.fromInts(hi, lo);
 }
 
-expect64(int lo, [int hi]) {
-  final Int64 expected = make64(lo, hi);
+Matcher expect64(int lo, [int hi]) {
+  final expected = make64(lo, hi);
   return predicate((Int64 actual) => actual == expected);
 }

@@ -40,7 +40,7 @@ class CodedBufferReader {
           ' which claimed to have negative size.');
     }
     byteLimit += _bufferPos;
-    int oldLimit = _currentLimit;
+    var oldLimit = _currentLimit;
     if ((oldLimit != -1 && byteLimit > oldLimit) || byteLimit > _sizeLimit) {
       throw InvalidProtocolBufferException.truncatedMessage();
     }
@@ -73,7 +73,7 @@ class CodedBufferReader {
       throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
     ++_recursionDepth;
-    UnknownFieldSet unknownFieldSet = UnknownFieldSet();
+    var unknownFieldSet = UnknownFieldSet();
     unknownFieldSet.mergeFromCodedBufferReader(this);
     checkLastTagWas(makeTag(fieldNumber, WIRETYPE_END_GROUP));
     --_recursionDepth;
@@ -82,7 +82,7 @@ class CodedBufferReader {
 
   void readMessage(
       GeneratedMessage message, ExtensionRegistry extensionRegistry) {
-    int length = readInt32();
+    var length = readInt32();
     if (_recursionDepth >= _recursionLimit) {
       throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
@@ -92,7 +92,7 @@ class CodedBufferReader {
           ' which claimed to have negative size.');
     }
 
-    int oldLimit = _currentLimit;
+    var oldLimit = _currentLimit;
     _currentLimit = _bufferPos + length;
     if (_currentLimit > oldLimit) {
       throw InvalidProtocolBufferException.truncatedMessage();
@@ -122,7 +122,7 @@ class CodedBufferReader {
 
   bool readBool() => _readRawVarint32(true) != 0;
   List<int> readBytes() {
-    int length = readInt32();
+    var length = readInt32();
     _checkLimit(length);
     return Uint8List.view(
         _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
@@ -167,12 +167,12 @@ class CodedBufferReader {
     // Read up to 10 bytes.
     // We use a local [bufferPos] variable to avoid repeatedly loading/store the
     // this._bufferpos field.
-    int bufferPos = _bufferPos;
-    int bytes = _currentLimit - bufferPos;
+    var bufferPos = _bufferPos;
+    var bytes = _currentLimit - bufferPos;
     if (bytes > 10) bytes = 10;
-    int result = 0;
-    for (int i = 0; i < bytes; i++) {
-      int byte = _buffer[bufferPos++];
+    var result = 0;
+    for (var i = 0; i < bytes; i++) {
+      var byte = _buffer[bufferPos++];
       result |= (byte & 0x7f) << (i * 7);
       if ((byte & 0x80) == 0) {
         result &= 0xffffffff;
@@ -185,19 +185,19 @@ class CodedBufferReader {
   }
 
   Int64 _readRawVarint64() {
-    int lo = 0;
-    int hi = 0;
+    var lo = 0;
+    var hi = 0;
 
     // Read low 28 bits.
-    for (int i = 0; i < 4; i++) {
-      int byte = _readRawVarintByte();
+    for (var i = 0; i < 4; i++) {
+      var byte = _readRawVarintByte();
       lo |= (byte & 0x7f) << (i * 7);
       if ((byte & 0x80) == 0) return Int64.fromInts(hi, lo);
     }
 
     // Read middle 7 bits: 4 low belong to low part above,
     // 3 remaining belong to hi.
-    int byte = _readRawVarintByte();
+    var byte = _readRawVarintByte();
     lo |= (byte & 0xf) << 28;
     hi = (byte >> 4) & 0x7;
     if ((byte & 0x80) == 0) {
@@ -205,8 +205,8 @@ class CodedBufferReader {
     }
 
     // Read remaining bits of hi.
-    for (int i = 0; i < 5; i++) {
-      int byte = _readRawVarintByte();
+    for (var i = 0; i < 5; i++) {
+      var byte = _readRawVarintByte();
       hi |= (byte & 0x7f) << ((i * 7) + 3);
       if ((byte & 0x80) == 0) return Int64.fromInts(hi, lo);
     }

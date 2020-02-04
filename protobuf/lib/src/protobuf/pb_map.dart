@@ -93,22 +93,22 @@ class PbMap<K, V> extends MapBase<K, V> {
     return _wrappedMap.remove(key);
   }
 
-  @Deprecated("This function was not intended to be public. "
-      "It will be removed from the public api in next major version. ")
+  @Deprecated('This function was not intended to be public. '
+      'It will be removed from the public api in next major version. ')
   void add(CodedBufferReader input, [ExtensionRegistry registry]) {
     _mergeEntry(input, registry);
   }
 
   void _mergeEntry(CodedBufferReader input, [ExtensionRegistry registry]) {
-    int length = input.readInt32();
-    int oldLimit = input._currentLimit;
+    var length = input.readInt32();
+    var oldLimit = input._currentLimit;
     input._currentLimit = input._bufferPos + length;
-    _FieldSet entryFieldSet = _entryFieldSet();
+    var entryFieldSet = _entryFieldSet();
     _mergeFromCodedBufferReader(entryFieldSet, input, registry);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
-    K key = entryFieldSet._$get(0, null);
-    V value = entryFieldSet._$get(1, null);
+    var key = entryFieldSet._$get(0, null);
+    var value = entryFieldSet._$get(1, null);
     _wrappedMap[key] = value;
   }
 

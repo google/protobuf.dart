@@ -9,6 +9,7 @@ class InvalidProtocolBufferException implements Exception {
 
   InvalidProtocolBufferException._(this.message);
 
+  @override
   String toString() => 'InvalidProtocolBufferException: $message';
 
   InvalidProtocolBufferException.invalidEndTag()
