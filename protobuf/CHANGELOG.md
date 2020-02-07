@@ -3,6 +3,7 @@
 * Fix hashcode of bytes fields.
 * Fix issue with the `permissiveEnums` option to `mergeFromProto3Json`.
   The comparison did not work properly.
+* Fix binary representation of negative int32 values.
 
 ## 1.0.1
 
