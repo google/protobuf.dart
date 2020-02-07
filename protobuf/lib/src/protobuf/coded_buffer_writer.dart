@@ -353,7 +353,7 @@ class CodedBufferWriter {
         value.writeToCodedBufferWriter(this);
         break;
       case PbFieldType._INT32_BIT:
-        _writeVarint32(value & 0xffffffff);
+        _writeVarint64(Int64(value));
         break;
       case PbFieldType._INT64_BIT:
         _writeVarint64(value);

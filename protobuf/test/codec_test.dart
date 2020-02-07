@@ -32,13 +32,6 @@ void main() {
 
   final int32ToBytes = convertToBytes(PbFieldType.O3);
 
-  test('testEquivalentBitwiseRepresentations', () {
-    final uint32ToBytes = convertToBytes(PbFieldType.OU3);
-    // Internal representation appears to be bit-wise identical
-    // an additional internal flag must differentiate.
-    expect(int32ToBytes(-1), uint32ToBytes(4294967295));
-  });
-
   test('testInt32RoundTrips', () {
     final roundtrip = roundtripTester(
         fromBytes: (CodedBufferReader reader) => reader.readInt32(),
@@ -48,9 +41,10 @@ void main() {
     roundtrip(206, [0xce, 0x01]);
     roundtrip(300, [0xac, 0x02]);
     roundtrip(2147483647, [0xff, 0xff, 0xff, 0xff, 0x07]);
-    roundtrip(-2147483648, [0x80, 0x80, 0x80, 0x80, 0x08]);
-    roundtrip(-1, [0xff, 0xff, 0xff, 0xff, 0x0f]);
-    roundtrip(-2, [0xfe, 0xff, 0xff, 0xff, 0x0f]);
+    roundtrip(-2147483648,
+        [0x80, 0x80, 0x80, 0x80, 0xf8, 0xff, 0xff, 0xff, 0xff, 0x01]);
+    roundtrip(-1, [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
+    roundtrip(-2, [0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
   });
 
   test('testSint32', () {
