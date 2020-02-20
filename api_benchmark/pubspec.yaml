@@ -14,7 +14,7 @@ dependencies:
 dev_dependencies:
   build: ^1.0.0
   build_runner: ^1.0.0
-  build_web_compilers: ^0.4.0
+  build_web_compilers: ^2.0.0
   glob: ^1.1.7
   yaml: ^2.1.15
   protoc_plugin:

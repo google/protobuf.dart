@@ -7,8 +7,10 @@ targets:
         generate_for:
         - web/*_browser.dart
         options:
+          compiler: dart2js
           dart2js_args:
           - --minify
+          - -O3
           #- --trust-primitives
           #- --omit-implicit-checks
 
