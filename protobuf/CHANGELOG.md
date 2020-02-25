@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Enable hashCode memoization for frozen protos.
+
 ## 1.0.2
 
 * Fix hashcode of bytes fields.
