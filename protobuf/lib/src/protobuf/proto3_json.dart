@@ -202,11 +202,14 @@ void _mergeFromProto3Json(
                     orElse: () => null)
                 : fieldInfo.enumValues
                     .firstWhere((e) => e.name == value, orElse: () => null);
-            if (result != null) return result;
+            if ((result != null) || ignoreUnknownFields) return result;
             throw context.parseException('Unknown enum value', value);
           } else if (value is int) {
             return fieldInfo.valueOf(value) ??
-                (throw context.parseException('Unknown enum value', value));
+                (ignoreUnknownFields
+                    ? null
+                    : (throw context.parseException(
+                        'Unknown enum value', value)));
           }
           throw context.parseException(
               'Expected enum as a string or integer', value);

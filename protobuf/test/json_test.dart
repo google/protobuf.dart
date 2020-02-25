@@ -4,16 +4,65 @@
 library json_test;
 
 import 'dart:convert';
+
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:test/test.dart';
 
-import 'mock_util.dart' show T;
+import 'mock_util.dart' show T, mockEnumValues;
 
 void main() {
   var example = T()
     ..val = 123
     ..str = 'hello'
     ..int32s.addAll(<int>[1, 2, 3]);
+
+  test('testProto3JsonEnum', () {
+    // No enum value specified.
+    expect(example.hasEnm, isFalse);
+    // Defaults to first when it doesn't exist.
+    expect(example.enm, equals(mockEnumValues.first));
+    expect((example..mergeFromProto3Json({'enm': 'a'})).enm.name, equals('a'));
+    // Now it's explicitly set after merging.
+    expect(example.hasEnm, isTrue);
+
+    expect((example..mergeFromProto3Json({'enm': 'b'})).enm.name, equals('b'));
+    // "c" is not a legal enum value.
+    expect(
+        () => example..mergeFromProto3Json({'enm': 'c'}),
+        throwsA(allOf(isFormatException,
+            predicate((e) => e.message.contains('Unknown enum value')))));
+    // `example` hasn't changed.
+    expect(example.hasEnm, isTrue);
+    expect(example.enm.name, equals('b'));
+
+    // "c" is not a legal enum value, but we are ignoring unknown fields, so
+    // default behavior is to unset `enm`, returning the default value "a"
+    expect(
+        (example..mergeFromProto3Json({'enm': 'c'}, ignoreUnknownFields: true))
+            .enm
+            .name,
+        equals('a'));
+    expect(example.hasEnm, isFalse);
+
+    // Same for index values...
+    expect((example..mergeFromProto3Json({'enm': 2})).enm.name, 'b');
+    expect(
+        () => example..mergeFromProto3Json({'enm': 3}),
+        throwsA(allOf(isFormatException,
+            predicate((e) => e.message.contains('Unknown enum value')))));
+    // `example` hasn't changed.
+    expect(example.hasEnm, isTrue);
+    expect(example.enm.name, equals('b'));
+
+    // "c" is not a legal enum value, but we are ignoring unknown fields, so
+    // default behavior is to unset `enm`, returning the default value "a"
+    expect(
+        (example..mergeFromProto3Json({'enm': 3}, ignoreUnknownFields: true))
+            .enm
+            .name,
+        equals('a'));
+    expect(example.hasEnm, isFalse);
+  });
 
   test('testWriteToJson', () {
     var json = example.writeToJson();

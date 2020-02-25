@@ -6,15 +6,27 @@ library mock_util;
 
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart'
-    show GeneratedMessage, BuilderInfo, CreateBuilderFunc, PbFieldType;
+    show
+        BuilderInfo,
+        CreateBuilderFunc,
+        GeneratedMessage,
+        PbFieldType,
+        ProtobufEnum;
 
+final mockEnumValues = [ProtobufEnum(1, 'a'), ProtobufEnum(2, 'b')];
 BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
   return BuilderInfo(className)
     ..a(1, 'val', PbFieldType.O3, defaultOrMaker: 42)
     ..a(2, 'str', PbFieldType.OS)
     ..a(3, 'child', PbFieldType.OM, defaultOrMaker: create, subBuilder: create)
     ..p<int>(4, 'int32s', PbFieldType.P3)
-    ..a(5, 'int64', PbFieldType.O6);
+    ..a(5, 'int64', PbFieldType.O6)
+    // 6 is reserved for extensions in other tests.
+    ..e(7, 'enm', PbFieldType.OE,
+        defaultOrMaker: mockEnumValues.first,
+        valueOf: (i) =>
+            mockEnumValues.firstWhere((e) => e.value == i, orElse: () => null),
+        enumValues: mockEnumValues);
 }
 
 /// A minimal protobuf implementation for testing.
@@ -36,6 +48,9 @@ abstract class MockMessage extends GeneratedMessage {
 
   Int64 get int64 => $_get(4, Int64(0));
   set int64(x) => setField(5, x);
+
+  ProtobufEnum get enm => $_getN(5);
+  bool get hasEnm => $_has(5);
 
   @override
   GeneratedMessage clone() {
