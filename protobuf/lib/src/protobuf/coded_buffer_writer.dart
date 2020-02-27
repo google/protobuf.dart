@@ -63,7 +63,7 @@ class CodedBufferWriter {
   }
 
   void writeField(int fieldNumber, int fieldType, fieldValue) {
-    final int valueType = fieldType & ~0x07;
+    final valueType = fieldType & ~0x07;
 
     if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
       if (!fieldValue.isEmpty) {
@@ -77,12 +77,12 @@ class CodedBufferWriter {
       return;
     }
 
-    final int wireFormat = _wireTypes[_valueTypeIndex(valueType)];
+    final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._MAP_BIT) != 0) {
-      final int keyWireFormat =
+      final keyWireFormat =
           _wireTypes[_valueTypeIndex(fieldValue.keyFieldType)];
-      final int valueWireFormat =
+      final valueWireFormat =
           _wireTypes[_valueTypeIndex(fieldValue.valueFieldType)];
 
       fieldValue.forEach((key, value) {
@@ -107,7 +107,7 @@ class CodedBufferWriter {
   }
 
   Uint8List toBuffer() {
-    Uint8List result = Uint8List(_bytesTotal);
+    var result = Uint8List(_bytesTotal);
     writeTo(result);
     return result;
   }
@@ -124,14 +124,14 @@ class CodedBufferWriter {
     _commitChunk(false);
     _commitSplice();
 
-    int outPos = offset; // Output position in the buffer.
-    int chunkIndex = 0, chunkPos = 0; // Position within _outputChunks.
-    for (int i = 0; i < _splices.length; i++) {
+    var outPos = offset; // Output position in the buffer.
+    var chunkIndex = 0, chunkPos = 0; // Position within _outputChunks.
+    for (var i = 0; i < _splices.length; i++) {
       final action = _splices[i];
       if (action is int) {
         if (action <= 0) {
           // action is a positive varint to be emitted into the output buffer.
-          int v = 0 - action; // Note: 0 - action to avoid -0.0 in JS.
+          var v = 0 - action; // Note: 0 - action to avoid -0.0 in JS.
           while (v >= 0x80) {
             buffer[outPos++] = 0x80 | (v & 0x7f);
             v >>= 7;
@@ -140,7 +140,7 @@ class CodedBufferWriter {
         } else {
           // action is an amount of bytes to copy from _outputChunks into the
           // buffer.
-          int bytesToCopy = action;
+          var bytesToCopy = action;
           while (bytesToCopy > 0) {
             final Uint8List chunk = _outputChunks[chunkIndex];
             final int bytesInChunk = _outputChunks[chunkIndex + 1];
@@ -233,7 +233,7 @@ class CodedBufferWriter {
   /// of bytes written into the reserved slice space.
   int _startLengthDelimited() {
     _commitSplice();
-    int index = _splices.length;
+    var index = _splices.length;
     // Reserve a space for a splice and use it to record the current number of
     // bytes written so that we can compute the length of data later in
     // _endLengthDelimited.
@@ -259,7 +259,7 @@ class CodedBufferWriter {
 
   void _writeVarint32(int value) {
     _ensureBytes(5);
-    int i = _bytesInChunk;
+    var i = _bytesInChunk;
     while (value >= 0x80) {
       _outputChunk[i++] = 0x80 | (value & 0x7f);
       value >>= 7;
@@ -271,9 +271,9 @@ class CodedBufferWriter {
 
   void _writeVarint64(Int64 value) {
     _ensureBytes(10);
-    int i = _bytesInChunk;
-    int lo = value.toUnsigned(32).toInt();
-    int hi = (value >> 32).toUnsigned(32).toInt();
+    var i = _bytesInChunk;
+    var lo = value.toUnsigned(32).toInt();
+    var hi = (value >> 32).toUnsigned(32).toInt();
     while (hi > 0 || lo >= 0x80) {
       _outputChunk[i++] = 0x80 | (lo & 0x7f);
       lo = (lo >> 7) | ((hi & 0x7f) << 25);
@@ -297,8 +297,8 @@ class CodedBufferWriter {
   }
 
   void _writeFloat(double value) {
-    const double MIN_FLOAT_DENORM = 1.401298464324817E-45;
-    const double MAX_FLOAT = 3.4028234663852886E38;
+    const MIN_FLOAT_DENORM = 1.401298464324817E-45;
+    const MAX_FLOAT = 3.4028234663852886E38;
     if (value.isNaN) {
       _writeInt32(0x7fc00000);
     } else if (value.abs() < MIN_FLOAT_DENORM) {
@@ -390,12 +390,12 @@ class CodedBufferWriter {
     }
   }
 
-  _writeBytesNoTag(dynamic value) {
+  void _writeBytesNoTag(dynamic value) {
     writeInt32NoTag(value.length);
     _writeRawBytes(value);
   }
 
-  _writeTag(int fieldNumber, int wireFormat) {
+  void _writeTag(int fieldNumber, int wireFormat) {
     writeInt32NoTag(makeTag(fieldNumber, wireFormat));
   }
 
@@ -417,16 +417,16 @@ class CodedBufferWriter {
   /// Has a specialization for Uint8List for performance.
   int _copyInto(Uint8List buffer, int pos, TypedData value) {
     if (value is Uint8List) {
-      int len = value.length;
-      for (int j = 0; j < len; j++) {
+      var len = value.length;
+      for (var j = 0; j < len; j++) {
         buffer[pos++] = value[j];
       }
       return pos;
     } else {
-      int len = value.lengthInBytes;
-      Uint8List u8 = Uint8List.view(
+      var len = value.lengthInBytes;
+      var u8 = Uint8List.view(
           value.buffer, value.offsetInBytes, value.lengthInBytes);
-      for (int j = 0; j < len; j++) {
+      for (var j = 0; j < len; j++) {
         buffer[pos++] = u8[j];
       }
       return pos;

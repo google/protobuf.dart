@@ -6,7 +6,7 @@ part of protobuf;
 
 Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
   String convertToMapKey(dynamic key, int keyType) {
-    int baseType = PbFieldType._baseType(keyType);
+    var baseType = PbFieldType._baseType(keyType);
 
     assert(!_isRepeated(keyType));
 
@@ -41,7 +41,7 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     } else if (_isEnum(fieldType)) {
       return (fieldValue as ProtobufEnum).name;
     } else {
-      int baseType = PbFieldType._baseType(fieldType);
+      var baseType = PbFieldType._baseType(fieldType);
       switch (baseType) {
         case PbFieldType._BOOL_BIT:
           return fieldValue ? true : false;
@@ -85,8 +85,8 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     return fs._meta.toProto3Json(fs._message, typeRegistry);
   }
 
-  Map<String, dynamic> result = <String, dynamic>{};
-  for (FieldInfo fieldInfo in fs._infosSortedByTag) {
+  var result = <String, dynamic>{};
+  for (var fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index];
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
@@ -94,7 +94,7 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     dynamic jsonValue;
     if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
-        MapFieldInfo mapEntryInfo = fieldInfo as MapFieldInfo;
+        var mapEntryInfo = fieldInfo as MapFieldInfo;
         return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType),
             valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
       });
@@ -118,7 +118,7 @@ void _mergeFromProto3Json(
     bool ignoreUnknownFields,
     bool supportNamesWithUnderscores,
     bool permissiveEnums) {
-  JsonParsingContext context = JsonParsingContext(
+  var context = JsonParsingContext(
       ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
   void recursionHelper(Object json, _FieldSet fieldSet) {
@@ -155,7 +155,7 @@ void _mergeFromProto3Json(
       if (value == null) {
         return fieldInfo.makeDefault();
       }
-      int fieldType = fieldInfo.type;
+      var fieldType = fieldInfo.type;
       switch (PbFieldType._baseType(fieldType)) {
         case PbFieldType._BOOL_BIT:
           if (value is bool) {
@@ -266,7 +266,7 @@ void _mergeFromProto3Json(
               'Expected int or stringified int', value);
         case PbFieldType._GROUP_BIT:
         case PbFieldType._MESSAGE_BIT:
-          GeneratedMessage subMessage = fieldInfo.subBuilder();
+          var subMessage = fieldInfo.subBuilder();
           recursionHelper(value, subMessage._fieldSet);
           return subMessage;
         default:
@@ -316,14 +316,14 @@ void _mergeFromProto3Json(
       return;
     }
 
-    BuilderInfo info = fieldSet._meta;
+    var info = fieldSet._meta;
 
     final wellKnownConverter = info.fromProto3Json;
     if (wellKnownConverter != null) {
       wellKnownConverter(fieldSet._message, json, typeRegistry, context);
     } else {
       if (json is Map) {
-        Map<String, FieldInfo> byName = info.byName;
+        var byName = info.byName;
 
         json.forEach((key, value) {
           if (key is! String) {
@@ -331,7 +331,7 @@ void _mergeFromProto3Json(
           }
           context.addMapIndex(key);
 
-          FieldInfo fieldInfo = byName[key];
+          var fieldInfo = byName[key];
           if (fieldInfo == null && supportNamesWithUnderscores) {
             // We don't optimize for field names with underscores, instead do a
             // linear search for the index.
@@ -371,8 +371,8 @@ void _mergeFromProto3Json(
               // `null` is accepted as the empty list [].
               fieldSet._ensureRepeatedField(fieldInfo);
             } else if (value is List) {
-              List values = fieldSet._ensureRepeatedField(fieldInfo);
-              for (int i = 0; i < value.length; i++) {
+              var values = fieldSet._ensureRepeatedField(fieldInfo);
+              for (var i = 0; i < value.length; i++) {
                 final entry = value[i];
                 context.addListIndex(i);
                 values.add(convertProto3JsonValue(entry, fieldInfo));

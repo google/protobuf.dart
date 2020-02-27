@@ -9,6 +9,7 @@ library map_mixin_test;
 
 import 'dart:collection' show MapMixin;
 
+import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart';
 import 'package:test/test.dart' show expect, same, test, throwsArgumentError;
 
@@ -16,32 +17,34 @@ import 'mock_util.dart' show MockMessage, mockInfo;
 
 // A minimal protobuf implementation compatible with PbMapMixin.
 class Rec extends MockMessage with MapMixin, PbMapMixin {
-  get info_ => _info;
-  static final _info = mockInfo("Rec", () => Rec());
+  @override
+  BuilderInfo get info_ => _info;
+  static final _info = mockInfo('Rec', () => Rec());
+  @override
   Rec createEmptyInstance() => Rec();
 
   @override
-  String toString() => "Rec(${val}, \"${str}\")";
+  String toString() => 'Rec(${val}, "${str}")';
 }
 
-main() {
+void main() {
   test('PbMapMixin methods return default field values', () {
     var r = Rec();
 
     expect(r.isEmpty, false);
     expect(r.isNotEmpty, true);
-    expect(r.keys, ["val", "str", "child", "int32s", "int64"]);
+    expect(r.keys, ['val', 'str', 'child', 'int32s', 'int64']);
 
-    expect(r["val"], 42);
-    expect(r["str"], "");
-    expect(r["child"].runtimeType, Rec);
-    expect(r["child"].toString(), 'Rec(42, "")');
-    expect(r["int32s"], []);
+    expect(r['val'], 42);
+    expect(r['str'], '');
+    expect(r['child'].runtimeType, Rec);
+    expect(r['child'].toString(), 'Rec(42, "")');
+    expect(r['int32s'], []);
 
     var v = r.values;
     expect(v.length, 5);
     expect(v.first, 42);
-    expect(v.toList()[1], "");
+    expect(v.toList()[1], '');
     expect(v.toList()[3].toString(), '[]');
     expect(v.last, 0);
   });
@@ -49,23 +52,23 @@ main() {
   test('operator []= sets record fields', () {
     var r = Rec();
 
-    r["val"] = 123;
+    r['val'] = 123;
     expect(r.val, 123);
-    expect(r["val"], 123);
+    expect(r['val'], 123);
 
-    r["str"] = "hello";
-    expect(r.str, "hello");
-    expect(r["str"], "hello");
+    r['str'] = 'hello';
+    expect(r.str, 'hello');
+    expect(r['str'], 'hello');
 
     var child = Rec();
-    r["child"] = child;
+    r['child'] = child;
     expect(r.child, same(child));
-    expect(r["child"], same(child));
+    expect(r['child'], same(child));
 
-    expect(() => r["int32s"] = 123, throwsArgumentError);
-    r["int32s"].add(123);
-    expect(r["int32s"], [123]);
-    expect(r["int32s"], same(r["int32s"]));
+    expect(() => r['int32s'] = 123, throwsArgumentError);
+    r['int32s'].add(123);
+    expect(r['int32s'], [123]);
+    expect(r['int32s'], same(r['int32s']));
   });
 
   test('operator== and hashCode work for Map mixin', () {
@@ -75,7 +78,7 @@ main() {
     expect({} == a, false);
 
     var b = Rec();
-    expect(a.info_ == b.info_, true, reason: "BuilderInfo should be the same");
+    expect(a.info_ == b.info_, true, reason: 'BuilderInfo should be the same');
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);
 

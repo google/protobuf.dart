@@ -30,8 +30,10 @@ class Extension<T> extends FieldInfo<T> {
       : super.repeated(name, tagNumber, null, fieldType, check, subBuilder,
             valueOf: valueOf, enumValues: enumValues, protoName: protoName);
 
+  @override
   int get hashCode => extendee.hashCode * 31 + tagNumber;
 
+  @override
   bool operator ==(other) {
     if (other is! Extension) return false;
 

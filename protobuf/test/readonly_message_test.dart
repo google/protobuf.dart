@@ -16,7 +16,7 @@ import 'package:protobuf/protobuf.dart'
         frozenMessageModificationHandler,
         defaultFrozenMessageModificationHandler;
 
-throwsError(Type expectedType, Matcher expectedMessage) =>
+Matcher throwsError(Type expectedType, Matcher expectedMessage) =>
     throwsA(predicate((x) {
       expect(x.runtimeType, expectedType);
       expect(x.message, expectedMessage);
@@ -26,6 +26,7 @@ throwsError(Type expectedType, Matcher expectedMessage) =>
 class Rec extends GeneratedMessage {
   static Rec getDefault() => Rec()..freeze();
   static Rec create() => Rec();
+  @override
   Rec createEmptyInstance() => Rec();
 
   @override
@@ -48,14 +49,15 @@ class Rec extends GeneratedMessage {
   @override
   Rec clone() => Rec()..mergeFromMessage(this);
 
+  @override
   Rec copyWith(void Function(Rec) updates) =>
       super.copyWith((message) => updates(message as Rec));
 }
 
-main() {
+void main() {
   test('can write a read-only message', () {
     expect(Rec.getDefault().writeToBuffer(), []);
-    expect(Rec.getDefault().writeToJson(), "{}");
+    expect(Rec.getDefault().writeToJson(), '{}');
   });
 
   test("can't merge to a read-only message", () {
@@ -75,7 +77,7 @@ main() {
   test('can set a field on a read-only message with a custom read-only handler',
       () {
     try {
-      int called = 0;
+      var called = 0;
 
       frozenMessageModificationHandler =
           (String messageName, [String methodName]) {
@@ -168,10 +170,10 @@ main() {
         throwsError(
             UnsupportedError,
             equals(
-                "Attempted to call clear on a read-only message (UnknownFieldSet)")));
+                'Attempted to call clear on a read-only message (UnknownFieldSet)')));
   });
 
-  test("can rebuild a frozen message with merge", () {
+  test('can rebuild a frozen message with merge', () {
     final orig = Rec.create()
       ..value = 10
       ..freeze();
@@ -181,7 +183,7 @@ main() {
     expect(rebuilt.value, 7);
   });
 
-  test("can set a field while rebuilding a frozen message", () {
+  test('can set a field while rebuilding a frozen message', () {
     final orig = Rec.create()
       ..value = 10
       ..freeze();
@@ -191,7 +193,7 @@ main() {
     expect(rebuilt.value, 7);
   });
 
-  test("can clear while rebuilding a frozen message", () {
+  test('can clear while rebuilding a frozen message', () {
     final orig = Rec.create()
       ..value = 10
       ..freeze();
@@ -202,7 +204,7 @@ main() {
     expect(rebuilt.hasValue(), false);
   });
 
-  test("can clear a field while rebuilding a frozen message", () {
+  test('can clear a field while rebuilding a frozen message', () {
     final orig = Rec.create()
       ..value = 10
       ..freeze();
@@ -213,7 +215,7 @@ main() {
     expect(rebuilt.hasValue(), false);
   });
 
-  test("can modify repeated fields while rebuilding a frozen message", () {
+  test('can modify repeated fields while rebuilding a frozen message', () {
     var orig = Rec.create()
       ..ints.add(10)
       ..freeze();
@@ -238,7 +240,7 @@ main() {
     expect(rebuilt.sub.length, 2);
   });
 
-  test("cannot modify sub-messages while rebuilding a frozen message", () {
+  test('cannot modify sub-messages while rebuilding a frozen message', () {
     final subMessage = Rec.create()..value = 1;
     final orig = Rec.create()
       ..sub.add(Rec.create()..sub.add(subMessage))
@@ -262,7 +264,7 @@ main() {
     expect(rebuilt.sub[0].sub[0].value, 2);
   });
 
-  test("can modify unknown fields while rebuilding a frozen message", () {
+  test('can modify unknown fields while rebuilding a frozen message', () {
     final orig = Rec.create()
       ..unknownFields.addField(20, UnknownFieldSetField()..fixed32s.add(1));
     final rebuilt = orig.copyWith((m) => m.unknownFields.clear());

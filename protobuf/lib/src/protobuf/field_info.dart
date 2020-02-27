@@ -101,7 +101,7 @@ class FieldInfo<T> {
 
   /// Returns a read-only default value for a field.
   /// (Unlike getField, doesn't create a repeated field.)
-  get readonlyDefault {
+  dynamic get readonlyDefault {
     if (isRepeated) {
       return _emptyList ??= FrozenPbList._([]);
     }
@@ -150,8 +150,8 @@ class FieldInfo<T> {
       if (!list[0]._fieldSet._hasRequiredFields) return;
 
       // Recurse on each item in the list.
-      int position = 0;
-      for (GeneratedMessage message in list) {
+      var position = 0;
+      for (var message in list) {
         message._fieldSet
             ._appendInvalidFields(problems, '$prefix$name[$position].');
         position++;
@@ -180,6 +180,7 @@ class FieldInfo<T> {
     return fs._ensureRepeatedField<T>(this);
   }
 
+  @override
   String toString() => name;
 }
 

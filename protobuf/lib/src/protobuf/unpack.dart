@@ -21,7 +21,7 @@ void unpackIntoHelper<T extends GeneratedMessage>(
   //   in the type URL, for example "foo.bar.com/x/y.z" will yield type
   //   name "y.z".
   if (!canUnpackIntoHelper(instance, typeUrl)) {
-    String typeName = instance.info_.qualifiedMessageName;
+    var typeName = instance.info_.qualifiedMessageName;
     throw InvalidProtocolBufferException.wrongAnyMessage(
         _typeNameFromUrl(typeUrl), typeName);
   }
@@ -37,6 +37,6 @@ bool canUnpackIntoHelper(GeneratedMessage instance, String typeUrl) {
 }
 
 String _typeNameFromUrl(String typeUrl) {
-  int index = typeUrl.lastIndexOf('/');
+  var index = typeUrl.lastIndexOf('/');
   return index == -1 ? '' : typeUrl.substring(index + 1);
 }

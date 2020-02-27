@@ -9,14 +9,14 @@ import 'package:test/test.dart';
 
 import 'mock_util.dart' show T;
 
-main() {
-  T example = T()
+void main() {
+  var example = T()
     ..val = 123
-    ..str = "hello"
+    ..str = 'hello'
     ..int32s.addAll(<int>[1, 2, 3]);
 
   test('testWriteToJson', () {
-    String json = example.writeToJson();
+    var json = example.writeToJson();
     checkJsonMap(jsonDecode(json));
   });
 
@@ -39,7 +39,7 @@ main() {
 
   test('testMergeFromJsonMap', () {
     var t = T();
-    t.mergeFromJsonMap({"1": 123, "2": "hello"});
+    t.mergeFromJsonMap({'1': 123, '2': 'hello'});
     checkMessage(t);
   });
 
@@ -47,7 +47,7 @@ main() {
     final value = Int64.parseInt('1234567890123456789');
     final t = T()..int64 = value;
     final encoded = t.writeToJsonMap();
-    expect(encoded["5"], "$value");
+    expect(encoded['5'], '$value');
     final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
@@ -58,20 +58,20 @@ main() {
       ..int64 = value
       ..freeze();
     final encoded = frozen.writeToJsonMap();
-    expect(encoded["5"], "$value");
+    expect(encoded['5'], '$value');
     final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
 }
 
-checkJsonMap(Map m) {
+void checkJsonMap(Map m) {
   expect(m.length, 3);
-  expect(m["1"], 123);
-  expect(m["2"], "hello");
-  expect(m["4"], [1, 2, 3]);
+  expect(m['1'], 123);
+  expect(m['2'], 'hello');
+  expect(m['4'], [1, 2, 3]);
 }
 
-checkMessage(T t) {
+void checkMessage(T t) {
   expect(t.val, 123);
-  expect(t.str, "hello");
+  expect(t.str, 'hello');
 }

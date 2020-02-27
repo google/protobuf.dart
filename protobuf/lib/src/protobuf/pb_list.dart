@@ -4,7 +4,7 @@
 
 part of protobuf;
 
-typedef void CheckFunc<E>(E x);
+typedef CheckFunc<E> = void Function(E x);
 
 class FrozenPbList<E> extends PbListBase<E> {
   FrozenPbList._(List<E> wrappedList) : super._(wrappedList);
@@ -13,38 +13,57 @@ class FrozenPbList<E> extends PbListBase<E> {
       FrozenPbList._(other._wrappedList);
 
   UnsupportedError _unsupported(String method) =>
-      UnsupportedError("Cannot call $method on an unmodifiable list");
+      UnsupportedError('Cannot call $method on an unmodifiable list');
 
-  void operator []=(int index, E value) => throw _unsupported("set");
-  set length(int newLength) => throw _unsupported("set length");
-  void setAll(int at, Iterable<E> iterable) => throw _unsupported("setAll");
-  void add(E value) => throw _unsupported("add");
-  void addAll(Iterable<E> iterable) => throw _unsupported("addAll");
-  void insert(int index, E element) => throw _unsupported("insert");
+  @override
+  void operator []=(int index, E value) => throw _unsupported('set');
+  @override
+  set length(int newLength) => throw _unsupported('set length');
+  @override
+  void setAll(int at, Iterable<E> iterable) => throw _unsupported('setAll');
+  @override
+  void add(E value) => throw _unsupported('add');
+  @override
+  void addAll(Iterable<E> iterable) => throw _unsupported('addAll');
+  @override
+  void insert(int index, E element) => throw _unsupported('insert');
+  @override
   void insertAll(int at, Iterable<E> iterable) =>
-      throw _unsupported("insertAll");
-  bool remove(Object element) => throw _unsupported("remove");
-  void removeWhere(bool test(E element)) => throw _unsupported("removeWhere");
-  void retainWhere(bool test(E element)) => throw _unsupported("retainWhere");
-  void sort([Comparator<E> compare]) => throw _unsupported("sort");
-  void shuffle([math.Random random]) => throw _unsupported("shuffle");
-  void clear() => throw _unsupported("clear");
-  E removeAt(int index) => throw _unsupported("removeAt");
-  E removeLast() => throw _unsupported("removeLast");
+      throw _unsupported('insertAll');
+  @override
+  bool remove(Object element) => throw _unsupported('remove');
+  @override
+  void removeWhere(bool Function(E element) test) =>
+      throw _unsupported('removeWhere');
+  @override
+  void retainWhere(bool Function(E element) test) =>
+      throw _unsupported('retainWhere');
+  @override
+  void sort([Comparator<E> compare]) => throw _unsupported('sort');
+  @override
+  void shuffle([math.Random random]) => throw _unsupported('shuffle');
+  @override
+  void clear() => throw _unsupported('clear');
+  @override
+  E removeAt(int index) => throw _unsupported('removeAt');
+  @override
+  E removeLast() => throw _unsupported('removeLast');
+  @override
   void setRange(int start, int end, Iterable<E> iterable,
           [int skipCount = 0]) =>
-      throw _unsupported("setRange");
-  void removeRange(int start, int end) => throw _unsupported("removeRange");
+      throw _unsupported('setRange');
+  @override
+  void removeRange(int start, int end) => throw _unsupported('removeRange');
+  @override
   void replaceRange(int start, int end, Iterable<E> iterable) =>
-      throw _unsupported("replaceRange");
+      throw _unsupported('replaceRange');
+  @override
   void fillRange(int start, int end, [E fillValue]) =>
-      throw _unsupported("fillRange");
+      throw _unsupported('fillRange');
 }
 
 class PbList<E> extends PbListBase<E> {
   PbList({check = _checkNotNull}) : super._noList(check: check);
-
-  PbList._(List<E> wrappedList) : super._(wrappedList);
 
   PbList.from(List from) : super._from(from);
 
@@ -58,6 +77,7 @@ class PbList<E> extends PbListBase<E> {
 
   /// Adds [value] at the end of the list, extending the length by one.
   /// Throws an [UnsupportedError] if the list is not extendable.
+  @override
   void add(E value) {
     check(value);
     _wrappedList.add(value);
@@ -66,26 +86,32 @@ class PbList<E> extends PbListBase<E> {
   /// Appends all elements of the [collection] to the end of list.
   /// Extends the length of the list by the length of [collection].
   /// Throws an [UnsupportedError] if the list is not extendable.
+  @override
   void addAll(Iterable<E> collection) {
     collection.forEach(check);
     _wrappedList.addAll(collection);
   }
 
   /// Returns an [Iterable] of the objects in this list in reverse order.
+  @override
   Iterable<E> get reversed => _wrappedList.reversed;
 
   /// Sorts this list according to the order specified by the [compare]
   /// function.
-  void sort([int compare(E a, E b)]) => _wrappedList.sort(compare);
+  @override
+  void sort([int Function(E a, E b) compare]) => _wrappedList.sort(compare);
 
   /// Shuffles the elements of this list randomly.
+  @override
   void shuffle([math.Random random]) => _wrappedList.shuffle(random);
 
   /// Removes all objects from this list; the length of the list becomes zero.
+  @override
   void clear() => _wrappedList.clear();
 
   /// Inserts a new element in the list.
   /// The element must be valid (and not nullable) for the PbList type.
+  @override
   void insert(int index, E element) {
     check(element);
     _wrappedList.insert(index, element);
@@ -94,6 +120,7 @@ class PbList<E> extends PbListBase<E> {
   /// Inserts all elements of [iterable] at position [index] in the list.
   ///
   /// Elements in [iterable] must be valid and not nullable for the PbList type.
+  @override
   void insertAll(int index, Iterable<E> iterable) {
     iterable.forEach(check);
     _wrappedList.insertAll(index, iterable);
@@ -103,29 +130,38 @@ class PbList<E> extends PbListBase<E> {
   /// position [index] in the list.
   ///
   /// Elements in [iterable] must be valid and not nullable for the PbList type.
+  @override
   void setAll(int index, Iterable<E> iterable) {
     iterable.forEach(check);
     _wrappedList.setAll(index, iterable);
   }
 
   /// Removes the first occurrence of [value] from this list.
+  @override
   bool remove(Object value) => _wrappedList.remove(value);
 
   /// Removes the object at position [index] from this list.
+  @override
   E removeAt(int index) => _wrappedList.removeAt(index);
 
   /// Pops and returns the last object in this list.
+  @override
   E removeLast() => _wrappedList.removeLast();
 
   /// Removes all objects from this list that satisfy [test].
-  void removeWhere(bool test(E element)) => _wrappedList.removeWhere(test);
+  @override
+  void removeWhere(bool Function(E element) test) =>
+      _wrappedList.removeWhere(test);
 
   /// Removes all objects from this list that fail to satisfy [test].
-  void retainWhere(bool test(E element)) => _wrappedList.retainWhere(test);
+  @override
+  void retainWhere(bool Function(E element) test) =>
+      _wrappedList.retainWhere(test);
 
   /// Copies [:end - start:] elements of the [from] array, starting from
   /// [skipCount], into [:this:], starting at [start].
   /// Throws an [UnsupportedError] if the list is not extendable.
+  @override
   void setRange(int start, int end, Iterable<E> from, [int skipCount = 0]) {
     // NOTE: In case `take()` returns less than `end - start` elements, the
     // _wrappedList will fail with a `StateError`.
@@ -134,10 +170,12 @@ class PbList<E> extends PbListBase<E> {
   }
 
   /// Removes the objects in the range [start] inclusive to [end] exclusive.
+  @override
   void removeRange(int start, int end) => _wrappedList.removeRange(start, end);
 
   /// Sets the objects in the range [start] inclusive to [end] exclusive to the
   /// given [fillValue].
+  @override
   void fillRange(int start, int end, [E fillValue]) {
     check(fillValue);
     _wrappedList.fillRange(start, end, fillValue);
@@ -145,6 +183,7 @@ class PbList<E> extends PbListBase<E> {
 
   /// Removes the objects in the range [start] inclusive to [end] exclusive and
   /// inserts the contents of [replacement] in its place.
+  @override
   void replaceRange(int start, int end, Iterable<E> replacement) {
     final values = replacement.toList();
     replacement.forEach(check);
@@ -175,86 +214,114 @@ abstract class PbListBase<E> extends ListBase<E> {
   int get hashCode => _HashUtils._hashObjects(_wrappedList);
 
   /// Returns an [Iterator] for the list.
+  @override
   Iterator<E> get iterator => _wrappedList.iterator;
 
   /// Returns a new lazy [Iterable] with elements that are created by calling
   /// `f` on each element of this `PbListBase` in iteration order.
-  Iterable<T> map<T>(T f(E e)) => _wrappedList.map<T>(f);
+  @override
+  Iterable<T> map<T>(T Function(E e) f) => _wrappedList.map<T>(f);
 
   /// Returns a new lazy [Iterable] with all elements that satisfy the predicate
   /// [test].
-  Iterable<E> where(bool test(E element)) => _wrappedList.where(test);
+  @override
+  Iterable<E> where(bool Function(E element) test) => _wrappedList.where(test);
 
   /// Expands each element of this [Iterable] into zero or more elements.
-  Iterable<T> expand<T>(Iterable<T> f(E element)) => _wrappedList.expand(f);
+  @override
+  Iterable<T> expand<T>(Iterable<T> Function(E element) f) =>
+      _wrappedList.expand(f);
 
   /// Returns true if the collection contains an element equal to [element].
+  @override
   bool contains(Object element) => _wrappedList.contains(element);
 
   /// Applies the function [f] to each element of this list in iteration order.
-  void forEach(void f(E element)) {
+  @override
+  void forEach(void Function(E element) f) {
     _wrappedList.forEach(f);
   }
 
   /// Reduces a collection to a single value by iteratively combining elements
   /// of the collection using the provided function.
-  E reduce(E combine(E value, E element)) => _wrappedList.reduce(combine);
+  @override
+  E reduce(E Function(E value, E element) combine) =>
+      _wrappedList.reduce(combine);
 
   /// Reduces a collection to a single value by iteratively combining each
   /// element of the collection with an existing value.
-  T fold<T>(T initialValue, T combine(T previousValue, E element)) =>
+  @override
+  T fold<T>(T initialValue, T Function(T previousValue, E element) combine) =>
       _wrappedList.fold(initialValue, combine);
 
   /// Checks whether every element of this iterable satisfies [test].
-  bool every(bool test(E element)) => _wrappedList.every(test);
+  @override
+  bool every(bool Function(E element) test) => _wrappedList.every(test);
 
   /// Converts each element to a [String] and concatenates the strings.
-  String join([String separator = ""]) => _wrappedList.join(separator);
+  @override
+  String join([String separator = '']) => _wrappedList.join(separator);
 
   /// Checks whether any element of this iterable satisfies [test].
-  bool any(bool test(E element)) => _wrappedList.any(test);
+  @override
+  bool any(bool Function(E element) test) => _wrappedList.any(test);
 
   /// Creates a [List] containing the elements of this [Iterable].
+  @override
   List<E> toList({bool growable = true}) =>
       _wrappedList.toList(growable: growable);
 
   /// Creates a [Set] containing the same elements as this iterable.
+  @override
   Set<E> toSet() => _wrappedList.toSet();
 
   /// Returns `true` if there are no elements in this collection.
+  @override
   bool get isEmpty => _wrappedList.isEmpty;
 
   /// Returns `true` if there is at least one element in this collection.
+  @override
   bool get isNotEmpty => _wrappedList.isNotEmpty;
 
   /// Returns a lazy iterable of the [count] first elements of this iterable.
+  @override
   Iterable<E> take(int count) => _wrappedList.take(count);
 
   /// Returns a lazy iterable of the leading elements satisfying [test].
-  Iterable<E> takeWhile(bool test(E value)) => _wrappedList.takeWhile(test);
+  @override
+  Iterable<E> takeWhile(bool Function(E value) test) =>
+      _wrappedList.takeWhile(test);
 
   /// Returns an [Iterable] that provides all but the first [count] elements.
+  @override
   Iterable<E> skip(int count) => _wrappedList.skip(count);
 
   /// Returns an `Iterable` that skips leading elements while [test] is
   /// satisfied.
-  Iterable<E> skipWhile(bool test(E value)) => _wrappedList.skipWhile(test);
+  @override
+  Iterable<E> skipWhile(bool Function(E value) test) =>
+      _wrappedList.skipWhile(test);
 
   /// Returns the first element.
+  @override
   E get first => _wrappedList.first;
 
   /// Returns the last element.
+  @override
   E get last => _wrappedList.last;
 
   /// Checks that this iterable has only one element, and returns that element.
+  @override
   E get single => _wrappedList.single;
 
   /// Returns the first element that satisfies the given predicate [test].
-  E firstWhere(bool test(E element), {E orElse()}) =>
+  @override
+  E firstWhere(bool Function(E element) test, {E Function() orElse}) =>
       _wrappedList.firstWhere(test, orElse: orElse);
 
   /// Returns the last element that satisfies the given predicate [test].
-  E lastWhere(bool test(E element), {E orElse()}) =>
+  @override
+  E lastWhere(bool Function(E element) test, {E Function() orElse}) =>
       _wrappedList.lastWhere(test, orElse: orElse);
 
   /// Returns the single element that satisfies [test].
@@ -263,9 +330,11 @@ abstract class PbListBase<E> extends ListBase<E> {
   //    _wrappedList.singleWhere(test, orElse: orElse);
 
   /// Returns the [index]th element.
+  @override
   E elementAt(int index) => _wrappedList.elementAt(index);
 
   /// Returns a string representation of (some of) the elements of `this`.
+  @override
   String toString() => _wrappedList.toString();
 
   /// Returns the element at the given [index] in the list or throws an
@@ -274,27 +343,33 @@ abstract class PbListBase<E> extends ListBase<E> {
   E operator [](int index) => _wrappedList[index];
 
   /// Returns the number of elements in this collection.
+  @override
   int get length => _wrappedList.length;
 
   // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
   /// Returns the first index of [element] in this list.
+  @override
   int indexOf(Object element, [int start = 0]) =>
       _wrappedList.indexOf(element, start);
 
   // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
   /// Returns the last index of [element] in this list.
+  @override
   int lastIndexOf(Object element, [int start]) =>
       _wrappedList.lastIndexOf(element, start);
 
   /// Returns a new list containing the objects from [start] inclusive to [end]
   /// exclusive.
+  @override
   List<E> sublist(int start, [int end]) => _wrappedList.sublist(start, end);
 
   /// Returns an [Iterable] that iterates over the objects in the range [start]
   /// inclusive to [end] exclusive.
+  @override
   Iterable<E> getRange(int start, int end) => _wrappedList.getRange(start, end);
 
   /// Returns an unmodifiable [Map] view of `this`.
+  @override
   Map<int, E> asMap() => _wrappedList.asMap();
 
   /// Sets the entry at the given [index] in the list to [value].
@@ -310,6 +385,7 @@ abstract class PbListBase<E> extends ListBase<E> {
   /// Changes the length of the list. If [newLength] is greater than the current
   /// [length], entries are initialized to [:null:]. Throws an
   /// [UnsupportedError] if the list is not extendable.
+  @override
   set length(int newLength) {
     if (newLength > length) {
       throw UnsupportedError('Extending protobuf lists is not supported');

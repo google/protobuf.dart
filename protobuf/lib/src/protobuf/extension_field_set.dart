@@ -14,7 +14,7 @@ class _ExtensionFieldSet {
 
   Extension _getInfoOrNull(int tagNumber) => _info[tagNumber];
 
-  _getFieldOrDefault(Extension fi) {
+  dynamic _getFieldOrDefault(Extension fi) {
     if (fi.isRepeated) return _getList(fi);
     _validateInfo(fi);
     // TODO(skybrian) seems unnecessary to add info?
@@ -62,7 +62,7 @@ class _ExtensionFieldSet {
     return newList;
   }
 
-  _getFieldOrNull(Extension extension) => _values[extension.tagNumber];
+  dynamic _getFieldOrNull(Extension extension) => _values[extension.tagNumber];
 
   void _clearFieldAndInfo(Extension fi) {
     _clearField(fi);
@@ -82,7 +82,7 @@ class _ExtensionFieldSet {
     var fi = _getInfoOrNull(tagNumber);
     if (fi == null) {
       throw ArgumentError(
-          "tag $tagNumber not defined in $_parent._messageName");
+          'tag $tagNumber not defined in $_parent._messageName');
     }
     if (fi.isRepeated) {
       throw ArgumentError(_parent._setFieldFailedMessage(
@@ -136,7 +136,7 @@ class _ExtensionFieldSet {
   Iterable<int> get _tagNumbers => _values.keys;
   Iterable<Extension> get _infos => _info.values;
 
-  get _hasValues => _values.isNotEmpty;
+  bool get _hasValues => _values.isNotEmpty;
 
   bool _equalValues(_ExtensionFieldSet other) =>
       other != null && _areMapsEqual(_values, other._values);
@@ -148,8 +148,8 @@ class _ExtensionFieldSet {
   /// Repeated fields are copied.
   /// Extensions cannot contain map fields.
   void _shallowCopyValues(_ExtensionFieldSet original) {
-    for (int tagNumber in original._tagNumbers) {
-      Extension extension = original._getInfoOrNull(tagNumber);
+    for (var tagNumber in original._tagNumbers) {
+      var extension = original._getInfoOrNull(tagNumber);
       _addInfoUnchecked(extension);
 
       final value = original._getFieldOrNull(extension);
@@ -166,7 +166,7 @@ class _ExtensionFieldSet {
   void _markReadOnly() {
     if (_isReadOnly) return;
     _isReadOnly = true;
-    for (Extension field in _info.values) {
+    for (var field in _info.values) {
       if (field.isRepeated) {
         final entries = _values[field.tagNumber];
         if (entries == null) continue;

@@ -9,7 +9,7 @@ class BuilderInfo {
   /// The fully qualified name of this message.
   final String qualifiedMessageName;
   final List<FieldInfo> byIndex = <FieldInfo>[];
-  final Map<int, FieldInfo> fieldInfo = Map<int, FieldInfo>();
+  final Map<int, FieldInfo> fieldInfo = <int, FieldInfo>{};
   final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
   // Maps a tag number to the corresponding oneof index (if any).
@@ -30,7 +30,7 @@ class BuilderInfo {
       this.createEmptyInstance,
       this.toProto3Json,
       this.fromProto3Json})
-      : qualifiedMessageName = "${package.prefix}$messageName";
+      : qualifiedMessageName = '${package.prefix}$messageName';
 
   void add<T>(
       int tagNumber,
@@ -90,7 +90,7 @@ class BuilderInfo {
     // maps.
     if (!fi._isDummy) {
       fieldInfo[fi.tagNumber] = fi;
-      byTagAsString["${fi.tagNumber}"] = fi;
+      byTagAsString['${fi.tagNumber}'] = fi;
       byName[fi.name] = fi;
     }
   }
@@ -210,8 +210,7 @@ class BuilderInfo {
       List<ProtobufEnum> enumValues,
       PackageName packageName = const PackageName(''),
       String protoName}) {
-    BuilderInfo mapEntryBuilderInfo = BuilderInfo(entryClassName,
-        package: packageName)
+    var mapEntryBuilderInfo = BuilderInfo(entryClassName, package: packageName)
       ..add(PbMap._keyFieldNumber, 'key', keyFieldType, null, null, null, null)
       ..add(PbMap._valueFieldNumber, 'value', valueFieldType, null,
           valueCreator, valueOf, enumValues);
@@ -223,39 +222,39 @@ class BuilderInfo {
 
   bool containsTagNumber(int tagNumber) => fieldInfo.containsKey(tagNumber);
 
-  defaultValue(int tagNumber) {
-    MakeDefaultFunc func = makeDefault(tagNumber);
+  dynamic defaultValue(int tagNumber) {
+    var func = makeDefault(tagNumber);
     return func == null ? null : func();
   }
 
   // Returns the field name for a given tag number, for debugging purposes.
   String fieldName(int tagNumber) {
-    FieldInfo i = fieldInfo[tagNumber];
+    var i = fieldInfo[tagNumber];
     return i != null ? i.name : null;
   }
 
   int fieldType(int tagNumber) {
-    FieldInfo i = fieldInfo[tagNumber];
+    var i = fieldInfo[tagNumber];
     return i != null ? i.type : null;
   }
 
   MakeDefaultFunc makeDefault(int tagNumber) {
-    FieldInfo i = fieldInfo[tagNumber];
+    var i = fieldInfo[tagNumber];
     return i != null ? i.makeDefault : null;
   }
 
   CreateBuilderFunc subBuilder(int tagNumber) {
-    FieldInfo i = fieldInfo[tagNumber];
+    var i = fieldInfo[tagNumber];
     return i != null ? i.subBuilder : null;
   }
 
   int tagNumber(String fieldName) {
-    FieldInfo i = byName[fieldName];
+    var i = byName[fieldName];
     return i != null ? i.tagNumber : null;
   }
 
   ValueOfFunc valueOfFunc(int tagNumber) {
-    FieldInfo i = fieldInfo[tagNumber];
+    var i = fieldInfo[tagNumber];
     return i != null ? i.valueOf : null;
   }
 
@@ -279,7 +278,7 @@ class BuilderInfo {
 
   GeneratedMessage _makeEmptyMessage(
       int tagNumber, ExtensionRegistry extensionRegistry) {
-    CreateBuilderFunc subBuilderFunc = subBuilder(tagNumber);
+    var subBuilderFunc = subBuilder(tagNumber);
     if (subBuilderFunc == null && extensionRegistry != null) {
       subBuilderFunc = extensionRegistry
           .getExtension(qualifiedMessageName, tagNumber)
@@ -288,8 +287,9 @@ class BuilderInfo {
     return subBuilderFunc();
   }
 
-  _decodeEnum(int tagNumber, ExtensionRegistry registry, int rawValue) {
-    ValueOfFunc f = valueOfFunc(tagNumber);
+  ProtobufEnum _decodeEnum(
+      int tagNumber, ExtensionRegistry registry, int rawValue) {
+    var f = valueOfFunc(tagNumber);
     if (f == null && registry != null) {
       f = registry.getExtension(qualifiedMessageName, tagNumber).valueOf;
     }

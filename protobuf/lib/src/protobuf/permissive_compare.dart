@@ -11,8 +11,8 @@ bool permissiveCompare(String a, String b) {
   const dash = 45;
   const underscore = 95;
 
-  int i = 0;
-  int j = 0;
+  var i = 0;
+  var j = 0;
 
   while (true) {
     int ca, cb;
