@@ -92,6 +92,22 @@ main() {
     }
   });
 
+  test('eagerly computes hashCode if a custom read-only handler is used', () {
+    try {
+      final message = Rec.getDefault();
+      final initialHashCode = message.hashCode;
+
+      frozenMessageModificationHandler =
+          (String messageName, [String methodName]) {};
+      message.setField(1, 456);
+      final modifiedHashCode = message.hashCode;
+      expect(initialHashCode == modifiedHashCode, isFalse);
+    } finally {
+      frozenMessageModificationHandler =
+          defaultFrozenMessageModificationHandler;
+    }
+  });
+
   test("can't clear a read-only message", () {
     expect(
         () => Rec.getDefault().clear(),

@@ -23,8 +23,23 @@ void defaultFrozenMessageModificationHandler(String messageName,
 ///
 /// If the handler returns normally, the modification is allowed, and execution
 /// proceeds as if the message was writable.
-FrozenMessageErrorHandler frozenMessageModificationHandler =
+FrozenMessageErrorHandler _frozenMessageModificationHandler =
     defaultFrozenMessageModificationHandler;
+FrozenMessageErrorHandler get frozenMessageModificationHandler =>
+    _frozenMessageModificationHandler;
+set frozenMessageModificationHandler(FrozenMessageErrorHandler value) {
+  _hashCodesCanBeMemoized = false;
+  _frozenMessageModificationHandler = value;
+}
+
+/// Indicator for whether the FieldSet hashCodes can be memoized.
+///
+/// HashCode memoization relies on the [defaultFrozenMessageModificationHandler]
+/// behavior--that is, after freezing, field set values can't ever be changed.
+/// This keeps track of whether an application has ever modified the
+/// [FrozenMessageErrorHandler] used, not allowing hashCodes to be memoized if
+/// it ever changed.
+bool _hashCodesCanBeMemoized = true;
 
 /// All the data in a GeneratedMessage.
 ///
@@ -35,7 +50,6 @@ class _FieldSet {
   final GeneratedMessage _message;
   final BuilderInfo _meta;
   final EventPlugin _eventPlugin;
-  bool _isReadOnly = false;
 
   /// The value of each non-extension field in a fixed-length array.
   /// The index of a field can be found in [FieldInfo.index].
@@ -47,6 +61,35 @@ class _FieldSet {
 
   /// Contains all the unknown fields, or null if there aren't any.
   UnknownFieldSet _unknownFields;
+
+  /// Encodes whether `this` has been frozen, and if so, also memoizes the
+  /// hash code.
+  ///
+  /// Will always be a `bool` or `int`.
+  ///
+  /// If the message is mutable: `false`
+  /// If the message is frozen and no hash code has been computed: `true`
+  /// If the message is frozen and a hash code has been computed: the hash
+  /// code as an `int`.
+  Object _frozenState = false;
+
+  /// Returns the value of [_frozenState] as if it were a boolean indicator
+  /// for whether `this` is read-only (has been frozen).
+  ///
+  /// If the value is not a `bool`, then it must contain the memoized hash code
+  /// value, in which case the proto must be read-only.
+  bool get _isReadOnly => _frozenState is bool ? _frozenState : true;
+
+  /// Returns the value of [_frozenState] if it contains the pre-computed value
+  /// of the hashCode for the frozen field sets.
+  ///
+  /// Computing the hashCode of a proto object can be very expensive for large
+  /// protos. Frozen protos don't allow any mutations, which means the contents
+  /// of the field set should be stable.
+  ///
+  /// If [_frozenState] contains a boolean, the hashCode hasn't been memoized,
+  /// so it will return null.
+  int get _memoizedHashCode => _frozenState is int ? _frozenState : null;
 
   // Maps a oneof decl index to the tag number which is currently set. If the
   // index is not present, the oneof field is unset.
@@ -122,7 +165,7 @@ class _FieldSet {
 
   void _markReadOnly() {
     if (_isReadOnly) return;
-    _isReadOnly = true;
+    _frozenState = true;
     for (var field in _meta.sortedByTag) {
       if (field.isRepeated) {
         final entries = _values[field.index];
@@ -592,7 +635,14 @@ class _FieldSet {
   ///
   /// The hash may change when any field changes (recursively).
   /// Therefore, protobufs used as map keys shouldn't be changed.
+  ///
+  /// If the protobuf contents have been frozen, and the
+  /// [FrozenMessageErrorHandler] has not been changed from the default
+  /// behavior, the hashCode can be memoized to speed up performance.
   int get _hashCode {
+    if (_hashCodesCanBeMemoized && _memoizedHashCode != null) {
+      return _memoizedHashCode;
+    }
     // Hashes the value of one field (recursively).
     int hashField(int hash, FieldInfo fi, value) {
       if (value is List && value.isEmpty) {
@@ -639,6 +689,10 @@ class _FieldSet {
     // Hash with unknown fields.
     if (_hasUnknownFields) {
       hash = _HashUtils._combine(hash, _unknownFields.hashCode);
+    }
+
+    if (_isReadOnly && _hashCodesCanBeMemoized) {
+      _frozenState = hash;
     }
     return hash;
   }
