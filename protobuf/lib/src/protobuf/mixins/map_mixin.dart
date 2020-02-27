@@ -4,7 +4,7 @@
 
 library protobuf.mixins.map;
 
-import "package:protobuf/protobuf.dart" show BuilderInfo;
+import 'package:protobuf/protobuf.dart' show BuilderInfo;
 
 /// Note that this class does not claim to implement [Map]. Instead, this needs
 /// to be specified using a dart_options.imports clause specifying MapMixin as a
@@ -18,10 +18,10 @@ abstract class PbMapMixin {
   BuilderInfo get info_;
   void clear();
   int getTagNumber(String fieldName);
-  getField(int tagNumber);
+  dynamic getField(int tagNumber);
   void setField(int tagNumber, var value);
 
-  operator [](key) {
+  dynamic operator [](key) {
     if (key is! String) return null;
     var tag = getTagNumber(key);
     if (tag == null) return null;
@@ -43,8 +43,8 @@ abstract class PbMapMixin {
 
   int get length => info_.byName.length;
 
-  remove(key) {
+  dynamic remove(key) {
     throw UnsupportedError(
-        "remove() not supported by ${info_.qualifiedMessageName}");
+        'remove() not supported by ${info_.qualifiedMessageName}');
   }
 }

@@ -39,7 +39,7 @@ void main() {
       0x65, 0x73 // 115 bytes 14 optional_bytes
     ]);
 
-    testWithList(List<int> inputBuffer) {
+    void testWithList(List<int> inputBuffer) {
       final cis = CodedBufferReader(inputBuffer);
 
       expect(cis.readTag(), makeTag(103, WIRETYPE_VARINT));
@@ -103,9 +103,9 @@ void main() {
   });
 
   test('testReadMaliciouslyLargeBlob', () {
-    CodedBufferWriter output = CodedBufferWriter();
+    final output = CodedBufferWriter();
 
-    int tag = makeTag(1, WIRETYPE_LENGTH_DELIMITED);
+    final tag = makeTag(1, WIRETYPE_LENGTH_DELIMITED);
     output.writeInt32NoTag(tag);
     output.writeInt32NoTag(0x7FFFFFFF);
     // Pad with a few random bytes.
@@ -113,7 +113,7 @@ void main() {
     output.writeInt32NoTag(32);
     output.writeInt32NoTag(47);
 
-    CodedBufferReader input = CodedBufferReader(output.toBuffer());
+    final input = CodedBufferReader(output.toBuffer());
     expect(input.readTag(), tag);
 
     expect(() {
@@ -125,15 +125,15 @@ void main() {
   /// is thrown. Instead, the invalid bytes are replaced with the Unicode
   /// 'replacement character' U+FFFD.
   test('testReadInvalidUtf8', () {
-    CodedBufferReader input = CodedBufferReader([1, 0x80]);
-    String text = input.readString();
+    final input = CodedBufferReader([1, 0x80]);
+    final text = input.readString();
     expect(text.codeUnitAt(0), 0xfffd);
   });
 
   test('testInvalidTag', () {
     // Any tag number which corresponds to field number zero is invalid and
     // should throw InvalidProtocolBufferException.
-    for (int i = 0; i < 8; i++) {
+    for (var i = 0; i < 8; i++) {
       expect(() {
         CodedBufferReader([i]).readTag();
       }, throwsInvalidProtocolBufferException);

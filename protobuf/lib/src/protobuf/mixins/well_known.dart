@@ -63,9 +63,9 @@ abstract class AnyMixin implements GeneratedMessage {
   //     }
   //
   //     {
-  //       "@type": "type.googleapis.com/google.profile.Person",
-  //       "firstName": <string>,
-  //       "lastName": <string>
+  //       '@type': 'type.googleapis.com/google.profile.Person',
+  //       'firstName': <string>,
+  //       'lastName': <string>
   //     }
   //
   // If the embedded message type is well-known and has a custom JSON
@@ -74,22 +74,21 @@ abstract class AnyMixin implements GeneratedMessage {
   // field. Example (for message [google.protobuf.Duration][]):
   //
   //     {
-  //       "@type": "type.googleapis.com/google.protobuf.Duration",
-  //       "value": "1.212s"
+  //       '@type': 'type.googleapis.com/google.protobuf.Duration',
+  //       'value': '1.212s'
   //     }
   static Object toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
-    AnyMixin any = message as AnyMixin;
-    BuilderInfo info = typeRegistry.lookup(_typeNameFromUrl(any.typeUrl));
+    final any = message as AnyMixin;
+    final info = typeRegistry.lookup(_typeNameFromUrl(any.typeUrl));
     if (info == null) {
       throw ArgumentError(
           'The type of the Any message (${any.typeUrl}) is not in the given typeRegistry.');
     }
-    GeneratedMessage unpacked = info.createEmptyInstance()
-      ..mergeFromBuffer(any.value);
-    Object proto3Json = unpacked.toProto3Json();
+    final unpacked = info.createEmptyInstance()..mergeFromBuffer(any.value);
+    final proto3Json = unpacked.toProto3Json();
     if (info.toProto3Json == null) {
-      Map<String, dynamic> map = proto3Json as Map<String, dynamic>;
+      final map = proto3Json as Map<String, dynamic>;
       map['@type'] = any.typeUrl;
       return map;
     } else {
@@ -107,8 +106,8 @@ abstract class AnyMixin implements GeneratedMessage {
     final typeUrl = object['@type'];
 
     if (typeUrl is String) {
-      AnyMixin any = message as AnyMixin;
-      BuilderInfo info = typeRegistry.lookup(_typeNameFromUrl(typeUrl));
+      final any = message as AnyMixin;
+      final info = typeRegistry.lookup(_typeNameFromUrl(typeUrl));
       if (info == null) {
         throw context.parseException(
             'Decoding Any of type ${typeUrl} not in TypeRegistry $typeRegistry',
@@ -120,7 +119,7 @@ abstract class AnyMixin implements GeneratedMessage {
           ? (Map<String, dynamic>.from(object)..remove('@type'))
           : object['value'];
       // TODO(sigurdm): We lose [context.path].
-      GeneratedMessage packedMessage = info.createEmptyInstance()
+      final packedMessage = info.createEmptyInstance()
         ..mergeFromProto3Json(subJson,
             typeRegistry: typeRegistry,
             supportNamesWithUnderscores: context.supportNamesWithUnderscores,
@@ -136,7 +135,7 @@ abstract class AnyMixin implements GeneratedMessage {
 }
 
 String _typeNameFromUrl(String typeUrl) {
-  int index = typeUrl.lastIndexOf('/');
+  final index = typeUrl.lastIndexOf('/');
   return index < 0 ? '' : typeUrl.substring(index + 1);
 }
 
@@ -161,14 +160,14 @@ abstract class TimestampMixin {
   ///
   /// Time zone information will not be preserved.
   static void setFromDateTime(TimestampMixin target, DateTime dateTime) {
-    int micros = dateTime.microsecondsSinceEpoch;
+    final micros = dateTime.microsecondsSinceEpoch;
     target.seconds = Int64(micros ~/ Duration.microsecondsPerSecond);
     target.nanos = (micros % Duration.microsecondsPerSecond).toInt() * 1000;
   }
 
   static String _twoDigits(int n) {
-    if (n >= 10) return "${n}";
-    return "0${n}";
+    if (n >= 10) return '${n}';
+    return '0${n}';
   }
 
   static final DateTime _minTimestamp = DateTime.utc(1);
@@ -179,21 +178,21 @@ abstract class TimestampMixin {
   //
   // In JSON format, the Timestamp type is encoded as a string in the
   // [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the
-  // format is "{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z"
+  // format is '{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z'
   // where {year} is always expressed using four digits while {month}, {day},
   // {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional
   // seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),
-  // are optional. The "Z" suffix indicates the timezone ("UTC"); the timezone
+  // are optional. The 'Z' suffix indicates the timezone ('UTC'); the timezone
   // is required. A proto3 JSON serializer should always use UTC (as indicated by
-  // "Z") when printing the Timestamp type and a proto3 JSON parser should be
+  // 'Z') when printing the Timestamp type and a proto3 JSON parser should be
   // able to accept both UTC and other timezones (as indicated by an offset).
   //
-  // For example, "2017-01-15T01:30:15.01Z" encodes 15.01 seconds past
+  // For example, '2017-01-15T01:30:15.01Z' encodes 15.01 seconds past
   // 01:30 UTC on January 15, 2017.
   static Object toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
-    TimestampMixin timestamp = message as TimestampMixin;
-    DateTime dateTime = timestamp.toDateTime();
+    final timestamp = message as TimestampMixin;
+    final dateTime = timestamp.toDateTime();
 
     if (timestamp.nanos < 0) {
       throw ArgumentError(
@@ -210,31 +209,31 @@ abstract class TimestampMixin {
 
     // Because [DateTime] doesn't have nano-second precision, we cannot use
     // dateTime.toIso8601String().
-    String y = '${dateTime.year}'.padLeft(4, '0');
-    String m = _twoDigits(dateTime.month);
-    String d = _twoDigits(dateTime.day);
-    String h = _twoDigits(dateTime.hour);
-    String min = _twoDigits(dateTime.minute);
-    String sec = _twoDigits(dateTime.second);
-    String secFrac = "";
+    final y = '${dateTime.year}'.padLeft(4, '0');
+    final m = _twoDigits(dateTime.month);
+    final d = _twoDigits(dateTime.day);
+    final h = _twoDigits(dateTime.hour);
+    final min = _twoDigits(dateTime.minute);
+    final sec = _twoDigits(dateTime.second);
+    var secFrac = '';
     if (timestamp.nanos > 0) {
-      secFrac = "." +
+      secFrac = '.' +
           timestamp.nanos
               .toString()
-              .padLeft(9, "0")
+              .padLeft(9, '0')
               .replaceFirst(finalGroupsOfThreeZeroes, '');
     }
-    return "$y-$m-${d}T$h:$min:$sec${secFrac}Z";
+    return '$y-$m-${d}T$h:$min:$sec${secFrac}Z';
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
       TypeRegistry typeRegistry, JsonParsingContext context) {
     if (json is String) {
-      String jsonWithoutFracSec = json;
-      int nanos = 0;
+      var jsonWithoutFracSec = json;
+      var nanos = 0;
       Match fracSecsMatch = RegExp(r'\.(\d+)').firstMatch(json);
       if (fracSecsMatch != null) {
-        String fracSecs = fracSecsMatch[1];
+        final fracSecs = fracSecsMatch[1];
         if (fracSecs.length > 9) {
           throw context.parseException(
               'Timestamp can have at most than 9 decimal digits', json);
@@ -243,12 +242,12 @@ abstract class TimestampMixin {
         jsonWithoutFracSec =
             json.replaceRange(fracSecsMatch.start, fracSecsMatch.end, '');
       }
-      DateTime dateTimeWithoutFractionalSeconds =
+      final dateTimeWithoutFractionalSeconds =
           DateTime.tryParse(jsonWithoutFracSec) ??
               (throw context.parseException(
                   'Timestamp not well formatted. ', json));
 
-      TimestampMixin timestamp = message as TimestampMixin;
+      final timestamp = message as TimestampMixin;
       setFromDateTime(timestamp, dateTimeWithoutFractionalSeconds);
       timestamp.nanos = nanos;
     } else {
@@ -269,33 +268,33 @@ abstract class DurationMixin {
 
   static Object toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
-    DurationMixin duration = message as DurationMixin;
-    String secFrac = duration.nanos
+    final duration = message as DurationMixin;
+    final secFrac = duration.nanos
         // nanos and seconds should always have the same sign.
         .abs()
         .toString()
         .padLeft(9, '0')
         .replaceFirst(finalZeroes, '');
-    String secPart = secFrac == '' ? '' : '.$secFrac';
-    return "${duration.seconds}${secPart}s";
+    final secPart = secFrac == '' ? '' : '.$secFrac';
+    return '${duration.seconds}${secPart}s';
   }
 
   static final RegExp durationPattern = RegExp(r'(-?\d*)(?:\.(\d*))?s$');
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
       TypeRegistry typeRegistry, JsonParsingContext context) {
-    DurationMixin duration = message as DurationMixin;
+    final duration = message as DurationMixin;
     if (json is String) {
-      Match match = durationPattern.matchAsPrefix(json);
+      final match = durationPattern.matchAsPrefix(json);
       if (match == null) {
         throw context.parseException(
             'Expected a String of the form `<seconds>.<nanos>s`', json);
       } else {
-        String secondsString = match[1];
-        Int64 seconds =
+        final secondsString = match[1];
+        final seconds =
             secondsString == '' ? Int64.ZERO : Int64.parseInt(secondsString);
         duration.seconds = seconds;
-        int nanos = int.parse((match[2] ?? '').padRight(9, '0'));
+        final nanos = int.parse((match[2] ?? '').padRight(9, '0'));
         duration.nanos = seconds < 0 ? -nanos : nanos;
       }
     } else {
@@ -313,7 +312,7 @@ abstract class StructMixin implements GeneratedMessage {
   // The JSON representation for `Struct` is JSON object.
   static Object toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
-    StructMixin struct = message as StructMixin;
+    final struct = message as StructMixin;
     return struct.fields.map((key, value) =>
         MapEntry(key, ValueMixin.toProto3JsonHelper(value, typeRegistry)));
   }
@@ -324,8 +323,8 @@ abstract class StructMixin implements GeneratedMessage {
       // Check for emptiness to avoid setting `.fields` if there are no
       // values.
       if (json.isNotEmpty) {
-        Map<String, ValueMixin> fields = (message as StructMixin).fields;
-        GeneratedMessage Function() valueCreator =
+        final fields = (message as StructMixin).fields;
+        final Function() valueCreator =
             (message.info_.fieldInfo[_fieldsFieldTagNumber] as MapFieldInfo)
                 .valueCreator;
 
@@ -371,7 +370,7 @@ abstract class ValueMixin implements GeneratedMessage {
   // The JSON representation for `Value` is JSON value
   static Object toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
-    ValueMixin value = message as ValueMixin;
+    final value = message as ValueMixin;
     // This would ideally be a switch, but we cannot import the enum we are
     // switching over.
     if (value.hasNullValue()) {
@@ -393,7 +392,7 @@ abstract class ValueMixin implements GeneratedMessage {
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
       TypeRegistry typeRegistry, JsonParsingContext context) {
-    ValueMixin value = message as ValueMixin;
+    final value = message as ValueMixin;
     if (json == null) {
       // Rely on the getter retrieving the default to provide an instance.
       value.nullValue = value.nullValue;
@@ -430,7 +429,7 @@ abstract class ListValueMixin implements GeneratedMessage {
   // The JSON representation for `ListValue` is JSON array.
   static Object toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
-    ListValueMixin list = message as ListValueMixin;
+    final list = message as ListValueMixin;
     return list.values
         .map((value) => ValueMixin.toProto3JsonHelper(value, typeRegistry))
         .toList();
@@ -440,11 +439,10 @@ abstract class ListValueMixin implements GeneratedMessage {
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
       TypeRegistry typeRegistry, JsonParsingContext context) {
-    ListValueMixin list = message as ListValueMixin;
+    final list = message as ListValueMixin;
     if (json is List) {
-      CreateBuilderFunc subBuilder =
-          message.info_.subBuilder(_valueFieldTagNumber);
-      for (int i = 0; i < json.length; i++) {
+      final subBuilder = message.info_.subBuilder(_valueFieldTagNumber);
+      for (var i = 0; i < json.length; i++) {
         Object element = json[i];
         ValueMixin v = subBuilder();
         context.addListIndex(i);
@@ -469,8 +467,8 @@ abstract class FieldMaskMixin {
   // to/from lower-camel naming conventions.
   static Object toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
-    FieldMaskMixin fieldMask = message as FieldMaskMixin;
-    for (String path in fieldMask.paths) {
+    final fieldMask = message as FieldMaskMixin;
+    for (final path in fieldMask.paths) {
       if (path.contains(RegExp('[A-Z]|_[^a-z]'))) {
         throw ArgumentError(
             'Bad fieldmask $path. Does not round-trip to json.');

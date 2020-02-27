@@ -31,15 +31,13 @@ void _mergeFromCodedBufferReader(
   assert(registry != null);
 
   while (true) {
-    int tag = input.readTag();
+    final tag = input.readTag();
     if (tag == 0) return;
-    int wireType = tag & 0x7;
-    int tagNumber = tag >> 3;
+    final wireType = tag & 0x7;
+    final tagNumber = tag >> 3;
 
-    FieldInfo fi = fs._nonExtensionInfo(tagNumber);
-    if (fi == null) {
-      fi = registry.getExtension(fs._messageName, tagNumber);
-    }
+    final fi = fs._nonExtensionInfo(tagNumber) ??
+        registry.getExtension(fs._messageName, tagNumber);
 
     if (fi == null || !_wireTypeMatches(fi.type, wireType)) {
       if (!fs._ensureUnknownFields().mergeFieldFromBuffer(tag, input)) {
@@ -49,7 +47,7 @@ void _mergeFromCodedBufferReader(
     }
 
     // Ignore required/optional packed/unpacked.
-    int fieldType = fi.type;
+    var fieldType = fi.type;
     fieldType &= ~(PbFieldType._PACKED_BIT | PbFieldType._REQUIRED_BIT);
     switch (fieldType) {
       case PbFieldType._OPTIONAL_BOOL:
@@ -68,7 +66,7 @@ void _mergeFromCodedBufferReader(
         fs._setFieldUnchecked(fi, input.readDouble());
         break;
       case PbFieldType._OPTIONAL_ENUM:
-        int rawValue = input.readEnum();
+        final rawValue = input.readEnum();
         var value = fs._meta._decodeEnum(tagNumber, registry, rawValue);
         if (value == null) {
           var unknown = fs._ensureUnknownFields();
@@ -78,8 +76,7 @@ void _mergeFromCodedBufferReader(
         }
         break;
       case PbFieldType._OPTIONAL_GROUP:
-        GeneratedMessage subMessage =
-            fs._meta._makeEmptyMessage(tagNumber, registry);
+        final subMessage = fs._meta._makeEmptyMessage(tagNumber, registry);
         var oldValue = fs._getFieldOrNull(fi);
         if (oldValue != null) {
           subMessage.mergeFromMessage(oldValue);
@@ -118,8 +115,7 @@ void _mergeFromCodedBufferReader(
         fs._setFieldUnchecked(fi, input.readSfixed64());
         break;
       case PbFieldType._OPTIONAL_MESSAGE:
-        GeneratedMessage subMessage =
-            fs._meta._makeEmptyMessage(tagNumber, registry);
+        final subMessage = fs._meta._makeEmptyMessage(tagNumber, registry);
         var oldValue = fs._getFieldOrNull(fi);
         if (oldValue != null) {
           subMessage.mergeFromMessage(oldValue);
@@ -146,8 +142,7 @@ void _mergeFromCodedBufferReader(
         _readPackableToListEnum(fs, input, wireType, fi, tagNumber, registry);
         break;
       case PbFieldType._REPEATED_GROUP:
-        GeneratedMessage subMessage =
-            fs._meta._makeEmptyMessage(tagNumber, registry);
+        final subMessage = fs._meta._makeEmptyMessage(tagNumber, registry);
         input.readGroup(tagNumber, subMessage, registry);
         fs._ensureRepeatedField(fi).add(subMessage);
         break;
@@ -182,8 +177,7 @@ void _mergeFromCodedBufferReader(
         _readPackable(fs, input, wireType, fi, input.readSfixed64);
         break;
       case PbFieldType._REPEATED_MESSAGE:
-        GeneratedMessage subMessage =
-            fs._meta._makeEmptyMessage(tagNumber, registry);
+        final subMessage = fs._meta._makeEmptyMessage(tagNumber, registry);
         input.readMessage(subMessage, registry);
         fs._ensureRepeatedField(fi).add(subMessage);
         break;
@@ -205,7 +199,7 @@ void _readPackable(_FieldSet fs, CodedBufferReader input, int wireType,
 void _readPackableToListEnum(_FieldSet fs, CodedBufferReader input,
     int wireType, FieldInfo fi, int tagNumber, ExtensionRegistry registry) {
   void readToList(List list) {
-    int rawValue = input.readEnum();
+    final rawValue = input.readEnum();
     var value = fs._meta._decodeEnum(tagNumber, registry, rawValue);
     if (value == null) {
       var unknown = fs._ensureUnknownFields();
@@ -220,7 +214,7 @@ void _readPackableToListEnum(_FieldSet fs, CodedBufferReader input,
 
 void _readPackableToList(_FieldSet fs, CodedBufferReader input, int wireType,
     FieldInfo fi, Function readToList) {
-  List list = fs._ensureRepeatedField(fi);
+  final list = fs._ensureRepeatedField(fi);
 
   if (wireType == WIRETYPE_LENGTH_DELIMITED) {
     // Packed.

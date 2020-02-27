@@ -5,7 +5,7 @@
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('className', () {
     final qualifiedmessageName = 'proto.test.TestMessage';
     final expectedMessageName = 'TestMessage';

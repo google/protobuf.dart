@@ -26,7 +26,7 @@ PROTOS=(
 )
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE}")
-OUTPUT_DIR="${SCRIPT_DIR}/temp"
+OUTPUT_DIR="${SCRIPT_DIR}/lib/src"
 
 mkdir -p ${OUTPUT_DIR}
 

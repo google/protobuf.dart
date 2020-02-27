@@ -4,10 +4,10 @@
 
 library protobuf.mixins.event;
 
-import "dart:async" show Stream, StreamController, scheduleMicrotask;
-import "dart:collection" show UnmodifiableListView;
+import 'dart:async' show Stream, StreamController, scheduleMicrotask;
+import 'dart:collection' show UnmodifiableListView;
 
-import "package:protobuf/protobuf.dart"
+import 'package:protobuf/protobuf.dart'
     show GeneratedMessage, FieldInfo, EventPlugin;
 
 /// Provides a stream of changes to fields in a GeneratedMessage.
@@ -62,12 +62,11 @@ class EventBuffer extends EventPlugin {
   }
 
   Stream<List<PbFieldChange>> get changes {
-    if (_controller == null) {
-      _controller = StreamController.broadcast(sync: true);
-    }
+    _controller ??= StreamController.broadcast(sync: true);
     return _controller.stream;
   }
 
+  @override
   bool get hasObservers => _controller != null && _controller.hasListener;
 
   void deliverChanges() {
@@ -90,7 +89,7 @@ class EventBuffer extends EventPlugin {
   @override
   void beforeSetField(FieldInfo fi, newValue) {
     var oldValue = _parent.getFieldOrNull(fi.tagNumber);
-    if (oldValue == null) oldValue = fi.readonlyDefault;
+    oldValue ??= fi.readonlyDefault;
     if (identical(oldValue, newValue)) return;
     addEvent(PbFieldChange(_parent, fi, oldValue, newValue));
   }

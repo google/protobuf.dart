@@ -4,9 +4,9 @@
 
 part of protobuf;
 
-typedef GeneratedMessage CreateBuilderFunc();
-typedef MakeDefaultFunc();
-typedef ProtobufEnum ValueOfFunc(int value);
+typedef CreateBuilderFunc = GeneratedMessage Function();
+typedef MakeDefaultFunc = Function();
+typedef ValueOfFunc = ProtobufEnum Function(int value);
 
 /// The base class for all protobuf message types.
 ///
@@ -122,6 +122,7 @@ abstract class GeneratedMessage {
   ///
   /// The hash may change when any field changes (recursively).
   /// Therefore, protobufs used as map keys shouldn't be changed.
+  @override
   int get hashCode => _fieldSet._hashCode;
 
   /// Returns a String representation of this message.
@@ -132,6 +133,7 @@ abstract class GeneratedMessage {
   ///
   /// Note that this format is absolutely subject to change, and should only
   /// ever be used for debugging.
+  @override
   String toString() => toDebugString();
 
   /// Returns a String representation of this message.
@@ -146,15 +148,15 @@ abstract class GeneratedMessage {
 
   void check() {
     if (!isInitialized()) {
-      List<String> invalidFields = <String>[];
-      _fieldSet._appendInvalidFields(invalidFields, "");
-      String missingFields = (invalidFields..sort()).join(', ');
+      final invalidFields = <String>[];
+      _fieldSet._appendInvalidFields(invalidFields, '');
+      final missingFields = (invalidFields..sort()).join(', ');
       throw StateError('Message missing required fields: $missingFields');
     }
   }
 
   Uint8List writeToBuffer() {
-    CodedBufferWriter out = CodedBufferWriter();
+    final out = CodedBufferWriter();
     writeToCodedBufferWriter(out);
     return out.toBuffer();
   }
@@ -176,7 +178,7 @@ abstract class GeneratedMessage {
   ///   the existing sub-message.
   void mergeFromBuffer(List<int> input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    CodedBufferReader codedInput = CodedBufferReader(input);
+    final codedInput = CodedBufferReader(input);
     _mergeFromCodedBufferReader(_fieldSet, codedInput, extensionRegistry);
     codedInput.checkLastTagWas(0);
   }
@@ -269,7 +271,7 @@ abstract class GeneratedMessage {
     _mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry);
   }
 
-  static _emptyReviver(k, v) => v;
+  static dynamic _emptyReviver(k, v) => v;
 
   /// Merges field values from a JSON object represented as a Dart map.
   ///
@@ -311,13 +313,13 @@ abstract class GeneratedMessage {
   /// Returns the value of [extension].
   ///
   /// If not set, returns the extension's default value.
-  getExtension(Extension extension) {
+  dynamic getExtension(Extension extension) {
     return _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
   }
 
   /// Returns the value of the field associated with [tagNumber], or the
   /// default value if it is not set.
-  getField(int tagNumber) => _fieldSet._getField(tagNumber);
+  dynamic getField(int tagNumber) => _fieldSet._getField(tagNumber);
 
   /// Creates List implementing a mutable repeated field.
   ///
@@ -339,14 +341,15 @@ abstract class GeneratedMessage {
   ///
   /// For unset or cleared fields, returns null.
   /// Also returns null for unknown tag numbers.
-  getFieldOrNull(int tagNumber) => _fieldSet._getFieldOrNullByTag(tagNumber);
+  dynamic getFieldOrNull(int tagNumber) =>
+      _fieldSet._getFieldOrNullByTag(tagNumber);
 
   /// Returns the default value for the given field.
   ///
   /// For repeated fields, returns an immutable empty list
   /// (unlike [getField]). For all other fields, returns
   /// the same thing that getField() would for a cleared field.
-  getDefaultForField(int tagNumber) =>
+  dynamic getDefaultForField(int tagNumber) =>
       _fieldSet._ensureInfo(tagNumber).readonlyDefault;
 
   /// Returns [:true:] if a value of [extension] is present.

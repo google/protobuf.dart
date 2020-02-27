@@ -5,10 +5,13 @@
 /// Tests event delivery using PbEventMixin.
 library event_test;
 
-import 'dart:typed_data' show Uint8List;
-
 import 'package:protobuf/protobuf.dart'
-    show GeneratedMessage, Extension, ExtensionRegistry, PbFieldType;
+    show
+        BuilderInfo,
+        GeneratedMessage,
+        Extension,
+        ExtensionRegistry,
+        PbFieldType;
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin, PbFieldChange;
 import 'package:test/test.dart' show test, expect;
@@ -16,14 +19,16 @@ import 'package:test/test.dart' show test, expect;
 import 'mock_util.dart' show MockMessage, mockInfo;
 
 class Rec extends MockMessage with PbEventMixin {
-  get info_ => _info;
-  static final _info = mockInfo("Rec", () => Rec());
+  @override
+  BuilderInfo get info_ => _info;
+  static final _info = mockInfo('Rec', () => Rec());
+  @override
   Rec createEmptyInstance() => Rec();
 }
 
-Extension comment = Extension("Rec", "comment", 6, PbFieldType.OS);
+Extension comment = Extension('Rec', 'comment', 6, PbFieldType.OS);
 
-main() {
+void main() {
   test('Events are sent when setting and clearing a non-repeated field', () {
     var log = makeLog();
     var r = Rec();
@@ -84,7 +89,7 @@ main() {
     var log = makeLog();
     var r = Rec()
       ..val = 123
-      ..str = "hello"
+      ..str = 'hello'
       ..child = Rec()
       ..int32s.add(456);
 
@@ -99,8 +104,8 @@ main() {
     checkLog(log, [
       [
         [1, 123, 42],
-        [2, "hello", ''],
-        [3, "<msg>", "<msg>"],
+        [2, 'hello', ''],
+        [3, '<msg>', '<msg>'],
         [
           4,
           [456],
@@ -114,7 +119,7 @@ main() {
     var log = makeLog();
     var src = Rec()
       ..val = 123
-      ..str = "hello"
+      ..str = 'hello'
       ..child = Rec()
       ..int32s.add(456);
 
@@ -129,8 +134,8 @@ main() {
     checkLog(log, [
       [
         [1, 42, 123],
-        [2, '', "hello"],
-        [3, "<msg>", "<msg>"],
+        [2, '', 'hello'],
+        [3, '<msg>', '<msg>'],
         [
           4,
           [],
@@ -155,8 +160,8 @@ main() {
     checkLog(log, [
       [
         [1, 42, 123],
-        [2, '', "hello"],
-        [3, "<msg>", "<msg>"],
+        [2, '', 'hello'],
+        [3, '<msg>', '<msg>'],
         [
           4,
           [],
@@ -169,9 +174,9 @@ main() {
   test('Events are sent when merging binary', () {
     var log = makeLog();
 
-    Uint8List bytes = (Rec()
+    final bytes = (Rec()
           ..val = 123
-          ..str = "hello"
+          ..str = 'hello'
           ..child = Rec()
           ..int32s.add(456))
         .writeToBuffer();
@@ -189,8 +194,8 @@ main() {
     checkLog(log, [
       [
         [1, 42, 123],
-        [2, '', "hello"],
-        [3, "<msg>", "<msg>"],
+        [2, '', 'hello'],
+        [3, '<msg>', '<msg>'],
         [
           4,
           [],
@@ -208,58 +213,58 @@ main() {
     });
 
     final tag = comment.tagNumber;
-    setComment(String value) {
+    void setComment(String value) {
       r.setExtension(comment, value);
       expect(r.getExtension(comment), value);
       r.deliverChanges();
-      checkLogOnce(log, [tag, "", value]);
+      checkLogOnce(log, [tag, '', value]);
     }
 
-    clear(String expected) {
+    void clear(String expected) {
       r.clear();
       r.deliverChanges();
-      checkLogOnce(log, [tag, expected, ""]);
+      checkLogOnce(log, [tag, expected, '']);
     }
 
-    setComment("hello");
-    clear("hello");
+    setComment('hello');
+    clear('hello');
 
-    setComment("hello");
-    r.setField(6, "hi");
+    setComment('hello');
+    r.setField(6, 'hi');
     r.deliverChanges();
-    checkLogOnce(log, [tag, "hello", "hi"]);
-    clear("hi");
+    checkLogOnce(log, [tag, 'hello', 'hi']);
+    clear('hi');
 
-    setComment("hello");
+    setComment('hello');
     r.clearExtension(comment);
     r.deliverChanges();
-    checkLogOnce(log, [tag, "hello", ""]);
+    checkLogOnce(log, [tag, 'hello', '']);
 
-    setComment("hello");
+    setComment('hello');
     r.clearField(comment.tagNumber);
     r.deliverChanges();
-    checkLogOnce(log, [tag, "hello", ""]);
+    checkLogOnce(log, [tag, 'hello', '']);
 
     var registry = ExtensionRegistry()..add(comment);
     r.mergeFromJson('{"$tag": "hello"}', registry);
-    expect(r.getExtension(comment), "hello");
+    expect(r.getExtension(comment), 'hello');
     r.deliverChanges();
-    checkLogOnce(log, [tag, "", "hello"]);
-    clear("hello");
+    checkLogOnce(log, [tag, '', 'hello']);
+    clear('hello');
 
-    var src = Rec()..setExtension(comment, "hello");
+    var src = Rec()..setExtension(comment, 'hello');
     r.mergeFromMessage(src);
-    expect(r.getExtension(comment), "hello");
+    expect(r.getExtension(comment), 'hello');
     r.deliverChanges();
-    checkLogOnce(log, [tag, "", "hello"]);
-    clear("hello");
+    checkLogOnce(log, [tag, '', 'hello']);
+    clear('hello');
 
-    Uint8List bytes = src.writeToBuffer();
+    final bytes = src.writeToBuffer();
     r.mergeFromBuffer(bytes, registry);
-    expect(r.getExtension(comment), "hello");
+    expect(r.getExtension(comment), 'hello');
     r.deliverChanges();
-    checkLogOnce(log, [tag, "", "hello"]);
-    clear("hello");
+    checkLogOnce(log, [tag, '', 'hello']);
+    clear('hello');
   });
 }
 
@@ -291,9 +296,9 @@ void checkHasAllFields(Rec r, bool expected) {
 }
 
 List toTuple(PbFieldChange fc) {
-  fixValue(v) {
+  dynamic fixValue(dynamic v) {
     if (v is GeneratedMessage) {
-      return "<msg>";
+      return '<msg>';
     }
     return v;
   }

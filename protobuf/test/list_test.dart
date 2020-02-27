@@ -15,11 +15,11 @@ final invalidArgumentException =
 final badArgument = throwsA(invalidArgumentException);
 
 // Suppress an analyzer warning for a deliberate type mismatch.
-cast(x) => x;
+dynamic cast(dynamic x) => x;
 
 void main() {
   test('testPbList handles basic operations', () {
-    PbList<int> lb1 = PbList();
+    final lb1 = PbList<int>();
     expect(lb1, []);
 
     lb1.add(1);
@@ -45,14 +45,14 @@ void main() {
     expect(last, 99);
     expect(lb1.last, 6);
 
-    int count = 0;
+    var count = 0;
     lb1.forEach((int i) {
       count += i;
     });
     expect(count, 108);
 
     bool isEven(int i) => i % 2 == 0;
-    List<int> evens = List<int>.from(lb1.where(isEven));
+    final evens = List<int>.from(lb1.where(isEven));
     expect(evens, [0, 2, 6]);
 
     expect(lb1.any(isEven), isTrue);
@@ -65,7 +65,7 @@ void main() {
   });
 
   test('PbList handles range operations', () {
-    PbList<int> lb2 = PbList();
+    final lb2 = PbList();
 
     lb2.addAll([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     expect(lb2.sublist(3, 7), [4, 5, 6, 7]);

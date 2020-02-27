@@ -14,8 +14,8 @@ class ExtensionRegistry {
 
   /// Stores an [extension] in the registry.
   void add(Extension extension) {
-    var map = _extensions.putIfAbsent(
-        extension.extendee, () => Map<int, Extension>());
+    var map =
+        _extensions.putIfAbsent(extension.extendee, () => <int, Extension>{});
     map[extension.tagNumber] = extension;
   }
 
@@ -105,13 +105,12 @@ T _reparseMessage<T extends GeneratedMessage>(
   UnknownFieldSet ensureUnknownFields() =>
       resultUnknownFields ??= ensureResult()._fieldSet._unknownFields;
 
-  UnknownFieldSet messageUnknownFields = message._fieldSet._unknownFields;
+  final messageUnknownFields = message._fieldSet._unknownFields;
   if (messageUnknownFields != null) {
-    CodedBufferWriter codedBufferWriter = CodedBufferWriter();
+    final codedBufferWriter = CodedBufferWriter();
     extensionRegistry._extensions[message.info_.qualifiedMessageName]
         ?.forEach((tagNumber, extension) {
-      final UnknownFieldSetField unknownField =
-          messageUnknownFields._fields[tagNumber];
+      final unknownField = messageUnknownFields._fields[tagNumber];
       if (unknownField != null) {
         unknownField.writeTo(tagNumber, codedBufferWriter);
         ensureUnknownFields()._fields.remove(tagNumber);
@@ -137,10 +136,9 @@ T _reparseMessage<T extends GeneratedMessage>(
       final messageEntries = message._fieldSet._values[field.index];
       if (messageEntries == null) return;
       if (field.isGroupOrMessage) {
-        for (int i = 0; i < messageEntries.length; i++) {
-          final GeneratedMessage entry = messageEntries[i];
-          final GeneratedMessage reparsedEntry =
-              _reparseMessage(entry, extensionRegistry);
+        for (var i = 0; i < messageEntries.length; i++) {
+          final entry = messageEntries[i];
+          final reparsedEntry = _reparseMessage<T>(entry, extensionRegistry);
           if (!identical(entry, reparsedEntry)) {
             ensureEntries()[i] = reparsedEntry;
           }
@@ -151,9 +149,8 @@ T _reparseMessage<T extends GeneratedMessage>(
       if (messageMap == null) return;
       if (_isGroupOrMessage(field.valueFieldType)) {
         for (var key in messageMap.keys) {
-          final GeneratedMessage value = messageMap[key];
-          final GeneratedMessage reparsedValue =
-              _reparseMessage(value, extensionRegistry);
+          final value = messageMap[key];
+          final reparsedValue = _reparseMessage<T>(value, extensionRegistry);
           if (!identical(value, reparsedValue)) {
             ensureMap()[key] = reparsedValue;
           }
@@ -162,8 +159,8 @@ T _reparseMessage<T extends GeneratedMessage>(
     } else if (field.isGroupOrMessage) {
       final messageSubField = message._fieldSet._values[field.index];
       if (messageSubField == null) return;
-      final GeneratedMessage reparsedSubField =
-          _reparseMessage(messageSubField, extensionRegistry);
+      final reparsedSubField =
+          _reparseMessage<T>(messageSubField, extensionRegistry);
       if (!identical(messageSubField, reparsedSubField)) {
         ensureResult()._fieldSet._values[field.index] = reparsedSubField;
       }
@@ -180,18 +177,24 @@ T _reparseMessage<T extends GeneratedMessage>(
 class _EmptyExtensionRegistry implements ExtensionRegistry {
   const _EmptyExtensionRegistry();
 
-  get _extensions => const <String, Map<int, Extension>>{};
+  @override
+  Map<String, Map<int, Extension>> get _extensions =>
+      const <String, Map<int, Extension>>{};
 
+  @override
   void add(Extension extension) {
     throw UnsupportedError('Immutable ExtensionRegistry');
   }
 
+  @override
   void addAll(Iterable<Extension> extensions) {
     throw UnsupportedError('Immutable ExtensionRegistry');
   }
 
+  @override
   Extension getExtension(String messageName, int tagNumber) => null;
 
+  @override
   T reparseMessage<T extends GeneratedMessage>(T message) =>
       _reparseMessage(message, this);
 }

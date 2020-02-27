@@ -4,16 +4,17 @@
 
 part of protobuf;
 
-typedef void FrozenMessageErrorHandler(String messageName, [String methodName]);
+typedef FrozenMessageErrorHandler = void Function(String messageName,
+    [String methodName]);
 
 void defaultFrozenMessageModificationHandler(String messageName,
     [String methodName]) {
   if (methodName != null) {
     throw UnsupportedError(
-        "Attempted to call $methodName on a read-only message ($messageName)");
+        'Attempted to call $methodName on a read-only message ($messageName)');
   }
   throw UnsupportedError(
-      "Attempted to change a read-only message ($messageName)");
+      'Attempted to change a read-only message ($messageName)');
 }
 
 /// Invoked when an attempt is made to modify a frozen message.
@@ -53,18 +54,18 @@ class _FieldSet {
   final Map<int, int> _oneofCases;
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
-      : this._meta = meta,
+      : _meta = meta,
         _values = _makeValueList(meta.byIndex.length),
         _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
-  static _makeValueList(int length) {
+  static List _makeValueList(int length) {
     if (length == 0) return _zeroList;
     return List(length);
   }
 
   // Use a fixed length list and not a constant list to ensure that _values
   // always has the same implementation type.
-  static List _zeroList = List(0);
+  static final List _zeroList = List(0);
 
   // Metadata about multiple fields
 
@@ -109,7 +110,7 @@ class _FieldSet {
   FieldInfo _ensureInfo(int tagNumber) {
     var fi = _getFieldInfoOrNull(tagNumber);
     if (fi != null) return fi;
-    throw ArgumentError("tag $tagNumber not defined in $_messageName");
+    throw ArgumentError('tag $tagNumber not defined in $_messageName');
   }
 
   /// Returns the FieldInfo for a regular or extension field.
@@ -164,7 +165,7 @@ class _FieldSet {
   /// Works for both extended and non-extended fields.
   /// Creates repeated fields (unless read-only).
   /// Suitable for public API.
-  _getField(int tagNumber) {
+  dynamic _getField(int tagNumber) {
     var fi = _nonExtensionInfo(tagNumber);
     if (fi != null) {
       var value = _values[fi.index];
@@ -177,10 +178,10 @@ class _FieldSet {
         return _extensions._getFieldOrDefault(fi);
       }
     }
-    throw ArgumentError("tag $tagNumber not defined in $_messageName");
+    throw ArgumentError('tag $tagNumber not defined in $_messageName');
   }
 
-  _getDefault(FieldInfo fi) {
+  dynamic _getDefault(FieldInfo fi) {
     if (!fi.isRepeated) return fi.makeDefault();
     if (_isReadOnly) return fi.readonlyDefault;
 
@@ -217,7 +218,7 @@ class _FieldSet {
     return value;
   }
 
-  _getFieldOrNullByTag(int tagNumber) {
+  dynamic _getFieldOrNullByTag(int tagNumber) {
     var fi = _getFieldInfoOrNull(tagNumber);
     if (fi == null) return null;
     return _getFieldOrNull(fi);
@@ -227,7 +228,7 @@ class _FieldSet {
   ///
   /// Works for both extended and non-extend fields.
   /// Works for both repeated and non-repeated fields.
-  _getFieldOrNull(FieldInfo fi) {
+  dynamic _getFieldOrNull(FieldInfo fi) {
     if (fi.index != null) return _values[fi.index];
     if (!_hasExtensions) return null;
     return _extensions._getFieldOrNull(fi);
@@ -252,7 +253,7 @@ class _FieldSet {
         _oneofCases.remove(_meta.oneofs[fi.tagNumber]);
       }
 
-      int oneofIndex = _meta.oneofs[fi.tagNumber];
+      final oneofIndex = _meta.oneofs[fi.tagNumber];
       if (oneofIndex != null) _oneofCases[oneofIndex] = 0;
       return;
     }
@@ -279,7 +280,7 @@ class _FieldSet {
     var fi = _nonExtensionInfo(tagNumber);
     if (fi == null) {
       if (!_hasExtensions) {
-        throw ArgumentError("tag $tagNumber not defined in $_messageName");
+        throw ArgumentError('tag $tagNumber not defined in $_messageName');
       }
       _extensions._setField(tagNumber, value);
       return;
@@ -344,8 +345,8 @@ class _FieldSet {
 
   /// Sets a non-extended field and fires events.
   void _setNonExtensionFieldUnchecked(FieldInfo fi, value) {
-    int tag = fi.tagNumber;
-    int oneofIndex = _meta.oneofs[tag];
+    final tag = fi.tagNumber;
+    final oneofIndex = _meta.oneofs[tag];
     if (oneofIndex != null) {
       _clearField(_oneofCases[oneofIndex]);
       _oneofCases[oneofIndex] = tag;
@@ -468,9 +469,7 @@ class _FieldSet {
   /// The implementation of a generated getter for Int64 fields.
   Int64 _$getI64(int index) {
     var value = _values[index];
-    if (value == null) {
-      value = _getDefault(_nonExtensionInfoByIndex(index));
-    }
+    value ??= _getDefault(_nonExtensionInfoByIndex(index));
     Int64 result = value;
     return result;
   }
@@ -498,8 +497,8 @@ class _FieldSet {
     if (_hasObservers) {
       _eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
     }
-    int tag = _meta.byIndex[index].tagNumber;
-    int oneofIndex = _meta.oneofs[tag];
+    final tag = _meta.byIndex[index].tagNumber;
+    final oneofIndex = _meta.oneofs[tag];
 
     if (oneofIndex != null) {
       _clearField(_oneofCases[oneofIndex]);
@@ -528,7 +527,7 @@ class _FieldSet {
         }
       }
       if (_hasExtensions) {
-        for (int key in _extensions._tagNumbers) {
+        for (final key in _extensions._tagNumbers) {
           var fi = _extensions._getInfoOrNull(key);
           _eventPlugin.beforeClearField(fi);
         }
@@ -633,7 +632,7 @@ class _FieldSet {
     }
 
     // Hash with descriptor.
-    int hash = _HashUtils._combine(0, _meta.hashCode);
+    var hash = _HashUtils._combine(0, _meta.hashCode);
     // Hash with fields.
     hash = hashEachField(hash);
     // Hash with unknown fields.
@@ -703,13 +702,13 @@ class _FieldSet {
     // this case, we can merge the non-extension fields without field lookups or
     // validation checks.
 
-    for (FieldInfo fi in other._infosSortedByTag) {
+    for (final fi in other._infosSortedByTag) {
       var value = other._values[fi.index];
       if (value != null) _mergeField(fi, value, isExtension: false);
     }
     if (other._hasExtensions) {
       var others = other._extensions;
-      for (int tagNumber in others._tagNumbers) {
+      for (final tagNumber in others._tagNumbers) {
         var extension = others._getInfoOrNull(tagNumber);
         var value = others._getFieldOrNull(extension);
         _mergeField(extension, value, isExtension: true);
@@ -722,17 +721,17 @@ class _FieldSet {
   }
 
   void _mergeField(FieldInfo otherFi, fieldValue, {bool isExtension}) {
-    int tagNumber = otherFi.tagNumber;
+    final tagNumber = otherFi.tagNumber;
 
     // Determine the FieldInfo to use.
     // Don't allow regular fields to be overwritten by extensions.
-    FieldInfo fi = _nonExtensionInfo(tagNumber);
+    var fi = _nonExtensionInfo(tagNumber);
     if (fi == null && isExtension) {
       // This will overwrite any existing extension field info.
       fi = otherFi;
     }
 
-    bool mustClone = _isGroupOrMessage(otherFi.type);
+    var mustClone = _isGroupOrMessage(otherFi.type);
 
     if (fi.isMapField) {
       MapFieldInfo f = fi;
@@ -753,7 +752,7 @@ class _FieldSet {
         // fieldValue must be a PbListBase of GeneratedMessage.
         PbListBase<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(this);
-        for (int i = 0; i < pbList.length; ++i) {
+        for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(_cloneMessage(pbList[i]));
         }
       } else {
@@ -841,8 +840,8 @@ class _FieldSet {
   /// Map fields and repeated fields are copied.
   void _shallowCopyValues(_FieldSet original) {
     _values.setRange(0, original._values.length, original._values);
-    for (int index = 0; index < _meta.byIndex.length; index++) {
-      FieldInfo fieldInfo = _meta.byIndex[index];
+    for (var index = 0; index < _meta.byIndex.length; index++) {
+      final fieldInfo = _meta.byIndex[index];
       if (fieldInfo.isMapField) {
         PbMap map = _values[index];
         if (map != null) {

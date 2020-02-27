@@ -7,8 +7,7 @@ part of protobuf;
 class UnknownFieldSet {
   static final UnknownFieldSet emptyUnknownFieldSet = UnknownFieldSet()
     .._markReadOnly();
-  final Map<int, UnknownFieldSetField> _fields =
-      Map<int, UnknownFieldSetField>();
+  final Map<int, UnknownFieldSetField> _fields = <int, UnknownFieldSetField>{};
 
   UnknownFieldSet();
 
@@ -51,7 +50,7 @@ class UnknownFieldSet {
 
   bool mergeFieldFromBuffer(int tag, CodedBufferReader input) {
     _ensureWritable('mergeFieldFromBuffer');
-    int number = getTagFieldNumber(tag);
+    final number = getTagFieldNumber(tag);
     switch (getTagWireType(tag)) {
       case WIRETYPE_VARINT:
         mergeVarintField(number, input.readInt64());
@@ -63,7 +62,7 @@ class UnknownFieldSet {
         mergeLengthDelimitedField(number, input.readBytes());
         return true;
       case WIRETYPE_START_GROUP:
-        UnknownFieldSet subGroup = input.readUnknownFieldSetGroup(number);
+        final subGroup = input.readUnknownFieldSetGroup(number);
         mergeGroupField(number, subGroup);
         return true;
       case WIRETYPE_END_GROUP:
@@ -79,7 +78,7 @@ class UnknownFieldSet {
   void mergeFromCodedBufferReader(CodedBufferReader input) {
     _ensureWritable('mergeFromCodedBufferReader');
     while (true) {
-      int tag = input.readTag();
+      final tag = input.readTag();
       if (tag == 0 || !mergeFieldFromBuffer(tag, input)) {
         break;
       }
@@ -88,12 +87,12 @@ class UnknownFieldSet {
 
   void mergeFromUnknownFieldSet(UnknownFieldSet other) {
     _ensureWritable('mergeFromUnknownFieldSet');
-    for (int key in other._fields.keys) {
+    for (final key in other._fields.keys) {
       mergeField(key, other._fields[key]);
     }
   }
 
-  _checkFieldNumber(int number) {
+  void _checkFieldNumber(int number) {
     if (number == 0) {
       throw ArgumentError('Zero is not a valid field number.');
     }
@@ -130,6 +129,7 @@ class UnknownFieldSet {
     return _fields.putIfAbsent(number, () => UnknownFieldSetField());
   }
 
+  @override
   bool operator ==(other) {
     if (other is! UnknownFieldSet) return false;
 
@@ -137,8 +137,9 @@ class UnknownFieldSet {
     return _areMapsEqual(o._fields, _fields);
   }
 
+  @override
   int get hashCode {
-    int hash = 0;
+    var hash = 0;
     _fields.forEach((int number, Object value) {
       hash = 0x1fffffff & ((37 * hash) + number);
       hash = 0x1fffffff & ((53 * hash) + value.hashCode);
@@ -146,12 +147,13 @@ class UnknownFieldSet {
     return hash;
   }
 
+  @override
   String toString() => _toString('');
 
   String _toString(String indent) {
     var stringBuffer = StringBuffer();
 
-    for (int tag in _sorted(_fields.keys)) {
+    for (final tag in _sorted(_fields.keys)) {
       var field = _fields[tag];
       for (var value in field.values) {
         if (value is UnknownFieldSet) {
@@ -173,7 +175,7 @@ class UnknownFieldSet {
   }
 
   void writeToCodedBufferWriter(CodedBufferWriter output) {
-    for (int key in _fields.keys) {
+    for (final key in _fields.keys) {
       _fields[key].writeTo(key, output);
     }
   }
@@ -216,12 +218,13 @@ class UnknownFieldSetField {
     _groups = List.unmodifiable(_groups);
   }
 
+  @override
   bool operator ==(other) {
     if (other is! UnknownFieldSetField) return false;
 
     UnknownFieldSetField o = other;
     if (lengthDelimited.length != o.lengthDelimited.length) return false;
-    for (int i = 0; i < lengthDelimited.length; i++) {
+    for (var i = 0; i < lengthDelimited.length; i++) {
       if (!_areListsEqual(o.lengthDelimited[i], lengthDelimited[i])) {
         return false;
       }
@@ -234,10 +237,11 @@ class UnknownFieldSetField {
     return true;
   }
 
+  @override
   int get hashCode {
-    int hash = 0;
+    var hash = 0;
     for (final value in lengthDelimited) {
-      for (int i = 0; i < value.length; i++) {
+      for (var i = 0; i < value.length; i++) {
         hash = 0x1fffffff & (hash + value[i]);
         hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
         hash = hash ^ (hash >> 6);
@@ -262,14 +266,14 @@ class UnknownFieldSetField {
   }
 
   List get values => []
-    ..addAll(lengthDelimited)
+    ..addAll(lengthDelimited) // ignore: prefer_spread_collections
     ..addAll(varints)
     ..addAll(fixed32s)
     ..addAll(fixed64s)
     ..addAll(groups);
 
   void writeTo(int fieldNumber, CodedBufferWriter output) {
-    write(type, value) {
+    void write(type, value) {
       output.writeField(fieldNumber, type, value);
     }
 
