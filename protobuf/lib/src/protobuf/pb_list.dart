@@ -63,8 +63,6 @@ class FrozenPbList<E> extends PbListBase<E> {
 class PbList<E> extends PbListBase<E> {
   PbList({check = _checkNotNull}) : super._noList(check: check);
 
-  PbList._(List<E> wrappedList) : super._(wrappedList);
-
   PbList.from(List from) : super._from(from);
 
   @Deprecated('Instead use the default constructor with a check function.'

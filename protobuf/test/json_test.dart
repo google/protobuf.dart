@@ -33,7 +33,7 @@ void main() {
 
   test('testMergeFromJson', () {
     var t = T();
-    t.mergeFromJson('''{'1': 123, '2': 'hello'}''');
+    t.mergeFromJson('''{"1": 123, "2": "hello"}''');
     checkMessage(t);
   });
 

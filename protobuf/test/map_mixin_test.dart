@@ -38,7 +38,7 @@ void main() {
     expect(r['val'], 42);
     expect(r['str'], '');
     expect(r['child'].runtimeType, Rec);
-    expect(r['child'].toString(), 'Rec(42, ' ')');
+    expect(r['child'].toString(), 'Rec(42, \'\')');
     expect(r['int32s'], []);
 
     var v = r.values;
