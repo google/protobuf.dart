@@ -11,6 +11,7 @@ import 'client_generator_test.dart' as client_generator;
 import 'const_generator_test.dart' as const_generator;
 import 'enum_generator_test.dart' as enum_generator;
 import 'extension_test.dart' as extension_test;
+import 'extension_generator_test.dart' as extension_generator_test;
 import 'file_generator_test.dart' as file_generator;
 import 'generated_message_test.dart' as generated_message;
 import 'hash_code_test.dart' as hash_code;
@@ -42,6 +43,7 @@ void main() {
   const_generator.main();
   enum_generator.main();
   extension_test.main();
+  extension_generator_test.main();
   file_generator.main();
   generated_message.main();
   hash_code.main();

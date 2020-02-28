@@ -1,3 +1,7 @@
+## 20.0.0
+
+* Breaking: generate properly typed extension fields.
+
 ## 19.0.2
 
 * Fix: escape the special character `$` in descriptor's `json_name`.

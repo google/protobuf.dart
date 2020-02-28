@@ -129,13 +129,13 @@ class ExtensionGenerator {
     }
     assert(invocation != null);
     out.printAnnotated(
-        'static final $_protobufImportPrefix.Extension $name = '
+        'static final $name = '
         '$invocation(${ProtobufField._formatArguments(positionals, named)});\n',
         [
           NamedLocation(
               name: name,
               fieldPathSegment: List.from(fieldPath),
-              start: 'static final $_protobufImportPrefix.Extension '.length)
+              start: 'static final '.length)
         ]);
   }
 }
