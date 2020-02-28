@@ -5,7 +5,8 @@
 part of protobuf;
 
 /// An object representing a protobuf message field.
-class FieldInfo<T> {
+/// For a repeated field S is List<T> for a non-repeated field S=T.
+class FieldInfo<T, U> {
   FrozenPbList<T> _emptyList;
 
   /// Name of this field as the `json_name` reported by protoc.
@@ -24,9 +25,9 @@ class FieldInfo<T> {
 
   // Constructs the default value of a field.
   // (Only used for repeated fields where check is null.)
-  final MakeDefaultFunc makeDefault;
+  final U Function() makeDefault;
 
-  // Creates an empty message or group when decoding a message.
+  // Creates an empty message when decoding a message.
   // Not used for other types.
   // see GeneratedMessage._getEmptyMessage
   final CreateBuilderFunc subBuilder;
@@ -74,7 +75,7 @@ class FieldInfo<T> {
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
       this.check, this.subBuilder,
       {this.valueOf, this.enumValues, String protoName})
-      : makeDefault = (() => PbList<T>(check: check)),
+      : makeDefault = (() => PbList<T>(check: check) as U),
         protoName = protoName ?? _unCamelCase(name) {
     assert(name != null);
     assert(tagNumber != null);
@@ -83,7 +84,7 @@ class FieldInfo<T> {
     assert(!_isEnum(type) || valueOf != null);
   }
 
-  static MakeDefaultFunc findMakeDefault(int type, dynamic defaultOrMaker) {
+  static S Function() findMakeDefault<S>(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
@@ -101,9 +102,9 @@ class FieldInfo<T> {
 
   /// Returns a read-only default value for a field.
   /// (Unlike getField, doesn't create a repeated field.)
-  dynamic get readonlyDefault {
+  U get readonlyDefault {
     if (isRepeated) {
-      return _emptyList ??= FrozenPbList._([]);
+      return (_emptyList ??= FrozenPbList<T>._([])) as U;
     }
     return makeDefault();
   }
@@ -165,19 +166,19 @@ class FieldInfo<T> {
   /// be overridden by a mixin.
   List<T> _createRepeatedField(GeneratedMessage m) {
     assert(isRepeated);
-    return m.createRepeatedField<T>(tagNumber, this);
+    return m.createRepeatedField<T, U>(tagNumber, this);
   }
 
   /// Same as above, but allow a tighter typed List to be created.
   List<S> _createRepeatedFieldWithType<S extends T>(GeneratedMessage m) {
     assert(isRepeated);
-    return m.createRepeatedField<S>(tagNumber, this);
+    return m.createRepeatedField<S, U>(tagNumber, this);
   }
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
   /// _FieldSet._ensureRepeatedField.
   List<T> _ensureRepeatedField(_FieldSet fs) {
-    return fs._ensureRepeatedField<T>(this);
+    return fs._ensureRepeatedField<T, U>(this);
   }
 
   @override
@@ -191,7 +192,7 @@ String _unCamelCase(String name) {
       _upperCase, (match) => '_${match.group(0).toLowerCase()}');
 }
 
-class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
+class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>, PbMap<K, V>> {
   final int keyFieldType;
   final int valueFieldType;
 

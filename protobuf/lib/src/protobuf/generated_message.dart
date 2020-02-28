@@ -313,7 +313,7 @@ abstract class GeneratedMessage {
   /// Returns the value of [extension].
   ///
   /// If not set, returns the extension's default value.
-  dynamic getExtension(Extension extension) {
+  U getExtension<T, U>(Extension<T, U> extension) {
     return _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
   }
 
@@ -327,7 +327,7 @@ abstract class GeneratedMessage {
   /// that the protobuf can be encoded correctly, the returned List must
   /// validate all items added to it. This can most easily be done
   /// using the FieldInfo.check function.
-  List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
+  List<T> createRepeatedField<T, U>(int tagNumber, FieldInfo<T, U> fi) {
     return PbList<T>(check: fi.check);
   }
 

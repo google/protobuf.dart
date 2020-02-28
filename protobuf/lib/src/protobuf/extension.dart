@@ -5,7 +5,7 @@
 part of protobuf;
 
 /// An object representing an extension field.
-class Extension<T> extends FieldInfo<T> {
+class Extension<T, U> extends FieldInfo<T, U> {
   final String extendee;
 
   Extension(this.extendee, String name, int tagNumber, int fieldType,
