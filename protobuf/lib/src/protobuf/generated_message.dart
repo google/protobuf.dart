@@ -227,8 +227,8 @@ abstract class GeneratedMessage {
   /// Well-known types and their special JSON encoding are supported.
   ///
   /// If [ignoreUnknownFields] is `false` (the default) an
-  /// [FormatException] is be thrown if an unknown field name
-  /// is encountered. Otherwise the unknown field is ignored.
+  /// [FormatException] is be thrown if an unknown field or enum name
+  /// is encountered. Otherwise the unknown field or enum is ignored.
   ///
   /// If [supportNamesWithUnderscores] is `true` (the default) field names in
   /// the JSON can be represented as either camel-case JSON-names or names with
