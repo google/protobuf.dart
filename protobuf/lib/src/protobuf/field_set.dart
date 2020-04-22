@@ -236,7 +236,7 @@ class _FieldSet {
     return value;
   }
 
-  List<T> _getDefaultList<T>(FieldInfo<T> fi) {
+  List<T> _getDefaultList<T, U>(FieldInfo<T, U> fi) {
     assert(fi.isRepeated);
     if (_isReadOnly) return List.unmodifiable(const []);
 
@@ -359,11 +359,11 @@ class _FieldSet {
   /// Creates and stores the repeated field if it doesn't exist.
   /// If it's an extension and the list doesn't exist, validates and stores it.
   /// Suitable for decoders.
-  List<T> _ensureRepeatedField<T>(FieldInfo<T> fi) {
+  List<T> _ensureRepeatedField<T, U>(FieldInfo<T, U> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     if (fi.index == null) {
-      return _ensureExtensions()._ensureRepeatedField(fi);
+      return _ensureExtensions()._ensureRepeatedField(fi as Extension<T, U>);
     }
     var value = _getFieldOrNull(fi);
     if (value != null) return value as List<T>;
@@ -439,7 +439,7 @@ class _FieldSet {
   List<T> _$getList<T>(int index) {
     var value = _values[index];
     if (value != null) return value as List<T>;
-    return _getDefaultList<T>(_nonExtensionInfoByIndex(index));
+    return _getDefaultList<T, dynamic>(_nonExtensionInfoByIndex(index));
   }
 
   /// The implementation of a generated getter for map fields.

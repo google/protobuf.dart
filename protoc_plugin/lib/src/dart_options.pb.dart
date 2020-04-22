@@ -3,7 +3,7 @@
 //  source: dart_options.proto
 //
 // @dart = 2.3
-// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
+// ignore_for_file: camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
 import 'dart:core' as $core;
 
@@ -110,38 +110,34 @@ class Imports extends $pb.GeneratedMessage {
 }
 
 class Dart_options {
-  static final $pb.Extension imports = $pb.Extension<Imports>(
-      'google.protobuf.FileOptions', 'imports', 28125061, $pb.PbFieldType.OM,
-      defaultOrMaker: Imports.getDefault, subBuilder: Imports.create);
-  static final $pb.Extension defaultMixin = $pb.Extension<$core.String>(
-      'google.protobuf.FileOptions',
-      'defaultMixin',
-      96128839,
-      $pb.PbFieldType.OS);
-  static final $pb.Extension mixin = $pb.Extension<$core.String>(
-      'google.protobuf.MessageOptions', 'mixin', 96128839, $pb.PbFieldType.OS);
-  static final $pb.Extension overrideGetter = $pb.Extension<$core.bool>(
-      'google.protobuf.FieldOptions',
-      'overrideGetter',
-      28205290,
-      $pb.PbFieldType.OB);
-  static final $pb.Extension overrideSetter = $pb.Extension<$core.bool>(
-      'google.protobuf.FieldOptions',
-      'overrideSetter',
-      28937366,
-      $pb.PbFieldType.OB);
-  static final $pb.Extension overrideHasMethod = $pb.Extension<$core.bool>(
-      'google.protobuf.FieldOptions',
-      'overrideHasMethod',
-      28937461,
-      $pb.PbFieldType.OB);
-  static final $pb.Extension overrideClearMethod = $pb.Extension<$core.bool>(
-      'google.protobuf.FieldOptions',
-      'overrideClearMethod',
-      28907907,
-      $pb.PbFieldType.OB);
-  static final $pb.Extension dartName = $pb.Extension<$core.String>(
-      'google.protobuf.FieldOptions', 'dartName', 28700919, $pb.PbFieldType.OS);
+  static final $pb.Extension<Imports, Imports> imports =
+      $pb.Extension<Imports, Imports>('google.protobuf.FileOptions', 'imports',
+          28125061, $pb.PbFieldType.OM,
+          defaultOrMaker: Imports.getDefault, subBuilder: Imports.create);
+  static final $pb.Extension<$core.String, $core.String> defaultMixin =
+      $pb.Extension<$core.String, $core.String>('google.protobuf.FileOptions',
+          'defaultMixin', 96128839, $pb.PbFieldType.OS);
+  static final $pb.Extension<$core.String, $core.String> mixin =
+      $pb.Extension<$core.String, $core.String>(
+          'google.protobuf.MessageOptions',
+          'mixin',
+          96128839,
+          $pb.PbFieldType.OS);
+  static final $pb.Extension<$core.bool, $core.bool> overrideGetter =
+      $pb.Extension<$core.bool, $core.bool>('google.protobuf.FieldOptions',
+          'overrideGetter', 28205290, $pb.PbFieldType.OB);
+  static final $pb.Extension<$core.bool, $core.bool> overrideSetter =
+      $pb.Extension<$core.bool, $core.bool>('google.protobuf.FieldOptions',
+          'overrideSetter', 28937366, $pb.PbFieldType.OB);
+  static final $pb.Extension<$core.bool, $core.bool> overrideHasMethod =
+      $pb.Extension<$core.bool, $core.bool>('google.protobuf.FieldOptions',
+          'overrideHasMethod', 28937461, $pb.PbFieldType.OB);
+  static final $pb.Extension<$core.bool, $core.bool> overrideClearMethod =
+      $pb.Extension<$core.bool, $core.bool>('google.protobuf.FieldOptions',
+          'overrideClearMethod', 28907907, $pb.PbFieldType.OB);
+  static final $pb.Extension<$core.String, $core.String> dartName =
+      $pb.Extension<$core.String, $core.String>('google.protobuf.FieldOptions',
+          'dartName', 28700919, $pb.PbFieldType.OS);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
     registry.add(imports);
     registry.add(defaultMixin);

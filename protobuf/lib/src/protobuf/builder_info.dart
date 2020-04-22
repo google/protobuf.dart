@@ -44,7 +44,7 @@ class BuilderInfo {
     var index = byIndex.length;
     final fieldInfo = (tagNumber == 0)
         ? FieldInfo.dummy(index)
-        : FieldInfo<T>(name, tagNumber, index, fieldType,
+        : FieldInfo<T, T>(name, tagNumber, index, fieldType,
             defaultOrMaker: defaultOrMaker,
             subBuilder: subBuilder,
             valueOf: valueOf,
@@ -77,7 +77,7 @@ class BuilderInfo {
       List<ProtobufEnum> enumValues,
       {String protoName}) {
     var index = byIndex.length;
-    _addField(FieldInfo<T>.repeated(
+    _addField(FieldInfo<T, List<T>>.repeated(
         name, tagNumber, index, fieldType, check, subBuilder,
         valueOf: valueOf, enumValues: enumValues, protoName: protoName));
   }

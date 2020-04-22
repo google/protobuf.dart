@@ -97,6 +97,9 @@ class ExtensionGenerator {
     String name = _extensionName;
     var type = _field.baseType;
     var dartType = type.getDartType(fileGen);
+    var possiblyRepeatedDartType =
+        _field.isRepeated ? '$_coreImportPrefix.List<$dartType>' : dartType;
+    var typeArgs = '$dartType, $possiblyRepeatedDartType';
     String invocation;
     List<String> positionals = <String>[];
     positionals.add("'$_extendedFullName'");
@@ -107,7 +110,7 @@ class ExtensionGenerator {
     Map<String, String> named = <String, String>{};
     named['protoName'] = _field.quotedProtoName;
     if (_field.isRepeated) {
-      invocation = '$_protobufImportPrefix.Extension<$dartType>.repeated';
+      invocation = '$_protobufImportPrefix.Extension<$typeArgs>.repeated';
       named['check'] =
           '$_protobufImportPrefix.getCheckFunction(${_field.typeConstant})';
       if (type.isMessage || type.isGroup) {
@@ -117,7 +120,7 @@ class ExtensionGenerator {
         named['enumValues'] = '$dartType.values';
       }
     } else {
-      invocation = '$_protobufImportPrefix.Extension<$dartType>';
+      invocation = '$_protobufImportPrefix.Extension<$typeArgs>';
       named['defaultOrMaker'] = _field.generateDefaultFunction(fileGen);
       if (type.isMessage || type.isGroup) {
         named['subBuilder'] = '$dartType.create';
@@ -129,13 +132,14 @@ class ExtensionGenerator {
     }
     assert(invocation != null);
     out.printAnnotated(
-        'static final $_protobufImportPrefix.Extension $name = '
+        'static final $_protobufImportPrefix.Extension<$typeArgs> $name = '
         '$invocation(${ProtobufField._formatArguments(positionals, named)});\n',
         [
           NamedLocation(
               name: name,
               fieldPathSegment: List.from(fieldPath),
-              start: 'static final $_protobufImportPrefix.Extension '.length)
+              start: 'static final $_protobufImportPrefix.Extension<$typeArgs> '
+                  .length)
         ]);
   }
 }

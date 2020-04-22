@@ -18,19 +18,19 @@ void main() {
     var msg = TestAllTypes();
     expect(
         (msg.info_.byName["repeatedNestedMessage"]
-                as FieldInfo<TestAllTypes_NestedMessage>)
+                as FieldInfo<TestAllTypes_NestedMessage, List<TestAllTypes_NestedMessage>>)
             .check,
         isNotNull);
 
     expect(
         (msg.info_.byName["repeatedgroup"]
-                as FieldInfo<TestAllTypes_RepeatedGroup>)
+                as FieldInfo<TestAllTypes_RepeatedGroup, List<TestAllTypes_RepeatedGroup>>)
             .check,
         isNotNull);
 
     expect(
         (msg.info_.byName["repeatedNestedEnum"]
-                as FieldInfo<TestAllTypes_NestedEnum>)
+                as FieldInfo<TestAllTypes_NestedEnum, List<TestAllTypes_NestedEnum>>)
             .check,
         isNotNull);
   });
