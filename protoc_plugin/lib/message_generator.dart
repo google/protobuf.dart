@@ -314,6 +314,20 @@ class MessageGenerator extends ProtobufContainer {
           out.println('0 : ${oneof.oneofEnumName}.notSet');
         });
       }
+
+      for (OneofNames oneof in _oneofNames) {
+        out.addBlock(
+            'static const $_coreImportPrefix.Map<${oneof.oneofEnumName}, $_coreImportPrefix.Type> ${oneof.typeByEnumMapName} = {',
+            '};', () {
+          for (ProtobufField field in _oneofFields[oneof.index]) {
+            final oneofMemberName =
+                oneofEnumMemberName(field.memberNames.fieldName);
+            out.println(
+                '${oneof.oneofEnumName}.${oneofMemberName} : ${field.baseType.getDartType(fileGen)},');
+          }
+        });
+      }
+
       out.addBlock(
           'static final $_protobufImportPrefix.BuilderInfo _i = '
               '$_protobufImportPrefix.BuilderInfo(\'${messageName}\'$packageClause'
