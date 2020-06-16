@@ -2,7 +2,7 @@
 stages:
   - format_analyzer_tests:
     - group:
-      - dartanalyzer: --fatal-infos --fatal-warnings .
+      - dartanalyzer: --fatal-infos --fatal-warnings lib test
       - dartfmt
       dart: [dev]
     - group:
