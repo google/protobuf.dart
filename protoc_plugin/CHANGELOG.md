@@ -1,3 +1,7 @@
+## 19.0.3-dev
+
+* Ignore `annotate_overrides` in generated files.
+
 ## 19.0.2
 
 * Fix: escape the special character `$` in descriptor's `json_name`.
