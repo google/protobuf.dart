@@ -477,73 +477,73 @@ class MessageGenerator extends ProtobufContainer {
         throw 'Field ${field.fullName} cannot override '
             '${names.clearMethodName}() because it is repeated.';
       }
+    }
+
+    var fastSetter = field.baseType.setter;
+    _emitDeprecatedIf(field.isDeprecated, out);
+    _emitOverrideIf(field.overridesSetter, out);
+    _emitIndexAnnotation(field.number, out);
+    if (fastSetter != null) {
+      out.printlnAnnotated(
+          'set ${names.fieldName}'
+          '($fieldTypeString v) { '
+          '$fastSetter(${field.index}, v);'
+          ' }',
+          [
+            NamedLocation(
+                name: names.fieldName,
+                fieldPathSegment: memberFieldPath,
+                start: 'set '.length)
+          ]);
     } else {
-      var fastSetter = field.baseType.setter;
-      _emitDeprecatedIf(field.isDeprecated, out);
-      _emitOverrideIf(field.overridesSetter, out);
-      _emitIndexAnnotation(field.number, out);
-      if (fastSetter != null) {
-        out.printlnAnnotated(
-            'set ${names.fieldName}'
-            '($fieldTypeString v) { '
-            '$fastSetter(${field.index}, v);'
-            ' }',
-            [
-              NamedLocation(
-                  name: names.fieldName,
-                  fieldPathSegment: memberFieldPath,
-                  start: 'set '.length)
-            ]);
-      } else {
-        out.printlnAnnotated(
-            'set ${names.fieldName}'
-            '($fieldTypeString v) { '
-            'setField(${field.number}, v);'
-            ' }',
-            [
-              NamedLocation(
-                  name: names.fieldName,
-                  fieldPathSegment: memberFieldPath,
-                  start: 'set '.length)
-            ]);
-      }
-      _emitDeprecatedIf(field.isDeprecated, out);
-      _emitOverrideIf(field.overridesHasMethod, out);
-      _emitIndexAnnotation(field.number, out);
       out.printlnAnnotated(
-          '$_coreImportPrefix.bool ${names.hasMethodName}() =>'
-          ' \$_has(${field.index});',
+          'set ${names.fieldName}'
+          '($fieldTypeString v) { '
+          'setField(${field.number}, v);'
+          ' }',
           [
             NamedLocation(
-                name: names.hasMethodName,
+                name: names.fieldName,
                 fieldPathSegment: memberFieldPath,
-                start: '$_coreImportPrefix.bool '.length)
+                start: 'set '.length)
           ]);
+    }
+    _emitDeprecatedIf(field.isDeprecated, out);
+    _emitOverrideIf(field.overridesHasMethod, out);
+    _emitIndexAnnotation(field.number, out);
+    out.printlnAnnotated(
+        '$_coreImportPrefix.bool ${names.hasMethodName}() =>'
+        ' \$_has(${field.index});',
+        [
+          NamedLocation(
+              name: names.hasMethodName,
+              fieldPathSegment: memberFieldPath,
+              start: '$_coreImportPrefix.bool '.length)
+        ]);
+    _emitDeprecatedIf(field.isDeprecated, out);
+    _emitOverrideIf(field.overridesClearMethod, out);
+    _emitIndexAnnotation(field.number, out);
+    out.printlnAnnotated(
+        'void ${names.clearMethodName}() =>'
+        ' clearField(${field.number});',
+        [
+          NamedLocation(
+              name: names.clearMethodName,
+              fieldPathSegment: memberFieldPath,
+              start: 'void '.length)
+        ]);
+    if (field.baseType.isMessage) {
       _emitDeprecatedIf(field.isDeprecated, out);
-      _emitOverrideIf(field.overridesClearMethod, out);
       _emitIndexAnnotation(field.number, out);
       out.printlnAnnotated(
-          'void ${names.clearMethodName}() =>'
-          ' clearField(${field.number});',
-          [
+          '${fieldTypeString} ${names.ensureMethodName}() => '
+          '\$_ensure(${field.index});',
+          <NamedLocation>[
             NamedLocation(
-                name: names.clearMethodName,
+                name: names.ensureMethodName,
                 fieldPathSegment: memberFieldPath,
-                start: 'void '.length)
+                start: '${fieldTypeString} '.length)
           ]);
-      if (field.baseType.isMessage) {
-        _emitDeprecatedIf(field.isDeprecated, out);
-        _emitIndexAnnotation(field.number, out);
-        out.printlnAnnotated(
-            '${fieldTypeString} ${names.ensureMethodName}() => '
-            '\$_ensure(${field.index});',
-            <NamedLocation>[
-              NamedLocation(
-                  name: names.ensureMethodName,
-                  fieldPathSegment: memberFieldPath,
-                  start: '${fieldTypeString} '.length)
-            ]);
-      }
     }
   }
 
