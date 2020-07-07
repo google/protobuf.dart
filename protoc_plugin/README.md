@@ -1,6 +1,6 @@
 # Dart plugin for the protoc compiler
 
-[![pub package](https://img.shields.io/pub/v/protoc_plugin.svg)](https://pub.dartlang.org/packages/protoc_plugin)
+[![pub package](https://img.shields.io/pub/v/protoc_plugin.svg)](https://pub.dev/packages/protoc_plugin)
 
 This repository provides a plugin for the [protoc
 compiler](https://developers.google.com/protocol-buffers/docs/cpptutorial#compiling-your-protocol-buffers).
@@ -15,7 +15,7 @@ Protobuf 3.0.0 or above is required.
 
 The generated files are pure Dart code that run in either in the Dart VM or in a
 browser (using dart2js). They depend the [protobuf Dart
-package](https://pub.dartlang.org/packages/protobuf). A Dart project that
+package](https://pub.dev/packages/protobuf). A Dart project that
 includes generated files should add "protobuf" to its pubspec.yaml file.
 
 
@@ -124,7 +124,6 @@ Remember to run the tests. That is as easy as `make run-tests`.
 Useful references
 -----------------
 
-* [Main Dart site](https://www.dartlang.org/)
-* [Main protobuf site](https://github.com/google/protobuf)
-* [Protobuf runtime support project](https://github.com/dart-lang/dart-protobuf)
-* [Pub documentation](https://www.dartlang.org/tools/pub/get-started.html)
+* [Main Dart site](https://dart.dev)
+* [Main protobuf site](https://github.com/protocolbuffers/protobuf)
+* [Protobuf runtime support project](https://github.com/dart-lang/protobuf)
