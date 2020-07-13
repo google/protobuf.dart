@@ -53,7 +53,7 @@ class _FieldSet {
   final EventPlugin _eventPlugin;
 
   /// The value of each non-extension field in a dynamic type:
-  /// - Map<int, dynamic> for the case for one-of, since no need to allocate such long list
+  /// - <int, dynamic>{} for the case for one-of, since no need to allocate such long list
   /// - List (fixed-length array) for non one-of cases
   /// The index of a field can be found in [FieldInfo.index].
   /// A null entry indicates that the field has no value.
@@ -100,7 +100,7 @@ class _FieldSet {
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
       : _meta = meta,
-        _values = meta.oneofs.isNotEmpty ? Map<int, dynamic>() : _makeValueList(meta.byIndex.length),
+        _values = meta.oneofs.isNotEmpty ? <int, dynamic>{} : _makeValueList(meta.byIndex.length),
         _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
   static List _makeValueList(int length) {
