@@ -69,8 +69,14 @@ class OneofNames {
   ///  Identifier for the TypeByX map.
   final String typeByEnumMapName;
 
-  OneofNames(this.descriptor, this.index, this.clearMethodName,
-      this.whichOneofMethodName, this.oneofEnumName, this.byTagMapName, this.typeByEnumMapName);
+  OneofNames(
+      this.descriptor,
+      this.index,
+      this.clearMethodName,
+      this.whichOneofMethodName,
+      this.oneofEnumName,
+      this.byTagMapName,
+      this.typeByEnumMapName);
 }
 
 // For performance reasons, use code units instead of Regex.
@@ -331,8 +337,14 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     String typeMapName = disambiguateName(
         'TypeBy${oneofEnumName}', existingNames, defaultSuffixes());
 
-    takeOneofNames(OneofNames(oneof, i, _defaultClearMethodName(oneofName),
-        _defaultWhichMethodName(oneofName), oneofEnumName, enumMapName, typeMapName));
+    takeOneofNames(OneofNames(
+        oneof,
+        i,
+        _defaultClearMethodName(oneofName),
+        _defaultWhichMethodName(oneofName),
+        oneofEnumName,
+        enumMapName,
+        typeMapName));
   }
 
   return MemberNames(fieldNames, oneofNames);
