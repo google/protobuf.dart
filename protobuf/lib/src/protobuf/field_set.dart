@@ -52,10 +52,12 @@ class _FieldSet {
   final BuilderInfo _meta;
   final EventPlugin _eventPlugin;
 
-  /// The value of each non-extension field in a fixed-length array.
+  /// The value of each non-extension field in a dynamic type:
+  /// - Map<int, dynamic> for the case for one-of, since no need to allocate such long list
+  /// - List (fixed-length array) for non one-of cases
   /// The index of a field can be found in [FieldInfo.index].
   /// A null entry indicates that the field has no value.
-  final List _values;
+  final dynamic _values;
 
   /// Contains all the extension fields, or null if there aren't any.
   _ExtensionFieldSet _extensions;
@@ -98,7 +100,7 @@ class _FieldSet {
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
       : _meta = meta,
-        _values = _makeValueList(meta.byIndex.length),
+        _values = meta.oneofs.isNotEmpty ? Map<int, dynamic>() : _makeValueList(meta.byIndex.length),
         _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
   static List _makeValueList(int length) {
@@ -576,7 +578,14 @@ class _FieldSet {
         }
       }
     }
-    if (_values.isNotEmpty) _values.fillRange(0, _values.length, null);
+    if (_values.isNotEmpty) {
+      if (_values is List) {
+        _values.fillRange(0, _values.length, null);
+      } else {
+        _values.values.fillRange(0, _values.length, null);
+      }
+    }
+
     if (_hasExtensions) _extensions._clearValues();
   }
 
@@ -893,7 +902,12 @@ class _FieldSet {
   ///
   /// Map fields and repeated fields are copied.
   void _shallowCopyValues(_FieldSet original) {
-    _values.setRange(0, original._values.length, original._values);
+    if (_values is List) {
+      _values.setRange(0, original._values.length, original._values);
+    } else {
+      _values.clear();
+      _values.addAll(original._values);
+    }
     for (var index = 0; index < _meta.byIndex.length; index++) {
       var fieldInfo = _meta.byIndex[index];
       if (fieldInfo.isMapField) {
