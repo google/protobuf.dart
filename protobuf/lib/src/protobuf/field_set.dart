@@ -100,7 +100,9 @@ class _FieldSet {
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
       : _meta = meta,
-        _values = meta.oneofs.isNotEmpty ? <int, dynamic>{} : _makeValueList(meta.byIndex.length),
+        _values = meta.oneofs.isNotEmpty
+            ? <int, dynamic>{}
+            : _makeValueList(meta.byIndex.length),
         _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
   static List _makeValueList(int length) {
