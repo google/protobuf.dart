@@ -1,4 +1,4 @@
-[![pub package](https://img.shields.io/pub/v/protobuf.svg)](https://pub.dartlang.org/packages/protobuf)
+[![pub package](https://img.shields.io/pub/v/protobuf.svg)](https://pub.dev/packages/protobuf)
 
 Provides runtime support for a Dart implementation of protobufs.
 
@@ -12,6 +12,6 @@ library as a dependency.
 
 * [Dart tutorial](https://developers.google.com/protocol-buffers/docs/darttutorial)
 * [Dart generated code guide](https://developers.google.com/protocol-buffers/docs/reference/dart-generated)
-* [Dart API](https://pub.dartlang.org/documentation/protobuf/latest/)
+* [Dart API](https://pub.dev/documentation/protobuf/latest/)
 * [Protobuf repository](https://github.com/google/protobuf)
 * [Protoc plugin project](https://github.com/dart-lang/protobuf/tree/master/protoc_plugin)
