@@ -110,6 +110,11 @@ class Imports extends $pb.GeneratedMessage {
 }
 
 class Dart_options {
+  static final $pb.Extension dartPackage = $pb.Extension<$core.String>(
+      'google.protobuf.FileOptions',
+      'dartPackage',
+      28205290,
+      $pb.PbFieldType.OS);
   static final $pb.Extension imports = $pb.Extension<Imports>(
       'google.protobuf.FileOptions', 'imports', 28125061, $pb.PbFieldType.OM,
       defaultOrMaker: Imports.getDefault, subBuilder: Imports.create);
@@ -143,6 +148,7 @@ class Dart_options {
   static final $pb.Extension dartName = $pb.Extension<$core.String>(
       'google.protobuf.FieldOptions', 'dartName', 28700919, $pb.PbFieldType.OS);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
+    registry.add(dartPackage);
     registry.add(imports);
     registry.add(defaultMixin);
     registry.add(mixin);

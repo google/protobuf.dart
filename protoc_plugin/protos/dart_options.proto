@@ -41,6 +41,9 @@ message Imports {
 }
 
 extend google.protobuf.FileOptions {
+  // The Dart package that should be used when importing code generated from
+  // this file.
+  optional string dart_package = 1073;
 
   optional Imports imports = 28125061;
 
