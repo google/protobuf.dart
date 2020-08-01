@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Requires sdk 2.3.0
+
 ## 1.0.3
 
 * Enable hashCode memoization for frozen protos.
