@@ -285,12 +285,10 @@ void main() {
   });
 
   test('retain explicit default values of sub-messages', () {
-    var testMap = TestMap()
-      ..int32ToMessageField[1] = TestMap_MessageValue();
+    var testMap = TestMap()..int32ToMessageField[1] = TestMap_MessageValue();
     expect(testMap.int32ToMessageField[1].secondValue, 42);
 
-    var testMap2 = TestMap()
-      ..int32ToMessageField[2] = TestMap_MessageValue();
+    var testMap2 = TestMap()..int32ToMessageField[2] = TestMap_MessageValue();
 
     testMap.mergeFromBuffer(testMap2.writeToBuffer());
     expect(testMap.int32ToMessageField[2].secondValue, 42);

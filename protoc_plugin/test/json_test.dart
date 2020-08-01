@@ -29,7 +29,6 @@ void main() {
       '"70":"410","71":411.0,"72":412.0,"73":false,"74":"415","75":"NDE2",'
       '"81":1,"82":4,"83":7,"84":"424","85":"425"}';
 
-  
   // Checks that message once serialized to JSON
   // matches TEST_ALL_TYPES_JSON massaged with [:.replaceAll(from, to):].
   Matcher expectedJson(from, to) {

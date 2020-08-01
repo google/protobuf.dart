@@ -189,8 +189,7 @@ class MessageGenerator extends ProtobufContainer {
     if (_fieldList != null) throw StateError("message already resolved");
 
     var reserved = mixin?.findReservedNames() ?? const <String>[];
-    var members = messageMemberNames(
-        _descriptor, classname, _usedTopLevelNames,
+    var members = messageMemberNames(_descriptor, classname, _usedTopLevelNames,
         reserved: reserved);
 
     _fieldList = <ProtobufField>[];

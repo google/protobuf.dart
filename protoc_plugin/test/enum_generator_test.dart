@@ -31,8 +31,7 @@ void main() {
           ..number = 2
       ]);
     var writer = IndentingWriter(filename: 'sample.proto');
-    var fg =
-        FileGenerator(FileDescriptorProto(), GenerationOptions());
+    var fg = FileGenerator(FileDescriptorProto(), GenerationOptions());
     var eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);
     eg.generate(writer);
     expectMatchesGoldenFile(writer.toString(), 'test/goldens/enum');

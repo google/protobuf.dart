@@ -254,9 +254,7 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     indexes[field.name] = index;
   }
 
-  var existingNames = <String>{}
-    ..addAll(reservedMemberNames)
-    ..addAll(reserved);
+  var existingNames = <String>{}..addAll(reservedMemberNames)..addAll(reserved);
 
   var fieldNames = List<FieldNames>(indexes.length);
 
@@ -488,12 +486,21 @@ final _dartFieldNameExpr = RegExp(r'^[a-z]\w+$');
 final List<String> forbiddenTopLevelNames = <String>[
   'List',
   'Function',
-  'Map', ..._dartReservedWords,
+  'Map',
+  ..._dartReservedWords,
 ];
 
-final List<String> reservedMemberNames = <String>[..._dartReservedWords, ...GeneratedMessage_reservedNames, ..._generatedMessageNames];
+final List<String> reservedMemberNames = <String>[
+  ..._dartReservedWords,
+  ...GeneratedMessage_reservedNames,
+  ..._generatedMessageNames
+];
 
-final List<String> forbiddenExtensionNames = <String>[..._dartReservedWords, ...GeneratedMessage_reservedNames, ..._generatedMessageNames];
+final List<String> forbiddenExtensionNames = <String>[
+  ..._dartReservedWords,
+  ...GeneratedMessage_reservedNames,
+  ..._generatedMessageNames
+];
 
 // List of Dart language reserved words in names which cannot be used in a
 // subclass of GeneratedMessage.

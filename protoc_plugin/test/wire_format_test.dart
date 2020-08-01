@@ -69,8 +69,7 @@ void main() {
       ..add(Unittest.myExtensionInt)
       ..add(Unittest.myExtensionString);
 
-    var dest =
-        TestFieldOrderings.fromBuffer(source.writeToBuffer(), registry);
+    var dest = TestFieldOrderings.fromBuffer(source.writeToBuffer(), registry);
 
     expect(dest, source);
   });

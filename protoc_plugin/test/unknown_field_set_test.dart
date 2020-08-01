@@ -24,7 +24,6 @@ void main() {
     return unknownFields.getField(tagNumber);
   }
 
-
   // Asserts that the given field sets are not equal and have different
   // hash codes.
   //
@@ -100,8 +99,7 @@ void main() {
       ..addField(2, UnknownFieldSetField()..addVarint(make64(2)))
       ..addField(3, UnknownFieldSetField()..addVarint(make64(3)));
 
-    var source = TestEmptyMessage()
-      ..mergeUnknownFields(sourceFieldSet);
+    var source = TestEmptyMessage()..mergeUnknownFields(sourceFieldSet);
 
     // Destination.
     var destinationFieldSet = UnknownFieldSet()
@@ -159,8 +157,7 @@ void main() {
   List<int> getBizarroData() {
     var bizarroFields = UnknownFieldSet();
 
-    var varintField = UnknownFieldSetField()
-      ..addVarint(make64(1));
+    var varintField = UnknownFieldSetField()..addVarint(make64(1));
 
     var fixed32Field = UnknownFieldSetField()..addFixed32(1);
 
@@ -192,8 +189,7 @@ void main() {
   test('testUnknownExtensions', () {
     // Make sure fields are properly parsed to the UnknownFieldSet even when
     // they are declared as extension numbers.
-    var message =
-        TestEmptyMessageWithExtensions.fromBuffer(allFieldsData);
+    var message = TestEmptyMessageWithExtensions.fromBuffer(allFieldsData);
 
     expect(message.unknownFields.asMap().length, unknownFields.asMap().length);
     expect(message.writeToBuffer(), allFieldsData);
@@ -204,8 +200,7 @@ void main() {
     // when parsing extensions.
 
     var bizarroData = getBizarroData();
-    var allExtensionsMessage =
-        TestAllExtensions.fromBuffer(bizarroData);
+    var allExtensionsMessage = TestAllExtensions.fromBuffer(bizarroData);
     var emptyMessage_ = TestEmptyMessage.fromBuffer(bizarroData);
 
     // All fields should have been interpreted as unknown, so the debug strings

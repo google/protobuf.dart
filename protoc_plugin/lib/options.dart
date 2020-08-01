@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 part of protoc;
- 
+
 typedef OnError = void Function(String details);
 
 /// Helper function implementing a generic option parser that reads

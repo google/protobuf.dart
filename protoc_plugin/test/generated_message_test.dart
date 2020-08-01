@@ -241,14 +241,12 @@ void main() {
   });
 
   test('testParsePackedToUnpacked', () {
-    var message =
-        TestUnpackedTypes.fromBuffer(getPackedSet().writeToBuffer());
+    var message = TestUnpackedTypes.fromBuffer(getPackedSet().writeToBuffer());
     assertUnpackedFieldsSet(message);
   });
 
   test('testParseUnpackedToPacked', () {
-    var message =
-        TestPackedTypes.fromBuffer(getUnpackedSet().writeToBuffer());
+    var message = TestPackedTypes.fromBuffer(getUnpackedSet().writeToBuffer());
     assertPackedFieldsSet(message);
   });
 
@@ -336,7 +334,7 @@ void main() {
           : (TestRecursiveMessage()..a = _makeRecursiveMessage(depth - 1));
     }
 
-   void _assertMessageDepth(TestRecursiveMessage message, int depth) {
+    void _assertMessageDepth(TestRecursiveMessage message, int depth) {
       if (depth == 0) {
         expect(message.hasA(), isFalse);
         expect(message.i, 5);
@@ -363,8 +361,7 @@ void main() {
   });
 
   test('testSizeLimit', () {
-    var input =
-        CodedBufferReader(getAllSet().writeToBuffer(), sizeLimit: 16);
+    var input = CodedBufferReader(getAllSet().writeToBuffer(), sizeLimit: 16);
 
     expect(() {
       // Uncomfortable alternative to below...
@@ -457,12 +454,10 @@ void main() {
   });
 
   test('testWriteMessageWithNegativeEnumValue', () {
-    var message = SparseEnumMessage()
-      ..sparseEnum = TestSparseEnum.SPARSE_E;
+    var message = SparseEnumMessage()..sparseEnum = TestSparseEnum.SPARSE_E;
     expect(message.sparseEnum.value < 0, isTrue,
         reason: 'enum.value should be -53452');
-    var message2 =
-        SparseEnumMessage.fromBuffer(message.writeToBuffer());
+    var message2 = SparseEnumMessage.fromBuffer(message.writeToBuffer());
     expect(message2.sparseEnum, TestSparseEnum.SPARSE_E,
         reason: 'should resolve back to SPARSE_E');
   });

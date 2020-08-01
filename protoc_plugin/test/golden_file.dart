@@ -18,8 +18,7 @@ void expectMatchesGoldenFile(String actual, String goldenFilePath) {
   } else {
     // This enables writing the updated file when the run in otherwise hermetic
     // settings.
-    var workspaceDirectory =
-        Platform.environment['BUILD_WORKSPACE_DIRECTORY'];
+    var workspaceDirectory = Platform.environment['BUILD_WORKSPACE_DIRECTORY'];
     if (workspaceDirectory != null) {
       goldenFile = File(path.join(workspaceDirectory, goldenFilePath));
     }

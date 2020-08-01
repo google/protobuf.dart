@@ -38,8 +38,7 @@ class test {
       ..sourceFile = 'sample.proto'
       ..begin = 20
       ..end = 24;
-    var annotation =
-        out.sourceLocationInfo.annotation[0];
+    var annotation = out.sourceLocationInfo.annotation[0];
     expect(annotation, equals(expected));
   });
 
@@ -49,8 +48,7 @@ class test {
       out.printlnAnnotated('sample text',
           [NamedLocation(name: 'sample', fieldPathSegment: [], start: 0)]);
     });
-    var annotation =
-        out.sourceLocationInfo.annotation[0];
+    var annotation = out.sourceLocationInfo.annotation[0];
     // The indent is 2 characters, so these should be shifted by 2.
     expect(annotation.begin, equals(36));
     expect(annotation.end, equals(42));
@@ -61,8 +59,7 @@ class test {
     out.print('20 characters\ntotal\n');
     out.printlnAnnotated('20 characters before this',
         [NamedLocation(name: 'ch', fieldPathSegment: [], start: 3)]);
-    var annotation =
-        out.sourceLocationInfo.annotation[0];
+    var annotation = out.sourceLocationInfo.annotation[0];
     expect(annotation.begin, equals(23));
     expect(annotation.end, equals(25));
   });

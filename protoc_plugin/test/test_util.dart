@@ -846,7 +846,6 @@ void assertPackedExtensionsSet(TestPackedExtensions message) {
       ForeignEnum.FOREIGN_BAZ);
 }
 
-
 // Assert (using expect} that all fields of [message] are set to the values
 // assigned by [setPackedFields].
 void assertPackedFieldsSet(TestPackedTypes message) {
@@ -1273,7 +1272,6 @@ TestAllExtensions getAllExtensionsSet() {
   return message;
 }
 
-
 // Get a [TestAllTypes] with all fields set as they would
 // be by [setAllFields(TestAllTypes)].
 TestAllTypes getAllSet() {
@@ -1352,7 +1350,6 @@ void modifyRepeatedExtensions(TestAllExtensions message) {
   message.getExtension(Unittest.repeatedCordExtension)[1] = '525';
 }
 
-
 // Modify the repeated fields of {@code message} to contain the values
 // expected by {@code assertRepeatedFieldsModified()}.
 void modifyRepeatedFields(TestAllTypes message) {
@@ -1376,8 +1373,7 @@ void modifyRepeatedFields(TestAllTypes message) {
   repeatedGroup.a = 517;
   message.repeatedGroup[1] = repeatedGroup;
 
-  var optionalNestedMessage =
-      TestAllTypes_NestedMessage();
+  var optionalNestedMessage = TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 518;
   message.repeatedNestedMessage[1] = optionalNestedMessage;
 
@@ -1562,7 +1558,6 @@ void setAllExtensions(TestAllExtensions message) {
   message.setExtension(Unittest.defaultCordExtension, '425');
 }
 
-
 // Set every field of {@code message} to the values expected by
 // {@code assertAllFieldsSet()}.
 void setAllFields(TestAllTypes message) {
@@ -1586,8 +1581,7 @@ void setAllFields(TestAllTypes message) {
   optionalGroup.a = 117;
   message.optionalGroup = optionalGroup;
 
-  var optionalNestedMessage =
-      TestAllTypes_NestedMessage();
+  var optionalNestedMessage = TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 118;
   message.optionalNestedMessage = optionalNestedMessage;
 
@@ -1778,7 +1772,6 @@ void setPackedFields(TestPackedTypes message) {
   message.packedBool.add(false);
   message.packedEnum.add(ForeignEnum.FOREIGN_BAZ);
 }
-
 
 // Set every field of [message] to a unique value. Must correspond with
 // the values applied by [setPackedFields].

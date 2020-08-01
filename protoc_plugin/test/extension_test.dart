@@ -88,13 +88,11 @@ void main() {
   });
 
   test('can merge extension', () {
-    var nestedMessage = TestAllTypes_NestedMessage()
-      ..i = 42;
+    var nestedMessage = TestAllTypes_NestedMessage()..i = 42;
     var mergeSource = TestAllExtensions()
       ..setExtension(Unittest.optionalNestedMessageExtension, nestedMessage);
 
-    var nestedMessage2 = TestAllTypes_NestedMessage()
-      ..bb = 43;
+    var nestedMessage2 = TestAllTypes_NestedMessage()..bb = 43;
     var mergeDest = TestAllExtensions()
       ..setExtension(Unittest.optionalNestedMessageExtension, nestedMessage2);
 

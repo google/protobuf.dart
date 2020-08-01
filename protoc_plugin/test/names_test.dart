@@ -120,8 +120,7 @@ void main() {
           names.disambiguateName('foo', used, oneTwoThree(),
               generateVariants: variants),
           'foo_two');
-      expect(used,
-          {'a_foo', 'b_foo_one', 'a_foo_two', 'b_foo_two'});
+      expect(used, {'a_foo', 'b_foo_one', 'a_foo_two', 'b_foo_two'});
     }
   });
 

@@ -136,8 +136,7 @@ void main() {
   });
 
   test('FileGenerator generates files for a top-level enum', () {
-    var fd =
-        buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
+    var fd = buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options =
         parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
@@ -150,8 +149,7 @@ void main() {
   });
 
   test('FileGenerator generates metadata files for a top-level enum', () {
-    var fd =
-        buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
+    var fd = buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options = parseGenerationOptions(
         CodeGeneratorRequest()..parameter = 'generate_kythe_info',
         CodeGeneratorResponse());
@@ -165,8 +163,7 @@ void main() {
   });
 
   test('FileGenerator generates a .pbjson.dart file for a top-level enum', () {
-    var fd =
-        buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
+    var fd = buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options =
         parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 

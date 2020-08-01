@@ -78,8 +78,7 @@ void main() {
         parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
     var fg = FileGenerator(fd, options);
-    var mg =
-        MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+    var mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
     var ctx = GenerationContext(options);
     mg.register(ctx);
@@ -103,8 +102,7 @@ void main() {
     var options =
         parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
     var fg = FileGenerator(fd, options);
-    var mg =
-        MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+    var mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
     var ctx = GenerationContext(options);
     mg.register(ctx);
