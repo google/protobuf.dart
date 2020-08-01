@@ -174,7 +174,7 @@ class ServiceGenerator {
             '$_coreImportPrefix.String method, $_generatedMessage request) {',
         '}', () {
       out.addBlock("switch (method) {", "}", () {
-        for (MethodDescriptorProto m in _methodDescriptors) {
+        for (var m in _methodDescriptors) {
           var methodName = _methodName(m.name);
           out.println(
               "case '${m.name}': return this.$methodName(ctx, request);");
