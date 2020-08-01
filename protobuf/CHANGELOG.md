@@ -1,6 +1,7 @@
 ## 1.0.4
 
 * Requires sdk 2.3.0
+* Update pedantic to 1.9.2
 
 ## 1.0.3
 
