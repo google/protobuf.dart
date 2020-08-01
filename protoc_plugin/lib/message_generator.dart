@@ -435,7 +435,7 @@ class MessageGenerator extends ProtobufContainer {
 
     for (var field in _fieldList) {
       out.println();
-      var memberFieldPath = List.from(fieldPath)
+      var memberFieldPath = List<int>.from(fieldPath)
         ..addAll([_messageFieldTag, field.sourcePosition]);
       generateFieldAccessorsMutators(field, out, memberFieldPath);
     }
