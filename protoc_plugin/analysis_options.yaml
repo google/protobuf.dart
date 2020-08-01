@@ -8,7 +8,7 @@ include: package:pedantic/analysis_options.yaml
 
 linter:
   rules:
-    prefer_single_quotes: false
+    prefer_single_quotes: false # will be fixed later
     control_flow_in_finally: true
     throw_in_finally: true
     camel_case_types: true
