@@ -77,7 +77,6 @@ stages:
 branches:
   only:
     - master
-    - update-pedantic
 
 cache:
   directories:
