@@ -6,7 +6,7 @@ name: api_benchmark
 description: Benchmarking a number of different api calls.
 
 environment:
-  sdk: '>=2.0.0 <3.0.0'
+  sdk: '>=2.3.0 <3.0.0'
 
 dependencies:
   protobuf:
