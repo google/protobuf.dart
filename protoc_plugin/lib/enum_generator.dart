@@ -12,7 +12,9 @@ class EnumAlias {
 
 class EnumGenerator extends ProtobufContainer {
   final ProtobufContainer _parent;
+  @override
   final String classname;
+  @override
   final String fullName;
   final EnumDescriptorProto _descriptor;
   final List<EnumValueDescriptorProto> _canonicalValues =
@@ -27,6 +29,7 @@ class EnumGenerator extends ProtobufContainer {
   final List<int> _fieldPathSegment;
 
   /// See [[ProtobufContainer]
+  @override
   List<int> get fieldPath =>
       _fieldPath ??= List.from(_parent.fieldPath)..addAll(_fieldPathSegment);
 
@@ -41,10 +44,10 @@ class EnumGenerator extends ProtobufContainer {
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
         _descriptor = descriptor {
-    final usedNames = Set<String>()..addAll(reservedEnumNames);
+    final usedNames = {...reservedEnumNames};
     for (var i = 0; i < descriptor.value.length; i++) {
-      EnumValueDescriptorProto value = descriptor.value[i];
-      EnumValueDescriptorProto canonicalValue =
+      var value = descriptor.value[i];
+      var canonicalValue =
           descriptor.value.firstWhere((v) => v.number == value.number);
       if (value == canonicalValue) {
         _canonicalValues.add(value);
@@ -74,7 +77,9 @@ class EnumGenerator extends ProtobufContainer {
       : this._(descriptor, parent, usedClassNames, repeatedFieldIndex,
             _nestedFieldTag);
 
+  @override
   String get package => _parent.package;
+  @override
   FileGenerator get fileGen => _parent.fileGen;
 
   /// Make this enum available as a field type.
@@ -104,7 +109,7 @@ class EnumGenerator extends ProtobufContainer {
       // -----------------------------------------------------------------
       // Define enum types.
       for (var i = 0; i < _canonicalValues.length; i++) {
-        EnumValueDescriptorProto val = _canonicalValues[i];
+        var val = _canonicalValues[i];
         final name = dartNames[val.name];
         out.printlnAnnotated(
             'static const ${classname} $name = '
@@ -120,7 +125,7 @@ class EnumGenerator extends ProtobufContainer {
       if (_aliases.isNotEmpty) {
         out.println();
         for (var i = 0; i < _aliases.length; i++) {
-          EnumAlias alias = _aliases[i];
+          var alias = _aliases[i];
           final name = dartNames[alias.value.name];
           out.printlnAnnotated(
               'static const ${classname} $name ='
@@ -138,7 +143,7 @@ class EnumGenerator extends ProtobufContainer {
 
       out.println('static const $_coreImportPrefix.List<${classname}> values ='
           ' <${classname}> [');
-      for (EnumValueDescriptorProto val in _canonicalValues) {
+      for (var val in _canonicalValues) {
         final name = dartNames[val.name];
         out.println('  $name,');
       }

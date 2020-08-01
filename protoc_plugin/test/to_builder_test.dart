@@ -10,9 +10,9 @@ import 'package:fixnum/fixnum.dart' show Int64;
 import '../out/protos/foo.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
-main() {
+void main() {
   group('frozen and tobuilder', () {
-    Outer original = Outer()
+    var original = Outer()
       ..inner = (Inner()..value = 'foo')
       ..inners.add(Inner()..value = 'repeatedInner')
       ..setExtension(FooExt.inner, Inner()..value = 'extension')
@@ -188,7 +188,7 @@ main() {
 
     test('cannot merge message into a frozen UnknownFieldSet', () {
       emptyMessage.freeze();
-      TestEmptyMessage other = emptyMessage.clone();
+      var other = emptyMessage.clone();
 
       expect(() => emptyMessage.mergeFromBuffer(other.writeToBuffer()),
           throwsA(TypeMatcher<UnsupportedError>()));

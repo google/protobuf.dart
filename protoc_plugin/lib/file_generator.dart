@@ -39,7 +39,7 @@ class FileGenerator extends ProtobufContainer {
     }
     var dartMixins = <String, DartMixin>{};
     Imports importedMixins = desc.options.getExtension(Dart_options.imports);
-    for (DartMixin mixin in importedMixins.mixins) {
+    for (var mixin in importedMixins.mixins) {
       if (dartMixins.containsKey(mixin.name)) {
         throw mixinError('Duplicate mixin name: "${mixin.name}"');
       }
@@ -62,8 +62,8 @@ class FileGenerator extends ProtobufContainer {
       while (currentMixin.hasParent()) {
         var parentName = currentMixin.parent;
 
-        bool declaredMixin = dartMixins.containsKey(parentName);
-        bool internalMixin = !declaredMixin && findMixin(parentName) != null;
+        var declaredMixin = dartMixins.containsKey(parentName);
+        var internalMixin = !declaredMixin && findMixin(parentName) != null;
 
         if (internalMixin) break; // No further validation of parent chain.
 
@@ -117,15 +117,15 @@ class FileGenerator extends ProtobufContainer {
 
   /// Used to avoid collisions after names have been mangled to match the Dart
   /// style.
-  final Set<String> usedTopLevelNames = Set<String>()
+  final Set<String> usedTopLevelNames = <String>{}
     ..addAll(forbiddenTopLevelNames);
 
   /// Used to avoid collisions in the service file after names have been mangled
   /// to match the dart style.
-  final Set<String> usedTopLevelServiceNames = Set<String>()
+  final Set<String> usedTopLevelServiceNames = <String>{}
     ..addAll(forbiddenTopLevelNames);
 
-  final Set<String> usedExtensionNames = Set<String>()
+  final Set<String> usedExtensionNames = <String>{}
     ..addAll(forbiddenExtensionNames);
 
   /// True if cross-references have been resolved.
@@ -161,7 +161,7 @@ class FileGenerator extends ProtobufContainer {
       extensionGenerators.add(ExtensionGenerator.topLevel(
           descriptor.extension[i], this, usedExtensionNames, i));
     }
-    for (ServiceDescriptorProto service in descriptor.service) {
+    for (var service in descriptor.service) {
       if (options.useGrpc) {
         grpcGenerators.add(GrpcServiceGenerator(service, this));
       } else {
@@ -199,16 +199,16 @@ class FileGenerator extends ProtobufContainer {
   List<CodeGeneratorResponse_File> generateFiles(OutputConfiguration config) {
     if (!_linked) throw StateError("not linked");
 
-    makeFile(String extension, String content) {
-      Uri protoUrl = Uri.file(descriptor.name);
-      Uri dartUrl = config.outputPathFor(protoUrl, extension);
+    CodeGeneratorResponse_File makeFile(String extension, String content) {
+      var protoUrl = Uri.file(descriptor.name);
+      var dartUrl = config.outputPathFor(protoUrl, extension);
       return CodeGeneratorResponse_File()
         ..name = dartUrl.path
         ..content = content;
     }
 
-    IndentingWriter mainWriter = generateMainFile(config);
-    IndentingWriter enumWriter = generateEnumFile(config);
+    var mainWriter = generateMainFile(config);
+    var enumWriter = generateEnumFile(config);
 
     final files = [
       makeFile(".pb.dart", mainWriter.toString()),
@@ -242,12 +242,12 @@ class FileGenerator extends ProtobufContainer {
   IndentingWriter generateMainFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError("not linked");
-    IndentingWriter out = makeWriter();
+    var out = makeWriter();
 
     writeMainHeader(out, config);
 
     // Generate code.
-    for (MessageGenerator m in messageGenerators) {
+    for (var m in messageGenerators) {
       m.generate(out);
     }
 
@@ -255,22 +255,22 @@ class FileGenerator extends ProtobufContainer {
     // name derived from the file name.
     if (extensionGenerators.isNotEmpty) {
       // TODO(antonm): do not generate a class.
-      String className = extensionClassName(descriptor, usedTopLevelNames);
+      var className = extensionClassName(descriptor, usedTopLevelNames);
       out.addBlock('class $className {', '}\n', () {
-        for (ExtensionGenerator x in extensionGenerators) {
+        for (var x in extensionGenerators) {
           x.generate(out);
         }
         out.println(
             'static void registerAllExtensions($_protobufImportPrefix.ExtensionRegistry '
             'registry) {');
-        for (ExtensionGenerator x in extensionGenerators) {
+        for (var x in extensionGenerators) {
           out.println('  registry.add(${x.name});');
         }
         out.println('}');
       });
     }
 
-    for (ClientApiGenerator c in clientApiGenerators) {
+    for (var c in clientApiGenerators) {
       c.generate(out);
     }
     return out;
@@ -321,14 +321,14 @@ class FileGenerator extends ProtobufContainer {
     }
     if (enumImports.isNotEmpty) out.println();
 
-    for (int publicDependency in descriptor.publicDependency) {
+    for (var publicDependency in descriptor.publicDependency) {
       _writeExport(out, config,
           Uri.file(descriptor.dependency[publicDependency]), '.pb.dart');
     }
 
     // Export enums in main file for backward compatibility.
     if (enumCount > 0) {
-      Uri resolvedImport =
+      var resolvedImport =
           config.resolveImport(protoFileUri, protoFileUri, ".pbenum.dart");
       out.println("export '$resolvedImport';");
       out.println();
@@ -369,8 +369,8 @@ class FileGenerator extends ProtobufContainer {
 
   /// Returns a sorted list of imports needed to support all mixins.
   List<String> findMixinImports() {
-    var mixins = Set<PbMixin>();
-    for (MessageGenerator m in messageGenerators) {
+    var mixins = <PbMixin>{};
+    for (var m in messageGenerators) {
       m.addMixinsTo(mixins);
     }
 
@@ -398,11 +398,11 @@ class FileGenerator extends ProtobufContainer {
       out.println();
     }
 
-    for (EnumGenerator e in enumGenerators) {
+    for (var e in enumGenerators) {
       e.generate(out);
     }
 
-    for (MessageGenerator m in messageGenerators) {
+    for (var m in messageGenerators) {
       m.generateEnums(out);
     }
 
@@ -412,7 +412,7 @@ class FileGenerator extends ProtobufContainer {
   /// Returns the number of enum types generated in the .pbenum.dart file.
   int get enumCount {
     var count = enumGenerators.length;
-    for (MessageGenerator m in messageGenerators) {
+    for (var m in messageGenerators) {
       count += m.enumCount;
     }
     return count;
@@ -434,7 +434,7 @@ class FileGenerator extends ProtobufContainer {
     }
 
     // Import .pb.dart files needed for requests and responses.
-    var imports = Set<FileGenerator>();
+    var imports = <FileGenerator>{};
     for (var x in serviceGenerators) {
       x.addImportsTo(imports);
     }
@@ -448,12 +448,12 @@ class FileGenerator extends ProtobufContainer {
       out.println();
     }
 
-    Uri resolvedImport =
+    var resolvedImport =
         config.resolveImport(protoFileUri, protoFileUri, ".pb.dart");
     out.println("export '$resolvedImport';");
     out.println();
 
-    for (ServiceGenerator s in serviceGenerators) {
+    for (var s in serviceGenerators) {
       s.generate(out);
     }
 
@@ -474,7 +474,7 @@ class FileGenerator extends ProtobufContainer {
     out.println(_grpcImport);
 
     // Import .pb.dart files needed for requests and responses.
-    var imports = Set<FileGenerator>();
+    var imports = <FileGenerator>{};
     for (var generator in grpcGenerators) {
       generator.addImportsTo(imports);
     }
@@ -511,10 +511,10 @@ class FileGenerator extends ProtobufContainer {
     for (var e in enumGenerators) {
       e.generateConstants(out);
     }
-    for (MessageGenerator m in messageGenerators) {
+    for (var m in messageGenerators) {
       m.generateConstants(out);
     }
-    for (ServiceGenerator s in serviceGenerators) {
+    for (var s in serviceGenerators) {
       s.generateConstants(out);
     }
 
@@ -554,7 +554,7 @@ class FileGenerator extends ProtobufContainer {
   /// (Possibly the same .proto file.)
   void _writeImport(IndentingWriter out, OutputConfiguration config,
       FileGenerator target, String extension) {
-    Uri resolvedImport =
+    var resolvedImport =
         config.resolveImport(target.protoFileUri, protoFileUri, extension);
     out.print("import '$resolvedImport'");
 
@@ -571,7 +571,7 @@ class FileGenerator extends ProtobufContainer {
   /// (Possibly the same .proto file.)
   void _writeExport(IndentingWriter out, OutputConfiguration config, Uri target,
       String extension) {
-    Uri resolvedImport = config.resolveImport(target, protoFileUri, extension);
+    var resolvedImport = config.resolveImport(target, protoFileUri, extension);
     out.println("export '$resolvedImport';");
   }
 }

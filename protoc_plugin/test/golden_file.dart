@@ -11,14 +11,14 @@ import 'package:test/test.dart';
 ///
 /// If the file doesn't exist, the file is instead created containing [actual].
 void expectMatchesGoldenFile(String actual, String goldenFilePath) {
-  File goldenFile = File(goldenFilePath);
+  var goldenFile = File(goldenFilePath);
   if (goldenFile.existsSync()) {
     expect(actual, equals(goldenFile.readAsStringSync()),
         reason: 'goldenFilePath: "${goldenFilePath}"');
   } else {
     // This enables writing the updated file when the run in otherwise hermetic
     // settings.
-    String workspaceDirectory =
+    var workspaceDirectory =
         Platform.environment['BUILD_WORKSPACE_DIRECTORY'];
     if (workspaceDirectory != null) {
       goldenFile = File(path.join(workspaceDirectory, goldenFilePath));

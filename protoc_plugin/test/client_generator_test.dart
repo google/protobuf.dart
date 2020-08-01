@@ -26,9 +26,9 @@ void main() {
 
     link(GenerationOptions(), [fg, fg2]);
 
-    ClientApiGenerator cag = fg.clientApiGenerators[0];
+    var cag = fg.clientApiGenerators[0];
 
-    IndentingWriter writer = IndentingWriter();
+    var writer = IndentingWriter();
     cag.generate(writer);
     expectMatchesGoldenFile(writer.toString(), 'test/goldens/client');
   });

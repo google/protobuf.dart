@@ -6,7 +6,7 @@ part of protoc;
 
 /// Resolves all cross-references in a set of proto files.
 void link(GenerationOptions options, Iterable<FileGenerator> files) {
-  GenerationContext ctx = GenerationContext(options);
+  var ctx = GenerationContext(options);
 
   // Register the targets of cross-references.
   for (var f in files) {

@@ -14,12 +14,12 @@ import '../out/protos/google/protobuf/unittest_import.pb.dart';
 final Matcher throwsATypeError = throwsA(TypeMatcher<TypeError>());
 
 Int64 make64(int lo, [int hi]) {
-  if (hi == null) hi = lo < 0 ? -1 : 0;
+  hi ??= lo < 0 ? -1 : 0;
   return Int64.fromInts(hi, lo);
 }
 
-expect64(int lo, [int hi]) {
-  final Int64 expected = make64(lo, hi);
+Matcher expect64(int lo, [int hi]) {
+  final expected = make64(lo, hi);
   return predicate((Int64 actual) => actual == expected);
 }
 
@@ -846,10 +846,9 @@ void assertPackedExtensionsSet(TestPackedExtensions message) {
       ForeignEnum.FOREIGN_BAZ);
 }
 
-/**
- * Assert (using expect} that all fields of [message] are set to the values
- * assigned by [setPackedFields].
- */
+
+// Assert (using expect} that all fields of [message] are set to the values
+// assigned by [setPackedFields].
 void assertPackedFieldsSet(TestPackedTypes message) {
   expect(message.packedInt32.length, 2);
   expect(message.packedInt64.length, 2);
@@ -1221,10 +1220,8 @@ void assertRepeatedFieldsModified(TestAllTypes message) {
   expect(message.repeatedCord[1], '525');
 }
 
-/**
- * Assert (using expect} that all fields of [message] are set to the values
- * assigned by [setUnpackedFields].
- */
+// Assert (using expect} that all fields of [message] are set to the values
+// assigned by [setUnpackedFields].
 void assertUnpackedFieldsSet(TestUnpackedTypes message) {
   expect(message.unpackedInt32.length, 2);
   expect(message.unpackedInt64.length, 2);
@@ -1271,41 +1268,40 @@ void assertUnpackedFieldsSet(TestUnpackedTypes message) {
 }
 
 TestAllExtensions getAllExtensionsSet() {
-  TestAllExtensions message = TestAllExtensions();
+  var message = TestAllExtensions();
   setAllExtensions(message);
   return message;
 }
 
-/**
- * Get a [TestAllTypes] with all fields set as they would
- * be by [setAllFields(TestAllTypes)].
- */
+
+// Get a [TestAllTypes] with all fields set as they would
+// be by [setAllFields(TestAllTypes)].
 TestAllTypes getAllSet() {
-  TestAllTypes message = TestAllTypes();
+  var message = TestAllTypes();
   setAllFields(message);
   return message;
 }
 
 ExtensionRegistry getExtensionRegistry() {
-  ExtensionRegistry registry = ExtensionRegistry();
+  var registry = ExtensionRegistry();
   registerAllExtensions(registry);
   return registry /*.getUnmodifiable()*/;
 }
 
 TestPackedExtensions getPackedExtensionsSet() {
-  TestPackedExtensions message = TestPackedExtensions();
+  var message = TestPackedExtensions();
   setPackedExtensions(message);
   return message;
 }
 
 TestPackedTypes getPackedSet() {
-  TestPackedTypes message = TestPackedTypes();
+  var message = TestPackedTypes();
   setPackedFields(message);
   return message;
 }
 
 TestUnpackedTypes getUnpackedSet() {
-  TestUnpackedTypes message = TestUnpackedTypes();
+  var message = TestUnpackedTypes();
   setUnpackedFields(message);
   return message;
 }
@@ -1356,10 +1352,9 @@ void modifyRepeatedExtensions(TestAllExtensions message) {
   message.getExtension(Unittest.repeatedCordExtension)[1] = '525';
 }
 
-/**
- * Modify the repeated fields of {@code message} to contain the values
- * expected by {@code assertRepeatedFieldsModified()}.
- */
+
+// Modify the repeated fields of {@code message} to contain the values
+// expected by {@code assertRepeatedFieldsModified()}.
 void modifyRepeatedFields(TestAllTypes message) {
   message.repeatedInt32[1] = 501;
   message.repeatedInt64[1] = make64(502);
@@ -1377,20 +1372,20 @@ void modifyRepeatedFields(TestAllTypes message) {
   message.repeatedString[1] = '515';
   message.repeatedBytes[1] = '516'.codeUnits;
 
-  TestAllTypes_RepeatedGroup repeatedGroup = TestAllTypes_RepeatedGroup();
+  var repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 517;
   message.repeatedGroup[1] = repeatedGroup;
 
-  TestAllTypes_NestedMessage optionalNestedMessage =
+  var optionalNestedMessage =
       TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 518;
   message.repeatedNestedMessage[1] = optionalNestedMessage;
 
-  ForeignMessage optionalForeignMessage = ForeignMessage();
+  var optionalForeignMessage = ForeignMessage();
   optionalForeignMessage.c = 519;
   message.repeatedForeignMessage[1] = optionalForeignMessage;
 
-  ImportMessage optionalImportMessage = ImportMessage();
+  var optionalImportMessage = ImportMessage();
   optionalImportMessage.d = 520;
   message.repeatedImportMessage[1] = optionalImportMessage;
 
@@ -1567,10 +1562,9 @@ void setAllExtensions(TestAllExtensions message) {
   message.setExtension(Unittest.defaultCordExtension, '425');
 }
 
-/**
- * Set every field of {@code message} to the values expected by
- * {@code assertAllFieldsSet()}.
- */
+
+// Set every field of {@code message} to the values expected by
+// {@code assertAllFieldsSet()}.
 void setAllFields(TestAllTypes message) {
   message.optionalInt32 = 101;
   message.optionalInt64 = make64(102);
@@ -1588,20 +1582,20 @@ void setAllFields(TestAllTypes message) {
   message.optionalString = '115';
   message.optionalBytes = '116'.codeUnits;
 
-  TestAllTypes_OptionalGroup optionalGroup = TestAllTypes_OptionalGroup();
+  var optionalGroup = TestAllTypes_OptionalGroup();
   optionalGroup.a = 117;
   message.optionalGroup = optionalGroup;
 
-  TestAllTypes_NestedMessage optionalNestedMessage =
+  var optionalNestedMessage =
       TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 118;
   message.optionalNestedMessage = optionalNestedMessage;
 
-  ForeignMessage optionalForeignMessage = ForeignMessage();
+  var optionalForeignMessage = ForeignMessage();
   optionalForeignMessage.c = 119;
   message.optionalForeignMessage = optionalForeignMessage;
 
-  ImportMessage optionalImportMessage = ImportMessage();
+  var optionalImportMessage = ImportMessage();
   optionalImportMessage.d = 120;
   message.optionalImportMessage = optionalImportMessage;
 
@@ -1630,19 +1624,19 @@ void setAllFields(TestAllTypes message) {
   message.repeatedString.add('215');
   message.repeatedBytes.add('216'.codeUnits);
 
-  TestAllTypes_RepeatedGroup repeatedGroup = TestAllTypes_RepeatedGroup();
+  var repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 217;
   message.repeatedGroup.add(repeatedGroup);
 
-  TestAllTypes_NestedMessage repeatedNested = TestAllTypes_NestedMessage();
+  var repeatedNested = TestAllTypes_NestedMessage();
   repeatedNested.bb = 218;
   message.repeatedNestedMessage.add(repeatedNested);
 
-  ForeignMessage repeatedForeignMessage = ForeignMessage();
+  var repeatedForeignMessage = ForeignMessage();
   repeatedForeignMessage.c = 219;
   message.repeatedForeignMessage.add(repeatedForeignMessage);
 
-  ImportMessage repeatedImportMessage = ImportMessage();
+  var repeatedImportMessage = ImportMessage();
   repeatedImportMessage.d = 220;
   message.repeatedImportMessage.add(repeatedImportMessage);
 
@@ -1751,10 +1745,8 @@ void setPackedExtensions(TestPackedExtensions message) {
   message.addExtension(Unittest.packedEnumExtension, ForeignEnum.FOREIGN_BAZ);
 }
 
-/**
- * Set every field of [message] to a unique value. Must correspond with
- * the values applied by [setUnpackedFields].
- */
+//Set every field of [message] to a unique value. Must correspond with
+//the values applied by [setUnpackedFields].
 void setPackedFields(TestPackedTypes message) {
   message.packedInt32.add(601);
   message.packedInt64.add(make64(602));
@@ -1787,10 +1779,9 @@ void setPackedFields(TestPackedTypes message) {
   message.packedEnum.add(ForeignEnum.FOREIGN_BAZ);
 }
 
-/**
- * Set every field of [message] to a unique value. Must correspond with
- * the values applied by [setPackedFields].
- */
+
+// Set every field of [message] to a unique value. Must correspond with
+// the values applied by [setPackedFields].
 void setUnpackedFields(TestUnpackedTypes message) {
   message.unpackedInt32.add(601);
   message.unpackedInt64.add(make64(602));

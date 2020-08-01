@@ -123,7 +123,7 @@ class BaseType {
         throw ArgumentError("unimplemented type: ${field.type.name}");
     }
 
-    ProtobufContainer generator = ctx.getFieldType(field.typeName);
+    var generator = ctx.getFieldType(field.typeName);
     if (generator == null) {
       throw 'FAILURE: Unknown type reference ${field.typeName}';
     }

@@ -146,7 +146,7 @@ class ServiceGenerator {
   }
 
   void _generateStubs(IndentingWriter out) {
-    for (MethodDescriptorProto m in _methodDescriptors) {
+    for (var m in _methodDescriptors) {
       _generateStub(out, m);
     }
     out.println();
@@ -157,7 +157,7 @@ class ServiceGenerator {
         '$_generatedMessage createRequest($_coreImportPrefix.String method) {',
         '}', () {
       out.addBlock("switch (method) {", "}", () {
-        for (MethodDescriptorProto m in _methodDescriptors) {
+        for (var m in _methodDescriptors) {
           var inputClass = _getDartClassName(m.inputType);
           out.println("case '${m.name}': return $inputClass();");
         }

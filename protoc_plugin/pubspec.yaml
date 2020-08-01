@@ -4,7 +4,7 @@ description: Protoc compiler plugin to generate Dart code
 homepage: https://github.com/dart-lang/protobuf
 
 environment:
-  sdk: '>=2.0.0 <3.0.0'
+  sdk: '>=2.3.0 <3.0.0'
 
 dependencies:
   fixnum: ^0.10.9
@@ -14,6 +14,7 @@ dependencies:
 
 dev_dependencies:
   test: ^1.3.0
+  pedantic: ^1.9.2
 
 executables:
   protoc-gen-dart: protoc_plugin

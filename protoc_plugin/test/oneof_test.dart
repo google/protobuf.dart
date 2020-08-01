@@ -10,12 +10,12 @@ import '../out/protos/oneof.pb.dart';
 
 void main() {
   test('empty oneof', () {
-    Foo foo = Foo();
+    var foo = Foo();
     expectOneofNotSet(foo);
   });
 
   test('set oneof', () {
-    Foo foo = Foo();
+    var foo = Foo();
     foo.first = 'oneof';
     expectFirstSet(foo);
 
@@ -84,7 +84,7 @@ void main() {
   });
 
   test('set and clear oneof', () {
-    Foo foo = Foo()..first = 'oneof';
+    var foo = Foo()..first = 'oneof';
     expectFirstSet(foo);
 
     foo.clearOneofField();
@@ -98,7 +98,7 @@ void main() {
   });
 
   test('serialize and parse oneof', () {
-    Foo foo = Foo()..first = 'oneof';
+    var foo = Foo()..first = 'oneof';
     expectFirstSet(foo);
 
     foo = Foo.fromBuffer(foo.writeToBuffer());
@@ -106,7 +106,7 @@ void main() {
   });
 
   test('JSON serialize and parse oneof', () {
-    Foo foo = Foo()..second = 1;
+    var foo = Foo()..second = 1;
     expectSecondSet(foo);
 
     foo = Foo.fromJson(foo.writeToJson());
@@ -115,27 +115,25 @@ void main() {
   });
 
   test('serialize and parse concat oneof', () {
-    Foo foo = Foo()..first = 'oneof';
+    var foo = Foo()..first = 'oneof';
     expectFirstSet(foo);
 
-    Foo foo2 = Foo()..second = 1;
+    var foo2 = Foo()..second = 1;
     expectSecondSet(foo2);
 
-    List<int> concat = []
-      ..addAll(foo.writeToBuffer())
-      ..addAll(foo2.writeToBuffer());
+    var concat = [...foo.writeToBuffer(), ...foo2.writeToBuffer()];
     foo = Foo.fromBuffer(concat);
     expectSecondSet(foo);
   });
 
   test('JSON serialize and parse concat oneof', () {
-    Foo foo = Foo()..first = 'oneof';
+    var foo = Foo()..first = 'oneof';
     expectFirstSet(foo);
 
-    Foo foo2 = Foo()..second = 1;
+    var foo2 = Foo()..second = 1;
     expectSecondSet(foo2);
 
-    String jsonConcat =
+    var jsonConcat =
         '${foo2.writeToJson().substring(0, foo2.writeToJson().length - 1)}, '
         '${foo.writeToJson().substring(1)}';
     foo = Foo.fromJson(jsonConcat);
@@ -143,7 +141,7 @@ void main() {
   });
 
   test('set and clear second oneof field', () {
-    Foo foo = Foo();
+    var foo = Foo();
     expectOneofNotSet(foo);
 
     foo.red = 'r';
@@ -162,18 +160,18 @@ void main() {
   });
 
   test('copyWith preserves oneof state', () {
-    Foo foo = Foo();
+    var foo = Foo();
     expectOneofNotSet(foo);
-    Foo copy1 = foo.copyWith((_) {});
+    var copy1 = foo.copyWith((_) {});
     expectOneofNotSet(copy1);
     foo..first = 'oneof';
     expectFirstSet(foo);
-    Foo copy2 = foo.copyWith((_) {});
+    var copy2 = foo.copyWith((_) {});
     expectFirstSet(copy2);
   });
 
   test('oneof semantics is preserved when using ensure method', () {
-    Foo foo = Foo();
+    var foo = Foo();
     foo.first = 'oneof';
     expectFirstSet(foo);
     foo.ensureIndex();

@@ -19,7 +19,7 @@ void main() {
       errors = [];
     });
 
-    _onError(String message) {
+    void _onError(String message) {
       errors.add(message);
     }
 

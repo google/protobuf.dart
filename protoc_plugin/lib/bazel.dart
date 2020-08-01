@@ -43,7 +43,7 @@ class BazelOptionParser implements SingleOptionParser {
   BazelOptionParser(this.output);
 
   @override
-  void parse(String name, String value, onError(String message)) {
+  void parse(String name, String value, Function(String message) onError) {
     if (value == null) {
       onError('Invalid $bazelOptionId option. Expected a non-empty value.');
       return;

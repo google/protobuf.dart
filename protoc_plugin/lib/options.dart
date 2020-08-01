@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 part of protoc;
+ 
+typedef OnError = void Function(String details);
 
 /// Helper function implementing a generic option parser that reads
 /// `request.parameters` and treats each token as either a flag ("name") or a
@@ -11,7 +13,7 @@ part of protoc;
 /// the option to it. Returns `true` if no errors were reported.
 bool genericOptionsParser(CodeGeneratorRequest request,
     CodeGeneratorResponse response, Map<String, SingleOptionParser> parsers) {
-  var parameter = request.parameter != null ? request.parameter : '';
+  var parameter = request.parameter ?? '';
   var options = parameter.trim().split(',');
   var errors = [];
 
@@ -60,14 +62,14 @@ abstract class SingleOptionParser {
   /// the option is a flag, [value] will be null. Note, [name] is commonly
   /// unused. It is provided because [SingleOptionParser] can be registered for
   /// multiple option names in [genericOptionsParser].
-  void parse(String name, String value, onError(String details));
+  void parse(String name, String value, OnError onError);
 }
 
 class GrpcOptionParser implements SingleOptionParser {
   bool grpcEnabled = false;
 
   @override
-  void parse(String name, String value, onError(String details)) {
+  void parse(String name, String value, OnError onError) {
     if (value != null) {
       onError('Invalid grpc option. No value expected.');
       return;
@@ -80,7 +82,7 @@ class GenerateMetadataParser implements SingleOptionParser {
   bool generateKytheInfo = false;
 
   @override
-  void parse(String name, String value, onError(String details)) {
+  void parse(String name, String value, OnError onError) {
     if (value != null) {
       onError('Invalid metadata option. No Value expected.');
       return;

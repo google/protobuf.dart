@@ -77,9 +77,9 @@ void main() {
     var options =
         parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
-    FileGenerator fg = FileGenerator(fd, options);
-    MessageGenerator mg =
-        MessageGenerator.topLevel(md, fg, {}, null, Set<String>(), 0);
+    var fg = FileGenerator(fd, options);
+    var mg =
+        MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
     var ctx = GenerationContext(options);
     mg.register(ctx);
@@ -102,9 +102,9 @@ void main() {
   test('testMetadataIndices', () {
     var options =
         parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
-    FileGenerator fg = FileGenerator(fd, options);
-    MessageGenerator mg =
-        MessageGenerator.topLevel(md, fg, {}, null, Set<String>(), 0);
+    var fg = FileGenerator(fd, options);
+    var mg =
+        MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
     var ctx = GenerationContext(options);
     mg.register(ctx);
@@ -126,10 +126,10 @@ void main() {
       'clearDeprecatedField'
     ];
 
-    String generatedContents = writer.toString();
-    GeneratedCodeInfo metadata = writer.sourceLocationInfo;
+    var generatedContents = writer.toString();
+    var metadata = writer.sourceLocationInfo;
     for (var annotation in metadata.annotation) {
-      String annotatedName =
+      var annotatedName =
           generatedContents.substring(annotation.begin, annotation.end);
       var expectedStrings = fieldStringsMap[annotation.path];
       if (expectedStrings == null) {

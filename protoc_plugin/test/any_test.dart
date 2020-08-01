@@ -12,16 +12,16 @@ import '../out/protos/using_any.pb.dart';
 
 void main() {
   test('pack -> unpack', () {
-    Any any = Any.pack(SearchRequest()..query = 'hest');
+    var any = Any.pack(SearchRequest()..query = 'hest');
     expect(any.typeUrl, 'type.googleapis.com/SearchRequest');
-    Any any1 = Any.pack(SearchRequest()..query = 'hest1',
+    var any1 = Any.pack(SearchRequest()..query = 'hest1',
         typeUrlPrefix: 'example.com');
     expect(any1.typeUrl, 'example.com/SearchRequest');
     expect(any1.canUnpackInto(SearchRequest.getDefault()), true);
     expect(any1.canUnpackInto(SearchResponse.getDefault()), false);
-    SearchRequest searchRequest = any.unpackInto(SearchRequest());
+    var searchRequest = any.unpackInto(SearchRequest());
     expect(searchRequest.query, 'hest');
-    SearchRequest searchRequest1 = any1.unpackInto(SearchRequest());
+    var searchRequest1 = any1.unpackInto(SearchRequest());
     expect(searchRequest1.query, 'hest1');
     expect(() {
       any.unpackInto(SearchResponse());
@@ -29,7 +29,7 @@ void main() {
   });
 
   test('any inside any', () {
-    Any any = Any.pack(Any.pack(SearchRequest()..query = 'hest'));
+    var any = Any.pack(Any.pack(SearchRequest()..query = 'hest'));
     expect(any.typeUrl, 'type.googleapis.com/google.protobuf.Any');
     expect(any.canUnpackInto(Any.getDefault()), true);
     expect(any.canUnpackInto(SearchRequest.getDefault()), false);
@@ -39,7 +39,7 @@ void main() {
   });
 
   test('toplevel', () {
-    Any any = Any.pack(toplevel.T()
+    var any = Any.pack(toplevel.T()
       ..a = 127
       ..b = 'hest');
     expect(any.typeUrl, 'type.googleapis.com/T');
@@ -49,7 +49,7 @@ void main() {
   });
 
   test('nested message', () {
-    Any any = Any.pack(Container_Nested()..int32Value = 127);
+    var any = Any.pack(Container_Nested()..int32Value = 127);
     expect(
         any.typeUrl, 'type.googleapis.com/protobuf_unittest.Container.Nested');
     var t2 = any.unpackInto(Container_Nested());
@@ -57,13 +57,13 @@ void main() {
   });
 
   test('using any', () {
-    Any any = Any.pack(SearchRequest()..query = 'hest');
-    Any any1 = Any.pack(SearchRequest()..query = 'hest1');
-    Any any2 = Any.pack(SearchRequest()..query = 'hest2');
-    TestAny testAny = TestAny()
+    var any = Any.pack(SearchRequest()..query = 'hest');
+    var any1 = Any.pack(SearchRequest()..query = 'hest1');
+    var any2 = Any.pack(SearchRequest()..query = 'hest2');
+    var testAny = TestAny()
       ..anyValue = any
       ..repeatedAnyValue.addAll(<Any>[any1, any2]);
-    TestAny testAnyFromBuffer = TestAny.fromBuffer(testAny.writeToBuffer());
+    var testAnyFromBuffer = TestAny.fromBuffer(testAny.writeToBuffer());
     expect(
         testAnyFromBuffer.anyValue.unpackInto(SearchRequest()).query, 'hest');
     expect(

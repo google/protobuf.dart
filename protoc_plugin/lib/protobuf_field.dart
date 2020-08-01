@@ -35,8 +35,8 @@ class ProtobufField {
 
   ProtobufField._(FieldDescriptorProto descriptor, FieldNames dartNames,
       ProtobufContainer parent, GenerationContext ctx)
-      : this.descriptor = descriptor,
-        this.memberNames = dartNames,
+      : descriptor = descriptor,
+        memberNames = dartNames,
         fullName = '${parent.fullName}.${descriptor.name}',
         baseType = BaseType(descriptor, ctx);
 
@@ -99,8 +99,8 @@ class ProtobufField {
   String getDartType(FileGenerator fileGen) {
     if (isMapField) {
       MessageGenerator d = baseType.generator;
-      String keyType = d._fieldList[0].baseType.getDartType(fileGen);
-      String valueType = d._fieldList[1].baseType.getDartType(fileGen);
+      var keyType = d._fieldList[0].baseType.getDartType(fileGen);
+      var valueType = d._fieldList[1].baseType.getDartType(fileGen);
       return '$_coreImportPrefix.Map<$keyType, $valueType>';
     }
     if (isRepeated) return baseType.getRepeatedDartType(fileGen);
@@ -112,7 +112,7 @@ class ProtobufField {
 
   /// Returns the constant in PbFieldType corresponding to this type.
   String get typeConstant {
-    String prefix = 'O';
+    var prefix = 'O';
     if (isRequired) {
       prefix = 'Q';
     } else if (isPacked) {
@@ -131,7 +131,7 @@ class ProtobufField {
     while (args.last == null) {
       args.removeLast();
     }
-    for (int i = 0; i < args.length; i++) {
+    for (var i = 0; i < args.length; i++) {
       if (args[i] == null) {
         args[i] = 'null';
       }
@@ -151,23 +151,23 @@ class ProtobufField {
     assert(descriptor.hasJsonName());
     // JSON names should be serialized as-is, but '$' can cause Dart to try to
     // perform string interpolation on non-existent variables.
-    String quotedName = "'${descriptor.jsonName.replaceAll(r'$', r'\$')}'";
+    var quotedName = "'${descriptor.jsonName.replaceAll(r'$', r'\$')}'";
 
-    String type = baseType.getDartType(fileGen);
+    var type = baseType.getDartType(fileGen);
 
     String invocation;
 
-    List<String> args = <String>[];
-    Map<String, String> named = {'protoName': quotedProtoName};
+    var args = <String>[];
+    var named = <String, String>{'protoName': quotedProtoName};
     args.add('$number');
     args.add(quotedName);
 
     if (isMapField) {
       MessageGenerator generator = baseType.generator;
-      ProtobufField key = generator._fieldList[0];
-      ProtobufField value = generator._fieldList[1];
-      String keyType = key.baseType.getDartType(fileGen);
-      String valueType = value.baseType.getDartType(fileGen);
+      var key = generator._fieldList[0];
+      var value = generator._fieldList[1];
+      var keyType = key.baseType.getDartType(fileGen);
+      var valueType = value.baseType.getDartType(fileGen);
 
       invocation = 'm<$keyType, $valueType>';
 
@@ -205,7 +205,7 @@ class ProtobufField {
       }
     } else {
       // Singular field.
-      String makeDefault = generateDefaultFunction(fileGen);
+      var makeDefault = generateDefaultFunction(fileGen);
 
       if (baseType.isEnum) {
         args.add(typeConstant);
@@ -336,7 +336,7 @@ class ProtobufField {
         if (!descriptor.hasDefaultValue() || descriptor.defaultValue.isEmpty) {
           return null;
         }
-        String byteList = descriptor.defaultValue.codeUnits
+        var byteList = descriptor.defaultValue.codeUnits
             .map((b) => '0x${b.toRadixString(16)}')
             .join(',');
         return '() => <$_coreImportPrefix.int>[$byteList]';
@@ -370,7 +370,7 @@ class ProtobufField {
       return noDefault;
     }
     // TODO(skybrian): fix dubious escaping.
-    String value = descriptor.defaultValue.replaceAll(r'$', r'\$');
+    var value = descriptor.defaultValue.replaceAll(r'$', r'\$');
     return '\'$value\'';
   }
 
@@ -384,11 +384,11 @@ class ProtobufField {
   bool _hasBooleanOption(Extension extension) =>
       descriptor?.options?.getExtension(extension) ?? false;
 
-  get _invalidDefaultValue => "dart-protoc-plugin:"
+  String get _invalidDefaultValue => "dart-protoc-plugin:"
       " invalid default value (${descriptor.defaultValue})"
       " found in field $fullName";
 
-  _typeNotImplemented(String methodName) => "dart-protoc-plugin:"
+  String _typeNotImplemented(String methodName) => "dart-protoc-plugin:"
       " $methodName not implemented for type (${descriptor.type})"
       " found in field $fullName";
 

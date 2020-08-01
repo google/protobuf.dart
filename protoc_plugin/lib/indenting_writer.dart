@@ -6,6 +6,8 @@ library protoc.indenting_writer;
 
 import 'src/descriptor.pb.dart';
 
+typedef _Body = void Function();
+
 /// Specifies code locations where metadata annotations should be attached and
 /// where they should point to in the original proto.
 class NamedLocation {
@@ -38,7 +40,7 @@ class IndentingWriter {
       return;
     }
 
-    for (String line in text.substring(0, lastNewline).split('\n')) {
+    for (var line in text.substring(0, lastNewline).split('\n')) {
       _writeChunk(line);
       _newline();
     }
@@ -66,28 +68,27 @@ class IndentingWriter {
   }
 
   /// Prints a block of text with the body indented one more level.
-  void addBlock(String start, String end, void body(),
-      {endWithNewline = true}) {
+  void addBlock(String start, String end, _Body body, {endWithNewline = true}) {
     println(start);
     _addBlockBodyAndEnd(end, body, endWithNewline, _indent + '  ');
   }
 
   /// Prints a block of text with an unindented body.
   /// (For example, for triple quotes.)
-  void addUnindentedBlock(String start, String end, void body(),
+  void addUnindentedBlock(String start, String end, _Body body,
       {endWithNewline = true}) {
     println(start);
     _addBlockBodyAndEnd(end, body, endWithNewline, '');
   }
 
   void addAnnotatedBlock(
-      String start, String end, List<NamedLocation> namedLocations, void body(),
+      String start, String end, List<NamedLocation> namedLocations, _Body body,
       {endWithNewline = true}) {
     printlnAnnotated(start, namedLocations);
     _addBlockBodyAndEnd(end, body, endWithNewline, _indent + '  ');
   }
 
-  void _addBlockBodyAndEnd(String end, void body(), endWithNewline, newIndent) {
+  void _addBlockBodyAndEnd(String end, _Body body, endWithNewline, newIndent) {
     var oldIndent = _indent;
     _indent = newIndent;
     body();
@@ -99,6 +100,7 @@ class IndentingWriter {
     }
   }
 
+  @override
   String toString() => _buffer.toString();
 
   /// Writes part of a line of text.

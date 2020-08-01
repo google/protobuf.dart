@@ -125,7 +125,7 @@ void main() {
   }
 
   test('set and clear values', () {
-    TestMap testMap = TestMap();
+    var testMap = TestMap();
     _expectEmpty(testMap);
 
     _setValues(testMap);
@@ -136,14 +136,14 @@ void main() {
   });
 
   test('update map values', () {
-    TestMap testMap = TestMap();
+    var testMap = TestMap();
     _setValues(testMap);
     _updateValues(testMap);
     _expectMapValuesUpdated(testMap);
   });
 
   test('null keys and value are not allowed', () {
-    TestMap testMap = TestMap();
+    var testMap = TestMap();
 
     try {
       testMap.stringToInt32Field[null] = 1;
@@ -182,7 +182,7 @@ void main() {
   });
 
   test('Serialize and parse map', () {
-    TestMap testMap = TestMap();
+    var testMap = TestMap();
     _setValues(testMap);
 
     testMap = TestMap.fromBuffer(testMap.writeToBuffer());
@@ -198,7 +198,7 @@ void main() {
   });
 
   test('json serialize map', () {
-    TestMap testMap = TestMap();
+    var testMap = TestMap();
     _setValues(testMap);
 
     testMap = TestMap.fromJson(testMap.writeToJson());
@@ -216,13 +216,13 @@ void main() {
   test(
       'PbMap` is equal to another PbMap with equal key/value pairs in any order',
       () {
-    TestMap t = TestMap()
+    var t = TestMap()
       ..int32ToStringField[2] = 'test2'
       ..int32ToStringField[1] = 'test';
-    TestMap t2 = TestMap()
+    var t2 = TestMap()
       ..int32ToStringField[1] = 'test'
       ..int32ToStringField[2] = 'test2';
-    TestMap t3 = TestMap()..int32ToStringField[1] = 'test';
+    var t3 = TestMap()..int32ToStringField[1] = 'test';
 
     PbMap<int, String> m = t.int32ToStringField;
     PbMap<int, String> m2 = t2.int32ToStringField;
@@ -241,10 +241,10 @@ void main() {
   });
 
   test('merge from other message', () {
-    TestMap testMap = TestMap();
+    var testMap = TestMap();
     _setValues(testMap);
 
-    TestMap other = TestMap();
+    var other = TestMap();
     other.mergeFromMessage(testMap);
     _expectMapValuesSet(other);
 
@@ -261,11 +261,11 @@ void main() {
   });
 
   test('parse duplicate keys', () {
-    TestMap testMap = TestMap()..int32ToStringField[1] = 'foo';
-    TestMap testMap2 = TestMap()..int32ToStringField[1] = 'bar';
+    var testMap = TestMap()..int32ToStringField[1] = 'foo';
+    var testMap2 = TestMap()..int32ToStringField[1] = 'bar';
 
-    TestMap merge = TestMap.fromBuffer(
-        []..addAll(testMap.writeToBuffer())..addAll(testMap2.writeToBuffer()));
+    var merge = TestMap.fromBuffer(
+        [...testMap.writeToBuffer(), ...testMap2.writeToBuffer()]);
 
     // When parsing from the wire, if there are duplicate map keys the last key
     // seen should be used.
@@ -274,22 +274,22 @@ void main() {
   });
 
   test('Deep merge from other message', () {
-    Inner i1 = Inner()..innerMap['a'] = 'a';
-    Inner i2 = Inner()..innerMap['b'] = 'b';
+    var i1 = Inner()..innerMap['a'] = 'a';
+    var i2 = Inner()..innerMap['b'] = 'b';
 
-    Outer o1 = Outer()..i = i1;
-    Outer o2 = Outer()..i = i2;
+    var o1 = Outer()..i = i1;
+    var o2 = Outer()..i = i2;
 
     o1.mergeFromMessage(o2);
     expect(o1.i.innerMap.length, 2);
   });
 
   test('retain explicit default values of sub-messages', () {
-    TestMap testMap = TestMap()
+    var testMap = TestMap()
       ..int32ToMessageField[1] = TestMap_MessageValue();
     expect(testMap.int32ToMessageField[1].secondValue, 42);
 
-    TestMap testMap2 = TestMap()
+    var testMap2 = TestMap()
       ..int32ToMessageField[2] = TestMap_MessageValue();
 
     testMap.mergeFromBuffer(testMap2.writeToBuffer());
@@ -297,7 +297,7 @@ void main() {
   });
 
   test('Freeze message with map field', () {
-    TestMap testMap = TestMap();
+    var testMap = TestMap();
     _setValues(testMap);
     testMap.freeze();
 
@@ -312,7 +312,7 @@ void main() {
   });
 
   test('Values for different keys are not merged together when decoding', () {
-    TestMap testMap = TestMap();
+    var testMap = TestMap();
     testMap.int32ToMessageField[1] = (TestMap_MessageValue()..value = 11);
     testMap.int32ToMessageField[2] = (TestMap_MessageValue()..secondValue = 12);
 
