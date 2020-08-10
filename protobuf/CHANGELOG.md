@@ -1,6 +1,7 @@
 ## 1.0.3
 
 * Enable hashCode memoization for frozen protos.
+* Add `changes_` stream to `GeneratedMessage`
 
 ## 1.0.2
 

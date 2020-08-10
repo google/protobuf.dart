@@ -44,6 +44,11 @@ abstract class GeneratedMessage {
   /// to protobuf fields.
   EventPlugin get eventPlugin => null;
 
+  /// Subclasses can override this getter to provide observable-like API.
+  ///
+  /// The type of [changes_] is left to the implementation, usually via a mixin.
+  Stream get changes_ => null;
+
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)
   GeneratedMessage clone();

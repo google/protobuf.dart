@@ -12,6 +12,7 @@ const GeneratedMessage_reservedNames = <String>[
   'GeneratedMessage',
   'Object',
   'addExtension',
+  'changes_',
   'check',
   'clear',
   'clearExtension',
