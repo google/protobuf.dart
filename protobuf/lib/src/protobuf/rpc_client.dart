@@ -6,7 +6,10 @@ part of protobuf;
 
 /// Client side context.
 class ClientContext {
-  // TODO: Place client side specific information here.
+  /// The desired timeout of the RPC call.
+  final Duration timeout;
+
+  ClientContext({this.timeout});
 }
 
 /// Client-side transport for making calls to a service.

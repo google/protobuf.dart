@@ -1,6 +1,7 @@
 ## 1.0.3
 
 * Enable hashCode memoization for frozen protos.
+* Add `timeout` to `ClientContext`
 
 ## 1.0.2
 
