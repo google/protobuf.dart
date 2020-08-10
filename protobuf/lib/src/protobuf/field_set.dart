@@ -793,7 +793,7 @@ class _FieldSet {
       PbMap map = f._ensureMapField(this);
       if (mustClone) {
         for (MapEntry entry in fieldValue.entries) {
-          map[entry.key] = _cloneMessage(entry.value);
+          map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
         }
       } else {
         map.addAll(fieldValue);
@@ -807,7 +807,7 @@ class _FieldSet {
         PbListBase<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(this);
         for (var i = 0; i < pbList.length; ++i) {
-          repeatedFields.add(_cloneMessage(pbList[i]));
+          repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
         // fieldValue must be at least a PbListBase.
@@ -823,7 +823,7 @@ class _FieldSet {
           : _values[fi.index];
 
       if (currentFi == null) {
-        fieldValue = _cloneMessage(fieldValue);
+        fieldValue = (fieldValue as GeneratedMessage).deepCopy();
       } else {
         fieldValue = currentFi..mergeFromMessage(fieldValue);
       }
@@ -836,13 +836,6 @@ class _FieldSet {
       _setNonExtensionFieldUnchecked(fi, fieldValue);
     }
   }
-
-  // This function is declared as a static method rather than an in-place
-  // closure since dart2js does not currently hoist closures with no captured
-  // variables (See http://dartbug.com/26932), and dart2js will inline this
-  // version at the direct call site.
-  static GeneratedMessage _cloneMessage(GeneratedMessage message) =>
-      message.clone();
 
   // Error-checking
 

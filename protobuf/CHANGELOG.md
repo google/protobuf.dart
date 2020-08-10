@@ -1,3 +1,10 @@
+## 1.1.0
+
+* Introduce extension methods `GeneratedMessage.rebuild` and
+  `GeneratedMessage.deepCopy` replacing `copyWith` and `clone`.
+  Using these alternatives can result in smaller binaries, because it is defined
+  once instead of once per class.
+
 ## 1.0.4
 
 * Requires sdk 2.3.0

@@ -404,13 +404,13 @@ abstract class ValueMixin implements GeneratedMessage {
       value.boolValue = json;
     } else if (json is Map) {
       // Clone because the default instance is frozen.
-      StructMixin structValue = value.structValue.clone();
+      var structValue = value.structValue.deepCopy();
       StructMixin.fromProto3JsonHelper(
           structValue, json, typeRegistry, context);
       value.structValue = structValue;
     } else if (json is List) {
       // Clone because the default instance is frozen.
-      ListValueMixin listValue = value.listValue.clone();
+      var listValue = value.listValue.deepCopy();
       ListValueMixin.fromProto3JsonHelper(
           listValue, json, typeRegistry, context);
       value.listValue = listValue;

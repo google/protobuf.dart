@@ -15,7 +15,7 @@ import 'package:protobuf/protobuf.dart'
 
 final mockEnumValues = [ProtobufEnum(1, 'a'), ProtobufEnum(2, 'b')];
 BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
-  return BuilderInfo(className)
+  return BuilderInfo(className, createEmptyInstance: create)
     ..a(1, 'val', PbFieldType.O3, defaultOrMaker: 42)
     ..a(2, 'str', PbFieldType.OS)
     ..a(3, 'child', PbFieldType.OM, defaultOrMaker: create, subBuilder: create)

@@ -33,7 +33,7 @@ void main() {
       ..repeatedImportEnum.add(ImportEnum.IMPORT_BAR)
       ..repeatedForeignMessage.add(ForeignMessage());
 
-    var value2 = value1.clone();
+    var value2 = value1.deepCopy();
 
     expect(value2.repeatedInt32, value1.repeatedInt32);
     expect(value2.repeatedImportEnum, value1.repeatedImportEnum);
@@ -297,7 +297,7 @@ void main() {
   test('testSetAllFieldsAndClone', () {
     var message = getAllSet();
     assertAllFieldsSet(message);
-    assertAllFieldsSet(message.clone());
+    assertAllFieldsSet(message.deepCopy());
   });
 
   test('testReadWholeMessage', () {
@@ -837,5 +837,54 @@ void main() {
     expect(t1.hashCode, equals(t2.hashCode));
     expect(t1, equals(t3));
     expect(t1.hashCode, equals(t3.hashCode));
+  });
+
+  test('rebuild updates value', () {
+    final value1 = TestAllTypes()
+      ..optionalForeignMessage = (ForeignMessage()..c = 18)
+      ..freeze();
+    final value2 = value1.rebuild((v) {
+      v.optionalFloat = 50.1;
+      v.optionalForeignMessage =
+          v.optionalForeignMessage.rebuild((o) => o.c = 10);
+    });
+    expect(value2.isFrozen, true);
+    expect(value2.optionalFloat, 50.1);
+    expect(value2.optionalForeignMessage.isFrozen, true);
+  });
+
+  test('rebuild requires a frozen message', () {
+    final value = TestAllTypes();
+    expect(() => value.rebuild((x) {}), throwsArgumentError);
+  });
+
+  test('rebuild shares structure', () {
+    final value1 = TestAllTypes()
+      ..optionalForeignMessage = (ForeignMessage()..c = 18)
+      ..freeze();
+    final value2 = value1.rebuild((v) {
+      v..optionalFloat = 50.1;
+    });
+    expect(value2.isFrozen, true);
+    expect(value2.optionalFloat, 50.1);
+    expect(value1.optionalForeignMessage.isFrozen, true);
+    expect(value1.optionalForeignMessage, same(value2.optionalForeignMessage));
+  });
+
+  test('deepCopy', () {
+    final value1 = getAllSet();
+    // TODO(sigurdm): Use the implicit syntax after resolution of https://github.com/dart-lang/sdk/issues/39160
+    final value2 = value1.deepCopy();
+    assertAllFieldsSet(value2);
+    expect(value2, isNot(same(value1)));
+    expect(value2.optionalForeignMessage,
+        isNot(same(value1.optionalForeignMessage)));
+  });
+
+  test('deepCopy extensions', () {
+    final value1 = TestAllExtensions();
+    setAllExtensions(value1);
+    final value2 = value1.deepCopy();
+    assertAllExtensionsSet(value2);
   });
 }

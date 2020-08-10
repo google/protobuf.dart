@@ -50,8 +50,11 @@ class Rec extends GeneratedMessage {
   Rec clone() => Rec()..mergeFromMessage(this);
 
   @override
-  Rec copyWith(void Function(Rec) updates) =>
-      super.copyWith((message) => updates(message as Rec));
+  Rec copyWith(void Function(Rec) updates) {
+    final builder = toBuilder();
+    updates(builder);
+    return builder.freeze();
+  }
 }
 
 void main() {

@@ -359,10 +359,19 @@ class MessageGenerator extends ProtobufContainer {
       out.println('factory ${classname}.fromJson($_coreImportPrefix.String i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' => create()..mergeFromJson(i, r);');
+      out.println('''@$_coreImportPrefix.Deprecated(
+'Using this can add significant overhead to your binary. '
+'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+'Will be removed in next major version\')''');
       out.println('${classname} clone() =>'
           ' ${classname}()..mergeFromMessage(this);');
+      out.println('''@$_coreImportPrefix.Deprecated(
+'Using this can add significant overhead to your binary. '
+'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+'Will be removed in next major version\')''');
       out.println('$classname copyWith(void Function($classname) updates) =>'
-          ' super.copyWith((message) => updates(message as $classname));');
+          ' super.copyWith((message) => updates(message as $classname));'
+          ' // ignore: deprecated_member_use');
 
       out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
 

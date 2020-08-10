@@ -26,9 +26,16 @@ class DartMixin extends $pb.GeneratedMessage {
   factory DartMixin.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   DartMixin clone() => DartMixin()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   DartMixin copyWith(void Function(DartMixin) updates) =>
-      super.copyWith((message) => updates(message as DartMixin));
+      super.copyWith((message) =>
+          updates(message as DartMixin)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DartMixin create() => DartMixin._();
@@ -92,9 +99,16 @@ class Imports extends $pb.GeneratedMessage {
   factory Imports.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   Imports clone() => Imports()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   Imports copyWith(void Function(Imports) updates) =>
-      super.copyWith((message) => updates(message as Imports));
+      super.copyWith((message) =>
+          updates(message as Imports)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Imports create() => Imports._();

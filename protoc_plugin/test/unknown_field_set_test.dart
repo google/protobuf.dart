@@ -88,7 +88,7 @@ void main() {
   });
 
   test('testCopyFrom', () {
-    var message = emptyMessage.clone();
+    var message = emptyMessage.deepCopy();
     expect(message.toString(), emptyMessage.toString());
     expect(emptyMessage.toString().isEmpty, isFalse);
   });
@@ -128,7 +128,7 @@ void main() {
   });
 
   test('testClearMessage', () {
-    var message = emptyMessage.clone();
+    var message = emptyMessage.deepCopy();
     message.clear();
     expect(message.writeToBuffer(), isEmpty);
   });

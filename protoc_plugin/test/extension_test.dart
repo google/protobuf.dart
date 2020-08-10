@@ -78,13 +78,13 @@ void main() {
   test('can clone an extension field', () {
     var original = TestAllExtensions();
     original.setExtension(Unittest.optionalInt32Extension, 1);
-    var clone = original.clone();
+    var clone = original.deepCopy();
     expect(clone.hasExtension(Unittest.optionalInt32Extension), isTrue);
     expect(clone.getExtension(Unittest.optionalInt32Extension), 1);
   });
 
   test('can clone all types of extension fields', () {
-    assertAllExtensionsSet(getAllExtensionsSet().clone());
+    assertAllExtensionsSet(getAllExtensionsSet().deepCopy());
   });
 
   test('can merge extension', () {
