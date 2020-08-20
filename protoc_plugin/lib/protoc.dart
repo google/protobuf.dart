@@ -1,6 +1,5 @@
 library protoc;
 
-import 'dart:async';
 import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';

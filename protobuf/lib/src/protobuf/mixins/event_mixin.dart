@@ -4,7 +4,7 @@
 
 library protobuf.mixins.event;
 
-import 'dart:async' show Stream, StreamController, scheduleMicrotask;
+import 'dart:async' show StreamController, scheduleMicrotask;
 import 'dart:collection' show UnmodifiableListView;
 
 import 'package:protobuf/protobuf.dart'
