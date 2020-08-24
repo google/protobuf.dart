@@ -112,6 +112,10 @@ void main() {
       expect(getAllSet().toProto3Json(), testAllTypesJson);
     });
 
+    test('testFrozenOutput', () {
+      expect(getAllSet().freeze().toProto3Json(), testAllTypesJson);
+    });
+
     test('testUnsignedOutput', () {
       TestAllTypes message = TestAllTypes();
       // These values are selected because they are large enough to set the sign bit.

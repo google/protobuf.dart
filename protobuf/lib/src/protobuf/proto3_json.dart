@@ -99,7 +99,7 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
             valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
       });
     } else if (fieldInfo.isRepeated) {
-      jsonValue = (value as PbList)
+      jsonValue = (value as PbListBase)
           .map((element) => valueToProto3Json(element, fieldInfo.type))
           .toList();
     } else {
