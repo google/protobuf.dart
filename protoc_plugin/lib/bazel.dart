@@ -6,7 +6,7 @@
 library protoc_bazel;
 
 import 'package:path/path.dart' as p;
-import 'protoc.dart' show SingleOptionParser, DefaultOutputConfiguration;
+import 'protoc.dart' show SingleOptionParser, DefaultOutputConfiguration, OnError;
 
 /// Dart protoc plugin option for Bazel packages.
 ///
@@ -43,7 +43,7 @@ class BazelOptionParser implements SingleOptionParser {
   BazelOptionParser(this.output);
 
   @override
-  void parse(String name, String value, Function(String message) onError) {
+  void parse(String name, String value, OnError onError) {
     if (value == null) {
       onError('Invalid $bazelOptionId option. Expected a non-empty value.');
       return;
