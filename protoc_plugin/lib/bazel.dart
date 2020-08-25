@@ -6,7 +6,8 @@
 library protoc_bazel;
 
 import 'package:path/path.dart' as p;
-import 'protoc.dart' show SingleOptionParser, DefaultOutputConfiguration, OnError;
+import 'protoc.dart'
+    show SingleOptionParser, DefaultOutputConfiguration, OnError;
 
 /// Dart protoc plugin option for Bazel packages.
 ///
