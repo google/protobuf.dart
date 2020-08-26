@@ -7,7 +7,7 @@ library service_util;
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 
 ServiceDescriptorProto buildServiceDescriptor() {
-  ServiceDescriptorProto sd = ServiceDescriptorProto()
+  var sd = ServiceDescriptorProto()
     ..name = 'Test'
     ..method.addAll([
       MethodDescriptorProto()

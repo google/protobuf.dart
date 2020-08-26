@@ -18,7 +18,7 @@ import '../out/protos/ExtensionEnumNameConflict.pb.dart';
 
 import 'test_util.dart';
 
-throwsArgError(String expectedMessage) => throwsA(predicate((x) {
+Matcher throwsArgError(String expectedMessage) => throwsA(predicate((x) {
       expect(x, isArgumentError);
       expect(x.message, expectedMessage);
       return true;
@@ -37,13 +37,13 @@ final withExtensions = TestAllExtensions()
 
 void main() {
   test('can set all extension types', () {
-    TestAllExtensions message = TestAllExtensions();
+    var message = TestAllExtensions();
     setAllExtensions(message);
     assertAllExtensionsSet(message);
   });
 
   test('can modify all repeated extension types', () {
-    TestAllExtensions message = TestAllExtensions();
+    var message = TestAllExtensions();
     setAllExtensions(message);
     modifyRepeatedExtensions(message);
     assertRepeatedExtensionsModified(message);
@@ -76,9 +76,9 @@ void main() {
   });
 
   test('can clone an extension field', () {
-    TestAllExtensions original = TestAllExtensions();
+    var original = TestAllExtensions();
     original.setExtension(Unittest.optionalInt32Extension, 1);
-    TestAllExtensions clone = original.clone();
+    var clone = original.clone();
     expect(clone.hasExtension(Unittest.optionalInt32Extension), isTrue);
     expect(clone.getExtension(Unittest.optionalInt32Extension), 1);
   });
@@ -88,17 +88,15 @@ void main() {
   });
 
   test('can merge extension', () {
-    TestAllTypes_NestedMessage nestedMessage = TestAllTypes_NestedMessage()
-      ..i = 42;
-    TestAllExtensions mergeSource = TestAllExtensions()
+    var nestedMessage = TestAllTypes_NestedMessage()..i = 42;
+    var mergeSource = TestAllExtensions()
       ..setExtension(Unittest.optionalNestedMessageExtension, nestedMessage);
 
-    TestAllTypes_NestedMessage nestedMessage2 = TestAllTypes_NestedMessage()
-      ..bb = 43;
-    TestAllExtensions mergeDest = TestAllExtensions()
+    var nestedMessage2 = TestAllTypes_NestedMessage()..bb = 43;
+    var mergeDest = TestAllExtensions()
       ..setExtension(Unittest.optionalNestedMessageExtension, nestedMessage2);
 
-    TestAllExtensions result = TestAllExtensions()
+    var result = TestAllExtensions()
       ..mergeFromMessage(mergeSource)
       ..mergeFromMessage(mergeDest);
 
@@ -204,7 +202,7 @@ void main() {
   });
 
   test('to toDebugString', () {
-    TestAllExtensions value = TestAllExtensions()
+    var value = TestAllExtensions()
       ..setExtension(Unittest.optionalInt32Extension, 1)
       ..addExtension(Unittest.repeatedStringExtension, 'hello')
       ..addExtension(Unittest.repeatedStringExtension, 'world')
@@ -213,7 +211,7 @@ void main() {
       ..setExtension(
           Unittest.optionalNestedEnumExtension, TestAllTypes_NestedEnum.BAR);
 
-    String expected = '[optionalInt32Extension]: 1\n'
+    var expected = '[optionalInt32Extension]: 1\n'
         '[optionalNestedMessageExtension]: {\n'
         '  i: 42\n'
         '}\n'
@@ -230,7 +228,7 @@ void main() {
       ..setExtension(Unittest.myExtensionString, 'bar');
     final b = withExtension.writeToBuffer();
     final withUnknownField = TestFieldOrderings.fromBuffer(b);
-    ExtensionRegistry r = ExtensionRegistry();
+    var r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
     final decodedWithExtension = TestFieldOrderings.fromBuffer(b, r);
     final noExtension = TestFieldOrderings()..myString = 'foo';
@@ -248,10 +246,10 @@ void main() {
   test(
       'ExtensionRegistry.reparseMessage will preserve already registered extensions',
       () {
-    ExtensionRegistry r1 = ExtensionRegistry();
+    var r1 = ExtensionRegistry();
     Unittest.registerAllExtensions(r1);
 
-    ExtensionRegistry r2 = ExtensionRegistry();
+    var r2 = ExtensionRegistry();
     Extend_unittest.registerAllExtensions(r2);
     final withUnknownFields =
         TestAllExtensions.fromBuffer(withExtensions.writeToBuffer());
@@ -271,7 +269,7 @@ void main() {
   test(
       'ExtensionRegistry.reparseMessage reparses extensions that were not in the original registry',
       () {
-    ExtensionRegistry r = ExtensionRegistry();
+    var r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
     Extend_unittest.registerAllExtensions(r);
 
@@ -327,7 +325,7 @@ void main() {
   });
 
   test('ExtensionRegistry.reparseMessage does not update the original', () {
-    ExtensionRegistry r = ExtensionRegistry();
+    var r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
     Extend_unittest.registerAllExtensions(r);
 
@@ -348,9 +346,9 @@ void main() {
   });
 
   test('ExtensionRegistry.reparseMessage will throw on malformed buffers', () {
-    final ExtensionRegistry r = ExtensionRegistry();
+    final r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
-    final ExtensionRegistry r2 = ExtensionRegistry();
+    final r2 = ExtensionRegistry();
 
     Extend_unittest.registerAllExtensions(r2);
 
@@ -373,7 +371,7 @@ void main() {
   });
 
   test('ExtensionRegistry.reparseMessage preserves frozenness', () {
-    final ExtensionRegistry r = ExtensionRegistry();
+    final r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
 
     final withUnknownFields =

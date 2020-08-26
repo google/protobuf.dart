@@ -5,13 +5,14 @@
 
 library map_test;
 
+import 'package:matcher/src/interfaces.dart';
 import 'package:test/test.dart'
     show test, expect, predicate, same, throwsA, throwsArgumentError;
 
 import '../out/protos/map_api.pb.dart' as pb;
 import '../out/protos/map_api2.pb.dart' as pb2;
 
-throwsError(Type expectedType, String expectedMessage) =>
+Matcher throwsError(Type expectedType, String expectedMessage) =>
     throwsA(predicate((x) {
       expect(x.runtimeType, expectedType);
       expect(x.message, expectedMessage);
@@ -94,7 +95,7 @@ void main() {
 
   test('keys returns each field name (even when unset)', () {
     var rec = pb.Rec();
-    expect(Set.from(rec.keys), Set.from(["msg", "num", "nums", "str"]));
+    expect(Set.from(rec.keys), {"msg", "num", "nums", "str"});
   });
 
   test('containsKey returns true for fields that exist (even when unset)', () {

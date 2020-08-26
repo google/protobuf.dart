@@ -4,22 +4,11 @@
 #
 # Google internally enforced rules. See README.md for more information,
 # including a list of lints that are intentionally _not_ enforced.
+include: package:pedantic/analysis_options.yaml
 
 linter:
   rules:
-    - avoid_empty_else
-    - avoid_relative_lib_imports
-    - avoid_return_types_on_setters
-    - avoid_types_as_parameter_names
-    - control_flow_in_finally
-    - no_duplicate_case_values
-    - prefer_contains
-    - prefer_equal_for_default_values
-    - prefer_is_not_empty
-    - recursive_getters
-    - throw_in_finally
-    - unrelated_type_equality_checks
-    - unnecessary_new
-    - use_rethrow_when_possible
-    - valid_regexps
-    - camel_case_types
+    prefer_single_quotes: false # will be fixed later
+    control_flow_in_finally: true
+    throw_in_finally: true
+    camel_case_types: true

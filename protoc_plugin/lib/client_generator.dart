@@ -8,8 +8,7 @@ class ClientApiGenerator {
   // The service that this Client API connects to.
   final ServiceGenerator service;
   final String className;
-  final Set<String> usedMethodNames = Set<String>()
-    ..addAll(reservedMemberNames);
+  final Set<String> usedMethodNames = {...reservedMemberNames};
 
   ClientApiGenerator(this.service, Set<String> usedNames)
       : className = disambiguateName(
@@ -26,7 +25,7 @@ class ClientApiGenerator {
       out.println('${className}Api(this._client);');
       out.println();
 
-      for (MethodDescriptorProto m in service._descriptor.method) {
+      for (var m in service._descriptor.method) {
         generateMethod(out, m);
       }
     });

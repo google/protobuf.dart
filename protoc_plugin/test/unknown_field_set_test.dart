@@ -13,26 +13,24 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 import 'test_util.dart';
 
 void main() {
-  TestAllTypes testAllTypes = getAllSet();
+  var testAllTypes = getAllSet();
   List<int> allFieldsData = testAllTypes.writeToBuffer();
-  TestEmptyMessage emptyMessage = TestEmptyMessage.fromBuffer(allFieldsData);
-  UnknownFieldSet unknownFields = emptyMessage.unknownFields;
+  var emptyMessage = TestEmptyMessage.fromBuffer(allFieldsData);
+  var unknownFields = emptyMessage.unknownFields;
 
   UnknownFieldSetField getField(String name) {
-    int tagNumber = testAllTypes.getTagNumber(name);
+    var tagNumber = testAllTypes.getTagNumber(name);
     assert(unknownFields.hasField(tagNumber));
     return unknownFields.getField(tagNumber);
   }
 
-  /**
-   * Asserts that the given field sets are not equal and have different
-   * hash codes.
-   *
-   * N.B.: It is valid for non-equal objects to have the same hash code, so
-   * this test is more strict than necessary. However, in the test cases
-   * identifies, the hash codes should differ, and as a matter of principle
-   * hash collisions should be relatively rare.
-   */
+  // Asserts that the given field sets are not equal and have different
+  // hash codes.
+  //
+  // N.B.: It is valid for non-equal objects to have the same hash code, so
+  // this test is more strict than necessary. However, in the test cases
+  // identifies, the hash codes should differ, and as a matter of principle
+  // hash collisions should be relatively rare.
   void _checkNotEqual(UnknownFieldSet s1, UnknownFieldSet s2) {
     expect(s1 == s2, isFalse);
     expect(s2 == s1, isFalse);
@@ -42,46 +40,44 @@ void main() {
             'from ${s2.toString()}');
   }
 
-  /**
-   * Asserts that the given field sets are equal and have identical hash codes.
-   */
+  // Asserts that the given field sets are equal and have identical hash codes.
   void _checkEqualsIsConsistent(UnknownFieldSet set) {
     // Object should be equal to itself.
     expect(set, set);
 
     // Object should be equal to a copy of itself.
-    UnknownFieldSet copy = set.clone();
+    var copy = set.clone();
     expect(copy, set);
     expect(set, copy);
   }
 
   test('testVarint', () {
-    UnknownFieldSetField optionalInt32 = getField('optionalInt32');
+    var optionalInt32 = getField('optionalInt32');
     expect(optionalInt32.varints[0], expect64(testAllTypes.optionalInt32));
   });
 
   test('testFixed32', () {
-    UnknownFieldSetField optionalFixed32 = getField('optionalFixed32');
+    var optionalFixed32 = getField('optionalFixed32');
     expect(optionalFixed32.fixed32s[0], testAllTypes.optionalFixed32);
   });
 
   test('testFixed64', () {
-    UnknownFieldSetField optionalFixed64 = getField('optionalFixed64');
+    var optionalFixed64 = getField('optionalFixed64');
     expect(optionalFixed64.fixed64s[0], testAllTypes.optionalFixed64);
   });
 
   test('testLengthDelimited', () {
-    UnknownFieldSetField optionalBytes = getField('optionalBytes');
+    var optionalBytes = getField('optionalBytes');
     expect(optionalBytes.lengthDelimited[0], testAllTypes.optionalBytes);
   });
 
   test('testGroup', () {
-    int tagNumberA = TestAllTypes_OptionalGroup().getTagNumber('a');
+    var tagNumberA = TestAllTypes_OptionalGroup().getTagNumber('a');
     expect(tagNumberA != null, isTrue);
 
-    UnknownFieldSetField optionalGroupField = getField('optionalgroup');
+    var optionalGroupField = getField('optionalgroup');
     expect(optionalGroupField.groups.length, 1);
-    UnknownFieldSet group = optionalGroupField.groups[0];
+    var group = optionalGroupField.groups[0];
     expect(group.hasField(tagNumberA), isTrue);
     expect(group.getField(tagNumberA).varints[0],
         expect64(testAllTypes.optionalGroup.a));
@@ -92,26 +88,25 @@ void main() {
   });
 
   test('testCopyFrom', () {
-    TestEmptyMessage message = emptyMessage.clone();
+    var message = emptyMessage.clone();
     expect(message.toString(), emptyMessage.toString());
     expect(emptyMessage.toString().isEmpty, isFalse);
   });
 
   test('testMergeFrom', () {
     // Source.
-    UnknownFieldSet sourceFieldSet = UnknownFieldSet()
+    var sourceFieldSet = UnknownFieldSet()
       ..addField(2, UnknownFieldSetField()..addVarint(make64(2)))
       ..addField(3, UnknownFieldSetField()..addVarint(make64(3)));
 
-    TestEmptyMessage source = TestEmptyMessage()
-      ..mergeUnknownFields(sourceFieldSet);
+    var source = TestEmptyMessage()..mergeUnknownFields(sourceFieldSet);
 
     // Destination.
-    UnknownFieldSet destinationFieldSet = UnknownFieldSet()
+    var destinationFieldSet = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addVarint(make64(1)))
       ..addField(3, UnknownFieldSetField()..addVarint(make64(4)));
 
-    TestEmptyMessage destination = TestEmptyMessage()
+    var destination = TestEmptyMessage()
       ..mergeUnknownFields(destinationFieldSet)
       ..mergeFromMessage(source);
 
@@ -124,7 +119,7 @@ void main() {
   });
 
   test('testClear', () {
-    UnknownFieldSet fsb = unknownFields.clone()..clear();
+    var fsb = unknownFields.clone()..clear();
     expect(fsb.asMap(), isEmpty);
   });
 
@@ -133,25 +128,25 @@ void main() {
   });
 
   test('testClearMessage', () {
-    TestEmptyMessage message = emptyMessage.clone();
+    var message = emptyMessage.clone();
     message.clear();
     expect(message.writeToBuffer(), isEmpty);
   });
 
   test('testParseKnownAndUnknown', () {
     // Test mixing known and unknown fields when parsing.
-    UnknownFieldSet fields = unknownFields.clone()
+    var fields = unknownFields.clone()
       ..addField(123456, UnknownFieldSetField()..addVarint(make64(654321)));
 
-    CodedBufferWriter writer = CodedBufferWriter();
+    var writer = CodedBufferWriter();
     fields.writeToCodedBufferWriter(writer);
 
-    TestAllTypes destination = TestAllTypes.fromBuffer(writer.toBuffer());
+    var destination = TestAllTypes.fromBuffer(writer.toBuffer());
 
     assertAllFieldsSet(destination);
     expect(destination.unknownFields.asMap().length, 1);
 
-    UnknownFieldSetField field = destination.unknownFields.getField(123456);
+    var field = destination.unknownFields.getField(123456);
     expect(field.varints.length, 1);
     expect(field.varints[0], expect64(654321));
   });
@@ -160,12 +155,11 @@ void main() {
   // numbers as allFieldsData except that each field is some other wire
   // type.
   List<int> getBizarroData() {
-    UnknownFieldSet bizarroFields = UnknownFieldSet();
+    var bizarroFields = UnknownFieldSet();
 
-    UnknownFieldSetField varintField = UnknownFieldSetField()
-      ..addVarint(make64(1));
+    var varintField = UnknownFieldSetField()..addVarint(make64(1));
 
-    UnknownFieldSetField fixed32Field = UnknownFieldSetField()..addFixed32(1);
+    var fixed32Field = UnknownFieldSetField()..addFixed32(1);
 
     unknownFields.asMap().forEach((int tag, UnknownFieldSetField value) {
       if (value.varints.isEmpty) {
@@ -176,7 +170,7 @@ void main() {
         bizarroFields.addField(tag, fixed32Field);
       }
     });
-    CodedBufferWriter writer = CodedBufferWriter();
+    var writer = CodedBufferWriter();
     bizarroFields.writeToCodedBufferWriter(writer);
     return writer.toBuffer();
   }
@@ -184,9 +178,9 @@ void main() {
   test('testWrongTypeTreatedAsUnknown', () {
     // Test that fields of the wrong wire type are treated like unknown fields
     // when parsing.
-    List<int> bizarroData = getBizarroData();
-    TestAllTypes allTypesMessage = TestAllTypes.fromBuffer(bizarroData);
-    TestEmptyMessage emptyMessage_ = TestEmptyMessage.fromBuffer(bizarroData);
+    var bizarroData = getBizarroData();
+    var allTypesMessage = TestAllTypes.fromBuffer(bizarroData);
+    var emptyMessage_ = TestEmptyMessage.fromBuffer(bizarroData);
     // All fields should have been interpreted as unknown, so the debug strings
     // should be the same.
     expect(allTypesMessage.toString(), emptyMessage_.toString());
@@ -195,8 +189,7 @@ void main() {
   test('testUnknownExtensions', () {
     // Make sure fields are properly parsed to the UnknownFieldSet even when
     // they are declared as extension numbers.
-    TestEmptyMessageWithExtensions message =
-        TestEmptyMessageWithExtensions.fromBuffer(allFieldsData);
+    var message = TestEmptyMessageWithExtensions.fromBuffer(allFieldsData);
 
     expect(message.unknownFields.asMap().length, unknownFields.asMap().length);
     expect(message.writeToBuffer(), allFieldsData);
@@ -206,10 +199,9 @@ void main() {
     // Test that fields of the wrong wire type are treated like unknown fields
     // when parsing extensions.
 
-    List<int> bizarroData = getBizarroData();
-    TestAllExtensions allExtensionsMessage =
-        TestAllExtensions.fromBuffer(bizarroData);
-    TestEmptyMessage emptyMessage_ = TestEmptyMessage.fromBuffer(bizarroData);
+    var bizarroData = getBizarroData();
+    var allExtensionsMessage = TestAllExtensions.fromBuffer(bizarroData);
+    var emptyMessage_ = TestEmptyMessage.fromBuffer(bizarroData);
 
     // All fields should have been interpreted as unknown, so the debug strings
     // should be the same.
@@ -217,12 +209,12 @@ void main() {
   });
 
   test('testParseUnknownEnumValue', () {
-    int singularFieldNum = testAllTypes.getTagNumber('optionalNestedEnum');
-    int repeatedFieldNum = testAllTypes.getTagNumber('repeatedNestedEnum');
+    var singularFieldNum = testAllTypes.getTagNumber('optionalNestedEnum');
+    var repeatedFieldNum = testAllTypes.getTagNumber('repeatedNestedEnum');
     expect(singularFieldNum, isNotNull);
     expect(repeatedFieldNum, isNotNull);
 
-    UnknownFieldSet fieldSet = UnknownFieldSet()
+    var fieldSet = UnknownFieldSet()
       ..addField(
           singularFieldNum,
           UnknownFieldSetField()
@@ -236,10 +228,10 @@ void main() {
             ..addVarint(make64(TestAllTypes_NestedEnum.BAZ.value))
             ..addVarint(make64(6)));
 
-    CodedBufferWriter writer = CodedBufferWriter();
+    var writer = CodedBufferWriter();
     fieldSet.writeToCodedBufferWriter(writer);
     {
-      TestAllTypes message = TestAllTypes.fromBuffer(writer.toBuffer());
+      var message = TestAllTypes.fromBuffer(writer.toBuffer());
       expect(message.optionalNestedEnum, TestAllTypes_NestedEnum.BAR);
       expect(message.repeatedNestedEnum,
           [TestAllTypes_NestedEnum.FOO, TestAllTypes_NestedEnum.BAZ]);
@@ -254,7 +246,7 @@ void main() {
       expect(repeatedVarints[1], expect64(6));
     }
     {
-      TestAllExtensions message = TestAllExtensions.fromBuffer(
+      var message = TestAllExtensions.fromBuffer(
           writer.toBuffer(), getExtensionRegistry());
       expect(message.getExtension(Unittest.optionalNestedEnumExtension),
           TestAllTypes_NestedEnum.BAR);
@@ -274,10 +266,10 @@ void main() {
   });
 
   test('testLargeVarint', () {
-    UnknownFieldSet unknownFieldSet = UnknownFieldSet()
+    var unknownFieldSet = UnknownFieldSet()
       ..addField(
           1, UnknownFieldSetField()..addVarint(make64(0x7FFFFFFF, 0xFFFFFFFF)));
-    CodedBufferWriter writer = CodedBufferWriter();
+    var writer = CodedBufferWriter();
     unknownFieldSet.writeToCodedBufferWriter(writer);
 
     var parsed = UnknownFieldSet()
@@ -288,19 +280,19 @@ void main() {
   });
 
   test('testEquals', () {
-    UnknownFieldSet a = UnknownFieldSet()
+    var a = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addFixed32(1));
 
-    UnknownFieldSet b = UnknownFieldSet()
+    var b = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addFixed64(make64(1)));
 
-    UnknownFieldSet c = UnknownFieldSet()
+    var c = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addVarint(make64(1)));
 
-    UnknownFieldSet d = UnknownFieldSet()
+    var d = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addLengthDelimited([]));
 
-    UnknownFieldSet e = UnknownFieldSet()
+    var e = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addGroup(unknownFields));
 
     _checkEqualsIsConsistent(a);
@@ -320,9 +312,9 @@ void main() {
     _checkNotEqual(c, e);
     _checkNotEqual(d, e);
 
-    UnknownFieldSet f1 = UnknownFieldSet()
+    var f1 = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addLengthDelimited([1, 2]));
-    UnknownFieldSet f2 = UnknownFieldSet()
+    var f2 = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addLengthDelimited([2, 1]));
 
     _checkEqualsIsConsistent(f1);

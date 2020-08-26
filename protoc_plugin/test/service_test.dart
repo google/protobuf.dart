@@ -12,6 +12,7 @@ import '../out/protos/service2.pb.dart' as pb2;
 import '../out/protos/service3.pb.dart' as pb3;
 
 class SearchService extends pb.SearchServiceBase {
+  @override
   Future<pb.SearchResponse> search(
       ServerContext ctx, pb.SearchRequest request) async {
     var out = pb.SearchResponse();
@@ -21,6 +22,7 @@ class SearchService extends pb.SearchServiceBase {
     return out;
   }
 
+  @override
   Future<pb2.SearchResponse> search2(
       ServerContext ctx, pb2.SearchRequest request) async {
     var out = pb2.SearchResponse();
@@ -41,7 +43,7 @@ class FakeJsonServer {
   Future<String> messageHandler(
       String serviceName, String methodName, String requestJson) async {
     if (serviceName == 'SearchService') {
-      GeneratedMessage request = searchService.createRequest(methodName);
+      var request = searchService.createRequest(methodName);
       request.mergeFromJson(requestJson);
       var ctx = ServerContext();
       var reply = await searchService.handleCall(ctx, methodName, request);
@@ -57,14 +59,15 @@ class FakeJsonClient implements RpcClient {
 
   FakeJsonClient(this.server);
 
+  @override
   Future<T> invoke<T extends GeneratedMessage>(
       ClientContext ctx,
       String serviceName,
       String methodName,
       GeneratedMessage request,
       T response) async {
-    String requestJson = request.writeToJson();
-    String replyJson =
+    var requestJson = request.writeToJson();
+    var replyJson =
         await server.messageHandler(serviceName, methodName, requestJson);
     response.mergeFromJson(replyJson);
     return response;

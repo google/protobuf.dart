@@ -17,7 +17,8 @@ Matcher throwsMessage(String msg) => throwsA(_ToStringMatcher(equals(msg)));
 class _ToStringMatcher extends CustomMatcher {
   _ToStringMatcher(Matcher matcher)
       : super("object where toString() returns", "toString()", matcher);
-  featureValueOf(actual) => actual.toString();
+  @override
+  String featureValueOf(actual) => actual.toString();
 }
 
 void main() {
@@ -52,7 +53,7 @@ void main() {
       ..name = 'Example'
       ..field.add(stringField("first", 1, "hello world"));
     expect(() {
-      names.messageMemberNames(descriptor, '', Set());
+      names.messageMemberNames(descriptor, '', <String>{});
     },
         throwsMessage("Example.first: dart_name option is invalid: "
             "'hello world' is not a valid Dart field name"));
@@ -63,7 +64,7 @@ void main() {
       ..name = 'Example'
       ..field.add(stringField("first", 1, "class"));
     expect(() {
-      names.messageMemberNames(descriptor, '', Set());
+      names.messageMemberNames(descriptor, '', <String>{});
     },
         throwsMessage("Example.first: "
             "dart_name option is invalid: 'class' is already used"));
@@ -77,7 +78,7 @@ void main() {
         stringField("second", 2, "renamed"),
       ]);
     expect(() {
-      names.messageMemberNames(descriptor, '', Set());
+      names.messageMemberNames(descriptor, '', <String>{});
     },
         throwsMessage("Example.second: "
             "dart_name option is invalid: 'renamed' is already used"));
@@ -94,19 +95,19 @@ void main() {
     }
 
     {
-      final used = Set<String>.from(['moo']);
+      final used = {'moo'};
       expect(names.disambiguateName('foo', used, oneTwoThree()), 'foo');
-      expect(used, Set<String>.from(['moo', 'foo']));
+      expect(used, {'moo', 'foo'});
     }
     {
-      final used = Set<String>.from(['foo']);
+      final used = {'foo'};
       expect(names.disambiguateName('foo', used, oneTwoThree()), 'foo_one');
-      expect(used, Set<String>.from(['foo', 'foo_one']));
+      expect(used, {'foo', 'foo_one'});
     }
     {
-      final used = Set<String>.from(['foo', 'foo_one']);
+      final used = {'foo', 'foo_one'};
       expect(names.disambiguateName('foo', used, oneTwoThree()), 'foo_two');
-      expect(used, Set<String>.from(['foo', 'foo_one', 'foo_two']));
+      expect(used, {'foo', 'foo_one', 'foo_two'});
     }
 
     {
@@ -114,13 +115,12 @@ void main() {
         return ['a_' + s, 'b_' + s];
       }
 
-      final used = Set<String>.from(['a_foo', 'b_foo_one']);
+      final used = {'a_foo', 'b_foo_one'};
       expect(
           names.disambiguateName('foo', used, oneTwoThree(),
               generateVariants: variants),
           'foo_two');
-      expect(used,
-          Set<String>.from(['a_foo', 'b_foo_one', 'a_foo_two', 'b_foo_two']));
+      expect(used, {'a_foo', 'b_foo_one', 'a_foo_two', 'b_foo_two'});
     }
   });
 
@@ -146,20 +146,20 @@ void main() {
   });
 
   test('oneof names no disambiguation', () {
-    OneofDescriptorProto oneofDescriptor = oneofField('foo');
-    DescriptorProto descriptor = DescriptorProto()
+    var oneofDescriptor = oneofField('foo');
+    var descriptor = DescriptorProto()
       ..name = 'Parent'
       ..field.addAll([stringFieldOneof('first', 1, 0)])
       ..oneofDecl.add(oneofDescriptor);
 
-    Set<String> usedTopLevelNames = Set<String>();
-    names.MemberNames memberNames =
+    var usedTopLevelNames = <String>{};
+    var memberNames =
         names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
 
     expect(usedTopLevelNames.length, 1);
-    expect(usedTopLevelNames, Set()..add('Parent_Foo'));
+    expect(usedTopLevelNames, {'Parent_Foo'});
     expect(memberNames.oneofNames.length, 1);
-    names.OneofNames oneof = memberNames.oneofNames[0];
+    var oneof = memberNames.oneofNames[0];
     expect(oneof.descriptor, oneofDescriptor);
     expect(oneof.index, 0);
     expect(oneof.oneofEnumName, 'Parent_Foo');
@@ -169,21 +169,21 @@ void main() {
   });
 
   test('oneof names disambiguate method names', () {
-    OneofDescriptorProto oneofDescriptor = oneofField('foo');
-    DescriptorProto descriptor = DescriptorProto()
+    var oneofDescriptor = oneofField('foo');
+    var descriptor = DescriptorProto()
       ..name = 'Parent'
       ..field.addAll([stringFieldOneof('first', 1, 0)])
       ..oneofDecl.add(oneofDescriptor);
 
-    Set<String> usedTopLevelNames = Set<String>();
-    names.MemberNames memberNames = names.messageMemberNames(
+    var usedTopLevelNames = <String>{};
+    var memberNames = names.messageMemberNames(
         descriptor, 'Parent', usedTopLevelNames,
         reserved: ['clearFoo']);
 
     expect(usedTopLevelNames.length, 1);
-    expect(usedTopLevelNames, Set()..add('Parent_Foo'));
+    expect(usedTopLevelNames, {'Parent_Foo'});
     expect(memberNames.oneofNames.length, 1);
-    names.OneofNames oneof = memberNames.oneofNames[0];
+    var oneof = memberNames.oneofNames[0];
     expect(oneof.descriptor, oneofDescriptor);
     expect(oneof.index, 0);
     expect(oneof.oneofEnumName, 'Parent_Foo');
@@ -193,20 +193,20 @@ void main() {
   });
 
   test('oneof names disambiguate top level name', () {
-    OneofDescriptorProto oneofDescriptor = oneofField('foo');
-    DescriptorProto descriptor = DescriptorProto()
+    var oneofDescriptor = oneofField('foo');
+    var descriptor = DescriptorProto()
       ..name = 'Parent'
       ..field.addAll([stringFieldOneof('first', 1, 0)])
       ..oneofDecl.add(oneofDescriptor);
 
-    Set<String> usedTopLevelNames = Set<String>()..add('Parent_Foo');
-    names.MemberNames memberNames =
+    var usedTopLevelNames = {'Parent_Foo'};
+    var memberNames =
         names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
 
     expect(usedTopLevelNames.length, 2);
-    expect(usedTopLevelNames, Set()..add('Parent_Foo')..add('Parent_Foo_'));
+    expect(usedTopLevelNames, {'Parent_Foo', 'Parent_Foo_'});
     expect(memberNames.oneofNames.length, 1);
-    names.OneofNames oneof = memberNames.oneofNames[0];
+    var oneof = memberNames.oneofNames[0];
     expect(oneof.descriptor, oneofDescriptor);
     expect(oneof.index, 0);
     expect(oneof.oneofEnumName, 'Parent_Foo_');

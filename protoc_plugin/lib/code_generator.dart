@@ -29,7 +29,7 @@ abstract class ProtobufContainer {
   String get fileImportPrefix => _getFileImportPrefix();
 
   String _getFileImportPrefix() {
-    String path = fileGen.protoFileUri.toString();
+    var path = fileGen.protoFileUri.toString();
     if (importPrefixes.containsKey(path)) {
       return importPrefixes[path];
     }
@@ -59,9 +59,7 @@ class CodeGenerator extends ProtobufContainer {
   void generate(
       {Map<String, SingleOptionParser> optionParsers,
       OutputConfiguration config}) {
-    if (config == null) {
-      config = DefaultOutputConfiguration();
-    }
+    config ??= DefaultOutputConfiguration();
 
     var extensions = ExtensionRegistry();
     Dart_options.registerAllExtensions(extensions);
@@ -83,8 +81,8 @@ class CodeGenerator extends ProtobufContainer {
 
       // Create a syntax tree for each .proto file given to us.
       // (We may import it even if we don't generate the .pb.dart file.)
-      List<FileGenerator> generators = <FileGenerator>[];
-      for (FileDescriptorProto file in request.protoFile) {
+      var generators = <FileGenerator>[];
+      for (var file in request.protoFile) {
         generators.add(FileGenerator(file, options));
       }
 
@@ -102,9 +100,14 @@ class CodeGenerator extends ProtobufContainer {
     });
   }
 
+  @override
   String get package => '';
+  @override
   String get classname => null;
+  @override
   String get fullName => '';
-  get fileGen => null;
+  @override
+  FileGenerator get fileGen => null;
+  @override
   List<int> get fieldPath => [];
 }

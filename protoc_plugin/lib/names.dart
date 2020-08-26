@@ -103,7 +103,7 @@ String extensionName(FieldDescriptorProto descriptor, Set<String> usedNames) {
 
 Iterable<String> extensionSuffixes() sync* {
   yield "Ext";
-  int i = 2;
+  var i = 2;
   while (true) {
     yield '$i';
     i++;
@@ -121,16 +121,16 @@ String legalDartIdentifier(String imput) {
 /// Chooses the name of the Dart class holding top-level extensions.
 String extensionClassName(
     FileDescriptorProto descriptor, Set<String> usedNames) {
-  String s = avoidInitialUnderscore(
+  var s = avoidInitialUnderscore(
       legalDartIdentifier(_fileNameWithoutExtension(descriptor)));
-  String candidate = '${s[0].toUpperCase()}${s.substring(1)}';
+  var candidate = '${s[0].toUpperCase()}${s.substring(1)}';
   return disambiguateName(candidate, usedNames, extensionSuffixes());
 }
 
 String _fileNameWithoutExtension(FileDescriptorProto descriptor) {
-  Uri path = Uri.file(descriptor.name);
-  String fileName = path.pathSegments.last;
-  int dot = fileName.lastIndexOf(".");
+  var path = Uri.file(descriptor.name);
+  var fileName = path.pathSegments.last;
+  var dot = fileName.lastIndexOf(".");
   return dot == -1 ? fileName : fileName.substring(0, dot);
 }
 
@@ -138,6 +138,7 @@ String _fileNameWithoutExtension(FileDescriptorProto descriptor) {
 class DartNameOptionException implements Exception {
   final String message;
   DartNameOptionException(this.message);
+  @override
   String toString() => "$message";
 }
 
@@ -159,11 +160,11 @@ String disambiguateName(
     return variants.every((String variant) => !usedNames.contains(variant));
   }
 
-  String usedSuffix = '';
-  List<String> candidateVariants = generateVariants(name);
+  var usedSuffix = '';
+  var candidateVariants = generateVariants(name);
 
   if (!allVariantsAvailable(candidateVariants)) {
-    for (String suffix in suffixes) {
+    for (var suffix in suffixes) {
       candidateVariants = generateVariants('$name$suffix');
       if (allVariantsAvailable(candidateVariants)) {
         usedSuffix = suffix;
@@ -178,7 +179,7 @@ String disambiguateName(
 
 Iterable<String> defaultSuffixes() sync* {
   yield '_';
-  int i = 0;
+  var i = 0;
   while (true) {
     yield ('_$i');
     i++;
@@ -210,13 +211,13 @@ String messageOrEnumClassName(String descriptorName, Set<String> usedNames,
 
 /// Returns the set of names reserved by the ProtobufEnum class and its
 /// generated subclasses.
-Set<String> get reservedEnumNames => Set<String>()
+Set<String> get reservedEnumNames => <String>{}
   ..addAll(ProtobufEnum_reservedNames)
   ..addAll(_dartReservedWords)
   ..addAll(_protobufEnumNames);
 
 Iterable<String> enumSuffixes() sync* {
-  String s = '_';
+  var s = '_';
   while (true) {
     yield s;
     s += '_';
@@ -253,11 +254,9 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     indexes[field.name] = index;
   }
 
-  var existingNames = Set<String>()
-    ..addAll(reservedMemberNames)
-    ..addAll(reserved);
+  var existingNames = <String>{}..addAll(reservedMemberNames)..addAll(reserved);
 
-  List<FieldNames> fieldNames = List<FieldNames>(indexes.length);
+  var fieldNames = List<FieldNames>(indexes.length);
 
   void takeFieldNames(FieldNames chosen) {
     fieldNames[chosen.index] = chosen;
@@ -292,7 +291,7 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     }
   }
 
-  List<OneofNames> oneofNames = <OneofNames>[];
+  var oneofNames = <OneofNames>[];
 
   void takeOneofNames(OneofNames chosen) {
     oneofNames.add(chosen);
@@ -312,17 +311,17 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     return [_defaultWhichMethodName(name), _defaultClearMethodName(name)];
   }
 
-  for (int i = 0; i < descriptor.oneofDecl.length; i++) {
-    OneofDescriptorProto oneof = descriptor.oneofDecl[i];
+  for (var i = 0; i < descriptor.oneofDecl.length; i++) {
+    var oneof = descriptor.oneofDecl[i];
 
-    String oneofName = disambiguateName(
+    var oneofName = disambiguateName(
         underscoresToCamelCase(oneof.name), existingNames, defaultSuffixes(),
         generateVariants: oneofNameVariants);
 
-    String oneofEnumName =
+    var oneofEnumName =
         oneofEnumClassName(oneof.name, usedTopLevelNames, parentClassName);
 
-    String enumMapName = disambiguateName(
+    var enumMapName = disambiguateName(
         '_${oneofEnumName}ByTag', existingNames, defaultSuffixes());
 
     takeOneofNames(OneofNames(oneof, i, _defaultClearMethodName(oneofName),
@@ -366,10 +365,10 @@ FieldNames _memberNamesFromOption(
     return FieldNames(field, index, sourcePosition, name);
   }
 
-  String hasMethod = "has${_capitalize(name)}";
+  var hasMethod = "has${_capitalize(name)}";
   checkAvailable(hasMethod);
 
-  String clearMethod = "clear${_capitalize(name)}";
+  var clearMethod = "clear${_capitalize(name)}";
   checkAvailable(clearMethod);
 
   String ensureMethod;
@@ -385,7 +384,7 @@ FieldNames _memberNamesFromOption(
 }
 
 Iterable<String> _memberNamesSuffix(int number) sync* {
-  String suffix = '_$number';
+  var suffix = '_$number';
   while (true) {
     yield suffix;
     suffix = '${suffix}_$number';
@@ -404,7 +403,7 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int index,
   }
 
   List<String> generateNameVariants(String name) {
-    List<String> result = [
+    var result = <String>[
       _defaultFieldName(name),
       _defaultHasMethodName(name),
       _defaultClearMethodName(name),
@@ -416,7 +415,7 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int index,
     return result;
   }
 
-  String name = disambiguateName(_fieldMethodSuffix(field), existingNames,
+  var name = disambiguateName(_fieldMethodSuffix(field), existingNames,
       _memberNamesSuffix(field.number),
       generateVariants: generateNameVariants);
 
@@ -457,7 +456,7 @@ String _fieldMethodSuffix(FieldDescriptorProto field) {
 
   // For groups, use capitalization of 'typeName' rather than 'name'.
   name = field.typeName;
-  int index = name.lastIndexOf('.');
+  var index = name.lastIndexOf('.');
   if (index != -1) {
     name = name.substring(index + 1);
   }
@@ -488,17 +487,20 @@ final List<String> forbiddenTopLevelNames = <String>[
   'List',
   'Function',
   'Map',
-]..addAll(_dartReservedWords);
+  ..._dartReservedWords,
+];
 
-final List<String> reservedMemberNames = <String>[]
-  ..addAll(_dartReservedWords)
-  ..addAll(GeneratedMessage_reservedNames)
-  ..addAll(_generatedMessageNames);
+final List<String> reservedMemberNames = <String>[
+  ..._dartReservedWords,
+  ...GeneratedMessage_reservedNames,
+  ..._generatedMessageNames
+];
 
-final List<String> forbiddenExtensionNames = <String>[]
-  ..addAll(_dartReservedWords)
-  ..addAll(GeneratedMessage_reservedNames)
-  ..addAll(_generatedMessageNames);
+final List<String> forbiddenExtensionNames = <String>[
+  ..._dartReservedWords,
+  ...GeneratedMessage_reservedNames,
+  ..._generatedMessageNames
+];
 
 // List of Dart language reserved words in names which cannot be used in a
 // subclass of GeneratedMessage.

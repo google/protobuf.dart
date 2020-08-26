@@ -1,6 +1,8 @@
 ## 19.0.3-dev
 
 * Ignore `annotate_overrides` in generated files.
+* Requires sdk 2.3.0
+* Update pedantic to 1.9.2
 
 ## 19.0.2
 

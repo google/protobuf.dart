@@ -63,7 +63,7 @@ class PbMixin {
 
   /// Returns all the reserved names, including from ancestor mixins.
   Iterable<String> findReservedNames() {
-    var names = Set<String>();
+    var names = <String>{};
     for (var m = this; m != null; m = m.parent) {
       names.add(m.name);
       if (m.reservedNames != null) {

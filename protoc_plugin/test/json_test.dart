@@ -6,7 +6,6 @@
 library json_test;
 
 import 'package:fixnum/fixnum.dart';
-import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
@@ -14,7 +13,7 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 import 'test_util.dart';
 
 void main() {
-  final String TEST_ALL_TYPES_JSON = '{"1":101,"2":"102","3":103,"4":"104",'
+  final TEST_ALL_TYPES_JSON = '{"1":101,"2":"102","3":103,"4":"104",'
       '"5":105,"6":"106","7":107,"8":"108","9":109,"10":"110","11":111.0,'
       '"12":112.0,"13":true,"14":"115","15":"MTE2","16":{"17":117},'
       '"18":{"1":118},"19":{"1":119},"20":{"1":120},"21":3,"22":6,"23":9,'
@@ -30,18 +29,16 @@ void main() {
       '"70":"410","71":411.0,"72":412.0,"73":false,"74":"415","75":"NDE2",'
       '"81":1,"82":4,"83":7,"84":"424","85":"425"}';
 
-  /**
-   * Checks that message once serialized to JSON
-   * matches TEST_ALL_TYPES_JSON massaged with [:.replaceAll(from, to):].
-   */
-  expectedJson(from, to) {
+  // Checks that message once serialized to JSON
+  // matches TEST_ALL_TYPES_JSON massaged with [:.replaceAll(from, to):].
+  Matcher expectedJson(from, to) {
     var expectedJson = TEST_ALL_TYPES_JSON.replaceAll(from, to);
     return predicate(
         (message) => message.writeToJson() == expectedJson, 'Incorrect output');
   }
 
   test('testUnsignedOutput', () {
-    TestAllTypes message = TestAllTypes();
+    var message = TestAllTypes();
     // These values selected because:
     // (1) large enough to set the sign bit
     // (2) don't set all of the first 10 bits under the sign bit
@@ -49,7 +46,7 @@ void main() {
     message.optionalUint64 = Int64.parseHex("f0000000ffff0000");
     message.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
 
-    String expectedJsonValue =
+    var expectedJsonValue =
         '{"4":"17293822573397606400","8":"17293822573397606401"}';
     expect(message.writeToJson(), expectedJsonValue);
   });
@@ -98,8 +95,8 @@ void main() {
   });
 
   test('testBase64Decode', () {
-    optionalBytes(from, to) {
-      String json = TEST_ALL_TYPES_JSON.replaceAll(from, to);
+    String optionalBytes(from, to) {
+      var json = TEST_ALL_TYPES_JSON.replaceAll(from, to);
       return String.fromCharCodes(TestAllTypes.fromJson(json).optionalBytes);
     }
 
@@ -121,9 +118,9 @@ void main() {
   });
 
   test('testParseUnsigned', () {
-    TestAllTypes parsed = TestAllTypes.fromJson(
+    var parsed = TestAllTypes.fromJson(
         '{"4":"17293822573397606400","8":"17293822573397606401"}');
-    TestAllTypes expected = TestAllTypes();
+    var expected = TestAllTypes();
     expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
     expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
 
@@ -131,9 +128,9 @@ void main() {
   });
 
   test('testParseUnsignedLegacy', () {
-    TestAllTypes parsed = TestAllTypes.fromJson(
+    var parsed = TestAllTypes.fromJson(
         '{"4":"-1152921500311945216","8":"-1152921500311945215"}');
-    TestAllTypes expected = TestAllTypes();
+    var expected = TestAllTypes();
     expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
     expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
 
@@ -149,7 +146,7 @@ void main() {
   });
 
   test('testExtensionsParse', () {
-    ExtensionRegistry registry = getExtensionRegistry();
+    var registry = getExtensionRegistry();
     expect(TestAllExtensions.fromJson(TEST_ALL_TYPES_JSON, registry),
         getAllExtensionsSet());
   });

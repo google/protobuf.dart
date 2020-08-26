@@ -12,7 +12,7 @@ class OneofEnumGenerator {
   static void generate(
       IndentingWriter out, String classname, List<ProtobufField> fields) {
     out.addBlock('enum ${classname} {', '}\n', () {
-      for (ProtobufField field in fields) {
+      for (var field in fields) {
         final name = oneofEnumMemberName(field.memberNames.fieldName);
         out.println('$name, ');
       }
@@ -23,9 +23,11 @@ class OneofEnumGenerator {
 
 class MessageGenerator extends ProtobufContainer {
   /// The name of the Dart class to generate.
+  @override
   final String classname;
 
   /// The fully-qualified name of the message (without any leading '.').
+  @override
   final String fullName;
 
   /// The part of the fully qualified name that comes after the package prefix.
@@ -63,6 +65,7 @@ class MessageGenerator extends ProtobufContainer {
   final List<int> _fieldPathSegment;
 
   /// See [[ProtobufContainer]
+  @override
   List<int> get fieldPath =>
       _fieldPath ??= List.from(_parent.fieldPath)..addAll(_fieldPathSegment);
 
@@ -92,21 +95,21 @@ class MessageGenerator extends ProtobufContainer {
             List.generate(descriptor.oneofDecl.length, (int index) => []) {
     mixin = _getMixin(declaredMixins, defaultMixin);
     for (var i = 0; i < _descriptor.enumType.length; i++) {
-      EnumDescriptorProto e = _descriptor.enumType[i];
+      var e = _descriptor.enumType[i];
       _enumGenerators.add(EnumGenerator.nested(e, this, _usedTopLevelNames, i));
     }
 
     for (var i = 0; i < _descriptor.nestedType.length; i++) {
-      DescriptorProto n = _descriptor.nestedType[i];
+      var n = _descriptor.nestedType[i];
       _messageGenerators.add(MessageGenerator.nested(
           n, this, declaredMixins, defaultMixin, _usedTopLevelNames, i));
     }
 
     // Extensions within messages won't create top-level classes and don't need
     // to check against / be added to top-level reserved names.
-    final usedExtensionNames = Set<String>()..addAll(forbiddenExtensionNames);
+    final usedExtensionNames = {...forbiddenExtensionNames};
     for (var i = 0; i < _descriptor.extension.length; i++) {
-      FieldDescriptorProto x = _descriptor.extension[i];
+      var x = _descriptor.extension[i];
       _extensionGenerators
           .add(ExtensionGenerator.nested(x, this, usedExtensionNames, i));
     }
@@ -136,9 +139,11 @@ class MessageGenerator extends ProtobufContainer {
       : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
             repeatedFieldIndex, _nestedMessageTag);
 
+  @override
   String get package => _parent.package;
 
   /// The generator of the .pb.dart file that will declare this type.
+  @override
   FileGenerator get fileGen => _parent.fileGen;
 
   /// Throws an exception if [resolve] hasn't been called yet.
@@ -184,13 +189,12 @@ class MessageGenerator extends ProtobufContainer {
     if (_fieldList != null) throw StateError("message already resolved");
 
     var reserved = mixin?.findReservedNames() ?? const <String>[];
-    MemberNames members = messageMemberNames(
-        _descriptor, classname, _usedTopLevelNames,
+    var members = messageMemberNames(_descriptor, classname, _usedTopLevelNames,
         reserved: reserved);
 
     _fieldList = <ProtobufField>[];
-    for (FieldNames names in members.fieldNames) {
-      ProtobufField field = ProtobufField.message(names, this, ctx);
+    for (var names in members.fieldNames) {
+      var field = ProtobufField.message(names, this, ctx);
       if (field.descriptor.hasOneofIndex()) {
         _oneofFields[field.descriptor.oneofIndex].add(field);
       }
@@ -269,14 +273,14 @@ class MessageGenerator extends ProtobufContainer {
   void generate(IndentingWriter out) {
     checkResolved();
 
-    for (MessageGenerator m in _messageGenerators) {
+    for (var m in _messageGenerators) {
       // Don't output the generated map entry type. Instead, the `PbMap` type
       // from the protobuf library is used to hold the keys and values.
       if (m._descriptor.options.hasMapEntry()) continue;
       m.generate(out);
     }
 
-    for (OneofNames oneof in _oneofNames) {
+    for (var oneof in _oneofNames) {
       OneofEnumGenerator.generate(
           out, oneof.oneofEnumName, _oneofFields[oneof.index]);
     }
@@ -288,10 +292,10 @@ class MessageGenerator extends ProtobufContainer {
       mixinClause = ' with ${mixinNames.join(", ")}';
     }
 
-    String packageClause = package == ''
+    var packageClause = package == ''
         ? ''
         : ', package: const $_protobufImportPrefix.PackageName(\'$package\')';
-    String proto3JsonClause = (mixin?.hasProto3JsonHelpers ?? false)
+    var proto3JsonClause = (mixin?.hasProto3JsonHelpers ?? false)
         ? ', toProto3Json: $_mixinImportPrefix.${mixin.name}.toProto3JsonHelper, '
             'fromProto3Json: $_mixinImportPrefix.${mixin.name}.fromProto3JsonHelper'
         : '';
@@ -301,11 +305,11 @@ class MessageGenerator extends ProtobufContainer {
       NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
-      for (OneofNames oneof in _oneofNames) {
+      for (var oneof in _oneofNames) {
         out.addBlock(
             'static const $_coreImportPrefix.Map<$_coreImportPrefix.int, ${oneof.oneofEnumName}> ${oneof.byTagMapName} = {',
             '};', () {
-          for (ProtobufField field in _oneofFields[oneof.index]) {
+          for (var field in _oneofFields[oneof.index]) {
             final oneofMemberName =
                 oneofEnumMemberName(field.memberNames.fieldName);
             out.println(
@@ -320,25 +324,25 @@ class MessageGenerator extends ProtobufContainer {
               ', createEmptyInstance: create'
               '$proto3JsonClause)',
           ';', () {
-        for (int oneof = 0; oneof < _oneofFields.length; oneof++) {
-          List<int> tags =
+        for (var oneof = 0; oneof < _oneofFields.length; oneof++) {
+          var tags =
               _oneofFields[oneof].map((ProtobufField f) => f.number).toList();
           out.println("..oo($oneof, ${tags})");
         }
 
-        for (ProtobufField field in _fieldList) {
+        for (var field in _fieldList) {
           out.println(field.generateBuilderInfoCall(fileGen, package));
         }
 
         if (_descriptor.extensionRange.isNotEmpty) {
           out.println('..hasExtensions = true');
         }
-        if (!_hasRequiredFields(this, Set())) {
+        if (!_hasRequiredFields(this, <dynamic>{})) {
           out.println('..hasRequiredFields = false');
         }
       });
 
-      for (ExtensionGenerator x in _extensionGenerators) {
+      for (var x in _extensionGenerators) {
         x.generate(out);
       }
 
@@ -411,7 +415,7 @@ class MessageGenerator extends ProtobufContainer {
       return true;
     }
 
-    for (ProtobufField field in type._fieldList) {
+    for (var field in type._fieldList) {
       if (field.isRequired) {
         return true;
       }
@@ -431,7 +435,7 @@ class MessageGenerator extends ProtobufContainer {
 
     for (var field in _fieldList) {
       out.println();
-      List<int> memberFieldPath = List.from(fieldPath)
+      var memberFieldPath = List<int>.from(fieldPath)
         ..addAll([_messageFieldTag, field.sourcePosition]);
       generateFieldAccessorsMutators(field, out, memberFieldPath);
     }
@@ -597,11 +601,11 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   void generateEnums(IndentingWriter out) {
-    for (EnumGenerator e in _enumGenerators) {
+    for (var e in _enumGenerators) {
       e.generate(out);
     }
 
-    for (MessageGenerator m in _messageGenerators) {
+    for (var m in _messageGenerators) {
       m.generateEnums(out);
     }
   }
@@ -654,7 +658,7 @@ class MessageGenerator extends ProtobufContainer {
   /// First searches [wellKnownMixins], then [declaredMixins],
   /// then internal mixins declared by [findMixin].
   PbMixin _getMixin(Map<String, PbMixin> declaredMixins, PbMixin defaultMixin) {
-    PbMixin wellKnownMixin = wellKnownMixinForFullName(fullName);
+    var wellKnownMixin = wellKnownMixinForFullName(fullName);
     if (wellKnownMixin != null) return wellKnownMixin;
     if (!_descriptor.hasOptions() ||
         !_descriptor.options.hasExtension(Dart_options.mixin)) {

@@ -37,7 +37,7 @@ void main() {
     // so if we serialize a TestAllTypes then parse it as TestAllExtensions
     // it should work.
     List<int> rawBytes = getAllSet().writeToBuffer();
-    ExtensionRegistry registry = getExtensionRegistry();
+    var registry = getExtensionRegistry();
 
     assertAllExtensionsSet(TestAllExtensions.fromBuffer(rawBytes, registry));
   });
@@ -45,7 +45,7 @@ void main() {
   test('testParsePackedExtensions', () {
     // Ensure that packed extensions can be properly parsed.
     List<int> rawBytes = getPackedExtensionsSet().writeToBuffer();
-    ExtensionRegistry registry = getExtensionRegistry();
+    var registry = getExtensionRegistry();
 
     assertPackedExtensionsSet(
         TestPackedExtensions.fromBuffer(rawBytes, registry));
@@ -58,19 +58,18 @@ void main() {
   test('testParseMultipleExtensionRanges', () {
     // Make sure we can parse a message that contains multiple extensions
     // ranges.
-    TestFieldOrderings source = TestFieldOrderings()
+    var source = TestFieldOrderings()
       ..myInt = make64(1)
       ..myString = 'foo'
       ..myFloat = 1.0
       ..setExtension(Unittest.myExtensionInt, 23)
       ..setExtension(Unittest.myExtensionString, 'bar');
 
-    ExtensionRegistry registry = ExtensionRegistry()
+    var registry = ExtensionRegistry()
       ..add(Unittest.myExtensionInt)
       ..add(Unittest.myExtensionString);
 
-    TestFieldOrderings dest =
-        TestFieldOrderings.fromBuffer(source.writeToBuffer(), registry);
+    var dest = TestFieldOrderings.fromBuffer(source.writeToBuffer(), registry);
 
     expect(dest, source);
   });

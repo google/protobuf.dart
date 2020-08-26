@@ -7,7 +7,7 @@ import '../out/protos/google/protobuf/empty.pb.dart';
 import 'package:test/test.dart';
 import 'package:fixnum/fixnum.dart';
 
-main() {
+void main() {
   test('round trip 29 bit tag number, binary encoding', () {
     expect(M.fromBuffer((M()..a = 42).writeToBuffer()), M()..a = 42);
     expect(M.fromBuffer((M()..b = 42).writeToBuffer()), M()..b = 42);

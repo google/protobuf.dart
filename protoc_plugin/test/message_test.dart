@@ -14,22 +14,22 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest.pbjson.dart';
 
 void main() {
-  TestRequired TEST_REQUIRED_UNINITIALIZED = TestRequired();
+  var TEST_REQUIRED_UNINITIALIZED = TestRequired();
 
-  TestRequired TEST_REQUIRED_INITIALIZED = TestRequired()
+  var TEST_REQUIRED_INITIALIZED = TestRequired()
     ..a = 1
     ..b = 2
     ..c = 3;
 
   test('testMergeFrom', () {
-    TestAllTypes mergeSource = TestAllTypes()
+    var mergeSource = TestAllTypes()
       ..optionalInt32 = 1
       ..optionalString = 'foo'
       ..optionalForeignMessage = ForeignMessage()
       ..optionalNestedMessage = (TestAllTypes_NestedMessage()..i = 42)
       ..repeatedString.add('bar');
 
-    TestAllTypes mergeDest = TestAllTypes()
+    var mergeDest = TestAllTypes()
       ..optionalInt64 = make64(2)
       ..optionalString = 'baz'
       ..optionalForeignMessage = ForeignMessage()
@@ -37,7 +37,7 @@ void main() {
       ..optionalNestedMessage = (TestAllTypes_NestedMessage()..bb = 43)
       ..repeatedString.add('qux');
 
-    String mergeResultExpected = '''
+    var mergeResultExpected = '''
 optionalInt32: 1
 optionalInt64: 2
 optionalString: baz
@@ -52,7 +52,7 @@ repeatedString: bar
 repeatedString: qux
 ''';
 
-    TestAllTypes result = TestAllTypes()
+    var result = TestAllTypes()
       ..mergeFromMessage(mergeSource)
       ..mergeFromMessage(mergeDest);
 
@@ -60,7 +60,7 @@ repeatedString: qux
   });
 
   test('testRequired', () {
-    TestRequired message = TestRequired();
+    var message = TestRequired();
 
     expect(message.isInitialized(), isFalse, reason: 'no required fields set');
     message.a = 1;
@@ -74,7 +74,7 @@ repeatedString: qux
   });
 
   test('testRequiredForeign', () {
-    TestRequiredForeign message = TestRequiredForeign();
+    var message = TestRequiredForeign();
     expect(message.isInitialized(), isTrue,
         reason: 'TestRequiredForeign without children should be initialized');
 
@@ -101,7 +101,7 @@ repeatedString: qux
   });
 
   test('testRequiredExtension', () {
-    TestAllExtensions message = TestAllExtensions();
+    var message = TestAllExtensions();
     expect(message.isInitialized(), isTrue);
 
     message.setExtension(TestRequired.single, TEST_REQUIRED_UNINITIALIZED);
@@ -128,13 +128,13 @@ repeatedString: qux
 
   test('testBuildPartial', () {
     // We're mostly testing that no exception is thrown.
-    TestRequired message = TestRequired();
+    var message = TestRequired();
     expect(message.isInitialized(), isFalse);
   });
 
   test('testNestedUninitializedException', () {
     try {
-      TestRequiredForeign message = TestRequiredForeign();
+      var message = TestRequiredForeign();
       message.optionalMessage = TEST_REQUIRED_UNINITIALIZED;
       message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
       message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
@@ -161,7 +161,7 @@ repeatedString: qux
 
   test('testBuildNestedPartial', () {
     // We're mostly testing that no exception is thrown.
-    TestRequiredForeign message = TestRequiredForeign();
+    var message = TestRequiredForeign();
     message.optionalMessage = TEST_REQUIRED_UNINITIALIZED;
     message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
     message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
@@ -178,7 +178,7 @@ repeatedString: qux
   });
 
   test('testParseNestedUnititialized', () {
-    TestRequiredForeign message = TestRequiredForeign();
+    var message = TestRequiredForeign();
     message.optionalMessage = TEST_REQUIRED_UNINITIALIZED;
     message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
     message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
@@ -208,7 +208,7 @@ repeatedString: qux
 
   test('testClearField', () {
     int fieldNo;
-    TestAllTypes message = TestAllTypes();
+    var message = TestAllTypes();
 
     // Singular field with no default.
     fieldNo = 1;

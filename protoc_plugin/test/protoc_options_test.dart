@@ -11,7 +11,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('testValidGeneratorOptions', () {
-    checkValid(String parameter) {
+    void checkValid(String parameter) {
       var request = CodeGeneratorRequest();
       if (parameter != null) request.parameter = parameter;
       var response = CodeGeneratorResponse();
@@ -28,7 +28,7 @@ void main() {
   });
 
   test('testInvalidGeneratorOptions', () {
-    checkInvalid(String parameter) {
+    void checkInvalid(String parameter) {
       var request = CodeGeneratorRequest();
       if (parameter != null) request.parameter = parameter;
       var response = CodeGeneratorResponse();

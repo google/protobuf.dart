@@ -117,7 +117,7 @@ void main() {
     });
 
     test('testUnsignedOutput', () {
-      TestAllTypes message = TestAllTypes();
+      var message = TestAllTypes();
       // These values are selected because they are large enough to set the sign bit.
       message.optionalUint64 = Int64.parseHex('f0000000ffff0000');
       message.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
@@ -130,7 +130,7 @@ void main() {
 
     test('doubles', () {
       void testValue(double value, Object expected) {
-        TestAllTypes message = TestAllTypes()
+        var message = TestAllTypes()
           ..defaultFloat = value
           ..defaultDouble = value;
         expect(
@@ -147,7 +147,7 @@ void main() {
     });
 
     test('map value', () {
-      TestMap message = TestMap()
+      var message = TestMap()
         ..int32ToInt32Field[32] = 32
         ..int32ToStringField[0] = 'foo'
         ..int32ToStringField[1] = 'bar'
@@ -341,7 +341,7 @@ void main() {
   });
 
   group('decode', () {
-    parseFailure(List<String> expectedPath) => throwsA(predicate((e) {
+    Matcher parseFailure(List<String> expectedPath) => throwsA(predicate((e) {
           if (e is FormatException) {
             final pathExpression =
                 RegExp(r'root(\["[^"]*"]*\])*').firstMatch(e.message)[0];
@@ -350,7 +350,7 @@ void main() {
                 .map((match) => match[1])
                 .toList();
             if (actualPath.length != expectedPath.length) return false;
-            for (int i = 0; i < actualPath.length; i++) {
+            for (var i = 0; i < actualPath.length; i++) {
               if (actualPath[i] != expectedPath[i]) return false;
             }
             return true;
@@ -684,7 +684,7 @@ void main() {
     });
 
     test('map value', () {
-      TestMap expected = TestMap()
+      var expected = TestMap()
         ..int32ToInt32Field[32] = 32
         ..int32ToStringField[0] = 'foo'
         ..int32ToStringField[1] = 'bar'

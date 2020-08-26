@@ -39,7 +39,7 @@ class ExtensionGenerator {
   void resolve(GenerationContext ctx) {
     _field = ProtobufField.extension(_descriptor, _parent, ctx);
 
-    ProtobufContainer extendedType = ctx.getFieldType(_descriptor.extendee);
+    var extendedType = ctx.getFieldType(_descriptor.extendee);
     // TODO(skybrian) When would this be null?
     if (extendedType != null) {
       _extendedFullName = extendedType.fullName;
@@ -53,7 +53,7 @@ class ExtensionGenerator {
 
   String get name {
     if (_field == null) throw StateError("resolve not called");
-    String name = _extensionName;
+    var name = _extensionName;
     return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
   }
 
@@ -94,17 +94,17 @@ class ExtensionGenerator {
   void generate(IndentingWriter out) {
     if (_field == null) throw StateError("resolve not called");
 
-    String name = _extensionName;
+    var name = _extensionName;
     var type = _field.baseType;
     var dartType = type.getDartType(fileGen);
     String invocation;
-    List<String> positionals = <String>[];
+    var positionals = <String>[];
     positionals.add("'$_extendedFullName'");
     positionals.add("'${_descriptor.jsonName}'");
     positionals.add('${_field.number}');
     positionals.add(_field.typeConstant);
 
-    Map<String, String> named = <String, String>{};
+    var named = <String, String>{};
     named['protoName'] = _field.quotedProtoName;
     if (_field.isRepeated) {
       invocation = '$_protobufImportPrefix.Extension<$dartType>.repeated';

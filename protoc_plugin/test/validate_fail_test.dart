@@ -15,11 +15,11 @@ final invalidArgumentException =
 final badArgument = throwsA(invalidArgumentException);
 
 // Suppress an analyzer warning for a deliberate type mismatch.
-cast(x) => x;
+dynamic cast(x) => x;
 
 void main() {
   test('testValidationFailureMessages', () {
-    TestAllTypes builder = TestAllTypes();
+    var builder = TestAllTypes();
 
     expect(() {
       builder.optionalInt32 = null;
