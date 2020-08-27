@@ -2,6 +2,12 @@
 
 * Emit depreciation of generated `copyWith` and `clone` methods.
 * Emit exports of `GeneratedMessageGenericExtensions` from `pb.dart` files.
+* Make protobuf enum names dependent on a fromEnvironment constant.
+
+  This will allow configuring the omission of the names in the final build.
+
+  If a target is built with `dart_env = {"protobuf.omit_enum_names": "true"}`
+  enum names will not be present in the compiled binary.
 
 ## 19.0.3-dev
 
