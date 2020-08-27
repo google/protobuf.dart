@@ -6,6 +6,10 @@
   alternatives can result in smaller binaries, because it is defined once
   instead of once per class. Use `protoc_plugin` from 19.1.0 to generate
   deprecation warnings for `copyWith` and `clone` methods.
+* `GeneratedMessage.getExtension` throws when reading trying to read an
+  extension that is present in the unknown fields.
+  We consider this change a bug-fix because depending on the old behavior is
+  indicative of a bug in your program.
 
 ## 1.0.4
 
