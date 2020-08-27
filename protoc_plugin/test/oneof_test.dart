@@ -4,6 +4,7 @@
 
 library one_of_test;
 
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/oneof.pb.dart';
@@ -162,11 +163,11 @@ void main() {
   test('copyWith preserves oneof state', () {
     var foo = Foo();
     expectOneofNotSet(foo);
-    var copy1 = foo.copyWith((_) {});
+    var copy1 = foo.deepCopy().freeze().rebuild((_) {});
     expectOneofNotSet(copy1);
     foo..first = 'oneof';
     expectFirstSet(foo);
-    var copy2 = foo.copyWith((_) {});
+    var copy2 = foo.deepCopy().freeze().rebuild((_) {});
     expectFirstSet(copy2);
   });
 

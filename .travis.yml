@@ -22,8 +22,8 @@ jobs:
       env: PKGS="api_benchmark query_benchmark"
       script: ./tool/travis.sh command_0 dartfmt dartanalyzer_0
     - stage: format_analyzer_tests
-      name: "SDK: 2.3.0; PKG: protobuf; TASKS: `dartanalyzer --fatal-warnings .`"
-      dart: "2.3.0"
+      name: "SDK: 2.7.0; PKG: protobuf; TASKS: `dartanalyzer --fatal-warnings .`"
+      dart: "2.7.0"
       os: linux
       env: PKGS="protobuf"
       script: ./tool/travis.sh dartanalyzer_0
@@ -34,8 +34,8 @@ jobs:
       env: PKGS="protobuf"
       script: ./tool/travis.sh dartanalyzer_1 dartfmt
     - stage: format_analyzer_tests
-      name: "SDK: 2.3.0; PKG: protobuf; TASKS: `pub run test`"
-      dart: "2.3.0"
+      name: "SDK: 2.7.0; PKG: protobuf; TASKS: `pub run test`"
+      dart: "2.7.0"
       os: linux
       env: PKGS="protobuf"
       script: ./tool/travis.sh test
@@ -46,8 +46,8 @@ jobs:
       env: PKGS="protobuf"
       script: ./tool/travis.sh test
     - stage: format_analyzer_tests
-      name: "SDK: 2.3.0; PKG: protoc_plugin; TASKS: [`make protos`, `dartanalyzer --fatal-warnings .`]"
-      dart: "2.3.0"
+      name: "SDK: 2.7.0; PKG: protoc_plugin; TASKS: [`make protos`, `dartanalyzer --fatal-warnings .`]"
+      dart: "2.7.0"
       os: linux
       env: PKGS="protoc_plugin"
       script: ./tool/travis.sh command_1 dartanalyzer_0
@@ -58,8 +58,8 @@ jobs:
       env: PKGS="protoc_plugin"
       script: ./tool/travis.sh command_1 dartfmt dartanalyzer_2
     - stage: format_analyzer_tests
-      name: "SDK: 2.3.0; PKG: protoc_plugin; TASKS: [`make protos`, `pub run test`]"
-      dart: "2.3.0"
+      name: "SDK: 2.7.0; PKG: protoc_plugin; TASKS: [`make protos`, `pub run test`]"
+      dart: "2.7.0"
       os: linux
       env: PKGS="protoc_plugin"
       script: ./tool/travis.sh command_1 test

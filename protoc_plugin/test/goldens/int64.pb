@@ -20,8 +20,16 @@ class Int64 extends $pb.GeneratedMessage {
   factory Int64() => create();
   factory Int64.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Int64.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
   Int64 clone() => Int64()..mergeFromMessage(this);
-  Int64 copyWith(void Function(Int64) updates) => super.copyWith((message) => updates(message as Int64));
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Int64 copyWith(void Function(Int64) updates) => super.copyWith((message) => updates(message as Int64)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Int64 create() => Int64._();

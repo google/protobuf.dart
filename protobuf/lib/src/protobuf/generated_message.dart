@@ -46,6 +46,9 @@ abstract class GeneratedMessage {
 
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)
+  @Deprecated('Using this can add significant size overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   GeneratedMessage clone();
 
   /// Creates an empty instance of the same message type as this.
@@ -87,8 +90,11 @@ abstract class GeneratedMessage {
 
   /// Apply [updates] to a copy of this message.
   ///
-  /// Makes a writable copy of this message, applies the [updates] to it, and
-  /// marks the copy read-only before returning it.
+  /// Makes a writable shawwol copy of this message, applies the [updates] to
+  /// it, and marks the copy read-only before returning it.
+  @Deprecated('Using this can add significant size overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   GeneratedMessage copyWith(void Function(GeneratedMessage) updates) {
     final builder = toBuilder();
     updates(builder);
@@ -517,4 +523,24 @@ class PackageName {
   final String name;
   const PackageName(this.name);
   String get prefix => name == '' ? '' : '$name.';
+}
+
+extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
+  /// Apply [updates] to a copy of this message.
+  ///
+  /// Throws an [ArgumentError] if `this` is not already frozen.
+  ///
+  /// Makes a writable shallow copy of this message, applies the [updates] to
+  /// it, and marks the copy read-only before returning it.
+  T rebuild(void Function(T) updates) {
+    if (!isFrozen) {
+      throw ArgumentError('Rebuilding only works on frozen messages.');
+    }
+    final t = toBuilder();
+    updates(t);
+    return t..freeze();
+  }
+
+  /// Returns a writable deep copy of this message.
+  T deepCopy() => info_.createEmptyInstance()..mergeFromMessage(this);
 }

@@ -188,7 +188,7 @@ void main() {
 
     test('cannot merge message into a frozen UnknownFieldSet', () {
       emptyMessage.freeze();
-      var other = emptyMessage.clone();
+      var other = emptyMessage.deepCopy();
 
       expect(() => emptyMessage.mergeFromBuffer(other.writeToBuffer()),
           throwsA(TypeMatcher<UnsupportedError>()));

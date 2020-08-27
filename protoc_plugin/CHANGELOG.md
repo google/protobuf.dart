@@ -1,3 +1,8 @@
+## 19.1.0
+
+* Emit depreciation of generated `copyWith` and `clone` methods.
+* Emit exports of `GeneratedMessageGenericExtensions` from `pb.dart` files.
+
 ## 19.0.3-dev
 
 * Ignore `annotate_overrides` in generated files.

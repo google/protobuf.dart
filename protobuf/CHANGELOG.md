@@ -1,3 +1,12 @@
+## 1.1.0
+
+* Require at least Dart SDK 2.7.0 to enable usage of extension methods.
+* Introduce extension methods `GeneratedMessage.rebuild` and
+  `GeneratedMessage.deepCopy` replacing `copyWith` and `clone`. Using these
+  alternatives can result in smaller binaries, because it is defined once
+  instead of once per class. Use `protoc_plugin` from 19.1.0 to generate
+  deprecation warnings for `copyWith` and `clone` methods.
+
 ## 1.0.4
 
 * Requires sdk 2.3.0
