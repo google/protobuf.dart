@@ -113,7 +113,11 @@ class EnumGenerator extends ProtobufContainer {
         final name = dartNames[val.name];
         out.printlnAnnotated(
             'static const ${classname} $name = '
-            "${classname}._(${val.number}, ${singleQuote(val.name)});",
+            '${classname}._(${val.number}, '
+            'const $_coreImportPrefix.bool.fromEnvironment'
+            '(\'protobuf.omit_enum_names\') ? \'\' : '
+            '${singleQuote(val.name)}'
+            ');',
             [
               NamedLocation(
                   name: name,

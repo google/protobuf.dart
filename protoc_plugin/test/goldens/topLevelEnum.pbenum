@@ -10,9 +10,9 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class PhoneType extends $pb.ProtobufEnum {
-  static const PhoneType MOBILE = PhoneType._(0, 'MOBILE');
-  static const PhoneType HOME = PhoneType._(1, 'HOME');
-  static const PhoneType WORK = PhoneType._(2, 'WORK');
+  static const PhoneType MOBILE = PhoneType._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MOBILE');
+  static const PhoneType HOME = PhoneType._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'HOME');
+  static const PhoneType WORK = PhoneType._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WORK');
 
   static const PhoneType BUSINESS = WORK;
 

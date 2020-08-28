@@ -26,6 +26,7 @@ import 'message_test.dart' as message;
 import 'mixin_test.dart' as mixin_test;
 import 'names_test.dart' as names;
 import 'oneof_test.dart' as oneof;
+import 'omit_enum_names_test.dart' as omit_enum_names;
 import 'protoc_options_test.dart' as protoc_options;
 import 'repeated_field_test.dart' as repeated_field;
 import 'service_test.dart' as service;
@@ -57,6 +58,7 @@ void main() {
   mixin_test.main();
   names.main();
   oneof.main();
+  omit_enum_names.main();
   protoc_options.main();
   repeated_field.main();
   service.main();
