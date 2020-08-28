@@ -5,6 +5,7 @@
 library protoc.const_generator;
 
 import "indenting_writer.dart";
+import 'string_escape.dart';
 
 /// Writes JSON data as a Dart constant expression.
 /// Accepts null, bool, num, String, and maps and lists.
@@ -47,35 +48,7 @@ bool _nonEmptyListOrMap(x) {
 }
 
 void _writeString(IndentingWriter out, String val) {
-  if (_maybeWriteSingleLineString(out, val)) return;
-  // handle the general case
-  var quote = "'''";
-  out.addUnindentedBlock("r$quote", "$quote", () {
-    out.print(val.replaceAll(quote, '$quote "$quote" r$quote'));
-  }, endWithNewline: false);
-}
-
-bool _maybeWriteSingleLineString(IndentingWriter out, String val) {
-  if (val.contains("\n")) return false;
-  var prefix = '';
-  if (val.contains(r'$') || val.contains(r'\')) {
-    prefix = 'r';
-  }
-  if (!val.contains("'")) {
-    out.print("$prefix'$val'");
-    return true;
-  } else if (!val.contains('"')) {
-    out.print('$prefix"$val"');
-    return true;
-  } else if (!val.contains("'''")) {
-    out.print("$prefix'''$val'''");
-    return true;
-  } else if (!val.contains('"""')) {
-    out.print('$prefix"""$val"""');
-    return true;
-  } else {
-    return false;
-  }
+  out.print(quoted(val));
 }
 
 void _writeListItems(IndentingWriter out, List val, {bool vertical = false}) {

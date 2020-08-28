@@ -9,6 +9,7 @@ import 'bazel_test.dart' as bazel;
 import 'any_test.dart' as any;
 import 'client_generator_test.dart' as client_generator;
 import 'const_generator_test.dart' as const_generator;
+import 'default_value_escape_test.dart' as default_value_escape;
 import 'enum_generator_test.dart' as enum_generator;
 import 'extension_generator_test.dart' as extension_generator_test;
 import 'extension_test.dart' as extension_test;
@@ -42,6 +43,7 @@ void main() {
   bazel.main();
   client_generator.main();
   const_generator.main();
+  default_value_escape.main();
   enum_generator.main();
   extension_generator_test.main();
   extension_test.main();

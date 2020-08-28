@@ -26,6 +26,7 @@ TEST_PROTO_LIST = \
 	google/protobuf/unittest \
 	google/protobuf/wrappers \
 	dart_name \
+        default_value_escape \
 	enum_extension \
 	enum_name \
 	extend_unittest \

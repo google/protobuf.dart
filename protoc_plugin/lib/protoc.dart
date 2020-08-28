@@ -15,6 +15,7 @@ import 'const_generator.dart' show writeJsonConst;
 import 'indenting_writer.dart';
 import 'names.dart';
 import 'mixins.dart';
+import 'string_escape.dart';
 
 part 'base_type.dart';
 part 'client_generator.dart';
