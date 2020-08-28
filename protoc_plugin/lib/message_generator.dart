@@ -292,9 +292,12 @@ class MessageGenerator extends ProtobufContainer {
       mixinClause = ' with ${mixinNames.join(", ")}';
     }
 
-    var packageClause = package == ''
-        ? ''
-        : ', package: const $_protobufImportPrefix.PackageName(\'$package\')';
+    final conditionalPackageName = 'const $_protobufImportPrefix.PackageName(' +
+        configurationDependent('protobuf.omit_message_names', quoted(package)) +
+        ')';
+
+    var packageClause =
+        package == '' ? '' : ', package: $conditionalPackageName';
     var proto3JsonClause = (mixin?.hasProto3JsonHelpers ?? false)
         ? ', toProto3Json: $_mixinImportPrefix.${mixin.name}.toProto3JsonHelper, '
             'fromProto3Json: $_mixinImportPrefix.${mixin.name}.fromProto3JsonHelper'
@@ -318,9 +321,12 @@ class MessageGenerator extends ProtobufContainer {
           out.println('0 : ${oneof.oneofEnumName}.notSet');
         });
       }
+      final conditionalMessageName = configurationDependent(
+          'protobuf.omit_message_names', quoted(messageName));
       out.addBlock(
           'static final $_protobufImportPrefix.BuilderInfo _i = '
-              '$_protobufImportPrefix.BuilderInfo(\'${messageName}\'$packageClause'
+              '$_protobufImportPrefix.BuilderInfo($conditionalMessageName'
+              '$packageClause'
               ', createEmptyInstance: create'
               '$proto3JsonClause)',
           ';', () {

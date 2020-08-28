@@ -10,12 +10,30 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class DartMixin extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DartMixin',
-      package: const $pb.PackageName('dart_options'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'DartMixin',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'dart_options'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..aOS(2, 'importFrom')
-    ..aOS(3, 'parent')
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'importFrom')
+    ..aOS(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'parent')
     ..hasRequiredFields = false;
 
   DartMixin._() : super();
@@ -84,10 +102,21 @@ class DartMixin extends $pb.GeneratedMessage {
 }
 
 class Imports extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Imports',
-      package: const $pb.PackageName('dart_options'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'Imports',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'dart_options'),
       createEmptyInstance: create)
-    ..pc<DartMixin>(1, 'mixins', $pb.PbFieldType.PM,
+    ..pc<DartMixin>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'mixins',
+        $pb.PbFieldType.PM,
         subBuilder: DartMixin.create)
     ..hasRequiredFields = false;
 
@@ -125,37 +154,79 @@ class Imports extends $pb.GeneratedMessage {
 
 class Dart_options {
   static final imports = $pb.Extension<Imports>(
-      'google.protobuf.FileOptions', 'imports', 28125061, $pb.PbFieldType.OM,
-      defaultOrMaker: Imports.getDefault, subBuilder: Imports.create);
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf.FileOptions',
+      const $core.bool.fromEnvironment('protobuf.omit_field_names')
+          ? ''
+          : 'imports',
+      28125061,
+      $pb.PbFieldType.OM,
+      defaultOrMaker: Imports.getDefault,
+      subBuilder: Imports.create);
   static final defaultMixin = $pb.Extension<$core.String>(
-      'google.protobuf.FileOptions',
-      'defaultMixin',
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf.FileOptions',
+      const $core.bool.fromEnvironment('protobuf.omit_field_names')
+          ? ''
+          : 'defaultMixin',
       96128839,
       $pb.PbFieldType.OS);
   static final mixin = $pb.Extension<$core.String>(
-      'google.protobuf.MessageOptions', 'mixin', 96128839, $pb.PbFieldType.OS);
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf.MessageOptions',
+      const $core.bool.fromEnvironment('protobuf.omit_field_names')
+          ? ''
+          : 'mixin',
+      96128839,
+      $pb.PbFieldType.OS);
   static final overrideGetter = $pb.Extension<$core.bool>(
-      'google.protobuf.FieldOptions',
-      'overrideGetter',
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf.FieldOptions',
+      const $core.bool.fromEnvironment('protobuf.omit_field_names')
+          ? ''
+          : 'overrideGetter',
       28205290,
       $pb.PbFieldType.OB);
   static final overrideSetter = $pb.Extension<$core.bool>(
-      'google.protobuf.FieldOptions',
-      'overrideSetter',
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf.FieldOptions',
+      const $core.bool.fromEnvironment('protobuf.omit_field_names')
+          ? ''
+          : 'overrideSetter',
       28937366,
       $pb.PbFieldType.OB);
   static final overrideHasMethod = $pb.Extension<$core.bool>(
-      'google.protobuf.FieldOptions',
-      'overrideHasMethod',
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf.FieldOptions',
+      const $core.bool.fromEnvironment('protobuf.omit_field_names')
+          ? ''
+          : 'overrideHasMethod',
       28937461,
       $pb.PbFieldType.OB);
   static final overrideClearMethod = $pb.Extension<$core.bool>(
-      'google.protobuf.FieldOptions',
-      'overrideClearMethod',
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf.FieldOptions',
+      const $core.bool.fromEnvironment('protobuf.omit_field_names')
+          ? ''
+          : 'overrideClearMethod',
       28907907,
       $pb.PbFieldType.OB);
   static final dartName = $pb.Extension<$core.String>(
-      'google.protobuf.FieldOptions', 'dartName', 28700919, $pb.PbFieldType.OS);
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf.FieldOptions',
+      const $core.bool.fromEnvironment('protobuf.omit_field_names')
+          ? ''
+          : 'dartName',
+      28700919,
+      $pb.PbFieldType.OS);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
     registry.add(imports);
     registry.add(defaultMixin);

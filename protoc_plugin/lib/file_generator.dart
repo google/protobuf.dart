@@ -19,6 +19,15 @@ const String _coreImport = "import 'dart:core' as $_coreImportPrefix;";
 const String _grpcImport =
     "import 'package:grpc/service_api.dart' as $_grpcImportPrefix;";
 
+/// Generates code that will evaluate to the empty string if
+/// `const bool.fromEnvironment(envName)` is `true` and evaluate to [value]
+/// otherwise.
+String configurationDependent(String envName, String value) {
+  return 'const $_coreImportPrefix.bool.fromEnvironment(${quoted(envName)})'
+      ' ? \'\' '
+      ': $value';
+}
+
 /// Generates the Dart output files for one .proto input file.
 ///
 /// Outputs include .pb.dart, pbenum.dart, and .pbjson.dart.

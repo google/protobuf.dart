@@ -95,12 +95,17 @@ class ExtensionGenerator {
     if (_field == null) throw StateError("resolve not called");
 
     var name = _extensionName;
+    final conditionalName = configurationDependent(
+        'protobuf.omit_field_names', quoted(_extensionName));
     var type = _field.baseType;
     var dartType = type.getDartType(fileGen);
+    final conditionalExtendedName = configurationDependent(
+        'protobuf.omit_message_names', quoted(_extendedFullName));
+
     String invocation;
     var positionals = <String>[];
-    positionals.add("'$_extendedFullName'");
-    positionals.add("'${_descriptor.jsonName}'");
+    positionals.add(conditionalExtendedName);
+    positionals.add(conditionalName);
     positionals.add('${_field.number}');
     positionals.add(_field.typeConstant);
 

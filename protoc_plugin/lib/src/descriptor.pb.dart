@@ -15,10 +15,21 @@ import 'descriptor.pbenum.dart';
 export 'descriptor.pbenum.dart';
 
 class FileDescriptorSet extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileDescriptorSet',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'FileDescriptorSet',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..pc<FileDescriptorProto>(1, 'file', $pb.PbFieldType.PM,
+    ..pc<FileDescriptorProto>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'file',
+        $pb.PbFieldType.PM,
         subBuilder: FileDescriptorProto.create);
 
   FileDescriptorSet._() : super();
@@ -55,26 +66,39 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
 }
 
 class FileDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'FileDescriptorProto',
+      package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..aOS(2, 'package')
-    ..pPS(3, 'dependency')
-    ..pc<DescriptorProto>(4, 'messageType', $pb.PbFieldType.PM,
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'package')
+    ..pPS(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'dependency')
+    ..pc<DescriptorProto>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'messageType', $pb.PbFieldType.PM,
         subBuilder: DescriptorProto.create)
-    ..pc<EnumDescriptorProto>(5, 'enumType', $pb.PbFieldType.PM,
+    ..pc<EnumDescriptorProto>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'enumType', $pb.PbFieldType.PM,
         subBuilder: EnumDescriptorProto.create)
-    ..pc<ServiceDescriptorProto>(6, 'service', $pb.PbFieldType.PM,
+    ..pc<ServiceDescriptorProto>(
+        6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'service', $pb.PbFieldType.PM,
         subBuilder: ServiceDescriptorProto.create)
-    ..pc<FieldDescriptorProto>(7, 'extension', $pb.PbFieldType.PM,
-        subBuilder: FieldDescriptorProto.create)
-    ..aOM<FileOptions>(8, 'options', subBuilder: FileOptions.create)
-    ..aOM<SourceCodeInfo>(9, 'sourceCodeInfo',
-        subBuilder: SourceCodeInfo.create)
-    ..p<$core.int>(10, 'publicDependency', $pb.PbFieldType.P3)
-    ..p<$core.int>(11, 'weakDependency', $pb.PbFieldType.P3)
-    ..aOS(12, 'syntax');
+    ..pc<FieldDescriptorProto>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'extension', $pb.PbFieldType.PM, subBuilder: FieldDescriptorProto.create)
+    ..aOM<FileOptions>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options', subBuilder: FileOptions.create)
+    ..aOM<SourceCodeInfo>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'sourceCodeInfo', subBuilder: SourceCodeInfo.create)
+    ..p<$core.int>(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'publicDependency', $pb.PbFieldType.P3)
+    ..p<$core.int>(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'weakDependency', $pb.PbFieldType.P3)
+    ..aOS(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'syntax');
 
   FileDescriptorProto._() : super();
   factory FileDescriptorProto() => create();
@@ -193,11 +217,26 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 
 class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      'DescriptorProto.ExtensionRange',
-      package: const $pb.PackageName('google.protobuf'),
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'DescriptorProto.ExtensionRange',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, 'start', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, 'end', $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'start',
+        $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'end',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DescriptorProto_ExtensionRange._() : super();
@@ -259,11 +298,26 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
 
 class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      'DescriptorProto.ReservedRange',
-      package: const $pb.PackageName('google.protobuf'),
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'DescriptorProto.ReservedRange',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, 'start', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, 'end', $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'start',
+        $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'end',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DescriptorProto_ReservedRange._() : super();
@@ -324,27 +378,32 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DescriptorProto',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'DescriptorProto',
+      package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..pc<FieldDescriptorProto>(2, 'field', $pb.PbFieldType.PM,
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..pc<FieldDescriptorProto>(
+        2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'field', $pb.PbFieldType.PM,
         subBuilder: FieldDescriptorProto.create)
-    ..pc<DescriptorProto>(3, 'nestedType', $pb.PbFieldType.PM,
+    ..pc<DescriptorProto>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'nestedType', $pb.PbFieldType.PM,
         subBuilder: DescriptorProto.create)
-    ..pc<EnumDescriptorProto>(4, 'enumType', $pb.PbFieldType.PM,
+    ..pc<EnumDescriptorProto>(
+        4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'enumType', $pb.PbFieldType.PM,
         subBuilder: EnumDescriptorProto.create)
     ..pc<DescriptorProto_ExtensionRange>(
-        5, 'extensionRange', $pb.PbFieldType.PM,
+        5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'extensionRange', $pb.PbFieldType.PM,
         subBuilder: DescriptorProto_ExtensionRange.create)
-    ..pc<FieldDescriptorProto>(6, 'extension', $pb.PbFieldType.PM,
-        subBuilder: FieldDescriptorProto.create)
-    ..aOM<MessageOptions>(7, 'options', subBuilder: MessageOptions.create)
-    ..pc<OneofDescriptorProto>(8, 'oneofDecl', $pb.PbFieldType.PM,
-        subBuilder: OneofDescriptorProto.create)
-    ..pc<DescriptorProto_ReservedRange>(9, 'reservedRange', $pb.PbFieldType.PM,
-        subBuilder: DescriptorProto_ReservedRange.create)
-    ..pPS(10, 'reservedName');
+    ..pc<FieldDescriptorProto>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'extension', $pb.PbFieldType.PM, subBuilder: FieldDescriptorProto.create)
+    ..aOM<MessageOptions>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options', subBuilder: MessageOptions.create)
+    ..pc<OneofDescriptorProto>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'oneofDecl', $pb.PbFieldType.PM, subBuilder: OneofDescriptorProto.create)
+    ..pc<DescriptorProto_ReservedRange>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'reservedRange', $pb.PbFieldType.PM, subBuilder: DescriptorProto_ReservedRange.create)
+    ..pPS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'reservedName');
 
   DescriptorProto._() : super();
   factory DescriptorProto() => create();
@@ -427,25 +486,43 @@ class DescriptorProto extends $pb.GeneratedMessage {
 }
 
 class FieldDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FieldDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'FieldDescriptorProto',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..aOS(2, 'extendee')
-    ..a<$core.int>(3, 'number', $pb.PbFieldType.O3)
-    ..e<FieldDescriptorProto_Label>(4, 'label', $pb.PbFieldType.OE,
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'extendee')
+    ..a<$core.int>(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'number',
+        $pb.PbFieldType.O3)
+    ..e<FieldDescriptorProto_Label>(
+        4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'label', $pb.PbFieldType.OE,
         defaultOrMaker: FieldDescriptorProto_Label.LABEL_OPTIONAL,
         valueOf: FieldDescriptorProto_Label.valueOf,
         enumValues: FieldDescriptorProto_Label.values)
-    ..e<FieldDescriptorProto_Type>(5, 'type', $pb.PbFieldType.OE,
+    ..e<FieldDescriptorProto_Type>(
+        5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'type', $pb.PbFieldType.OE,
         defaultOrMaker: FieldDescriptorProto_Type.TYPE_DOUBLE,
         valueOf: FieldDescriptorProto_Type.valueOf,
         enumValues: FieldDescriptorProto_Type.values)
-    ..aOS(6, 'typeName')
-    ..aOS(7, 'defaultValue')
-    ..aOM<FieldOptions>(8, 'options', subBuilder: FieldOptions.create)
-    ..a<$core.int>(9, 'oneofIndex', $pb.PbFieldType.O3)
-    ..aOS(10, 'jsonName');
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'typeName')
+    ..aOS(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'defaultValue')
+    ..aOM<FieldOptions>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options', subBuilder: FieldOptions.create)
+    ..a<$core.int>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'oneofIndex', $pb.PbFieldType.O3)
+    ..aOS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'jsonName');
 
   FieldDescriptorProto._() : super();
   factory FieldDescriptorProto() => create();
@@ -601,11 +678,26 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class OneofDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('OneofDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'OneofDescriptorProto',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..aOM<OneofOptions>(2, 'options', subBuilder: OneofOptions.create);
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..aOM<OneofOptions>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'options',
+        subBuilder: OneofOptions.create);
 
   OneofDescriptorProto._() : super();
   factory OneofDescriptorProto() => create();
@@ -665,13 +757,26 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class EnumDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'EnumDescriptorProto',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..pc<EnumValueDescriptorProto>(2, 'value', $pb.PbFieldType.PM,
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..pc<EnumValueDescriptorProto>(
+        2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'value', $pb.PbFieldType.PM,
         subBuilder: EnumValueDescriptorProto.create)
-    ..aOM<EnumOptions>(3, 'options', subBuilder: EnumOptions.create);
+    ..aOM<EnumOptions>(3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options',
+        subBuilder: EnumOptions.create);
 
   EnumDescriptorProto._() : super();
   factory EnumDescriptorProto() => create();
@@ -733,12 +838,29 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumValueDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'EnumValueDescriptorProto',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..a<$core.int>(2, 'number', $pb.PbFieldType.O3)
-    ..aOM<EnumValueOptions>(3, 'options', subBuilder: EnumValueOptions.create);
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..a<$core.int>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'number',
+        $pb.PbFieldType.O3)
+    ..aOM<EnumValueOptions>(3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options',
+        subBuilder: EnumValueOptions.create);
 
   EnumValueDescriptorProto._() : super();
   factory EnumValueDescriptorProto() => create();
@@ -811,13 +933,26 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class ServiceDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ServiceDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'ServiceDescriptorProto',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..pc<MethodDescriptorProto>(2, 'method', $pb.PbFieldType.PM,
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..pc<MethodDescriptorProto>(
+        2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'method', $pb.PbFieldType.PM,
         subBuilder: MethodDescriptorProto.create)
-    ..aOM<ServiceOptions>(3, 'options', subBuilder: ServiceOptions.create);
+    ..aOM<ServiceOptions>(3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options',
+        subBuilder: ServiceOptions.create);
 
   ServiceDescriptorProto._() : super();
   factory ServiceDescriptorProto() => create();
@@ -881,15 +1016,35 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class MethodDescriptorProto extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MethodDescriptorProto',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'MethodDescriptorProto',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..aOS(2, 'inputType')
-    ..aOS(3, 'outputType')
-    ..aOM<MethodOptions>(4, 'options', subBuilder: MethodOptions.create)
-    ..aOB(5, 'clientStreaming')
-    ..aOB(6, 'serverStreaming');
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'inputType')
+    ..aOS(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'outputType')
+    ..aOM<MethodOptions>(
+        4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options',
+        subBuilder: MethodOptions.create)
+    ..aOB(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'clientStreaming')
+    ..aOB(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'serverStreaming');
 
   MethodDescriptorProto._() : super();
   factory MethodDescriptorProto() => create();
@@ -998,31 +1153,49 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class FileOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileOptions',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'FileOptions',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOS(1, 'javaPackage')
-    ..aOS(8, 'javaOuterClassname')
-    ..e<FileOptions_OptimizeMode>(9, 'optimizeFor', $pb.PbFieldType.OE,
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'javaPackage')
+    ..aOS(
+        8,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'javaOuterClassname')
+    ..e<FileOptions_OptimizeMode>(
+        9,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'optimizeFor',
+        $pb.PbFieldType.OE,
         defaultOrMaker: FileOptions_OptimizeMode.SPEED,
         valueOf: FileOptions_OptimizeMode.valueOf,
         enumValues: FileOptions_OptimizeMode.values)
-    ..aOB(10, 'javaMultipleFiles')
-    ..aOS(11, 'goPackage')
-    ..aOB(16, 'ccGenericServices')
-    ..aOB(17, 'javaGenericServices')
-    ..aOB(18, 'pyGenericServices')
-    ..aOB(20, 'javaGenerateEqualsAndHash')
-    ..aOB(23, 'deprecated')
-    ..aOB(27, 'javaStringCheckUtf8')
-    ..aOB(31, 'ccEnableArenas')
-    ..aOS(36, 'objcClassPrefix')
-    ..aOS(37, 'csharpNamespace')
-    ..aOS(39, 'swiftPrefix')
-    ..aOS(40, 'phpClassPrefix')
-    ..aOS(41, 'phpNamespace')
-    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        subBuilder: UninterpretedOption.create)
+    ..aOB(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'javaMultipleFiles')
+    ..aOS(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'goPackage')
+    ..aOB(16, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'ccGenericServices')
+    ..aOB(17, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'javaGenericServices')
+    ..aOB(18, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pyGenericServices')
+    ..aOB(20, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'javaGenerateEqualsAndHash')
+    ..aOB(23, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deprecated')
+    ..aOB(27, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'javaStringCheckUtf8')
+    ..aOB(31, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'ccEnableArenas')
+    ..aOS(36, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'objcClassPrefix')
+    ..aOS(37, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'csharpNamespace')
+    ..aOS(39, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'swiftPrefix')
+    ..aOS(40, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phpClassPrefix')
+    ..aOS(41, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phpNamespace')
+    ..pc<UninterpretedOption>(999, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uninterpretedOption', $pb.PbFieldType.PM, subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
   FileOptions._() : super();
@@ -1266,15 +1439,33 @@ class FileOptions extends $pb.GeneratedMessage {
 }
 
 class MessageOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MessageOptions',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'MessageOptions',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOB(1, 'messageSetWireFormat')
-    ..aOB(2, 'noStandardDescriptorAccessor')
-    ..aOB(3, 'deprecated')
-    ..aOB(7, 'mapEntry')
-    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        subBuilder: UninterpretedOption.create)
+    ..aOB(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'messageSetWireFormat')
+    ..aOB(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'noStandardDescriptorAccessor')
+    ..aOB(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'deprecated')
+    ..aOB(
+        7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'mapEntry')
+    ..pc<UninterpretedOption>(999, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uninterpretedOption', $pb.PbFieldType.PM, subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
   MessageOptions._() : super();
@@ -1359,23 +1550,31 @@ class MessageOptions extends $pb.GeneratedMessage {
 }
 
 class FieldOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FieldOptions',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'FieldOptions',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..e<FieldOptions_CType>(1, 'ctype', $pb.PbFieldType.OE,
+    ..e<FieldOptions_CType>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'ctype',
+        $pb.PbFieldType.OE,
         defaultOrMaker: FieldOptions_CType.STRING,
         valueOf: FieldOptions_CType.valueOf,
         enumValues: FieldOptions_CType.values)
-    ..aOB(2, 'packed')
-    ..aOB(3, 'deprecated')
-    ..aOB(5, 'lazy')
-    ..e<FieldOptions_JSType>(6, 'jstype', $pb.PbFieldType.OE,
-        defaultOrMaker: FieldOptions_JSType.JS_NORMAL,
-        valueOf: FieldOptions_JSType.valueOf,
-        enumValues: FieldOptions_JSType.values)
-    ..aOB(10, 'weak')
-    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        subBuilder: UninterpretedOption.create)
+    ..aOB(2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'packed')
+    ..aOB(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deprecated')
+    ..aOB(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'lazy')
+    ..e<FieldOptions_JSType>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'jstype', $pb.PbFieldType.OE, defaultOrMaker: FieldOptions_JSType.JS_NORMAL, valueOf: FieldOptions_JSType.valueOf, enumValues: FieldOptions_JSType.values)
+    ..aOB(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'weak')
+    ..pc<UninterpretedOption>(999, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uninterpretedOption', $pb.PbFieldType.PM, subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
   FieldOptions._() : super();
@@ -1484,10 +1683,21 @@ class FieldOptions extends $pb.GeneratedMessage {
 }
 
 class OneofOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('OneofOptions',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'OneofOptions',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'uninterpretedOption',
+        $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1525,12 +1735,31 @@ class OneofOptions extends $pb.GeneratedMessage {
 }
 
 class EnumOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumOptions',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'EnumOptions',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOB(2, 'allowAlias')
-    ..aOB(3, 'deprecated')
-    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+    ..aOB(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'allowAlias')
+    ..aOB(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'deprecated')
+    ..pc<UninterpretedOption>(
+        999,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'uninterpretedOption',
+        $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1591,11 +1820,26 @@ class EnumOptions extends $pb.GeneratedMessage {
 }
 
 class EnumValueOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EnumValueOptions',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'EnumValueOptions',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOB(1, 'deprecated')
-    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+    ..aOB(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'deprecated')
+    ..pc<UninterpretedOption>(
+        999,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'uninterpretedOption',
+        $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1645,11 +1889,26 @@ class EnumValueOptions extends $pb.GeneratedMessage {
 }
 
 class ServiceOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ServiceOptions',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'ServiceOptions',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aOB(33, 'deprecated')
-    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
+    ..aOB(
+        33,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'deprecated')
+    ..pc<UninterpretedOption>(
+        999,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'uninterpretedOption',
+        $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1699,18 +1958,31 @@ class ServiceOptions extends $pb.GeneratedMessage {
 }
 
 class MethodOptions extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('MethodOptions',
-      package: const $pb.PackageName('google.protobuf'),
-      createEmptyInstance: create)
-    ..aOB(33, 'deprecated')
-    ..e<MethodOptions_IdempotencyLevel>(
-        34, 'idempotencyLevel', $pb.PbFieldType.OE,
-        defaultOrMaker: MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
-        valueOf: MethodOptions_IdempotencyLevel.valueOf,
-        enumValues: MethodOptions_IdempotencyLevel.values)
-    ..pc<UninterpretedOption>(999, 'uninterpretedOption', $pb.PbFieldType.PM,
-        subBuilder: UninterpretedOption.create)
-    ..hasExtensions = true;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'MethodOptions',
+          package: const $pb.PackageName(
+              const $core.bool.fromEnvironment('protobuf.omit_message_names')
+                  ? ''
+                  : 'google.protobuf'),
+          createEmptyInstance: create)
+        ..aOB(
+            33,
+            const $core.bool.fromEnvironment('protobuf.omit_field_names')
+                ? ''
+                : 'deprecated')
+        ..e<MethodOptions_IdempotencyLevel>(
+            34, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'idempotencyLevel', $pb.PbFieldType.OE,
+            defaultOrMaker: MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
+            valueOf: MethodOptions_IdempotencyLevel.valueOf,
+            enumValues: MethodOptions_IdempotencyLevel.values)
+        ..pc<UninterpretedOption>(
+            999,
+            const $core.bool.fromEnvironment('protobuf.omit_field_names')
+                ? ''
+                : 'uninterpretedOption',
+            $pb.PbFieldType.PM,
+            subBuilder: UninterpretedOption.create)
+        ..hasExtensions = true;
 
   MethodOptions._() : super();
   factory MethodOptions() => create();
@@ -1771,11 +2043,25 @@ class MethodOptions extends $pb.GeneratedMessage {
 
 class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      'UninterpretedOption.NamePart',
-      package: const $pb.PackageName('google.protobuf'),
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'UninterpretedOption.NamePart',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..aQS(1, 'namePart')
-    ..a<$core.bool>(2, 'isExtension', $pb.PbFieldType.QB);
+    ..aQS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'namePart')
+    ..a<$core.bool>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'isExtension',
+        $pb.PbFieldType.QB);
 
   UninterpretedOption_NamePart._() : super();
   factory UninterpretedOption_NamePart() => create();
@@ -1835,18 +2121,28 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
 }
 
 class UninterpretedOption extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('UninterpretedOption',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'UninterpretedOption',
+      package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'google.protobuf'),
       createEmptyInstance: create)
-    ..pc<UninterpretedOption_NamePart>(2, 'name', $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption_NamePart>(
+        2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption_NamePart.create)
-    ..aOS(3, 'identifierValue')
-    ..a<$fixnum.Int64>(4, 'positiveIntValue', $pb.PbFieldType.OU6,
+    ..aOS(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'identifierValue')
+    ..a<$fixnum.Int64>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'positiveIntValue', $pb.PbFieldType.OU6,
         defaultOrMaker: $fixnum.Int64.ZERO)
-    ..aInt64(5, 'negativeIntValue')
-    ..a<$core.double>(6, 'doubleValue', $pb.PbFieldType.OD)
-    ..a<$core.List<$core.int>>(7, 'stringValue', $pb.PbFieldType.OY)
-    ..aOS(8, 'aggregateValue');
+    ..aInt64(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'negativeIntValue')
+    ..a<$core.double>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'doubleValue', $pb.PbFieldType.OD)
+    ..a<$core.List<$core.int>>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'stringValue', $pb.PbFieldType.OY)
+    ..aOS(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'aggregateValue');
 
   UninterpretedOption._() : super();
   factory UninterpretedOption() => create();
@@ -1954,14 +2250,31 @@ class UninterpretedOption extends $pb.GeneratedMessage {
 }
 
 class SourceCodeInfo_Location extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SourceCodeInfo.Location',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'SourceCodeInfo.Location',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..p<$core.int>(1, 'path', $pb.PbFieldType.K3)
-    ..p<$core.int>(2, 'span', $pb.PbFieldType.K3)
-    ..aOS(3, 'leadingComments')
-    ..aOS(4, 'trailingComments')
-    ..pPS(6, 'leadingDetachedComments')
+    ..p<$core.int>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'path',
+        $pb.PbFieldType.K3)
+    ..p<$core.int>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'span',
+        $pb.PbFieldType.K3)
+    ..aOS(3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'leadingComments')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'trailingComments')
+    ..pPS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'leadingDetachedComments')
     ..hasRequiredFields = false;
 
   SourceCodeInfo_Location._() : super();
@@ -2030,10 +2343,21 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
 }
 
 class SourceCodeInfo extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SourceCodeInfo',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'SourceCodeInfo',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..pc<SourceCodeInfo_Location>(1, 'location', $pb.PbFieldType.PM,
+    ..pc<SourceCodeInfo_Location>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'location',
+        $pb.PbFieldType.PM,
         subBuilder: SourceCodeInfo_Location.create)
     ..hasRequiredFields = false;
 
@@ -2072,13 +2396,30 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
 
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      'GeneratedCodeInfo.Annotation',
-      package: const $pb.PackageName('google.protobuf'),
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'GeneratedCodeInfo.Annotation',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..p<$core.int>(1, 'path', $pb.PbFieldType.K3)
-    ..aOS(2, 'sourceFile')
-    ..a<$core.int>(3, 'begin', $pb.PbFieldType.O3)
-    ..a<$core.int>(4, 'end', $pb.PbFieldType.O3)
+    ..p<$core.int>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'path',
+        $pb.PbFieldType.K3)
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'sourceFile')
+    ..a<$core.int>(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'begin',
+        $pb.PbFieldType.O3)
+    ..a<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   GeneratedCodeInfo_Annotation._() : super();
@@ -2154,10 +2495,21 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
 }
 
 class GeneratedCodeInfo extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('GeneratedCodeInfo',
-      package: const $pb.PackageName('google.protobuf'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'GeneratedCodeInfo',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
       createEmptyInstance: create)
-    ..pc<GeneratedCodeInfo_Annotation>(1, 'annotation', $pb.PbFieldType.PM,
+    ..pc<GeneratedCodeInfo_Annotation>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'annotation',
+        $pb.PbFieldType.PM,
         subBuilder: GeneratedCodeInfo_Annotation.create)
     ..hasRequiredFields = false;
 

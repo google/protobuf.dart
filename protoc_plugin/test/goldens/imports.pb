@@ -13,10 +13,10 @@ import 'package1.pb.dart' as $1;
 import 'package2.pb.dart' as $2;
 
 class M extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('M', createEmptyInstance: create)
-    ..aOM<M>(1, 'm', subBuilder: M.create)
-    ..aOM<$1.M>(2, 'm1', subBuilder: $1.M.create)
-    ..aOM<$2.M>(3, 'm2', subBuilder: $2.M.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'M', createEmptyInstance: create)
+    ..aOM<M>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm', subBuilder: M.create)
+    ..aOM<$1.M>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm1', subBuilder: $1.M.create)
+    ..aOM<$2.M>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm2', subBuilder: $2.M.create)
     ..hasRequiredFields = false
   ;
 
