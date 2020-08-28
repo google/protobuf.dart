@@ -124,37 +124,37 @@ class Imports extends $pb.GeneratedMessage {
 }
 
 class Dart_options {
-  static final $pb.Extension imports = $pb.Extension<Imports>(
+  static final imports = $pb.Extension<Imports>(
       'google.protobuf.FileOptions', 'imports', 28125061, $pb.PbFieldType.OM,
       defaultOrMaker: Imports.getDefault, subBuilder: Imports.create);
-  static final $pb.Extension defaultMixin = $pb.Extension<$core.String>(
+  static final defaultMixin = $pb.Extension<$core.String>(
       'google.protobuf.FileOptions',
       'defaultMixin',
       96128839,
       $pb.PbFieldType.OS);
-  static final $pb.Extension mixin = $pb.Extension<$core.String>(
+  static final mixin = $pb.Extension<$core.String>(
       'google.protobuf.MessageOptions', 'mixin', 96128839, $pb.PbFieldType.OS);
-  static final $pb.Extension overrideGetter = $pb.Extension<$core.bool>(
+  static final overrideGetter = $pb.Extension<$core.bool>(
       'google.protobuf.FieldOptions',
       'overrideGetter',
       28205290,
       $pb.PbFieldType.OB);
-  static final $pb.Extension overrideSetter = $pb.Extension<$core.bool>(
+  static final overrideSetter = $pb.Extension<$core.bool>(
       'google.protobuf.FieldOptions',
       'overrideSetter',
       28937366,
       $pb.PbFieldType.OB);
-  static final $pb.Extension overrideHasMethod = $pb.Extension<$core.bool>(
+  static final overrideHasMethod = $pb.Extension<$core.bool>(
       'google.protobuf.FieldOptions',
       'overrideHasMethod',
       28937461,
       $pb.PbFieldType.OB);
-  static final $pb.Extension overrideClearMethod = $pb.Extension<$core.bool>(
+  static final overrideClearMethod = $pb.Extension<$core.bool>(
       'google.protobuf.FieldOptions',
       'overrideClearMethod',
       28907907,
       $pb.PbFieldType.OB);
-  static final $pb.Extension dartName = $pb.Extension<$core.String>(
+  static final dartName = $pb.Extension<$core.String>(
       'google.protobuf.FieldOptions', 'dartName', 28700919, $pb.PbFieldType.OS);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
     registry.add(imports);
