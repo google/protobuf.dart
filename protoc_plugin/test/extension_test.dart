@@ -277,8 +277,9 @@ void main() {
         TestAllExtensions.fromBuffer(withExtensions.writeToBuffer());
     final reparsed = r.reparseMessage(withUnknownFields);
 
-    expect(withUnknownFields.getExtension(Unittest.defaultStringExtension),
-        'hello');
+    expect(
+        () => withUnknownFields.getExtension(Unittest.defaultStringExtension),
+        throwsA(const TypeMatcher<StateError>()));
 
     expect(reparsed.getExtension(Unittest.defaultStringExtension), 'bar');
 
@@ -304,12 +305,11 @@ void main() {
             .hasExtension(Extend_unittest.extensionInner),
         isFalse);
     expect(
-        onlyOuter
+        () => onlyOuter
             .reparseMessage(withUnknownFields)
             .getExtension(Extend_unittest.outer)
-            .getExtension(Extend_unittest.extensionInner)
-            .value,
-        '');
+            .getExtension(Extend_unittest.extensionInner),
+        throwsA(const TypeMatcher<StateError>()));
 
     expect(
         reparsed

@@ -21,7 +21,10 @@ class _ExtensionFieldSet {
     // I think this was originally here for repeated extensions.
     _addInfoUnchecked(fi);
     var value = _getFieldOrNull(fi);
-    if (value == null) return fi.makeDefault();
+    if (value == null) {
+      _checkNotInUnknown(fi);
+      return fi.makeDefault();
+    }
     return value;
   }
 
@@ -50,6 +53,7 @@ class _ExtensionFieldSet {
   List<T> _getList<T>(Extension<T> fi) {
     var value = _values[fi.tagNumber];
     if (value != null) return value as List<T>;
+    _checkNotInUnknown(fi);
     if (_isReadOnly) return List<T>.unmodifiable(const []);
     return _addInfoAndCreateList(fi);
   }
@@ -182,6 +186,16 @@ class _ExtensionFieldSet {
           (entry as GeneratedMessage).freeze();
         }
       }
+    }
+  }
+
+  void _checkNotInUnknown(Extension extension) {
+    if (_parent._hasUnknownFields &&
+        _parent._unknownFields.hasField(extension.tagNumber)) {
+      throw StateError(
+          'Trying to get $extension that is present as an unknown field. '
+          'Parse the message with this extension in the extension registry or '
+          'use `ExtensionRegistry.reparseMessage`.');
     }
   }
 }
