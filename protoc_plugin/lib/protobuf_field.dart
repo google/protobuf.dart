@@ -369,9 +369,8 @@ class ProtobufField {
     if (!descriptor.hasDefaultValue() || descriptor.defaultValue.isEmpty) {
       return noDefault;
     }
-    // TODO(skybrian): fix dubious escaping.
-    var value = descriptor.defaultValue.replaceAll(r'$', r'\$');
-    return '\'$value\'';
+
+    return quoted(descriptor.defaultValue);
   }
 
   String _getDefaultAsInt32Expr(String noDefault) {

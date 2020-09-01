@@ -27,17 +27,14 @@ void main() {
   test('writeJsonConst string examples', () {
     expect(toConst(""), "''");
     expect(toConst("hello"), "'hello'");
-    expect(toConst(r"backslash: \"), r"r'backslash: \'");
-    expect(toConst(r"hello $world"), r"r'hello $world'");
-    expect(toConst("She said, 'hello.'"), '''"She said, 'hello.'"''');
-    expect(toConst('''single: ' double: "'''), """'''single: ' double: "'''""");
-    var triple = '"""';
-    expect(toConst("""single: ' double: " triple: '''"""),
-        """${triple}single: ' double: " triple: '''$triple""");
-    expect(
-        toConst("""single: ' double: " triples: ''' and $triple!"""),
-        "r'''\n"
-        "single: ' double: \" triples: ''' \"'''\" r''' and $triple!'''");
+    expect(toConst(r"backslash: \"), r"'backslash: \\'");
+    expect(toConst(r"hello $world"), r"'hello \$world'");
+    expect(toConst("She said, 'hello.'"), r"'She said, \'hello.\''");
+    expect(toConst('single: \' double: "'), r"""'single: \' double: "'""");
+    expect(toConst("""single: ' double: '' triple: \'\'\'"""),
+        r"'single: \' double: \'\' triple: \'\'\''");
+    expect(toConst("""single: ' double: " triples: ''' and \"\"\"!"""),
+        r"""'single: \' double: " triples: \'\'\' and """ '"""!\'');
   });
 
   test('writeJsonConst list examples', () {

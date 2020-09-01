@@ -11,6 +11,7 @@
 * Omit type on a left hand side of generated static fields for extensions,
   which results in stricter type (`Extension<ExtensionType>` instead of just
   `Extension`).
+* Fix escaping of string default values.
 
 ## 19.0.3-dev
 
