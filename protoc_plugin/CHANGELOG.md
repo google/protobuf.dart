@@ -8,6 +8,9 @@
 
   If a target is built with `dart_env = {"protobuf.omit_enum_names": "true"}`
   enum names will not be present in the compiled binary.
+* Omit type on a left hand side of generated static fields for extensions,
+  which results in stricter type (`Extension<ExtensionType>` instead of just
+  `Extension`).
 
 ## 19.0.3-dev
 

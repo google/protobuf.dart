@@ -128,14 +128,15 @@ class ExtensionGenerator {
       }
     }
     assert(invocation != null);
+    var fieldDefinition = 'static final ';
     out.printAnnotated(
-        'static final $_protobufImportPrefix.Extension $name = '
+        '$fieldDefinition$name = '
         '$invocation(${ProtobufField._formatArguments(positionals, named)});\n',
         [
           NamedLocation(
               name: name,
               fieldPathSegment: List.from(fieldPath),
-              start: 'static final $_protobufImportPrefix.Extension '.length)
+              start: fieldDefinition.length)
         ]);
   }
 }
