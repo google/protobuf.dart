@@ -42,7 +42,7 @@ class _ExtensionFieldSet {
   List<T> _ensureRepeatedField<T>(Extension<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
-    assert(fi.extendee == _parent._messageName);
+    assert(fi.extendee == '' || fi.extendee == _parent._messageName);
 
     var list = _values[fi.tagNumber];
     if (list != null) return list as List<T>;

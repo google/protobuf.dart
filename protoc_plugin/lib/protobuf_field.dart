@@ -149,9 +149,10 @@ class ProtobufField {
   /// [fileGen] represents the .proto file where the code will be evaluated.
   String generateBuilderInfoCall(FileGenerator fileGen, String package) {
     assert(descriptor.hasJsonName());
-    // JSON names should be serialized as-is, but '$' can cause Dart to try to
-    // perform string interpolation on non-existent variables.
-    var quotedName = "'${descriptor.jsonName.replaceAll(r'$', r'\$')}'";
+    var quotedName = configurationDependent(
+      'protobuf.omit_field_names',
+      quoted(descriptor.jsonName),
+    );
 
     var type = baseType.getDartType(fileGen);
 

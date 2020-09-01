@@ -12,13 +12,32 @@ import 'package:protobuf/protobuf.dart' as $pb;
 import 'descriptor.pb.dart' as $0;
 
 class Version extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Version',
-      package: const $pb.PackageName('google.protobuf.compiler'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'Version',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf.compiler'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, 'major', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, 'minor', $pb.PbFieldType.O3)
-    ..a<$core.int>(3, 'patch', $pb.PbFieldType.O3)
-    ..aOS(4, 'suffix')
+    ..a<$core.int>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'major',
+        $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'minor',
+        $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'patch',
+        $pb.PbFieldType.O3)
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'suffix')
     ..hasRequiredFields = false;
 
   Version._() : super();
@@ -99,13 +118,30 @@ class Version extends $pb.GeneratedMessage {
 }
 
 class CodeGeneratorRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeGeneratorRequest',
-      package: const $pb.PackageName('google.protobuf.compiler'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'CodeGeneratorRequest',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf.compiler'),
       createEmptyInstance: create)
-    ..pPS(1, 'fileToGenerate')
-    ..aOS(2, 'parameter')
-    ..aOM<Version>(3, 'compilerVersion', subBuilder: Version.create)
-    ..pc<$0.FileDescriptorProto>(15, 'protoFile', $pb.PbFieldType.PM,
+    ..pPS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'fileToGenerate')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'parameter')
+    ..aOM<Version>(
+        3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'compilerVersion',
+        subBuilder: Version.create)
+    ..pc<$0.FileDescriptorProto>(
+        15, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoFile', $pb.PbFieldType.PM,
         subBuilder: $0.FileDescriptorProto.create);
 
   CodeGeneratorRequest._() : super();
@@ -173,12 +209,29 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
 
 class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      'CodeGeneratorResponse.File',
-      package: const $pb.PackageName('google.protobuf.compiler'),
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'CodeGeneratorResponse.File',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf.compiler'),
       createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..aOS(2, 'insertionPoint')
-    ..aOS(15, 'content')
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'name')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'insertionPoint')
+    ..aOS(
+        15,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'content')
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse_File._() : super();
@@ -250,11 +303,26 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
 }
 
 class CodeGeneratorResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CodeGeneratorResponse',
-      package: const $pb.PackageName('google.protobuf.compiler'),
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'CodeGeneratorResponse',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf.compiler'),
       createEmptyInstance: create)
-    ..aOS(1, 'error')
-    ..pc<CodeGeneratorResponse_File>(15, 'file', $pb.PbFieldType.PM,
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'error')
+    ..pc<CodeGeneratorResponse_File>(
+        15,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'file',
+        $pb.PbFieldType.PM,
         subBuilder: CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
 
