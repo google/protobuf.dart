@@ -219,7 +219,7 @@ class CodedBufferWriter {
 
   /// Add TypedData splice - these bytes would be directly copied into the
   /// output buffer by [writeTo].
-  void _writeRawBytes(TypedData value) {
+  void writeRawBytes(TypedData value) {
     _commitSplice();
     _splices.add(value);
     _bytesTotal += value.lengthInBytes;
@@ -392,7 +392,7 @@ class CodedBufferWriter {
 
   void _writeBytesNoTag(dynamic value) {
     writeInt32NoTag(value.length);
-    _writeRawBytes(value);
+    writeRawBytes(value);
   }
 
   void _writeTag(int fieldNumber, int wireFormat) {
