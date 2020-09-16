@@ -4,7 +4,6 @@
 
 library protobuf;
 
-import 'dart:async' show Future;
 import 'dart:collection' show ListBase, MapBase;
 import 'dart:convert'
     show base64Decode, base64Encode, jsonEncode, jsonDecode, Utf8Codec;
