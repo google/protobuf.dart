@@ -1,7 +1,5 @@
 library service_test;
 
-import 'dart:async' show Future;
-
 import 'package:protobuf/protobuf.dart';
 import 'package:protoc_plugin/src/descriptor.pb.dart'
     show DescriptorProto, ServiceDescriptorProto;
