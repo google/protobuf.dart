@@ -82,7 +82,11 @@ void _mergeFromJsonMap(
   var keys = json.keys;
   var meta = fs._meta;
   for (var key in keys) {
-    var fi = meta.byTagAsString[key] ?? meta.byName[key];
+    var fi = meta.byTagAsString[key];
+    if (int.tryParse(key) == null) {
+      fi = meta.byName[key] ??
+          meta.byIndex.firstWhere((element) => element.protoName == key);
+    }
     if (fi == null) {
       if (registry == null) continue; // Unknown tag; skip
       fi = registry.getExtension(fs._messageName, int.parse(key));
