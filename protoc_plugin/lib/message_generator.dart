@@ -365,7 +365,8 @@ class MessageGenerator extends ProtobufContainer {
       out.println('factory ${classname}.fromJson($_coreImportPrefix.String i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' => create()..mergeFromJson(i, r);');
-      out.println('factory ${classname}.fromJsonObject(\$core.Object o) => create()..mergeFromProto3Json(o);');
+      out.println(
+          'factory ${classname}.fromJsonObject(\$core.Object o) => create()..mergeFromProto3Json(o);');
       out.println('''@$_coreImportPrefix.Deprecated(
 'Using this can add significant overhead to your binary. '
 'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
