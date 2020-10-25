@@ -105,7 +105,7 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     } else {
       jsonValue = valueToProto3Json(value, fieldInfo.type);
     }
-    result[fieldInfo.name] = jsonValue;
+    result[fieldInfo.protoName] = jsonValue;
   }
   // Extensions and unknown fields are not encoded by proto3 JSON.
   return result;
