@@ -9,7 +9,8 @@ environment:
 dependencies:
   fixnum: ^0.10.9
   path: ^1.0.0
-  protobuf: '>=1.1.0 <2.0.0'
+  protobuf:
+    path: ../protobuf
   dart_style: ^1.0.6
 
 dev_dependencies:
