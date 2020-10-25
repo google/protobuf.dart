@@ -1,4 +1,4 @@
-# Protobuf support for dart
+# A Better ProtoBuf Library For Dart
 
 [![Build Status](https://travis-ci.org/dart-lang/protobuf.svg?branch=master)](https://travis-ci.org/dart-lang/protobuf)
 
