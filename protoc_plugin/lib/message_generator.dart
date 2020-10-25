@@ -507,6 +507,7 @@ class MessageGenerator extends ProtobufContainer {
         out.printlnAnnotated(
             'set ${names.fieldName}'
             '($fieldTypeString v) { '
+            'if (v == null) return;'
             '$fastSetter(${field.index}, v);'
             ' }',
             [
@@ -519,6 +520,7 @@ class MessageGenerator extends ProtobufContainer {
         out.printlnAnnotated(
             'set ${names.fieldName}'
             '($fieldTypeString v) { '
+            'if (v == null) return;'
             'setField(${field.number}, v);'
             ' }',
             [
