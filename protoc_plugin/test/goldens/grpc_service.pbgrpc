@@ -50,7 +50,8 @@ class TestClient extends $grpc.Client {
 
   $grpc.ResponseStream<$0.Output> serverStreaming($0.Input request,
       {$grpc.CallOptions options}) {
-    return $createStreamingCall(_$serverStreaming, request, options: options);
+    return $createStreamingCall(_$serverStreaming, Stream.value(request),
+        options: options);
   }
 
   $grpc.ResponseStream<$0.Output> bidirectional($async.Stream<$0.Input> request,
