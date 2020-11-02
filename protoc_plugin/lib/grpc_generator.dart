@@ -238,15 +238,11 @@ class _GrpcMethod {
           ? '\$createStreamingCall'
           : '\$createUnaryCall';
 
-      final request = !_clientStreaming || _serverStreaming
-          ? '$_stream.value(request)'
-          : 'request';
-
       final cast =
           _clientStreaming && !_serverStreaming ? '.toResponseFuture()' : '';
 
       out.println(
-          'return $createCall(_\$$_dartName, $request, options: options)$cast;');
+          'return $createCall(_\$$_dartName, request, options: options)$cast;');
     });
   }
 
