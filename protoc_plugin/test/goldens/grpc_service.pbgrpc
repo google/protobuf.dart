@@ -42,8 +42,7 @@ class TestClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.Output> unary($0.Input request,
       {$grpc.CallOptions options}) {
-    return $createUnaryCall(_$unary, $async.Stream.value(request),
-        options: options);
+    return $createUnaryCall(_$unary, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.Output> clientStreaming(
@@ -55,14 +54,12 @@ class TestClient extends $grpc.Client {
 
   $grpc.ResponseStream<$0.Output> serverStreaming($0.Input request,
       {$grpc.CallOptions options}) {
-    return $createStreamingCall(_$serverStreaming, $async.Stream.value(request),
-        options: options);
+    return $createStreamingCall(_$serverStreaming, request, options: options);
   }
 
   $grpc.ResponseStream<$0.Output> bidirectional($async.Stream<$0.Input> request,
       {$grpc.CallOptions options}) {
-    return $createStreamingCall(_$bidirectional, $async.Stream.value(request),
-        options: options);
+    return $createStreamingCall(_$bidirectional, request, options: options);
   }
 }
 
