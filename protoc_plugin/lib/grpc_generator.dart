@@ -111,9 +111,14 @@ class GrpcServiceGenerator {
         method.generateClientMethodDescriptor(out);
       }
       out.println();
+      out.println('$_clientClassname($_clientChannel channel,');
+      out.println('    {$_callOptions options,');
+      out.println('    Iterable<$_unaryInterceptor> unaryInterceptors,');
       out.println(
-          '$_clientClassname($_clientChannel channel, {$_callOptions options})');
-      out.println('    : super(channel, options: options);');
+          '    Iterable<$_streamingInterceptor> streamingInterceptors})');
+      out.println('    : super(channel, options: options,');
+      out.println('      unaryInterceptors: unaryInterceptors,');
+      out.println('      streamingInterceptors: streamingInterceptors);');
       for (final method in _methods) {
         method.generateClientStub(out);
       }
@@ -142,6 +147,10 @@ class GrpcServiceGenerator {
   }
 
   static final String _callOptions = '$_grpcImportPrefix.CallOptions';
+  static final String _unaryInterceptor =
+      '$_grpcImportPrefix.ClientUnaryInterceptor';
+  static final String _streamingInterceptor =
+      '$_grpcImportPrefix.ClientStreamingInterceptor';
   static final String _client = '$_grpcImportPrefix.Client';
   static final String _clientChannel = '$_grpcImportPrefix.ClientChannel';
   static final String _service = '$_grpcImportPrefix.Service';
