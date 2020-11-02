@@ -113,9 +113,10 @@ class GrpcServiceGenerator {
       out.println();
       out.println('$_clientClassname($_clientChannel channel,');
       out.println('    {$_callOptions options,');
-      out.println('    Iterable<$_unaryInterceptor> unaryInterceptors,');
       out.println(
-          '    Iterable<$_streamingInterceptor> streamingInterceptors})');
+          '    $_coreImportPrefix.Iterable<$_unaryInterceptor> unaryInterceptors,');
+      out.println(
+          '    $_coreImportPrefix.Iterable<$_streamingInterceptor> streamingInterceptors})');
       out.println('    : super(channel, options: options,');
       out.println('      unaryInterceptors: unaryInterceptors,');
       out.println('      streamingInterceptors: streamingInterceptors);');
@@ -237,13 +238,15 @@ class _GrpcMethod {
           ? '\$createStreamingCall'
           : '\$createUnaryCall';
 
-      if (_clientStreaming && !_serverStreaming) {
-        out.println(
-            'return $createCall(_\$$_dartName, request, options: options).toResponseFuture();');
-      } else {
-        out.println(
-            'return $createCall(_\$$_dartName, request, options: options);');
-      }
+      final request = !_clientStreaming || _serverStreaming
+          ? '$_stream.value(request)'
+          : 'request';
+
+      final cast =
+          _clientStreaming && !_serverStreaming ? '.toResponseFuture()' : '';
+
+      out.println(
+          'return $createCall(_\$$_dartName, $request, options: options)$cast;');
     });
   }
 
