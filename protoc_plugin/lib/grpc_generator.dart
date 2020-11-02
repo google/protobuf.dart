@@ -114,12 +114,9 @@ class GrpcServiceGenerator {
       out.println('$_clientClassname($_clientChannel channel,');
       out.println('    {$_callOptions options,');
       out.println(
-          '    $_coreImportPrefix.Iterable<$_unaryInterceptor> unaryInterceptors,');
-      out.println(
-          '    $_coreImportPrefix.Iterable<$_streamingInterceptor> streamingInterceptors})');
+          '    $_coreImportPrefix.Iterable<$_interceptor> interceptors})');
       out.println('    : super(channel, options: options,');
-      out.println('      unaryInterceptors: unaryInterceptors,');
-      out.println('      streamingInterceptors: streamingInterceptors);');
+      out.println('      interceptors: interceptors);');
       for (final method in _methods) {
         method.generateClientStub(out);
       }
@@ -148,10 +145,7 @@ class GrpcServiceGenerator {
   }
 
   static final String _callOptions = '$_grpcImportPrefix.CallOptions';
-  static final String _unaryInterceptor =
-      '$_grpcImportPrefix.ClientUnaryInterceptor';
-  static final String _streamingInterceptor =
-      '$_grpcImportPrefix.ClientStreamingInterceptor';
+  static final String _interceptor = '$_grpcImportPrefix.ClientInterceptor';
   static final String _client = '$_grpcImportPrefix.Client';
   static final String _clientChannel = '$_grpcImportPrefix.ClientChannel';
   static final String _service = '$_grpcImportPrefix.Service';
@@ -235,11 +229,10 @@ class _GrpcMethod {
         '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions} options}) {',
         '}', () {
       final createCall = _clientStreaming || _serverStreaming
-          ? '\$createStreamingCall'
-          : '\$createUnaryCall';
+          ? r'$createStreamingCall'
+          : r'$createUnaryCall';
 
-      final cast =
-          _clientStreaming && !_serverStreaming ? '.toResponseFuture()' : '';
+      final cast = _clientStreaming && !_serverStreaming ? '.single' : '';
 
       out.println(
           'return $createCall(_\$$_dartName, request, options: options)$cast;');
