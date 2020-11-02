@@ -233,14 +233,16 @@ class _GrpcMethod {
     out.addBlock(
         '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions} options}) {',
         '}', () {
-      final createCall =
-          _clientStreaming ? '\$createStreamingCall' : '\$createUnaryCall';
-      out.println(
-          'final call = $createCall(_\$$_dartName, request, options: options);');
-      if (_serverStreaming) {
-        out.println('return $_responseStream(call);');
+      final createCall = _clientStreaming || _serverStreaming
+          ? '\$createStreamingCall'
+          : '\$createUnaryCall';
+
+      if (_clientStreaming && !_serverStreaming) {
+        out.println(
+            'return $createCall(_\$$_dartName, request, options: options).toResponseFuture();');
       } else {
-        out.println('return $_responseFuture(call);');
+        out.println(
+            'return $createCall(_\$$_dartName, request, options: options);');
       }
     });
   }
