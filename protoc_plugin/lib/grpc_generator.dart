@@ -236,7 +236,7 @@ class _GrpcMethod {
             'return \$createStreamingCall(_\$$_dartName, request, options: options).single;');
       } else if (!_clientStreaming && _serverStreaming) {
         out.println(
-            'return \$createStreamingCall(_\$$_dartName, Stream.value(request), options: options);');
+            'return \$createStreamingCall(_\$$_dartName, Stream.fromIterable([request]), options: options);');
       } else {
         out.println(
             'return \$createUnaryCall(_\$$_dartName, request, options: options);');
