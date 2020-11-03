@@ -406,7 +406,7 @@ class FileGenerator extends ProtobufContainer {
     if (enumCount > 0) {
       // Make sure any other symbols in dart:core don't cause name conflicts
       // with enums that have the same name.
-      out.println("// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME");
+      out.println("// ignore_for_file: UNDEFINED_SHOWN_NAME");
       out.println(_coreImport);
       out.println(_protobufImport);
       out.println();
