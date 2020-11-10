@@ -376,7 +376,8 @@ class MessageGenerator extends ProtobufContainer {
 'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
 'Will be removed in next major version\')''');
       out.println('$classname copyWith(void Function($classname) updates) =>'
-          ' super.copyWith((message) => updates(message as $classname));'
+          ' super.copyWith((message) => updates(message as $classname))'
+          ' as $classname;'
           ' // ignore: deprecated_member_use');
 
       out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
@@ -394,7 +395,7 @@ class MessageGenerator extends ProtobufContainer {
           ' _defaultInstance ??='
           ' $_protobufImportPrefix.GeneratedMessage.\$_defaultFor<${classname}>'
           '(create);');
-      out.println('static ${classname} _defaultInstance;');
+      out.println('static ${classname}? _defaultInstance;');
 
       generateFieldsAccessorsMutators(out);
       mixin?.injectHelpers(out);
@@ -459,7 +460,7 @@ class MessageGenerator extends ProtobufContainer {
   void generateOneofAccessors(IndentingWriter out, OneofNames oneof) {
     out.println();
     out.println("${oneof.oneofEnumName} ${oneof.whichOneofMethodName}() "
-        "=> ${oneof.byTagMapName}[\$_whichOneof(${oneof.index})];");
+        "=> ${oneof.byTagMapName}[\$_whichOneof(${oneof.index})]!;");
     out.println('void ${oneof.clearMethodName}() '
         '=> clearField(\$_whichOneof(${oneof.index}));');
   }

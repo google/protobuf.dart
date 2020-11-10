@@ -31,7 +31,7 @@ abstract class PbEventMixin {
 
 /// A change to a field in a GeneratedMessage.
 class PbFieldChange {
-  final GeneratedMessage message;
+  final GeneratedMessage? message;
   final FieldInfo info;
   final oldValue;
   final newValue;
@@ -47,33 +47,33 @@ class EventBuffer extends EventPlugin {
   // An EventBuffer is created for each GeneratedMessage, so
   // initialization should be fast; create fields lazily.
 
-  GeneratedMessage _parent;
-  StreamController<List<PbFieldChange>> _controller;
+  GeneratedMessage? _parent;
+  StreamController<List<PbFieldChange>>? _controller;
 
   // If _buffer is non-null, at least one event is in the buffer
   // and a microtask has been scheduled to empty it.
-  List<PbFieldChange> _buffer;
+  List<PbFieldChange>? _buffer;
 
   @override
   void attach(GeneratedMessage newParent) {
     assert(_parent == null);
-    assert(newParent != null);
+    ArgumentError.checkNotNull(newParent, 'newParent');
     _parent = newParent;
   }
 
   Stream<List<PbFieldChange>> get changes {
-    _controller ??= StreamController.broadcast(sync: true);
-    return _controller.stream;
+    var controller = _controller ??= StreamController.broadcast(sync: true);
+    return controller.stream;
   }
 
   @override
-  bool get hasObservers => _controller != null && _controller.hasListener;
+  bool get hasObservers => _controller != null && _controller!.hasListener;
 
   void deliverChanges() {
     var records = _buffer;
     _buffer = null;
     if (records != null && hasObservers) {
-      _controller.add(UnmodifiableListView<PbFieldChange>(records));
+      _controller!.add(UnmodifiableListView<PbFieldChange>(records));
     }
   }
 
@@ -83,12 +83,12 @@ class EventBuffer extends EventPlugin {
       _buffer = <PbFieldChange>[];
       scheduleMicrotask(deliverChanges);
     }
-    _buffer.add(change);
+    _buffer!.add(change);
   }
 
   @override
   void beforeSetField(FieldInfo fi, newValue) {
-    var oldValue = _parent.getFieldOrNull(fi.tagNumber);
+    var oldValue = _parent!.getFieldOrNull(fi.tagNumber);
     oldValue ??= fi.readonlyDefault;
     if (identical(oldValue, newValue)) return;
     addEvent(PbFieldChange(_parent, fi, oldValue, newValue));
@@ -96,7 +96,7 @@ class EventBuffer extends EventPlugin {
 
   @override
   void beforeClearField(FieldInfo fi) {
-    var oldValue = _parent.getFieldOrNull(fi.tagNumber);
+    var oldValue = _parent!.getFieldOrNull(fi.tagNumber);
     if (oldValue == null) return;
     var newValue = fi.readonlyDefault;
     addEvent(PbFieldChange(_parent, fi, oldValue, newValue));

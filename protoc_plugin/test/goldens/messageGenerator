@@ -19,7 +19,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber)); // ignore: deprecated_member_use
+  PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber)) as PhoneNumber; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static PhoneNumber create() => PhoneNumber._();
@@ -27,7 +27,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static $pb.PbList<PhoneNumber> createRepeated() => $pb.PbList<PhoneNumber>();
   @$core.pragma('dart2js:noInline')
   static PhoneNumber getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(create);
-  static PhoneNumber _defaultInstance;
+  static PhoneNumber? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get number => $_getSZ(0);

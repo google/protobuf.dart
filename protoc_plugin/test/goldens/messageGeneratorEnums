@@ -12,7 +12,7 @@ class PhoneNumber_PhoneType extends $pb.ProtobufEnum {
   ];
 
   static final $core.Map<$core.int, PhoneNumber_PhoneType> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static PhoneNumber_PhoneType valueOf($core.int value) => _byValue[value];
+  static PhoneNumber_PhoneType? valueOf($core.int value) => _byValue[value];
 
   const PhoneNumber_PhoneType._($core.int v, $core.String n) : super(v, n);
 }

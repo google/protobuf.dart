@@ -9,7 +9,7 @@ part of protobuf;
 ///
 /// For enums, group, and message fields, this check is only approximate,
 /// because the exact type isn't included in [fieldType].
-String _getFieldError(int fieldType, var value) {
+String? _getFieldError(int fieldType, var value) {
   switch (PbFieldType._baseType(fieldType)) {
     case PbFieldType._BOOL_BIT:
       if (value is! bool) return 'not type bool';
@@ -112,22 +112,24 @@ CheckFunc getCheckFunction(int fieldType) {
 
 // check functions for repeated fields
 
-void _checkNotNull(Object val) {
+void _checkNotNull(Object? val) {
   if (val == null) {
     throw ArgumentError("Can't add a null to a repeated field");
   }
 }
 
-void _checkFloat(Object val) {
-  if (!_isFloat32(val)) throw _createFieldRangeError(val, 'a float');
+void _checkFloat(Object? val) {
+  if (!_isFloat32(val as double)) throw _createFieldRangeError(val, 'a float');
 }
 
-void _checkSigned32(Object val) {
-  if (!_isSigned32(val)) throw _createFieldRangeError(val, 'a signed int32');
+void _checkSigned32(Object? val) {
+  if (!_isSigned32(val as int)) {
+    throw _createFieldRangeError(val, 'a signed int32');
+  }
 }
 
-void _checkUnsigned32(Object val) {
-  if (!_isUnsigned32(val)) {
+void _checkUnsigned32(Object? val) {
+  if (!_isUnsigned32(val as int)) {
     throw _createFieldRangeError(val, 'an unsigned int32');
   }
 }

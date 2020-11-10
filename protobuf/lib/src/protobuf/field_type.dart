@@ -26,7 +26,7 @@ class PbFieldType {
   static int _baseType(int fieldType) =>
       fieldType & ~(_REQUIRED_BIT | _REPEATED_BIT | _PACKED_BIT | _MAP_BIT);
 
-  static MakeDefaultFunc _defaultForType(int type) {
+  static MakeDefaultFunc? _defaultForType(int type) {
     switch (type) {
       case _OPTIONAL_BOOL:
       case _REQUIRED_BOOL:

@@ -176,8 +176,9 @@ class ServiceGenerator {
       out.addBlock("switch (method) {", "}", () {
         for (var m in _methodDescriptors) {
           var methodName = _methodName(m.name);
-          out.println(
-              "case '${m.name}': return this.$methodName(ctx, request);");
+          var inputClass = _getDartClassName(m.inputType);
+          out.println("case '${m.name}': return this.$methodName"
+              "(ctx, request as $inputClass);");
         }
         out.println("default: "
             "throw $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
@@ -215,7 +216,8 @@ class ServiceGenerator {
   /// The map includes an entry for every message type that might need
   /// to be read or written (assuming the type name resolved).
   void generateConstants(IndentingWriter out) {
-    out.print("const $jsonConstant = ");
+    out.print("const $_coreImportPrefix.Map<$_coreImportPrefix.String,"
+        " $_coreImportPrefix.dynamic> $jsonConstant = ");
     writeJsonConst(out, _descriptor.writeToJsonMap());
     out.println(";");
     out.println();
@@ -224,7 +226,11 @@ class ServiceGenerator {
     for (var key in _transitiveDeps.keys) {
       typeConstants[key] = _transitiveDeps[key].getJsonConstant(fileGen);
     }
-    out.addBlock("const $messageJsonConstant = const {", "};", () {
+    out.addBlock(
+        "const $_coreImportPrefix.Map<$_coreImportPrefix.String,"
+            " $_coreImportPrefix.Map<$_coreImportPrefix.String,"
+            " $_coreImportPrefix.dynamic>> $messageJsonConstant = const {",
+        "};", () {
       for (var key in typeConstants.keys) {
         var typeConst = typeConstants[key];
         out.println("'$key': $typeConst,");

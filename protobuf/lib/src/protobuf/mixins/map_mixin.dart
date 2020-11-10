@@ -17,9 +17,9 @@ abstract class PbMapMixin {
 
   BuilderInfo get info_;
   void clear();
-  int getTagNumber(String fieldName);
+  int? getTagNumber(String fieldName);
   dynamic getField(int tagNumber);
-  void setField(int tagNumber, var value);
+  void setField(int tagNumber, Object value);
 
   dynamic operator [](key) {
     if (key is! String) return null;
@@ -39,7 +39,7 @@ abstract class PbMapMixin {
 
   Iterable<String> get keys => info_.byName.keys;
 
-  bool containsKey(Object key) => info_.byName.containsKey(key);
+  bool containsKey(Object? key) => info_.byName.containsKey(key);
 
   int get length => info_.byName.length;
 

@@ -10,25 +10,25 @@ void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
   // https://developers.google.com/protocol-buffers/docs/encoding?hl=en#order
 
   for (var fi in fs._infosSortedByTag) {
-    var value = fs._values[fi.index];
+    var value = fs._values[fi.index!];
     if (value == null) continue;
     out.writeField(fi.tagNumber, fi.type, value);
   }
 
   if (fs._hasExtensions) {
-    for (var tagNumber in _sorted(fs._extensions._tagNumbers)) {
-      var fi = fs._extensions._getInfoOrNull(tagNumber);
-      out.writeField(tagNumber, fi.type, fs._extensions._getFieldOrNull(fi));
+    for (var tagNumber in _sorted(fs._extensions!._tagNumbers)) {
+      var fi = fs._extensions!._getInfoOrNull(tagNumber)!;
+      out.writeField(tagNumber, fi.type, fs._extensions!._getFieldOrNull(fi));
     }
   }
   if (fs._hasUnknownFields) {
-    fs._unknownFields.writeToCodedBufferWriter(out);
+    fs._unknownFields!.writeToCodedBufferWriter(out);
   }
 }
 
 void _mergeFromCodedBufferReader(
     _FieldSet fs, CodedBufferReader input, ExtensionRegistry registry) {
-  assert(registry != null);
+  ArgumentError.checkNotNull(registry);
 
   while (true) {
     var tag = input.readTag();
@@ -182,7 +182,7 @@ void _mergeFromCodedBufferReader(
         fs._ensureRepeatedField(fi).add(subMessage);
         break;
       case PbFieldType._MAP:
-        fs._ensureMapField(fi)._mergeEntry(input, registry);
+        fs._ensureMapField(fi as MapFieldInfo)._mergeEntry(input, registry);
         break;
       default:
         throw 'Unknown field type $fieldType';

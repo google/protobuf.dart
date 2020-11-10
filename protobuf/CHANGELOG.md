@@ -1,3 +1,8 @@
+## 2.0.0-nullsafety.0
+
+* Require at least Dart SDK 2.12.0 and support null safety. Use `protoc_plugin`
+  from 19.2.0 to generate null-safe code.
+
 ## 1.1.0
 
 * Require at least Dart SDK 2.7.0 to enable usage of extension methods.
