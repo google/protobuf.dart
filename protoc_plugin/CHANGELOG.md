@@ -1,3 +1,7 @@
+## 19.2.0
+
+* Support client interceptors for gRPC. Requires grpc package 2.8.0 or newer.
+
 ## 19.1.0
 
 * Emit depreciation of generated `copyWith` and `clone` methods.
