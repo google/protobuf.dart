@@ -4,7 +4,7 @@
 
 part of protobuf;
 
-typedef CheckFunc<E> = void Function(E x);
+typedef CheckFunc<E> = void Function(E? x);
 
 class FrozenPbList<E> extends PbListBase<E> {
   FrozenPbList._(List<E> wrappedList) : super._(wrappedList);
@@ -22,7 +22,7 @@ class FrozenPbList<E> extends PbListBase<E> {
   @override
   void setAll(int at, Iterable<E> iterable) => throw _unsupported('setAll');
   @override
-  void add(E value) => throw _unsupported('add');
+  void add(E? value) => throw _unsupported('add');
   @override
   void addAll(Iterable<E> iterable) => throw _unsupported('addAll');
   @override
@@ -31,7 +31,7 @@ class FrozenPbList<E> extends PbListBase<E> {
   void insertAll(int at, Iterable<E> iterable) =>
       throw _unsupported('insertAll');
   @override
-  bool remove(Object element) => throw _unsupported('remove');
+  bool remove(Object? element) => throw _unsupported('remove');
   @override
   void removeWhere(bool Function(E element) test) =>
       throw _unsupported('removeWhere');
@@ -39,9 +39,9 @@ class FrozenPbList<E> extends PbListBase<E> {
   void retainWhere(bool Function(E element) test) =>
       throw _unsupported('retainWhere');
   @override
-  void sort([Comparator<E> compare]) => throw _unsupported('sort');
+  void sort([Comparator<E>? compare]) => throw _unsupported('sort');
   @override
-  void shuffle([math.Random random]) => throw _unsupported('shuffle');
+  void shuffle([math.Random? random]) => throw _unsupported('shuffle');
   @override
   void clear() => throw _unsupported('clear');
   @override
@@ -58,12 +58,12 @@ class FrozenPbList<E> extends PbListBase<E> {
   void replaceRange(int start, int end, Iterable<E> iterable) =>
       throw _unsupported('replaceRange');
   @override
-  void fillRange(int start, int end, [E fillValue]) =>
+  void fillRange(int start, int end, [E? fillValue]) =>
       throw _unsupported('fillRange');
 }
 
 class PbList<E> extends PbListBase<E> {
-  PbList({check = _checkNotNull}) : super._noList(check: check);
+  PbList({CheckFunc<E> check = _checkNotNull}) : super._noList(check: check);
 
   PbList.from(List from) : super._from(from);
 
@@ -99,11 +99,11 @@ class PbList<E> extends PbListBase<E> {
   /// Sorts this list according to the order specified by the [compare]
   /// function.
   @override
-  void sort([int Function(E a, E b) compare]) => _wrappedList.sort(compare);
+  void sort([int Function(E a, E b)? compare]) => _wrappedList.sort(compare);
 
   /// Shuffles the elements of this list randomly.
   @override
-  void shuffle([math.Random random]) => _wrappedList.shuffle(random);
+  void shuffle([math.Random? random]) => _wrappedList.shuffle(random);
 
   /// Removes all objects from this list; the length of the list becomes zero.
   @override
@@ -138,7 +138,7 @@ class PbList<E> extends PbListBase<E> {
 
   /// Removes the first occurrence of [value] from this list.
   @override
-  bool remove(Object value) => _wrappedList.remove(value);
+  bool remove(Object? value) => _wrappedList.remove(value);
 
   /// Removes the object at position [index] from this list.
   @override
@@ -176,7 +176,7 @@ class PbList<E> extends PbListBase<E> {
   /// Sets the objects in the range [start] inclusive to [end] exclusive to the
   /// given [fillValue].
   @override
-  void fillRange(int start, int end, [E fillValue]) {
+  void fillRange(int start, int end, [E? fillValue]) {
     check(fillValue);
     _wrappedList.fillRange(start, end, fillValue);
   }
@@ -198,7 +198,7 @@ abstract class PbListBase<E> extends ListBase<E> {
   PbListBase._(this._wrappedList, {this.check = _checkNotNull});
 
   PbListBase._noList({this.check = _checkNotNull}) : _wrappedList = <E>[] {
-    assert(check != null);
+    ArgumentError.checkNotNull(check, 'check');
   }
 
   PbListBase._from(List from)
@@ -234,7 +234,7 @@ abstract class PbListBase<E> extends ListBase<E> {
 
   /// Returns true if the collection contains an element equal to [element].
   @override
-  bool contains(Object element) => _wrappedList.contains(element);
+  bool contains(Object? element) => _wrappedList.contains(element);
 
   /// Applies the function [f] to each element of this list in iteration order.
   @override
@@ -316,12 +316,12 @@ abstract class PbListBase<E> extends ListBase<E> {
 
   /// Returns the first element that satisfies the given predicate [test].
   @override
-  E firstWhere(bool Function(E element) test, {E Function() orElse}) =>
+  E firstWhere(bool Function(E element) test, {E Function()? orElse}) =>
       _wrappedList.firstWhere(test, orElse: orElse);
 
   /// Returns the last element that satisfies the given predicate [test].
   @override
-  E lastWhere(bool Function(E element) test, {E Function() orElse}) =>
+  E lastWhere(bool Function(E element) test, {E Function()? orElse}) =>
       _wrappedList.lastWhere(test, orElse: orElse);
 
   /// Returns the single element that satisfies [test].
@@ -349,19 +349,19 @@ abstract class PbListBase<E> extends ListBase<E> {
   // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
   /// Returns the first index of [element] in this list.
   @override
-  int indexOf(Object element, [int start = 0]) =>
-      _wrappedList.indexOf(element, start);
+  int indexOf(Object? element, [int start = 0]) =>
+      _wrappedList.indexOf(element as E, start);
 
   // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
   /// Returns the last index of [element] in this list.
   @override
-  int lastIndexOf(Object element, [int start]) =>
-      _wrappedList.lastIndexOf(element, start);
+  int lastIndexOf(Object? element, [int? start]) =>
+      _wrappedList.lastIndexOf(element as E, start);
 
   /// Returns a new list containing the objects from [start] inclusive to [end]
   /// exclusive.
   @override
-  List<E> sublist(int start, [int end]) => _wrappedList.sublist(start, end);
+  List<E> sublist(int start, [int? end]) => _wrappedList.sublist(start, end);
 
   /// Returns an [Iterable] that iterates over the objects in the range [start]
   /// inclusive to [end] exclusive.

@@ -7,7 +7,7 @@ part of protobuf;
 /// Client side context.
 class ClientContext {
   /// The desired timeout of the RPC call.
-  final Duration timeout;
+  final Duration? timeout;
 
   ClientContext({this.timeout});
 }
@@ -28,7 +28,7 @@ abstract class RpcClient {
   /// appropriate. It should merge the reply into [emptyResponse] and
   /// return it.
   Future<T> invoke<T extends GeneratedMessage>(
-      ClientContext ctx,
+      ClientContext? ctx,
       String serviceName,
       String methodName,
       GeneratedMessage request,

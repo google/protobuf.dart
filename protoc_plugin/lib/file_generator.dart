@@ -479,7 +479,7 @@ class FileGenerator extends ProtobufContainer {
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError("not linked");
     var out = makeWriter();
-    _writeHeading(out);
+    _writeHeading(out, nullSafe: false);
 
     out.println(_asyncImport);
     out.println();
@@ -515,6 +515,7 @@ class FileGenerator extends ProtobufContainer {
     var out = makeWriter();
     _writeHeading(out);
 
+    out.println(_coreImport);
     // Import the .pbjson.dart files we depend on.
     var imports = _findJsonProtosToImport();
     for (var target in imports) {
@@ -553,13 +554,14 @@ class FileGenerator extends ProtobufContainer {
   }
 
   /// Writes the header at the top of the dart file.
-  void _writeHeading(IndentingWriter out) {
+  void _writeHeading(IndentingWriter out, {bool nullSafe = true}) {
+    var version = nullSafe ? '2.12' : '2.3';
     out.println('''
 ///
 //  Generated code. Do not modify.
 //  source: ${descriptor.name}
 //
-// @dart = 2.3
+// @dart = $version
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 ''');
   }

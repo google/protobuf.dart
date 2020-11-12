@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: plugin.proto
 //
-// @dart = 2.3
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -56,8 +56,8 @@ class Version extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   Version copyWith(void Function(Version) updates) =>
-      super.copyWith((message) =>
-          updates(message as Version)); // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as Version))
+          as Version; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Version create() => Version._();
@@ -66,7 +66,7 @@ class Version extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static Version getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Version>(create);
-  static Version _defaultInstance;
+  static Version? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.int get major => $_getIZ(0);
@@ -161,8 +161,8 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
-      super.copyWith((message) => updates(
-          message as CodeGeneratorRequest)); // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as CodeGeneratorRequest))
+          as CodeGeneratorRequest; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest create() => CodeGeneratorRequest._();
@@ -172,7 +172,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorRequest>(create);
-  static CodeGeneratorRequest _defaultInstance;
+  static CodeGeneratorRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<$core.String> get fileToGenerate => $_getList(0);
@@ -252,8 +252,9 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   CodeGeneratorResponse_File copyWith(
           void Function(CodeGeneratorResponse_File) updates) =>
-      super.copyWith((message) => updates(message
-          as CodeGeneratorResponse_File)); // ignore: deprecated_member_use
+      super.copyWith(
+              (message) => updates(message as CodeGeneratorResponse_File))
+          as CodeGeneratorResponse_File; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File._();
@@ -263,7 +264,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse_File>(create);
-  static CodeGeneratorResponse_File _defaultInstance;
+  static CodeGeneratorResponse_File? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -344,8 +345,8 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   CodeGeneratorResponse copyWith(
           void Function(CodeGeneratorResponse) updates) =>
-      super.copyWith((message) => updates(
-          message as CodeGeneratorResponse)); // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as CodeGeneratorResponse))
+          as CodeGeneratorResponse; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse create() => CodeGeneratorResponse._();
@@ -355,7 +356,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse>(create);
-  static CodeGeneratorResponse _defaultInstance;
+  static CodeGeneratorResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get error => $_getSZ(0);

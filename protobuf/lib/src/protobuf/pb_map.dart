@@ -5,8 +5,8 @@
 part of protobuf;
 
 class PbMap<K, V> extends MapBase<K, V> {
-  final int keyFieldType;
-  final int valueFieldType;
+  final int? keyFieldType;
+  final int? valueFieldType;
 
   static const int _keyFieldNumber = 1;
   static const int _valueFieldNumber = 2;
@@ -28,7 +28,7 @@ class PbMap<K, V> extends MapBase<K, V> {
         _isReadonly = other._isReadonly;
 
   @override
-  V operator [](Object key) => _wrappedMap[key];
+  V? operator [](Object? key) => _wrappedMap[key];
 
   @override
   void operator []=(K key, V value) {
@@ -86,7 +86,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   Iterable<K> get keys => _wrappedMap.keys;
 
   @override
-  V remove(Object key) {
+  V? remove(Object? key) {
     if (_isReadonly) {
       throw UnsupportedError('Attempted to change a read-only map field');
     }
@@ -95,16 +95,16 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   @Deprecated('This function was not intended to be public. '
       'It will be removed from the public api in next major version. ')
-  void add(CodedBufferReader input, [ExtensionRegistry registry]) {
+  void add(CodedBufferReader input, [ExtensionRegistry? registry]) {
     _mergeEntry(input, registry);
   }
 
-  void _mergeEntry(CodedBufferReader input, [ExtensionRegistry registry]) {
+  void _mergeEntry(CodedBufferReader input, [ExtensionRegistry? registry]) {
     var length = input.readInt32();
     var oldLimit = input._currentLimit;
     input._currentLimit = input._bufferPos + length;
     var entryFieldSet = _entryFieldSet();
-    _mergeFromCodedBufferReader(entryFieldSet, input, registry);
+    _mergeFromCodedBufferReader(entryFieldSet, input, registry!);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
     var key = entryFieldSet._$get<K>(0, null);
@@ -112,7 +112,7 @@ class PbMap<K, V> extends MapBase<K, V> {
     _wrappedMap[key] = value;
   }
 
-  void _checkNotNull(Object val) {
+  void _checkNotNull(Object? val) {
     if (val == null) {
       throw ArgumentError("Can't add a null to a map field");
     }
@@ -120,7 +120,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   PbMap freeze() {
     _isReadonly = true;
-    if (_isGroupOrMessage(valueFieldType)) {
+    if (_isGroupOrMessage(valueFieldType!)) {
       for (var subMessage in values as Iterable<GeneratedMessage>) {
         subMessage.freeze();
       }

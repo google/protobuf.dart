@@ -23,11 +23,11 @@ void main() {
       };
 
   RoundtripTester<T> roundtripTester<T>(
-      {T Function(CodedBufferReader bytes) fromBytes,
-      List<int> Function(T value) toBytes}) {
+      {T Function(CodedBufferReader bytes)? fromBytes,
+      List<int> Function(T value)? toBytes}) {
     return (T value, List<int> bytes) {
-      expect(fromBytes(CodedBufferReader(bytes)), equals(value));
-      expect(toBytes(value), bytes);
+      expect(fromBytes!(CodedBufferReader(bytes)), equals(value));
+      expect(toBytes!(value), bytes);
     };
   }
 
@@ -130,8 +130,8 @@ void main() {
 
   // Compare two doubles, where NaNs and same-sign inifinities compare equal.
   // For normal values, use equals.
-  Matcher doubleEquals(expected) => expected.isNaN
-      ? predicate((x) => x.isNaN, 'NaN expected')
+  Matcher doubleEquals(double expected) => expected.isNaN
+      ? predicate<double>((x) => x.isNaN, 'NaN expected')
       : equals(expected);
 
   List<int> dataToBytes(ByteData byteData) => Uint8List.view(byteData.buffer);

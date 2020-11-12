@@ -26,7 +26,7 @@ class TypeRegistry {
 
   const TypeRegistry.empty() : _mapping = const {};
 
-  BuilderInfo lookup(String qualifiedName) {
+  BuilderInfo? lookup(String qualifiedName) {
     return _mapping[qualifiedName];
   }
 }

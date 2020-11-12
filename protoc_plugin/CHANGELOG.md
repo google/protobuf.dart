@@ -1,3 +1,7 @@
+## 19.2.0
+
+* Generate null-safe code.
+
 ## 19.1.0
 
 * Emit depreciation of generated `copyWith` and `clone` methods.
