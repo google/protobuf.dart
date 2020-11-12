@@ -111,9 +111,12 @@ class GrpcServiceGenerator {
         method.generateClientMethodDescriptor(out);
       }
       out.println();
+      out.println('$_clientClassname($_clientChannel channel,');
+      out.println('    {$_callOptions options,');
       out.println(
-          '$_clientClassname($_clientChannel channel, {$_callOptions options})');
-      out.println('    : super(channel, options: options);');
+          '    $_coreImportPrefix.Iterable<$_interceptor> interceptors})');
+      out.println('    : super(channel, options: options,');
+      out.println('      interceptors: interceptors);');
       for (final method in _methods) {
         method.generateClientStub(out);
       }
@@ -142,6 +145,7 @@ class GrpcServiceGenerator {
   }
 
   static final String _callOptions = '$_grpcImportPrefix.CallOptions';
+  static final String _interceptor = '$_grpcImportPrefix.ClientInterceptor';
   static final String _client = '$_grpcImportPrefix.Client';
   static final String _clientChannel = '$_grpcImportPrefix.ClientChannel';
   static final String _service = '$_grpcImportPrefix.Service';
@@ -224,14 +228,18 @@ class _GrpcMethod {
     out.addBlock(
         '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions} options}) {',
         '}', () {
-      final requestStream =
-          _clientStreaming ? 'request' : '$_stream.fromIterable([request])';
-      out.println(
-          'final call = \$createCall(_\$$_dartName, $requestStream, options: options);');
-      if (_serverStreaming) {
-        out.println('return $_responseStream(call);');
+      if (_clientStreaming && _serverStreaming) {
+        out.println(
+            'return \$createStreamingCall(_\$$_dartName, request, options: options);');
+      } else if (_clientStreaming && !_serverStreaming) {
+        out.println(
+            'return \$createStreamingCall(_\$$_dartName, request, options: options).single;');
+      } else if (!_clientStreaming && _serverStreaming) {
+        out.println(
+            'return \$createStreamingCall(_\$$_dartName, Stream.fromIterable([request]), options: options);');
       } else {
-        out.println('return $_responseFuture(call);');
+        out.println(
+            'return \$createUnaryCall(_\$$_dartName, request, options: options);');
       }
     });
   }

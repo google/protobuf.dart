@@ -31,35 +31,33 @@ class TestClient extends $grpc.Client {
       ($0.Input value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Output.fromBuffer(value));
 
-  TestClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
-      : super(channel, options: options);
+  TestClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions options,
+      $core.Iterable<$grpc.ClientInterceptor> interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
   $grpc.ResponseFuture<$0.Output> unary($0.Input request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$unary, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$unary, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.Output> clientStreaming(
       $async.Stream<$0.Input> request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$clientStreaming, request, options: options);
-    return $grpc.ResponseFuture(call);
+    return $createStreamingCall(_$clientStreaming, request, options: options)
+        .single;
   }
 
   $grpc.ResponseStream<$0.Output> serverStreaming($0.Input request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$serverStreaming, $async.Stream.fromIterable([request]),
+    return $createStreamingCall(
+        _$serverStreaming, Stream.fromIterable([request]),
         options: options);
-    return $grpc.ResponseStream(call);
   }
 
   $grpc.ResponseStream<$0.Output> bidirectional($async.Stream<$0.Input> request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$bidirectional, request, options: options);
-    return $grpc.ResponseStream(call);
+    return $createStreamingCall(_$bidirectional, request, options: options);
   }
 }
 
