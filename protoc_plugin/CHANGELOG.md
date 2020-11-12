@@ -1,6 +1,14 @@
-## 19.2.0
+## 19.3.0
 
 * Generate null-safe code.
+
+## 19.2.0+1
+
+* Fix syntax error introduced by gRPC client interceptor changes.
+
+## 19.2.0
+
+* Support client interceptors for gRPC. Requires grpc package 2.8.0 or newer.
 
 ## 19.1.0
 
