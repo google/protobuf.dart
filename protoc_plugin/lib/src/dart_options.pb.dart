@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: dart_options.proto
 //
-// @dart = 2.12
+// @dart = 2.3
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -52,8 +52,8 @@ class DartMixin extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   DartMixin copyWith(void Function(DartMixin) updates) =>
-      super.copyWith((message) => updates(message as DartMixin))
-          as DartMixin; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as DartMixin)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DartMixin create() => DartMixin._();
@@ -62,7 +62,7 @@ class DartMixin extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static DartMixin getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DartMixin>(create);
-  static DartMixin? _defaultInstance;
+  static DartMixin _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -136,8 +136,8 @@ class Imports extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   Imports copyWith(void Function(Imports) updates) =>
-      super.copyWith((message) => updates(message as Imports))
-          as Imports; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as Imports)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Imports create() => Imports._();
@@ -146,7 +146,7 @@ class Imports extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static Imports getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Imports>(create);
-  static Imports? _defaultInstance;
+  static Imports _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<DartMixin> get mixins => $_getList(0);

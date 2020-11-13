@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: descriptor.proto
 //
-// @dart = 2.12
+// @dart = 2.3
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 // ignore_for_file: UNDEFINED_SHOWN_NAME
@@ -143,7 +143,7 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FieldDescriptorProto_Type> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldDescriptorProto_Type? valueOf($core.int value) => _byValue[value];
+  static FieldDescriptorProto_Type valueOf($core.int value) => _byValue[value];
 
   const FieldDescriptorProto_Type._($core.int v, $core.String n) : super(v, n);
 }
@@ -177,8 +177,7 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FieldDescriptorProto_Label> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldDescriptorProto_Label? valueOf($core.int value) =>
-      _byValue[value];
+  static FieldDescriptorProto_Label valueOf($core.int value) => _byValue[value];
 
   const FieldDescriptorProto_Label._($core.int v, $core.String n) : super(v, n);
 }
@@ -210,7 +209,7 @@ class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FileOptions_OptimizeMode> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FileOptions_OptimizeMode? valueOf($core.int value) => _byValue[value];
+  static FileOptions_OptimizeMode valueOf($core.int value) => _byValue[value];
 
   const FileOptions_OptimizeMode._($core.int v, $core.String n) : super(v, n);
 }
@@ -240,7 +239,7 @@ class FieldOptions_CType extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FieldOptions_CType> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldOptions_CType? valueOf($core.int value) => _byValue[value];
+  static FieldOptions_CType valueOf($core.int value) => _byValue[value];
 
   const FieldOptions_CType._($core.int v, $core.String n) : super(v, n);
 }
@@ -270,7 +269,7 @@ class FieldOptions_JSType extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FieldOptions_JSType> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldOptions_JSType? valueOf($core.int value) => _byValue[value];
+  static FieldOptions_JSType valueOf($core.int value) => _byValue[value];
 
   const FieldOptions_JSType._($core.int v, $core.String n) : super(v, n);
 }
@@ -304,7 +303,7 @@ class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, MethodOptions_IdempotencyLevel> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static MethodOptions_IdempotencyLevel? valueOf($core.int value) =>
+  static MethodOptions_IdempotencyLevel valueOf($core.int value) =>
       _byValue[value];
 
   const MethodOptions_IdempotencyLevel._($core.int v, $core.String n)
