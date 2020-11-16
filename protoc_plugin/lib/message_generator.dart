@@ -357,7 +357,38 @@ class MessageGenerator extends ProtobufContainer {
       out.printlnAnnotated('${classname}._() : super();', [
         NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
       ]);
-      out.println('factory ${classname}() => create();');
+      out.print('factory $classname(');
+      if (_fieldList.isNotEmpty) {
+        out.println('{');
+        for (final field in _fieldList) {
+          if (field.isRepeated) {
+            out.println(
+                '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames.fieldName},');
+          } else {
+            out.println(
+                '  ${field.getDartType(fileGen)}${field.isRequired ? "" : "?"} ${field.memberNames.fieldName},');
+          }
+        }
+        out.print('}');
+      }
+      if (_fieldList.isNotEmpty) {
+        out.println(') {');
+        out.println('  final _result = create();');
+        for (final field in _fieldList) {
+          out.println('  if (${field.memberNames.fieldName} != null)');
+          if (field.isRepeated || field.isMapField) {
+            out.println(
+                '    _result.${field.memberNames.fieldName}.addAll(${field.memberNames.fieldName});');
+          } else {
+            out.println(
+                '    _result.${field.memberNames.fieldName} = ${field.memberNames.fieldName};');
+          }
+        }
+        out.println('  return _result;');
+        out.println('}');
+      } else {
+        out.println(') => create();');
+      }
       out.println(
           'factory ${classname}.fromBuffer($_coreImportPrefix.List<$_coreImportPrefix.int> i,'
           ' [$_protobufImportPrefix.ExtensionRegistry r = $_protobufImportPrefix.ExtensionRegistry.EMPTY])'
