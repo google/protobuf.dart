@@ -237,7 +237,9 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
             ? ''
             : 'end',
         $pb.PbFieldType.O3)
-    ..hasRequiredFields = false;
+    ..aOM<ExtensionRangeOptions>(
+        3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options',
+        subBuilder: ExtensionRangeOptions.create);
 
   DescriptorProto_ExtensionRange._() : super();
   factory DescriptorProto_ExtensionRange() => create();
@@ -294,6 +296,20 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   $core.bool hasEnd() => $_has(1);
   @$pb.TagNumber(2)
   void clearEnd() => clearField(2);
+
+  @$pb.TagNumber(3)
+  ExtensionRangeOptions get options => $_getN(2);
+  @$pb.TagNumber(3)
+  set options(ExtensionRangeOptions v) {
+    setField(3, v);
+  }
+
+  @$pb.TagNumber(3)
+  $core.bool hasOptions() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearOptions() => clearField(3);
+  @$pb.TagNumber(3)
+  ExtensionRangeOptions ensureOptions() => $_ensure(2);
 }
 
 class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
@@ -485,6 +501,60 @@ class DescriptorProto extends $pb.GeneratedMessage {
   $core.List<$core.String> get reservedName => $_getList(9);
 }
 
+class ExtensionRangeOptions extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'ExtensionRangeOptions',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
+      createEmptyInstance: create)
+    ..pc<UninterpretedOption>(
+        999,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'uninterpretedOption',
+        $pb.PbFieldType.PM,
+        subBuilder: UninterpretedOption.create)
+    ..hasExtensions = true;
+
+  ExtensionRangeOptions._() : super();
+  factory ExtensionRangeOptions() => create();
+  factory ExtensionRangeOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory ExtensionRangeOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  ExtensionRangeOptions clone() =>
+      ExtensionRangeOptions()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  ExtensionRangeOptions copyWith(
+          void Function(ExtensionRangeOptions) updates) =>
+      super.copyWith((message) => updates(
+          message as ExtensionRangeOptions)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ExtensionRangeOptions create() => ExtensionRangeOptions._();
+  ExtensionRangeOptions createEmptyInstance() => create();
+  static $pb.PbList<ExtensionRangeOptions> createRepeated() =>
+      $pb.PbList<ExtensionRangeOptions>();
+  @$core.pragma('dart2js:noInline')
+  static ExtensionRangeOptions getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ExtensionRangeOptions>(create);
+  static ExtensionRangeOptions _defaultInstance;
+
+  @$pb.TagNumber(999)
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(0);
+}
+
 class FieldDescriptorProto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'FieldDescriptorProto',
       package: const $pb.PackageName(
@@ -522,7 +592,8 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'defaultValue')
     ..aOM<FieldOptions>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options', subBuilder: FieldOptions.create)
     ..a<$core.int>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'oneofIndex', $pb.PbFieldType.O3)
-    ..aOS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'jsonName');
+    ..aOS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'jsonName')
+    ..aOB(17, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'proto3Optional');
 
   FieldDescriptorProto._() : super();
   factory FieldDescriptorProto() => create();
@@ -675,6 +746,18 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   $core.bool hasJsonName() => $_has(9);
   @$pb.TagNumber(10)
   void clearJsonName() => clearField(10);
+
+  @$pb.TagNumber(17)
+  $core.bool get proto3Optional => $_getBF(10);
+  @$pb.TagNumber(17)
+  set proto3Optional($core.bool v) {
+    $_setBool(10, v);
+  }
+
+  @$pb.TagNumber(17)
+  $core.bool hasProto3Optional() => $_has(10);
+  @$pb.TagNumber(17)
+  void clearProto3Optional() => clearField(17);
 }
 
 class OneofDescriptorProto extends $pb.GeneratedMessage {
@@ -756,11 +839,91 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   OneofOptions ensureOptions() => $_ensure(1);
 }
 
-class EnumDescriptorProto extends $pb.GeneratedMessage {
+class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       const $core.bool.fromEnvironment('protobuf.omit_message_names')
           ? ''
-          : 'EnumDescriptorProto',
+          : 'EnumDescriptorProto.EnumReservedRange',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'google.protobuf'),
+      createEmptyInstance: create)
+    ..a<$core.int>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'start',
+        $pb.PbFieldType.O3)
+    ..a<$core.int>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'end',
+        $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  EnumDescriptorProto_EnumReservedRange._() : super();
+  factory EnumDescriptorProto_EnumReservedRange() => create();
+  factory EnumDescriptorProto_EnumReservedRange.fromBuffer(
+          $core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory EnumDescriptorProto_EnumReservedRange.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  EnumDescriptorProto_EnumReservedRange clone() =>
+      EnumDescriptorProto_EnumReservedRange()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
+  EnumDescriptorProto_EnumReservedRange copyWith(
+          void Function(EnumDescriptorProto_EnumReservedRange) updates) =>
+      super.copyWith((message) => updates(message
+          as EnumDescriptorProto_EnumReservedRange)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static EnumDescriptorProto_EnumReservedRange create() =>
+      EnumDescriptorProto_EnumReservedRange._();
+  EnumDescriptorProto_EnumReservedRange createEmptyInstance() => create();
+  static $pb.PbList<EnumDescriptorProto_EnumReservedRange> createRepeated() =>
+      $pb.PbList<EnumDescriptorProto_EnumReservedRange>();
+  @$core.pragma('dart2js:noInline')
+  static EnumDescriptorProto_EnumReservedRange getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<
+          EnumDescriptorProto_EnumReservedRange>(create);
+  static EnumDescriptorProto_EnumReservedRange _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get start => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set start($core.int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasStart() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearStart() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get end => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set end($core.int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasEnd() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearEnd() => clearField(2);
+}
+
+class EnumDescriptorProto extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'EnumDescriptorProto',
       package: const $pb.PackageName(
           const $core.bool.fromEnvironment('protobuf.omit_message_names')
               ? ''
@@ -774,9 +937,15 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
     ..pc<EnumValueDescriptorProto>(
         2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'value', $pb.PbFieldType.PM,
         subBuilder: EnumValueDescriptorProto.create)
-    ..aOM<EnumOptions>(3,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options',
-        subBuilder: EnumOptions.create);
+    ..aOM<EnumOptions>(
+        3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'options',
+        subBuilder: EnumOptions.create)
+    ..pc<EnumDescriptorProto_EnumReservedRange>(
+        4,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'reservedRange',
+        $pb.PbFieldType.PM,
+        subBuilder: EnumDescriptorProto_EnumReservedRange.create)
+    ..pPS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'reservedName');
 
   EnumDescriptorProto._() : super();
   factory EnumDescriptorProto() => create();
@@ -835,6 +1004,13 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   void clearOptions() => clearField(3);
   @$pb.TagNumber(3)
   EnumOptions ensureOptions() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  $core.List<EnumDescriptorProto_EnumReservedRange> get reservedRange =>
+      $_getList(3);
+
+  @$pb.TagNumber(5)
+  $core.List<$core.String> get reservedName => $_getList(4);
 }
 
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
@@ -1189,12 +1365,15 @@ class FileOptions extends $pb.GeneratedMessage {
     ..aOB(20, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'javaGenerateEqualsAndHash')
     ..aOB(23, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deprecated')
     ..aOB(27, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'javaStringCheckUtf8')
-    ..aOB(31, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'ccEnableArenas')
+    ..a<$core.bool>(31, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'ccEnableArenas', $pb.PbFieldType.OB, defaultOrMaker: true)
     ..aOS(36, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'objcClassPrefix')
     ..aOS(37, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'csharpNamespace')
     ..aOS(39, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'swiftPrefix')
     ..aOS(40, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phpClassPrefix')
     ..aOS(41, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phpNamespace')
+    ..aOB(42, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phpGenericServices')
+    ..aOS(44, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phpMetadataNamespace')
+    ..aOS(45, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'rubyPackage')
     ..pc<UninterpretedOption>(999, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uninterpretedOption', $pb.PbFieldType.PM, subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -1363,7 +1542,7 @@ class FileOptions extends $pb.GeneratedMessage {
   void clearJavaStringCheckUtf8() => clearField(27);
 
   @$pb.TagNumber(31)
-  $core.bool get ccEnableArenas => $_getBF(11);
+  $core.bool get ccEnableArenas => $_getB(11, true);
   @$pb.TagNumber(31)
   set ccEnableArenas($core.bool v) {
     $_setBool(11, v);
@@ -1434,8 +1613,44 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(41)
   void clearPhpNamespace() => clearField(41);
 
+  @$pb.TagNumber(42)
+  $core.bool get phpGenericServices => $_getBF(17);
+  @$pb.TagNumber(42)
+  set phpGenericServices($core.bool v) {
+    $_setBool(17, v);
+  }
+
+  @$pb.TagNumber(42)
+  $core.bool hasPhpGenericServices() => $_has(17);
+  @$pb.TagNumber(42)
+  void clearPhpGenericServices() => clearField(42);
+
+  @$pb.TagNumber(44)
+  $core.String get phpMetadataNamespace => $_getSZ(18);
+  @$pb.TagNumber(44)
+  set phpMetadataNamespace($core.String v) {
+    $_setString(18, v);
+  }
+
+  @$pb.TagNumber(44)
+  $core.bool hasPhpMetadataNamespace() => $_has(18);
+  @$pb.TagNumber(44)
+  void clearPhpMetadataNamespace() => clearField(44);
+
+  @$pb.TagNumber(45)
+  $core.String get rubyPackage => $_getSZ(19);
+  @$pb.TagNumber(45)
+  set rubyPackage($core.String v) {
+    $_setString(19, v);
+  }
+
+  @$pb.TagNumber(45)
+  $core.bool hasRubyPackage() => $_has(19);
+  @$pb.TagNumber(45)
+  void clearRubyPackage() => clearField(45);
+
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(17);
+  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(20);
 }
 
 class MessageOptions extends $pb.GeneratedMessage {
