@@ -7,9 +7,12 @@
 
 import 'dart:core' as $core;
 
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'descriptor.pb.dart' as $0;
+
+export 'plugin.pbenum.dart';
 
 class Version extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
@@ -232,6 +235,9 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'content')
+    ..aOM<$0.GeneratedCodeInfo>(
+        16, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'generatedCodeInfo',
+        subBuilder: $0.GeneratedCodeInfo.create)
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse_File._() : super();
@@ -300,6 +306,20 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   $core.bool hasContent() => $_has(2);
   @$pb.TagNumber(15)
   void clearContent() => clearField(15);
+
+  @$pb.TagNumber(16)
+  $0.GeneratedCodeInfo get generatedCodeInfo => $_getN(3);
+  @$pb.TagNumber(16)
+  set generatedCodeInfo($0.GeneratedCodeInfo v) {
+    setField(16, v);
+  }
+
+  @$pb.TagNumber(16)
+  $core.bool hasGeneratedCodeInfo() => $_has(3);
+  @$pb.TagNumber(16)
+  void clearGeneratedCodeInfo() => clearField(16);
+  @$pb.TagNumber(16)
+  $0.GeneratedCodeInfo ensureGeneratedCodeInfo() => $_ensure(3);
 }
 
 class CodeGeneratorResponse extends $pb.GeneratedMessage {
@@ -317,11 +337,11 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'error')
+    ..a<$fixnum.Int64>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'supportedFeatures', $pb.PbFieldType.OU6,
+        defaultOrMaker: $fixnum.Int64.ZERO)
     ..pc<CodeGeneratorResponse_File>(
         15,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'file',
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'file',
         $pb.PbFieldType.PM,
         subBuilder: CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
@@ -369,6 +389,18 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearError() => clearField(1);
 
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get supportedFeatures => $_getI64(1);
+  @$pb.TagNumber(2)
+  set supportedFeatures($fixnum.Int64 v) {
+    $_setInt64(1, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasSupportedFeatures() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSupportedFeatures() => clearField(2);
+
   @$pb.TagNumber(15)
-  $core.List<CodeGeneratorResponse_File> get file => $_getList(1);
+  $core.List<CodeGeneratorResponse_File> get file => $_getList(2);
 }

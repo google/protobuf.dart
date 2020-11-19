@@ -1,6 +1,14 @@
+## 20.0.0-nullsafety.1
+
+* Support optional proto3 fields
+
 ## 20.0.0-nullsafety.0
 
 * Generate null-safe code.
+
+## 19.2.1
+
+* Support optional proto3 fields.
 
 ## 19.2.0+1
 
