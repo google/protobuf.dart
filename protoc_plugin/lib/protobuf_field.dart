@@ -92,6 +92,24 @@ class ProtobufField {
     return generator._descriptor.options.hasMapEntry();
   }
 
+  // `true` if this field should have a `hazzer` generated.
+  bool get hasPresence {
+    if (isRepeated) return false;
+    return true;
+    // TODO(sigurdm): to provide the correct semantics for non-optional proto3
+    // fields would need something like the following:
+    // return baseType.isMessage ||
+    //   descriptor.proto3Optional ||
+    //   parent.fileGen.descriptor.syntax == "proto2";
+    //
+    // This change would break any accidental uses of the proto3 hazzers, and
+    // would require some clean-up.
+    //
+    // We could consider keeping hazzers for proto3-oneof fields. There they
+    // seem useful and not breaking proto3 semantics, and dart protobuf uses it
+    // for example in package:protobuf/src/protobuf/mixins/well_known.dart.
+  }
+
   /// Returns the expression to use for the Dart type.
   ///
   /// This will be a List for repeated types.
