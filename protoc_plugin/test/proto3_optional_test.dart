@@ -5,13 +5,13 @@
 
 import 'dart:core' hide Duration;
 
-//import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
+
 import '../out/protos/proto3_optional.pb.dart';
 
-void main()  {
+void main() {
   test('optional fields have presence', () {
-    Foo f = Foo();
+    var f = Foo();
     expect(f.hasOptionalSubmessage(), isFalse);
     f.optionalSubmessage = Submessage();
     expect(f.hasOptionalSubmessage(), isTrue);
