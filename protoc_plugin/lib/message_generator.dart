@@ -361,7 +361,7 @@ class MessageGenerator extends ProtobufContainer {
       if (_fieldList.isNotEmpty) {
         out.println('{');
         for (final field in _fieldList) {
-          if (field.isRepeated) {
+          if (field.isRepeated && !field.isMapField) {
             out.println(
                 '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames.fieldName},');
           } else {
