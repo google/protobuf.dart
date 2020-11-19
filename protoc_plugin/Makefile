@@ -52,6 +52,7 @@ TEST_PROTO_LIST = \
 	package1 \
 	package2 \
 	package3 \
+	proto3_optional \
 	service \
 	service2 \
 	service3 \
@@ -73,6 +74,7 @@ PREGENERATED_SRCS=protos/descriptor.proto protos/plugin.proto protos/dart_option
 $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 	[ -d $(TEST_PROTO_DIR) ] || mkdir -p $(TEST_PROTO_DIR)
 	protoc\
+		--experimental_allow_proto3_optional\
 		--dart_out=$(TEST_PROTO_DIR)\
 		-Iprotos\
 		-I$(TEST_PROTO_SRC_DIR)\
@@ -86,7 +88,7 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 	protoc --dart_out=lib/src -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
 	rm lib/src/descriptor.pb{json,server}.dart
 	rm lib/src/dart_options.pb{enum,json,server}.dart
-	rm lib/src/plugin.pb{enum,json,server}.dart
+	rm lib/src/plugin.pb{json,server}.dart
 	dartfmt -w lib/src
 
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)

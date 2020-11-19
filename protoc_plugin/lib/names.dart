@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:math' as math;
+
 import 'package:protobuf/meta.dart';
 import 'package:protoc_plugin/src/dart_options.pb.dart';
 import 'package:protoc_plugin/src/descriptor.pb.dart';
@@ -311,7 +313,8 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     return [_defaultWhichMethodName(name), _defaultClearMethodName(name)];
   }
 
-  for (var i = 0; i < descriptor.oneofDecl.length; i++) {
+  final realOneofCount = countRealOneofs(descriptor);
+  for (var i = 0; i < realOneofCount; i++) {
     var oneof = descriptor.oneofDecl[i];
 
     var oneofName = disambiguateName(
@@ -567,3 +570,16 @@ const _protobufEnumNames = <String>[
 
 // List of names used in Dart enums, which can't be used as enum member names.
 const _oneofEnumMemberNames = <String>['default', 'index', 'values'];
+
+// Count the number of 'real' oneofs - that is oneofs not created for an
+// optional proto3 field.
+int countRealOneofs(DescriptorProto descriptor) {
+  var highestIndexSeen = -1;
+  for (final field in descriptor.field) {
+    if (field.hasOneofIndex() && !field.proto3Optional) {
+      highestIndexSeen = math.max(highestIndexSeen, field.oneofIndex);
+    }
+  }
+  // The number of entries is one higher than the highest seen index.
+  return highestIndexSeen + 1;
+}

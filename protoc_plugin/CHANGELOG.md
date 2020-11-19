@@ -1,3 +1,7 @@
+## 19.2.1
+
+* Support optional proto3 fields.
+
 ## 19.2.0+1
 
 * Fix syntax error introduced by gRPC client interceptor changes.

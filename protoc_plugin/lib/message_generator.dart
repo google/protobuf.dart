@@ -56,8 +56,10 @@ class MessageGenerator extends ProtobufContainer {
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
   final List<MessageGenerator> _messageGenerators = <MessageGenerator>[];
   final List<ExtensionGenerator> _extensionGenerators = <ExtensionGenerator>[];
-  // Stores the list of fields belonging to each oneof declaration identified
-  // by the index in the containing types's oneof_decl list.
+
+  /// Stores the list of fields belonging to each oneof declaration identified
+  /// by the index in the containing types's oneof_decl list.
+  /// Only contains the 'real' oneofs.
   final List<List<ProtobufField>> _oneofFields;
   List<OneofNames> _oneofNames;
 
@@ -92,7 +94,7 @@ class MessageGenerator extends ProtobufContainer {
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
         _oneofFields =
-            List.generate(descriptor.oneofDecl.length, (int index) => []) {
+            List.generate(countRealOneofs(descriptor), (int index) => []) {
     mixin = _getMixin(declaredMixins, defaultMixin);
     for (var i = 0; i < _descriptor.enumType.length; i++) {
       var e = _descriptor.enumType[i];
@@ -195,7 +197,8 @@ class MessageGenerator extends ProtobufContainer {
     _fieldList = <ProtobufField>[];
     for (var names in members.fieldNames) {
       var field = ProtobufField.message(names, this, ctx);
-      if (field.descriptor.hasOneofIndex()) {
+      if (field.descriptor.hasOneofIndex() &&
+          !field.descriptor.proto3Optional) {
         _oneofFields[field.descriptor.oneofIndex].add(field);
       }
       _fieldList.add(field);
@@ -526,18 +529,20 @@ class MessageGenerator extends ProtobufContainer {
                   start: 'set '.length)
             ]);
       }
-      _emitDeprecatedIf(field.isDeprecated, out);
-      _emitOverrideIf(field.overridesHasMethod, out);
-      _emitIndexAnnotation(field.number, out);
-      out.printlnAnnotated(
-          '$_coreImportPrefix.bool ${names.hasMethodName}() =>'
-          ' \$_has(${field.index});',
-          [
-            NamedLocation(
-                name: names.hasMethodName,
-                fieldPathSegment: memberFieldPath,
-                start: '$_coreImportPrefix.bool '.length)
-          ]);
+      if (field.hasPresence) {
+        _emitDeprecatedIf(field.isDeprecated, out);
+        _emitOverrideIf(field.overridesHasMethod, out);
+        _emitIndexAnnotation(field.number, out);
+        out.printlnAnnotated(
+            '$_coreImportPrefix.bool ${names.hasMethodName}() =>'
+            ' \$_has(${field.index});',
+            [
+              NamedLocation(
+                  name: names.hasMethodName,
+                  fieldPathSegment: memberFieldPath,
+                  start: '$_coreImportPrefix.bool '.length)
+            ]);
+      }
       _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesClearMethod, out);
       _emitIndexAnnotation(field.number, out);
