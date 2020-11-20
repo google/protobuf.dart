@@ -375,7 +375,7 @@ class MessageGenerator extends ProtobufContainer {
         out.println(') {');
         out.println('  final _result = create();');
         for (final field in _fieldList) {
-          out.println('  if (${field.memberNames.fieldName} != null)');
+          out.println('  if (${field.memberNames.fieldName} != null) {');
           if (field.isRepeated || field.isMapField) {
             out.println(
                 '    _result.${field.memberNames.fieldName}.addAll(${field.memberNames.fieldName});');
@@ -383,6 +383,7 @@ class MessageGenerator extends ProtobufContainer {
             out.println(
                 '    _result.${field.memberNames.fieldName} = ${field.memberNames.fieldName};');
           }
+          out.println('  }');
         }
         out.println('  return _result;');
         out.println('}');
