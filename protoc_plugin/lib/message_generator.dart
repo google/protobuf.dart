@@ -361,6 +361,7 @@ class MessageGenerator extends ProtobufContainer {
       if (_fieldList.isNotEmpty) {
         out.println('{');
         for (final field in _fieldList) {
+          _emitDeprecatedIf(field.isDeprecated, out);
           if (field.isRepeated && !field.isMapField) {
             out.println(
                 '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames.fieldName},');
@@ -376,6 +377,10 @@ class MessageGenerator extends ProtobufContainer {
         out.println('  final _result = create();');
         for (final field in _fieldList) {
           out.println('  if (${field.memberNames.fieldName} != null) {');
+          if (field.isDeprecated) {
+            out.println(
+                '    // ignore: deprecated_member_use_from_same_package');
+          }
           if (field.isRepeated || field.isMapField) {
             out.println(
                 '    _result.${field.memberNames.fieldName}.addAll(${field.memberNames.fieldName});');

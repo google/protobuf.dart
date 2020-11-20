@@ -11,6 +11,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
     $core.String? number,
     PhoneNumber_PhoneType? type,
     $core.String? name,
+  @$core.Deprecated('This field is deprecated.')
     $core.String? deprecatedField,
   }) {
     final _result = create();
@@ -24,6 +25,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
       _result.name = name;
     }
     if (deprecatedField != null) {
+      // ignore: deprecated_member_use_from_same_package
       _result.deprecatedField = deprecatedField;
     }
     return _result;
