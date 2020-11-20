@@ -366,7 +366,7 @@ class MessageGenerator extends ProtobufContainer {
                 '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames.fieldName},');
           } else {
             out.println(
-                '  ${field.isRequired ? "required " : ""}${field.getDartType(fileGen)}${field.isRequired ? "" : "?"} ${field.memberNames.fieldName},');
+                '  ${field.getDartType(fileGen)}? ${field.memberNames.fieldName},');
           }
         }
         out.print('}');
