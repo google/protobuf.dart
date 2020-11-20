@@ -18,8 +18,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 2390
-  end: 2396
+  begin: 2686
+  end: 2692
 }
 annotation: {
   path: 4
@@ -27,59 +27,14 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 2438
-  end: 2444
+  begin: 2734
+  end: 2740
 }
 annotation: {
   path: 4
   path: 0
   path: 2
   path: 0
-  sourceFile: test
-  begin: 2517
-  end: 2526
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 0
-  sourceFile: test
-  begin: 2569
-  end: 2580
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 1
-  sourceFile: test
-  begin: 2638
-  end: 2642
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 1
-  sourceFile: test
-  begin: 2684
-  end: 2688
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 1
-  sourceFile: test
-  begin: 2763
-  end: 2770
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 1
   sourceFile: test
   begin: 2813
   end: 2822
@@ -88,16 +43,16 @@ annotation: {
   path: 4
   path: 0
   path: 2
-  path: 2
+  path: 0
   sourceFile: test
-  begin: 2883
-  end: 2887
+  begin: 2865
+  end: 2876
 }
 annotation: {
   path: 4
   path: 0
   path: 2
-  path: 2
+  path: 1
   sourceFile: test
   begin: 2934
   end: 2938
@@ -106,10 +61,28 @@ annotation: {
   path: 4
   path: 0
   path: 2
-  path: 2
+  path: 1
   sourceFile: test
-  begin: 3011
-  end: 3018
+  begin: 2980
+  end: 2984
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 1
+  sourceFile: test
+  begin: 3059
+  end: 3066
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 1
+  sourceFile: test
+  begin: 3109
+  end: 3118
 }
 annotation: {
   path: 4
@@ -117,6 +90,33 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 3061
-  end: 3070
+  begin: 3179
+  end: 3183
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 2
+  sourceFile: test
+  begin: 3230
+  end: 3234
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 2
+  sourceFile: test
+  begin: 3307
+  end: 3314
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 2
+  sourceFile: test
+  begin: 3357
+  end: 3366
 }
