@@ -21,7 +21,9 @@ import '../out/protos/google/protobuf/unittest_well_known_types.pb.dart';
 import '../out/protos/google/protobuf/wrappers.pb.dart';
 import '../out/protos/enum_name.pb.dart';
 import '../out/protos/map_field.pb.dart';
+import '../out/protos/oneof.pb.dart';
 import 'test_util.dart';
+import 'oneof_test.dart';
 
 final testAllTypesJson = {
   'optionalInt32': 101,
@@ -1206,5 +1208,11 @@ void main() {
       expect(FieldMask()..mergeFromProto3Json(''), FieldMask());
       expect(() => FieldMask()..mergeFromProto3Json(12), parseFailure([]));
     });
+  });
+
+  test('one-of', () {
+    expectFirstSet(Foo()..mergeFromProto3Json({'first': 'oneof'}));
+    expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
+    expectOneofNotSet(Foo()..mergeFromProto3Json({}));
   });
 }
