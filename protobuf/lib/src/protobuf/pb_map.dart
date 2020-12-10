@@ -12,19 +12,17 @@ class PbMap<K, V> extends MapBase<K, V> {
   static const int _valueFieldNumber = 2;
 
   final Map<K, V> _wrappedMap;
-  final BuilderInfo _entryBuilderInfo;
 
   bool _isReadonly = false;
-  _FieldSet _entryFieldSet() => _FieldSet(null, _entryBuilderInfo, null);
 
-  PbMap(this.keyFieldType, this.valueFieldType, this._entryBuilderInfo)
+  // The provided [info] will be ignored.
+  PbMap(this.keyFieldType, this.valueFieldType, [BuilderInfo? info])
       : _wrappedMap = <K, V>{};
 
   PbMap.unmodifiable(PbMap other)
       : keyFieldType = other.keyFieldType,
         valueFieldType = other.valueFieldType,
         _wrappedMap = Map.unmodifiable(other._wrappedMap),
-        _entryBuilderInfo = other._entryBuilderInfo,
         _isReadonly = other._isReadonly;
 
   @override
@@ -93,18 +91,13 @@ class PbMap<K, V> extends MapBase<K, V> {
     return _wrappedMap.remove(key);
   }
 
-  @Deprecated('This function was not intended to be public. '
-      'It will be removed from the public api in next major version. ')
-  void add(CodedBufferReader input, [ExtensionRegistry? registry]) {
-    _mergeEntry(input, registry);
-  }
-
-  void _mergeEntry(CodedBufferReader input, [ExtensionRegistry? registry]) {
+  void _mergeEntry(BuilderInfo mapEntryMeta, CodedBufferReader input,
+      [ExtensionRegistry? registry]) {
     var length = input.readInt32();
     var oldLimit = input._currentLimit;
     input._currentLimit = input._bufferPos + length;
-    var entryFieldSet = _entryFieldSet();
-    _mergeFromCodedBufferReader(entryFieldSet, input, registry!);
+    final entryFieldSet = _FieldSet(null, mapEntryMeta, null);
+    _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry!);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
     var key = entryFieldSet._$get<K>(0, null);
