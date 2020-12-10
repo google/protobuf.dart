@@ -171,8 +171,10 @@ abstract class GeneratedMessage {
       _writeToCodedBufferWriter(_fieldSet, output);
 
   void mergeFromCodedBufferReader(CodedBufferReader input,
-          [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) =>
-      _mergeFromCodedBufferReader(_fieldSet, input, extensionRegistry);
+      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    final meta = _fieldSet._message.info_;
+    _mergeFromCodedBufferReader(meta, _fieldSet, input, extensionRegistry);
+  }
 
   /// Merges serialized protocol buffer data into this message.
   ///
@@ -185,7 +187,8 @@ abstract class GeneratedMessage {
   void mergeFromBuffer(List<int> input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     var codedInput = CodedBufferReader(input);
-    _mergeFromCodedBufferReader(_fieldSet, codedInput, extensionRegistry);
+    final meta = _fieldSet._message.info_;
+    _mergeFromCodedBufferReader(meta, _fieldSet, codedInput, extensionRegistry);
     codedInput.checkLastTagWas(0);
   }
 
@@ -339,8 +342,7 @@ abstract class GeneratedMessage {
 
   /// Creates a Map representing a map field.
   Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) {
-    return PbMap<K, V>(
-        fi.keyFieldType, fi.valueFieldType, fi.mapEntryBuilderInfo);
+    return PbMap<K, V>(fi.keyFieldType, fi.valueFieldType);
   }
 
   /// Returns the value of a field, ignoring any defaults.
@@ -426,7 +428,7 @@ abstract class GeneratedMessage {
   List<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
 
   /// For generated code only.
-  Map<K, V> $_getMap<K, V>(int index) => _fieldSet._$getMap<K, V>(index);
+  Map<K, V> $_getMap<K, V>(int index) => _fieldSet._$getMap<K, V>(this, index);
 
   /// For generated code only.
   bool $_getB(int index, bool defaultValue) =>

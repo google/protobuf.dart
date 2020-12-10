@@ -49,7 +49,6 @@ bool _hashCodesCanBeMemoized = true;
 /// be faster when compiled to JavaScript.
 class _FieldSet {
   final GeneratedMessage _message;
-  final BuilderInfo _meta;
   final EventPlugin _eventPlugin;
 
   /// The value of each non-extension field in a fixed-length array.
@@ -74,6 +73,12 @@ class _FieldSet {
   /// code as an `int`.
   Object _frozenState = false;
 
+  /// The [BuilderInfo] for the [GeneratedMessage] this [_FieldSet] belongs to.
+  ///
+  /// WARNING: Avoid calling this for any performance critical code, instead
+  /// obtain the [BuilderInfo] on the call site.
+  BuilderInfo get _meta => _message.info_;
+
   /// Returns the value of [_frozenState] as if it were a boolean indicator
   /// for whether `this` is read-only (has been frozen).
   ///
@@ -97,8 +102,7 @@ class _FieldSet {
   final Map<int, int> _oneofCases;
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
-      : _meta = meta,
-        _values = _makeValueList(meta.byIndex.length),
+      : _values = _makeValueList(meta.byIndex.length),
         _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
   static List _makeValueList(int length) {
@@ -112,14 +116,14 @@ class _FieldSet {
 
   // Metadata about multiple fields
 
-  String get _messageName => _meta.qualifiedMessageName;
-  bool get _hasRequiredFields => _meta.hasRequiredFields;
+  String get _messageName => _message.info_.qualifiedMessageName;
+  bool get _hasRequiredFields => _message.info_.hasRequiredFields;
 
   /// The FieldInfo for each non-extension field.
-  Iterable<FieldInfo> get _infos => _meta.fieldInfo.values;
+  Iterable<FieldInfo> get _infos => _message.info_.fieldInfo.values;
 
   /// The FieldInfo for each non-extension field in tag order.
-  Iterable<FieldInfo> get _infosSortedByTag => _meta.sortedByTag;
+  Iterable<FieldInfo> get _infosSortedByTag => _message.info_.sortedByTag;
 
   /// Returns true if we should send events to the plugin.
   bool get _hasObservers => _eventPlugin != null && _eventPlugin.hasObservers;
@@ -143,10 +147,12 @@ class _FieldSet {
   // Metadata about single fields
 
   /// Returns FieldInfo for a non-extension field, or null if not found.
-  FieldInfo _nonExtensionInfo(int tagNumber) => _meta.fieldInfo[tagNumber];
+  FieldInfo _nonExtensionInfo(BuilderInfo info, int tagNumber) =>
+      info.fieldInfo[tagNumber];
 
   /// Returns FieldInfo for a non-extension field.
-  FieldInfo _nonExtensionInfoByIndex(int index) => _meta.byIndex[index];
+  FieldInfo _nonExtensionInfoByIndex(int index) =>
+      _message.info_.byIndex[index];
 
   /// Returns the FieldInfo for a regular or extension field.
   /// throws ArgumentException if no info is found.
@@ -158,7 +164,7 @@ class _FieldSet {
 
   /// Returns the FieldInfo for a regular or extension field.
   FieldInfo _getFieldInfoOrNull(int tagNumber) {
-    var fi = _nonExtensionInfo(tagNumber);
+    var fi = _nonExtensionInfo(_message.info_, tagNumber);
     if (fi != null) return fi;
     if (!_hasExtensions) return null;
     return _extensions._getInfoOrNull(tagNumber);
@@ -167,7 +173,7 @@ class _FieldSet {
   void _markReadOnly() {
     if (_isReadOnly) return;
     _frozenState = true;
-    for (var field in _meta.sortedByTag) {
+    for (var field in _message.info_.sortedByTag) {
       if (field.isRepeated) {
         final entries = _values[field.index];
         if (entries == null) continue;
@@ -209,7 +215,7 @@ class _FieldSet {
   /// Creates repeated fields (unless read-only).
   /// Suitable for public API.
   dynamic _getField(int tagNumber) {
-    var fi = _nonExtensionInfo(tagNumber);
+    var fi = _nonExtensionInfo(_message.info_, tagNumber);
     if (fi != null) {
       var value = _values[fi.index];
       if (value != null) return value;
@@ -232,7 +238,7 @@ class _FieldSet {
     // method for repeated fields:
     //   msg.mutableFoo().add(123);
     var value = fi._createRepeatedField(_message);
-    _setNonExtensionFieldUnchecked(fi, value);
+    _setNonExtensionFieldUnchecked(_meta, fi, value);
     return value;
   }
 
@@ -244,7 +250,7 @@ class _FieldSet {
     // method for repeated fields:
     //   msg.mutableFoo().add(123);
     var value = fi._createRepeatedFieldWithType<T>(_message);
-    _setNonExtensionFieldUnchecked(fi, value);
+    _setNonExtensionFieldUnchecked(_meta, fi, value);
     return value;
   }
 
@@ -252,12 +258,12 @@ class _FieldSet {
     assert(fi.isMapField);
 
     if (_isReadOnly) {
-      return PbMap<K, V>.unmodifiable(PbMap<K, V>(
-          fi.keyFieldType, fi.valueFieldType, fi.mapEntryBuilderInfo));
+      return PbMap<K, V>.unmodifiable(
+          PbMap<K, V>(fi.keyFieldType, fi.valueFieldType));
     }
 
     var value = fi._createMapField(_message);
-    _setNonExtensionFieldUnchecked(fi, value);
+    _setNonExtensionFieldUnchecked(_meta, fi, value);
     return value;
   }
 
@@ -278,7 +284,7 @@ class _FieldSet {
   }
 
   bool _hasField(int tagNumber) {
-    var fi = _nonExtensionInfo(tagNumber);
+    var fi = _nonExtensionInfo(_message.info_, tagNumber);
     if (fi != null) return _$has(fi.index);
     if (!_hasExtensions) return false;
     return _extensions._hasField(tagNumber);
@@ -286,17 +292,18 @@ class _FieldSet {
 
   void _clearField(int tagNumber) {
     _ensureWritable();
-    var fi = _nonExtensionInfo(tagNumber);
+    var fi = _nonExtensionInfo(_message.info_, tagNumber);
     if (fi != null) {
       // clear a non-extension field
       if (_hasObservers) _eventPlugin.beforeClearField(fi);
       _values[fi.index] = null;
 
-      if (_meta.oneofs.containsKey(fi.tagNumber)) {
-        _oneofCases.remove(_meta.oneofs[fi.tagNumber]);
+      final info = _message.info_;
+      if (info.oneofs.containsKey(fi.tagNumber)) {
+        _oneofCases.remove(info.oneofs[fi.tagNumber]);
       }
 
-      var oneofIndex = _meta.oneofs[fi.tagNumber];
+      var oneofIndex = info.oneofs[fi.tagNumber];
       if (oneofIndex != null) _oneofCases[oneofIndex] = 0;
       return;
     }
@@ -320,7 +327,7 @@ class _FieldSet {
   void _setField(int tagNumber, value) {
     if (value == null) throw ArgumentError('value is null');
 
-    var fi = _nonExtensionInfo(tagNumber);
+    var fi = _nonExtensionInfo(_message.info_, tagNumber);
     if (fi == null) {
       if (!_hasExtensions) {
         throw ArgumentError('tag $tagNumber not defined in $_messageName');
@@ -334,14 +341,14 @@ class _FieldSet {
           fi, value, 'repeating field (use get + .add())'));
     }
     _validateField(fi, value);
-    _setNonExtensionFieldUnchecked(fi, value);
+    _setNonExtensionFieldUnchecked(_meta, fi, value);
   }
 
   /// Sets a non-repeated field without validating it.
   ///
   /// Works for both extended and non-extended fields.
   /// Suitable for decoders that do their own validation.
-  void _setFieldUnchecked(FieldInfo fi, value) {
+  void _setFieldUnchecked(BuilderInfo meta, FieldInfo fi, value) {
     assert(fi != null);
     assert(!fi.isRepeated);
     if (fi.index == null) {
@@ -349,7 +356,7 @@ class _FieldSet {
         .._addInfoUnchecked(fi)
         .._setFieldUnchecked(fi, value);
     } else {
-      _setNonExtensionFieldUnchecked(fi, value);
+      _setNonExtensionFieldUnchecked(meta, fi, value);
     }
   }
 
@@ -359,7 +366,7 @@ class _FieldSet {
   /// Creates and stores the repeated field if it doesn't exist.
   /// If it's an extension and the list doesn't exist, validates and stores it.
   /// Suitable for decoders.
-  List<T> _ensureRepeatedField<T>(FieldInfo<T> fi) {
+  List<T> _ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     if (fi.index == null) {
@@ -369,11 +376,11 @@ class _FieldSet {
     if (value != null) return value as List<T>;
 
     var newValue = fi._createRepeatedField(_message);
-    _setNonExtensionFieldUnchecked(fi, newValue);
+    _setNonExtensionFieldUnchecked(meta, fi, newValue);
     return newValue;
   }
 
-  PbMap<K, V> _ensureMapField<K, V>(MapFieldInfo<K, V> fi) {
+  PbMap<K, V> _ensureMapField<K, V>(BuilderInfo meta, MapFieldInfo<K, V> fi) {
     assert(!_isReadOnly);
     assert(fi.isMapField);
     assert(fi.index != null); // Map fields are not allowed to be extensions.
@@ -382,14 +389,14 @@ class _FieldSet {
     if (value != null) return value as Map<K, V>;
 
     var newValue = fi._createMapField(_message);
-    _setNonExtensionFieldUnchecked(fi, newValue);
+    _setNonExtensionFieldUnchecked(meta, fi, newValue);
     return newValue;
   }
 
   /// Sets a non-extended field and fires events.
-  void _setNonExtensionFieldUnchecked(FieldInfo fi, value) {
+  void _setNonExtensionFieldUnchecked(BuilderInfo meta, FieldInfo fi, value) {
     var tag = fi.tagNumber;
-    var oneofIndex = _meta.oneofs[tag];
+    var oneofIndex = meta.oneofs[tag];
     if (oneofIndex != null) {
       _clearField(_oneofCases[oneofIndex]);
       _oneofCases[oneofIndex] = tag;
@@ -443,10 +450,11 @@ class _FieldSet {
   }
 
   /// The implementation of a generated getter for map fields.
-  Map<K, V> _$getMap<K, V>(int index) {
+  Map<K, V> _$getMap<K, V>(GeneratedMessage parentMessage, int index) {
     var value = _values[index];
     if (value != null) return value as Map<K, V>;
-    return _getDefaultMap<K, V>(_nonExtensionInfoByIndex(index));
+    final fieldInfo = _nonExtensionInfoByIndex(index);
+    return _getDefaultMap<K, V>(fieldInfo);
   }
 
   /// The implementation of a generated getter for `bool` fields.
@@ -540,8 +548,8 @@ class _FieldSet {
     if (_hasObservers) {
       _eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
     }
-    var tag = _meta.byIndex[index].tagNumber;
-    var oneofIndex = _meta.oneofs[tag];
+    var tag = _message.info_.byIndex[index].tagNumber;
+    var oneofIndex = _message.info_.oneofs[tag];
 
     if (oneofIndex != null) {
       _clearField(_oneofCases[oneofIndex]);
@@ -581,7 +589,7 @@ class _FieldSet {
   }
 
   bool _equals(_FieldSet o) {
-    if (_meta != o._meta) return false;
+    if (_message.info_ != o._message.info_) return false;
     for (var i = 0; i < _values.length; i++) {
       if (!_equalFieldValues(_values[i], o._values[i])) return false;
     }
@@ -682,7 +690,7 @@ class _FieldSet {
     }
 
     // Hash with descriptor.
-    var hash = _HashUtils._combine(0, _meta.hashCode);
+    var hash = _HashUtils._combine(0, _message.info_.hashCode);
     // Hash with fields.
     hash = hashEachField(hash);
     // Hash with unknown fields.
@@ -779,7 +787,8 @@ class _FieldSet {
 
     // Determine the FieldInfo to use.
     // Don't allow regular fields to be overwritten by extensions.
-    var fi = _nonExtensionInfo(tagNumber);
+    final meta = _meta;
+    var fi = _nonExtensionInfo(meta, tagNumber);
     if (fi == null && isExtension) {
       // This will overwrite any existing extension field info.
       fi = otherFi;
@@ -790,7 +799,7 @@ class _FieldSet {
     if (fi.isMapField) {
       MapFieldInfo f = fi;
       mustClone = _isGroupOrMessage(f.valueFieldType);
-      PbMap map = f._ensureMapField(this);
+      PbMap map = f._ensureMapField(meta, this);
       if (mustClone) {
         for (MapEntry entry in fieldValue.entries) {
           map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
@@ -805,14 +814,14 @@ class _FieldSet {
       if (mustClone) {
         // fieldValue must be a PbListBase of GeneratedMessage.
         PbListBase<GeneratedMessage> pbList = fieldValue;
-        var repeatedFields = fi._ensureRepeatedField(this);
+        var repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
         // fieldValue must be at least a PbListBase.
         PbListBase pbList = fieldValue;
-        fi._ensureRepeatedField(this).addAll(pbList);
+        fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
       return;
     }
@@ -833,7 +842,7 @@ class _FieldSet {
       _ensureExtensions()._setFieldAndInfo(fi, fieldValue);
     } else {
       _validateField(fi, fieldValue);
-      _setNonExtensionFieldUnchecked(fi, fieldValue);
+      _setNonExtensionFieldUnchecked(meta, fi, fieldValue);
     }
   }
 
@@ -887,8 +896,9 @@ class _FieldSet {
   /// Map fields and repeated fields are copied.
   void _shallowCopyValues(_FieldSet original) {
     _values.setRange(0, original._values.length, original._values);
-    for (var index = 0; index < _meta.byIndex.length; index++) {
-      var fieldInfo = _meta.byIndex[index];
+    final info = _message.info_;
+    for (var index = 0; index < info.byIndex.length; index++) {
+      var fieldInfo = info.byIndex[index];
       if (fieldInfo.isMapField) {
         PbMap map = _values[index];
         if (map != null) {

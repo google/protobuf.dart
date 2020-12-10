@@ -79,8 +79,8 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 // (Called recursively on nested messages.)
 void _mergeFromJsonMap(
     _FieldSet fs, Map<String, dynamic> json, ExtensionRegistry registry) {
-  var keys = json.keys;
-  var meta = fs._meta;
+  final meta = fs._meta;
+  final keys = json.keys;
   for (var key in keys) {
     var fi = meta.byTagAsString[key];
     if (fi == null) {
@@ -89,18 +89,18 @@ void _mergeFromJsonMap(
       if (fi == null) continue; // Unknown tag; skip
     }
     if (fi.isMapField) {
-      _appendJsonMap(fs, json[key], fi, registry);
+      _appendJsonMap(meta, fs, json[key], fi, registry);
     } else if (fi.isRepeated) {
-      _appendJsonList(fs, json[key], fi, registry);
+      _appendJsonList(meta, fs, json[key], fi, registry);
     } else {
-      _setJsonField(fs, json[key], fi, registry);
+      _setJsonField(meta, fs, json[key], fi, registry);
     }
   }
 }
 
-void _appendJsonList(
-    _FieldSet fs, List jsonList, FieldInfo fi, ExtensionRegistry registry) {
-  var repeated = fi._ensureRepeatedField(fs);
+void _appendJsonList(BuilderInfo meta, _FieldSet fs, List jsonList,
+    FieldInfo fi, ExtensionRegistry registry) {
+  var repeated = fi._ensureRepeatedField(meta, fs);
   // Micro optimization. Using "for in" generates the following and iterator
   // alloc:
   //   for (t1 = J.get$iterator$ax(json), t2 = fi.tagNumber, t3 = fi.type,
@@ -108,25 +108,28 @@ void _appendJsonList(
   for (var i = 0, len = jsonList.length; i < len; i++) {
     var value = jsonList[i];
     var convertedValue =
-        _convertJsonValue(fs, value, fi.tagNumber, fi.type, registry);
+        _convertJsonValue(meta, fs, value, fi.tagNumber, fi.type, registry);
     if (convertedValue != null) {
       repeated.add(convertedValue);
     }
   }
 }
 
-void _appendJsonMap(
-    _FieldSet fs, List jsonList, MapFieldInfo fi, ExtensionRegistry registry) {
-  PbMap map = fi._ensureMapField(fs);
+void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
+    MapFieldInfo fi, ExtensionRegistry registry) {
+  final entryMeta = fi.mapEntryBuilderInfo;
+  PbMap map = fi._ensureMapField(meta, fs);
   for (Map<String, dynamic> jsonEntry in jsonList) {
-    var entryFieldSet = map._entryFieldSet();
+    final entryFieldSet = _FieldSet(null, entryMeta, null);
     final convertedKey = _convertJsonValue(
+        entryMeta,
         entryFieldSet,
         jsonEntry['${PbMap._keyFieldNumber}'],
         PbMap._keyFieldNumber,
         fi.keyFieldType,
         registry);
     final convertedValue = _convertJsonValue(
+        entryMeta,
         entryFieldSet,
         jsonEntry['${PbMap._valueFieldNumber}'],
         PbMap._valueFieldNumber,
@@ -136,9 +139,10 @@ void _appendJsonMap(
   }
 }
 
-void _setJsonField(
-    _FieldSet fs, json, FieldInfo fi, ExtensionRegistry registry) {
-  var value = _convertJsonValue(fs, json, fi.tagNumber, fi.type, registry);
+void _setJsonField(BuilderInfo meta, _FieldSet fs, json, FieldInfo fi,
+    ExtensionRegistry registry) {
+  var value =
+      _convertJsonValue(meta, fs, json, fi.tagNumber, fi.type, registry);
   if (value == null) return;
   // _convertJsonValue throws exception when it fails to do conversion.
   // Therefore we run _validateField for debug builds only to validate
@@ -147,7 +151,7 @@ void _setJsonField(
     fs._validateField(fi, value);
     return true;
   }());
-  fs._setFieldUnchecked(fi, value);
+  fs._setFieldUnchecked(meta, fi, value);
 }
 
 /// Converts [value] from the Json format to the Dart data type
@@ -156,8 +160,8 @@ void _setJsonField(
 /// Returns the converted value.  This function returns [null] if the caller
 /// should ignore the field value, because it is an unknown enum value.
 /// This function throws [ArgumentError] if it cannot convert the value.
-dynamic _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
-    ExtensionRegistry registry) {
+dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
+    int fieldType, ExtensionRegistry registry) {
   String expectedType; // for exception message
   switch (PbFieldType._baseType(fieldType)) {
     case PbFieldType._BOOL_BIT:
@@ -211,7 +215,7 @@ dynamic _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
         // The following call will return null if the enum value is unknown.
         // In that case, we want the caller to ignore this value, so we return
         // null from this method as well.
-        return fs._meta._decodeEnum(tagNumber, registry, value);
+        return meta._decodeEnum(tagNumber, registry, value);
       }
       expectedType = 'int or stringified int';
       break;
@@ -237,7 +241,7 @@ dynamic _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
     case PbFieldType._MESSAGE_BIT:
       if (value is Map) {
         Map<String, dynamic> messageValue = value;
-        var subMessage = fs._meta._makeEmptyMessage(tagNumber, registry);
+        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
         _mergeFromJsonMap(subMessage._fieldSet, messageValue, registry);
         return subMessage;
       }
