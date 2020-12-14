@@ -1,4 +1,5 @@
 ## 2.0.0-nullsafety.1
+
 * Remove `PbMap.add` method which was deprecated in 0.13.3
 
 ## 2.0.0-nullsafety.0
