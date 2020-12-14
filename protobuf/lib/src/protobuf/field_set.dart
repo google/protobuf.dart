@@ -292,13 +292,13 @@ class _FieldSet {
 
   void _clearField(int? tagNumber) {
     _ensureWritable();
-    var fi = _nonExtensionInfo(_meta, tagNumber);
+    final meta = _meta;
+    var fi = _nonExtensionInfo(meta, tagNumber);
     if (fi != null) {
       // clear a non-extension field
       if (_hasObservers) _eventPlugin!.beforeClearField(fi);
       _values[fi.index!] = null;
 
-      final meta = _meta;
       if (meta.oneofs.containsKey(fi.tagNumber)) {
         _oneofCases!.remove(meta.oneofs[fi.tagNumber]);
       }
@@ -327,7 +327,8 @@ class _FieldSet {
   void _setField(int tagNumber, Object value) {
     ArgumentError.checkNotNull(value, 'value');
 
-    var fi = _nonExtensionInfo(_meta, tagNumber);
+    final meta = _meta;
+    var fi = _nonExtensionInfo(meta, tagNumber);
     if (fi == null) {
       if (!_hasExtensions) {
         throw ArgumentError('tag $tagNumber not defined in $_messageName');
@@ -341,7 +342,7 @@ class _FieldSet {
           fi, value, 'repeating field (use get + .add())'));
     }
     _validateField(fi, value);
-    _setNonExtensionFieldUnchecked(_meta, fi, value);
+    _setNonExtensionFieldUnchecked(meta, fi, value);
   }
 
   /// Sets a non-repeated field without validating it.
@@ -548,8 +549,9 @@ class _FieldSet {
     if (_hasObservers) {
       _eventPlugin!.beforeSetField(_nonExtensionInfoByIndex(index), value);
     }
-    var tag = _meta.byIndex[index].tagNumber;
-    var oneofIndex = _meta.oneofs[tag];
+    final meta = _meta;
+    var tag = meta.byIndex[index].tagNumber;
+    var oneofIndex = meta.oneofs[tag];
 
     if (oneofIndex != null) {
       _clearField(_oneofCases![oneofIndex]);
