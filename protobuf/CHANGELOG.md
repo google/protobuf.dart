@@ -1,3 +1,6 @@
+
+* Remove `PbMap.add` method which was deprecated in 0.13.3
+
 ## 1.1.0
 
 * Require at least Dart SDK 2.7.0 to enable usage of extension methods.

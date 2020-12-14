@@ -172,7 +172,7 @@ abstract class GeneratedMessage {
 
   void mergeFromCodedBufferReader(CodedBufferReader input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    final meta = _fieldSet._message.info_;
+    final meta = _fieldSet._meta;
     _mergeFromCodedBufferReader(meta, _fieldSet, input, extensionRegistry);
   }
 
@@ -187,7 +187,7 @@ abstract class GeneratedMessage {
   void mergeFromBuffer(List<int> input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     var codedInput = CodedBufferReader(input);
-    final meta = _fieldSet._message.info_;
+    final meta = _fieldSet._meta;
     _mergeFromCodedBufferReader(meta, _fieldSet, codedInput, extensionRegistry);
     codedInput.checkLastTagWas(0);
   }

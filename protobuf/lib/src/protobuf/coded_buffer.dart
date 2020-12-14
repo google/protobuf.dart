@@ -182,8 +182,8 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         fs._ensureRepeatedField(meta, fi).add(subMessage);
         break;
       case PbFieldType._MAP:
-        final mapEntryMeta =
-            (meta.byIndex[fi.index] as MapFieldInfo).mapEntryBuilderInfo;
+        final mapFieldInfo = fi as MapFieldInfo;
+        final mapEntryMeta = mapFieldInfo.mapEntryBuilderInfo;
         fs._ensureMapField(meta, fi)._mergeEntry(mapEntryMeta, input, registry);
         break;
       default:

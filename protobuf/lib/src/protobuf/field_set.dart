@@ -116,14 +116,14 @@ class _FieldSet {
 
   // Metadata about multiple fields
 
-  String get _messageName => _message.info_.qualifiedMessageName;
-  bool get _hasRequiredFields => _message.info_.hasRequiredFields;
+  String get _messageName => _meta.qualifiedMessageName;
+  bool get _hasRequiredFields => _meta.hasRequiredFields;
 
   /// The FieldInfo for each non-extension field.
-  Iterable<FieldInfo> get _infos => _message.info_.fieldInfo.values;
+  Iterable<FieldInfo> get _infos => _meta.fieldInfo.values;
 
   /// The FieldInfo for each non-extension field in tag order.
-  Iterable<FieldInfo> get _infosSortedByTag => _message.info_.sortedByTag;
+  Iterable<FieldInfo> get _infosSortedByTag => _meta.sortedByTag;
 
   /// Returns true if we should send events to the plugin.
   bool get _hasObservers => _eventPlugin != null && _eventPlugin.hasObservers;
@@ -151,8 +151,7 @@ class _FieldSet {
       info.fieldInfo[tagNumber];
 
   /// Returns FieldInfo for a non-extension field.
-  FieldInfo _nonExtensionInfoByIndex(int index) =>
-      _message.info_.byIndex[index];
+  FieldInfo _nonExtensionInfoByIndex(int index) => _meta.byIndex[index];
 
   /// Returns the FieldInfo for a regular or extension field.
   /// throws ArgumentException if no info is found.
@@ -164,7 +163,7 @@ class _FieldSet {
 
   /// Returns the FieldInfo for a regular or extension field.
   FieldInfo _getFieldInfoOrNull(int tagNumber) {
-    var fi = _nonExtensionInfo(_message.info_, tagNumber);
+    var fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi != null) return fi;
     if (!_hasExtensions) return null;
     return _extensions._getInfoOrNull(tagNumber);
@@ -173,7 +172,7 @@ class _FieldSet {
   void _markReadOnly() {
     if (_isReadOnly) return;
     _frozenState = true;
-    for (var field in _message.info_.sortedByTag) {
+    for (var field in _meta.sortedByTag) {
       if (field.isRepeated) {
         final entries = _values[field.index];
         if (entries == null) continue;
@@ -215,7 +214,7 @@ class _FieldSet {
   /// Creates repeated fields (unless read-only).
   /// Suitable for public API.
   dynamic _getField(int tagNumber) {
-    var fi = _nonExtensionInfo(_message.info_, tagNumber);
+    var fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi != null) {
       var value = _values[fi.index];
       if (value != null) return value;
@@ -284,7 +283,7 @@ class _FieldSet {
   }
 
   bool _hasField(int tagNumber) {
-    var fi = _nonExtensionInfo(_message.info_, tagNumber);
+    var fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi != null) return _$has(fi.index);
     if (!_hasExtensions) return false;
     return _extensions._hasField(tagNumber);
@@ -292,13 +291,13 @@ class _FieldSet {
 
   void _clearField(int tagNumber) {
     _ensureWritable();
-    var fi = _nonExtensionInfo(_message.info_, tagNumber);
+    var fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi != null) {
       // clear a non-extension field
       if (_hasObservers) _eventPlugin.beforeClearField(fi);
       _values[fi.index] = null;
 
-      final info = _message.info_;
+      final info = _meta;
       if (info.oneofs.containsKey(fi.tagNumber)) {
         _oneofCases.remove(info.oneofs[fi.tagNumber]);
       }
@@ -327,7 +326,7 @@ class _FieldSet {
   void _setField(int tagNumber, value) {
     if (value == null) throw ArgumentError('value is null');
 
-    var fi = _nonExtensionInfo(_message.info_, tagNumber);
+    var fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi == null) {
       if (!_hasExtensions) {
         throw ArgumentError('tag $tagNumber not defined in $_messageName');
@@ -548,8 +547,8 @@ class _FieldSet {
     if (_hasObservers) {
       _eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
     }
-    var tag = _message.info_.byIndex[index].tagNumber;
-    var oneofIndex = _message.info_.oneofs[tag];
+    var tag = _meta.byIndex[index].tagNumber;
+    var oneofIndex = _meta.oneofs[tag];
 
     if (oneofIndex != null) {
       _clearField(_oneofCases[oneofIndex]);
@@ -589,7 +588,7 @@ class _FieldSet {
   }
 
   bool _equals(_FieldSet o) {
-    if (_message.info_ != o._message.info_) return false;
+    if (_meta != o._meta) return false;
     for (var i = 0; i < _values.length; i++) {
       if (!_equalFieldValues(_values[i], o._values[i])) return false;
     }
@@ -690,7 +689,7 @@ class _FieldSet {
     }
 
     // Hash with descriptor.
-    var hash = _HashUtils._combine(0, _message.info_.hashCode);
+    var hash = _HashUtils._combine(0, _meta.hashCode);
     // Hash with fields.
     hash = hashEachField(hash);
     // Hash with unknown fields.
@@ -783,7 +782,7 @@ class _FieldSet {
   }
 
   void _mergeField(FieldInfo otherFi, fieldValue, {bool isExtension}) {
-    var tagNumber = otherFi.tagNumber;
+    final tagNumber = otherFi.tagNumber;
 
     // Determine the FieldInfo to use.
     // Don't allow regular fields to be overwritten by extensions.
@@ -896,7 +895,7 @@ class _FieldSet {
   /// Map fields and repeated fields are copied.
   void _shallowCopyValues(_FieldSet original) {
     _values.setRange(0, original._values.length, original._values);
-    final info = _message.info_;
+    final info = _meta;
     for (var index = 0; index < info.byIndex.length; index++) {
       var fieldInfo = info.byIndex[index];
       if (fieldInfo.isMapField) {
