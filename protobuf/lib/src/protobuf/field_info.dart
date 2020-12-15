@@ -193,7 +193,7 @@ String _unCamelCase(String name) {
 
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   static dynamic throwYouShouldNotCallThis() =>
-      throw 'you should not call this';
+      throw StateError('You should not call this.');
 
   final int? keyFieldType;
   final int? valueFieldType;
