@@ -176,8 +176,8 @@ class FieldInfo<T> {
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
   /// _FieldSet._ensureRepeatedField.
-  List<T?> _ensureRepeatedField(_FieldSet fs) {
-    return fs._ensureRepeatedField<T>(this);
+  List<T?> _ensureRepeatedField(BuilderInfo meta, _FieldSet fs) {
+    return fs._ensureRepeatedField<T>(meta, this);
   }
 
   @override
@@ -192,6 +192,9 @@ String _unCamelCase(String name) {
 }
 
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
+  static dynamic throwYouShouldNotCallThis() =>
+      throw StateError('You should not call this.');
+
   final int? keyFieldType;
   final int? valueFieldType;
 
@@ -213,8 +216,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
       this.valueCreator,
       {String? protoName})
       : super(name, tagNumber, index, type,
-            defaultOrMaker: () =>
-                PbMap<K, V>(keyFieldType, valueFieldType, mapEntryBuilderInfo),
+            defaultOrMaker: () => throwYouShouldNotCallThis,
             protoName: protoName) {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(tagNumber, 'tagNumber');
@@ -225,8 +227,8 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   FieldInfo get valueFieldInfo =>
       mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber]!;
 
-  Map<K, V> _ensureMapField(_FieldSet fs) {
-    return fs._ensureMapField<K, V>(this);
+  Map<K, V> _ensureMapField(BuilderInfo meta, _FieldSet fs) {
+    return fs._ensureMapField<K, V>(meta, this);
   }
 
   Map<K, V> _createMapField(GeneratedMessage m) {
