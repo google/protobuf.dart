@@ -192,9 +192,6 @@ String _unCamelCase(String name) {
 }
 
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
-  static dynamic throwYouShouldNotCallThis() =>
-      throw StateError('You should not call this.');
-
   final int? keyFieldType;
   final int? valueFieldType;
 
@@ -216,7 +213,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
       this.valueCreator,
       {String? protoName})
       : super(name, tagNumber, index, type,
-            defaultOrMaker: () => throwYouShouldNotCallThis,
+            defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
             protoName: protoName) {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(tagNumber, 'tagNumber');
