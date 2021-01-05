@@ -1,3 +1,7 @@
+## 19.3.0
+
+* Generate constructors with optional named arguments for prefilling fields.
+* Output language version 2.7 in generated files to support extension methods.
 ## 19.2.1
 
 * Support optional proto3 fields.
