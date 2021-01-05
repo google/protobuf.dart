@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: dart_options.proto
 //
-// @dart = 2.3
+// @dart = 2.7
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -37,7 +37,23 @@ class DartMixin extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   DartMixin._() : super();
-  factory DartMixin() => create();
+  factory DartMixin({
+    $core.String name,
+    $core.String importFrom,
+    $core.String parent,
+  }) {
+    final _result = create();
+    if (name != null) {
+      _result.name = name;
+    }
+    if (importFrom != null) {
+      _result.importFrom = importFrom;
+    }
+    if (parent != null) {
+      _result.parent = parent;
+    }
+    return _result;
+  }
   factory DartMixin.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
@@ -121,7 +137,15 @@ class Imports extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   Imports._() : super();
-  factory Imports() => create();
+  factory Imports({
+    $core.Iterable<DartMixin> mixins,
+  }) {
+    final _result = create();
+    if (mixins != null) {
+      _result.mixins.addAll(mixins);
+    }
+    return _result;
+  }
   factory Imports.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
