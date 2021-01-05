@@ -103,12 +103,12 @@ class _FieldSet {
 
   static List _makeValueList(int length) {
     if (length == 0) return _zeroList;
-    return List(length);
+    return List.filled(length, null, growable: false);
   }
 
   // Use a fixed length list and not a constant list to ensure that _values
   // always has the same implementation type.
-  static final List _zeroList = List(0);
+  static final List _zeroList = [];
 
   // Metadata about multiple fields
 
