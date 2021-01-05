@@ -1,3 +1,6 @@
+## 19.2.2
+
+* Output language version with support for extension methods in generated files.
 ## 19.2.1
 
 * Support optional proto3 fields.
