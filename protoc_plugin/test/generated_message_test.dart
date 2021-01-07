@@ -308,10 +308,7 @@ void main() {
 
   test('testReadHugeBlob', () {
     // Allocate and initialize a 1MB blob.
-    var blob = List<int>(1 << 20);
-    for (var i = 0; i < blob.length; i++) {
-      blob[i] = i % 256;
-    }
+    var blob = List<int>.generate(1 << 20, (i) => i % 256);
 
     // Make a message containing it.
     var message = getAllSet();
