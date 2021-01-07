@@ -9,8 +9,8 @@ stages:
     - group:
       - command: make protos
       - dartanalyzer: --fatal-warnings .
-      dart: [2.7.0]
+      dart: [beta]
     - group:
       - command: make protos
       - test
-      dart: [2.7.0, dev]
+      dart: [beta, dev]

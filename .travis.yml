@@ -26,8 +26,8 @@ jobs:
       env: PKGS="api_benchmark query_benchmark"
       script: tool/ci.sh command_0 dartfmt dartanalyzer_0
     - stage: format_analyzer_tests
-      name: "Dart 2.7.0; PKG: protobuf; `dartanalyzer --fatal-warnings .`"
-      dart: "2.7.0"
+      name: "Dart beta; PKG: protobuf; `dartanalyzer --fatal-warnings .`"
+      dart: beta
       os: linux
       env: PKGS="protobuf"
       script: tool/ci.sh dartanalyzer_0
@@ -38,8 +38,8 @@ jobs:
       env: PKGS="protobuf"
       script: tool/ci.sh dartanalyzer_1 dartfmt
     - stage: format_analyzer_tests
-      name: "Dart 2.7.0; PKG: protobuf; `pub run test`"
-      dart: "2.7.0"
+      name: "Dart beta; PKG: protobuf; `pub run test`"
+      dart: beta
       os: linux
       env: PKGS="protobuf"
       script: tool/ci.sh test
@@ -50,8 +50,8 @@ jobs:
       env: PKGS="protobuf"
       script: tool/ci.sh test
     - stage: format_analyzer_tests
-      name: "Dart 2.7.0; PKG: protoc_plugin; `make protos`, `dartanalyzer --fatal-warnings .`"
-      dart: "2.7.0"
+      name: "Dart beta; PKG: protoc_plugin; `make protos`, `dartanalyzer --fatal-warnings .`"
+      dart: beta
       os: linux
       env: PKGS="protoc_plugin"
       script: tool/ci.sh command_1 dartanalyzer_0
@@ -62,8 +62,8 @@ jobs:
       env: PKGS="protoc_plugin"
       script: tool/ci.sh command_1 dartfmt dartanalyzer_2
     - stage: format_analyzer_tests
-      name: "Dart 2.7.0; PKG: protoc_plugin; `make protos`, `pub run test`"
-      dart: "2.7.0"
+      name: "Dart beta; PKG: protoc_plugin; `make protos`, `pub run test`"
+      dart: beta
       os: linux
       env: PKGS="protoc_plugin"
       script: tool/ci.sh command_1 test
