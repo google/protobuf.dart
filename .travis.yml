@@ -1,10 +1,10 @@
-# Created with package:mono_repo v3.0.0
+# Created with package:mono_repo v3.4.3
 language: dart
 
 # Custom configuration
 before_install:
   - "wget -O protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v3.14.0/protoc-3.14.0-linux-x86_64.zip"
-  - "unzip -d protoc protoc.zip"
+  - unzip -d protoc protoc.zip
   - "export PATH=$PWD/protoc/bin:$PATH"
   - echo $PATH
   - "echo \"dependency_overrides: {protobuf: {path: ../protobuf}}\" >> protoc_plugin/pubspec.yaml"
@@ -12,72 +12,71 @@ os:
   - linux
   - osx
   - windows
+branches:
+only:
+  - master
+  - null_safety
 
 jobs:
   include:
     - stage: format_analyzer_tests
-      name: "SDK: dev; PKGS: api_benchmark, query_benchmark; TASKS: [`./compile_protos.sh`, `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings .`]"
+      name: "Dart dev; PKGS: api_benchmark, query_benchmark; `./compile_protos.sh`, `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings .`"
       dart: dev
       os: linux
       env: PKGS="api_benchmark query_benchmark"
-      script: tool/travis.sh command_0 dartfmt dartanalyzer_0
+      script: tool/ci.sh command_0 dartfmt dartanalyzer_0
     - stage: format_analyzer_tests
-      name: "SDK: 2.7.0; PKG: protobuf; TASKS: `dartanalyzer --fatal-warnings .`"
+      name: "Dart 2.7.0; PKG: protobuf; `dartanalyzer --fatal-warnings .`"
       dart: "2.7.0"
       os: linux
       env: PKGS="protobuf"
-      script: tool/travis.sh dartanalyzer_0
+      script: tool/ci.sh dartanalyzer_0
     - stage: format_analyzer_tests
-      name: "SDK: dev; PKG: protobuf; TASKS: [`dartanalyzer --fatal-infos --fatal-warnings lib test`, `dartfmt -n --set-exit-if-changed .`]"
+      name: "Dart dev; PKG: protobuf; `dartanalyzer --fatal-infos --fatal-warnings lib test`, `dartfmt -n --set-exit-if-changed .`"
       dart: dev
       os: linux
       env: PKGS="protobuf"
-      script: tool/travis.sh dartanalyzer_1 dartfmt
+      script: tool/ci.sh dartanalyzer_1 dartfmt
     - stage: format_analyzer_tests
-      name: "SDK: 2.7.0; PKG: protobuf; TASKS: `pub run test`"
+      name: "Dart 2.7.0; PKG: protobuf; `pub run test`"
       dart: "2.7.0"
       os: linux
       env: PKGS="protobuf"
-      script: tool/travis.sh test
+      script: tool/ci.sh test
     - stage: format_analyzer_tests
-      name: "SDK: dev; PKG: protobuf; TASKS: `pub run test`"
+      name: "Dart dev; PKG: protobuf; `pub run test`"
       dart: dev
       os: linux
       env: PKGS="protobuf"
-      script: tool/travis.sh test
+      script: tool/ci.sh test
     - stage: format_analyzer_tests
-      name: "SDK: 2.7.0; PKG: protoc_plugin; TASKS: [`make protos`, `dartanalyzer --fatal-warnings .`]"
+      name: "Dart 2.7.0; PKG: protoc_plugin; `make protos`, `dartanalyzer --fatal-warnings .`"
       dart: "2.7.0"
       os: linux
       env: PKGS="protoc_plugin"
-      script: tool/travis.sh command_1 dartanalyzer_0
+      script: tool/ci.sh command_1 dartanalyzer_0
     - stage: format_analyzer_tests
-      name: "SDK: dev; PKG: protoc_plugin; TASKS: [`make protos`, `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`]"
+      name: "Dart dev; PKG: protoc_plugin; `make protos`, `dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-infos --fatal-warnings .`"
       dart: dev
       os: linux
       env: PKGS="protoc_plugin"
-      script: tool/travis.sh command_1 dartfmt dartanalyzer_2
+      script: tool/ci.sh command_1 dartfmt dartanalyzer_2
     - stage: format_analyzer_tests
-      name: "SDK: 2.7.0; PKG: protoc_plugin; TASKS: [`make protos`, `pub run test`]"
+      name: "Dart 2.7.0; PKG: protoc_plugin; `make protos`, `pub run test`"
       dart: "2.7.0"
       os: linux
       env: PKGS="protoc_plugin"
-      script: tool/travis.sh command_1 test
+      script: tool/ci.sh command_1 test
     - stage: format_analyzer_tests
-      name: "SDK: dev; PKG: protoc_plugin; TASKS: [`make protos`, `pub run test`]"
+      name: "Dart dev; PKG: protoc_plugin; `make protos`, `pub run test`"
       dart: dev
       os: linux
       env: PKGS="protoc_plugin"
-      script: tool/travis.sh command_1 test
+      script: tool/ci.sh command_1 test
 
 stages:
   - format_analyzer_tests
 
-# Only building master means that we don't run two builds for each pull request.
-branches:
-  only:
-    - master
-
 cache:
   directories:
-    - "$HOME/.pub-cache"
+    - $HOME/.pub-cache

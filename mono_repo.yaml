@@ -13,6 +13,11 @@ travis:
     - linux
     - osx
     - windows
+  
+  branches:
+  only:
+    - master
+    - null_safety
 
 merge_stages:
 - format_analyzer_tests
