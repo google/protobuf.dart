@@ -331,4 +331,14 @@ void main() {
     testValues(TestMap.fromBuffer(testMap.writeToBuffer()));
     testValues(TestMap.fromJson(testMap.writeToJson()));
   });
+
+  test('Calling getField on map fields using reflective API works.', () {
+    final testMap = TestMap();
+    final mapFieldInfo = testMap.info_.fieldInfo.values
+        .where((fieldInfo) =>
+            fieldInfo is MapFieldInfo && fieldInfo.name == 'int32ToBytesField')
+        .single;
+    final value = testMap.getField(mapFieldInfo.tagNumber);
+    expect(value is Map<int, List<int>>, true);
+  });
 }
