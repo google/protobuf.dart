@@ -341,4 +341,28 @@ void main() {
     final value = testMap.getField(mapFieldInfo.tagNumber);
     expect(value is Map<int, List<int>>, true);
   });
+
+  test('named optional arguments in cosntructor', () {
+    final testMap = TestMap(
+      int32ToInt32Field: {1: 11, 2: 22, 3: 33},
+      int32ToStringField: {1: '11', 2: '22', 3: '33'},
+      int32ToBytesField: {
+        1: utf8.encode('11'),
+        2: utf8.encode('22'),
+        3: utf8.encode('33')
+      },
+      int32ToEnumField: {
+        1: TestMap_EnumValue.DEFAULT,
+        2: TestMap_EnumValue.BAR,
+        3: TestMap_EnumValue.BAZ
+      },
+      int32ToMessageField: {
+        1: TestMap_MessageValue(value: 11),
+        2: TestMap_MessageValue(value: 22),
+        3: TestMap_MessageValue(value: 33)
+      },
+      stringToInt32Field: {'1': 11, '2': 22, '3': 33},
+    );
+    _expectMapValuesSet(testMap);
+  });
 }

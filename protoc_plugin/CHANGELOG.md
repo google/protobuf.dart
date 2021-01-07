@@ -1,3 +1,6 @@
+## 20.0.0-nullsafety.1
+
+* Generate constructors with optional named arguments for prefilling fields.
 ## 20.0.0-nullsafety.0
 
 * Generate null-safe code.
