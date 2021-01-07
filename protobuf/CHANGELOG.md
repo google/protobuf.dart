@@ -1,3 +1,8 @@
+## 2.0.0-nullsafety.1
+
+* Protobuf messages can now be sent between isolates.
+* Remove `PbMap.add` method which was deprecated in 0.13.3
+
 ## 2.0.0-nullsafety.0
 
 * Require at least Dart SDK 2.12.0 and support null safety. Use `protoc_plugin`
