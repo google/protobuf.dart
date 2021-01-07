@@ -17,6 +17,6 @@ Duration measure(void Function() f,
   return s.elapsed ~/ iterations;
 }
 
-String formatReport({String title, Duration duration}) {
+String formatReport({required String title, required Duration duration}) {
   return "RunTimeRaw($title): ${duration.inMicroseconds} us";
 }
