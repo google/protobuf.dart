@@ -416,7 +416,7 @@ class MessageGenerator extends ProtobufContainer {
 'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
 'Will be removed in next major version\')''');
       out.println('$classname copyWith(void Function($classname) updates) =>'
-          ' super.copyWith((message) => updates(message as $classname));'
+          ' super.copyWith((message) => updates(message as $classname)) as $classname;'
           ' // ignore: deprecated_member_use');
 
       out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
