@@ -1,5 +1,9 @@
 include: package:pedantic/analysis_options.yaml
 
-linter:
+analyzer:
+  # TODO(sigurdm): `benchmarks` should be moved out of the protobuf folder.
+  exclude: [benchmarks/**]
+
+linter: 
   rules:
     prefer_spread_collections: false
