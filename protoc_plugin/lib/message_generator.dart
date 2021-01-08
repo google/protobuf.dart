@@ -358,7 +358,7 @@ class MessageGenerator extends ProtobufContainer {
       out.println('${classname} clone() =>'
           ' ${classname}()..mergeFromMessage(this);');
       out.println('$classname copyWith(void Function($classname) updates) =>'
-          ' super.copyWith((message) => updates(message as $classname));');
+          ' super.copyWith((message) => updates(message as $classname)) as $classname;');
 
       out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
 
