@@ -27,7 +27,7 @@ abstract class TestServiceBase extends $pb.GeneratedService {
 
   $async.Future<$pb.GeneratedMessage> handleCall($pb.ServerContext ctx, $core.String method, $pb.GeneratedMessage request) {
     switch (method) {
-      case 'Ping': return this.ping(ctx, request);
+      case 'Ping': return this.ping(ctx, request as $0.Empty);
       default: throw $core.ArgumentError('Unknown method: $method');
     }
   }
