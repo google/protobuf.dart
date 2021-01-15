@@ -245,11 +245,11 @@ repeatedString: qux
 
   test('JSON constants share structure', () {
     const nestedTypeTag = 3;
-    List fields = TestAllTypes$json['$nestedTypeTag'];
+    var fields = TestAllTypes$json['$nestedTypeTag'] as List;
     expect(fields[0], same(TestAllTypes_NestedMessage$json));
 
     const enumTypeTag = 4;
-    fields = TestAllTypes$json['$enumTypeTag'];
+    fields = TestAllTypes$json['$enumTypeTag'] as List;
     expect(fields[0], same(TestAllTypes_NestedEnum$json));
   });
 

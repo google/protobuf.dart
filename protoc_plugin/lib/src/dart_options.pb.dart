@@ -68,8 +68,8 @@ class DartMixin extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   DartMixin copyWith(void Function(DartMixin) updates) =>
-      super.copyWith((message) => updates(message as DartMixin))
-          as DartMixin; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as DartMixin)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DartMixin create() => DartMixin._();
@@ -160,8 +160,8 @@ class Imports extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   Imports copyWith(void Function(Imports) updates) =>
-      super.copyWith((message) => updates(message as Imports))
-          as Imports; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as Imports)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Imports create() => Imports._();

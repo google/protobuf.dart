@@ -67,7 +67,7 @@ class IndentingWriter {
 
   /// Prints a block of text with the body indented one more level.
   void addBlock(String start, String end, void Function() body,
-      {endWithNewline = true}) {
+      {bool endWithNewline = true}) {
     println(start);
     _addBlockBodyAndEnd(end, body, endWithNewline, _indent + '  ');
   }
@@ -75,20 +75,20 @@ class IndentingWriter {
   /// Prints a block of text with an unindented body.
   /// (For example, for triple quotes.)
   void addUnindentedBlock(String start, String end, void Function() body,
-      {endWithNewline = true}) {
+      {bool endWithNewline = true}) {
     println(start);
     _addBlockBodyAndEnd(end, body, endWithNewline, '');
   }
 
   void addAnnotatedBlock(String start, String end,
       List<NamedLocation> namedLocations, void Function() body,
-      {endWithNewline = true}) {
+      {bool endWithNewline = true}) {
     printlnAnnotated(start, namedLocations);
     _addBlockBodyAndEnd(end, body, endWithNewline, _indent + '  ');
   }
 
   void _addBlockBodyAndEnd(
-      String end, void Function() body, endWithNewline, newIndent) {
+      String end, void Function() body, bool endWithNewline, String newIndent) {
     var oldIndent = _indent;
     _indent = newIndent;
     body();

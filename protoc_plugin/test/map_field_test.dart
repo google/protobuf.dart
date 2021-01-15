@@ -224,9 +224,9 @@ void main() {
       ..int32ToStringField[2] = 'test2';
     var t3 = TestMap()..int32ToStringField[1] = 'test';
 
-    PbMap<int, String> m = t.int32ToStringField;
-    PbMap<int, String> m2 = t2.int32ToStringField;
-    PbMap<int, String> m3 = t3.int32ToStringField;
+    final m = t.int32ToStringField;
+    final m2 = t2.int32ToStringField;
+    final m3 = t3.int32ToStringField;
 
     expect(t, t2);
     expect(t.hashCode, t2.hashCode);

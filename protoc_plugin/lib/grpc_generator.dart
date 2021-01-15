@@ -67,7 +67,7 @@ class GrpcServiceGenerator {
   void _addDependency(GenerationContext ctx, String fqname, String location) {
     if (_deps.containsKey(fqname)) return; // Already added.
 
-    MessageGenerator mg = ctx.getFieldType(fqname);
+    final mg = ctx.getFieldType(fqname) as MessageGenerator;
     if (mg == null) {
       _undefinedDeps[fqname] = location;
       return;

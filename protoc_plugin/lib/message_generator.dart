@@ -475,7 +475,7 @@ class MessageGenerator extends ProtobufContainer {
         return true;
       }
       if (field.baseType.isMessage) {
-        MessageGenerator child = field.baseType.generator;
+        final child = field.baseType.generator as MessageGenerator;
         if (_hasRequiredFields(child, alreadySeen)) {
           return true;
         }
@@ -722,7 +722,7 @@ class MessageGenerator extends ProtobufContainer {
       return defaultMixin;
     }
 
-    String name = _descriptor.options.getExtension(Dart_options.mixin);
+    final name = _descriptor.options.getExtension(Dart_options.mixin) as String;
     if (name.isEmpty) return null; // don't use any mixins (override default)
     var mixin = declaredMixins[name] ?? findMixin(name);
     if (mixin == null) {

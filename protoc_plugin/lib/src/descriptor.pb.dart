@@ -56,8 +56,8 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   FileDescriptorSet copyWith(void Function(FileDescriptorSet) updates) =>
-      super.copyWith((message) => updates(message as FileDescriptorSet))
-          as FileDescriptorSet; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as FileDescriptorSet)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FileDescriptorSet create() => FileDescriptorSet._();
@@ -176,8 +176,8 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   FileDescriptorProto copyWith(void Function(FileDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as FileDescriptorProto))
-          as FileDescriptorProto; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as FileDescriptorProto)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FileDescriptorProto create() => FileDescriptorProto._();
@@ -335,9 +335,8 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   DescriptorProto_ExtensionRange copyWith(
           void Function(DescriptorProto_ExtensionRange) updates) =>
-      super.copyWith(
-              (message) => updates(message as DescriptorProto_ExtensionRange))
-          as DescriptorProto_ExtensionRange; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message
+          as DescriptorProto_ExtensionRange)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ExtensionRange create() =>
@@ -443,9 +442,8 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   DescriptorProto_ReservedRange copyWith(
           void Function(DescriptorProto_ReservedRange) updates) =>
-      super.copyWith(
-              (message) => updates(message as DescriptorProto_ReservedRange))
-          as DescriptorProto_ReservedRange; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message
+          as DescriptorProto_ReservedRange)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ReservedRange create() =>
@@ -571,8 +569,8 @@ class DescriptorProto extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   DescriptorProto copyWith(void Function(DescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as DescriptorProto))
-          as DescriptorProto; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as DescriptorProto)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static DescriptorProto create() => DescriptorProto._();
@@ -680,8 +678,8 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   ExtensionRangeOptions copyWith(
           void Function(ExtensionRangeOptions) updates) =>
-      super.copyWith((message) => updates(message as ExtensionRangeOptions))
-          as ExtensionRangeOptions; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as ExtensionRangeOptions)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ExtensionRangeOptions create() => ExtensionRangeOptions._();
@@ -802,8 +800,8 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   FieldDescriptorProto copyWith(void Function(FieldDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as FieldDescriptorProto))
-          as FieldDescriptorProto; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as FieldDescriptorProto)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FieldDescriptorProto create() => FieldDescriptorProto._();
@@ -1001,8 +999,8 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   OneofDescriptorProto copyWith(void Function(OneofDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as OneofDescriptorProto))
-          as OneofDescriptorProto; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as OneofDescriptorProto)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static OneofDescriptorProto create() => OneofDescriptorProto._();
@@ -1096,9 +1094,8 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   EnumDescriptorProto_EnumReservedRange copyWith(
           void Function(EnumDescriptorProto_EnumReservedRange) updates) =>
-      super.copyWith((message) =>
-              updates(message as EnumDescriptorProto_EnumReservedRange))
-          as EnumDescriptorProto_EnumReservedRange; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message
+          as EnumDescriptorProto_EnumReservedRange)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto_EnumReservedRange create() =>
@@ -1202,8 +1199,8 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   EnumDescriptorProto copyWith(void Function(EnumDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as EnumDescriptorProto))
-          as EnumDescriptorProto; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as EnumDescriptorProto)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto create() => EnumDescriptorProto._();
@@ -1311,8 +1308,8 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   EnumValueDescriptorProto copyWith(
           void Function(EnumValueDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as EnumValueDescriptorProto))
-          as EnumValueDescriptorProto; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message
+          as EnumValueDescriptorProto)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static EnumValueDescriptorProto create() => EnumValueDescriptorProto._();
@@ -1419,8 +1416,8 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   ServiceDescriptorProto copyWith(
           void Function(ServiceDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as ServiceDescriptorProto))
-          as ServiceDescriptorProto; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as ServiceDescriptorProto)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ServiceDescriptorProto create() => ServiceDescriptorProto._();
@@ -1539,8 +1536,8 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   MethodDescriptorProto copyWith(
           void Function(MethodDescriptorProto) updates) =>
-      super.copyWith((message) => updates(message as MethodDescriptorProto))
-          as MethodDescriptorProto; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as MethodDescriptorProto)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static MethodDescriptorProto create() => MethodDescriptorProto._();
@@ -1782,8 +1779,8 @@ class FileOptions extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   FileOptions copyWith(void Function(FileOptions) updates) =>
-      super.copyWith((message) => updates(message as FileOptions))
-          as FileOptions; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as FileOptions)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FileOptions create() => FileOptions._();
@@ -2112,8 +2109,8 @@ class MessageOptions extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   MessageOptions copyWith(void Function(MessageOptions) updates) =>
-      super.copyWith((message) => updates(message as MessageOptions))
-          as MessageOptions; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as MessageOptions)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static MessageOptions create() => MessageOptions._();
@@ -2253,8 +2250,8 @@ class FieldOptions extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   FieldOptions copyWith(void Function(FieldOptions) updates) =>
-      super.copyWith((message) => updates(message as FieldOptions))
-          as FieldOptions; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as FieldOptions)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static FieldOptions create() => FieldOptions._();
@@ -2385,8 +2382,8 @@ class OneofOptions extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   OneofOptions copyWith(void Function(OneofOptions) updates) =>
-      super.copyWith((message) => updates(message as OneofOptions))
-          as OneofOptions; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as OneofOptions)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static OneofOptions create() => OneofOptions._();
@@ -2463,8 +2460,8 @@ class EnumOptions extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   EnumOptions copyWith(void Function(EnumOptions) updates) =>
-      super.copyWith((message) => updates(message as EnumOptions))
-          as EnumOptions; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as EnumOptions)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static EnumOptions create() => EnumOptions._();
@@ -2555,8 +2552,8 @@ class EnumValueOptions extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   EnumValueOptions copyWith(void Function(EnumValueOptions) updates) =>
-      super.copyWith((message) => updates(message as EnumValueOptions))
-          as EnumValueOptions; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as EnumValueOptions)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static EnumValueOptions create() => EnumValueOptions._();
@@ -2636,8 +2633,8 @@ class ServiceOptions extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   ServiceOptions copyWith(void Function(ServiceOptions) updates) =>
-      super.copyWith((message) => updates(message as ServiceOptions))
-          as ServiceOptions; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as ServiceOptions)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ServiceOptions create() => ServiceOptions._();
@@ -2724,8 +2721,8 @@ class MethodOptions extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   MethodOptions copyWith(void Function(MethodOptions) updates) =>
-      super.copyWith((message) => updates(message as MethodOptions))
-          as MethodOptions; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as MethodOptions)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static MethodOptions create() => MethodOptions._();
@@ -2817,9 +2814,8 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   UninterpretedOption_NamePart copyWith(
           void Function(UninterpretedOption_NamePart) updates) =>
-      super.copyWith(
-              (message) => updates(message as UninterpretedOption_NamePart))
-          as UninterpretedOption_NamePart; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message
+          as UninterpretedOption_NamePart)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption_NamePart create() =>
@@ -2929,8 +2925,8 @@ class UninterpretedOption extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   UninterpretedOption copyWith(void Function(UninterpretedOption) updates) =>
-      super.copyWith((message) => updates(message as UninterpretedOption))
-          as UninterpretedOption; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as UninterpretedOption)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption create() => UninterpretedOption._();
@@ -3088,8 +3084,8 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   SourceCodeInfo_Location copyWith(
           void Function(SourceCodeInfo_Location) updates) =>
-      super.copyWith((message) => updates(message as SourceCodeInfo_Location))
-          as SourceCodeInfo_Location; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as SourceCodeInfo_Location)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo_Location create() => SourceCodeInfo_Location._();
@@ -3178,8 +3174,8 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   SourceCodeInfo copyWith(void Function(SourceCodeInfo) updates) =>
-      super.copyWith((message) => updates(message as SourceCodeInfo))
-          as SourceCodeInfo; // ignore: deprecated_member_use
+      super.copyWith((message) =>
+          updates(message as SourceCodeInfo)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo create() => SourceCodeInfo._();
@@ -3261,9 +3257,8 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   GeneratedCodeInfo_Annotation copyWith(
           void Function(GeneratedCodeInfo_Annotation) updates) =>
-      super.copyWith(
-              (message) => updates(message as GeneratedCodeInfo_Annotation))
-          as GeneratedCodeInfo_Annotation; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message
+          as GeneratedCodeInfo_Annotation)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo_Annotation create() =>
@@ -3359,8 +3354,8 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   GeneratedCodeInfo copyWith(void Function(GeneratedCodeInfo) updates) =>
-      super.copyWith((message) => updates(message as GeneratedCodeInfo))
-          as GeneratedCodeInfo; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(
+          message as GeneratedCodeInfo)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo create() => GeneratedCodeInfo._();

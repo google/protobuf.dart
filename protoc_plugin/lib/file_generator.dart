@@ -47,7 +47,8 @@ class FileGenerator extends ProtobufContainer {
       return <String, PbMixin>{};
     }
     var dartMixins = <String, DartMixin>{};
-    Imports importedMixins = desc.options.getExtension(Dart_options.imports);
+    final importedMixins =
+        desc.options.getExtension(Dart_options.imports) as Imports;
     for (var mixin in importedMixins.mixins) {
       if (dartMixins.containsKey(mixin.name)) {
         throw mixinError('Duplicate mixin name: "${mixin.name}"');
@@ -149,7 +150,8 @@ class FileGenerator extends ProtobufContainer {
 
     var declaredMixins = _getDeclaredMixins(descriptor);
     var defaultMixinName =
-        descriptor.options?.getExtension(Dart_options.defaultMixin) ?? '';
+        descriptor.options?.getExtension(Dart_options.defaultMixin) as String ??
+            '';
     var defaultMixin =
         declaredMixins[defaultMixinName] ?? findMixin(defaultMixinName);
     if (defaultMixin == null && defaultMixinName.isNotEmpty) {

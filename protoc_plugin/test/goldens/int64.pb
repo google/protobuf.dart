@@ -37,7 +37,7 @@ class Int64 extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  Int64 copyWith(void Function(Int64) updates) => super.copyWith((message) => updates(message as Int64)) as Int64; // ignore: deprecated_member_use
+  Int64 copyWith(void Function(Int64) updates) => super.copyWith((message) => updates(message as Int64)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Int64 create() => Int64._();

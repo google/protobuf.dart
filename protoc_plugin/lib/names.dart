@@ -466,9 +466,10 @@ String _fieldMethodSuffix(FieldDescriptorProto field) {
   return underscoresToCamelCase(name);
 }
 
-String underscoresToCamelCase(s) => s.split('_').map(_capitalize).join('');
+String underscoresToCamelCase(String s) =>
+    s.split('_').map(_capitalize).join('');
 
-String _capitalize(s) =>
+String _capitalize(String s) =>
     s.isEmpty ? s : '${s[0].toUpperCase()}${s.substring(1)}';
 
 bool _isRepeated(FieldDescriptorProto field) =>
@@ -479,9 +480,9 @@ bool _isGroupOrMessage(FieldDescriptorProto field) =>
     field.type == FieldDescriptorProto_Type.TYPE_GROUP;
 
 String _nameOption(FieldDescriptorProto field) =>
-    field.options.getExtension(Dart_options.dartName);
+    field.options.getExtension(Dart_options.dartName) as String;
 
-bool _isDartFieldName(name) => name.startsWith(_dartFieldNameExpr);
+bool _isDartFieldName(String name) => name.startsWith(_dartFieldNameExpr);
 
 final _dartFieldNameExpr = RegExp(r'^[a-z]\w+$');
 

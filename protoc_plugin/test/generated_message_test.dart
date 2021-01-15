@@ -325,7 +325,7 @@ void main() {
   });
 
   test('testMaliciousRecursion', () {
-    GeneratedMessage _makeRecursiveMessage(int depth) {
+    TestRecursiveMessage _makeRecursiveMessage(int depth) {
       return depth == 0
           ? (TestRecursiveMessage()..i = 5)
           : (TestRecursiveMessage()..a = _makeRecursiveMessage(depth - 1));

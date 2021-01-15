@@ -1,10 +1,8 @@
-# Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
-# for details. All rights reserved. Use of this source code is governed by a
-# BSD-style license that can be found in the LICENSE file.
-#
-# Google internally enforced rules. See README.md for more information,
-# including a list of lints that are intentionally _not_ enforced.
-include: package:pedantic/analysis_options.yaml
+include: package:pedantic/analysis_options.1.9.0.yaml
+
+analyzer:
+  strong-mode:
+    implicit-casts: false
 
 linter:
   rules:
