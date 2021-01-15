@@ -79,8 +79,8 @@ class Version extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   Version copyWith(void Function(Version) updates) =>
-      super.copyWith((message) =>
-          updates(message as Version)); // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as Version))
+          as Version; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static Version create() => Version._();
@@ -204,8 +204,8 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
-      super.copyWith((message) => updates(
-          message as CodeGeneratorRequest)); // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as CodeGeneratorRequest))
+          as CodeGeneratorRequest; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest create() => CodeGeneratorRequest._();
@@ -318,8 +318,9 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   CodeGeneratorResponse_File copyWith(
           void Function(CodeGeneratorResponse_File) updates) =>
-      super.copyWith((message) => updates(message
-          as CodeGeneratorResponse_File)); // ignore: deprecated_member_use
+      super.copyWith(
+              (message) => updates(message as CodeGeneratorResponse_File))
+          as CodeGeneratorResponse_File; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File._();
@@ -440,8 +441,8 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   CodeGeneratorResponse copyWith(
           void Function(CodeGeneratorResponse) updates) =>
-      super.copyWith((message) => updates(
-          message as CodeGeneratorResponse)); // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as CodeGeneratorResponse))
+          as CodeGeneratorResponse; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse create() => CodeGeneratorResponse._();
