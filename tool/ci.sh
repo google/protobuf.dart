@@ -1,5 +1,5 @@
 #!/bin/bash
-# Created with package:mono_repo v3.0.0
+# Created with package:mono_repo v3.4.6
 
 # Support built in commands on windows out of the box.
 function pub() {
@@ -59,10 +59,14 @@ for PKG in ${PKGS}; do
       echo -e "\033[1mPKG: ${PKG}; TASK: ${TASK}\033[22m"
       case ${TASK} in
       command_0)
+        echo './../tool/setup.sh'
+        ./../tool/setup.sh || EXIT_CODE=$?
+        ;;
+      command_1)
         echo './compile_protos.sh'
         ./compile_protos.sh || EXIT_CODE=$?
         ;;
-      command_1)
+      command_2)
         echo 'make protos'
         make protos || EXIT_CODE=$?
         ;;
