@@ -581,7 +581,8 @@ class FileGenerator extends ProtobufContainer {
   }
 
   /// Writes the header at the top of the dart file.
-  void _writeHeading(IndentingWriter out, {bool nullSafe = true, Set<String> extraIgnores = const <String>{}}) {
+  void _writeHeading(IndentingWriter out,
+      {bool nullSafe = true, Set<String> extraIgnores = const <String>{}}) {
     var version = nullSafe ? '2.12' : '2.7';
     var extraIgnoresString =
         extraIgnores.isEmpty ? '' : ',${extraIgnores.join(',')}';

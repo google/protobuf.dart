@@ -2,30 +2,13 @@
 //  Generated code. Do not modify.
 //  source: test
 //
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b8ac402 (Use @dart = 2.7 in generated files (#455))
-=======
->>>>>>> 3cc0210 (Emit binary coded descriptors from dart protoc_plugin. (#406))
 // @dart = 2.12
-=======
-// @dart = 2.7
->>>>>>> 27d382d (Use @dart = 2.7 in generated files (#455))
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
-
-import 'dart:core' as $core;
-=======
-// @dart = 2.7
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
 
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
 import 'dart:typed_data' as $typed_data;
 @$core.Deprecated('Use phoneTypeDescriptor instead')
->>>>>>> 938dd9d (Emit binary coded descriptors from dart protoc_plugin. (#406))
 const PhoneType$json = const {
   '1': 'PhoneType',
   '2': const [
