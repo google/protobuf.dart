@@ -181,8 +181,7 @@ class _GrpcMethod {
   factory _GrpcMethod(GrpcServiceGenerator service, GenerationContext ctx,
       MethodDescriptorProto method) {
     final grpcName = method.name;
-    final dartName =
-        grpcName.substring(0, 1).toLowerCase() + grpcName.substring(1);
+    final dartName = lowerCaseFirstLetter(grpcName);
 
     final clientStreaming = method.clientStreaming;
     final serverStreaming = method.serverStreaming;

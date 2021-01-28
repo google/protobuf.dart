@@ -51,6 +51,7 @@ class MessageGenerator extends ProtobufContainer {
 
   PbMixin mixin;
 
+  @override
   final ProtobufContainer _parent;
   final DescriptorProto _descriptor;
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
@@ -683,6 +684,8 @@ class MessageGenerator extends ProtobufContainer {
     var nestedEnumNames =
         _enumGenerators.map((e) => e.getJsonConstant(fileGen)).toList();
 
+    out.println('@$_coreImportPrefix.Deprecated'
+        '(\'Use ${toplevelParent.binaryDescriptorName} instead\')');
     out.addBlock("const $name = const {", "};", () {
       for (var key in json.keys) {
         out.print("'$key': ");
