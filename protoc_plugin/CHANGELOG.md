@@ -1,6 +1,8 @@
 ## 20.0.0-nullsafety.2
 
 * Support optional proto3 fields
+* Emit binary coded descriptors, which can be used to reflect over the options
+  given to the descriptor.
 
 ## 20.0.0-nullsafety.1
 
@@ -9,6 +11,16 @@
 ## 20.0.0-nullsafety.0
 
 * Generate null-safe code.
+
+## 19.3.1
+
+* Emit binary coded descriptors, which can be used to reflect over the options
+  given to the descriptor.
+
+## 19.3.0
+
+* Generate constructors with optional named arguments for prefilling fields.
+* Output language version 2.7 in generated files to support extension methods.
 
 ## 19.2.1
 
