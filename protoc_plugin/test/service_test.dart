@@ -1,3 +1,5 @@
+// @dart=2.11
+
 library service_test;
 
 import 'package:protobuf/protobuf.dart';

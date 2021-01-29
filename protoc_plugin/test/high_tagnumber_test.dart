@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=2.11
+
 import '../out/protos/high_tagnumber.pb.dart';
 import '../out/protos/google/protobuf/empty.pb.dart';
 import 'package:test/test.dart';
