@@ -131,8 +131,7 @@ class ServiceGenerator {
 
   List<MethodDescriptorProto> get _methodDescriptors => _descriptor.method;
 
-  String _methodName(String name) =>
-      name.substring(0, 1).toLowerCase() + name.substring(1);
+  String _methodName(String name) => lowerCaseFirstLetter(name);
 
   String get _parentClass => _generatedService;
 
@@ -226,6 +225,9 @@ class ServiceGenerator {
     for (var key in _transitiveDeps.keys) {
       typeConstants[key] = _transitiveDeps[key].getJsonConstant(fileGen);
     }
+
+    out.println('@$_coreImportPrefix.Deprecated'
+        '(\'Use ${binaryDescriptorName} instead\')');
     out.addBlock(
         "const $_coreImportPrefix.Map<$_coreImportPrefix.String,"
             " $_coreImportPrefix.Map<$_coreImportPrefix.String,"
@@ -245,6 +247,14 @@ class ServiceGenerator {
       }
       out.println();
     }
+  }
+
+  String get binaryDescriptorName {
+    var prefix = lowerCaseFirstLetter(classname);
+    if (prefix.endsWith('Base')) {
+      prefix = prefix.substring(0, prefix.length - 4);
+    }
+    return '${prefix}Descriptor';
   }
 
   static final String _future = '$_asyncImportPrefix.Future';

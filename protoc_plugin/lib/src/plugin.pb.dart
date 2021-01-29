@@ -2,14 +2,17 @@
 //  Generated code. Do not modify.
 //  source: plugin.proto
 //
-// @dart = 2.3
+// @dart = 2.7
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
 
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'descriptor.pb.dart' as $0;
+
+export 'plugin.pbenum.dart';
 
 class Version extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
@@ -41,7 +44,27 @@ class Version extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   Version._() : super();
-  factory Version() => create();
+  factory Version({
+    $core.int major,
+    $core.int minor,
+    $core.int patch,
+    $core.String suffix,
+  }) {
+    final _result = create();
+    if (major != null) {
+      _result.major = major;
+    }
+    if (minor != null) {
+      _result.minor = minor;
+    }
+    if (patch != null) {
+      _result.patch = patch;
+    }
+    if (suffix != null) {
+      _result.suffix = suffix;
+    }
+    return _result;
+  }
   factory Version.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
@@ -145,7 +168,27 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
         subBuilder: $0.FileDescriptorProto.create);
 
   CodeGeneratorRequest._() : super();
-  factory CodeGeneratorRequest() => create();
+  factory CodeGeneratorRequest({
+    $core.Iterable<$core.String> fileToGenerate,
+    $core.String parameter,
+    Version compilerVersion,
+    $core.Iterable<$0.FileDescriptorProto> protoFile,
+  }) {
+    final _result = create();
+    if (fileToGenerate != null) {
+      _result.fileToGenerate.addAll(fileToGenerate);
+    }
+    if (parameter != null) {
+      _result.parameter = parameter;
+    }
+    if (compilerVersion != null) {
+      _result.compilerVersion = compilerVersion;
+    }
+    if (protoFile != null) {
+      _result.protoFile.addAll(protoFile);
+    }
+    return _result;
+  }
   factory CodeGeneratorRequest.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
@@ -232,10 +275,33 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'content')
+    ..aOM<$0.GeneratedCodeInfo>(
+        16, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'generatedCodeInfo',
+        subBuilder: $0.GeneratedCodeInfo.create)
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse_File._() : super();
-  factory CodeGeneratorResponse_File() => create();
+  factory CodeGeneratorResponse_File({
+    $core.String name,
+    $core.String insertionPoint,
+    $core.String content,
+    $0.GeneratedCodeInfo generatedCodeInfo,
+  }) {
+    final _result = create();
+    if (name != null) {
+      _result.name = name;
+    }
+    if (insertionPoint != null) {
+      _result.insertionPoint = insertionPoint;
+    }
+    if (content != null) {
+      _result.content = content;
+    }
+    if (generatedCodeInfo != null) {
+      _result.generatedCodeInfo = generatedCodeInfo;
+    }
+    return _result;
+  }
   factory CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
@@ -300,6 +366,20 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   $core.bool hasContent() => $_has(2);
   @$pb.TagNumber(15)
   void clearContent() => clearField(15);
+
+  @$pb.TagNumber(16)
+  $0.GeneratedCodeInfo get generatedCodeInfo => $_getN(3);
+  @$pb.TagNumber(16)
+  set generatedCodeInfo($0.GeneratedCodeInfo v) {
+    setField(16, v);
+  }
+
+  @$pb.TagNumber(16)
+  $core.bool hasGeneratedCodeInfo() => $_has(3);
+  @$pb.TagNumber(16)
+  void clearGeneratedCodeInfo() => clearField(16);
+  @$pb.TagNumber(16)
+  $0.GeneratedCodeInfo ensureGeneratedCodeInfo() => $_ensure(3);
 }
 
 class CodeGeneratorResponse extends $pb.GeneratedMessage {
@@ -317,17 +397,33 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'error')
+    ..a<$fixnum.Int64>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'supportedFeatures', $pb.PbFieldType.OU6,
+        defaultOrMaker: $fixnum.Int64.ZERO)
     ..pc<CodeGeneratorResponse_File>(
         15,
-        const $core.bool.fromEnvironment('protobuf.omit_field_names')
-            ? ''
-            : 'file',
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'file',
         $pb.PbFieldType.PM,
         subBuilder: CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse._() : super();
-  factory CodeGeneratorResponse() => create();
+  factory CodeGeneratorResponse({
+    $core.String error,
+    $fixnum.Int64 supportedFeatures,
+    $core.Iterable<CodeGeneratorResponse_File> file,
+  }) {
+    final _result = create();
+    if (error != null) {
+      _result.error = error;
+    }
+    if (supportedFeatures != null) {
+      _result.supportedFeatures = supportedFeatures;
+    }
+    if (file != null) {
+      _result.file.addAll(file);
+    }
+    return _result;
+  }
   factory CodeGeneratorResponse.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
@@ -369,6 +465,18 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearError() => clearField(1);
 
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get supportedFeatures => $_getI64(1);
+  @$pb.TagNumber(2)
+  set supportedFeatures($fixnum.Int64 v) {
+    $_setInt64(1, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasSupportedFeatures() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSupportedFeatures() => clearField(2);
+
   @$pb.TagNumber(15)
-  $core.List<CodeGeneratorResponse_File> get file => $_getList(1);
+  $core.List<CodeGeneratorResponse_File> get file => $_getList(2);
 }

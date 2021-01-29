@@ -1,8 +1,10 @@
 library protoc;
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:path/path.dart' as path;
 

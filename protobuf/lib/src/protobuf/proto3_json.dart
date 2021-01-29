@@ -396,7 +396,8 @@ void _mergeFromProto3Json(
                 convertProto3JsonValue(value, fieldInfo) as GeneratedMessage;
             GeneratedMessage? original = fieldSet._values[fieldInfo.index!];
             if (original == null) {
-              fieldSet._values[fieldInfo.index!] = parsedSubMessage;
+              fieldSet._setNonExtensionFieldUnchecked(
+                  meta, fieldInfo, parsedSubMessage);
             } else {
               original.mergeFromMessage(parsedSubMessage);
             }

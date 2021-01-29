@@ -1,18 +1,15 @@
-travis:
-  before_install:
-# Install our custom protoc, as the version we get with apt-get is too old.
-    - wget -O protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip
-    - unzip -d protoc protoc.zip
-    - export PATH=$PWD/protoc/bin:$PATH
-    - echo $PATH
-# Run the protoc_plugin tests with the protobuf from the repo, not from pub.
-# This could be avoided with a fix of: https://github.com/dart-lang/mono_repo/issues/117.
-    - "echo \"dependency_overrides: {protobuf: {path: ../protobuf}}\" >> protoc_plugin/pubspec.yaml"
-
-  os:
-    - linux
-    - osx
-    - windows
+github:
+  on:
+    # Run CI on pushes to the master branch, and on PRs against master.
+    push:
+      branches: [master, null_safety]
+    pull_request:
+      branches: [master, null_safety]
+    schedule:
+      - cron: "0 0 * * 0"
 
 merge_stages:
-- format_analyzer_tests
+- format_analyze
+- format
+- analyze
+- run_tests

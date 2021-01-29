@@ -28,6 +28,9 @@ abstract class ProtobufContainer {
 
   String get fileImportPrefix => _getFileImportPrefix();
 
+  String get binaryDescriptorName =>
+      '${lowerCaseFirstLetter(classname)}Descriptor';
+
   String _getFileImportPrefix() {
     var path = fileGen.protoFileUri.toString();
     if (importPrefixes.containsKey(path)) {
@@ -43,6 +46,21 @@ abstract class ProtobufContainer {
   ///
   /// (Represents the .pb.dart file that we need to import in order to use it.)
   FileGenerator get fileGen;
+
+  // The generator containing this entity.
+  ProtobufContainer get _parent;
+
+  /// The top-level parent of this entity. If this entity is a top-level entity,
+  /// returns this.
+  ProtobufContainer get toplevelParent {
+    if (_parent == null) {
+      return null;
+    }
+    if (_parent is FileGenerator) {
+      return this;
+    }
+    return _parent.toplevelParent;
+  }
 }
 
 class CodeGenerator extends ProtobufContainer {
@@ -96,6 +114,9 @@ class CodeGenerator extends ProtobufContainer {
           response.file.addAll(gen.generateFiles(config));
         }
       }
+      response.supportedFeatures =
+          Int64(CodeGeneratorResponse_Feature.FEATURE_PROTO3_OPTIONAL.value);
+
       _streamOut.add(response.writeToBuffer());
     });
   }
@@ -108,6 +129,8 @@ class CodeGenerator extends ProtobufContainer {
   String get fullName => '';
   @override
   FileGenerator get fileGen => null;
+  @override
+  ProtobufContainer get _parent => null;
   @override
   List<int> get fieldPath => [];
 }
