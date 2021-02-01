@@ -1,3 +1,5 @@
+// @dart=2.11
+
 library protoc;
 
 import 'dart:convert';

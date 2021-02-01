@@ -1,3 +1,5 @@
+// @dart=2.11
+
 import 'package:test/test.dart';
 
 import '../out/protos/mixins.pb.dart' as pb;
