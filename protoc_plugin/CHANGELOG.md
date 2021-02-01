@@ -3,6 +3,7 @@
 * Support optional proto3 fields
 * Emit binary coded descriptors, which can be used to reflect over the options
   given to the descriptor.
+* Generate null-safe .pbgrpc.dart files
 
 ## 20.0.0-nullsafety.1
 
