@@ -489,7 +489,7 @@ class FileGenerator extends ProtobufContainer {
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError("not linked");
     var out = makeWriter();
-    _writeHeading(out, nullSafe: false);
+    _writeHeading(out);
 
     out.println(_asyncImport);
     out.println();
@@ -584,8 +584,7 @@ class FileGenerator extends ProtobufContainer {
 
   /// Writes the header at the top of the dart file.
   void _writeHeading(IndentingWriter out,
-      {bool nullSafe = true, Set<String> extraIgnores = const <String>{}}) {
-    var version = nullSafe ? '2.12' : '2.7';
+      {Set<String> extraIgnores = const <String>{}}) {
     var extraIgnoresString =
         extraIgnores.isEmpty ? '' : ',${extraIgnores.join(',')}';
 
@@ -594,7 +593,7 @@ class FileGenerator extends ProtobufContainer {
 //  Generated code. Do not modify.
 //  source: ${descriptor.name}
 //
-// @dart = $version
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields$extraIgnoresString
 ''');
   }

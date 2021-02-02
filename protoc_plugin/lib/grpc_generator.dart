@@ -114,9 +114,9 @@ class GrpcServiceGenerator {
       }
       out.println();
       out.println('$_clientClassname($_clientChannel channel,');
-      out.println('    {$_callOptions options,');
+      out.println('    {$_callOptions? options,');
       out.println(
-          '    $_coreImportPrefix.Iterable<$_interceptor> interceptors})');
+          '    $_coreImportPrefix.Iterable<$_interceptor>? interceptors})');
       out.println('    : super(channel, options: options,');
       out.println('      interceptors: interceptors);');
       for (final method in _methods) {
@@ -227,7 +227,7 @@ class _GrpcMethod {
   void generateClientStub(IndentingWriter out) {
     out.println();
     out.addBlock(
-        '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions} options}) {',
+        '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions}? options}) {',
         '}', () {
       if (_clientStreaming && _serverStreaming) {
         out.println(
