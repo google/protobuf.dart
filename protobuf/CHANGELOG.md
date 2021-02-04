@@ -1,3 +1,9 @@
+## 1.1.1
+
+* Fix decoding of `oneof` fields from proto3 json. The 'whichFoo' state would 
+  not be set.
+* Fix the return type of `copyWith`.
+
 ## 1.1.0
 
 * Require at least Dart SDK 2.7.0 to enable usage of extension methods.
