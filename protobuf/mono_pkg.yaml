@@ -1,21 +1,13 @@
 # See https://github.com/dart-lang/mono_repo for details
-
-# - format stage runs only on Linux and only using dev SDK
-# - analyze stage runs only on Linux with different flags for 2.7.0 and dev SDKs
-# - test stage runs for all oses and all sdks
-
 stages:
-  - format:
-    - group: [dartfmt]
-      dart: [dev]
-  - analyze:
+  - format_analyzer_tests:
     - group:
       - dartanalyzer: --fatal-infos --fatal-warnings lib test
+      - dartfmt
       dart: [dev]
     - group:
       - dartanalyzer: --fatal-warnings .
       dart: [2.7.0]
-  - run_tests:
-    - group: [test]
+    - group:
+      - test
       dart: [2.7.0, dev]
-      os: [linux, osx, windows]

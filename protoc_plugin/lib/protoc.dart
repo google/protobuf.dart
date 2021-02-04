@@ -1,6 +1,5 @@
 library protoc;
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';

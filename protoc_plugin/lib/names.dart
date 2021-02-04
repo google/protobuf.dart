@@ -431,8 +431,9 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int index,
 
 /// The name to use by default for the Dart getter and setter.
 /// (A suffix will be added if there is a conflict.)
-String _defaultFieldName(String fieldMethodSuffix) =>
-    lowerCaseFirstLetter(fieldMethodSuffix);
+String _defaultFieldName(String fieldMethodSuffix) {
+  return '${fieldMethodSuffix[0].toLowerCase()}${fieldMethodSuffix.substring(1)}';
+}
 
 String _defaultHasMethodName(String fieldMethodSuffix) =>
     'has$fieldMethodSuffix';
@@ -583,6 +584,3 @@ int countRealOneofs(DescriptorProto descriptor) {
   // The number of entries is one higher than the highest seen index.
   return highestIndexSeen + 1;
 }
-
-String lowerCaseFirstLetter(String input) =>
-    input[0].toLowerCase() + input.substring(1);

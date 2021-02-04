@@ -1,25 +1,16 @@
 # See https://github.com/dart-lang/mono_repo for details
 stages:
-  - format:
+  - format_analyzer_tests:
     - group:
-      - command: ./../tool/setup.sh
       - command: make protos
       - dartfmt
-      dart: [dev]
-  - analyze:
-    - group:
-      - command: ./../tool/setup.sh
-      - command: make protos
       - dartanalyzer: --fatal-infos --fatal-warnings .
       dart: [dev]
     - group:
-      - command: ./../tool/setup.sh
       - command: make protos
       - dartanalyzer: --fatal-warnings .
       dart: [2.7.0]
-  - run_tests:
     - group:
-      - command: ./../tool/setup.sh
       - command: make protos
       - test
       dart: [2.7.0, dev]
