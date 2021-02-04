@@ -12,8 +12,7 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 
 // [ArgumentError] in production mode, [TypeError] in checked.
 final invalidArgumentException =
-// ignore: deprecated_member_use
-    predicate((e) => e is ArgumentError || e is TypeError || e is CastError);
+    predicate((e) => e is ArgumentError || e is TypeError);
 final badArgument = throwsA(invalidArgumentException);
 
 // Suppress an analyzer warning for a deliberate type mismatch.
