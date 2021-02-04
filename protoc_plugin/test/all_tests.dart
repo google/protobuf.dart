@@ -10,7 +10,6 @@ import 'any_test.dart' as any;
 import 'client_generator_test.dart' as client_generator;
 import 'const_generator_test.dart' as const_generator;
 import 'default_value_escape_test.dart' as default_value_escape;
-import 'descriptor_test.dart' as descriptor_test;
 import 'enum_generator_test.dart' as enum_generator;
 import 'extension_generator_test.dart' as extension_generator_test;
 import 'extension_test.dart' as extension_test;
@@ -51,7 +50,6 @@ void main() {
   client_generator.main();
   const_generator.main();
   default_value_escape.main();
-  descriptor_test.main();
   enum_generator.main();
   extension_generator_test.main();
   extension_test.main();

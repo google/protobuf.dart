@@ -49,7 +49,7 @@ class M extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M)); // ignore: deprecated_member_use
+  M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M)) as M; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static M create() => M._();

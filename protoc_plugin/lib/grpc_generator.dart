@@ -67,7 +67,7 @@ class GrpcServiceGenerator {
   void _addDependency(GenerationContext ctx, String fqname, String location) {
     if (_deps.containsKey(fqname)) return; // Already added.
 
-    MessageGenerator mg = ctx.getFieldType(fqname);
+    final mg = ctx.getFieldType(fqname) as MessageGenerator;
     if (mg == null) {
       _undefinedDeps[fqname] = location;
       return;
@@ -181,7 +181,8 @@ class _GrpcMethod {
   factory _GrpcMethod(GrpcServiceGenerator service, GenerationContext ctx,
       MethodDescriptorProto method) {
     final grpcName = method.name;
-    final dartName = lowerCaseFirstLetter(grpcName);
+    final dartName =
+        grpcName.substring(0, 1).toLowerCase() + grpcName.substring(1);
 
     final clientStreaming = method.clientStreaming;
     final serverStreaming = method.serverStreaming;

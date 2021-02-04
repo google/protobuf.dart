@@ -31,7 +31,7 @@ void main() {
 
   // Checks that message once serialized to JSON
   // matches TEST_ALL_TYPES_JSON massaged with [:.replaceAll(from, to):].
-  Matcher expectedJson(from, to) {
+  Matcher expectedJson(String from, String to) {
     var expectedJson = TEST_ALL_TYPES_JSON.replaceAll(from, to);
     return predicate(
         (message) => message.writeToJson() == expectedJson, 'Incorrect output');
@@ -95,7 +95,7 @@ void main() {
   });
 
   test('testBase64Decode', () {
-    String optionalBytes(from, to) {
+    String optionalBytes(String from, String to) {
       var json = TEST_ALL_TYPES_JSON.replaceAll(from, to);
       return String.fromCharCodes(TestAllTypes.fromJson(json).optionalBytes);
     }

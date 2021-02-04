@@ -44,7 +44,7 @@ void main() {
           throwsA(TypeMatcher<UnsupportedError>()));
     });
 
-    Outer builder = original.toBuilder();
+    final builder = original.toBuilder() as Outer;
     test('builder is a shallow copy', () {
       expect(builder.inner, same(original.inner));
     });
@@ -94,7 +94,7 @@ void main() {
       original = OuterWithMap()
         ..innerMap[1] = (Inner()..value = 'mapInner')
         ..freeze();
-      outerBuilder = original.toBuilder();
+      outerBuilder = original.toBuilder() as OuterWithMap;
     });
     test('map fields are cloned', () {
       expect(outerBuilder.innerMap, isNot(same(original.innerMap)));
@@ -135,7 +135,7 @@ void main() {
 
     test('can add fields to a builder with unknown fields', () {
       emptyMessage.freeze();
-      TestEmptyMessage builder = emptyMessage.toBuilder();
+      final builder = emptyMessage.toBuilder();
 
       builder.unknownFields
           .addField(2, UnknownFieldSetField()..fixed32s.add(42));
@@ -144,7 +144,7 @@ void main() {
 
     test('cannot mutate already added UnknownFieldSetField on builder', () {
       emptyMessage.freeze();
-      TestEmptyMessage builder = emptyMessage.toBuilder();
+      final builder = emptyMessage.toBuilder();
 
       expect(
           () => builder.unknownFields.getField(1).lengthDelimited[0] =

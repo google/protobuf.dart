@@ -11,7 +11,6 @@ class EnumAlias {
 }
 
 class EnumGenerator extends ProtobufContainer {
-  @override
   final ProtobufContainer _parent;
   @override
   final String classname;
@@ -171,8 +170,6 @@ class EnumGenerator extends ProtobufContainer {
     var name = getJsonConstant(fileGen);
     var json = _descriptor.writeToJsonMap();
 
-    out.println('@$_coreImportPrefix.Deprecated'
-        '(\'Use ${toplevelParent.binaryDescriptorName} instead\')');
     out.print("const $name = ");
     writeJsonConst(out, json);
     out.println(";");

@@ -51,7 +51,6 @@ class MessageGenerator extends ProtobufContainer {
 
   PbMixin mixin;
 
-  @override
   final ProtobufContainer _parent;
   final DescriptorProto _descriptor;
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
@@ -417,7 +416,7 @@ class MessageGenerator extends ProtobufContainer {
 'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
 'Will be removed in next major version\')''');
       out.println('$classname copyWith(void Function($classname) updates) =>'
-          ' super.copyWith((message) => updates(message as $classname));'
+          ' super.copyWith((message) => updates(message as $classname)) as $classname;'
           ' // ignore: deprecated_member_use');
 
       out.println('$_protobufImportPrefix.BuilderInfo get info_ => _i;');
@@ -476,7 +475,7 @@ class MessageGenerator extends ProtobufContainer {
         return true;
       }
       if (field.baseType.isMessage) {
-        MessageGenerator child = field.baseType.generator;
+        final child = field.baseType.generator as MessageGenerator;
         if (_hasRequiredFields(child, alreadySeen)) {
           return true;
         }
@@ -684,8 +683,6 @@ class MessageGenerator extends ProtobufContainer {
     var nestedEnumNames =
         _enumGenerators.map((e) => e.getJsonConstant(fileGen)).toList();
 
-    out.println('@$_coreImportPrefix.Deprecated'
-        '(\'Use ${toplevelParent.binaryDescriptorName} instead\')');
     out.addBlock("const $name = const {", "};", () {
       for (var key in json.keys) {
         out.print("'$key': ");
@@ -725,7 +722,7 @@ class MessageGenerator extends ProtobufContainer {
       return defaultMixin;
     }
 
-    String name = _descriptor.options.getExtension(Dart_options.mixin);
+    final name = _descriptor.options.getExtension(Dart_options.mixin) as String;
     if (name.isEmpty) return null; // don't use any mixins (override default)
     var mixin = declaredMixins[name] ?? findMixin(name);
     if (mixin == null) {

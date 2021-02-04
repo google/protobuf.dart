@@ -10,7 +10,7 @@ import 'dart:mirrors';
 /// (Also visits its superclasses, recursively.)
 Set<String> findMemberNames(String importName, Symbol classSymbol) {
   var lib = currentMirrorSystem().libraries[Uri.parse(importName)];
-  ClassMirror cls = lib.declarations[classSymbol];
+  var cls = lib.declarations[classSymbol] as ClassMirror;
 
   var result = <String>{};
 

@@ -88,7 +88,7 @@ class ProtobufField {
   /// `map<key_type, value_type> map_field = N`.
   bool get isMapField {
     if (!isRepeated || !baseType.isMessage) return false;
-    MessageGenerator generator = baseType.generator;
+    final generator = baseType.generator as MessageGenerator;
     return generator._descriptor.options.hasMapEntry();
   }
 
@@ -116,7 +116,7 @@ class ProtobufField {
   /// [fileGen] represents the .proto file where we are generating code.
   String getDartType(FileGenerator fileGen) {
     if (isMapField) {
-      MessageGenerator d = baseType.generator;
+      final d = baseType.generator as MessageGenerator;
       var keyType = d._fieldList[0].baseType.getDartType(fileGen);
       var valueType = d._fieldList[1].baseType.getDartType(fileGen);
       return '$_coreImportPrefix.Map<$keyType, $valueType>';
@@ -182,7 +182,7 @@ class ProtobufField {
     args.add(quotedName);
 
     if (isMapField) {
-      MessageGenerator generator = baseType.generator;
+      final generator = baseType.generator as MessageGenerator;
       var key = generator._fieldList[0];
       var value = generator._fieldList[1];
       var keyType = key.baseType.getDartType(fileGen);
@@ -364,7 +364,7 @@ class ProtobufField {
         return '${baseType.getDartType(fileGen)}.getDefault';
       case FieldDescriptorProto_Type.TYPE_ENUM:
         var className = baseType.getDartType(fileGen);
-        EnumGenerator gen = baseType.generator;
+        final gen = baseType.generator as EnumGenerator;
         if (descriptor.hasDefaultValue() &&
             descriptor.defaultValue.isNotEmpty) {
           return '$className.${descriptor.defaultValue}';
@@ -400,7 +400,7 @@ class ProtobufField {
   }
 
   bool _hasBooleanOption(Extension extension) =>
-      descriptor?.options?.getExtension(extension) ?? false;
+      descriptor?.options?.getExtension(extension) as bool ?? false;
 
   String get _invalidDefaultValue => "dart-protoc-plugin:"
       " invalid default value (${descriptor.defaultValue})"

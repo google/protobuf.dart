@@ -431,8 +431,9 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int index,
 
 /// The name to use by default for the Dart getter and setter.
 /// (A suffix will be added if there is a conflict.)
-String _defaultFieldName(String fieldMethodSuffix) =>
-    lowerCaseFirstLetter(fieldMethodSuffix);
+String _defaultFieldName(String fieldMethodSuffix) {
+  return '${fieldMethodSuffix[0].toLowerCase()}${fieldMethodSuffix.substring(1)}';
+}
 
 String _defaultHasMethodName(String fieldMethodSuffix) =>
     'has$fieldMethodSuffix';
@@ -465,9 +466,10 @@ String _fieldMethodSuffix(FieldDescriptorProto field) {
   return underscoresToCamelCase(name);
 }
 
-String underscoresToCamelCase(s) => s.split('_').map(_capitalize).join('');
+String underscoresToCamelCase(String s) =>
+    s.split('_').map(_capitalize).join('');
 
-String _capitalize(s) =>
+String _capitalize(String s) =>
     s.isEmpty ? s : '${s[0].toUpperCase()}${s.substring(1)}';
 
 bool _isRepeated(FieldDescriptorProto field) =>
@@ -478,9 +480,9 @@ bool _isGroupOrMessage(FieldDescriptorProto field) =>
     field.type == FieldDescriptorProto_Type.TYPE_GROUP;
 
 String _nameOption(FieldDescriptorProto field) =>
-    field.options.getExtension(Dart_options.dartName);
+    field.options.getExtension(Dart_options.dartName) as String;
 
-bool _isDartFieldName(name) => name.startsWith(_dartFieldNameExpr);
+bool _isDartFieldName(String name) => name.startsWith(_dartFieldNameExpr);
 
 final _dartFieldNameExpr = RegExp(r'^[a-z]\w+$');
 
@@ -582,6 +584,3 @@ int countRealOneofs(DescriptorProto descriptor) {
   // The number of entries is one higher than the highest seen index.
   return highestIndexSeen + 1;
 }
-
-String lowerCaseFirstLetter(String input) =>
-    input[0].toLowerCase() + input.substring(1);

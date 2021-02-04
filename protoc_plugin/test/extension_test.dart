@@ -338,8 +338,8 @@ void main() {
 
     final reparsed = r.reparseMessage(withUnknownFields);
 
-    List<String> strings =
-        withUnknownFields.getExtension(Unittest.repeatedStringExtension);
+    final strings = withUnknownFields
+        .getExtension(Unittest.repeatedStringExtension) as List<String>;
     expect(strings, []);
     strings.add('pop2');
     expect(reparsed.getExtension(Unittest.repeatedStringExtension), []);

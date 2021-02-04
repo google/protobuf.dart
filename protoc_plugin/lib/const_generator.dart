@@ -70,7 +70,7 @@ void _writeMapItems(IndentingWriter out, Map<dynamic, dynamic> val,
   var first = true;
   for (var key in val.keys) {
     if (!first && !vertical) out.print(", ");
-    _writeString(out, key);
+    _writeString(out, key as String);
     out.print(": ");
     writeJsonConst(out, val[key]);
     if (vertical) {
