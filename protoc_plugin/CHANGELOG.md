@@ -1,3 +1,7 @@
+## 20.0.0
+
+* Stable release generating null-safe code.
+
 ## 20.0.0-nullsafety.2
 
 * Support optional proto3 fields
