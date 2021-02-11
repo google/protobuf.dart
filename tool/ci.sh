@@ -70,6 +70,10 @@ for PKG in ${PKGS}; do
         echo 'make protos'
         make protos || EXIT_CODE=$?
         ;;
+      command_3)
+        echo 'dart --no-sound-null-safety test'
+        dart --no-sound-null-safety test || EXIT_CODE=$?
+        ;;
       dartanalyzer_0)
         echo 'dartanalyzer --fatal-warnings .'
         dartanalyzer --fatal-warnings . || EXIT_CODE=$?

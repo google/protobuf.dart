@@ -238,14 +238,14 @@ jobs:
       - job_003
       - job_004
   job_008:
-    name: "run_tests; linux; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `pub run test`"
+    name: "run_tests; linux; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart --no-sound-null-safety test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin;commands:command_0-command_2-test"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin;commands:command_0-command_2-command_3"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;dart:dev
@@ -269,10 +269,10 @@ jobs:
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
         run: make protos
-      - name: protoc_plugin; pub run test
+      - name: "protoc_plugin; dart --no-sound-null-safety test"
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
-        run: pub run test
+        run: dart --no-sound-null-safety test
     needs:
       - job_001
       - job_002
