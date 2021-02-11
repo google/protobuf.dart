@@ -1,5 +1,5 @@
 name: protoc_plugin
-version: 20.0.0-nullsafety.2
+version: 20.0.0
 description: Protoc compiler plugin to generate Dart code
 homepage: https://github.com/dart-lang/protobuf
 
@@ -7,14 +7,14 @@ environment:
   sdk: '>=2.11.0 <3.0.0'
 
 dependencies:
-  fixnum: '>=0.10.9 <2.0.0'
-  path: ^1.8.0-nullsafety
-  protobuf: '^2.0.0-nullsafety.1'
+  fixnum: ^1.0.0
+  path: ^1.8.0
+  protobuf: ^2.0.0
   dart_style: ^1.0.6
 
 dev_dependencies:
-  test: ^1.16.0-nullsafety
-  pedantic: ^1.10.0-nullsafety
+  test: ^1.16.0
+  pedantic: ^1.10.0
 
 executables:
   protoc-gen-dart: protoc_plugin
