@@ -1,3 +1,7 @@
+## 2.0.0
+
+* Stable null safety release.
+
 ## 2.0.0-nullsafety.1
 
 * Protobuf messages can now be sent between isolates.
