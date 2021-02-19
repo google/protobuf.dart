@@ -40,6 +40,7 @@ TEST_PROTO_LIST = \
 	json_name \
 	map_api \
 	map_api2 \
+	map_enum_value \
 	map_field \
 	mixins \
 	multiple_files_test \

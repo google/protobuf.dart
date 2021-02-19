@@ -9,6 +9,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
+import '../out/protos/map_enum_value.pb.dart';
 
 import 'test_util.dart';
 
@@ -161,17 +162,28 @@ void main() {
   test('testUnknownEnumValueInRepeatedField', () {
     // repeated NestedEnum repeated_nested_enum = 51;
     var message = TestAllTypes.fromJson('{"51": [4]}');
-    // 4 is an unknown value.
-    expect(message.repeatedNestedEnum, isEmpty);
+    // 4 is an unknown value, which should default to the enum's default value.
+    expect(message.repeatedNestedEnum, equals([TestAllTypes_NestedEnum.FOO]));
 
-    // 1 (FOO) and 2 (BAR) are known values.
+    // 1 (FOO) and 2 (BAR) are known values. All unknowns should fill in to
+    // the default enum value (FOO).
     message = TestAllTypes.fromJson('{"51": [1, 4, 2, 4, 1, 4]}');
     expect(
         message.repeatedNestedEnum,
         equals([
           TestAllTypes_NestedEnum.FOO,
+          TestAllTypes_NestedEnum.FOO,
           TestAllTypes_NestedEnum.BAR,
+          TestAllTypes_NestedEnum.FOO,
+          TestAllTypes_NestedEnum.FOO,
           TestAllTypes_NestedEnum.FOO
         ]));
+  });
+
+  test('testUnknownEnumValueInMapField', () {
+    final key = 'new_field';
+    // Only 0 and 1 are known enum values.
+    final message = MapEnumValue()..mergeFromJson('{"1":[{"1":"$key","2":2}]}');
+    expect(message.values[key], equals(MapEnumValue_NestedEnum.UNKNOWN));
   });
 }

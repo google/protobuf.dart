@@ -1,3 +1,8 @@
+## 19.3.2
+
+* Add tests for the repeated and map enum value fields where the 
+  enum value is unknown.
+
 ## 19.3.1
 
 * Emit binary coded descriptors, which can be used to reflect over the options
