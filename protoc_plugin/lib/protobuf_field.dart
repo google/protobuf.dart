@@ -199,6 +199,7 @@ class ProtobufField {
       if (value.baseType.isEnum) {
         named['valueOf'] = '$valueType.valueOf';
         named['enumValues'] = '$valueType.values';
+        named['defaultEnumValue'] = value.generateDefaultFunction(fileGen);
       }
       if (package != '') {
         named['packageName'] =
