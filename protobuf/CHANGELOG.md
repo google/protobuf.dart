@@ -1,3 +1,8 @@
+## 1.1.2
+
+* Fix proto deserialization issue for repeated and map enum value fields 
+  where the enum value is unknown.
+
 ## 1.1.1
 
 * Fix decoding of `oneof` fields from proto3 json. The 'whichFoo' state would 
