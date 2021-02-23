@@ -1,3 +1,7 @@
+## 1.1.3
+
+* Fix that fixed32 int could be negative
+
 ## 1.1.2
 
 * Fix proto deserialization issue for repeated and map enum value fields 
