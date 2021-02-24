@@ -225,10 +225,19 @@ dynamic _convertJsonValue(_FieldSet fs, value, int tagNumber, int fieldType,
     case PbFieldType._INT32_BIT:
     case PbFieldType._SINT32_BIT:
     case PbFieldType._UINT32_BIT:
-    case PbFieldType._FIXED32_BIT:
     case PbFieldType._SFIXED32_BIT:
       if (value is int) return value;
       if (value is String) return int.parse(value);
+      expectedType = 'int or stringified int';
+      break;
+    case PbFieldType._FIXED32_BIT:
+      int validatedValue;
+      if (value is int) validatedValue = value;
+      if (value is String) validatedValue = int.parse(value);
+      if (validatedValue != null && validatedValue < 0) {
+        validatedValue += 2 * (1 << 31);
+      }
+      if (validatedValue != null) return validatedValue;
       expectedType = 'int or stringified int';
       break;
     case PbFieldType._INT64_BIT:
