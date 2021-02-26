@@ -1,3 +1,7 @@
+## 19.3.3
+
+* Add the test for fixed32 int that could be negative.
+
 ## 19.3.2
 
 * Add tests for the repeated and map enum value fields where the 
