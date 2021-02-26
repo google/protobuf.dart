@@ -9,6 +9,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
+import '../out/protos/foo.pb.dart' as foo;
 import '../out/protos/map_enum_value.pb.dart';
 
 import 'test_util.dart';
@@ -136,6 +137,14 @@ void main() {
     expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
 
     expect(parsed, expected);
+  });
+
+  test('testFixed32IntNegative', () {
+    var message = foo.Inner.fromJson('{"5": -1}');
+    print(message.count);
+    expect(message.count, 4294967295);
+    message = foo.Inner.fromJson('{"5": -2080294357}');
+    expect(message.count, 2214672939);
   });
 
   test('testParse', () {
