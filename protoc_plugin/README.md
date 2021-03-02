@@ -25,7 +25,7 @@ How to build and use
 *Note:* currently the workflow is POSIX-oriented.
 
 To build standalone `protoc` plugin:
-- run `pub install` to install all dependencies
+- run `dart pub get` to install all dependencies
 - Now you can use the plugin either by adding the `bin` directory to your `PATH`,
   or passing it directly with `protoc`'s `--plugin` option.
 
