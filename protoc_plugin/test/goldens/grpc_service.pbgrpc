@@ -30,6 +30,18 @@ class TestClient extends $grpc.Client {
       '/Test/Bidirectional',
       ($0.Input value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Output.fromBuffer(value));
+  static final _$new_ = $grpc.ClientMethod<$0.Input, $0.Output>(
+      '/Test/New',
+      ($0.Input value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.Output.fromBuffer(value));
+  static final _$$addMethod_ = $grpc.ClientMethod<$0.Input, $0.Output>(
+      '/Test/$addMethod',
+      ($0.Input value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.Output.fromBuffer(value));
+  static final _$x32SillyName_ = $grpc.ClientMethod<$0.Input, $0.Output>(
+      '/Test/_32SillyName',
+      ($0.Input value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.Output.fromBuffer(value));
 
   TestClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -58,6 +70,21 @@ class TestClient extends $grpc.Client {
   $grpc.ResponseStream<$0.Output> bidirectional($async.Stream<$0.Input> request,
       {$grpc.CallOptions? options}) {
     return $createStreamingCall(_$bidirectional, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.Output> new_($0.Input request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$new_, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.Output> $addMethod_($0.Input request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$$addMethod_, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.Output> x32SillyName_($0.Input request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$x32SillyName_, request, options: options);
   }
 }
 
@@ -93,6 +120,27 @@ abstract class TestServiceBase extends $grpc.Service {
         true,
         ($core.List<$core.int> value) => $0.Input.fromBuffer(value),
         ($0.Output value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Input, $0.Output>(
+        'New',
+        new__Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Input.fromBuffer(value),
+        ($0.Output value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Input, $0.Output>(
+        '$addMethod',
+        $addMethod__Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Input.fromBuffer(value),
+        ($0.Output value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Input, $0.Output>(
+        '_32SillyName',
+        x32SillyName__Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Input.fromBuffer(value),
+        ($0.Output value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.Output> unary_Pre(
@@ -105,6 +153,21 @@ abstract class TestServiceBase extends $grpc.Service {
     yield* serverStreaming(call, await request);
   }
 
+  $async.Future<$0.Output> new__Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Input> request) async {
+    return new_(call, await request);
+  }
+
+  $async.Future<$0.Output> $addMethod__Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Input> request) async {
+    return $addMethod_(call, await request);
+  }
+
+  $async.Future<$0.Output> x32SillyName__Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Input> request) async {
+    return x32SillyName_(call, await request);
+  }
+
   $async.Future<$0.Output> unary($grpc.ServiceCall call, $0.Input request);
   $async.Future<$0.Output> clientStreaming(
       $grpc.ServiceCall call, $async.Stream<$0.Input> request);
@@ -112,4 +175,9 @@ abstract class TestServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $0.Input request);
   $async.Stream<$0.Output> bidirectional(
       $grpc.ServiceCall call, $async.Stream<$0.Input> request);
+  $async.Future<$0.Output> new_($grpc.ServiceCall call, $0.Input request);
+  $async.Future<$0.Output> $addMethod_(
+      $grpc.ServiceCall call, $0.Input request);
+  $async.Future<$0.Output> x32SillyName_(
+      $grpc.ServiceCall call, $0.Input request);
 }

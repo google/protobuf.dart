@@ -58,8 +58,9 @@ class GrpcServiceGenerator {
   /// in [_undefinedDeps].
   /// Precondition: messages have been registered and resolved.
   void resolve(GenerationContext ctx) {
+    final usedNames = <String>{...serviceReservedMemberNames};
     for (var method in _descriptor.method) {
-      _methods.add(_GrpcMethod(this, ctx, method));
+      _methods.add(_GrpcMethod(this, ctx, method, usedNames));
     }
   }
 
@@ -181,9 +182,13 @@ class _GrpcMethod {
       this._serverReturnType);
 
   factory _GrpcMethod(GrpcServiceGenerator service, GenerationContext ctx,
-      MethodDescriptorProto method) {
+      MethodDescriptorProto method, Set<String> usedNames) {
     final grpcName = method.name;
-    final dartName = lowerCaseFirstLetter(grpcName);
+    final dartName = disambiguateName(
+        avoidInitialUnderscore(lowerCaseFirstLetter(grpcName)),
+        usedNames,
+        defaultSuffixes(),
+        generateVariants: (name) => [name, '${name}_Pre']);
 
     final clientStreaming = method.clientStreaming;
     final serverStreaming = method.serverStreaming;

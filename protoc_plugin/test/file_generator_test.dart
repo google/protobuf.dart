@@ -300,9 +300,27 @@ void main() {
       ..clientStreaming = true
       ..serverStreaming = true;
 
+    // Some methods with names that overlap reserved words or existing methods
+    // in the base classes Client/Service of package:grpc.
+    final names = [
+      MethodDescriptorProto()
+        ..name = 'New'
+        ..inputType = '.Input'
+        ..outputType = '.Output',
+      MethodDescriptorProto()
+        ..name = r'$addMethod'
+        ..inputType = '.Input'
+        ..outputType = '.Output',
+      MethodDescriptorProto()
+        ..name = r'_32SillyName'
+        ..inputType = '.Input'
+        ..outputType = '.Output',
+    ];
+
     var sd = ServiceDescriptorProto()
       ..name = 'Test'
-      ..method.addAll([unary, clientStreaming, serverStreaming, bidirectional]);
+      ..method.addAll(
+          [unary, clientStreaming, serverStreaming, bidirectional, ...names]);
 
     var fd = FileDescriptorProto()
       ..name = 'test'

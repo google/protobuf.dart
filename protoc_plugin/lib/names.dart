@@ -506,6 +506,23 @@ final List<String> forbiddenExtensionNames = <String>[
   ..._generatedMessageNames
 ];
 
+final List<String> serviceReservedMemberNames = <String>[
+  ..._dartReservedWords,
+  ..._serviceNames,
+];
+
+final List<String> _serviceNames = <String>[
+  // From `client`.
+  r'$createCall',
+  r'$createUnaryCall',
+  r'$createStreamingCall',
+  r'$addMethod',
+  // From `Service`.
+  r'$name',
+  r'$onMetadata',
+  r'$lookupMethod',
+];
+
 // List of Dart language reserved words in names which cannot be used in a
 // subclass of GeneratedMessage.
 const List<String> _dartReservedWords = [
