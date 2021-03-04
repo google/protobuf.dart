@@ -302,7 +302,7 @@ abstract class GeneratedMessage {
       throw ArgumentError(
           'Cannot add to a non-repeated field (use setExtension())');
     }
-    _fieldSet._ensureExtensions().._ensureRepeatedField(extension).add(value);
+    _fieldSet._ensureExtensions()._ensureRepeatedField(extension).add(value);
   }
 
   /// Clears an extension field and also removes the extension.
