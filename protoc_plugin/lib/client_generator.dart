@@ -27,7 +27,7 @@ class ClientApiGenerator {
       out.println('${className}Api(this._client);');
       out.println();
 
-      for (var m in service._descriptor.method) {
+      for (var m in service.methods) {
         generateMethod(out, m);
       }
     });
@@ -35,20 +35,18 @@ class ClientApiGenerator {
   }
 
   // Subclasses can override this.
-  void generateMethod(IndentingWriter out, MethodDescriptorProto m) {
-    var methodName = disambiguateName(
-        avoidInitialUnderscore(service._methodName(m.name)),
-        usedMethodNames,
-        defaultSuffixes());
-    var inputType = service._getDartClassName(m.inputType, forMainFile: true);
-    var outputType = service._getDartClassName(m.outputType, forMainFile: true);
+  void generateMethod(IndentingWriter out, _ServiceMethod m) {
+    var inputType =
+        service._getDartClassName(m.descriptor.inputType, forMainFile: true);
+    var outputType =
+        service._getDartClassName(m.descriptor.outputType, forMainFile: true);
     out.addBlock(
-        '$_asyncImportPrefix.Future<$outputType> $methodName('
+        '$_asyncImportPrefix.Future<$outputType> ${m.dartName}('
             '$_protobufImportPrefix.ClientContext? ctx, $inputType request) {',
         '}', () {
       out.println('var emptyResponse = $outputType();');
       out.println('return _client.invoke<$outputType>(ctx, \'${className}\', '
-          '\'${m.name}\', request, emptyResponse);');
+          '\'${m.descriptor.name}\', request, emptyResponse);');
     });
   }
 }

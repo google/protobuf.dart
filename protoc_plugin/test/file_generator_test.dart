@@ -308,10 +308,6 @@ void main() {
         ..inputType = '.Input'
         ..outputType = '.Output',
       MethodDescriptorProto()
-        ..name = r'$addMethod'
-        ..inputType = '.Input'
-        ..outputType = '.Output',
-      MethodDescriptorProto()
         ..name = r'_32SillyName'
         ..inputType = '.Input'
         ..outputType = '.Output',

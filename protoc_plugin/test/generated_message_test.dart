@@ -15,6 +15,7 @@ import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
 import '../out/protos/multiple_files_test.pb.dart';
 import '../out/protos/reserved_names.pb.dart';
+import '../out/protos/reserved_names.pbserver.dart';
 import '../out/protos/reserved_names_extension.pb.dart';
 import '../out/protos/reserved_names_message.pb.dart';
 import '../out/protos/duplicate_names_import.pb.dart';
@@ -25,6 +26,34 @@ import '../out/protos/toplevel_import.pb.dart' as t;
 import '../out/protos/toplevel.pb.dart';
 
 import 'test_util.dart';
+
+class ReservedNamesService extends ReservedNamesServiceBase {
+  @override
+  Future<SimpleResponse> abc(ServerContext ctx, SimpleReq request) async =>
+      SimpleResponse(test: 'Abc called');
+
+  @override
+  Future<SimpleResponse> abc_Pre_(ServerContext ctx, SimpleReq request) async =>
+      SimpleResponse(test: 'abc_Pre called');
+
+  @override
+  Future<SimpleResponse> handleCall_(
+          ServerContext ctx, SimpleReq request) async =>
+      SimpleResponse(test: 'handleCall called');
+
+  @override
+  Future<SimpleResponse> if_(ServerContext ctx, SimpleReq request) async =>
+      SimpleResponse(test: 'If called');
+
+  @override
+  Future<SimpleResponse> new_(ServerContext ctx, SimpleReq request) async =>
+      SimpleResponse(test: 'New called');
+
+  @override
+  Future<SimpleResponse> x32SillyName_(
+          ServerContext ctx, SimpleReq request) async =>
+      SimpleResponse(test: '_32SillyName called');
+}
 
 void main() {
   final throwsInvalidProtocolBufferException =
@@ -969,5 +998,22 @@ void main() {
     );
 
     assertAllFieldsSet(value);
+  });
+
+  test('Service name disambiguation', () async {
+    final service = ReservedNamesService();
+    expect(await service.handleCall(ServerContext(), 'New', SimpleReq()),
+        SimpleResponse(test: 'New called'));
+    expect(await service.handleCall(ServerContext(), 'If', SimpleReq()),
+        SimpleResponse(test: 'If called'));
+    expect(await service.handleCall(ServerContext(), 'Abc', SimpleReq()),
+        SimpleResponse(test: 'Abc called'));
+    expect(await service.handleCall(ServerContext(), 'abc_Pre', SimpleReq()),
+        SimpleResponse(test: 'abc_Pre called'));
+    expect(
+        await service.handleCall(ServerContext(), '_32SillyName', SimpleReq()),
+        SimpleResponse(test: '_32SillyName called'));
+    expect(await service.handleCall(ServerContext(), 'handleCall', SimpleReq()),
+        SimpleResponse(test: 'handleCall called'));
   });
 }

@@ -512,15 +512,9 @@ const serviceReservedMemberNames = <String>[
 ];
 
 const _serviceNames = <String>[
-  // From `client`.
-  r'$createCall',
-  r'$createUnaryCall',
-  r'$createStreamingCall',
-  r'$addMethod',
-  // From `Service`.
-  r'$name',
-  r'$onMetadata',
-  r'$lookupMethod',
+  // From GeneratedService
+  r'createRequest',
+  r'handleCall',
 ];
 
 // List of Dart language reserved words in names which cannot be used in a
