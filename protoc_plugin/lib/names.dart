@@ -487,31 +487,31 @@ bool _isDartFieldName(name) => name.startsWith(_dartFieldNameExpr);
 final _dartFieldNameExpr = RegExp(r'^[a-z]\w+$');
 
 /// Names that would collide as top-level identifiers.
-final List<String> forbiddenTopLevelNames = <String>[
+const forbiddenTopLevelNames = <String>[
   'List',
   'Function',
   'Map',
   ..._dartReservedWords,
 ];
 
-final List<String> reservedMemberNames = <String>[
+const reservedMemberNames = <String>[
   ..._dartReservedWords,
   ...GeneratedMessage_reservedNames,
   ..._generatedMessageNames
 ];
 
-final List<String> forbiddenExtensionNames = <String>[
+const forbiddenExtensionNames = <String>[
   ..._dartReservedWords,
   ...GeneratedMessage_reservedNames,
   ..._generatedMessageNames
 ];
 
-final List<String> serviceReservedMemberNames = <String>[
+const serviceReservedMemberNames = <String>[
   ..._dartReservedWords,
   ..._serviceNames,
 ];
 
-final List<String> _serviceNames = <String>[
+const _serviceNames = <String>[
   // From `client`.
   r'$createCall',
   r'$createUnaryCall',
@@ -525,7 +525,7 @@ final List<String> _serviceNames = <String>[
 
 // List of Dart language reserved words in names which cannot be used in a
 // subclass of GeneratedMessage.
-const List<String> _dartReservedWords = [
+const _dartReservedWords = <String>[
   'assert',
   'bool',
   'break',
