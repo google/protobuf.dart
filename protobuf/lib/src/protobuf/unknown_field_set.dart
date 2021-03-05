@@ -158,15 +158,15 @@ class UnknownFieldSet {
       for (var value in field.values) {
         if (value is UnknownFieldSet) {
           stringBuffer
-            ..write('${indent}${tag}: {\n')
+            ..write('$indent$tag: {\n')
             ..write(value._toString('$indent  '))
-            ..write('${indent}}\n');
+            ..write('$indent}\n');
         } else {
           if (value is ByteData) {
             // TODO(antonm): fix for longs.
             value = value.getUint64(0, Endian.little);
           }
-          stringBuffer.write('${indent}${tag}: ${value}\n');
+          stringBuffer.write('$indent$tag: $value\n');
         }
       }
     }

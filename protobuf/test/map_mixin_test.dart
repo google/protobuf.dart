@@ -24,7 +24,7 @@ class Rec extends MockMessage with MapMixin, PbMapMixin {
   Rec createEmptyInstance() => Rec();
 
   @override
-  String toString() => 'Rec(${val}, "${str}")';
+  String toString() => 'Rec($val, "$str")';
 }
 
 void main() {
