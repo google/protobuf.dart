@@ -238,7 +238,7 @@ class _FieldSet {
 
   List<T> _getDefaultList<T>(FieldInfo<T> fi) {
     assert(fi.isRepeated);
-    if (_isReadOnly) return FrozenPbList._(const []);
+    if (_isReadOnly) return fi.readonlyDefault;
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:

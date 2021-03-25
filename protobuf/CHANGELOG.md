@@ -1,3 +1,9 @@
+## 1.1.4
+
+* Fix comparison of lists returned for unset fields on frozen messages.
+  Previously, the returned lists would compare by identity instead of
+  by value. 
+
 ## 1.1.3
 
 * Fix that fixed32 int could be negative.
