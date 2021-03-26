@@ -41,11 +41,11 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub upgrade --no-precompile
       - name: "protobuf; dartfmt -n --set-exit-if-changed ."
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: dartfmt -n --set-exit-if-changed .
   job_002:
     name: "format; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dartfmt -n --set-exit-if-changed .`"
@@ -69,19 +69,19 @@ jobs:
       - id: protoc_plugin_pub_upgrade
         name: "protoc_plugin; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: pub upgrade --no-precompile
       - name: protoc_plugin; ./../tool/setup.sh
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: ./../tool/setup.sh
       - name: protoc_plugin; make protos
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: make protos
       - name: "protoc_plugin; dartfmt -n --set-exit-if-changed ."
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: dartfmt -n --set-exit-if-changed .
   job_003:
     name: "analyze; linux; Dart dev; PKG: protobuf; `dartanalyzer --fatal-infos --fatal-warnings lib test`"
@@ -105,11 +105,11 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub upgrade --no-precompile
       - name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings lib test"
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: dartanalyzer --fatal-infos --fatal-warnings lib test
     needs:
       - job_001
@@ -136,11 +136,11 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub upgrade --no-precompile
       - name: "protobuf; dartanalyzer --fatal-warnings ."
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: dartanalyzer --fatal-warnings .
     needs:
       - job_001
@@ -167,19 +167,19 @@ jobs:
       - id: protoc_plugin_pub_upgrade
         name: "protoc_plugin; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: pub upgrade --no-precompile
       - name: protoc_plugin; ./../tool/setup.sh
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: ./../tool/setup.sh
       - name: protoc_plugin; make protos
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: make protos
       - name: "protoc_plugin; dartanalyzer --fatal-infos --fatal-warnings ."
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: dartanalyzer --fatal-infos --fatal-warnings .
     needs:
       - job_001
@@ -206,19 +206,19 @@ jobs:
       - id: protoc_plugin_pub_upgrade
         name: "protoc_plugin; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: pub upgrade --no-precompile
       - name: protoc_plugin; ./../tool/setup.sh
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: ./../tool/setup.sh
       - name: protoc_plugin; make protos
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: make protos
       - name: "protoc_plugin; dartanalyzer --fatal-warnings ."
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: dartanalyzer --fatal-warnings .
     needs:
       - job_001
@@ -245,11 +245,11 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub upgrade --no-precompile
       - name: protobuf; pub run test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub run test
     needs:
       - job_001
@@ -280,11 +280,11 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub upgrade --no-precompile
       - name: protobuf; pub run test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub run test
     needs:
       - job_001
@@ -305,11 +305,11 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub.bat upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub.bat upgrade --no-precompile
       - name: protobuf; pub run test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub.bat run test
     needs:
       - job_001
@@ -340,11 +340,11 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub upgrade --no-precompile
       - name: protobuf; pub run test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub run test
     needs:
       - job_001
@@ -375,11 +375,11 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub upgrade --no-precompile
       - name: protobuf; pub run test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub run test
     needs:
       - job_001
@@ -400,11 +400,11 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub.bat upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub.bat upgrade --no-precompile
       - name: protobuf; pub run test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
+        working-directory: ./protobuf
         run: pub.bat run test
     needs:
       - job_001
@@ -435,19 +435,19 @@ jobs:
       - id: protoc_plugin_pub_upgrade
         name: "protoc_plugin; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: pub upgrade --no-precompile
       - name: protoc_plugin; ./../tool/setup.sh
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: ./../tool/setup.sh
       - name: protoc_plugin; make protos
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: make protos
       - name: protoc_plugin; pub run test
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: pub run test
     needs:
       - job_001
@@ -478,19 +478,19 @@ jobs:
       - id: protoc_plugin_pub_upgrade
         name: "protoc_plugin; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: pub upgrade --no-precompile
       - name: protoc_plugin; ./../tool/setup.sh
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: ./../tool/setup.sh
       - name: protoc_plugin; make protos
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: make protos
       - name: protoc_plugin; pub run test
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
+        working-directory: ./protoc_plugin
         run: pub run test
     needs:
       - job_001
