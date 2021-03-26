@@ -84,7 +84,7 @@ jobs:
         working-directory: protoc_plugin
         run: dartfmt -n --set-exit-if-changed .
   job_003:
-    name: "analyze; linux; Dart dev; PKG: protobuf; `dartanalyzer --fatal-infos --fatal-warnings lib test`"
+    name: "analyze; linux; Dart dev; PKG: protobuf; `dartanalyzer --fatal-infos --fatal-warnings .`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -107,14 +107,9 @@ jobs:
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: protobuf
         run: pub upgrade --no-precompile
-      - id: dartanalyzer_lib
-        name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings lib test"
+      - name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings ."
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        run: dartanalyzer --fatal-infos --fatal-warnings lib/**/*.dart
-      - id: dartanalyzer_test
-        name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings test"
-        if: "always() && steps.dartanalyzer_lib.conclusion == 'success'"
-        run: dartanalyzer --fatal-infos --fatal-warnings test/**/*.dart
+        run: dartanalyzer --fatal-infos --fatal-warnings .
     needs:
       - job_001
       - job_002
