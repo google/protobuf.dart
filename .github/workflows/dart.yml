@@ -110,11 +110,11 @@ jobs:
       - id: dartanalyzer_lib
         name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings lib test"
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        run: dartanalyzer --fatal-infos --fatal-warnings lib
+        run: dartanalyzer --fatal-infos --fatal-warnings lib/**/*.dart
       - id: dartanalyzer_test
         name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings test"
         if: "always() && steps.dartanalyzer_lib.conclusion == 'success'"
-        run: dartanalyzer --fatal-infos --fatal-warnings test
+        run: dartanalyzer --fatal-infos --fatal-warnings test/**/*.dart
     needs:
       - job_001
       - job_002
