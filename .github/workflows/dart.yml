@@ -86,8 +86,6 @@ jobs:
   job_003:
     name: "analyze; linux; Dart dev; PKG: protobuf; `dartanalyzer --fatal-infos --fatal-warnings lib test`"
     runs-on: ubuntu-latest
-    env:
-      working-directory: protobuf
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2
@@ -107,9 +105,16 @@ jobs:
       - id: protobuf_pub_upgrade
         name: "protobuf; pub upgrade --no-precompile"
         if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: protobuf
         run: pub upgrade --no-precompile
-      - name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings lib test"
+      - id: list_directory
+        name: "protobuf; ls ."
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
+        working-directory: protobuf
+        run: ls .
+      - name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings lib test"
+        if: "always() && steps.list_directory.conclusion == 'success'"
+        working-directory: protobuf
         run: dartanalyzer --fatal-infos --fatal-warnings lib test
     needs:
       - job_001
