@@ -107,14 +107,14 @@ jobs:
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: protobuf
         run: pub upgrade --no-precompile
-      - id: list_directory
-        name: "protobuf; ls ."
+      - id: dartanalyzer_lib
+        name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings lib test"
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
-        run: ls .
-      - name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings lib test"
-        if: "always() && steps.list_directory.conclusion == 'success'"
-        run: dartanalyzer --fatal-infos --fatal-warnings lib/ test/
+        run: dartanalyzer --fatal-infos --fatal-warnings lib
+      - id: dartanalyzer_test
+        name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings test"
+        if: "always() && steps.dartanalyzer_lib.conclusion == 'success'"
+        run: dartanalyzer --fatal-infos --fatal-warnings test
     needs:
       - job_001
       - job_002
