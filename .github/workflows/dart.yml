@@ -115,7 +115,7 @@ jobs:
       - name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings lib test"
         if: "always() && steps.list_directory.conclusion == 'success'"
         working-directory: protobuf
-        run: dartanalyzer --fatal-infos --fatal-warnings lib test
+        run: dartanalyzer --fatal-infos --fatal-warnings lib/ test/
     needs:
       - job_001
       - job_002
