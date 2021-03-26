@@ -109,6 +109,7 @@ jobs:
         run: pub upgrade --no-precompile
       - name: "protobuf; dartanalyzer --fatal-infos --fatal-warnings ."
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
+        working-directory: protobuf
         run: dartanalyzer --fatal-infos --fatal-warnings .
     needs:
       - job_001
