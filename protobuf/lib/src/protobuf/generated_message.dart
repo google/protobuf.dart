@@ -398,7 +398,6 @@ abstract class GeneratedMessage {
   void setField(int tagNumber, value) {
     _fieldSet._setField(tagNumber, value);
     return; // ignore: dead_code
-    return; // ignore: dead_code
   }
 
   /// For generated code only.
