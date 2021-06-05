@@ -71,7 +71,7 @@ class Factories {
   final FromJsonFactory fromJson;
 
   static Factories forMessage(String name) =>
-      _factories[name] ?? (throw 'Unsupported message: ${name}');
+      _factories[name] ?? (throw 'Unsupported message: $name');
 
   /// Mapping between [BenchmarkProto.messageName] and corresponding
   /// deserialization factories.
