@@ -82,16 +82,16 @@ for PKG in ${PKGS}; do
         make protos || EXIT_CODE=$?
         ;;
       dartanalyzer_0)
-        echo 'dart analyze --fatal-warnings .'
-        dart analyze --fatal-warnings . || EXIT_CODE=$?
+        echo 'dart analyze .'
+        dart analyze . || EXIT_CODE=$?
         ;;
       dartanalyzer_1)
-        echo 'dart analyze --fatal-infos --fatal-warnings lib test'
-        dart analyze --fatal-infos --fatal-warnings lib test || EXIT_CODE=$?
+        echo 'dart analyze --fatal-infos lib test'
+        dart analyze --fatal-infos lib test || EXIT_CODE=$?
         ;;
       dartanalyzer_2)
-        echo 'dart analyze --fatal-infos --fatal-warnings .'
-        dart analyze --fatal-infos --fatal-warnings . || EXIT_CODE=$?
+        echo 'dart analyze --fatal-infos .'
+        dart analyze --fatal-infos . || EXIT_CODE=$?
         ;;
       dartfmt)
         echo 'dart format --output=none --set-exit-if-changed .'

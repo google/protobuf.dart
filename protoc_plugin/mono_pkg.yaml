@@ -10,16 +10,16 @@ stages:
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
-      - dartanalyzer: --fatal-infos --fatal-warnings .
+      - dartanalyzer: --fatal-infos .
       dart: [dev]
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
-      - dartanalyzer: --fatal-warnings .
-      dart: [2.7.0]
+      - dartanalyzer: .
+      dart: [2.10.5]
   - run_tests:
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
       - test
-      dart: [2.7.0, dev]
+      dart: [2.10.5, dev]
