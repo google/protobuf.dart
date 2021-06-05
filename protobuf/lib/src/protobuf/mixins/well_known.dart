@@ -46,7 +46,7 @@ abstract class AnyMixin implements GeneratedMessage {
   static void packIntoAny(AnyMixin target, GeneratedMessage message,
       {String typeUrlPrefix = 'type.googleapis.com'}) {
     target.value = message.writeToBuffer();
-    target.typeUrl = '${typeUrlPrefix}/${message.info_.qualifiedMessageName}';
+    target.typeUrl = '$typeUrlPrefix/${message.info_.qualifiedMessageName}';
   }
 
   // From google/protobuf/any.proto:
@@ -110,7 +110,7 @@ abstract class AnyMixin implements GeneratedMessage {
       var info = typeRegistry.lookup(_typeNameFromUrl(typeUrl));
       if (info == null) {
         throw context.parseException(
-            'Decoding Any of type ${typeUrl} not in TypeRegistry $typeRegistry',
+            'Decoding Any of type $typeUrl not in TypeRegistry $typeRegistry',
             json);
       }
 
@@ -166,8 +166,8 @@ abstract class TimestampMixin {
   }
 
   static String _twoDigits(int n) {
-    if (n >= 10) return '${n}';
-    return '0${n}';
+    if (n >= 10) return '$n';
+    return '0$n';
   }
 
   static final DateTime _minTimestamp = DateTime.utc(1);
@@ -488,8 +488,9 @@ abstract class FieldMaskMixin {
         // The empty string splits to a single value. So this is a special case.
         return;
       }
-      (message as FieldMaskMixin).paths
-        ..addAll(json.split(',').map(_fromCamelCase));
+      (message as FieldMaskMixin)
+          .paths
+          .addAll(json.split(',').map(_fromCamelCase));
     } else {
       throw context.parseException(
           'Expected String formatted as FieldMask', json);
