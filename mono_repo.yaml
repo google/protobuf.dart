@@ -10,5 +10,4 @@ github:
 
 merge_stages:
 - format_analyze
-- analyze
 - run_tests

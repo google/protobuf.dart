@@ -1,6 +1,6 @@
 # See https://github.com/dart-lang/mono_repo for details
 stages:
-  - analyze:
+  - format_analyze:
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
