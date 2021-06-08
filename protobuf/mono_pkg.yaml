@@ -10,7 +10,8 @@ stages:
       dart: [dev]
   - analyze:
     - group:
-      - dartanalyzer: --fatal-infos lib test
+      - dartanalyzer: --fatal-infos lib
+      - dartanalyzer: --fatal-infos test
       dart: [dev]
     - group:
       - dartanalyzer: .

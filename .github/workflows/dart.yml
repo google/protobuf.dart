@@ -153,14 +153,14 @@ jobs:
       - job_001
       - job_002
   job_005:
-    name: "analyze; linux; Dart dev; PKG: protobuf; `dart analyze --fatal-infos lib test`"
+    name: "analyze; linux; Dart dev; PKG: protobuf; `dart analyze --fatal-infos lib`, `dart analyze --fatal-infos test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2.1.6
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protobuf;commands:dartanalyzer_1"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protobuf;commands:dartanalyzer_1-dartanalyzer_2"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protobuf
             os:ubuntu-latest;pub-cache-hosted;dart:dev
@@ -176,10 +176,14 @@ jobs:
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: protobuf
         run: pub upgrade
-      - name: "protobuf; dart analyze --fatal-infos lib test"
+      - name: "protobuf; dart analyze --fatal-infos lib"
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-        run: dart analyze --fatal-infos lib test
+        run: dart analyze --fatal-infos lib
+      - name: "protobuf; dart analyze --fatal-infos test"
+        if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
+        working-directory: protobuf
+        run: dart analyze --fatal-infos test
     needs:
       - job_001
       - job_002
@@ -191,7 +195,7 @@ jobs:
         uses: actions/cache@v2.1.6
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin;commands:command_0-command_2-dartanalyzer_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin;commands:command_0-command_2-dartanalyzer_3"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;dart:dev

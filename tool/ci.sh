@@ -86,10 +86,14 @@ for PKG in ${PKGS}; do
         dart analyze . || EXIT_CODE=$?
         ;;
       dartanalyzer_1)
-        echo 'dart analyze --fatal-infos lib test'
-        dart analyze --fatal-infos lib test || EXIT_CODE=$?
+        echo 'dart analyze --fatal-infos lib'
+        dart analyze --fatal-infos lib || EXIT_CODE=$?
         ;;
       dartanalyzer_2)
+        echo 'dart analyze --fatal-infos test'
+        dart analyze --fatal-infos test || EXIT_CODE=$?
+        ;;
+      dartanalyzer_3)
         echo 'dart analyze --fatal-infos .'
         dart analyze --fatal-infos . || EXIT_CODE=$?
         ;;
