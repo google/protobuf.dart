@@ -82,8 +82,8 @@ for PKG in ${PKGS}; do
         make protos || EXIT_CODE=$?
         ;;
       dartanalyzer_0)
-        echo 'dart analyze .'
-        dart analyze . || EXIT_CODE=$?
+        echo 'dart analyze'
+        dart analyze || EXIT_CODE=$?
         ;;
       dartanalyzer_1)
         echo 'dart analyze --fatal-infos lib'
@@ -94,6 +94,14 @@ for PKG in ${PKGS}; do
         dart analyze --fatal-infos test || EXIT_CODE=$?
         ;;
       dartanalyzer_3)
+        echo 'dart analyze lib'
+        dart analyze lib || EXIT_CODE=$?
+        ;;
+      dartanalyzer_4)
+        echo 'dart analyze test'
+        dart analyze test || EXIT_CODE=$?
+        ;;
+      dartanalyzer_5)
         echo 'dart analyze --fatal-infos .'
         dart analyze --fatal-infos . || EXIT_CODE=$?
         ;;

@@ -19,78 +19,14 @@ env:
 
 jobs:
   job_001:
-    name: "format; linux; Dart dev; PKG: protobuf; `dart format --output=none --set-exit-if-changed .`"
+    name: "analyze; linux; Dart 2.10.5; PKG: protobuf; `dart analyze lib`, `dart analyze test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2.1.6
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protobuf;commands:dartfmt"
-          restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protobuf
-            os:ubuntu-latest;pub-cache-hosted;dart:dev
-            os:ubuntu-latest;pub-cache-hosted
-            os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.0
-        with:
-          sdk: dev
-      - id: checkout
-        uses: actions/checkout@v2.3.4
-      - id: protobuf_pub_upgrade
-        name: protobuf; pub upgrade
-        if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
-        run: pub upgrade
-      - name: "protobuf; dart format --output=none --set-exit-if-changed ."
-        if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
-        run: "dart format --output=none --set-exit-if-changed ."
-  job_002:
-    name: "format; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart format --output=none --set-exit-if-changed .`"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cache Pub hosted dependencies
-        uses: actions/cache@v2.1.6
-        with:
-          path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin;commands:command_0-command_2-dartfmt"
-          restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin
-            os:ubuntu-latest;pub-cache-hosted;dart:dev
-            os:ubuntu-latest;pub-cache-hosted
-            os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.0
-        with:
-          sdk: dev
-      - id: checkout
-        uses: actions/checkout@v2.3.4
-      - id: protoc_plugin_pub_upgrade
-        name: protoc_plugin; pub upgrade
-        if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protoc_plugin
-        run: pub upgrade
-      - name: protoc_plugin; ./../tool/setup.sh
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-        run: ./../tool/setup.sh
-      - name: protoc_plugin; make protos
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-        run: make protos
-      - name: "protoc_plugin; dart format --output=none --set-exit-if-changed ."
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-        run: "dart format --output=none --set-exit-if-changed ."
-  job_003:
-    name: "analyze; linux; Dart 2.10.5; PKG: protobuf; `dart analyze .`"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cache Pub hosted dependencies
-        uses: actions/cache@v2.1.6
-        with:
-          path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.10.5;packages:protobuf;commands:dartanalyzer_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.10.5;packages:protobuf;commands:dartanalyzer_3-dartanalyzer_4"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;dart:2.10.5;packages:protobuf
             os:ubuntu-latest;pub-cache-hosted;dart:2.10.5
@@ -106,15 +42,16 @@ jobs:
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: protobuf
         run: pub upgrade
-      - name: protobuf; dart analyze .
+      - name: protobuf; dart analyze lib
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-        run: dart analyze .
-    needs:
-      - job_001
-      - job_002
-  job_004:
-    name: "analyze; linux; Dart 2.10.5; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart analyze .`"
+        run: dart analyze lib
+      - name: protobuf; dart analyze test
+        if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
+        working-directory: protobuf
+        run: dart analyze test
+  job_002:
+    name: "analyze; linux; Dart 2.10.5; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart analyze`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -145,22 +82,19 @@ jobs:
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
         run: make protos
-      - name: protoc_plugin; dart analyze .
+      - name: protoc_plugin; dart analyze
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
-        run: dart analyze .
-    needs:
-      - job_001
-      - job_002
-  job_005:
-    name: "analyze; linux; Dart dev; PKG: protobuf; `dart analyze --fatal-infos lib`, `dart analyze --fatal-infos test`"
+        run: dart analyze
+  job_003:
+    name: "analyze; linux; Dart dev; PKG: protobuf; `dart format --output=none --set-exit-if-changed .`, `dart analyze --fatal-infos lib`, `dart analyze --fatal-infos test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2.1.6
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protobuf;commands:dartanalyzer_1-dartanalyzer_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protobuf;commands:dartfmt-dartanalyzer_1-dartanalyzer_2"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protobuf
             os:ubuntu-latest;pub-cache-hosted;dart:dev
@@ -176,6 +110,10 @@ jobs:
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: protobuf
         run: pub upgrade
+      - name: "protobuf; dart format --output=none --set-exit-if-changed ."
+        if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
+        working-directory: protobuf
+        run: "dart format --output=none --set-exit-if-changed ."
       - name: "protobuf; dart analyze --fatal-infos lib"
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
@@ -184,18 +122,15 @@ jobs:
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
         run: dart analyze --fatal-infos test
-    needs:
-      - job_001
-      - job_002
-  job_006:
-    name: "analyze; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart analyze --fatal-infos .`"
+  job_004:
+    name: "analyze; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart format --output=none --set-exit-if-changed .`, `dart analyze --fatal-infos .`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2.1.6
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin;commands:command_0-command_2-dartanalyzer_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin;commands:command_0-command_2-dartfmt-dartanalyzer_5"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;dart:dev
@@ -219,14 +154,15 @@ jobs:
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
         run: make protos
+      - name: "protoc_plugin; dart format --output=none --set-exit-if-changed ."
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+        run: "dart format --output=none --set-exit-if-changed ."
       - name: "protoc_plugin; dart analyze --fatal-infos ."
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
         run: dart analyze --fatal-infos .
-    needs:
-      - job_001
-      - job_002
-  job_007:
+  job_005:
     name: "run_tests; linux; Dart 2.10.5; PKG: protobuf; `dart test`"
     runs-on: ubuntu-latest
     steps:
@@ -259,9 +195,7 @@ jobs:
       - job_002
       - job_003
       - job_004
-      - job_005
-      - job_006
-  job_008:
+  job_006:
     name: "run_tests; linux; Dart 2.10.5; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
     runs-on: ubuntu-latest
     steps:
@@ -302,9 +236,7 @@ jobs:
       - job_002
       - job_003
       - job_004
-      - job_005
-      - job_006
-  job_009:
+  job_007:
     name: "run_tests; linux; Dart dev; PKG: protobuf; `dart test`"
     runs-on: ubuntu-latest
     steps:
@@ -337,9 +269,7 @@ jobs:
       - job_002
       - job_003
       - job_004
-      - job_005
-      - job_006
-  job_010:
+  job_008:
     name: "run_tests; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
     runs-on: ubuntu-latest
     steps:
@@ -380,9 +310,7 @@ jobs:
       - job_002
       - job_003
       - job_004
-      - job_005
-      - job_006
-  job_011:
+  job_009:
     name: "run_tests; osx; Dart 2.10.5; PKG: protobuf; `dart test`"
     runs-on: macos-latest
     steps:
@@ -415,9 +343,7 @@ jobs:
       - job_002
       - job_003
       - job_004
-      - job_005
-      - job_006
-  job_012:
+  job_010:
     name: "run_tests; osx; Dart dev; PKG: protobuf; `dart test`"
     runs-on: macos-latest
     steps:
@@ -450,9 +376,7 @@ jobs:
       - job_002
       - job_003
       - job_004
-      - job_005
-      - job_006
-  job_013:
+  job_011:
     name: "run_tests; windows; Dart 2.10.5; PKG: protobuf; `dart test`"
     runs-on: windows-latest
     steps:
@@ -475,9 +399,7 @@ jobs:
       - job_002
       - job_003
       - job_004
-      - job_005
-      - job_006
-  job_014:
+  job_012:
     name: "run_tests; windows; Dart dev; PKG: protobuf; `dart test`"
     runs-on: windows-latest
     steps:
@@ -500,10 +422,8 @@ jobs:
       - job_002
       - job_003
       - job_004
-      - job_005
-      - job_006
-  job_015:
-    name: "format_analyze; linux; Dart dev; PKGS: api_benchmark, query_benchmark; `./../tool/setup.sh`, `./compile_protos.sh`, `dart format --output=none --set-exit-if-changed .`, `dart analyze .`"
+  job_013:
+    name: "format_analyze; linux; Dart dev; PKGS: api_benchmark, query_benchmark; `./../tool/setup.sh`, `./compile_protos.sh`, `dart format --output=none --set-exit-if-changed .`, `dart analyze`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -538,10 +458,10 @@ jobs:
         if: "always() && steps.api_benchmark_pub_upgrade.conclusion == 'success'"
         working-directory: api_benchmark
         run: "dart format --output=none --set-exit-if-changed ."
-      - name: api_benchmark; dart analyze .
+      - name: api_benchmark; dart analyze
         if: "always() && steps.api_benchmark_pub_upgrade.conclusion == 'success'"
         working-directory: api_benchmark
-        run: dart analyze .
+        run: dart analyze
       - id: query_benchmark_pub_upgrade
         name: query_benchmark; pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -559,10 +479,10 @@ jobs:
         if: "always() && steps.query_benchmark_pub_upgrade.conclusion == 'success'"
         working-directory: query_benchmark
         run: "dart format --output=none --set-exit-if-changed ."
-      - name: query_benchmark; dart analyze .
+      - name: query_benchmark; dart analyze
         if: "always() && steps.query_benchmark_pub_upgrade.conclusion == 'success'"
         working-directory: query_benchmark
-        run: dart analyze .
+        run: dart analyze
     needs:
       - job_001
       - job_002
@@ -576,5 +496,3 @@ jobs:
       - job_010
       - job_011
       - job_012
-      - job_013
-      - job_014

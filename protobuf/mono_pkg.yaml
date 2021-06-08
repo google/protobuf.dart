@@ -5,16 +5,15 @@
 # - test stage runs for all oses and all sdks
 
 stages:
-  - format:
-    - group: [dartfmt]
-      dart: [dev]
   - analyze:
     - group:
+      - dartfmt
       - dartanalyzer: --fatal-infos lib
       - dartanalyzer: --fatal-infos test
       dart: [dev]
     - group:
-      - dartanalyzer: .
+      - dartanalyzer: lib
+      - dartanalyzer: test
       dart: [2.10.5]
   - run_tests:
     - group: [test]
