@@ -5,7 +5,7 @@
 # - test stage runs for all oses and all sdks
 
 stages:
-  - analyze:
+  - format_analyze:
     - group:
       - dartfmt
       - dartanalyzer: --fatal-infos lib
