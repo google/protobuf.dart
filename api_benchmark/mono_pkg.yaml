@@ -6,5 +6,5 @@ stages:
       - command: ./../tool/setup.sh
       - command: ./compile_protos.sh
       - dartfmt
-      - dartanalyzer: --fatal-warnings .
+      - dartanalyzer
       dart: [dev]
