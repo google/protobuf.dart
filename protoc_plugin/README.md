@@ -59,7 +59,13 @@ options `<option 1>` and `<option 2>` like this:
 
     --dart_out="<option 1>,<option 2>:."
 
- ### Generating Code Info
+#### Generating grpc Headers
+
+To generate code for grpc, you will need to pass in the `grpc` option, like this:
+
+    --dart_out="grpc:."
+
+#### Generating Code Info
 
 The plugin includes the `generate_kythe_info` option, which, if passed at run
 time, will make the plugin generate metadata files alongside the `.dart` files
