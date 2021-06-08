@@ -5,7 +5,7 @@ stages:
       - command: ./../tool/setup.sh
       - command: make protos
       - dartfmt
-      - dartanalyzer: --fatal-infos .
+      - dartanalyzer: --fatal-infos
       dart: [dev]
     - group:
       - command: ./../tool/setup.sh

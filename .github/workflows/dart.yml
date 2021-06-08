@@ -123,7 +123,7 @@ jobs:
         working-directory: protobuf
         run: dart analyze --fatal-infos test
   job_004:
-    name: "analyze; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart format --output=none --set-exit-if-changed .`, `dart analyze --fatal-infos .`"
+    name: "analyze; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart format --output=none --set-exit-if-changed .`, `dart analyze --fatal-infos`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -158,10 +158,10 @@ jobs:
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
         run: "dart format --output=none --set-exit-if-changed ."
-      - name: "protoc_plugin; dart analyze --fatal-infos ."
+      - name: "protoc_plugin; dart analyze --fatal-infos"
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
-        run: dart analyze --fatal-infos .
+        run: dart analyze --fatal-infos
   job_005:
     name: "run_tests; linux; Dart 2.10.5; PKG: protobuf; `dart test`"
     runs-on: ubuntu-latest

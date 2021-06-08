@@ -102,8 +102,8 @@ for PKG in ${PKGS}; do
         dart analyze test || EXIT_CODE=$?
         ;;
       dartanalyzer_5)
-        echo 'dart analyze --fatal-infos .'
-        dart analyze --fatal-infos . || EXIT_CODE=$?
+        echo 'dart analyze --fatal-infos'
+        dart analyze --fatal-infos || EXIT_CODE=$?
         ;;
       dartfmt)
         echo 'dart format --output=none --set-exit-if-changed .'
