@@ -100,8 +100,11 @@ class PbMap<K, V> extends MapBase<K, V> {
     _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry!);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
-    var key = entryFieldSet._$get<K>(0, null);
-    var value = entryFieldSet._$get<V>(1, null);
+    // Provide default value for strings here, as empty strings are not
+    // serialized into the message due to empty string being the default
+    // value of the string type
+    var key = entryFieldSet._$get<K>(0, K == String ? '' as K : null);
+    var value = entryFieldSet._$get<V>(1, V == String ? '' as V : null);
     _wrappedMap[key] = value;
   }
 
