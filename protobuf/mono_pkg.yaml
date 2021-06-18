@@ -7,13 +7,13 @@
 stages:
   - format_analyze:
     - group:
-      - dartfmt
-      - dartanalyzer: --fatal-infos lib
-      - dartanalyzer: --fatal-infos test
+      - format
+      - analyze: --fatal-infos lib
+      - analyze: --fatal-infos test
       dart: [dev]
     - group:
-      - dartanalyzer: lib
-      - dartanalyzer: test
+      - analyze: lib
+      - analyze: test
       dart: [2.10.5]
   - run_tests:
     - group: [test]
