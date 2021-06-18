@@ -4,13 +4,13 @@ stages:
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
-      - dartfmt
-      - dartanalyzer: --fatal-infos
+      - format
+      - analyze: --fatal-infos
       dart: [dev]
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
-      - dartanalyzer
+      - analyze
       dart: [2.10.5]
   - run_tests:
     - group:
