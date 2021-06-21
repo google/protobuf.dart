@@ -15,4 +15,5 @@ dev_dependencies:
   test: '>=1.2.0'
   benchmark_harness: any
   js: any
+  matcher: any
   pedantic: ^1.9.2
