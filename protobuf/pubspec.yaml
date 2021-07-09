@@ -9,7 +9,7 @@ environment:
   sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
-  fixnum: ^0.10.9
+  fixnum: '>=0.10.9 <2.0.0'
 
 dev_dependencies:
   test: '>=1.2.0'
