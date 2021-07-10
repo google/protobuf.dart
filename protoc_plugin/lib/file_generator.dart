@@ -401,7 +401,7 @@ class FileGenerator extends ProtobufContainer {
         .map((mixin) => mixin.importFrom)
         .toSet()
         .toList(growable: false)
-          ..sort();
+      ..sort();
   }
 
   /// Returns the contents of the .pbenum.dart file for this .proto file.
