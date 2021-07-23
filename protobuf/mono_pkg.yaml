@@ -6,11 +6,11 @@
 
 stages:
   - format:
-    - group: [dartfmt]
+    - group: [format]
       dart: [dev]
   - analyze:
     - group:
-      - dartanalyzer: --fatal-infos --fatal-warnings lib test
+      - analyze: --fatal-infos lib test
       dart: [dev]
   - run_tests:
     - group: [test]

@@ -79,7 +79,7 @@ jobs:
         working-directory: protoc_plugin
         run: "dart format --output=none --set-exit-if-changed ."
   job_003:
-    name: "analyze; linux; Dart dev; PKG: protobuf; `dart analyze --fatal-infos --fatal-warnings lib test`"
+    name: "analyze; linux; Dart dev; PKG: protobuf; `dart analyze --fatal-infos lib test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -102,10 +102,10 @@ jobs:
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: protobuf
         run: dart pub upgrade
-      - name: "protobuf; dart analyze --fatal-infos --fatal-warnings lib test"
+      - name: "protobuf; dart analyze --fatal-infos lib test"
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-        run: dart analyze --fatal-infos --fatal-warnings lib test
+        run: dart analyze --fatal-infos lib test
     needs:
       - job_001
       - job_002

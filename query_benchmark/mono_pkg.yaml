@@ -3,7 +3,7 @@ dart:
 stages:
   - format_analyze:
     - group:
-      - dartfmt
+      - format
       - command: ./../tool/setup.sh
       - command: ./compile_protos.sh
       - analyze

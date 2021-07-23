@@ -81,7 +81,7 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
-	dartfmt -w $(TEST_PROTO_DIR)
+	dart format $(TEST_PROTO_DIR)
 
 build-plugin: $(PLUGIN_PATH)
 
@@ -90,7 +90,7 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 	rm lib/src/descriptor.pb{json,server}.dart
 	rm lib/src/dart_options.pb{enum,json,server}.dart
 	rm lib/src/plugin.pb{json,server}.dart
-	dartfmt -w lib/src
+	dart format lib/src
 
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 

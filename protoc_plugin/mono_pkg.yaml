@@ -3,7 +3,7 @@ stages:
   - format:
     - group:
       - command: ./../tool/setup.sh
-      - dartfmt
+      - format
       dart: [dev]
   - analyze:
     - group:
@@ -11,7 +11,7 @@ stages:
       - command: make protos
         # Fatal infos cannot be enabled until protoc_plugin source is
         # null safe.
-      - dartanalyzer: --fatal-infos
+      - analyze: --fatal-infos
       dart: [dev]
   - run_tests:
     - group:
