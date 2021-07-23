@@ -6,31 +6,27 @@
 @TestOn("vm")
 library reserved_names_test;
 
-import 'package:test/test.dart';
+import 'dart:collection' show MapMixin;
+import 'dart:mirrors';
 
 import 'package:protobuf/meta.dart'
     show GeneratedMessage_reservedNames, ProtobufEnum_reservedNames;
-import 'package:protoc_plugin/mixins.dart' show findMixin;
-
-import 'mirror_util.dart' show findMemberNames;
-
 // Import the libraries we will access via the mirrors.
 // ignore_for_file: unused_import
 import 'package:protobuf/protobuf.dart' show GeneratedMessage, ProtobufEnum;
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin;
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart' show PbMapMixin;
-import 'dart:collection' show MapMixin;
+import 'package:protoc_plugin/mixins.dart' show findMixin;
+import 'package:test/test.dart';
 
-import 'dart:mirrors';
+import 'mirror_util.dart' show findMemberNames;
 
 void main() {
   test('GeneratedMessage reserved names are up to date', () {
     var actual = Set<String>.from(GeneratedMessage_reservedNames);
     var expected =
-        findMemberNames('package:protobuf/protobuf.dart', #GeneratedMessage)
-          // TODO: see https://github.com/dart-lang/protobuf/issues/527
-          ..removeAll(_oneOffNames);
+        findMemberNames('package:protobuf/protobuf.dart', #GeneratedMessage);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
   });
@@ -38,18 +34,14 @@ void main() {
   test('ProtobufEnum reserved names are up to date', () {
     var actual = Set<String>.from(ProtobufEnum_reservedNames);
     var expected =
-        findMemberNames('package:protobuf/protobuf.dart', #ProtobufEnum)
-          // TODO: see https://github.com/dart-lang/protobuf/issues/527
-          ..removeAll(_oneOffNames);
+        findMemberNames('package:protobuf/protobuf.dart', #ProtobufEnum);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
   });
 
   test("ReadonlyMessageMixin doesn't add any reserved names", () {
-    var mixinNames =
-        findMemberNames('package:protobuf/protobuf.dart', #ReadonlyMessageMixin)
-          // TODO: see https://github.com/dart-lang/protobuf/issues/527
-          ..removeAll(_oneOffNames);
+    var mixinNames = findMemberNames(
+        'package:protobuf/protobuf.dart', #ReadonlyMessageMixin);
     var reservedNames = Set<String>.from(GeneratedMessage_reservedNames);
     for (var name in mixinNames) {
       if (name == "ReadonlyMessageMixin" || name == "unknownFields") continue;
@@ -65,9 +57,7 @@ void main() {
 
     var expected = findMemberNames(meta.importFrom, #PbMapMixin)
       ..addAll(findMemberNames("dart:collection", #MapMixin))
-      ..removeAll(GeneratedMessage_reservedNames)
-      // TODO: see https://github.com/dart-lang/protobuf/issues/527
-      ..removeAll(_oneOffNames);
+      ..removeAll(GeneratedMessage_reservedNames);
 
     expect(
         actual.toList()..sort(), containsAllInOrder(expected.toList()..sort()));
@@ -78,17 +68,8 @@ void main() {
     var actual = Set<String>.from(meta.findReservedNames());
 
     var expected = findMemberNames(meta.importFrom, #PbEventMixin)
-      ..removeAll(GeneratedMessage_reservedNames)
-      // TODO: see https://github.com/dart-lang/protobuf/issues/527
-      ..removeAll(_oneOffNames);
+      ..removeAll(GeneratedMessage_reservedNames);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
   });
 }
-
-// See https://github.com/dart-lang/protobuf/issues/527
-const _oneOffNames = {
-  'hash',
-  'hashAll',
-  'hashAllUnordered',
-};
