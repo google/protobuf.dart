@@ -148,12 +148,24 @@ void main() {
       ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
     expect(m1.hashCode, m2.hashCode);
 
-    m1.repeatedInt32..add(42)..add(43);
-    m2.repeatedInt32..add(42)..add(43);
-    m1.repeatedInt64..add(Int64(42))..add(Int64(43));
-    m2.repeatedInt64..add(Int64(42))..add(Int64(43));
-    m1.repeatedString..add("Dart")..add("JavaScript");
-    m2.repeatedString..add("Dart")..add("JavaScript");
+    m1.repeatedInt32
+      ..add(42)
+      ..add(43);
+    m2.repeatedInt32
+      ..add(42)
+      ..add(43);
+    m1.repeatedInt64
+      ..add(Int64(42))
+      ..add(Int64(43));
+    m2.repeatedInt64
+      ..add(Int64(42))
+      ..add(Int64(43));
+    m1.repeatedString
+      ..add("Dart")
+      ..add("JavaScript");
+    m2.repeatedString
+      ..add("Dart")
+      ..add("JavaScript");
     m1.repeatedNestedEnum
       ..add(TestAllTypes_NestedEnum.BAR)
       ..add(TestAllTypes_NestedEnum.BAZ);
