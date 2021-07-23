@@ -258,7 +258,9 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     indexes[field.name] = index;
   }
 
-  var existingNames = <String>{}..addAll(reservedMemberNames)..addAll(reserved);
+  var existingNames = <String>{}
+    ..addAll(reservedMemberNames)
+    ..addAll(reserved);
 
   var fieldNames = List<FieldNames>.filled(indexes.length, null);
 
