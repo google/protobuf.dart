@@ -95,10 +95,6 @@ for PKG in ${PKGS}; do
         echo 'make protos'
         make protos || EXIT_CODE=$?
         ;;
-      command_3)
-        echo 'dart --no-sound-null-safety test'
-        dart --no-sound-null-safety test || EXIT_CODE=$?
-        ;;
       format)
         echo 'dart format --output=none --set-exit-if-changed .'
         dart format --output=none --set-exit-if-changed . || EXIT_CODE=$?

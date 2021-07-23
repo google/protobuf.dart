@@ -17,5 +17,5 @@ stages:
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
-      - command: dart --no-sound-null-safety test
+      - command: dart test
       dart: [2.12.0, dev]
