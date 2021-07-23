@@ -3,15 +3,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 library json_test;
 
 import 'package:fixnum/fixnum.dart';
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
-
 import 'test_util.dart';
 
 void main() {
@@ -36,7 +34,8 @@ void main() {
   Matcher expectedJson(from, to) {
     var expectedJson = TEST_ALL_TYPES_JSON.replaceAll(from, to);
     return predicate(
-        (message) => message.writeToJson() == expectedJson, 'Incorrect output');
+        (GeneratedMessage message) => message.writeToJson() == expectedJson,
+        'Incorrect output');
   }
 
   test('testUnsignedOutput', () {

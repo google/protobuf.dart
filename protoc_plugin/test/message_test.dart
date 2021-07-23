@@ -3,7 +3,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
 // ignore_for_file: deprecated_member_use_from_same_package
 
 library message_test;
@@ -11,10 +10,9 @@ library message_test;
 import 'package:protoc_plugin/src/descriptor.pb.dart' show DescriptorProto;
 import 'package:test/test.dart';
 
-import 'test_util.dart';
-
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest.pbjson.dart';
+import 'test_util.dart';
 
 void main() {
   var TEST_REQUIRED_UNINITIALIZED = TestRequired();
@@ -248,11 +246,11 @@ repeatedString: qux
 
   test('JSON constants share structure', () {
     const nestedTypeTag = 3;
-    List fields = TestAllTypes$json['$nestedTypeTag'];
+    var fields = TestAllTypes$json['$nestedTypeTag'] as List;
     expect(fields[0], same(TestAllTypes_NestedMessage$json));
 
     const enumTypeTag = 4;
-    fields = TestAllTypes$json['$enumTypeTag'];
+    fields = TestAllTypes$json['$enumTypeTag'] as List;
     expect(fields[0], same(TestAllTypes_NestedEnum$json));
   });
 

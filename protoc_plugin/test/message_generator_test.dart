@@ -5,16 +5,14 @@
 
 // @dart=2.11
 
-library message_generator_test;
-
 import 'dart:collection';
+
 import 'package:collection/collection.dart';
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
-import 'package:test/test.dart';
-
 import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/plugin.pb.dart';
+import 'package:test/test.dart';
 
 import 'golden_file.dart';
 
