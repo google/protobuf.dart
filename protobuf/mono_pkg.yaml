@@ -10,7 +10,7 @@ stages:
       dart: [dev]
   - analyze:
     - group:
-      - analyze: --fatal-infos lib test
+      - analyze: --fatal-infos
       dart: [dev]
   - run_tests:
     - group: [test]

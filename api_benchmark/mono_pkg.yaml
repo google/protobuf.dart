@@ -6,5 +6,5 @@ stages:
       - command: ./../tool/setup.sh
       - command: ./compile_protos.sh
       - format
-      - analyze: --fatal-warnings .
+      - analyze: --fatal-infos
       dart: [dev]
