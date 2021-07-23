@@ -13,6 +13,6 @@ import '../out/protos/foo.pb.dart' as foo;
 
 void main() {
   test('Import prefixes in generated files do not clash with fields', () {
-    pb.Clasher()..foo = foo.Foo();
+    pb.Clasher().foo = foo.Foo();
   });
 }

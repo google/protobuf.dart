@@ -50,7 +50,7 @@ void main() {
     for (var name in mixinNames) {
       if (name == "ReadonlyMessageMixin" || name == "unknownFields") continue;
       if (!reservedNames.contains(name)) {
-        fail("name from ReadonlyMessageMixin is not reserved: ${name}");
+        fail("name from ReadonlyMessageMixin is not reserved: $name");
       }
     }
   });

@@ -47,7 +47,7 @@ class ClientApiGenerator {
             '$_protobufImportPrefix.ClientContext? ctx, $inputType request) {',
         '}', () {
       out.println('var emptyResponse = $outputType();');
-      out.println('return _client.invoke<$outputType>(ctx, \'${className}\', '
+      out.println('return _client.invoke<$outputType>(ctx, \'$className\', '
           '\'${m.name}\', request, emptyResponse);');
     });
   }

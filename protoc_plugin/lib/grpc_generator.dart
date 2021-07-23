@@ -96,7 +96,7 @@ class GrpcServiceGenerator {
     if (mg == null) {
       var location = _undefinedDeps[fqname];
       // TODO(nichite): Throw more actionable error.
-      throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
+      throw 'FAILURE: Unknown type reference ($fqname) for $location';
     }
     return mg.fileImportPrefix + '.' + mg.classname;
   }

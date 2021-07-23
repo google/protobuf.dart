@@ -167,7 +167,7 @@ void main() {
     expectOneofNotSet(foo);
     var copy1 = foo.deepCopy().freeze().rebuild((_) {});
     expectOneofNotSet(copy1);
-    foo..first = 'oneof';
+    foo.first = 'oneof';
     expectFirstSet(foo);
     var copy2 = foo.deepCopy().freeze().rebuild((_) {});
     expectFirstSet(copy2);

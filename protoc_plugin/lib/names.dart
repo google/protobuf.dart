@@ -207,7 +207,7 @@ String oneofEnumMemberName(String fieldName) => disambiguateName(
 String messageOrEnumClassName(String descriptorName, Set<String> usedNames,
     {String parent = ''}) {
   if (parent != '') {
-    descriptorName = '${parent}_${descriptorName}';
+    descriptorName = '${parent}_$descriptorName';
   }
   return disambiguateName(
       avoidInitialUnderscore(descriptorName), usedNames, defaultSuffixes());
