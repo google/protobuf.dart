@@ -22,6 +22,6 @@ dev_dependencies:
 
 dependency_overrides:
   # Due to version issues
-  meta: <1.6.0
+  meta: <1.5.0
   protobuf:
     path: "../protobuf"
