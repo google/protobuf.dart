@@ -76,6 +76,10 @@ for PKG in ${PKGS}; do
         dart analyze --fatal-infos --fatal-warnings lib test || EXIT_CODE=$?
         ;;
       analyze_2)
+        echo 'dart analyze --fatal-infos'
+        dart analyze --fatal-infos || EXIT_CODE=$?
+        ;;
+      analyze_3)
         echo 'dart analyze'
         dart analyze || EXIT_CODE=$?
         ;;

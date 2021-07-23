@@ -19,7 +19,7 @@ env:
 
 jobs:
   job_001:
-    name: "format; linux; PKG: protobuf; `dart format --output=none --set-exit-if-changed .`"
+    name: "format; linux; Dart dev; PKG: protobuf; `dart format --output=none --set-exit-if-changed .`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -47,7 +47,7 @@ jobs:
         working-directory: protobuf
         run: "dart format --output=none --set-exit-if-changed ."
   job_002:
-    name: "format; linux; PKG: protoc_plugin; `./../tool/setup.sh`, `dart format --output=none --set-exit-if-changed .`"
+    name: "format; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `dart format --output=none --set-exit-if-changed .`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -79,7 +79,7 @@ jobs:
         working-directory: protoc_plugin
         run: "dart format --output=none --set-exit-if-changed ."
   job_003:
-    name: "analyze; linux; PKG: protobuf; `dart analyze --fatal-infos --fatal-warnings lib test`"
+    name: "analyze; linux; Dart dev; PKG: protobuf; `dart analyze --fatal-infos --fatal-warnings lib test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -110,14 +110,14 @@ jobs:
       - job_001
       - job_002
   job_004:
-    name: "analyze; linux; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart analyze --fatal-warnings .`"
+    name: "analyze; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart analyze --fatal-infos`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2.1.6
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin;commands:command_0-command_2-analyze_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin;commands:command_0-command_2-analyze_2"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;dart:dev
@@ -141,15 +141,56 @@ jobs:
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
         run: make protos
-      - name: "protoc_plugin; dart analyze --fatal-warnings ."
+      - name: "protoc_plugin; dart analyze --fatal-infos"
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
-        run: dart analyze --fatal-warnings .
+        run: dart analyze --fatal-infos
     needs:
       - job_001
       - job_002
   job_005:
-    name: "run_tests; linux; PKG: protobuf; `dart test`"
+    name: "run_tests; linux; Dart 2.12.0; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart --no-sound-null-safety test`"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Pub hosted dependencies
+        uses: actions/cache@v2.1.6
+        with:
+          path: "~/.pub-cache/hosted"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:protoc_plugin;commands:command_0-command_2-command_3"
+          restore-keys: |
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0;packages:protoc_plugin
+            os:ubuntu-latest;pub-cache-hosted;dart:2.12.0
+            os:ubuntu-latest;pub-cache-hosted
+            os:ubuntu-latest
+      - uses: dart-lang/setup-dart@v1.1
+        with:
+          sdk: "2.12.0"
+      - id: checkout
+        uses: actions/checkout@v2.3.4
+      - id: protoc_plugin_pub_upgrade
+        name: protoc_plugin; dart pub upgrade
+        if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: protoc_plugin
+        run: dart pub upgrade
+      - name: protoc_plugin; ./../tool/setup.sh
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+        run: ./../tool/setup.sh
+      - name: protoc_plugin; make protos
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+        run: make protos
+      - name: "protoc_plugin; dart --no-sound-null-safety test"
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+        run: dart --no-sound-null-safety test
+    needs:
+      - job_001
+      - job_002
+      - job_003
+      - job_004
+  job_006:
+    name: "run_tests; linux; Dart dev; PKG: protobuf; `dart test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -181,8 +222,8 @@ jobs:
       - job_002
       - job_003
       - job_004
-  job_006:
-    name: "run_tests; linux; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart --no-sound-null-safety test`"
+  job_007:
+    name: "run_tests; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart --no-sound-null-safety test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -222,8 +263,8 @@ jobs:
       - job_002
       - job_003
       - job_004
-  job_007:
-    name: "run_tests; osx; PKG: protobuf; `dart test`"
+  job_008:
+    name: "run_tests; osx; Dart dev; PKG: protobuf; `dart test`"
     runs-on: macos-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -255,8 +296,8 @@ jobs:
       - job_002
       - job_003
       - job_004
-  job_008:
-    name: "run_tests; windows; PKG: protobuf; `dart test`"
+  job_009:
+    name: "run_tests; windows; Dart dev; PKG: protobuf; `dart test`"
     runs-on: windows-latest
     steps:
       - uses: dart-lang/setup-dart@v1.1
@@ -278,8 +319,8 @@ jobs:
       - job_002
       - job_003
       - job_004
-  job_009:
-    name: "format_analyze; linux; PKG: api_benchmark; `./../tool/setup.sh`, `./compile_protos.sh`, `dart format --output=none --set-exit-if-changed .`, `dart analyze --fatal-warnings .`"
+  job_010:
+    name: "format_analyze; linux; Dart dev; PKG: api_benchmark; `./../tool/setup.sh`, `./compile_protos.sh`, `dart format --output=none --set-exit-if-changed .`, `dart analyze --fatal-warnings .`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
@@ -327,15 +368,16 @@ jobs:
       - job_006
       - job_007
       - job_008
-  job_010:
-    name: "format_analyze; linux; PKG: query_benchmark; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./compile_protos.sh`, `dart analyze`"
+      - job_009
+  job_011:
+    name: "format_analyze; linux; Dart dev; PKG: query_benchmark; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./compile_protos.sh`, `dart analyze`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2.1.6
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:query_benchmark;commands:format-command_0-command_1-analyze_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:query_benchmark;commands:format-command_0-command_1-analyze_3"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:query_benchmark
             os:ubuntu-latest;pub-cache-hosted;dart:dev
@@ -376,3 +418,4 @@ jobs:
       - job_006
       - job_007
       - job_008
+      - job_009
