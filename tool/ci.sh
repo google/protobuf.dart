@@ -75,6 +75,10 @@ for PKG in ${PKGS}; do
         echo 'dart analyze --fatal-infos --fatal-warnings lib test'
         dart analyze --fatal-infos --fatal-warnings lib test || EXIT_CODE=$?
         ;;
+      analyze_2)
+        echo 'dart analyze'
+        dart analyze || EXIT_CODE=$?
+        ;;
       command_0)
         echo './../tool/setup.sh'
         ./../tool/setup.sh || EXIT_CODE=$?

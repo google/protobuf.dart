@@ -11,11 +11,11 @@ stages:
       - command: make protos
         # Fatal infos cannot be enabled until protoc_plugin source is
         # null safe.
-      - dartanalyzer: --fatal-warnings .
+      - dartanalyzer: --fatal-infos
       dart: [dev]
   - run_tests:
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
       - command: dart --no-sound-null-safety test
-      dart: [dev]
+      dart: [2.12.0, dev]

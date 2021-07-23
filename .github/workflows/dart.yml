@@ -328,14 +328,14 @@ jobs:
       - job_007
       - job_008
   job_010:
-    name: "format_analyze; linux; PKG: query_benchmark; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./compile_protos.sh`, `dart analyze --fatal-warnings .`"
+    name: "format_analyze; linux; PKG: query_benchmark; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./compile_protos.sh`, `dart analyze`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@v2.1.6
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:query_benchmark;commands:format-command_0-command_1-analyze_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:query_benchmark;commands:format-command_0-command_1-analyze_2"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;dart:dev;packages:query_benchmark
             os:ubuntu-latest;pub-cache-hosted;dart:dev
@@ -363,10 +363,10 @@ jobs:
         if: "always() && steps.query_benchmark_pub_upgrade.conclusion == 'success'"
         working-directory: query_benchmark
         run: ./compile_protos.sh
-      - name: "query_benchmark; dart analyze --fatal-warnings ."
+      - name: query_benchmark; dart analyze
         if: "always() && steps.query_benchmark_pub_upgrade.conclusion == 'success'"
         working-directory: query_benchmark
-        run: dart analyze --fatal-warnings .
+        run: dart analyze
     needs:
       - job_001
       - job_002

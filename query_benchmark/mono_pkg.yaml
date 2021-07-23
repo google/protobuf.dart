@@ -1,10 +1,10 @@
 # See https://github.com/dart-lang/mono_repo for details
-
+dart:
 stages:
   - format_analyze:
     - group:
       - dartfmt
       - command: ./../tool/setup.sh
       - command: ./compile_protos.sh
-      - dartanalyzer: --fatal-warnings .
-      dart: [dev]
+      - analyze
+      dart: dev
