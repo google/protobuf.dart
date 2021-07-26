@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: test
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -18,7 +18,7 @@ class Int64 extends $pb.GeneratedMessage {
 
   Int64._() : super();
   factory Int64({
-    $fixnum.Int64 value,
+    $fixnum.Int64? value,
   }) {
     final _result = create();
     if (value != null) {
@@ -45,7 +45,7 @@ class Int64 extends $pb.GeneratedMessage {
   static $pb.PbList<Int64> createRepeated() => $pb.PbList<Int64>();
   @$core.pragma('dart2js:noInline')
   static Int64 getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Int64>(create);
-  static Int64 _defaultInstance;
+  static Int64? _defaultInstance;
 
   @$pb.TagNumber(1)
   $fixnum.Int64 get value => $_getI64(0);

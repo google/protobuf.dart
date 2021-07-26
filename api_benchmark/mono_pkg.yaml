@@ -3,8 +3,8 @@
 stages:
   - format_analyze:
     - group:
+      - format
       - command: ./../tool/setup.sh
       - command: ./compile_protos.sh
-      - format
-      - analyze
+      - analyze: --fatal-infos
       dart: [dev]

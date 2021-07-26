@@ -93,7 +93,7 @@ class Factories {
         fromJson: (String json) => GoogleMessage4.fromJson(json)),
   };
 
-  Factories._({this.fromBuffer, this.fromJson});
+  Factories._({required this.fromBuffer, required this.fromJson});
 }
 
 /// Base for all protobuf benchmarks.

@@ -9,8 +9,8 @@ import 'dart:mirrors';
 /// Returns the names of the public properties and methods on a class.
 /// (Also visits its superclasses, recursively.)
 Set<String> findMemberNames(String importName, Symbol classSymbol) {
-  var lib = currentMirrorSystem().libraries[Uri.parse(importName)];
-  var cls = lib.declarations[classSymbol] as ClassMirror;
+  var lib = currentMirrorSystem().libraries[Uri.parse(importName)]!;
+  var cls = lib.declarations[classSymbol] as ClassMirror?;
 
   var result = <String>{};
 

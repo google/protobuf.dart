@@ -6,12 +6,12 @@
 library json_test;
 
 import 'package:fixnum/fixnum.dart';
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/foo.pb.dart' as foo;
+import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/map_enum_value.pb.dart';
-
 import 'test_util.dart';
 
 void main() {
@@ -36,7 +36,8 @@ void main() {
   Matcher expectedJson(String from, String to) {
     var expectedJson = TEST_ALL_TYPES_JSON.replaceAll(from, to);
     return predicate(
-        (message) => message.writeToJson() == expectedJson, 'Incorrect output');
+        (GeneratedMessage message) => message.writeToJson() == expectedJson,
+        'Incorrect output');
   }
 
   test('testUnsignedOutput', () {

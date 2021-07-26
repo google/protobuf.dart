@@ -8,11 +8,11 @@ class PhoneNumber extends $pb.GeneratedMessage {
 
   PhoneNumber._() : super();
   factory PhoneNumber({
-    $core.String number,
-    PhoneNumber_PhoneType type,
-    $core.String name,
+    $core.String? number,
+    PhoneNumber_PhoneType? type,
+    $core.String? name,
   @$core.Deprecated('This field is deprecated.')
-    $core.String deprecatedField,
+    $core.String? deprecatedField,
   }) {
     final _result = create();
     if (number != null) {
@@ -49,7 +49,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static $pb.PbList<PhoneNumber> createRepeated() => $pb.PbList<PhoneNumber>();
   @$core.pragma('dart2js:noInline')
   static PhoneNumber getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(create);
-  static PhoneNumber _defaultInstance;
+  static PhoneNumber? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get number => $_getSZ(0);

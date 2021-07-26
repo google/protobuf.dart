@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: testpkg.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
 
 import 'dart:core' as $core;
@@ -24,7 +24,7 @@ const SomeReply$json = const {
 
 /// Descriptor for `SomeReply`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List someReplyDescriptor = $convert.base64Decode('CglTb21lUmVwbHk=');
-const TestServiceBase$json = const {
+const $core.Map<$core.String, $core.dynamic> TestServiceBase$json = const {
   '1': 'Test',
   '2': const [
     const {'1': 'AMethod', '2': '.testpkg.SomeRequest', '3': '.testpkg.SomeReply'},
@@ -33,7 +33,7 @@ const TestServiceBase$json = const {
 };
 
 @$core.Deprecated('Use testServiceDescriptor instead')
-const TestServiceBase$messageJson = const {
+const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> TestServiceBase$messageJson = const {
   '.testpkg.SomeRequest': SomeRequest$json,
   '.testpkg.SomeReply': SomeReply$json,
   '.foo.bar.EmptyMessage': $1.EmptyMessage$json,

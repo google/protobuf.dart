@@ -1,8 +1,6 @@
-## 19.3.2-dev
+## 20.0.0
 
-* Add the test for fixed32 int that could be negative.
-* Add tests for the repeated and map enum value fields where the 
-  enum value is unknown.
+* Stable release generating null-safe code.
 
 ## 19.3.1
 

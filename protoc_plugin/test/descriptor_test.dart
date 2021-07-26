@@ -2,12 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:protoc_plugin/src/descriptor.pb.dart';
+// @dart=2.11
+
 import 'package:protobuf/protobuf.dart';
-import '../out/protos/google/protobuf/unittest.pbjson.dart';
+import 'package:protoc_plugin/src/descriptor.pb.dart';
+import 'package:test/test.dart';
+
 import '../out/protos/custom_option.pb.dart';
 import '../out/protos/custom_option.pbjson.dart';
-import 'package:test/test.dart';
+import '../out/protos/google/protobuf/unittest.pbjson.dart';
 
 void main() {
   test('Can decode message descriptor', () {

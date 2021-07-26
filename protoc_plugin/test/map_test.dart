@@ -5,19 +5,11 @@
 
 library map_test;
 
-import 'package:matcher/src/interfaces.dart';
 import 'package:test/test.dart'
-    show test, expect, predicate, same, throwsA, throwsArgumentError;
+    show test, expect, predicate, same, throwsA, throwsArgumentError, isA;
 
 import '../out/protos/map_api.pb.dart' as pb;
 import '../out/protos/map_api2.pb.dart' as pb2;
-
-Matcher throwsError(Type expectedType, String expectedMessage) =>
-    throwsA(predicate((x) {
-      expect(x.runtimeType, expectedType);
-      expect(x.message, expectedMessage);
-      return true;
-    }));
 
 void main() {
   test("message doesn't implement Map when turned off", () {
@@ -63,8 +55,8 @@ void main() {
     expect(() {
       rec["unknown"] = 123;
     },
-        throwsError(ArgumentError,
-            "field 'unknown' not found in protobuf_unittest.Rec"));
+        throwsA(isA<ArgumentError>().having((p0) => p0.message, 'message',
+            "field 'unknown' not found in protobuf_unittest.Rec")));
   });
 
   test('operator []= throws exception for repeated field', () {
@@ -120,8 +112,8 @@ void main() {
     expect(() {
       rec.remove("str");
     },
-        throwsError(UnsupportedError,
-            "remove() not supported by protobuf_unittest.Rec"));
+        throwsA(isA<UnsupportedError>().having((p0) => p0.message, 'message',
+            "remove() not supported by protobuf_unittest.Rec")));
     expect(rec.str, "hello");
   });
 

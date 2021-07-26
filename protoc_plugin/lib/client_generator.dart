@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=2.11
+
 part of protoc;
 
 class ClientApiGenerator {
@@ -42,10 +44,10 @@ class ClientApiGenerator {
     var outputType = service._getDartClassName(m.outputType, forMainFile: true);
     out.addBlock(
         '$_asyncImportPrefix.Future<$outputType> $methodName('
-            '$_protobufImportPrefix.ClientContext ctx, $inputType request) {',
+            '$_protobufImportPrefix.ClientContext? ctx, $inputType request) {',
         '}', () {
       out.println('var emptyResponse = $outputType();');
-      out.println('return _client.invoke<$outputType>(ctx, \'${className}\', '
+      out.println('return _client.invoke<$outputType>(ctx, \'$className\', '
           '\'${m.name}\', request, emptyResponse);');
     });
   }

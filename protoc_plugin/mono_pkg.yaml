@@ -2,19 +2,14 @@
 stages:
   - format_analyze:
     - group:
+      - format
       - command: ./../tool/setup.sh
       - command: make protos
-      - format
       - analyze: --fatal-infos
       dart: [dev]
-    - group:
-      - command: ./../tool/setup.sh
-      - command: make protos
-      - analyze
-      dart: [2.10.5]
   - run_tests:
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
       - test
-      dart: [2.10.5, dev]
+      dart: [2.12.0, dev]

@@ -4,6 +4,7 @@
 
 library mock_util;
 
+import 'package:collection/collection.dart';
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart'
     show
@@ -24,8 +25,7 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
     // 6 is reserved for extensions in other tests.
     ..e(7, 'enm', PbFieldType.OE,
         defaultOrMaker: mockEnumValues.first,
-        valueOf: (i) =>
-            mockEnumValues.firstWhere((e) => e.value == i, orElse: () => null),
+        valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
         enumValues: mockEnumValues);
 }
 
@@ -54,7 +54,7 @@ abstract class MockMessage extends GeneratedMessage {
 
   @override
   GeneratedMessage clone() {
-    var create = info_.byName['child'].subBuilder;
+    var create = info_.byName['child']!.subBuilder!;
     return create()..mergeFromMessage(this);
   }
 }

@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: test.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -22,9 +22,9 @@ class M extends $pb.GeneratedMessage {
 
   M._() : super();
   factory M({
-    M m,
-    $1.M m1,
-    $2.M m2,
+    M? m,
+    $1.M? m1,
+    $2.M? m2,
   }) {
     final _result = create();
     if (m != null) {
@@ -57,7 +57,7 @@ class M extends $pb.GeneratedMessage {
   static $pb.PbList<M> createRepeated() => $pb.PbList<M>();
   @$core.pragma('dart2js:noInline')
   static M getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<M>(create);
-  static M _defaultInstance;
+  static M? _defaultInstance;
 
   @$pb.TagNumber(1)
   M get m => $_getN(0);

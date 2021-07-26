@@ -85,7 +85,7 @@ abstract class AnyMixin implements GeneratedMessage {
       throw ArgumentError(
           'The type of the Any message (${any.typeUrl}) is not in the given typeRegistry.');
     }
-    var unpacked = info.createEmptyInstance()..mergeFromBuffer(any.value);
+    var unpacked = info.createEmptyInstance!()..mergeFromBuffer(any.value);
     var proto3Json = unpacked.toProto3Json();
     if (info.toProto3Json == null) {
       var map = proto3Json as Map<String, dynamic>;
@@ -102,7 +102,7 @@ abstract class AnyMixin implements GeneratedMessage {
       throw context.parseException(
           'Expected Any message encoded as {@type,...},', json);
     }
-    final object = json as Map<String, dynamic>;
+    final object = json;
     final typeUrl = object['@type'];
 
     if (typeUrl is String) {
@@ -114,12 +114,12 @@ abstract class AnyMixin implements GeneratedMessage {
             json);
       }
 
-      Object subJson = info.fromProto3Json == null
+      Object? subJson = info.fromProto3Json == null
           // TODO(sigurdm): avoid cloning [object] here.
           ? (Map<String, dynamic>.from(object)..remove('@type'))
           : object['value'];
       // TODO(sigurdm): We lose [context.path].
-      var packedMessage = info.createEmptyInstance()
+      var packedMessage = info.createEmptyInstance!()
         ..mergeFromProto3Json(subJson,
             typeRegistry: typeRegistry,
             supportNamesWithUnderscores: context.supportNamesWithUnderscores,
@@ -231,9 +231,9 @@ abstract class TimestampMixin {
     if (json is String) {
       var jsonWithoutFracSec = json;
       var nanos = 0;
-      Match fracSecsMatch = RegExp(r'\.(\d+)').firstMatch(json);
+      Match? fracSecsMatch = RegExp(r'\.(\d+)').firstMatch(json);
       if (fracSecsMatch != null) {
-        var fracSecs = fracSecsMatch[1];
+        var fracSecs = fracSecsMatch[1]!;
         if (fracSecs.length > 9) {
           throw context.parseException(
               'Timestamp can have at most than 9 decimal digits', json);
@@ -290,7 +290,7 @@ abstract class DurationMixin {
         throw context.parseException(
             'Expected a String of the form `<seconds>.<nanos>s`', json);
       } else {
-        var secondsString = match[1];
+        var secondsString = match[1]!;
         var seconds =
             secondsString == '' ? Int64.ZERO : Int64.parseInt(secondsString);
         duration.seconds = seconds;
@@ -326,13 +326,13 @@ abstract class StructMixin implements GeneratedMessage {
         var fields = (message as StructMixin).fields;
         var valueCreator =
             (message.info_.fieldInfo[_fieldsFieldTagNumber] as MapFieldInfo)
-                .valueCreator;
+                .valueCreator!;
 
         json.forEach((key, value) {
           if (key is! String) {
             throw context.parseException('Expected String key', json);
           }
-          ValueMixin v = valueCreator();
+          var v = valueCreator() as ValueMixin;
           context.addMapIndex(key);
           ValueMixin.fromProto3JsonHelper(v, value, typeRegistry, context);
           context.popIndex();
@@ -368,7 +368,7 @@ abstract class ValueMixin implements GeneratedMessage {
 
   // From google/protobuf/struct.proto:
   // The JSON representation for `Value` is JSON value
-  static Object toProto3JsonHelper(
+  static Object? toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
     var value = message as ValueMixin;
     // This would ideally be a switch, but we cannot import the enum we are
@@ -390,7 +390,7 @@ abstract class ValueMixin implements GeneratedMessage {
     }
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
+  static void fromProto3JsonHelper(GeneratedMessage message, Object? json,
       TypeRegistry typeRegistry, JsonParsingContext context) {
     var value = message as ValueMixin;
     if (json == null) {
@@ -441,10 +441,10 @@ abstract class ListValueMixin implements GeneratedMessage {
       TypeRegistry typeRegistry, JsonParsingContext context) {
     var list = message as ListValueMixin;
     if (json is List) {
-      var subBuilder = message.info_.subBuilder(_valueFieldTagNumber);
+      var subBuilder = message.info_.subBuilder(_valueFieldTagNumber)!;
       for (var i = 0; i < json.length; i++) {
         Object element = json[i];
-        ValueMixin v = subBuilder();
+        var v = subBuilder() as ValueMixin;
         context.addListIndex(i);
         ValueMixin.fromProto3JsonHelper(v, element, typeRegistry, context);
         context.popIndex();
@@ -499,12 +499,12 @@ abstract class FieldMaskMixin {
 
   static String _toCamelCase(String name) {
     return name.replaceAllMapped(
-        RegExp('_([a-z])'), (Match m) => '${m.group(1).toUpperCase()}');
+        RegExp('_([a-z])'), (Match m) => '${m.group(1)!.toUpperCase()}');
   }
 
   static String _fromCamelCase(String name) {
     return name.replaceAllMapped(
-        RegExp('[A-Z]'), (Match m) => '_${m.group(0).toLowerCase()}');
+        RegExp('[A-Z]'), (Match m) => '_${m.group(0)!.toLowerCase()}');
   }
 }
 

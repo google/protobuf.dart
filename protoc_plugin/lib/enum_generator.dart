@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=2.11
+
 part of protoc;
 
 class EnumAlias {
@@ -102,7 +104,7 @@ class EnumGenerator extends ProtobufContainer {
 
   void generate(IndentingWriter out) {
     out.addAnnotatedBlock(
-        'class ${classname} extends $_protobufImportPrefix.ProtobufEnum {',
+        'class $classname extends $_protobufImportPrefix.ProtobufEnum {',
         '}\n', [
       NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
@@ -115,14 +117,14 @@ class EnumGenerator extends ProtobufContainer {
         final conditionalValName = configurationDependent(
             'protobuf.omit_enum_names', quoted(val.name));
         out.printlnAnnotated(
-            'static const ${classname} $name = '
-            '${classname}._(${val.number}, $conditionalValName);',
+            'static const $classname $name = '
+            '$classname._(${val.number}, $conditionalValName);',
             [
               NamedLocation(
                   name: name,
                   fieldPathSegment: List.from(fieldPath)
                     ..addAll([_enumValueTag, _originalCanonicalIndices[i]]),
-                  start: 'static const ${classname} '.length)
+                  start: 'static const $classname '.length)
             ]);
       }
       if (_aliases.isNotEmpty) {
@@ -131,21 +133,21 @@ class EnumGenerator extends ProtobufContainer {
           var alias = _aliases[i];
           final name = dartNames[alias.value.name];
           out.printlnAnnotated(
-              'static const ${classname} $name ='
+              'static const $classname $name ='
               ' ${dartNames[alias.canonicalValue.name]};',
               [
                 NamedLocation(
                     name: name,
                     fieldPathSegment: List.from(fieldPath)
                       ..addAll([_enumValueTag, _originalAliasIndices[i]]),
-                    start: 'static const ${classname} '.length)
+                    start: 'static const $classname '.length)
               ]);
         }
       }
       out.println();
 
-      out.println('static const $_coreImportPrefix.List<${classname}> values ='
-          ' <${classname}> [');
+      out.println('static const $_coreImportPrefix.List<$classname> values ='
+          ' <$classname> [');
       for (var val in _canonicalValues) {
         final name = dartNames[val.name];
         out.println('  $name,');
@@ -156,12 +158,12 @@ class EnumGenerator extends ProtobufContainer {
       out.println(
           'static final $_coreImportPrefix.Map<$_coreImportPrefix.int, $classname> _byValue ='
           ' $_protobufImportPrefix.ProtobufEnum.initByValue(values);');
-      out.println('static ${classname} valueOf($_coreImportPrefix.int value) =>'
+      out.println('static $classname? valueOf($_coreImportPrefix.int value) =>'
           ' _byValue[value];');
       out.println();
 
       out.println(
-          'const ${classname}._($_coreImportPrefix.int v, $_coreImportPrefix.String n) '
+          'const $classname._($_coreImportPrefix.int v, $_coreImportPrefix.String n) '
           ': super(v, n);');
     });
   }

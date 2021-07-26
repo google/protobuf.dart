@@ -9,7 +9,6 @@ import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
-
 import 'test_util.dart';
 
 void main() {
@@ -19,9 +18,9 @@ void main() {
   var unknownFields = emptyMessage.unknownFields;
 
   UnknownFieldSetField getField(String name) {
-    var tagNumber = testAllTypes.getTagNumber(name);
+    var tagNumber = testAllTypes.getTagNumber(name)!;
     assert(unknownFields.hasField(tagNumber));
-    return unknownFields.getField(tagNumber);
+    return unknownFields.getField(tagNumber)!;
   }
 
   // Asserts that the given field sets are not equal and have different
@@ -72,14 +71,13 @@ void main() {
   });
 
   test('testGroup', () {
-    var tagNumberA = TestAllTypes_OptionalGroup().getTagNumber('a');
-    expect(tagNumberA != null, isTrue);
+    var tagNumberA = TestAllTypes_OptionalGroup().getTagNumber('a')!;
 
     var optionalGroupField = getField('optionalgroup');
     expect(optionalGroupField.groups.length, 1);
     var group = optionalGroupField.groups[0];
     expect(group.hasField(tagNumberA), isTrue);
-    expect(group.getField(tagNumberA).varints[0],
+    expect(group.getField(tagNumberA)!.varints[0],
         expect64(testAllTypes.optionalGroup.a));
   });
 
@@ -146,7 +144,7 @@ void main() {
     assertAllFieldsSet(destination);
     expect(destination.unknownFields.asMap().length, 1);
 
-    var field = destination.unknownFields.getField(123456);
+    var field = destination.unknownFields.getField(123456)!;
     expect(field.varints.length, 1);
     expect(field.varints[0], expect64(654321));
   });
@@ -209,10 +207,8 @@ void main() {
   });
 
   test('testParseUnknownEnumValue', () {
-    var singularFieldNum = testAllTypes.getTagNumber('optionalNestedEnum');
-    var repeatedFieldNum = testAllTypes.getTagNumber('repeatedNestedEnum');
-    expect(singularFieldNum, isNotNull);
-    expect(repeatedFieldNum, isNotNull);
+    var singularFieldNum = testAllTypes.getTagNumber('optionalNestedEnum')!;
+    var repeatedFieldNum = testAllTypes.getTagNumber('repeatedNestedEnum')!;
 
     var fieldSet = UnknownFieldSet()
       ..addField(
@@ -236,11 +232,11 @@ void main() {
       expect(message.repeatedNestedEnum,
           [TestAllTypes_NestedEnum.FOO, TestAllTypes_NestedEnum.BAZ]);
       final singularVarints =
-          message.unknownFields.getField(singularFieldNum).varints;
+          message.unknownFields.getField(singularFieldNum)!.varints;
       expect(singularVarints.length, 1);
       expect(singularVarints[0], expect64(5));
       final repeatedVarints =
-          message.unknownFields.getField(repeatedFieldNum).varints;
+          message.unknownFields.getField(repeatedFieldNum)!.varints;
       expect(repeatedVarints.length, 2);
       expect(repeatedVarints[0], expect64(4));
       expect(repeatedVarints[1], expect64(6));
@@ -254,11 +250,11 @@ void main() {
       expect(message.getExtension(Unittest.repeatedNestedEnumExtension),
           [TestAllTypes_NestedEnum.FOO, TestAllTypes_NestedEnum.BAZ]);
       final singularVarints =
-          message.unknownFields.getField(singularFieldNum).varints;
+          message.unknownFields.getField(singularFieldNum)!.varints;
       expect(singularVarints.length, 1);
       expect(singularVarints[0], expect64(5));
       final repeatedVarints =
-          message.unknownFields.getField(repeatedFieldNum).varints;
+          message.unknownFields.getField(repeatedFieldNum)!.varints;
       expect(repeatedVarints.length, 2);
       expect(repeatedVarints[0], expect64(4));
       expect(repeatedVarints[1], expect64(6));
@@ -274,7 +270,7 @@ void main() {
 
     var parsed = UnknownFieldSet()
       ..mergeFromCodedBufferReader(CodedBufferReader(writer.toBuffer()));
-    var field = parsed.getField(1);
+    var field = parsed.getField(1)!;
     expect(field.varints.length, 1);
     expect(field.varints[0], expect64(0x7FFFFFFF, 0xFFFFFFFFF));
   });

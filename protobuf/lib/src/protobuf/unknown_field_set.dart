@@ -28,7 +28,7 @@ class UnknownFieldSet {
     _fields.clear();
   }
 
-  UnknownFieldSetField getField(int tagNumber) => _fields[tagNumber];
+  UnknownFieldSetField? getField(int tagNumber) => _fields[tagNumber];
 
   bool hasField(int tagNumber) => _fields.containsKey(tagNumber);
 
@@ -88,7 +88,7 @@ class UnknownFieldSet {
   void mergeFromUnknownFieldSet(UnknownFieldSet other) {
     _ensureWritable('mergeFromUnknownFieldSet');
     for (var key in other._fields.keys) {
-      mergeField(key, other._fields[key]);
+      mergeField(key, other._fields[key]!);
     }
   }
 
@@ -133,7 +133,7 @@ class UnknownFieldSet {
   bool operator ==(other) {
     if (other is! UnknownFieldSet) return false;
 
-    UnknownFieldSet o = other;
+    var o = other;
     return _areMapsEqual(o._fields, _fields);
   }
 
@@ -154,7 +154,7 @@ class UnknownFieldSet {
     var stringBuffer = StringBuffer();
 
     for (var tag in _sorted(_fields.keys)) {
-      var field = _fields[tag];
+      var field = _fields[tag]!;
       for (var value in field.values) {
         if (value is UnknownFieldSet) {
           stringBuffer
@@ -176,7 +176,7 @@ class UnknownFieldSet {
 
   void writeToCodedBufferWriter(CodedBufferWriter output) {
     for (var key in _fields.keys) {
-      _fields[key].writeTo(key, output);
+      _fields[key]!.writeTo(key, output);
     }
   }
 
@@ -222,7 +222,7 @@ class UnknownFieldSetField {
   bool operator ==(other) {
     if (other is! UnknownFieldSetField) return false;
 
-    UnknownFieldSetField o = other;
+    var o = other;
     if (lengthDelimited.length != o.lengthDelimited.length) return false;
     for (var i = 0; i < lengthDelimited.length; i++) {
       if (!_areListsEqual(o.lengthDelimited[i], lengthDelimited[i])) {

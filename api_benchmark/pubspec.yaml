@@ -6,22 +6,20 @@ name: api_benchmark
 description: Benchmarking a number of different api calls.
 
 environment:
-  sdk: '>=2.3.0 <3.0.0'
+  sdk: '>=2.11.99 <3.0.0'
 
 dependencies:
   protobuf:
 
 dev_dependencies:
-  build: ^1.0.0
-  build_runner: ^1.0.0
-  build_web_compilers: ^2.0.0
-  glob: ^1.1.7
-  yaml: ^2.1.15
+  build: ^2.0.0
+  build_runner: ^2.0.6
+  build_web_compilers: ^3.0.0
+  glob: ^2.0.0
+  yaml: ^3.0.0
   protoc_plugin:
     path: "../protoc_plugin"
 
 dependency_overrides:
-  # Due to version issues
-  meta: <1.5.0
   protobuf:
     path: "../protobuf"

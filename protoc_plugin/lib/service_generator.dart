@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=2.11
+
 part of protoc;
 
 class ServiceGenerator {
@@ -121,7 +123,7 @@ class ServiceGenerator {
     var mg = _deps[fqname];
     if (mg == null) {
       var location = _undefinedDeps[fqname];
-      throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
+      throw 'FAILURE: Unknown type reference ($fqname) for $location';
     }
     if (forMainFile && fileGen.protoFileUri == mg.fileGen.protoFileUri) {
       // If it's the same file, we import it without using "as".
@@ -176,9 +178,9 @@ class ServiceGenerator {
       out.addBlock("switch (method) {", "}", () {
         for (var m in _methodDescriptors) {
           var methodName = _methodName(m.name);
-          final type = _getDartClassName(m.inputType);
-          out.println(
-              "case '${m.name}': return this.$methodName(ctx, request as $type);");
+          var inputClass = _getDartClassName(m.inputType);
+          out.println("case '${m.name}': return this.$methodName"
+              "(ctx, request as $inputClass);");
         }
         out.println("default: "
             "throw $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
@@ -216,7 +218,8 @@ class ServiceGenerator {
   /// The map includes an entry for every message type that might need
   /// to be read or written (assuming the type name resolved).
   void generateConstants(IndentingWriter out) {
-    out.print("const $jsonConstant = ");
+    out.print("const $_coreImportPrefix.Map<$_coreImportPrefix.String,"
+        " $_coreImportPrefix.dynamic> $jsonConstant = ");
     writeJsonConst(out, _descriptor.writeToJsonMap());
     out.println(";");
     out.println();
@@ -227,8 +230,12 @@ class ServiceGenerator {
     }
 
     out.println('@$_coreImportPrefix.Deprecated'
-        '(\'Use ${binaryDescriptorName} instead\')');
-    out.addBlock("const $messageJsonConstant = const {", "};", () {
+        '(\'Use $binaryDescriptorName instead\')');
+    out.addBlock(
+        "const $_coreImportPrefix.Map<$_coreImportPrefix.String,"
+            " $_coreImportPrefix.Map<$_coreImportPrefix.String,"
+            " $_coreImportPrefix.dynamic>> $messageJsonConstant = const {",
+        "};", () {
       for (var key in typeConstants.keys) {
         var typeConst = typeConstants[key];
         out.println("'$key': $typeConst,");

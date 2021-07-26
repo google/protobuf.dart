@@ -59,7 +59,7 @@ class FakeJsonClient implements RpcClient {
 
   @override
   Future<T> invoke<T extends GeneratedMessage>(
-      ClientContext ctx,
+      ClientContext? ctx,
       String serviceName,
       String methodName,
       GeneratedMessage request,
@@ -109,7 +109,7 @@ void main() {
     ]);
 
     String readMessageName(fqname) {
-      var json = map[fqname];
+      var json = map[fqname]!;
       var descriptor = DescriptorProto()..mergeFromJsonMap(json);
       return descriptor.name;
     }

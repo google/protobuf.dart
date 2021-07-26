@@ -7,7 +7,7 @@
 import 'indenting_writer.dart';
 
 /// Finds [name] in the exported mixins.
-PbMixin findMixin(String name) {
+PbMixin? findMixin(String name) {
   const _exportedMixins = {
     'PbMapMixin': _pbMapMixin,
     'PbEventMixin': _pbEventMixin,
@@ -28,16 +28,16 @@ class PbMixin {
   final String importFrom;
 
   /// Another mixin to apply ahead of this one, or null for none.
-  final PbMixin parent;
+  final PbMixin? parent;
 
   /// Names that shouldn't be used by properties in the generated child class.
   /// May be null if the mixin doesn't reserve any new names.
-  final List<String> reservedNames;
+  final List<String>? reservedNames;
 
   /// Code to inject into the class using the mixin.
   ///
   /// Typically used for static helpers since you cannot mix in static members.
-  final List<String> injectedHelpers;
+  final List<String>? injectedHelpers;
 
   /// If `True` the mixin should have static methods for converting to and from
   /// proto3 Json.
@@ -45,7 +45,7 @@ class PbMixin {
 
   const PbMixin(
     this.name, {
-    this.importFrom,
+    required this.importFrom,
     this.parent,
     this.reservedNames,
     this.injectedHelpers,
@@ -64,18 +64,18 @@ class PbMixin {
   /// Returns all the reserved names, including from ancestor mixins.
   Iterable<String> findReservedNames() {
     var names = <String>{};
-    for (var m = this; m != null; m = m.parent) {
+    for (PbMixin? m = this; m != null; m = m.parent) {
       names.add(m.name);
       if (m.reservedNames != null) {
-        names.addAll(m.reservedNames);
+        names.addAll(m.reservedNames!);
       }
     }
     return names;
   }
 
   void injectHelpers(IndentingWriter out) {
-    if (injectedHelpers != null && injectedHelpers.isNotEmpty) {
-      out.println(injectedHelpers.join('\n'));
+    if (injectedHelpers != null && injectedHelpers!.isNotEmpty) {
+      out.println(injectedHelpers!.join('\n'));
     }
   }
 }

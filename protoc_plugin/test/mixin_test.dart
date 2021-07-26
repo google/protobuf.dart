@@ -1,11 +1,11 @@
+import 'package:protoc_plugin/testing/mixins.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/mixins.pb.dart' as pb;
-import 'package:protoc_plugin/testing/mixins.dart';
 
 void main() {
   group('Proto with Mixin1', () {
-    pb.Mixin1PB proto;
+    late pb.Mixin1PB proto;
 
     setUp(() {
       proto = pb.Mixin1PB();
@@ -24,7 +24,7 @@ void main() {
   });
 
   group('Proto with Mixin2', () {
-    pb.Mixin2PB proto;
+    late pb.Mixin2PB proto;
 
     setUp(() {
       proto = pb.Mixin2PB();
@@ -39,7 +39,7 @@ void main() {
   });
 
   group('Proto without mixins', () {
-    pb.NoMixinPB proto;
+    late pb.NoMixinPB proto;
 
     setUp(() {
       proto = pb.NoMixinPB();
@@ -52,7 +52,7 @@ void main() {
   });
 
   group('Proto with Mixin3', () {
-    pb.Mixin3PB proto;
+    late pb.Mixin3PB proto;
 
     setUp(() {
       proto = pb.Mixin3PB();

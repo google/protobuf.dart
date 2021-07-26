@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: descriptor.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -34,7 +34,7 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
 
   FileDescriptorSet._() : super();
   factory FileDescriptorSet({
-    $core.Iterable<FileDescriptorProto> file,
+    $core.Iterable<FileDescriptorProto>? file,
   }) {
     final _result = create();
     if (file != null) {
@@ -67,7 +67,7 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static FileDescriptorSet getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FileDescriptorSet>(create);
-  static FileDescriptorSet _defaultInstance;
+  static FileDescriptorSet? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<FileDescriptorProto> get file => $_getList(0);
@@ -158,18 +158,18 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 
   FileDescriptorProto._() : super();
   factory FileDescriptorProto({
-    $core.String name,
-    $core.String package,
-    $core.Iterable<$core.String> dependency,
-    $core.Iterable<DescriptorProto> messageType,
-    $core.Iterable<EnumDescriptorProto> enumType,
-    $core.Iterable<ServiceDescriptorProto> service,
-    $core.Iterable<FieldDescriptorProto> extension,
-    FileOptions options,
-    SourceCodeInfo sourceCodeInfo,
-    $core.Iterable<$core.int> publicDependency,
-    $core.Iterable<$core.int> weakDependency,
-    $core.String syntax,
+    $core.String? name,
+    $core.String? package,
+    $core.Iterable<$core.String>? dependency,
+    $core.Iterable<DescriptorProto>? messageType,
+    $core.Iterable<EnumDescriptorProto>? enumType,
+    $core.Iterable<ServiceDescriptorProto>? service,
+    $core.Iterable<FieldDescriptorProto>? extension,
+    FileOptions? options,
+    SourceCodeInfo? sourceCodeInfo,
+    $core.Iterable<$core.int>? publicDependency,
+    $core.Iterable<$core.int>? weakDependency,
+    $core.String? syntax,
   }) {
     final _result = create();
     if (name != null) {
@@ -235,7 +235,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static FileDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FileDescriptorProto>(create);
-  static FileDescriptorProto _defaultInstance;
+  static FileDescriptorProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -354,9 +354,9 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
 
   DescriptorProto_ExtensionRange._() : super();
   factory DescriptorProto_ExtensionRange({
-    $core.int start,
-    $core.int end,
-    ExtensionRangeOptions options,
+    $core.int? start,
+    $core.int? end,
+    ExtensionRangeOptions? options,
   }) {
     final _result = create();
     if (start != null) {
@@ -399,7 +399,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ExtensionRange getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ExtensionRange>(create);
-  static DescriptorProto_ExtensionRange _defaultInstance;
+  static DescriptorProto_ExtensionRange? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.int get start => $_getIZ(0);
@@ -466,8 +466,8 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
 
   DescriptorProto_ReservedRange._() : super();
   factory DescriptorProto_ReservedRange({
-    $core.int start,
-    $core.int end,
+    $core.int? start,
+    $core.int? end,
   }) {
     final _result = create();
     if (start != null) {
@@ -507,7 +507,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ReservedRange getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ReservedRange>(create);
-  static DescriptorProto_ReservedRange _defaultInstance;
+  static DescriptorProto_ReservedRange? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.int get start => $_getIZ(0);
@@ -612,16 +612,16 @@ class DescriptorProto extends $pb.GeneratedMessage {
 
   DescriptorProto._() : super();
   factory DescriptorProto({
-    $core.String name,
-    $core.Iterable<FieldDescriptorProto> field,
-    $core.Iterable<DescriptorProto> nestedType,
-    $core.Iterable<EnumDescriptorProto> enumType,
-    $core.Iterable<DescriptorProto_ExtensionRange> extensionRange,
-    $core.Iterable<FieldDescriptorProto> extension,
-    MessageOptions options,
-    $core.Iterable<OneofDescriptorProto> oneofDecl,
-    $core.Iterable<DescriptorProto_ReservedRange> reservedRange,
-    $core.Iterable<$core.String> reservedName,
+    $core.String? name,
+    $core.Iterable<FieldDescriptorProto>? field,
+    $core.Iterable<DescriptorProto>? nestedType,
+    $core.Iterable<EnumDescriptorProto>? enumType,
+    $core.Iterable<DescriptorProto_ExtensionRange>? extensionRange,
+    $core.Iterable<FieldDescriptorProto>? extension,
+    MessageOptions? options,
+    $core.Iterable<OneofDescriptorProto>? oneofDecl,
+    $core.Iterable<DescriptorProto_ReservedRange>? reservedRange,
+    $core.Iterable<$core.String>? reservedName,
   }) {
     final _result = create();
     if (name != null) {
@@ -681,7 +681,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static DescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DescriptorProto>(create);
-  static DescriptorProto _defaultInstance;
+  static DescriptorProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -755,7 +755,7 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
 
   ExtensionRangeOptions._() : super();
   factory ExtensionRangeOptions({
-    $core.Iterable<UninterpretedOption> uninterpretedOption,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final _result = create();
     if (uninterpretedOption != null) {
@@ -790,7 +790,7 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static ExtensionRangeOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ExtensionRangeOptions>(create);
-  static ExtensionRangeOptions _defaultInstance;
+  static ExtensionRangeOptions? _defaultInstance;
 
   @$pb.TagNumber(999)
   $core.List<UninterpretedOption> get uninterpretedOption => $_getList(0);
@@ -875,17 +875,17 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
 
   FieldDescriptorProto._() : super();
   factory FieldDescriptorProto({
-    $core.String name,
-    $core.String extendee,
-    $core.int number,
-    FieldDescriptorProto_Label label,
-    FieldDescriptorProto_Type type,
-    $core.String typeName,
-    $core.String defaultValue,
-    FieldOptions options,
-    $core.int oneofIndex,
-    $core.String jsonName,
-    $core.bool proto3Optional,
+    $core.String? name,
+    $core.String? extendee,
+    $core.int? number,
+    FieldDescriptorProto_Label? label,
+    FieldDescriptorProto_Type? type,
+    $core.String? typeName,
+    $core.String? defaultValue,
+    FieldOptions? options,
+    $core.int? oneofIndex,
+    $core.String? jsonName,
+    $core.bool? proto3Optional,
   }) {
     final _result = create();
     if (name != null) {
@@ -949,7 +949,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static FieldDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FieldDescriptorProto>(create);
-  static FieldDescriptorProto _defaultInstance;
+  static FieldDescriptorProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -1110,8 +1110,8 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
 
   OneofDescriptorProto._() : super();
   factory OneofDescriptorProto({
-    $core.String name,
-    OneofOptions options,
+    $core.String? name,
+    OneofOptions? options,
   }) {
     final _result = create();
     if (name != null) {
@@ -1148,7 +1148,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static OneofDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<OneofDescriptorProto>(create);
-  static OneofDescriptorProto _defaultInstance;
+  static OneofDescriptorProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -1203,8 +1203,8 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
 
   EnumDescriptorProto_EnumReservedRange._() : super();
   factory EnumDescriptorProto_EnumReservedRange({
-    $core.int start,
-    $core.int end,
+    $core.int? start,
+    $core.int? end,
   }) {
     final _result = create();
     if (start != null) {
@@ -1246,7 +1246,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   static EnumDescriptorProto_EnumReservedRange getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<
           EnumDescriptorProto_EnumReservedRange>(create);
-  static EnumDescriptorProto_EnumReservedRange _defaultInstance;
+  static EnumDescriptorProto_EnumReservedRange? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.int get start => $_getIZ(0);
@@ -1316,11 +1316,11 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
 
   EnumDescriptorProto._() : super();
   factory EnumDescriptorProto({
-    $core.String name,
-    $core.Iterable<EnumValueDescriptorProto> value,
-    EnumOptions options,
-    $core.Iterable<EnumDescriptorProto_EnumReservedRange> reservedRange,
-    $core.Iterable<$core.String> reservedName,
+    $core.String? name,
+    $core.Iterable<EnumValueDescriptorProto>? value,
+    EnumOptions? options,
+    $core.Iterable<EnumDescriptorProto_EnumReservedRange>? reservedRange,
+    $core.Iterable<$core.String>? reservedName,
   }) {
     final _result = create();
     if (name != null) {
@@ -1365,7 +1365,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumDescriptorProto>(create);
-  static EnumDescriptorProto _defaultInstance;
+  static EnumDescriptorProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -1434,9 +1434,9 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
 
   EnumValueDescriptorProto._() : super();
   factory EnumValueDescriptorProto({
-    $core.String name,
-    $core.int number,
-    EnumValueOptions options,
+    $core.String? name,
+    $core.int? number,
+    EnumValueOptions? options,
   }) {
     final _result = create();
     if (name != null) {
@@ -1477,7 +1477,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static EnumValueDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumValueDescriptorProto>(create);
-  static EnumValueDescriptorProto _defaultInstance;
+  static EnumValueDescriptorProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -1549,9 +1549,9 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
 
   ServiceDescriptorProto._() : super();
   factory ServiceDescriptorProto({
-    $core.String name,
-    $core.Iterable<MethodDescriptorProto> method,
-    ServiceOptions options,
+    $core.String? name,
+    $core.Iterable<MethodDescriptorProto>? method,
+    ServiceOptions? options,
   }) {
     final _result = create();
     if (name != null) {
@@ -1592,7 +1592,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static ServiceDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ServiceDescriptorProto>(create);
-  static ServiceDescriptorProto _defaultInstance;
+  static ServiceDescriptorProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -1668,12 +1668,12 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
 
   MethodDescriptorProto._() : super();
   factory MethodDescriptorProto({
-    $core.String name,
-    $core.String inputType,
-    $core.String outputType,
-    MethodOptions options,
-    $core.bool clientStreaming,
-    $core.bool serverStreaming,
+    $core.String? name,
+    $core.String? inputType,
+    $core.String? outputType,
+    MethodOptions? options,
+    $core.bool? clientStreaming,
+    $core.bool? serverStreaming,
   }) {
     final _result = create();
     if (name != null) {
@@ -1723,7 +1723,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static MethodDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MethodDescriptorProto>(create);
-  static MethodDescriptorProto _defaultInstance;
+  static MethodDescriptorProto? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -1927,28 +1927,28 @@ class FileOptions extends $pb.GeneratedMessage {
 
   FileOptions._() : super();
   factory FileOptions({
-    $core.String javaPackage,
-    $core.String javaOuterClassname,
-    FileOptions_OptimizeMode optimizeFor,
-    $core.bool javaMultipleFiles,
-    $core.String goPackage,
-    $core.bool ccGenericServices,
-    $core.bool javaGenericServices,
-    $core.bool pyGenericServices,
+    $core.String? javaPackage,
+    $core.String? javaOuterClassname,
+    FileOptions_OptimizeMode? optimizeFor,
+    $core.bool? javaMultipleFiles,
+    $core.String? goPackage,
+    $core.bool? ccGenericServices,
+    $core.bool? javaGenericServices,
+    $core.bool? pyGenericServices,
     @$core.Deprecated('This field is deprecated.')
-        $core.bool javaGenerateEqualsAndHash,
-    $core.bool deprecated,
-    $core.bool javaStringCheckUtf8,
-    $core.bool ccEnableArenas,
-    $core.String objcClassPrefix,
-    $core.String csharpNamespace,
-    $core.String swiftPrefix,
-    $core.String phpClassPrefix,
-    $core.String phpNamespace,
-    $core.bool phpGenericServices,
-    $core.String phpMetadataNamespace,
-    $core.String rubyPackage,
-    $core.Iterable<UninterpretedOption> uninterpretedOption,
+        $core.bool? javaGenerateEqualsAndHash,
+    $core.bool? deprecated,
+    $core.bool? javaStringCheckUtf8,
+    $core.bool? ccEnableArenas,
+    $core.String? objcClassPrefix,
+    $core.String? csharpNamespace,
+    $core.String? swiftPrefix,
+    $core.String? phpClassPrefix,
+    $core.String? phpNamespace,
+    $core.bool? phpGenericServices,
+    $core.String? phpMetadataNamespace,
+    $core.String? rubyPackage,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final _result = create();
     if (javaPackage != null) {
@@ -2041,7 +2041,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static FileOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FileOptions>(create);
-  static FileOptions _defaultInstance;
+  static FileOptions? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get javaPackage => $_getSZ(0);
@@ -2332,11 +2332,11 @@ class MessageOptions extends $pb.GeneratedMessage {
 
   MessageOptions._() : super();
   factory MessageOptions({
-    $core.bool messageSetWireFormat,
-    $core.bool noStandardDescriptorAccessor,
-    $core.bool deprecated,
-    $core.bool mapEntry,
-    $core.Iterable<UninterpretedOption> uninterpretedOption,
+    $core.bool? messageSetWireFormat,
+    $core.bool? noStandardDescriptorAccessor,
+    $core.bool? deprecated,
+    $core.bool? mapEntry,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final _result = create();
     if (messageSetWireFormat != null) {
@@ -2381,7 +2381,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static MessageOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MessageOptions>(create);
-  static MessageOptions _defaultInstance;
+  static MessageOptions? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.bool get messageSetWireFormat => $_getBF(0);
@@ -2494,13 +2494,13 @@ class FieldOptions extends $pb.GeneratedMessage {
 
   FieldOptions._() : super();
   factory FieldOptions({
-    FieldOptions_CType ctype,
-    $core.bool packed,
-    $core.bool deprecated,
-    $core.bool lazy,
-    FieldOptions_JSType jstype,
-    $core.bool weak,
-    $core.Iterable<UninterpretedOption> uninterpretedOption,
+    FieldOptions_CType? ctype,
+    $core.bool? packed,
+    $core.bool? deprecated,
+    $core.bool? lazy,
+    FieldOptions_JSType? jstype,
+    $core.bool? weak,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final _result = create();
     if (ctype != null) {
@@ -2551,7 +2551,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static FieldOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FieldOptions>(create);
-  static FieldOptions _defaultInstance;
+  static FieldOptions? _defaultInstance;
 
   @$pb.TagNumber(1)
   FieldOptions_CType get ctype => $_getN(0);
@@ -2650,7 +2650,7 @@ class OneofOptions extends $pb.GeneratedMessage {
 
   OneofOptions._() : super();
   factory OneofOptions({
-    $core.Iterable<UninterpretedOption> uninterpretedOption,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final _result = create();
     if (uninterpretedOption != null) {
@@ -2683,7 +2683,7 @@ class OneofOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static OneofOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<OneofOptions>(create);
-  static OneofOptions _defaultInstance;
+  static OneofOptions? _defaultInstance;
 
   @$pb.TagNumber(999)
   $core.List<UninterpretedOption> get uninterpretedOption => $_getList(0);
@@ -2720,9 +2720,9 @@ class EnumOptions extends $pb.GeneratedMessage {
 
   EnumOptions._() : super();
   factory EnumOptions({
-    $core.bool allowAlias,
-    $core.bool deprecated,
-    $core.Iterable<UninterpretedOption> uninterpretedOption,
+    $core.bool? allowAlias,
+    $core.bool? deprecated,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final _result = create();
     if (allowAlias != null) {
@@ -2760,7 +2760,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static EnumOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumOptions>(create);
-  static EnumOptions _defaultInstance;
+  static EnumOptions? _defaultInstance;
 
   @$pb.TagNumber(2)
   $core.bool get allowAlias => $_getBF(0);
@@ -2816,8 +2816,8 @@ class EnumValueOptions extends $pb.GeneratedMessage {
 
   EnumValueOptions._() : super();
   factory EnumValueOptions({
-    $core.bool deprecated,
-    $core.Iterable<UninterpretedOption> uninterpretedOption,
+    $core.bool? deprecated,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final _result = create();
     if (deprecated != null) {
@@ -2853,7 +2853,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static EnumValueOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumValueOptions>(create);
-  static EnumValueOptions _defaultInstance;
+  static EnumValueOptions? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.bool get deprecated => $_getBF(0);
@@ -2897,8 +2897,8 @@ class ServiceOptions extends $pb.GeneratedMessage {
 
   ServiceOptions._() : super();
   factory ServiceOptions({
-    $core.bool deprecated,
-    $core.Iterable<UninterpretedOption> uninterpretedOption,
+    $core.bool? deprecated,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final _result = create();
     if (deprecated != null) {
@@ -2934,7 +2934,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static ServiceOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ServiceOptions>(create);
-  static ServiceOptions _defaultInstance;
+  static ServiceOptions? _defaultInstance;
 
   @$pb.TagNumber(33)
   $core.bool get deprecated => $_getBF(0);
@@ -2987,9 +2987,9 @@ class MethodOptions extends $pb.GeneratedMessage {
 
   MethodOptions._() : super();
   factory MethodOptions({
-    $core.bool deprecated,
-    MethodOptions_IdempotencyLevel idempotencyLevel,
-    $core.Iterable<UninterpretedOption> uninterpretedOption,
+    $core.bool? deprecated,
+    MethodOptions_IdempotencyLevel? idempotencyLevel,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final _result = create();
     if (deprecated != null) {
@@ -3028,7 +3028,7 @@ class MethodOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static MethodOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MethodOptions>(create);
-  static MethodOptions _defaultInstance;
+  static MethodOptions? _defaultInstance;
 
   @$pb.TagNumber(33)
   $core.bool get deprecated => $_getBF(0);
@@ -3082,8 +3082,8 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
 
   UninterpretedOption_NamePart._() : super();
   factory UninterpretedOption_NamePart({
-    $core.String namePart,
-    $core.bool isExtension,
+    $core.String? namePart,
+    $core.bool? isExtension,
   }) {
     final _result = create();
     if (namePart != null) {
@@ -3123,7 +3123,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption_NamePart getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<UninterpretedOption_NamePart>(create);
-  static UninterpretedOption_NamePart _defaultInstance;
+  static UninterpretedOption_NamePart? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get namePart => $_getSZ(0);
@@ -3204,13 +3204,13 @@ class UninterpretedOption extends $pb.GeneratedMessage {
 
   UninterpretedOption._() : super();
   factory UninterpretedOption({
-    $core.Iterable<UninterpretedOption_NamePart> name,
-    $core.String identifierValue,
-    $fixnum.Int64 positiveIntValue,
-    $fixnum.Int64 negativeIntValue,
-    $core.double doubleValue,
-    $core.List<$core.int> stringValue,
-    $core.String aggregateValue,
+    $core.Iterable<UninterpretedOption_NamePart>? name,
+    $core.String? identifierValue,
+    $fixnum.Int64? positiveIntValue,
+    $fixnum.Int64? negativeIntValue,
+    $core.double? doubleValue,
+    $core.List<$core.int>? stringValue,
+    $core.String? aggregateValue,
   }) {
     final _result = create();
     if (name != null) {
@@ -3261,7 +3261,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<UninterpretedOption>(create);
-  static UninterpretedOption _defaultInstance;
+  static UninterpretedOption? _defaultInstance;
 
   @$pb.TagNumber(2)
   $core.List<UninterpretedOption_NamePart> get name => $_getList(0);
@@ -3380,11 +3380,11 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
 
   SourceCodeInfo_Location._() : super();
   factory SourceCodeInfo_Location({
-    $core.Iterable<$core.int> path,
-    $core.Iterable<$core.int> span,
-    $core.String leadingComments,
-    $core.String trailingComments,
-    $core.Iterable<$core.String> leadingDetachedComments,
+    $core.Iterable<$core.int>? path,
+    $core.Iterable<$core.int>? span,
+    $core.String? leadingComments,
+    $core.String? trailingComments,
+    $core.Iterable<$core.String>? leadingDetachedComments,
   }) {
     final _result = create();
     if (path != null) {
@@ -3431,7 +3431,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo_Location getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SourceCodeInfo_Location>(create);
-  static SourceCodeInfo_Location _defaultInstance;
+  static SourceCodeInfo_Location? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<$core.int> get path => $_getList(0);
@@ -3488,7 +3488,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
 
   SourceCodeInfo._() : super();
   factory SourceCodeInfo({
-    $core.Iterable<SourceCodeInfo_Location> location,
+    $core.Iterable<SourceCodeInfo_Location>? location,
   }) {
     final _result = create();
     if (location != null) {
@@ -3521,7 +3521,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SourceCodeInfo>(create);
-  static SourceCodeInfo _defaultInstance;
+  static SourceCodeInfo? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<SourceCodeInfo_Location> get location => $_getList(0);
@@ -3564,10 +3564,10 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
 
   GeneratedCodeInfo_Annotation._() : super();
   factory GeneratedCodeInfo_Annotation({
-    $core.Iterable<$core.int> path,
-    $core.String sourceFile,
-    $core.int begin,
-    $core.int end,
+    $core.Iterable<$core.int>? path,
+    $core.String? sourceFile,
+    $core.int? begin,
+    $core.int? end,
   }) {
     final _result = create();
     if (path != null) {
@@ -3613,7 +3613,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo_Annotation getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GeneratedCodeInfo_Annotation>(create);
-  static GeneratedCodeInfo_Annotation _defaultInstance;
+  static GeneratedCodeInfo_Annotation? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<$core.int> get path => $_getList(0);
@@ -3676,7 +3676,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
 
   GeneratedCodeInfo._() : super();
   factory GeneratedCodeInfo({
-    $core.Iterable<GeneratedCodeInfo_Annotation> annotation,
+    $core.Iterable<GeneratedCodeInfo_Annotation>? annotation,
   }) {
     final _result = create();
     if (annotation != null) {
@@ -3709,7 +3709,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GeneratedCodeInfo>(create);
-  static GeneratedCodeInfo _defaultInstance;
+  static GeneratedCodeInfo? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);

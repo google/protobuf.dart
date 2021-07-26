@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=2.11
+
 import 'dart:math' as math;
 
 import 'package:protobuf/meta.dart';
@@ -205,7 +207,7 @@ String oneofEnumMemberName(String fieldName) => disambiguateName(
 String messageOrEnumClassName(String descriptorName, Set<String> usedNames,
     {String parent = ''}) {
   if (parent != '') {
-    descriptorName = '${parent}_${descriptorName}';
+    descriptorName = '${parent}_$descriptorName';
   }
   return disambiguateName(
       avoidInitialUnderscore(descriptorName), usedNames, defaultSuffixes());

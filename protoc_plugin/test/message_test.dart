@@ -10,10 +10,9 @@ library message_test;
 import 'package:protoc_plugin/src/descriptor.pb.dart' show DescriptorProto;
 import 'package:test/test.dart';
 
-import 'test_util.dart';
-
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest.pbjson.dart';
+import 'test_util.dart';
 
 void main() {
   var TEST_REQUIRED_UNINITIALIZED = TestRequired();

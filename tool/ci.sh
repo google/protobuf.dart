@@ -68,28 +68,16 @@ for PKG in ${PKGS}; do
       echo -e "\033[1mPKG: ${PKG}; TASK: ${TASK}\033[22m"
       case ${TASK} in
       analyze_0)
-        echo 'dart analyze'
-        dart analyze || EXIT_CODE=$?
+        echo 'dart analyze --fatal-infos'
+        dart analyze --fatal-infos || EXIT_CODE=$?
         ;;
       analyze_1)
-        echo 'dart analyze --fatal-infos lib'
-        dart analyze --fatal-infos lib || EXIT_CODE=$?
-        ;;
-      analyze_2)
-        echo 'dart analyze --fatal-infos test'
-        dart analyze --fatal-infos test || EXIT_CODE=$?
-        ;;
-      analyze_3)
         echo 'dart analyze lib'
         dart analyze lib || EXIT_CODE=$?
         ;;
-      analyze_4)
+      analyze_2)
         echo 'dart analyze test'
         dart analyze test || EXIT_CODE=$?
-        ;;
-      analyze_5)
-        echo 'dart analyze --fatal-infos'
-        dart analyze --fatal-infos || EXIT_CODE=$?
         ;;
       command_0)
         echo './../tool/setup.sh'

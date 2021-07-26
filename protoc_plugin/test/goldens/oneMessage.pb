@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: test
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -18,9 +18,9 @@ class PhoneNumber extends $pb.GeneratedMessage {
 
   PhoneNumber._() : super();
   factory PhoneNumber({
-    $core.String number,
-    $core.int type,
-    $core.String name,
+    $core.String? number,
+    $core.int? type,
+    $core.String? name,
   }) {
     final _result = create();
     if (number != null) {
@@ -53,7 +53,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static $pb.PbList<PhoneNumber> createRepeated() => $pb.PbList<PhoneNumber>();
   @$core.pragma('dart2js:noInline')
   static PhoneNumber getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(create);
-  static PhoneNumber _defaultInstance;
+  static PhoneNumber? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get number => $_getSZ(0);

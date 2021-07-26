@@ -5,6 +5,8 @@
 library protoc.benchmark.suite;
 
 import 'package:api_benchmark/benchmark.dart';
+import 'package:protobuf/protobuf.dart';
+
 import 'benchmarks/index.dart' show createBenchmark;
 import 'generated/benchmark.pb.dart' as pb;
 
@@ -31,7 +33,7 @@ Iterable<pb.Report> runSuite(List<pb.Request> requests,
   }
   pb.Report progress() {
     report.message = "Running ($sampleCount/$totalSamples)";
-    return report.clone();
+    return report.deepCopy();
   }
 
   // Send first progress message before starting.

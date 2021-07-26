@@ -1,3 +1,11 @@
+## 2.0.1-dev
+
+* Merge fixes from version `1.1.2` - `1.1.4` into v2.
+
+## 2.0.0
+
+* Stable null safety release.
+
 ## 1.1.4
 
 *   Fix comparison of empty lists from frozen messages.
