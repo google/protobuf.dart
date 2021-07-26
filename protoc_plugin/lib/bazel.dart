@@ -2,15 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 /// Bazel support for protoc_plugin.
 library protoc_bazel;
 
 import 'package:path/path.dart' as p;
 
-import 'protoc.dart'
-    show SingleOptionParser, DefaultOutputConfiguration, OnError;
+import 'src/options.dart';
+import 'src/output_config.dart';
 
 /// Dart protoc plugin option for Bazel packages.
 ///
@@ -47,7 +45,7 @@ class BazelOptionParser implements SingleOptionParser {
   BazelOptionParser(this.output);
 
   @override
-  void parse(String name, String value, OnError onError) {
+  void parse(String name, String? value, OnError onError) {
     if (value == null) {
       onError('Invalid $bazelOptionId option. Expected a non-empty value.');
       return;
@@ -64,7 +62,7 @@ class BazelOptionParser implements SingleOptionParser {
       if (!output.containsKey(pkg.input_root)) {
         output[pkg.input_root] = pkg;
       } else {
-        var prev = output[pkg.input_root];
+        var prev = output[pkg.input_root]!;
         if (pkg.name != prev.name) {
           onError('ERROR: multiple packages with input_root ${pkg.input_root}: '
               '${prev.name} and ${pkg.name}');
@@ -97,7 +95,7 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
   BazelOutputConfiguration(this.packages);
 
   /// Search for the most specific Bazel package above [searchPath].
-  BazelPackage _findPackage(String searchPath) {
+  BazelPackage? _findPackage(String searchPath) {
     var index = searchPath.lastIndexOf('/');
     while (index > 0) {
       searchPath = searchPath.substring(0, index);
@@ -142,7 +140,7 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
     return super.resolveImport(target, source, extension);
   }
 
-  _PackageUri _packageUriFor(String target) {
+  _PackageUri? _packageUriFor(String target) {
     var pkg = _findPackage(target);
     if (pkg == null) return null;
     var relPath = target.substring(pkg.input_root.length + 1);

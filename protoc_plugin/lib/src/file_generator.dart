@@ -213,7 +213,7 @@ class FileGenerator extends ProtobufContainer {
   @override
   FileGenerator get fileGen => this;
   @override
-  ProtobufContainer get _parent => null;
+  ProtobufContainer get parent => null;
   @override
   List<int> get fieldPath => [];
 

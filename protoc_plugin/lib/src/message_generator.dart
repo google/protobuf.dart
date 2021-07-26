@@ -54,7 +54,7 @@ class MessageGenerator extends ProtobufContainer {
   PbMixin mixin;
 
   @override
-  final ProtobufContainer _parent;
+  final ProtobufContainer parent;
   final DescriptorProto _descriptor;
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
   final List<MessageGenerator> _messageGenerators = <MessageGenerator>[];
@@ -72,7 +72,7 @@ class MessageGenerator extends ProtobufContainer {
   /// See [[ProtobufContainer]
   @override
   List<int> get fieldPath =>
-      _fieldPath ??= List.from(_parent.fieldPath)..addAll(_fieldPathSegment);
+      _fieldPath ??= List.from(parent.fieldPath)..addAll(_fieldPathSegment);
 
   // populated by resolve()
   List<ProtobufField> _fieldList;
@@ -88,7 +88,7 @@ class MessageGenerator extends ProtobufContainer {
       int repeatedFieldIndex,
       int fieldIdTag)
       : _descriptor = descriptor,
-        _parent = parent,
+        parent = parent,
         _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
         classname = messageOrEnumClassName(descriptor.name, _usedTopLevelNames,
             parent: parent?.classname ?? ''),
@@ -145,11 +145,11 @@ class MessageGenerator extends ProtobufContainer {
             repeatedFieldIndex, _nestedMessageTag);
 
   @override
-  String get package => _parent.package;
+  String get package => parent.package;
 
   /// The generator of the .pb.dart file that will declare this type.
   @override
-  FileGenerator get fileGen => _parent.fileGen;
+  FileGenerator get fileGen => parent.fileGen;
 
   /// Throws an exception if [resolve] hasn't been called yet.
   void checkResolved() {
@@ -732,7 +732,7 @@ class MessageGenerator extends ProtobufContainer {
     if (name.isEmpty) return null; // don't use any mixins (override default)
     var mixin = declaredMixins[name] ?? findMixin(name);
     if (mixin == null) {
-      throw '${_descriptor.name} in ${_parent.fileGen.descriptor.name}: mixin "$name" not found';
+      throw '${_descriptor.name} in ${parent.fileGen.descriptor.name}: mixin "$name" not found';
     }
     return mixin;
   }

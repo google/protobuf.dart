@@ -4,7 +4,9 @@
 
 // @dart=2.11
 
-import '../protoc.dart';
+import '../protoc.dart' show FileGenerator;
+import 'code_generator.dart';
+import 'options.dart';
 
 /// Resolves all cross-references in a set of proto files.
 void link(GenerationOptions options, Iterable<FileGenerator> files) {

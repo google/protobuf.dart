@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
-part of '../protoc.dart';
+import 'package:path/path.dart' as path;
 
 /// Configures where output of the protoc compiler should be placed and how to
 /// import one generated file from another.

@@ -6,6 +6,7 @@
 // @dart=2.11
 
 import 'dart:io';
+
 import 'package:protoc_plugin/bazel.dart';
 import 'package:protoc_plugin/protoc.dart';
 

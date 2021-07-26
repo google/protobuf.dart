@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
-part of '../protoc.dart';
+import 'generated/plugin.pb.dart';
 
 typedef OnError = void Function(String details);
 
@@ -15,7 +13,7 @@ typedef OnError = void Function(String details);
 /// the option to it. Returns `true` if no errors were reported.
 bool genericOptionsParser(CodeGeneratorRequest request,
     CodeGeneratorResponse response, Map<String, SingleOptionParser> parsers) {
-  var parameter = request.parameter ?? '';
+  var parameter = request.parameter;
   var options = parameter.trim().split(',');
   var errors = [];
 
@@ -64,14 +62,14 @@ abstract class SingleOptionParser {
   /// the option is a flag, [value] will be null. Note, [name] is commonly
   /// unused. It is provided because [SingleOptionParser] can be registered for
   /// multiple option names in [genericOptionsParser].
-  void parse(String name, String value, OnError onError);
+  void parse(String name, String? value, OnError onError);
 }
 
 class GrpcOptionParser implements SingleOptionParser {
   bool grpcEnabled = false;
 
   @override
-  void parse(String name, String value, OnError onError) {
+  void parse(String name, String? value, OnError onError) {
     if (value != null) {
       onError('Invalid grpc option. No value expected.');
       return;
@@ -84,7 +82,7 @@ class GenerateMetadataParser implements SingleOptionParser {
   bool generateKytheInfo = false;
 
   @override
-  void parse(String name, String value, OnError onError) {
+  void parse(String name, String? value, OnError onError) {
     if (value != null) {
       onError('Invalid metadata option. No Value expected.');
       return;
@@ -96,9 +94,9 @@ class GenerateMetadataParser implements SingleOptionParser {
 /// Parser used by the compiler, which supports the `rpc` option (see
 /// [RpcOptionParser]) and any additional option added in [parsers]. If
 /// [parsers] has a key for `rpc`, it will be ignored.
-GenerationOptions parseGenerationOptions(
+GenerationOptions? parseGenerationOptions(
     CodeGeneratorRequest request, CodeGeneratorResponse response,
-    [Map<String, SingleOptionParser> parsers]) {
+    [Map<String, SingleOptionParser>? parsers]) {
   final newParsers = <String, SingleOptionParser>{};
   if (parsers != null) newParsers.addAll(parsers);
 
