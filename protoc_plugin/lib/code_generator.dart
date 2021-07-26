@@ -4,7 +4,7 @@
 
 // @dart=2.11
 
-part of protoc;
+part of 'protoc.dart';
 
 abstract class ProtobufContainer {
   // Internal map of proto file URIs to prefix aliases to resolve name conflicts

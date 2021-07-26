@@ -4,7 +4,7 @@
 
 // @dart=2.11
 
-part of protoc;
+part of 'protoc.dart';
 
 class ClientApiGenerator {
   // The service that this Client API connects to.

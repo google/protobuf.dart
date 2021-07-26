@@ -4,7 +4,7 @@
 
 // @dart=2.11
 
-part of protoc;
+part of 'protoc.dart';
 
 final _dartIdentifier = RegExp(r'^\w+$');
 final _formatter = DartFormatter();

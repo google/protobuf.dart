@@ -1,23 +1,20 @@
 // @dart=2.11
 
-library protoc;
-
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:fixnum/fixnum.dart';
-import 'package:protobuf/protobuf.dart';
 import 'package:path/path.dart' as path;
-
-import 'src/dart_options.pb.dart';
-import 'src/descriptor.pb.dart';
-import 'src/plugin.pb.dart';
+import 'package:protobuf/protobuf.dart';
 
 import 'const_generator.dart' show writeJsonConst;
 import 'indenting_writer.dart';
-import 'names.dart';
 import 'mixins.dart';
+import 'names.dart';
+import 'src/dart_options.pb.dart';
+import 'src/descriptor.pb.dart';
+import 'src/plugin.pb.dart';
 import 'string_escape.dart';
 
 part 'base_type.dart';

@@ -4,7 +4,7 @@
 
 // @dart=2.11
 
-part of protoc;
+part of 'protoc.dart';
 
 /// Generates the Dart enum corresponding to a oneof declaration.
 ///

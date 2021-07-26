@@ -4,7 +4,7 @@
 
 // @dart=2.11
 
-part of protoc;
+part of 'protoc.dart';
 
 /// Resolves all cross-references in a set of proto files.
 void link(GenerationOptions options, Iterable<FileGenerator> files) {

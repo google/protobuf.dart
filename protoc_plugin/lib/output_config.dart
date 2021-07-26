@@ -4,7 +4,7 @@
 
 // @dart=2.11
 
-part of protoc;
+part of 'protoc.dart';
 
 /// Configures where output of the protoc compiler should be placed and how to
 /// import one generated file from another.
