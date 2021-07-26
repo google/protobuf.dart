@@ -1,5 +1,3 @@
-// @dart=2.12
-
 abstract class Mixin1 {
   String get overriddenString => 'mixin1';
 
