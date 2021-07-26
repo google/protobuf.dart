@@ -7,6 +7,7 @@
 
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
+import 'package:protoc_plugin/src/linker.dart';
 import 'package:test/test.dart';
 
 import 'golden_file.dart';

@@ -15,6 +15,7 @@ import 'names.dart';
 import 'src/generated/dart_options.pb.dart';
 import 'src/generated/descriptor.pb.dart';
 import 'src/generated/plugin.pb.dart';
+import 'src/linker.dart';
 import 'src/shared.dart';
 import 'string_escape.dart';
 
@@ -25,7 +26,6 @@ part 'src/enum_generator.dart';
 part 'src/extension_generator.dart';
 part 'src/file_generator.dart';
 part 'src/grpc_generator.dart';
-part 'src/linker.dart';
 part 'src/message_generator.dart';
 part 'src/options.dart';
 part 'src/output_config.dart';
