@@ -156,7 +156,7 @@ class ServiceGenerator {
 
   void _generateRequestMethod(IndentingWriter out) {
     out.addBlock(
-        '$_generatedMessage createRequest($_coreImportPrefix.String method) {',
+        '$_generatedMessage createRequest($coreImportPrefix.String method) {',
         '}', () {
       out.addBlock('switch (method) {', '}', () {
         for (var m in _methodDescriptors) {
@@ -164,7 +164,7 @@ class ServiceGenerator {
           out.println("case '${m.name}': return $inputClass();");
         }
         out.println('default: '
-            "throw $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
+            "throw $coreImportPrefix.ArgumentError('Unknown method: \$method');");
       });
     });
     out.println();
@@ -173,7 +173,7 @@ class ServiceGenerator {
   void _generateDispatchMethod(out) {
     out.addBlock(
         '$_future<$_generatedMessage> handleCall($_serverContext ctx, '
-            '$_coreImportPrefix.String method, $_generatedMessage request) {',
+            '$coreImportPrefix.String method, $_generatedMessage request) {',
         '}', () {
       out.addBlock('switch (method) {', '}', () {
         for (var m in _methodDescriptors) {
@@ -183,7 +183,7 @@ class ServiceGenerator {
               '(ctx, request as $inputClass);');
         }
         out.println('default: '
-            "throw $_coreImportPrefix.ArgumentError('Unknown method: \$method');");
+            "throw $coreImportPrefix.ArgumentError('Unknown method: \$method');");
       });
     });
     out.println();
@@ -202,10 +202,10 @@ class ServiceGenerator {
       _generateDispatchMethod(out);
       _generateMoreClassMembers(out);
       out.println(
-          '$_coreImportPrefix.Map<$_coreImportPrefix.String, $_coreImportPrefix.dynamic> get \$json => $jsonConstant;');
+          '$coreImportPrefix.Map<$coreImportPrefix.String, $coreImportPrefix.dynamic> get \$json => $jsonConstant;');
       out.println(
-          '$_coreImportPrefix.Map<$_coreImportPrefix.String, $_coreImportPrefix.Map<$_coreImportPrefix.String,'
-          ' $_coreImportPrefix.dynamic>> get \$messageJson => $messageJsonConstant;');
+          '$coreImportPrefix.Map<$coreImportPrefix.String, $coreImportPrefix.Map<$coreImportPrefix.String,'
+          ' $coreImportPrefix.dynamic>> get \$messageJson => $messageJsonConstant;');
     });
     out.println();
   }
@@ -218,8 +218,8 @@ class ServiceGenerator {
   /// The map includes an entry for every message type that might need
   /// to be read or written (assuming the type name resolved).
   void generateConstants(IndentingWriter out) {
-    out.print('const $_coreImportPrefix.Map<$_coreImportPrefix.String,'
-        ' $_coreImportPrefix.dynamic> $jsonConstant = ');
+    out.print('const $coreImportPrefix.Map<$coreImportPrefix.String,'
+        ' $coreImportPrefix.dynamic> $jsonConstant = ');
     writeJsonConst(out, _descriptor.writeToJsonMap());
     out.println(';');
     out.println();
@@ -229,12 +229,12 @@ class ServiceGenerator {
       typeConstants[key] = _transitiveDeps[key].getJsonConstant(fileGen);
     }
 
-    out.println('@$_coreImportPrefix.Deprecated'
+    out.println('@$coreImportPrefix.Deprecated'
         '(\'Use $binaryDescriptorName instead\')');
     out.addBlock(
-        'const $_coreImportPrefix.Map<$_coreImportPrefix.String,'
-            ' $_coreImportPrefix.Map<$_coreImportPrefix.String,'
-            ' $_coreImportPrefix.dynamic>> $messageJsonConstant = const {',
+        'const $coreImportPrefix.Map<$coreImportPrefix.String,'
+            ' $coreImportPrefix.Map<$coreImportPrefix.String,'
+            ' $coreImportPrefix.dynamic>> $messageJsonConstant = const {',
         '};', () {
       for (var key in typeConstants.keys) {
         var typeConst = typeConstants[key];
@@ -260,10 +260,10 @@ class ServiceGenerator {
     return '${prefix}Descriptor';
   }
 
-  static final String _future = '$_asyncImportPrefix.Future';
+  static final String _future = '$asyncImportPrefix.Future';
   static final String _generatedMessage =
-      '$_protobufImportPrefix.GeneratedMessage';
-  static final String _serverContext = '$_protobufImportPrefix.ServerContext';
+      '$protobufImportPrefix.GeneratedMessage';
+  static final String _serverContext = '$protobufImportPrefix.ServerContext';
   static final String _generatedService =
-      '$_protobufImportPrefix.GeneratedService';
+      '$protobufImportPrefix.GeneratedService';
 }

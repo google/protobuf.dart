@@ -15,6 +15,7 @@ import 'names.dart';
 import 'src/generated/dart_options.pb.dart';
 import 'src/generated/descriptor.pb.dart';
 import 'src/generated/plugin.pb.dart';
+import 'src/shared.dart';
 import 'string_escape.dart';
 
 part 'src/base_type.dart';

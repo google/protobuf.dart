@@ -55,10 +55,10 @@ class BaseType {
           : prefixed;
 
   String getRepeatedDartType(FileGenerator fileGen) =>
-      '$_coreImportPrefix.List<${getDartType(fileGen)}>';
+      '$coreImportPrefix.List<${getDartType(fileGen)}>';
 
   String getRepeatedDartTypeIterable(FileGenerator fileGen) =>
-      '$_coreImportPrefix.Iterable<${getDartType(fileGen)}>';
+      '$coreImportPrefix.Iterable<${getDartType(fileGen)}>';
 
   factory BaseType(FieldDescriptorProto field, GenerationContext ctx) {
     String constSuffix;
@@ -66,28 +66,28 @@ class BaseType {
     switch (field.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_BOOL, 'B',
-            '$_coreImportPrefix.bool', r'$_setBool', null);
+            '$coreImportPrefix.bool', r'$_setBool', null);
       case FieldDescriptorProto_Type.TYPE_FLOAT:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_FLOAT, 'F',
-            '$_coreImportPrefix.double', r'$_setFloat', null);
+            '$coreImportPrefix.double', r'$_setFloat', null);
       case FieldDescriptorProto_Type.TYPE_DOUBLE:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_DOUBLE, 'D',
-            '$_coreImportPrefix.double', r'$_setDouble', null);
+            '$coreImportPrefix.double', r'$_setDouble', null);
       case FieldDescriptorProto_Type.TYPE_INT32:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_INT32, '3',
-            '$_coreImportPrefix.int', r'$_setSignedInt32', null);
+            '$coreImportPrefix.int', r'$_setSignedInt32', null);
       case FieldDescriptorProto_Type.TYPE_UINT32:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_UINT32, 'U3',
-            '$_coreImportPrefix.int', r'$_setUnsignedInt32', null);
+            '$coreImportPrefix.int', r'$_setUnsignedInt32', null);
       case FieldDescriptorProto_Type.TYPE_SINT32:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_SINT32, 'S3',
-            '$_coreImportPrefix.int', r'$_setSignedInt32', null);
+            '$coreImportPrefix.int', r'$_setSignedInt32', null);
       case FieldDescriptorProto_Type.TYPE_FIXED32:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_FIXED32, 'F3',
-            '$_coreImportPrefix.int', r'$_setUnsignedInt32', null);
+            '$coreImportPrefix.int', r'$_setUnsignedInt32', null);
       case FieldDescriptorProto_Type.TYPE_SFIXED32:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_SFIXED32,
-            'SF3', '$_coreImportPrefix.int', r'$_setSignedInt32', null);
+            'SF3', '$coreImportPrefix.int', r'$_setSignedInt32', null);
       case FieldDescriptorProto_Type.TYPE_INT64:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_INT64, '6',
             '$_fixnumImportPrefix.Int64', r'$_setInt64', null);
@@ -105,12 +105,12 @@ class BaseType {
             'SF6', '$_fixnumImportPrefix.Int64', r'$_setInt64', null);
       case FieldDescriptorProto_Type.TYPE_STRING:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_STRING, 'S',
-            '$_coreImportPrefix.String', r'$_setString', null);
+            '$coreImportPrefix.String', r'$_setString', null);
       case FieldDescriptorProto_Type.TYPE_BYTES:
         return const BaseType._raw(
             FieldDescriptorProto_Type.TYPE_BYTES,
             'Y',
-            '$_coreImportPrefix.List<$_coreImportPrefix.int>',
+            '$coreImportPrefix.List<$coreImportPrefix.int>',
             r'$_setBytes',
             null);
 

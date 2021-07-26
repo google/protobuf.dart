@@ -21,10 +21,10 @@ const _wellKnownMixins = {
 ///
 /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
 /// the fully qualified name of the type of [message].
-static Any pack($_protobufImportPrefix.GeneratedMessage message,
-{$_coreImportPrefix.String typeUrlPrefix = 'type.googleapis.com'}) {
+static Any pack($protobufImportPrefix.GeneratedMessage message,
+{$coreImportPrefix.String typeUrlPrefix = 'type.googleapis.com'}) {
   final result = create();
-  $_mixinImportPrefix.AnyMixin.packIntoAny(result, message,
+  $mixinImportPrefix.AnyMixin.packIntoAny(result, message,
       typeUrlPrefix: typeUrlPrefix);
   return result;
 }'''
@@ -37,9 +37,9 @@ static Any pack($_protobufImportPrefix.GeneratedMessage message,
 /// Creates a new instance from [dateTime].
 ///
 /// Time zone information will not be preserved.
-static Timestamp fromDateTime($_coreImportPrefix.DateTime dateTime) {
+static Timestamp fromDateTime($coreImportPrefix.DateTime dateTime) {
   final result = create();
-  $_mixinImportPrefix.TimestampMixin.setFromDateTime(result, dateTime);
+  $mixinImportPrefix.TimestampMixin.setFromDateTime(result, dateTime);
   return result;
 }'''
       ],

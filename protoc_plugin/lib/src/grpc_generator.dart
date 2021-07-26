@@ -116,7 +116,7 @@ class GrpcServiceGenerator {
       out.println('$_clientClassname($_clientChannel channel,');
       out.println('    {$_callOptions? options,');
       out.println(
-          '    $_coreImportPrefix.Iterable<$_interceptor>? interceptors})');
+          '    $coreImportPrefix.Iterable<$_interceptor>? interceptors})');
       out.println('    : super(channel, options: options,');
       out.println('      interceptors: interceptors);');
       for (final method in _methods) {
@@ -129,7 +129,7 @@ class GrpcServiceGenerator {
     out.addBlock('abstract class $_serviceClassname extends $_service {', '}',
         () {
       out.println(
-          '$_coreImportPrefix.String get \$name => \'$_fullServiceName\';');
+          '$coreImportPrefix.String get \$name => \'$_fullServiceName\';');
       out.println();
       out.addBlock('$_serviceClassname() {', '}', () {
         for (final method in _methods) {
@@ -146,11 +146,11 @@ class GrpcServiceGenerator {
     });
   }
 
-  static final String _callOptions = '$_grpcImportPrefix.CallOptions';
-  static final String _interceptor = '$_grpcImportPrefix.ClientInterceptor';
-  static final String _client = '$_grpcImportPrefix.Client';
-  static final String _clientChannel = '$_grpcImportPrefix.ClientChannel';
-  static final String _service = '$_grpcImportPrefix.Service';
+  static final String _callOptions = '$grpcImportPrefix.CallOptions';
+  static final String _interceptor = '$grpcImportPrefix.ClientInterceptor';
+  static final String _client = '$grpcImportPrefix.Client';
+  static final String _clientChannel = '$grpcImportPrefix.ClientChannel';
+  static final String _service = '$grpcImportPrefix.Service';
 }
 
 class _GrpcMethod {
@@ -221,7 +221,7 @@ class _GrpcMethod {
     out.println('    \'/$_serviceName/$_grpcName\',');
     out.println('    ($_requestType value) => value.writeToBuffer(),');
     out.println(
-        '    ($_coreImportPrefix.List<$_coreImportPrefix.int> value) => $_responseType.fromBuffer(value));');
+        '    ($coreImportPrefix.List<$coreImportPrefix.int> value) => $_responseType.fromBuffer(value));');
   }
 
   void generateClientStub(IndentingWriter out) {
@@ -252,7 +252,7 @@ class _GrpcMethod {
     out.println('    $_clientStreaming,');
     out.println('    $_serverStreaming,');
     out.println(
-        '    ($_coreImportPrefix.List<$_coreImportPrefix.int> value) => $_requestType.fromBuffer(value),');
+        '    ($coreImportPrefix.List<$coreImportPrefix.int> value) => $_requestType.fromBuffer(value),');
     out.println('    ($_responseType value) => value.writeToBuffer()));');
   }
 
@@ -276,11 +276,11 @@ class _GrpcMethod {
         '$_serverReturnType $_dartName($_serviceCall call, $_argumentType request);');
   }
 
-  static final String _serviceCall = '$_grpcImportPrefix.ServiceCall';
-  static final String _serviceMethod = '$_grpcImportPrefix.ServiceMethod';
-  static final String _clientMethod = '$_grpcImportPrefix.ClientMethod';
-  static final String _future = '$_asyncImportPrefix.Future';
-  static final String _stream = '$_asyncImportPrefix.Stream';
-  static final String _responseFuture = '$_grpcImportPrefix.ResponseFuture';
-  static final String _responseStream = '$_grpcImportPrefix.ResponseStream';
+  static final String _serviceCall = '$grpcImportPrefix.ServiceCall';
+  static final String _serviceMethod = '$grpcImportPrefix.ServiceMethod';
+  static final String _clientMethod = '$grpcImportPrefix.ClientMethod';
+  static final String _future = '$asyncImportPrefix.Future';
+  static final String _stream = '$asyncImportPrefix.Stream';
+  static final String _responseFuture = '$grpcImportPrefix.ResponseFuture';
+  static final String _responseStream = '$grpcImportPrefix.ResponseStream';
 }

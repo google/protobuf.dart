@@ -104,7 +104,7 @@ class EnumGenerator extends ProtobufContainer {
 
   void generate(IndentingWriter out) {
     out.addAnnotatedBlock(
-        'class $classname extends $_protobufImportPrefix.ProtobufEnum {',
+        'class $classname extends $protobufImportPrefix.ProtobufEnum {',
         '}\n', [
       NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
@@ -146,7 +146,7 @@ class EnumGenerator extends ProtobufContainer {
       }
       out.println();
 
-      out.println('static const $_coreImportPrefix.List<$classname> values ='
+      out.println('static const $coreImportPrefix.List<$classname> values ='
           ' <$classname> [');
       for (var val in _canonicalValues) {
         final name = dartNames[val.name];
@@ -156,14 +156,14 @@ class EnumGenerator extends ProtobufContainer {
       out.println();
 
       out.println(
-          'static final $_coreImportPrefix.Map<$_coreImportPrefix.int, $classname> _byValue ='
-          ' $_protobufImportPrefix.ProtobufEnum.initByValue(values);');
-      out.println('static $classname? valueOf($_coreImportPrefix.int value) =>'
+          'static final $coreImportPrefix.Map<$coreImportPrefix.int, $classname> _byValue ='
+          ' $protobufImportPrefix.ProtobufEnum.initByValue(values);');
+      out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
           ' _byValue[value];');
       out.println();
 
       out.println(
-          'const $classname._($_coreImportPrefix.int v, $_coreImportPrefix.String n) '
+          'const $classname._($coreImportPrefix.int v, $coreImportPrefix.String n) '
           ': super(v, n);');
     });
   }
@@ -173,7 +173,7 @@ class EnumGenerator extends ProtobufContainer {
     var name = getJsonConstant(fileGen);
     var json = _descriptor.writeToJsonMap();
 
-    out.println('@$_coreImportPrefix.Deprecated'
+    out.println('@$coreImportPrefix.Deprecated'
         '(\'Use ${toplevelParent.binaryDescriptorName} instead\')');
     out.print('const $name = ');
     writeJsonConst(out, json);

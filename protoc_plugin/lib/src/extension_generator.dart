@@ -114,9 +114,9 @@ class ExtensionGenerator {
     var named = <String, String>{};
     named['protoName'] = _field.quotedProtoName;
     if (_field.isRepeated) {
-      invocation = '$_protobufImportPrefix.Extension<$dartType>.repeated';
+      invocation = '$protobufImportPrefix.Extension<$dartType>.repeated';
       named['check'] =
-          '$_protobufImportPrefix.getCheckFunction(${_field.typeConstant})';
+          '$protobufImportPrefix.getCheckFunction(${_field.typeConstant})';
       if (type.isMessage || type.isGroup) {
         named['subBuilder'] = '$dartType.create';
       } else if (type.isEnum) {
@@ -124,7 +124,7 @@ class ExtensionGenerator {
         named['enumValues'] = '$dartType.values';
       }
     } else {
-      invocation = '$_protobufImportPrefix.Extension<$dartType>';
+      invocation = '$protobufImportPrefix.Extension<$dartType>';
       named['defaultOrMaker'] = _field.generateDefaultFunction(fileGen);
       if (type.isMessage || type.isGroup) {
         named['subBuilder'] = '$dartType.create';

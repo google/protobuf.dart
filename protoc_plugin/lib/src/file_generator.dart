@@ -8,29 +8,26 @@ part of '../protoc.dart';
 
 final _dartIdentifier = RegExp(r'^\w+$');
 final _formatter = DartFormatter();
-const String _protobufImportPrefix = r'$pb';
-const String _asyncImportPrefix = r'$async';
-const String _coreImportPrefix = r'$core';
 const String _convertImportPrefix = r'$convert';
+
 const String _fixnumImportPrefix = r'$fixnum';
-const String _grpcImportPrefix = r'$grpc';
-const String _mixinImportPrefix = r'$mixin';
 const String _typedDataImportPrefix = r'$typed_data';
 const String _protobufImport =
-    "import 'package:protobuf/protobuf.dart' as $_protobufImportPrefix;";
-const String _asyncImport = "import 'dart:async' as $_asyncImportPrefix;";
-const String _coreImport = "import 'dart:core' as $_coreImportPrefix;";
+    "import 'package:protobuf/protobuf.dart' as $protobufImportPrefix;";
+const String _asyncImport = "import 'dart:async' as $asyncImportPrefix;";
+const String _coreImport = "import 'dart:core' as $coreImportPrefix;";
 const String _typedDataImport =
     "import 'dart:typed_data' as $_typedDataImportPrefix;";
 const String _convertImport = "import 'dart:convert' as $_convertImportPrefix;";
+
 const String _grpcImport =
-    "import 'package:grpc/service_api.dart' as $_grpcImportPrefix;";
+    "import 'package:grpc/service_api.dart' as $grpcImportPrefix;";
 
 /// Generates code that will evaluate to the empty string if
 /// `const bool.fromEnvironment(envName)` is `true` and evaluate to [value]
 /// otherwise.
 String configurationDependent(String envName, String value) {
-  return 'const $_coreImportPrefix.bool.fromEnvironment(${quoted(envName)})'
+  return 'const $coreImportPrefix.bool.fromEnvironment(${quoted(envName)})'
       ' ? \'\' '
       ': $value';
 }
@@ -286,7 +283,7 @@ class FileGenerator extends ProtobufContainer {
           x.generate(out);
         }
         out.println(
-            'static void registerAllExtensions($_protobufImportPrefix.ExtensionRegistry '
+            'static void registerAllExtensions($protobufImportPrefix.ExtensionRegistry '
             'registry) {');
         for (var x in extensionGenerators) {
           out.println('  registry.add(${x.name});');
@@ -327,7 +324,7 @@ class FileGenerator extends ProtobufContainer {
 
     final mixinImports = findMixinImports();
     for (var libraryUri in mixinImports) {
-      out.println("import '$libraryUri' as $_mixinImportPrefix;");
+      out.println("import '$libraryUri' as $mixinImportPrefix;");
     }
     if (mixinImports.isNotEmpty) out.println();
 
