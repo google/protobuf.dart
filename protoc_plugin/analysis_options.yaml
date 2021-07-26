@@ -6,7 +6,8 @@ analyzer:
 
 linter:
   rules:
-    prefer_single_quotes: false # will be fixed later
-    control_flow_in_finally: true
-    throw_in_finally: true
     camel_case_types: true
+    control_flow_in_finally: true
+    directives_ordering: true
+    prefer_single_quotes: false # will be fixed later
+    throw_in_finally: true

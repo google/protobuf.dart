@@ -4,7 +4,7 @@
 
 import "dart:html" show querySelector;
 
-import 'package:api_benchmark/suites/json.dart' show jsonSuite;
 import 'package:api_benchmark/dashboard.dart' show showDashboard;
+import 'package:api_benchmark/suites/json.dart' show jsonSuite;
 
 main() => showDashboard(jsonSuite, querySelector("#dashboard"));

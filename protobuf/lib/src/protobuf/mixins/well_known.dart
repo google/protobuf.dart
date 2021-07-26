@@ -6,8 +6,8 @@ import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
 
-import '../json_parsing_context.dart';
 import '../../../protobuf.dart';
+import '../json_parsing_context.dart';
 import '../type_registry.dart';
 
 abstract class AnyMixin implements GeneratedMessage {
