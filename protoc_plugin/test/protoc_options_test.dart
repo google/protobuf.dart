@@ -6,7 +6,7 @@
 // @dart=2.11
 
 import 'package:protoc_plugin/protoc.dart';
-import 'package:protoc_plugin/src/plugin.pb.dart';
+import 'package:protoc_plugin/src/generated/plugin.pb.dart';
 import 'package:test/test.dart';
 
 void main() {

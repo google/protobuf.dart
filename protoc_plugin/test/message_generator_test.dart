@@ -10,8 +10,8 @@ import 'dart:collection';
 import 'package:collection/collection.dart';
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
-import 'package:protoc_plugin/src/descriptor.pb.dart';
-import 'package:protoc_plugin/src/plugin.pb.dart';
+import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
+import 'package:protoc_plugin/src/generated/plugin.pb.dart';
 import 'package:test/test.dart';
 
 import 'golden_file.dart';

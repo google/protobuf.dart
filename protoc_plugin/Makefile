@@ -87,11 +87,11 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 build-plugin: $(PLUGIN_PATH)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
-	protoc --dart_out=lib/src -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
-	rm lib/src/descriptor.pb{json,server}.dart
-	rm lib/src/dart_options.pb{enum,json,server}.dart
-	rm lib/src/plugin.pb{json,server}.dart
-	dart format lib/src
+	protoc --dart_out=lib/src/generated -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
+	rm lib/src/generated/descriptor.pb{json,server}.dart
+	rm lib/src/generated/dart_options.pb{enum,json,server}.dart
+	rm lib/src/generated/plugin.pb{json,server}.dart
+	dart format lib/src/generated
 
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 

@@ -5,8 +5,8 @@
 // @dart=2.11
 
 import 'package:protoc_plugin/names.dart' as names;
-import 'package:protoc_plugin/src/dart_options.pb.dart';
-import 'package:protoc_plugin/src/descriptor.pb.dart';
+import 'package:protoc_plugin/src/generated/dart_options.pb.dart';
+import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/dart_name.pb.dart' as pb;

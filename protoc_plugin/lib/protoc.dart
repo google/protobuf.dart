@@ -12,9 +12,9 @@ import 'const_generator.dart' show writeJsonConst;
 import 'indenting_writer.dart';
 import 'mixins.dart';
 import 'names.dart';
-import 'src/dart_options.pb.dart';
-import 'src/descriptor.pb.dart';
-import 'src/plugin.pb.dart';
+import 'src/generated/dart_options.pb.dart';
+import 'src/generated/descriptor.pb.dart';
+import 'src/generated/plugin.pb.dart';
 import 'string_escape.dart';
 
 part 'base_type.dart';
