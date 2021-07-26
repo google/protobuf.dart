@@ -5,10 +5,9 @@
 import 'dart:async' show Stream, StreamController, EventSink;
 import 'dart:html';
 
-import 'package:api_benchmark/dashboard_model.dart';
-import 'package:api_benchmark/report.dart' show encodeReport;
-
+import 'dashboard_model.dart';
 import 'generated/benchmark.pb.dart' as pb;
+import 'report.dart' show encodeReport;
 
 /// A dashboard allowing the user to run a benchmark suite and compare the
 /// results to any saved report.

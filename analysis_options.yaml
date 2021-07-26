@@ -2,3 +2,4 @@ linter:
   rules:
   - directives_ordering
   - prefer_single_quotes
+  - prefer_relative_imports
