@@ -70,7 +70,7 @@ abstract class Benchmark {
 
   void checkRequest(pb.Request r) {
     if (r.id != id) {
-      throw ArgumentError("invalid benchmark id: ${r.id}");
+      throw ArgumentError('invalid benchmark id: ${r.id}');
     }
     if (r.params != makeParams()) {
       throw ArgumentError("parameters don't match: ${r.params}");
@@ -126,8 +126,8 @@ abstract class Benchmark {
     var median = measureSample(medianSample(r)).toStringAsFixed(0).padLeft(4);
     var max = measureSample(maxSample(r)).toStringAsFixed(0).padLeft(4);
 
-    return "$prefix samples: $sampleCount"
-        " median: $median max: $max $measureSampleUnits";
+    return '$prefix samples: $sampleCount'
+        ' median: $median max: $max $measureSampleUnits';
   }
 
   /// Returns the sample with the median measurement.

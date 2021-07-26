@@ -99,5 +99,5 @@ class SelectEvent<T> {
   final bool selected;
   final T item;
   SelectEvent(this.selected, [this.item]);
-  toString() => "SelectEvent($selected, $item)";
+  toString() => 'SelectEvent($selected, $item)';
 }

@@ -106,7 +106,7 @@ String extensionName(FieldDescriptorProto descriptor, Set<String> usedNames) {
 }
 
 Iterable<String> extensionSuffixes() sync* {
-  yield "Ext";
+  yield 'Ext';
   var i = 2;
   while (true) {
     yield '$i';
@@ -134,7 +134,7 @@ String extensionClassName(
 String _fileNameWithoutExtension(FileDescriptorProto descriptor) {
   var path = Uri.file(descriptor.name);
   var fileName = path.pathSegments.last;
-  var dot = fileName.lastIndexOf(".");
+  var dot = fileName.lastIndexOf('.');
   return dot == -1 ? fileName : fileName.substring(0, dot);
 }
 
@@ -143,7 +143,7 @@ class DartNameOptionException implements Exception {
   final String message;
   DartNameOptionException(this.message);
   @override
-  String toString() => "$message";
+  String toString() => '$message';
 }
 
 /// Returns a [name] that is not contained in [usedNames] by suffixing it with
@@ -248,7 +248,7 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     ..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
       if (a.number < b.number) return -1;
       if (a.number > b.number) return 1;
-      throw "multiple fields defined for tag ${a.number} in ${descriptor.name}";
+      throw 'multiple fields defined for tag ${a.number} in ${descriptor.name}';
     });
 
   // Choose indexes first, based on their position in the sorted list.
@@ -349,7 +349,7 @@ FieldNames _memberNamesFromOption(
     int sourcePosition,
     Set<String> existingNames) {
   // TODO(skybrian): provide more context in errors (filename).
-  var where = "${message.name}.${field.name}";
+  var where = '${message.name}.${field.name}';
 
   void checkAvailable(String name) {
     if (existingNames.contains(name)) {
@@ -363,7 +363,7 @@ FieldNames _memberNamesFromOption(
     throw ArgumentError("field doesn't have dart_name option");
   }
   if (!_isDartFieldName(name)) {
-    throw DartNameOptionException("$where: dart_name option is invalid: "
+    throw DartNameOptionException('$where: dart_name option is invalid: '
         "'$name' is not a valid Dart field name");
   }
   checkAvailable(name);
@@ -372,10 +372,10 @@ FieldNames _memberNamesFromOption(
     return FieldNames(field, index, sourcePosition, name);
   }
 
-  var hasMethod = "has${_capitalize(name)}";
+  var hasMethod = 'has${_capitalize(name)}';
   checkAvailable(hasMethod);
 
-  var clearMethod = "clear${_capitalize(name)}";
+  var clearMethod = 'clear${_capitalize(name)}';
   checkAvailable(clearMethod);
 
   String ensureMethod;

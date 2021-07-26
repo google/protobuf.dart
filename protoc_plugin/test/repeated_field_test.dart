@@ -12,22 +12,22 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 dynamic cast(x) => x;
 
 void main() {
-  test("check properties are initialized for repeated fields", () {
+  test('check properties are initialized for repeated fields', () {
     var msg = TestAllTypes();
     expect(
-        (msg.info_.byName["repeatedNestedMessage"]
+        (msg.info_.byName['repeatedNestedMessage']
                 as FieldInfo<TestAllTypes_NestedMessage>)
             .check,
         isNotNull);
 
     expect(
-        (msg.info_.byName["repeatedgroup"]
+        (msg.info_.byName['repeatedgroup']
                 as FieldInfo<TestAllTypes_RepeatedGroup>)
             .check,
         isNotNull);
 
     expect(
-        (msg.info_.byName["repeatedNestedEnum"]
+        (msg.info_.byName['repeatedNestedEnum']
                 as FieldInfo<TestAllTypes_NestedEnum>)
             .check,
         isNotNull);

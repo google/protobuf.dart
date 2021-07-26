@@ -90,24 +90,24 @@ Future showDashboard(pb.Suite suite, Element container) async {
 
 /// Starts and stops the DevTools profiler.
 class JsProfiler implements Profiler {
-  static JsObject console = context["console"];
+  static JsObject console = context['console'];
 
   int count = 1;
 
   startProfile(pb.Request request) {
-    var label = "$count-${request.id.name}";
+    var label = '$count-${request.id.name}';
     count++;
-    console.callMethod("profile", [label]);
+    console.callMethod('profile', [label]);
   }
 
   endProfile(pb.Sample s) {
-    console.callMethod("profileEnd");
-    print("profile: $s");
+    console.callMethod('profileEnd');
+    print('profile: $s');
   }
 }
 
 Future<pb.Env> loadBrowserEnv() async {
-  const advice = "Run a VM benchmark to create this file.";
+  const advice = 'Run a VM benchmark to create this file.';
   var pubspecYaml = await _loadDataFile(data.pubspecYamlName, advice: advice);
   var pubspecLock = await _loadDataFile(data.pubspecLockName, advice: advice);
   var hostname = await _loadDataFile(data.hostfileName, advice: advice);
@@ -135,7 +135,7 @@ Future<Map<String, pb.Report>> loadReports(pb.Suite suite) async {
       out[entry.key] = report;
     }
   }
-  print("loaded ${out.length} reports");
+  print('loaded ${out.length} reports');
   return out;
 }
 
@@ -167,12 +167,12 @@ bool isCompatibleBaseline(pb.Suite suite, pb.Report report) {
 Future<String> _loadDataFile(String name,
     {bool optional = false, String advice}) async {
   try {
-    return await HttpRequest.getString("/data/$name");
+    return await HttpRequest.getString('/data/$name');
   } catch (e) {
     if (optional) return null;
-    String error = "File is missing in benchmark/data: $name";
+    String error = 'File is missing in benchmark/data: $name';
     if (advice != null) {
-      error += ". $advice";
+      error += '. $advice';
     }
     throw error;
   }

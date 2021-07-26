@@ -19,7 +19,7 @@ class RepeatedStringBenchmark extends Benchmark {
       : super($id);
 
   @override
-  get summary => "${id.name}($width x $height x $stringSize)";
+  get summary => '${id.name}($width x $height x $stringSize)';
 
   @override
   Params makeParams() => Params()
@@ -38,10 +38,10 @@ class RepeatedStringBenchmark extends Benchmark {
   // "12" "23" "34" "45"
   // "23" "34" "45" "56"
   static pb.Grid _makeGrid(int width, int height, int stringSize) {
-    if (width > 10) throw ArgumentError("width out of range: ${width}");
+    if (width > 10) throw ArgumentError('width out of range: ${width}');
     var grid = pb.Grid();
 
-    int zero = "0".codeUnits[0];
+    int zero = '0'.codeUnits[0];
 
     for (int y = 0; y < height; y++) {
       var line = pb.Line();
@@ -61,7 +61,7 @@ class RepeatedStringBenchmark extends Benchmark {
   void run() {
     pb.Grid grid = pb.Grid.fromJson(json);
     var actual = grid.lines[height - 1].cells[width - 1];
-    if (actual.length != stringSize) throw "failed; got ${actual}";
+    if (actual.length != stringSize) throw 'failed; got ${actual}';
   }
 
   @override
@@ -73,7 +73,7 @@ class RepeatedStringBenchmark extends Benchmark {
   measureSample(Sample s) => stringReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "string reads/ms";
+  get measureSampleUnits => 'string reads/ms';
 
   static const $id = BenchmarkID.READ_STRING_REPEATED_JSON;
   static final $type = BenchmarkType($id, $create);

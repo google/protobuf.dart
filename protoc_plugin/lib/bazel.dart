@@ -8,6 +8,7 @@
 library protoc_bazel;
 
 import 'package:path/path.dart' as p;
+
 import 'protoc.dart'
     show SingleOptionParser, DefaultOutputConfiguration, OnError;
 
@@ -117,14 +118,14 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
     // Bazel package-relative paths.
     var relativeInput = input.path.substring('${pkg.input_root}/'.length);
     var base = p.withoutExtension(relativeInput);
-    var outputPath = p.join(pkg.output_root, "$base$extension");
+    var outputPath = p.join(pkg.output_root, '$base$extension');
     return Uri.file(outputPath);
   }
 
   @override
   Uri resolveImport(Uri target, Uri source, String extension) {
     var targetBase = p.withoutExtension(target.path);
-    var targetUri = _packageUriFor("$targetBase$extension");
+    var targetUri = _packageUriFor('$targetBase$extension');
     var sourceUri = _packageUriFor(source.path);
 
     if (targetUri == null && sourceUri != null) {

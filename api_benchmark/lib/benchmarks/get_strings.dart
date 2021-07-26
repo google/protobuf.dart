@@ -18,8 +18,8 @@ class GetStringsBenchmark extends Benchmark {
 
   @override
   get summary {
-    var fill = fillValue == null ? "null" : "'$fillValue'";
-    return "${id.name}($height x $fill)";
+    var fill = fillValue == null ? 'null' : "'$fillValue'";
+    return '${id.name}($height x $fill)';
   }
 
   @override
@@ -88,7 +88,7 @@ class GetStringsBenchmark extends Benchmark {
       ok = ok && line.cell9.isEmpty;
       ok = ok && line.cell10.isEmpty;
     }
-    if (!ok) throw "failed";
+    if (!ok) throw 'failed';
   }
 
   void _getStrings() {
@@ -105,7 +105,7 @@ class GetStringsBenchmark extends Benchmark {
       ok = ok && line.cell9.isNotEmpty;
       ok = ok && line.cell10.isNotEmpty;
     }
-    if (!ok) throw "failed";
+    if (!ok) throw 'failed';
   }
 
   @override
@@ -117,7 +117,7 @@ class GetStringsBenchmark extends Benchmark {
   measureSample(Sample s) => stringReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "string reads/ms";
+  get measureSampleUnits => 'string reads/ms';
 
   static const $id = BenchmarkID.GET_STRINGS;
   static final $type = BenchmarkType($id, $create);

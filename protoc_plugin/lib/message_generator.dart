@@ -154,18 +154,18 @@ class MessageGenerator extends ProtobufContainer {
   /// Throws an exception if [resolve] hasn't been called yet.
   void checkResolved() {
     if (_fieldList == null) {
-      throw StateError("message not resolved: $fullName");
+      throw StateError('message not resolved: $fullName');
     }
   }
 
   /// Returns a const expression that evaluates to the JSON for this message.
   /// [usage] represents the .pb.dart file where the expression will be used.
   String getJsonConstant(FileGenerator usage) {
-    var name = "$classname\$json";
+    var name = '$classname\$json';
     if (usage.protoFileUri == fileGen.protoFileUri) {
       return name;
     }
-    return "$fileImportPrefix.$name";
+    return '$fileImportPrefix.$name';
   }
 
   /// Adds all mixins used in this message and any submessages.
@@ -191,7 +191,7 @@ class MessageGenerator extends ProtobufContainer {
 
   // Creates fields and resolves extension targets.
   void resolve(GenerationContext ctx) {
-    if (_fieldList != null) throw StateError("message already resolved");
+    if (_fieldList != null) throw StateError('message already resolved');
 
     var reserved = mixin?.findReservedNames() ?? const <String>[];
     var members = messageMemberNames(_descriptor, classname, _usedTopLevelNames,
@@ -217,7 +217,7 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   bool get needsFixnumImport {
-    if (_fieldList == null) throw StateError("message not resolved");
+    if (_fieldList == null) throw StateError('message not resolved');
     for (var field in _fieldList) {
       if (field.needsFixnumImport) return true;
     }
@@ -236,7 +236,7 @@ class MessageGenerator extends ProtobufContainer {
   /// add its generator.
   void addImportsTo(
       Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
-    if (_fieldList == null) throw StateError("message not resolved");
+    if (_fieldList == null) throw StateError('message not resolved');
     for (var field in _fieldList) {
       var typeGen = field.baseType.generator;
       if (typeGen is EnumGenerator) {
@@ -267,7 +267,7 @@ class MessageGenerator extends ProtobufContainer {
   /// For each .pbjson.dart file that the generated code needs to import,
   /// add its generator.
   void addConstantImportsTo(Set<FileGenerator> imports) {
-    if (_fieldList == null) throw StateError("message not resolved");
+    if (_fieldList == null) throw StateError('message not resolved');
     for (var m in _messageGenerators) {
       m.addConstantImportsTo(imports);
     }
@@ -339,7 +339,7 @@ class MessageGenerator extends ProtobufContainer {
         for (var oneof = 0; oneof < _oneofFields.length; oneof++) {
           var tags =
               _oneofFields[oneof].map((ProtobufField f) => f.number).toList();
-          out.println("..oo($oneof, $tags)");
+          out.println('..oo($oneof, $tags)');
         }
 
         for (var field in _fieldList) {
@@ -453,7 +453,7 @@ class MessageGenerator extends ProtobufContainer {
   // already_seen is used to avoid checking the same type multiple times
   // (and also to protect against unbounded recursion).
   bool _hasRequiredFields(MessageGenerator type, Set alreadySeen) {
-    if (type._fieldList == null) throw StateError("message not resolved");
+    if (type._fieldList == null) throw StateError('message not resolved');
 
     if (alreadySeen.contains(type.fullName)) {
       // The type is already in cache.  This means that either:
@@ -502,8 +502,8 @@ class MessageGenerator extends ProtobufContainer {
 
   void generateOneofAccessors(IndentingWriter out, OneofNames oneof) {
     out.println();
-    out.println("${oneof.oneofEnumName} ${oneof.whichOneofMethodName}() "
-        "=> ${oneof.byTagMapName}[\$_whichOneof(${oneof.index})]!;");
+    out.println('${oneof.oneofEnumName} ${oneof.whichOneofMethodName}() '
+        '=> ${oneof.byTagMapName}[\$_whichOneof(${oneof.index})]!;');
     out.println('void ${oneof.clearMethodName}() '
         '=> clearField(\$_whichOneof(${oneof.index}));');
   }
@@ -677,8 +677,8 @@ class MessageGenerator extends ProtobufContainer {
   void generateConstants(IndentingWriter out) {
     const nestedTypeTag = 3;
     const enumTypeTag = 4;
-    assert(_descriptor.info_.fieldInfo[nestedTypeTag].name == "nestedType");
-    assert(_descriptor.info_.fieldInfo[enumTypeTag].name == "enumType");
+    assert(_descriptor.info_.fieldInfo[nestedTypeTag].name == 'nestedType');
+    assert(_descriptor.info_.fieldInfo[enumTypeTag].name == 'enumType');
 
     var name = getJsonConstant(fileGen);
     var json = _descriptor.writeToJsonMap();
@@ -689,20 +689,20 @@ class MessageGenerator extends ProtobufContainer {
 
     out.println('@$_coreImportPrefix.Deprecated'
         '(\'Use ${toplevelParent.binaryDescriptorName} instead\')');
-    out.addBlock("const $name = const {", "};", () {
+    out.addBlock('const $name = const {', '};', () {
       for (var key in json.keys) {
         out.print("'$key': ");
-        if (key == "$nestedTypeTag") {
+        if (key == '$nestedTypeTag') {
           // refer to message constants by name instead of repeating each value
           out.println("const [${nestedTypeNames.join(", ")}],");
           continue;
-        } else if (key == "$enumTypeTag") {
+        } else if (key == '$enumTypeTag') {
           // refer to enum constants by name
           out.println("const [${nestedEnumNames.join(", ")}],");
           continue;
         }
         writeJsonConst(out, json[key]);
-        out.println(",");
+        out.println(',');
       }
     });
     out.println();

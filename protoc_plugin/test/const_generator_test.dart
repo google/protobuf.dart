@@ -15,18 +15,18 @@ String toConst(val) {
 
 void main() {
   test('writeJsonConst examples', () {
-    expect(toConst(null), "null");
-    expect(toConst(true), "true");
-    expect(toConst(false), "false");
-    expect(toConst(123), "123");
-    expect(toConst(123.456), "123.456");
+    expect(toConst(null), 'null');
+    expect(toConst(true), 'true');
+    expect(toConst(false), 'false');
+    expect(toConst(123), '123');
+    expect(toConst(123.456), '123.456');
   });
 
   test('writeJsonConst string examples', () {
-    expect(toConst(""), "''");
-    expect(toConst("hello"), "'hello'");
-    expect(toConst(r"backslash: \"), r"'backslash: \\'");
-    expect(toConst(r"hello $world"), r"'hello \$world'");
+    expect(toConst(''), "''");
+    expect(toConst('hello'), "'hello'");
+    expect(toConst(r'backslash: \'), r"'backslash: \\'");
+    expect(toConst(r'hello $world'), r"'hello \$world'");
     expect(toConst("She said, 'hello.'"), r"'She said, \'hello.\''");
     expect(toConst('single: \' double: "'), r"""'single: \' double: "'""");
     expect(toConst("""single: ' double: '' triple: \'\'\'"""),
@@ -36,8 +36,8 @@ void main() {
   });
 
   test('writeJsonConst list examples', () {
-    expect(toConst([]), "const []");
-    expect(toConst([1, 2, 3]), "const [1, 2, 3]");
+    expect(toConst([]), 'const []');
+    expect(toConst([1, 2, 3]), 'const [1, 2, 3]');
     expect(
         toConst([
           [1, 2],
@@ -50,16 +50,16 @@ void main() {
   });
 
   test('writeJsonConst map examples', () {
-    expect(toConst({}), "const {}");
-    expect(toConst({"a": 1, "b": 2}), "const {'a': 1, 'b': 2}");
+    expect(toConst({}), 'const {}');
+    expect(toConst({'a': 1, 'b': 2}), "const {'a': 1, 'b': 2}");
     expect(
         toConst({
-          "a": {"x": 1},
-          "b": {"x": 2}
+          'a': {'x': 1},
+          'b': {'x': 2}
         }),
-        "const {\n"
+        'const {\n'
         "  'a': const {'x': 1},\n"
         "  'b': const {'x': 2},\n"
-        "}");
+        '}');
   });
 }

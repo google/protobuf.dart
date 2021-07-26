@@ -13,7 +13,7 @@ class ExtensionGenerator {
   // populated by resolve()
   ProtobufField _field;
   final String _extensionName;
-  String _extendedFullName = "";
+  String _extendedFullName = '';
   List<int> _fieldPath;
   final List<int> _fieldPathSegment;
 
@@ -54,13 +54,13 @@ class ExtensionGenerator {
   FileGenerator get fileGen => _parent.fileGen;
 
   String get name {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
     var name = _extensionName;
     return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
   }
 
   bool get needsFixnumImport {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
     return _field.needsFixnumImport;
   }
 
@@ -70,7 +70,7 @@ class ExtensionGenerator {
   /// add its generator.
   void addImportsTo(
       Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
     var typeGen = _field.baseType.generator;
     if (typeGen != null) {
       // The type of this extension is defined in a different file,
@@ -89,12 +89,12 @@ class ExtensionGenerator {
   /// For each .pb.dart file that the generated code needs to import,
   /// add its generator.
   void addConstantImportsTo(Set<FileGenerator> imports) {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
     // No dependencies - nothing to do.
   }
 
   void generate(IndentingWriter out) {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
 
     var name = _extensionName;
     final conditionalName = configurationDependent(

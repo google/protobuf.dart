@@ -18,7 +18,7 @@ class RepeatedInt64Benchmark extends Benchmark {
   RepeatedInt64Benchmark(this.width, this.height) : super($id);
 
   @override
-  get summary => "${id.name}($width x $height ints)";
+  get summary => '${id.name}($width x $height ints)';
 
   @override
   Params makeParams() => Params()
@@ -53,7 +53,7 @@ class RepeatedInt64Benchmark extends Benchmark {
   void run() {
     pb.Grid grid = pb.Grid.fromJson(json);
     var actual = grid.lines[height - 1].cells[width - 1];
-    if (actual != width + height - 2) throw "failed; got ${actual}";
+    if (actual != width + height - 2) throw 'failed; got ${actual}';
   }
 
   @override
@@ -65,7 +65,7 @@ class RepeatedInt64Benchmark extends Benchmark {
   measureSample(Sample s) => int64ReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "int64 reads/ms";
+  get measureSampleUnits => 'int64 reads/ms';
 
   static const $id = BenchmarkID.READ_INT64_REPEATED_JSON;
   static final $type = BenchmarkType($id, $create);

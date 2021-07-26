@@ -86,13 +86,13 @@ void main() {
       message.clear();
     }, throwsUnsupportedError);
     expect(() {
-      message.optionalString = "123";
+      message.optionalString = '123';
     }, throwsUnsupportedError);
     expect(() {
       message.clearOptionalString();
     }, throwsUnsupportedError);
     expect(() {
-      message.repeatedString.add("123");
+      message.repeatedString.add('123');
     }, throwsUnsupportedError);
     expect(() {
       message.repeatedString.clear();
@@ -821,7 +821,7 @@ void main() {
   });
 
   test('to toDebugString', () {
-    var value1 = TestAllTypes()..optionalString = "test 123";
+    var value1 = TestAllTypes()..optionalString = 'test 123';
     expect(value1.toString(), 'optionalString: test 123\n');
   });
 

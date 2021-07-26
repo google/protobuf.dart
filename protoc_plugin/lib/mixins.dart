@@ -80,13 +80,13 @@ class PbMixin {
   }
 }
 
-const _pbMapMixin = PbMixin("PbMapMixin",
-    importFrom: "package:protobuf/src/protobuf/mixins/map_mixin.dart",
+const _pbMapMixin = PbMixin('PbMapMixin',
+    importFrom: 'package:protobuf/src/protobuf/mixins/map_mixin.dart',
     parent: _mapMixin);
 
-const _pbEventMixin = PbMixin("PbEventMixin",
-    importFrom: "package:protobuf/src/protobuf/mixins/event_mixin.dart",
-    reservedNames: ["changes", "deliverChanges"]);
+const _pbEventMixin = PbMixin('PbEventMixin',
+    importFrom: 'package:protobuf/src/protobuf/mixins/event_mixin.dart',
+    reservedNames: ['changes', 'deliverChanges']);
 
 const List<String> _reservedNamesForMap = [
   '[]',
@@ -112,5 +112,5 @@ const List<String> _reservedNamesForMap = [
   'values',
 ];
 
-const _mapMixin = PbMixin("MapMixin",
-    importFrom: "dart:collection", reservedNames: _reservedNamesForMap);
+const _mapMixin = PbMixin('MapMixin',
+    importFrom: 'dart:collection', reservedNames: _reservedNamesForMap);

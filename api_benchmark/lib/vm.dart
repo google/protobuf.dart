@@ -29,7 +29,7 @@ runSuiteInVM(pb.Suite suite) async {
     if (update != null) {
       var summary = _summarize(update);
       if (lastUpdate == null || update.request != lastUpdate.request) {
-        stdout.write("\n$summary");
+        stdout.write('\n$summary');
       } else {
         _overwrite(summary);
       }
@@ -40,11 +40,11 @@ runSuiteInVM(pb.Suite suite) async {
   }
 
   // save the report to a file
-  var outFile = "${dataDir.path}/$latestVMReportName";
-  var tmpFile = File("$outFile.tmp");
+  var outFile = '${dataDir.path}/$latestVMReportName';
+  var tmpFile = File('$outFile.tmp');
   await tmpFile.writeAsString(encodeReport(lastReport));
   await tmpFile.rename(outFile);
-  print("\nWrote result to ${outFile}");
+  print('\nWrote result to ${outFile}');
 }
 
 String _summarize(pb.Response r) {
@@ -54,11 +54,11 @@ String _summarize(pb.Response r) {
 }
 
 final _escapeChar = String.fromCharCode(27);
-final _clearLine = "\r$_escapeChar[2K";
+final _clearLine = '\r$_escapeChar[2K';
 
 /// Overwrite the last line printed to the terminal.
 void _overwrite(String line) {
-  stdout.write("$_clearLine$line");
+  stdout.write('$_clearLine$line');
 }
 
 Future<pb.Env> _loadEnv() async {
@@ -85,11 +85,11 @@ _ensureDataDir() async {
   await hostnameFile.writeAsString(_hostname);
 
   if (!await pubspecYaml.exists()) {
-    await pubspecYaml.create("${pubspecDir.path}/pubspec.yaml");
+    await pubspecYaml.create('${pubspecDir.path}/pubspec.yaml');
   }
 
   if (!await pubspecLock.exists()) {
-    await pubspecLock.create("${pubspecDir.path}/pubspec.lock");
+    await pubspecLock.create('${pubspecDir.path}/pubspec.lock');
   }
 }
 
@@ -101,7 +101,7 @@ String get _script {
 String get _hostname {
   // Only including the first part of the hostname.
   var h = Platform.localHostname;
-  int firstDot = h.indexOf(".");
+  int firstDot = h.indexOf('.');
   if (firstDot == -1) return h;
   return h.substring(0, firstDot);
 }
@@ -113,15 +113,15 @@ pb.OSType get _osType {
   if (Platform.isAndroid) return pb.OSType.ANDROID;
 
   // What is this?
-  throw "unknown OS type";
+  throw 'unknown OS type';
 }
 
-final File hostnameFile = File("${dataDir.path}/$hostfileName");
-final Link pubspecYaml = Link("${dataDir.path}/$pubspecYamlName");
-final Link pubspecLock = Link("${dataDir.path}/$pubspecLockName");
+final File hostnameFile = File('${dataDir.path}/$hostfileName');
+final Link pubspecYaml = Link('${dataDir.path}/$pubspecYamlName');
+final Link pubspecLock = Link('${dataDir.path}/$pubspecLockName');
 
 final Directory dataDir = () {
-  var d = Directory("${pubspecDir.path}/web/data");
+  var d = Directory('${pubspecDir.path}/web/data');
   if (!d.existsSync()) {
     throw "data dir doesn't exist at ${d.path}";
   }
@@ -131,7 +131,7 @@ final Directory dataDir = () {
 /// Returns the directory containing the pubspec.yaml file.
 final Directory pubspecDir = () {
   for (var d = Directory.current; d.parent != d; d = d.parent) {
-    if (File("${d.path}/pubspec.yaml").existsSync()) {
+    if (File('${d.path}/pubspec.yaml').existsSync()) {
       return d;
     }
   }

@@ -16,12 +16,12 @@ void main() {
   test('testClientGenerator', () {
     var options = GenerationOptions();
     var fd = buildFileDescriptor(
-        "testpkg", "testpkg.proto", ["SomeRequest", "SomeReply"]);
+        'testpkg', 'testpkg.proto', ['SomeRequest', 'SomeReply']);
     fd.service.add(buildServiceDescriptor());
     var fg = FileGenerator(fd, options);
 
     var fd2 = buildFileDescriptor(
-        "foo.bar", "foobar.proto", ["EmptyMessage", "AnotherReply"]);
+        'foo.bar', 'foobar.proto', ['EmptyMessage', 'AnotherReply']);
     var fg2 = FileGenerator(fd2, options);
 
     link(GenerationOptions(), [fg, fg2]);

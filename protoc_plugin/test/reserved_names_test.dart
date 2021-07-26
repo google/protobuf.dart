@@ -3,7 +3,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@TestOn("vm")
+@TestOn('vm')
 library reserved_names_test;
 
 import 'dart:collection' show MapMixin;
@@ -50,19 +50,19 @@ void main() {
           ..removeAll(_oneOffNames);
     var reservedNames = Set<String>.from(GeneratedMessage_reservedNames);
     for (var name in mixinNames) {
-      if (name == "ReadonlyMessageMixin" || name == "unknownFields") continue;
+      if (name == 'ReadonlyMessageMixin' || name == 'unknownFields') continue;
       if (!reservedNames.contains(name)) {
-        fail("name from ReadonlyMessageMixin is not reserved: $name");
+        fail('name from ReadonlyMessageMixin is not reserved: $name');
       }
     }
   });
 
   test('PbMapMixin reserved names are up to date', () {
-    var meta = findMixin("PbMapMixin")!;
+    var meta = findMixin('PbMapMixin')!;
     var actual = Set<String>.from(meta.findReservedNames());
 
     var expected = findMemberNames(meta.importFrom, #PbMapMixin)
-      ..addAll(findMemberNames("dart:collection", #MapMixin))
+      ..addAll(findMemberNames('dart:collection', #MapMixin))
       ..removeAll(GeneratedMessage_reservedNames)
       // TODO: see https://github.com/dart-lang/protobuf/issues/527
       ..removeAll(_oneOffNames);
@@ -72,7 +72,7 @@ void main() {
   });
 
   test('PbEventMixin reserved names are up to date', () {
-    var meta = findMixin("PbEventMixin")!;
+    var meta = findMixin('PbEventMixin')!;
     var actual = Set<String>.from(meta.findReservedNames());
 
     var expected = findMemberNames(meta.importFrom, #PbEventMixin)

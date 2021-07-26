@@ -41,7 +41,7 @@ final bool _implicitChecksEnabled = () {
   bool x = true;
   try {
     // Trigger an exception if we're in checked mode.
-    x = "" as dynamic;
+    x = '' as dynamic;
     return false;
   } catch (e) {
     return true;
@@ -53,10 +53,10 @@ final bool _implicitChecksEnabled = () {
 pb.Packages createPackages(String pubspecYaml, String pubspecLock) {
   var out = pb.Packages();
 
-  for (var line in pubspecYaml.split("\n")) {
+  for (var line in pubspecYaml.split('\n')) {
     line = line.trim();
-    if (line.startsWith("version:")) {
-      out.version = line.substring("version:".length).trim();
+    if (line.startsWith('version:')) {
+      out.version = line.substring('version:'.length).trim();
     }
   }
 
@@ -94,23 +94,23 @@ Iterable<pb.PackageVersion> _parseLockFile(String contents) sync* {
 String encodeReport(pb.Report report) {
   var json = report.writeToJsonMap();
   var out = StringBuffer();
-  _stringifyMap(out, json, "");
+  _stringifyMap(out, json, '');
   out.writeln();
   return out.toString();
 }
 
 String _stringifyMap(StringBuffer out, Map json, String indent) {
-  var childIndent = indent + "  ";
-  out.writeln("{");
+  var childIndent = indent + '  ';
+  out.writeln('{');
   var first = true;
   for (var key in json.keys) {
-    if (!first) out.writeln(",");
+    if (!first) out.writeln(',');
     first = false;
 
     var value = json[key];
     out.write(childIndent);
     out.write(jsonEncode(key));
-    out.write(": ");
+    out.write(': ');
 
     if (value is List) {
       _stringifyList(out, value, childIndent);
@@ -120,19 +120,19 @@ String _stringifyMap(StringBuffer out, Map json, String indent) {
       out.write(jsonEncode(value));
     }
   }
-  out.write("\n$indent}");
+  out.write('\n$indent}');
   return out.toString();
 }
 
 void _stringifyList(StringBuffer out, List json, String indent) {
-  var childIndent = indent + "  ";
-  out.write("[\n");
+  var childIndent = indent + '  ';
+  out.write('[\n');
   bool first = true;
   for (var item in json) {
-    if (!first) out.write(",\n");
+    if (!first) out.write(',\n');
     first = false;
     out.write(childIndent);
     out.write(jsonEncode(item));
   }
-  out.write("\n$indent]");
+  out.write('\n$indent]');
 }

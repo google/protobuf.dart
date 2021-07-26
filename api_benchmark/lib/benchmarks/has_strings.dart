@@ -18,8 +18,8 @@ class HasStringsBenchmark extends Benchmark {
 
   @override
   get summary {
-    var fill = fillValue == null ? "null" : "'$fillValue'";
-    return "${id.name}($height x $fill)";
+    var fill = fillValue == null ? 'null' : "'$fillValue'";
+    return '${id.name}($height x $fill)';
   }
 
   @override
@@ -88,7 +88,7 @@ class HasStringsBenchmark extends Benchmark {
       allPresent = allPresent && line.hasCell9();
       allPresent = allPresent && line.hasCell10();
     }
-    if (!allPresent) throw "failed";
+    if (!allPresent) throw 'failed';
   }
 
   void runEmpty() {
@@ -105,7 +105,7 @@ class HasStringsBenchmark extends Benchmark {
       allEmpty = allEmpty && !line.hasCell9();
       allEmpty = allEmpty && !line.hasCell10();
     }
-    if (!allEmpty) throw "failed";
+    if (!allEmpty) throw 'failed';
   }
 
   @override
@@ -117,7 +117,7 @@ class HasStringsBenchmark extends Benchmark {
   measureSample(Sample s) => stringReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "string reads/ms";
+  get measureSampleUnits => 'string reads/ms';
 
   static const $id = BenchmarkID.HAS_STRINGS;
   static final $type = BenchmarkType($id, $create);

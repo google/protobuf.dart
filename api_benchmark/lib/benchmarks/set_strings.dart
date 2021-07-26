@@ -18,8 +18,8 @@ class SetStringsBenchmark extends Benchmark {
 
   @override
   get summary {
-    var fill = fillValue == null ? "null" : "'$fillValue'";
-    return "${id.name}($height x $fill)";
+    var fill = fillValue == null ? 'null' : "'$fillValue'";
+    return '${id.name}($height x $fill)';
   }
 
   @override
@@ -67,7 +67,7 @@ class SetStringsBenchmark extends Benchmark {
 
   @override
   void run() {
-    var newValue = "";
+    var newValue = '';
     for (var line in grid.lines) {
       line.cell1 = newValue;
       line.cell2 = newValue;
@@ -91,7 +91,7 @@ class SetStringsBenchmark extends Benchmark {
   measureSample(Sample s) => stringWritesPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "string writes/ms";
+  get measureSampleUnits => 'string writes/ms';
 
   static const $id = BenchmarkID.SET_STRINGS;
   static final $type = BenchmarkType($id, $create);

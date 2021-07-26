@@ -93,11 +93,11 @@ class EnumGenerator extends ProtobufContainer {
   /// Returns a const expression that evaluates to the JSON for this message.
   /// [usage] represents the .pb.dart file where the expression will be used.
   String getJsonConstant(FileGenerator usage) {
-    var name = "$classname\$json";
+    var name = '$classname\$json';
     if (usage.protoFileUri == fileGen.protoFileUri) {
       return name;
     }
-    return "$fileImportPrefix.$name";
+    return '$fileImportPrefix.$name';
   }
 
   static const int _enumValueTag = 2;
@@ -175,9 +175,9 @@ class EnumGenerator extends ProtobufContainer {
 
     out.println('@$_coreImportPrefix.Deprecated'
         '(\'Use ${toplevelParent.binaryDescriptorName} instead\')');
-    out.print("const $name = ");
+    out.print('const $name = ');
     writeJsonConst(out, json);
-    out.println(";");
+    out.println(';');
     out.println();
   }
 }

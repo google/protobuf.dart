@@ -30,7 +30,7 @@ Iterable<pb.Report> runSuite(List<pb.Request> requests,
     totalSamples += request.samples;
   }
   pb.Report progress() {
-    report.message = "Running ($sampleCount/$totalSamples)";
+    report.message = 'Running ($sampleCount/$totalSamples)';
     return report.deepCopy();
   }
 
@@ -61,6 +61,6 @@ Iterable<pb.Report> runSuite(List<pb.Request> requests,
 
   // Send final report.
   report.status = pb.Status.DONE;
-  report.message = "Done";
+  report.message = 'Done';
   yield report;
 }

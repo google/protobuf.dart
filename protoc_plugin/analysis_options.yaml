@@ -9,5 +9,5 @@ linter:
     camel_case_types: true
     control_flow_in_finally: true
     directives_ordering: true
-    prefer_single_quotes: false # will be fixed later
+    prefer_single_quotes: true
     throw_in_finally: true

@@ -175,7 +175,7 @@ void main() {
 
   test('FileGenerator outputs library for a .proto in a package', () {
     var fd = buildFileDescriptor();
-    fd.package = "pb_library";
+    fd.package = 'pb_library';
     var options =
         parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
 
@@ -214,7 +214,7 @@ void main() {
   });
 
   test('FileGenerator outputs files for a service', () {
-    var empty = DescriptorProto()..name = "Empty";
+    var empty = DescriptorProto()..name = 'Empty';
 
     var sd = ServiceDescriptorProto()
       ..name = 'Test'
@@ -244,7 +244,7 @@ void main() {
 
   test('FileGenerator does not output legacy service stubs if gRPC is selected',
       () {
-    var empty = DescriptorProto()..name = "Empty";
+    var empty = DescriptorProto()..name = 'Empty';
 
     var sd = ServiceDescriptorProto()
       ..name = 'Test'
@@ -358,7 +358,7 @@ void main() {
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
-          ..typeName = ".p1.M",
+          ..typeName = '.p1.M',
       ]);
     var fd1 = FileDescriptorProto()
       ..package = 'p1'
@@ -376,7 +376,7 @@ void main() {
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
-          ..typeName = ".p2.M",
+          ..typeName = '.p2.M',
       ]);
     var fd2 = FileDescriptorProto()
       ..package = 'p2'
@@ -394,7 +394,7 @@ void main() {
           ..number = 1
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
-          ..typeName = ".M",
+          ..typeName = '.M',
         // optional p1.M m1 = 2;
         FieldDescriptorProto()
           ..name = 'm1'
@@ -402,7 +402,7 @@ void main() {
           ..number = 2
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
-          ..typeName = ".p1.M",
+          ..typeName = '.p1.M',
         // optional p2.M m2 = 3;
         FieldDescriptorProto()
           ..name = 'm2'
@@ -410,7 +410,7 @@ void main() {
           ..number = 3
           ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
           ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
-          ..typeName = ".p2.M",
+          ..typeName = '.p2.M',
       ]);
     var fd = FileDescriptorProto()
       ..name = 'test.proto'

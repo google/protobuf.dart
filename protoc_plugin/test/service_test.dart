@@ -82,7 +82,7 @@ void main() {
   });
 
   test('end to end RPC using message from a different package', () async {
-    var request = pb2.SearchRequest()..query = "2";
+    var request = pb2.SearchRequest()..query = '2';
     var reply = await api.search2(ClientContext(), request);
     expect(reply.results.length, 1);
     expect(reply.results[0].url, 'http://example.com/');
@@ -91,9 +91,9 @@ void main() {
 
   test('can read service descriptor from JSON', () {
     var descriptor = ServiceDescriptorProto()..mergeFromJsonMap(service.$json);
-    expect(descriptor.name, "SearchService");
+    expect(descriptor.name, 'SearchService');
     var methodNames = descriptor.method.map((m) => m.name).toList();
-    expect(methodNames, ["Search", "Search2"]);
+    expect(methodNames, ['Search', 'Search2']);
   });
 
   test('can read message descriptors from JSON', () {
@@ -112,8 +112,8 @@ void main() {
       return descriptor.name;
     }
 
-    expect(readMessageName('.SearchRequest'), "SearchRequest");
-    expect(readMessageName('.service2.SearchRequest'), "SearchRequest");
-    expect(readMessageName('.service3.SearchResult'), "SearchResult");
+    expect(readMessageName('.SearchRequest'), 'SearchRequest');
+    expect(readMessageName('.service2.SearchRequest'), 'SearchRequest');
+    expect(readMessageName('.service3.SearchResult'), 'SearchResult');
   });
 }

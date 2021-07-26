@@ -254,8 +254,8 @@ repeatedString: qux
 
   test('Can read JSON constant into DescriptorProto', () {
     var d = DescriptorProto()..mergeFromJsonMap(TestAllTypes$json);
-    expect(d.name, "TestAllTypes");
-    expect(d.field[0].name, "optional_int32");
-    expect(d.nestedType[0].name, "NestedMessage");
+    expect(d.name, 'TestAllTypes');
+    expect(d.field[0].name, 'optional_int32');
+    expect(d.nestedType[0].name, 'NestedMessage');
   });
 }

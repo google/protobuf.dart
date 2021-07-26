@@ -40,14 +40,14 @@ void main() {
   });
 
   test('testHashCodeOptionalString', () {
-    var m1 = TestAllTypes()..optionalString = "Dart";
-    var m2 = TestAllTypes()..optionalString = "Dart";
+    var m1 = TestAllTypes()..optionalString = 'Dart';
+    var m2 = TestAllTypes()..optionalString = 'Dart';
     expect(m1.hashCode, m2.hashCode);
 
-    m1.optionalString = "JavaScript";
+    m1.optionalString = 'JavaScript';
     expect(m1.hashCode, isNot(m2.hashCode));
 
-    m2.optionalString = "JavaScript";
+    m2.optionalString = 'JavaScript';
     expect(m1.hashCode, m2.hashCode);
   });
 
@@ -94,14 +94,14 @@ void main() {
   test('testHashCodeRepeatedString', () {
     var m1 = TestAllTypes();
     var m2 = TestAllTypes();
-    m1.repeatedString.add("Dart");
-    m2.repeatedString.add("Dart");
+    m1.repeatedString.add('Dart');
+    m2.repeatedString.add('Dart');
     expect(m1.hashCode, m2.hashCode);
 
-    m1.repeatedString.add("JavaScript");
+    m1.repeatedString.add('JavaScript');
     expect(m1.hashCode, isNot(m2.hashCode));
 
-    m2.repeatedString.add("JavaScript");
+    m2.repeatedString.add('JavaScript');
     expect(m1.hashCode, m2.hashCode);
 
     m1.repeatedString.clear();
@@ -137,12 +137,12 @@ void main() {
     var m1 = TestAllTypes()
       ..optionalInt32 = 42
       ..optionalInt64 = Int64(42)
-      ..optionalString = "Dart"
+      ..optionalString = 'Dart'
       ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
     var m2 = TestAllTypes()
       ..optionalInt32 = 42
       ..optionalInt64 = Int64(42)
-      ..optionalString = "Dart"
+      ..optionalString = 'Dart'
       ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
     expect(m1.hashCode, m2.hashCode);
 
@@ -159,11 +159,11 @@ void main() {
       ..add(Int64(42))
       ..add(Int64(43));
     m1.repeatedString
-      ..add("Dart")
-      ..add("JavaScript");
+      ..add('Dart')
+      ..add('JavaScript');
     m2.repeatedString
-      ..add("Dart")
-      ..add("JavaScript");
+      ..add('Dart')
+      ..add('JavaScript');
     m1.repeatedNestedEnum
       ..add(TestAllTypes_NestedEnum.BAR)
       ..add(TestAllTypes_NestedEnum.BAZ);

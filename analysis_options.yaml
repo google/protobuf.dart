@@ -1,3 +1,4 @@
 linter:
   rules:
   - directives_ordering
+  - prefer_single_quotes

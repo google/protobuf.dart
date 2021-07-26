@@ -44,8 +44,8 @@ void main() {
     // (1) large enough to set the sign bit
     // (2) don't set all of the first 10 bits under the sign bit
     // (3) are near each other
-    message.optionalUint64 = Int64.parseHex("f0000000ffff0000");
-    message.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
+    message.optionalUint64 = Int64.parseHex('f0000000ffff0000');
+    message.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
     var expectedJsonValue =
         '{"4":"17293822573397606400","8":"17293822573397606401"}';
@@ -122,8 +122,8 @@ void main() {
     var parsed = TestAllTypes.fromJson(
         '{"4":"17293822573397606400","8":"17293822573397606401"}');
     var expected = TestAllTypes();
-    expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
-    expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
+    expected.optionalUint64 = Int64.parseHex('f0000000ffff0000');
+    expected.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
     expect(parsed, expected);
   });
@@ -132,8 +132,8 @@ void main() {
     var parsed = TestAllTypes.fromJson(
         '{"4":"-1152921500311945216","8":"-1152921500311945215"}');
     var expected = TestAllTypes();
-    expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
-    expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
+    expected.optionalUint64 = Int64.parseHex('f0000000ffff0000');
+    expected.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
     expect(parsed, expected);
   });

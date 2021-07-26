@@ -19,7 +19,7 @@ class Int64Benchmark extends Benchmark {
   Int64Benchmark(this.width, this.height) : super($id);
 
   @override
-  get summary => "${id.name}($width x $height int64s)";
+  get summary => '${id.name}($width x $height int64s)';
 
   @override
   Params makeParams() => Params()
@@ -38,7 +38,7 @@ class Int64Benchmark extends Benchmark {
   // 1 2 3 4
   // 2 3 4 5
   static pb.Grid10 _makeGrid(int width, int height) {
-    if (width > 10) throw ArgumentError("width out of range: ${width}");
+    if (width > 10) throw ArgumentError('width out of range: ${width}');
     var grid = pb.Grid10();
 
     for (int y = 0; y < height; y++) {
@@ -61,7 +61,7 @@ class Int64Benchmark extends Benchmark {
   void run() {
     pb.Grid10 grid = pb.Grid10.fromJson(json);
     var actual = grid.lines[height - 1].getField(lastFieldTag);
-    if (actual != width + height - 2) throw "failed; got ${actual}";
+    if (actual != width + height - 2) throw 'failed; got ${actual}';
   }
 
   @override
@@ -73,7 +73,7 @@ class Int64Benchmark extends Benchmark {
   measureSample(Sample s) => int64ReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "int64 reads/ms";
+  get measureSampleUnits => 'int64 reads/ms';
 
   static const $id = BenchmarkID.READ_INT64_FIELDS_JSON;
   static final $type = BenchmarkType($id, $create);

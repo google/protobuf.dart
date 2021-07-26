@@ -11,11 +11,11 @@ final Suite propsSuite = () {
   var suite = Suite();
   suite.requests.addAll([
     _getStrings(10, null),
-    _getStrings(10, "x"),
+    _getStrings(10, 'x'),
     _setStrings(10, null),
-    _setStrings(10, "x"),
+    _setStrings(10, 'x'),
     _hasStrings(10, null),
-    _hasStrings(10, "x"),
+    _hasStrings(10, 'x'),
   ]);
 
   return suite;

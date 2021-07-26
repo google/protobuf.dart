@@ -20,7 +20,7 @@ class NamedLocation {
 class IndentingWriter {
   final StringBuffer _buffer = StringBuffer();
   final GeneratedCodeInfo sourceLocationInfo = GeneratedCodeInfo();
-  String _indent = "";
+  String _indent = '';
   bool _needIndent = true;
   // After writing any chunk, _previousOffset is the size of everything that was
   // written to the buffer before the latest call to print or addBlock.

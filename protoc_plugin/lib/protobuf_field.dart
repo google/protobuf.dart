@@ -84,7 +84,7 @@ class ProtobufField {
 
   /// True if this field uses the Int64 from the fixnum package.
   bool get needsFixnumImport =>
-      baseType.unprefixed == "$_fixnumImportPrefix.Int64";
+      baseType.unprefixed == '$_fixnumImportPrefix.Int64';
 
   /// True if this field is a map field definition:
   /// `map<key_type, value_type> map_field = N`.
@@ -140,7 +140,7 @@ class ProtobufField {
     } else if (isRepeated) {
       prefix = 'P';
     }
-    return "$_protobufImportPrefix.PbFieldType." +
+    return '$_protobufImportPrefix.PbFieldType.' +
         prefix +
         baseType.typeConstantSuffix;
   }
@@ -290,20 +290,20 @@ class ProtobufField {
   /// Returns "null" if unavailable, in which case FieldSet._getDefault()
   /// should be called instead.
   String getDefaultExpr() {
-    if (isRepeated) return "null";
+    if (isRepeated) return 'null';
     switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
-        return _getDefaultAsBoolExpr("false");
+        return _getDefaultAsBoolExpr('false');
       case FieldDescriptorProto_Type.TYPE_INT32:
       case FieldDescriptorProto_Type.TYPE_UINT32:
       case FieldDescriptorProto_Type.TYPE_SINT32:
       case FieldDescriptorProto_Type.TYPE_FIXED32:
       case FieldDescriptorProto_Type.TYPE_SFIXED32:
-        return _getDefaultAsInt32Expr("0");
+        return _getDefaultAsInt32Expr('0');
       case FieldDescriptorProto_Type.TYPE_STRING:
         return _getDefaultAsStringExpr("''");
       default:
-        return "null";
+        return 'null';
     }
   }
 
@@ -377,7 +377,7 @@ class ProtobufField {
         }
         return null;
       default:
-        throw _typeNotImplemented("generatedDefaultFunction");
+        throw _typeNotImplemented('generatedDefaultFunction');
     }
   }
 
@@ -406,13 +406,13 @@ class ProtobufField {
   bool _hasBooleanOption(Extension extension) =>
       descriptor?.options?.getExtension(extension) as bool ?? false;
 
-  String get _invalidDefaultValue => "dart-protoc-plugin:"
-      " invalid default value (${descriptor.defaultValue})"
-      " found in field $fullName";
+  String get _invalidDefaultValue => 'dart-protoc-plugin:'
+      ' invalid default value (${descriptor.defaultValue})'
+      ' found in field $fullName';
 
-  String _typeNotImplemented(String methodName) => "dart-protoc-plugin:"
-      " $methodName not implemented for type (${descriptor.type})"
-      " found in field $fullName";
+  String _typeNotImplemented(String methodName) => 'dart-protoc-plugin:'
+      ' $methodName not implemented for type (${descriptor.type})'
+      ' found in field $fullName';
 
   static final RegExp _upperCase = RegExp('[A-Z]');
 

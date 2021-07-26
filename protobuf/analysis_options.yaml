@@ -3,4 +3,5 @@ include: package:pedantic/analysis_options.yaml
 linter:
   rules:
     directives_ordering: true
+    prefer_single_quotes: true
     prefer_spread_collections: false
