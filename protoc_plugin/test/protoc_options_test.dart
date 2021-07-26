@@ -5,10 +5,8 @@
 
 // @dart=2.11
 
-library protoc_options_test;
-
-import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:protoc_plugin/protoc.dart';
+import 'package:protoc_plugin/src/plugin.pb.dart';
 import 'package:test/test.dart';
 
 void main() {

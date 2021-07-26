@@ -5,8 +5,6 @@
 
 // @dart=2.11
 
-library map_field_test;
-
 import 'dart:convert';
 
 import 'package:protobuf/protobuf.dart';

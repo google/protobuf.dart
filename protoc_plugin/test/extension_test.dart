@@ -5,19 +5,16 @@
 
 // @dart=2.11
 
-library extension_test;
-
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import '../out/protos/ExtensionEnumNameConflict.pb.dart';
+import '../out/protos/ExtensionNameConflict.pb.dart';
 import '../out/protos/enum_extension.pb.dart';
 import '../out/protos/extend_unittest.pb.dart';
+import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/nested_extension.pb.dart';
 import '../out/protos/non_nested_extension.pb.dart';
-import '../out/protos/ExtensionNameConflict.pb.dart';
-import '../out/protos/ExtensionEnumNameConflict.pb.dart';
-
 import 'test_util.dart';
 
 Matcher throwsArgError(String expectedMessage) => throwsA(predicate((x) {

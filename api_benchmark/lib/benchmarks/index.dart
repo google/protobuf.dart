@@ -2,23 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.index;
-
 import "../benchmark.dart";
-
+import '../generated/benchmark.pb.dart' as pb;
+import "get_strings.dart";
+import "has_strings.dart";
 import "int32_json.dart";
 import "int64_json.dart";
-import "string_json.dart";
-
 import "repeated_int32_json.dart";
 import "repeated_int64_json.dart";
 import "repeated_string_json.dart";
-
-import "get_strings.dart";
 import "set_strings.dart";
-import "has_strings.dart";
-
-import '../generated/benchmark.pb.dart' as pb;
+import "string_json.dart";
 
 /// Creates the appropriate Benchmark instance for a protobuf.
 Benchmark createBenchmark(pb.Request r) {

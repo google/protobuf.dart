@@ -5,8 +5,6 @@
 
 // @dart=2.11
 
-library protoc_plugin_all_tests;
-
 import 'any_test.dart' as any;
 import 'bazel_test.dart' as bazel;
 import 'client_generator_test.dart' as client_generator;

@@ -2,14 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.vm;
-
 import 'dart:async' show Future;
 import 'dart:io' show File, Directory, Link, Platform, stdout;
 
+import 'benchmarks/index.dart' show createBenchmark;
 import 'data_index.dart'
     show latestVMReportName, pubspecYamlName, pubspecLockName, hostfileName;
-import 'benchmarks/index.dart' show createBenchmark;
 import 'generated/benchmark.pb.dart' as pb;
 import 'report.dart'
     show createPlatform, createPackages, encodeReport, findUpdatedResponse;
@@ -130,7 +128,7 @@ final Directory dataDir = () {
   return d;
 }();
 
-/// Returns the drectory containing the pubspec.yaml file.
+/// Returns the directory containing the pubspec.yaml file.
 final Directory pubspecDir = () {
   for (var d = Directory.current; d.parent != d; d = d.parent) {
     if (File("${d.path}/pubspec.yaml").existsSync()) {

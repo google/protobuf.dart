@@ -4,8 +4,6 @@
 
 // @dart=2.11
 
-library dart_name_test;
-
 import 'package:protoc_plugin/names.dart' as names;
 import 'package:protoc_plugin/src/dart_options.pb.dart';
 import 'package:protoc_plugin/src/descriptor.pb.dart';

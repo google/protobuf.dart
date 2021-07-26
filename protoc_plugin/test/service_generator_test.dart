@@ -5,14 +5,12 @@
 
 // @dart=2.11
 
-library service_generator_test;
-
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';
-import 'service_util.dart';
 
 import 'golden_file.dart';
+import 'service_util.dart';
 
 void main() {
   test('testServiceGenerator', () {

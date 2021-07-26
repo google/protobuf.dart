@@ -2,12 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.dashboard_model;
-
-import 'generated/benchmark.pb.dart' as pb;
-
 import 'package:api_benchmark/benchmark.dart' show Benchmark;
+
 import 'benchmarks/index.dart' show createBenchmark;
+import 'generated/benchmark.pb.dart' as pb;
 
 /// Contains the viewable state of the dashboard. (Immutable.)
 class DashboardModel {

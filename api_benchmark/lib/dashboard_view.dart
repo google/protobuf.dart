@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.html_view;
-
 import 'dart:async' show Stream, StreamController, EventSink;
 import 'dart:html';
 

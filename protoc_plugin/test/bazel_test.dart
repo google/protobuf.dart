@@ -4,8 +4,6 @@
 
 // @dart=2.11
 
-library bazel_test;
-
 import 'package:protoc_plugin/bazel.dart';
 import 'package:test/test.dart';
 

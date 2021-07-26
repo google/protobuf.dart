@@ -5,8 +5,6 @@
 
 // @dart=2.11
 
-library generated_message_test;
-
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 

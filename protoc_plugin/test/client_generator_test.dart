@@ -5,8 +5,6 @@
 
 // @dart=2.11
 
-library client_generator_test;
-
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:test/test.dart';

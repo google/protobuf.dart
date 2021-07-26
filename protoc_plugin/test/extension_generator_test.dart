@@ -5,8 +5,6 @@
 
 // @dart=2.11
 
-library extension_generator_test;
-
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:protoc_plugin/src/descriptor.pb.dart' as pb;

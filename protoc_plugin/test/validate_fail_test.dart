@@ -5,8 +5,6 @@
 
 // @dart=2.11
 
-library validate_fail_test;
-
 import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 

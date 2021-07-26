@@ -2,22 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.html_runner;
-
 import 'dart:async' show Future;
 import 'dart:convert';
 import 'dart:html';
 import 'dart:js' show context, JsObject;
 
-import 'generated/benchmark.pb.dart' as pb;
-
 import 'package:api_benchmark/benchmark.dart' show Profiler;
-import 'dashboard_model.dart' show DashboardModel, Table, SelectEvent;
-import 'dashboard_view.dart' show DashboardView;
+import 'package:api_benchmark/data_index.dart' as data;
 import 'package:api_benchmark/report.dart' show createPlatform, createPackages;
 import 'package:api_benchmark/suite.dart' show runSuite;
 
-import 'package:api_benchmark/data_index.dart' as data;
+import 'dashboard_model.dart' show DashboardModel, Table, SelectEvent;
+import 'dashboard_view.dart' show DashboardView;
+import 'generated/benchmark.pb.dart' as pb;
 
 /// Displays a dashboard that can be used to run benchmarks.
 Future showDashboard(pb.Suite suite, Element container) async {
