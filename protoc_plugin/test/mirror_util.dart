@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 library mirror_util;
 
 import 'dart:mirrors';
@@ -11,8 +9,8 @@ import 'dart:mirrors';
 /// Returns the names of the public properties and methods on a class.
 /// (Also visits its superclasses, recursively.)
 Set<String> findMemberNames(String importName, Symbol classSymbol) {
-  var lib = currentMirrorSystem().libraries[Uri.parse(importName)];
-  ClassMirror cls = lib.declarations[classSymbol];
+  var lib = currentMirrorSystem().libraries[Uri.parse(importName)]!;
+  var cls = lib.declarations[classSymbol] as ClassMirror?;
 
   var result = <String>{};
 

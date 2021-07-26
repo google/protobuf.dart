@@ -122,7 +122,7 @@ class ServiceGenerator {
     var mg = _deps[fqname];
     if (mg == null) {
       var location = _undefinedDeps[fqname];
-      throw 'FAILURE: Unknown type reference (${fqname}) for ${location}';
+      throw 'FAILURE: Unknown type reference ($fqname) for $location';
     }
     if (forMainFile && fileGen.protoFileUri == mg.fileGen.protoFileUri) {
       // If it's the same file, we import it without using "as".
@@ -229,7 +229,7 @@ class ServiceGenerator {
     }
 
     out.println('@$_coreImportPrefix.Deprecated'
-        '(\'Use ${binaryDescriptorName} instead\')');
+        '(\'Use $binaryDescriptorName instead\')');
     out.addBlock(
         "const $_coreImportPrefix.Map<$_coreImportPrefix.String,"
             " $_coreImportPrefix.Map<$_coreImportPrefix.String,"

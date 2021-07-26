@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 library one_of_test;
 
 import 'package:protobuf/protobuf.dart';
@@ -165,11 +163,11 @@ void main() {
   test('copyWith preserves oneof state', () {
     var foo = Foo();
     expectOneofNotSet(foo);
-    var copy1 = foo.deepCopy().freeze().rebuild((_) {});
+    var copy1 = foo.deepCopy().freeze().rebuild((_) {}) as Foo;
     expectOneofNotSet(copy1);
-    foo..first = 'oneof';
+    foo.first = 'oneof';
     expectFirstSet(foo);
-    var copy2 = foo.deepCopy().freeze().rebuild((_) {});
+    var copy2 = foo.deepCopy().freeze().rebuild((_) {}) as Foo;
     expectFirstSet(copy2);
   });
 

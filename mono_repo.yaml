@@ -9,6 +9,5 @@ github:
       - cron: "0 0 * * 0"
 
 merge_stages:
-- format
-- analyze
+- format_analyze
 - run_tests

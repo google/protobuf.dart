@@ -10,7 +10,7 @@ dependencies:
   fixnum: ^1.0.0
   path: ^1.8.0
   protobuf: ^2.0.0
-  dart_style: ^1.0.6
+  dart_style: ^2.0.0
 
 dev_dependencies:
   test: ^1.16.0

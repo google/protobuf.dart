@@ -7,9 +7,10 @@ library protoc.benchmark.html_view;
 import 'dart:async' show Stream, StreamController, EventSink;
 import 'dart:html';
 
-import 'generated/benchmark.pb.dart' as pb;
 import 'package:api_benchmark/dashboard_model.dart';
 import 'package:api_benchmark/report.dart' show encodeReport;
+
+import 'generated/benchmark.pb.dart' as pb;
 
 /// A dashboard allowing the user to run a benchmark suite and compare the
 /// results to any saved report.
@@ -235,7 +236,7 @@ class _JsonView {
 class _Menu {
   final SelectElement elt;
   final _changes = StreamController<String>.broadcast();
-  final _options = List<_MenuOption>();
+  final _options = <_MenuOption>[];
 
   _Menu(this.elt) {
     elt.onChange.listen((e) => _changes.add(elt.value));

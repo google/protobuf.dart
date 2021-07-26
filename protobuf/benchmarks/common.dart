@@ -71,7 +71,7 @@ class Factories {
   final FromJsonFactory fromJson;
 
   static Factories forMessage(String name) =>
-      _factories[name] ?? (throw 'Unsupported message: ${name}');
+      _factories[name] ?? (throw 'Unsupported message: $name');
 
   /// Mapping between [BenchmarkProto.messageName] and corresponding
   /// deserialization factories.
@@ -93,7 +93,7 @@ class Factories {
         fromJson: (String json) => GoogleMessage4.fromJson(json)),
   };
 
-  Factories._({this.fromBuffer, this.fromJson});
+  Factories._({required this.fromBuffer, required this.fromJson});
 }
 
 /// Base for all protobuf benchmarks.

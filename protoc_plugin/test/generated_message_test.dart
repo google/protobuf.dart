@@ -10,20 +10,19 @@ library generated_message_test;
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
+import '../out/protos/duplicate_names_import.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
 import '../out/protos/multiple_files_test.pb.dart';
-import '../out/protos/reserved_names.pb.dart';
-import '../out/protos/reserved_names_extension.pb.dart';
-import '../out/protos/reserved_names_message.pb.dart';
-import '../out/protos/duplicate_names_import.pb.dart';
 import '../out/protos/package1.pb.dart' as p1;
 import '../out/protos/package2.pb.dart' as p2;
 import '../out/protos/package3.pb.dart' as p3;
-import '../out/protos/toplevel_import.pb.dart' as t;
+import '../out/protos/reserved_names.pb.dart';
+import '../out/protos/reserved_names_extension.pb.dart';
+import '../out/protos/reserved_names_message.pb.dart';
 import '../out/protos/toplevel.pb.dart';
-
+import '../out/protos/toplevel_import.pb.dart' as t;
 import 'test_util.dart';
 
 void main() {
@@ -862,7 +861,7 @@ void main() {
       ..optionalForeignMessage = (ForeignMessage()..c = 18)
       ..freeze();
     final value2 = value1.rebuild((v) {
-      v..optionalFloat = 50.1;
+      v.optionalFloat = 50.1;
     });
     expect(value2.isFrozen, true);
     expect(value2.optionalFloat, 50.1);

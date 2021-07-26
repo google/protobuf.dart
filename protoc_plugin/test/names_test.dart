@@ -6,10 +6,10 @@
 
 library dart_name_test;
 
-import 'package:test/test.dart';
 import 'package:protoc_plugin/names.dart' as names;
-import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protoc_plugin/src/dart_options.pb.dart';
+import 'package:protoc_plugin/src/descriptor.pb.dart';
+import 'package:test/test.dart';
 
 import '../out/protos/dart_name.pb.dart' as pb;
 import '../out/protos/json_name.pb.dart' as json_name;
@@ -87,8 +87,8 @@ void main() {
   });
 
   test('message classes renamed to avoid Function keyword', () {
-    pb.Function_()..fun = 'renamed';
-    pb.Function__()..fun1 = 'also renamed';
+    pb.Function_().fun = 'renamed';
+    pb.Function__().fun1 = 'also renamed';
   });
 
   test('disambiguateName', () {
