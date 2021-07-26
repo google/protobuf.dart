@@ -4,7 +4,7 @@
 
 // @dart=2.11
 
-part of 'protoc.dart';
+part of '../protoc.dart';
 
 class ProtobufField {
   static final RegExp HEX_LITERAL_REGEX =

@@ -7,8 +7,9 @@
 import 'dart:math' as math;
 
 import 'package:protobuf/meta.dart';
-import 'package:protoc_plugin/src/generated/dart_options.pb.dart';
-import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
+
+import 'src/generated/dart_options.pb.dart';
+import 'src/generated/descriptor.pb.dart';
 
 class MemberNames {
   List<FieldNames> fieldNames;

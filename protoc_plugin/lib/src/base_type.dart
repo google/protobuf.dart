@@ -4,7 +4,7 @@
 
 // @dart=2.11
 
-part of 'protoc.dart';
+part of '../protoc.dart';
 
 /// Represents the base type of a particular field in a proto definition.
 /// (Doesn't include List<> for repeated fields.)
