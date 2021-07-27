@@ -2,17 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protoc;
+// @dart=2.11
+
+part of '../protoc.dart';
 
 class ProtobufField {
-  static final RegExp HEX_LITERAL_REGEX =
+  static final RegExp _hexLiteralRegex =
       RegExp(r'^0x[0-9a-f]+$', multiLine: false, caseSensitive: false);
-  static final RegExp INTEGER_LITERAL_REGEX = RegExp(r'^[+-]?[0-9]+$');
-  static final RegExp DECIMAL_LITERAL_REGEX_A = RegExp(
+  static final RegExp _integerLiteralRegex = RegExp(r'^[+-]?[0-9]+$');
+  static final RegExp _decimalLiteralRegexA = RegExp(
       r'^[+-]?([0-9]*)\.[0-9]+(e[+-]?[0-9]+)?$',
       multiLine: false,
       caseSensitive: false);
-  static final RegExp DECIMAL_LITERAL_REGEX_B = RegExp(
+  static final RegExp _decimalLiteralRegexB = RegExp(
       r'^[+-]?[0-9]+e[+-]?[0-9]+$',
       multiLine: false,
       caseSensitive: false);
@@ -33,10 +35,9 @@ class ProtobufField {
       ProtobufContainer parent, GenerationContext ctx)
       : this._(descriptor, null, parent, ctx);
 
-  ProtobufField._(FieldDescriptorProto descriptor, FieldNames dartNames,
+  ProtobufField._(this.descriptor, FieldNames dartNames,
       ProtobufContainer parent, GenerationContext ctx)
-      : descriptor = descriptor,
-        memberNames = dartNames,
+      : memberNames = dartNames,
         fullName = '${parent.fullName}.${descriptor.name}',
         baseType = BaseType(descriptor, ctx);
 
@@ -82,7 +83,7 @@ class ProtobufField {
 
   /// True if this field uses the Int64 from the fixnum package.
   bool get needsFixnumImport =>
-      baseType.unprefixed == "$_fixnumImportPrefix.Int64";
+      baseType.unprefixed == '$_fixnumImportPrefix.Int64';
 
   /// True if this field is a map field definition:
   /// `map<key_type, value_type> map_field = N`.
@@ -119,7 +120,7 @@ class ProtobufField {
       final d = baseType.generator as MessageGenerator;
       var keyType = d._fieldList[0].baseType.getDartType(fileGen);
       var valueType = d._fieldList[1].baseType.getDartType(fileGen);
-      return '$_coreImportPrefix.Map<$keyType, $valueType>';
+      return '$coreImportPrefix.Map<$keyType, $valueType>';
     }
     if (isRepeated) return baseType.getRepeatedDartType(fileGen);
     return baseType.getDartType(fileGen);
@@ -138,7 +139,7 @@ class ProtobufField {
     } else if (isRepeated) {
       prefix = 'P';
     }
-    return "$_protobufImportPrefix.PbFieldType." +
+    return '$protobufImportPrefix.PbFieldType.' +
         prefix +
         baseType.typeConstantSuffix;
   }
@@ -159,7 +160,7 @@ class ProtobufField {
         args.add('$key: $value');
       }
     });
-    return '${args.join(', ')}';
+    return args.join(', ');
   }
 
   /// Returns Dart code adding this field to a BuilderInfo object.
@@ -203,10 +204,10 @@ class ProtobufField {
       }
       if (package != '') {
         named['packageName'] =
-            'const $_protobufImportPrefix.PackageName(\'$package\')';
+            'const $protobufImportPrefix.PackageName(\'$package\')';
       }
     } else if (isRepeated) {
-      if (typeConstant == '$_protobufImportPrefix.PbFieldType.PS') {
+      if (typeConstant == '$protobufImportPrefix.PbFieldType.PS') {
         invocation = 'pPS';
       } else {
         args.add(typeConstant);
@@ -236,19 +237,18 @@ class ProtobufField {
         invocation = 'e<$type>';
       } else if (makeDefault == null) {
         switch (type) {
-          case '$_coreImportPrefix.String':
-            if (typeConstant == '$_protobufImportPrefix.PbFieldType.OS') {
+          case '$coreImportPrefix.String':
+            if (typeConstant == '$protobufImportPrefix.PbFieldType.OS') {
               invocation = 'aOS';
-            } else if (typeConstant ==
-                '$_protobufImportPrefix.PbFieldType.QS') {
+            } else if (typeConstant == '$protobufImportPrefix.PbFieldType.QS') {
               invocation = 'aQS';
             } else {
               invocation = 'a<$type>';
               args.add(typeConstant);
             }
             break;
-          case '$_coreImportPrefix.bool':
-            if (typeConstant == '$_protobufImportPrefix.PbFieldType.OB') {
+          case '$coreImportPrefix.bool':
+            if (typeConstant == '$protobufImportPrefix.PbFieldType.OB') {
               invocation = 'aOB';
             } else {
               invocation = 'a<$type>';
@@ -263,7 +263,7 @@ class ProtobufField {
       } else {
         if (makeDefault == '$_fixnumImportPrefix.Int64.ZERO' &&
             type == '$_fixnumImportPrefix.Int64' &&
-            typeConstant == '$_protobufImportPrefix.PbFieldType.O6') {
+            typeConstant == '$protobufImportPrefix.PbFieldType.O6') {
           invocation = 'aInt64';
         } else {
           if (baseType.isMessage || baseType.isGroup) {
@@ -288,20 +288,20 @@ class ProtobufField {
   /// Returns "null" if unavailable, in which case FieldSet._getDefault()
   /// should be called instead.
   String getDefaultExpr() {
-    if (isRepeated) return "null";
+    if (isRepeated) return 'null';
     switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
-        return _getDefaultAsBoolExpr("false");
+        return _getDefaultAsBoolExpr('false');
       case FieldDescriptorProto_Type.TYPE_INT32:
       case FieldDescriptorProto_Type.TYPE_UINT32:
       case FieldDescriptorProto_Type.TYPE_SINT32:
       case FieldDescriptorProto_Type.TYPE_FIXED32:
       case FieldDescriptorProto_Type.TYPE_SFIXED32:
-        return _getDefaultAsInt32Expr("0");
+        return _getDefaultAsInt32Expr('0');
       case FieldDescriptorProto_Type.TYPE_STRING:
         return _getDefaultAsStringExpr("''");
       default:
-        return "null";
+        return 'null';
     }
   }
 
@@ -322,18 +322,18 @@ class ProtobufField {
             '0' == descriptor.defaultValue) {
           return null;
         } else if (descriptor.defaultValue == 'inf') {
-          return '$_coreImportPrefix.double.infinity';
+          return '$coreImportPrefix.double.infinity';
         } else if (descriptor.defaultValue == '-inf') {
-          return '$_coreImportPrefix.double.negativeInfinity';
+          return '$coreImportPrefix.double.negativeInfinity';
         } else if (descriptor.defaultValue == 'nan') {
-          return '$_coreImportPrefix.double.nan';
-        } else if (HEX_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
+          return '$coreImportPrefix.double.nan';
+        } else if (_hexLiteralRegex.hasMatch(descriptor.defaultValue)) {
           return '(${descriptor.defaultValue}).toDouble()';
-        } else if (INTEGER_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
+        } else if (_integerLiteralRegex.hasMatch(descriptor.defaultValue)) {
           return '${descriptor.defaultValue}.0';
-        } else if (DECIMAL_LITERAL_REGEX_A.hasMatch(descriptor.defaultValue) ||
-            DECIMAL_LITERAL_REGEX_B.hasMatch(descriptor.defaultValue)) {
-          return '${descriptor.defaultValue}';
+        } else if (_decimalLiteralRegexA.hasMatch(descriptor.defaultValue) ||
+            _decimalLiteralRegexB.hasMatch(descriptor.defaultValue)) {
+          return descriptor.defaultValue;
         }
         throw _invalidDefaultValue;
       case FieldDescriptorProto_Type.TYPE_INT32:
@@ -350,7 +350,7 @@ class ProtobufField {
         var value = '0';
         if (descriptor.hasDefaultValue()) value = descriptor.defaultValue;
         if (value == '0') return '$_fixnumImportPrefix.Int64.ZERO';
-        return "$_protobufImportPrefix.parseLongInt('$value')";
+        return "$protobufImportPrefix.parseLongInt('$value')";
       case FieldDescriptorProto_Type.TYPE_STRING:
         return _getDefaultAsStringExpr(null);
       case FieldDescriptorProto_Type.TYPE_BYTES:
@@ -360,7 +360,7 @@ class ProtobufField {
         var byteList = descriptor.defaultValue.codeUnits
             .map((b) => '0x${b.toRadixString(16)}')
             .join(',');
-        return '() => <$_coreImportPrefix.int>[$byteList]';
+        return '() => <$coreImportPrefix.int>[$byteList]';
       case FieldDescriptorProto_Type.TYPE_GROUP:
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
         return '${baseType.getDartType(fileGen)}.getDefault';
@@ -375,13 +375,13 @@ class ProtobufField {
         }
         return null;
       default:
-        throw _typeNotImplemented("generatedDefaultFunction");
+        throw _typeNotImplemented('generatedDefaultFunction');
     }
   }
 
   String _getDefaultAsBoolExpr(String noDefault) {
     if (descriptor.hasDefaultValue() && 'false' != descriptor.defaultValue) {
-      return '${descriptor.defaultValue}';
+      return descriptor.defaultValue;
     }
     return noDefault;
   }
@@ -396,7 +396,7 @@ class ProtobufField {
 
   String _getDefaultAsInt32Expr(String noDefault) {
     if (descriptor.hasDefaultValue() && '0' != descriptor.defaultValue) {
-      return '${descriptor.defaultValue}';
+      return descriptor.defaultValue;
     }
     return noDefault;
   }
@@ -404,13 +404,13 @@ class ProtobufField {
   bool _hasBooleanOption(Extension extension) =>
       descriptor?.options?.getExtension(extension) as bool ?? false;
 
-  String get _invalidDefaultValue => "dart-protoc-plugin:"
-      " invalid default value (${descriptor.defaultValue})"
-      " found in field $fullName";
+  String get _invalidDefaultValue => 'dart-protoc-plugin:'
+      ' invalid default value (${descriptor.defaultValue})'
+      ' found in field $fullName';
 
-  String _typeNotImplemented(String methodName) => "dart-protoc-plugin:"
-      " $methodName not implemented for type (${descriptor.type})"
-      " found in field $fullName";
+  String _typeNotImplemented(String methodName) => 'dart-protoc-plugin:'
+      ' $methodName not implemented for type (${descriptor.type})'
+      ' found in field $fullName';
 
   static final RegExp _upperCase = RegExp('[A-Z]');
 

@@ -2,7 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protoc;
+// @dart=2.11
+
+import '../protoc.dart' show FileGenerator;
+import 'code_generator.dart';
+import 'options.dart';
 
 /// Resolves all cross-references in a set of proto files.
 void link(GenerationOptions options, Iterable<FileGenerator> files) {

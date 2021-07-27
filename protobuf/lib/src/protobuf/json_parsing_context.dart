@@ -25,8 +25,8 @@ class JsonParsingContext {
   }
 
   /// Returns a FormatException indicating the indices to the current [path].
-  Exception parseException(String message, Object source) {
-    var formattedPath = _path.map((s) => '[\"$s\"]').join();
+  Exception parseException(String message, Object? source) {
+    var formattedPath = _path.map((s) => '["$s"]').join();
     return FormatException(
         'Protobuf JSON decoding failed at: root$formattedPath. $message',
         source);

@@ -3,8 +3,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library pb_list_tests;
-
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
@@ -46,9 +44,9 @@ void main() {
     expect(lb1.last, 6);
 
     var count = 0;
-    lb1.forEach((int i) {
+    for (var i in lb1) {
       count += i;
-    });
+    }
     expect(count, 108);
 
     bool isEven(int i) => i % 2 == 0;

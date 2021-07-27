@@ -2,19 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.html_view;
-
 import 'dart:async' show Stream, StreamController, EventSink;
 import 'dart:html';
 
+import 'dashboard_model.dart';
 import 'generated/benchmark.pb.dart' as pb;
-import 'package:api_benchmark/dashboard_model.dart';
-import 'package:api_benchmark/report.dart' show encodeReport;
+import 'report.dart' show encodeReport;
 
 /// A dashboard allowing the user to run a benchmark suite and compare the
 /// results to any saved report.
 class DashboardView {
-  static const noBaseline = "<none>";
+  static const noBaseline = '<none>';
 
   static final _template = DivElement()
     ..innerHtml = '''
@@ -82,8 +80,8 @@ Choose baseline: <select class="dv-menu"></select>
     return DashboardView._raw(
         elt,
         button('.dv-run')
-          ..elt.style.color = "#FFFFFF"
-          ..elt.style.backgroundColor = "rgb(209, 72, 64)",
+          ..elt.style.color = '#FFFFFF'
+          ..elt.style.backgroundColor = 'rgb(209, 72, 64)',
         button('.dv-select-all'),
         button('.dv-select-none'),
         label('.dv-status'),
@@ -102,20 +100,20 @@ Choose baseline: <select class="dv-menu"></select>
       _selectionChanges.stream;
 
   void render(DashboardModel model) {
-    _runButton.render("Run", model.canRun);
-    _selectAllButton.render("Select All", true);
-    _selectNoneButton.render("Select None", true);
+    _runButton.render('Run', model.canRun);
+    _selectAllButton.render('Select All', true);
+    _selectNoneButton.render('Select None', true);
     if (!model.latest.hasStatus() || model.latest.status == pb.Status.DONE) {
-      _status.render("");
+      _status.render('');
     } else {
       _status.render(model.latest.status.name);
     }
 
     _renderEnv(model.latest);
 
-    var items = [noBaseline]..addAll(model.savedReports.keys);
+    var items = [noBaseline, ...model.savedReports.keys];
     var selected = model.table.baseline;
-    if (selected == null) selected = noBaseline;
+    selected ??= noBaseline;
     _menu.render(items, model.table.baseline);
 
     _renderResponses(model.table, model.latest);
@@ -160,7 +158,7 @@ class _ResponseView {
   final _baseline = _SampleView();
   final _median = _SampleView();
   final _max = _SampleView();
-  final _count = _Label(TableCellElement()..style.textAlign = "right");
+  final _count = _Label(TableCellElement()..style.textAlign = 'right');
   final _units = _Label(TableCellElement());
 
   _ResponseView() {
@@ -184,14 +182,14 @@ class _ResponseView {
     _baseline.render(b.measureSample(row.baseline));
     _median.render(b.measureSample(b.medianSample(response)));
     _max.render(b.measureSample(b.maxSample(response)));
-    _count.render(response == null ? "0" : "${response.samples.length}");
+    _count.render(response == null ? '0' : '${response.samples.length}');
     _units.render(row.benchmark.measureSampleUnits);
   }
 }
 
 /// A table cell holding the measurement for one sample.
 class _SampleView {
-  final elt = TableCellElement()..style.textAlign = "right";
+  final elt = TableCellElement()..style.textAlign = 'right';
   double _rendered;
 
   void render(double value) {
@@ -201,7 +199,7 @@ class _SampleView {
   }
 
   static String _render(double value) {
-    if (value == 0.0) return "*";
+    if (value == 0.0) return '*';
     return value.toStringAsFixed(0);
   }
 }
@@ -214,7 +212,7 @@ class _JsonView {
 
   void render(pb.Report r) {
     // Don't show JSON while benchmarks are in progress.
-    String json = "";
+    String json = '';
     if (r.status == pb.Status.DONE) {
       json = encodeReport(r);
     }
@@ -222,9 +220,9 @@ class _JsonView {
     if (json == _rendered) return;
 
     elt.children.clear();
-    if (json == "") return;
+    if (json == '') return;
     elt.children.addAll([
-      HeadingElement.h2()..text = "Report data as JSON:",
+      HeadingElement.h2()..text = 'Report data as JSON:',
       PreElement()..text = json
     ]);
     _rendered = json;
@@ -235,7 +233,7 @@ class _JsonView {
 class _Menu {
   final SelectElement elt;
   final _changes = StreamController<String>.broadcast();
-  final _options = List<_MenuOption>();
+  final _options = <_MenuOption>[];
 
   _Menu(this.elt) {
     elt.onChange.listen((e) => _changes.add(elt.value));

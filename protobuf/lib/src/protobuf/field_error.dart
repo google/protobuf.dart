@@ -9,7 +9,7 @@ part of protobuf;
 ///
 /// For enums, group, and message fields, this check is only approximate,
 /// because the exact type isn't included in [fieldType].
-String _getFieldError(int fieldType, var value) {
+String? _getFieldError(int fieldType, var value) {
   switch (PbFieldType._baseType(fieldType)) {
     case PbFieldType._BOOL_BIT:
       if (value is! bool) return 'not type bool';
@@ -68,7 +68,7 @@ String _getFieldError(int fieldType, var value) {
 
 // generated checkItem for message, group, enum calls this
 void checkItemFailed(val, String className) {
-  throw ArgumentError('Value ($val) is not an instance of ${className}');
+  throw ArgumentError('Value ($val) is not an instance of $className');
 }
 
 /// Returns a function for validating items in a repeated field.
@@ -107,33 +107,35 @@ CheckFunc getCheckFunction(int fieldType) {
     case PbFieldType._FIXED32_BIT:
       return _checkUnsigned32;
   }
-  throw ArgumentError('check function not implemented: ${fieldType}');
+  throw ArgumentError('check function not implemented: $fieldType');
 }
 
 // check functions for repeated fields
 
-void _checkNotNull(Object val) {
+void _checkNotNull(Object? val) {
   if (val == null) {
     throw ArgumentError("Can't add a null to a repeated field");
   }
 }
 
-void _checkFloat(Object val) {
-  if (!_isFloat32(val)) throw _createFieldRangeError(val, 'a float');
+void _checkFloat(Object? val) {
+  if (!_isFloat32(val as double)) throw _createFieldRangeError(val, 'a float');
 }
 
-void _checkSigned32(Object val) {
-  if (!_isSigned32(val)) throw _createFieldRangeError(val, 'a signed int32');
+void _checkSigned32(Object? val) {
+  if (!_isSigned32(val as int)) {
+    throw _createFieldRangeError(val, 'a signed int32');
+  }
 }
 
-void _checkUnsigned32(Object val) {
-  if (!_isUnsigned32(val)) {
+void _checkUnsigned32(Object? val) {
+  if (!_isUnsigned32(val as int)) {
     throw _createFieldRangeError(val, 'an unsigned int32');
   }
 }
 
 RangeError _createFieldRangeError(val, String wantedType) =>
-    RangeError('Value ($val) is not ${wantedType}');
+    RangeError('Value ($val) is not $wantedType');
 
 bool _isSigned32(int value) => (-2147483648 <= value) && (value <= 2147483647);
 

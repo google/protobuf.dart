@@ -2,14 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.suite.json;
-
 import '../benchmarks/int32_json.dart';
-import '../benchmarks/repeated_int32_json.dart';
 import '../benchmarks/int64_json.dart';
+import '../benchmarks/repeated_int32_json.dart';
 import '../benchmarks/repeated_int64_json.dart';
-import '../benchmarks/string_json.dart';
 import '../benchmarks/repeated_string_json.dart';
+import '../benchmarks/string_json.dart';
 import '../generated/benchmark.pb.dart' show Suite;
 
 final Suite jsonSuite = () {

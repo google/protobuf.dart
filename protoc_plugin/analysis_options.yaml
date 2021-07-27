@@ -1,4 +1,4 @@
-include: package:pedantic/analysis_options.1.9.0.yaml
+include: package:lints/recommended.yaml
 
 analyzer:
   strong-mode:
@@ -6,7 +6,9 @@ analyzer:
 
 linter:
   rules:
-    prefer_single_quotes: false # will be fixed later
-    control_flow_in_finally: true
-    throw_in_finally: true
     camel_case_types: true
+    control_flow_in_finally: true
+    directives_ordering: true
+    prefer_relative_imports: true
+    prefer_single_quotes: true
+    throw_in_finally: true

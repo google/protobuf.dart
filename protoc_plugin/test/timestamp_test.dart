@@ -19,7 +19,7 @@ void main() {
     var dateTime = DateTime.utc(2019, 02, 15, 10, 21, 25, 5, 5);
     var fromProto = Timestamp.fromDateTime(dateTime).toDateTime();
 
-    expect(fromProto.isUtc, true, reason: "$fromProto is not a UTC time.");
+    expect(fromProto.isUtc, true, reason: '$fromProto is not a UTC time.');
     expect(fromProto, dateTime);
   });
 
@@ -27,7 +27,7 @@ void main() {
     var dateTime = DateTime(2019, 02, 15, 10, 21, 25, 5, 5);
     var fromProto = Timestamp.fromDateTime(dateTime).toDateTime();
 
-    expect(fromProto.isUtc, true, reason: "$fromProto is not a UTC time.");
+    expect(fromProto.isUtc, true, reason: '$fromProto is not a UTC time.');
     expect(fromProto, dateTime.toUtc());
   });
 }
