@@ -395,9 +395,9 @@ abstract class GeneratedMessage {
   ///
   /// Throws an [:ArgumentError:] if [value] is [:null:]. To clear a field of
   /// it's current value, use [clearField] instead.
+  @pragma('dart2js:noInline')
   void setField(int tagNumber, value) {
     _fieldSet._setField(tagNumber, value);
-    return; // ignore: dead_code
   }
 
   /// For generated code only.
