@@ -111,9 +111,9 @@ Choose baseline: <select class="dv-menu"></select>
 
     _renderEnv(model.latest);
 
-    var items = [noBaseline]..addAll(model.savedReports.keys);
+    var items = [noBaseline, ...model.savedReports.keys];
     var selected = model.table.baseline;
-    if (selected == null) selected = noBaseline;
+    selected ??= noBaseline;
     _menu.render(items, model.table.baseline);
 
     _renderResponses(model.table, model.latest);

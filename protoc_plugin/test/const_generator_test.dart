@@ -29,7 +29,7 @@ void main() {
     expect(toConst(r'hello $world'), r"'hello \$world'");
     expect(toConst("She said, 'hello.'"), r"'She said, \'hello.\''");
     expect(toConst('single: \' double: "'), r"""'single: \' double: "'""");
-    expect(toConst("""single: ' double: '' triple: \'\'\'"""),
+    expect(toConst("""single: ' double: '' triple: '''"""),
         r"'single: \' double: \'\' triple: \'\'\''");
     expect(toConst("""single: ' double: " triples: ''' and \"\"\"!"""),
         r"""'single: \' double: " triples: \'\'\' and """ '"""!\'');

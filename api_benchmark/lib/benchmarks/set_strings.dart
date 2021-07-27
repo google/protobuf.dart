@@ -83,8 +83,8 @@ class SetStringsBenchmark extends Benchmark {
   }
 
   @override
-  void setCounts(Sample s) {
-    s.counts.stringWrites = width * height * s.loopCount;
+  void setCounts(Sample m) {
+    m.counts.stringWrites = width * height * m.loopCount;
   }
 
   @override
@@ -98,7 +98,7 @@ class SetStringsBenchmark extends Benchmark {
 
   static SetStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());
-    var value = null;
+    String value;
     if (r.params.hasStringValue()) value = r.params.stringValue;
     return SetStringsBenchmark(r.params.messageCount, value);
   }

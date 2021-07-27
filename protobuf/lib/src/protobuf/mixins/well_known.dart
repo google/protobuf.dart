@@ -499,7 +499,7 @@ abstract class FieldMaskMixin {
 
   static String _toCamelCase(String name) {
     return name.replaceAllMapped(
-        RegExp('_([a-z])'), (Match m) => '${m.group(1)!.toUpperCase()}');
+        RegExp('_([a-z])'), (Match m) => m.group(1)!.toUpperCase());
   }
 
   static String _fromCamelCase(String name) {

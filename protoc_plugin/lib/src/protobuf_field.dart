@@ -7,14 +7,14 @@
 part of '../protoc.dart';
 
 class ProtobufField {
-  static final RegExp HEX_LITERAL_REGEX =
+  static final RegExp _hexLiteralRegex =
       RegExp(r'^0x[0-9a-f]+$', multiLine: false, caseSensitive: false);
-  static final RegExp INTEGER_LITERAL_REGEX = RegExp(r'^[+-]?[0-9]+$');
-  static final RegExp DECIMAL_LITERAL_REGEX_A = RegExp(
+  static final RegExp _integerLiteralRegex = RegExp(r'^[+-]?[0-9]+$');
+  static final RegExp _decimalLiteralRegexA = RegExp(
       r'^[+-]?([0-9]*)\.[0-9]+(e[+-]?[0-9]+)?$',
       multiLine: false,
       caseSensitive: false);
-  static final RegExp DECIMAL_LITERAL_REGEX_B = RegExp(
+  static final RegExp _decimalLiteralRegexB = RegExp(
       r'^[+-]?[0-9]+e[+-]?[0-9]+$',
       multiLine: false,
       caseSensitive: false);
@@ -35,10 +35,9 @@ class ProtobufField {
       ProtobufContainer parent, GenerationContext ctx)
       : this._(descriptor, null, parent, ctx);
 
-  ProtobufField._(FieldDescriptorProto descriptor, FieldNames dartNames,
+  ProtobufField._(this.descriptor, FieldNames dartNames,
       ProtobufContainer parent, GenerationContext ctx)
-      : descriptor = descriptor,
-        memberNames = dartNames,
+      : memberNames = dartNames,
         fullName = '${parent.fullName}.${descriptor.name}',
         baseType = BaseType(descriptor, ctx);
 
@@ -161,7 +160,7 @@ class ProtobufField {
         args.add('$key: $value');
       }
     });
-    return '${args.join(', ')}';
+    return args.join(', ');
   }
 
   /// Returns Dart code adding this field to a BuilderInfo object.
@@ -328,13 +327,13 @@ class ProtobufField {
           return '$coreImportPrefix.double.negativeInfinity';
         } else if (descriptor.defaultValue == 'nan') {
           return '$coreImportPrefix.double.nan';
-        } else if (HEX_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
+        } else if (_hexLiteralRegex.hasMatch(descriptor.defaultValue)) {
           return '(${descriptor.defaultValue}).toDouble()';
-        } else if (INTEGER_LITERAL_REGEX.hasMatch(descriptor.defaultValue)) {
+        } else if (_integerLiteralRegex.hasMatch(descriptor.defaultValue)) {
           return '${descriptor.defaultValue}.0';
-        } else if (DECIMAL_LITERAL_REGEX_A.hasMatch(descriptor.defaultValue) ||
-            DECIMAL_LITERAL_REGEX_B.hasMatch(descriptor.defaultValue)) {
-          return '${descriptor.defaultValue}';
+        } else if (_decimalLiteralRegexA.hasMatch(descriptor.defaultValue) ||
+            _decimalLiteralRegexB.hasMatch(descriptor.defaultValue)) {
+          return descriptor.defaultValue;
         }
         throw _invalidDefaultValue;
       case FieldDescriptorProto_Type.TYPE_INT32:
@@ -382,7 +381,7 @@ class ProtobufField {
 
   String _getDefaultAsBoolExpr(String noDefault) {
     if (descriptor.hasDefaultValue() && 'false' != descriptor.defaultValue) {
-      return '${descriptor.defaultValue}';
+      return descriptor.defaultValue;
     }
     return noDefault;
   }
@@ -397,7 +396,7 @@ class ProtobufField {
 
   String _getDefaultAsInt32Expr(String noDefault) {
     if (descriptor.hasDefaultValue() && '0' != descriptor.defaultValue) {
-      return '${descriptor.defaultValue}';
+      return descriptor.defaultValue;
     }
     return noDefault;
   }

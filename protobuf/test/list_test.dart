@@ -44,9 +44,9 @@ void main() {
     expect(lb1.last, 6);
 
     var count = 0;
-    lb1.forEach((int i) {
+    for (var i in lb1) {
       count += i;
-    });
+    }
     expect(count, 108);
 
     bool isEven(int i) => i % 2 == 0;

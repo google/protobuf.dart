@@ -16,4 +16,4 @@ dev_dependencies:
   test: ^1.16.0
   benchmark_harness: ^2.0.0
   js: ^0.6.3
-  pedantic: ^1.10.0
+  lints: ^1.0.0

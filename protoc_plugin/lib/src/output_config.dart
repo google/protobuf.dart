@@ -32,8 +32,8 @@ class DefaultOutputConfiguration extends OutputConfiguration {
   const DefaultOutputConfiguration();
 
   @override
-  Uri outputPathFor(Uri input, String extension) {
-    var base = path.withoutExtension(path.url.fromUri(input));
+  Uri outputPathFor(Uri inputPath, String extension) {
+    var base = path.withoutExtension(path.url.fromUri(inputPath));
     return path.url.toUri('$base$extension');
   }
 

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: constant_identifier_names,non_constant_identifier_names
 part of protobuf;
 
 bool _isRepeated(int fieldType) => (fieldType & PbFieldType._REPEATED_BIT) != 0;

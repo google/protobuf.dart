@@ -740,8 +740,9 @@ class _FieldSet {
       }
     }
 
-    _infosSortedByTag.forEach(
-        (FieldInfo fi) => writeFieldValue(_values[fi.index!], fi.name));
+    for (var fi in _infosSortedByTag) {
+      writeFieldValue(_values[fi.index!], fi.name);
+    }
 
     if (_hasExtensions) {
       _extensions!._info.keys.toList()

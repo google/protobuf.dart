@@ -36,7 +36,7 @@ class Int32Benchmark extends Benchmark {
   // 1 2 3 4
   // 2 3 4 5
   static pb.Grid10 _makeGrid(int width, int height) {
-    if (width > 10) throw ArgumentError('width out of range: ${width}');
+    if (width > 10) throw ArgumentError('width out of range: $width');
     var grid = pb.Grid10();
 
     for (int y = 0; y < height; y++) {
@@ -59,12 +59,12 @@ class Int32Benchmark extends Benchmark {
   void run() {
     pb.Grid10 grid = pb.Grid10.fromJson(json);
     var actual = grid.lines[height - 1].getField(lastFieldTag);
-    if (actual != width + height - 2) throw 'failed; got ${actual}';
+    if (actual != width + height - 2) throw 'failed; got $actual';
   }
 
   @override
-  void setCounts(Sample s) {
-    s.counts.int32Reads = width * height * s.loopCount;
+  void setCounts(Sample m) {
+    m.counts.int32Reads = width * height * m.loopCount;
   }
 
   @override

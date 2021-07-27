@@ -36,10 +36,9 @@ class EnumGenerator extends ProtobufContainer {
   List<int> get fieldPath =>
       _fieldPath ??= List.from(parent.fieldPath)..addAll(_fieldPathSegment);
 
-  EnumGenerator._(EnumDescriptorProto descriptor, ProtobufContainer parent,
+  EnumGenerator._(EnumDescriptorProto descriptor, this.parent,
       Set<String> usedClassNames, int repeatedFieldIndex, int fieldIdTag)
       : assert(parent != null),
-        parent = parent,
         _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
         classname = messageOrEnumClassName(descriptor.name, usedClassNames,
             parent: parent?.classname ?? ''),

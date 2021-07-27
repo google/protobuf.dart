@@ -13,7 +13,7 @@ import '../out/protos/map_enum_value.pb.dart';
 import 'test_util.dart';
 
 void main() {
-  final TEST_ALL_TYPES_JSON = '{"1":101,"2":"102","3":103,"4":"104",'
+  final testAllJsonTypes = '{"1":101,"2":"102","3":103,"4":"104",'
       '"5":105,"6":"106","7":107,"8":"108","9":109,"10":"110","11":111.0,'
       '"12":112.0,"13":true,"14":"115","15":"MTE2","16":{"17":117},'
       '"18":{"1":118},"19":{"1":119},"20":{"1":120},"21":3,"22":6,"23":9,'
@@ -32,7 +32,7 @@ void main() {
   // Checks that message once serialized to JSON
   // matches TEST_ALL_TYPES_JSON massaged with [:.replaceAll(from, to):].
   Matcher expectedJson(String from, String to) {
-    var expectedJson = TEST_ALL_TYPES_JSON.replaceAll(from, to);
+    var expectedJson = testAllJsonTypes.replaceAll(from, to);
     return predicate(
         (GeneratedMessage message) => message.writeToJson() == expectedJson,
         'Incorrect output');
@@ -53,7 +53,7 @@ void main() {
   });
 
   test('testOutput', () {
-    expect(getAllSet().writeToJson(), TEST_ALL_TYPES_JSON);
+    expect(getAllSet().writeToJson(), testAllJsonTypes);
 
     // Test empty list.
     expect(getAllSet()..repeatedBool.clear(),
@@ -74,7 +74,7 @@ void main() {
         expectedJson(':"102",', ':"-9007199254740993",'));
 
     // Quotes, backslashes, and control characters in strings are quoted.
-    expect(getAllSet()..optionalString = 'a\u0000b\u0001cd\\e\"fg',
+    expect(getAllSet()..optionalString = 'a\u0000b\u0001cd\\e"fg',
         expectedJson(':"115",', ':"a\\u0000b\\u0001cd\\\\e\\"fg",'));
   });
 
@@ -97,7 +97,7 @@ void main() {
 
   test('testBase64Decode', () {
     String optionalBytes(String from, String to) {
-      var json = TEST_ALL_TYPES_JSON.replaceAll(from, to);
+      var json = testAllJsonTypes.replaceAll(from, to);
       return String.fromCharCodes(TestAllTypes.fromJson(json).optionalBytes);
     }
 
@@ -146,16 +146,16 @@ void main() {
   });
 
   test('testParse', () {
-    expect(TestAllTypes.fromJson(TEST_ALL_TYPES_JSON), getAllSet());
+    expect(TestAllTypes.fromJson(testAllJsonTypes), getAllSet());
   });
 
   test('testExtensionsOutput', () {
-    expect(getAllExtensionsSet().writeToJson(), TEST_ALL_TYPES_JSON);
+    expect(getAllExtensionsSet().writeToJson(), testAllJsonTypes);
   });
 
   test('testExtensionsParse', () {
     var registry = getExtensionRegistry();
-    expect(TestAllExtensions.fromJson(TEST_ALL_TYPES_JSON, registry),
+    expect(TestAllExtensions.fromJson(testAllJsonTypes, registry),
         getAllExtensionsSet());
   });
 

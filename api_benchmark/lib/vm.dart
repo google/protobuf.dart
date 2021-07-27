@@ -44,7 +44,7 @@ runSuiteInVM(pb.Suite suite) async {
   var tmpFile = File('$outFile.tmp');
   await tmpFile.writeAsString(encodeReport(lastReport));
   await tmpFile.rename(outFile);
-  print('\nWrote result to ${outFile}');
+  print('\nWrote result to $outFile');
 }
 
 String _summarize(pb.Response r) {

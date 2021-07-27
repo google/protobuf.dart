@@ -49,7 +49,7 @@ class Table {
         b.checkRequest(it.current.request);
         baseline = b.medianSample(it.current);
       }
-      rows.add(Row(r, b, baseline, selected: this.selections.contains(r)));
+      rows.add(Row(r, b, baseline, selected: selections.contains(r)));
     }
   }
 
@@ -62,7 +62,7 @@ class Table {
   }
 
   Table withNoneSelected() {
-    return Table._raw(suite, baseline, report, Set<pb.Request>());
+    return Table._raw(suite, baseline, report, <pb.Request>{});
   }
 
   Table withSelection(pb.Request request, bool selected) {
@@ -98,5 +98,6 @@ class SelectEvent<T> {
   final bool selected;
   final T item;
   SelectEvent(this.selected, [this.item]);
+  @override
   toString() => 'SelectEvent($selected, $item)';
 }

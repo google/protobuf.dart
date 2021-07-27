@@ -10,6 +10,7 @@ class ExtensionRegistry {
   final Map<String, Map<int, Extension>> _extensions =
       <String, Map<int, Extension>>{};
 
+  // ignore: constant_identifier_names
   static const ExtensionRegistry EMPTY = _EmptyExtensionRegistry();
 
   /// Stores an [extension] in the registry.
@@ -123,7 +124,7 @@ T _reparseMessage<T extends GeneratedMessage>(
     }
   }
 
-  message._fieldSet._meta.byIndex.forEach((FieldInfo field) {
+  for (var field in message._fieldSet._meta.byIndex) {
     PbList? resultEntries;
     PbList ensureEntries() =>
         resultEntries ??= ensureResult()._fieldSet._values[field.index!];
@@ -134,7 +135,7 @@ T _reparseMessage<T extends GeneratedMessage>(
 
     if (field.isRepeated) {
       final messageEntries = message._fieldSet._values[field.index!];
-      if (messageEntries == null) return;
+      if (messageEntries == null) continue;
       if (field.isGroupOrMessage) {
         for (var i = 0; i < messageEntries.length; i++) {
           final GeneratedMessage entry = messageEntries[i];
@@ -146,7 +147,7 @@ T _reparseMessage<T extends GeneratedMessage>(
       }
     } else if (field is MapFieldInfo) {
       final messageMap = message._fieldSet._values[field.index!];
-      if (messageMap == null) return;
+      if (messageMap == null) continue;
       if (_isGroupOrMessage(field.valueFieldType!)) {
         for (var key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];
@@ -158,14 +159,14 @@ T _reparseMessage<T extends GeneratedMessage>(
       }
     } else if (field.isGroupOrMessage) {
       final messageSubField = message._fieldSet._values[field.index!];
-      if (messageSubField == null) return;
+      if (messageSubField == null) continue;
       final reparsedSubField =
           _reparseMessage<GeneratedMessage>(messageSubField, extensionRegistry);
       if (!identical(messageSubField, reparsedSubField)) {
         ensureResult()._fieldSet._values[field.index!] = reparsedSubField;
       }
     }
-  });
+  }
 
   if (result != null && message.isFrozen) {
     result!.freeze();

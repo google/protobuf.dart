@@ -30,8 +30,8 @@ abstract class PbEventMixin {
 class PbFieldChange {
   final GeneratedMessage? message;
   final FieldInfo info;
-  final oldValue;
-  final newValue;
+  final Object? oldValue;
+  final Object? newValue;
 
   PbFieldChange(this.message, this.info, this.oldValue, this.newValue);
 
@@ -52,10 +52,10 @@ class EventBuffer extends EventPlugin {
   List<PbFieldChange>? _buffer;
 
   @override
-  void attach(GeneratedMessage newParent) {
+  void attach(GeneratedMessage parent) {
     assert(_parent == null);
-    ArgumentError.checkNotNull(newParent, 'newParent');
-    _parent = newParent;
+    ArgumentError.checkNotNull(parent, 'newParent');
+    _parent = parent;
   }
 
   Stream<List<PbFieldChange>> get changes {

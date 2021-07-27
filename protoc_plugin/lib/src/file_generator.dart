@@ -632,6 +632,7 @@ const _ignores = {
   'annotate_overrides',
   'directives_ordering',
   'camel_case_types',
+  'constant_identifier_names',
   'library_prefixes',
   'non_constant_identifier_names',
   'prefer_final_fields',

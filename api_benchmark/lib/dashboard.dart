@@ -93,12 +93,14 @@ class JsProfiler implements Profiler {
 
   int count = 1;
 
+  @override
   startProfile(pb.Request request) {
     var label = '$count-${request.id.name}';
     count++;
     console.callMethod('profile', [label]);
   }
 
+  @override
   endProfile(pb.Sample s) {
     console.callMethod('profileEnd');
     print('profile: $s');

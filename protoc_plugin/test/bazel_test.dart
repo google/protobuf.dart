@@ -9,9 +9,9 @@ import 'package:test/test.dart';
 
 void main() {
   group('BazelOptionParser', () {
-    var optionParser;
+    BazelOptionParser optionParser;
     Map<String, BazelPackage> packages;
-    var errors;
+    List<String> errors;
 
     setUp(() {
       packages = {};
@@ -46,8 +46,8 @@ void main() {
       expect(errors, isEmpty);
       expect(packages.length, 1);
       expect(packages['bar/baz'].name, 'foo');
-      expect(packages['bar/baz'].input_root, 'bar/baz');
-      expect(packages['bar/baz'].output_root, 'wibble/wobble');
+      expect(packages['bar/baz'].inputRoot, 'bar/baz');
+      expect(packages['bar/baz'].outputRoot, 'wibble/wobble');
     });
 
     test('should handle multiple package|path entries', () {
@@ -58,14 +58,14 @@ void main() {
       expect(errors, isEmpty);
       expect(packages.length, 3);
       expect(packages['bar/baz'].name, 'foo');
-      expect(packages['bar/baz'].input_root, 'bar/baz');
-      expect(packages['bar/baz'].output_root, 'wibble/wobble');
+      expect(packages['bar/baz'].inputRoot, 'bar/baz');
+      expect(packages['bar/baz'].outputRoot, 'wibble/wobble');
       expect(packages['b/c/d'].name, 'a');
-      expect(packages['b/c/d'].input_root, 'b/c/d');
-      expect(packages['b/c/d'].output_root, 'e/f');
+      expect(packages['b/c/d'].inputRoot, 'b/c/d');
+      expect(packages['b/c/d'].outputRoot, 'e/f');
       expect(packages['three'].name, 'one.two');
-      expect(packages['three'].input_root, 'three');
-      expect(packages['three'].output_root, 'four/five');
+      expect(packages['three'].inputRoot, 'three');
+      expect(packages['three'].outputRoot, 'four/five');
     });
 
     test('should skip and continue past malformed entries', () {
@@ -90,7 +90,7 @@ void main() {
           'foo|bar/baz|wibble/wobble;foo|bar/baz|womble/wumble', _onError);
       expect(errors.length, 1);
       expect(packages.length, 1);
-      expect(packages['bar/baz'].output_root, 'wibble/wobble');
+      expect(packages['bar/baz'].outputRoot, 'wibble/wobble');
     });
 
     test('should normalize paths', () {
@@ -99,14 +99,14 @@ void main() {
       expect(errors, isEmpty);
       expect(packages.length, 3);
       expect(packages['bar/baz'].name, 'foo');
-      expect(packages['bar/baz'].input_root, 'bar/baz');
-      expect(packages['bar/baz'].output_root, 'quux');
+      expect(packages['bar/baz'].inputRoot, 'bar/baz');
+      expect(packages['bar/baz'].outputRoot, 'quux');
       expect(packages['b'].name, 'a');
-      expect(packages['b'].input_root, 'b');
-      expect(packages['b'].output_root, 'c');
+      expect(packages['b'].inputRoot, 'b');
+      expect(packages['b'].outputRoot, 'c');
       expect(packages['d/e/f'].name, 'c');
-      expect(packages['d/e/f'].input_root, 'd/e/f');
-      expect(packages['d/e/f'].output_root, 'g/h');
+      expect(packages['d/e/f'].inputRoot, 'd/e/f');
+      expect(packages['d/e/f'].outputRoot, 'g/h');
     });
   });
 

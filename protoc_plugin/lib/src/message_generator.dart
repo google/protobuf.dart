@@ -81,14 +81,13 @@ class MessageGenerator extends ProtobufContainer {
 
   MessageGenerator._(
       DescriptorProto descriptor,
-      ProtobufContainer parent,
+      this.parent,
       Map<String, PbMixin> declaredMixins,
       PbMixin defaultMixin,
       this._usedTopLevelNames,
       int repeatedFieldIndex,
       int fieldIdTag)
       : _descriptor = descriptor,
-        parent = parent,
         _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
         classname = messageOrEnumClassName(descriptor.name, _usedTopLevelNames,
             parent: parent?.classname ?? ''),
@@ -411,13 +410,13 @@ class MessageGenerator extends ProtobufContainer {
       out.println('''@$coreImportPrefix.Deprecated(
 'Using this can add significant overhead to your binary. '
 'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-'Will be removed in next major version\')''');
+'Will be removed in next major version')''');
       out.println('$classname clone() =>'
           ' $classname()..mergeFromMessage(this);');
       out.println('''@$coreImportPrefix.Deprecated(
 'Using this can add significant overhead to your binary. '
 'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-'Will be removed in next major version\')''');
+'Will be removed in next major version')''');
       out.println('$classname copyWith(void Function($classname) updates) =>'
           ' super.copyWith((message) => updates(message as $classname))'
           ' as $classname;'
@@ -489,8 +488,9 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   void generateFieldsAccessorsMutators(IndentingWriter out) {
-    _oneofNames
-        .forEach((OneofNames oneof) => generateOneofAccessors(out, oneof));
+    for (var oneof in _oneofNames) {
+      generateOneofAccessors(out, oneof);
+    }
 
     for (var field in _fieldList) {
       out.println();

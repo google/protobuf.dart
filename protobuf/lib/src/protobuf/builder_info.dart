@@ -203,7 +203,9 @@ class BuilderInfo {
 
   // oneof declarations.
   void oo(int oneofIndex, List<int> tags) {
-    tags.forEach((int tag) => oneofs[tag] = oneofIndex);
+    for (var tag in tags) {
+      oneofs[tag] = oneofIndex;
+    }
   }
 
   // Map field.
@@ -237,32 +239,32 @@ class BuilderInfo {
   // Returns the field name for a given tag number, for debugging purposes.
   String? fieldName(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.name : null;
+    return i?.name;
   }
 
   int? fieldType(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.type : null;
+    return i?.type;
   }
 
   MakeDefaultFunc? makeDefault(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.makeDefault : null;
+    return i?.makeDefault;
   }
 
   CreateBuilderFunc? subBuilder(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.subBuilder : null;
+    return i?.subBuilder;
   }
 
   int? tagNumber(String fieldName) {
     var i = byName[fieldName];
-    return i != null ? i.tagNumber : null;
+    return i?.tagNumber;
   }
 
   ValueOfFunc? valueOfFunc(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.valueOf : null;
+    return i?.valueOf;
   }
 
   /// The FieldInfo for each field in tag number order.

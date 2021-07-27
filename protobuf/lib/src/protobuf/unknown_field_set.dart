@@ -182,7 +182,9 @@ class UnknownFieldSet {
 
   void _markReadOnly() {
     if (_isReadOnly) return;
-    _fields.values.forEach((UnknownFieldSetField f) => f._markReadOnly());
+    for (var f in _fields.values) {
+      f._markReadOnly();
+    }
     _isReadOnly = true;
   }
 

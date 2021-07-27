@@ -20,15 +20,15 @@ class FrozenPbList<E> extends PbListBase<E> {
   @override
   set length(int newLength) => throw _unsupported('set length');
   @override
-  void setAll(int at, Iterable<E> iterable) => throw _unsupported('setAll');
+  void setAll(int index, Iterable<E> iterable) => throw _unsupported('setAll');
   @override
-  void add(E? value) => throw _unsupported('add');
+  void add(E? element) => throw _unsupported('add');
   @override
   void addAll(Iterable<E> iterable) => throw _unsupported('addAll');
   @override
   void insert(int index, E element) => throw _unsupported('insert');
   @override
-  void insertAll(int at, Iterable<E> iterable) =>
+  void insertAll(int index, Iterable<E> iterable) =>
       throw _unsupported('insertAll');
   @override
   bool remove(Object? element) => throw _unsupported('remove');
@@ -55,10 +55,10 @@ class FrozenPbList<E> extends PbListBase<E> {
   @override
   void removeRange(int start, int end) => throw _unsupported('removeRange');
   @override
-  void replaceRange(int start, int end, Iterable<E> iterable) =>
+  void replaceRange(int start, int end, Iterable<E> newContents) =>
       throw _unsupported('replaceRange');
   @override
-  void fillRange(int start, int end, [E? fillValue]) =>
+  void fillRange(int start, int end, [E? fill]) =>
       throw _unsupported('fillRange');
 }
 

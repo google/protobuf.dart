@@ -4,7 +4,7 @@
 
 import 'generated/benchmark.pb.dart' as pb;
 
-typedef Benchmark CreateBenchmarkFunc(pb.Request request);
+typedef CreateBenchmarkFunc = Benchmark Function(pb.Request request);
 
 // Describes how to construct a benchmark.
 class BenchmarkType {
@@ -21,7 +21,7 @@ abstract class Profiler {
 /// A benchmark that also reports the counts for various operations.
 /// (A modification of BenchmarkBase from the benchmark_harness library.)
 abstract class Benchmark {
-  static const int _DEFAULT_REPS = 10;
+  static const int _defaultReps = 10;
 
   final pb.BenchmarkID id;
   Benchmark(this.id);
@@ -102,10 +102,10 @@ abstract class Benchmark {
 
   /// Exercises the code and returns the number of repetitions.
   int exercise() {
-    for (int i = 0; i < _DEFAULT_REPS; i++) {
+    for (int i = 0; i < _defaultReps; i++) {
       run();
     }
-    return _DEFAULT_REPS;
+    return _defaultReps;
   }
 
   /// The code being measured.
@@ -133,7 +133,7 @@ abstract class Benchmark {
   /// Returns the sample with the median measurement.
   pb.Sample medianSample(pb.Response response) {
     if (response == null || response.samples.isEmpty) return null;
-    var samples = []..addAll(response.samples);
+    var samples = [...response.samples];
     samples.sort((a, b) {
       return measureSample(a).compareTo(measureSample(b));
     });
@@ -146,7 +146,7 @@ abstract class Benchmark {
     if (response == null) return null;
     pb.Sample best;
     for (var s in response.samples) {
-      if (best == null) best = s;
+      best ??= s;
       if (measureSample(best) < measureSample(s)) {
         best = s;
       }

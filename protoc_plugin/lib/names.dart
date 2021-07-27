@@ -144,7 +144,7 @@ class DartNameOptionException implements Exception {
   final String message;
   DartNameOptionException(this.message);
   @override
-  String toString() => '$message';
+  String toString() => message;
 }
 
 /// Returns a [name] that is not contained in [usedNames] by suffixing it with

@@ -1319,7 +1319,7 @@ void modifyRepeatedExtensions(TestAllExtensions message) {
   message.getExtension(Unittest.repeatedStringExtension)[1] = '515';
   message.getExtension(Unittest.repeatedBytesExtension)[1] = '516'.codeUnits;
 
-  var msg;
+  dynamic msg;
 
   msg = RepeatedGroup_extension();
   msg.a = 517;

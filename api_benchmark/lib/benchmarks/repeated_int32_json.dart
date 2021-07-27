@@ -51,12 +51,12 @@ class RepeatedInt32Benchmark extends Benchmark {
   void run() {
     pb.Grid grid = pb.Grid.fromJson(json);
     var actual = grid.lines[height - 1].cells[width - 1];
-    if (actual != width + height - 2) throw 'failed; got ${actual}';
+    if (actual != width + height - 2) throw 'failed; got $actual';
   }
 
   @override
-  void setCounts(Sample s) {
-    s.counts.int32Reads = width * height * s.loopCount;
+  void setCounts(Sample m) {
+    m.counts.int32Reads = width * height * m.loopCount;
   }
 
   @override

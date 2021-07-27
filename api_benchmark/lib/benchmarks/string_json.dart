@@ -38,7 +38,7 @@ class StringBenchmark extends Benchmark {
   // "12" "23" "34" "45"
   // "23" "34" "45" "56"
   static pb.Grid10 _makeGrid(int width, int height, int stringSize) {
-    if (width > 10) throw ArgumentError('width out of range: ${width}');
+    if (width > 10) throw ArgumentError('width out of range: $width');
     var grid = pb.Grid10();
 
     int zero = '0'.codeUnits[0];
@@ -67,12 +67,12 @@ class StringBenchmark extends Benchmark {
   void run() {
     pb.Grid10 grid = pb.Grid10.fromJson(json);
     var actual = grid.lines[height - 1].getField(lastFieldTag);
-    if (actual.length != stringSize) throw 'failed; got ${actual}';
+    if (actual.length != stringSize) throw 'failed; got $actual';
   }
 
   @override
-  void setCounts(Sample s) {
-    s.counts.stringReads = width * height * s.loopCount;
+  void setCounts(Sample m) {
+    m.counts.stringReads = width * height * m.loopCount;
   }
 
   @override

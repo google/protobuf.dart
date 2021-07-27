@@ -6,6 +6,8 @@
 /// dart-protoc-plugin. (Experimental API; subject to change.)
 library protobuf.meta;
 
+// ignore_for_file: constant_identifier_names
+
 // List of names which cannot be used in a subclass of GeneratedMessage.
 const GeneratedMessage_reservedNames = <String>[
   '==',

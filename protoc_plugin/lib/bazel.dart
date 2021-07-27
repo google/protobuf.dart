@@ -29,12 +29,12 @@ const bazelOptionId = 'BazelPackages';
 
 class BazelPackage {
   final String name;
-  final String input_root;
-  final String output_root;
+  final String inputRoot;
+  final String outputRoot;
 
-  BazelPackage(this.name, String input_root, String output_root)
-      : input_root = p.normalize(input_root),
-        output_root = p.normalize(output_root);
+  BazelPackage(this.name, String inputRoot, String outputRoot)
+      : inputRoot = p.normalize(inputRoot),
+        outputRoot = p.normalize(outputRoot);
 }
 
 /// Parser for the `BazelPackages` option.
@@ -59,18 +59,18 @@ class BazelOptionParser implements SingleOptionParser {
         continue;
       }
       var pkg = BazelPackage(fields[0], fields[1], fields[2]);
-      if (!output.containsKey(pkg.input_root)) {
-        output[pkg.input_root] = pkg;
+      if (!output.containsKey(pkg.inputRoot)) {
+        output[pkg.inputRoot] = pkg;
       } else {
-        var prev = output[pkg.input_root]!;
+        var prev = output[pkg.inputRoot]!;
         if (pkg.name != prev.name) {
-          onError('ERROR: multiple packages with input_root ${pkg.input_root}: '
+          onError('ERROR: multiple packages with input_root ${pkg.inputRoot}: '
               '${prev.name} and ${pkg.name}');
           continue;
         }
-        if (pkg.output_root != prev.output_root) {
+        if (pkg.outputRoot != prev.outputRoot) {
           onError('ERROR: conflicting output_roots for package ${pkg.name}: '
-              '${prev.output_root} and ${pkg.output_root}');
+              '${prev.outputRoot} and ${pkg.outputRoot}');
           continue;
         }
       }
@@ -107,16 +107,16 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
   }
 
   @override
-  Uri outputPathFor(Uri input, String extension) {
-    var pkg = _findPackage(input.path);
+  Uri outputPathFor(Uri inputPath, String extension) {
+    var pkg = _findPackage(inputPath.path);
     if (pkg == null) {
-      throw ArgumentError('Unable to locate package for input $input.');
+      throw ArgumentError('Unable to locate package for input $inputPath.');
     }
 
     // Bazel package-relative paths.
-    var relativeInput = input.path.substring('${pkg.input_root}/'.length);
+    var relativeInput = inputPath.path.substring('${pkg.inputRoot}/'.length);
     var base = p.withoutExtension(relativeInput);
-    var outputPath = p.join(pkg.output_root, '$base$extension');
+    var outputPath = p.join(pkg.outputRoot, '$base$extension');
     return Uri.file(outputPath);
   }
 
@@ -143,7 +143,7 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
   _PackageUri? _packageUriFor(String target) {
     var pkg = _findPackage(target);
     if (pkg == null) return null;
-    var relPath = target.substring(pkg.input_root.length + 1);
+    var relPath = target.substring(pkg.inputRoot.length + 1);
     return _PackageUri(pkg.name, relPath);
   }
 }
