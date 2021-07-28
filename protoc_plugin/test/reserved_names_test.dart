@@ -27,7 +27,7 @@ void main() {
     var actual = Set<String>.from(GeneratedMessage_reservedNames);
     var expected =
         findMemberNames('package:protobuf/protobuf.dart', #GeneratedMessage)
-          // TODO: see https://github.com/dart-lang/protobuf/issues/527
+          // TODO: see https://github.com/google/protobuf.dart/issues/527
           ..removeAll(_oneOffNames);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
@@ -37,7 +37,7 @@ void main() {
     var actual = Set<String>.from(ProtobufEnum_reservedNames);
     var expected =
         findMemberNames('package:protobuf/protobuf.dart', #ProtobufEnum)
-          // TODO: see https://github.com/dart-lang/protobuf/issues/527
+          // TODO: see https://github.com/google/protobuf.dart/issues/527
           ..removeAll(_oneOffNames);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
@@ -46,7 +46,7 @@ void main() {
   test("ReadonlyMessageMixin doesn't add any reserved names", () {
     var mixinNames =
         findMemberNames('package:protobuf/protobuf.dart', #ReadonlyMessageMixin)
-          // TODO: see https://github.com/dart-lang/protobuf/issues/527
+          // TODO: see https://github.com/google/protobuf.dart/issues/527
           ..removeAll(_oneOffNames);
     var reservedNames = Set<String>.from(GeneratedMessage_reservedNames);
     for (var name in mixinNames) {
@@ -64,7 +64,7 @@ void main() {
     var expected = findMemberNames(meta.importFrom, #PbMapMixin)
       ..addAll(findMemberNames('dart:collection', #MapMixin))
       ..removeAll(GeneratedMessage_reservedNames)
-      // TODO: see https://github.com/dart-lang/protobuf/issues/527
+      // TODO: see https://github.com/google/protobuf.dart/issues/527
       ..removeAll(_oneOffNames);
 
     expect(
@@ -77,14 +77,14 @@ void main() {
 
     var expected = findMemberNames(meta.importFrom, #PbEventMixin)
       ..removeAll(GeneratedMessage_reservedNames)
-      // TODO: see https://github.com/dart-lang/protobuf/issues/527
+      // TODO: see https://github.com/google/protobuf.dart/issues/527
       ..removeAll(_oneOffNames);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
   });
 }
 
-// See https://github.com/dart-lang/protobuf/issues/527
+// See https://github.com/google/protobuf.dart/issues/527
 const _oneOffNames = {
   'hash',
   'hashAll',

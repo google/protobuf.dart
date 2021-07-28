@@ -764,7 +764,7 @@ class _FieldSet {
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
   void _mergeFromMessage(_FieldSet other) {
-    // TODO(https://github.com/dart-lang/protobuf/issues/60): Recognize
+    // TODO(https://github.com/google/protobuf.dart/issues/60): Recognize
     // when [this] and [other] are the same protobuf (e.g. from cloning). In
     // this case, we can merge the non-extension fields without field lookups or
     // validation checks.
@@ -894,7 +894,7 @@ class _FieldSet {
       fi._appendInvalidFields(problems, value, prefix);
     }
     // TODO(skybrian): search extensions as well
-    // https://github.com/dart-lang/protobuf/issues/46
+    // https://github.com/google/protobuf.dart/issues/46
   }
 
   /// Makes a shallow copy of all values from [original] to this.
