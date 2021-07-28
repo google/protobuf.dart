@@ -126,4 +126,4 @@ Useful references
 
 * [Main Dart site](https://dart.dev)
 * [Main protobuf site](https://github.com/protocolbuffers/protobuf)
-* [Protobuf runtime support project](https://github.com/dart-lang/protobuf)
+* [Protobuf runtime support project](https://github.com/google/protobuf.dart)

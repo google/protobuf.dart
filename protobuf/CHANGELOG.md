@@ -124,7 +124,7 @@
 ## 0.13.16+1
 
 *   Reverts `0.13.16` which accidentally introduced a breaking change,
-    [#284](https://github.com/dart-lang/protobuf/issues/284). This release is
+    [#284](https://github.com/google/protobuf.dart/issues/284). This release is
     identical to `0.13.15`.
 
 ## 0.13.16
