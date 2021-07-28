@@ -765,7 +765,7 @@ class _FieldSet {
   /// recursively merged.
   void _mergeFromMessage(_FieldSet other) {
     // TODO(https://github.com/google/protobuf.dart/issues/60): Recognize
-    // when [this] and [other] are the same protobuf (e.g. from cloning). In
+    // when `this` and [other] are the same protobuf (e.g. from cloning). In
     // this case, we can merge the non-extension fields without field lookups or
     // validation checks.
 

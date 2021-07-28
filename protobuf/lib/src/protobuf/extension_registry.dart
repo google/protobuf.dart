@@ -35,7 +35,7 @@ class ExtensionRegistry {
     return null;
   }
 
-  /// Returns a shallow copy of [message], with all extensions in [this] parsed
+  /// Returns a shallow copy of [message], with all extensions in `this` parsed
   /// from the unknown fields of [message] and of every nested submessage.
   ///
   /// Extensions already present in [message] will be preserved.

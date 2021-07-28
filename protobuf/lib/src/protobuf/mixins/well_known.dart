@@ -156,7 +156,7 @@ abstract class TimestampMixin {
       seconds.toInt() * Duration.microsecondsPerSecond + nanos ~/ 1000,
       isUtc: true);
 
-  /// Updates [target] to be the time at [datetime].
+  /// Updates [target] to be the time at [dateTime].
   ///
   /// Time zone information will not be preserved.
   static void setFromDateTime(TimestampMixin target, DateTime dateTime) {

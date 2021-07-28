@@ -2,6 +2,7 @@ include: package:lints/recommended.yaml
 
 linter:
   rules:
+    comment_references: true
     directives_ordering: true
     prefer_relative_imports: true
     prefer_single_quotes: true

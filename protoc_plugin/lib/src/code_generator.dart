@@ -85,7 +85,7 @@ class CodeGenerator extends ProtobufContainer {
 
   /// Runs the code generator. The optional [optionParsers] can be used to
   /// change how command line options are parsed (see [parseGenerationOptions]
-  /// for details), and [outputConfiguration] can be used to override where
+  /// for details), and [config] can be used to override where
   /// generated files are created and how imports between generated files are
   /// constructed (see [OutputConfiguration] for details).
   void generate(

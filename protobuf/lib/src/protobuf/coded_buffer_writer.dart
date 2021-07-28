@@ -14,7 +14,7 @@ part of protobuf;
 /// length-delimited representation, which means that they are represented as
 /// a varint encoded length followed by specified number of bytes of data.
 ///
-/// Due to this [CodedBufferWritter] maintains two output buffers:
+/// Due to this [CodedBufferWriter] maintains two output buffers:
 /// [_outputChunks] which contains all continuously written bytes and
 /// [_splices] which describes additional bytes to splice in-between
 /// [_outputChunks] bytes.
@@ -176,8 +176,8 @@ class CodedBufferWriter {
 
   /// Move the current [_outputChunk] into [_outputChunks].
   ///
-  /// If [allocateNew] is [true] then allocate a new chunk, otherwise
-  /// set [_outputChunk] to null.
+  /// If [allocateNew] is `true` then allocate a new chunk, otherwise
+  /// set [_outputChunk] to `null`.
   void _commitChunk(bool allocateNew) {
     if (_bytesInChunk != 0) {
       _outputChunks.add(_outputChunk);

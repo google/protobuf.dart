@@ -78,11 +78,11 @@ abstract class GeneratedMessage {
 
   /// Returns a writable, shallow copy of this message.
   ///
-  /// Sub messages will be shared with [this] and will still be frozen if [this]
+  /// Sub messages will be shared with `this` and will still be frozen if `this`
   /// is frozen.
   ///
   /// The lists representing repeated fields are copied. But their elements will
-  /// be shared with the corresponding list in [this].
+  /// be shared with the corresponding list in `this`.
   ///
   /// Similarly for map fields, the maps will be copied, but share the elements.
   // TODO(nichite, sigurdm): Consider returning an actual builder object that
@@ -216,10 +216,10 @@ abstract class GeneratedMessage {
   /// actual runtime value) are represented as strings. Enumerated values are
   /// represented as their integer value.
   ///
-  /// For the proto3 JSON format use: [toProto3JSON].
+  /// For the proto3 JSON format use: [toProto3Json].
   String writeToJson() => jsonEncode(writeToJsonMap());
 
-  /// Returns an Object representing Proto3 JSON serialization of [this].
+  /// Returns an Object representing Proto3 JSON serialization of `this`.
   ///
   /// The key for each field is be the camel-cased name of the field.
   ///
@@ -273,7 +273,7 @@ abstract class GeneratedMessage {
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].
   ///
-  /// For the proto3 JSON format use: [mergeFromProto3JSON].
+  /// For the proto3 JSON format use: [mergeFromProto3Json].
   void mergeFromJson(String data,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     /// Disable lazy creation of Dart objects for a dart2js speedup.

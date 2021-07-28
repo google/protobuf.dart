@@ -152,8 +152,8 @@ class DartNameOptionException implements Exception {
 ///
 /// The chosen name is added to [usedNames].
 ///
-/// If [variants] is given, all the variants of a name must be available before
-/// that name is chosen, and all the chosen variants will be added to
+/// If [generateVariants] is given, all the variants of a name must be available
+/// before that name is chosen, and all the chosen variants will be added to
 /// [usedNames].
 /// The returned name is that, which will generate the accepted variants.
 String disambiguateName(

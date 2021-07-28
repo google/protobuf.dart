@@ -92,7 +92,7 @@ class GenerateMetadataParser implements SingleOptionParser {
 }
 
 /// Parser used by the compiler, which supports the `rpc` option (see
-/// [RpcOptionParser]) and any additional option added in [parsers]. If
+/// [GrpcOptionParser]) and any additional option added in [parsers]. If
 /// [parsers] has a key for `rpc`, it will be ignored.
 GenerationOptions? parseGenerationOptions(
     CodeGeneratorRequest request, CodeGeneratorResponse response,

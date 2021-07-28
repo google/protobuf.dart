@@ -84,8 +84,6 @@ class ExtensionGenerator {
     }
   }
 
-  /// Adds dependencies of [generateConstants] to [imports].
-  ///
   /// For each .pb.dart file that the generated code needs to import,
   /// add its generator.
   void addConstantImportsTo(Set<FileGenerator> imports) {

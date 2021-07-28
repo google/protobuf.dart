@@ -73,7 +73,7 @@ class Factories {
   static Factories forMessage(String name) =>
       _factories[name] ?? (throw 'Unsupported message: $name');
 
-  /// Mapping between [BenchmarkProto.messageName] and corresponding
+  /// Mapping between [BenchmarkDataset.messageName] and corresponding
   /// deserialization factories.
   static final _factories = {
     'benchmarks.proto2.GoogleMessage1': Factories._(

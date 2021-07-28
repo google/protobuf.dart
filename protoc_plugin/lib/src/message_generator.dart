@@ -718,7 +718,7 @@ class MessageGenerator extends ProtobufContainer {
 
   /// Returns the mixin for this message, or null if none.
   ///
-  /// First searches [wellKnownMixins], then [declaredMixins],
+  /// First searches [_wellKnownMixins], then [declaredMixins],
   /// then internal mixins declared by [findMixin].
   PbMixin _getMixin(Map<String, PbMixin> declaredMixins, PbMixin defaultMixin) {
     var wellKnownMixin = wellKnownMixinForFullName(fullName);

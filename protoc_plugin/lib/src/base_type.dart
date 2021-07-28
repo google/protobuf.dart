@@ -47,8 +47,9 @@ class BaseType {
   /// Returns the name to use in generated code for this Dart type.
   ///
   /// Doesn't include the List type for repeated fields.
-  /// [protoFileUri] represents the current proto file where we are generating
-  /// code. The Dart class might be imported from a different proto file.
+  /// [FileGenerator.protoFileUri] represents the current proto file where we
+  /// are generating code.
+  /// The Dart class might be imported from a different proto file.
   String getDartType(FileGenerator fileGen) =>
       (fileGen.protoFileUri == generator?.fileGen?.protoFileUri)
           ? unprefixed
