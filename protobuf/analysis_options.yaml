@@ -2,8 +2,8 @@ include: package:lints/recommended.yaml
 
 linter:
   rules:
-    comment_references: true
-    directives_ordering: true
-    prefer_relative_imports: true
-    prefer_single_quotes: true
-    prefer_spread_collections: false
+    - comment_references
+    - directives_ordering
+    - prefer_relative_imports
+    - prefer_single_quotes
+    - prefer_spread_collections

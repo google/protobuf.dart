@@ -267,12 +267,13 @@ class UnknownFieldSetField {
     return hash;
   }
 
-  List get values => []
-    ..addAll(lengthDelimited)
-    ..addAll(varints)
-    ..addAll(fixed32s)
-    ..addAll(fixed64s)
-    ..addAll(groups);
+  List get values => [
+        ...lengthDelimited,
+        ...varints,
+        ...fixed32s,
+        ...fixed64s,
+        ...groups,
+      ];
 
   void writeTo(int fieldNumber, CodedBufferWriter output) {
     void write(type, value) {

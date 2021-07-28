@@ -42,7 +42,7 @@ class Dataset {
   /// Messages deserialized from [packed]. Used in serialization benchmarks.
   final List<GeneratedMessage> unpacked = <GeneratedMessage>[];
 
-  /// Create [Dataset] from a [BenchmarkDataset] proto.
+  /// Create [Dataset] from a `BenchmarkDataset` proto.
   factory Dataset.fromBinary(List<int> binary) {
     final dataSet = BenchmarkDataset.fromBuffer(binary);
 
@@ -73,7 +73,7 @@ class Factories {
   static Factories forMessage(String name) =>
       _factories[name] ?? (throw 'Unsupported message: $name');
 
-  /// Mapping between [BenchmarkDataset.messageName] and corresponding
+  /// Mapping between `BenchmarkDataset.messageName` and corresponding
   /// deserialization factories.
   static final _factories = {
     'benchmarks.proto2.GoogleMessage1': Factories._(
