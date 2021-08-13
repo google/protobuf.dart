@@ -100,8 +100,10 @@ class PbMap<K, V> extends MapBase<K, V> {
     _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry!);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
-    var key = entryFieldSet._$get<K>(0, null);
-    var value = entryFieldSet._$get<V>(1, null);
+    var key =
+        entryFieldSet._values[0] ?? mapEntryMeta.byIndex[0].makeDefault!();
+    var value =
+        entryFieldSet._values[1] ?? mapEntryMeta.byIndex[1].makeDefault!();
     _wrappedMap[key] = value;
   }
 
