@@ -101,7 +101,7 @@ class PbMap<K, V> extends MapBase<K, V> {
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
     var key = entryFieldSet._$get<K>(0, null);
-    var value = entryFieldSet._$get<V>(1, null);
+    var value = entryFieldSet._$get<V>(1, null, mapEntryMeta);
     _wrappedMap[key] = value;
   }
 

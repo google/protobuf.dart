@@ -231,7 +231,10 @@ class _FieldSet {
   }
 
   dynamic _getDefault(FieldInfo fi) {
-    if (!fi.isRepeated) return fi.makeDefault!();
+    if (!fi.isRepeated && fi.makeDefault != null) {
+      return fi.makeDefault!();
+    }
+
     if (_isReadOnly) return fi.readonlyDefault;
 
     // TODO(skybrian) we could avoid this by generating another
@@ -416,11 +419,14 @@ class _FieldSet {
   // Generated method implementations
 
   /// The implementation of a generated getter.
-  T _$get<T>(int index, T? defaultValue) {
+  T _$get<T>(int index, T? defaultValue, [BuilderInfo? meta]) {
     var value = _values[index];
     if (value != null) return value as T;
     if (defaultValue != null) return defaultValue;
-    return _getDefault(_nonExtensionInfoByIndex(index)) as T;
+
+    FieldInfo fieldInfo =
+        meta == null ? _nonExtensionInfoByIndex(index) : meta.byIndex[index];
+    return _getDefault(fieldInfo) as T;
   }
 
   /// The implementation of a generated getter for a default value determined by

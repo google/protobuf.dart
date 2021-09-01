@@ -6,6 +6,7 @@
 // @dart=2.11
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
@@ -364,5 +365,20 @@ void main() {
       stringToInt32Field: {'1': 11, '2': 22, '3': 33},
     );
     _expectMapValuesSet(testMap);
+  });
+
+  test('parse unknown enum values', () {
+    final m = TestMap.fromBuffer([34, 4, 8, 1, 16, 4]);
+    expect(m.int32ToEnumField[1], TestMap_EnumValue.DEFAULT);
+  });
+
+  test('parse empty string in maps', () {
+    final m = TestMap(
+      int32ToStringField: {1: ''}
+    );
+    expect(m.int32ToStringField[1], '');
+
+    final m2 = TestMap.fromBuffer(m.writeToBuffer());
+    expect(m2.int32ToStringField[1], '');
   });
 }
