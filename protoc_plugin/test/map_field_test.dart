@@ -6,7 +6,6 @@
 // @dart=2.11
 
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
@@ -373,9 +372,7 @@ void main() {
   });
 
   test('parse empty string in maps', () {
-    final m = TestMap(
-      int32ToStringField: {1: ''}
-    );
+    final m = TestMap(int32ToStringField: {1: ''});
     expect(m.int32ToStringField[1], '');
 
     final m2 = TestMap.fromBuffer(m.writeToBuffer());

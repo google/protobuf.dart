@@ -221,8 +221,8 @@ class BuilderInfo {
       String? protoName}) {
     var mapEntryBuilderInfo = BuilderInfo(entryClassName, package: packageName)
       ..add(PbMap._keyFieldNumber, 'key', keyFieldType, null, null, null, null)
-      ..add(PbMap._valueFieldNumber, 'value', valueFieldType, () => defaultEnumValue,
-          valueCreator, valueOf, enumValues);
+      ..add(PbMap._valueFieldNumber, 'value', valueFieldType,
+          () => defaultEnumValue, valueCreator, valueOf, enumValues);
 
     addMapField<K, V>(tagNumber, name, keyFieldType, valueFieldType,
         mapEntryBuilderInfo, valueCreator,

@@ -916,7 +916,7 @@ class _FieldSet {
         if (map != null) {
           _values[index] = (fieldInfo as MapFieldInfo)
               ._createMapField(_message!)
-            ..addAll(map);
+                ..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
         PbListBase? list = _values[index];
