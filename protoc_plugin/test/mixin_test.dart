@@ -12,8 +12,8 @@ void main() {
     });
 
     test('is a Mixin1', () {
-      expect(proto is Mixin1, isTrue);
-      expect(proto is Mixin2, isFalse);
+      expect(proto, isA<Mixin1>());
+      expect(proto, isNot(isA<Mixin2>()));
     });
 
     test('implements interface defined by mixins', () {
@@ -59,9 +59,9 @@ void main() {
     });
 
     test('is both Mixin1 (from parent) and Mixin3', () {
-      expect(proto is Mixin1, isTrue);
-      expect(proto is Mixin2, isFalse);
-      expect(proto is Mixin3, isTrue);
+      expect(proto, isA<Mixin1>());
+      expect(proto, isNot(isA<Mixin2>()));
+      expect(proto, isA<Mixin3>());
     });
   });
 }
