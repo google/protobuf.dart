@@ -114,7 +114,7 @@ Hacking
 Here are some ways to get protoc:
 
 * Linux: `apt-get install protobuf-compiler`
-* Mac [homebrew](http://brew.sh/): `brew install protobuf`
+* Mac [homebrew](https://brew.sh/): `brew install protobuf`
 
 If the version installed this way doesn't work, an alternative is to
 [compile protoc from source](https://developers.google.com/protocol-buffers/docs/downloads).
