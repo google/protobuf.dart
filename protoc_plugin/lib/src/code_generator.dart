@@ -5,7 +5,6 @@
 // @dart=2.11
 
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';

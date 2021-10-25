@@ -8,7 +8,6 @@ import 'package:fixnum/fixnum.dart';
 
 import '../../../protobuf.dart';
 import '../json_parsing_context.dart';
-import '../type_registry.dart';
 
 abstract class AnyMixin implements GeneratedMessage {
   String get typeUrl;

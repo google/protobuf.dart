@@ -638,6 +638,7 @@ const _ignores = {
   'prefer_final_fields',
   'return_of_invalid_type',
   'unnecessary_const',
+  'unnecessary_import',
   'unnecessary_this',
   'unused_import',
   'unused_shown_name',
