@@ -328,8 +328,8 @@ class MessageGenerator extends ProtobufContainer {
       }
       final conditionalMessageName = configurationDependent(
           'protobuf.omit_message_names', quoted(messageName));
-      out.addBlock(
-          'static final $protobufImportPrefix.BuilderInfo _i = '
+      out.println('static $protobufImportPrefix.BuilderInfo? __i;');
+      out.addBlock('static $protobufImportPrefix.BuilderInfo get _i => __i ??='
               '$protobufImportPrefix.BuilderInfo($conditionalMessageName'
               '$packageClause'
               ', createEmptyInstance: create'
