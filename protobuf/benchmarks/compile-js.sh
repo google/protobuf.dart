@@ -10,7 +10,6 @@ OUTPUT_DIR="${SCRIPT_DIR}/temp"
 
 mkdir -p "${OUTPUT_DIR}"
 
-dart2js --trust-type-annotations        \
-        --trust-primitives              \
+dart2js -O4                             \
         -o "${OUTPUT_DIR}"/benchmark.js \
         "${SCRIPT_DIR}"/benchmark_js.dart
