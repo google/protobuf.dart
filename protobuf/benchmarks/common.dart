@@ -164,3 +164,17 @@ class ToJsonBenchmark extends _ProtobufBenchmark {
     }
   }
 }
+
+/// HashCode computation benchmark.
+class HashCodeBenchmark extends _ProtobufBenchmark {
+  HashCodeBenchmark(datasets) : super(datasets, 'HashCode');
+
+  @override
+  void run() {
+    for (final dataset in datasets) {
+      for (final unpacked in dataset.unpacked) {
+        unpacked.hashCode;
+      }
+    }
+  }
+}
