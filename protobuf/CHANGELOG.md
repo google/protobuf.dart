@@ -1,5 +1,6 @@
-## 2.0.1-dev
+## 2.0.1
 
+* Fix bug of parsing map-values with default values.
 * Merge fixes from version `1.1.2` - `1.1.4` into v2.
 
 ## 2.0.0
