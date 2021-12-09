@@ -25,9 +25,17 @@ How to build and use
 *Note:* currently the workflow is POSIX-oriented.
 
 To build standalone `protoc` plugin:
-- run `pub install` to install all dependencies
+- Dart version 2
+  - run `$ dart pub add protoc_plugin && dart pub get && dart pub global activate protoc_plugin`
+- Flutter version 2
+  - run `$ flutter pub add protoc_plugin && flutter pub get && flutter pub global activate protoc_plugin`
+- legacy: Dart/Flutter version 1
+  - run `pub install` to install all dependencies
+
+Ensure the plugin is in your `PATH`:
 - Now you can use the plugin either by adding the `bin` directory to your `PATH`,
   or passing it directly with `protoc`'s `--plugin` option.
+- Example: `$ export PATH="$PATH":"$HOME/Code/flutter/.pub-cache/bin"`
 
 Please, remember that the plugin is pure Dart script and requires the presence
 of `dart` executable in your `PATH`.
