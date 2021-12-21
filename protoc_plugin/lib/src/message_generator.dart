@@ -334,11 +334,14 @@ class MessageGenerator extends ProtobufContainer {
             final oneofMemberName =
                 oneofEnumMemberName(field.memberNames.fieldName);
             out.println(
-                '${oneof.oneofEnumName}.${oneofMemberName} : ${field.baseType.getDartType(fileGen)},');
+                '${oneof.oneofEnumName}.$oneofMemberName : ${field.baseType.getDartType(fileGen)},');
           }
         });
       }
-
+      for (var oneof in _oneofNames) {
+        out.println(
+            '$coreImportPrefix.Type getType() => ${oneof.typeByEnumMapName}[whichSubtype()]!;');
+      }
       final conditionalMessageName = configurationDependent(
           'protobuf.omit_message_names', quoted(messageName));
       out.addBlock(
