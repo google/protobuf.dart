@@ -599,6 +599,7 @@ class FileGenerator extends ProtobufContainer {
 //
 // @dart = 2.12
 // ignore_for_file: ${ignores.join(',')}
+// ignore_for_file: type=lint
 ''');
   }
 
