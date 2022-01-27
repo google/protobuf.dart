@@ -506,27 +506,34 @@ abstract class GeneratedMessage {
 
   // Support for generating a read-only default singleton instance.
 
-  static final Map<Function?, Function> _defaultMakers = {};
+  static final Map<Function?, _SingletonMaker<GeneratedMessage>>
+      _defaultMakers = {};
 
   static T Function() _defaultMakerFor<T extends GeneratedMessage>(
-      T Function()? createFn) {
-    return (_defaultMakers[createFn] ??= _createDefaultMakerFor<T>(createFn!))
-        as T Function();
-  }
-
-  static T Function() _createDefaultMakerFor<T extends GeneratedMessage>(
-      T Function() createFn) {
-    T? defaultValue;
-    T defaultMaker() {
-      return defaultValue ??= createFn()..freeze();
-    }
-
-    return defaultMaker;
-  }
+          T Function()? createFn) =>
+      _getSingletonMaker(createFn!)._frozenSingletonCreator;
 
   /// For generated code only.
   static T $_defaultFor<T extends GeneratedMessage>(T Function() createFn) =>
-      _defaultMakerFor<T>(createFn)();
+      _getSingletonMaker(createFn)._frozenSingleton;
+
+  static _SingletonMaker<T> _getSingletonMaker<T extends GeneratedMessage>(
+      T Function() fun) {
+    final oldMaker = _defaultMakers[fun];
+    if (oldMaker != null) {
+      return oldMaker as _SingletonMaker<T>;
+    }
+    return _defaultMakers[fun] = _SingletonMaker<T>(fun);
+  }
+}
+
+class _SingletonMaker<T extends GeneratedMessage> {
+  final T Function() _creator;
+
+  _SingletonMaker(this._creator);
+
+  late final T _frozenSingleton = _creator()..freeze();
+  late final T Function() _frozenSingletonCreator = () => _frozenSingleton;
 }
 
 /// The package name of a protobuf message.
