@@ -533,6 +533,7 @@ class _SingletonMaker<T extends GeneratedMessage> {
   _SingletonMaker(this._creator);
 
   late final T _frozenSingleton = _creator()..freeze();
+  // ignore: prefer_function_declarations_over_variables
   late final T Function() _frozenSingletonCreator = () => _frozenSingleton;
 }
 
