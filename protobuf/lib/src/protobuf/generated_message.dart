@@ -506,27 +506,42 @@ abstract class GeneratedMessage {
 
   // Support for generating a read-only default singleton instance.
 
-  static final Map<Function?, Function> _defaultMakers = {};
+  static final Map<Function?, _SingletonMaker<GeneratedMessage>>
+      _defaultMakers = {};
 
   static T Function() _defaultMakerFor<T extends GeneratedMessage>(
-      T Function()? createFn) {
-    return (_defaultMakers[createFn] ??= _createDefaultMakerFor<T>(createFn!))
-        as T Function();
-  }
-
-  static T Function() _createDefaultMakerFor<T extends GeneratedMessage>(
-      T Function() createFn) {
-    T? defaultValue;
-    T defaultMaker() {
-      return defaultValue ??= createFn()..freeze();
-    }
-
-    return defaultMaker;
-  }
+          T Function()? createFn) =>
+      _getSingletonMaker(createFn!)._frozenSingletonCreator;
 
   /// For generated code only.
   static T $_defaultFor<T extends GeneratedMessage>(T Function() createFn) =>
-      _defaultMakerFor<T>(createFn)();
+      _getSingletonMaker(createFn)._frozenSingleton;
+
+  static _SingletonMaker<T> _getSingletonMaker<T extends GeneratedMessage>(
+      T Function() fun) {
+    final oldMaker = _defaultMakers[fun];
+    if (oldMaker != null) {
+      // The CFE will insert an implicit downcast to `_SingletonMaker<T>`. We
+      // avoid making that explicit because implicit downcasts are avoided by
+      // dart2js in production code.
+      return oldMaker as dynamic;
+    }
+    return _defaultMakers[fun] = _SingletonMaker<T>(fun);
+  }
+}
+
+// We use a class that creates singletones instead of a closure function. We do
+// so because the result of the lookup in [_defaultMakers] has to be downcasted.
+// A downcast to a generic interface type is much easier to perform at runtime
+// than a downcast to a generic function type.
+class _SingletonMaker<T extends GeneratedMessage> {
+  final T Function() _creator;
+
+  _SingletonMaker(this._creator);
+
+  late final T _frozenSingleton = _creator()..freeze();
+  // ignore: prefer_function_declarations_over_variables
+  late final T Function() _frozenSingletonCreator = () => _frozenSingleton;
 }
 
 /// The package name of a protobuf message.
