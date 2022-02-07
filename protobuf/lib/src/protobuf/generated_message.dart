@@ -521,7 +521,10 @@ abstract class GeneratedMessage {
       T Function() fun) {
     final oldMaker = _defaultMakers[fun];
     if (oldMaker != null) {
-      return oldMaker as _SingletonMaker<T>;
+      // The CFE will insert an implicit downcast to `_SingletonMaker<T>`. We
+      // avoid making that explicit because implicit downcasts are avoided by
+      // dart2js in production code.
+      return oldMaker as dynamic;
     }
     return _defaultMakers[fun] = _SingletonMaker<T>(fun);
   }
