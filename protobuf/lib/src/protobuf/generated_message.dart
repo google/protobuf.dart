@@ -530,6 +530,10 @@ abstract class GeneratedMessage {
   }
 }
 
+// We use a class that creates singletones instead of a closure function. We do
+// so because the result of the lookup in [_defaultMakers] has to be downcasted.
+// A downcast to a generic interface type is much easier to perform at runtime
+// than a downcast to a generic function type.
 class _SingletonMaker<T extends GeneratedMessage> {
   final T Function() _creator;
 
