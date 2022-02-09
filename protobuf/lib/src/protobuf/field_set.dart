@@ -175,7 +175,7 @@ class _FieldSet {
     _frozenState = true;
     for (var field in _meta.sortedByTag) {
       if (field.isRepeated) {
-        final entries = _values[field.index!];
+        final entries = _values[field.index!] as PbList?;
         if (entries == null) continue;
         if (field.isGroupOrMessage) {
           for (var subMessage in entries as List<GeneratedMessage>) {
@@ -668,7 +668,9 @@ class _FieldSet {
       } else if (!_isEnum(fi.type)) {
         hash = _HashUtils._combine(hash, value.hashCode);
       } else if (fi.isRepeated) {
-        hash = _HashUtils._hashObjects(value.map((enm) => enm.value));
+        value as List;
+        hash = _HashUtils._hashObjects(
+            value.map((enm) => (enm as ProtobufEnum).value));
       } else {
         ProtobufEnum enm = value;
         hash = _HashUtils._combine(hash, enm.value);
@@ -802,6 +804,7 @@ class _FieldSet {
     var mustClone = _isGroupOrMessage(otherFi.type);
 
     if (fi!.isMapField) {
+      fieldValue as Map;
       var f = fi as MapFieldInfo<dynamic, dynamic>;
       mustClone = _isGroupOrMessage(f.valueFieldType!);
       var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
@@ -832,7 +835,7 @@ class _FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      final currentFi = isExtension!
+      GeneratedMessage? currentFi = isExtension!
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 

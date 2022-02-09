@@ -64,11 +64,12 @@ class CodedBufferWriter {
     _commitChunk(true);
   }
 
-  void writeField(int fieldNumber, int fieldType, fieldValue) {
+  void writeField(int fieldNumber, int fieldType, Object? fieldValue) {
     final valueType = fieldType & ~0x07;
 
     if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
-      if (!fieldValue.isEmpty) {
+      fieldValue as List<Int64>;
+      if (fieldValue.isNotEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
         for (var value in fieldValue) {
@@ -82,17 +83,18 @@ class CodedBufferWriter {
     final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._MAP_BIT) != 0) {
+      fieldValue as PbMap<Object?, Object?>;
       final keyWireFormat =
-          _wireTypes[_valueTypeIndex(fieldValue.keyFieldType)];
+          _wireTypes[_valueTypeIndex(fieldValue.keyFieldType!)];
       final valueWireFormat =
-          _wireTypes[_valueTypeIndex(fieldValue.valueFieldType)];
+          _wireTypes[_valueTypeIndex(fieldValue.valueFieldType!)];
 
       fieldValue.forEach((key, value) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
-        _writeValue(
-            PbMap._keyFieldNumber, fieldValue.keyFieldType, key, keyWireFormat);
-        _writeValue(PbMap._valueFieldNumber, fieldValue.valueFieldType, value,
+        _writeValue(PbMap._keyFieldNumber, fieldValue.keyFieldType!, key,
+            keyWireFormat);
+        _writeValue(PbMap._valueFieldNumber, fieldValue.valueFieldType!, value,
             valueWireFormat);
         _endLengthDelimited(mark);
       });
@@ -100,6 +102,7 @@ class CodedBufferWriter {
     }
 
     if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
+      fieldValue as PbList<Object?>;
       for (var i = 0; i < fieldValue.length; i++) {
         _writeValue(fieldNumber, valueType, fieldValue[i], wireFormat);
       }
@@ -349,9 +352,11 @@ class CodedBufferWriter {
         _writeFloat(value);
         break;
       case PbFieldType._ENUM_BIT:
+        value as ProtobufEnum;
         _writeVarint32(value.value & 0xffffffff);
         break;
       case PbFieldType._GROUP_BIT:
+        value as GeneratedMessage;
         value.writeToCodedBufferWriter(this);
         break;
       case PbFieldType._INT32_BIT:
@@ -386,15 +391,16 @@ class CodedBufferWriter {
         break;
       case PbFieldType._MESSAGE_BIT:
         final mark = _startLengthDelimited();
+        value as GeneratedMessage;
         value.writeToCodedBufferWriter(this);
         _endLengthDelimited(mark);
         break;
     }
   }
 
-  void _writeBytesNoTag(dynamic value) {
-    writeInt32NoTag(value.length);
-    writeRawBytes(value);
+  void _writeBytesNoTag(Object value) {
+    writeInt32NoTag((value as List).length);
+    writeRawBytes(value as TypedData);
   }
 
   void _writeTag(int fieldNumber, int wireFormat) {

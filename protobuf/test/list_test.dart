@@ -92,6 +92,9 @@ void main() {
 
   test('PbList validates items', () {
     expect(() {
+      // TODO(https://github.com/google/protobuf.dart/issues/578): Remove
+      // remaining dynamic calls.
+      // ignore: avoid_dynamic_calls
       (PbList<int>() as dynamic).add('hello');
     }, throwsA(TypeMatcher<TypeError>()));
   });

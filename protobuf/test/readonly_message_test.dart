@@ -18,6 +18,9 @@ import 'package:test/test.dart';
 Matcher throwsError(Type expectedType, Matcher expectedMessage) =>
     throwsA(predicate((dynamic x) {
       expect(x.runtimeType, expectedType);
+      // TODO(https://github.com/google/protobuf.dart/issues/578): Remove
+      // remaining dynamic calls.
+      // ignore: avoid_dynamic_calls
       expect(x!.message, expectedMessage);
       return true;
     }));

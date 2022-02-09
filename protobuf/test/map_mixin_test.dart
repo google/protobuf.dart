@@ -7,6 +7,10 @@
 // There are more tests in the dart-protoc-plugin package.
 library map_mixin_test;
 
+// TODO(https://github.com/google/protobuf.dart/issues/578): Remove remaining
+// dynamic calls.
+// ignore_for_file: avoid_dynamic_calls
+
 import 'dart:collection' show MapMixin;
 
 import 'package:protobuf/protobuf.dart';

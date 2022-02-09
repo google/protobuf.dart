@@ -172,10 +172,10 @@ class _ExtensionFieldSet {
     _isReadOnly = true;
     for (var field in _info.values) {
       if (field.isRepeated) {
-        final entries = _values[field.tagNumber];
+        final entries = _values[field.tagNumber] as PbList<GeneratedMessage>?;
         if (entries == null) continue;
         if (field.isGroupOrMessage) {
-          for (var subMessage in entries as List<GeneratedMessage>) {
+          for (var subMessage in entries) {
             subMessage.freeze();
           }
         }

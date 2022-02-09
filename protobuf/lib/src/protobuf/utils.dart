@@ -31,7 +31,7 @@ bool _areMapsEqual(Map lhs, Map rhs) {
 }
 
 bool _areByteDataEqual(ByteData lhs, ByteData rhs) {
-  Uint8List asBytes(d) =>
+  Uint8List asBytes(ByteData d) =>
       Uint8List.view(d.buffer, d.offsetInBytes, d.lengthInBytes);
   return _areListsEqual(asBytes(lhs), asBytes(rhs));
 }
