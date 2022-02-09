@@ -102,7 +102,7 @@ class CodedBufferWriter {
     }
 
     if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
-      fieldValue as PbList<Object?>;
+      fieldValue as List<Object?>;
       for (var i = 0; i < fieldValue.length; i++) {
         _writeValue(fieldNumber, valueType, fieldValue[i], wireFormat);
       }
