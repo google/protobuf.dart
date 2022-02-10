@@ -355,8 +355,14 @@ class CodedBufferWriter {
         _writeVarint32(enumValue.value & 0xffffffff);
         break;
       case PbFieldType._GROUP_BIT:
-        final messageValue = value as GeneratedMessage;
-        messageValue.writeToCodedBufferWriter(this);
+        if (value is UnknownFieldSet) {
+          // This class is not in the GeneratedMessage type hierarchy but does
+          // happen to have a method called `writeToCodedBufferWriter`.
+          value.writeToCodedBufferWriter(this);
+        } else {
+          final messageValue = value as GeneratedMessage;
+          messageValue.writeToCodedBufferWriter(this);
+        }
         break;
       case PbFieldType._INT32_BIT:
         _writeVarint64(Int64(value));
