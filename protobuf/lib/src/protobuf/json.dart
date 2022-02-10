@@ -28,20 +28,20 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         // Encode 'bytes' as a base64-encoded string.
         return base64Encode(fieldValue as List<int>);
       case PbFieldType._ENUM_BIT:
-        fieldValue as ProtobufEnum;
-        return fieldValue.value; // assume |value| < 2^52
+        final enumValue = fieldValue as ProtobufEnum;
+        return enumValue.value; // assume |value| < 2^52
       case PbFieldType._INT64_BIT:
       case PbFieldType._SINT64_BIT:
       case PbFieldType._SFIXED64_BIT:
         return fieldValue.toString();
       case PbFieldType._UINT64_BIT:
       case PbFieldType._FIXED64_BIT:
-        fieldValue as Int64;
-        return fieldValue.toStringUnsigned();
+        final int64Value = fieldValue as Int64;
+        return int64Value.toStringUnsigned();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        fieldValue as GeneratedMessage;
-        return fieldValue.writeToJsonMap();
+        final messageValue = fieldValue as GeneratedMessage;
+        return messageValue.writeToJsonMap();
       default:
         throw 'Unknown type $fieldType';
     }

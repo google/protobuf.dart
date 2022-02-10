@@ -668,9 +668,9 @@ class _FieldSet {
       } else if (!_isEnum(fi.type)) {
         hash = _HashUtils._combine(hash, value.hashCode);
       } else if (fi.isRepeated) {
-        value as List;
+        final listValue = value as List;
         hash = _HashUtils._hashObjects(
-            value.map((enm) => (enm as ProtobufEnum).value));
+            listValue.map((enm) => (enm as ProtobufEnum).value));
       } else {
         ProtobufEnum enm = value;
         hash = _HashUtils._combine(hash, enm.value);
@@ -804,16 +804,16 @@ class _FieldSet {
     var mustClone = _isGroupOrMessage(otherFi.type);
 
     if (fi!.isMapField) {
-      fieldValue as Map;
+      final mapValue = fieldValue as Map;
       var f = fi as MapFieldInfo<dynamic, dynamic>;
       mustClone = _isGroupOrMessage(f.valueFieldType!);
       var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
       if (mustClone) {
-        for (MapEntry entry in fieldValue.entries) {
+        for (MapEntry entry in mapValue.entries) {
           map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
         }
       } else {
-        map.addAll(fieldValue);
+        map.addAll(mapValue);
       }
       return;
     }
