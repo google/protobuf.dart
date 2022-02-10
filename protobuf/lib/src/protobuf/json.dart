@@ -5,11 +5,11 @@
 part of protobuf;
 
 Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
-  dynamic convertToMap(Object? fieldValue, int fieldType) {
+  dynamic convertToMap(dynamic fieldValue, int fieldType) {
     var baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
-      fieldValue as List;
+      // `fieldValue` is [List].
       return List.from(fieldValue.map((e) => convertToMap(e, baseType)));
     }
 
@@ -28,20 +28,20 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         // Encode 'bytes' as a base64-encoded string.
         return base64Encode(fieldValue as List<int>);
       case PbFieldType._ENUM_BIT:
-        final enumValue = fieldValue as ProtobufEnum;
-        return enumValue.value; // assume |value| < 2^52
+        // `fieldValue` is [ProtobufEnum].
+        return fieldValue.value; // assume |value| < 2^52
       case PbFieldType._INT64_BIT:
       case PbFieldType._SINT64_BIT:
       case PbFieldType._SFIXED64_BIT:
         return fieldValue.toString();
       case PbFieldType._UINT64_BIT:
       case PbFieldType._FIXED64_BIT:
-        final int64Value = fieldValue as Int64;
-        return int64Value.toStringUnsigned();
+        // `fieldValue` is [Int64].
+        return fieldValue.toStringUnsigned();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        final messageValue = fieldValue as GeneratedMessage;
-        return messageValue.writeToJsonMap();
+        // `fieldValue` is [GeneratedMessage].
+        return fieldValue.writeToJsonMap();
       default:
         throw 'Unknown type $fieldType';
     }

@@ -8,10 +8,6 @@
 /// both on the VM and when compiled to JavaScript.
 library common;
 
-// TODO(https://github.com/google/protobuf.dart/issues/578): Remove remaining
-// dynamic calls.
-// ignore_for_file: avoid_dynamic_calls
-
 import 'dart:typed_data';
 
 import 'package:benchmark_harness/benchmark_harness.dart';

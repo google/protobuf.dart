@@ -2,7 +2,6 @@ include: package:lints/recommended.yaml
 
 linter:
   rules:
-    - avoid_dynamic_calls
     - comment_references
     - directives_ordering
     - prefer_relative_imports

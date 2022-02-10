@@ -3,10 +3,6 @@
 // There are more JSON tests in the dart-protoc-plugin package.
 library json_test;
 
-// TODO(https://github.com/google/protobuf.dart/issues/578): Remove remaining
-// dynamic calls.
-// ignore_for_file: avoid_dynamic_calls
-
 import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart' show Int64;

@@ -175,7 +175,7 @@ class _FieldSet {
     _frozenState = true;
     for (var field in _meta.sortedByTag) {
       if (field.isRepeated) {
-        final entries = _values[field.index!] as PbList?;
+        final /*PbList*/ entries = _values[field.index!];
         if (entries == null) continue;
         if (field.isGroupOrMessage) {
           for (var subMessage in entries as List<GeneratedMessage>) {
@@ -668,9 +668,9 @@ class _FieldSet {
       } else if (!_isEnum(fi.type)) {
         hash = _HashUtils._combine(hash, value.hashCode);
       } else if (fi.isRepeated) {
-        final listValue = value as List;
+        // `value` is [List].
         hash = _HashUtils._hashObjects(
-            listValue.map((enm) => (enm as ProtobufEnum).value));
+            value.map((/*ProtobufEnum*/ enm) => enm.value));
       } else {
         ProtobufEnum enm = value;
         hash = _HashUtils._combine(hash, enm.value);
@@ -804,16 +804,16 @@ class _FieldSet {
     var mustClone = _isGroupOrMessage(otherFi.type);
 
     if (fi!.isMapField) {
-      final mapValue = fieldValue as Map;
+      // `fieldValue` is [Map].
       var f = fi as MapFieldInfo<dynamic, dynamic>;
       mustClone = _isGroupOrMessage(f.valueFieldType!);
       var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
       if (mustClone) {
-        for (MapEntry entry in mapValue.entries) {
+        for (MapEntry entry in fieldValue.entries) {
           map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
         }
       } else {
-        map.addAll(mapValue);
+        map.addAll(fieldValue);
       }
       return;
     }
@@ -835,7 +835,7 @@ class _FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      GeneratedMessage? currentFi = isExtension!
+      final GeneratedMessage? currentFi = isExtension!
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 

@@ -134,7 +134,7 @@ T _reparseMessage<T extends GeneratedMessage>(
         resultMap ??= ensureResult()._fieldSet._values[field.index!];
 
     if (field.isRepeated) {
-      final messageEntries = message._fieldSet._values[field.index!] as List?;
+      final /*List*/ messageEntries = message._fieldSet._values[field.index!];
       if (messageEntries == null) continue;
       if (field.isGroupOrMessage) {
         for (var i = 0; i < messageEntries.length; i++) {
@@ -146,7 +146,8 @@ T _reparseMessage<T extends GeneratedMessage>(
         }
       }
     } else if (field is MapFieldInfo) {
-      final messageMap = message._fieldSet._values[field.index!] as PbMap?;
+      final /*PbMap*/ messageMap = message._fieldSet._values[field.index!];
+
       if (messageMap == null) continue;
       if (_isGroupOrMessage(field.valueFieldType!)) {
         for (var key in messageMap.keys) {
