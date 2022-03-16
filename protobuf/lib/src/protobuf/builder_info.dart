@@ -53,6 +53,27 @@ class BuilderInfo {
     _addField(fieldInfo);
   }
 
+  void addWithDefaultFunc<T>(
+      int tagNumber,
+      String name,
+      int? fieldType,
+      MakeDefaultFunc? defaultFunc,
+      CreateBuilderFunc? subBuilder,
+      ValueOfFunc? valueOf,
+      List<ProtobufEnum>? enumValues,
+      {String? protoName}) {
+    var index = byIndex.length;
+    final fieldInfo = (tagNumber == 0)
+        ? FieldInfo.dummy(index)
+        : FieldInfo<T>.withDefaultFunc(
+            name, tagNumber, index, fieldType!, defaultFunc,
+            subBuilder: subBuilder,
+            valueOf: valueOf,
+            enumValues: enumValues,
+            protoName: protoName);
+    _addField(fieldInfo);
+  }
+
   void addMapField<K, V>(
       int tagNumber,
       String name,
@@ -177,7 +198,7 @@ class BuilderInfo {
 
   void aOM<T extends GeneratedMessage>(int tagNumber, String name,
       {T Function()? subBuilder, String? protoName}) {
-    add<T>(
+    addWithDefaultFunc<T>(
         tagNumber,
         name,
         PbFieldType.OM,
@@ -190,7 +211,7 @@ class BuilderInfo {
 
   void aQM<T extends GeneratedMessage>(int tagNumber, String name,
       {T Function()? subBuilder, String? protoName}) {
-    add<T>(
+    addWithDefaultFunc<T>(
         tagNumber,
         name,
         PbFieldType.QM,

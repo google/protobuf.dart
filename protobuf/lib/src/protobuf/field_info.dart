@@ -64,6 +64,21 @@ class FieldInfo<T> {
             _isMapField(type)),
         assert(!_isEnum(type) || valueOf != null);
 
+  FieldInfo.withDefaultFunc(
+      this.name, this.tagNumber, this.index, this.type, this.makeDefault,
+      {this.subBuilder,
+      this.valueOf,
+      this.enumValues,
+      this.defaultEnumValue,
+      String? protoName})
+      : check = null,
+        protoName = protoName ?? _unCamelCase(name),
+        assert(type != 0),
+        assert(!_isGroupOrMessage(type) ||
+            subBuilder != null ||
+            _isMapField(type)),
+        assert(!_isEnum(type) || valueOf != null);
+
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
       : name = '<removed field>',
