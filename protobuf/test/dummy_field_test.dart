@@ -9,7 +9,7 @@ class Message extends GeneratedMessage {
   @override
   BuilderInfo get info_ => _i;
   static final _i = BuilderInfo('Message')
-    ..add(0, null, null, null, null, null, null);
+    ..add(0, 'dummy', null, null, null, null, null);
   @override
   Message createEmptyInstance() => Message();
 

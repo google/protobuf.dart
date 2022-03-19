@@ -3,12 +3,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library extension_generator_test;
+// @dart=2.11
 
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
-import 'package:protoc_plugin/src/descriptor.pb.dart' as pb;
-import 'package:protoc_plugin/src/plugin.pb.dart' as pb;
+import 'package:protoc_plugin/src/generated/descriptor.pb.dart' as pb;
+import 'package:protoc_plugin/src/generated/plugin.pb.dart' as pb;
+import 'package:protoc_plugin/src/linker.dart';
+import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
 import 'golden_file.dart';

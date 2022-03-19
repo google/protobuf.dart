@@ -1,19 +1,19 @@
+import 'package:protoc_plugin/testing/mixins.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/mixins.pb.dart' as pb;
-import 'package:protoc_plugin/testing/mixins.dart';
 
 void main() {
   group('Proto with Mixin1', () {
-    pb.Mixin1PB proto;
+    late pb.Mixin1PB proto;
 
     setUp(() {
       proto = pb.Mixin1PB();
     });
 
     test('is a Mixin1', () {
-      expect(proto is Mixin1, isTrue);
-      expect(proto is Mixin2, isFalse);
+      expect(proto, isA<Mixin1>());
+      expect(proto, isNot(isA<Mixin2>()));
     });
 
     test('implements interface defined by mixins', () {
@@ -24,7 +24,7 @@ void main() {
   });
 
   group('Proto with Mixin2', () {
-    pb.Mixin2PB proto;
+    late pb.Mixin2PB proto;
 
     setUp(() {
       proto = pb.Mixin2PB();
@@ -39,7 +39,7 @@ void main() {
   });
 
   group('Proto without mixins', () {
-    pb.NoMixinPB proto;
+    late pb.NoMixinPB proto;
 
     setUp(() {
       proto = pb.NoMixinPB();
@@ -52,16 +52,16 @@ void main() {
   });
 
   group('Proto with Mixin3', () {
-    pb.Mixin3PB proto;
+    late pb.Mixin3PB proto;
 
     setUp(() {
       proto = pb.Mixin3PB();
     });
 
     test('is both Mixin1 (from parent) and Mixin3', () {
-      expect(proto is Mixin1, isTrue);
-      expect(proto is Mixin2, isFalse);
-      expect(proto is Mixin3, isTrue);
+      expect(proto, isA<Mixin1>());
+      expect(proto, isNot(isA<Mixin2>()));
+      expect(proto, isA<Mixin3>());
     });
   });
 }

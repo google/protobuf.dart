@@ -3,10 +3,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library map_field_test;
-
 import 'dart:convert';
 
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/map_field.pb.dart';
@@ -82,9 +81,9 @@ void main() {
     expect(testMap.int32ToEnumField[2], TestMap_EnumValue.BAR);
     expect(testMap.int32ToEnumField[3], TestMap_EnumValue.BAZ);
 
-    expect(testMap.int32ToMessageField[1].value, 11);
-    expect(testMap.int32ToMessageField[2].value, 22);
-    expect(testMap.int32ToMessageField[3].value, 33);
+    expect(testMap.int32ToMessageField[1]!.value, 11);
+    expect(testMap.int32ToMessageField[2]!.value, 22);
+    expect(testMap.int32ToMessageField[3]!.value, 33);
 
     expect(testMap.stringToInt32Field['1'], 11);
     expect(testMap.stringToInt32Field['2'], 22);
@@ -113,9 +112,9 @@ void main() {
     expect(testMap.int32ToEnumField[4], TestMap_EnumValue.ZOP);
 
     expect(testMap.int32ToMessageField.length, 3);
-    expect(testMap.int32ToMessageField[1].value, 111);
-    expect(testMap.int32ToMessageField[3].value, 33);
-    expect(testMap.int32ToMessageField[4].value, 44);
+    expect(testMap.int32ToMessageField[1]!.value, 111);
+    expect(testMap.int32ToMessageField[3]!.value, 33);
+    expect(testMap.int32ToMessageField[4]!.value, 44);
 
     expect(testMap.stringToInt32Field.length, 3);
     expect(testMap.stringToInt32Field['1'], 111);
@@ -139,45 +138,6 @@ void main() {
     _setValues(testMap);
     _updateValues(testMap);
     _expectMapValuesUpdated(testMap);
-  });
-
-  test('null keys and value are not allowed', () {
-    var testMap = TestMap();
-
-    try {
-      testMap.stringToInt32Field[null] = 1;
-      fail('Should have thrown an exception.');
-    } on ArgumentError catch (e) {
-      expect(e.message, "Can't add a null to a map field");
-    }
-
-    try {
-      testMap.int32ToBytesField[1] = null;
-      fail('Should have thrown an exception.');
-    } on ArgumentError catch (e) {
-      expect(e.message, "Can't add a null to a map field");
-    }
-
-    try {
-      testMap.int32ToStringField[1] = null;
-      fail('Should have thrown an exception.');
-    } on ArgumentError catch (e) {
-      expect(e.message, "Can't add a null to a map field");
-    }
-
-    try {
-      testMap.int32ToEnumField[1] = null;
-      fail('Should have thrown an exception.');
-    } on ArgumentError catch (e) {
-      expect(e.message, "Can't add a null to a map field");
-    }
-
-    try {
-      testMap.int32ToMessageField[1] = null;
-      fail('Should have thrown an exception.');
-    } on ArgumentError catch (e) {
-      expect(e.message, "Can't add a null to a map field");
-    }
   });
 
   test('Serialize and parse map', () {
@@ -254,9 +214,9 @@ void main() {
       ..int32ToMessageField[1] = (TestMap_MessageValue()..secondValue = 43);
     testMap.mergeFromMessage(other);
 
-    expect(testMap.int32ToMessageField[1].value, 0);
-    expect(testMap.int32ToMessageField[1].secondValue, 43);
-    expect(testMap.int32ToMessageField[2].value, 44);
+    expect(testMap.int32ToMessageField[1]!.value, 0);
+    expect(testMap.int32ToMessageField[1]!.secondValue, 43);
+    expect(testMap.int32ToMessageField[2]!.value, 44);
   });
 
   test('parse duplicate keys', () {
@@ -285,12 +245,12 @@ void main() {
 
   test('retain explicit default values of sub-messages', () {
     var testMap = TestMap()..int32ToMessageField[1] = TestMap_MessageValue();
-    expect(testMap.int32ToMessageField[1].secondValue, 42);
+    expect(testMap.int32ToMessageField[1]!.secondValue, 42);
 
     var testMap2 = TestMap()..int32ToMessageField[2] = TestMap_MessageValue();
 
     testMap.mergeFromBuffer(testMap2.writeToBuffer());
-    expect(testMap.int32ToMessageField[2].secondValue, 42);
+    expect(testMap.int32ToMessageField[2]!.secondValue, 42);
   });
 
   test('Freeze message with map field', () {
@@ -300,7 +260,7 @@ void main() {
 
     expect(() => _updateValues(testMap),
         throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToMessageField[1].value = 42,
+    expect(() => testMap.int32ToMessageField[1]!.value = 42,
         throwsA(const TypeMatcher<UnsupportedError>()));
     expect(() => testMap.int32ToStringField.remove(1),
         throwsA(const TypeMatcher<UnsupportedError>()));
@@ -314,8 +274,8 @@ void main() {
     testMap.int32ToMessageField[2] = (TestMap_MessageValue()..secondValue = 12);
 
     void testValues(TestMap candidate) {
-      final message1 = candidate.int32ToMessageField[1];
-      final message2 = candidate.int32ToMessageField[2];
+      final message1 = candidate.int32ToMessageField[1]!;
+      final message2 = candidate.int32ToMessageField[2]!;
 
       expect(message1.hasValue(), true);
       expect(message1.value, 11);
@@ -329,5 +289,61 @@ void main() {
 
     testValues(TestMap.fromBuffer(testMap.writeToBuffer()));
     testValues(TestMap.fromJson(testMap.writeToJson()));
+  });
+
+  test('Calling getField on map fields using reflective API works.', () {
+    final testMap = TestMap();
+    final mapFieldInfo = testMap.info_.fieldInfo.values
+        .where((fieldInfo) =>
+            fieldInfo is MapFieldInfo && fieldInfo.name == 'int32ToBytesField')
+        .single;
+    final value = testMap.getField(mapFieldInfo.tagNumber);
+    expect(value is Map<int, List<int>>, true);
+  });
+
+  test('named optional arguments in cosntructor', () {
+    final testMap = TestMap(
+      int32ToInt32Field: {1: 11, 2: 22, 3: 33},
+      int32ToStringField: {1: '11', 2: '22', 3: '33'},
+      int32ToBytesField: {
+        1: utf8.encode('11'),
+        2: utf8.encode('22'),
+        3: utf8.encode('33')
+      },
+      int32ToEnumField: {
+        1: TestMap_EnumValue.DEFAULT,
+        2: TestMap_EnumValue.BAR,
+        3: TestMap_EnumValue.BAZ
+      },
+      int32ToMessageField: {
+        1: TestMap_MessageValue(value: 11),
+        2: TestMap_MessageValue(value: 22),
+        3: TestMap_MessageValue(value: 33)
+      },
+      stringToInt32Field: {'1': 11, '2': 22, '3': 33},
+    );
+    _expectMapValuesSet(testMap);
+  });
+
+  test('Parses null keys and values', () {
+    // Use a desugared version of the message to create missing
+    // values in the serialized form.
+    final d = Desugared(int32ToStringField: [
+      Desugared_Int32ToString(key: null, value: 'abc'),
+      Desugared_Int32ToString(key: 42, value: null),
+      Desugared_Int32ToString(key: 11, value: 'def'),
+    ], stringToInt32Field: [
+      Desugared_StringToInt32(key: null, value: 11),
+      Desugared_StringToInt32(key: 'abc', value: null),
+      Desugared_StringToInt32(key: 'def', value: 42),
+    ]);
+
+    final m = TestMap.fromBuffer(d.writeToBuffer());
+    expect(m.int32ToStringField[0], 'abc');
+    expect(m.int32ToStringField[42], '');
+    expect(m.int32ToStringField[11], 'def');
+    expect(m.stringToInt32Field['abc'], 0);
+    expect(m.stringToInt32Field[''], 11);
+    expect(m.stringToInt32Field['def'], 42);
   });
 }

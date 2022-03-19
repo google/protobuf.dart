@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.string_json;
-
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart'
     show BenchmarkID, Request, Params, Sample;
@@ -20,7 +18,7 @@ class StringBenchmark extends Benchmark {
   StringBenchmark(this.width, this.height, this.stringSize) : super($id);
 
   @override
-  get summary => "${id.name}($width x $height x $stringSize)";
+  get summary => '${id.name}($width x $height x $stringSize)';
 
   @override
   Params makeParams() => Params()
@@ -40,10 +38,10 @@ class StringBenchmark extends Benchmark {
   // "12" "23" "34" "45"
   // "23" "34" "45" "56"
   static pb.Grid10 _makeGrid(int width, int height, int stringSize) {
-    if (width > 10) throw ArgumentError("width out of range: ${width}");
+    if (width > 10) throw ArgumentError('width out of range: $width');
     var grid = pb.Grid10();
 
-    int zero = "0".codeUnits[0];
+    int zero = '0'.codeUnits[0];
 
     for (int y = 0; y < height; y++) {
       var line = pb.Line10();
@@ -69,19 +67,19 @@ class StringBenchmark extends Benchmark {
   void run() {
     pb.Grid10 grid = pb.Grid10.fromJson(json);
     var actual = grid.lines[height - 1].getField(lastFieldTag);
-    if (actual.length != stringSize) throw "failed; got ${actual}";
+    if (actual.length != stringSize) throw 'failed; got $actual';
   }
 
   @override
-  void setCounts(Sample s) {
-    s.counts.stringReads = width * height * s.loopCount;
+  void setCounts(Sample m) {
+    m.counts.stringReads = width * height * m.loopCount;
   }
 
   @override
   measureSample(Sample s) => stringReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "string reads/ms";
+  get measureSampleUnits => 'string reads/ms';
 
   static const $id = BenchmarkID.READ_STRING_FIELDS_JSON;
   static final $type = BenchmarkType($id, $create);

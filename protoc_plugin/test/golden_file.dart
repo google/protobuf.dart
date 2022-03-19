@@ -14,7 +14,7 @@ void expectMatchesGoldenFile(String actual, String goldenFilePath) {
   var goldenFile = File(goldenFilePath);
   if (goldenFile.existsSync()) {
     expect(actual, equals(goldenFile.readAsStringSync()),
-        reason: 'goldenFilePath: "${goldenFilePath}"');
+        reason: 'goldenFilePath: "$goldenFilePath"');
   } else {
     // This enables writing the updated file when the run in otherwise hermetic
     // settings.

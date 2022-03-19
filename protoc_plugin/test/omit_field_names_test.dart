@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:test/test.dart';
+
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
 @pragma('dart2js:noInline')

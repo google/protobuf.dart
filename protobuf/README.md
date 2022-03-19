@@ -14,4 +14,4 @@ library as a dependency.
 * [Dart generated code guide](https://developers.google.com/protocol-buffers/docs/reference/dart-generated)
 * [Dart API](https://pub.dev/documentation/protobuf/latest/)
 * [Protobuf repository](https://github.com/google/protobuf)
-* [Protoc plugin project](https://github.com/dart-lang/protobuf/tree/master/protoc_plugin)
+* [Protoc plugin project](https://github.com/google/protobuf.dart/tree/master/protoc_plugin)

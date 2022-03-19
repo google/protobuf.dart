@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.const_generator;
-
-import "indenting_writer.dart";
+import 'indenting_writer.dart';
 import 'string_escape.dart';
 
 /// Writes JSON data as a Dart constant expression.
@@ -13,31 +11,31 @@ void writeJsonConst(IndentingWriter out, val) {
   if (val is Map) {
     if (val.values.any(_nonEmptyListOrMap)) {
       out.addBlock(
-          "const {", "}", () => _writeMapItems(out, val, vertical: true),
+          'const {', '}', () => _writeMapItems(out, val, vertical: true),
           endWithNewline: false);
     } else {
-      out.print("const {");
+      out.print('const {');
       _writeMapItems(out, val);
-      out.print("}");
+      out.print('}');
     }
   } else if (val is List) {
     if (val.any(_nonEmptyListOrMap)) {
       out.addBlock(
-          "const [", "]", () => _writeListItems(out, val, vertical: true),
+          'const [', ']', () => _writeListItems(out, val, vertical: true),
           endWithNewline: false);
     } else {
-      out.print("const [");
+      out.print('const [');
       _writeListItems(out, val);
-      out.print("]");
+      out.print(']');
     }
   } else if (val is String) {
     _writeString(out, val);
   } else if (val is num || val is bool) {
     out.print(val.toString());
   } else if (val == null) {
-    out.print("null");
+    out.print('null');
   } else {
-    throw "not JSON: $val";
+    throw 'not JSON: $val';
   }
 }
 
@@ -55,11 +53,11 @@ void _writeListItems(IndentingWriter out, List val, {bool vertical = false}) {
   var first = true;
   for (var item in val) {
     if (!first && !vertical) {
-      out.print(", ");
+      out.print(', ');
     }
     writeJsonConst(out, item);
     if (vertical) {
-      out.println(",");
+      out.println(',');
     }
     first = false;
   }
@@ -69,12 +67,12 @@ void _writeMapItems(IndentingWriter out, Map<dynamic, dynamic> val,
     {bool vertical = false}) {
   var first = true;
   for (var key in val.keys) {
-    if (!first && !vertical) out.print(", ");
+    if (!first && !vertical) out.print(', ');
     _writeString(out, key as String);
-    out.print(": ");
+    out.print(': ');
     writeJsonConst(out, val[key]);
     if (vertical) {
-      out.println(",");
+      out.println(',');
     }
     first = false;
   }

@@ -2,12 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.dashboard_model;
-
-import 'generated/benchmark.pb.dart' as pb;
-
-import 'package:api_benchmark/benchmark.dart' show Benchmark;
+import 'benchmark.dart' show Benchmark;
 import 'benchmarks/index.dart' show createBenchmark;
+import 'generated/benchmark.pb.dart' as pb;
 
 /// Contains the viewable state of the dashboard. (Immutable.)
 class DashboardModel {
@@ -52,7 +49,7 @@ class Table {
         b.checkRequest(it.current.request);
         baseline = b.medianSample(it.current);
       }
-      rows.add(Row(r, b, baseline, selected: this.selections.contains(r)));
+      rows.add(Row(r, b, baseline, selected: selections.contains(r)));
     }
   }
 
@@ -65,7 +62,7 @@ class Table {
   }
 
   Table withNoneSelected() {
-    return Table._raw(suite, baseline, report, Set<pb.Request>());
+    return Table._raw(suite, baseline, report, <pb.Request>{});
   }
 
   Table withSelection(pb.Request request, bool selected) {
@@ -101,5 +98,6 @@ class SelectEvent<T> {
   final bool selected;
   final T item;
   SelectEvent(this.selected, [this.item]);
-  toString() => "SelectEvent($selected, $item)";
+  @override
+  toString() => 'SelectEvent($selected, $item)';
 }

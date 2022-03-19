@@ -25,7 +25,7 @@ How to build and use
 *Note:* currently the workflow is POSIX-oriented.
 
 To build standalone `protoc` plugin:
-- run `dart pub get` to install all dependencies
+- Run `dart pub get` to install all dependencies
 - Now you can use the plugin either by adding the `bin` directory to your `PATH`,
   or passing it directly with `protoc`'s `--plugin` option.
 
@@ -114,7 +114,7 @@ Hacking
 Here are some ways to get protoc:
 
 * Linux: `apt-get install protobuf-compiler`
-* Mac [homebrew](http://brew.sh/): `brew install protobuf`
+* Mac [homebrew](https://brew.sh/): `brew install protobuf`
 
 If the version installed this way doesn't work, an alternative is to
 [compile protoc from source](https://developers.google.com/protocol-buffers/docs/downloads).
@@ -126,4 +126,4 @@ Useful references
 
 * [Main Dart site](https://dart.dev)
 * [Main protobuf site](https://github.com/protocolbuffers/protobuf)
-* [Protobuf runtime support project](https://github.com/dart-lang/protobuf)
+* [Protobuf runtime support project](https://github.com/google/protobuf.dart)

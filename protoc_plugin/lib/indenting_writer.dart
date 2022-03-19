@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.indenting_writer;
-
-import 'src/descriptor.pb.dart';
+import 'src/generated/descriptor.pb.dart';
 
 /// Specifies code locations where metadata annotations should be attached and
 /// where they should point to in the original proto.
@@ -12,21 +10,24 @@ class NamedLocation {
   final String name;
   final List<int> fieldPathSegment;
   final int start;
-  NamedLocation({this.name, this.fieldPathSegment, this.start});
+  NamedLocation(
+      {required this.name,
+      required this.fieldPathSegment,
+      required this.start});
 }
 
 /// A buffer for writing indented source code.
 class IndentingWriter {
   final StringBuffer _buffer = StringBuffer();
   final GeneratedCodeInfo sourceLocationInfo = GeneratedCodeInfo();
-  String _indent = "";
+  String _indent = '';
   bool _needIndent = true;
   // After writing any chunk, _previousOffset is the size of everything that was
   // written to the buffer before the latest call to print or addBlock.
   int _previousOffset = 0;
-  final String _sourceFile;
+  final String? _sourceFile;
 
-  IndentingWriter({String filename}) : _sourceFile = filename;
+  IndentingWriter({String? filename}) : _sourceFile = filename;
 
   /// Appends a string indented to the current level.
   /// (Indentation will be added after newline characters where needed.)
@@ -131,7 +132,7 @@ class IndentingWriter {
     }
     var annotation = GeneratedCodeInfo_Annotation()
       ..path.addAll(fieldPath)
-      ..sourceFile = _sourceFile
+      ..sourceFile = _sourceFile!
       ..begin = _previousOffset + start
       ..end = _previousOffset + start + name.length;
     sourceLocationInfo.annotation.add(annotation);

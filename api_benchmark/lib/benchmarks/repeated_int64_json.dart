@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.repeated_int64_json;
-
 import 'package:fixnum/fixnum.dart';
 
 import '../benchmark.dart';
@@ -20,7 +18,7 @@ class RepeatedInt64Benchmark extends Benchmark {
   RepeatedInt64Benchmark(this.width, this.height) : super($id);
 
   @override
-  get summary => "${id.name}($width x $height ints)";
+  get summary => '${id.name}($width x $height ints)';
 
   @override
   Params makeParams() => Params()
@@ -55,19 +53,19 @@ class RepeatedInt64Benchmark extends Benchmark {
   void run() {
     pb.Grid grid = pb.Grid.fromJson(json);
     var actual = grid.lines[height - 1].cells[width - 1];
-    if (actual != width + height - 2) throw "failed; got ${actual}";
+    if (actual != width + height - 2) throw 'failed; got $actual';
   }
 
   @override
-  void setCounts(Sample s) {
-    s.counts.int64Reads = width * height * s.loopCount;
+  void setCounts(Sample m) {
+    m.counts.int64Reads = width * height * m.loopCount;
   }
 
   @override
   measureSample(Sample s) => int64ReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "int64 reads/ms";
+  get measureSampleUnits => 'int64 reads/ms';
 
   static const $id = BenchmarkID.READ_INT64_REPEATED_JSON;
   static final $type = BenchmarkType($id, $create);

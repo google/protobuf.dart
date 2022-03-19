@@ -3,8 +3,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../out/protos/default_value_escape.pb.dart';
+// @dart=2.11
+
 import 'package:test/test.dart';
+
+import '../out/protos/default_value_escape.pb.dart';
 
 void main() {
   test('default values are escaped properly', () {

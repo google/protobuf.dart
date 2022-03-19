@@ -1,6 +1,6 @@
 # Protobuf support for Dart
 
-[![CI status](https://github.com/dart-lang/protobuf/workflows/Dart%20CI/badge.svg)](https://github.com/dart-lang/protobuf/actions?query=workflow%3A%22Dart%22+branch%3Amaster)
+[![CI status](https://github.com/google/protobuf.dart/workflows/Dart%20CI/badge.svg)](https://github.com/google/protobuf.dart/actions?query=workflow%3A%22Dart%22+branch%3Amaster)
 [![pub package](https://img.shields.io/pub/v/protobuf.svg)](https://pub.dev/packages/protobuf)
 
 [Protocol Buffers](https://developers.google.com/protocol-buffers) (protobuf)

@@ -2,29 +2,23 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.index;
-
-import "../benchmark.dart";
-
-import "int32_json.dart";
-import "int64_json.dart";
-import "string_json.dart";
-
-import "repeated_int32_json.dart";
-import "repeated_int64_json.dart";
-import "repeated_string_json.dart";
-
-import "get_strings.dart";
-import "set_strings.dart";
-import "has_strings.dart";
-
+import '../benchmark.dart';
 import '../generated/benchmark.pb.dart' as pb;
+import 'get_strings.dart';
+import 'has_strings.dart';
+import 'int32_json.dart';
+import 'int64_json.dart';
+import 'repeated_int32_json.dart';
+import 'repeated_int64_json.dart';
+import 'repeated_string_json.dart';
+import 'set_strings.dart';
+import 'string_json.dart';
 
 /// Creates the appropriate Benchmark instance for a protobuf.
 Benchmark createBenchmark(pb.Request r) {
   var type = allBenchmarks[r.id];
   if (type == null) {
-    throw ArgumentError("unknown benchmark: ${r.id.name}");
+    throw ArgumentError('unknown benchmark: ${r.id.name}');
   }
   return type.create(r);
 }
@@ -45,7 +39,7 @@ Map<pb.BenchmarkID, BenchmarkType> _makeTypeMap(List<BenchmarkType> types) {
   var out = <pb.BenchmarkID, BenchmarkType>{};
   for (var type in types) {
     if (out.containsKey(type.id)) {
-      throw "already added: $type.id.name";
+      throw 'already added: $type.id.name';
     }
     out[type.id] = type;
   }

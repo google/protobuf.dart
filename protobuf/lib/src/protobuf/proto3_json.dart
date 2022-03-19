@@ -4,8 +4,8 @@
 
 part of protobuf;
 
-Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
-  String convertToMapKey(dynamic key, int keyType) {
+Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
+  String? convertToMapKey(dynamic key, int keyType) {
     var baseType = PbFieldType._baseType(keyType);
 
     assert(!_isRepeated(keyType));
@@ -32,10 +32,10 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     }
   }
 
-  Object valueToProto3Json(dynamic fieldValue, int fieldType) {
+  Object? valueToProto3Json(dynamic fieldValue, int? fieldType) {
     if (fieldValue == null) return null;
 
-    if (_isGroupOrMessage(fieldType)) {
+    if (_isGroupOrMessage(fieldType!)) {
       return _writeToProto3Json(
           (fieldValue as GeneratedMessage)._fieldSet, typeRegistry);
     } else if (_isEnum(fieldType)) {
@@ -81,13 +81,14 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     }
   }
 
-  if (fs._meta.toProto3Json != null) {
-    return fs._meta.toProto3Json(fs._message, typeRegistry);
+  final meta = fs._meta;
+  if (meta.toProto3Json != null) {
+    return meta.toProto3Json!(fs._message!, typeRegistry);
   }
 
   var result = <String, dynamic>{};
   for (var fieldInfo in fs._infosSortedByTag) {
-    var value = fs._values[fieldInfo.index];
+    var value = fs._values[fieldInfo.index!];
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
     }
@@ -95,7 +96,7 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
         var mapEntryInfo = fieldInfo as MapFieldInfo;
-        return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType),
+        return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType!),
             valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
       });
     } else if (fieldInfo.isRepeated) {
@@ -111,8 +112,18 @@ Object _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
   return result;
 }
 
+/// TODO(paulberry): find a better home for this?
+extension _FindFirst<E> on Iterable<E> {
+  E? findFirst(bool Function(E) test) {
+    for (var element in this) {
+      if (test(element)) return element;
+    }
+    return null;
+  }
+}
+
 void _mergeFromProto3Json(
-    Object json,
+    Object? json,
     _FieldSet fieldSet,
     TypeRegistry typeRegistry,
     bool ignoreUnknownFields,
@@ -121,7 +132,7 @@ void _mergeFromProto3Json(
   var context = JsonParsingContext(
       ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
-  void recursionHelper(Object json, _FieldSet fieldSet) {
+  void recursionHelper(Object? json, _FieldSet fieldSet) {
     int tryParse32Bit(String s) {
       return int.tryParse(s) ??
           (throw context.parseException('expected integer', s));
@@ -151,9 +162,9 @@ void _mergeFromProto3Json(
       return result;
     }
 
-    Object convertProto3JsonValue(Object value, FieldInfo fieldInfo) {
+    Object? convertProto3JsonValue(Object? value, FieldInfo fieldInfo) {
       if (value == null) {
-        return fieldInfo.makeDefault();
+        return fieldInfo.makeDefault!();
       }
       var fieldType = fieldInfo.type;
       switch (PbFieldType._baseType(fieldType)) {
@@ -197,15 +208,13 @@ void _mergeFromProto3Json(
           if (value is String) {
             // TODO(sigurdm): Do we want to avoid linear search here? Measure...
             final result = permissiveEnums
-                ? fieldInfo.enumValues.firstWhere(
-                    (e) => permissiveCompare(e.name, value),
-                    orElse: () => null)
-                : fieldInfo.enumValues
-                    .firstWhere((e) => e.name == value, orElse: () => null);
+                ? fieldInfo.enumValues!
+                    .findFirst((e) => permissiveCompare(e.name, value))
+                : fieldInfo.enumValues!.findFirst((e) => e.name == value);
             if ((result != null) || ignoreUnknownFields) return result;
             throw context.parseException('Unknown enum value', value);
           } else if (value is int) {
-            return fieldInfo.valueOf(value) ??
+            return fieldInfo.valueOf!(value) ??
                 (ignoreUnknownFields
                     ? null
                     : (throw context.parseException(
@@ -269,7 +278,7 @@ void _mergeFromProto3Json(
               'Expected int or stringified int', value);
         case PbFieldType._GROUP_BIT:
         case PbFieldType._MESSAGE_BIT:
-          var subMessage = fieldInfo.subBuilder();
+          var subMessage = fieldInfo.subBuilder!();
           recursionHelper(value, subMessage._fieldSet);
           return subMessage;
         default:
@@ -319,16 +328,15 @@ void _mergeFromProto3Json(
       return;
     }
 
-    var info = fieldSet._meta;
-
-    final wellKnownConverter = info.fromProto3Json;
+    final meta = fieldSet._meta;
+    final wellKnownConverter = meta.fromProto3Json;
     if (wellKnownConverter != null) {
-      wellKnownConverter(fieldSet._message, json, typeRegistry, context);
+      wellKnownConverter(fieldSet._message!, json, typeRegistry, context);
     } else {
       if (json is Map) {
-        var byName = info.byName;
+        final byName = meta.byName;
 
-        json.forEach((key, value) {
+        json.forEach((key, Object? value) {
           if (key is! String) {
             throw context.parseException('Key was not a String', key);
           }
@@ -338,9 +346,8 @@ void _mergeFromProto3Json(
           if (fieldInfo == null && supportNamesWithUnderscores) {
             // We don't optimize for field names with underscores, instead do a
             // linear search for the index.
-            fieldInfo = byName.values.firstWhere(
-                (FieldInfo info) => info.protoName == key,
-                orElse: () => null);
+            fieldInfo = byName.values
+                .findFirst((FieldInfo info) => info.protoName == key);
           }
           if (fieldInfo == null) {
             if (ignoreUnknownFields) {
@@ -352,19 +359,17 @@ void _mergeFromProto3Json(
 
           if (_isMapField(fieldInfo.type)) {
             if (value is Map) {
-              MapFieldInfo mapFieldInfo = fieldInfo;
-              Map fieldValues = fieldSet._ensureMapField(fieldInfo);
+              final mapFieldInfo = fieldInfo as MapFieldInfo<dynamic, dynamic>;
+              final Map fieldValues = fieldSet._ensureMapField(meta, fieldInfo);
               value.forEach((subKey, subValue) {
                 if (subKey is! String) {
                   throw context.parseException('Expected a String key', subKey);
                 }
                 context.addMapIndex(subKey);
-                final result = fieldValues[
-                        decodeMapKey(subKey, mapFieldInfo.keyFieldType)] =
+                fieldValues[decodeMapKey(subKey, mapFieldInfo.keyFieldType!)] =
                     convertProto3JsonValue(
                         subValue, mapFieldInfo.valueFieldInfo);
                 context.popIndex();
-                return result;
               });
             } else {
               throw context.parseException('Expected a map', value);
@@ -372,9 +377,9 @@ void _mergeFromProto3Json(
           } else if (_isRepeated(fieldInfo.type)) {
             if (value == null) {
               // `null` is accepted as the empty list [].
-              fieldSet._ensureRepeatedField(fieldInfo);
+              fieldSet._ensureRepeatedField(meta, fieldInfo);
             } else if (value is List) {
-              var values = fieldSet._ensureRepeatedField(fieldInfo);
+              var values = fieldSet._ensureRepeatedField(meta, fieldInfo);
               for (var i = 0; i < value.length; i++) {
                 final entry = value[i];
                 context.addListIndex(i);
@@ -385,19 +390,20 @@ void _mergeFromProto3Json(
               throw context.parseException('Expected a list', value);
             }
           } else if (_isGroupOrMessage(fieldInfo.type)) {
-            // TODO(sigurdm) consider a cleaner separation between parsing and merging.
-            GeneratedMessage parsedSubMessage =
-                convertProto3JsonValue(value, fieldInfo);
-            GeneratedMessage original = fieldSet._values[fieldInfo.index];
+            // TODO(sigurdm) consider a cleaner separation between parsing and
+            // merging.
+            var parsedSubMessage =
+                convertProto3JsonValue(value, fieldInfo) as GeneratedMessage;
+            GeneratedMessage? original = fieldSet._values[fieldInfo.index!];
             if (original == null) {
               fieldSet._setNonExtensionFieldUnchecked(
-                  fieldInfo, parsedSubMessage);
+                  meta, fieldInfo, parsedSubMessage);
             } else {
               original.mergeFromMessage(parsedSubMessage);
             }
           } else {
             fieldSet._setFieldUnchecked(
-                fieldInfo, convertProto3JsonValue(value, fieldInfo));
+                meta, fieldInfo, convertProto3JsonValue(value, fieldInfo));
           }
           context.popIndex();
         });

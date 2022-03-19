@@ -42,7 +42,7 @@ class Dataset {
   /// Messages deserialized from [packed]. Used in serialization benchmarks.
   final List<GeneratedMessage> unpacked = <GeneratedMessage>[];
 
-  /// Create [Dataset] from a [BenchmarkDataset] proto.
+  /// Create [Dataset] from a `BenchmarkDataset` proto.
   factory Dataset.fromBinary(List<int> binary) {
     final dataSet = BenchmarkDataset.fromBuffer(binary);
 
@@ -71,9 +71,9 @@ class Factories {
   final FromJsonFactory fromJson;
 
   static Factories forMessage(String name) =>
-      _factories[name] ?? (throw 'Unsupported message: ${name}');
+      _factories[name] ?? (throw 'Unsupported message: $name');
 
-  /// Mapping between [BenchmarkProto.messageName] and corresponding
+  /// Mapping between `BenchmarkDataset.messageName` and corresponding
   /// deserialization factories.
   static final _factories = {
     'benchmarks.proto2.GoogleMessage1': Factories._(
@@ -93,7 +93,7 @@ class Factories {
         fromJson: (String json) => GoogleMessage4.fromJson(json)),
   };
 
-  Factories._({this.fromBuffer, this.fromJson});
+  Factories._({required this.fromBuffer, required this.fromJson});
 }
 
 /// Base for all protobuf benchmarks.

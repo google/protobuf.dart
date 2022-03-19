@@ -6,7 +6,7 @@ part of protobuf;
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
-  FrozenPbList<T> _emptyList;
+  FrozenPbList<T>? _emptyList;
 
   /// Name of this field as the `json_name` reported by protoc.
   ///
@@ -19,34 +19,34 @@ class FieldInfo<T> {
   final String protoName;
 
   final int tagNumber;
-  final int index; // index of the field's value. Null for extensions.
+  final int? index; // index of the field's value. Null for extensions.
   final int type;
 
   // Constructs the default value of a field.
   // (Only used for repeated fields where check is null.)
-  final MakeDefaultFunc makeDefault;
+  final MakeDefaultFunc? makeDefault;
 
   // Creates an empty message or group when decoding a message.
   // Not used for other types.
   // see GeneratedMessage._getEmptyMessage
-  final CreateBuilderFunc subBuilder;
+  final CreateBuilderFunc? subBuilder;
 
   // List of all enum enumValues.
   // (Not used for other types.)
-  final List<ProtobufEnum> enumValues;
+  final List<ProtobufEnum>? enumValues;
 
   // Default enum value, if type is a PbList<ProtobufEnum> or a
   // PbMap<[anything], ProtobufEnum>.
-  final ProtobufEnum defaultEnumValue;
+  final ProtobufEnum? defaultEnumValue;
 
   // Looks up the enum value given its integer code.
   // (Not used for other types.)
   // see GeneratedMessage._getValueOfFunc
-  final ValueOfFunc valueOf;
+  final ValueOfFunc? valueOf;
 
   // Verifies an item being added to a repeated field
   // (Not used for non-repeated fields.)
-  final CheckFunc<T> check;
+  final CheckFunc<T>? check;
 
   FieldInfo(this.name, this.tagNumber, this.index, this.type,
       {dynamic defaultOrMaker,
@@ -54,7 +54,7 @@ class FieldInfo<T> {
       this.valueOf,
       this.enumValues,
       this.defaultEnumValue,
-      String protoName})
+      String? protoName})
       : makeDefault = findMakeDefault(type, defaultOrMaker),
         check = null,
         protoName = protoName ?? _unCamelCase(name),
@@ -79,17 +79,17 @@ class FieldInfo<T> {
 
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
       this.check, this.subBuilder,
-      {this.valueOf, this.enumValues, this.defaultEnumValue, String protoName})
-      : makeDefault = (() => PbList<T>(check: check)),
+      {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
+      : makeDefault = (() => PbList<T>(check: check!)),
         protoName = protoName ?? _unCamelCase(name) {
-    assert(name != null);
-    assert(tagNumber != null);
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(tagNumber, 'tagNumber');
     assert(_isRepeated(type));
     assert(check != null);
     assert(!_isEnum(type) || valueOf != null);
   }
 
-  static MakeDefaultFunc findMakeDefault(int type, dynamic defaultOrMaker) {
+  static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
@@ -111,7 +111,7 @@ class FieldInfo<T> {
     if (isRepeated) {
       return _emptyList ??= FrozenPbList._([]);
     }
-    return makeDefault();
+    return makeDefault!();
   }
 
   /// Returns true if the field's value is okay to transmit.
@@ -169,7 +169,7 @@ class FieldInfo<T> {
   ///
   /// Delegates actual list creation to the message, so that it can
   /// be overridden by a mixin.
-  List<T> _createRepeatedField(GeneratedMessage m) {
+  List<T?> _createRepeatedField(GeneratedMessage m) {
     assert(isRepeated);
     return m.createRepeatedField<T>(tagNumber, this);
   }
@@ -177,13 +177,13 @@ class FieldInfo<T> {
   /// Same as above, but allow a tighter typed List to be created.
   List<S> _createRepeatedFieldWithType<S extends T>(GeneratedMessage m) {
     assert(isRepeated);
-    return m.createRepeatedField<S>(tagNumber, this);
+    return m.createRepeatedField<S>(tagNumber, this as FieldInfo<S>);
   }
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
   /// _FieldSet._ensureRepeatedField.
-  List<T> _ensureRepeatedField(_FieldSet fs) {
-    return fs._ensureRepeatedField<T>(this);
+  List<T?> _ensureRepeatedField(BuilderInfo meta, _FieldSet fs) {
+    return fs._ensureRepeatedField<T>(meta, this);
   }
 
   @override
@@ -194,17 +194,17 @@ final RegExp _upperCase = RegExp('[A-Z]');
 
 String _unCamelCase(String name) {
   return name.replaceAllMapped(
-      _upperCase, (match) => '_${match.group(0).toLowerCase()}');
+      _upperCase, (match) => '_${match.group(0)!.toLowerCase()}');
 }
 
-class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
-  final int keyFieldType;
-  final int valueFieldType;
+class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
+  final int? keyFieldType;
+  final int? valueFieldType;
 
   /// Creates a new empty instance of the value type.
   ///
   /// `null` if the value type is not a Message type.
-  final CreateBuilderFunc valueCreator;
+  final CreateBuilderFunc? valueCreator;
 
   final BuilderInfo mapEntryBuilderInfo;
 
@@ -217,24 +217,24 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>> {
       this.valueFieldType,
       this.mapEntryBuilderInfo,
       this.valueCreator,
-      {ProtobufEnum defaultEnumValue,
-      String protoName})
+      {ProtobufEnum? defaultEnumValue,
+      String? protoName})
       : super(name, tagNumber, index, type,
             defaultOrMaker: () =>
                 PbMap<K, V>(keyFieldType, valueFieldType, mapEntryBuilderInfo),
             defaultEnumValue: defaultEnumValue,
             protoName: protoName) {
-    assert(name != null);
-    assert(tagNumber != null);
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(tagNumber, 'tagNumber');
     assert(_isMapField(type));
     assert(!_isEnum(type) || valueOf != null);
   }
 
   FieldInfo get valueFieldInfo =>
-      mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber];
+      mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber]!;
 
-  Map<K, V> _ensureMapField(_FieldSet fs) {
-    return fs._ensureMapField<K, V>(this);
+  Map<K, V> _ensureMapField(BuilderInfo meta, _FieldSet fs) {
+    return fs._ensureMapField<K, V>(meta, this);
   }
 
   Map<K, V> _createMapField(GeneratedMessage m) {
