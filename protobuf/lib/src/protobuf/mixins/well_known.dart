@@ -160,7 +160,7 @@ abstract class TimestampMixin {
   /// Time zone information will not be preserved.
   static void setFromDateTime(TimestampMixin target, DateTime dateTime) {
     var micros = dateTime.microsecondsSinceEpoch;
-    target.seconds = Int64(micros ~/ Duration.microsecondsPerSecond);
+    target.seconds = Int64((micros / Duration.microsecondsPerSecond).floor());
     target.nanos = (micros % Duration.microsecondsPerSecond).toInt() * 1000;
   }
 
