@@ -97,15 +97,14 @@ class GenerateMetadataParser implements SingleOptionParser {
 GenerationOptions? parseGenerationOptions(
     CodeGeneratorRequest request, CodeGeneratorResponse response,
     [Map<String, SingleOptionParser>? parsers]) {
-  final newParsers = <String, SingleOptionParser>{};
-  if (parsers != null) newParsers.addAll(parsers);
+  parsers ??= <String, SingleOptionParser>{};
 
   final grpcOptionParser = GrpcOptionParser();
-  newParsers['grpc'] = grpcOptionParser;
+  parsers['grpc'] = grpcOptionParser;
   final generateMetadataParser = GenerateMetadataParser();
-  newParsers['generate_kythe_info'] = generateMetadataParser;
+  parsers['generate_kythe_info'] = generateMetadataParser;
 
-  if (genericOptionsParser(request, response, newParsers)) {
+  if (genericOptionsParser(request, response, parsers)) {
     return GenerationOptions(
         useGrpc: grpcOptionParser.grpcEnabled,
         generateMetadata: generateMetadataParser.generateKytheInfo);
