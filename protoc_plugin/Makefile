@@ -96,7 +96,7 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 
 run-tests: protos
-	dart run test
+	dart test
 
 clean:
 	rm -rf benchmark/lib/generated
