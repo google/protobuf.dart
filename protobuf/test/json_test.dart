@@ -124,6 +124,7 @@ void main() {
   test('testToProto3JsonEmitDefaults', () {
     var json = jsonEncode(example.toProto3Json(emitDefaults: true));
     checkProto3JsonMap(jsonDecode(json), 6);
+    expect(json.contains('"child":null'), isTrue);
   });
 
   test('testToProto3JsonEmitDefaultsWithChild', () {
@@ -138,6 +139,25 @@ void main() {
     var childJson = jsonEncode(child.toProto3Json(emitDefaults: true));
     checkProto3JsonMap(jsonDecode(parentJson), 6);
     expect(parentJson.contains(childJson), isTrue);
+  });
+
+  test('testToProto3JsonEmitDefaultsWithNullList', () {
+    var exampleEmptyList = T()
+      ..val = example.val
+      ..str = example.str;
+
+    var json = jsonEncode(exampleEmptyList.toProto3Json(emitDefaults: true));
+    expect(json.contains('"int32s":[]'), isTrue);
+  });
+
+  test('testToProto3JsonEmitDefaultsWithEmptyList', () {
+    var exampleEmptyList = T()
+      ..val = example.val
+      ..str = example.str
+      ..int32s.addAll(<int>[]);
+
+    var json = jsonEncode(exampleEmptyList.toProto3Json(emitDefaults: true));
+    expect(json.contains('"int32s":[]'), isTrue);
   });
 }
 

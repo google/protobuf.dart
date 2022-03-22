@@ -92,16 +92,32 @@ Object? _writeToProto3Json(
   var result = <String, dynamic>{};
   for (var fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index!];
-    if (context.emitDefaults &&
-        value == null &&
-        !_isGroupOrMessage(fieldInfo.type)) {
-      value = fieldInfo.makeDefault!();
+    var emitDefaultsJsonValueOverride = false;
+    dynamic emitDefaultsJsonValueOverrideValue;
+    if (context.emitDefaults) {
+      if (value == null) {
+        if (_isGroupOrMessage(fieldInfo.type)) {
+          emitDefaultsJsonValueOverride = true;
+          emitDefaultsJsonValueOverrideValue = null;
+        } else if (fieldInfo.isRepeated) {
+          emitDefaultsJsonValueOverride = true;
+          emitDefaultsJsonValueOverrideValue = [];
+        } else {
+          value = fieldInfo.makeDefault!();
+        }
+      } else if (value is List && value.isEmpty) {
+        emitDefaultsJsonValueOverride = true;
+        emitDefaultsJsonValueOverrideValue = [];
+      }
     }
-    if (value == null || (value is List && value.isEmpty)) {
+    if ((value == null || (value is List && value.isEmpty)) &&
+        !emitDefaultsJsonValueOverride) {
       continue; // It's missing, repeated, or an empty byte array.
     }
     dynamic jsonValue;
-    if (fieldInfo.isMapField) {
+    if (emitDefaultsJsonValueOverride) {
+      jsonValue = emitDefaultsJsonValueOverrideValue;
+    } else if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
         var mapEntryInfo = fieldInfo as MapFieldInfo;
         return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType!),
