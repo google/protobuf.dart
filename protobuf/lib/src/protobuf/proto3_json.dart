@@ -39,8 +39,8 @@ Object? _writeToProto3Json(
     if (fieldValue == null) return null;
 
     if (_isGroupOrMessage(fieldType!)) {
-      return _writeToProto3Json((fieldValue as GeneratedMessage)._fieldSet,
-          typeRegistry, context.emitDefaults);
+      return _writeToProto3Json(
+          (fieldValue as GeneratedMessage)._fieldSet, typeRegistry, false);
     } else if (_isEnum(fieldType)) {
       return (fieldValue as ProtobufEnum).name;
     } else {

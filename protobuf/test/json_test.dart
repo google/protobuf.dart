@@ -115,6 +115,37 @@ void main() {
     final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
+
+  test('testToProto3Json', () {
+    var json = jsonEncode(example.toProto3Json());
+    checkProto3JsonMap(jsonDecode(json), 3);
+  });
+
+  test('testToProto3JsonEmitDefaults', () {
+    var json = jsonEncode(example.toProto3Json(emitDefaults: true));
+    checkProto3JsonMap(jsonDecode(json), 6);
+  });
+
+  test('testToProto3JsonEmitDefaultsWithChild', () {
+    var child = example;
+
+    var parent = T()
+      ..val = 123
+      ..str = 'hello'
+      ..int32s.addAll(<int>[1, 2, 3])
+      ..child = example;
+    var parentJson = jsonEncode(parent.toProto3Json(emitDefaults: true));
+    var childJson = jsonEncode(child.toProto3Json(emitDefaults: true));
+    checkProto3JsonMap(jsonDecode(parentJson), 6);
+    expect(parentJson.contains(childJson), isTrue);
+  });
+}
+
+void checkProto3JsonMap(Map m, int expectedLength) {
+  expect(m.length, expectedLength);
+  expect(m['val'], 123);
+  expect(m['str'], 'hello');
+  expect(m['int32s'], [1, 2, 3]);
 }
 
 void checkJsonMap(Map m) {
