@@ -84,6 +84,14 @@ Object? _writeToProto3Json(
     }
   }
 
+  bool isEmptyList(dynamic value) {
+    return value is List && value.isEmpty;
+  }
+
+  bool isEmptyMap(dynamic value) {
+    return value is Map && value.isEmpty;
+  }
+
   final meta = fs._meta;
   if (meta.toProto3Json != null) {
     return meta.toProto3Json!(fs._message!, typeRegistry);
@@ -92,31 +100,32 @@ Object? _writeToProto3Json(
   var result = <String, dynamic>{};
   for (var fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index!];
-    var emitDefaultsJsonValueOverride = false;
-    dynamic emitDefaultsJsonValueOverrideValue;
+    var overrideForEmitsDefaults = false;
+    dynamic overrideForEmitsDefaultsValue;
     if (context.emitDefaults) {
-      if (value == null) {
-        if (_isGroupOrMessage(fieldInfo.type)) {
-          emitDefaultsJsonValueOverride = true;
-          emitDefaultsJsonValueOverrideValue = null;
-        } else if (fieldInfo.isRepeated) {
-          emitDefaultsJsonValueOverride = true;
-          emitDefaultsJsonValueOverrideValue = [];
-        } else {
-          value = fieldInfo.makeDefault!();
+      if (fieldInfo.isRepeated && (value == null || isEmptyList(value))) {
+        overrideForEmitsDefaults = true;
+        overrideForEmitsDefaultsValue = [];
+      } else if (fieldInfo.isMapField && (value == null || isEmptyMap(value))) {
+        overrideForEmitsDefaults = true;
+        overrideForEmitsDefaultsValue = {};
+      } else {
+        if (value == null) {
+          if (_isGroupOrMessage(fieldInfo.type)) {
+            overrideForEmitsDefaults = true;
+            overrideForEmitsDefaultsValue = null;
+          } else {
+            value = fieldInfo.makeDefault!();
+          }
         }
-      } else if (value is List && value.isEmpty) {
-        emitDefaultsJsonValueOverride = true;
-        emitDefaultsJsonValueOverrideValue = [];
       }
     }
-    if ((value == null || (value is List && value.isEmpty)) &&
-        !emitDefaultsJsonValueOverride) {
+    if ((value == null || isEmptyList(value)) && !overrideForEmitsDefaults) {
       continue; // It's missing, repeated, or an empty byte array.
     }
     dynamic jsonValue;
-    if (emitDefaultsJsonValueOverride) {
-      jsonValue = emitDefaultsJsonValueOverrideValue;
+    if (overrideForEmitsDefaults) {
+      jsonValue = overrideForEmitsDefaultsValue;
     } else if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
         var mapEntryInfo = fieldInfo as MapFieldInfo;
