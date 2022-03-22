@@ -39,8 +39,8 @@ Object? _writeToProto3Json(
     if (fieldValue == null) return null;
 
     if (_isGroupOrMessage(fieldType!)) {
-      return _writeToProto3Json(
-          (fieldValue as GeneratedMessage)._fieldSet, typeRegistry, false);
+      return _writeToProto3Json((fieldValue as GeneratedMessage)._fieldSet,
+          typeRegistry, context.emitDefaults);
     } else if (_isEnum(fieldType)) {
       return (fieldValue as ProtobufEnum).name;
     } else {
@@ -92,7 +92,9 @@ Object? _writeToProto3Json(
   var result = <String, dynamic>{};
   for (var fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index!];
-    if (context.emitDefaults && value == null) {
+    if (context.emitDefaults &&
+        value == null &&
+        !_isGroupOrMessage(fieldInfo.type)) {
       value = fieldInfo.makeDefault!();
     }
     if (value == null || (value is List && value.isEmpty)) {
