@@ -4,7 +4,10 @@
 
 part of protobuf;
 
-Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
+Object? _writeToProto3Json(
+    _FieldSet fs, TypeRegistry typeRegistry, bool emitDefaults) {
+  var context = JsonSerializationContext(emitDefaults);
+
   String? convertToMapKey(dynamic key, int keyType) {
     var baseType = PbFieldType._baseType(keyType);
 
@@ -36,8 +39,8 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     if (fieldValue == null) return null;
 
     if (_isGroupOrMessage(fieldType!)) {
-      return _writeToProto3Json(
-          (fieldValue as GeneratedMessage)._fieldSet, typeRegistry);
+      return _writeToProto3Json((fieldValue as GeneratedMessage)._fieldSet,
+          typeRegistry, context.emitDefaults);
     } else if (_isEnum(fieldType)) {
       return (fieldValue as ProtobufEnum).name;
     } else {
@@ -89,6 +92,9 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
   var result = <String, dynamic>{};
   for (var fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index!];
+    if (context.emitDefaults && value == null) {
+      value = fieldInfo.makeDefault!();
+    }
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
     }
