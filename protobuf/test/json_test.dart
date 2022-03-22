@@ -127,6 +127,13 @@ void main() {
     expect(json.contains('"child":null'), isTrue);
   });
 
+  test('testToProto3JsonEmitDefaultsNoValues', () {
+    final exampleAllDefaults = T();
+    var json = jsonEncode(exampleAllDefaults.toProto3Json(emitDefaults: true));
+    Map m = jsonDecode(json);
+    expect(m.length, 6);
+  });
+
   test('testToProto3JsonEmitDefaultsWithChild', () {
     var child = example;
 
