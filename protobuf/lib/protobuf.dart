@@ -13,6 +13,7 @@ import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endian;
 import 'package:fixnum/fixnum.dart' show Int64;
 
 import 'src/protobuf/json_parsing_context.dart';
+import 'src/protobuf/json_serialization_context.dart';
 import 'src/protobuf/permissive_compare.dart';
 import 'src/protobuf/type_registry.dart';
 export 'src/protobuf/type_registry.dart' show TypeRegistry;
