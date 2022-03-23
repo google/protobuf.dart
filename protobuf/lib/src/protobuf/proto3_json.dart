@@ -84,12 +84,12 @@ Object? _writeToProto3Json(
     }
   }
 
-  bool isEmptyList(dynamic value) {
-    return value is List && value.isEmpty;
+  bool isNullOrEmptyList(dynamic value) {
+    return value == null || (value is List && value.isEmpty);
   }
 
-  bool isEmptyMap(dynamic value) {
-    return value is Map && value.isEmpty;
+  bool isNullOrEmptyMap(dynamic value) {
+    return value == null || (value is Map && value.isEmpty);
   }
 
   final meta = fs._meta;
@@ -103,24 +103,23 @@ Object? _writeToProto3Json(
     var overrideForEmitsDefaults = false;
     dynamic overrideForEmitsDefaultsValue;
     if (context.emitDefaults) {
-      if (fieldInfo.isRepeated && (value == null || isEmptyList(value))) {
+      if (fieldInfo.isRepeated && isNullOrEmptyList(value)) {
         overrideForEmitsDefaults = true;
         overrideForEmitsDefaultsValue = [];
-      } else if (fieldInfo.isMapField && (value == null || isEmptyMap(value))) {
+      } else if (fieldInfo.isMapField && isNullOrEmptyMap(value)) {
         overrideForEmitsDefaults = true;
         overrideForEmitsDefaultsValue = {};
+      } else if (_isBytes(fieldInfo.type) && isNullOrEmptyList(value)) {
+        overrideForEmitsDefaults = true;
+        overrideForEmitsDefaultsValue = null;
+      } else if (_isGroupOrMessage(fieldInfo.type) && value == null) {
+        overrideForEmitsDefaults = true;
+        overrideForEmitsDefaultsValue = null;
       } else {
-        if (value == null) {
-          if (_isGroupOrMessage(fieldInfo.type)) {
-            overrideForEmitsDefaults = true;
-            overrideForEmitsDefaultsValue = null;
-          } else {
-            value = fieldInfo.makeDefault!();
-          }
-        }
+        value ??= fieldInfo.makeDefault!();
       }
     }
-    if ((value == null || isEmptyList(value)) && !overrideForEmitsDefaults) {
+    if (isNullOrEmptyList(value) && !overrideForEmitsDefaults) {
       continue; // It's missing, repeated, or an empty byte array.
     }
     dynamic jsonValue;
