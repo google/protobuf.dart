@@ -4,7 +4,10 @@
 
 part of protobuf;
 
-Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
+Object? _writeToProto3Json(
+    _FieldSet fs, TypeRegistry typeRegistry, bool emitDefaults) {
+  var context = JsonSerializationContext(emitDefaults);
+
   String? convertToMapKey(dynamic key, int keyType) {
     var baseType = PbFieldType._baseType(keyType);
 
@@ -36,8 +39,8 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     if (fieldValue == null) return null;
 
     if (_isGroupOrMessage(fieldType!)) {
-      return _writeToProto3Json(
-          (fieldValue as GeneratedMessage)._fieldSet, typeRegistry);
+      return _writeToProto3Json((fieldValue as GeneratedMessage)._fieldSet,
+          typeRegistry, context.emitDefaults);
     } else if (_isEnum(fieldType)) {
       return (fieldValue as ProtobufEnum).name;
     } else {
@@ -81,6 +84,14 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     }
   }
 
+  bool isNullOrEmptyList(dynamic value) {
+    return value == null || (value is List && value.isEmpty);
+  }
+
+  bool isNullOrEmptyMap(dynamic value) {
+    return value == null || (value is Map && value.isEmpty);
+  }
+
   final meta = fs._meta;
   if (meta.toProto3Json != null) {
     return meta.toProto3Json!(fs._message!, typeRegistry);
@@ -89,11 +100,32 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
   var result = <String, dynamic>{};
   for (var fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index!];
-    if (value == null || (value is List && value.isEmpty)) {
+    var overrideForEmitsDefaults = false;
+    dynamic overrideForEmitsDefaultsValue;
+    if (context.emitDefaults) {
+      if (fieldInfo.isRepeated && isNullOrEmptyList(value)) {
+        overrideForEmitsDefaults = true;
+        overrideForEmitsDefaultsValue = [];
+      } else if (fieldInfo.isMapField && isNullOrEmptyMap(value)) {
+        overrideForEmitsDefaults = true;
+        overrideForEmitsDefaultsValue = {};
+      } else if (_isBytes(fieldInfo.type) && isNullOrEmptyList(value)) {
+        overrideForEmitsDefaults = true;
+        overrideForEmitsDefaultsValue = null;
+      } else if (_isGroupOrMessage(fieldInfo.type) && value == null) {
+        overrideForEmitsDefaults = true;
+        overrideForEmitsDefaultsValue = null;
+      } else {
+        value ??= fieldInfo.makeDefault!();
+      }
+    }
+    if (isNullOrEmptyList(value) && !overrideForEmitsDefaults) {
       continue; // It's missing, repeated, or an empty byte array.
     }
     dynamic jsonValue;
-    if (fieldInfo.isMapField) {
+    if (overrideForEmitsDefaults) {
+      jsonValue = overrideForEmitsDefaultsValue;
+    } else if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
         var mapEntryInfo = fieldInfo as MapFieldInfo;
         return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType!),

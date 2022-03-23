@@ -115,6 +115,64 @@ void main() {
     final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
+
+  test('testToProto3Json', () {
+    var json = jsonEncode(example.toProto3Json());
+    checkProto3JsonMap(jsonDecode(json), 3);
+  });
+
+  test('testToProto3JsonEmitDefaults', () {
+    var json = jsonEncode(example.toProto3Json(emitDefaults: true));
+    checkProto3JsonMap(jsonDecode(json), 6);
+    expect(json.contains('"child":null'), isTrue);
+  });
+
+  test('testToProto3JsonEmitDefaultsNoValues', () {
+    final exampleAllDefaults = T();
+    var json = jsonEncode(exampleAllDefaults.toProto3Json(emitDefaults: true));
+    Map m = jsonDecode(json);
+    expect(m.length, 6);
+  });
+
+  test('testToProto3JsonEmitDefaultsWithChild', () {
+    var child = example;
+
+    var parent = T()
+      ..val = 123
+      ..str = 'hello'
+      ..int32s.addAll(<int>[1, 2, 3])
+      ..child = example;
+    var parentJson = jsonEncode(parent.toProto3Json(emitDefaults: true));
+    var childJson = jsonEncode(child.toProto3Json(emitDefaults: true));
+    checkProto3JsonMap(jsonDecode(parentJson), 6);
+    expect(parentJson.contains(childJson), isTrue);
+  });
+
+  test('testToProto3JsonEmitDefaultsWithNullList', () {
+    var exampleEmptyList = T()
+      ..val = example.val
+      ..str = example.str;
+
+    var json = jsonEncode(exampleEmptyList.toProto3Json(emitDefaults: true));
+    expect(json.contains('"int32s":[]'), isTrue);
+  });
+
+  test('testToProto3JsonEmitDefaultsWithEmptyList', () {
+    var exampleEmptyList = T()
+      ..val = example.val
+      ..str = example.str
+      ..int32s.addAll(<int>[]);
+
+    var json = jsonEncode(exampleEmptyList.toProto3Json(emitDefaults: true));
+    expect(json.contains('"int32s":[]'), isTrue);
+  });
+}
+
+void checkProto3JsonMap(Map m, int expectedLength) {
+  expect(m.length, expectedLength);
+  expect(m['val'], 123);
+  expect(m['str'], 'hello');
+  expect(m['int32s'], [1, 2, 3]);
 }
 
 void checkJsonMap(Map m) {
