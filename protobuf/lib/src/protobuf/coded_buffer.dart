@@ -26,9 +26,10 @@ void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
   }
 }
 
-void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
-    CodedBufferReader input, ExtensionRegistry registry) {
+void _mergeFromCodedBufferReader(
+    _FieldSet fs, CodedBufferReader input, ExtensionRegistry registry) {
   ArgumentError.checkNotNull(registry);
+  final BuilderInfo meta = fs._meta;
   while (true) {
     var tag = input.readTag();
     if (tag == 0) return;

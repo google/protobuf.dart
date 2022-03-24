@@ -97,7 +97,7 @@ class PbMap<K, V> extends MapBase<K, V> {
     var oldLimit = input._currentLimit;
     input._currentLimit = input._bufferPos + length;
     final entryFieldSet = _FieldSet(null, mapEntryMeta, null);
-    _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry!);
+    _mergeFromCodedBufferReader(entryFieldSet, input, registry!);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
     var key =
