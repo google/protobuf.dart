@@ -65,7 +65,7 @@ class CodedBufferWriter {
   }
 
   void writeField(int fieldNumber, int fieldType, fieldValue) {
-    final valueType = fieldType & ~0x07;
+    final valueType = PbFieldType._baseType(fieldType);
 
     if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
       if (!fieldValue.isEmpty) {
@@ -78,8 +78,6 @@ class CodedBufferWriter {
       }
       return;
     }
-
-    final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._MAP_BIT) != 0) {
       final keyWireFormat =
@@ -98,6 +96,8 @@ class CodedBufferWriter {
       });
       return;
     }
+
+    final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
       for (var i = 0; i < fieldValue.length; i++) {
@@ -445,8 +445,10 @@ class CodedBufferWriter {
   /// where multiplication becomes a floating point multiplication.
   ///
   /// [1] http://supertech.csail.mit.edu/papers/debruijn.pdf
-  static int _valueTypeIndex(int powerOf2) =>
-      ((0x077CB531 * powerOf2) >> 27) & 31;
+  int _valueTypeIndex(int powerOf2) {
+    assert(powerOf2 & (powerOf2 - 1) == 0, '$powerOf2 is not a power of 2');
+    return ((0x077CB531 * powerOf2) >> 27) & 31;
+  }
 
   /// Precomputed indices for all FbFieldType._XYZ_BIT values:
   ///
