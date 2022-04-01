@@ -103,10 +103,9 @@ Object? _writeToProto3Json(
     dynamic jsonValue;
     if (context.emitDefaults) {
       if ((fieldInfo.isRepeated && isDefaultListField(value)) ||
-          (fieldInfo.isMapField && isDefaultMapField(value)) ||
-          (_isBytes(fieldInfo.type) && isDefaultListField(value))) {
+          (fieldInfo.isMapField && isDefaultMapField(value))) {
         jsonValue = fieldInfo.readonlyDefault;
-      } else if (_isGroupOrMessage(fieldInfo.type) && value == null) {
+      } else if (_isBytes(fieldInfo.type) && isDefaultListField(value)) {
         jsonValue = null;
       } else {
         jsonValue = valueToProto3Json(value, fieldInfo.type);

@@ -141,11 +141,22 @@ void main() {
       ..val = 123
       ..str = 'hello'
       ..int32s.addAll(<int>[1, 2, 3])
-      ..child = example;
+      ..child = child;
     var parentJson = jsonEncode(parent.toProto3Json(emitDefaults: true));
     var childJson = jsonEncode(child.toProto3Json(emitDefaults: true));
     checkProto3JsonMap(jsonDecode(parentJson), 6);
     expect(parentJson.contains(childJson), isTrue);
+  });
+
+  test('testToProto3JsonEmitDefaultsWithDefaultChild', () {
+    var parent = T()
+      ..val = 123
+      ..str = 'hello'
+      ..int32s.addAll(<int>[1, 2, 3])
+      ..child = T();
+    var parentJson = jsonEncode(parent.toProto3Json(emitDefaults: true));
+    checkProto3JsonMap(jsonDecode(parentJson), 6);
+    expect(parentJson.contains('"child":null'), isTrue);
   });
 
   test('testToProto3JsonEmitDefaultsWithNullList', () {
