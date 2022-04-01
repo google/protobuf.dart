@@ -84,11 +84,11 @@ Object? _writeToProto3Json(
     }
   }
 
-  bool isNullOrEmptyList(dynamic value) {
+  bool isDefaultListField(dynamic value) {
     return value == null || (value is List && value.isEmpty);
   }
 
-  bool isNullOrEmptyMap(dynamic value) {
+  bool isDefaultMapField(dynamic value) {
     return value == null || (value is Map && value.isEmpty);
   }
 
@@ -100,31 +100,21 @@ Object? _writeToProto3Json(
   var result = <String, dynamic>{};
   for (var fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index!];
-    var overrideForEmitsDefaults = false;
-    dynamic overrideForEmitsDefaultsValue;
-    if (context.emitDefaults) {
-      if (fieldInfo.isRepeated && isNullOrEmptyList(value)) {
-        overrideForEmitsDefaults = true;
-        overrideForEmitsDefaultsValue = [];
-      } else if (fieldInfo.isMapField && isNullOrEmptyMap(value)) {
-        overrideForEmitsDefaults = true;
-        overrideForEmitsDefaultsValue = {};
-      } else if (_isBytes(fieldInfo.type) && isNullOrEmptyList(value)) {
-        overrideForEmitsDefaults = true;
-        overrideForEmitsDefaultsValue = null;
-      } else if (_isGroupOrMessage(fieldInfo.type) && value == null) {
-        overrideForEmitsDefaults = true;
-        overrideForEmitsDefaultsValue = null;
-      } else {
-        value ??= fieldInfo.makeDefault!();
-      }
-    }
-    if (isNullOrEmptyList(value) && !overrideForEmitsDefaults) {
-      continue; // It's missing, repeated, or an empty byte array.
-    }
     dynamic jsonValue;
-    if (overrideForEmitsDefaults) {
-      jsonValue = overrideForEmitsDefaultsValue;
+    if (context.emitDefaults) {
+      if (fieldInfo.isRepeated && isDefaultListField(value)) {
+        jsonValue = [];
+      } else if (fieldInfo.isMapField && isDefaultMapField(value)) {
+        jsonValue = {};
+      } else if (_isBytes(fieldInfo.type) && isDefaultListField(value)) {
+        jsonValue = null;
+      } else if (_isGroupOrMessage(fieldInfo.type) && value == null) {
+        jsonValue = null;
+      } else {
+        jsonValue = valueToProto3Json(value, fieldInfo.type);
+      }
+    } else if (isDefaultListField(value)) {
+      continue; // It's missing, repeated, or an empty byte array.
     } else if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
         var mapEntryInfo = fieldInfo as MapFieldInfo;
