@@ -97,7 +97,7 @@ void main() {
   });
 
   test('PbList for signed int32 validates items', () {
-    List<int> list = PbList(check: getCheckFunction(PbFieldType.P3));
+    List<int> list = PbList(check: getCheckFunction(FieldType.REPEATED_I32()));
 
     expect(() {
       list.add(-2147483649);
@@ -117,7 +117,8 @@ void main() {
   });
 
   test('PBList for unsigned int32 validates items', () {
-    List<int> list = PbList(check: getCheckFunction(PbFieldType.PU3));
+    List<int> list = PbList(
+        check: getCheckFunction(FieldType.repeated(FieldBaseType.uint32)));
 
     expect(() {
       list.add(-1);
@@ -137,7 +138,8 @@ void main() {
   });
 
   test('PbList for float validates items', () {
-    List<double> list = PbList(check: getCheckFunction(PbFieldType.PF));
+    List<double> list = PbList(
+        check: getCheckFunction(FieldType.repeated(FieldBaseType.float)));
 
     expect(() {
       list.add(3.4028234663852886E39);

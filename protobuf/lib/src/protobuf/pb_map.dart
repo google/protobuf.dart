@@ -5,8 +5,8 @@
 part of protobuf;
 
 class PbMap<K, V> extends MapBase<K, V> {
-  final int? keyFieldType;
-  final int? valueFieldType;
+  final FieldType? keyFieldType;
+  final FieldType? valueFieldType;
 
   static const int _keyFieldNumber = 1;
   static const int _valueFieldNumber = 2;
@@ -110,7 +110,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   PbMap freeze() {
     _isReadonly = true;
-    if (_isGroupOrMessage(valueFieldType!)) {
+    if (valueFieldType!.isGroupOrMessage) {
       for (var subMessage in values as Iterable<GeneratedMessage>) {
         subMessage.freeze();
       }

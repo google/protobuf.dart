@@ -276,15 +276,15 @@ class UnknownFieldSetField {
       ];
 
   void writeTo(int fieldNumber, CodedBufferWriter output) {
-    void write(type, value) {
+    void write(FieldType type, value) {
       output.writeField(fieldNumber, type, value);
     }
 
-    write(PbFieldType._REPEATED_UINT64, varints);
-    write(PbFieldType._REPEATED_FIXED32, fixed32s);
-    write(PbFieldType._REPEATED_FIXED64, fixed64s);
-    write(PbFieldType._REPEATED_BYTES, lengthDelimited);
-    write(PbFieldType._REPEATED_GROUP, groups);
+    write(FieldType.repeated(FieldBaseType.uint64), varints);
+    write(FieldType.repeated(FieldBaseType.fixed32), fixed32s);
+    write(FieldType.repeated(FieldBaseType.fixed64), fixed64s);
+    write(FieldType.repeated(FieldBaseType.bytes), lengthDelimited);
+    write(FieldType.repeated(FieldBaseType.group), groups);
   }
 
   void addGroup(UnknownFieldSet value) {

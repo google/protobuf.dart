@@ -5,79 +5,93 @@
 part of protobuf;
 
 Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
-  String? convertToMapKey(dynamic key, int keyType) {
-    var baseType = PbFieldType._baseType(keyType);
+  String? convertToMapKey(dynamic key, FieldType keyType) {
+    var baseType = keyType.baseType;
 
-    assert(!_isRepeated(keyType));
+    assert(!keyType.isRepeated);
 
     switch (baseType) {
-      case PbFieldType._BOOL_BIT:
+      case FieldBaseType.bool:
         return key ? 'true' : 'false';
-      case PbFieldType._STRING_BIT:
+
+      case FieldBaseType.string:
         return key;
-      case PbFieldType._UINT64_BIT:
+
+      case FieldBaseType.uint64:
         return (key as Int64).toStringUnsigned();
-      case PbFieldType._INT32_BIT:
-      case PbFieldType._SINT32_BIT:
-      case PbFieldType._UINT32_BIT:
-      case PbFieldType._FIXED32_BIT:
-      case PbFieldType._SFIXED32_BIT:
-      case PbFieldType._INT64_BIT:
-      case PbFieldType._SINT64_BIT:
-      case PbFieldType._SFIXED64_BIT:
-      case PbFieldType._FIXED64_BIT:
+
+      case FieldBaseType.int32:
+      case FieldBaseType.sint32:
+      case FieldBaseType.uint32:
+      case FieldBaseType.fixed32:
+      case FieldBaseType.sfixed32:
+      case FieldBaseType.int64:
+      case FieldBaseType.sint64:
+      case FieldBaseType.sfixed64:
+      case FieldBaseType.fixed64:
         return key.toString();
-      default:
+
+      case FieldBaseType.bytes:
+      case FieldBaseType.double:
+      case FieldBaseType.float:
+      case FieldBaseType.enum_:
+      case FieldBaseType.message:
+      case FieldBaseType.map:
+      case FieldBaseType.group:
         throw StateError('Not a valid key type $keyType');
     }
   }
 
-  Object? valueToProto3Json(dynamic fieldValue, int? fieldType) {
+  Object? valueToProto3Json(dynamic fieldValue, FieldType? fieldType) {
     if (fieldValue == null) return null;
 
-    if (_isGroupOrMessage(fieldType!)) {
-      return _writeToProto3Json(
-          (fieldValue as GeneratedMessage)._fieldSet, typeRegistry);
-    } else if (_isEnum(fieldType)) {
-      return (fieldValue as ProtobufEnum).name;
-    } else {
-      var baseType = PbFieldType._baseType(fieldType);
-      switch (baseType) {
-        case PbFieldType._BOOL_BIT:
-          return fieldValue ? true : false;
-        case PbFieldType._STRING_BIT:
-          return fieldValue;
-        case PbFieldType._INT32_BIT:
-        case PbFieldType._SINT32_BIT:
-        case PbFieldType._UINT32_BIT:
-        case PbFieldType._FIXED32_BIT:
-        case PbFieldType._SFIXED32_BIT:
-          return fieldValue;
-        case PbFieldType._INT64_BIT:
-        case PbFieldType._SINT64_BIT:
-        case PbFieldType._SFIXED64_BIT:
-        case PbFieldType._FIXED64_BIT:
-          return fieldValue.toString();
-        case PbFieldType._FLOAT_BIT:
-        case PbFieldType._DOUBLE_BIT:
-          double value = fieldValue;
-          if (value.isNaN) return 'NaN';
-          if (value.isInfinite) {
-            if (value.isNegative) {
-              return '-Infinity';
-            } else {
-              return 'Infinity';
-            }
+    switch (fieldType!.baseType) {
+      case FieldBaseType.bool:
+        return fieldValue ? true : false;
+
+      case FieldBaseType.string:
+        return fieldValue;
+
+      case FieldBaseType.int32:
+      case FieldBaseType.sint32:
+      case FieldBaseType.uint32:
+      case FieldBaseType.fixed32:
+      case FieldBaseType.sfixed32:
+        return fieldValue;
+
+      case FieldBaseType.int64:
+      case FieldBaseType.sint64:
+      case FieldBaseType.sfixed64:
+      case FieldBaseType.fixed64:
+        return fieldValue.toString();
+
+      case FieldBaseType.float:
+      case FieldBaseType.double:
+        double value = fieldValue;
+        if (value.isNaN) return 'NaN';
+        if (value.isInfinite) {
+          if (value.isNegative) {
+            return '-Infinity';
+          } else {
+            return 'Infinity';
           }
-          return value;
-        case PbFieldType._UINT64_BIT:
-          return (fieldValue as Int64).toStringUnsigned();
-        case PbFieldType._BYTES_BIT:
-          return base64Encode(fieldValue);
-        default:
-          throw StateError(
-              'Invariant violation: unexpected value type $fieldType');
-      }
+        }
+        return value;
+
+      case FieldBaseType.uint64:
+        return (fieldValue as Int64).toStringUnsigned();
+
+      case FieldBaseType.bytes:
+        return base64Encode(fieldValue);
+
+      case FieldBaseType.group:
+      case FieldBaseType.message:
+      case FieldBaseType.map:
+        return _writeToProto3Json(
+            (fieldValue as GeneratedMessage)._fieldSet, typeRegistry);
+
+      case FieldBaseType.enum_:
+        return (fieldValue as ProtobufEnum).name;
     }
   }
 
@@ -167,13 +181,14 @@ void _mergeFromProto3Json(
         return fieldInfo.makeDefault!();
       }
       var fieldType = fieldInfo.type;
-      switch (PbFieldType._baseType(fieldType)) {
-        case PbFieldType._BOOL_BIT:
+      switch (fieldType.baseType) {
+        case FieldBaseType.bool:
           if (value is bool) {
             return value;
           }
           throw context.parseException('Expected bool value', json);
-        case PbFieldType._BYTES_BIT:
+
+        case FieldBaseType.bytes:
           if (value is String) {
             Uint8List result;
             try {
@@ -186,13 +201,15 @@ void _mergeFromProto3Json(
           }
           throw context.parseException(
               'Expected bytes encoded as base64 String', value);
-        case PbFieldType._STRING_BIT:
+
+        case FieldBaseType.string:
           if (value is String) {
             return value;
           }
           throw context.parseException('Expected String value', value);
-        case PbFieldType._FLOAT_BIT:
-        case PbFieldType._DOUBLE_BIT:
+
+        case FieldBaseType.float:
+        case FieldBaseType.double:
           if (value is double) {
             return value;
           } else if (value is num) {
@@ -204,7 +221,8 @@ void _mergeFromProto3Json(
           }
           throw context.parseException(
               'Expected a double represented as a String or number', value);
-        case PbFieldType._ENUM_BIT:
+
+        case FieldBaseType.enum_:
           if (value is String) {
             // TODO(sigurdm): Do we want to avoid linear search here? Measure...
             final result = permissiveEnums
@@ -222,7 +240,8 @@ void _mergeFromProto3Json(
           }
           throw context.parseException(
               'Expected enum as a string or integer', value);
-        case PbFieldType._UINT32_BIT:
+
+        case FieldBaseType.uint32:
           int result;
           if (value is int) {
             result = value;
@@ -233,10 +252,11 @@ void _mergeFromProto3Json(
                 'Expected int or stringified int', value);
           }
           return check32BitUnsigned(result);
-        case PbFieldType._INT32_BIT:
-        case PbFieldType._SINT32_BIT:
-        case PbFieldType._FIXED32_BIT:
-        case PbFieldType._SFIXED32_BIT:
+
+        case FieldBaseType.int32:
+        case FieldBaseType.sint32:
+        case FieldBaseType.fixed32:
+        case FieldBaseType.sfixed32:
           int result;
           if (value is int) {
             result = value;
@@ -248,7 +268,8 @@ void _mergeFromProto3Json(
           }
           check32BitSigned(result);
           return result;
-        case PbFieldType._UINT64_BIT:
+
+        case FieldBaseType.uint64:
           Int64 result;
           if (value is int) {
             result = Int64(value);
@@ -259,10 +280,10 @@ void _mergeFromProto3Json(
                 'Expected int or stringified int', value);
           }
           return result;
-        case PbFieldType._INT64_BIT:
-        case PbFieldType._SINT64_BIT:
-        case PbFieldType._FIXED64_BIT:
-        case PbFieldType._SFIXED64_BIT:
+        case FieldBaseType.int64:
+        case FieldBaseType.sint64:
+        case FieldBaseType.fixed64:
+        case FieldBaseType.sfixed64:
           if (value is int) return Int64(value);
           if (value is String) {
             Int64 result;
@@ -276,19 +297,19 @@ void _mergeFromProto3Json(
           }
           throw context.parseException(
               'Expected int or stringified int', value);
-        case PbFieldType._GROUP_BIT:
-        case PbFieldType._MESSAGE_BIT:
+
+        case FieldBaseType.group:
+        case FieldBaseType.message:
+        case FieldBaseType.map:
           var subMessage = fieldInfo.subBuilder!();
           recursionHelper(value, subMessage._fieldSet);
           return subMessage;
-        default:
-          throw StateError('Unknown type $fieldType');
       }
     }
 
-    Object decodeMapKey(String key, int fieldType) {
-      switch (PbFieldType._baseType(fieldType)) {
-        case PbFieldType._BOOL_BIT:
+    Object decodeMapKey(String key, FieldType fieldType) {
+      switch (fieldType.baseType) {
+        case FieldBaseType.bool:
           switch (key) {
             case 'true':
               return true;
@@ -300,25 +321,37 @@ void _mergeFromProto3Json(
           }
           // ignore: dead_code
           throw StateError('(Should have been) unreachable statement');
-        case PbFieldType._STRING_BIT:
+
+        case FieldBaseType.string:
           return key;
-        case PbFieldType._UINT64_BIT:
+
+        case FieldBaseType.uint64:
           // TODO(sigurdm): We do not throw on negative values here.
           // That would probably require going via bignum.
           return tryParse64Bit(key);
-        case PbFieldType._INT64_BIT:
-        case PbFieldType._SINT64_BIT:
-        case PbFieldType._SFIXED64_BIT:
-        case PbFieldType._FIXED64_BIT:
+
+        case FieldBaseType.int64:
+        case FieldBaseType.sint64:
+        case FieldBaseType.sfixed64:
+        case FieldBaseType.fixed64:
           return tryParse64Bit(key);
-        case PbFieldType._INT32_BIT:
-        case PbFieldType._SINT32_BIT:
-        case PbFieldType._FIXED32_BIT:
-        case PbFieldType._SFIXED32_BIT:
+
+        case FieldBaseType.int32:
+        case FieldBaseType.sint32:
+        case FieldBaseType.fixed32:
+        case FieldBaseType.sfixed32:
           return check32BitSigned(tryParse32Bit(key));
-        case PbFieldType._UINT32_BIT:
+
+        case FieldBaseType.uint32:
           return check32BitUnsigned(tryParse32Bit(key));
-        default:
+
+        case FieldBaseType.bytes:
+        case FieldBaseType.double:
+        case FieldBaseType.float:
+        case FieldBaseType.enum_:
+        case FieldBaseType.message:
+        case FieldBaseType.map:
+        case FieldBaseType.group:
           throw StateError('Not a valid key type $fieldType');
       }
     }
@@ -357,7 +390,7 @@ void _mergeFromProto3Json(
             }
           }
 
-          if (_isMapField(fieldInfo.type)) {
+          if (fieldInfo.type.isMap) {
             if (value is Map) {
               final mapFieldInfo = fieldInfo as MapFieldInfo<dynamic, dynamic>;
               final Map fieldValues = fieldSet._ensureMapField(meta, fieldInfo);
@@ -374,7 +407,7 @@ void _mergeFromProto3Json(
             } else {
               throw context.parseException('Expected a map', value);
             }
-          } else if (_isRepeated(fieldInfo.type)) {
+          } else if (fieldInfo.type.isRepeated) {
             if (value == null) {
               // `null` is accepted as the empty list [].
               fieldSet._ensureRepeatedField(meta, fieldInfo);
@@ -389,7 +422,7 @@ void _mergeFromProto3Json(
             } else {
               throw context.parseException('Expected a list', value);
             }
-          } else if (_isGroupOrMessage(fieldInfo.type)) {
+          } else if (fieldInfo.type.isGroupOrMessage) {
             // TODO(sigurdm) consider a cleaner separation between parsing and
             // merging.
             var parsedSubMessage =

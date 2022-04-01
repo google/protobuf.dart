@@ -69,7 +69,7 @@ class PbList<E> extends PbListBase<E> {
 
   @Deprecated('Instead use the default constructor with a check function.'
       'This constructor will be removed in the next major version.')
-  PbList.forFieldType(int fieldType)
+  PbList.forFieldType(FieldType fieldType)
       : super._noList(check: getCheckFunction(fieldType));
 
   /// Freezes the list by converting to [FrozenPbList].

@@ -15,7 +15,7 @@ typedef RoundtripTester<T> = void Function(T value, List<int> bytes);
 void main() {
   ByteData makeData(Uint8List bytes) => ByteData.view(bytes.buffer);
 
-  Uint8List Function(dynamic) convertToBytes(fieldType) => (value) {
+  Uint8List Function(dynamic) convertToBytes(FieldType fieldType) => (value) {
         var writer = CodedBufferWriter()..writeField(0, fieldType, value);
         return writer.toBuffer().sublist(1);
       };
@@ -29,7 +29,7 @@ void main() {
     };
   }
 
-  final int32ToBytes = convertToBytes(PbFieldType.O3);
+  final int32ToBytes = convertToBytes(FieldType.OPTIONAL_I32());
 
   test('testInt32RoundTrips', () {
     final roundtrip = roundtripTester(
@@ -49,7 +49,7 @@ void main() {
   test('testSint32', () {
     final roundtrip = roundtripTester(
         fromBytes: (CodedBufferReader reader) => reader.readSint32(),
-        toBytes: convertToBytes(PbFieldType.OS3));
+        toBytes: convertToBytes(FieldType.optional(FieldBaseType.sint32)));
 
     roundtrip(0, [0x00]);
     roundtrip(-1, [0x01]);
@@ -60,7 +60,7 @@ void main() {
   test('testSint64', () {
     final roundtrip = roundtripTester(
         fromBytes: (CodedBufferReader reader) => reader.readSint64(),
-        toBytes: convertToBytes(PbFieldType.OS6));
+        toBytes: convertToBytes(FieldType.optional(FieldBaseType.sint64)));
 
     roundtrip(make64(0), [0x00]);
     roundtrip(make64(-1), [0x01]);
@@ -71,7 +71,7 @@ void main() {
   test('testFixed32', () {
     final roundtrip = roundtripTester(
         fromBytes: (CodedBufferReader reader) => reader.readFixed32(),
-        toBytes: convertToBytes(PbFieldType.OF3));
+        toBytes: convertToBytes(FieldType.optional(FieldBaseType.fixed32)));
 
     roundtrip(0, [0x00, 0x00, 0x00, 0x00]);
     roundtrip(1, [0x01, 0x00, 0x00, 0x00]);
@@ -82,7 +82,7 @@ void main() {
   test('testFixed64', () {
     final roundtrip = roundtripTester(
         fromBytes: (CodedBufferReader reader) => reader.readFixed64(),
-        toBytes: convertToBytes(PbFieldType.OF6));
+        toBytes: convertToBytes(FieldType.optional(FieldBaseType.fixed64)));
 
     roundtrip(make64(0, 0), [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
     roundtrip(make64(1, 0), [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -95,7 +95,7 @@ void main() {
   test('testSfixed32', () {
     final roundtrip = roundtripTester(
         fromBytes: (CodedBufferReader reader) => reader.readSfixed32(),
-        toBytes: convertToBytes(PbFieldType.OSF3));
+        toBytes: convertToBytes(FieldType.optional(FieldBaseType.fixed32)));
 
     roundtrip(0, [0x00, 0x00, 0x00, 0x00]);
     roundtrip(1, [0x01, 0x00, 0x00, 0x00]);
@@ -106,7 +106,7 @@ void main() {
   test('testSfixed64', () {
     final roundtrip = roundtripTester(
         fromBytes: (CodedBufferReader reader) => reader.readSfixed64(),
-        toBytes: convertToBytes(PbFieldType.OSF6));
+        toBytes: convertToBytes(FieldType.optional(FieldBaseType.sfixed64)));
 
     roundtrip(make64(0), [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
     roundtrip(make64(-1), [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
@@ -133,7 +133,7 @@ void main() {
       : equals(expected);
 
   List<int> dataToBytes(ByteData byteData) => Uint8List.view(byteData.buffer);
-  final floatToBytes = convertToBytes(PbFieldType.OF);
+  final floatToBytes = convertToBytes(FieldType.optional(FieldBaseType.float));
   int floatToBits(double value) =>
       makeData(floatToBytes(value)).getUint32(0, Endian.little);
 
@@ -147,7 +147,8 @@ void main() {
     expect(readFloat(bits), doubleEquals(value));
   }
 
-  final doubleToBytes = convertToBytes(PbFieldType.OD);
+  final doubleToBytes =
+      convertToBytes(FieldType.optional(FieldBaseType.double));
 
   void _test64(List<int> hilo, double value) {
     // Encode a double to its wire format.
@@ -682,7 +683,7 @@ void main() {
   test('testVarint64', () {
     final roundtrip = roundtripTester(
         fromBytes: (CodedBufferReader reader) => reader.readUint64(),
-        toBytes: convertToBytes(PbFieldType.OU6));
+        toBytes: convertToBytes(FieldType.optional(FieldBaseType.uint64)));
 
     roundtrip(make64(0), [0x00]);
     roundtrip(make64(3), [0x03]);
@@ -706,7 +707,8 @@ void main() {
   });
 
   test('testWriteTo', () {
-    var writer = CodedBufferWriter()..writeField(0, PbFieldType.O3, 1337);
+    var writer = CodedBufferWriter()
+      ..writeField(0, FieldType.OPTIONAL_I32(), 1337);
     expect(writer.lengthInBytes, 3);
     var buffer = Uint8List(5);
     buffer[0] = 0x55;

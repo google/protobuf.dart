@@ -8,8 +8,9 @@ library readonly_message_test;
 import 'package:protobuf/protobuf.dart'
     show
         BuilderInfo,
+        FieldBaseType,
+        FieldType,
         GeneratedMessage,
-        PbFieldType,
         UnknownFieldSetField,
         frozenMessageModificationHandler,
         defaultFrozenMessageModificationHandler;
@@ -30,9 +31,10 @@ class Rec extends GeneratedMessage {
 
   @override
   BuilderInfo info_ = BuilderInfo('rec')
-    ..a(1, 'value', PbFieldType.O3)
-    ..pc<Rec>(2, 'sub', PbFieldType.PM, subBuilder: Rec.create)
-    ..p<int>(10, 'ints', PbFieldType.P3);
+    ..a(1, 'value', FieldType.OPTIONAL_I32())
+    ..pc<Rec>(2, 'sub', FieldType.repeated(FieldBaseType.message),
+        subBuilder: Rec.create)
+    ..p<int>(10, 'ints', FieldType.REPEATED_I32());
 
   int get value => $_get(0, 0);
   set value(int v) {

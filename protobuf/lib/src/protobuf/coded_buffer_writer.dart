@@ -64,26 +64,26 @@ class CodedBufferWriter {
     _commitChunk(true);
   }
 
-  void writeField(int fieldNumber, int fieldType, fieldValue) {
-    final valueType = PbFieldType._baseType(fieldType);
+  void writeField(int fieldNumber, FieldType fieldType, fieldValue) {
+    final fieldBaseType = fieldType.baseType;
 
-    if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
+    if (fieldType.isPacked) {
       if (!fieldValue.isEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
         for (var value in fieldValue) {
-          _writeValueAs(valueType, value);
+          _writeValueAs(fieldBaseType, value);
         }
         _endLengthDelimited(mark);
       }
       return;
     }
 
-    if ((fieldType & PbFieldType._MAP_BIT) != 0) {
+    if (fieldType.isMap) {
       final keyWireFormat =
-          _wireTypes[_valueTypeIndex(fieldValue.keyFieldType)];
+          _baseTypeToWireType[fieldValue.keyFieldType.baseType.index];
       final valueWireFormat =
-          _wireTypes[_valueTypeIndex(fieldValue.valueFieldType)];
+          _baseTypeToWireType[fieldValue.valueFieldType.baseType.index];
 
       fieldValue.forEach((key, value) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
@@ -97,15 +97,15 @@ class CodedBufferWriter {
       return;
     }
 
-    final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
+    final wireFormat = _baseTypeToWireType[fieldBaseType.index];
 
-    if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
+    if (fieldType.isRepeated) {
       for (var i = 0; i < fieldValue.length; i++) {
-        _writeValue(fieldNumber, valueType, fieldValue[i], wireFormat);
+        _writeValue(fieldNumber, fieldBaseType, fieldValue[i], wireFormat);
       }
       return;
     }
-    _writeValue(fieldNumber, valueType, fieldValue, wireFormat);
+    _writeValue(fieldNumber, fieldBaseType, fieldValue, wireFormat);
   }
 
   Uint8List toBuffer() {
@@ -330,64 +330,65 @@ class CodedBufferWriter {
     _writeInt32((value >> 32).toUnsigned(32).toInt());
   }
 
-  void _writeValueAs(int valueType, dynamic value) {
+  void _writeValueAs(FieldBaseType valueType, dynamic value) {
     switch (valueType) {
-      case PbFieldType._BOOL_BIT:
+      case FieldBaseType.bool:
         _writeVarint32(value ? 1 : 0);
         break;
-      case PbFieldType._BYTES_BIT:
+      case FieldBaseType.bytes:
         _writeBytesNoTag(
             value is TypedData ? value : Uint8List.fromList(value));
         break;
-      case PbFieldType._STRING_BIT:
+      case FieldBaseType.string:
         _writeBytesNoTag(_utf8.encode(value));
         break;
-      case PbFieldType._DOUBLE_BIT:
+      case FieldBaseType.double:
         _writeDouble(value);
         break;
-      case PbFieldType._FLOAT_BIT:
+      case FieldBaseType.float:
         _writeFloat(value);
         break;
-      case PbFieldType._ENUM_BIT:
+      case FieldBaseType.enum_:
         _writeVarint32(value.value & 0xffffffff);
         break;
-      case PbFieldType._GROUP_BIT:
-        value.writeToCodedBufferWriter(this);
-        break;
-      case PbFieldType._INT32_BIT:
+      case FieldBaseType.int32:
         _writeVarint64(Int64(value));
         break;
-      case PbFieldType._INT64_BIT:
+      case FieldBaseType.int64:
         _writeVarint64(value);
         break;
-      case PbFieldType._SINT32_BIT:
+      case FieldBaseType.sint32:
         _writeVarint32(_encodeZigZag32(value));
         break;
-      case PbFieldType._SINT64_BIT:
+      case FieldBaseType.sint64:
         _writeVarint64(_encodeZigZag64(value));
         break;
-      case PbFieldType._UINT32_BIT:
+      case FieldBaseType.uint32:
         _writeVarint32(value);
         break;
-      case PbFieldType._UINT64_BIT:
+      case FieldBaseType.uint64:
         _writeVarint64(value);
         break;
-      case PbFieldType._FIXED32_BIT:
+      case FieldBaseType.fixed32:
         _writeInt32(value);
         break;
-      case PbFieldType._FIXED64_BIT:
+      case FieldBaseType.fixed64:
         _writeInt64(value);
         break;
-      case PbFieldType._SFIXED32_BIT:
+      case FieldBaseType.sfixed32:
         _writeInt32(value);
         break;
-      case PbFieldType._SFIXED64_BIT:
+      case FieldBaseType.sfixed64:
         _writeInt64(value);
         break;
-      case PbFieldType._MESSAGE_BIT:
+      case FieldBaseType.map:
+      case FieldBaseType.message:
         final mark = _startLengthDelimited();
         value.writeToCodedBufferWriter(this);
         _endLengthDelimited(mark);
+        break;
+      case FieldBaseType.group:
+        value.writeToCodedBufferWriter(this);
         break;
     }
   }
@@ -402,10 +403,10 @@ class CodedBufferWriter {
   }
 
   void _writeValue(
-      int fieldNumber, int valueType, dynamic value, int wireFormat) {
+      int fieldNumber, FieldBaseType valueType, dynamic value, int wireFormat) {
     _writeTag(fieldNumber, wireFormat);
     _writeValueAs(valueType, value);
-    if (valueType == PbFieldType._GROUP_BIT) {
+    if (valueType == FieldBaseType.group) {
       _writeTag(fieldNumber, WIRETYPE_END_GROUP);
     }
   }
@@ -435,64 +436,27 @@ class CodedBufferWriter {
     }
   }
 
-  /// This function maps a power-of-2 value (2^0 .. 2^31) to a unique value
-  /// in the 0..31 range.
-  ///
-  /// For more details see "Using de Bruijn Sequences to Index a 1 in
-  /// a Computer Word"[1]
-  ///
-  /// Note: this is guaranteed to work after compilation to JavaScript
-  /// where multiplication becomes a floating point multiplication.
-  ///
-  /// [1] http://supertech.csail.mit.edu/papers/debruijn.pdf
-  int _valueTypeIndex(int powerOf2) {
-    assert(powerOf2 & (powerOf2 - 1) == 0, '$powerOf2 is not a power of 2');
-    return ((0x077CB531 * powerOf2) >> 27) & 31;
-  }
-
-  /// Precomputed indices for all FbFieldType._XYZ_BIT values:
-  ///
-  ///    _XYZ_BIT_INDEX = _valueTypeIndex(FbFieldType._XYZ_BIT)
-  ///
-  static const _BOOL_BIT_INDEX = 14;
-  static const _BYTES_BIT_INDEX = 29;
-  static const _STRING_BIT_INDEX = 27;
-  static const _DOUBLE_BIT_INDEX = 23;
-  static const _FLOAT_BIT_INDEX = 15;
-  static const _ENUM_BIT_INDEX = 31;
-  static const _GROUP_BIT_INDEX = 30;
-  static const _INT32_BIT_INDEX = 28;
-  static const _INT64_BIT_INDEX = 25;
-  static const _SINT32_BIT_INDEX = 18;
-  static const _SINT64_BIT_INDEX = 5;
-  static const _UINT32_BIT_INDEX = 11;
-  static const _UINT64_BIT_INDEX = 22;
-  static const _FIXED32_BIT_INDEX = 13;
-  static const _FIXED64_BIT_INDEX = 26;
-  static const _SFIXED32_BIT_INDEX = 21;
-  static const _SFIXED64_BIT_INDEX = 10;
-  static const _MESSAGE_BIT_INDEX = 20;
-
-  /// Mapping from value types to wire-types indexed by _valueTypeIndex(...).
-  static final Uint8List _wireTypes = Uint8List(32)
-    ..[_BOOL_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_BYTES_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
-    ..[_STRING_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
-    ..[_DOUBLE_BIT_INDEX] = WIRETYPE_FIXED64
-    ..[_FLOAT_BIT_INDEX] = WIRETYPE_FIXED32
-    ..[_ENUM_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_GROUP_BIT_INDEX] = WIRETYPE_START_GROUP
-    ..[_INT32_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_INT64_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_SINT32_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_SINT64_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_UINT32_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_UINT64_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_FIXED32_BIT_INDEX] = WIRETYPE_FIXED32
-    ..[_FIXED64_BIT_INDEX] = WIRETYPE_FIXED64
-    ..[_SFIXED32_BIT_INDEX] = WIRETYPE_FIXED32
-    ..[_SFIXED64_BIT_INDEX] = WIRETYPE_FIXED64
-    ..[_MESSAGE_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED;
+  static final List<int> _baseTypeToWireType = [
+    WIRETYPE_VARINT, // 0: bool
+    WIRETYPE_LENGTH_DELIMITED, // 1: bytes
+    WIRETYPE_LENGTH_DELIMITED, // 2: string
+    WIRETYPE_FIXED64, // 3: double
+    WIRETYPE_FIXED32, // 4: float
+    WIRETYPE_VARINT, // 5: enum
+    WIRETYPE_VARINT, // 6: int32
+    WIRETYPE_VARINT, // 7: int64
+    WIRETYPE_VARINT, // 8: sint32
+    WIRETYPE_VARINT, // 9: sint64
+    WIRETYPE_VARINT, // 10: uint32
+    WIRETYPE_VARINT, // 11: uint64
+    WIRETYPE_FIXED32, // 12: fixed32
+    WIRETYPE_FIXED64, // 13: fixed64
+    WIRETYPE_FIXED32, // 14: sfixed32
+    WIRETYPE_FIXED64, // 15: sfixed64
+    WIRETYPE_LENGTH_DELIMITED, // 16: message
+    WIRETYPE_LENGTH_DELIMITED, // 17: map
+    WIRETYPE_START_GROUP, // 18: group
+  ];
 }
 
 int _encodeZigZag32(int value) => (value << 1) ^ (value >> 31);

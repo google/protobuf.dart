@@ -661,11 +661,11 @@ class _FieldSet {
       }
 
       hash = _HashUtils._combine(hash, fi.tagNumber);
-      if (_isBytes(fi.type)) {
+      if (fi.type.baseType == FieldBaseType.bytes) {
         // Bytes are represented as a List<int> (Usually with byte-data).
         // We special case that to match our equality semantics.
         hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
-      } else if (!_isEnum(fi.type)) {
+      } else if (fi.type.baseType != FieldBaseType.enum_) {
         hash = _HashUtils._combine(hash, value.hashCode);
       } else if (fi.isRepeated) {
         hash = _HashUtils._hashObjects(value.map((enm) => enm.value));
@@ -799,11 +799,11 @@ class _FieldSet {
       fi = otherFi;
     }
 
-    var mustClone = _isGroupOrMessage(otherFi.type);
+    var mustClone = otherFi.type.isGroupOrMessage;
 
     if (fi!.isMapField) {
       var f = fi as MapFieldInfo<dynamic, dynamic>;
-      mustClone = _isGroupOrMessage(f.valueFieldType!);
+      mustClone = f.valueFieldType!.isGroupOrMessage;
       var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
       if (mustClone) {
         for (MapEntry entry in fieldValue.entries) {

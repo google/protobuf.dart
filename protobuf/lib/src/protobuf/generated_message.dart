@@ -389,7 +389,7 @@ abstract class GeneratedMessage {
   /// Sets the value of a non-repeated extension field to [value].
   void setExtension(Extension extension, Object value) {
     ArgumentError.checkNotNull(value, 'value');
-    if (_isRepeated(extension.type)) {
+    if (extension.type.isRepeated) {
       throw ArgumentError(_fieldSet._setFieldFailedMessage(
           extension, value, 'repeating field (use get + .add())'));
     }

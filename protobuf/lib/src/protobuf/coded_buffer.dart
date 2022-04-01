@@ -46,150 +46,184 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
     }
 
     // Ignore required/optional packed/unpacked.
-    var fieldType = fi.type;
-    fieldType &= ~(PbFieldType._PACKED_BIT | PbFieldType._REQUIRED_BIT);
-    switch (fieldType) {
-      case PbFieldType._OPTIONAL_BOOL:
-        fs._setFieldUnchecked(meta, fi, input.readBool());
-        break;
-      case PbFieldType._OPTIONAL_BYTES:
-        fs._setFieldUnchecked(meta, fi, input.readBytes());
-        break;
-      case PbFieldType._OPTIONAL_STRING:
-        fs._setFieldUnchecked(meta, fi, input.readString());
-        break;
-      case PbFieldType._OPTIONAL_FLOAT:
-        fs._setFieldUnchecked(meta, fi, input.readFloat());
-        break;
-      case PbFieldType._OPTIONAL_DOUBLE:
-        fs._setFieldUnchecked(meta, fi, input.readDouble());
-        break;
-      case PbFieldType._OPTIONAL_ENUM:
-        var rawValue = input.readEnum();
-        var value = meta._decodeEnum(tagNumber, registry, rawValue);
-        if (value == null) {
-          var unknown = fs._ensureUnknownFields();
-          unknown.mergeVarintField(tagNumber, Int64(rawValue));
+    final fieldType = fi.type;
+
+    switch (fieldType.baseType) {
+      case FieldBaseType.bool:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readBool);
         } else {
-          fs._setFieldUnchecked(meta, fi, value);
+          fs._setFieldUnchecked(meta, fi, input.readBool());
         }
         break;
-      case PbFieldType._OPTIONAL_GROUP:
-        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
-        var oldValue = fs._getFieldOrNull(fi);
-        if (oldValue != null) {
-          subMessage.mergeFromMessage(oldValue);
+
+      case FieldBaseType.bytes:
+        if (fieldType.isRepeated) {
+          fs._ensureRepeatedField(meta, fi).add(input.readBytes());
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readBytes());
         }
-        input.readGroup(tagNumber, subMessage, registry);
-        fs._setFieldUnchecked(meta, fi, subMessage);
         break;
-      case PbFieldType._OPTIONAL_INT32:
-        fs._setFieldUnchecked(meta, fi, input.readInt32());
-        break;
-      case PbFieldType._OPTIONAL_INT64:
-        fs._setFieldUnchecked(meta, fi, input.readInt64());
-        break;
-      case PbFieldType._OPTIONAL_SINT32:
-        fs._setFieldUnchecked(meta, fi, input.readSint32());
-        break;
-      case PbFieldType._OPTIONAL_SINT64:
-        fs._setFieldUnchecked(meta, fi, input.readSint64());
-        break;
-      case PbFieldType._OPTIONAL_UINT32:
-        fs._setFieldUnchecked(meta, fi, input.readUint32());
-        break;
-      case PbFieldType._OPTIONAL_UINT64:
-        fs._setFieldUnchecked(meta, fi, input.readUint64());
-        break;
-      case PbFieldType._OPTIONAL_FIXED32:
-        fs._setFieldUnchecked(meta, fi, input.readFixed32());
-        break;
-      case PbFieldType._OPTIONAL_FIXED64:
-        fs._setFieldUnchecked(meta, fi, input.readFixed64());
-        break;
-      case PbFieldType._OPTIONAL_SFIXED32:
-        fs._setFieldUnchecked(meta, fi, input.readSfixed32());
-        break;
-      case PbFieldType._OPTIONAL_SFIXED64:
-        fs._setFieldUnchecked(meta, fi, input.readSfixed64());
-        break;
-      case PbFieldType._OPTIONAL_MESSAGE:
-        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
-        var oldValue = fs._getFieldOrNull(fi);
-        if (oldValue != null) {
-          subMessage.mergeFromMessage(oldValue);
+
+      case FieldBaseType.string:
+        if (fieldType.isRepeated) {
+          fs._ensureRepeatedField(meta, fi).add(input.readString());
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readString());
         }
-        input.readMessage(subMessage, registry);
-        fs._setFieldUnchecked(meta, fi, subMessage);
         break;
-      case PbFieldType._REPEATED_BOOL:
-        _readPackable(meta, fs, input, wireType, fi, input.readBool);
+
+      case FieldBaseType.double:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readDouble);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readDouble());
+        }
         break;
-      case PbFieldType._REPEATED_BYTES:
-        fs._ensureRepeatedField(meta, fi).add(input.readBytes());
+
+      case FieldBaseType.float:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readFloat);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readFloat());
+        }
         break;
-      case PbFieldType._REPEATED_STRING:
-        fs._ensureRepeatedField(meta, fi).add(input.readString());
+
+      case FieldBaseType.enum_:
+        if (fieldType.isRepeated) {
+          _readPackableToListEnum(
+              meta, fs, input, wireType, fi, tagNumber, registry);
+        } else {
+          var rawValue = input.readEnum();
+          var value = meta._decodeEnum(tagNumber, registry, rawValue);
+          if (value == null) {
+            var unknown = fs._ensureUnknownFields();
+            unknown.mergeVarintField(tagNumber, Int64(rawValue));
+          } else {
+            fs._setFieldUnchecked(meta, fi, value);
+          }
+        }
         break;
-      case PbFieldType._REPEATED_FLOAT:
-        _readPackable(meta, fs, input, wireType, fi, input.readFloat);
+
+      case FieldBaseType.int32:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readInt32);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readInt32());
+        }
         break;
-      case PbFieldType._REPEATED_DOUBLE:
-        _readPackable(meta, fs, input, wireType, fi, input.readDouble);
+
+      case FieldBaseType.int64:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readInt64);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readInt64());
+        }
         break;
-      case PbFieldType._REPEATED_ENUM:
-        _readPackableToListEnum(
-            meta, fs, input, wireType, fi, tagNumber, registry);
+
+      case FieldBaseType.sint32:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readSint32);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readSint32());
+        }
         break;
-      case PbFieldType._REPEATED_GROUP:
-        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
-        input.readGroup(tagNumber, subMessage, registry);
-        fs._ensureRepeatedField(meta, fi).add(subMessage);
+
+      case FieldBaseType.sint64:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readSint64);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readSint64());
+        }
         break;
-      case PbFieldType._REPEATED_INT32:
-        _readPackable(meta, fs, input, wireType, fi, input.readInt32);
+
+      case FieldBaseType.uint32:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readUint32);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readUint32());
+        }
         break;
-      case PbFieldType._REPEATED_INT64:
-        _readPackable(meta, fs, input, wireType, fi, input.readInt64);
+
+      case FieldBaseType.uint64:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readUint64);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readUint64());
+        }
         break;
-      case PbFieldType._REPEATED_SINT32:
-        _readPackable(meta, fs, input, wireType, fi, input.readSint32);
+
+      case FieldBaseType.fixed32:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readFixed32);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readFixed32());
+        }
         break;
-      case PbFieldType._REPEATED_SINT64:
-        _readPackable(meta, fs, input, wireType, fi, input.readSint64);
+
+      case FieldBaseType.fixed64:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readFixed64);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readFixed64());
+        }
         break;
-      case PbFieldType._REPEATED_UINT32:
-        _readPackable(meta, fs, input, wireType, fi, input.readUint32);
+
+      case FieldBaseType.sfixed32:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readSfixed32);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readSfixed32());
+        }
         break;
-      case PbFieldType._REPEATED_UINT64:
-        _readPackable(meta, fs, input, wireType, fi, input.readUint64);
+
+      case FieldBaseType.sfixed64:
+        if (fieldType.isRepeated) {
+          _readPackable(meta, fs, input, wireType, fi, input.readSfixed64);
+        } else {
+          fs._setFieldUnchecked(meta, fi, input.readSfixed64());
+        }
         break;
-      case PbFieldType._REPEATED_FIXED32:
-        _readPackable(meta, fs, input, wireType, fi, input.readFixed32);
+
+      case FieldBaseType.message:
+        if (fieldType.isRepeated) {
+          var subMessage = meta._makeEmptyMessage(tagNumber, registry);
+          input.readMessage(subMessage, registry);
+          fs._ensureRepeatedField(meta, fi).add(subMessage);
+        } else {
+          var subMessage = meta._makeEmptyMessage(tagNumber, registry);
+          var oldValue = fs._getFieldOrNull(fi);
+          if (oldValue != null) {
+            subMessage.mergeFromMessage(oldValue);
+          }
+          input.readMessage(subMessage, registry);
+          fs._setFieldUnchecked(meta, fi, subMessage);
+        }
         break;
-      case PbFieldType._REPEATED_FIXED64:
-        _readPackable(meta, fs, input, wireType, fi, input.readFixed64);
-        break;
-      case PbFieldType._REPEATED_SFIXED32:
-        _readPackable(meta, fs, input, wireType, fi, input.readSfixed32);
-        break;
-      case PbFieldType._REPEATED_SFIXED64:
-        _readPackable(meta, fs, input, wireType, fi, input.readSfixed64);
-        break;
-      case PbFieldType._REPEATED_MESSAGE:
-        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
-        input.readMessage(subMessage, registry);
-        fs._ensureRepeatedField(meta, fi).add(subMessage);
-        break;
-      case PbFieldType._MAP:
+
+      case FieldBaseType.map:
         final mapFieldInfo = fi as MapFieldInfo;
         final mapEntryMeta = mapFieldInfo.mapEntryBuilderInfo;
         fs
             ._ensureMapField(meta, mapFieldInfo)
             ._mergeEntry(mapEntryMeta, input, registry);
         break;
-      default:
-        throw 'Unknown field type $fieldType';
+
+      case FieldBaseType.group:
+        if (fieldType.isRepeated) {
+          var subMessage = meta._makeEmptyMessage(tagNumber, registry);
+          input.readGroup(tagNumber, subMessage, registry);
+          fs._ensureRepeatedField(meta, fi).add(subMessage);
+        } else {
+          var subMessage = meta._makeEmptyMessage(tagNumber, registry);
+          var oldValue = fs._getFieldOrNull(fi);
+          if (oldValue != null) {
+            subMessage.mergeFromMessage(oldValue);
+          }
+          input.readGroup(tagNumber, subMessage, registry);
+          fs._setFieldUnchecked(meta, fi, subMessage);
+        }
+        break;
     }
   }
 }
