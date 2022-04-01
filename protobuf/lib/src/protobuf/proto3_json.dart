@@ -102,12 +102,10 @@ Object? _writeToProto3Json(
     var value = fs._values[fieldInfo.index!];
     dynamic jsonValue;
     if (context.emitDefaults) {
-      if (fieldInfo.isRepeated && isDefaultListField(value)) {
-        jsonValue = [];
-      } else if (fieldInfo.isMapField && isDefaultMapField(value)) {
-        jsonValue = {};
-      } else if (_isBytes(fieldInfo.type) && isDefaultListField(value)) {
-        jsonValue = null;
+      if ((fieldInfo.isRepeated && isDefaultListField(value)) ||
+          (fieldInfo.isMapField && isDefaultMapField(value)) ||
+          (_isBytes(fieldInfo.type) && isDefaultListField(value))) {
+        jsonValue = fieldInfo.readonlyDefault;
       } else if (_isGroupOrMessage(fieldInfo.type) && value == null) {
         jsonValue = null;
       } else {
