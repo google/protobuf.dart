@@ -48,7 +48,6 @@ abstract class MockMessage extends GeneratedMessage {
   set child(x) => setField(3, x);
 
   List<int> get int32s => $_getList(3);
-  //set int32s(x) => setField(4, x);
 
   Int64 get int64 => $_get(4, Int64(0));
   set int64(x) => setField(5, x);
