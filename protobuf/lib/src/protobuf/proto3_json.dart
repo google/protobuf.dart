@@ -101,15 +101,16 @@ Object? _writeToProto3Json(
   for (var fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index!];
     dynamic jsonValue;
-    if (context.emitDefaults) {
-      if ((fieldInfo.isRepeated && isDefaultListField(value)) ||
-          (fieldInfo.isMapField && isDefaultMapField(value))) {
-        jsonValue = fieldInfo.readonlyDefault;
-      } else if (_isBytes(fieldInfo.type) && isDefaultListField(value)) {
-        jsonValue = null;
-      } else {
-        jsonValue = valueToProto3Json(value, fieldInfo.type);
-      }
+    if (context.emitDefaults &&
+        ((fieldInfo.isRepeated && isDefaultListField(value)) ||
+            (fieldInfo.isMapField && isDefaultMapField(value)))) {
+      jsonValue = fieldInfo.readonlyDefault;
+    } else if (context.emitDefaults &&
+        ((_isBytes(fieldInfo.type) && isDefaultListField(value)) ||
+            (_isGroupOrMessage(fieldInfo.type) && value == null))) {
+      jsonValue = null;
+    } else if (context.emitDefaults && value == null) {
+      jsonValue = valueToProto3Json(fieldInfo.readonlyDefault, fieldInfo.type);
     } else if (isDefaultListField(value)) {
       continue; // It's missing, repeated, or an empty byte array.
     } else if (fieldInfo.isMapField) {
