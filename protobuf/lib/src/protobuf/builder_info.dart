@@ -8,12 +8,22 @@ part of protobuf;
 class BuilderInfo {
   /// The fully qualified name of this message.
   final String qualifiedMessageName;
+
+  /// Maps [FieldInfo.index]s to [FieldInfo]s.
   final List<FieldInfo> byIndex = <FieldInfo>[];
+
+  /// Maps [FieldInfo.tagNumber]s to [FieldInfo]s.
   final Map<int, FieldInfo> fieldInfo = <int, FieldInfo>{};
+
   final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
+
+  /// Maps [FieldInfo.name]s to [FieldInfo]s.
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
-  // Maps a tag number to the corresponding oneof index (if any).
+
+  /// Maps a tag number ([FieldInfo.tagNumber]) to the corresponding `oneof`
+  /// index (if any).
   final Map<int, int> oneofs = <int, int>{};
+
   bool hasExtensions = false;
   bool hasRequiredFields = true;
   List<FieldInfo>? _sortedByTag;
@@ -267,7 +277,7 @@ class BuilderInfo {
     return i?.valueOf;
   }
 
-  /// The FieldInfo for each field in tag number order.
+  /// The [FieldInfo] for each field in tag number order.
   List<FieldInfo> get sortedByTag => _sortedByTag ??= _computeSortedByTag();
 
   /// The message name. Also see [qualifiedMessageName].
