@@ -8,13 +8,26 @@ part of protobuf;
 class FieldInfo<T> {
   FrozenPbList<T>? _emptyList;
 
-  /// Name of this field as the `json_name` reported by protoc.
-  ///
-  /// This will typically be in camel case.
+  /// Name of this field as the `json_name` reported by protoc. Example:
+  /// ```proto
+  /// message Msg {
+  ///   int32 foo_name = 1 [json_name = "barName"];
+  /// }
+  /// ```
+  /// Here `name` of the field is `barName`. When `json_name` is not specified
+  /// in the proto definition, this is the camelCase version of the field name.
+  /// In the example above, without the `json_name` field option, `name` would
+  /// be `"fooName"`.
   final String name;
 
-  /// Name of this field as written in the proto definition.
-  ///
+  /// Name of this field as written in the proto definition. Example:
+  /// ```proto
+  /// message SearchRequest {
+  ///   ...
+  ///   int32 result_per_page = 3;
+  /// }
+  /// ```
+  /// `protoName` for the `result_per_page` field above is `"result_per_page"`.
   /// This will typically consist of words separated with underscores.
   final String protoName;
 
