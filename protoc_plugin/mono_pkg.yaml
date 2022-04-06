@@ -6,10 +6,10 @@ stages:
       - command: ./../tool/setup.sh
       - command: make protos
       - analyze: --fatal-infos
-      dart: [dev]
+      sdk: [dev]
   - run_tests:
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
       - test
-      dart: [2.12.0, dev]
+      sdk: [2.12.0, dev]
