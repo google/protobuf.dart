@@ -99,34 +99,98 @@ Object? _writeToProto3Json(
 
   var result = <String, dynamic>{};
   for (var fieldInfo in fs._infosSortedByTag) {
-    var value = fs._values[fieldInfo.index!];
-    dynamic jsonValue;
-    if (context.emitDefaults &&
-        ((fieldInfo.isRepeated && isDefaultListField(value)) ||
-            (fieldInfo.isMapField && isDefaultMapField(value)))) {
-      jsonValue = fieldInfo.readonlyDefault;
-    } else if (context.emitDefaults &&
-        ((_isBytes(fieldInfo.type) && isDefaultListField(value)) ||
-            (_isGroupOrMessage(fieldInfo.type) && value == null))) {
-      jsonValue = null;
-    } else if (context.emitDefaults && value == null) {
-      jsonValue = valueToProto3Json(fieldInfo.readonlyDefault, fieldInfo.type);
-    } else if (isDefaultListField(value)) {
-      continue; // It's missing, repeated, or an empty byte array.
+    // if the value for this field is null, this function will return the
+    // default value, which simplifies the need to handle null for most cases
+    // below
+    var value = fs._getField(fieldInfo.tagNumber);
+
+    bool skipField = true;
+    Object? jsonValue;
+    if (fieldInfo.isRepeated) {
+      if (context.emitDefaults || (value as List).isNotEmpty) {
+        skipField = false;
+        jsonValue = (value as PbListBase)
+            .map((element) => valueToProto3Json(element, fieldInfo.type))
+            .toList();
+      }
     } else if (fieldInfo.isMapField) {
-      jsonValue = (value as PbMap).map((key, entryValue) {
-        var mapEntryInfo = fieldInfo as MapFieldInfo;
-        return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType!),
-            valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
-      });
-    } else if (fieldInfo.isRepeated) {
-      jsonValue = (value as PbListBase)
-          .map((element) => valueToProto3Json(element, fieldInfo.type))
-          .toList();
-    } else {
-      jsonValue = valueToProto3Json(value, fieldInfo.type);
+      if (context.emitDefaults || (value as Map).isNotEmpty) {
+        skipField = false;
+        jsonValue = (value as PbMap).map((key, entryValue) {
+          var mapEntryInfo = fieldInfo as MapFieldInfo;
+          return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType!),
+              valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
+        });
+      }
+    } else if (_isBytes(fieldInfo.type)) {
+      if (context.emitDefaults || (value as List).isNotEmpty) {
+        skipField = false;
+        if ((value as List).isEmpty) {
+          jsonValue = null;
+        } else {
+          jsonValue = valueToProto3Json(value, fieldInfo.type);
+        }
+      }
+    } else if (fieldInfo.isEnum) {
+      // For enums, the default value is the first value listed in the enum's type definition
+      final defaultEnum = fieldInfo.enumValues!.first;
+      if (context.emitDefaults ||
+          (value as ProtobufEnum).name != defaultEnum.name) {
+        skipField = false;
+        jsonValue = valueToProto3Json(value, fieldInfo.type);
+      }
+    } else if (fieldInfo.isGroupOrMessage) {
+      // TODO see if there is a better way to check for the default message
+      if (context.emitDefaults || fs._values[fieldInfo.index!] != null) {
+        skipField = false;
+        if (fs._values[fieldInfo.index!] == null) {
+          jsonValue = null;
+        } else {
+          jsonValue = valueToProto3Json(value, fieldInfo.type);
+        }
+      }
+    } else if (PbFieldType._baseType(fieldInfo.type) ==
+        PbFieldType._STRING_BIT) {
+      if (context.emitDefaults || (value as String).isNotEmpty) {
+        skipField = false;
+        jsonValue = valueToProto3Json(value, fieldInfo.type);
+      }
+    } else if (PbFieldType._baseType(fieldInfo.type) ==
+        PbFieldType._DOUBLE_BIT) {
+      if (context.emitDefaults || (value as double) != 0.0) {
+        skipField = false;
+        jsonValue = valueToProto3Json(value, fieldInfo.type);
+      }
+    } else if (PbFieldType._baseType(fieldInfo.type) == PbFieldType._BOOL_BIT) {
+      if (context.emitDefaults || value != false) {
+        skipField = false;
+        jsonValue = valueToProto3Json(value, fieldInfo.type);
+      }
+    } else if (PbFieldType._baseType(fieldInfo.type) ==
+        PbFieldType._INT32_BIT) {
+      if (context.emitDefaults || (value as int) != 0) {
+        skipField = false;
+        jsonValue = valueToProto3Json(value, fieldInfo.type);
+      }
+    } else if (PbFieldType._baseType(fieldInfo.type) ==
+        PbFieldType._INT64_BIT) {
+      if (value is Int64) {
+        if (context.emitDefaults || !value.isZero) {
+          skipField = false;
+          jsonValue = valueToProto3Json(value, fieldInfo.type);
+        }
+      } else if (value is int) {
+        if (context.emitDefaults || value != 0) {
+          skipField = false;
+          jsonValue = valueToProto3Json(value, fieldInfo.type);
+        }
+      }
+      // TODO handling of additional types
     }
-    result[fieldInfo.name] = jsonValue;
+
+    if (!skipField) {
+      result[fieldInfo.name] = jsonValue;
+    }
   }
   // Extensions and unknown fields are not encoded by proto3 JSON.
   return result;

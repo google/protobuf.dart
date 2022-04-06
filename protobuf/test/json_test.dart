@@ -150,14 +150,14 @@ void main() {
 
   test('testToProto3JsonNoFieldsSet', () {
     final json = jsonEncode(T().toProto3Json());
-    expect(json.contains('{}'), isTrue);
+    expect(json.contains('{"val":42}'), isTrue);
     final Map m = jsonDecode(json);
-    expect(m.isEmpty, isTrue);
+    expect(m.length, 1);
   });
 
   test('testToProto3JsonFieldsSetToDefaults', () {
     final json = jsonEncode(exampleAllDefaults.toProto3Json());
-    expect(json.contains('"child":{}'), isTrue);
+    expect(json.contains('"child":{"val":42}'), isTrue);
     final Map m = jsonDecode(json);
     expect(m.isEmpty, isFalse);
   });
