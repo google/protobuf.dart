@@ -140,10 +140,10 @@ Object? _writeToProto3Json(
         jsonValue = valueToProto3Json(value, fieldInfo.type);
       }
     } else if (fieldInfo.isGroupOrMessage) {
-      // TODO see if there is a better way to check for the default message
-      if (context.emitDefaults || fs._values[fieldInfo.index!] != null) {
+      final originalValue = fs._values[fieldInfo.index!];
+      if (context.emitDefaults || originalValue != null) {
         skipField = false;
-        if (fs._values[fieldInfo.index!] == null) {
+        if (originalValue == null) {
           jsonValue = null;
         } else {
           jsonValue = valueToProto3Json(value, fieldInfo.type);
@@ -155,37 +155,29 @@ Object? _writeToProto3Json(
         skipField = false;
         jsonValue = valueToProto3Json(value, fieldInfo.type);
       }
-    } else if (PbFieldType._baseType(fieldInfo.type) ==
-        PbFieldType._DOUBLE_BIT) {
-      if (context.emitDefaults || (value as double) != 0.0) {
-        skipField = false;
-        jsonValue = valueToProto3Json(value, fieldInfo.type);
-      }
     } else if (PbFieldType._baseType(fieldInfo.type) == PbFieldType._BOOL_BIT) {
       if (context.emitDefaults || value != false) {
         skipField = false;
         jsonValue = valueToProto3Json(value, fieldInfo.type);
       }
-    } else if (PbFieldType._baseType(fieldInfo.type) ==
-        PbFieldType._INT32_BIT) {
-      if (context.emitDefaults || (value as int) != 0) {
+    } else if (value is Int64) {
+      if (context.emitDefaults || !value.isZero) {
         skipField = false;
         jsonValue = valueToProto3Json(value, fieldInfo.type);
       }
-    } else if (PbFieldType._baseType(fieldInfo.type) ==
-        PbFieldType._INT64_BIT) {
-      if (value is Int64) {
-        if (context.emitDefaults || !value.isZero) {
-          skipField = false;
-          jsonValue = valueToProto3Json(value, fieldInfo.type);
-        }
-      } else if (value is int) {
-        if (context.emitDefaults || value != 0) {
-          skipField = false;
-          jsonValue = valueToProto3Json(value, fieldInfo.type);
-        }
+    } else if (value is int) {
+      if (context.emitDefaults || value != 0) {
+        skipField = false;
+        jsonValue = valueToProto3Json(value, fieldInfo.type);
       }
-      // TODO handling of additional types
+    } else if (value is double) {
+      if (context.emitDefaults || value != 0.0) {
+        skipField = false;
+        jsonValue = valueToProto3Json(value, fieldInfo.type);
+      }
+    } else {
+      skipField = false;
+      jsonValue = valueToProto3Json(value, fieldInfo.type);
     }
 
     if (!skipField) {
