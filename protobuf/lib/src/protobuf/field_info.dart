@@ -198,8 +198,8 @@ String _unCamelCase(String name) {
 }
 
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
-  final int? keyFieldType;
-  final int? valueFieldType;
+  final int keyFieldType;
+  final int valueFieldType;
 
   /// Creates a new empty instance of the value type.
   ///

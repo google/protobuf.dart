@@ -192,8 +192,10 @@ class ProtobufField {
       invocation = 'm<$keyType, $valueType>';
 
       named['entryClassName'] = "'${generator.messageName}'";
-      named['keyFieldType'] = key.typeConstant;
-      named['valueFieldType'] = value.typeConstant;
+
+      args.add(key.typeConstant);
+      args.add(value.typeConstant);
+
       if (value.baseType.isMessage || value.baseType.isGroup) {
         named['valueCreator'] = '$valueType.create';
       }
