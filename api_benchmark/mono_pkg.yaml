@@ -7,4 +7,4 @@ stages:
       - command: ./../tool/setup.sh
       - command: ./compile_protos.sh
       - analyze: --fatal-infos
-      dart: dev
+      sdk: dev
