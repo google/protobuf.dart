@@ -73,8 +73,8 @@ class BuilderInfo {
       {ProtobufEnum? defaultEnumValue,
       String? protoName}) {
     var index = byIndex.length;
-    _addField(MapFieldInfo<K, V>(name, tagNumber, index, PbFieldType.M,
-        keyFieldType, valueFieldType, mapEntryBuilderInfo, valueCreator,
+    _addField(MapFieldInfo<K, V>(name, tagNumber, index, keyFieldType,
+        valueFieldType, mapEntryBuilderInfo, valueCreator,
         defaultEnumValue: defaultEnumValue, protoName: protoName));
   }
 

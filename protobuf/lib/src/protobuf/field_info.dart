@@ -231,26 +231,16 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
 
   final BuilderInfo mapEntryBuilderInfo;
 
-  MapFieldInfo(
-      String name,
-      int tagNumber,
-      int index,
-      int type,
-      this.keyFieldType,
-      this.valueFieldType,
-      this.mapEntryBuilderInfo,
-      this.valueCreator,
-      {ProtobufEnum? defaultEnumValue,
-      String? protoName})
-      : super(name, tagNumber, index, type,
+  MapFieldInfo(String name, int tagNumber, int index, this.keyFieldType,
+      this.valueFieldType, this.mapEntryBuilderInfo, this.valueCreator,
+      {ProtobufEnum? defaultEnumValue, String? protoName})
+      : super(name, tagNumber, index, PbFieldType._MAP,
             defaultOrMaker: () =>
                 PbMap<K, V>(keyFieldType, valueFieldType, mapEntryBuilderInfo),
             defaultEnumValue: defaultEnumValue,
             protoName: protoName) {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(tagNumber, 'tagNumber');
-    assert(_isMapField(type));
-    assert(!_isEnum(type) || valueOf != null);
   }
 
   FieldInfo get valueFieldInfo =>
