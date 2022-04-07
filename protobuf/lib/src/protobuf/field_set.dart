@@ -387,7 +387,7 @@ class _FieldSet {
     assert(fi.index != null); // Map fields are not allowed to be extensions.
 
     var value = _getFieldOrNull(fi);
-    if (value != null) return (value as Map<K, V>) as PbMap<K, V>;
+    if (value != null) return value as PbMap<K, V>;
 
     var newValue = fi._createMapField(_message!);
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
