@@ -84,14 +84,6 @@ Object? _writeToProto3Json(
     }
   }
 
-  bool isDefaultListField(dynamic value) {
-    return value == null || (value is List && value.isEmpty);
-  }
-
-  bool isDefaultMapField(dynamic value) {
-    return value == null || (value is Map && value.isEmpty);
-  }
-
   final meta = fs._meta;
   if (meta.toProto3Json != null) {
     return meta.toProto3Json!(fs._message!, typeRegistry);
