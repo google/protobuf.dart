@@ -7,3 +7,12 @@ class JsonSerializationContext {
 
   JsonSerializationContext(this.emitDefaults);
 }
+
+class JsonSerializationException implements Exception {
+  final String message;
+
+  JsonSerializationException(this.message);
+
+  @override
+  String toString() => message;
+}

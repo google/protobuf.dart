@@ -176,8 +176,8 @@ Object? _writeToProto3Json(
         jsonValue = valueToProto3Json(value, fieldInfo.type);
       }
     } else {
-      skipField = false;
-      jsonValue = valueToProto3Json(value, fieldInfo.type);
+      throw JsonSerializationException(
+          'Unexpected field type for proto3 JSON serialization ${fieldInfo.type}');
     }
 
     if (!skipField) {
