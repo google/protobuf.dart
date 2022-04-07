@@ -5,7 +5,12 @@
 part of protobuf;
 
 class PbMap<K, V> extends MapBase<K, V> {
+  /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
+  /// integer type or `string` -- i.e. no floats or `bytes`.
   final int? keyFieldType;
+
+  /// Value type of the map. Per proto2 and proto3 specs, this can be any type
+  /// other than `map`.
   final int? valueFieldType;
 
   static const int _keyFieldNumber = 1;
