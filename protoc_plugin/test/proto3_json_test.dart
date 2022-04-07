@@ -107,14 +107,26 @@ final testAllTypesJson = {
   'defaultCord': '425'
 };
 
+// these fields have default values set for them within {@code setAllFields} and
+// thus will not be serialized to JSON adhering to the proto3 specification
+final keysWithDefaultValues = [
+  'defaultBool',
+  'defaultNestedEnum',
+  'defaultForeignEnum',
+  'defaultImportEnum'
+];
+
+final testAllTypesJsonNoDefaults = Map<String, Object>.from(testAllTypesJson)
+  ..removeWhere((k, v) => (keysWithDefaultValues.contains(k)));
+
 void main() {
   group('encode', () {
     test('testOutput', () {
-      expect(getAllSet().toProto3Json(), testAllTypesJson);
+      expect(getAllSet().toProto3Json(), testAllTypesJsonNoDefaults);
     });
 
     test('testFrozenOutput', () {
-      expect(getAllSet().freeze().toProto3Json(), testAllTypesJson);
+      expect(getAllSet().freeze().toProto3Json(), testAllTypesJsonNoDefaults);
     });
 
     test('testUnsignedOutput', () {
@@ -125,26 +137,51 @@ void main() {
 
       expect(message.toProto3Json(), {
         'optionalUint64': '17293822573397606400',
-        'optionalFixed64': '-1152921500311945215'
+        'optionalFixed64': '-1152921500311945215',
+        'defaultInt32': 41,
+        'defaultInt64': '42',
+        'defaultUint32': 43,
+        'defaultUint64': '44',
+        'defaultSint32': -45,
+        'defaultSint64': '46',
+        'defaultFixed32': 47,
+        'defaultFixed64': '48',
+        'defaultSfixed32': 49,
+        'defaultSfixed64': '-50',
+        'defaultFloat': 51.5,
+        'defaultDouble': 52000.0,
+        'defaultBool': true,
+        'defaultString': 'hello',
+        'defaultBytes': 'd29ybGQ=',
+        'defaultNestedEnum': 'BAR',
+        'defaultForeignEnum': 'FOREIGN_BAR',
+        'defaultImportEnum': 'IMPORT_BAR',
+        'defaultStringPiece': 'abc',
+        'defaultCord': '123'
       });
     });
 
     test('doubles', () {
-      void testValue(double value, Object expected) {
+      void testValue(double value, bool expectedInJson, Object expected) {
         var message = TestAllTypes()
           ..defaultFloat = value
           ..defaultDouble = value;
-        expect(
-            (message.toProto3Json() as Map)['defaultDouble'], equals(expected));
+
+        if (expectedInJson) {
+          expect((message.toProto3Json() as Map)['defaultDouble'],
+              equals(expected));
+        } else {
+          expect((message.toProto3Json() as Map)['defaultDouble'], isNull);
+        }
       }
 
-      testValue(-0.0, -0.0);
-      testValue(0.0, 0);
-      testValue(1.0, 1);
-      testValue(-1.0, -1);
-      testValue(double.nan, 'NaN');
-      testValue(double.infinity, 'Infinity');
-      testValue(double.negativeInfinity, '-Infinity');
+      testValue(-0.0, false, 0);
+      testValue(0.0, false, 0);
+      testValue(1.0, true, 1);
+      testValue(-1.0, true, -1);
+      testValue(double.nan, true, 'NaN');
+      testValue(double.infinity, true, 'Infinity');
+      testValue(double.negativeInfinity, true, '-Infinity');
     });
 
     test('map value', () {
@@ -255,7 +292,27 @@ void main() {
               .toProto3Json(typeRegistry: TypeRegistry([TestAllTypes()])),
           {
             '@type': 'type.googleapis.com/protobuf_unittest.TestAllTypes',
-            'optionalFixed64': '100'
+            'optionalFixed64': '100',
+            'defaultInt32': 41,
+            'defaultInt64': '42',
+            'defaultUint32': 43,
+            'defaultUint64': '44',
+            'defaultSint32': -45,
+            'defaultSint64': '46',
+            'defaultFixed32': 47,
+            'defaultFixed64': '48',
+            'defaultSfixed32': 49,
+            'defaultSfixed64': '-50',
+            'defaultFloat': 51.5,
+            'defaultDouble': 52000.0,
+            'defaultBool': true,
+            'defaultString': 'hello',
+            'defaultBytes': 'd29ybGQ=',
+            'defaultNestedEnum': 'BAR',
+            'defaultForeignEnum': 'FOREIGN_BAR',
+            'defaultImportEnum': 'IMPORT_BAR',
+            'defaultStringPiece': 'abc',
+            'defaultCord': '123',
           });
       expect(
           Any.pack(Timestamp.fromDateTime(DateTime.utc(1969, 7, 20, 20, 17)))
