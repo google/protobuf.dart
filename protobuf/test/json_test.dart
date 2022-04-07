@@ -26,8 +26,8 @@ void main() {
     ..enm = ProtobufEnum(1, 'a')
     ..dbl = doubleZeroVal
     ..bl = false
-    ..byts = <int>[]
-    ..int32s.addAll(<int>[]);
+    ..byts = <int>[];
+  exampleAllDefaults.int32s.addAll(<int>[]);
   exampleAllDefaults.mp.addAll(<String, String>{});
 
   final double doubleSetVal = 1.34;
@@ -39,8 +39,8 @@ void main() {
     ..enm = ProtobufEnum(1, 'b')
     ..dbl = doubleSetVal
     ..bl = true
-    ..byts = <int>[46, 28]
-    ..int32s.addAll(<int>[3, 4, 6]);
+    ..byts = <int>[46, 28];
+  exampleAllSet.int32s.addAll(<int>[3, 4, 6]);
   exampleAllSet.mp.addAll(<String, String>{'k1': 'v2'});
 
   test('testProto3JsonEnum', () {
