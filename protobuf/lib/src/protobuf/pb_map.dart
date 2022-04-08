@@ -52,11 +52,6 @@ class PbMap<K, V> extends MapBase<K, V> {
       return false;
     }
     for (final key in keys) {
-      if (!other.containsKey(key)) {
-        return false;
-      }
-    }
-    for (final key in keys) {
       if (other[key] != this[key]) {
         return false;
       }
