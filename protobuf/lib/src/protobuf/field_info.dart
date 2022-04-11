@@ -30,8 +30,7 @@ class FieldInfo<T> {
   /// `protoName` for the `result_per_page` field above is `"result_per_page"`.
   /// This will typically consist of words separated with underscores.
   String get protoName {
-    _protoName ??= _unCamelCase(name);
-    return _protoName!;
+    return _protoName ??= _unCamelCase(name);
   }
 
   String? _protoName;
