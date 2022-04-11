@@ -40,7 +40,7 @@ class FieldType {
   const FieldType.packed(this.baseType)
       : isGroup = false,
         isPacked = true,
-        isRepeated = false,
+        isRepeated = true, // packed implies repeated
         isRequired = false;
 
   const FieldType.fromBaseType(this.baseType)
