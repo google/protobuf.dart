@@ -257,12 +257,10 @@ class BuilderInfo {
     return i?.name;
   }
 
-  /*
-  int? fieldType(int tagNumber) {
+  FieldType? fieldType(int tagNumber) {
     var i = fieldInfo[tagNumber];
     return i?.type;
   }
-  */
 
   MakeDefaultFunc? makeDefault(int tagNumber) {
     var i = fieldInfo[tagNumber];
