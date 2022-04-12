@@ -221,7 +221,16 @@ String _unCamelCase(String name) {
 }
 
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
+  /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
+  /// integer type or `string`, and the type cannot be `repeated`.
+  ///
+  /// The `int` value is interpreted the same way as [FieldInfo.type].
   final int? keyFieldType;
+
+  /// Value type of the map. Per proto2 and proto3 specs, this can be any type
+  /// other than `map`, and the type cannot be `repeated`.
+  ///
+  /// The `int` value is interpreted the same way as [FieldInfo.type].
   final int? valueFieldType;
 
   /// Creates a new empty instance of the value type.
