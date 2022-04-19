@@ -3,7 +3,7 @@ version: 2.0.1
 description: >-
   Runtime library for protocol buffers support.
   Use https://pub.dev/packages/protoc_plugin to generate dart code for your '.proto' files.
-homepage: https://github.com/google/protobuf.dart
+repository: https://github.com/google/protobuf.dart/tree/master/protobuf
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
