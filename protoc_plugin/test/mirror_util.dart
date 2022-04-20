@@ -4,8 +4,8 @@
 
 import 'dart:mirrors';
 
-/// Returns the names of the public properties and methods on a class.
-/// (Also visits its superclasses, recursively.)
+/// Returns the names of the public properties and non-static methods of a
+/// class. Also visits its superclasses, recursively.
 Set<String> findMemberNames(String importName, Symbol classSymbol) {
   var lib = currentMirrorSystem().libraries[Uri.parse(importName)]!;
   var cls = lib.declarations[classSymbol] as ClassMirror?;
@@ -37,5 +37,18 @@ Set<String> findMemberNames(String importName, Symbol classSymbol) {
     cls = cls.superclass;
   }
 
-  return result;
+  return result..removeAll(_staticMethods);
 }
+
+// We don't consider static methods as reserved as it's not possible to
+// override or shadow a static method in a subclass. However `dart:mirrors`
+// does not provide a `isStatic` property on declarations so we can't check for
+// static methods in `findMemberNames`. Instead we need to hard-code static
+// methods of `GeneratedMessage` and its superclasses here and manually remove
+// these in `findMemberNames`.
+const _staticMethods = {
+  // These were added in Dart 2.14:
+  'hash',
+  'hashAll',
+  'hashAllUnordered',
+};
