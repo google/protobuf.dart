@@ -64,7 +64,7 @@ your `PATH` with name `protoc-gen-dart`, or pass the path to it to `protoc`'s
 ## How to use
 
 Once you have `protoc-gen-dart` in the `PATH` the protocol buffer compiler can
-be invoked like this:
+be invoked like this to generate Dart for the proto file `test.proto`:
 
     $ protoc --dart_out=. test.proto
 
@@ -106,21 +106,25 @@ re-export the relevant protocol buffer classes.
 Say we have the file `m1.proto` with the following content
 
 ```proto
+syntax = "proto3";
+
 message M1 {
-  optional string a;
+  optional string a = 1;
 }
 ```
 
 and `m2.proto` containing
 
 ```proto
+syntax = "proto3";
+
 message M2 {
-  optional string b;
+  optional string b = 1;
 }
 ```
 
 Compiling these to Dart will produce two libraries in `m1.pb.dart` and
-`m2.pb.dart`. The following code shows a library M which combines
+`m2.pb.dart`. The following code shows a library `M` which combines
 these two protocol buffer libraries, exposes the classes `M1` and `M2` and
 adds some additional methods.
 
