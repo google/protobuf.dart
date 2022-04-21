@@ -29,7 +29,11 @@ class FieldInfo<T> {
   /// ```
   /// `protoName` for the `result_per_page` field above is `"result_per_page"`.
   /// This will typically consist of words separated with underscores.
-  final String protoName;
+  String get protoName {
+    return _protoName ??= _unCamelCase(name);
+  }
+
+  String? _protoName;
 
   /// Field number as specified in the proto definition. Example:
   /// ```proto
@@ -80,7 +84,7 @@ class FieldInfo<T> {
       String? protoName})
       : makeDefault = findMakeDefault(type, defaultOrMaker),
         check = null,
-        protoName = protoName ?? _unCamelCase(name),
+        _protoName = protoName,
         assert(type != 0),
         assert(!_isGroupOrMessage(type) ||
             subBuilder != null ||
@@ -90,7 +94,7 @@ class FieldInfo<T> {
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
       : name = '<removed field>',
-        protoName = '<removed field>',
+        _protoName = '<removed field>',
         tagNumber = 0,
         type = 0,
         makeDefault = null,
@@ -104,7 +108,7 @@ class FieldInfo<T> {
       this.check, this.subBuilder,
       {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
       : makeDefault = (() => PbList<T>(check: check!)),
-        protoName = protoName ?? _unCamelCase(name) {
+        _protoName = protoName {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(tagNumber, 'tagNumber');
     assert(_isRepeated(type));
@@ -221,7 +225,16 @@ String _unCamelCase(String name) {
 }
 
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
+  /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
+  /// integer type or `string`, and the type cannot be `repeated`.
+  ///
+  /// The `int` value is interpreted the same way as [FieldInfo.type].
   final int keyFieldType;
+
+  /// Value type of the map. Per proto2 and proto3 specs, this can be any type
+  /// other than `map`, and the type cannot be `repeated`.
+  ///
+  /// The `int` value is interpreted the same way as [FieldInfo.type].
   final int valueFieldType;
 
   /// Creates a new empty instance of the value type.

@@ -17,6 +17,7 @@ import '../out/protos/google/protobuf/field_mask.pb.dart';
 import '../out/protos/google/protobuf/struct.pb.dart';
 import '../out/protos/google/protobuf/timestamp.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
+import '../out/protos/google/protobuf/unittest_nested_any.pb.dart';
 import '../out/protos/google/protobuf/unittest_well_known_types.pb.dart';
 import '../out/protos/google/protobuf/wrappers.pb.dart';
 import '../out/protos/map_field.pb.dart';
@@ -268,6 +269,26 @@ void main() {
           () => Any.pack(Timestamp.fromDateTime(DateTime(1969, 7, 20, 20, 17)))
               .toProto3Json(),
           throwsA(TypeMatcher<ArgumentError>()));
+    });
+
+    test('Nested Any', () {
+      final packedOne = Any.pack(AnyMessage1()..value = '1');
+      final packedTwo = Any.pack(AnyMessage2()
+        ..value = '2'
+        ..anyField2 = packedOne);
+      expect(
+          packedTwo.toProto3Json(
+              typeRegistry: TypeRegistry([AnyMessage1(), AnyMessage2()])),
+          {
+            'anyField2': {
+              'value': '1',
+              '@type':
+                  'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+            },
+            'value': '2',
+            '@type':
+                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+          });
     });
 
     test('struct', () {
@@ -852,6 +873,7 @@ void main() {
       expect(t, TestAllTypes());
       expect(t.unknownFields.isEmpty, isTrue);
     });
+
     test('Any', () {
       final m1 = Any()
         ..mergeFromProto3Json({
@@ -927,6 +949,28 @@ void main() {
               'value': '1969-07-20T19:17:00Z'
             }),
           parseFailure([]));
+    });
+
+    test('Nested Any', () {
+      final m1 = Any()
+        ..mergeFromProto3Json({
+          'anyField2': {
+            'value': '1',
+            '@type':
+                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+          },
+          'value': '2',
+          '@type':
+              'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+        }, typeRegistry: TypeRegistry([AnyMessage1(), AnyMessage2()]));
+
+      expect(
+          m1
+              .unpackInto(AnyMessage2())
+              .anyField2
+              .unpackInto(AnyMessage1())
+              .value,
+          '1');
     });
 
     test('Duration', () {

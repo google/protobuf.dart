@@ -3,8 +3,8 @@
 This directory contains protobuf benchmarks adapted from [original protobuf](
 https://github.com/google/protobuf/tree/master/benchmarks) library.
 
-These benchmarks cover parsing and serializing protobufs both to
-binary and JSON formats.
+These benchmarks cover parsing and serializing protobufs both to binary and
+JSON formats, and hash code generation for messages.
 
 ## Prerequisites
 
