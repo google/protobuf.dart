@@ -60,7 +60,6 @@ const GeneratedMessage_reservedNames = <String>[
   'writeToCodedBufferWriter',
   'writeToJson',
   'writeToJsonMap',
-  r'$_defaultFor',
   r'$_ensure',
   r'$_get',
   r'$_getI64',
@@ -91,7 +90,6 @@ const ProtobufEnum_reservedNames = <String>[
   'Object',
   'ProtobufEnum',
   'hashCode',
-  'initByValue',
   'noSuchMethod',
   'runtimeType',
   'toString'

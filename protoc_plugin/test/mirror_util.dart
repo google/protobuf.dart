@@ -26,7 +26,8 @@ Set<String> findMemberNames(String importName, Symbol classSymbol) {
     for (var decl in cls.declarations.values) {
       if (!decl.isPrivate &&
           decl is! VariableMirror &&
-          decl is! TypeVariableMirror) {
+          decl is! TypeVariableMirror &&
+          !(decl is MethodMirror && decl.isStatic)) {
         result.add(chooseName(decl.simpleName));
       }
     }
@@ -37,18 +38,5 @@ Set<String> findMemberNames(String importName, Symbol classSymbol) {
     cls = cls.superclass;
   }
 
-  return result..removeAll(_staticMethods);
+  return result;
 }
-
-// We don't consider static methods as reserved as it's not possible to
-// override or shadow a static method in a subclass. However `dart:mirrors`
-// does not provide a `isStatic` property on declarations so we can't check for
-// static methods in `findMemberNames`. Instead we need to hard-code static
-// methods of `GeneratedMessage` and its superclasses here and manually remove
-// these in `findMemberNames`.
-const _staticMethods = {
-  // These were added in Dart 2.14:
-  'hash',
-  'hashAll',
-  'hashAllUnordered',
-};
