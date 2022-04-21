@@ -668,7 +668,8 @@ class _FieldSet {
       } else if (fi.type.baseType != FieldBaseType.enum_) {
         hash = _HashUtils._combine(hash, value.hashCode);
       } else if (fi.isRepeated) {
-        hash = _HashUtils._hashObjects(value.map((enm) => enm.value));
+        hash = _HashUtils._combine(
+            hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
       } else {
         ProtobufEnum enm = value;
         hash = _HashUtils._combine(hash, enm.value);
