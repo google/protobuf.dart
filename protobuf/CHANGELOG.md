@@ -1,3 +1,17 @@
+## Unreleased
+
+* Update READMEs of `protobuf` and `protoc_plugin`:
+  * Use `dart pub` instead of `pub` in command examples (a7e75cb)
+  * Fix typos, clarify installation instructions, mention native compilation
+    for `protoc_plugin` (#610)
+* Improve runtime perf by removing some of the runtime type checks (#574, #573)
+* Fix a bug when converting dates before epoch to `Timestamp` and back to Dart
+  `DateTime` (#580, #577)
+* Document `BuilderInfo` and `FieldInfo` properties (#597)
+* Remove a redundant check in `PbMap.operator ==` (#604)
+* Improve `BuilderInfo` initialization by doing some of the work lazily (#606)
+* Improve enum hash code generation (#556)
+
 ## 2.0.1
 
 * Fix bug of parsing map-values with default values.
