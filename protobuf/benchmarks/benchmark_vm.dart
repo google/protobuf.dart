@@ -24,4 +24,5 @@ void main(List<String> arguments) {
   ToBinaryBenchmark(datasets).report();
   ToJsonBenchmark(datasets).report();
   FromJsonBenchmark(datasets).report();
+  HashCodeBenchmark(datasets).report();
 }
