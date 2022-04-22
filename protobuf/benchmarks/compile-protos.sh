@@ -30,8 +30,6 @@ OUTPUT_DIR="${SCRIPT_DIR}/temp"
 
 mkdir -p ${OUTPUT_DIR}
 
-for proto in ${PROTOS[@]}
-do
-  echo "PROTOC ${proto}"
-  protoc -I"${SCRIPT_DIR}" --dart_out="${OUTPUT_DIR}" "${SCRIPT_DIR}/$proto"
-done
+set -x
+
+protoc -I"${SCRIPT_DIR}" --dart_out="${OUTPUT_DIR}" "${PROTOS[@]/#/$SCRIPT_DIR/}"
