@@ -109,7 +109,7 @@ Say we have the file `m1.proto` with the following content
 syntax = "proto3";
 
 message M1 {
-  optional string a = 1;
+  string a = 1;
 }
 ```
 
@@ -119,7 +119,7 @@ and `m2.proto` containing
 syntax = "proto3";
 
 message M2 {
-  optional string b = 1;
+  string b = 1;
 }
 ```
 
