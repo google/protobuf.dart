@@ -27,6 +27,7 @@ message Inner {
   optional int64 id = 2;
   repeated string strings = 3;
   optional Inner inner = 4;
+  optional fixed32 count = 5;
 }
 
 extend Outer {

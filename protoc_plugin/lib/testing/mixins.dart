@@ -1,7 +1,5 @@
-// @dart=2.11
-
 abstract class Mixin1 {
-  String get overriddenString => "mixin1";
+  String get overriddenString => 'mixin1';
 
   String get interfaceString;
   set interfaceString(String string);
@@ -9,7 +7,7 @@ abstract class Mixin1 {
 }
 
 abstract class Mixin2 {
-  String get overriddenString => "mixin2";
+  String get overriddenString => 'mixin2';
 
   bool hasOverriddenHasMethod() => false;
 }

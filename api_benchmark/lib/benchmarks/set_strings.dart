@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.set_strings;
-
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart'
     show BenchmarkID, Request, Params, Sample;
@@ -20,8 +18,8 @@ class SetStringsBenchmark extends Benchmark {
 
   @override
   get summary {
-    var fill = fillValue == null ? "null" : "'$fillValue'";
-    return "${id.name}($height x $fill)";
+    var fill = fillValue == null ? 'null' : "'$fillValue'";
+    return '${id.name}($height x $fill)';
   }
 
   @override
@@ -69,7 +67,7 @@ class SetStringsBenchmark extends Benchmark {
 
   @override
   void run() {
-    var newValue = "";
+    var newValue = '';
     for (var line in grid.lines) {
       line.cell1 = newValue;
       line.cell2 = newValue;
@@ -85,22 +83,22 @@ class SetStringsBenchmark extends Benchmark {
   }
 
   @override
-  void setCounts(Sample s) {
-    s.counts.stringWrites = width * height * s.loopCount;
+  void setCounts(Sample m) {
+    m.counts.stringWrites = width * height * m.loopCount;
   }
 
   @override
   measureSample(Sample s) => stringWritesPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "string writes/ms";
+  get measureSampleUnits => 'string writes/ms';
 
   static const $id = BenchmarkID.SET_STRINGS;
   static final $type = BenchmarkType($id, $create);
 
   static SetStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());
-    var value = null;
+    String value;
     if (r.params.hasStringValue()) value = r.params.stringValue;
     return SetStringsBenchmark(r.params.messageCount, value);
   }

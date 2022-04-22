@@ -8,12 +8,22 @@ part of protobuf;
 class BuilderInfo {
   /// The fully qualified name of this message.
   final String qualifiedMessageName;
+
+  /// Maps [FieldInfo.index]s to [FieldInfo]s.
   final List<FieldInfo> byIndex = <FieldInfo>[];
+
+  /// Maps [FieldInfo.tagNumber]s to [FieldInfo]s.
   final Map<int, FieldInfo> fieldInfo = <int, FieldInfo>{};
+
   final Map<String, FieldInfo> byTagAsString = <String, FieldInfo>{};
+
+  /// Maps [FieldInfo.name]s to [FieldInfo]s.
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
-  // Maps a tag number to the corresponding oneof index (if any).
+
+  /// Maps a tag number ([FieldInfo.tagNumber]) to the corresponding `oneof`
+  /// index (if any).
   final Map<int, int> oneofs = <int, int>{};
+
   bool hasExtensions = false;
   bool hasRequiredFields = true;
   List<FieldInfo>? _sortedByTag;
@@ -60,11 +70,12 @@ class BuilderInfo {
       int? valueFieldType,
       BuilderInfo mapEntryBuilderInfo,
       CreateBuilderFunc? valueCreator,
-      {String? protoName}) {
+      {ProtobufEnum? defaultEnumValue,
+      String? protoName}) {
     var index = byIndex.length;
     _addField(MapFieldInfo<K, V>(name, tagNumber, index, PbFieldType.M,
         keyFieldType, valueFieldType, mapEntryBuilderInfo, valueCreator,
-        protoName: protoName));
+        defaultEnumValue: defaultEnumValue, protoName: protoName));
   }
 
   void addRepeated<T>(
@@ -75,11 +86,15 @@ class BuilderInfo {
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
-      {String? protoName}) {
+      {ProtobufEnum? defaultEnumValue,
+      String? protoName}) {
     var index = byIndex.length;
     _addField(FieldInfo<T>.repeated(
         name, tagNumber, index, fieldType, check, subBuilder,
-        valueOf: valueOf, enumValues: enumValues, protoName: protoName));
+        valueOf: valueOf,
+        enumValues: enumValues,
+        defaultEnumValue: defaultEnumValue,
+        protoName: protoName));
   }
 
   void _addField(FieldInfo fi) {
@@ -162,11 +177,12 @@ class BuilderInfo {
       {CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
+      ProtobufEnum? defaultEnumValue,
       String? protoName}) {
     assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
     addRepeated<T>(tagNumber, name, fieldType, _checkNotNull, subBuilder,
         valueOf, enumValues,
-        protoName: protoName);
+        defaultEnumValue: defaultEnumValue, protoName: protoName);
   }
 
   void aOM<T extends GeneratedMessage>(int tagNumber, String name,
@@ -197,7 +213,9 @@ class BuilderInfo {
 
   // oneof declarations.
   void oo(int oneofIndex, List<int> tags) {
-    tags.forEach((int tag) => oneofs[tag] = oneofIndex);
+    for (var tag in tags) {
+      oneofs[tag] = oneofIndex;
+    }
   }
 
   // Map field.
@@ -208,6 +226,7 @@ class BuilderInfo {
       CreateBuilderFunc? valueCreator,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
+      ProtobufEnum? defaultEnumValue,
       PackageName packageName = const PackageName(''),
       String? protoName}) {
     var mapEntryBuilderInfo = BuilderInfo(entryClassName, package: packageName)
@@ -217,7 +236,7 @@ class BuilderInfo {
 
     addMapField<K, V>(tagNumber, name, keyFieldType, valueFieldType,
         mapEntryBuilderInfo, valueCreator,
-        protoName: protoName);
+        defaultEnumValue: defaultEnumValue, protoName: protoName);
   }
 
   bool containsTagNumber(int tagNumber) => fieldInfo.containsKey(tagNumber);
@@ -230,35 +249,35 @@ class BuilderInfo {
   // Returns the field name for a given tag number, for debugging purposes.
   String? fieldName(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.name : null;
+    return i?.name;
   }
 
   int? fieldType(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.type : null;
+    return i?.type;
   }
 
   MakeDefaultFunc? makeDefault(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.makeDefault : null;
+    return i?.makeDefault;
   }
 
   CreateBuilderFunc? subBuilder(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.subBuilder : null;
+    return i?.subBuilder;
   }
 
   int? tagNumber(String fieldName) {
     var i = byName[fieldName];
-    return i != null ? i.tagNumber : null;
+    return i?.tagNumber;
   }
 
   ValueOfFunc? valueOfFunc(int tagNumber) {
     var i = fieldInfo[tagNumber];
-    return i != null ? i.valueOf : null;
+    return i?.valueOf;
   }
 
-  /// The FieldInfo for each field in tag number order.
+  /// The [FieldInfo] for each field in tag number order.
   List<FieldInfo> get sortedByTag => _sortedByTag ??= _computeSortedByTag();
 
   /// The message name. Also see [qualifiedMessageName].

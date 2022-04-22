@@ -5,26 +5,23 @@
 
 // @dart=2.11
 
-library generated_message_test;
-
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
+import '../out/protos/duplicate_names_import.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
 import '../out/protos/multiple_files_test.pb.dart';
+import '../out/protos/package1.pb.dart' as p1;
+import '../out/protos/package2.pb.dart' as p2;
+import '../out/protos/package3.pb.dart' as p3;
 import '../out/protos/reserved_names.pb.dart';
 import '../out/protos/reserved_names.pbserver.dart';
 import '../out/protos/reserved_names_extension.pb.dart';
 import '../out/protos/reserved_names_message.pb.dart';
-import '../out/protos/duplicate_names_import.pb.dart';
-import '../out/protos/package1.pb.dart' as p1;
-import '../out/protos/package2.pb.dart' as p2;
-import '../out/protos/package3.pb.dart' as p3;
-import '../out/protos/toplevel_import.pb.dart' as t;
 import '../out/protos/toplevel.pb.dart';
-
+import '../out/protos/toplevel_import.pb.dart' as t;
 import 'test_util.dart';
 
 class ReservedNamesService extends ReservedNamesServiceBase {
@@ -118,13 +115,13 @@ void main() {
       message.clear();
     }, throwsUnsupportedError);
     expect(() {
-      message.optionalString = "123";
+      message.optionalString = '123';
     }, throwsUnsupportedError);
     expect(() {
       message.clearOptionalString();
     }, throwsUnsupportedError);
     expect(() {
-      message.repeatedString.add("123");
+      message.repeatedString.add('123');
     }, throwsUnsupportedError);
     expect(() {
       message.repeatedString.clear();
@@ -356,7 +353,7 @@ void main() {
   });
 
   test('testMaliciousRecursion', () {
-    GeneratedMessage _makeRecursiveMessage(int depth) {
+    TestRecursiveMessage _makeRecursiveMessage(int depth) {
       return depth == 0
           ? (TestRecursiveMessage()..i = 5)
           : (TestRecursiveMessage()..a = _makeRecursiveMessage(depth - 1));
@@ -416,7 +413,7 @@ void main() {
 
   test('testWriteWholeMessage', () {
     var goldenMessage = const <int>[
-      // no dartfmt
+      // no `dart format`
       0x08, 0x65, 0x10, 0x66, 0x18, 0x67, 0x20, 0x68, 0x28, 0xd2, 0x01, 0x30,
       0xd4, 0x01, 0x3d, 0x6b, 0x00, 0x00, 0x00, 0x41, 0x6c, 0x00, 0x00, 0x00,
       0x00, 0x00, 0x00, 0x00, 0x4d, 0x6d, 0x00, 0x00, 0x00, 0x51, 0x6e, 0x00,
@@ -464,7 +461,7 @@ void main() {
 
   test('testWriteWholePackedFieldsMessage', () {
     var goldenPackedMessage = const <int>[
-      // no dartfmt
+      // no `dart format`
       0xd2, 0x05, 0x04, 0xd9, 0x04, 0xbd, 0x05, 0xda, 0x05, 0x04, 0xda, 0x04,
       0xbe, 0x05, 0xe2, 0x05, 0x04, 0xdb, 0x04, 0xbf, 0x05, 0xea, 0x05, 0x04,
       0xdc, 0x04, 0xc0, 0x05, 0xf2, 0x05, 0x04, 0xba, 0x09, 0x82, 0x0b, 0xfa,
@@ -853,7 +850,7 @@ void main() {
   });
 
   test('to toDebugString', () {
-    var value1 = TestAllTypes()..optionalString = "test 123";
+    var value1 = TestAllTypes()..optionalString = 'test 123';
     expect(value1.toString(), 'optionalString: test 123\n');
   });
 
@@ -891,7 +888,7 @@ void main() {
       ..optionalForeignMessage = (ForeignMessage()..c = 18)
       ..freeze();
     final value2 = value1.rebuild((v) {
-      v..optionalFloat = 50.1;
+      v.optionalFloat = 50.1;
     });
     expect(value2.isFrozen, true);
     expect(value2.optionalFloat, 50.1);

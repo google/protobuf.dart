@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
@@ -16,7 +14,7 @@ void expectMatchesGoldenFile(String actual, String goldenFilePath) {
   var goldenFile = File(goldenFilePath);
   if (goldenFile.existsSync()) {
     expect(actual, equals(goldenFile.readAsStringSync()),
-        reason: 'goldenFilePath: "${goldenFilePath}"');
+        reason: 'goldenFilePath: "$goldenFilePath"');
   } else {
     // This enables writing the updated file when the run in otherwise hermetic
     // settings.

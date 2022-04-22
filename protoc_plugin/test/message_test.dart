@@ -3,23 +3,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
 // ignore_for_file: deprecated_member_use_from_same_package
 
-library message_test;
-
-import 'package:protoc_plugin/src/descriptor.pb.dart' show DescriptorProto;
+import 'package:protoc_plugin/src/generated/descriptor.pb.dart'
+    show DescriptorProto;
 import 'package:test/test.dart';
-
-import 'test_util.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest.pbjson.dart';
+import 'test_util.dart';
 
 void main() {
-  var TEST_REQUIRED_UNINITIALIZED = TestRequired();
+  var testRequiredUninitialized = TestRequired();
 
-  var TEST_REQUIRED_INITIALIZED = TestRequired()
+  var testRequiredInitialized = TestRequired()
     ..a = 1
     ..b = 2
     ..c = 3;
@@ -81,23 +78,23 @@ repeatedString: qux
     expect(message.isInitialized(), isTrue,
         reason: 'TestRequiredForeign without children should be initialized');
 
-    message.optionalMessage = TEST_REQUIRED_UNINITIALIZED;
+    message.optionalMessage = testRequiredUninitialized;
     expect(message.isInitialized(), isFalse,
         reason: 'TestRequiredForeign with optional TEST_REQUIRED_UNINITIALIZED '
             'should not be initialized');
 
-    message.optionalMessage = TEST_REQUIRED_INITIALIZED;
+    message.optionalMessage = testRequiredInitialized;
     expect(message.isInitialized(), isTrue,
         reason: 'TestRequiredForeign with optional TEST_REQUIRED_INITIALIZED '
             'should be initialized');
 
-    message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
+    message.repeatedMessage.add(testRequiredUninitialized);
     expect(message.isInitialized(), isFalse,
         reason:
             'TestRequiredForeign with repeating TEST_REQUIRED_UNINITIALIZED '
             'should not be initialized');
 
-    message.repeatedMessage[0] = TEST_REQUIRED_INITIALIZED;
+    message.repeatedMessage[0] = testRequiredInitialized;
     expect(message.isInitialized(), isTrue,
         reason: 'TestRequiredForeign with repeating TEST_REQUIRED_INITIALIZED '
             'should be initialized');
@@ -107,16 +104,16 @@ repeatedString: qux
     var message = TestAllExtensions();
     expect(message.isInitialized(), isTrue);
 
-    message.setExtension(TestRequired.single, TEST_REQUIRED_UNINITIALIZED);
+    message.setExtension(TestRequired.single, testRequiredUninitialized);
     expect(message.isInitialized(), isFalse);
 
-    message.setExtension(TestRequired.single, TEST_REQUIRED_INITIALIZED);
+    message.setExtension(TestRequired.single, testRequiredInitialized);
     expect(message.isInitialized(), isTrue);
 
-    message.addExtension(TestRequired.multi, TEST_REQUIRED_UNINITIALIZED);
+    message.addExtension(TestRequired.multi, testRequiredUninitialized);
     expect(message.isInitialized(), isFalse);
 
-    message.getExtension(TestRequired.multi)[0] = TEST_REQUIRED_INITIALIZED;
+    message.getExtension(TestRequired.multi)[0] = testRequiredInitialized;
     expect(message.isInitialized(), isTrue);
   });
 
@@ -138,9 +135,9 @@ repeatedString: qux
   test('testNestedUninitializedException', () {
     try {
       var message = TestRequiredForeign();
-      message.optionalMessage = TEST_REQUIRED_UNINITIALIZED;
-      message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
-      message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
+      message.optionalMessage = testRequiredUninitialized;
+      message.repeatedMessage.add(testRequiredUninitialized);
+      message.repeatedMessage.add(testRequiredUninitialized);
       message.check();
       fail('Should have thrown an exception.');
     } on StateError catch (e) {
@@ -165,9 +162,9 @@ repeatedString: qux
   test('testBuildNestedPartial', () {
     // We're mostly testing that no exception is thrown.
     var message = TestRequiredForeign();
-    message.optionalMessage = TEST_REQUIRED_UNINITIALIZED;
-    message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
-    message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
+    message.optionalMessage = testRequiredUninitialized;
+    message.repeatedMessage.add(testRequiredUninitialized);
+    message.repeatedMessage.add(testRequiredUninitialized);
     expect(message.isInitialized(), isFalse);
   });
 
@@ -182,9 +179,9 @@ repeatedString: qux
 
   test('testParseNestedUnititialized', () {
     var message = TestRequiredForeign();
-    message.optionalMessage = TEST_REQUIRED_UNINITIALIZED;
-    message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
-    message.repeatedMessage.add(TEST_REQUIRED_UNINITIALIZED);
+    message.optionalMessage = testRequiredUninitialized;
+    message.repeatedMessage.add(testRequiredUninitialized);
+    message.repeatedMessage.add(testRequiredUninitialized);
     List<int> buffer = message.writeToBuffer();
 
     try {
@@ -248,18 +245,18 @@ repeatedString: qux
 
   test('JSON constants share structure', () {
     const nestedTypeTag = 3;
-    List fields = TestAllTypes$json['$nestedTypeTag'];
+    var fields = TestAllTypes$json['$nestedTypeTag'] as List;
     expect(fields[0], same(TestAllTypes_NestedMessage$json));
 
     const enumTypeTag = 4;
-    fields = TestAllTypes$json['$enumTypeTag'];
+    fields = TestAllTypes$json['$enumTypeTag'] as List;
     expect(fields[0], same(TestAllTypes_NestedEnum$json));
   });
 
   test('Can read JSON constant into DescriptorProto', () {
     var d = DescriptorProto()..mergeFromJsonMap(TestAllTypes$json);
-    expect(d.name, "TestAllTypes");
-    expect(d.field[0].name, "optional_int32");
-    expect(d.nestedType[0].name, "NestedMessage");
+    expect(d.name, 'TestAllTypes');
+    expect(d.field[0].name, 'optional_int32');
+    expect(d.nestedType[0].name, 'NestedMessage');
   });
 }

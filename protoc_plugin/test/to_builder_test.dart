@@ -3,12 +3,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 import 'dart:convert';
+
+import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
-import 'package:fixnum/fixnum.dart' show Int64;
+
 import '../out/protos/foo.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
@@ -46,7 +46,7 @@ void main() {
           throwsA(TypeMatcher<UnsupportedError>()));
     });
 
-    Outer builder = original.toBuilder();
+    final builder = original.toBuilder() as Outer;
     test('builder is a shallow copy', () {
       expect(builder.inner, same(original.inner));
     });
@@ -90,13 +90,13 @@ void main() {
   });
 
   group('map properties behave correctly', () {
-    OuterWithMap original;
-    OuterWithMap outerBuilder;
+    late OuterWithMap original;
+    late OuterWithMap outerBuilder;
     setUp(() {
       original = OuterWithMap()
         ..innerMap[1] = (Inner()..value = 'mapInner')
         ..freeze();
-      outerBuilder = original.toBuilder();
+      outerBuilder = original.toBuilder() as OuterWithMap;
     });
     test('map fields are cloned', () {
       expect(outerBuilder.innerMap, isNot(same(original.innerMap)));
@@ -104,23 +104,23 @@ void main() {
     });
     test('the builder is mutable', () {
       outerBuilder.innerMap[1] = (Inner()..value = 'mob');
-      expect(outerBuilder.innerMap[1].value, 'mob');
+      expect(outerBuilder.innerMap[1]!.value, 'mob');
     });
   });
 
   group('frozen unknown fields', () {
-    Inner inner;
-    TestEmptyMessage emptyMessage;
-    int tagNumber;
-    UnknownFieldSet unknownFieldSet;
-    UnknownFieldSetField field;
+    late Inner inner;
+    late TestEmptyMessage emptyMessage;
+    late int tagNumber;
+    late UnknownFieldSet unknownFieldSet;
+    late UnknownFieldSetField field;
 
     setUp(() {
       inner = Inner()..value = 'bob';
       emptyMessage = TestEmptyMessage.fromBuffer(inner.writeToBuffer());
-      tagNumber = inner.getTagNumber('value');
+      tagNumber = inner.getTagNumber('value')!;
       unknownFieldSet = emptyMessage.unknownFields;
-      field = unknownFieldSet.getField(tagNumber);
+      field = unknownFieldSet.getField(tagNumber)!;
     });
 
     test('can read from a frozen unknown fieldset', () {
@@ -129,7 +129,7 @@ void main() {
 
       emptyMessage.freeze();
       unknownFieldSet = emptyMessage.unknownFields;
-      field = unknownFieldSet.getField(tagNumber);
+      field = unknownFieldSet.getField(tagNumber)!;
 
       expect(unknownFieldSet.hasField(tagNumber), isTrue);
       expect(field.lengthDelimited[0], utf8.encode(inner.value));
@@ -137,19 +137,19 @@ void main() {
 
     test('can add fields to a builder with unknown fields', () {
       emptyMessage.freeze();
-      TestEmptyMessage builder = emptyMessage.toBuilder();
+      var builder = emptyMessage.toBuilder() as TestEmptyMessage;
 
       builder.unknownFields
           .addField(2, UnknownFieldSetField()..fixed32s.add(42));
-      expect(builder.unknownFields.getField(2).fixed32s[0], 42);
+      expect(builder.unknownFields.getField(2)!.fixed32s[0], 42);
     });
 
     test('cannot mutate already added UnknownFieldSetField on builder', () {
       emptyMessage.freeze();
-      TestEmptyMessage builder = emptyMessage.toBuilder();
+      var builder = emptyMessage.toBuilder() as TestEmptyMessage;
 
       expect(
-          () => builder.unknownFields.getField(1).lengthDelimited[0] =
+          () => builder.unknownFields.getField(1)!.lengthDelimited[0] =
               utf8.encode('alice'),
           throwsA(TypeMatcher<UnsupportedError>()));
     });

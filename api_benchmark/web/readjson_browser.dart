@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import "dart:html" show querySelector;
+import 'dart:html' show querySelector;
 
-import 'package:api_benchmark/suites/json.dart' show jsonSuite;
 import 'package:api_benchmark/dashboard.dart' show showDashboard;
+import 'package:api_benchmark/suites/json.dart' show jsonSuite;
 
-main() => showDashboard(jsonSuite, querySelector("#dashboard"));
+main() => showDashboard(jsonSuite, querySelector('#dashboard'));

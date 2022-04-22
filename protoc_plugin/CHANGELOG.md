@@ -9,21 +9,6 @@
 
 * Stable release generating null-safe code.
 
-## 20.0.0-nullsafety.2
-
-* Support optional proto3 fields
-* Emit binary coded descriptors, which can be used to reflect over the options
-  given to the descriptor.
-* Generate null-safe .pbgrpc.dart files
-
-## 20.0.0-nullsafety.1
-
-* Generate constructors with optional named arguments for prefilling fields.
-
-## 20.0.0-nullsafety.0
-
-* Generate null-safe code.
-
 ## 19.3.1
 
 * Emit binary coded descriptors, which can be used to reflect over the options
@@ -231,7 +216,7 @@
 ## 14.0.1
 
 * Remove the benchmark from the protoc_package. It now lives in
-  [https://github.com/dart-lang/protobuf] as `api_benchmark`.
+  [https://github.com/google/protobuf.dart] as `api_benchmark`.
   This simplifies the dev_dependencies of this package.
 
 ## 14.0.0

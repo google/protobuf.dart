@@ -244,7 +244,7 @@ class _FieldSet {
 
   List<T> _getDefaultList<T>(FieldInfo<T> fi) {
     assert(fi.isRepeated);
-    if (_isReadOnly) return List.unmodifiable(const []);
+    if (_isReadOnly) return FrozenPbList._(const []);
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:
@@ -387,7 +387,7 @@ class _FieldSet {
     assert(fi.index != null); // Map fields are not allowed to be extensions.
 
     var value = _getFieldOrNull(fi);
-    if (value != null) return (value as Map<K, V>) as PbMap<K, V>;
+    if (value != null) return value as PbMap<K, V>;
 
     var newValue = fi._createMapField(_message!);
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
@@ -668,7 +668,8 @@ class _FieldSet {
       } else if (!_isEnum(fi.type)) {
         hash = _HashUtils._combine(hash, value.hashCode);
       } else if (fi.isRepeated) {
-        hash = _HashUtils._hashObjects(value.map((enm) => enm.value));
+        hash = _HashUtils._combine(
+            hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
       } else {
         ProtobufEnum enm = value;
         hash = _HashUtils._combine(hash, enm.value);
@@ -740,8 +741,9 @@ class _FieldSet {
       }
     }
 
-    _infosSortedByTag.forEach(
-        (FieldInfo fi) => writeFieldValue(_values[fi.index!], fi.name));
+    for (var fi in _infosSortedByTag) {
+      writeFieldValue(_values[fi.index!], fi.name);
+    }
 
     if (_hasExtensions) {
       _extensions!._info.keys.toList()
@@ -763,8 +765,8 @@ class _FieldSet {
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
   void _mergeFromMessage(_FieldSet other) {
-    // TODO(https://github.com/dart-lang/protobuf/issues/60): Recognize
-    // when [this] and [other] are the same protobuf (e.g. from cloning). In
+    // TODO(https://github.com/google/protobuf.dart/issues/60): Recognize
+    // when `this` and [other] are the same protobuf (e.g. from cloning). In
     // this case, we can merge the non-extension fields without field lookups or
     // validation checks.
 
@@ -893,7 +895,7 @@ class _FieldSet {
       fi._appendInvalidFields(problems, value, prefix);
     }
     // TODO(skybrian): search extensions as well
-    // https://github.com/dart-lang/protobuf/issues/46
+    // https://github.com/google/protobuf.dart/issues/46
   }
 
   /// Makes a shallow copy of all values from [original] to this.
@@ -909,7 +911,7 @@ class _FieldSet {
         if (map != null) {
           _values[index] = (fieldInfo as MapFieldInfo)
               ._createMapField(_message!)
-                ..addAll(map);
+            ..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
         PbListBase? list = _values[index];

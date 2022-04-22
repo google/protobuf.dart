@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
-part of protoc;
+import 'package:path/path.dart' as path;
 
 /// Configures where output of the protoc compiler should be placed and how to
 /// import one generated file from another.
@@ -34,8 +32,8 @@ class DefaultOutputConfiguration extends OutputConfiguration {
   const DefaultOutputConfiguration();
 
   @override
-  Uri outputPathFor(Uri input, String extension) {
-    var base = path.withoutExtension(path.url.fromUri(input));
+  Uri outputPathFor(Uri inputPath, String extension) {
+    var base = path.withoutExtension(path.url.fromUri(inputPath));
     return path.url.toUri('$base$extension');
   }
 

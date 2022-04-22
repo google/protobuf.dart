@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.repeated_int32_json;
-
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart'
     show BenchmarkID, Request, Params, Sample;
@@ -18,7 +16,7 @@ class RepeatedInt32Benchmark extends Benchmark {
   RepeatedInt32Benchmark(this.width, this.height) : super($id);
 
   @override
-  get summary => "${id.name}($width x $height ints)";
+  get summary => '${id.name}($width x $height ints)';
 
   @override
   Params makeParams() => Params()
@@ -53,19 +51,19 @@ class RepeatedInt32Benchmark extends Benchmark {
   void run() {
     pb.Grid grid = pb.Grid.fromJson(json);
     var actual = grid.lines[height - 1].cells[width - 1];
-    if (actual != width + height - 2) throw "failed; got ${actual}";
+    if (actual != width + height - 2) throw 'failed; got $actual';
   }
 
   @override
-  void setCounts(Sample s) {
-    s.counts.int32Reads = width * height * s.loopCount;
+  void setCounts(Sample m) {
+    m.counts.int32Reads = width * height * m.loopCount;
   }
 
   @override
   measureSample(Sample s) => int32ReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "int32 reads/ms";
+  get measureSampleUnits => 'int32 reads/ms';
 
   static const $id = BenchmarkID.READ_INT32_REPEATED_JSON;
   static final $type = BenchmarkType($id, $create);

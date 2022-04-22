@@ -4,12 +4,13 @@
 
 // @dart=2.11
 
-import 'package:protoc_plugin/src/descriptor.pb.dart';
 import 'package:protobuf/protobuf.dart';
-import '../out/protos/google/protobuf/unittest.pbjson.dart';
+import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
+import 'package:test/test.dart';
+
 import '../out/protos/custom_option.pb.dart';
 import '../out/protos/custom_option.pbjson.dart';
-import 'package:test/test.dart';
+import '../out/protos/google/protobuf/unittest.pbjson.dart';
 
 void main() {
   test('Can decode message descriptor', () {

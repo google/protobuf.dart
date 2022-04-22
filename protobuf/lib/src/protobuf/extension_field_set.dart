@@ -160,7 +160,7 @@ class _ExtensionFieldSet {
       if (value == null) continue;
       if (extension.isRepeated) {
         assert(value is PbListBase);
-        _ensureRepeatedField(extension)..addAll(value);
+        _ensureRepeatedField(extension).addAll(value);
       } else {
         _setFieldUnchecked(extension, value);
       }

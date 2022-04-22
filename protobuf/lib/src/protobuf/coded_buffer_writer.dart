@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: constant_identifier_names
+
 part of protobuf;
 
 /// Writer used for converting [GeneratedMessage]s into binary
@@ -12,7 +14,7 @@ part of protobuf;
 /// length-delimited representation, which means that they are represented as
 /// a varint encoded length followed by specified number of bytes of data.
 ///
-/// Due to this [CodedBufferWritter] maintains two output buffers:
+/// Due to this [CodedBufferWriter] maintains two output buffers:
 /// [_outputChunks] which contains all continuously written bytes and
 /// [_splices] which describes additional bytes to splice in-between
 /// [_outputChunks] bytes.
@@ -63,7 +65,7 @@ class CodedBufferWriter {
   }
 
   void writeField(int fieldNumber, int fieldType, fieldValue) {
-    final valueType = fieldType & ~0x07;
+    final valueType = PbFieldType._baseType(fieldType);
 
     if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
       if (!fieldValue.isEmpty) {
@@ -76,8 +78,6 @@ class CodedBufferWriter {
       }
       return;
     }
-
-    final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._MAP_BIT) != 0) {
       final keyWireFormat =
@@ -96,6 +96,8 @@ class CodedBufferWriter {
       });
       return;
     }
+
+    final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
       for (var i = 0; i < fieldValue.length; i++) {
@@ -174,8 +176,8 @@ class CodedBufferWriter {
 
   /// Move the current [_outputChunk] into [_outputChunks].
   ///
-  /// If [allocateNew] is [true] then allocate a new chunk, otherwise
-  /// set [_outputChunk] to null.
+  /// If [allocateNew] is `true` then allocate a new chunk, otherwise
+  /// set [_outputChunk] to `null`.
   void _commitChunk(bool allocateNew) {
     if (_bytesInChunk != 0) {
       _outputChunks.add(_outputChunk);
@@ -443,8 +445,10 @@ class CodedBufferWriter {
   /// where multiplication becomes a floating point multiplication.
   ///
   /// [1] http://supertech.csail.mit.edu/papers/debruijn.pdf
-  static int _valueTypeIndex(int powerOf2) =>
-      ((0x077CB531 * powerOf2) >> 27) & 31;
+  int _valueTypeIndex(int powerOf2) {
+    assert(powerOf2 & (powerOf2 - 1) == 0, '$powerOf2 is not a power of 2');
+    return ((0x077CB531 * powerOf2) >> 27) & 31;
+  }
 
   /// Precomputed indices for all FbFieldType._XYZ_BIT values:
   ///

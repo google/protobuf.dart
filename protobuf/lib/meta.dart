@@ -6,6 +6,8 @@
 /// dart-protoc-plugin. (Experimental API; subject to change.)
 library protobuf.meta;
 
+// ignore_for_file: constant_identifier_names
+
 // List of names which cannot be used in a subclass of GeneratedMessage.
 const GeneratedMessage_reservedNames = <String>[
   '==',
@@ -58,7 +60,6 @@ const GeneratedMessage_reservedNames = <String>[
   'writeToCodedBufferWriter',
   'writeToJson',
   'writeToJsonMap',
-  r'$_defaultFor',
   r'$_ensure',
   r'$_get',
   r'$_getI64',
@@ -89,7 +90,6 @@ const ProtobufEnum_reservedNames = <String>[
   'Object',
   'ProtobufEnum',
   'hashCode',
-  'initByValue',
   'noSuchMethod',
   'runtimeType',
   'toString'

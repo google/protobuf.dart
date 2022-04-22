@@ -1,36 +1,33 @@
 // @dart=2.11
 
-library protoc;
-
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
-import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
-import 'package:path/path.dart' as path;
-
-import 'src/dart_options.pb.dart';
-import 'src/descriptor.pb.dart';
-import 'src/plugin.pb.dart';
 
 import 'const_generator.dart' show writeJsonConst;
 import 'indenting_writer.dart';
-import 'names.dart';
 import 'mixins.dart';
+import 'names.dart';
+import 'src/code_generator.dart';
+import 'src/generated/dart_options.pb.dart';
+import 'src/generated/descriptor.pb.dart';
+import 'src/generated/plugin.pb.dart';
+import 'src/linker.dart';
+import 'src/options.dart';
+import 'src/output_config.dart';
+import 'src/shared.dart';
 import 'string_escape.dart';
 
-part 'base_type.dart';
-part 'client_generator.dart';
-part 'code_generator.dart';
-part 'enum_generator.dart';
-part 'extension_generator.dart';
-part 'file_generator.dart';
-part 'grpc_generator.dart';
-part 'linker.dart';
-part 'message_generator.dart';
-part 'options.dart';
-part 'output_config.dart';
-part 'protobuf_field.dart';
-part 'service_generator.dart';
-part 'well_known_types.dart';
+export 'src/code_generator.dart';
+
+part 'src/base_type.dart';
+part 'src/client_generator.dart';
+part 'src/enum_generator.dart';
+part 'src/extension_generator.dart';
+part 'src/file_generator.dart';
+part 'src/grpc_generator.dart';
+part 'src/message_generator.dart';
+part 'src/protobuf_field.dart';
+part 'src/service_generator.dart';
+part 'src/well_known_types.dart';

@@ -5,19 +5,16 @@
 
 // @dart=2.11
 
-library extension_test;
-
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import '../out/protos/ExtensionEnumNameConflict.pb.dart';
+import '../out/protos/ExtensionNameConflict.pb.dart';
 import '../out/protos/enum_extension.pb.dart';
 import '../out/protos/extend_unittest.pb.dart';
+import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/nested_extension.pb.dart';
 import '../out/protos/non_nested_extension.pb.dart';
-import '../out/protos/ExtensionNameConflict.pb.dart';
-import '../out/protos/ExtensionEnumNameConflict.pb.dart';
-
 import 'test_util.dart';
 
 Matcher throwsArgError(String expectedMessage) => throwsA(predicate((x) {
@@ -112,23 +109,23 @@ void main() {
       message.setExtension(Unittest.optionalInt32Extension, 0);
     },
         throwsArgError(
-            "Extension optionalInt32Extension not legal for message protobuf_unittest.TestAllTypes"));
+            'Extension optionalInt32Extension not legal for message protobuf_unittest.TestAllTypes'));
 
     expect(() {
       message.getExtension(Unittest.optionalInt32Extension);
     },
         throwsArgError(
-            "Extension optionalInt32Extension not legal for message protobuf_unittest.TestAllTypes"));
+            'Extension optionalInt32Extension not legal for message protobuf_unittest.TestAllTypes'));
   });
 
-  test("throws if an int32 extension is set to a bad value", () {
+  test('throws if an int32 extension is set to a bad value', () {
     var message = TestAllExtensions();
     expect(() {
-      message.setExtension(Unittest.optionalInt32Extension, "hello");
+      message.setExtension(Unittest.optionalInt32Extension, 'hello');
     },
         throwsArgError(
-            "Illegal to set field optionalInt32Extension (1) of protobuf_unittest.TestAllExtensions"
-            " to value (hello): not type int"));
+            'Illegal to set field optionalInt32Extension (1) of protobuf_unittest.TestAllExtensions'
+            ' to value (hello): not type int'));
   });
 
   test('throws if an int64 extension is set to a bad value', () {
@@ -137,8 +134,8 @@ void main() {
       message.setExtension(Unittest.optionalInt64Extension, 123);
     },
         throwsArgError(
-            "Illegal to set field optionalInt64Extension (2) of protobuf_unittest.TestAllExtensions"
-            " to value (123): not Int64"));
+            'Illegal to set field optionalInt64Extension (2) of protobuf_unittest.TestAllExtensions'
+            ' to value (123): not Int64'));
   });
 
   test('throws if a message extension is set to a bad value', () {
@@ -149,8 +146,8 @@ void main() {
       message.setExtension(Unittest.optionalNestedMessageExtension, 123);
     },
         throwsArgError(
-            "Illegal to set field optionalNestedMessageExtension (18)"
-            " of protobuf_unittest.TestAllExtensions to value (123): not a GeneratedMessage"));
+            'Illegal to set field optionalNestedMessageExtension (18)'
+            ' of protobuf_unittest.TestAllExtensions to value (123): not a GeneratedMessage'));
 
     // For a repeated message, the type check is exact.
     expect(() {
@@ -166,8 +163,8 @@ void main() {
     expect(() {
       message.setExtension(Unittest.optionalNestedEnumExtension, 123);
     },
-        throwsArgError("Illegal to set field optionalNestedEnumExtension (21)"
-            " of protobuf_unittest.TestAllExtensions to value (123): not type ProtobufEnum"));
+        throwsArgError('Illegal to set field optionalNestedEnumExtension (21)'
+            ' of protobuf_unittest.TestAllExtensions to value (123): not type ProtobufEnum'));
 
     // For a repeated enum, the type check is exact.
     expect(() {
@@ -340,8 +337,8 @@ void main() {
 
     final reparsed = r.reparseMessage(withUnknownFields);
 
-    List<String> strings =
-        withUnknownFields.getExtension(Unittest.repeatedStringExtension);
+    final strings = withUnknownFields
+        .getExtension(Unittest.repeatedStringExtension) as List<String>;
     expect(strings, []);
     strings.add('pop2');
     expect(reparsed.getExtension(Unittest.repeatedStringExtension), []);
@@ -395,11 +392,11 @@ void main() {
         ..innerMost = (InnerMost()
           ..setExtension(Extend_unittest.innerMostExtensionString, 'a')))
       ..inners.addAll([
-        (Inner()..setExtension(Extend_unittest.innerExtensionString, "a")),
+        (Inner()..setExtension(Extend_unittest.innerExtensionString, 'a')),
         Inner()..value = 'value'
       ])
       ..innerMap[0] =
-          (Inner()..setExtension(Extend_unittest.innerExtensionString, "a"));
+          (Inner()..setExtension(Extend_unittest.innerExtensionString, 'a'));
 
     final reparsed = ExtensionRegistry().reparseMessage(original);
     expect(identical(reparsed, original), isTrue);
@@ -439,7 +436,7 @@ void main() {
       () {
     final original = Outer()
       ..inner = (Inner()
-        ..setExtension(Extend_unittest.innerExtensionString, "a")
+        ..setExtension(Extend_unittest.innerExtensionString, 'a')
         ..innerMost = (InnerMost()
           ..setExtension(Extend_unittest.innerMostExtensionString, 'a')));
 
@@ -478,7 +475,7 @@ void main() {
       () {
     final original = Outer()
       ..inner = (Inner()
-        ..setExtension(Extend_unittest.innerExtensionString, "a")
+        ..setExtension(Extend_unittest.innerExtensionString, 'a')
         ..innerMost = InnerMost());
 
     final withUnknownFields = Outer.fromBuffer(original.writeToBuffer());
@@ -504,7 +501,7 @@ void main() {
       () {
     final original = Outer()
       ..inners.addAll([
-        (Inner()..setExtension(Extend_unittest.innerExtensionString, "a")),
+        (Inner()..setExtension(Extend_unittest.innerExtensionString, 'a')),
         Inner()..value = 'value'
       ]);
 
@@ -528,7 +525,7 @@ void main() {
       () {
     final original = Outer()
       ..innerMap[0] =
-          (Inner()..setExtension(Extend_unittest.innerExtensionString, "a"))
+          (Inner()..setExtension(Extend_unittest.innerExtensionString, 'a'))
       ..innerMap[1] = (Inner())
       ..stringMap['hello'] = 'world';
 

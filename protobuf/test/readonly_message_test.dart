@@ -5,8 +5,6 @@
 
 library readonly_message_test;
 
-import 'package:test/test.dart';
-
 import 'package:protobuf/protobuf.dart'
     show
         BuilderInfo,
@@ -15,6 +13,7 @@ import 'package:protobuf/protobuf.dart'
         UnknownFieldSetField,
         frozenMessageModificationHandler,
         defaultFrozenMessageModificationHandler;
+import 'package:test/test.dart';
 
 Matcher throwsError(Type expectedType, Matcher expectedMessage) =>
     throwsA(predicate((dynamic x) {

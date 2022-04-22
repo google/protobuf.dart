@@ -158,15 +158,15 @@ class UnknownFieldSet {
       for (var value in field.values) {
         if (value is UnknownFieldSet) {
           stringBuffer
-            ..write('${indent}${tag}: {\n')
+            ..write('$indent$tag: {\n')
             ..write(value._toString('$indent  '))
-            ..write('${indent}}\n');
+            ..write('$indent}\n');
         } else {
           if (value is ByteData) {
             // TODO(antonm): fix for longs.
             value = value.getUint64(0, Endian.little);
           }
-          stringBuffer.write('${indent}${tag}: ${value}\n');
+          stringBuffer.write('$indent$tag: $value\n');
         }
       }
     }
@@ -182,7 +182,9 @@ class UnknownFieldSet {
 
   void _markReadOnly() {
     if (_isReadOnly) return;
-    _fields.values.forEach((UnknownFieldSetField f) => f._markReadOnly());
+    for (var f in _fields.values) {
+      f._markReadOnly();
+    }
     _isReadOnly = true;
   }
 
@@ -265,12 +267,13 @@ class UnknownFieldSetField {
     return hash;
   }
 
-  List get values => []
-    ..addAll(lengthDelimited)
-    ..addAll(varints)
-    ..addAll(fixed32s)
-    ..addAll(fixed64s)
-    ..addAll(groups);
+  List get values => [
+        ...lengthDelimited,
+        ...varints,
+        ...fixed32s,
+        ...fixed64s,
+        ...groups,
+      ];
 
   void writeTo(int fieldNumber, CodedBufferWriter output) {
     void write(type, value) {

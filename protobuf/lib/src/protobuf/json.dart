@@ -111,9 +111,11 @@ void _appendJsonList(BuilderInfo meta, _FieldSet fs, List jsonList,
     var value = jsonList[i];
     var convertedValue =
         _convertJsonValue(meta, fs, value, fi.tagNumber, fi.type, registry);
-    if (convertedValue != null) {
-      repeated.add(convertedValue);
-    }
+    // In the case of an unknown enum value, the converted value may return
+    // null. The default enum value should be used in these cases, which is
+    // stored in the FieldInfo.
+    convertedValue ??= fi.defaultEnumValue;
+    repeated.add(convertedValue);
   }
 }
 
@@ -131,13 +133,17 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
         PbMap._keyFieldNumber,
         fi.keyFieldType!,
         registry);
-    final convertedValue = _convertJsonValue(
+    var convertedValue = _convertJsonValue(
         entryMeta,
         entryFieldSet,
         jsonEntry['${PbMap._valueFieldNumber}'],
         PbMap._valueFieldNumber,
         fi.valueFieldType!,
         registry);
+    // In the case of an unknown enum value, the converted value may return
+    // null. The default enum value should be used in these cases, which is
+    // stored in the FieldInfo.
+    convertedValue ??= fi.defaultEnumValue;
     map[convertedKey] = convertedValue;
   }
 }
@@ -160,8 +166,9 @@ void _setJsonField(BuilderInfo meta, _FieldSet fs, json, FieldInfo fi,
 /// Converts [value] from the Json format to the Dart data type
 /// suitable for inserting into the corresponding [GeneratedMessage] field.
 ///
-/// Returns the converted value.  This function returns [null] if the caller
-/// should ignore the field value, because it is an unknown enum value.
+/// Returns the converted value.  This function returns `null` if it is an
+/// unknown enum value, in which case the caller should figure out the default
+/// enum value to return instead.
 /// This function throws [ArgumentError] if it cannot convert the value.
 dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
     int fieldType, ExtensionRegistry? registry) {
@@ -225,10 +232,19 @@ dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
     case PbFieldType._INT32_BIT:
     case PbFieldType._SINT32_BIT:
     case PbFieldType._UINT32_BIT:
-    case PbFieldType._FIXED32_BIT:
     case PbFieldType._SFIXED32_BIT:
       if (value is int) return value;
       if (value is String) return int.parse(value);
+      expectedType = 'int or stringified int';
+      break;
+    case PbFieldType._FIXED32_BIT:
+      int? validatedValue;
+      if (value is int) validatedValue = value;
+      if (value is String) validatedValue = int.parse(value);
+      if (validatedValue != null && validatedValue < 0) {
+        validatedValue += 2 * (1 << 31);
+      }
+      if (validatedValue != null) return validatedValue;
       expectedType = 'int or stringified int';
       break;
     case PbFieldType._INT64_BIT:

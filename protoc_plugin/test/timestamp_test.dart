@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
@@ -21,15 +19,26 @@ void main() {
     var dateTime = DateTime.utc(2019, 02, 15, 10, 21, 25, 5, 5);
     var fromProto = Timestamp.fromDateTime(dateTime).toDateTime();
 
-    expect(fromProto.isUtc, true, reason: "$fromProto is not a UTC time.");
+    expect(fromProto.isUtc, true, reason: '$fromProto is not a UTC time.');
     expect(fromProto, dateTime);
+  });
+
+  test('negative Timestamp', () {
+    final secondBeforeEpoch = Timestamp(seconds: Int64(-1), nanos: 1000000);
+    var dateTime = DateTime.fromMillisecondsSinceEpoch(-999, isUtc: true);
+
+    expect(secondBeforeEpoch.toDateTime().millisecondsSinceEpoch,
+        dateTime.millisecondsSinceEpoch);
+    expect(secondBeforeEpoch.toDateTime(), dateTime);
+    expect(Timestamp.fromDateTime(dateTime).nanos, 1000000);
+    expect(Timestamp.fromDateTime(dateTime).seconds, Int64(-1));
   });
 
   test('local datetime -> timestamp -> datetime', () {
     var dateTime = DateTime(2019, 02, 15, 10, 21, 25, 5, 5);
     var fromProto = Timestamp.fromDateTime(dateTime).toDateTime();
 
-    expect(fromProto.isUtc, true, reason: "$fromProto is not a UTC time.");
+    expect(fromProto.isUtc, true, reason: '$fromProto is not a UTC time.');
     expect(fromProto, dateTime.toUtc());
   });
 }

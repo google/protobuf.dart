@@ -2,10 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
-library test_util;
-
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
@@ -15,12 +11,12 @@ import '../out/protos/google/protobuf/unittest_import.pb.dart';
 
 final Matcher throwsATypeError = throwsA(TypeMatcher<TypeError>());
 
-Int64 make64(int lo, [int hi]) {
+Int64 make64(int lo, [int? hi]) {
   hi ??= lo < 0 ? -1 : 0;
   return Int64.fromInts(hi, lo);
 }
 
-Matcher expect64(int lo, [int hi]) {
+Matcher expect64(int lo, [int? hi]) {
   final expected = make64(lo, hi);
   return predicate((Int64 actual) => actual == expected);
 }
@@ -1323,7 +1319,7 @@ void modifyRepeatedExtensions(TestAllExtensions message) {
   message.getExtension(Unittest.repeatedStringExtension)[1] = '515';
   message.getExtension(Unittest.repeatedBytesExtension)[1] = '516'.codeUnits;
 
-  var msg;
+  dynamic msg;
 
   msg = RepeatedGroup_extension();
   msg.a = 517;
@@ -1416,23 +1412,21 @@ void setAllExtensions(TestAllExtensions message) {
   message.setExtension(Unittest.optionalStringExtension, '115');
   message.setExtension(Unittest.optionalBytesExtension, '116'.codeUnits);
 
-  var msg;
-
-  msg = OptionalGroup_extension();
+  var msg = OptionalGroup_extension();
   msg.a = 117;
   message.setExtension(Unittest.optionalGroupExtension, msg);
 
-  msg = TestAllTypes_NestedMessage();
-  msg.bb = 118;
-  message.setExtension(Unittest.optionalNestedMessageExtension, msg);
+  var msg2 = TestAllTypes_NestedMessage();
+  msg2.bb = 118;
+  message.setExtension(Unittest.optionalNestedMessageExtension, msg2);
 
-  msg = ForeignMessage();
-  msg.c = 119;
-  message.setExtension(Unittest.optionalForeignMessageExtension, msg);
+  var msg3 = ForeignMessage();
+  msg3.c = 119;
+  message.setExtension(Unittest.optionalForeignMessageExtension, msg3);
 
-  msg = ImportMessage();
-  msg.d = 120;
-  message.setExtension(Unittest.optionalImportMessageExtension, msg);
+  var msg4 = ImportMessage();
+  msg4.d = 120;
+  message.setExtension(Unittest.optionalImportMessageExtension, msg4);
 
   message.setExtension(
       Unittest.optionalNestedEnumExtension, TestAllTypes_NestedEnum.BAZ);
@@ -1462,21 +1456,21 @@ void setAllExtensions(TestAllExtensions message) {
   message.addExtension(Unittest.repeatedStringExtension, '215');
   message.addExtension(Unittest.repeatedBytesExtension, '216'.codeUnits);
 
-  msg = RepeatedGroup_extension();
-  msg.a = 217;
-  message.addExtension(Unittest.repeatedGroupExtension, msg);
+  var msg5 = RepeatedGroup_extension();
+  msg5.a = 217;
+  message.addExtension(Unittest.repeatedGroupExtension, msg5);
 
-  msg = TestAllTypes_NestedMessage();
-  msg.bb = 218;
-  message.addExtension(Unittest.repeatedNestedMessageExtension, msg);
+  var msg6 = TestAllTypes_NestedMessage();
+  msg6.bb = 218;
+  message.addExtension(Unittest.repeatedNestedMessageExtension, msg6);
 
-  msg = ForeignMessage();
-  msg.c = 219;
-  message.addExtension(Unittest.repeatedForeignMessageExtension, msg);
+  var msg7 = ForeignMessage();
+  msg7.c = 219;
+  message.addExtension(Unittest.repeatedForeignMessageExtension, msg7);
 
-  msg = ImportMessage();
-  msg.d = 220;
-  message.addExtension(Unittest.repeatedImportMessageExtension, msg);
+  var msg8 = ImportMessage();
+  msg8.d = 220;
+  message.addExtension(Unittest.repeatedImportMessageExtension, msg8);
 
   message.addExtension(
       Unittest.repeatedNestedEnumExtension, TestAllTypes_NestedEnum.BAR);
@@ -1505,21 +1499,21 @@ void setAllExtensions(TestAllExtensions message) {
   message.addExtension(Unittest.repeatedStringExtension, '315');
   message.addExtension(Unittest.repeatedBytesExtension, '316'.codeUnits);
 
-  msg = RepeatedGroup_extension();
-  msg.a = 317;
-  message.addExtension(Unittest.repeatedGroupExtension, msg);
+  var msg9 = RepeatedGroup_extension();
+  msg9.a = 317;
+  message.addExtension(Unittest.repeatedGroupExtension, msg9);
 
-  msg = TestAllTypes_NestedMessage();
-  msg.bb = 318;
-  message.addExtension(Unittest.repeatedNestedMessageExtension, msg);
+  var msg10 = TestAllTypes_NestedMessage();
+  msg10.bb = 318;
+  message.addExtension(Unittest.repeatedNestedMessageExtension, msg10);
 
-  msg = ForeignMessage();
-  msg.c = 319;
-  message.addExtension(Unittest.repeatedForeignMessageExtension, msg);
+  var msg11 = ForeignMessage();
+  msg11.c = 319;
+  message.addExtension(Unittest.repeatedForeignMessageExtension, msg11);
 
-  msg = ImportMessage();
-  msg.d = 320;
-  message.addExtension(Unittest.repeatedImportMessageExtension, msg);
+  var msg12 = ImportMessage();
+  msg12.d = 320;
+  message.addExtension(Unittest.repeatedImportMessageExtension, msg12);
 
   message.addExtension(
       Unittest.repeatedNestedEnumExtension, TestAllTypes_NestedEnum.BAZ);

@@ -18,5 +18,5 @@ Duration measure(void Function() f,
 }
 
 String formatReport({required String title, required Duration duration}) {
-  return "RunTimeRaw($title): ${duration.inMicroseconds} us";
+  return 'RunTimeRaw($title): ${duration.inMicroseconds} us';
 }

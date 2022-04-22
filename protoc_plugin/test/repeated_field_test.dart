@@ -3,10 +3,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
-library repeated_field_test;
-
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
@@ -16,22 +12,22 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 dynamic cast(x) => x;
 
 void main() {
-  test("check properties are initialized for repeated fields", () {
+  test('check properties are initialized for repeated fields', () {
     var msg = TestAllTypes();
     expect(
-        (msg.info_.byName["repeatedNestedMessage"]
+        (msg.info_.byName['repeatedNestedMessage']
                 as FieldInfo<TestAllTypes_NestedMessage>)
             .check,
         isNotNull);
 
     expect(
-        (msg.info_.byName["repeatedgroup"]
+        (msg.info_.byName['repeatedgroup']
                 as FieldInfo<TestAllTypes_RepeatedGroup>)
             .check,
         isNotNull);
 
     expect(
-        (msg.info_.byName["repeatedNestedEnum"]
+        (msg.info_.byName['repeatedNestedEnum']
                 as FieldInfo<TestAllTypes_NestedEnum>)
             .check,
         isNotNull);

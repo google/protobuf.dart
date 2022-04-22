@@ -4,19 +4,30 @@
 
 // @dart=2.11
 
-part of protoc;
+import 'dart:io';
+
+import 'package:fixnum/fixnum.dart';
+import 'package:protobuf/protobuf.dart';
+
+import '../names.dart' show lowerCaseFirstLetter;
+import '../protoc.dart' show FileGenerator;
+import 'generated/dart_options.pb.dart';
+import 'generated/plugin.pb.dart';
+import 'linker.dart';
+import 'options.dart';
+import 'output_config.dart';
 
 abstract class ProtobufContainer {
   // Internal map of proto file URIs to prefix aliases to resolve name conflicts
-  static final importPrefixes = <String, String>{};
-  static var idx = 0;
+  static final _importPrefixes = <String, String>{};
+  static int _idx = 0;
 
   String get package;
   String get classname;
   String get fullName;
 
   /// The field path contains the field IDs and indices (for repeated fields)
-  /// that lead to the proto memeber corresponding to a piece of generated code.
+  /// that lead to the proto member corresponding to a piece of generated code.
   /// Repeated fields in the descriptor are further identified by the index of
   /// the message in question.
   /// For more information see
@@ -35,12 +46,12 @@ abstract class ProtobufContainer {
 
   String _getFileImportPrefix() {
     var path = fileGen.protoFileUri.toString();
-    if (importPrefixes.containsKey(path)) {
-      return importPrefixes[path];
+    if (_importPrefixes.containsKey(path)) {
+      return _importPrefixes[path];
     }
-    final alias = '\$$idx';
-    importPrefixes[path] = alias;
-    idx++;
+    final alias = '\$$_idx';
+    _importPrefixes[path] = alias;
+    _idx++;
     return alias;
   }
 
@@ -50,18 +61,18 @@ abstract class ProtobufContainer {
   FileGenerator get fileGen;
 
   // The generator containing this entity.
-  ProtobufContainer get _parent;
+  ProtobufContainer get parent;
 
   /// The top-level parent of this entity. If this entity is a top-level entity,
   /// returns this.
   ProtobufContainer get toplevelParent {
-    if (_parent == null) {
+    if (parent == null) {
       return null;
     }
-    if (_parent is FileGenerator) {
+    if (parent is FileGenerator) {
       return this;
     }
-    return _parent.toplevelParent;
+    return parent.toplevelParent;
   }
 }
 
@@ -73,7 +84,7 @@ class CodeGenerator extends ProtobufContainer {
 
   /// Runs the code generator. The optional [optionParsers] can be used to
   /// change how command line options are parsed (see [parseGenerationOptions]
-  /// for details), and [outputConfiguration] can be used to override where
+  /// for details), and [config] can be used to override where
   /// generated files are created and how imports between generated files are
   /// constructed (see [OutputConfiguration] for details).
   void generate(
@@ -132,7 +143,7 @@ class CodeGenerator extends ProtobufContainer {
   @override
   FileGenerator get fileGen => null;
   @override
-  ProtobufContainer get _parent => null;
+  ProtobufContainer get parent => null;
   @override
   List<int> get fieldPath => [];
 }

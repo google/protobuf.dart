@@ -5,7 +5,9 @@
 part of protobuf;
 
 class CodedBufferReader {
+  // ignore: constant_identifier_names
   static const int DEFAULT_RECURSION_LIMIT = 64;
+  // ignore: constant_identifier_names
   static const int DEFAULT_SIZE_LIMIT = 64 << 20;
 
   final Uint8List _buffer;

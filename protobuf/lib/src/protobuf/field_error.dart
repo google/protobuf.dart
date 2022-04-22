@@ -51,7 +51,7 @@ String? _getFieldError(int fieldType, var value) {
     case PbFieldType._SFIXED64_BIT:
       // We always use the full range of the same Dart type.
       // It's up to the caller to treat the Int64 as signed or unsigned.
-      // See: https://github.com/dart-lang/protobuf/issues/44
+      // See: https://github.com/google/protobuf.dart/issues/44
       if (value is! Int64) return 'not Int64';
       return null;
 
@@ -68,7 +68,7 @@ String? _getFieldError(int fieldType, var value) {
 
 // generated checkItem for message, group, enum calls this
 void checkItemFailed(val, String className) {
-  throw ArgumentError('Value ($val) is not an instance of ${className}');
+  throw ArgumentError('Value ($val) is not an instance of $className');
 }
 
 /// Returns a function for validating items in a repeated field.
@@ -92,7 +92,7 @@ CheckFunc getCheckFunction(int fieldType) {
     case PbFieldType._FIXED64_BIT:
       // We always use the full range of the same Dart type.
       // It's up to the caller to treat the Int64 as signed or unsigned.
-      // See: https://github.com/dart-lang/protobuf/issues/44
+      // See: https://github.com/google/protobuf.dart/issues/44
       return _checkNotNull;
 
     case PbFieldType._FLOAT_BIT:
@@ -107,7 +107,7 @@ CheckFunc getCheckFunction(int fieldType) {
     case PbFieldType._FIXED32_BIT:
       return _checkUnsigned32;
   }
-  throw ArgumentError('check function not implemented: ${fieldType}');
+  throw ArgumentError('check function not implemented: $fieldType');
 }
 
 // check functions for repeated fields
@@ -135,7 +135,7 @@ void _checkUnsigned32(Object? val) {
 }
 
 RangeError _createFieldRangeError(val, String wantedType) =>
-    RangeError('Value ($val) is not ${wantedType}');
+    RangeError('Value ($val) is not $wantedType');
 
 bool _isSigned32(int value) => (-2147483648 <= value) && (value <= 2147483647);
 

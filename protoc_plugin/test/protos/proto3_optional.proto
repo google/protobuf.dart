@@ -17,3 +17,7 @@ message Foo {
 message Submessage {
  int32 a = 1;
 }
+
+message M1 {
+   string a = 1;
+}
