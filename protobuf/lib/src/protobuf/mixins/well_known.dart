@@ -85,7 +85,7 @@ abstract class AnyMixin implements GeneratedMessage {
           'The type of the Any message (${any.typeUrl}) is not in the given typeRegistry.');
     }
     var unpacked = info.createEmptyInstance!()..mergeFromBuffer(any.value);
-    var proto3Json = unpacked.toProto3Json();
+    var proto3Json = unpacked.toProto3Json(typeRegistry: typeRegistry);
     if (info.toProto3Json == null) {
       var map = proto3Json as Map<String, dynamic>;
       map['@type'] = any.typeUrl;
