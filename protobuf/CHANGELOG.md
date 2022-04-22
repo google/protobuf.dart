@@ -2,8 +2,8 @@
 
 * Update READMEs of `protobuf` and `protoc_plugin`:
   * Use `dart pub` instead of `pub` in command examples (a7e75cb)
-  * Fix typos, clarify installation instructions, mention native compilation
-    for `protoc_plugin` (#610)
+  * Fix typos, clarify installation instructions, mention native compilation,
+    fix proto syntax for `protoc_plugin` (#610, #617)
 * Improve runtime perf by removing some of the runtime type checks (#574, #573)
 * Fix a bug when converting dates before epoch to `Timestamp` and back to Dart
   `DateTime` (#580, #577)
