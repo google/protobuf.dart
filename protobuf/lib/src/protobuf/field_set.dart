@@ -678,26 +678,27 @@ class _FieldSet {
       return hash;
     }
 
-    int hashEachField(int hash) {
-      //non-extension fields
-      hash = _infosSortedByTag.where((fi) => _values[fi.index!] != null).fold(
-          hash, (int h, FieldInfo fi) => hashField(h, fi, _values[fi.index!]));
-
-      if (!_hasExtensions) return hash;
-
-      hash =
-          _sorted(_extensions!._tagNumbers).fold(hash, (int h, int tagNumber) {
-        var fi = _extensions!._getInfoOrNull(tagNumber)!;
-        return hashField(h, fi, _extensions!._getFieldOrNull(fi));
-      });
-
-      return hash;
-    }
-
     // Hash with descriptor.
     var hash = _HashUtils._combine(0, _meta.hashCode);
-    // Hash with fields.
-    hash = hashEachField(hash);
+
+    // Hash with non-extension fields.
+    final values = _values;
+    for (final fi in _infosSortedByTag) {
+      final value = values[fi.index!];
+      if (value == null) continue;
+      hash = hashField(hash, fi, value);
+    }
+
+    // Hash with extension fields.
+    if (_hasExtensions) {
+      final extensions = _extensions!;
+      final sortedByTagNumbers = _sorted(extensions._tagNumbers);
+      for (final tagNumber in sortedByTagNumbers) {
+        final fi = extensions._getInfoOrNull(tagNumber)!;
+        hash = hashField(hash, fi, extensions._getFieldOrNull(fi));
+      }
+    }
+
     // Hash with unknown fields.
     if (_hasUnknownFields) {
       hash = _HashUtils._combine(hash, _unknownFields.hashCode);
