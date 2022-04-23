@@ -181,11 +181,6 @@ class PbList<E> extends ListBase<E> {
   @override
   int get length => _wrappedList.length;
 
-  /// Unsupported -- violated non-null constraint imposed by protobufs.
-  ///
-  /// Changes the length of the list. If [newLength] is greater than the current
-  /// [length], entries are initialized to [:null:]. Throws an
-  /// [UnsupportedError] if the list is not extendable.
   @override
   set length(int newLength) {
     if (_isReadOnly) {
