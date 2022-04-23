@@ -91,7 +91,8 @@ class Version extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static Version create() => Version._();
   Version createEmptyInstance() => create();
-  static $pb.PbList<Version> createRepeated() => $pb.PbList<Version>($pb.PbFieldType.OM);
+  static $pb.PbList<Version> createRepeated() =>
+      $pb.PbList<Version>($pb.PbFieldType.OM);
   @$core.pragma('dart2js:noInline')
   static Version getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Version>(create);

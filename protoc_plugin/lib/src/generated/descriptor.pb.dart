@@ -2037,7 +2037,8 @@ class FileOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static FileOptions create() => FileOptions._();
   FileOptions createEmptyInstance() => create();
-  static $pb.PbList<FileOptions> createRepeated() => $pb.PbList<FileOptions>($pb.PbFieldType.OM);
+  static $pb.PbList<FileOptions> createRepeated() =>
+      $pb.PbList<FileOptions>($pb.PbFieldType.OM);
   @$core.pragma('dart2js:noInline')
   static FileOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FileOptions>(create);
@@ -2756,7 +2757,8 @@ class EnumOptions extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static EnumOptions create() => EnumOptions._();
   EnumOptions createEmptyInstance() => create();
-  static $pb.PbList<EnumOptions> createRepeated() => $pb.PbList<EnumOptions>($pb.PbFieldType.OM);
+  static $pb.PbList<EnumOptions> createRepeated() =>
+      $pb.PbList<EnumOptions>($pb.PbFieldType.OM);
   @$core.pragma('dart2js:noInline')
   static EnumOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumOptions>(create);
