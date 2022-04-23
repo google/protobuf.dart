@@ -1,18 +1,34 @@
 ## Unreleased
 
 * Update READMEs of `protobuf` and `protoc_plugin`:
-  * Use `dart pub` instead of `pub` in command examples (a7e75cb)
+  * Use `dart pub` instead of `pub` in command examples ([a7e75cb])
   * Fix typos, clarify installation instructions, mention native compilation,
-    fix proto syntax for `protoc_plugin` (#610, #617)
-* Improve runtime perf by removing some of the runtime type checks (#574, #573)
+    fix proto syntax for `protoc_plugin` ([#610], [#617])
+* Improve runtime perf by removing some of the runtime type checks ([#574],
+  [#573])
 * Fix a bug when converting dates before epoch to `Timestamp` and back to Dart
-  `DateTime` (#580, #577)
-* Document `BuilderInfo` and `FieldInfo` properties (#597)
-* Remove a redundant check in `PbMap.operator ==` (#604)
-* Improve `BuilderInfo` initialization by doing some of the work lazily (#606)
-* Improve enum hash code generation (#556)
-* Fix parsing nested `Any` messages from JSON (#568)
-* Improve message hash code generation performance (#554)
+  `DateTime` ([#580], [#577])
+* Document `BuilderInfo` and `FieldInfo` properties ([#597])
+* Remove a redundant check in `PbMap.operator ==` ([#604])
+* Improve `BuilderInfo` initialization by doing some of the work lazily
+  ([#606])
+* Improve enum hash code generation ([#556])
+* Fix parsing nested `Any` messages from JSON ([#568])
+* Improve message hash code generation performance ([#554])
+
+[a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
+[#610]: https://github.com/google/protobuf.dart/pull/610
+[#617]: https://github.com/google/protobuf.dart/pull/617
+[#574]: https://github.com/google/protobuf.dart/pull/574
+[#573]: https://github.com/google/protobuf.dart/issues/573
+[#580]: https://github.com/google/protobuf.dart/pull/580
+[#577]: https://github.com/google/protobuf.dart/issues/577
+[#597]: https://github.com/google/protobuf.dart/pull/597
+[#604]: https://github.com/google/protobuf.dart/pull/604
+[#606]: https://github.com/google/protobuf.dart/pull/606
+[#556]: https://github.com/google/protobuf.dart/pull/556
+[#568]: https://github.com/google/protobuf.dart/pull/568
+[#554]: https://github.com/google/protobuf.dart/pull/554
 
 ## 2.0.1
 
