@@ -8,19 +8,20 @@ typedef CheckFunc<E> = void Function(E? x);
 
 class PbList<E> extends ListBase<E> {
   final List<E> _wrappedList;
-  final CheckFunc<E> check;
+  final CheckFunc<E> _check;
 
   // TODO: Just store if the element type is a group or message?
   final int _elementType;
 
   bool _isReadOnly = false;
 
-  PbList(this._elementType, {this.check = _checkNotNull})
-      : _wrappedList = <E>[];
+  PbList(this._elementType, {check = _checkNotNull})
+      : _wrappedList = <E>[],
+        _check = check;
 
   PbList.unmodifiable(this._elementType)
       : _wrappedList = const [],
-        check = _checkNotNull,
+        _check = _checkNotNull,
         _isReadOnly = true;
 
   @override
@@ -28,7 +29,7 @@ class PbList<E> extends ListBase<E> {
     if (_isReadOnly) {
       throw UnsupportedError('`add` on a read-only list');
     }
-    check(element);
+    _check(element);
     _wrappedList.add(element);
   }
 
@@ -37,7 +38,7 @@ class PbList<E> extends ListBase<E> {
     if (_isReadOnly) {
       throw UnsupportedError('`addAll` on a read-only list');
     }
-    iterable.forEach(check);
+    iterable.forEach(_check);
     _wrappedList.addAll(iterable);
   }
 
@@ -73,7 +74,7 @@ class PbList<E> extends ListBase<E> {
     if (_isReadOnly) {
       throw UnsupportedError('`insert` on a read-only list');
     }
-    check(element);
+    _check(element);
     _wrappedList.insert(index, element);
   }
 
@@ -82,7 +83,7 @@ class PbList<E> extends ListBase<E> {
     if (_isReadOnly) {
       throw UnsupportedError('`insertAll` on a read-only list');
     }
-    iterable.forEach(check);
+    iterable.forEach(_check);
     _wrappedList.insertAll(index, iterable);
   }
 
@@ -91,7 +92,7 @@ class PbList<E> extends ListBase<E> {
     if (_isReadOnly) {
       throw UnsupportedError('`setAll` on a read-only list');
     }
-    iterable.forEach(check);
+    iterable.forEach(_check);
     _wrappedList.setAll(index, iterable);
   }
 
@@ -143,7 +144,7 @@ class PbList<E> extends ListBase<E> {
     }
     // NOTE: In case `take()` returns less than `end - start` elements, the
     // _wrappedList will fail with a `StateError`.
-    iterable.skip(skipCount).take(end - start).forEach(check);
+    iterable.skip(skipCount).take(end - start).forEach(_check);
     _wrappedList.setRange(start, end, iterable, skipCount);
   }
 
@@ -162,7 +163,7 @@ class PbList<E> extends ListBase<E> {
       // TODO: Do we want to avoid this when range is empty?
       throw UnsupportedError('`fillRange` on a read-only list');
     }
-    check(fill);
+    _check(fill);
     _wrappedList.fillRange(start, end, fill);
   }
 
@@ -173,7 +174,7 @@ class PbList<E> extends ListBase<E> {
       throw UnsupportedError('`replaceRange` on a read-only list');
     }
     final values = newContents.toList();
-    newContents.forEach(check);
+    newContents.forEach(_check);
     _wrappedList.replaceRange(start, end, values);
   }
 
@@ -204,7 +205,7 @@ class PbList<E> extends ListBase<E> {
     if (_isReadOnly) {
       throw UnsupportedError('Setting field of a read-only list');
     }
-    check(value);
+    _check(value);
     _wrappedList[index] = value;
   }
 
