@@ -42,7 +42,7 @@ class Int64 extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static Int64 create() => Int64._();
   Int64 createEmptyInstance() => create();
-  static $pb.PbList<Int64> createRepeated() => $pb.PbList<Int64>();
+  static $pb.PbList<Int64> createRepeated() => $pb.PbList<Int64>($pb.PbFieldType.OM);
   @$core.pragma('dart2js:noInline')
   static Int64 getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Int64>(create);
   static Int64? _defaultInstance;
