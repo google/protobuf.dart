@@ -135,11 +135,11 @@ void main() {
     expect(
         () => r.ints.clear(),
         throwsError(UnsupportedError,
-            equals('Cannot call clear on an unmodifiable list')));
+            equals('`clear` on a read-only list')));
     expect(
         () => r.ints[0] = 2,
         throwsError(UnsupportedError,
-            equals('Cannot call set on an unmodifiable list')));
+            equals('Setting field of a read-only list')));
     expect(() => r.sub.add(Rec.create()),
         throwsError(UnsupportedError, contains('add')));
 
@@ -149,7 +149,7 @@ void main() {
     expect(
         () => r.sub.add(Rec.create()),
         throwsError(UnsupportedError,
-            equals('Cannot call add on an unmodifiable list')));
+            equals('`add` on a read-only list')));
     expect(() => r.ints.length = 20,
         throwsError(UnsupportedError, contains('length')));
   });

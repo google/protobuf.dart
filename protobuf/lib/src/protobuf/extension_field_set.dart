@@ -159,7 +159,7 @@ class _ExtensionFieldSet {
       final value = original._getFieldOrNull(extension);
       if (value == null) continue;
       if (extension.isRepeated) {
-        assert(value is PbListBase);
+        assert(value is PbList);
         _ensureRepeatedField(extension).addAll(value);
       } else {
         _setFieldUnchecked(extension, value);
@@ -179,7 +179,7 @@ class _ExtensionFieldSet {
             subMessage.freeze();
           }
         }
-        _values[field.tagNumber] = entries.toFrozenPbList();
+        _values[field.tagNumber] = entries..freeze();
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.tagNumber];
         if (entry != null) {

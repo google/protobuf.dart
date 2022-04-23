@@ -6,7 +6,7 @@ part of protobuf;
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
-  FrozenPbList<T>? _emptyList;
+  // FrozenPbList<T>? _emptyList;
 
   /// Name of this field as the `json_name` reported by protoc. Example:
   /// ```proto
@@ -107,7 +107,7 @@ class FieldInfo<T> {
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
       this.check, this.subBuilder,
       {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
-      : makeDefault = (() => PbList<T>(check: check!)),
+      : makeDefault = (() => PbList<T>(type, check: check!)),
         _protoName = protoName {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(tagNumber, 'tagNumber');
@@ -135,9 +135,9 @@ class FieldInfo<T> {
   /// Returns a read-only default value for a field. Unlike
   /// [GeneratedMessage.getField], doesn't create a repeated field.
   dynamic get readonlyDefault {
-    if (isRepeated) {
-      return _emptyList ??= FrozenPbList._([]);
-    }
+    // if (isRepeated) {
+    //   return _emptyList ??= FrozenPbList._([]);
+    // }
     return makeDefault!();
   }
 
@@ -256,8 +256,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
       {ProtobufEnum? defaultEnumValue,
       String? protoName})
       : super(name, tagNumber, index, type,
-            defaultOrMaker: () =>
-                PbMap<K, V>(keyFieldType, valueFieldType, mapEntryBuilderInfo),
+            defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
             defaultEnumValue: defaultEnumValue,
             protoName: protoName) {
     ArgumentError.checkNotNull(name, 'name');

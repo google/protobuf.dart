@@ -6,83 +6,37 @@ part of protobuf;
 
 typedef CheckFunc<E> = void Function(E? x);
 
-class FrozenPbList<E> extends PbListBase<E> {
-  FrozenPbList._(List<E> wrappedList) : super._(wrappedList);
+class PbList<E> extends ListBase<E> {
+  final List<E> _wrappedList;
+  final CheckFunc<E> check;
 
-  factory FrozenPbList.from(PbList<E> other) =>
-      FrozenPbList._(other._wrappedList);
+  // TODO: Just store if the element type is a group or message?
+  final int _elementType;
 
-  UnsupportedError _unsupported(String method) =>
-      UnsupportedError('Cannot call $method on an unmodifiable list');
+  bool _isReadOnly = false;
 
-  @override
-  void operator []=(int index, E value) => throw _unsupported('set');
-  @override
-  set length(int newLength) => throw _unsupported('set length');
-  @override
-  void setAll(int index, Iterable<E> iterable) => throw _unsupported('setAll');
-  @override
-  void add(E? element) => throw _unsupported('add');
-  @override
-  void addAll(Iterable<E> iterable) => throw _unsupported('addAll');
-  @override
-  void insert(int index, E element) => throw _unsupported('insert');
-  @override
-  void insertAll(int index, Iterable<E> iterable) =>
-      throw _unsupported('insertAll');
-  @override
-  bool remove(Object? element) => throw _unsupported('remove');
-  @override
-  void removeWhere(bool Function(E element) test) =>
-      throw _unsupported('removeWhere');
-  @override
-  void retainWhere(bool Function(E element) test) =>
-      throw _unsupported('retainWhere');
-  @override
-  void sort([Comparator<E>? compare]) => throw _unsupported('sort');
-  @override
-  void shuffle([math.Random? random]) => throw _unsupported('shuffle');
-  @override
-  void clear() => throw _unsupported('clear');
-  @override
-  E removeAt(int index) => throw _unsupported('removeAt');
-  @override
-  E removeLast() => throw _unsupported('removeLast');
-  @override
-  void setRange(int start, int end, Iterable<E> iterable,
-          [int skipCount = 0]) =>
-      throw _unsupported('setRange');
-  @override
-  void removeRange(int start, int end) => throw _unsupported('removeRange');
-  @override
-  void replaceRange(int start, int end, Iterable<E> newContents) =>
-      throw _unsupported('replaceRange');
-  @override
-  void fillRange(int start, int end, [E? fill]) =>
-      throw _unsupported('fillRange');
-}
+  PbList(this._elementType, {this.check = _checkNotNull})
+      : _wrappedList = <E>[];
 
-class PbList<E> extends PbListBase<E> {
-  PbList({CheckFunc<E> check = _checkNotNull}) : super._noList(check: check);
-
-  PbList.from(List from) : super._from(from);
-
-  @Deprecated('Instead use the default constructor with a check function.'
-      'This constructor will be removed in the next major version.')
-  PbList.forFieldType(int fieldType)
-      : super._noList(check: getCheckFunction(fieldType));
-
-  /// Freezes the list by converting to [FrozenPbList].
-  FrozenPbList<E> toFrozenPbList() => FrozenPbList<E>.from(this);
+  PbList.unmodifiable(this._elementType)
+      : _wrappedList = const [],
+        check = _checkNotNull,
+        _isReadOnly = true;
 
   @override
   void add(E element) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`add` on a read-only list');
+    }
     check(element);
     _wrappedList.add(element);
   }
 
   @override
   void addAll(Iterable<E> iterable) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`addAll` on a read-only list');
+    }
     iterable.forEach(check);
     _wrappedList.addAll(iterable);
   }
@@ -91,51 +45,102 @@ class PbList<E> extends PbListBase<E> {
   Iterable<E> get reversed => _wrappedList.reversed;
 
   @override
-  void sort([int Function(E a, E b)? compare]) => _wrappedList.sort(compare);
+  void sort([int Function(E a, E b)? compare]) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`sort` on a read-only list');
+    }
+    _wrappedList.sort(compare);
+  }
 
   @override
-  void shuffle([math.Random? random]) => _wrappedList.shuffle(random);
+  void shuffle([math.Random? random]) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`shuffle` on a read-only list');
+    }
+    _wrappedList.shuffle(random);
+  }
 
   @override
-  void clear() => _wrappedList.clear();
+  void clear() {
+    if (_isReadOnly) {
+      throw UnsupportedError('`clear` on a read-only list');
+    }
+    _wrappedList.clear();
+  }
 
   @override
   void insert(int index, E element) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`insert` on a read-only list');
+    }
     check(element);
     _wrappedList.insert(index, element);
   }
 
   @override
   void insertAll(int index, Iterable<E> iterable) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`insertAll` on a read-only list');
+    }
     iterable.forEach(check);
     _wrappedList.insertAll(index, iterable);
   }
 
   @override
   void setAll(int index, Iterable<E> iterable) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`setAll` on a read-only list');
+    }
     iterable.forEach(check);
     _wrappedList.setAll(index, iterable);
   }
 
   @override
-  bool remove(Object? element) => _wrappedList.remove(element);
+  bool remove(Object? element) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`remove` on a read-only list');
+    }
+    return _wrappedList.remove(element);
+  }
 
   @override
-  E removeAt(int index) => _wrappedList.removeAt(index);
+  E removeAt(int index) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`removeAt` on a read-only list');
+    }
+    return _wrappedList.removeAt(index);
+  }
 
   @override
-  E removeLast() => _wrappedList.removeLast();
+  E removeLast() {
+    if (_isReadOnly) {
+      throw UnsupportedError('`removeLast` on a read-only list');
+    }
+    return _wrappedList.removeLast();
+  }
 
   @override
-  void removeWhere(bool Function(E element) test) =>
-      _wrappedList.removeWhere(test);
+  void removeWhere(bool Function(E element) test) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`removeWhere` on a read-only list');
+    }
+    return _wrappedList.removeWhere(test);
+  }
 
   @override
-  void retainWhere(bool Function(E element) test) =>
-      _wrappedList.retainWhere(test);
+  void retainWhere(bool Function(E element) test) {
+    if (_isReadOnly) {
+      throw UnsupportedError('`retainWhere` on a read-only list');
+    }
+    return _wrappedList.retainWhere(test);
+  }
 
   @override
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
+    if (_isReadOnly) {
+      // TODO: Do we want to avoid this when range is empty?
+      throw UnsupportedError('`setRange` on a read-only list');
+    }
     // NOTE: In case `take()` returns less than `end - start` elements, the
     // _wrappedList will fail with a `StateError`.
     iterable.skip(skipCount).take(end - start).forEach(check);
@@ -143,162 +148,37 @@ class PbList<E> extends PbListBase<E> {
   }
 
   @override
-  void removeRange(int start, int end) => _wrappedList.removeRange(start, end);
+  void removeRange(int start, int end) {
+    if (_isReadOnly) {
+      // TODO: Do we want to avoid this when range is empty?
+      throw UnsupportedError('`removeRange` on a read-only list');
+    }
+    _wrappedList.removeRange(start, end);
+  }
 
   @override
   void fillRange(int start, int end, [E? fill]) {
+    if (_isReadOnly) {
+      // TODO: Do we want to avoid this when range is empty?
+      throw UnsupportedError('`fillRange` on a read-only list');
+    }
     check(fill);
     _wrappedList.fillRange(start, end, fill);
   }
 
   @override
   void replaceRange(int start, int end, Iterable<E> newContents) {
+    if (_isReadOnly) {
+      // TODO: Do we want to avoid this when range is empty?
+      throw UnsupportedError('`replaceRange` on a read-only list');
+    }
     final values = newContents.toList();
     newContents.forEach(check);
     _wrappedList.replaceRange(start, end, values);
   }
-}
-
-abstract class PbListBase<E> extends ListBase<E> {
-  final List<E> _wrappedList;
-  final CheckFunc<E> check;
-
-  PbListBase._(this._wrappedList, {this.check = _checkNotNull});
-
-  PbListBase._noList({this.check = _checkNotNull}) : _wrappedList = <E>[] {
-    ArgumentError.checkNotNull(check, 'check');
-  }
-
-  PbListBase._from(List from)
-      // TODO(sra): Should this be validated?
-      : _wrappedList = List<E>.from(from),
-        check = _checkNotNull;
-
-  @override
-  bool operator ==(other) =>
-      (other is PbListBase) && _areListsEqual(other, this);
-
-  @override
-  int get hashCode => _HashUtils._hashObjects(_wrappedList);
-
-  @override
-  Iterator<E> get iterator => _wrappedList.iterator;
-
-  @override
-  Iterable<T> map<T>(T Function(E e) f) => _wrappedList.map<T>(f);
-
-  @override
-  Iterable<E> where(bool Function(E element) test) => _wrappedList.where(test);
-
-  @override
-  Iterable<T> expand<T>(Iterable<T> Function(E element) f) =>
-      _wrappedList.expand(f);
-
-  @override
-  bool contains(Object? element) => _wrappedList.contains(element);
-
-  @override
-  void forEach(void Function(E element) action) {
-    _wrappedList.forEach(action);
-  }
-
-  @override
-  E reduce(E Function(E value, E element) combine) =>
-      _wrappedList.reduce(combine);
-
-  @override
-  T fold<T>(T initialValue, T Function(T previousValue, E element) combine) =>
-      _wrappedList.fold(initialValue, combine);
-
-  @override
-  bool every(bool Function(E element) test) => _wrappedList.every(test);
-
-  @override
-  String join([String separator = '']) => _wrappedList.join(separator);
-
-  @override
-  bool any(bool Function(E element) test) => _wrappedList.any(test);
-
-  @override
-  List<E> toList({bool growable = true}) =>
-      _wrappedList.toList(growable: growable);
-
-  @override
-  Set<E> toSet() => _wrappedList.toSet();
-
-  @override
-  bool get isEmpty => _wrappedList.isEmpty;
-
-  @override
-  bool get isNotEmpty => _wrappedList.isNotEmpty;
-
-  @override
-  Iterable<E> take(int count) => _wrappedList.take(count);
-
-  @override
-  Iterable<E> takeWhile(bool Function(E value) test) =>
-      _wrappedList.takeWhile(test);
-
-  @override
-  Iterable<E> skip(int count) => _wrappedList.skip(count);
-
-  @override
-  Iterable<E> skipWhile(bool Function(E value) test) =>
-      _wrappedList.skipWhile(test);
-
-  @override
-  E get first => _wrappedList.first;
-
-  @override
-  E get last => _wrappedList.last;
-
-  @override
-  E get single => _wrappedList.single;
-
-  @override
-  E firstWhere(bool Function(E element) test, {E Function()? orElse}) =>
-      _wrappedList.firstWhere(test, orElse: orElse);
-
-  @override
-  E lastWhere(bool Function(E element) test, {E Function()? orElse}) =>
-      _wrappedList.lastWhere(test, orElse: orElse);
-
-  @override
-  E elementAt(int index) => _wrappedList.elementAt(index);
-
-  @override
-  String toString() => _wrappedList.toString();
-
-  @override
-  E operator [](int index) => _wrappedList[index];
 
   @override
   int get length => _wrappedList.length;
-
-  // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
-  @override
-  int indexOf(Object? element, [int start = 0]) =>
-      _wrappedList.indexOf(element as E, start);
-
-  // TODO(jakobr): E instead of Object once dart-lang/sdk#31311 is fixed.
-  @override
-  int lastIndexOf(Object? element, [int? start]) =>
-      _wrappedList.lastIndexOf(element as E, start);
-
-  @override
-  List<E> sublist(int start, [int? end]) => _wrappedList.sublist(start, end);
-
-  @override
-  Iterable<E> getRange(int start, int end) => _wrappedList.getRange(start, end);
-
-  @override
-  Map<int, E> asMap() => _wrappedList.asMap();
-
-  @override
-  void operator []=(int index, E value) {
-    check(value);
-    _wrappedList[index] = value;
-  }
 
   /// Unsupported -- violated non-null constraint imposed by protobufs.
   ///
@@ -307,9 +187,39 @@ abstract class PbListBase<E> extends ListBase<E> {
   /// [UnsupportedError] if the list is not extendable.
   @override
   set length(int newLength) {
+    if (_isReadOnly) {
+      throw UnsupportedError('Setting length on a read-only list');
+    }
     if (newLength > length) {
       throw UnsupportedError('Extending protobuf lists is not supported');
     }
     _wrappedList.length = newLength;
+  }
+
+  @override
+  E operator [](int index) => _wrappedList[index];
+
+  @override
+  void operator []=(int index, E value) {
+    if (_isReadOnly) {
+      throw UnsupportedError('Setting field of a read-only list');
+    }
+    check(value);
+    _wrappedList[index] = value;
+  }
+
+  @override
+  bool operator ==(other) => (other is PbList) && _areListsEqual(other, this);
+
+  @override
+  int get hashCode => _HashUtils._hashObjects(_wrappedList);
+
+  void freeze() {
+    _isReadOnly = true;
+    if (_isGroupOrMessage(_elementType)) {
+      for (var elem in _wrappedList) {
+        (elem as GeneratedMessage).freeze();
+      }
+    }
   }
 }

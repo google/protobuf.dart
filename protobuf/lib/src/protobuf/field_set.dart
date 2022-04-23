@@ -182,7 +182,8 @@ class _FieldSet {
             subMessage.freeze();
           }
         }
-        _values[field.index!] = entries.toFrozenPbList();
+        entries.freeze();
+        _values[field.index!] = entries;
       } else if (field.isMapField) {
         PbMap? map = _values[field.index!];
         if (map == null) continue;
@@ -244,7 +245,7 @@ class _FieldSet {
 
   List<T> _getDefaultList<T>(FieldInfo<T> fi) {
     assert(fi.isRepeated);
-    if (_isReadOnly) return FrozenPbList._(const []);
+    if (_isReadOnly) return PbList.unmodifiable(fi.type);
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:
@@ -728,7 +729,7 @@ class _FieldSet {
         // TODO(skybrian): possibly unused. Delete?
         final value = fieldValue.getUint64(0, Endian.little);
         renderValue(name, value);
-      } else if (fieldValue is PbListBase) {
+      } else if (fieldValue is PbList) {
         for (var value in fieldValue) {
           renderValue(name, value);
         }
@@ -819,14 +820,14 @@ class _FieldSet {
     if (fi.isRepeated) {
       if (mustClone) {
         // fieldValue must be a PbListBase of GeneratedMessage.
-        PbListBase<GeneratedMessage> pbList = fieldValue;
+        PbList<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
         // fieldValue must be at least a PbListBase.
-        PbListBase pbList = fieldValue;
+        PbList pbList = fieldValue;
         fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
       return;
@@ -914,7 +915,7 @@ class _FieldSet {
             ..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
-        PbListBase? list = _values[index];
+        PbList? list = _values[index];
         if (list != null) {
           _values[index] = fieldInfo._createRepeatedField(_message!)
             ..addAll(list);

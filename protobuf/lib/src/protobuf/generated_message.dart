@@ -341,8 +341,8 @@ abstract class GeneratedMessage {
   /// that the protobuf can be encoded correctly, the returned List must
   /// validate all items added to it. This can most easily be done
   /// using the FieldInfo.check function.
-  List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
-    return PbList<T>(check: fi.check!);
+  PbList<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
+    return PbList<T>(fi.type, check: fi.check!);
   }
 
   /// Creates a Map representing a map field.
