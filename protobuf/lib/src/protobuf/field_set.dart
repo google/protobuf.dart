@@ -182,8 +182,7 @@ class _FieldSet {
             subMessage.freeze();
           }
         }
-        entries.freeze();
-        _values[field.index!] = entries;
+        _values[field.index!] = entries..freeze();
       } else if (field.isMapField) {
         PbMap? map = _values[field.index!];
         if (map == null) continue;
