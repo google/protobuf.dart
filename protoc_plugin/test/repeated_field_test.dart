@@ -8,8 +8,12 @@ import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
-// Suppress an analyzer warning for a deliberate type mismatch.
-dynamic cast(x) => x;
+Matcher throwsError(Type expectedType, Matcher expectedMessage) =>
+    throwsA(predicate((dynamic x) {
+      expect(x.runtimeType, expectedType);
+      expect(x!.message, expectedMessage);
+      return true;
+    }));
 
 void main() {
   test('check properties are initialized for repeated fields', () {
@@ -31,5 +35,13 @@ void main() {
                 as FieldInfo<TestAllTypes_NestedEnum>)
             .check,
         isNotNull);
+  });
+
+  test('test repeated field freezing', () {
+    var msg = TestAllTypes();
+    var list = msg.repeatedNestedMessage;
+    msg.freeze();
+    expect(() => list.add(TestAllTypes_NestedMessage.create()),
+        throwsError(UnsupportedError, equals('`add` on a read-only list')));
   });
 }
