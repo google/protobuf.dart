@@ -12,6 +12,7 @@
 * Improve `BuilderInfo` initialization by doing some of the work lazily (#606)
 * Improve enum hash code generation (#556)
 * Fix parsing nested `Any` messages from JSON (#568)
+* Improve message hash code generation performance (#554)
 
 ## 2.0.1
 
