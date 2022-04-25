@@ -687,6 +687,30 @@ class _FieldSet {
     return hash;
   }
 
+  // Hashes the value of one field (recursively).
+  int _hashField(int hash, FieldInfo fi, value) {
+    if (value is List && value.isEmpty) {
+      return hash; // It's either repeated or an empty byte array.
+    }
+
+    hash = _HashUtils._combine(hash, fi.tagNumber);
+    if (_isBytes(fi.type)) {
+      // Bytes are represented as a List<int> (Usually with byte-data).
+      // We special case that to match our equality semantics.
+      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
+    } else if (!_isEnum(fi.type)) {
+      hash = _HashUtils._combine(hash, value.hashCode);
+    } else if (fi.isRepeated) {
+      hash = _HashUtils._combine(
+          hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
+    } else {
+      ProtobufEnum enm = value;
+      hash = _HashUtils._combine(hash, enm.value);
+    }
+
+    return hash;
+  }
+
   void writeString(StringBuffer out, String indent) {
     void renderValue(key, value) {
       if (value is GeneratedMessage) {
@@ -910,28 +934,4 @@ class _FieldSet {
 
     _oneofCases?.addAll(original._oneofCases!);
   }
-}
-
-// Hashes the value of one field (recursively).
-int _hashField(int hash, FieldInfo fi, value) {
-  if (value is List && value.isEmpty) {
-    return hash; // It's either repeated or an empty byte array.
-  }
-
-  hash = _HashUtils._combine(hash, fi.tagNumber);
-  if (_isBytes(fi.type)) {
-    // Bytes are represented as a List<int> (Usually with byte-data).
-    // We special case that to match our equality semantics.
-    hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
-  } else if (!_isEnum(fi.type)) {
-    hash = _HashUtils._combine(hash, value.hashCode);
-  } else if (fi.isRepeated) {
-    hash = _HashUtils._combine(
-        hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
-  } else {
-    ProtobufEnum enm = value;
-    hash = _HashUtils._combine(hash, enm.value);
-  }
-
-  return hash;
 }
