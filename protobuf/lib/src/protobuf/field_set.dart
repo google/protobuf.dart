@@ -688,7 +688,7 @@ class _FieldSet {
   }
 
   // Hashes the value of one field (recursively).
-  int _hashField(int hash, FieldInfo fi, value) {
+  static int _hashField(int hash, FieldInfo fi, value) {
     if (value is List && value.isEmpty) {
       return hash; // It's either repeated or an empty byte array.
     }
