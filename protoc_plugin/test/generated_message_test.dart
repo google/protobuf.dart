@@ -468,8 +468,6 @@ void main() {
     message.noSuchMethod_2 = 1;
     message.runtimeType_3 = 1;
     message.toString_4 = 1;
-    message.fromBuffer_10 = 1;
-    message.fromJson_11 = 1;
     message.hasRequiredFields_12 = 1;
     message.isInitialized_13 = 1;
     message.clear_14 = 1;
@@ -507,8 +505,6 @@ void main() {
     message.noSuchMethod_2.clear();
     message.runtimeType_3.clear();
     message.toString_4.clear();
-    message.fromBuffer_10.clear();
-    message.fromJson_11.clear();
     message.hasRequiredFields_12.clear();
     message.isInitialized_13.clear();
     message.clear_14.clear();
@@ -550,8 +546,6 @@ void main() {
     message.noSuchMethod_2 = 1;
     message.runtimeType_3 = 1;
     message.toString_4 = 1;
-    message.fromBuffer_10 = 1;
-    message.fromJson_11 = 1;
     message.hasRequiredFields_12 = 1;
     message.isInitialized_13 = 1;
     message.clear_14 = 1;
