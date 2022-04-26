@@ -15,6 +15,12 @@
 * Improve enum hash code generation ([#556])
 * Fix parsing nested `Any` messages from JSON ([#568])
 * Improve message hash code generation performance ([#554], [#633])
+* **Breaking change:** these names are no longer reserved: `fromBuffer`,
+  `fromJson`, `$_defaultFor`, `initByValue`. ([#618], [#634])
+  If you have proto fields with these names, your fields will not have a suffix
+  in generated Dart code. E.g. if you had `from_buffer` field in a message
+  previously in the generated Dart it would be renamed to something like
+  `fromBuffer_1`. Now it will just be `fromBuffer`, without any suffix.
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -30,6 +36,8 @@
 [#568]: https://github.com/google/protobuf.dart/pull/568
 [#554]: https://github.com/google/protobuf.dart/pull/554
 [#633]: https://github.com/google/protobuf.dart/pull/633
+[#618]: https://github.com/google/protobuf.dart/pull/618
+[#634]: https://github.com/google/protobuf.dart/pull/634
 
 ## 2.0.1
 
