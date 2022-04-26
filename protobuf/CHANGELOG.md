@@ -14,7 +14,7 @@
   ([#606])
 * Improve enum hash code generation ([#556])
 * Fix parsing nested `Any` messages from JSON ([#568])
-* Improve message hash code generation performance ([#554])
+* Improve message hash code generation performance ([#554], [#633])
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -29,6 +29,7 @@
 [#556]: https://github.com/google/protobuf.dart/pull/556
 [#568]: https://github.com/google/protobuf.dart/pull/568
 [#554]: https://github.com/google/protobuf.dart/pull/554
+[#633]: https://github.com/google/protobuf.dart/pull/633
 
 ## 2.0.1
 
