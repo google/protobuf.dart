@@ -29,19 +29,6 @@ abstract class GeneratedMessage {
     if (eventPlugin != null) eventPlugin!.attach(this);
   }
 
-  GeneratedMessage.fromBuffer(
-      List<int> input, ExtensionRegistry extensionRegistry) {
-    __fieldSet = _FieldSet(this, info_, eventPlugin);
-    if (eventPlugin != null) eventPlugin!.attach(this);
-    mergeFromBuffer(input, extensionRegistry);
-  }
-
-  GeneratedMessage.fromJson(String input, ExtensionRegistry extensionRegistry) {
-    __fieldSet = _FieldSet(this, info_, eventPlugin);
-    if (eventPlugin != null) eventPlugin!.attach(this);
-    mergeFromJson(input, extensionRegistry);
-  }
-
   // Overridden by subclasses.
   BuilderInfo get info_;
 

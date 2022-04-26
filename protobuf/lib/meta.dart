@@ -26,8 +26,6 @@ const GeneratedMessage_reservedNames = <String>[
   'eventPlugin',
   'extensionsAreInitialized',
   'freeze',
-  'fromBuffer',
-  'fromJson',
   'getDefaultForField',
   'getExtension',
   'getField',
