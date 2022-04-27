@@ -26,6 +26,7 @@ class ProtobufField {
 
   final String fullName;
   final BaseType baseType;
+  final ProtobufContainer parent;
 
   ProtobufField.message(
       FieldNames names, ProtobufContainer parent, GenerationContext ctx)
@@ -35,8 +36,8 @@ class ProtobufField {
       ProtobufContainer parent, GenerationContext ctx)
       : this._(descriptor, null, parent, ctx);
 
-  ProtobufField._(this.descriptor, FieldNames dartNames,
-      ProtobufContainer parent, GenerationContext ctx)
+  ProtobufField._(
+      this.descriptor, FieldNames dartNames, this.parent, GenerationContext ctx)
       : memberNames = dartNames,
         fullName = '${parent.fullName}.${descriptor.name}',
         baseType = BaseType(descriptor, ctx);
@@ -63,9 +64,32 @@ class ProtobufField {
   bool get isRepeated =>
       descriptor.label == FieldDescriptorProto_Label.LABEL_REPEATED;
 
-  /// True if the field is to be encoded with [packed=true] encoding.
-  bool get isPacked =>
-      isRepeated && descriptor.options != null && descriptor.options.packed;
+  /// True if a numeric field is repeated and it should be encoded with packed
+  /// encoding. In proto3 repeated fields are encoded as packed by default.
+  /// proto2 requires `[packed=true]` option.
+  bool get isPacked {
+    if (!isRepeated) {
+      return false; // only repeated fields can be packed
+    }
+
+    if (!baseType.isPackable) {
+      return false;
+    }
+
+    if (parent.fileGen.descriptor.syntax == 'proto3') {
+      if (!descriptor.hasOptions()) {
+        return true; // packed by default in proto3
+      } else {
+        return !descriptor.options.hasPacked() || descriptor.options.packed;
+      }
+    } else {
+      if (!descriptor.hasOptions()) {
+        return false; // not packed by default in proto3
+      } else {
+        return descriptor.options.packed;
+      }
+    }
+  }
 
   /// Whether the field has the `overrideGetter` annotation set to true.
   bool get overridesGetter => _hasBooleanOption(Dart_options.overrideGetter);
