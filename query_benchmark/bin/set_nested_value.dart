@@ -20,7 +20,7 @@ main() {
       title: 'protobuf_decode',
       duration: measure(() => a.rebuild((f0.A0 a0Builder) {
             a0Builder.a4.last = a0Builder.a4.last.rebuild((f2.A1 a1builder) {
-              a1builder.a378.rebuild(
+              a1builder.a378 = a1builder.a378.rebuild(
                   (f19.A220 a220builder) => a220builder.a234 = 'new_value');
             });
           })),

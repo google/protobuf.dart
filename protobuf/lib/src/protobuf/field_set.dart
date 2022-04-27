@@ -654,50 +654,28 @@ class _FieldSet {
     if (_hashCodesCanBeMemoized && _memoizedHashCode != null) {
       return _memoizedHashCode!;
     }
-    // Hashes the value of one field (recursively).
-    int hashField(int hash, FieldInfo fi, value) {
-      if (value is List && value.isEmpty) {
-        return hash; // It's either repeated or an empty byte array.
-      }
-
-      hash = _HashUtils._combine(hash, fi.tagNumber);
-      if (fi.type.baseType == FieldBaseType.bytes) {
-        // Bytes are represented as a List<int> (Usually with byte-data).
-        // We special case that to match our equality semantics.
-        hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
-      } else if (fi.type.baseType != FieldBaseType.enum_) {
-        hash = _HashUtils._combine(hash, value.hashCode);
-      } else if (fi.isRepeated) {
-        hash = _HashUtils._combine(
-            hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
-      } else {
-        ProtobufEnum enm = value;
-        hash = _HashUtils._combine(hash, enm.value);
-      }
-
-      return hash;
-    }
-
-    int hashEachField(int hash) {
-      //non-extension fields
-      hash = _infosSortedByTag.where((fi) => _values[fi.index!] != null).fold(
-          hash, (int h, FieldInfo fi) => hashField(h, fi, _values[fi.index!]));
-
-      if (!_hasExtensions) return hash;
-
-      hash =
-          _sorted(_extensions!._tagNumbers).fold(hash, (int h, int tagNumber) {
-        var fi = _extensions!._getInfoOrNull(tagNumber)!;
-        return hashField(h, fi, _extensions!._getFieldOrNull(fi));
-      });
-
-      return hash;
-    }
 
     // Hash with descriptor.
     var hash = _HashUtils._combine(0, _meta.hashCode);
-    // Hash with fields.
-    hash = hashEachField(hash);
+
+    // Hash with non-extension fields.
+    final values = _values;
+    for (final fi in _infosSortedByTag) {
+      final value = values[fi.index!];
+      if (value == null) continue;
+      hash = _hashField(hash, fi, value);
+    }
+
+    // Hash with extension fields.
+    if (_hasExtensions) {
+      final extensions = _extensions!;
+      final sortedByTagNumbers = _sorted(extensions._tagNumbers);
+      for (final tagNumber in sortedByTagNumbers) {
+        final fi = extensions._getInfoOrNull(tagNumber)!;
+        hash = _hashField(hash, fi, extensions._getFieldOrNull(fi));
+      }
+    }
+
     // Hash with unknown fields.
     if (_hasUnknownFields) {
       hash = _HashUtils._combine(hash, _unknownFields.hashCode);
@@ -706,6 +684,30 @@ class _FieldSet {
     if (_isReadOnly && _hashCodesCanBeMemoized) {
       _frozenState = hash;
     }
+    return hash;
+  }
+
+  // Hashes the value of one field (recursively).
+  static int _hashField(int hash, FieldInfo fi, value) {
+    if (value is List && value.isEmpty) {
+      return hash; // It's either repeated or an empty byte array.
+    }
+
+    hash = _HashUtils._combine(hash, fi.tagNumber);
+    if (fi.type.baseType == FieldBaseType.bytes) {
+      // Bytes are represented as a List<int> (Usually with byte-data).
+      // We special case that to match our equality semantics.
+      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
+    } else if (!fi.type.isEnum) {
+      hash = _HashUtils._combine(hash, value.hashCode);
+    } else if (fi.type.isRepeated) {
+      hash = _HashUtils._combine(
+          hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
+    } else {
+      ProtobufEnum enm = value;
+      hash = _HashUtils._combine(hash, enm.value);
+    }
+
     return hash;
   }
 
