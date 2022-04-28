@@ -209,6 +209,10 @@ class PbList<E> extends ListBase<E> {
   int get hashCode => _HashUtils._hashObjects(_wrappedList);
 
   void freeze() {
+    if (_isReadOnly) {
+      return;
+    }
+
     _isReadOnly = true;
     // Per spec `repeated map<..>` and `repeated repeated ..` are not allowed
     // so we only check for messages
