@@ -9,15 +9,14 @@ typedef CheckFunc<E> = void Function(E? x);
 class PbList<E> extends ListBase<E> {
   final List<E> _wrappedList;
   final CheckFunc<E> _check;
-  final int _elementType;
 
   bool _isReadOnly = false;
 
-  PbList(this._elementType, {check = _checkNotNull})
+  PbList({check = _checkNotNull})
       : _wrappedList = <E>[],
         _check = check;
 
-  PbList.unmodifiable(this._elementType)
+  PbList.unmodifiable()
       : _wrappedList = const [],
         _check = _checkNotNull,
         _isReadOnly = true;
@@ -213,9 +212,9 @@ class PbList<E> extends ListBase<E> {
 
     // Per spec `repeated map<..>` and `repeated repeated ..` are not allowed
     // so we only check for messages
-    if (_isGroupOrMessage(_elementType)) {
-      for (var elem in _wrappedList) {
-        (elem as GeneratedMessage).freeze();
+    if (_wrappedList.isNotEmpty && _wrappedList[0] is GeneratedMessage) {
+      for (var elem in _wrappedList as Iterable<GeneratedMessage>) {
+        elem.freeze();
       }
     }
   }

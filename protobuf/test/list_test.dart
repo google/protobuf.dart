@@ -17,7 +17,7 @@ T cast<T>(x) => x;
 
 void main() {
   test('testPbList handles basic operations', () {
-    var lb1 = PbList<int>(PbFieldType.O3);
+    var lb1 = PbList<int>();
     expect(lb1, []);
 
     lb1.add(1);
@@ -63,7 +63,7 @@ void main() {
   });
 
   test('PbList handles range operations', () {
-    var lb2 = PbList<int>(PbFieldType.O3);
+    var lb2 = PbList<int>();
 
     lb2.addAll([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     expect(lb2.sublist(3, 7), [4, 5, 6, 7]);
@@ -92,13 +92,12 @@ void main() {
 
   test('PbList validates items', () {
     expect(() {
-      (PbList<int>(PbFieldType.O3) as dynamic).add('hello');
+      (PbList<int>() as dynamic).add('hello');
     }, throwsA(TypeMatcher<TypeError>()));
   });
 
   test('PbList for signed int32 validates items', () {
-    List<int> list =
-        PbList(PbFieldType.P3, check: getCheckFunction(PbFieldType.P3));
+    List<int> list = PbList(check: getCheckFunction(PbFieldType.P3));
 
     expect(() {
       list.add(-2147483649);
@@ -118,8 +117,7 @@ void main() {
   });
 
   test('PBList for unsigned int32 validates items', () {
-    List<int> list =
-        PbList(PbFieldType.PU3, check: getCheckFunction(PbFieldType.PU3));
+    List<int> list = PbList(check: getCheckFunction(PbFieldType.PU3));
 
     expect(() {
       list.add(-1);
@@ -139,8 +137,7 @@ void main() {
   });
 
   test('PbList for float validates items', () {
-    List<double> list =
-        PbList(PbFieldType.PF, check: getCheckFunction(PbFieldType.PF));
+    List<double> list = PbList(check: getCheckFunction(PbFieldType.PF));
 
     expect(() {
       list.add(3.4028234663852886E39);
@@ -160,7 +157,7 @@ void main() {
   });
 
   test('PbList for signed Int64 validates items', () {
-    List<Int64> list = PbList(PbFieldType.O6);
+    List<Int64> list = PbList();
     expect(() {
       list.add(cast(0)); // not an Int64
     }, badArgument);
@@ -179,7 +176,7 @@ void main() {
   });
 
   test('PbList for unsigned Int64 validates items', () {
-    List<Int64> list = PbList(PbFieldType.O6);
+    List<Int64> list = PbList();
     expect(() {
       list.add(cast(0)); // not an Int64
     }, badArgument);

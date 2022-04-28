@@ -244,7 +244,7 @@ class _FieldSet {
 
   List<T> _getDefaultList<T>(FieldInfo<T> fi) {
     assert(fi.isRepeated);
-    if (_isReadOnly) return PbList.unmodifiable(fi.type);
+    if (_isReadOnly) return PbList.unmodifiable();
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:

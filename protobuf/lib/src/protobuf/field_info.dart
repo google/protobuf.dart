@@ -107,7 +107,7 @@ class FieldInfo<T> {
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
       this.check, this.subBuilder,
       {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
-      : makeDefault = (() => PbList<T>(type, check: check!)),
+      : makeDefault = (() => PbList<T>(check: check!)),
         _protoName = protoName {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(tagNumber, 'tagNumber');
@@ -136,7 +136,7 @@ class FieldInfo<T> {
   /// [GeneratedMessage.getField], doesn't create a repeated field.
   dynamic get readonlyDefault {
     if (isRepeated) {
-      return _emptyList ??= PbList.unmodifiable(type);
+      return _emptyList ??= PbList.unmodifiable();
     }
     return makeDefault!();
   }
