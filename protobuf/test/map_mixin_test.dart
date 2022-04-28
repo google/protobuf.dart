@@ -33,7 +33,18 @@ void main() {
 
     expect(r.isEmpty, false);
     expect(r.isNotEmpty, true);
-    expect(r.keys, ['val', 'str', 'child', 'int32s', 'int64', 'enm']);
+    expect(r.keys, [
+      'val',
+      'str',
+      'child',
+      'int32s',
+      'int64',
+      'enm',
+      'dbl',
+      'bl',
+      'byts',
+      'mp'
+    ]);
 
     expect(r['val'], 42);
     expect(r['str'], '');
@@ -42,7 +53,7 @@ void main() {
     expect(r['int32s'], []);
 
     var v = r.values;
-    expect(v.length, 6);
+    expect(v.length, 10);
     expect(v.first, 42);
     expect(v.toList()[1], '');
     expect(v.toList()[3].toString(), '[]');

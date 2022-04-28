@@ -24,7 +24,12 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
     ..e(7, 'enm', PbFieldType.OE,
         defaultOrMaker: mockEnumValues.first,
         valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
-        enumValues: mockEnumValues);
+        enumValues: mockEnumValues)
+    ..a(8, 'dbl', PbFieldType.OD)
+    ..aOB(9, 'bl')
+    ..a<int>(10, 'byts', PbFieldType.OY)
+    ..m<String, String>(11, 'mp',
+        keyFieldType: PbFieldType.OS, valueFieldType: PbFieldType.OS);
 }
 
 /// A minimal protobuf implementation for testing.
@@ -49,6 +54,18 @@ abstract class MockMessage extends GeneratedMessage {
 
   ProtobufEnum get enm => $_getN(5);
   bool get hasEnm => $_has(5);
+  set enm(x) => setField(7, x);
+
+  double get dbl => $_get(6, 0.0);
+  set dbl(x) => setField(8, x);
+
+  bool get bl => $_get(7, false);
+  set bl(x) => setField(9, x);
+
+  List<int> get byts => $_get(8, []);
+  set byts(x) => setField(10, x);
+
+  Map<String, String> get mp => $_getMap(9);
 
   @override
   GeneratedMessage clone() {

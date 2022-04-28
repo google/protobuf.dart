@@ -6,6 +6,7 @@ library json_test;
 import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart' show Int64;
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import 'mock_util.dart' show T, mockEnumValues;
@@ -15,6 +16,32 @@ void main() {
     ..val = 123
     ..str = 'hello'
     ..int32s.addAll(<int>[1, 2, 3]);
+
+  final double doubleZeroVal = 0;
+  final exampleAllDefaults = T()
+    ..val = 0
+    ..str = ''
+    ..child = T()
+    ..int64 = Int64(0)
+    ..enm = ProtobufEnum(1, 'a')
+    ..dbl = doubleZeroVal
+    ..bl = false
+    ..byts = <int>[];
+  exampleAllDefaults.int32s.addAll(<int>[]);
+  exampleAllDefaults.mp.addAll(<String, String>{});
+
+  final double doubleSetVal = 1.34;
+  final exampleAllSet = T()
+    ..val = 32
+    ..str = 'the-string'
+    ..child = example
+    ..int64 = Int64(78)
+    ..enm = ProtobufEnum(1, 'b')
+    ..dbl = doubleSetVal
+    ..bl = true
+    ..byts = <int>[46, 28];
+  exampleAllSet.int32s.addAll(<int>[3, 4, 6]);
+  exampleAllSet.mp.addAll(<String, String>{'k1': 'v2'});
 
   test('testProto3JsonEnum', () {
     // No enum value specified.
@@ -115,6 +142,111 @@ void main() {
     final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
+
+  test('testToProto3Json', () {
+    var json = jsonEncode(example.toProto3Json());
+    checkProto3JsonMap(jsonDecode(json), 3);
+  });
+
+  test('testToProto3JsonNoFieldsSet', () {
+    final json = jsonEncode(T().toProto3Json());
+    expect(json.contains('{"val":42}'), isTrue);
+    final Map m = jsonDecode(json);
+    expect(m.length, 1);
+  });
+
+  test('testToProto3JsonFieldsSetToDefaults', () {
+    final json = jsonEncode(exampleAllDefaults.toProto3Json());
+    expect(json.contains('"child":{"val":42}'), isTrue);
+    final Map m = jsonDecode(json);
+    expect(m.isEmpty, isFalse);
+  });
+
+  test('testToProto3JsonFieldsSetToValues', () {
+    // verify the expected child is present
+    final json = jsonEncode(exampleAllSet.toProto3Json());
+    final expectedChild = '{"val":123,"str":"hello","int32s":[1,2,3]}';
+    expect(json.contains('"child":$expectedChild'), isTrue);
+    final jsonNoChild = json.replaceAll(expectedChild, '');
+
+    // verify the remaining parent object is accurate
+    checkExampleAllParentSetValues(jsonNoChild);
+  });
+
+  test('testToProto3JsonEmitDefaults', () {
+    final json = jsonEncode(example.toProto3Json(emitDefaults: true));
+    checkProto3JsonMap(jsonDecode(json), 10);
+  });
+
+  test('testToProto3JsonEmitDefaultsNoFieldsSet', () {
+    final json = jsonEncode(T().toProto3Json(emitDefaults: true));
+    expect(json.contains('"val":42,'), isTrue);
+    expect(json.contains('"str":"",'), isTrue);
+    expect(json.contains('"child":null,'), isTrue);
+    expect(json.contains('"int32s":[],'), isTrue);
+    expect(json.contains('"int64":"0",'), isTrue);
+    expect(json.contains('"enm":"a",'), isTrue);
+    expect(json.contains('"dbl":0.0,'), isTrue);
+    expect(json.contains('"bl":false,'), isTrue);
+    expect(json.contains('"byts":null'), isTrue);
+    expect(json.contains('"mp":{}'), isTrue);
+  });
+
+  test('testToProto3JsonEmitDefaultsFieldsSetToDefaults', () {
+    // verify the default child is present
+    final json =
+        jsonEncode(exampleAllDefaults.toProto3Json(emitDefaults: true));
+    final defaultChild =
+        '{"val":42,"str":"","child":null,"int32s":[],"int64":"0","enm":"a","dbl":0.0,"bl":false,"byts":null,"mp":{}}';
+    expect(json.contains('"child":$defaultChild'), isTrue);
+    final jsonNoChild = json.replaceAll(defaultChild, '');
+
+    // verify the remaining parent object is accurate
+    checkExampleAllParentSetDefaults(jsonNoChild);
+  });
+
+  test('testToProto3JsonEmitDefaultsFieldsSetToValues', () {
+    // verify the expected child is present
+    final json = jsonEncode(exampleAllSet.toProto3Json(emitDefaults: true));
+    final expectedChild =
+        '{"val":123,"str":"hello","child":null,"int32s":[1,2,3],"int64":"0","enm":"a","dbl":0.0,"bl":false,"byts":null,"mp":{}}';
+    expect(json.contains('"child":$expectedChild'), isTrue);
+    final jsonNoChild = json.replaceAll(expectedChild, '');
+
+    // verify the remaining parent object is accurate
+    checkExampleAllParentSetValues(jsonNoChild);
+  });
+}
+
+void checkExampleAllParentSetDefaults(String json) {
+  expect(json.contains('"val":0,'), isTrue);
+  expect(json.contains('"str":"",'), isTrue);
+  expect(json.contains('"int32s":[],'), isTrue);
+  expect(json.contains('"int64":"0",'), isTrue);
+  expect(json.contains('"enm":"a",'), isTrue);
+  expect(json.contains('"dbl":0.0,'), isTrue);
+  expect(json.contains('"bl":false,'), isTrue);
+  expect(json.contains('"byts":null'), isTrue);
+  expect(json.contains('"mp":{}'), isTrue);
+}
+
+void checkExampleAllParentSetValues(String json) {
+  expect(json.contains('"val":32,'), isTrue);
+  expect(json.contains('"str":"the-string",'), isTrue);
+  expect(json.contains('"int32s":[3,4,6],'), isTrue);
+  expect(json.contains('"int64":"78",'), isTrue);
+  expect(json.contains('"enm":"b",'), isTrue);
+  expect(json.contains('"dbl":1.34,'), isTrue);
+  expect(json.contains('"bl":true,'), isTrue);
+  expect(json.contains('"byts":"Lhw="'), isTrue);
+  expect(json.contains('"mp":{"k1":"v2"}'), isTrue);
+}
+
+void checkProto3JsonMap(Map m, int expectedLength) {
+  expect(m.length, expectedLength);
+  expect(m['val'], 123);
+  expect(m['str'], 'hello');
+  expect(m['int32s'], [1, 2, 3]);
 }
 
 void checkJsonMap(Map m) {
