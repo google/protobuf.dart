@@ -1,4 +1,4 @@
-## Unreleased
+## 2.0.2-dev
 
 * Update READMEs of `protobuf` and `protoc_plugin`:
   * Use `dart pub` instead of `pub` in command examples ([a7e75cb])
