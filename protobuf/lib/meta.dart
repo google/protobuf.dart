@@ -26,8 +26,6 @@ const GeneratedMessage_reservedNames = <String>[
   'eventPlugin',
   'extensionsAreInitialized',
   'freeze',
-  'fromBuffer',
-  'fromJson',
   'getDefaultForField',
   'getExtension',
   'getField',
@@ -82,6 +80,12 @@ const GeneratedMessage_reservedNames = <String>[
   r'$_setString',
   r'$_setUnsignedInt32',
   r'$_whichOneof',
+
+  // Names below are no longer reserved and should be removed in the next major
+  // release
+  'fromBuffer',
+  'fromJson',
+  r'$_defaultFor',
 ];
 
 // List of names which cannot be used in a subclass of ProtobufEnum.
@@ -92,5 +96,9 @@ const ProtobufEnum_reservedNames = <String>[
   'hashCode',
   'noSuchMethod',
   'runtimeType',
-  'toString'
+  'toString',
+
+  // Names below are no longer reserved and should be removed in the next major
+  // release
+  'initByValue',
 ];
