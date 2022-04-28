@@ -6,7 +6,7 @@ part of protobuf;
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
-  // FrozenPbList<T>? _emptyList;
+  PbList<T>? _emptyList;
 
   /// Name of this field as the `json_name` reported by protoc. Example:
   /// ```proto
@@ -135,9 +135,9 @@ class FieldInfo<T> {
   /// Returns a read-only default value for a field. Unlike
   /// [GeneratedMessage.getField], doesn't create a repeated field.
   dynamic get readonlyDefault {
-    // if (isRepeated) {
-    //   return _emptyList ??= FrozenPbList._([]);
-    // }
+    if (isRepeated) {
+      return _emptyList ??= PbList.unmodifiable(type);
+    }
     return makeDefault!();
   }
 
