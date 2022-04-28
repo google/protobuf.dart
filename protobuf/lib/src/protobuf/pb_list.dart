@@ -212,6 +212,8 @@ class PbList<E> extends ListBase<E> {
 
   void freeze() {
     _isReadOnly = true;
+    // Per spec `repeated map<..>` and `repeated repeated ..` are not allowed
+    // so we only check for messages
     if (_isGroupOrMessage(_elementType)) {
       for (var elem in _wrappedList) {
         (elem as GeneratedMessage).freeze();
