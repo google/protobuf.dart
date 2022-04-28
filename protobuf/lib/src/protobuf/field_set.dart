@@ -175,18 +175,13 @@ class _FieldSet {
     _frozenState = true;
     for (var field in _meta.sortedByTag) {
       if (field.isRepeated) {
-        final entries = _values[field.index!];
-        if (entries == null) continue;
-        if (field.isGroupOrMessage) {
-          for (var subMessage in entries as List<GeneratedMessage>) {
-            subMessage.freeze();
-          }
-        }
-        _values[field.index!] = entries..freeze();
+        PbList? list = _values[field.index!];
+        if (list == null) continue;
+        list.freeze();
       } else if (field.isMapField) {
         PbMap? map = _values[field.index!];
         if (map == null) continue;
-        _values[field.index!] = map.freeze();
+        map.freeze();
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.index!];
         if (entry != null) {
