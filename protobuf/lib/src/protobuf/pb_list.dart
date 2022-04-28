@@ -137,7 +137,6 @@ class PbList<E> extends ListBase<E> {
   @override
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
     if (_isReadOnly) {
-      // TODO: Do we want to avoid this when range is empty?
       throw UnsupportedError('`setRange` on a read-only list');
     }
     // NOTE: In case `take()` returns less than `end - start` elements, the
@@ -149,7 +148,6 @@ class PbList<E> extends ListBase<E> {
   @override
   void removeRange(int start, int end) {
     if (_isReadOnly) {
-      // TODO: Do we want to avoid this when range is empty?
       throw UnsupportedError('`removeRange` on a read-only list');
     }
     _wrappedList.removeRange(start, end);
@@ -158,7 +156,6 @@ class PbList<E> extends ListBase<E> {
   @override
   void fillRange(int start, int end, [E? fill]) {
     if (_isReadOnly) {
-      // TODO: Do we want to avoid this when range is empty?
       throw UnsupportedError('`fillRange` on a read-only list');
     }
     _check(fill);
@@ -168,7 +165,6 @@ class PbList<E> extends ListBase<E> {
   @override
   void replaceRange(int start, int end, Iterable<E> newContents) {
     if (_isReadOnly) {
-      // TODO: Do we want to avoid this when range is empty?
       throw UnsupportedError('`replaceRange` on a read-only list');
     }
     final values = newContents.toList();
@@ -182,7 +178,7 @@ class PbList<E> extends ListBase<E> {
   @override
   set length(int newLength) {
     if (_isReadOnly) {
-      throw UnsupportedError('Setting length on a read-only list');
+      throw UnsupportedError('Setting length of a read-only list');
     }
     if (newLength > length) {
       throw UnsupportedError('Extending protobuf lists is not supported');
@@ -203,7 +199,7 @@ class PbList<E> extends ListBase<E> {
   }
 
   @override
-  bool operator ==(other) => (other is PbList) && _areListsEqual(other, this);
+  bool operator ==(other) => other is PbList && _areListsEqual(other, this);
 
   @override
   int get hashCode => _HashUtils._hashObjects(_wrappedList);
@@ -214,6 +210,7 @@ class PbList<E> extends ListBase<E> {
     }
 
     _isReadOnly = true;
+
     // Per spec `repeated map<..>` and `repeated repeated ..` are not allowed
     // so we only check for messages
     if (_isGroupOrMessage(_elementType)) {
