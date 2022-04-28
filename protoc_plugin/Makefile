@@ -46,6 +46,7 @@ TEST_PROTO_LIST = \
 	mixins \
 	multiple_files_test \
 	nested_extension \
+	nested_message \
 	non_nested_extension \
 	oneof \
 	reserved_names \
