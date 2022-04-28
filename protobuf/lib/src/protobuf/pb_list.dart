@@ -9,8 +9,6 @@ typedef CheckFunc<E> = void Function(E? x);
 class PbList<E> extends ListBase<E> {
   final List<E> _wrappedList;
   final CheckFunc<E> _check;
-
-  // TODO: Just store if the element type is a group or message?
   final int _elementType;
 
   bool _isReadOnly = false;
