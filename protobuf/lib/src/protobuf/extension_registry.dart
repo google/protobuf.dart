@@ -49,7 +49,7 @@ class ExtensionRegistry {
   ///
   /// Using this method to retrieve extensions is more expensive overall than
   /// using an [ExtensionRegistry] with all the needed extensions when doing
-  /// [GeneratedMessage.fromBuffer].
+  /// [GeneratedMessage.mergeFromBuffer].
   ///
   /// Example:
   ///
