@@ -229,13 +229,13 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   /// integer type or `string`, and the type cannot be `repeated`.
   ///
   /// The `int` value is interpreted the same way as [FieldInfo.type].
-  final int? keyFieldType;
+  final int keyFieldType;
 
   /// Value type of the map. Per proto2 and proto3 specs, this can be any type
   /// other than `map`, and the type cannot be `repeated`.
   ///
   /// The `int` value is interpreted the same way as [FieldInfo.type].
-  final int? valueFieldType;
+  final int valueFieldType;
 
   /// Creates a new empty instance of the value type.
   ///

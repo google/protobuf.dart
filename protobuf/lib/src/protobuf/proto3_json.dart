@@ -96,7 +96,7 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
         var mapEntryInfo = fieldInfo as MapFieldInfo;
-        return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType!),
+        return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType),
             valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
       });
     } else if (fieldInfo.isRepeated) {
@@ -366,7 +366,7 @@ void _mergeFromProto3Json(
                   throw context.parseException('Expected a String key', subKey);
                 }
                 context.addMapIndex(subKey);
-                fieldValues[decodeMapKey(subKey, mapFieldInfo.keyFieldType!)] =
+                fieldValues[decodeMapKey(subKey, mapFieldInfo.keyFieldType)] =
                     convertProto3JsonValue(
                         subValue, mapFieldInfo.valueFieldInfo);
                 context.popIndex();

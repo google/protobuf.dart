@@ -66,8 +66,8 @@ class BuilderInfo {
   void addMapField<K, V>(
       int tagNumber,
       String name,
-      int? keyFieldType,
-      int? valueFieldType,
+      int keyFieldType,
+      int valueFieldType,
       BuilderInfo mapEntryBuilderInfo,
       CreateBuilderFunc? valueCreator,
       {ProtobufEnum? defaultEnumValue,
@@ -221,8 +221,8 @@ class BuilderInfo {
   // Map field.
   void m<K, V>(int tagNumber, String name,
       {String? entryClassName,
-      int? keyFieldType,
-      int? valueFieldType,
+      required int keyFieldType,
+      required int valueFieldType,
       CreateBuilderFunc? valueCreator,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
