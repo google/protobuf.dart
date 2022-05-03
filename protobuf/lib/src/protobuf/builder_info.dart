@@ -219,8 +219,10 @@ class BuilderInfo {
   }
 
   // Map field.
-  void m<K, V>(int tagNumber, String name, int keyFieldType, int valueFieldType,
+  void m<K, V>(int tagNumber, String name,
       {String? entryClassName,
+      required int keyFieldType,
+      required int valueFieldType,
       CreateBuilderFunc? valueCreator,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
