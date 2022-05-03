@@ -82,6 +82,16 @@ final output directive is separated from the options using colon. Pass
 options `<option 1>` and `<option 2>` like this:
 
     --dart_out="<option 1>,<option 2>:."
+    
+### Generating grpc Headers
+
+To generate code for [grpc], you will need to pass in the `grpc` option:
+
+    --dart_out="grpc:."
+
+[grpc]: https://pub.dev/packages/grpc
+
+### Generating Code Info
 
 The plugin includes the `generate_kythe_info` option, which, if passed at run
 time, will make the plugin generate metadata files alongside the `.dart` files
@@ -89,12 +99,6 @@ generated for the proto messages and their enums. Pass this along with the other
 dart_out options:
 
     --dart_out="generate_kythe_info,<other options>:."
-    
-To generate code for [grpc][1], you will need to pass in the `grpc` option:
-
-    --dart_out="grpc:."
-
-[1]: https://pub.dev/packages/grpc
 
 ## Using protocol buffer libraries to build new libraries
 
