@@ -806,7 +806,7 @@ class _FieldSet {
 
     if (fi!.isMapField) {
       var f = fi as MapFieldInfo<dynamic, dynamic>;
-      mustClone = _isGroupOrMessage(f.valueFieldType!);
+      mustClone = _isGroupOrMessage(f.valueFieldType);
       var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
       if (mustClone) {
         for (MapEntry entry in fieldValue.entries) {

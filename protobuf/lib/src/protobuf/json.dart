@@ -45,9 +45,9 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 
   List _writeMap(dynamic fieldValue, MapFieldInfo fi) =>
       List.from(fieldValue.entries.map((MapEntry e) => {
-            '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType!),
+            '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
             '${PbMap._valueFieldNumber}':
-                convertToMap(e.value, fi.valueFieldType!)
+                convertToMap(e.value, fi.valueFieldType)
           }));
 
   var result = <String, dynamic>{};
@@ -131,14 +131,14 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
         entryFieldSet,
         jsonEntry['${PbMap._keyFieldNumber}'],
         PbMap._keyFieldNumber,
-        fi.keyFieldType!,
+        fi.keyFieldType,
         registry);
     var convertedValue = _convertJsonValue(
         entryMeta,
         entryFieldSet,
         jsonEntry['${PbMap._valueFieldNumber}'],
         PbMap._valueFieldNumber,
-        fi.valueFieldType!,
+        fi.valueFieldType,
         registry);
     // In the case of an unknown enum value, the converted value may return
     // null. The default enum value should be used in these cases, which is
