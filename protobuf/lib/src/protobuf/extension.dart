@@ -10,10 +10,10 @@ class Extension<T> extends FieldInfo<T> {
 
   Extension(this.extendee, String name, int tagNumber, int fieldType,
       {dynamic defaultOrMaker,
-      CreateBuilderFunc subBuilder,
-      ValueOfFunc valueOf,
-      List<ProtobufEnum> enumValues,
-      String protoName})
+      CreateBuilderFunc? subBuilder,
+      ValueOfFunc? valueOf,
+      List<ProtobufEnum>? enumValues,
+      String? protoName})
       : super(name, tagNumber, null, fieldType,
             defaultOrMaker: defaultOrMaker,
             subBuilder: subBuilder,
@@ -22,11 +22,11 @@ class Extension<T> extends FieldInfo<T> {
             protoName: protoName);
 
   Extension.repeated(this.extendee, String name, int tagNumber, int fieldType,
-      {CheckFunc<T> check,
-      CreateBuilderFunc subBuilder,
-      ValueOfFunc valueOf,
-      List<ProtobufEnum> enumValues,
-      String protoName})
+      {CheckFunc<T>? check,
+      CreateBuilderFunc? subBuilder,
+      ValueOfFunc? valueOf,
+      List<ProtobufEnum>? enumValues,
+      String? protoName})
       : super.repeated(name, tagNumber, null, fieldType, check, subBuilder,
             valueOf: valueOf, enumValues: enumValues, protoName: protoName);
 
@@ -37,7 +37,7 @@ class Extension<T> extends FieldInfo<T> {
   bool operator ==(other) {
     if (other is! Extension) return false;
 
-    Extension o = other;
+    var o = other;
     return extendee == o.extendee && tagNumber == o.tagNumber;
   }
 }

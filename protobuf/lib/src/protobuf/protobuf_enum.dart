@@ -49,7 +49,7 @@ class ProtobufEnum {
   // instances, so `Object.operator==()` will work, and does not need to
   // be overridden explicitly.
   @override
-  bool operator ==(Object o);
+  bool operator ==(Object other);
 
   @override
   int get hashCode => value;

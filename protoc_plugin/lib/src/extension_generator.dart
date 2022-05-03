@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protoc;
+// @dart=2.11
+
+part of '../protoc.dart';
 
 class ExtensionGenerator {
   final FieldDescriptorProto _descriptor;
@@ -11,7 +13,7 @@ class ExtensionGenerator {
   // populated by resolve()
   ProtobufField _field;
   final String _extensionName;
-  String _extendedFullName = "";
+  String _extendedFullName = '';
   List<int> _fieldPath;
   final List<int> _fieldPathSegment;
 
@@ -52,13 +54,13 @@ class ExtensionGenerator {
   FileGenerator get fileGen => _parent.fileGen;
 
   String get name {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
     var name = _extensionName;
     return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
   }
 
   bool get needsFixnumImport {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
     return _field.needsFixnumImport;
   }
 
@@ -68,7 +70,7 @@ class ExtensionGenerator {
   /// add its generator.
   void addImportsTo(
       Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
     var typeGen = _field.baseType.generator;
     if (typeGen != null) {
       // The type of this extension is defined in a different file,
@@ -82,17 +84,15 @@ class ExtensionGenerator {
     }
   }
 
-  /// Adds dependencies of [generateConstants] to [imports].
-  ///
   /// For each .pb.dart file that the generated code needs to import,
   /// add its generator.
   void addConstantImportsTo(Set<FileGenerator> imports) {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
     // No dependencies - nothing to do.
   }
 
   void generate(IndentingWriter out) {
-    if (_field == null) throw StateError("resolve not called");
+    if (_field == null) throw StateError('resolve not called');
 
     var name = _extensionName;
     final conditionalName = configurationDependent(
@@ -112,9 +112,9 @@ class ExtensionGenerator {
     var named = <String, String>{};
     named['protoName'] = _field.quotedProtoName;
     if (_field.isRepeated) {
-      invocation = '$_protobufImportPrefix.Extension<$dartType>.repeated';
+      invocation = '$protobufImportPrefix.Extension<$dartType>.repeated';
       named['check'] =
-          '$_protobufImportPrefix.getCheckFunction(${_field.typeConstant})';
+          '$protobufImportPrefix.getCheckFunction(${_field.typeConstant})';
       if (type.isMessage || type.isGroup) {
         named['subBuilder'] = '$dartType.create';
       } else if (type.isEnum) {
@@ -122,7 +122,7 @@ class ExtensionGenerator {
         named['enumValues'] = '$dartType.values';
       }
     } else {
-      invocation = '$_protobufImportPrefix.Extension<$dartType>';
+      invocation = '$protobufImportPrefix.Extension<$dartType>';
       named['defaultOrMaker'] = _field.generateDefaultFunction(fileGen);
       if (type.isMessage || type.isGroup) {
         named['subBuilder'] = '$dartType.create';

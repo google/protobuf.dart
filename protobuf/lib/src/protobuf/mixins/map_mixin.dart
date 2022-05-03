@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protobuf.mixins.map;
-
-import 'package:protobuf/protobuf.dart' show BuilderInfo;
+import '../../../protobuf.dart' show BuilderInfo;
 
 /// Note that this class does not claim to implement [Map]. Instead, this needs
 /// to be specified using a dart_options.imports clause specifying MapMixin as a
@@ -17,9 +15,9 @@ abstract class PbMapMixin {
 
   BuilderInfo get info_;
   void clear();
-  int getTagNumber(String fieldName);
+  int? getTagNumber(String fieldName);
   dynamic getField(int tagNumber);
-  void setField(int tagNumber, var value);
+  void setField(int tagNumber, Object value);
 
   dynamic operator [](key) {
     if (key is! String) return null;
@@ -39,7 +37,7 @@ abstract class PbMapMixin {
 
   Iterable<String> get keys => info_.byName.keys;
 
-  bool containsKey(Object key) => info_.byName.containsKey(key);
+  bool containsKey(Object? key) => info_.byName.containsKey(key);
 
   int get length => info_.byName.length;
 

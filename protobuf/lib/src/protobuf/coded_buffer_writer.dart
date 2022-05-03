@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: constant_identifier_names
+
 part of protobuf;
 
 /// Writer used for converting [GeneratedMessage]s into binary
@@ -12,7 +14,7 @@ part of protobuf;
 /// length-delimited representation, which means that they are represented as
 /// a varint encoded length followed by specified number of bytes of data.
 ///
-/// Due to this [CodedBufferWritter] maintains two output buffers:
+/// Due to this [CodedBufferWriter] maintains two output buffers:
 /// [_outputChunks] which contains all continuously written bytes and
 /// [_splices] which describes additional bytes to splice in-between
 /// [_outputChunks] bytes.
@@ -37,14 +39,14 @@ class CodedBufferWriter {
 
   /// Current chunk used to write data into. Once it is full it is
   /// pushed into [_outputChunks] and a new one is allocated.
-  Uint8List _outputChunk;
+  Uint8List? _outputChunk;
 
   /// Number of bytes written into the [_outputChunk].
   int _bytesInChunk = 0;
 
   /// ByteData pointing to [_outputChunk]. Used to write primitive values
   /// more efficiently.
-  ByteData _outputChunkAsByteData;
+  ByteData? _outputChunkAsByteData;
 
   /// Array of pairs <Uint8List chunk, int bytesInChunk> - chunks are
   /// pushed into this array once they are full.
@@ -63,7 +65,7 @@ class CodedBufferWriter {
   }
 
   void writeField(int fieldNumber, int fieldType, fieldValue) {
-    final valueType = fieldType & ~0x07;
+    final valueType = PbFieldType._baseType(fieldType);
 
     if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
       if (!fieldValue.isEmpty) {
@@ -76,8 +78,6 @@ class CodedBufferWriter {
       }
       return;
     }
-
-    final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._MAP_BIT) != 0) {
       final keyWireFormat =
@@ -96,6 +96,8 @@ class CodedBufferWriter {
       });
       return;
     }
+
+    final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
       for (var i = 0; i < fieldValue.length; i++) {
@@ -174,8 +176,8 @@ class CodedBufferWriter {
 
   /// Move the current [_outputChunk] into [_outputChunks].
   ///
-  /// If [allocateNew] is [true] then allocate a new chunk, otherwise
-  /// set [_outputChunk] to null.
+  /// If [allocateNew] is `true` then allocate a new chunk, otherwise
+  /// set [_outputChunk] to `null`.
   void _commitChunk(bool allocateNew) {
     if (_bytesInChunk != 0) {
       _outputChunks.add(_outputChunk);
@@ -186,7 +188,7 @@ class CodedBufferWriter {
     if (allocateNew) {
       _outputChunk = Uint8List(_chunkLength);
       _bytesInChunk = 0;
-      _outputChunkAsByteData = ByteData.view(_outputChunk.buffer);
+      _outputChunkAsByteData = ByteData.view(_outputChunk!.buffer);
     } else {
       _outputChunk = _outputChunkAsByteData = null;
       _bytesInChunk = 0;
@@ -242,7 +244,7 @@ class CodedBufferWriter {
   }
 
   void _endLengthDelimited(int index) {
-    final int writtenSizeInBytes = _bytesTotal - _splices[index];
+    final writtenSizeInBytes = _bytesTotal - _splices[index] as int;
     // Note: 0 - writtenSizeInBytes to avoid -0.0 in JavaScript.
     _splices[index] = 0 - writtenSizeInBytes;
     _bytesTotal += _varint32LengthInBytes(writtenSizeInBytes);
@@ -261,10 +263,10 @@ class CodedBufferWriter {
     _ensureBytes(5);
     var i = _bytesInChunk;
     while (value >= 0x80) {
-      _outputChunk[i++] = 0x80 | (value & 0x7f);
+      _outputChunk![i++] = 0x80 | (value & 0x7f);
       value >>= 7;
     }
-    _outputChunk[i++] = value;
+    _outputChunk![i++] = value;
     _bytesTotal += (i - _bytesInChunk);
     _bytesInChunk = i;
   }
@@ -275,11 +277,11 @@ class CodedBufferWriter {
     var lo = value.toUnsigned(32).toInt();
     var hi = (value >> 32).toUnsigned(32).toInt();
     while (hi > 0 || lo >= 0x80) {
-      _outputChunk[i++] = 0x80 | (lo & 0x7f);
+      _outputChunk![i++] = 0x80 | (lo & 0x7f);
       lo = (lo >> 7) | ((hi & 0x7f) << 25);
       hi >>= 7;
     }
-    _outputChunk[i++] = lo;
+    _outputChunk![i++] = lo;
     _bytesTotal += (i - _bytesInChunk);
     _bytesInChunk = i;
   }
@@ -291,7 +293,7 @@ class CodedBufferWriter {
       return;
     }
     _ensureBytes(8);
-    _outputChunkAsByteData.setFloat64(_bytesInChunk, value, Endian.little);
+    _outputChunkAsByteData!.setFloat64(_bytesInChunk, value, Endian.little);
     _bytesInChunk += 8;
     _bytesTotal += 8;
   }
@@ -308,7 +310,7 @@ class CodedBufferWriter {
     } else {
       const sz = 4;
       _ensureBytes(sz);
-      _outputChunkAsByteData.setFloat32(_bytesInChunk, value, Endian.little);
+      _outputChunkAsByteData!.setFloat32(_bytesInChunk, value, Endian.little);
       _bytesInChunk += sz;
       _bytesTotal += sz;
     }
@@ -317,8 +319,8 @@ class CodedBufferWriter {
   void _writeInt32(int value) {
     const sizeInBytes = 4;
     _ensureBytes(sizeInBytes);
-    _outputChunkAsByteData.setInt32(
-        _bytesInChunk, value & 0xFFFFFFFF, Endian.little);
+    _outputChunkAsByteData!
+        .setInt32(_bytesInChunk, value & 0xFFFFFFFF, Endian.little);
     _bytesInChunk += sizeInBytes;
     _bytesTotal += sizeInBytes;
   }
@@ -443,8 +445,10 @@ class CodedBufferWriter {
   /// where multiplication becomes a floating point multiplication.
   ///
   /// [1] http://supertech.csail.mit.edu/papers/debruijn.pdf
-  static int _valueTypeIndex(int powerOf2) =>
-      ((0x077CB531 * powerOf2) >> 27) & 31;
+  int _valueTypeIndex(int powerOf2) {
+    assert(powerOf2 & (powerOf2 - 1) == 0, '$powerOf2 is not a power of 2');
+    return ((0x077CB531 * powerOf2) >> 27) & 31;
+  }
 
   /// Precomputed indices for all FbFieldType._XYZ_BIT values:
   ///

@@ -3,8 +3,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library pb_list_tests;
-
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
@@ -46,9 +44,9 @@ void main() {
     expect(lb1.last, 6);
 
     var count = 0;
-    lb1.forEach((int i) {
+    for (var i in lb1) {
       count += i;
-    });
+    }
     expect(count, 108);
 
     bool isEven(int i) => i % 2 == 0;
@@ -189,7 +187,7 @@ void main() {
 
     // Adding -1 should work because we are storing the bits as-is.
     // (It will be interpreted as a positive number.)
-    // See: https://github.com/dart-lang/protobuf/issues/44
+    // See: https://github.com/google/protobuf.dart/issues/44
     expect(() {
       list.add(Int64(-1));
     }, returnsNormally, reason: 'could not add Int64(-1) to a PbList');

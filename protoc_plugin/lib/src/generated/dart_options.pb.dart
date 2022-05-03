@@ -2,8 +2,8 @@
 //  Generated code. Do not modify.
 //  source: dart_options.proto
 //
-// @dart = 2.7
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// @dart = 2.12
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -38,9 +38,9 @@ class DartMixin extends $pb.GeneratedMessage {
 
   DartMixin._() : super();
   factory DartMixin({
-    $core.String name,
-    $core.String importFrom,
-    $core.String parent,
+    $core.String? name,
+    $core.String? importFrom,
+    $core.String? parent,
   }) {
     final _result = create();
     if (name != null) {
@@ -78,7 +78,7 @@ class DartMixin extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static DartMixin getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DartMixin>(create);
-  static DartMixin _defaultInstance;
+  static DartMixin? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -138,7 +138,7 @@ class Imports extends $pb.GeneratedMessage {
 
   Imports._() : super();
   factory Imports({
-    $core.Iterable<DartMixin> mixins,
+    $core.Iterable<DartMixin>? mixins,
   }) {
     final _result = create();
     if (mixins != null) {
@@ -170,7 +170,7 @@ class Imports extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static Imports getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Imports>(create);
-  static Imports _defaultInstance;
+  static Imports? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.List<DartMixin> get mixins => $_getList(0);

@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protoc;
+// @dart=2.11
+
+part of '../protoc.dart';
 
 class ClientApiGenerator {
   // The service that this Client API connects to.
@@ -17,7 +19,7 @@ class ClientApiGenerator {
             defaultSuffixes());
 
   // Subclasses can override this.
-  String get _clientType => '$_protobufImportPrefix.RpcClient';
+  String get _clientType => '$protobufImportPrefix.RpcClient';
 
   void generate(IndentingWriter out) {
     out.addBlock('class ${className}Api {', '}', () {
@@ -41,11 +43,11 @@ class ClientApiGenerator {
     var inputType = service._getDartClassName(m.inputType, forMainFile: true);
     var outputType = service._getDartClassName(m.outputType, forMainFile: true);
     out.addBlock(
-        '$_asyncImportPrefix.Future<$outputType> $methodName('
-            '$_protobufImportPrefix.ClientContext ctx, $inputType request) {',
+        '$asyncImportPrefix.Future<$outputType> $methodName('
+            '$protobufImportPrefix.ClientContext? ctx, $inputType request) {',
         '}', () {
       out.println('var emptyResponse = $outputType();');
-      out.println('return _client.invoke<$outputType>(ctx, \'${className}\', '
+      out.println('return _client.invoke<$outputType>(ctx, \'$className\', '
           '\'${m.name}\', request, emptyResponse);');
     });
   }

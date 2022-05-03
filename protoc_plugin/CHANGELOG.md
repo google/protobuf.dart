@@ -1,11 +1,6 @@
-## 19.3.3
+## 20.0.0
 
-* Add the test for fixed32 int that could be negative.
-
-## 19.3.2
-
-* Add tests for the repeated and map enum value fields where the 
-  enum value is unknown.
+* Stable release generating null-safe code.
 
 ## 19.3.1
 
@@ -214,7 +209,7 @@
 ## 14.0.1
 
 * Remove the benchmark from the protoc_package. It now lives in
-  [https://github.com/dart-lang/protobuf] as `api_benchmark`.
+  [https://github.com/google/protobuf.dart] as `api_benchmark`.
   This simplifies the dev_dependencies of this package.
 
 ## 14.0.0

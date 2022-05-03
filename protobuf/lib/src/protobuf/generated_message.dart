@@ -2,11 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: non_constant_identifier_names
+
 part of protobuf;
 
 typedef CreateBuilderFunc = GeneratedMessage Function();
 typedef MakeDefaultFunc = Function();
-typedef ValueOfFunc = ProtobufEnum Function(int value);
+typedef ValueOfFunc = ProtobufEnum? Function(int value);
 
 /// The base class for all protobuf message types.
 ///
@@ -17,24 +19,14 @@ typedef ValueOfFunc = ProtobufEnum Function(int value);
 /// GeneratedMessage_reservedNames and should be unlikely to be used in
 /// a proto file.
 abstract class GeneratedMessage {
-  _FieldSet _fieldSet;
+  _FieldSet? __fieldSet;
+
+  @pragma('dart2js:tryInline')
+  _FieldSet get _fieldSet => __fieldSet!;
 
   GeneratedMessage() {
-    _fieldSet = _FieldSet(this, info_, eventPlugin);
-    if (eventPlugin != null) eventPlugin.attach(this);
-  }
-
-  GeneratedMessage.fromBuffer(
-      List<int> input, ExtensionRegistry extensionRegistry) {
-    _fieldSet = _FieldSet(this, info_, eventPlugin);
-    if (eventPlugin != null) eventPlugin.attach(this);
-    mergeFromBuffer(input, extensionRegistry);
-  }
-
-  GeneratedMessage.fromJson(String input, ExtensionRegistry extensionRegistry) {
-    _fieldSet = _FieldSet(this, info_, eventPlugin);
-    if (eventPlugin != null) eventPlugin.attach(this);
-    mergeFromJson(input, extensionRegistry);
+    __fieldSet = _FieldSet(this, info_, eventPlugin);
+    if (eventPlugin != null) eventPlugin!.attach(this);
   }
 
   // Overridden by subclasses.
@@ -42,7 +34,7 @@ abstract class GeneratedMessage {
 
   /// Subclasses can override this getter to be notified of changes
   /// to protobuf fields.
-  EventPlugin get eventPlugin => null;
+  EventPlugin? get eventPlugin => null;
 
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)
@@ -73,11 +65,11 @@ abstract class GeneratedMessage {
 
   /// Returns a writable, shallow copy of this message.
   ///
-  /// Sub messages will be shared with [this] and will still be frozen if [this]
+  /// Sub messages will be shared with `this` and will still be frozen if `this`
   /// is frozen.
   ///
   /// The lists representing repeated fields are copied. But their elements will
-  /// be shared with the corresponding list in [this].
+  /// be shared with the corresponding list in `this`.
   ///
   /// Similarly for map fields, the maps will be copied, but share the elements.
   // TODO(nichite, sigurdm): Consider returning an actual builder object that
@@ -114,7 +106,7 @@ abstract class GeneratedMessage {
   void clear() => _fieldSet._clear();
 
   // TODO(antonm): move to getters.
-  int getTagNumber(String fieldName) => info_.tagNumber(fieldName);
+  int? getTagNumber(String fieldName) => info_.tagNumber(fieldName);
 
   @override
   bool operator ==(other) {
@@ -171,8 +163,10 @@ abstract class GeneratedMessage {
       _writeToCodedBufferWriter(_fieldSet, output);
 
   void mergeFromCodedBufferReader(CodedBufferReader input,
-          [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) =>
-      _mergeFromCodedBufferReader(_fieldSet, input, extensionRegistry);
+      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    final meta = _fieldSet._meta;
+    _mergeFromCodedBufferReader(meta, _fieldSet, input, extensionRegistry);
+  }
 
   /// Merges serialized protocol buffer data into this message.
   ///
@@ -185,7 +179,8 @@ abstract class GeneratedMessage {
   void mergeFromBuffer(List<int> input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     var codedInput = CodedBufferReader(input);
-    _mergeFromCodedBufferReader(_fieldSet, codedInput, extensionRegistry);
+    final meta = _fieldSet._meta;
+    _mergeFromCodedBufferReader(meta, _fieldSet, codedInput, extensionRegistry);
     codedInput.checkLastTagWas(0);
   }
 
@@ -208,10 +203,10 @@ abstract class GeneratedMessage {
   /// actual runtime value) are represented as strings. Enumerated values are
   /// represented as their integer value.
   ///
-  /// For the proto3 JSON format use: [toProto3JSON].
+  /// For the proto3 JSON format use: [toProto3Json].
   String writeToJson() => jsonEncode(writeToJsonMap());
 
-  /// Returns an Object representing Proto3 JSON serialization of [this].
+  /// Returns an Object representing Proto3 JSON serialization of `this`.
   ///
   /// The key for each field is be the camel-cased name of the field.
   ///
@@ -224,7 +219,7 @@ abstract class GeneratedMessage {
   /// The [typeRegistry] is be used for encoding `Any` messages. If an `Any`
   /// message encoding a type not in [typeRegistry] is encountered, an
   /// error is thrown.
-  Object toProto3Json(
+  Object? toProto3Json(
           {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
       _writeToProto3Json(_fieldSet, typeRegistry);
 
@@ -254,7 +249,7 @@ abstract class GeneratedMessage {
   ///
   /// If the JSON is otherwise not formatted correctly (a String where a
   /// number was expected etc.) a [FormatException] is thrown.
-  void mergeFromProto3Json(Object json,
+  void mergeFromProto3Json(Object? json,
           {TypeRegistry typeRegistry = const TypeRegistry.empty(),
           bool ignoreUnknownFields = false,
           bool supportNamesWithUnderscores = true,
@@ -265,7 +260,7 @@ abstract class GeneratedMessage {
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].
   ///
-  /// For the proto3 JSON format use: [mergeFromProto3JSON].
+  /// For the proto3 JSON format use: [mergeFromProto3Json].
   void mergeFromJson(String data,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     /// Disable lazy creation of Dart objects for a dart2js speedup.
@@ -302,7 +297,7 @@ abstract class GeneratedMessage {
   /// Clears an extension field and also removes the extension.
   void clearExtension(Extension extension) {
     if (_fieldSet._hasExtensions) {
-      _fieldSet._extensions._clearFieldAndInfo(extension);
+      _fieldSet._extensions!._clearFieldAndInfo(extension);
     }
   }
 
@@ -312,7 +307,7 @@ abstract class GeneratedMessage {
   /// The tagNumber should be a valid tag or extension.
   void clearField(int tagNumber) => _fieldSet._clearField(tagNumber);
 
-  int $_whichOneof(int oneofIndex) => _fieldSet._oneofCases[oneofIndex] ?? 0;
+  int $_whichOneof(int oneofIndex) => _fieldSet._oneofCases![oneofIndex] ?? 0;
 
   bool extensionsAreInitialized() => _fieldSet._hasRequiredExtensionValues();
 
@@ -334,13 +329,12 @@ abstract class GeneratedMessage {
   /// validate all items added to it. This can most easily be done
   /// using the FieldInfo.check function.
   List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
-    return PbList<T>(check: fi.check);
+    return PbList<T>(check: fi.check!);
   }
 
   /// Creates a Map representing a map field.
   Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) {
-    return PbMap<K, V>(
-        fi.keyFieldType, fi.valueFieldType, fi.mapEntryBuilderInfo);
+    return PbMap<K, V>(fi.keyFieldType, fi.valueFieldType);
   }
 
   /// Returns the value of a field, ignoring any defaults.
@@ -361,7 +355,7 @@ abstract class GeneratedMessage {
   /// Returns [:true:] if a value of [extension] is present.
   bool hasExtension(Extension extension) =>
       _fieldSet._hasExtensions &&
-      _fieldSet._extensions._getFieldOrNull(extension) != null;
+      _fieldSet._extensions!._getFieldOrNull(extension) != null;
 
   /// Returns [:true:] if this message has a field associated with [tagNumber].
   bool hasField(int tagNumber) => _fieldSet._hasField(tagNumber);
@@ -371,6 +365,7 @@ abstract class GeneratedMessage {
   /// Singular fields that are set in [other] overwrite the corresponding fields
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
+  @pragma('dart2js:noInline')
   void mergeFromMessage(GeneratedMessage other) =>
       _fieldSet._mergeFromMessage(other._fieldSet);
 
@@ -379,8 +374,8 @@ abstract class GeneratedMessage {
       .mergeFromUnknownFieldSet(unknownFieldSet);
 
   /// Sets the value of a non-repeated extension field to [value].
-  void setExtension(Extension extension, value) {
-    if (value == null) throw ArgumentError('value is null');
+  void setExtension(Extension extension, Object value) {
+    ArgumentError.checkNotNull(value, 'value');
     if (_isRepeated(extension.type)) {
       throw ArgumentError(_fieldSet._setFieldFailedMessage(
           extension, value, 'repeating field (use get + .add())'));
@@ -395,10 +390,9 @@ abstract class GeneratedMessage {
   ///
   /// Throws an [:ArgumentError:] if [value] is [:null:]. To clear a field of
   /// it's current value, use [clearField] instead.
-  void setField(int tagNumber, value) {
+  @pragma('dart2js:noInline')
+  void setField(int tagNumber, Object value) {
     _fieldSet._setField(tagNumber, value);
-    return; // ignore: dead_code
-    return; // ignore: dead_code
   }
 
   /// For generated code only.
@@ -426,7 +420,7 @@ abstract class GeneratedMessage {
   List<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
 
   /// For generated code only.
-  Map<K, V> $_getMap<K, V>(int index) => _fieldSet._$getMap<K, V>(index);
+  Map<K, V> $_getMap<K, V>(int index) => _fieldSet._$getMap<K, V>(this, index);
 
   /// For generated code only.
   bool $_getB(int index, bool defaultValue) =>
@@ -466,7 +460,8 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   void $_setFloat(int index, double value) {
-    if (value == null || !_isFloat32(value)) {
+    ArgumentError.checkNotNull(value, 'value');
+    if (!_isFloat32(value)) {
       _fieldSet._$check(index, value);
     }
     _fieldSet._$set(index, value);
@@ -477,7 +472,8 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   void $_setSignedInt32(int index, int value) {
-    if (value == null || !_isSigned32(value)) {
+    ArgumentError.checkNotNull(value, 'value');
+    if (!_isSigned32(value)) {
       _fieldSet._$check(index, value);
     }
     _fieldSet._$set(index, value);
@@ -485,7 +481,8 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   void $_setUnsignedInt32(int index, int value) {
-    if (value == null || !_isUnsigned32(value)) {
+    ArgumentError.checkNotNull(value, 'value');
+    if (!_isUnsigned32(value)) {
       _fieldSet._$check(index, value);
     }
     _fieldSet._$set(index, value);
@@ -496,26 +493,42 @@ abstract class GeneratedMessage {
 
   // Support for generating a read-only default singleton instance.
 
-  static final Map<Function, Function> _defaultMakers = {};
+  static final Map<Function?, _SingletonMaker<GeneratedMessage>>
+      _defaultMakers = {};
 
   static T Function() _defaultMakerFor<T extends GeneratedMessage>(
-      T Function() createFn) {
-    return _defaultMakers[createFn] ??= _createDefaultMakerFor<T>(createFn);
-  }
-
-  static T Function() _createDefaultMakerFor<T extends GeneratedMessage>(
-      T Function() createFn) {
-    T defaultValue;
-    T defaultMaker() {
-      return defaultValue ??= createFn()..freeze();
-    }
-
-    return defaultMaker;
-  }
+          T Function()? createFn) =>
+      _getSingletonMaker(createFn!)._frozenSingletonCreator;
 
   /// For generated code only.
   static T $_defaultFor<T extends GeneratedMessage>(T Function() createFn) =>
-      _defaultMakerFor<T>(createFn)();
+      _getSingletonMaker(createFn)._frozenSingleton;
+
+  static _SingletonMaker<T> _getSingletonMaker<T extends GeneratedMessage>(
+      T Function() fun) {
+    final oldMaker = _defaultMakers[fun];
+    if (oldMaker != null) {
+      // The CFE will insert an implicit downcast to `_SingletonMaker<T>`. We
+      // avoid making that explicit because implicit downcasts are avoided by
+      // dart2js in production code.
+      return oldMaker as dynamic;
+    }
+    return _defaultMakers[fun] = _SingletonMaker<T>(fun);
+  }
+}
+
+// We use a class that creates singletones instead of a closure function. We do
+// so because the result of the lookup in [_defaultMakers] has to be downcasted.
+// A downcast to a generic interface type is much easier to perform at runtime
+// than a downcast to a generic function type.
+class _SingletonMaker<T extends GeneratedMessage> {
+  final T Function() _creator;
+
+  _SingletonMaker(this._creator);
+
+  late final T _frozenSingleton = _creator()..freeze();
+  // ignore: prefer_function_declarations_over_variables
+  late final T Function() _frozenSingletonCreator = () => _frozenSingleton;
 }
 
 /// The package name of a protobuf message.
@@ -537,10 +550,10 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
       throw ArgumentError('Rebuilding only works on frozen messages.');
     }
     final t = toBuilder();
-    updates(t);
+    updates(t as T);
     return t..freeze();
   }
 
   /// Returns a writable deep copy of this message.
-  T deepCopy() => info_.createEmptyInstance()..mergeFromMessage(this);
+  T deepCopy() => info_.createEmptyInstance!() as T..mergeFromMessage(this);
 }

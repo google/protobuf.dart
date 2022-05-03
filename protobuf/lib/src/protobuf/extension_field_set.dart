@@ -12,7 +12,7 @@ class _ExtensionFieldSet {
 
   _ExtensionFieldSet(this._parent);
 
-  Extension _getInfoOrNull(int tagNumber) => _info[tagNumber];
+  Extension? _getInfoOrNull(int? tagNumber) => _info[tagNumber];
 
   dynamic _getFieldOrDefault(Extension fi) {
     if (fi.isRepeated) return _getList(fi);
@@ -23,7 +23,7 @@ class _ExtensionFieldSet {
     var value = _getFieldOrNull(fi);
     if (value == null) {
       _checkNotInUnknown(fi);
-      return fi.makeDefault();
+      return fi.makeDefault!();
     }
     return value;
   }
@@ -39,7 +39,7 @@ class _ExtensionFieldSet {
   ///
   /// If it doesn't exist, creates the list and saves the extension.
   /// Suitable for public API and decoders.
-  List<T> _ensureRepeatedField<T>(Extension<T> fi) {
+  List<T?> _ensureRepeatedField<T>(Extension<T?> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     assert(fi.extendee == '' || fi.extendee == _parent._messageName);
@@ -47,20 +47,20 @@ class _ExtensionFieldSet {
     var list = _values[fi.tagNumber];
     if (list != null) return list as List<T>;
 
-    return _addInfoAndCreateList(fi);
+    return _addInfoAndCreateList(fi) as List<T?>;
   }
 
-  List<T> _getList<T>(Extension<T> fi) {
+  List<T?> _getList<T>(Extension<T?> fi) {
     var value = _values[fi.tagNumber];
     if (value != null) return value as List<T>;
     _checkNotInUnknown(fi);
     if (_isReadOnly) return List<T>.unmodifiable(const []);
-    return _addInfoAndCreateList(fi);
+    return _addInfoAndCreateList(fi) as List<T?>;
   }
 
   List _addInfoAndCreateList(Extension fi) {
     _validateInfo(fi);
-    var newList = fi._createRepeatedField(_parent._message);
+    var newList = fi._createRepeatedField(_parent._message!);
     _addInfoUnchecked(fi);
     _setFieldUnchecked(fi, newList);
     return newList;
@@ -76,7 +76,7 @@ class _ExtensionFieldSet {
   void _clearField(Extension fi) {
     _ensureWritable();
     _validateInfo(fi);
-    if (_parent._hasObservers) _parent._eventPlugin.beforeClearField(fi);
+    if (_parent._hasObservers) _parent._eventPlugin!.beforeClearField(fi);
     _values.remove(fi.tagNumber);
   }
 
@@ -130,7 +130,7 @@ class _ExtensionFieldSet {
 
   void _setFieldUnchecked(Extension fi, value) {
     if (_parent._hasObservers) {
-      _parent._eventPlugin.beforeSetField(fi, value);
+      _parent._eventPlugin!.beforeSetField(fi, value);
     }
     _values[fi.tagNumber] = value;
   }
@@ -142,7 +142,7 @@ class _ExtensionFieldSet {
 
   bool get _hasValues => _values.isNotEmpty;
 
-  bool _equalValues(_ExtensionFieldSet other) =>
+  bool _equalValues(_ExtensionFieldSet? other) =>
       other != null && _areMapsEqual(_values, other._values);
 
   void _clearValues() => _values.clear();
@@ -153,7 +153,7 @@ class _ExtensionFieldSet {
   /// Extensions cannot contain map fields.
   void _shallowCopyValues(_ExtensionFieldSet original) {
     for (var tagNumber in original._tagNumbers) {
-      var extension = original._getInfoOrNull(tagNumber);
+      var extension = original._getInfoOrNull(tagNumber)!;
       _addInfoUnchecked(extension);
 
       final value = original._getFieldOrNull(extension);
@@ -191,7 +191,7 @@ class _ExtensionFieldSet {
 
   void _checkNotInUnknown(Extension extension) {
     if (_parent._hasUnknownFields &&
-        _parent._unknownFields.hasField(extension.tagNumber)) {
+        _parent._unknownFields!.hasField(extension.tagNumber)) {
       throw StateError(
           'Trying to get $extension that is present as an unknown field. '
           'Parse the message with this extension in the extension registry or '

@@ -5,8 +5,6 @@
 /// Tests event delivery using PbEventMixin.
 library event_test;
 
-import 'package:protobuf/protobuf.dart'
-    show GeneratedMessage, Extension, ExtensionRegistry, PbFieldType;
 import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin, PbFieldChange;

@@ -10,6 +10,7 @@ class ExtensionRegistry {
   final Map<String, Map<int, Extension>> _extensions =
       <String, Map<int, Extension>>{};
 
+  // ignore: constant_identifier_names
   static const ExtensionRegistry EMPTY = _EmptyExtensionRegistry();
 
   /// Stores an [extension] in the registry.
@@ -26,7 +27,7 @@ class ExtensionRegistry {
 
   /// Retrieves an extension from the registry that adds tag number [tagNumber]
   /// to the [messageName] message type.
-  Extension getExtension(String messageName, int tagNumber) {
+  Extension? getExtension(String messageName, int tagNumber) {
     var map = _extensions[messageName];
     if (map != null) {
       return map[tagNumber];
@@ -34,7 +35,7 @@ class ExtensionRegistry {
     return null;
   }
 
-  /// Returns a shallow copy of [message], with all extensions in [this] parsed
+  /// Returns a shallow copy of [message], with all extensions in `this` parsed
   /// from the unknown fields of [message] and of every nested submessage.
   ///
   /// Extensions already present in [message] will be preserved.
@@ -48,7 +49,7 @@ class ExtensionRegistry {
   ///
   /// Using this method to retrieve extensions is more expensive overall than
   /// using an [ExtensionRegistry] with all the needed extensions when doing
-  /// [GeneratedMessage.fromBuffer].
+  /// [GeneratedMessage.mergeFromBuffer].
   ///
   /// Example:
   ///
@@ -92,18 +93,18 @@ class ExtensionRegistry {
 
 T _reparseMessage<T extends GeneratedMessage>(
     T message, ExtensionRegistry extensionRegistry) {
-  T result;
+  T? result;
   T ensureResult() {
     if (result == null) {
-      result ??= message.createEmptyInstance();
-      result._fieldSet._shallowCopyValues(message._fieldSet);
+      result ??= message.info_.createEmptyInstance!() as T;
+      result!._fieldSet._shallowCopyValues(message._fieldSet);
     }
-    return result;
+    return result!;
   }
 
-  UnknownFieldSet resultUnknownFields;
+  UnknownFieldSet? resultUnknownFields;
   UnknownFieldSet ensureUnknownFields() =>
-      resultUnknownFields ??= ensureResult()._fieldSet._unknownFields;
+      resultUnknownFields ??= ensureResult()._fieldSet._unknownFields!;
 
   var messageUnknownFields = message._fieldSet._unknownFields;
   if (messageUnknownFields != null) {
@@ -123,18 +124,18 @@ T _reparseMessage<T extends GeneratedMessage>(
     }
   }
 
-  message._fieldSet._meta.byIndex.forEach((FieldInfo field) {
-    PbList resultEntries;
+  for (var field in message._fieldSet._meta.byIndex) {
+    PbList? resultEntries;
     PbList ensureEntries() =>
-        resultEntries ??= ensureResult()._fieldSet._values[field.index];
+        resultEntries ??= ensureResult()._fieldSet._values[field.index!];
 
-    PbMap resultMap;
+    PbMap? resultMap;
     PbMap ensureMap() =>
-        resultMap ??= ensureResult()._fieldSet._values[field.index];
+        resultMap ??= ensureResult()._fieldSet._values[field.index!];
 
     if (field.isRepeated) {
-      final messageEntries = message._fieldSet._values[field.index];
-      if (messageEntries == null) return;
+      final messageEntries = message._fieldSet._values[field.index!];
+      if (messageEntries == null) continue;
       if (field.isGroupOrMessage) {
         for (var i = 0; i < messageEntries.length; i++) {
           final GeneratedMessage entry = messageEntries[i];
@@ -145,9 +146,9 @@ T _reparseMessage<T extends GeneratedMessage>(
         }
       }
     } else if (field is MapFieldInfo) {
-      final messageMap = message._fieldSet._values[field.index];
-      if (messageMap == null) return;
-      if (_isGroupOrMessage(field.valueFieldType)) {
+      final messageMap = message._fieldSet._values[field.index!];
+      if (messageMap == null) continue;
+      if (_isGroupOrMessage(field.valueFieldType!)) {
         for (var key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];
           final reparsedValue = _reparseMessage(value, extensionRegistry);
@@ -157,18 +158,18 @@ T _reparseMessage<T extends GeneratedMessage>(
         }
       }
     } else if (field.isGroupOrMessage) {
-      final messageSubField = message._fieldSet._values[field.index];
-      if (messageSubField == null) return;
+      final messageSubField = message._fieldSet._values[field.index!];
+      if (messageSubField == null) continue;
       final reparsedSubField =
           _reparseMessage<GeneratedMessage>(messageSubField, extensionRegistry);
       if (!identical(messageSubField, reparsedSubField)) {
-        ensureResult()._fieldSet._values[field.index] = reparsedSubField;
+        ensureResult()._fieldSet._values[field.index!] = reparsedSubField;
       }
     }
-  });
+  }
 
   if (result != null && message.isFrozen) {
-    result.freeze();
+    result!.freeze();
   }
 
   return result ?? message;
@@ -192,7 +193,7 @@ class _EmptyExtensionRegistry implements ExtensionRegistry {
   }
 
   @override
-  Extension getExtension(String messageName, int tagNumber) => null;
+  Extension? getExtension(String messageName, int tagNumber) => null;
 
   @override
   T reparseMessage<T extends GeneratedMessage>(T message) =>

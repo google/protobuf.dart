@@ -42,7 +42,7 @@ class Dataset {
   /// Messages deserialized from [packed]. Used in serialization benchmarks.
   final List<GeneratedMessage> unpacked = <GeneratedMessage>[];
 
-  /// Create [Dataset] from a [BenchmarkDataset] proto.
+  /// Create [Dataset] from a `BenchmarkDataset` proto.
   factory Dataset.fromBinary(List<int> binary) {
     final dataSet = BenchmarkDataset.fromBuffer(binary);
 
@@ -73,7 +73,7 @@ class Factories {
   static Factories forMessage(String name) =>
       _factories[name] ?? (throw 'Unsupported message: $name');
 
-  /// Mapping between [BenchmarkProto.messageName] and corresponding
+  /// Mapping between `BenchmarkDataset.messageName` and corresponding
   /// deserialization factories.
   static final _factories = {
     'benchmarks.proto2.GoogleMessage1': Factories._(
@@ -93,7 +93,7 @@ class Factories {
         fromJson: (String json) => GoogleMessage4.fromJson(json)),
   };
 
-  Factories._({this.fromBuffer, this.fromJson});
+  Factories._({required this.fromBuffer, required this.fromJson});
 }
 
 /// Base for all protobuf benchmarks.
@@ -160,6 +160,20 @@ class ToJsonBenchmark extends _ProtobufBenchmark {
       final ds = datasets[i];
       for (var j = 0; j < ds.unpacked.length; j++) {
         ds.unpacked[j].writeToJson();
+      }
+    }
+  }
+}
+
+/// HashCode computation benchmark.
+class HashCodeBenchmark extends _ProtobufBenchmark {
+  HashCodeBenchmark(datasets) : super(datasets, 'HashCode');
+
+  @override
+  void run() {
+    for (final dataset in datasets) {
+      for (final unpacked in dataset.unpacked) {
+        unpacked.hashCode;
       }
     }
   }

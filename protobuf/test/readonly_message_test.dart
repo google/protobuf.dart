@@ -5,8 +5,6 @@
 
 library readonly_message_test;
 
-import 'package:test/test.dart';
-
 import 'package:protobuf/protobuf.dart'
     show
         BuilderInfo,
@@ -15,11 +13,12 @@ import 'package:protobuf/protobuf.dart'
         UnknownFieldSetField,
         frozenMessageModificationHandler,
         defaultFrozenMessageModificationHandler;
+import 'package:test/test.dart';
 
 Matcher throwsError(Type expectedType, Matcher expectedMessage) =>
-    throwsA(predicate((x) {
+    throwsA(predicate((dynamic x) {
       expect(x.runtimeType, expectedType);
-      expect(x.message, expectedMessage);
+      expect(x!.message, expectedMessage);
       return true;
     }));
 
@@ -52,8 +51,8 @@ class Rec extends GeneratedMessage {
   @override
   Rec copyWith(void Function(Rec) updates) {
     final builder = toBuilder();
-    updates(builder);
-    return builder.freeze();
+    updates(builder as Rec);
+    return builder.freeze() as Rec;
   }
 }
 
@@ -83,7 +82,7 @@ void main() {
       var called = 0;
 
       frozenMessageModificationHandler =
-          (String messageName, [String methodName]) {
+          (String messageName, [String? methodName]) {
         expect(messageName, 'rec');
         expect(methodName, isNull);
         called++;
@@ -103,7 +102,7 @@ void main() {
       final initialHashCode = message.hashCode;
 
       frozenMessageModificationHandler =
-          (String messageName, [String methodName]) {};
+          (String messageName, [String? methodName]) {};
       message.setField(1, 456);
       final modifiedHashCode = message.hashCode;
       expect(initialHashCode == modifiedHashCode, isFalse);

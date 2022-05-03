@@ -9,6 +9,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
+import '../out/protos/enum_name.pb.dart';
 import '../out/protos/google/protobuf/any.pb.dart';
 import '../out/protos/google/protobuf/duration.pb.dart';
 import '../out/protos/google/protobuf/empty.pb.dart';
@@ -16,14 +17,13 @@ import '../out/protos/google/protobuf/field_mask.pb.dart';
 import '../out/protos/google/protobuf/struct.pb.dart';
 import '../out/protos/google/protobuf/timestamp.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
-
+import '../out/protos/google/protobuf/unittest_nested_any.pb.dart';
 import '../out/protos/google/protobuf/unittest_well_known_types.pb.dart';
 import '../out/protos/google/protobuf/wrappers.pb.dart';
-import '../out/protos/enum_name.pb.dart';
 import '../out/protos/map_field.pb.dart';
 import '../out/protos/oneof.pb.dart';
-import 'test_util.dart';
 import 'oneof_test.dart';
+import 'test_util.dart';
 
 final testAllTypesJson = {
   'optionalInt32': 101,
@@ -271,6 +271,26 @@ void main() {
           throwsA(TypeMatcher<ArgumentError>()));
     });
 
+    test('Nested Any', () {
+      final packedOne = Any.pack(AnyMessage1()..value = '1');
+      final packedTwo = Any.pack(AnyMessage2()
+        ..value = '2'
+        ..anyField2 = packedOne);
+      expect(
+          packedTwo.toProto3Json(
+              typeRegistry: TypeRegistry([AnyMessage1(), AnyMessage2()])),
+          {
+            'anyField2': {
+              'value': '1',
+              '@type':
+                  'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+            },
+            'value': '2',
+            '@type':
+                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+          });
+    });
+
     test('struct', () {
       final s = Struct()
         ..fields['null'] = (Value()..nullValue = NullValue.NULL_VALUE)
@@ -346,7 +366,7 @@ void main() {
     Matcher parseFailure(List<String> expectedPath) => throwsA(predicate((e) {
           if (e is FormatException) {
             final pathExpression =
-                RegExp(r'root(\["[^"]*"]*\])*').firstMatch(e.message)[0];
+                RegExp(r'root(\["[^"]*"]*\])*').firstMatch(e.message)![0]!;
             final actualPath = RegExp(r'\["([^"]*)"\]')
                 .allMatches(pathExpression)
                 .map((match) => match[1])
@@ -411,7 +431,7 @@ void main() {
       expect(
           TestAllTypes()..mergeFromProto3Json({'optionalNestedEnum': 1}),
           TestAllTypes()
-            ..optionalNestedEnum = TestAllTypes_NestedEnum.valueOf(1));
+            ..optionalNestedEnum = TestAllTypes_NestedEnum.valueOf(1)!);
       expect(TestAllTypes()..mergeFromProto3Json({'repeatedBool': null}),
           TestAllTypes());
       expect(() => TestAllTypes()..mergeFromProto3Json({'repeatedBool': 100}),
@@ -853,6 +873,7 @@ void main() {
       expect(t, TestAllTypes());
       expect(t.unknownFields.isEmpty, isTrue);
     });
+
     test('Any', () {
       final m1 = Any()
         ..mergeFromProto3Json({
@@ -928,6 +949,28 @@ void main() {
               'value': '1969-07-20T19:17:00Z'
             }),
           parseFailure([]));
+    });
+
+    test('Nested Any', () {
+      final m1 = Any()
+        ..mergeFromProto3Json({
+          'anyField2': {
+            'value': '1',
+            '@type':
+                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+          },
+          'value': '2',
+          '@type':
+              'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+        }, typeRegistry: TypeRegistry([AnyMessage1(), AnyMessage2()]));
+
+      expect(
+          m1
+              .unpackInto(AnyMessage2())
+              .anyField2
+              .unpackInto(AnyMessage1())
+              .value,
+          '1');
     });
 
     test('Duration', () {

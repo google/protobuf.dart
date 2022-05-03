@@ -2,12 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:query_benchmark/generated/f0.pb.dart' as f0;
 import 'package:query_benchmark/benchmark.dart';
+import 'package:query_benchmark/generated/f0.pb.dart' as f0;
 import 'package:query_benchmark/readfile.dart';
 
 main() {
-  String path = const String.fromEnvironment('testfile') ?? 'testdata/500.pb';
+  final path =
+      const String.fromEnvironment('testfile', defaultValue: 'testdata/500.pb');
 
   List<int> encoded = readfile(path);
   print(

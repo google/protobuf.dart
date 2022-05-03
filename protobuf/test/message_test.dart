@@ -20,9 +20,9 @@ class Rec extends MockMessage {
 }
 
 Matcher throwsError(Type expectedType, String expectedMessage) =>
-    throwsA(predicate((x) {
+    throwsA(predicate((dynamic x) {
       expect(x.runtimeType, expectedType);
-      expect(x.message, expectedMessage);
+      expect(x!.message, expectedMessage);
       return true;
     }));
 

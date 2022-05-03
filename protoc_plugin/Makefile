@@ -21,6 +21,7 @@ TEST_PROTO_LIST = \
 	google/protobuf/timestamp \
 	google/protobuf/type \
 	google/protobuf/unittest_import \
+	google/protobuf/unittest_nested_any \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest_well_known_types \
 	google/protobuf/unittest \
@@ -82,21 +83,21 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
-	dartfmt -w $(TEST_PROTO_DIR)
+	dart format $(TEST_PROTO_DIR)
 
 build-plugin: $(PLUGIN_PATH)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
-	protoc --dart_out=lib/src -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
-	rm lib/src/descriptor.pb{json,server}.dart
-	rm lib/src/dart_options.pb{enum,json,server}.dart
-	rm lib/src/plugin.pb{json,server}.dart
-	dartfmt -w lib/src
+	protoc --dart_out=lib/src/generated -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
+	rm lib/src/generated/descriptor.pb{json,server}.dart
+	rm lib/src/generated/dart_options.pb{enum,json,server}.dart
+	rm lib/src/generated/plugin.pb{json,server}.dart
+	dart format lib/src/generated
 
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 
 run-tests: protos
-	pub run test
+	dart run test
 
 clean:
 	rm -rf benchmark/lib/generated

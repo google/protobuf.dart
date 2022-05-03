@@ -37,3 +37,16 @@ message Inner  {
 message Outer {
     optional Inner i = 1;
 }
+
+message Desugared {
+    message Int32ToString {
+        optional int32 key = 1;
+        optional string value = 2;
+    }
+    message StringToInt32 {
+        optional string key = 1;
+        optional int32 value = 2;
+    }
+    repeated Int32ToString int32_to_string_field = 2;
+    repeated StringToInt32 string_to_int32_field = 6;
+}

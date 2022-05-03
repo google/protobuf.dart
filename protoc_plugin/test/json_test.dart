@@ -3,19 +3,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library json_test;
-
 import 'package:fixnum/fixnum.dart';
+import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/foo.pb.dart' as foo;
+import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/map_enum_value.pb.dart';
-
 import 'test_util.dart';
 
 void main() {
-  final TEST_ALL_TYPES_JSON = '{"1":101,"2":"102","3":103,"4":"104",'
+  final testAllJsonTypes = '{"1":101,"2":"102","3":103,"4":"104",'
       '"5":105,"6":"106","7":107,"8":"108","9":109,"10":"110","11":111.0,'
       '"12":112.0,"13":true,"14":"115","15":"MTE2","16":{"17":117},'
       '"18":{"1":118},"19":{"1":119},"20":{"1":120},"21":3,"22":6,"23":9,'
@@ -34,9 +32,10 @@ void main() {
   // Checks that message once serialized to JSON
   // matches TEST_ALL_TYPES_JSON massaged with [:.replaceAll(from, to):].
   Matcher expectedJson(String from, String to) {
-    var expectedJson = TEST_ALL_TYPES_JSON.replaceAll(from, to);
+    var expectedJson = testAllJsonTypes.replaceAll(from, to);
     return predicate(
-        (message) => message.writeToJson() == expectedJson, 'Incorrect output');
+        (GeneratedMessage message) => message.writeToJson() == expectedJson,
+        'Incorrect output');
   }
 
   test('testUnsignedOutput', () {
@@ -45,8 +44,8 @@ void main() {
     // (1) large enough to set the sign bit
     // (2) don't set all of the first 10 bits under the sign bit
     // (3) are near each other
-    message.optionalUint64 = Int64.parseHex("f0000000ffff0000");
-    message.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
+    message.optionalUint64 = Int64.parseHex('f0000000ffff0000');
+    message.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
     var expectedJsonValue =
         '{"4":"17293822573397606400","8":"17293822573397606401"}';
@@ -54,7 +53,7 @@ void main() {
   });
 
   test('testOutput', () {
-    expect(getAllSet().writeToJson(), TEST_ALL_TYPES_JSON);
+    expect(getAllSet().writeToJson(), testAllJsonTypes);
 
     // Test empty list.
     expect(getAllSet()..repeatedBool.clear(),
@@ -75,7 +74,7 @@ void main() {
         expectedJson(':"102",', ':"-9007199254740993",'));
 
     // Quotes, backslashes, and control characters in strings are quoted.
-    expect(getAllSet()..optionalString = 'a\u0000b\u0001cd\\e\"fg',
+    expect(getAllSet()..optionalString = 'a\u0000b\u0001cd\\e"fg',
         expectedJson(':"115",', ':"a\\u0000b\\u0001cd\\\\e\\"fg",'));
   });
 
@@ -98,7 +97,7 @@ void main() {
 
   test('testBase64Decode', () {
     String optionalBytes(String from, String to) {
-      var json = TEST_ALL_TYPES_JSON.replaceAll(from, to);
+      var json = testAllJsonTypes.replaceAll(from, to);
       return String.fromCharCodes(TestAllTypes.fromJson(json).optionalBytes);
     }
 
@@ -123,8 +122,8 @@ void main() {
     var parsed = TestAllTypes.fromJson(
         '{"4":"17293822573397606400","8":"17293822573397606401"}');
     var expected = TestAllTypes();
-    expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
-    expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
+    expected.optionalUint64 = Int64.parseHex('f0000000ffff0000');
+    expected.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
     expect(parsed, expected);
   });
@@ -133,31 +132,30 @@ void main() {
     var parsed = TestAllTypes.fromJson(
         '{"4":"-1152921500311945216","8":"-1152921500311945215"}');
     var expected = TestAllTypes();
-    expected.optionalUint64 = Int64.parseHex("f0000000ffff0000");
-    expected.optionalFixed64 = Int64.parseHex("f0000000ffff0001");
+    expected.optionalUint64 = Int64.parseHex('f0000000ffff0000');
+    expected.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
     expect(parsed, expected);
   });
 
   test('testFixed32IntNegative', () {
     var message = foo.Inner.fromJson('{"5": -1}');
-    print(message.count);
     expect(message.count, 4294967295);
     message = foo.Inner.fromJson('{"5": -2080294357}');
     expect(message.count, 2214672939);
   });
 
   test('testParse', () {
-    expect(TestAllTypes.fromJson(TEST_ALL_TYPES_JSON), getAllSet());
+    expect(TestAllTypes.fromJson(testAllJsonTypes), getAllSet());
   });
 
   test('testExtensionsOutput', () {
-    expect(getAllExtensionsSet().writeToJson(), TEST_ALL_TYPES_JSON);
+    expect(getAllExtensionsSet().writeToJson(), testAllJsonTypes);
   });
 
   test('testExtensionsParse', () {
     var registry = getExtensionRegistry();
-    expect(TestAllExtensions.fromJson(TEST_ALL_TYPES_JSON, registry),
+    expect(TestAllExtensions.fromJson(testAllJsonTypes, registry),
         getAllExtensionsSet());
   });
 

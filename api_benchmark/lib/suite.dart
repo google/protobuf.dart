@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.suite;
+import 'package:protobuf/protobuf.dart';
 
-import 'package:api_benchmark/benchmark.dart';
+import 'benchmark.dart';
 import 'benchmarks/index.dart' show createBenchmark;
 import 'generated/benchmark.pb.dart' as pb;
 
@@ -30,8 +30,8 @@ Iterable<pb.Report> runSuite(List<pb.Request> requests,
     totalSamples += request.samples;
   }
   pb.Report progress() {
-    report.message = "Running ($sampleCount/$totalSamples)";
-    return report.clone();
+    report.message = 'Running ($sampleCount/$totalSamples)';
+    return report.deepCopy();
   }
 
   // Send first progress message before starting.
@@ -61,6 +61,6 @@ Iterable<pb.Report> runSuite(List<pb.Request> requests,
 
   // Send final report.
   report.status = pb.Status.DONE;
-  report.message = "Done";
+  report.message = 'Done';
   yield report;
 }

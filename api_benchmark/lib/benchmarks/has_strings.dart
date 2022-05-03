@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library protoc.benchmark.has_strings;
-
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart'
     show BenchmarkID, Request, Params, Sample;
@@ -20,8 +18,8 @@ class HasStringsBenchmark extends Benchmark {
 
   @override
   get summary {
-    var fill = fillValue == null ? "null" : "'$fillValue'";
-    return "${id.name}($height x $fill)";
+    var fill = fillValue == null ? 'null' : "'$fillValue'";
+    return '${id.name}($height x $fill)';
   }
 
   @override
@@ -90,7 +88,7 @@ class HasStringsBenchmark extends Benchmark {
       allPresent = allPresent && line.hasCell9();
       allPresent = allPresent && line.hasCell10();
     }
-    if (!allPresent) throw "failed";
+    if (!allPresent) throw 'failed';
   }
 
   void runEmpty() {
@@ -107,26 +105,26 @@ class HasStringsBenchmark extends Benchmark {
       allEmpty = allEmpty && !line.hasCell9();
       allEmpty = allEmpty && !line.hasCell10();
     }
-    if (!allEmpty) throw "failed";
+    if (!allEmpty) throw 'failed';
   }
 
   @override
-  void setCounts(Sample s) {
-    s.counts.stringReads = width * height * s.loopCount;
+  void setCounts(Sample m) {
+    m.counts.stringReads = width * height * m.loopCount;
   }
 
   @override
   measureSample(Sample s) => stringReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => "string reads/ms";
+  get measureSampleUnits => 'string reads/ms';
 
   static const $id = BenchmarkID.HAS_STRINGS;
   static final $type = BenchmarkType($id, $create);
 
   static HasStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());
-    var value = null;
+    String value;
     if (r.params.hasStringValue()) value = r.params.stringValue;
     return HasStringsBenchmark(r.params.messageCount, value);
   }
