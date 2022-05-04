@@ -19,6 +19,8 @@
   messages. (#638)
 * Fix setting an extension field when there's an unknown field with the same
   tag. ([#639])
+* Fix sharing backing memory for `repeated bytes` and `optional bytes` fields
+  when parsing same buffer multiple times. ([#640])
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -36,6 +38,7 @@
 [#633]: https://github.com/google/protobuf.dart/pull/633
 [#638]: https://github.com/google/protobuf.dart/pull/638
 [#639]: https://github.com/google/protobuf.dart/pull/639
+[#640]: https://github.com/google/protobuf.dart/pull/640
 
 ## 2.0.1
 
