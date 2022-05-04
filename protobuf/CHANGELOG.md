@@ -6,8 +6,8 @@
     fix proto syntax for `protoc_plugin` ([#610], [#617])
 * Improve runtime perf by removing some of the runtime type checks ([#574],
   [#573])
-* Fix a bug when converting dates before epoch to `Timestamp` and back to Dart
-  `DateTime` ([#580], [#577])
+* Fix a bug when converting negative `Timestamp` to Dart `DateTime` ([#580],
+  [#577])
 * Document `BuilderInfo` and `FieldInfo` properties ([#597])
 * Remove a redundant check in `PbMap.operator ==` ([#604])
 * Improve `BuilderInfo` initialization by doing some of the work lazily
@@ -15,6 +15,8 @@
 * Improve enum hash code generation ([#556])
 * Fix parsing nested `Any` messages from JSON ([#568])
 * Improve message hash code generation performance ([#554], [#633])
+* Fix reading uninitialized map fields changing equality and hash code of
+  messages. (#638)
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -30,6 +32,7 @@
 [#568]: https://github.com/google/protobuf.dart/pull/568
 [#554]: https://github.com/google/protobuf.dart/pull/554
 [#633]: https://github.com/google/protobuf.dart/pull/633
+[#638]: https://github.com/google/protobuf.dart/pull/638
 
 ## 2.0.1
 
