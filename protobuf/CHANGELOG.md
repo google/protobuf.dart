@@ -17,6 +17,8 @@
 * Improve message hash code generation performance ([#554], [#633])
 * Fix reading uninitialized map fields changing equality and hash code of
   messages. (#638)
+* Fix setting an extension field when there's an unknown field with the same
+  tag. ([#639])
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -33,6 +35,7 @@
 [#554]: https://github.com/google/protobuf.dart/pull/554
 [#633]: https://github.com/google/protobuf.dart/pull/633
 [#638]: https://github.com/google/protobuf.dart/pull/638
+[#639]: https://github.com/google/protobuf.dart/pull/639
 
 ## 2.0.1
 
