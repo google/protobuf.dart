@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 part of '../protoc.dart';
 
 final _dartIdentifier = RegExp(r'^\w+$');
@@ -91,16 +89,16 @@ class FileGenerator extends ProtobufContainer {
           throw mixinError('Cycle in parent chain: $cycle');
         }
         parentChain.add(parentName);
-        currentMixin = dartMixins[parentName];
+        currentMixin = dartMixins[parentName]!;
       }
     }
 
     // Turn DartMixins into PbMixins.
     final pbMixins = <String, PbMixin>{};
-    PbMixin resolveMixin(String name) {
+    PbMixin? resolveMixin(String name) {
       if (pbMixins.containsKey(name)) return pbMixins[name];
       if (dartMixins.containsKey(name)) {
-        var dartMixin = dartMixins[name];
+        var dartMixin = dartMixins[name]!;
         var pbMixin = PbMixin(dartMixin.name,
             importFrom: dartMixin.importFrom,
             parent: resolveMixin(dartMixin.parent));
@@ -154,7 +152,7 @@ class FileGenerator extends ProtobufContainer {
 
     var declaredMixins = _getDeclaredMixins(descriptor);
     var defaultMixinName =
-        descriptor.options?.getExtension(Dart_options.defaultMixin) as String ??
+        descriptor.options.getExtension(Dart_options.defaultMixin) as String? ??
             '';
     var defaultMixin =
         declaredMixins[defaultMixinName] ?? findMixin(defaultMixinName);
@@ -206,14 +204,19 @@ class FileGenerator extends ProtobufContainer {
 
   @override
   String get package => descriptor.package;
+
   @override
   String get classname => '';
+
   @override
   String get fullName => descriptor.package;
+
   @override
   FileGenerator get fileGen => this;
+
   @override
-  ProtobufContainer get parent => null;
+  ProtobufContainer? get parent => null;
+
   @override
   List<int> get fieldPath => [];
 
