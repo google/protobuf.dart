@@ -26,8 +26,9 @@ void main() {
   });
 
   test('testInvalidGeneratorOptions', () {
-    void checkInvalid(String parameter) {
+    checkInvalid(String parameter) {
       var request = CodeGeneratorRequest();
+      request.parameter = parameter;
       var response = CodeGeneratorResponse();
       var options = parseGenerationOptions(request, response);
       expect(options, isNull);
