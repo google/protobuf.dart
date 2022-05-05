@@ -49,7 +49,7 @@ class ExtensionRegistry {
   ///
   /// Using this method to retrieve extensions is more expensive overall than
   /// using an [ExtensionRegistry] with all the needed extensions when doing
-  /// [GeneratedMessage.fromBuffer].
+  /// [GeneratedMessage.mergeFromBuffer].
   ///
   /// Example:
   ///
@@ -148,7 +148,7 @@ T _reparseMessage<T extends GeneratedMessage>(
     } else if (field is MapFieldInfo) {
       final messageMap = message._fieldSet._values[field.index!];
       if (messageMap == null) continue;
-      if (_isGroupOrMessage(field.valueFieldType!)) {
+      if (_isGroupOrMessage(field.valueFieldType)) {
         for (var key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];
           final reparsedValue = _reparseMessage(value, extensionRegistry);

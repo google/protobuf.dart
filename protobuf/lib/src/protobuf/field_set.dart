@@ -636,6 +636,11 @@ class _FieldSet {
     // We don't want reading a field to change equality comparisons.
     if (val is List && val.isEmpty) return true;
 
+    // An empty map field is the same as uninitialized.
+    // This is because accessing a map field automatically creates it.
+    // We don't want reading a field to change equality comparisons.
+    if (val is Map && val.isEmpty) return true;
+
     // For now, initialized and uninitialized fields are different.
     // TODO(skybrian) consider other cases; should we compare with the
     // default value or not?
@@ -654,29 +659,6 @@ class _FieldSet {
     if (_hashCodesCanBeMemoized && _memoizedHashCode != null) {
       return _memoizedHashCode!;
     }
-    // Hashes the value of one field (recursively).
-    int hashField(int hash, FieldInfo fi, value) {
-      if (value is List && value.isEmpty) {
-        return hash; // It's either repeated or an empty byte array.
-      }
-
-      hash = _HashUtils._combine(hash, fi.tagNumber);
-      if (_isBytes(fi.type)) {
-        // Bytes are represented as a List<int> (Usually with byte-data).
-        // We special case that to match our equality semantics.
-        hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
-      } else if (!_isEnum(fi.type)) {
-        hash = _HashUtils._combine(hash, value.hashCode);
-      } else if (fi.isRepeated) {
-        hash = _HashUtils._combine(
-            hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
-      } else {
-        ProtobufEnum enm = value;
-        hash = _HashUtils._combine(hash, enm.value);
-      }
-
-      return hash;
-    }
 
     // Hash with descriptor.
     var hash = _HashUtils._combine(0, _meta.hashCode);
@@ -686,7 +668,7 @@ class _FieldSet {
     for (final fi in _infosSortedByTag) {
       final value = values[fi.index!];
       if (value == null) continue;
-      hash = hashField(hash, fi, value);
+      hash = _hashField(hash, fi, value);
     }
 
     // Hash with extension fields.
@@ -695,7 +677,7 @@ class _FieldSet {
       final sortedByTagNumbers = _sorted(extensions._tagNumbers);
       for (final tagNumber in sortedByTagNumbers) {
         final fi = extensions._getInfoOrNull(tagNumber)!;
-        hash = hashField(hash, fi, extensions._getFieldOrNull(fi));
+        hash = _hashField(hash, fi, extensions._getFieldOrNull(fi));
       }
     }
 
@@ -707,6 +689,34 @@ class _FieldSet {
     if (_isReadOnly && _hashCodesCanBeMemoized) {
       _frozenState = hash;
     }
+    return hash;
+  }
+
+  // Hashes the value of one field (recursively).
+  static int _hashField(int hash, FieldInfo fi, value) {
+    if (value is List && value.isEmpty) {
+      return hash; // It's either repeated or an empty byte array.
+    }
+
+    if (value is Map && value.isEmpty) {
+      return hash;
+    }
+
+    hash = _HashUtils._combine(hash, fi.tagNumber);
+    if (_isBytes(fi.type)) {
+      // Bytes are represented as a List<int> (Usually with byte-data).
+      // We special case that to match our equality semantics.
+      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
+    } else if (!_isEnum(fi.type)) {
+      hash = _HashUtils._combine(hash, value.hashCode);
+    } else if (fi.isRepeated) {
+      hash = _HashUtils._combine(
+          hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
+    } else {
+      ProtobufEnum enm = value;
+      hash = _HashUtils._combine(hash, enm.value);
+    }
+
     return hash;
   }
 
@@ -805,7 +815,7 @@ class _FieldSet {
 
     if (fi!.isMapField) {
       var f = fi as MapFieldInfo<dynamic, dynamic>;
-      mustClone = _isGroupOrMessage(f.valueFieldType!);
+      mustClone = _isGroupOrMessage(f.valueFieldType);
       var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
       if (mustClone) {
         for (MapEntry entry in fieldValue.entries) {
