@@ -162,12 +162,14 @@ void main() {
     var foo = Foo();
     expectOneofNotSet(foo);
     // `ignore` below to work around https://github.com/dart-lang/sdk/issues/48879
-    var copy1 = foo.deepCopy().freeze().rebuild((_) {}) as Foo; // ignore: unused_result
+    var copy1 =
+        foo.deepCopy().freeze().rebuild((_) {}) as Foo; // ignore: unused_result
     expectOneofNotSet(copy1);
     foo.first = 'oneof';
     expectFirstSet(foo);
     // `ignore` below to work around https://github.com/dart-lang/sdk/issues/48879
-    var copy2 = foo.deepCopy().freeze().rebuild((_) {}) as Foo; // ignore: unused_result
+    var copy2 =
+        foo.deepCopy().freeze().rebuild((_) {}) as Foo; // ignore: unused_result
     expectFirstSet(copy2);
   });
 
