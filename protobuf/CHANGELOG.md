@@ -3,7 +3,7 @@
 * Update READMEs of `protobuf` and `protoc_plugin`:
   * Use `dart pub` instead of `pub` in command examples ([a7e75cb])
   * Fix typos, clarify installation instructions, mention native compilation,
-    fix proto syntax for `protoc_plugin` ([#610], [#617])
+    fix proto syntax for `protoc_plugin` ([#610], [#617], [#641])
 * Improve runtime perf by removing some of the runtime type checks ([#574],
   [#573])
 * Fix a bug when converting negative `Timestamp` to Dart `DateTime` ([#580],
@@ -39,6 +39,7 @@
 [#638]: https://github.com/google/protobuf.dart/pull/638
 [#639]: https://github.com/google/protobuf.dart/pull/639
 [#640]: https://github.com/google/protobuf.dart/pull/640
+[#641]: https://github.com/google/protobuf.dart/pull/641
 
 ## 2.0.1
 
