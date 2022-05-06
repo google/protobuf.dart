@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 part of '../protoc.dart';
 
 class ServiceGenerator {
@@ -68,7 +66,7 @@ class ServiceGenerator {
   void _addDependency(GenerationContext ctx, String fqname, String location) {
     if (_deps.containsKey(fqname)) return; // Already added.
 
-    final mg = ctx.getFieldType(fqname) as MessageGenerator;
+    final mg = ctx.getFieldType(fqname) as MessageGenerator?;
     if (mg == null) {
       _undefinedDeps[fqname] = location;
       return;
@@ -226,7 +224,7 @@ class ServiceGenerator {
 
     var typeConstants = <String, String>{};
     for (var key in _transitiveDeps.keys) {
-      typeConstants[key] = _transitiveDeps[key].getJsonConstant(fileGen);
+      typeConstants[key] = _transitiveDeps[key]!.getJsonConstant(fileGen);
     }
 
     out.println('@$coreImportPrefix.Deprecated'
