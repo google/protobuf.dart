@@ -21,6 +21,8 @@
   tag. ([#639])
 * Fix sharing backing memory for `repeated bytes` and `optional bytes` fields
   when parsing same buffer multiple times. ([#640])
+* `GeneratedMessage.rebuild` now generates a warning when the return value is
+  not used. ([#631])
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -40,6 +42,7 @@
 [#639]: https://github.com/google/protobuf.dart/pull/639
 [#640]: https://github.com/google/protobuf.dart/pull/640
 [#641]: https://github.com/google/protobuf.dart/pull/641
+[#631]: https://github.com/google/protobuf.dart/pull/631
 
 ## 2.0.1
 
