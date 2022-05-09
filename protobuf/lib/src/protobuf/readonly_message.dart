@@ -52,6 +52,6 @@ abstract class ReadonlyMessageMixin {
 
   void _readonly(String methodName) {
     var messageType = info_.qualifiedMessageName;
-    frozenMessageModificationHandler(messageType, methodName);
+    _throwFrozenMessageModificationError(messageType, methodName);
   }
 }
