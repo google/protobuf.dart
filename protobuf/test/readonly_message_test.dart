@@ -6,11 +6,7 @@
 library readonly_message_test;
 
 import 'package:protobuf/protobuf.dart'
-    show
-        BuilderInfo,
-        GeneratedMessage,
-        PbFieldType,
-        UnknownFieldSetField;
+    show BuilderInfo, GeneratedMessage, PbFieldType, UnknownFieldSetField;
 import 'package:test/test.dart';
 
 Matcher throwsError(Type expectedType, Matcher expectedMessage) =>
