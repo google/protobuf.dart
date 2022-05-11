@@ -74,18 +74,19 @@ class ProtobufField {
       return false;
     }
 
-    if (parent.fileGen!.descriptor.syntax == 'proto3') {
-      if (!descriptor.hasOptions()) {
-        return true; // packed by default in proto3
-      } else {
-        return !descriptor.options.hasPacked() || descriptor.options.packed;
-      }
-    } else {
-      if (!descriptor.hasOptions()) {
-        return false; // not packed by default in proto3
-      } else {
-        return descriptor.options.packed;
-      }
+    switch (parent.fileGen!.syntax) {
+      case ProtoSyntax.proto3:
+        if (!descriptor.hasOptions()) {
+          return true; // packed by default in proto3
+        } else {
+          return !descriptor.options.hasPacked() || descriptor.options.packed;
+        }
+      case ProtoSyntax.proto2:
+        if (!descriptor.hasOptions()) {
+          return false; // not packed by default in proto3
+        } else {
+          return descriptor.options.packed;
+        }
     }
   }
 
