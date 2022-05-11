@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 part of '../protoc.dart';
 
 class GrpcServiceGenerator {
@@ -24,13 +22,13 @@ class GrpcServiceGenerator {
   final _undefinedDeps = <String, String>{};
 
   /// Fully-qualified gRPC service name.
-  String _fullServiceName;
+  late final String _fullServiceName;
 
   /// Dart class name for client stub.
-  String _clientClassname;
+  late final String _clientClassname;
 
   /// Dart class name for server stub.
-  String _serviceClassname;
+  late final String _serviceClassname;
 
   /// List of gRPC methods.
   final _methods = <_GrpcMethod>[];
@@ -39,7 +37,7 @@ class GrpcServiceGenerator {
     final name = _descriptor.name;
     final package = fileGen.package;
 
-    if (package != null && package.isNotEmpty) {
+    if (package.isNotEmpty) {
       _fullServiceName = '$package.$name';
     } else {
       _fullServiceName = name;
@@ -69,7 +67,7 @@ class GrpcServiceGenerator {
   void _addDependency(GenerationContext ctx, String fqname, String location) {
     if (_deps.containsKey(fqname)) return; // Already added.
 
-    final mg = ctx.getFieldType(fqname) as MessageGenerator;
+    final mg = ctx.getFieldType(fqname) as MessageGenerator?;
     if (mg == null) {
       _undefinedDeps[fqname] = location;
       return;

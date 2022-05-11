@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 part of '../protoc.dart';
 
 class ProtobufField {
@@ -22,7 +20,7 @@ class ProtobufField {
   final FieldDescriptorProto descriptor;
 
   /// Dart names within a GeneratedMessage or `null` for an extension.
-  final FieldNames memberNames;
+  final FieldNames? memberNames;
 
   final String fullName;
   final BaseType baseType;
@@ -36,8 +34,8 @@ class ProtobufField {
       ProtobufContainer parent, GenerationContext ctx)
       : this._(descriptor, null, parent, ctx);
 
-  ProtobufField._(
-      this.descriptor, FieldNames dartNames, this.parent, GenerationContext ctx)
+  ProtobufField._(this.descriptor, FieldNames? dartNames, this.parent,
+      GenerationContext ctx)
       : memberNames = dartNames,
         fullName = '${parent.fullName}.${descriptor.name}',
         baseType = BaseType(descriptor, ctx);
@@ -45,18 +43,18 @@ class ProtobufField {
   /// The index of this field in MessageGenerator.fieldList.
   ///
   /// `null` for an extension.
-  int get index => memberNames?.index;
+  int? get index => memberNames?.index;
 
-  String get quotedProtoName =>
+  String? get quotedProtoName =>
       (_unCamelCase(descriptor.jsonName) == descriptor.name)
           ? null
           : "'${descriptor.name}'";
 
   /// The position of this field as it appeared in the original DescriptorProto.
-  int get sourcePosition => memberNames.sourcePosition;
+  int? get sourcePosition => memberNames?.sourcePosition;
 
   /// True if the field is to be encoded with [deprecated = true] encoding.
-  bool get isDeprecated => descriptor.options?.deprecated;
+  bool get isDeprecated => descriptor.options.deprecated;
 
   bool get isRequired =>
       descriptor.label == FieldDescriptorProto_Label.LABEL_REQUIRED;
@@ -76,7 +74,7 @@ class ProtobufField {
       return false;
     }
 
-    if (parent.fileGen.descriptor.syntax == 'proto3') {
+    if (parent.fileGen!.descriptor.syntax == 'proto3') {
       if (!descriptor.hasOptions()) {
         return true; // packed by default in proto3
       } else {
@@ -169,7 +167,7 @@ class ProtobufField {
   }
 
   static String _formatArguments(
-      List<String> positionals, Map<String, String> named) {
+      List<String?> positionals, Map<String, String?> named) {
     final args = positionals.toList();
     while (args.last == null) {
       args.removeLast();
@@ -202,7 +200,7 @@ class ProtobufField {
     String invocation;
 
     var args = <String>[];
-    var named = <String, String>{'protoName': quotedProtoName};
+    var named = <String, String?>{'protoName': quotedProtoName};
     args.add('$number');
     args.add(quotedName);
 
@@ -303,7 +301,6 @@ class ProtobufField {
         }
       }
     }
-    assert(invocation != null);
     return '..$invocation(${_formatArguments(args, named)})';
   }
 
@@ -315,15 +312,15 @@ class ProtobufField {
     if (isRepeated) return 'null';
     switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
-        return _getDefaultAsBoolExpr('false');
+        return _getDefaultAsBoolExpr('false')!;
       case FieldDescriptorProto_Type.TYPE_INT32:
       case FieldDescriptorProto_Type.TYPE_UINT32:
       case FieldDescriptorProto_Type.TYPE_SINT32:
       case FieldDescriptorProto_Type.TYPE_FIXED32:
       case FieldDescriptorProto_Type.TYPE_SFIXED32:
-        return _getDefaultAsInt32Expr('0');
+        return _getDefaultAsInt32Expr('0')!;
       case FieldDescriptorProto_Type.TYPE_STRING:
-        return _getDefaultAsStringExpr("''");
+        return _getDefaultAsStringExpr("''")!;
       default:
         return 'null';
     }
@@ -333,7 +330,7 @@ class ProtobufField {
   ///
   /// [fileGen] represents the .proto file where the expression will be
   /// evaluated.
-  String generateDefaultFunction(FileGenerator fileGen) {
+  String? generateDefaultFunction(FileGenerator? fileGen) {
     assert(!isRepeated);
     switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
@@ -387,9 +384,9 @@ class ProtobufField {
         return '() => <$coreImportPrefix.int>[$byteList]';
       case FieldDescriptorProto_Type.TYPE_GROUP:
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
-        return '${baseType.getDartType(fileGen)}.getDefault';
+        return '${baseType.getDartType(fileGen!)}.getDefault';
       case FieldDescriptorProto_Type.TYPE_ENUM:
-        var className = baseType.getDartType(fileGen);
+        var className = baseType.getDartType(fileGen!);
         final gen = baseType.generator as EnumGenerator;
         if (descriptor.hasDefaultValue() &&
             descriptor.defaultValue.isNotEmpty) {
@@ -403,14 +400,14 @@ class ProtobufField {
     }
   }
 
-  String _getDefaultAsBoolExpr(String noDefault) {
+  String? _getDefaultAsBoolExpr(String? noDefault) {
     if (descriptor.hasDefaultValue() && 'false' != descriptor.defaultValue) {
       return descriptor.defaultValue;
     }
     return noDefault;
   }
 
-  String _getDefaultAsStringExpr(String noDefault) {
+  String? _getDefaultAsStringExpr(String? noDefault) {
     if (!descriptor.hasDefaultValue() || descriptor.defaultValue.isEmpty) {
       return noDefault;
     }
@@ -418,7 +415,7 @@ class ProtobufField {
     return quoted(descriptor.defaultValue);
   }
 
-  String _getDefaultAsInt32Expr(String noDefault) {
+  String? _getDefaultAsInt32Expr(String? noDefault) {
     if (descriptor.hasDefaultValue() && '0' != descriptor.defaultValue) {
       return descriptor.defaultValue;
     }
@@ -426,7 +423,7 @@ class ProtobufField {
   }
 
   bool _hasBooleanOption(Extension extension) =>
-      descriptor?.options?.getExtension(extension) as bool ?? false;
+      descriptor.options.getExtension(extension) as bool? ?? false;
 
   String get _invalidDefaultValue => 'dart-protoc-plugin:'
       ' invalid default value (${descriptor.defaultValue})'
@@ -440,6 +437,6 @@ class ProtobufField {
 
   static String _unCamelCase(String name) {
     return name.replaceAllMapped(
-        _upperCase, (match) => '_${match.group(0).toLowerCase()}');
+        _upperCase, (match) => '_${match.group(0)!.toLowerCase()}');
   }
 }

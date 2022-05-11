@@ -3,8 +3,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
@@ -95,8 +93,8 @@ void main() {
   test('FileGenerator outputs a .pb.dart file for a proto with one message',
       () {
     var fd = buildFileDescriptor();
-    var options =
-        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options = parseGenerationOptions(
+        CodeGeneratorRequest(), CodeGeneratorResponse())!;
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
@@ -105,8 +103,8 @@ void main() {
 
   test('FileGenerator outputs a .pb.dart file for an Int64 message', () {
     var fd = createInt64Proto();
-    var options =
-        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options = parseGenerationOptions(
+        CodeGeneratorRequest(), CodeGeneratorResponse())!;
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
@@ -119,7 +117,7 @@ void main() {
     var fd = buildFileDescriptor();
     var options = parseGenerationOptions(
         CodeGeneratorRequest()..parameter = 'generate_kythe_info',
-        CodeGeneratorResponse());
+        CodeGeneratorResponse())!;
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(fg.generateMainFile().sourceLocationInfo.toString(),
@@ -129,8 +127,8 @@ void main() {
   test('FileGenerator outputs a pbjson.dart file for a proto with one message',
       () {
     var fd = buildFileDescriptor();
-    var options =
-        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options = parseGenerationOptions(
+        CodeGeneratorRequest(), CodeGeneratorResponse())!;
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
@@ -139,8 +137,8 @@ void main() {
 
   test('FileGenerator generates files for a top-level enum', () {
     var fd = buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
-    var options =
-        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options = parseGenerationOptions(
+        CodeGeneratorRequest(), CodeGeneratorResponse())!;
 
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -154,7 +152,7 @@ void main() {
     var fd = buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     var options = parseGenerationOptions(
         CodeGeneratorRequest()..parameter = 'generate_kythe_info',
-        CodeGeneratorResponse());
+        CodeGeneratorResponse())!;
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
 
@@ -166,8 +164,8 @@ void main() {
 
   test('FileGenerator generates a .pbjson.dart file for a top-level enum', () {
     var fd = buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
-    var options =
-        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options = parseGenerationOptions(
+        CodeGeneratorRequest(), CodeGeneratorResponse())!;
 
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -178,8 +176,8 @@ void main() {
   test('FileGenerator outputs library for a .proto in a package', () {
     var fd = buildFileDescriptor();
     fd.package = 'pb_library';
-    var options =
-        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options = parseGenerationOptions(
+        CodeGeneratorRequest(), CodeGeneratorResponse())!;
 
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -203,8 +201,8 @@ void main() {
             ..type = FieldDescriptorProto_Type.TYPE_INT64
         ]));
 
-    var options =
-        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options = parseGenerationOptions(
+        CodeGeneratorRequest(), CodeGeneratorResponse())!;
 
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -230,8 +228,8 @@ void main() {
       ..messageType.add(empty)
       ..service.add(sd);
 
-    var options =
-        parseGenerationOptions(CodeGeneratorRequest(), CodeGeneratorResponse());
+    var options = parseGenerationOptions(
+        CodeGeneratorRequest(), CodeGeneratorResponse())!;
 
     var fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -420,7 +418,7 @@ void main() {
     fd.dependency.addAll(['package1.proto', 'package2.proto']);
     var request = CodeGeneratorRequest();
     var response = CodeGeneratorResponse();
-    var options = parseGenerationOptions(request, response);
+    var options = parseGenerationOptions(request, response)!;
 
     var fg = FileGenerator(fd, options);
     link(options,

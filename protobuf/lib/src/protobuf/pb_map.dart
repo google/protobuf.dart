@@ -9,13 +9,13 @@ class PbMap<K, V> extends MapBase<K, V> {
   /// integer type or `string`, and the type cannot be `repeated`.
   ///
   /// The `int` value is interpreted the same way as [FieldInfo.type].
-  final int? keyFieldType;
+  final int keyFieldType;
 
   /// Value type of the map. Per proto2 and proto3 specs, this can be any type
   /// other than `map`, and the type cannot be `repeated`.
   ///
   /// The `int` value is interpreted the same way as [FieldInfo.type].
-  final int? valueFieldType;
+  final int valueFieldType;
 
   static const int _keyFieldNumber = 1;
   static const int _valueFieldNumber = 2;
@@ -119,7 +119,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   PbMap freeze() {
     _isReadonly = true;
-    if (_isGroupOrMessage(valueFieldType!)) {
+    if (_isGroupOrMessage(valueFieldType)) {
       for (var subMessage in values as Iterable<GeneratedMessage>) {
         subMessage.freeze();
       }
