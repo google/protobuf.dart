@@ -342,7 +342,7 @@ class MessageGenerator extends ProtobufContainer {
         }
 
         for (var field in _fieldList) {
-          out.println(field.generateBuilderInfoCall(fileGen, package));
+          out.println(field.generateBuilderInfoCall(package));
         }
 
         if (_descriptor.extensionRange.isNotEmpty) {
@@ -372,7 +372,7 @@ class MessageGenerator extends ProtobufContainer {
                 '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames!.fieldName},');
           } else {
             out.println(
-                '  ${field.getDartType(fileGen)}? ${field.memberNames!.fieldName},');
+                '  ${field.getDartType()}? ${field.memberNames!.fieldName},');
           }
         }
         out.print('}');
@@ -510,7 +510,7 @@ class MessageGenerator extends ProtobufContainer {
 
   void generateFieldAccessorsMutators(
       ProtobufField field, IndentingWriter out, List<int> memberFieldPath) {
-    var fieldTypeString = field.getDartType(fileGen);
+    var fieldTypeString = field.getDartType();
     var defaultExpr = field.getDefaultExpr();
     var names = field.memberNames;
 
