@@ -151,9 +151,12 @@ abstract class TimestampMixin {
   ///
   /// The result is in UTC time zone and has microsecond precision, as
   /// [DateTime] does not support nanosecond precision.
-  DateTime toDateTime() => DateTime.fromMicrosecondsSinceEpoch(
-      seconds.toInt() * Duration.microsecondsPerSecond + nanos ~/ 1000,
-      isUtc: true);
+  ///
+  /// Use [toLocal] to convert to local time zone, instead of the default UTC.
+  DateTime toDateTime({bool toLocal = false}) =>
+      DateTime.fromMicrosecondsSinceEpoch(
+          seconds.toInt() * Duration.microsecondsPerSecond + nanos ~/ 1000,
+          isUtc: !toLocal);
 
   /// Updates [target] to be the time at [dateTime].
   ///
