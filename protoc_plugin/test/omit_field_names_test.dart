@@ -16,7 +16,7 @@ Future<void> main() async {
     expect(
         proto.toString(),
         const bool.fromEnvironment('protobuf.omit_field_names')
-            ? '17: {\n}\n'
+            ? '19: {\n}\n'
             : 'optionalForeignMessage: {\n}\n');
     expect(constant(), 'SHOULD_BE_PRESENT');
   });

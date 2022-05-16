@@ -754,7 +754,7 @@ class _FieldSet {
 
     for (var fi in _infosSortedByTag) {
       writeFieldValue(
-          _values[fi.index!], fi.name == '' ? fi.index.toString() : fi.name);
+          _values[fi.index!], fi.name == '' ? fi.tagNumber.toString() : fi.name);
     }
 
     if (_hasExtensions) {
