@@ -14,19 +14,19 @@ import 'test_util.dart';
 
 void main() {
   final testAllJsonTypes = '{"1":101,"2":"102","3":103,"4":"104",'
-      '"5":105,"6":"106","7":107,"8":"108","9":109,"10":"110","11":111.0,'
-      '"12":112.0,"13":true,"14":"115","15":"MTE2","16":{"17":117},'
+      '"5":105,"6":"106","7":107,"8":"108","9":109,"10":"110","11":111,'
+      '"12":112,"13":true,"14":"115","15":"MTE2","16":{"17":117},'
       '"18":{"1":118},"19":{"1":119},"20":{"1":120},"21":3,"22":6,"23":9,'
       '"24":"124","25":"125","31":[201,301],"32":["202","302"],'
       '"33":[203,303],"34":["204","304"],"35":[205,305],"36":["206","306"],'
       '"37":[207,307],"38":["208","308"],"39":[209,309],"40":["210","310"],'
-      '"41":[211.0,311.0],"42":[212.0,312.0],"43":[true,false],'
+      '"41":[211,311],"42":[212,312],"43":[true,false],'
       '"44":["215","315"],"45":["MjE2","MzE2"],"46":[{"47":217},{"47":317}],'
       '"48":[{"1":218},{"1":318}],"49":[{"1":219},{"1":319}],'
       '"50":[{"1":220},{"1":320}],"51":[2,3],"52":[5,6],"53":[8,9],'
       '"54":["224","324"],"55":["225","325"],"61":401,"62":"402","63":403,'
       '"64":"404","65":405,"66":"406","67":407,"68":"408","69":409,'
-      '"70":"410","71":411.0,"72":412.0,"73":false,"74":"415","75":"NDE2",'
+      '"70":"410","71":411,"72":412,"73":false,"74":"415","75":"NDE2",'
       '"81":1,"82":4,"83":7,"84":"424","85":"425"}';
 
   // Checks that message once serialized to JSON
@@ -126,6 +126,37 @@ void main() {
     expected.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
     expect(parsed, expected);
+  });
+
+  group('testConvertDouble', () {
+    test('WithDecimal', () {
+      final json = '{"12":1.2}';
+      TestAllTypes proto = TestAllTypes()..optionalDouble = 1.2;
+      expect(TestAllTypes.fromJson(json), proto);
+      expect(proto.writeToJson(), json);
+    });
+
+    test('WholeNumber', () {
+      final json = '{"12":5}';
+      TestAllTypes proto = TestAllTypes()..optionalDouble = 5.0;
+      expect(TestAllTypes.fromJson(json), proto);
+      expect(proto.writeToJson(), json);
+    });
+
+    test('Infinity', () {
+      final json = '{"12":"Infinity"}';
+      TestAllTypes proto = TestAllTypes()..optionalDouble = double.infinity;
+      expect(TestAllTypes.fromJson(json), proto);
+      expect(proto.writeToJson(), json);
+    });
+
+    test('NegativeInfinity', () {
+      final json = '{"12":"-Infinity"}';
+      TestAllTypes proto = TestAllTypes()
+        ..optionalDouble = double.negativeInfinity;
+      expect(TestAllTypes.fromJson(json), proto);
+      expect(proto.writeToJson(), json);
+    });
   });
 
   test('testParseUnsignedLegacy', () {
