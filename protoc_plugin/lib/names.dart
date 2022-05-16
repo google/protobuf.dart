@@ -420,7 +420,8 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int? index,
       _memberNamesSuffix(field.number),
       generateVariants: generateNameVariants);
 
-  return FieldNames(field, index, sourcePosition, _defaultFieldName(name),
+  return FieldNames(field, index, sourcePosition,
+      avoidInitialUnderscore(_defaultFieldName(name)),
       hasMethodName: _defaultHasMethodName(name),
       clearMethodName: _defaultClearMethodName(name),
       ensureMethodName:

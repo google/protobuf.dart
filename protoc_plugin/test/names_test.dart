@@ -30,6 +30,12 @@ void main() {
     expect(msg.hasRenamedField(), false);
   });
 
+  test('Can access a filed started with underscore and digit', () {
+    var msg = pb.UnderscoreDigitName();
+    msg.x3d = "one";
+    expect(msg.getField(1), "one");
+  });
+
   test('Can swap field names using dart_name option', () {
     var msg = pb.SwapNames();
     msg.first = 'one';
