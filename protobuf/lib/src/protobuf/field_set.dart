@@ -682,9 +682,7 @@ class _FieldSet {
     }
 
     // Hash with unknown fields.
-    if (_hasUnknownFields) {
-      hash = _HashUtils._combine(hash, _unknownFields.hashCode);
-    }
+    hash = _HashUtils._combine(hash, _unknownFields?.hashCode ?? 0);
 
     if (_isReadOnly && _hashCodesCanBeMemoized) {
       _frozenState = hash;
