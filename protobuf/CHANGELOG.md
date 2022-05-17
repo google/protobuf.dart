@@ -31,6 +31,9 @@
 * `TimestampMixin.toDateTime` now takes an optional named `bool` argument
   `toLocal` (defaults to `false`) for generating a `DateTime` in the local time
   zone (instead of UTC). (#653)
+* Fix serialization of `infinity` and `nan` doubles in JSON serializers
+  ([#652])
+
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -56,6 +59,7 @@
 [#648]: https://github.com/google/protobuf.dart/pull/648
 [#649]: https://github.com/google/protobuf.dart/pull/649
 [#653]: https://github.com/google/protobuf.dart/pull/653
+[#652]: https://github.com/google/protobuf.dart/pull/652
 
 ## 2.0.1
 
