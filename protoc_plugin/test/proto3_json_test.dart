@@ -1258,4 +1258,35 @@ void main() {
     expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
     expectOneofNotSet(Foo()..mergeFromProto3Json({}));
   });
+
+  group('Convert Double', () {
+    test('With Decimal', () {
+      final json = {'optionalDouble': 1.2};
+      TestAllTypes proto = TestAllTypes()..optionalDouble = 1.2;
+      expect(TestAllTypes()..mergeFromProto3Json(json), proto);
+      expect(proto.toProto3Json(), json);
+    });
+
+    test('Whole Number', () {
+      final json = {'optionalDouble': 5};
+      TestAllTypes proto = TestAllTypes()..optionalDouble = 5.0;
+      expect(TestAllTypes()..mergeFromProto3Json(json), proto);
+      expect(proto.toProto3Json(), json);
+    });
+
+    test('Infinity', () {
+      final json = {'optionalDouble': 'Infinity'};
+      TestAllTypes proto = TestAllTypes()..optionalDouble = double.infinity;
+      expect(TestAllTypes()..mergeFromProto3Json(json), proto);
+      expect(proto.toProto3Json(), json);
+    });
+
+    test('Negative Infinity', () {
+      final json = {'optionalDouble': '-Infinity'};
+      TestAllTypes proto = TestAllTypes()
+        ..optionalDouble = double.negativeInfinity;
+      expect(TestAllTypes()..mergeFromProto3Json(json), proto);
+      expect(proto.toProto3Json(), json);
+    });
+  });
 }
