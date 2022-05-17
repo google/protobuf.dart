@@ -316,4 +316,13 @@ void main() {
 
     _checkNotEqual(f1, f2);
   });
+
+  test(
+      'consistent hashcode for messages with no unknown fields set and an empty unknown field set',
+      () {
+    final m = TestAllExtensions();
+    // Force an unknown field set.
+    final m2 = TestAllExtensions()..unknownFields;
+    expect(m.hashCode, m2.hashCode);
+  });
 }
