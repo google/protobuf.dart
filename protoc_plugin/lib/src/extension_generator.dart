@@ -15,7 +15,7 @@ class ExtensionGenerator {
   String _extendedFullName = '';
   final List<int> _fieldPathSegment;
 
-  /// See [[ProtobufContainer]
+  /// See [ProtobufContainer]
   late final List<int> fieldPath = List.from(_parent.fieldPath!)
     ..addAll(_fieldPathSegment);
 
