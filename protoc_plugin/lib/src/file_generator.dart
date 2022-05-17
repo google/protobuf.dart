@@ -30,6 +30,11 @@ String configurationDependent(String envName, String value) {
       ': $value';
 }
 
+enum ProtoSyntax {
+  proto2,
+  proto3,
+}
+
 /// Generates the Dart output files for one .proto input file.
 ///
 /// Outputs include .pb.dart, pbenum.dart, and .pbjson.dart.
@@ -143,8 +148,13 @@ class FileGenerator extends ProtobufContainer {
   /// True if cross-references have been resolved.
   bool _linked = false;
 
+  final ProtoSyntax syntax;
+
   FileGenerator(this.descriptor, this.options)
-      : protoFileUri = Uri.file(descriptor.name) {
+      : protoFileUri = Uri.file(descriptor.name),
+        syntax = descriptor.syntax == 'proto3'
+            ? ProtoSyntax.proto3
+            : ProtoSyntax.proto2 {
     if (protoFileUri.isAbsolute) {
       // protoc should never generate an import with an absolute path.
       throw 'FAILURE: Import with absolute path is not supported';

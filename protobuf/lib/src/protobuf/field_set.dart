@@ -465,8 +465,7 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
-    bool result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for `bool` fields that default to
@@ -474,8 +473,7 @@ class _FieldSet {
   bool _$getBF(int index) {
     var value = _values[index];
     if (value == null) return false;
-    bool result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for int fields.
@@ -485,8 +483,7 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
-    int result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for `int` fields (int32, uint32,
@@ -494,8 +491,7 @@ class _FieldSet {
   int _$getIZ(int index) {
     var value = _values[index];
     if (value == null) return 0;
-    int result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for String fields.
@@ -505,8 +501,7 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
-    String result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for String fields that default to
@@ -514,16 +509,14 @@ class _FieldSet {
   String _$getSZ(int index) {
     var value = _values[index];
     if (value == null) return '';
-    String result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for Int64 fields.
   Int64 _$getI64(int index) {
     var value = _values[index];
     value ??= _getDefault(_nonExtensionInfoByIndex(index));
-    Int64 result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated 'has' method.

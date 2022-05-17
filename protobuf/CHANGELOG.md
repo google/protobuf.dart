@@ -340,7 +340,7 @@ freezing instead of the default value.
 
 ## 0.9.0+1
 
-*   Dart SDK upper constraint raised to declare compatability with Dart 2.0
+*   Dart SDK upper constraint raised to declare compatibility with Dart 2.0
     stable.
 
 ## 0.9.0

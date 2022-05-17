@@ -56,7 +56,9 @@ TEST_PROTO_LIST = \
 	package1 \
 	package2 \
 	package3 \
+	proto2_repeated \
 	proto3_optional \
+	proto3_repeated \
 	service \
 	service2 \
 	service3 \
