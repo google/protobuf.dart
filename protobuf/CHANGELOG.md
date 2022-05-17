@@ -34,7 +34,7 @@
 * Fix serialization of `infinity` and `nan` doubles in JSON serializers
   ([#652])
 * Fix Dart generation for fields starting with underscore ([#651])
-
+* Fix proto3 JSON deserialization of fixed32 fields ([#655])
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -62,6 +62,7 @@
 [#653]: https://github.com/google/protobuf.dart/pull/653
 [#652]: https://github.com/google/protobuf.dart/pull/652
 [#651]: https://github.com/google/protobuf.dart/pull/651
+[#655]: https://github.com/google/protobuf.dart/pull/655
 
 ## 2.0.1
 
