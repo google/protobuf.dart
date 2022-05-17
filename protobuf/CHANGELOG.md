@@ -25,6 +25,7 @@
   not used. ([#631])
 * Fix proto3 repeated field encoding without the `packed` option ([#345],
   [#635])
+* Fix hash code of messages with empty unknown field set ([#648])
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -47,6 +48,7 @@
 [#631]: https://github.com/google/protobuf.dart/pull/631
 [#345]: https://github.com/google/protobuf.dart/issues/345
 [#635]: https://github.com/google/protobuf.dart/pull/635
+[#648]: https://github.com/google/protobuf.dart/pull/648
 
 ## 2.0.1
 
