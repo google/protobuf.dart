@@ -122,7 +122,7 @@ class ExtensionGenerator {
       }
     } else {
       invocation = '$protobufImportPrefix.Extension<$dartType>';
-      named['defaultOrMaker'] = _field.generateDefaultFunction(fileGen!);
+      named['defaultOrMaker'] = _field.generateDefaultFunction();
       if (type.isMessage || type.isGroup) {
         named['subBuilder'] = '$dartType.create';
       } else if (type.isEnum) {
