@@ -12,10 +12,11 @@ String constant() => 'SHOULD_BE_PRESENT';
 Future<void> main() async {
   test('enum name available depending on environment', () {
     var proto = TestAllTypes()..optionalForeignMessage = ForeignMessage();
+
     expect(
         proto.toString(),
         const bool.fromEnvironment('protobuf.omit_field_names')
-            ? ': {\n}\n'
+            ? '19: {\n}\n'
             : 'optionalForeignMessage: {\n}\n');
     expect(constant(), 'SHOULD_BE_PRESENT');
   });
