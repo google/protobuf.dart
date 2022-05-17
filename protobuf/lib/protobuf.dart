@@ -21,6 +21,7 @@ export 'src/protobuf/type_registry.dart' show TypeRegistry;
 part 'src/protobuf/coded_buffer.dart';
 part 'src/protobuf/coded_buffer_reader.dart';
 part 'src/protobuf/coded_buffer_writer.dart';
+part 'src/protobuf/consts.dart';
 part 'src/protobuf/builder_info.dart';
 part 'src/protobuf/event_plugin.dart';
 part 'src/protobuf/exceptions.dart';

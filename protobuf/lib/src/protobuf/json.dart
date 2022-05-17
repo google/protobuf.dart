@@ -15,14 +15,25 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     switch (baseType) {
       case PbFieldType._BOOL_BIT:
       case PbFieldType._STRING_BIT:
-      case PbFieldType._FLOAT_BIT:
-      case PbFieldType._DOUBLE_BIT:
       case PbFieldType._INT32_BIT:
       case PbFieldType._SINT32_BIT:
       case PbFieldType._UINT32_BIT:
       case PbFieldType._FIXED32_BIT:
       case PbFieldType._SFIXED32_BIT:
         return fieldValue;
+      case PbFieldType._FLOAT_BIT:
+      case PbFieldType._DOUBLE_BIT:
+        final value = fieldValue as double;
+        if (value.isNaN) {
+          return nan;
+        }
+        if (value.isInfinite) {
+          return value.isNegative ? negativeInfinity : infinity;
+        }
+        if (fieldValue.toInt() == fieldValue) {
+          return fieldValue.toInt();
+        }
+        return value;
       case PbFieldType._BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
         return base64Encode(fieldValue as List<int>);
