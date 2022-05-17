@@ -26,6 +26,8 @@
 * Fix proto3 repeated field encoding without the `packed` option ([#345],
   [#635])
 * Fix hash code of messages with empty unknown field set ([#648])
+* Show field tags with `protobuf.omit_field_names`, enum value tags with
+  `protobuf.omit_enum_names` in debug strings (`toString` methods) ([#649])
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -49,6 +51,7 @@
 [#345]: https://github.com/google/protobuf.dart/issues/345
 [#635]: https://github.com/google/protobuf.dart/pull/635
 [#648]: https://github.com/google/protobuf.dart/pull/648
+[#649]: https://github.com/google/protobuf.dart/pull/649
 
 ## 2.0.1
 
