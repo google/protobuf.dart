@@ -28,6 +28,9 @@
 * Fix hash code of messages with empty unknown field set ([#648])
 * Show field tags with `protobuf.omit_field_names`, enum value tags with
   `protobuf.omit_enum_names` in debug strings (`toString` methods) ([#649])
+* `TimestampMixin.toDateTime` now takes an optional named `bool` argument
+  `toLocal` (defaults to `false`) for generating a `DateTime` in the local time
+  zone (instead of UTC). (#653)
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -52,6 +55,7 @@
 [#635]: https://github.com/google/protobuf.dart/pull/635
 [#648]: https://github.com/google/protobuf.dart/pull/648
 [#649]: https://github.com/google/protobuf.dart/pull/649
+[#653]: https://github.com/google/protobuf.dart/pull/653
 
 ## 2.0.1
 
