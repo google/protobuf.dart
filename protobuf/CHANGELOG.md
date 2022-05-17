@@ -33,6 +33,7 @@
   zone (instead of UTC). (#653)
 * Fix serialization of `infinity` and `nan` doubles in JSON serializers
   ([#652])
+* Fix Dart generation for fields starting with underscore ([#651])
 
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
@@ -60,6 +61,7 @@
 [#649]: https://github.com/google/protobuf.dart/pull/649
 [#653]: https://github.com/google/protobuf.dart/pull/653
 [#652]: https://github.com/google/protobuf.dart/pull/652
+[#651]: https://github.com/google/protobuf.dart/pull/651
 
 ## 2.0.1
 
