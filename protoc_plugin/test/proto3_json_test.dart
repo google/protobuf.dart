@@ -796,61 +796,47 @@ void main() {
             ..optionalUint64 =
                 Int64.fromBytes([255, 255, 255, 255, 255, 255, 255, 255]));
 
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalUint32': '-1',
-            }),
-          parseFailure(['optionalUint32']));
+      void expectRoundTrip(String typeName, int value) {
+        final t = TestAllTypes()
+          ..mergeFromProto3Json({
+            typeName: value,
+          });
+        expect(t.getField(t.getTagNumber(typeName)!), value);
+        final t2 = TestAllTypes()
+          ..mergeFromProto3Json({
+            typeName: value.toString(),
+          });
+        expect(t2.getField(t2.getTagNumber(typeName)!), value);
+      }
 
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalUint32': -1,
-            }),
-          parseFailure(['optionalUint32']));
+      void expectFailure(String typeName, int value) {
+        expect(
+            () => TestAllTypes()..mergeFromProto3Json({typeName: -2147483649}),
+            parseFailure([typeName]));
+      }
 
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalUint32': 0xFFFFFFFF + 1,
-            }),
-          parseFailure(['optionalUint32']));
+      void expectSigned32(String typeName) {
+        expectRoundTrip(typeName, 1);
+        expectRoundTrip(typeName, 0);
+        expectRoundTrip(typeName, 2147483647);
+        expectRoundTrip(typeName, -2147483648);
+        expectFailure(typeName, 2147483648);
+        expectFailure(typeName, -2147483649);
+      }
 
-      expect(
-          TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': '2147483647',
-            }),
-          TestAllTypes()..optionalInt32 = 2147483647);
+      void expectUnsigned32(String typeName) {
+        expectRoundTrip(typeName, 1);
+        expectRoundTrip(typeName, 0);
+        expectRoundTrip(typeName, 0xFFFFFFFF);
+        expectFailure(typeName, 0xFFFFFFFF + 1);
+        expectFailure(typeName, -1);
+      }
 
-      expect(
-          TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': '-2147483648',
-            }),
-          TestAllTypes()..optionalInt32 = -2147483648);
-
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': 2147483647 + 1,
-            }),
-          parseFailure(['optionalInt32']));
-
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': (2147483647 + 1).toString(),
-            }),
-          parseFailure(['optionalInt32']));
-
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': -2147483648 - 1,
-            }),
-          parseFailure(['optionalInt32']));
+      expectUnsigned32('optionalFixed32');
+      expectUnsigned32('optionalUint32');
+      expectSigned32('optionalInt32');
+      expectSigned32('optionalSfixed32');
+      expectSigned32('optionalSint32');
     });
 
     test('unknown fields', () {
