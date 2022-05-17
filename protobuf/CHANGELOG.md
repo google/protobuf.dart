@@ -23,6 +23,8 @@
   when parsing same buffer multiple times. ([#640])
 * `GeneratedMessage.rebuild` now generates a warning when the return value is
   not used. ([#631])
+* Fix proto3 repeated field encoding without the `packed` option ([#345],
+  [#635])
 
 [a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
 [#610]: https://github.com/google/protobuf.dart/pull/610
@@ -43,6 +45,8 @@
 [#640]: https://github.com/google/protobuf.dart/pull/640
 [#641]: https://github.com/google/protobuf.dart/pull/641
 [#631]: https://github.com/google/protobuf.dart/pull/631
+[#345]: https://github.com/google/protobuf.dart/issues/345
+[#635]: https://github.com/google/protobuf.dart/pull/635
 
 ## 2.0.1
 
