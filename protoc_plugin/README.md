@@ -1,8 +1,7 @@
-# Dart plugin for the protoc compiler
-
 [![pub package](https://img.shields.io/pub/v/protoc_plugin.svg)](https://pub.dev/packages/protoc_plugin)
+[![package publisher](https://img.shields.io/pub/publisher/protoc_plugin.svg)](https://pub.dev/packages/protoc_plugin/publisher)
 
-This repository provides a plugin for the [protoc compiler][1]. It generates
+This repository provides a Dart plugin for the [protoc compiler][1]. It generates
 Dart files for working with data in protocol buffers format.
 
 [1]: https://developers.google.com/protocol-buffers/docs/cpptutorial#compiling-your-protocol-buffers
