@@ -41,7 +41,7 @@ Make sure you have `~/.pub-cache/bin` in your `PATH`.
 This method installs a Dart script and requires presence of `dart` executable
 in your `PATH`.
 
-**To build from the source:** 
+**To build from the source:**
 
 - Run `dart pub get` in `protoc_plugin` directory
 - Add `protoc_plugin/bin` to your `PATH`, or pass the path to
@@ -82,7 +82,7 @@ final output directive is separated from the options using colon. Pass
 options `<option 1>` and `<option 2>` like this:
 
     --dart_out="<option 1>,<option 2>:."
-    
+
 ### Generating grpc Headers
 
 To generate code for [grpc], you will need to pass in the `grpc` option:
