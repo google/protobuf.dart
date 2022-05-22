@@ -328,7 +328,7 @@ abstract class GeneratedMessage {
   /// that the protobuf can be encoded correctly, the returned List must
   /// validate all items added to it. This can most easily be done
   /// using the FieldInfo.check function.
-  PbList<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
+  List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
     return PbList<T>(check: fi.check!);
   }
 

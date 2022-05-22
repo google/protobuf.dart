@@ -12,6 +12,8 @@ class PbList<E> extends ListBase<E> {
 
   bool _isReadOnly = false;
 
+  bool get isFrozen => _isReadOnly;
+
   PbList({check = _checkNotNull})
       : _wrappedList = <E>[],
         _check = check;
