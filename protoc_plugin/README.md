@@ -1,8 +1,7 @@
-# Dart plugin for the protoc compiler
-
 [![pub package](https://img.shields.io/pub/v/protoc_plugin.svg)](https://pub.dev/packages/protoc_plugin)
+[![package publisher](https://img.shields.io/pub/publisher/protoc_plugin.svg)](https://pub.dev/packages/protoc_plugin/publisher)
 
-This repository provides a plugin for the [protoc compiler][1]. It generates
+This repository provides a Dart plugin for the [protoc compiler][1]. It generates
 Dart files for working with data in protocol buffers format.
 
 [1]: https://developers.google.com/protocol-buffers/docs/cpptutorial#compiling-your-protocol-buffers
@@ -41,7 +40,7 @@ Make sure you have `~/.pub-cache/bin` in your `PATH`.
 This method installs a Dart script and requires presence of `dart` executable
 in your `PATH`.
 
-**To build from the source:** 
+**To build from the source:**
 
 - Run `dart pub get` in `protoc_plugin` directory
 - Add `protoc_plugin/bin` to your `PATH`, or pass the path to
@@ -82,6 +81,14 @@ final output directive is separated from the options using colon. Pass
 options `<option 1>` and `<option 2>` like this:
 
     --dart_out="<option 1>,<option 2>:."
+
+### Generating grpc Headers
+
+To generate code for [grpc], you will need to pass in the `grpc` option:
+
+    --dart_out="grpc:."
+
+[grpc]: https://pub.dev/packages/grpc
 
 ### Generating Code Info
 

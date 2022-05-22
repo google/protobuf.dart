@@ -61,13 +61,11 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
         case PbFieldType._FLOAT_BIT:
         case PbFieldType._DOUBLE_BIT:
           double value = fieldValue;
-          if (value.isNaN) return 'NaN';
+          if (value.isNaN) {
+            return nan;
+          }
           if (value.isInfinite) {
-            if (value.isNegative) {
-              return '-Infinity';
-            } else {
-              return 'Infinity';
-            }
+            return value.isNegative ? negativeInfinity : infinity;
           }
           return value;
         case PbFieldType._UINT64_BIT:
@@ -96,7 +94,7 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
         var mapEntryInfo = fieldInfo as MapFieldInfo;
-        return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType!),
+        return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType),
             valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
       });
     } else if (fieldInfo.isRepeated) {
@@ -223,6 +221,7 @@ void _mergeFromProto3Json(
           throw context.parseException(
               'Expected enum as a string or integer', value);
         case PbFieldType._UINT32_BIT:
+        case PbFieldType._FIXED32_BIT:
           int result;
           if (value is int) {
             result = value;
@@ -235,7 +234,6 @@ void _mergeFromProto3Json(
           return check32BitUnsigned(result);
         case PbFieldType._INT32_BIT:
         case PbFieldType._SINT32_BIT:
-        case PbFieldType._FIXED32_BIT:
         case PbFieldType._SFIXED32_BIT:
           int result;
           if (value is int) {
@@ -366,7 +364,7 @@ void _mergeFromProto3Json(
                   throw context.parseException('Expected a String key', subKey);
                 }
                 context.addMapIndex(subKey);
-                fieldValues[decodeMapKey(subKey, mapFieldInfo.keyFieldType!)] =
+                fieldValues[decodeMapKey(subKey, mapFieldInfo.keyFieldType)] =
                     convertProto3JsonValue(
                         subValue, mapFieldInfo.valueFieldInfo);
                 context.popIndex();

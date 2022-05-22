@@ -26,6 +26,7 @@ TEST_PROTO_LIST = \
 	google/protobuf/unittest_well_known_types \
 	google/protobuf/unittest \
 	google/protobuf/wrappers \
+	bytes \
 	custom_option \
 	dart_name \
         default_value_escape \
@@ -56,7 +57,9 @@ TEST_PROTO_LIST = \
 	package1 \
 	package2 \
 	package3 \
+	proto2_repeated \
 	proto3_optional \
+	proto3_repeated \
 	service \
 	service2 \
 	service3 \

@@ -37,3 +37,7 @@ message Function {
 message Function_ {
   optional string fun1 = 1;
 }
+
+message UnderscoreDigitName {
+  optional string _3d = 1;
+}

@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 part of '../protoc.dart';
 
 /// Represents the base type of a particular field in a proto definition.
@@ -19,11 +17,11 @@ class BaseType {
   final String typeConstantSuffix;
 
   // Method name of the setter method for this type.
-  final String setter;
+  final String? setter;
 
   // The generator corresponding to this type.
   // (Null for primitive types.)
-  final ProtobufContainer generator;
+  final ProtobufContainer? generator;
 
   const BaseType._raw(this.descriptor, this.typeConstantSuffix, this.unprefixed,
       this.setter, this.generator);
@@ -37,12 +35,12 @@ class BaseType {
 
   /// The package where this type is declared.
   /// (Always the empty string for primitive types.)
-  String get package => generator == null ? '' : generator.package;
+  String get package => generator == null ? '' : generator!.package;
 
   /// The Dart expression to use for this type when in a different file.
   String get prefixed => generator == null
       ? unprefixed
-      : generator.fileImportPrefix + '.' + unprefixed;
+      : generator!.fileImportPrefix + '.' + unprefixed;
 
   /// Returns the name to use in generated code for this Dart type.
   ///
@@ -135,6 +133,6 @@ class BaseType {
     }
 
     return BaseType._raw(
-        field.type, constSuffix, generator.classname, null, generator);
+        field.type, constSuffix, generator.classname!, null, generator);
   }
 }

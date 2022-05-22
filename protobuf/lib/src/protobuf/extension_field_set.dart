@@ -132,6 +132,9 @@ class _ExtensionFieldSet {
     if (_parent._hasObservers) {
       _parent._eventPlugin!.beforeSetField(fi, value);
     }
+    // If there was already an unknown field with the same tag number,
+    // overwrite it.
+    _parent._unknownFields?.clearField(fi.tagNumber);
     _values[fi.tagNumber] = value;
   }
 

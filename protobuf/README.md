@@ -1,4 +1,5 @@
 [![pub package](https://img.shields.io/pub/v/protobuf.svg)](https://pub.dev/packages/protobuf)
+[![package publisher](https://img.shields.io/pub/publisher/protobuf.svg)](https://pub.dev/packages/protobuf/publisher)
 
 Provides runtime support for a Dart implementation of [protobufs][1].
 

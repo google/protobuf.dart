@@ -54,7 +54,7 @@ class ProtobufEnum {
   @override
   int get hashCode => value;
 
-  /// Returns this enum's [name].
+  /// Returns this enum's [name] or the [value] if names are not represented.
   @override
-  String toString() => name;
+  String toString() => name == '' ? value.toString() : name;
 }
