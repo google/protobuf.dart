@@ -23,6 +23,10 @@ class PbList<E> extends ListBase<E> {
         _check = _checkNotNull,
         _isReadOnly = true;
 
+  PbList.from(List from)
+      : _wrappedList = List<E>.from(from),
+        _check = _checkNotNull;
+
   @override
   void add(E element) {
     if (_isReadOnly) {
