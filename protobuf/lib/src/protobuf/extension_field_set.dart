@@ -177,12 +177,7 @@ class _ExtensionFieldSet {
       if (field.isRepeated) {
         final entries = _values[field.tagNumber];
         if (entries == null) continue;
-        if (field.isGroupOrMessage) {
-          for (var subMessage in entries as List<GeneratedMessage>) {
-            subMessage.freeze();
-          }
-        }
-        _values[field.tagNumber] = entries..freeze();
+        entries.freeze();
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.tagNumber];
         if (entry != null) {
