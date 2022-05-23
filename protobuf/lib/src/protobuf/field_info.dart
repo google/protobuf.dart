@@ -6,6 +6,9 @@ part of protobuf;
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
+  /// Cached read-only empty list for this field type. For non-repeated fields
+  /// this is always `null`. Otherwise it starts as `null` and gets initialized
+  /// in `readonlyDefault`.
   PbList<T>? _emptyList;
 
   /// Name of this field as the `json_name` reported by protoc. Example:
