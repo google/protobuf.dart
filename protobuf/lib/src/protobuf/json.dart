@@ -14,15 +14,25 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     switch (fieldTypeDetails.baseType) {
       case FieldBaseType.bool:
       case FieldBaseType.string:
-      case FieldBaseType.float:
-      case FieldBaseType.double:
       case FieldBaseType.int32:
       case FieldBaseType.sint32:
       case FieldBaseType.uint32:
       case FieldBaseType.fixed32:
       case FieldBaseType.sfixed32:
         return fieldValue;
-
+      case FieldBaseType.float:
+      case FieldBaseType.double:
+        final value = fieldValue as double;
+        if (value.isNaN) {
+          return nan;
+        }
+        if (value.isInfinite) {
+          return value.isNegative ? negativeInfinity : infinity;
+        }
+        if (fieldValue.toInt() == fieldValue) {
+          return fieldValue.toInt();
+        }
+        return value;
       case FieldBaseType.bytes:
         // Encode 'bytes' as a base64-encoded string.
         return base64Encode(fieldValue as List<int>);
@@ -48,9 +58,9 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 
   List _writeMap(dynamic fieldValue, MapFieldInfo fi) =>
       List.from(fieldValue.entries.map((MapEntry e) => {
-            '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType!),
+            '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
             '${PbMap._valueFieldNumber}':
-                convertToMap(e.value, fi.valueFieldType!)
+                convertToMap(e.value, fi.valueFieldType)
           }));
 
   var result = <String, dynamic>{};
@@ -134,14 +144,14 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
         entryFieldSet,
         jsonEntry['${PbMap._keyFieldNumber}'],
         PbMap._keyFieldNumber,
-        fi.keyFieldType!,
+        fi.keyFieldType,
         registry);
     var convertedValue = _convertJsonValue(
         entryMeta,
         entryFieldSet,
         jsonEntry['${PbMap._valueFieldNumber}'],
         PbMap._valueFieldNumber,
-        fi.valueFieldType!,
+        fi.valueFieldType,
         registry);
     // In the case of an unknown enum value, the converted value may return
     // null. The default enum value should be used in these cases, which is

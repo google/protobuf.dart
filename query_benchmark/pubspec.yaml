@@ -5,13 +5,17 @@
 name: query_benchmark
 description: Measuring encoding and decoding of a "real-world" protobuf.
 
+# This package is not intended for consumption on pub.dev. DO NOT publish.
+publish_to: none
+
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  protobuf:
+  protobuf: any
 
 dev_dependencies:
+  lints: ^1.0.0
   protoc_plugin:
     path: "../protoc_plugin"
 

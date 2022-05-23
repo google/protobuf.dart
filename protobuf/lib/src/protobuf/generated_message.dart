@@ -82,7 +82,7 @@ abstract class GeneratedMessage {
 
   /// Apply [updates] to a copy of this message.
   ///
-  /// Makes a writable shawwol copy of this message, applies the [updates] to
+  /// Makes a writable shallow copy of this message, applies the [updates] to
   /// it, and marks the copy read-only before returning it.
   @Deprecated('Using this can add significant size overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
@@ -545,6 +545,8 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
   ///
   /// Makes a writable shallow copy of this message, applies the [updates] to
   /// it, and marks the copy read-only before returning it.
+  @UseResult('[GeneratedMessageGenericExtensions.rebuild] '
+      'does not update the message, returns a new message')
   T rebuild(void Function(T) updates) {
     if (!isFrozen) {
       throw ArgumentError('Rebuilding only works on frozen messages.');

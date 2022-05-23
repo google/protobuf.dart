@@ -244,7 +244,7 @@ class _FieldSet {
 
   List<T> _getDefaultList<T>(FieldInfo<T> fi) {
     assert(fi.isRepeated);
-    if (_isReadOnly) return FrozenPbList._(const []);
+    if (_isReadOnly) return fi.readonlyDefault;
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:
@@ -465,8 +465,7 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
-    bool result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for `bool` fields that default to
@@ -474,8 +473,7 @@ class _FieldSet {
   bool _$getBF(int index) {
     var value = _values[index];
     if (value == null) return false;
-    bool result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for int fields.
@@ -485,8 +483,7 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
-    int result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for `int` fields (int32, uint32,
@@ -494,8 +491,7 @@ class _FieldSet {
   int _$getIZ(int index) {
     var value = _values[index];
     if (value == null) return 0;
-    int result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for String fields.
@@ -505,8 +501,7 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
-    String result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for String fields that default to
@@ -514,16 +509,14 @@ class _FieldSet {
   String _$getSZ(int index) {
     var value = _values[index];
     if (value == null) return '';
-    String result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for Int64 fields.
   Int64 _$getI64(int index) {
     var value = _values[index];
     value ??= _getDefault(_nonExtensionInfoByIndex(index));
-    Int64 result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated 'has' method.
@@ -636,6 +629,11 @@ class _FieldSet {
     // We don't want reading a field to change equality comparisons.
     if (val is List && val.isEmpty) return true;
 
+    // An empty map field is the same as uninitialized.
+    // This is because accessing a map field automatically creates it.
+    // We don't want reading a field to change equality comparisons.
+    if (val is Map && val.isEmpty) return true;
+
     // For now, initialized and uninitialized fields are different.
     // TODO(skybrian) consider other cases; should we compare with the
     // default value or not?
@@ -677,9 +675,7 @@ class _FieldSet {
     }
 
     // Hash with unknown fields.
-    if (_hasUnknownFields) {
-      hash = _HashUtils._combine(hash, _unknownFields.hashCode);
-    }
+    hash = _HashUtils._combine(hash, _unknownFields?.hashCode ?? 0);
 
     if (_isReadOnly && _hashCodesCanBeMemoized) {
       _frozenState = hash;
@@ -691,6 +687,10 @@ class _FieldSet {
   static int _hashField(int hash, FieldInfo fi, value) {
     if (value is List && value.isEmpty) {
       return hash; // It's either repeated or an empty byte array.
+    }
+
+    if (value is Map && value.isEmpty) {
+      return hash;
     }
 
     hash = _HashUtils._combine(hash, fi.tagNumber);
@@ -744,7 +744,8 @@ class _FieldSet {
     }
 
     for (var fi in _infosSortedByTag) {
-      writeFieldValue(_values[fi.index!], fi.name);
+      writeFieldValue(_values[fi.index!],
+          fi.name == '' ? fi.tagNumber.toString() : fi.name);
     }
 
     if (_hasExtensions) {
@@ -806,7 +807,7 @@ class _FieldSet {
 
     if (fi!.isMapField) {
       var f = fi as MapFieldInfo<dynamic, dynamic>;
-      mustClone = f.valueFieldType!.isGroupOrMessage;
+      mustClone = f.valueFieldType.isGroupOrMessage;
       var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
       if (mustClone) {
         for (MapEntry entry in fieldValue.entries) {

@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 part of '../protoc.dart';
 
 /// Generates the Dart enum corresponding to a oneof declaration.
@@ -15,7 +13,7 @@ class OneofEnumGenerator {
       IndentingWriter out, String classname, List<ProtobufField> fields) {
     out.addBlock('enum $classname {', '}\n', () {
       for (var field in fields) {
-        final name = oneofEnumMemberName(field.memberNames.fieldName);
+        final name = oneofEnumMemberName(field.memberNames!.fieldName);
         out.println('$name, ');
       }
       out.println('notSet');
@@ -51,10 +49,11 @@ class MessageGenerator extends ProtobufContainer {
   String get messageName =>
       fullName.substring(package.isEmpty ? 0 : package.length + 1);
 
-  PbMixin mixin;
+  PbMixin? mixin;
 
   @override
-  final ProtobufContainer parent;
+  final ProtobufContainer? parent;
+
   final DescriptorProto _descriptor;
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
   final List<MessageGenerator> _messageGenerators = <MessageGenerator>[];
@@ -64,18 +63,18 @@ class MessageGenerator extends ProtobufContainer {
   /// by the index in the containing types's oneof_decl list.
   /// Only contains the 'real' oneofs.
   final List<List<ProtobufField>> _oneofFields;
-  List<OneofNames> _oneofNames;
+  late List<OneofNames> _oneofNames;
 
-  List<int> _fieldPath;
   final List<int> _fieldPathSegment;
 
   /// See [[ProtobufContainer]
   @override
-  List<int> get fieldPath =>
-      _fieldPath ??= List.from(parent.fieldPath)..addAll(_fieldPathSegment);
+  late final List<int> fieldPath = List.from(parent!.fieldPath!)
+    ..addAll(_fieldPathSegment);
 
   // populated by resolve()
-  List<ProtobufField> _fieldList;
+  late List<ProtobufField> _fieldList;
+  bool _resolved = false;
 
   Set<String> _usedTopLevelNames;
 
@@ -83,7 +82,7 @@ class MessageGenerator extends ProtobufContainer {
       DescriptorProto descriptor,
       this.parent,
       Map<String, PbMixin> declaredMixins,
-      PbMixin defaultMixin,
+      PbMixin? defaultMixin,
       this._usedTopLevelNames,
       int repeatedFieldIndex,
       int fieldIdTag)
@@ -92,7 +91,7 @@ class MessageGenerator extends ProtobufContainer {
         classname = messageOrEnumClassName(descriptor.name, _usedTopLevelNames,
             parent: parent?.classname ?? ''),
         assert(parent != null),
-        fullName = parent.fullName == ''
+        fullName = parent!.fullName == ''
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
         _oneofFields =
@@ -127,7 +126,7 @@ class MessageGenerator extends ProtobufContainer {
       DescriptorProto descriptor,
       ProtobufContainer parent,
       Map<String, PbMixin> declaredMixins,
-      PbMixin defaultMixin,
+      PbMixin? defaultMixin,
       Set<String> usedNames,
       int repeatedFieldIndex)
       : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
@@ -137,22 +136,22 @@ class MessageGenerator extends ProtobufContainer {
       DescriptorProto descriptor,
       ProtobufContainer parent,
       Map<String, PbMixin> declaredMixins,
-      PbMixin defaultMixin,
+      PbMixin? defaultMixin,
       Set<String> usedNames,
       int repeatedFieldIndex)
       : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
             repeatedFieldIndex, _nestedMessageTag);
 
   @override
-  String get package => parent.package;
+  String get package => parent!.package;
 
   /// The generator of the .pb.dart file that will declare this type.
   @override
-  FileGenerator get fileGen => parent.fileGen;
+  FileGenerator get fileGen => parent!.fileGen!;
 
   /// Throws an exception if [resolve] hasn't been called yet.
   void checkResolved() {
-    if (_fieldList == null) {
+    if (!_resolved) {
       throw StateError('message not resolved: $fullName');
     }
   }
@@ -170,7 +169,7 @@ class MessageGenerator extends ProtobufContainer {
   /// Adds all mixins used in this message and any submessages.
   void addMixinsTo(Set<PbMixin> output) {
     if (mixin != null) {
-      output.addAll(mixin.findMixinsToApply());
+      output.addAll(mixin!.findMixinsToApply());
     }
     for (var m in _messageGenerators) {
       m.addMixinsTo(output);
@@ -190,7 +189,8 @@ class MessageGenerator extends ProtobufContainer {
 
   // Creates fields and resolves extension targets.
   void resolve(GenerationContext ctx) {
-    if (_fieldList != null) throw StateError('message already resolved');
+    if (_resolved) throw StateError('message already resolved');
+    _resolved = true;
 
     var reserved = mixin?.findReservedNames() ?? const <String>[];
     var members = messageMemberNames(_descriptor, classname, _usedTopLevelNames,
@@ -216,7 +216,7 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   bool get needsFixnumImport {
-    if (_fieldList == null) throw StateError('message not resolved');
+    checkResolved();
     for (var field in _fieldList) {
       if (field.needsFixnumImport) return true;
     }
@@ -235,13 +235,13 @@ class MessageGenerator extends ProtobufContainer {
   /// add its generator.
   void addImportsTo(
       Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
-    if (_fieldList == null) throw StateError('message not resolved');
+    checkResolved();
     for (var field in _fieldList) {
       var typeGen = field.baseType.generator;
       if (typeGen is EnumGenerator) {
-        enumImports.add(typeGen.fileGen);
+        enumImports.add(typeGen.fileGen!);
       } else if (typeGen != null) {
-        imports.add(typeGen.fileGen);
+        imports.add(typeGen.fileGen!);
       }
     }
     for (var m in _messageGenerators) {
@@ -266,7 +266,7 @@ class MessageGenerator extends ProtobufContainer {
   /// For each .pbjson.dart file that the generated code needs to import,
   /// add its generator.
   void addConstantImportsTo(Set<FileGenerator> imports) {
-    if (_fieldList == null) throw StateError('message not resolved');
+    checkResolved();
     for (var m in _messageGenerators) {
       m.addConstantImportsTo(imports);
     }
@@ -293,7 +293,7 @@ class MessageGenerator extends ProtobufContainer {
     var mixinClause = '';
     if (mixin != null) {
       var mixinNames =
-          mixin.findMixinsToApply().map((m) => '$mixinImportPrefix.${m.name}');
+          mixin!.findMixinsToApply().map((m) => '$mixinImportPrefix.${m.name}');
       mixinClause = ' with ${mixinNames.join(", ")}';
     }
 
@@ -304,8 +304,8 @@ class MessageGenerator extends ProtobufContainer {
     var packageClause =
         package == '' ? '' : ', package: $conditionalPackageName';
     var proto3JsonClause = (mixin?.hasProto3JsonHelpers ?? false)
-        ? ', toProto3Json: $mixinImportPrefix.${mixin.name}.toProto3JsonHelper, '
-            'fromProto3Json: $mixinImportPrefix.${mixin.name}.fromProto3JsonHelper'
+        ? ', toProto3Json: $mixinImportPrefix.${mixin!.name}.toProto3JsonHelper, '
+            'fromProto3Json: $mixinImportPrefix.${mixin!.name}.fromProto3JsonHelper'
         : '';
     out.addAnnotatedBlock(
         'class $classname extends $protobufImportPrefix.GeneratedMessage$mixinClause {',
@@ -319,7 +319,7 @@ class MessageGenerator extends ProtobufContainer {
             '};', () {
           for (var field in _oneofFields[oneof.index]) {
             final oneofMemberName =
-                oneofEnumMemberName(field.memberNames.fieldName);
+                oneofEnumMemberName(field.memberNames!.fieldName);
             out.println(
                 '${field.number} : ${oneof.oneofEnumName}.$oneofMemberName,');
           }
@@ -342,7 +342,7 @@ class MessageGenerator extends ProtobufContainer {
         }
 
         for (var field in _fieldList) {
-          out.println(field.generateBuilderInfoCall(fileGen, package));
+          out.println(field.generateBuilderInfoCall(package));
         }
 
         if (_descriptor.extensionRange.isNotEmpty) {
@@ -369,10 +369,10 @@ class MessageGenerator extends ProtobufContainer {
           _emitDeprecatedIf(field.isDeprecated, out);
           if (field.isRepeated && !field.isMapField) {
             out.println(
-                '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames.fieldName},');
+                '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames!.fieldName},');
           } else {
             out.println(
-                '  ${field.getDartType(fileGen)}? ${field.memberNames.fieldName},');
+                '  ${field.getDartType()}? ${field.memberNames!.fieldName},');
           }
         }
         out.print('}');
@@ -381,17 +381,17 @@ class MessageGenerator extends ProtobufContainer {
         out.println(') {');
         out.println('  final _result = create();');
         for (final field in _fieldList) {
-          out.println('  if (${field.memberNames.fieldName} != null) {');
+          out.println('  if (${field.memberNames!.fieldName} != null) {');
           if (field.isDeprecated) {
             out.println(
                 '    // ignore: deprecated_member_use_from_same_package');
           }
           if (field.isRepeated || field.isMapField) {
             out.println(
-                '    _result.${field.memberNames.fieldName}.addAll(${field.memberNames.fieldName});');
+                '    _result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
           } else {
             out.println(
-                '    _result.${field.memberNames.fieldName} = ${field.memberNames.fieldName};');
+                '    _result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');
           }
           out.println('  }');
         }
@@ -452,7 +452,7 @@ class MessageGenerator extends ProtobufContainer {
   // already_seen is used to avoid checking the same type multiple times
   // (and also to protect against unbounded recursion).
   bool _hasRequiredFields(MessageGenerator type, Set alreadySeen) {
-    if (type._fieldList == null) throw StateError('message not resolved');
+    checkResolved();
 
     if (alreadySeen.contains(type.fullName)) {
       // The type is already in cache.  This means that either:
@@ -495,7 +495,7 @@ class MessageGenerator extends ProtobufContainer {
     for (var field in _fieldList) {
       out.println();
       var memberFieldPath = List<int>.from(fieldPath)
-        ..addAll([_messageFieldTag, field.sourcePosition]);
+        ..addAll([_messageFieldTag, field.sourcePosition!]);
       generateFieldAccessorsMutators(field, out, memberFieldPath);
     }
   }
@@ -510,17 +510,17 @@ class MessageGenerator extends ProtobufContainer {
 
   void generateFieldAccessorsMutators(
       ProtobufField field, IndentingWriter out, List<int> memberFieldPath) {
-    var fieldTypeString = field.getDartType(fileGen);
+    var fieldTypeString = field.getDartType();
     var defaultExpr = field.getDefaultExpr();
     var names = field.memberNames;
 
     _emitDeprecatedIf(field.isDeprecated, out);
     _emitOverrideIf(field.overridesGetter, out);
     _emitIndexAnnotation(field.number, out);
-    final getterExpr = _getterExpression(fieldTypeString, field.index,
+    final getterExpr = _getterExpression(fieldTypeString, field.index!,
         defaultExpr, field.isRepeated, field.isMapField);
     out.printlnAnnotated(
-        '$fieldTypeString get ${names.fieldName} => $getterExpr;', [
+        '$fieldTypeString get ${names!.fieldName} => $getterExpr;', [
       NamedLocation(
           name: names.fieldName,
           fieldPathSegment: memberFieldPath,
@@ -579,7 +579,7 @@ class MessageGenerator extends ProtobufContainer {
             ' \$_has(${field.index});',
             [
               NamedLocation(
-                  name: names.hasMethodName,
+                  name: names.hasMethodName!,
                   fieldPathSegment: memberFieldPath,
                   start: '$coreImportPrefix.bool '.length)
             ]);
@@ -592,7 +592,7 @@ class MessageGenerator extends ProtobufContainer {
           ' clearField(${field.number});',
           [
             NamedLocation(
-                name: names.clearMethodName,
+                name: names.clearMethodName!,
                 fieldPathSegment: memberFieldPath,
                 start: 'void '.length)
           ]);
@@ -604,7 +604,7 @@ class MessageGenerator extends ProtobufContainer {
             '\$_ensure(${field.index});',
             <NamedLocation>[
               NamedLocation(
-                  name: names.ensureMethodName,
+                  name: names.ensureMethodName!,
                   fieldPathSegment: memberFieldPath,
                   start: '$fieldTypeString '.length)
             ]);
@@ -677,8 +677,8 @@ class MessageGenerator extends ProtobufContainer {
   void generateConstants(IndentingWriter out) {
     const nestedTypeTag = 3;
     const enumTypeTag = 4;
-    assert(_descriptor.info_.fieldInfo[nestedTypeTag].name == 'nestedType');
-    assert(_descriptor.info_.fieldInfo[enumTypeTag].name == 'enumType');
+    assert(_descriptor.info_.fieldInfo[nestedTypeTag]!.name == 'nestedType');
+    assert(_descriptor.info_.fieldInfo[enumTypeTag]!.name == 'enumType');
 
     var name = getJsonConstant(fileGen);
     var json = _descriptor.writeToJsonMap();
@@ -688,7 +688,7 @@ class MessageGenerator extends ProtobufContainer {
         _enumGenerators.map((e) => e.getJsonConstant(fileGen)).toList();
 
     out.println('@$coreImportPrefix.Deprecated'
-        '(\'Use ${toplevelParent.binaryDescriptorName} instead\')');
+        '(\'Use ${toplevelParent!.binaryDescriptorName} instead\')');
     out.addBlock('const $name = const {', '};', () {
       for (var key in json.keys) {
         out.print("'$key': ");
@@ -720,7 +720,8 @@ class MessageGenerator extends ProtobufContainer {
   ///
   /// First searches [_wellKnownMixins], then [declaredMixins],
   /// then internal mixins declared by [findMixin].
-  PbMixin _getMixin(Map<String, PbMixin> declaredMixins, PbMixin defaultMixin) {
+  PbMixin? _getMixin(
+      Map<String, PbMixin> declaredMixins, PbMixin? defaultMixin) {
     var wellKnownMixin = wellKnownMixinForFullName(fullName);
     if (wellKnownMixin != null) return wellKnownMixin;
     if (!_descriptor.hasOptions() ||
@@ -732,7 +733,7 @@ class MessageGenerator extends ProtobufContainer {
     if (name.isEmpty) return null; // don't use any mixins (override default)
     var mixin = declaredMixins[name] ?? findMixin(name);
     if (mixin == null) {
-      throw '${_descriptor.name} in ${parent.fileGen.descriptor.name}: mixin "$name" not found';
+      throw '${_descriptor.name} in ${parent!.fileGen!.descriptor.name}: mixin "$name" not found';
     }
     return mixin;
   }

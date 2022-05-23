@@ -301,7 +301,7 @@ void main() {
     expect(value is Map<int, List<int>>, true);
   });
 
-  test('named optional arguments in cosntructor', () {
+  test('named optional arguments in constructor', () {
     final testMap = TestMap(
       int32ToInt32Field: {1: 11, 2: 22, 3: 33},
       int32ToStringField: {1: '11', 2: '22', 3: '33'},
@@ -345,5 +345,15 @@ void main() {
     expect(m.stringToInt32Field['abc'], 0);
     expect(m.stringToInt32Field[''], 11);
     expect(m.stringToInt32Field['def'], 42);
+  });
+
+  test('Map field reads should not affect equality or hash of message', () {
+    final m1 = TestMap.create();
+    final m2 = TestMap.create();
+    expect(m1, equals(m2));
+    expect(m1.hashCode, equals(m2.hashCode));
+    m1.int32ToStringField; // read a map field
+    expect(m1, equals(m2));
+    expect(m1.hashCode, equals(m2.hashCode));
   });
 }

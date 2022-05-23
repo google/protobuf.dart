@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 import 'package:protoc_plugin/names.dart' as names;
 import 'package:protoc_plugin/src/generated/dart_options.pb.dart';
 import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
@@ -30,6 +28,12 @@ void main() {
     expect(msg.renamedField, 'test');
     msg.clearRenamedField();
     expect(msg.hasRenamedField(), false);
+  });
+
+  test('Can access a filed started with underscore and digit', () {
+    var msg = pb.UnderscoreDigitName();
+    msg.x3d = 'one';
+    expect(msg.getField(1), 'one');
   });
 
   test('Can swap field names using dart_name option', () {
@@ -220,7 +224,7 @@ void main() {
   });
 
   test('The proto name is set correctly', () {
-    expect(json_name.JsonNamedMessage().info_.byName['barName'].protoName,
+    expect(json_name.JsonNamedMessage().info_.byName['barName']!.protoName,
         'foo_name');
   });
 

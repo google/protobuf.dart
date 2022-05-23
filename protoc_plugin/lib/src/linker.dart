@@ -2,14 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 import '../protoc.dart' show FileGenerator;
 import 'code_generator.dart';
 import 'options.dart';
 
 /// Resolves all cross-references in a set of proto files.
-void link(GenerationOptions options, Iterable<FileGenerator> files) {
+void link(GenerationOptions? options, Iterable<FileGenerator> files) {
   var ctx = GenerationContext(options);
 
   // Register the targets of cross-references.
@@ -41,7 +39,7 @@ void link(GenerationOptions options, Iterable<FileGenerator> files) {
 }
 
 class GenerationContext {
-  final GenerationOptions options;
+  final GenerationOptions? options;
 
   /// The files available for import.
   final Map<String, FileGenerator> _files = <String, FileGenerator>{};
@@ -67,9 +65,9 @@ class GenerationContext {
 
   /// Returns info about a .pb.dart being imported,
   /// based on the filename given to us by protoc.
-  FileGenerator getImportedProtoFile(String name) => _files[name];
+  FileGenerator? getImportedProtoFile(String name) => _files[name];
 
   /// Returns info about the type of a message, group, or enum field,
   /// based on the fully qualified name given to us by protoc.
-  ProtobufContainer getFieldType(String name) => _typeRegistry[name];
+  ProtobufContainer? getFieldType(String name) => _typeRegistry[name];
 }

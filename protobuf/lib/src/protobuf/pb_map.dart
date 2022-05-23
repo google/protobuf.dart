@@ -7,11 +7,11 @@ part of protobuf;
 class PbMap<K, V> extends MapBase<K, V> {
   /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
   /// integer type or `string`, and the type cannot be `repeated`.
-  final FieldType? keyFieldType;
+  final FieldType keyFieldType;
 
   /// Value type of the map. Per proto2 and proto3 specs, this can be any type
   /// other than `map`, and the type cannot be `repeated`.
-  final FieldType? valueFieldType;
+  final FieldType valueFieldType;
 
   static const int _keyFieldNumber = 1;
   static const int _valueFieldNumber = 2;
@@ -115,7 +115,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   PbMap freeze() {
     _isReadonly = true;
-    if (valueFieldType!.isGroupOrMessage) {
+    if (valueFieldType.isGroupOrMessage) {
       for (var subMessage in values as Iterable<GeneratedMessage>) {
         subMessage.freeze();
       }

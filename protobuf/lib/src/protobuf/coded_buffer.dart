@@ -59,9 +59,9 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
 
       case FieldBaseType.bytes:
         if (fieldType.isRepeated) {
-          fs._ensureRepeatedField(meta, fi).add(input.readBytes());
+          fs._ensureRepeatedField(meta, fi).add(Uint8List.fromList(input.readBytes()));
         } else {
-          fs._setFieldUnchecked(meta, fi, input.readBytes());
+          fs._setFieldUnchecked(meta, fi, Uint8List.fromList(input.readBytes()));
         }
         break;
 

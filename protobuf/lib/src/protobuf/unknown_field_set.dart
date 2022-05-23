@@ -28,6 +28,11 @@ class UnknownFieldSet {
     _fields.clear();
   }
 
+  void clearField(int tagNumber) {
+    _ensureWritable('clearField');
+    _fields.remove(tagNumber);
+  }
+
   UnknownFieldSetField? getField(int tagNumber) => _fields[tagNumber];
 
   bool hasField(int tagNumber) => _fields.containsKey(tagNumber);

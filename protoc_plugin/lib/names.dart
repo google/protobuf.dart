@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 import 'dart:math' as math;
 
 import 'package:protobuf/meta.dart';
@@ -24,11 +22,15 @@ class FieldNames {
 
   /// The index of this field in MessageGenerator.fieldList.
   /// The same index will be stored in FieldInfo.index.
-  final int index;
+  ///
+  /// `null` for extensions.
+  final int? index;
 
   /// The position of this field as it appeared in the original DescriptorProto.
   /// Used to construct metadata.
-  final int sourcePosition;
+  ///
+  /// `null` for extensions.
+  final int? sourcePosition;
 
   /// Identifier for generated getters/setters.
   final String fieldName;
@@ -36,17 +38,17 @@ class FieldNames {
   /// Identifier for the generated hasX() method, without braces.
   ///
   /// `null` for repeated fields.
-  final String hasMethodName;
+  final String? hasMethodName;
 
   /// Identifier for the generated clearX() method, without braces.
   ///
   /// `null` for repeated fields.
-  final String clearMethodName;
+  final String? clearMethodName;
 
   // Identifier for the generated ensureX() method, without braces.
   //
-  //'null' for scalar, repeated, and map fields.
-  final String ensureMethodName;
+  // 'null' for scalar, repeated, and map fields.
+  final String? ensureMethodName;
 
   FieldNames(this.descriptor, this.index, this.sourcePosition, this.fieldName,
       {this.hasMethodName, this.clearMethodName, this.ensureMethodName});
@@ -158,7 +160,7 @@ class DartNameOptionException implements Exception {
 /// The returned name is that, which will generate the accepted variants.
 String disambiguateName(
     String name, Set<String> usedNames, Iterable<String> suffixes,
-    {List<String> Function(String candidate) generateVariants}) {
+    {List<String> Function(String candidate)? generateVariants}) {
   generateVariants ??= (String name) => <String>[name];
 
   bool allVariantsAvailable(List<String> variants) {
@@ -259,21 +261,19 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     indexes[field.name] = index;
   }
 
-  var existingNames = <String>{}
-    ..addAll(reservedMemberNames)
-    ..addAll(reserved);
+  var existingNames = <String>{...reservedMemberNames, ...reserved};
 
-  var fieldNames = List<FieldNames>.filled(indexes.length, null);
+  var fieldNames = List<FieldNames?>.filled(indexes.length, null);
 
   void takeFieldNames(FieldNames chosen) {
-    fieldNames[chosen.index] = chosen;
+    fieldNames[chosen.index!] = chosen;
 
     existingNames.add(chosen.fieldName);
     if (chosen.hasMethodName != null) {
-      existingNames.add(chosen.hasMethodName);
+      existingNames.add(chosen.hasMethodName!);
     }
     if (chosen.clearMethodName != null) {
-      existingNames.add(chosen.clearMethodName);
+      existingNames.add(chosen.clearMethodName!);
     }
   }
 
@@ -281,17 +281,17 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
   // They have higher priority than automatically chosen names.
   // Explicitly setting a name that's already taken is a build error.
   for (var field in sorted) {
-    if (_nameOption(field).isNotEmpty) {
+    if (_nameOption(field)!.isNotEmpty) {
       takeFieldNames(_memberNamesFromOption(descriptor, field,
-          indexes[field.name], sourcePositions[field.name], existingNames));
+          indexes[field.name]!, sourcePositions[field.name]!, existingNames));
     }
   }
 
   // Then do other fields.
   // They are automatically renamed until we find something unused.
   for (var field in sorted) {
-    if (_nameOption(field).isEmpty) {
-      var index = indexes[field.name];
+    if (_nameOption(field)!.isEmpty) {
+      var index = indexes[field.name]!;
       var sourcePosition = sourcePositions[field.name];
       takeFieldNames(
           _unusedMemberNames(field, index, sourcePosition, existingNames));
@@ -302,16 +302,9 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
 
   void takeOneofNames(OneofNames chosen) {
     oneofNames.add(chosen);
-
-    if (chosen.whichOneofMethodName != null) {
-      existingNames.add(chosen.whichOneofMethodName);
-    }
-    if (chosen.clearMethodName != null) {
-      existingNames.add(chosen.clearMethodName);
-    }
-    if (chosen.byTagMapName != null) {
-      existingNames.add(chosen.byTagMapName);
-    }
+    existingNames.add(chosen.whichOneofMethodName);
+    existingNames.add(chosen.clearMethodName);
+    existingNames.add(chosen.byTagMapName);
   }
 
   List<String> oneofNameVariants(String name) {
@@ -336,7 +329,7 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
         _defaultWhichMethodName(oneofName), oneofEnumName, enumMapName));
   }
 
-  return MemberNames(fieldNames, oneofNames);
+  return MemberNames(fieldNames.cast<FieldNames>(), oneofNames);
 }
 
 /// Chooses the member names for a field that has the 'dart_name' option.
@@ -359,7 +352,7 @@ FieldNames _memberNamesFromOption(
     }
   }
 
-  var name = _nameOption(field);
+  var name = _nameOption(field)!;
   if (name.isEmpty) {
     throw ArgumentError("field doesn't have dart_name option");
   }
@@ -379,7 +372,7 @@ FieldNames _memberNamesFromOption(
   var clearMethod = 'clear${_capitalize(name)}';
   checkAvailable(clearMethod);
 
-  String ensureMethod;
+  String? ensureMethod;
 
   if (_isGroupOrMessage(field)) {
     ensureMethod = 'ensure${_capitalize(name)}';
@@ -399,8 +392,8 @@ Iterable<String> _memberNamesSuffix(int number) sync* {
   }
 }
 
-FieldNames _unusedMemberNames(FieldDescriptorProto field, int index,
-    int sourcePosition, Set<String> existingNames) {
+FieldNames _unusedMemberNames(FieldDescriptorProto field, int? index,
+    int? sourcePosition, Set<String> existingNames) {
   if (_isRepeated(field)) {
     return FieldNames(
         field,
@@ -427,7 +420,8 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int index,
       _memberNamesSuffix(field.number),
       generateVariants: generateNameVariants);
 
-  return FieldNames(field, index, sourcePosition, _defaultFieldName(name),
+  return FieldNames(field, index, sourcePosition,
+      avoidInitialUnderscore(_defaultFieldName(name)),
       hasMethodName: _defaultHasMethodName(name),
       clearMethodName: _defaultClearMethodName(name),
       ensureMethodName:
@@ -454,7 +448,7 @@ String _defaultEnsureMethodName(String fieldMethodSuffix) =>
 /// The suffix to use for this field in Dart method names.
 /// (It should be camelcase and begin with an uppercase letter.)
 String _fieldMethodSuffix(FieldDescriptorProto field) {
-  var name = _nameOption(field);
+  var name = _nameOption(field)!;
   if (name.isNotEmpty) return _capitalize(name);
 
   if (field.type != FieldDescriptorProto_Type.TYPE_GROUP) {
@@ -483,8 +477,8 @@ bool _isGroupOrMessage(FieldDescriptorProto field) =>
     field.type == FieldDescriptorProto_Type.TYPE_MESSAGE ||
     field.type == FieldDescriptorProto_Type.TYPE_GROUP;
 
-String _nameOption(FieldDescriptorProto field) =>
-    field.options.getExtension(Dart_options.dartName) as String;
+String? _nameOption(FieldDescriptorProto field) =>
+    field.options.getExtension(Dart_options.dartName) as String?;
 
 bool _isDartFieldName(String name) => name.startsWith(_dartFieldNameExpr);
 

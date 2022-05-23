@@ -3,8 +3,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
+import 'dart:typed_data';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
@@ -17,7 +16,8 @@ import '../out/protos/nested_extension.pb.dart';
 import '../out/protos/non_nested_extension.pb.dart';
 import 'test_util.dart';
 
-Matcher throwsArgError(String expectedMessage) => throwsA(predicate((x) {
+Matcher throwsArgError(String expectedMessage) =>
+    throwsA(predicate((dynamic x) {
       expect(x, isArgumentError);
       expect(x.message, expectedMessage);
       return true;
@@ -174,14 +174,14 @@ void main() {
   });
 
   test('can extend a message with a message field with a different type', () {
-    expect(Non_nested_extension.nonNestedExtension.makeDefault(),
+    expect(Non_nested_extension.nonNestedExtension.makeDefault!(),
         TypeMatcher<MyNonNestedExtension>());
     expect(Non_nested_extension.nonNestedExtension.name, 'nonNestedExtension');
   });
 
   test('can extend a message with a message field of the same type', () {
     expect(
-        MyNestedExtension.recursiveExtension.makeDefault()
+        MyNestedExtension.recursiveExtension.makeDefault!()
             is MessageToBeExtended,
         isTrue);
     expect(MyNestedExtension.recursiveExtension.name, 'recursiveExtension');
@@ -532,7 +532,7 @@ void main() {
     final withUnknownFields = Outer.fromBuffer(original.writeToBuffer());
 
     expect(
-        withUnknownFields.innerMap[0]
+        withUnknownFields.innerMap[0]!
             .hasExtension(Extend_unittest.innerExtensionString),
         isFalse);
 
@@ -540,11 +540,23 @@ void main() {
     final reparsed = r.reparseMessage(withUnknownFields);
 
     expect(
-        reparsed.innerMap[0].hasExtension(Extend_unittest.innerExtensionString),
+        reparsed.innerMap[0]!
+            .hasExtension(Extend_unittest.innerExtensionString),
         isTrue);
     expect(
         identical(withUnknownFields.innerMap[1], reparsed.innerMap[1]), isTrue);
     expect(withUnknownFields.stringMap.length, reparsed.stringMap.length);
     expect(withUnknownFields.stringMap[0], reparsed.stringMap[0]);
+  });
+
+  test('consistent hashcode for reparsed messages with extensions', () {
+    final r = ExtensionRegistry()..add(Extend_unittest.outer);
+    final m = TestAllExtensions()
+      ..setExtension(
+          Extend_unittest.outer, Outer()..inner = (Inner()..value = 'hello'));
+    final Uint8List b = m.writeToBuffer();
+    final c = TestAllExtensions.fromBuffer(b);
+    final d = r.reparseMessage(c);
+    expect(m.hashCode, d.hashCode);
   });
 }

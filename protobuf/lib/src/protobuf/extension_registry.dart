@@ -148,7 +148,7 @@ T _reparseMessage<T extends GeneratedMessage>(
     } else if (field is MapFieldInfo) {
       final messageMap = message._fieldSet._values[field.index!];
       if (messageMap == null) continue;
-      if (field.valueFieldType!.isGroupOrMessage) {
+      if (field.valueFieldType.isGroupOrMessage) {
         for (var key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];
           final reparsedValue = _reparseMessage(value, extensionRegistry);
