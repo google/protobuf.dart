@@ -15,7 +15,7 @@ class ExtensionGenerator {
   String _extendedFullName = '';
   final List<int> _fieldPathSegment;
 
-  /// See [[ProtobufContainer]
+  /// See [ProtobufContainer]
   late final List<int> fieldPath = List.from(_parent.fieldPath!)
     ..addAll(_fieldPathSegment);
 
@@ -122,7 +122,7 @@ class ExtensionGenerator {
       }
     } else {
       invocation = '$protobufImportPrefix.Extension<$dartType>';
-      named['defaultOrMaker'] = _field.generateDefaultFunction(fileGen!);
+      named['defaultOrMaker'] = _field.generateDefaultFunction();
       if (type.isMessage || type.isGroup) {
         named['subBuilder'] = '$dartType.create';
       } else if (type.isEnum) {
