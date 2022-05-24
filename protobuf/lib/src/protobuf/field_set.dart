@@ -768,14 +768,16 @@ class _FieldSet {
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
   void _mergeFromMessage(_FieldSet other) {
-    // TODO(https://github.com/google/protobuf.dart/issues/60): Recognize
-    // when `this` and [other] are the same protobuf (e.g. from cloning). In
-    // this case, we can merge the non-extension fields without field lookups or
-    // validation checks.
-
+    final sameMessage = identical(_meta, other._meta);
     for (var fi in other._infosSortedByTag) {
       var value = other._values[fi.index!];
-      if (value != null) _mergeField(fi, value, isExtension: false);
+      if (value != null) {
+        if (sameMessage) {
+          _mergeNonExtensionFieldUnchecked(fi, value);
+        } else {
+          _mergeField(fi, value, isExtension: false);
+        }
+      }
     }
     if (other._hasExtensions) {
       var others = other._extensions!;
@@ -791,14 +793,55 @@ class _FieldSet {
     }
   }
 
-  void _mergeField(FieldInfo otherFi, fieldValue, {bool? isExtension}) {
+  void _mergeNonExtensionFieldUnchecked(FieldInfo fi, dynamic fieldValue) {
+    if (fi.isMapField) {
+      final mapInfo = fi as MapFieldInfo<dynamic, dynamic>;
+      final map =
+          mapInfo._ensureMapField(_meta, this) as PbMap<dynamic, dynamic>;
+      if (_isGroupOrMessage(mapInfo.valueFieldType)) {
+        for (MapEntry entry in fieldValue.entries) {
+          map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
+        }
+      } else {
+        map.addAll(fieldValue);
+      }
+      return;
+    }
+
+    if (fi.isRepeated) {
+      if (_isGroupOrMessage(fi.type)) {
+        PbListBase<GeneratedMessage> pbList = fieldValue;
+        var repeatedFields = fi._ensureRepeatedField(_meta, this);
+        for (var i = 0; i < pbList.length; ++i) {
+          repeatedFields.add(pbList[i].deepCopy());
+        }
+      } else {
+        PbListBase pbList = fieldValue;
+        fi._ensureRepeatedField(_meta, this).addAll(pbList);
+      }
+      return;
+    }
+
+    if (fi.isGroupOrMessage) {
+      final currentFieldValue = _values[fi.index!];
+      if (currentFieldValue == null) {
+        fieldValue = (fieldValue as GeneratedMessage).deepCopy();
+      } else {
+        fieldValue = currentFieldValue..mergeFromMessage(fieldValue);
+      }
+    }
+
+    _setNonExtensionFieldUnchecked(_meta, fi, fieldValue);
+  }
+
+  void _mergeField(FieldInfo otherFi, fieldValue, {required bool isExtension}) {
     final tagNumber = otherFi.tagNumber;
 
     // Determine the FieldInfo to use.
     // Don't allow regular fields to be overwritten by extensions.
     final meta = _meta;
     var fi = _nonExtensionInfo(meta, tagNumber);
-    if (fi == null && isExtension!) {
+    if (fi == null && isExtension) {
       // This will overwrite any existing extension field info.
       fi = otherFi;
     }
@@ -836,7 +879,7 @@ class _FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      final currentFi = isExtension!
+      final currentFi = isExtension
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 
@@ -847,7 +890,7 @@ class _FieldSet {
       }
     }
 
-    if (isExtension!) {
+    if (isExtension) {
       _ensureExtensions()
           ._setFieldAndInfo(fi as Extension<dynamic>, fieldValue);
     } else {
