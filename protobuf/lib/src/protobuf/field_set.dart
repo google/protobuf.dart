@@ -726,11 +726,7 @@ class _FieldSet {
 
     void writeFieldValue(fieldValue, String name) {
       if (fieldValue == null) return;
-      if (fieldValue is ByteData) {
-        // TODO(skybrian): possibly unused. Delete?
-        final value = fieldValue.getUint64(0, Endian.little);
-        renderValue(name, value);
-      } else if (fieldValue is PbListBase) {
+      if (fieldValue is PbListBase) {
         for (var value in fieldValue) {
           renderValue(name, value);
         }
