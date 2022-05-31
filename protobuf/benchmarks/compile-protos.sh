@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
 # for details. All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE file.
@@ -30,8 +30,6 @@ OUTPUT_DIR="${SCRIPT_DIR}/temp"
 
 mkdir -p ${OUTPUT_DIR}
 
-for proto in ${PROTOS[@]}
-do
-  echo "PROTOC ${proto}"
-  protoc -I"${SCRIPT_DIR}" --dart_out="${OUTPUT_DIR}" "${SCRIPT_DIR}/$proto"
-done
+set -x
+
+protoc -I"${SCRIPT_DIR}" --dart_out="${OUTPUT_DIR}" "${PROTOS[@]/#/$SCRIPT_DIR/}"

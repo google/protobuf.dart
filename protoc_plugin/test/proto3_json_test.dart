@@ -17,6 +17,7 @@ import '../out/protos/google/protobuf/field_mask.pb.dart';
 import '../out/protos/google/protobuf/struct.pb.dart';
 import '../out/protos/google/protobuf/timestamp.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
+import '../out/protos/google/protobuf/unittest_nested_any.pb.dart';
 import '../out/protos/google/protobuf/unittest_well_known_types.pb.dart';
 import '../out/protos/google/protobuf/wrappers.pb.dart';
 import '../out/protos/map_field.pb.dart';
@@ -268,6 +269,26 @@ void main() {
           () => Any.pack(Timestamp.fromDateTime(DateTime(1969, 7, 20, 20, 17)))
               .toProto3Json(),
           throwsA(TypeMatcher<ArgumentError>()));
+    });
+
+    test('Nested Any', () {
+      final packedOne = Any.pack(AnyMessage1()..value = '1');
+      final packedTwo = Any.pack(AnyMessage2()
+        ..value = '2'
+        ..anyField2 = packedOne);
+      expect(
+          packedTwo.toProto3Json(
+              typeRegistry: TypeRegistry([AnyMessage1(), AnyMessage2()])),
+          {
+            'anyField2': {
+              'value': '1',
+              '@type':
+                  'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+            },
+            'value': '2',
+            '@type':
+                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+          });
     });
 
     test('struct', () {
@@ -775,61 +796,47 @@ void main() {
             ..optionalUint64 =
                 Int64.fromBytes([255, 255, 255, 255, 255, 255, 255, 255]));
 
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalUint32': '-1',
-            }),
-          parseFailure(['optionalUint32']));
+      void expectRoundTrip(String typeName, int value) {
+        final t = TestAllTypes()
+          ..mergeFromProto3Json({
+            typeName: value,
+          });
+        expect(t.getField(t.getTagNumber(typeName)!), value);
+        final t2 = TestAllTypes()
+          ..mergeFromProto3Json({
+            typeName: value.toString(),
+          });
+        expect(t2.getField(t2.getTagNumber(typeName)!), value);
+      }
 
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalUint32': -1,
-            }),
-          parseFailure(['optionalUint32']));
+      void expectFailure(String typeName, int value) {
+        expect(
+            () => TestAllTypes()..mergeFromProto3Json({typeName: -2147483649}),
+            parseFailure([typeName]));
+      }
 
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalUint32': 0xFFFFFFFF + 1,
-            }),
-          parseFailure(['optionalUint32']));
+      void expectSigned32(String typeName) {
+        expectRoundTrip(typeName, 1);
+        expectRoundTrip(typeName, 0);
+        expectRoundTrip(typeName, 2147483647);
+        expectRoundTrip(typeName, -2147483648);
+        expectFailure(typeName, 2147483648);
+        expectFailure(typeName, -2147483649);
+      }
 
-      expect(
-          TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': '2147483647',
-            }),
-          TestAllTypes()..optionalInt32 = 2147483647);
+      void expectUnsigned32(String typeName) {
+        expectRoundTrip(typeName, 1);
+        expectRoundTrip(typeName, 0);
+        expectRoundTrip(typeName, 0xFFFFFFFF);
+        expectFailure(typeName, 0xFFFFFFFF + 1);
+        expectFailure(typeName, -1);
+      }
 
-      expect(
-          TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': '-2147483648',
-            }),
-          TestAllTypes()..optionalInt32 = -2147483648);
-
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': 2147483647 + 1,
-            }),
-          parseFailure(['optionalInt32']));
-
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': (2147483647 + 1).toString(),
-            }),
-          parseFailure(['optionalInt32']));
-
-      expect(
-          () => TestAllTypes()
-            ..mergeFromProto3Json({
-              'optionalInt32': -2147483648 - 1,
-            }),
-          parseFailure(['optionalInt32']));
+      expectUnsigned32('optionalFixed32');
+      expectUnsigned32('optionalUint32');
+      expectSigned32('optionalInt32');
+      expectSigned32('optionalSfixed32');
+      expectSigned32('optionalSint32');
     });
 
     test('unknown fields', () {
@@ -852,6 +859,7 @@ void main() {
       expect(t, TestAllTypes());
       expect(t.unknownFields.isEmpty, isTrue);
     });
+
     test('Any', () {
       final m1 = Any()
         ..mergeFromProto3Json({
@@ -927,6 +935,28 @@ void main() {
               'value': '1969-07-20T19:17:00Z'
             }),
           parseFailure([]));
+    });
+
+    test('Nested Any', () {
+      final m1 = Any()
+        ..mergeFromProto3Json({
+          'anyField2': {
+            'value': '1',
+            '@type':
+                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+          },
+          'value': '2',
+          '@type':
+              'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+        }, typeRegistry: TypeRegistry([AnyMessage1(), AnyMessage2()]));
+
+      expect(
+          m1
+              .unpackInto(AnyMessage2())
+              .anyField2
+              .unpackInto(AnyMessage1())
+              .value,
+          '1');
     });
 
     test('Duration', () {
@@ -1213,5 +1243,36 @@ void main() {
     expectFirstSet(Foo()..mergeFromProto3Json({'first': 'oneof'}));
     expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
     expectOneofNotSet(Foo()..mergeFromProto3Json({}));
+  });
+
+  group('Convert Double', () {
+    test('With Decimal', () {
+      final json = {'optionalDouble': 1.2};
+      TestAllTypes proto = TestAllTypes()..optionalDouble = 1.2;
+      expect(TestAllTypes()..mergeFromProto3Json(json), proto);
+      expect(proto.toProto3Json(), json);
+    });
+
+    test('Whole Number', () {
+      final json = {'optionalDouble': 5};
+      TestAllTypes proto = TestAllTypes()..optionalDouble = 5.0;
+      expect(TestAllTypes()..mergeFromProto3Json(json), proto);
+      expect(proto.toProto3Json(), json);
+    });
+
+    test('Infinity', () {
+      final json = {'optionalDouble': 'Infinity'};
+      TestAllTypes proto = TestAllTypes()..optionalDouble = double.infinity;
+      expect(TestAllTypes()..mergeFromProto3Json(json), proto);
+      expect(proto.toProto3Json(), json);
+    });
+
+    test('Negative Infinity', () {
+      final json = {'optionalDouble': '-Infinity'};
+      TestAllTypes proto = TestAllTypes()
+        ..optionalDouble = double.negativeInfinity;
+      expect(TestAllTypes()..mergeFromProto3Json(json), proto);
+      expect(proto.toProto3Json(), json);
+    });
   });
 }

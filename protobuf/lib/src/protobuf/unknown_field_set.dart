@@ -28,6 +28,11 @@ class UnknownFieldSet {
     _fields.clear();
   }
 
+  void clearField(int tagNumber) {
+    _ensureWritable('clearField');
+    _fields.remove(tagNumber);
+  }
+
   UnknownFieldSetField? getField(int tagNumber) => _fields[tagNumber];
 
   bool hasField(int tagNumber) => _fields.containsKey(tagNumber);
@@ -162,10 +167,6 @@ class UnknownFieldSet {
             ..write(value._toString('$indent  '))
             ..write('$indent}\n');
         } else {
-          if (value is ByteData) {
-            // TODO(antonm): fix for longs.
-            value = value.getUint64(0, Endian.little);
-          }
           stringBuffer.write('$indent$tag: $value\n');
         }
       }

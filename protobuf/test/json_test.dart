@@ -105,7 +105,7 @@ void main() {
     expect(decoded.int64, value);
   });
 
-  test('tesFrozentInt64JsonEncoding', () {
+  test('testFrozentInt64JsonEncoding', () {
     final value = Int64.parseInt('1234567890123456789');
     final frozen = T()
       ..int64 = value

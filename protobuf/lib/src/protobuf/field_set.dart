@@ -244,7 +244,7 @@ class _FieldSet {
 
   List<T> _getDefaultList<T>(FieldInfo<T> fi) {
     assert(fi.isRepeated);
-    if (_isReadOnly) return FrozenPbList._(const []);
+    if (_isReadOnly) return fi.readonlyDefault;
 
     // TODO(skybrian) we could avoid this by generating another
     // method for repeated fields:
@@ -387,7 +387,7 @@ class _FieldSet {
     assert(fi.index != null); // Map fields are not allowed to be extensions.
 
     var value = _getFieldOrNull(fi);
-    if (value != null) return (value as Map<K, V>) as PbMap<K, V>;
+    if (value != null) return value as PbMap<K, V>;
 
     var newValue = fi._createMapField(_message!);
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
@@ -465,8 +465,7 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
-    bool result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for `bool` fields that default to
@@ -474,8 +473,7 @@ class _FieldSet {
   bool _$getBF(int index) {
     var value = _values[index];
     if (value == null) return false;
-    bool result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for int fields.
@@ -485,8 +483,7 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
-    int result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for `int` fields (int32, uint32,
@@ -494,8 +491,7 @@ class _FieldSet {
   int _$getIZ(int index) {
     var value = _values[index];
     if (value == null) return 0;
-    int result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for String fields.
@@ -505,8 +501,7 @@ class _FieldSet {
       if (defaultValue != null) return defaultValue;
       value = _getDefault(_nonExtensionInfoByIndex(index));
     }
-    String result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for String fields that default to
@@ -514,16 +509,14 @@ class _FieldSet {
   String _$getSZ(int index) {
     var value = _values[index];
     if (value == null) return '';
-    String result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated getter for Int64 fields.
   Int64 _$getI64(int index) {
     var value = _values[index];
     value ??= _getDefault(_nonExtensionInfoByIndex(index));
-    Int64 result = value;
-    return result;
+    return value;
   }
 
   /// The implementation of a generated 'has' method.
@@ -636,6 +629,11 @@ class _FieldSet {
     // We don't want reading a field to change equality comparisons.
     if (val is List && val.isEmpty) return true;
 
+    // An empty map field is the same as uninitialized.
+    // This is because accessing a map field automatically creates it.
+    // We don't want reading a field to change equality comparisons.
+    if (val is Map && val.isEmpty) return true;
+
     // For now, initialized and uninitialized fields are different.
     // TODO(skybrian) consider other cases; should we compare with the
     // default value or not?
@@ -654,57 +652,62 @@ class _FieldSet {
     if (_hashCodesCanBeMemoized && _memoizedHashCode != null) {
       return _memoizedHashCode!;
     }
-    // Hashes the value of one field (recursively).
-    int hashField(int hash, FieldInfo fi, value) {
-      if (value is List && value.isEmpty) {
-        return hash; // It's either repeated or an empty byte array.
-      }
-
-      hash = _HashUtils._combine(hash, fi.tagNumber);
-      if (_isBytes(fi.type)) {
-        // Bytes are represented as a List<int> (Usually with byte-data).
-        // We special case that to match our equality semantics.
-        hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
-      } else if (!_isEnum(fi.type)) {
-        hash = _HashUtils._combine(hash, value.hashCode);
-      } else if (fi.isRepeated) {
-        hash = _HashUtils._hashObjects(value.map((enm) => enm.value));
-      } else {
-        ProtobufEnum enm = value;
-        hash = _HashUtils._combine(hash, enm.value);
-      }
-
-      return hash;
-    }
-
-    int hashEachField(int hash) {
-      //non-extension fields
-      hash = _infosSortedByTag.where((fi) => _values[fi.index!] != null).fold(
-          hash, (int h, FieldInfo fi) => hashField(h, fi, _values[fi.index!]));
-
-      if (!_hasExtensions) return hash;
-
-      hash =
-          _sorted(_extensions!._tagNumbers).fold(hash, (int h, int tagNumber) {
-        var fi = _extensions!._getInfoOrNull(tagNumber)!;
-        return hashField(h, fi, _extensions!._getFieldOrNull(fi));
-      });
-
-      return hash;
-    }
 
     // Hash with descriptor.
     var hash = _HashUtils._combine(0, _meta.hashCode);
-    // Hash with fields.
-    hash = hashEachField(hash);
-    // Hash with unknown fields.
-    if (_hasUnknownFields) {
-      hash = _HashUtils._combine(hash, _unknownFields.hashCode);
+
+    // Hash with non-extension fields.
+    final values = _values;
+    for (final fi in _infosSortedByTag) {
+      final value = values[fi.index!];
+      if (value == null) continue;
+      hash = _hashField(hash, fi, value);
     }
+
+    // Hash with extension fields.
+    if (_hasExtensions) {
+      final extensions = _extensions!;
+      final sortedByTagNumbers = _sorted(extensions._tagNumbers);
+      for (final tagNumber in sortedByTagNumbers) {
+        final fi = extensions._getInfoOrNull(tagNumber)!;
+        hash = _hashField(hash, fi, extensions._getFieldOrNull(fi));
+      }
+    }
+
+    // Hash with unknown fields.
+    hash = _HashUtils._combine(hash, _unknownFields?.hashCode ?? 0);
 
     if (_isReadOnly && _hashCodesCanBeMemoized) {
       _frozenState = hash;
     }
+    return hash;
+  }
+
+  // Hashes the value of one field (recursively).
+  static int _hashField(int hash, FieldInfo fi, value) {
+    if (value is List && value.isEmpty) {
+      return hash; // It's either repeated or an empty byte array.
+    }
+
+    if (value is Map && value.isEmpty) {
+      return hash;
+    }
+
+    hash = _HashUtils._combine(hash, fi.tagNumber);
+    if (_isBytes(fi.type)) {
+      // Bytes are represented as a List<int> (Usually with byte-data).
+      // We special case that to match our equality semantics.
+      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
+    } else if (!_isEnum(fi.type)) {
+      hash = _HashUtils._combine(hash, value.hashCode);
+    } else if (fi.isRepeated) {
+      hash = _HashUtils._combine(
+          hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
+    } else {
+      ProtobufEnum enm = value;
+      hash = _HashUtils._combine(hash, enm.value);
+    }
+
     return hash;
   }
 
@@ -723,11 +726,7 @@ class _FieldSet {
 
     void writeFieldValue(fieldValue, String name) {
       if (fieldValue == null) return;
-      if (fieldValue is ByteData) {
-        // TODO(skybrian): possibly unused. Delete?
-        final value = fieldValue.getUint64(0, Endian.little);
-        renderValue(name, value);
-      } else if (fieldValue is PbListBase) {
+      if (fieldValue is PbListBase) {
         for (var value in fieldValue) {
           renderValue(name, value);
         }
@@ -741,7 +740,8 @@ class _FieldSet {
     }
 
     for (var fi in _infosSortedByTag) {
-      writeFieldValue(_values[fi.index!], fi.name);
+      writeFieldValue(_values[fi.index!],
+          fi.name == '' ? fi.tagNumber.toString() : fi.name);
     }
 
     if (_hasExtensions) {
@@ -803,7 +803,7 @@ class _FieldSet {
 
     if (fi!.isMapField) {
       var f = fi as MapFieldInfo<dynamic, dynamic>;
-      mustClone = _isGroupOrMessage(f.valueFieldType!);
+      mustClone = _isGroupOrMessage(f.valueFieldType);
       var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
       if (mustClone) {
         for (MapEntry entry in fieldValue.entries) {

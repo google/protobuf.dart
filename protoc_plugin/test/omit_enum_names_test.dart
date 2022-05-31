@@ -16,6 +16,11 @@ Future<void> main() async {
         const bool.fromEnvironment('protobuf.omit_enum_names')
             ? ''
             : 'FOREIGN_FOO');
+    expect(
+        ForeignEnum.FOREIGN_FOO.toString(),
+        const bool.fromEnvironment('protobuf.omit_enum_names')
+            ? '4'
+            : 'FOREIGN_FOO');
     expect(constant(), 'SHOULD_BE_PRESENT');
   });
 }

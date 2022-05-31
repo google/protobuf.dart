@@ -1,5 +1,6 @@
-## 2.0.1-dev
+## 2.0.1
 
+* Fix bug of parsing map-values with default values.
 * Merge fixes from version `1.1.2` - `1.1.4` into v2.
 
 ## 2.0.0
@@ -293,7 +294,7 @@ freezing instead of the default value.
 
 ## 0.9.0+1
 
-*   Dart SDK upper constraint raised to declare compatability with Dart 2.0
+*   Dart SDK upper constraint raised to declare compatibility with Dart 2.0
     stable.
 
 ## 0.9.0

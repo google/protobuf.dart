@@ -1,7 +1,7 @@
 name: protoc_plugin
 version: 20.0.1-dev
 description: Protoc compiler plugin to generate Dart code
-homepage: https://github.com/google/protobuf.dart
+repository: https://github.com/google/protobuf.dart/tree/master/protoc_plugin
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

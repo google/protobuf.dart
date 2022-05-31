@@ -85,7 +85,7 @@ abstract class AnyMixin implements GeneratedMessage {
           'The type of the Any message (${any.typeUrl}) is not in the given typeRegistry.');
     }
     var unpacked = info.createEmptyInstance!()..mergeFromBuffer(any.value);
-    var proto3Json = unpacked.toProto3Json();
+    var proto3Json = unpacked.toProto3Json(typeRegistry: typeRegistry);
     if (info.toProto3Json == null) {
       var map = proto3Json as Map<String, dynamic>;
       map['@type'] = any.typeUrl;
@@ -151,16 +151,19 @@ abstract class TimestampMixin {
   ///
   /// The result is in UTC time zone and has microsecond precision, as
   /// [DateTime] does not support nanosecond precision.
-  DateTime toDateTime() => DateTime.fromMicrosecondsSinceEpoch(
-      seconds.toInt() * Duration.microsecondsPerSecond + nanos ~/ 1000,
-      isUtc: true);
+  ///
+  /// Use [toLocal] to convert to local time zone, instead of the default UTC.
+  DateTime toDateTime({bool toLocal = false}) =>
+      DateTime.fromMicrosecondsSinceEpoch(
+          seconds.toInt() * Duration.microsecondsPerSecond + nanos ~/ 1000,
+          isUtc: !toLocal);
 
   /// Updates [target] to be the time at [dateTime].
   ///
   /// Time zone information will not be preserved.
   static void setFromDateTime(TimestampMixin target, DateTime dateTime) {
     var micros = dateTime.microsecondsSinceEpoch;
-    target.seconds = Int64(micros ~/ Duration.microsecondsPerSecond);
+    target.seconds = Int64((micros / Duration.microsecondsPerSecond).floor());
     target.nanos = (micros % Duration.microsecondsPerSecond).toInt() * 1000;
   }
 

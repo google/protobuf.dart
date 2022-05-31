@@ -32,4 +32,16 @@ void main() {
             .check,
         isNotNull);
   });
+
+  test('check read-only default list type', () {
+    final msg = TestAllTypes()..freeze();
+    final list = msg.repeatedInt32;
+    expect(
+      list.firstWhere(
+        (_msg) => false,
+        orElse: () => 123,
+      ),
+      123,
+    );
+  });
 }

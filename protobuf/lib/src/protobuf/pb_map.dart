@@ -5,8 +5,17 @@
 part of protobuf;
 
 class PbMap<K, V> extends MapBase<K, V> {
-  final int? keyFieldType;
-  final int? valueFieldType;
+  /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
+  /// integer type or `string`, and the type cannot be `repeated`.
+  ///
+  /// The `int` value is interpreted the same way as [FieldInfo.type].
+  final int keyFieldType;
+
+  /// Value type of the map. Per proto2 and proto3 specs, this can be any type
+  /// other than `map`, and the type cannot be `repeated`.
+  ///
+  /// The `int` value is interpreted the same way as [FieldInfo.type].
+  final int valueFieldType;
 
   static const int _keyFieldNumber = 1;
   static const int _valueFieldNumber = 2;
@@ -52,11 +61,6 @@ class PbMap<K, V> extends MapBase<K, V> {
       return false;
     }
     for (final key in keys) {
-      if (!other.containsKey(key)) {
-        return false;
-      }
-    }
-    for (final key in keys) {
       if (other[key] != this[key]) {
         return false;
       }
@@ -100,8 +104,10 @@ class PbMap<K, V> extends MapBase<K, V> {
     _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry!);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
-    var key = entryFieldSet._$get<K>(0, null);
-    var value = entryFieldSet._$get<V>(1, null);
+    var key =
+        entryFieldSet._values[0] ?? mapEntryMeta.byIndex[0].makeDefault!();
+    var value =
+        entryFieldSet._values[1] ?? mapEntryMeta.byIndex[1].makeDefault!();
     _wrappedMap[key] = value;
   }
 
@@ -113,7 +119,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   PbMap freeze() {
     _isReadonly = true;
-    if (_isGroupOrMessage(valueFieldType!)) {
+    if (_isGroupOrMessage(valueFieldType)) {
       for (var subMessage in values as Iterable<GeneratedMessage>) {
         subMessage.freeze();
       }

@@ -1,5 +1,3 @@
-// @dart=2.11
-
 import 'dart:convert';
 
 import 'package:dart_style/dart_style.dart';

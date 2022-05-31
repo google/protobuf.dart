@@ -15,14 +15,25 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     switch (baseType) {
       case PbFieldType._BOOL_BIT:
       case PbFieldType._STRING_BIT:
-      case PbFieldType._FLOAT_BIT:
-      case PbFieldType._DOUBLE_BIT:
       case PbFieldType._INT32_BIT:
       case PbFieldType._SINT32_BIT:
       case PbFieldType._UINT32_BIT:
       case PbFieldType._FIXED32_BIT:
       case PbFieldType._SFIXED32_BIT:
         return fieldValue;
+      case PbFieldType._FLOAT_BIT:
+      case PbFieldType._DOUBLE_BIT:
+        final value = fieldValue as double;
+        if (value.isNaN) {
+          return nan;
+        }
+        if (value.isInfinite) {
+          return value.isNegative ? negativeInfinity : infinity;
+        }
+        if (fieldValue.toInt() == fieldValue) {
+          return fieldValue.toInt();
+        }
+        return value;
       case PbFieldType._BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
         return base64Encode(fieldValue as List<int>);
@@ -45,9 +56,9 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 
   List _writeMap(dynamic fieldValue, MapFieldInfo fi) =>
       List.from(fieldValue.entries.map((MapEntry e) => {
-            '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType!),
+            '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
             '${PbMap._valueFieldNumber}':
-                convertToMap(e.value, fi.valueFieldType!)
+                convertToMap(e.value, fi.valueFieldType)
           }));
 
   var result = <String, dynamic>{};
@@ -131,14 +142,14 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
         entryFieldSet,
         jsonEntry['${PbMap._keyFieldNumber}'],
         PbMap._keyFieldNumber,
-        fi.keyFieldType!,
+        fi.keyFieldType,
         registry);
     var convertedValue = _convertJsonValue(
         entryMeta,
         entryFieldSet,
         jsonEntry['${PbMap._valueFieldNumber}'],
         PbMap._valueFieldNumber,
-        fi.valueFieldType!,
+        fi.valueFieldType,
         registry);
     // In the case of an unknown enum value, the converted value may return
     // null. The default enum value should be used in these cases, which is

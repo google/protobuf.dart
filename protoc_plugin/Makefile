@@ -21,10 +21,12 @@ TEST_PROTO_LIST = \
 	google/protobuf/timestamp \
 	google/protobuf/type \
 	google/protobuf/unittest_import \
+	google/protobuf/unittest_nested_any \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest_well_known_types \
 	google/protobuf/unittest \
 	google/protobuf/wrappers \
+	bytes \
 	custom_option \
 	dart_name \
         default_value_escape \
@@ -54,7 +56,9 @@ TEST_PROTO_LIST = \
 	package1 \
 	package2 \
 	package3 \
+	proto2_repeated \
 	proto3_optional \
+	proto3_repeated \
 	service \
 	service2 \
 	service3 \
@@ -96,7 +100,7 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 
 run-tests: protos
-	pub run test
+	dart run test
 
 clean:
 	rm -rf benchmark/lib/generated
