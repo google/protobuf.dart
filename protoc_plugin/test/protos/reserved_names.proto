@@ -256,6 +256,24 @@ message MessageWithReservedEnum {
   optional ReservedEnum enum = 1;
 }
 
+message SimpleReq {
+  optional string test = 1;
+}
+
+message SimpleResponse {
+  optional string test = 1;
+}
+
+service ReservedNamesService {
+  rpc New(SimpleReq) returns (SimpleResponse);
+  rpc If(SimpleReq) returns (SimpleResponse);
+  rpc Abc(SimpleReq) returns (SimpleResponse);
+  rpc abc_Pre(SimpleReq) returns (SimpleResponse);
+  rpc _32SillyName(SimpleReq) returns (SimpleResponse);
+  rpc handleCall(SimpleReq) returns (SimpleResponse);
+}
+
+
 enum ReservedEnum {
   assert = 0;
   break = 1;

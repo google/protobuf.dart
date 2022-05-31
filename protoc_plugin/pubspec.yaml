@@ -17,6 +17,7 @@ dev_dependencies:
   lints: ^1.0.0
   matcher: ^0.12.10
   collection: ^1.15.0
+  grpc: ^3.0.0
 
 executables:
   protoc-gen-dart: protoc_plugin

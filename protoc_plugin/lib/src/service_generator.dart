@@ -49,7 +49,10 @@ class ServiceGenerator {
   /// If a type name can't be resolved, puts it in [_undefinedDeps].
   /// Precondition: messages have been registered and resolved.
   void resolve(GenerationContext ctx) {
-    for (var m in _methodDescriptors) {
+    final usedNames = <String>{...serviceReservedMemberNames};
+
+    for (var m in _descriptor.method) {
+      methods.add(_ServiceMethod(_methodName(m.name, usedNames), m));
       _addDependency(ctx, m.inputType, 'input type of ${m.name}');
       _addDependency(ctx, m.outputType, 'output type of ${m.name}');
     }
@@ -130,23 +133,26 @@ class ServiceGenerator {
     return mg.fileImportPrefix + '.' + mg.classname;
   }
 
-  List<MethodDescriptorProto> get _methodDescriptors => _descriptor.method;
+  List<_ServiceMethod> methods = <_ServiceMethod>[];
 
-  String _methodName(String name) => lowerCaseFirstLetter(name);
+  String _methodName(String name, Set<String> usedNames) {
+    return disambiguateName(avoidInitialUnderscore(lowerCaseFirstLetter(name)),
+        usedNames, defaultSuffixes(),
+        generateVariants: (name) => [name, '${name}_Pre']);
+  }
 
   String get _parentClass => _generatedService;
 
-  void _generateStub(IndentingWriter out, MethodDescriptorProto m) {
-    var methodName = _methodName(m.name);
-    var inputClass = _getDartClassName(m.inputType);
-    var outputClass = _getDartClassName(m.outputType);
+  void _generateStub(IndentingWriter out, _ServiceMethod m) {
+    var inputClass = _getDartClassName(m.descriptor.inputType);
+    var outputClass = _getDartClassName(m.descriptor.outputType);
 
-    out.println('$_future<$outputClass> $methodName('
+    out.println('$_future<$outputClass> ${m.dartName}('
         '$_serverContext ctx, $inputClass request);');
   }
 
   void _generateStubs(IndentingWriter out) {
-    for (var m in _methodDescriptors) {
+    for (var m in methods) {
       _generateStub(out, m);
     }
     out.println();
@@ -157,9 +163,9 @@ class ServiceGenerator {
         '$_generatedMessage createRequest($coreImportPrefix.String method) {',
         '}', () {
       out.addBlock('switch (method) {', '}', () {
-        for (var m in _methodDescriptors) {
-          var inputClass = _getDartClassName(m.inputType);
-          out.println("case '${m.name}': return $inputClass();");
+        for (var m in methods) {
+          var inputClass = _getDartClassName(m.descriptor.inputType);
+          out.println("case '${m.descriptor.name}': return $inputClass();");
         }
         out.println('default: '
             "throw $coreImportPrefix.ArgumentError('Unknown method: \$method');");
@@ -174,10 +180,9 @@ class ServiceGenerator {
             '$coreImportPrefix.String method, $_generatedMessage request) {',
         '}', () {
       out.addBlock('switch (method) {', '}', () {
-        for (var m in _methodDescriptors) {
-          var methodName = _methodName(m.name);
-          var inputClass = _getDartClassName(m.inputType);
-          out.println("case '${m.name}': return this.$methodName"
+        for (var m in methods) {
+          var inputClass = _getDartClassName(m.descriptor.inputType);
+          out.println("case '${m.descriptor.name}': return this.${m.dartName}"
               '(ctx, request as $inputClass);');
         }
         out.println('default: '
@@ -264,4 +269,14 @@ class ServiceGenerator {
   static final String _serverContext = '$protobufImportPrefix.ServerContext';
   static final String _generatedService =
       '$protobufImportPrefix.GeneratedService';
+}
+
+class _ServiceMethod {
+  final String dartName;
+  final MethodDescriptorProto descriptor;
+
+  _ServiceMethod(
+    this.dartName,
+    this.descriptor,
+  );
 }

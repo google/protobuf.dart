@@ -1,3 +1,10 @@
+## 20.0.1
+
+* Handle name disambiguation for service methods to avoid clashes with 
+  existing names.
+
+  Now you can have a method called `New`. In dart the method name will be `new_`.
+  
 ## 20.0.0
 
 * Stable release generating null-safe code.
