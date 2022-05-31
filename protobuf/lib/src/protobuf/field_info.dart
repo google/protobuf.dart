@@ -72,7 +72,7 @@ class FieldInfo<T> {
 
   /// Creates an empty message or group when decoding a message.
   ///
-  /// Only available in fields with message type. 
+  /// Only available in fields with message type.
   final CreateBuilderFunc? subBuilder;
 
   /// List of all enum values.
@@ -82,7 +82,7 @@ class FieldInfo<T> {
 
   /// Default enum value.
   ///
-  /// Only available in enum fields. 
+  /// Only available in enum fields.
   final ProtobufEnum? defaultEnumValue;
 
   /// Mapping from enum integer values to enum values.
