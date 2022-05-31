@@ -48,7 +48,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         return fieldValue.toStringUnsigned();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        return (fieldValue as GeneratedMessage).writeToJsonMap();
+        return fieldValue.writeToJsonMap();
       default:
         throw 'Unknown type $fieldType';
     }
