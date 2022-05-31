@@ -48,7 +48,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         return fieldValue.toStringUnsigned();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        return fieldValue.writeToJsonMap();
+        return (fieldValue as GeneratedMessage).writeToJsonMap();
       default:
         throw 'Unknown type $fieldType';
     }
@@ -174,13 +174,14 @@ void _setJsonField(BuilderInfo meta, _FieldSet fs, json, FieldInfo fi,
   fs._setFieldUnchecked(meta, fi, value);
 }
 
-/// Converts [value] from the Json format to the Dart data type
-/// suitable for inserting into the corresponding [GeneratedMessage] field.
+/// Converts [value] from the JSON format to the Dart data type suitable for
+/// inserting into the corresponding [GeneratedMessage] field.
 ///
-/// Returns the converted value.  This function returns `null` if it is an
-/// unknown enum value, in which case the caller should figure out the default
-/// enum value to return instead.
-/// This function throws [ArgumentError] if it cannot convert the value.
+/// Returns the converted value. Returns `null` if it is an unknown enum value,
+/// in which case the caller should figure out the default enum value to return
+/// instead.
+///
+/// Throws [ArgumentError] if it cannot convert the value.
 dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
     int fieldType, ExtensionRegistry? registry) {
   String expectedType; // for exception message
