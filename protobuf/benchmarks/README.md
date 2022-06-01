@@ -9,12 +9,13 @@ JSON formats, and hash code generation for messages.
 ## Prerequisites
 
 Before running benchmarks you first need to compile all involved protos, which
-requires installing `protoc` and [dart-protoc-plugin](../../protoc_plugin).
+requires installing `protoc` and [protoc_plugin](../../protoc_plugin).
 
 ```console
 $ ./compile-protos.sh
-# This would produce temp folder with output of protoc.
 ```
+
+This produces temp folder with output of protoc.
 
 ## Running benchmarks on the VM
 
