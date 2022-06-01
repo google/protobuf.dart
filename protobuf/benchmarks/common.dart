@@ -145,10 +145,9 @@ class ToBinaryBenchmark extends _ProtobufBenchmark {
 
   @override
   void run() {
-    for (var i = 0; i < datasets.length; i++) {
-      final ds = datasets[i];
-      for (var j = 0; j < ds.unpacked.length; j++) {
-        ds.unpacked[j].writeToBuffer();
+    for (final ds in datasets) {
+      for (final unpacked in ds.unpacked) {
+        unpacked.writeToBuffer();
       }
     }
   }
@@ -160,11 +159,10 @@ class FromJsonBenchmark extends _ProtobufBenchmark {
 
   @override
   void run() {
-    for (var i = 0; i < datasets.length; i++) {
-      final ds = datasets[i];
+    for (final ds in datasets) {
       final f = ds.factories.fromJson;
-      for (var j = 0; j < ds.asJson.length; j++) {
-        f(ds.asJson[j]);
+      for (final jsonStr in ds.asJson) {
+        f(jsonStr);
       }
     }
   }
@@ -176,10 +174,9 @@ class ToJsonBenchmark extends _ProtobufBenchmark {
 
   @override
   void run() {
-    for (var i = 0; i < datasets.length; i++) {
-      final ds = datasets[i];
-      for (var j = 0; j < ds.unpacked.length; j++) {
-        ds.unpacked[j].writeToJson();
+    for (final ds in datasets) {
+      for (final unpacked in ds.unpacked) {
+        unpacked.writeToJson();
       }
     }
   }
@@ -191,11 +188,10 @@ class FromProto3JsonBenchmark extends _ProtobufBenchmark {
 
   @override
   void run() {
-    for (var i = 0; i < datasets.length; i++) {
-      final ds = datasets[i];
+    for (final ds in datasets) {
       final f = ds.factories.fromProto3Json;
-      for (var j = 0; j < ds.asProto3Json.length; j++) {
-        f(ds.asProto3Json[j]);
+      for (final jsonStr in ds.asProto3Json) {
+        f(jsonStr);
       }
     }
   }
@@ -207,10 +203,9 @@ class ToProto3JsonBenchmark extends _ProtobufBenchmark {
 
   @override
   void run() {
-    for (var i = 0; i < datasets.length; i++) {
-      final ds = datasets[i];
-      for (var j = 0; j < ds.unpacked.length; j++) {
-        jsonEncode(ds.unpacked[j].toProto3Json());
+    for (final ds in datasets) {
+      for (final unpacked in ds.unpacked) {
+        jsonEncode(unpacked.toProto3Json());
       }
     }
   }
