@@ -133,11 +133,11 @@ void main() {
       ..ints.add(10)
       ..freeze();
     expect(() => r.ints.clear(),
-        throwsError(UnsupportedError, equals('`clear` on a read-only list')));
+        throwsError(UnsupportedError, equals("'clear' on a read-only list")));
     expect(
         () => r.ints[0] = 2,
         throwsError(
-            UnsupportedError, equals('Setting element of a read-only list')));
+            UnsupportedError, equals("'set element' on a read-only list")));
     expect(() => r.sub.add(Rec.create()),
         throwsError(UnsupportedError, contains('add')));
 
@@ -145,7 +145,7 @@ void main() {
       ..sub.add(Rec.create())
       ..freeze();
     expect(() => r.sub.add(Rec.create()),
-        throwsError(UnsupportedError, equals('`add` on a read-only list')));
+        throwsError(UnsupportedError, equals("'add' on a read-only list")));
     expect(() => r.ints.length = 20,
         throwsError(UnsupportedError, contains('length')));
   });

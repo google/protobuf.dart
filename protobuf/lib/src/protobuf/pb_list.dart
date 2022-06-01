@@ -29,18 +29,14 @@ class PbList<E> extends ListBase<E> {
 
   @override
   void add(E element) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`add` on a read-only list');
-    }
+    _checkModifiable('add');
     _check(element);
     _wrappedList.add(element);
   }
 
   @override
   void addAll(Iterable<E> iterable) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`addAll` on a read-only list');
-    }
+    _checkModifiable('addAll');
     iterable.forEach(_check);
     _wrappedList.addAll(iterable);
   }
@@ -50,100 +46,76 @@ class PbList<E> extends ListBase<E> {
 
   @override
   void sort([int Function(E a, E b)? compare]) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`sort` on a read-only list');
-    }
+    _checkModifiable('sort');
     _wrappedList.sort(compare);
   }
 
   @override
   void shuffle([math.Random? random]) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`shuffle` on a read-only list');
-    }
+    _checkModifiable('shuffle');
     _wrappedList.shuffle(random);
   }
 
   @override
   void clear() {
-    if (_isReadOnly) {
-      throw UnsupportedError('`clear` on a read-only list');
-    }
+    _checkModifiable('clear');
     _wrappedList.clear();
   }
 
   @override
   void insert(int index, E element) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`insert` on a read-only list');
-    }
+    _checkModifiable('insert');
     _check(element);
     _wrappedList.insert(index, element);
   }
 
   @override
   void insertAll(int index, Iterable<E> iterable) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`insertAll` on a read-only list');
-    }
+    _checkModifiable('insertAll');
     iterable.forEach(_check);
     _wrappedList.insertAll(index, iterable);
   }
 
   @override
   void setAll(int index, Iterable<E> iterable) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`setAll` on a read-only list');
-    }
+    _checkModifiable('setAll');
     iterable.forEach(_check);
     _wrappedList.setAll(index, iterable);
   }
 
   @override
   bool remove(Object? element) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`remove` on a read-only list');
-    }
+    _checkModifiable('remove');
     return _wrappedList.remove(element);
   }
 
   @override
   E removeAt(int index) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`removeAt` on a read-only list');
-    }
+    _checkModifiable('removeAt');
     return _wrappedList.removeAt(index);
   }
 
   @override
   E removeLast() {
-    if (_isReadOnly) {
-      throw UnsupportedError('`removeLast` on a read-only list');
-    }
+    _checkModifiable('removeLast');
     return _wrappedList.removeLast();
   }
 
   @override
   void removeWhere(bool Function(E element) test) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`removeWhere` on a read-only list');
-    }
+    _checkModifiable('removeWhere');
     return _wrappedList.removeWhere(test);
   }
 
   @override
   void retainWhere(bool Function(E element) test) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`retainWhere` on a read-only list');
-    }
+    _checkModifiable('retainWhere');
     return _wrappedList.retainWhere(test);
   }
 
   @override
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`setRange` on a read-only list');
-    }
+    _checkModifiable('setRange');
     // NOTE: In case `take()` returns less than `end - start` elements, the
     // _wrappedList will fail with a `StateError`.
     iterable.skip(skipCount).take(end - start).forEach(_check);
@@ -152,26 +124,20 @@ class PbList<E> extends ListBase<E> {
 
   @override
   void removeRange(int start, int end) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`removeRange` on a read-only list');
-    }
+    _checkModifiable('removeRange');
     _wrappedList.removeRange(start, end);
   }
 
   @override
   void fillRange(int start, int end, [E? fill]) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`fillRange` on a read-only list');
-    }
+    _checkModifiable('fillRange');
     _check(fill);
     _wrappedList.fillRange(start, end, fill);
   }
 
   @override
   void replaceRange(int start, int end, Iterable<E> newContents) {
-    if (_isReadOnly) {
-      throw UnsupportedError('`replaceRange` on a read-only list');
-    }
+    _checkModifiable('replaceRange');
     final values = newContents.toList();
     newContents.forEach(_check);
     _wrappedList.replaceRange(start, end, values);
@@ -182,9 +148,7 @@ class PbList<E> extends ListBase<E> {
 
   @override
   set length(int newLength) {
-    if (_isReadOnly) {
-      throw UnsupportedError('Setting length of a read-only list');
-    }
+    _checkModifiable('set length');
     if (newLength > length) {
       throw UnsupportedError('Extending protobuf lists is not supported');
     }
@@ -196,9 +160,7 @@ class PbList<E> extends ListBase<E> {
 
   @override
   void operator []=(int index, E value) {
-    if (_isReadOnly) {
-      throw UnsupportedError('Setting element of a read-only list');
-    }
+    _checkModifiable('set element');
     _check(value);
     _wrappedList[index] = value;
   }
@@ -223,5 +185,15 @@ class PbList<E> extends ListBase<E> {
         elem.freeze();
       }
     }
+  }
+
+  void _checkModifiable(String methodName) {
+    if (_isReadOnly) {
+      _readOnlyError(methodName);
+    }
+  }
+
+  static Never _readOnlyError(String methodName) {
+    throw UnsupportedError("'$methodName' on a read-only list");
   }
 }
