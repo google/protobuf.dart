@@ -8,25 +8,31 @@ JSON formats, and hash code generation for messages.
 
 ## Prerequisites
 
-Before running benchmarks you first need to compile all involved
-protos, which requires installing `protoc` and
-[dart-protoc-plugin](https://github.com/dart-lang/dart-protoc-plugin).
+Before running benchmarks you first need to compile all involved protos, which
+requires installing `protoc` and [dart-protoc-plugin](../../protoc_plugin).
 
 ```console
-$ cd benchmarks
 $ ./compile-protos.sh
-# This would produce benchmarks/temp folder with output of protoc.
+# This would produce temp folder with output of protoc.
 ```
 
 ## Running benchmarks on the VM
 
+In `benchmarks/` directory:
+
 ```
-$ dart benchmarks/benchmark_vm.dart
+$ dart benchmark_vm.dart
 ```
 
 ## Running benchmarks via JavaScript (D8)
 
+In `benchmarks/` directory:
+
 ```
-$ benchmarks/compile-js.sh
-$ d8 $DART_SDK/lib/_internal/js_runtime/lib/preambles/d8.js benchmarks/temp/benchmark.js
+$ ./compile-js.sh
+$ d8 $DART_SDK/lib/_internal/js_runtime/lib/preambles/d8.js temp/benchmark.js
 ```
+
+Note: if you are seeing a "Error reading file" error while running the JS
+benchmarks it means that you are in the wrong directory. Run the `d8` command
+shown above in `benchmarks/` directory.
