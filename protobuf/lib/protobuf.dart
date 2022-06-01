@@ -46,9 +46,6 @@ part 'src/protobuf/utils.dart';
 part 'src/protobuf/unpack.dart';
 part 'src/protobuf/wire_format.dart';
 
-// TODO(sra): Remove this method when clients upgrade to protoc 0.3.5
-Int64 makeLongInt(int n) => Int64(n);
-
 // TODO(sra): Use Int64.parse() when available - see http://dartbug.com/21915.
 Int64 parseLongInt(String text) {
   if (text.startsWith('0x')) return Int64.parseHex(text.substring(2));
