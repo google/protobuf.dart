@@ -40,8 +40,12 @@ class Dataset {
   final List<String> asJson = <String>[];
 
   /// Messages deserialized from [packed] and then serialized back into proto3
-  /// JSON. Used for proto3 JSON serialization benchmarks.
-  final List<String> asProto3Json = <String>[];
+  /// JSON object. Used for proto3 JSON serialization benchmarks.
+  final List<Object> asProto3JsonObject = <Object>[];
+
+  /// Messages deserialized from [packed] and then serialized back into proto3
+  /// JSON string. Used for proto3 JSON serialization benchmarks.
+  final List<String> asProto3JsonString = <String>[];
 
   /// Messages deserialized from [packed]. Used in serialization benchmarks.
   final List<GeneratedMessage> unpacked = <GeneratedMessage>[];
@@ -59,7 +63,9 @@ class Dataset {
       ds.packed.add(bytes);
       ds.unpacked.add(msg);
       ds.asJson.add(msg.writeToJson());
-      ds.asProto3Json.add(jsonEncode(msg.toProto3Json()));
+      final proto3Json = msg.toProto3Json();
+      ds.asProto3JsonObject.add(proto3Json);
+      ds.asProto3JsonString.add(jsonEncode(proto3Json));
     }
 
     return ds;
@@ -70,12 +76,14 @@ class Dataset {
 
 typedef FromBufferFactory = dynamic Function(List<int> binary);
 typedef FromJsonFactory = dynamic Function(String json);
-typedef FromProto3JsonFactory = dynamic Function(String json);
+typedef FromProto3JsonStringFactory = dynamic Function(String json);
+typedef FromProto3JsonObjectFactory = dynamic Function(Object json);
 
 class Factories {
   final FromBufferFactory fromBuffer;
   final FromJsonFactory fromJson;
-  final FromProto3JsonFactory fromProto3Json;
+  final FromProto3JsonStringFactory fromProto3JsonString;
+  final FromProto3JsonObjectFactory fromProto3JsonObject;
 
   static Factories forMessage(String name) =>
       _factories[name] ?? (throw 'Unsupported message: $name');
@@ -86,34 +94,45 @@ class Factories {
     'benchmarks.proto2.GoogleMessage1': Factories._(
         fromBuffer: (List<int> binary) => p2.GoogleMessage1.fromBuffer(binary),
         fromJson: (String json) => p2.GoogleMessage1.fromJson(json),
-        fromProto3Json: (String json) =>
-            p2.GoogleMessage1.create()..mergeFromProto3Json(jsonDecode(json))),
+        fromProto3JsonString: (String json) =>
+            p2.GoogleMessage1.create()..mergeFromProto3Json(jsonDecode(json)),
+        fromProto3JsonObject: (Object json) =>
+            p2.GoogleMessage1.create()..mergeFromProto3Json(json)),
     'benchmarks.proto3.GoogleMessage1': Factories._(
         fromBuffer: (List<int> binary) => p3.GoogleMessage1.fromBuffer(binary),
         fromJson: (String json) => p3.GoogleMessage1.fromJson(json),
-        fromProto3Json: (String json) =>
-            p3.GoogleMessage1.create()..mergeFromProto3Json(jsonDecode(json))),
+        fromProto3JsonString: (String json) =>
+            p3.GoogleMessage1.create()..mergeFromProto3Json(jsonDecode(json)),
+        fromProto3JsonObject: (Object json) =>
+            p3.GoogleMessage1.create()..mergeFromProto3Json(json)),
     'benchmarks.proto2.GoogleMessage2': Factories._(
         fromBuffer: (List<int> binary) => GoogleMessage2.fromBuffer(binary),
         fromJson: (String json) => GoogleMessage2.fromJson(json),
-        fromProto3Json: (String json) =>
-            GoogleMessage2.create()..mergeFromProto3Json(jsonDecode(json))),
+        fromProto3JsonString: (String json) =>
+            GoogleMessage2.create()..mergeFromProto3Json(jsonDecode(json)),
+        fromProto3JsonObject: (Object json) =>
+            GoogleMessage2.create()..mergeFromProto3Json(json)),
     'benchmarks.google_message3.GoogleMessage3': Factories._(
         fromBuffer: (List<int> binary) => GoogleMessage3.fromBuffer(binary),
         fromJson: (String json) => GoogleMessage3.fromJson(json),
-        fromProto3Json: (String json) =>
-            GoogleMessage3.create()..mergeFromProto3Json(jsonDecode(json))),
+        fromProto3JsonString: (String json) =>
+            GoogleMessage3.create()..mergeFromProto3Json(jsonDecode(json)),
+        fromProto3JsonObject: (Object json) =>
+            GoogleMessage3.create()..mergeFromProto3Json(json)),
     'benchmarks.google_message4.GoogleMessage4': Factories._(
         fromBuffer: (List<int> binary) => GoogleMessage4.fromBuffer(binary),
         fromJson: (String json) => GoogleMessage4.fromJson(json),
-        fromProto3Json: (String json) =>
-            GoogleMessage4.create()..mergeFromProto3Json(jsonDecode(json))),
+        fromProto3JsonString: (String json) =>
+            GoogleMessage4.create()..mergeFromProto3Json(jsonDecode(json)),
+        fromProto3JsonObject: (Object json) =>
+            GoogleMessage4.create()..mergeFromProto3Json(json)),
   };
 
   Factories._(
       {required this.fromBuffer,
       required this.fromJson,
-      required this.fromProto3Json});
+      required this.fromProto3JsonString,
+      required this.fromProto3JsonObject});
 }
 
 /// Base for all protobuf benchmarks.
@@ -182,30 +201,61 @@ class ToJsonBenchmark extends _ProtobufBenchmark {
   }
 }
 
-/// proto3 JSON deserialization benchmark.
-class FromProto3JsonBenchmark extends _ProtobufBenchmark {
-  FromProto3JsonBenchmark(datasets) : super(datasets, 'FromProto3Json');
+/// proto3 JSON deserialization benchmark: from JSON string to message.
+class FromProto3JsonStringBenchmark extends _ProtobufBenchmark {
+  FromProto3JsonStringBenchmark(datasets)
+      : super(datasets, 'FromProto3JsonString');
 
   @override
   void run() {
     for (final ds in datasets) {
-      final f = ds.factories.fromProto3Json;
-      for (final jsonStr in ds.asProto3Json) {
+      final f = ds.factories.fromProto3JsonString;
+      for (final jsonStr in ds.asProto3JsonString) {
         f(jsonStr);
       }
     }
   }
 }
 
-/// proto3 JSON serialization benchmark.
-class ToProto3JsonBenchmark extends _ProtobufBenchmark {
-  ToProto3JsonBenchmark(datasets) : super(datasets, 'ToProto3Json');
+/// proto3 JSON serialization benchmark: from message to JSON string.
+class ToProto3JsonStringBenchmark extends _ProtobufBenchmark {
+  ToProto3JsonStringBenchmark(datasets) : super(datasets, 'ToProto3JsonString');
 
   @override
   void run() {
     for (final ds in datasets) {
       for (final unpacked in ds.unpacked) {
         jsonEncode(unpacked.toProto3Json());
+      }
+    }
+  }
+}
+
+/// proto3 JSON deserialization benchmark: from JSON object to message.
+class FromProto3JsonObjectBenchmark extends _ProtobufBenchmark {
+  FromProto3JsonObjectBenchmark(datasets)
+      : super(datasets, 'FromProto3JsonObject');
+
+  @override
+  void run() {
+    for (final ds in datasets) {
+      final f = ds.factories.fromProto3JsonObject;
+      for (final jsonObj in ds.asProto3JsonObject) {
+        f(jsonObj);
+      }
+    }
+  }
+}
+
+/// proto3 JSON serialization benchmark: from message to JSON object.
+class ToProto3JsonObjectBenchmark extends _ProtobufBenchmark {
+  ToProto3JsonObjectBenchmark(datasets) : super(datasets, 'ToProto3JsonObject');
+
+  @override
+  void run() {
+    for (final ds in datasets) {
+      for (final unpacked in ds.unpacked) {
+        unpacked.toProto3Json();
       }
     }
   }
@@ -230,7 +280,9 @@ void run(List<Dataset> datasets) {
   ToBinaryBenchmark(datasets).report();
   FromJsonBenchmark(datasets).report();
   ToJsonBenchmark(datasets).report();
-  FromProto3JsonBenchmark(datasets).report();
-  ToProto3JsonBenchmark(datasets).report();
+  FromProto3JsonStringBenchmark(datasets).report();
+  ToProto3JsonStringBenchmark(datasets).report();
+  FromProto3JsonObjectBenchmark(datasets).report();
+  ToProto3JsonObjectBenchmark(datasets).report();
   HashCodeBenchmark(datasets).report();
 }
