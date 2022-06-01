@@ -197,7 +197,7 @@ class PbList<E> extends ListBase<E> {
   @override
   void operator []=(int index, E value) {
     if (_isReadOnly) {
-      throw UnsupportedError('Setting field of a read-only list');
+      throw UnsupportedError('Setting element of a read-only list');
     }
     _check(value);
     _wrappedList[index] = value;

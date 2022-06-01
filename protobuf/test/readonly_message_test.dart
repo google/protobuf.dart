@@ -137,7 +137,7 @@ void main() {
     expect(
         () => r.ints[0] = 2,
         throwsError(
-            UnsupportedError, equals('Setting field of a read-only list')));
+            UnsupportedError, equals('Setting element of a read-only list')));
     expect(() => r.sub.add(Rec.create()),
         throwsError(UnsupportedError, contains('add')));
 
