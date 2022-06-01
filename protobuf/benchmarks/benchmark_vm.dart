@@ -12,7 +12,7 @@ import 'dart:io';
 
 import 'common.dart';
 
-void main(List<String> arguments) {
+void main() {
   final datasetPattern = RegExp(r'dataset\.[._\w]*\.pb$');
   final datasets = Directory(Platform.script.resolve('..').toFilePath())
       .listSync(recursive: true)
@@ -20,9 +20,5 @@ void main(List<String> arguments) {
       .map((file) => Dataset.fromBinary((file as File).readAsBytesSync()))
       .toList(growable: false);
 
-  FromBinaryBenchmark(datasets).report();
-  ToBinaryBenchmark(datasets).report();
-  ToJsonBenchmark(datasets).report();
-  FromJsonBenchmark(datasets).report();
-  HashCodeBenchmark(datasets).report();
+  run(datasets);
 }

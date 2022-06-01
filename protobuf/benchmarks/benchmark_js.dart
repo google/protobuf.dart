@@ -17,14 +17,10 @@ final files = [
   'benchmarks/datasets/google_message2/dataset.google_message2.pb'
 ];
 
-void main(List<String> arguments) {
+void main() {
   final datasets = files
       .map((file) => Dataset.fromBinary(readAsBytesSync(file)))
       .toList(growable: false);
 
-  FromBinaryBenchmark(datasets).report();
-  ToBinaryBenchmark(datasets).report();
-  ToJsonBenchmark(datasets).report();
-  FromJsonBenchmark(datasets).report();
-  HashCodeBenchmark(datasets).report();
+  run(datasets);
 }
