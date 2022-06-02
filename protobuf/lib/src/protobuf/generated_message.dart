@@ -264,6 +264,18 @@ abstract class GeneratedMessage {
       _mergeFromProto3Json(json, _fieldSet, typeRegistry, ignoreUnknownFields,
           supportNamesWithUnderscores, permissiveEnums);
 
+  void mergeFromProto3JsonString(String jsonString,
+      {TypeRegistry typeRegistry = const TypeRegistry.empty(),
+      bool ignoreUnknownFields = false,
+      bool supportNamesWithUnderscores = true,
+      bool permissiveEnums = false}) {
+    final Proto3JsonParserParams params = Proto3JsonParserParams(typeRegistry,
+        ignoreUnknownFields: ignoreUnknownFields,
+        supportNamesWithUnderscores: supportNamesWithUnderscores,
+        permissiveEnums: permissiveEnums);
+    _mergeFromProto3JsonString(jsonString, _fieldSet, params);
+  }
+
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].
   ///
