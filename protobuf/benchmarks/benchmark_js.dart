@@ -11,14 +11,10 @@ library benchmark_js;
 import 'common.dart';
 import 'd8.dart';
 
-void main(List<String> arguments) {
+void main() {
   final datasets = datasetFiles
       .map((file) => Dataset.fromBinary(readAsBytesSync(file)))
       .toList(growable: false);
 
-  FromBinaryBenchmark(datasets).report();
-  ToBinaryBenchmark(datasets).report();
-  ToJsonBenchmark(datasets).report();
-  FromJsonBenchmark(datasets).report();
-  HashCodeBenchmark(datasets).report();
+  run(datasets);
 }
