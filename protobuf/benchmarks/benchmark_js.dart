@@ -11,14 +11,8 @@ library benchmark_js;
 import 'common.dart';
 import 'd8.dart';
 
-final files = [
-  'benchmarks/datasets/google_message1/proto3/dataset.google_message1_proto3.pb',
-  'benchmarks/datasets/google_message1/proto2/dataset.google_message1_proto2.pb',
-  'benchmarks/datasets/google_message2/dataset.google_message2.pb'
-];
-
 void main() {
-  final datasets = files
+  final datasets = datasetFiles
       .map((file) => Dataset.fromBinary(readAsBytesSync(file)))
       .toList(growable: false);
 
