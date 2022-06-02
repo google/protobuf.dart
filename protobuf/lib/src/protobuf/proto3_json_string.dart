@@ -2,7 +2,6 @@ part of protobuf;
 
 void _writeToProto3JsonSink<S extends StringSink>(
     _FieldSet fs, TypeRegistry typeRegistry, S sink) {
-
   // TODO: Either add `writeToProto3JsonSink` for well-known types, or fall
   // back to slow proto3 JSON serialization
   if (fs._meta.toProto3Json != null) {
