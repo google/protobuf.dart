@@ -223,6 +223,13 @@ abstract class GeneratedMessage {
           {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
       _writeToProto3Json(_fieldSet, typeRegistry);
 
+  String toProto3JsonString(
+      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
+    StringBuffer buf = StringBuffer();
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, buf);
+    return buf.toString();
+  }
+
   /// Merges field values from [json], a JSON object using proto3 encoding.
   ///
   /// Well-known types and their special JSON encoding are supported.

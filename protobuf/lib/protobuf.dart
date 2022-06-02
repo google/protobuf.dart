@@ -11,6 +11,7 @@ import 'dart:math' as math;
 import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endian;
 
 import 'package:fixnum/fixnum.dart' show Int64;
+import 'package:jsontool/jsontool.dart';
 import 'package:meta/meta.dart' show UseResult;
 
 import 'src/protobuf/json_parsing_context.dart';
@@ -39,6 +40,7 @@ part 'src/protobuf/pb_list.dart';
 part 'src/protobuf/pb_map.dart';
 part 'src/protobuf/protobuf_enum.dart';
 part 'src/protobuf/proto3_json.dart';
+part 'src/protobuf/proto3_json_string.dart';
 part 'src/protobuf/readonly_message.dart';
 part 'src/protobuf/rpc_client.dart';
 part 'src/protobuf/unknown_field_set.dart';

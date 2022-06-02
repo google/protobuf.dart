@@ -93,7 +93,8 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     dynamic jsonValue;
     if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
-        var mapEntryInfo = fieldInfo as MapFieldInfo;
+        var mapEntryInfo =
+            fieldInfo as MapFieldInfo; // TODO: move this outside of closure
         return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType),
             valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
       });
