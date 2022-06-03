@@ -101,19 +101,26 @@ abstract class AnyMixin implements GeneratedMessage {
       throw context.parseException(
           'Expected Any message encoded as {@type,...},', json);
     }
-    final object = json;
-    final typeUrl = object.remove('@type');
+
+    // To be able to distinguish the cases (1) no `@type` in the map (2)
+    // `@type` mapped to `null` we need to use `containsKey`. `remove` will
+    // return `null` in both cases.
+    final bool hasTypeUrl = json.containsKey('@type');
+    final Object? typeUrl = json.remove('@type');
 
     if (typeUrl is String) {
       var any = message as AnyMixin;
       var info = typeRegistry.lookup(_typeNameFromUrl(typeUrl));
       if (info == null) {
+        // Put `@type` field back to avoid modifying the argument
+        json['@type'] = typeUrl;
+
         throw context.parseException(
             'Decoding Any of type $typeUrl not in TypeRegistry $typeRegistry',
             json);
       }
 
-      Object? subJson = info.fromProto3Json == null ? object : object['value'];
+      Object? subJson = info.fromProto3Json == null ? json : json['value'];
       // TODO(sigurdm): We lose [context.path].
       var packedMessage = info.createEmptyInstance!()
         ..mergeFromProto3Json(subJson,
@@ -122,9 +129,17 @@ abstract class AnyMixin implements GeneratedMessage {
             ignoreUnknownFields: context.ignoreUnknownFields,
             permissiveEnums: context.permissiveEnums);
 
+      // Put `@type` field back to avoid modifying the argument
+      json['@type'] = typeUrl;
+
       any.value = packedMessage.writeToBuffer();
       any.typeUrl = typeUrl;
     } else {
+      // Put `@type` field back, if it exists in the original message, to avoid
+      // modifying the argument.
+      if (hasTypeUrl) {
+        json['@type'] = typeUrl;
+      }
       throw context.parseException('Expected a string', json);
     }
   }
