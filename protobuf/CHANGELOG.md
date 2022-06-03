@@ -16,7 +16,7 @@
 * Fix parsing nested `Any` messages from JSON ([#568])
 * Improve message hash code generation performance ([#554], [#633])
 * Fix reading uninitialized map fields changing equality and hash code of
-  messages. (#638)
+  messages. ([#638])
 * Fix setting an extension field when there's an unknown field with the same
   tag. ([#639])
 * Fix sharing backing memory for `repeated bytes` and `optional bytes` fields
