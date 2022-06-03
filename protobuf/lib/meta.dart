@@ -44,6 +44,7 @@ const GeneratedMessage_reservedNames = <String>[
   'mergeFromJsonMap',
   'mergeFromMessage',
   'mergeFromProto3Json',
+  'mergeFromProto3JsonString',
   'mergeUnknownFields',
   'noSuchMethod',
   'runtimeType',
