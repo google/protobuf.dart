@@ -102,7 +102,7 @@ abstract class AnyMixin implements GeneratedMessage {
           'Expected Any message encoded as {@type,...},', json);
     }
     final object = json;
-    final typeUrl = object['@type'];
+    final typeUrl = object.remove('@type');
 
     if (typeUrl is String) {
       var any = message as AnyMixin;
@@ -113,10 +113,7 @@ abstract class AnyMixin implements GeneratedMessage {
             json);
       }
 
-      Object? subJson = info.fromProto3Json == null
-          // TODO(sigurdm): avoid cloning [object] here.
-          ? (Map<String, dynamic>.from(object)..remove('@type'))
-          : object['value'];
+      Object? subJson = info.fromProto3Json == null ? object : object['value'];
       // TODO(sigurdm): We lose [context.path].
       var packedMessage = info.createEmptyInstance!()
         ..mergeFromProto3Json(subJson,
