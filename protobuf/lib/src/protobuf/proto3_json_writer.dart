@@ -4,8 +4,8 @@
 
 part of protobuf;
 
-void _writeToProto3JsonSink<S extends JsonSink>(
-    _FieldSet fs, TypeRegistry typeRegistry, S jsonWriter) {
+void _writeToProto3JsonSink(
+    _FieldSet fs, TypeRegistry typeRegistry, JsonSink jsonWriter) {
   final wellKnownConverter = fs._meta.toProto3Json;
   if (wellKnownConverter != null) {
     throw 'Well-known types not supported yet';
@@ -47,20 +47,20 @@ void _writeToProto3JsonSink<S extends JsonSink>(
   jsonWriter.endObject(); // end message
 }
 
-void _writeMapKey<S extends JsonSink>(dynamic key, int keyType, S jsonWriter) {
+void _writeMapKey(dynamic key, int keyType, JsonSink jsonWriter) {
   var baseType = PbFieldType._baseType(keyType);
 
   assert(!_isRepeated(keyType));
 
   switch (baseType) {
     case PbFieldType._BOOL_BIT:
-      jsonWriter.addBool(key as bool);
+      jsonWriter.addKey((key as bool).toString());
       break;
     case PbFieldType._STRING_BIT:
-      jsonWriter.addString(key as String);
+      jsonWriter.addKey(key as String);
       break;
     case PbFieldType._UINT64_BIT:
-      jsonWriter.addString((key as Int64).toStringUnsigned());
+      jsonWriter.addKey((key as Int64).toStringUnsigned().toString());
       break;
     case PbFieldType._INT32_BIT:
     case PbFieldType._SINT32_BIT:
@@ -71,15 +71,15 @@ void _writeMapKey<S extends JsonSink>(dynamic key, int keyType, S jsonWriter) {
     case PbFieldType._SINT64_BIT:
     case PbFieldType._SFIXED64_BIT:
     case PbFieldType._FIXED64_BIT:
-      jsonWriter.addString(key.toString());
+      jsonWriter.addKey(key.toString());
       break;
     default:
       throw StateError('Not a valid key type $keyType');
   }
 }
 
-void _writeFieldValue<S extends JsonSink>(dynamic fieldValue, int fieldType,
-    S jsonWriter, TypeRegistry typeRegistry) {
+void _writeFieldValue(dynamic fieldValue, int fieldType, JsonSink jsonWriter,
+    TypeRegistry typeRegistry) {
   if (fieldValue == null) {
     jsonWriter.addNull();
     return;
