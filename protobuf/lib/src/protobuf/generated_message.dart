@@ -220,13 +220,20 @@ abstract class GeneratedMessage {
   /// message encoding a type not in [typeRegistry] is encountered, an
   /// error is thrown.
   Object? toProto3Json(
-          {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
-      _writeToProto3Json(_fieldSet, typeRegistry);
+      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
+    Object? object;
+    final JsonWriter<Object?> objectSink = jsonObjectWriter((newObject) {
+      object = newObject;
+    });
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, objectSink);
+    return object;
+  }
 
   String toProto3JsonString(
       {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
-    StringBuffer buf = StringBuffer();
-    _writeToProto3JsonSink(_fieldSet, typeRegistry, buf);
+    final StringBuffer buf = StringBuffer();
+    final JsonWriter<String> stringSink = jsonStringWriter(buf);
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, stringSink);
     return buf.toString();
   }
 
@@ -261,20 +268,16 @@ abstract class GeneratedMessage {
           bool ignoreUnknownFields = false,
           bool supportNamesWithUnderscores = true,
           bool permissiveEnums = false}) =>
-      _mergeFromProto3Json(json, _fieldSet, typeRegistry, ignoreUnknownFields,
-          supportNamesWithUnderscores, permissiveEnums);
+      _mergeFromProto3JsonObject(json, _fieldSet, typeRegistry,
+          ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
   void mergeFromProto3JsonString(String jsonString,
-      {TypeRegistry typeRegistry = const TypeRegistry.empty(),
-      bool ignoreUnknownFields = false,
-      bool supportNamesWithUnderscores = true,
-      bool permissiveEnums = false}) {
-    final Proto3JsonParserParams params = Proto3JsonParserParams(typeRegistry,
-        ignoreUnknownFields: ignoreUnknownFields,
-        supportNamesWithUnderscores: supportNamesWithUnderscores,
-        permissiveEnums: permissiveEnums);
-    _mergeFromProto3JsonString(jsonString, _fieldSet, typeRegistry, params);
-  }
+          {TypeRegistry typeRegistry = const TypeRegistry.empty(),
+          bool ignoreUnknownFields = false,
+          bool supportNamesWithUnderscores = true,
+          bool permissiveEnums = false}) =>
+      _mergeFromProto3JsonString(jsonString, _fieldSet, typeRegistry,
+          ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].

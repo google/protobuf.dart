@@ -4,111 +4,453 @@
 
 part of protobuf;
 
-Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
-  String? convertToMapKey(dynamic key, int keyType) {
-    var baseType = PbFieldType._baseType(keyType);
+void _writeToProto3JsonSink<S extends JsonSink>(
+    _FieldSet fs, TypeRegistry typeRegistry, S jsonWriter) {
+  // TODO: check well-known protos
 
-    assert(!_isRepeated(keyType));
+  jsonWriter.startObject(); // start message
 
+  for (FieldInfo fieldInfo in fs._infosSortedByTag) {
+    var value = fs._values[fieldInfo.index!];
+
+    if (value == null || (value is List && value.isEmpty)) {
+      continue; // It's missing, repeated, or an empty byte array.
+    }
+
+    jsonWriter.addKey(fieldInfo.name);
+
+    if (fieldInfo.isMapField) {
+      jsonWriter.startObject(); // start map field
+      final MapFieldInfo mapEntryInfo = fieldInfo as MapFieldInfo;
+      for (MapEntry entry in (value as PbMap).entries) {
+        final key = entry.key;
+        final value = entry.value;
+        _writeMapKey(key, mapEntryInfo.keyFieldType, jsonWriter);
+        _writeFieldValue(
+            value, mapEntryInfo.valueFieldType, jsonWriter, typeRegistry);
+      }
+      jsonWriter.endObject(); // end map field
+    } else if (fieldInfo.isRepeated) {
+      jsonWriter.startArray(); // start repeated field
+      for (final element in value as PbListBase) {
+        _writeFieldValue(element, fieldInfo.type, jsonWriter, typeRegistry);
+      }
+      jsonWriter.endArray(); // end repeated field
+    } else {
+      _writeFieldValue(value, fieldInfo.type, jsonWriter, typeRegistry);
+    }
+  }
+
+  jsonWriter.endObject(); // end message
+}
+
+void _writeMapKey<S extends JsonSink>(dynamic key, int keyType, S jsonWriter) {
+  var baseType = PbFieldType._baseType(keyType);
+
+  assert(!_isRepeated(keyType));
+
+  switch (baseType) {
+    case PbFieldType._BOOL_BIT:
+      jsonWriter.addBool(key as bool);
+      break;
+    case PbFieldType._STRING_BIT:
+      jsonWriter.addString(key as String);
+      break;
+    case PbFieldType._UINT64_BIT:
+      jsonWriter.addString((key as Int64).toStringUnsigned());
+      break;
+    case PbFieldType._INT32_BIT:
+    case PbFieldType._SINT32_BIT:
+    case PbFieldType._UINT32_BIT:
+    case PbFieldType._FIXED32_BIT:
+    case PbFieldType._SFIXED32_BIT:
+    case PbFieldType._INT64_BIT:
+    case PbFieldType._SINT64_BIT:
+    case PbFieldType._SFIXED64_BIT:
+    case PbFieldType._FIXED64_BIT:
+      jsonWriter.addString(key.toString());
+      break;
+    default:
+      throw StateError('Not a valid key type $keyType');
+  }
+}
+
+void _writeFieldValue<S extends JsonSink>(dynamic fieldValue, int fieldType,
+    S jsonWriter, TypeRegistry typeRegistry) {
+  if (fieldValue == null) {
+    jsonWriter.addNull();
+    return;
+  }
+
+  if (_isGroupOrMessage(fieldType)) {
+    _writeToProto3JsonSink(
+        (fieldValue as GeneratedMessage)._fieldSet, typeRegistry, jsonWriter);
+  } else if (_isEnum(fieldType)) {
+    jsonWriter.addString((fieldValue as ProtobufEnum).name);
+  } else {
+    final baseType = PbFieldType._baseType(fieldType);
     switch (baseType) {
       case PbFieldType._BOOL_BIT:
-        return key ? 'true' : 'false';
+        jsonWriter.addBool(fieldValue);
+        break;
       case PbFieldType._STRING_BIT:
-        return key;
-      case PbFieldType._UINT64_BIT:
-        return (key as Int64).toStringUnsigned();
+        jsonWriter.addString(fieldValue);
+        break;
       case PbFieldType._INT32_BIT:
       case PbFieldType._SINT32_BIT:
       case PbFieldType._UINT32_BIT:
       case PbFieldType._FIXED32_BIT:
       case PbFieldType._SFIXED32_BIT:
+        jsonWriter.addNumber(fieldValue);
+        break;
       case PbFieldType._INT64_BIT:
       case PbFieldType._SINT64_BIT:
       case PbFieldType._SFIXED64_BIT:
       case PbFieldType._FIXED64_BIT:
-        return key.toString();
+        jsonWriter.addString(fieldValue.toString());
+        break;
+      case PbFieldType._FLOAT_BIT:
+      case PbFieldType._DOUBLE_BIT:
+        double value = fieldValue;
+        if (value.isNaN) {
+          jsonWriter.addString(nan);
+        } else if (value.isInfinite) {
+          jsonWriter.addString(value.isNegative ? negativeInfinity : infinity);
+        } else {
+          jsonWriter.addNumber(value);
+        }
+        break;
+      case PbFieldType._UINT64_BIT:
+        jsonWriter.addString((fieldValue as Int64).toStringUnsigned());
+        break;
+      case PbFieldType._BYTES_BIT:
+        jsonWriter.addString(base64Encode(fieldValue));
+        break;
       default:
-        throw StateError('Not a valid key type $keyType');
+        throw StateError(
+            'Invariant violation: unexpected value type $fieldType');
     }
   }
+}
 
-  Object? valueToProto3Json(dynamic fieldValue, int? fieldType) {
-    if (fieldValue == null) return null;
+void _mergeFromProto3JsonString(
+    String jsonString,
+    _FieldSet fieldSet,
+    TypeRegistry typeRegistry,
+    bool ignoreUnknownFields,
+    bool supportNamesWithUnderscores,
+    bool permissiveEnums) {
+  final JsonReader<StringSlice> jsonReader = JsonReader.fromString(jsonString);
 
-    if (_isGroupOrMessage(fieldType!)) {
-      return _writeToProto3Json(
-          (fieldValue as GeneratedMessage)._fieldSet, typeRegistry);
-    } else if (_isEnum(fieldType)) {
-      return (fieldValue as ProtobufEnum).name;
-    } else {
-      var baseType = PbFieldType._baseType(fieldType);
-      switch (baseType) {
-        case PbFieldType._BOOL_BIT:
-          return fieldValue ? true : false;
-        case PbFieldType._STRING_BIT:
-          return fieldValue;
-        case PbFieldType._INT32_BIT:
-        case PbFieldType._SINT32_BIT:
-        case PbFieldType._UINT32_BIT:
-        case PbFieldType._FIXED32_BIT:
-        case PbFieldType._SFIXED32_BIT:
-          return fieldValue;
-        case PbFieldType._INT64_BIT:
-        case PbFieldType._SINT64_BIT:
-        case PbFieldType._SFIXED64_BIT:
-        case PbFieldType._FIXED64_BIT:
-          return fieldValue.toString();
-        case PbFieldType._FLOAT_BIT:
-        case PbFieldType._DOUBLE_BIT:
-          double value = fieldValue;
-          if (value.isNaN) {
-            return nan;
-          }
-          if (value.isInfinite) {
-            return value.isNegative ? negativeInfinity : infinity;
-          }
-          return value;
-        case PbFieldType._UINT64_BIT:
-          return (fieldValue as Int64).toStringUnsigned();
-        case PbFieldType._BYTES_BIT:
-          return base64Encode(fieldValue);
-        default:
-          throw StateError(
-              'Invariant violation: unexpected value type $fieldType');
+  var context = JsonParsingContext(
+      ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
+
+  _mergeFromProto3JsonReader(jsonReader, fieldSet, typeRegistry, context);
+}
+
+void _mergeFromProto3JsonObject(
+    Object? jsonObject,
+    _FieldSet fieldSet,
+    TypeRegistry typeRegistry,
+    bool ignoreUnknownFields,
+    bool supportNamesWithUnderscores,
+    bool permissiveEnums) {
+  final JsonReader<Object?> jsonReader = JsonReader.fromObject(jsonObject);
+
+  var context = JsonParsingContext(
+      ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
+
+  _mergeFromProto3JsonReader(jsonReader, fieldSet, typeRegistry, context);
+}
+
+void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
+    TypeRegistry typeRegistry, JsonParsingContext context) {
+  if (jsonReader.tryNull()) {
+    return;
+  }
+
+  final meta = fieldSet._meta;
+
+  final wellKnownConverter = meta.fromProto3Json;
+  if (wellKnownConverter != null) {
+    // For now we allocate intermediate JSON for well-known types. In the
+    // future we may want to add `fromProto3JsonString` to well-known types.
+    // TODO: This won't work then the reader is a `JsonReader<Object?>`.
+    final StringSlice jsonSlice =
+        jsonReader.expectAnyValueSource(); // TODO: catch exceptions
+    final json = jsonDecode(jsonSlice.toString());
+    wellKnownConverter(fieldSet._message!, json, typeRegistry, context);
+    return;
+  }
+
+  if (!jsonReader.tryObject()) {
+    // TODO: Check error message
+    throw context.parseException('Expected JSON object', jsonString);
+  }
+
+  final Map<String, FieldInfo> fieldsByName = meta.byName;
+
+  String? key = jsonReader.nextKey();
+  while (key != null) {
+    context.addMapIndex(key);
+    final FieldInfo? fieldInfo = fieldsByName[key];
+
+    if (fieldInfo == null) {
+      if (context.ignoreUnknownFields) {
+        return;
+      } else {
+        throw context.parseException('Unknown field name \'$key\'', key);
       }
     }
-  }
 
-  final meta = fs._meta;
-  if (meta.toProto3Json != null) {
-    return meta.toProto3Json!(fs._message!, typeRegistry);
-  }
+    if (_isMapField(fieldInfo.type)) {
+      final mapFieldInfo = fieldInfo as MapFieldInfo<dynamic, dynamic>;
+      final Map fieldValues = fieldSet._ensureMapField(meta, fieldInfo);
+      if (!jsonReader.tryObject()) {
+        // TODO: We don't have the JSON string to show in error messages
+        throw context.parseException('Expected a map', 1);
+      }
+      String? key = jsonReader.nextKey();
+      while (key != null) {
+        String? keyStr = jsonReader.tryString();
+        if (keyStr == null) {
+          throw context.parseException('Expected a String key', keyStr);
+        }
+        context.addMapIndex(keyStr);
+        Object mapKey =
+            _decodeMapKey(keyStr, mapFieldInfo.keyFieldType, context);
+        Object? value = _parseProto3JsonValue(
+            jsonReader, mapFieldInfo.valueFieldInfo, typeRegistry, context);
+        fieldValues[mapKey] = value;
+        context.popIndex();
 
-  var result = <String, dynamic>{};
-  for (var fieldInfo in fs._infosSortedByTag) {
-    var value = fs._values[fieldInfo.index!];
-    if (value == null || (value is List && value.isEmpty)) {
-      continue; // It's missing, repeated, or an empty byte array.
-    }
-    dynamic jsonValue;
-    if (fieldInfo.isMapField) {
-      jsonValue = (value as PbMap).map((key, entryValue) {
-        var mapEntryInfo =
-            fieldInfo as MapFieldInfo; // TODO: move this outside of closure
-        return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType),
-            valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
-      });
-    } else if (fieldInfo.isRepeated) {
-      jsonValue = (value as PbListBase)
-          .map((element) => valueToProto3Json(element, fieldInfo.type))
-          .toList();
+        key = jsonReader.nextKey();
+      }
+    } else if (_isRepeated(fieldInfo.type)) {
+      if (!jsonReader.tryArray()) {
+        // TODO: We don't have the JSON string to show in error messages
+        throw context.parseException('Expected a list', 1);
+      }
+      List values = fieldSet._ensureRepeatedField(meta, fieldInfo);
+      int i = 0;
+      while (jsonReader.hasNext()) {
+        context.addListIndex(i);
+        values.add(_parseProto3JsonValue(
+            jsonReader, fieldInfo, typeRegistry, context));
+        context.popIndex();
+        i += 1;
+      }
+    } else if (_isGroupOrMessage(fieldInfo.type)) {
+      var parsedSubMessage =
+          _parseProto3JsonValue(jsonReader, fieldInfo, typeRegistry, context)
+              as GeneratedMessage;
+      GeneratedMessage? original = fieldSet._values[fieldInfo.index!];
+      if (original == null) {
+        fieldSet._setNonExtensionFieldUnchecked(
+            meta, fieldInfo, parsedSubMessage);
+      } else {
+        original.mergeFromMessage(parsedSubMessage);
+      }
     } else {
-      jsonValue = valueToProto3Json(value, fieldInfo.type);
+      var value =
+          _parseProto3JsonValue(jsonReader, fieldInfo, typeRegistry, context);
+      fieldSet._setFieldUnchecked(meta, fieldInfo, value);
     }
-    result[fieldInfo.name] = jsonValue;
+
+    context.popIndex();
+    key = jsonReader.nextKey();
   }
-  // Extensions and unknown fields are not encoded by proto3 JSON.
-  return result;
+}
+
+Object? _parseProto3JsonValue(
+  JsonReader jsonReader,
+  FieldInfo fieldInfo,
+  TypeRegistry typeRegistry,
+  JsonParsingContext context,
+) {
+  if (jsonReader.tryNull()) {
+    return fieldInfo.makeDefault!();
+  }
+
+  final fieldType = fieldInfo.type;
+
+  switch (PbFieldType._baseType(fieldType)) {
+    case PbFieldType._BOOL_BIT:
+      bool? b = jsonReader.tryBool();
+      if (b == null) {
+        // TODO: We don't have the JSON string to show in error messages
+        throw context.parseException('Expected bool value', 1);
+      }
+      return b;
+
+    case PbFieldType._BYTES_BIT:
+      String? s = jsonReader.tryString();
+      if (s == null) {
+        // TODO: We don't have the JSON string to show in error messages
+        throw context.parseException('Expected String value', 1);
+      }
+      try {
+        return base64Decode(s);
+      } on FormatException {
+        // TODO: We don't have the JSON string to show in error messages
+        throw context.parseException(
+            'Expected bytes encoded as base64 String', 1);
+      }
+
+    case PbFieldType._STRING_BIT:
+      String? s = jsonReader.tryString();
+      if (s == null) {
+        // TODO: We don't have the JSON string to show in error messages
+        throw context.parseException('Expected String value', 1);
+      }
+      return s;
+
+    case PbFieldType._FLOAT_BIT:
+    case PbFieldType._DOUBLE_BIT:
+      num? n = jsonReader.tryNum();
+      if (n == null) {
+        String? s = jsonReader.tryString();
+        if (s == null) {
+          // TODO: We don't have the JSON string to show in error messages
+          throw context.parseException(
+              'Expected a double represented as a String or number', 1);
+        }
+        return double.tryParse(s) ??
+            (throw context.parseException(
+                'Expected String to encode a double', s));
+      }
+      return n.toDouble();
+
+    case PbFieldType._ENUM_BIT:
+      String? s = jsonReader.tryString();
+      if (s == null) {
+        num? n = jsonReader.tryNum();
+        if (n == null) {
+          // TODO: We don't have the JSON string to show in error messages
+          throw context.parseException(
+              'Expected enum as a string or integer', 1);
+        }
+        return fieldInfo.valueOf!(n as int) ??
+            (context.ignoreUnknownFields
+                ? null
+                : (throw context.parseException('Unknown enum value', n)));
+      }
+      // TODO(sigurdm): Do we want to avoid linear search here? Measure...
+      final result = context.permissiveEnums
+          ? fieldInfo.enumValues!.findFirst((e) => permissiveCompare(e.name, s))
+          : fieldInfo.enumValues!.findFirst((e) => e.name == s);
+      if ((result != null) || context.ignoreUnknownFields) {
+        return result;
+      }
+      throw context.parseException('Unknown enum value', s);
+
+    case PbFieldType._UINT32_BIT:
+    case PbFieldType._FIXED32_BIT:
+      num? n = jsonReader.tryNum();
+      if (n == null) {
+        String? s = jsonReader.tryString();
+        if (s == null) {
+          // TODO: We don't have the JSON string to show in error messages
+          throw context.parseException('Expected int or stringified int', 1);
+        }
+        return _tryParse32BitProto3(s, context);
+      }
+      return n as int; // TODO: conversion needs to be checked?
+
+    case PbFieldType._INT32_BIT:
+    case PbFieldType._SINT32_BIT:
+    case PbFieldType._SFIXED32_BIT:
+      num? n = jsonReader.tryNum();
+      if (n != null) {
+        return n as int; // TODO: conversion needs to be checked?
+      }
+      String? s = jsonReader.tryString();
+      if (s != null) {
+        return _tryParse32BitProto3(s, context);
+      }
+      // TODO: We don't have the JSON string to show in error messages
+      throw context.parseException('Expected int or stringified int', 1);
+
+    case PbFieldType._UINT64_BIT:
+      num? n = jsonReader.tryNum();
+      if (n != null) {
+        return Int64(n as int); // TODO: conversion needs to be checked?
+      }
+      String? s = jsonReader.tryString();
+      if (s != null) {
+        return _tryParse64BitProto3(1, s, context); // TODO: error value
+      }
+      // TODO: We don't have the JSON string to show in error messages
+      throw context.parseException('Expected int or stringified int', 1);
+
+    case PbFieldType._INT64_BIT:
+    case PbFieldType._SINT64_BIT:
+    case PbFieldType._FIXED64_BIT:
+    case PbFieldType._SFIXED64_BIT:
+      num? n = jsonReader.tryNum();
+      if (n != null) {
+        return Int64(n as int); // TODO: conversion needs to be checked?
+      }
+      String? s = jsonReader.tryString();
+      if (s != null) {
+        try {
+          return Int64.parseInt(s);
+        } on FormatException {
+          throw context.parseException('Expected int or stringified int', s);
+        }
+      }
+      // TODO: We don't have the JSON string to show in error messages
+      throw context.parseException('Expected int or stringified int', 1);
+
+    case PbFieldType._GROUP_BIT:
+    case PbFieldType._MESSAGE_BIT:
+      GeneratedMessage subMessage = fieldInfo.subBuilder!();
+      _mergeFromProto3JsonReader(
+          jsonReader, subMessage._fieldSet, typeRegistry, context);
+      return subMessage;
+
+    default:
+      throw StateError('Unknown type $fieldType');
+  }
+}
+
+Object _decodeMapKey(String key, int fieldType, JsonParsingContext context) {
+  switch (PbFieldType._baseType(fieldType)) {
+    case PbFieldType._BOOL_BIT:
+      switch (key) {
+        case 'true':
+          return true;
+        case 'false':
+          return false;
+        default:
+          throw context.parseException(
+              'Wrong boolean key, should be one of ("true", "false")', key);
+      }
+      // ignore: dead_code
+      throw StateError('(Should have been) unreachable statement');
+    case PbFieldType._STRING_BIT:
+      return key;
+    case PbFieldType._UINT64_BIT:
+      // TODO(sigurdm): We do not throw on negative values here.
+      // That would probably require going via bignum.
+      return _tryParse64BitProto3(1, key, context); // TODO: Error json
+    case PbFieldType._INT64_BIT:
+    case PbFieldType._SINT64_BIT:
+    case PbFieldType._SFIXED64_BIT:
+    case PbFieldType._FIXED64_BIT:
+      return _tryParse64BitProto3(1, key, context); // TODO: Error json
+    case PbFieldType._INT32_BIT:
+    case PbFieldType._SINT32_BIT:
+    case PbFieldType._FIXED32_BIT:
+    case PbFieldType._SFIXED32_BIT:
+      return _check32BitSignedProto3(
+          _tryParse32BitProto3(key, context), context);
+    case PbFieldType._UINT32_BIT:
+      return _check32BitUnsignedProto3(
+          _tryParse32BitProto3(key, context), context);
+    default:
+      throw StateError('Not a valid key type $fieldType');
+  }
 }
 
 int _tryParse32BitProto3(String s, JsonParsingContext context) {
@@ -146,271 +488,4 @@ extension _FindFirst<E> on Iterable<E> {
     }
     return null;
   }
-}
-
-void _mergeFromProto3Json(
-    Object? json,
-    _FieldSet fieldSet,
-    TypeRegistry typeRegistry,
-    bool ignoreUnknownFields,
-    bool supportNamesWithUnderscores,
-    bool permissiveEnums) {
-  var context = JsonParsingContext(
-      ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
-
-  void recursionHelper(Object? json, _FieldSet fieldSet) {
-    Object? convertProto3JsonValue(Object? value, FieldInfo fieldInfo) {
-      if (value == null) {
-        return fieldInfo.makeDefault!();
-      }
-      var fieldType = fieldInfo.type;
-      switch (PbFieldType._baseType(fieldType)) {
-        case PbFieldType._BOOL_BIT:
-          if (value is bool) {
-            return value;
-          }
-          throw context.parseException('Expected bool value', json);
-        case PbFieldType._BYTES_BIT:
-          if (value is String) {
-            Uint8List result;
-            try {
-              result = base64Decode(value);
-            } on FormatException {
-              throw context.parseException(
-                  'Expected bytes encoded as base64 String', json);
-            }
-            return result;
-          }
-          throw context.parseException(
-              'Expected bytes encoded as base64 String', value);
-        case PbFieldType._STRING_BIT:
-          if (value is String) {
-            return value;
-          }
-          throw context.parseException('Expected String value', value);
-        case PbFieldType._FLOAT_BIT:
-        case PbFieldType._DOUBLE_BIT:
-          if (value is double) {
-            return value;
-          } else if (value is num) {
-            return value.toDouble();
-          } else if (value is String) {
-            return double.tryParse(value) ??
-                (throw context.parseException(
-                    'Expected String to encode a double', value));
-          }
-          throw context.parseException(
-              'Expected a double represented as a String or number', value);
-        case PbFieldType._ENUM_BIT:
-          if (value is String) {
-            // TODO(sigurdm): Do we want to avoid linear search here? Measure...
-            final result = permissiveEnums
-                ? fieldInfo.enumValues!
-                    .findFirst((e) => permissiveCompare(e.name, value))
-                : fieldInfo.enumValues!.findFirst((e) => e.name == value);
-            if ((result != null) || ignoreUnknownFields) return result;
-            throw context.parseException('Unknown enum value', value);
-          } else if (value is int) {
-            return fieldInfo.valueOf!(value) ??
-                (ignoreUnknownFields
-                    ? null
-                    : (throw context.parseException(
-                        'Unknown enum value', value)));
-          }
-          throw context.parseException(
-              'Expected enum as a string or integer', value);
-        case PbFieldType._UINT32_BIT:
-        case PbFieldType._FIXED32_BIT:
-          int result;
-          if (value is int) {
-            result = value;
-          } else if (value is String) {
-            result = _tryParse32BitProto3(value, context);
-          } else {
-            throw context.parseException(
-                'Expected int or stringified int', value);
-          }
-          return _check32BitUnsignedProto3(result, context);
-        case PbFieldType._INT32_BIT:
-        case PbFieldType._SINT32_BIT:
-        case PbFieldType._SFIXED32_BIT:
-          int result;
-          if (value is int) {
-            result = value;
-          } else if (value is String) {
-            result = _tryParse32BitProto3(value, context);
-          } else {
-            throw context.parseException(
-                'Expected int or stringified int', value);
-          }
-          _check32BitSignedProto3(result, context);
-          return result;
-        case PbFieldType._UINT64_BIT:
-          Int64 result;
-          if (value is int) {
-            result = Int64(value);
-          } else if (value is String) {
-            result = _tryParse64BitProto3(json, value, context);
-          } else {
-            throw context.parseException(
-                'Expected int or stringified int', value);
-          }
-          return result;
-        case PbFieldType._INT64_BIT:
-        case PbFieldType._SINT64_BIT:
-        case PbFieldType._FIXED64_BIT:
-        case PbFieldType._SFIXED64_BIT:
-          if (value is int) return Int64(value);
-          if (value is String) {
-            Int64 result;
-            try {
-              result = Int64.parseInt(value);
-            } on FormatException {
-              throw context.parseException(
-                  'Expected int or stringified int', value);
-            }
-            return result;
-          }
-          throw context.parseException(
-              'Expected int or stringified int', value);
-        case PbFieldType._GROUP_BIT:
-        case PbFieldType._MESSAGE_BIT:
-          var subMessage = fieldInfo.subBuilder!();
-          recursionHelper(value, subMessage._fieldSet);
-          return subMessage;
-        default:
-          throw StateError('Unknown type $fieldType');
-      }
-    }
-
-    Object decodeMapKey(String key, int fieldType) {
-      switch (PbFieldType._baseType(fieldType)) {
-        case PbFieldType._BOOL_BIT:
-          switch (key) {
-            case 'true':
-              return true;
-            case 'false':
-              return false;
-            default:
-              throw context.parseException(
-                  'Wrong boolean key, should be one of ("true", "false")', key);
-          }
-          // ignore: dead_code
-          throw StateError('(Should have been) unreachable statement');
-        case PbFieldType._STRING_BIT:
-          return key;
-        case PbFieldType._UINT64_BIT:
-          // TODO(sigurdm): We do not throw on negative values here.
-          // That would probably require going via bignum.
-          return _tryParse64BitProto3(json, key, context);
-        case PbFieldType._INT64_BIT:
-        case PbFieldType._SINT64_BIT:
-        case PbFieldType._SFIXED64_BIT:
-        case PbFieldType._FIXED64_BIT:
-          return _tryParse64BitProto3(json, key, context);
-        case PbFieldType._INT32_BIT:
-        case PbFieldType._SINT32_BIT:
-        case PbFieldType._FIXED32_BIT:
-        case PbFieldType._SFIXED32_BIT:
-          return _check32BitSignedProto3(
-              _tryParse32BitProto3(key, context), context);
-        case PbFieldType._UINT32_BIT:
-          return _check32BitUnsignedProto3(
-              _tryParse32BitProto3(key, context), context);
-        default:
-          throw StateError('Not a valid key type $fieldType');
-      }
-    }
-
-    if (json == null) {
-      // `null` represents the default value. Do nothing more.
-      return;
-    }
-
-    final meta = fieldSet._meta;
-    final wellKnownConverter = meta.fromProto3Json;
-    if (wellKnownConverter != null) {
-      wellKnownConverter(fieldSet._message!, json, typeRegistry, context);
-    } else {
-      if (json is Map) {
-        final byName = meta.byName;
-
-        json.forEach((key, Object? value) {
-          if (key is! String) {
-            throw context.parseException('Key was not a String', key);
-          }
-          context.addMapIndex(key);
-
-          var fieldInfo = byName[key];
-          if (fieldInfo == null && supportNamesWithUnderscores) {
-            // We don't optimize for field names with underscores, instead do a
-            // linear search for the index.
-            fieldInfo = byName.values
-                .findFirst((FieldInfo info) => info.protoName == key);
-          }
-          if (fieldInfo == null) {
-            if (ignoreUnknownFields) {
-              return;
-            } else {
-              throw context.parseException('Unknown field name \'$key\'', key);
-            }
-          }
-
-          if (_isMapField(fieldInfo.type)) {
-            if (value is Map) {
-              final mapFieldInfo = fieldInfo as MapFieldInfo<dynamic, dynamic>;
-              final Map fieldValues = fieldSet._ensureMapField(meta, fieldInfo);
-              value.forEach((subKey, subValue) {
-                if (subKey is! String) {
-                  throw context.parseException('Expected a String key', subKey);
-                }
-                context.addMapIndex(subKey);
-                fieldValues[decodeMapKey(subKey, mapFieldInfo.keyFieldType)] =
-                    convertProto3JsonValue(
-                        subValue, mapFieldInfo.valueFieldInfo);
-                context.popIndex();
-              });
-            } else {
-              throw context.parseException('Expected a map', value);
-            }
-          } else if (_isRepeated(fieldInfo.type)) {
-            if (value == null) {
-              // `null` is accepted as the empty list [].
-              fieldSet._ensureRepeatedField(meta, fieldInfo);
-            } else if (value is List) {
-              var values = fieldSet._ensureRepeatedField(meta, fieldInfo);
-              for (var i = 0; i < value.length; i++) {
-                final entry = value[i];
-                context.addListIndex(i);
-                values.add(convertProto3JsonValue(entry, fieldInfo));
-                context.popIndex();
-              }
-            } else {
-              throw context.parseException('Expected a list', value);
-            }
-          } else if (_isGroupOrMessage(fieldInfo.type)) {
-            // TODO(sigurdm) consider a cleaner separation between parsing and
-            // merging.
-            var parsedSubMessage =
-                convertProto3JsonValue(value, fieldInfo) as GeneratedMessage;
-            GeneratedMessage? original = fieldSet._values[fieldInfo.index!];
-            if (original == null) {
-              fieldSet._setNonExtensionFieldUnchecked(
-                  meta, fieldInfo, parsedSubMessage);
-            } else {
-              original.mergeFromMessage(parsedSubMessage);
-            }
-          } else {
-            fieldSet._setFieldUnchecked(
-                meta, fieldInfo, convertProto3JsonValue(value, fieldInfo));
-          }
-          context.popIndex();
-        });
-      } else {
-        throw context.parseException('Expected JSON object', json);
-      }
-    }
-  }
-
-  recursionHelper(json, fieldSet);
 }

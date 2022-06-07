@@ -8,7 +8,7 @@
 /// both on the VM and when compiled to JavaScript.
 library common;
 
-import 'dart:convert' show jsonDecode, jsonEncode;
+import 'dart:convert' show jsonEncode;
 import 'dart:typed_data';
 
 import 'package:benchmark_harness/benchmark_harness.dart';
