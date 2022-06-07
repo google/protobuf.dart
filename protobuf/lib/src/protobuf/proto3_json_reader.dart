@@ -148,85 +148,85 @@ Object? _parseProto3JsonValue(
   switch (PbFieldType._baseType(fieldType)) {
     case PbFieldType._BOOL_BIT:
       bool? b = jsonReader.tryBool();
-      if (b == null) {
-        // TODO: We don't have the JSON string to show in error messages
-        throw context.parseException('Expected bool value', 1);
+      if (b != null) {
+        return b;
       }
-      return b;
+      // TODO: We don't have the JSON string to show in error messages
+      throw context.parseException('Expected bool value', 1);
 
     case PbFieldType._BYTES_BIT:
       String? s = jsonReader.tryString();
-      if (s == null) {
-        // TODO: We don't have the JSON string to show in error messages
-        throw context.parseException('Expected String value', 1);
+      if (s != null) {
+        try {
+          return base64Decode(s);
+        } on FormatException {
+          // TODO: We don't have the JSON string to show in error messages
+          throw context.parseException(
+              'Expected bytes encoded as base64 String', 1);
+        }
       }
-      try {
-        return base64Decode(s);
-      } on FormatException {
-        // TODO: We don't have the JSON string to show in error messages
-        throw context.parseException(
-            'Expected bytes encoded as base64 String', 1);
-      }
+      // TODO: We don't have the JSON string to show in error messages
+      throw context.parseException('Expected String value', 1);
 
     case PbFieldType._STRING_BIT:
       String? s = jsonReader.tryString();
-      if (s == null) {
-        // TODO: We don't have the JSON string to show in error messages
-        throw context.parseException('Expected String value', 1);
+      if (s != null) {
+        return s;
       }
-      return s;
+      // TODO: We don't have the JSON string to show in error messages
+      throw context.parseException('Expected String value', 1);
 
     case PbFieldType._FLOAT_BIT:
     case PbFieldType._DOUBLE_BIT:
       num? n = jsonReader.tryNum();
-      if (n == null) {
-        String? s = jsonReader.tryString();
-        if (s == null) {
-          // TODO: We don't have the JSON string to show in error messages
-          throw context.parseException(
-              'Expected a double represented as a String or number', 1);
-        }
+      if (n != null) {
+        return n.toDouble();
+      }
+      String? s = jsonReader.tryString();
+      if (s != null) {
         return double.tryParse(s) ??
             (throw context.parseException(
                 'Expected String to encode a double', s));
       }
-      return n.toDouble();
+      // TODO: We don't have the JSON string to show in error messages
+      throw context.parseException(
+          'Expected a double represented as a String or number', 1);
 
     case PbFieldType._ENUM_BIT:
       String? s = jsonReader.tryString();
-      if (s == null) {
-        num? n = jsonReader.tryNum();
-        if (n == null) {
-          // TODO: We don't have the JSON string to show in error messages
-          throw context.parseException(
-              'Expected enum as a string or integer', 1);
+      if (s != null) {
+        // TODO(sigurdm): Do we want to avoid linear search here? Measure...
+        final result = context.permissiveEnums
+            ? fieldInfo.enumValues!
+                .findFirst((e) => permissiveCompare(e.name, s))
+            : fieldInfo.enumValues!.findFirst((e) => e.name == s);
+        if ((result != null) || context.ignoreUnknownFields) {
+          return result;
         }
+        throw context.parseException('Unknown enum value', s);
+      }
+      num? n = jsonReader.tryNum();
+      if (n != null) {
         return fieldInfo.valueOf!(n as int) ??
             (context.ignoreUnknownFields
                 ? null
                 : (throw context.parseException('Unknown enum value', n)));
       }
-      // TODO(sigurdm): Do we want to avoid linear search here? Measure...
-      final result = context.permissiveEnums
-          ? fieldInfo.enumValues!.findFirst((e) => permissiveCompare(e.name, s))
-          : fieldInfo.enumValues!.findFirst((e) => e.name == s);
-      if ((result != null) || context.ignoreUnknownFields) {
-        return result;
-      }
-      throw context.parseException('Unknown enum value', s);
+      // TODO: We don't have the JSON string to show in error messages
+      throw context.parseException('Expected enum as a string or integer', 1);
 
     case PbFieldType._UINT32_BIT:
     case PbFieldType._FIXED32_BIT:
       num? n = jsonReader.tryNum();
-      if (n == null) {
-        String? s = jsonReader.tryString();
-        if (s == null) {
-          // TODO: We don't have the JSON string to show in error messages
-          throw context.parseException('Expected int or stringified int', 1);
-        }
+      if (n != null) {
+        return n as int; // TODO: conversion needs to be checked?
+      }
+      String? s = jsonReader.tryString();
+      if (s != null) {
         return _tryParse32BitProto3(s, context);
       }
-      return n as int; // TODO: conversion needs to be checked?
+      // TODO: We don't have the JSON string to show in error messages
+      throw context.parseException('Expected int or stringified int', 1);
 
     case PbFieldType._INT32_BIT:
     case PbFieldType._SINT32_BIT:
