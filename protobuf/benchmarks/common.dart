@@ -101,35 +101,35 @@ class Factories {
         fromBuffer: (List<int> binary) => p2.GoogleMessage1.fromBuffer(binary),
         fromJson: (String json) => p2.GoogleMessage1.fromJson(json),
         fromProto3JsonString: (String json) =>
-            p2.GoogleMessage1.create()..mergeFromProto3Json(jsonDecode(json)),
+            p2.GoogleMessage1.create()..mergeFromProto3JsonString(json),
         fromProto3JsonObject: (Object json) =>
             p2.GoogleMessage1.create()..mergeFromProto3Json(json)),
     'benchmarks.proto3.GoogleMessage1': Factories._(
         fromBuffer: (List<int> binary) => p3.GoogleMessage1.fromBuffer(binary),
         fromJson: (String json) => p3.GoogleMessage1.fromJson(json),
         fromProto3JsonString: (String json) =>
-            p3.GoogleMessage1.create()..mergeFromProto3Json(jsonDecode(json)),
+            p3.GoogleMessage1.create()..mergeFromProto3JsonString(json),
         fromProto3JsonObject: (Object json) =>
             p3.GoogleMessage1.create()..mergeFromProto3Json(json)),
     'benchmarks.proto2.GoogleMessage2': Factories._(
         fromBuffer: (List<int> binary) => GoogleMessage2.fromBuffer(binary),
         fromJson: (String json) => GoogleMessage2.fromJson(json),
         fromProto3JsonString: (String json) =>
-            GoogleMessage2.create()..mergeFromProto3Json(jsonDecode(json)),
+            GoogleMessage2.create()..mergeFromProto3JsonString(json),
         fromProto3JsonObject: (Object json) =>
             GoogleMessage2.create()..mergeFromProto3Json(json)),
     'benchmarks.google_message3.GoogleMessage3': Factories._(
         fromBuffer: (List<int> binary) => GoogleMessage3.fromBuffer(binary),
         fromJson: (String json) => GoogleMessage3.fromJson(json),
         fromProto3JsonString: (String json) =>
-            GoogleMessage3.create()..mergeFromProto3Json(jsonDecode(json)),
+            GoogleMessage3.create()..mergeFromProto3JsonString(json),
         fromProto3JsonObject: (Object json) =>
             GoogleMessage3.create()..mergeFromProto3Json(json)),
     'benchmarks.google_message4.GoogleMessage4': Factories._(
         fromBuffer: (List<int> binary) => GoogleMessage4.fromBuffer(binary),
         fromJson: (String json) => GoogleMessage4.fromJson(json),
         fromProto3JsonString: (String json) =>
-            GoogleMessage4.create()..mergeFromProto3Json(jsonDecode(json)),
+            GoogleMessage4.create()..mergeFromProto3JsonString(json),
         fromProto3JsonObject: (Object json) =>
             GoogleMessage4.create()..mergeFromProto3Json(json)),
   };
@@ -231,7 +231,7 @@ class ToProto3JsonStringBenchmark extends _ProtobufBenchmark {
   void run() {
     for (final ds in datasets) {
       for (final unpacked in ds.unpacked) {
-        jsonEncode(unpacked.toProto3Json());
+        unpacked.toProto3JsonString();
       }
     }
   }
