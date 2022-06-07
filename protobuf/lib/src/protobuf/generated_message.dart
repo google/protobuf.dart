@@ -273,7 +273,7 @@ abstract class GeneratedMessage {
         ignoreUnknownFields: ignoreUnknownFields,
         supportNamesWithUnderscores: supportNamesWithUnderscores,
         permissiveEnums: permissiveEnums);
-    _mergeFromProto3JsonString(jsonString, _fieldSet, params);
+    _mergeFromProto3JsonString(jsonString, _fieldSet, typeRegistry, params);
   }
 
   /// Merges field values from [data], a JSON object, encoded as described by

@@ -2,10 +2,13 @@ part of protobuf;
 
 void _writeToProto3JsonSink<S extends StringSink>(
     _FieldSet fs, TypeRegistry typeRegistry, S sink) {
-  // TODO: Either add `writeToProto3JsonSink` for well-known types, or fall
-  // back to slow proto3 JSON serialization
-  if (fs._meta.toProto3Json != null) {
-    throw 'well-known type detected';
+  final wellKnownConverter = fs._meta.toProto3Json;
+  if (wellKnownConverter != null) {
+    // For now we allocate intermediate JSON for well-known types. In the
+    // future we may want to add `toProto3JsonString` to well-known types.
+    final json = wellKnownConverter(fs._message!, typeRegistry);
+    sink.write(jsonEncode(json));
+    return;
   }
 
   final JsonWriter<String> jsonWriter = jsonStringWriter(sink, indent: null);
@@ -153,19 +156,21 @@ class Proto3JsonParserParams {
       required this.permissiveEnums});
 }
 
-void _mergeFromProto3JsonString(
-    String jsonString, _FieldSet fieldSet, Proto3JsonParserParams params) {
+void _mergeFromProto3JsonString(String jsonString, _FieldSet fieldSet,
+    TypeRegistry typeRegistry, Proto3JsonParserParams params) {
   final JsonReader<StringSlice> jsonReader = JsonReader.fromString(jsonString);
 
   var context = JsonParsingContext(params.ignoreUnknownFields,
       params.supportNamesWithUnderscores, params.permissiveEnums);
 
-  _mergeFromProto3JsonStringReader(jsonReader, fieldSet, context, params);
+  _mergeFromProto3JsonStringReader(
+      jsonReader, fieldSet, typeRegistry, context, params);
 }
 
 void _mergeFromProto3JsonStringReader(
     JsonReader<StringSlice> jsonReader,
     _FieldSet fieldSet,
+    TypeRegistry typeRegistry,
     JsonParsingContext context,
     Proto3JsonParserParams params) {
   if (jsonReader.tryNull()) {
@@ -173,10 +178,16 @@ void _mergeFromProto3JsonStringReader(
   }
 
   final meta = fieldSet._meta;
+
   final wellKnownConverter = meta.fromProto3Json;
   if (wellKnownConverter != null) {
-    // TODO: Well known types
-    throw 'well-known type detected';
+    // For now we allocate intermediate JSON for well-known types. In the
+    // future we may want to add `fromProto3JsonString` to well-known types.
+    final StringSlice jsonSlice =
+        jsonReader.expectAnyValueSource(); // TODO: catch exceptions
+    final json = jsonDecode(jsonSlice.toString());
+    wellKnownConverter(fieldSet._message!, json, typeRegistry, context);
+    return;
   }
 
   if (!jsonReader.tryObject()) {
@@ -215,8 +226,8 @@ void _mergeFromProto3JsonStringReader(
         context.addMapIndex(keyStr);
         Object mapKey =
             _decodeMapKey(keyStr, mapFieldInfo.keyFieldType, context);
-        Object? value = _parseProto3JsonValue(
-            jsonReader, mapFieldInfo.valueFieldInfo, context, params);
+        Object? value = _parseProto3JsonValue(jsonReader,
+            mapFieldInfo.valueFieldInfo, typeRegistry, context, params);
         fieldValues[mapKey] = value;
         context.popIndex();
 
@@ -231,15 +242,15 @@ void _mergeFromProto3JsonStringReader(
       int i = 0;
       while (jsonReader.hasNext()) {
         context.addListIndex(i);
-        values
-            .add(_parseProto3JsonValue(jsonReader, fieldInfo, context, params));
+        values.add(_parseProto3JsonValue(
+            jsonReader, fieldInfo, typeRegistry, context, params));
         context.popIndex();
         i += 1;
       }
     } else if (_isGroupOrMessage(fieldInfo.type)) {
-      var parsedSubMessage =
-          _parseProto3JsonValue(jsonReader, fieldInfo, context, params)
-              as GeneratedMessage;
+      var parsedSubMessage = _parseProto3JsonValue(
+              jsonReader, fieldInfo, typeRegistry, context, params)
+          as GeneratedMessage;
       GeneratedMessage? original = fieldSet._values[fieldInfo.index!];
       if (original == null) {
         fieldSet._setNonExtensionFieldUnchecked(
@@ -248,7 +259,8 @@ void _mergeFromProto3JsonStringReader(
         original.mergeFromMessage(parsedSubMessage);
       }
     } else {
-      var value = _parseProto3JsonValue(jsonReader, fieldInfo, context, params);
+      var value = _parseProto3JsonValue(
+          jsonReader, fieldInfo, typeRegistry, context, params);
       fieldSet._setFieldUnchecked(meta, fieldInfo, value);
     }
 
@@ -260,6 +272,7 @@ void _mergeFromProto3JsonStringReader(
 Object? _parseProto3JsonValue(
     JsonReader<StringSlice> jsonReader,
     FieldInfo fieldInfo,
+    TypeRegistry typeRegistry,
     JsonParsingContext context,
     Proto3JsonParserParams params) {
   if (jsonReader.tryNull()) {
@@ -400,7 +413,7 @@ Object? _parseProto3JsonValue(
     case PbFieldType._MESSAGE_BIT:
       GeneratedMessage subMessage = fieldInfo.subBuilder!();
       _mergeFromProto3JsonStringReader(
-          jsonReader, subMessage._fieldSet, context, params);
+          jsonReader, subMessage._fieldSet, typeRegistry, context, params);
       return subMessage;
 
     default:
