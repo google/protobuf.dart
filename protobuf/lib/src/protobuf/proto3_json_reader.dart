@@ -44,14 +44,7 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
 
   final wellKnownConverter = meta.fromProto3Json;
   if (wellKnownConverter != null) {
-    // For now we allocate intermediate JSON for well-known types. In the
-    // future we may want to add `fromProto3JsonString` to well-known types.
-    // TODO: This won't work then the reader is a `JsonReader<Object?>`.
-    final StringSlice jsonSlice =
-        jsonReader.expectAnyValueSource(); // TODO: catch exceptions
-    final json = jsonDecode(jsonSlice.toString());
-    wellKnownConverter(fieldSet._message!, json, typeRegistry, context);
-    return;
+    throw 'Well-known types not supported yet';
   }
 
   if (!jsonReader.tryObject()) {

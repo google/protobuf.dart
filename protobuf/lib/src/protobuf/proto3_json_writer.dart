@@ -6,7 +6,10 @@ part of protobuf;
 
 void _writeToProto3JsonSink<S extends JsonSink>(
     _FieldSet fs, TypeRegistry typeRegistry, S jsonWriter) {
-  // TODO: check well-known protos
+  final wellKnownConverter = fs._meta.toProto3Json;
+  if (wellKnownConverter != null) {
+    throw 'Well-known types not supported yet';
+  }
 
   jsonWriter.startObject(); // start message
 
