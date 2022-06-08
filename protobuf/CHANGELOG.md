@@ -11,7 +11,6 @@
 * Fix a bug when converting negative `Timestamp` to Dart `DateTime` ([#580],
   [#577])
 * Document `BuilderInfo` and `FieldInfo` properties ([#597])
-* Remove a redundant check in `PbMap.operator ==` ([#604])
 * Improve `BuilderInfo` initialization by doing some of the work lazily
   ([#606])
 * Improve enum hash code generation ([#556])
@@ -48,7 +47,6 @@
 [#580]: https://github.com/google/protobuf.dart/pull/580
 [#577]: https://github.com/google/protobuf.dart/issues/577
 [#597]: https://github.com/google/protobuf.dart/pull/597
-[#604]: https://github.com/google/protobuf.dart/pull/604
 [#606]: https://github.com/google/protobuf.dart/pull/606
 [#556]: https://github.com/google/protobuf.dart/pull/556
 [#568]: https://github.com/google/protobuf.dart/pull/568
