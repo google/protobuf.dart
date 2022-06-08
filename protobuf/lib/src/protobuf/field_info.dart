@@ -142,7 +142,7 @@ class FieldInfo<T> {
     return () => defaultOrMaker;
   }
 
-  /// `true` if this represents a dummy field standing in for a field that has
+  /// Whether this represents a dummy field standing in for a field that has
   /// been removed by a program transformation.
   bool get _isDummy => tagNumber == 0;
 

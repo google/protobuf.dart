@@ -34,8 +34,9 @@ class BuilderInfo {
   /// Whether the message has extension fields.
   bool hasExtensions = false;
 
-  /// Whether the message has required fields. Note that proto3 doesn't have
-  /// required fields, only proto2 does.
+  /// Whether the message has required fields.
+  ///
+  /// Note that proto3 doesn't have required fields, only proto2 does.
   bool hasRequiredFields = true;
 
   List<FieldInfo>? _sortedByTag;

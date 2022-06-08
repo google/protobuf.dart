@@ -93,10 +93,12 @@ abstract class GeneratedMessage {
     return builder.freeze();
   }
 
+  /// Whether the message has required fields.
+  ///
+  /// Note that proto3 doesn't have required fields, only proto2 does.
   bool hasRequiredFields() => info_.hasRequiredFields;
 
-  /// Returns `true` if all required fields in the message and all embedded
-  /// messages are set, `false` otherwise.
+  /// Whether all required fields in the message and embedded messages are set.
   bool isInitialized() => _fieldSet._hasRequiredValues();
 
   /// Clears all data that was set in this message.
@@ -229,7 +231,7 @@ abstract class GeneratedMessage {
   ///
   /// Throws [FormatException] if [ignoreUnknownFields] is `false` (the
   /// default) and an unknown field or enum name is encountered. Otherwise the
-  /// unknown fieldor enum is ignored.
+  /// unknown field or enum is ignored.
   ///
   /// If [supportNamesWithUnderscores] is `true` (the default) field names in
   /// the JSON can be represented as either camel-case JSON-names or names with
@@ -358,7 +360,7 @@ abstract class GeneratedMessage {
       _fieldSet._hasExtensions &&
       _fieldSet._extensions!._getFieldOrNull(extension) != null;
 
-  /// Returns `true` if this message has a field associated with [tagNumber].
+  /// Whether this message has a field associated with [tagNumber].
   bool hasField(int tagNumber) => _fieldSet._hasField(tagNumber);
 
   /// Merges the contents of the [other] into this message.
