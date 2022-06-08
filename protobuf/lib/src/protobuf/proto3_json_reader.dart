@@ -42,9 +42,9 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
 
   final meta = fieldSet._meta;
 
-  final wellKnownConverter = meta.fromProto3Json;
+  final wellKnownConverter = meta.mergeFromProto3JsonReader;
   if (wellKnownConverter != null) {
-    throw 'Well-known types not supported yet';
+    wellKnownConverter(fieldSet._message!, jsonReader, typeRegistry, context);
   }
 
   if (!jsonReader.tryObject()) {

@@ -206,6 +206,12 @@ abstract class GeneratedMessage {
   /// For the proto3 JSON format use: [toProto3Json].
   String writeToJson() => jsonEncode(writeToJsonMap());
 
+  void writeToProto3JsonSink(TypeRegistry typeRegistry, JsonSink jsonSink,
+      {bool newMessage = true}) {
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, jsonSink,
+        newMessage: newMessage);
+  }
+
   /// Returns an Object representing Proto3 JSON serialization of `this`.
   ///
   /// The key for each field is be the camel-cased name of the field.

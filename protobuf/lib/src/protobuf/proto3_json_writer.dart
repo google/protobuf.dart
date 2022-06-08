@@ -5,13 +5,17 @@
 part of protobuf;
 
 void _writeToProto3JsonSink(
-    _FieldSet fs, TypeRegistry typeRegistry, JsonSink jsonSink) {
-  final wellKnownConverter = fs._meta.toProto3Json;
+    _FieldSet fs, TypeRegistry typeRegistry, JsonSink jsonSink,
+    {bool newMessage = true}) {
+  final wellKnownConverter = fs._meta.writeToProto3JsonSink;
   if (wellKnownConverter != null) {
-    throw 'Well-known types not supported yet';
+    wellKnownConverter(fs._message!, typeRegistry, jsonSink);
+    return;
   }
 
-  jsonSink.startObject(); // start message
+  if (newMessage) {
+    jsonSink.startObject(); // start message
+  }
 
   for (FieldInfo fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index!];
@@ -44,7 +48,9 @@ void _writeToProto3JsonSink(
     }
   }
 
-  jsonSink.endObject(); // end message
+  if (newMessage) {
+    jsonSink.endObject(); // end message
+  }
 }
 
 void _writeMapKey(dynamic key, int keyType, JsonSink jsonSink) {

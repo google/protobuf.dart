@@ -28,18 +28,25 @@ class BuilderInfo {
   bool hasRequiredFields = true;
   List<FieldInfo>? _sortedByTag;
 
-  // For well-known types.
-  final Object? Function(GeneratedMessage message, TypeRegistry typeRegistry)?
-      toProto3Json;
-  final Function(GeneratedMessage targetMessage, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context)? fromProto3Json;
+  /// JSON generator for well-known types.
+  final void Function(
+          GeneratedMessage msg, TypeRegistry typeRegistry, JsonSink jsonSink)?
+      writeToProto3JsonSink;
+
+  /// JSON parser for well-known types.
+  final Function(
+      GeneratedMessage msg,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context)? mergeFromProto3JsonReader;
+
   final CreateBuilderFunc? createEmptyInstance;
 
   BuilderInfo(String? messageName,
       {PackageName package = const PackageName(''),
       this.createEmptyInstance,
-      this.toProto3Json,
-      this.fromProto3Json})
+      this.writeToProto3JsonSink,
+      this.mergeFromProto3JsonReader})
       : qualifiedMessageName = '${package.prefix}$messageName';
 
   void add<T>(
