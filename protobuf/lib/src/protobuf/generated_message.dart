@@ -63,10 +63,10 @@ abstract class GeneratedMessage {
   /// If `true` all sub-messages are frozen.
   bool get isFrozen => _fieldSet._isReadOnly;
 
-  /// Returns a writable, shallow copy of this message.
+  /// Creates a writable, shallow copy of this message.
   ///
-  /// Sub messages will be shared with `this` and will still be frozen if `this`
-  /// is frozen.
+  /// Sub messages will be shared with this message and will still be frozen if
+  /// this message is frozen.
   ///
   /// The lists representing repeated fields are copied. But their elements will
   /// be shared with the corresponding list in `this`.
@@ -93,10 +93,12 @@ abstract class GeneratedMessage {
     return builder.freeze();
   }
 
+  /// Whether the message has required fields.
+  ///
+  /// Note that proto3 doesn't have required fields, only proto2 does.
   bool hasRequiredFields() => info_.hasRequiredFields;
 
-  /// Returns [:true:] if all required fields in the message and all embedded
-  /// messages are set, false otherwise.
+  /// Whether all required fields in the message and embedded messages are set.
   bool isInitialized() => _fieldSet._hasRequiredValues();
 
   /// Clears all data that was set in this message.
@@ -225,30 +227,31 @@ abstract class GeneratedMessage {
 
   /// Merges field values from [json], a JSON object using proto3 encoding.
   ///
-  /// Well-known types and their special JSON encoding are supported.
+  /// Well-known types and their special JSON encodings are supported.
   ///
-  /// If [ignoreUnknownFields] is `false` (the default) an
-  /// [FormatException] is be thrown if an unknown field or enum name
-  /// is encountered. Otherwise the unknown field or enum is ignored.
+  /// Throws [FormatException] if [ignoreUnknownFields] is `false` (the
+  /// default) and an unknown field or enum name is encountered. Otherwise the
+  /// unknown field or enum is ignored.
   ///
   /// If [supportNamesWithUnderscores] is `true` (the default) field names in
   /// the JSON can be represented as either camel-case JSON-names or names with
-  /// underscores.
-  /// If `false` only the JSON names are supported.
+  /// underscores. Otherwise only the JSON names are supported.
   ///
-  /// If [permissiveEnums] is `true` (default `false`) enum values in the
-  /// JSON will be matched without case insensitivity and ignoring `-`s and `_`.
+  /// If [permissiveEnums] is `true` (default `false`) enum values in the JSON
+  /// will be matched without case insensitivity and ignoring `-`s and `_`s.
   /// This allows JSON values like `camelCase` and `kebab-case` to match the
   /// enum values `CAMEL_CASE` and `KEBAB_CASE`.
+  ///
   /// In case of ambiguities between the enum values, the first matching value
-  /// will be found.
+  /// will be used.
   ///
-  /// The [typeRegistry] is be used for decoding `Any` messages. If an `Any`
-  /// message encoding a type not in [typeRegistry] is encountered, a
-  /// [FormatException] is thrown.
+  /// The [typeRegistry] is used for decoding `Any` messages.
   ///
-  /// If the JSON is otherwise not formatted correctly (a String where a
-  /// number was expected etc.) a [FormatException] is thrown.
+  /// Throws [FormatException] if an `Any` message type is not in
+  /// [typeRegistry].
+  ///
+  /// Throws [FormatException] if the JSON not formatted correctly (a String
+  /// where a number was expected etc.).
   void mergeFromProto3Json(Object? json,
           {TypeRegistry typeRegistry = const TypeRegistry.empty(),
           bool ignoreUnknownFields = false,
@@ -352,12 +355,12 @@ abstract class GeneratedMessage {
   dynamic getDefaultForField(int tagNumber) =>
       _fieldSet._ensureInfo(tagNumber).readonlyDefault;
 
-  /// Returns [:true:] if a value of [extension] is present.
+  /// Returns `true` if a value of [extension] is present.
   bool hasExtension(Extension extension) =>
       _fieldSet._hasExtensions &&
       _fieldSet._extensions!._getFieldOrNull(extension) != null;
 
-  /// Returns [:true:] if this message has a field associated with [tagNumber].
+  /// Whether this message has a field associated with [tagNumber].
   bool hasField(int tagNumber) => _fieldSet._hasField(tagNumber);
 
   /// Merges the contents of the [other] into this message.
@@ -385,11 +388,12 @@ abstract class GeneratedMessage {
 
   /// Sets the value of a field by its [tagNumber].
   ///
-  /// Throws an [:ArgumentError:] if [value] does not match the type
-  /// associated with [tagNumber].
+  /// Throws an [ArgumentError] if [value] does not match the type associated
+  /// with [tagNumber].
   ///
-  /// Throws an [:ArgumentError:] if [value] is [:null:]. To clear a field of
-  /// it's current value, use [clearField] instead.
+  /// Throws an [ArgumentError] if [value] is `null`.
+  ///
+  /// To clear a field of it's current value, use [clearField] instead.
   @pragma('dart2js:noInline')
   void setField(int tagNumber, Object value) {
     _fieldSet._setField(tagNumber, value);
