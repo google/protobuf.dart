@@ -461,6 +461,7 @@ abstract class ValueMixin implements GeneratedMessage {
     bool? bool_ = jsonReader.tryBool();
     if (bool_ != null) {
       value.boolValue = bool_;
+      return;
     }
 
     // Copy the reader first as `StructMixin` will be entering the object.
@@ -471,6 +472,7 @@ abstract class ValueMixin implements GeneratedMessage {
       StructMixin.fromProto3JsonHelper(
           structValue, jsonReader, typeRegistry, context);
       value.structValue = structValue;
+      return;
     }
 
     if (jsonReader.tryArray()) {
@@ -481,6 +483,7 @@ abstract class ValueMixin implements GeneratedMessage {
         value.listValue = listValue;
       }
       jsonReader.endArray();
+      return;
     }
 
     throw context.parseException(
@@ -647,6 +650,7 @@ abstract class FloatValueMixin {
       (message as FloatValueMixin).value = double.tryParse(str) ??
           (throw context.parseException(
               'Expected a float as a String or number', 1)); // TODO: error json
+      return;
     }
 
     throw context.parseException(
@@ -790,6 +794,7 @@ abstract class UInt32ValueMixin {
     if (num_ != null) {
       (message as UInt32ValueMixin).value =
           num_ as int; // TODO check conversion
+      return;
     }
 
     String? str = jsonReader.tryString();
@@ -797,6 +802,7 @@ abstract class UInt32ValueMixin {
       (message as UInt32ValueMixin).value = int.tryParse(str) ??
           (throw context.parseException(
               'Expected String to encode an integer', 1)); // TODO: error json
+      return;
     }
 
     throw context.parseException(
