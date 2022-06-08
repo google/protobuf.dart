@@ -4,6 +4,8 @@
   * Use `dart pub` instead of `pub` in command examples ([a7e75cb])
   * Fix typos, clarify installation instructions, mention native compilation,
     fix proto syntax for `protoc_plugin` ([#610], [#617], [#641])
+  * Update some of the documentation according to Effective Dart documentation
+    guide ([#664])
 * Improve runtime perf by removing some of the runtime type checks ([#574],
   [#573])
 * Fix a bug when converting negative `Timestamp` to Dart `DateTime` ([#580],
@@ -66,6 +68,7 @@
 [#651]: https://github.com/google/protobuf.dart/pull/651
 [#655]: https://github.com/google/protobuf.dart/pull/655
 [#654]: https://github.com/google/protobuf.dart/pull/654
+[#664]: https://github.com/google/protobuf.dart/pull/664
 
 ## 2.0.1
 
