@@ -506,21 +506,26 @@ abstract class ListValueMixin implements GeneratedMessage {
 
   static const _valueFieldTagNumber = 1;
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    var list = message as ListValueMixin;
-    if (json is List) {
-      var subBuilder = message.info_.subBuilder(_valueFieldTagNumber)!;
-      for (var i = 0; i < json.length; i++) {
-        Object element = json[i];
-        var v = subBuilder() as ValueMixin;
-        context.addListIndex(i);
-        ValueMixin.fromProto3JsonHelper(v, element, typeRegistry, context);
-        context.popIndex();
-        list.values.add(v);
-      }
-    } else {
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    final list = message as ListValueMixin;
+
+    if (!jsonReader.tryArray()) {
       throw context.parseException('Expected a json-List', json);
+    }
+
+    var subBuilder = message.info_.subBuilder(_valueFieldTagNumber)!;
+    var i = 0;
+    while (jsonReader.hasNext()) {
+      final v = subBuilder() as ValueMixin;
+      context.addListIndex(i);
+      ValueMixin.fromProto3JsonHelper(v, jsonReader, typeRegistry, context);
+      context.popIndex();
+      list.values.add(v);
+      i += 1;
     }
   }
 }
@@ -534,8 +539,8 @@ abstract class FieldMaskMixin {
   // In JSON, a field mask is encoded as a single string where paths are
   // separated by a comma. Fields name in each path are converted
   // to/from lower-camel naming conventions.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
     var fieldMask = message as FieldMaskMixin;
     for (var path in fieldMask.paths) {
       if (path.contains(RegExp('[A-Z]|_[^a-z]'))) {
@@ -543,27 +548,30 @@ abstract class FieldMaskMixin {
             'Bad fieldmask $path. Does not round-trip to json.');
       }
     }
-    return fieldMask.paths.map(_toCamelCase).join(',');
+    jsonSink.addString(fieldMask.paths.map(_toCamelCase).join(','));
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is String) {
-      if (json.contains('_')) {
-        throw context.parseException(
-            'Invalid Character `_` in FieldMask', json);
-      }
-      if (json == '') {
-        // The empty string splits to a single value. So this is a special case.
-        return;
-      }
-      (message as FieldMaskMixin)
-          .paths
-          .addAll(json.split(',').map(_fromCamelCase));
-    } else {
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    String? str = jsonReader.tryString();
+    if (str == null) {
       throw context.parseException(
-          'Expected String formatted as FieldMask', json);
+          'Expected String formatted as FieldMask', 1); // TODO: error json
     }
+
+    if (str.contains('_')) {
+      throw context.parseException('Invalid Character `_` in FieldMask', json);
+    }
+    if (str == '') {
+      // The empty string splits to a single value. So this is a special case.
+      return;
+    }
+    (message as FieldMaskMixin)
+        .paths
+        .addAll(str.split(',').map(_fromCamelCase));
   }
 
   static String _toCamelCase(String name) {
@@ -583,23 +591,32 @@ abstract class DoubleValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `DoubleValue` is JSON number.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as DoubleValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    return jsonSink.addNumber((message as DoubleValueMixin).value);
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is num) {
-      (message as DoubleValueMixin).value = json.toDouble();
-    } else if (json is String) {
-      (message as DoubleValueMixin).value = double.tryParse(json) ??
-          (throw context.parseException(
-              'Expected string to encode a double', json));
-    } else {
-      throw context.parseException(
-          'Expected a double as a String or number', json);
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    num? num_ = jsonReader.tryNum();
+    if (num_ != null) {
+      (message as DoubleValueMixin).value = num_.toDouble();
+      return;
     }
+
+    String? str = jsonReader.tryString();
+    if (str != null) {
+      (message as DoubleValueMixin).value = double.tryParse(str) ??
+          (throw context.parseException(
+              'Expected string to encode a double', 1)); // TODO error json
+      return;
+    }
+
+    throw context.parseException(
+        'Expected a double as a String or number', 1); // TODO: error json
   }
 }
 
@@ -609,23 +626,31 @@ abstract class FloatValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `FloatValue` is JSON number.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as FloatValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addNumber((message as FloatValueMixin).value);
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is num) {
-      (message as FloatValueMixin).value = json.toDouble();
-    } else if (json is String) {
-      (message as FloatValueMixin).value = double.tryParse(json) ??
-          (throw context.parseException(
-              'Expected a float as a String or number', json));
-    } else {
-      throw context.parseException(
-          'Expected a float as a String or number', json);
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    num? num_ = jsonReader.tryNum();
+    if (num_ != null) {
+      (message as FloatValueMixin).value = num_.toDouble();
+      return;
     }
+
+    String? str = jsonReader.tryString();
+    if (str != null) {
+      (message as FloatValueMixin).value = double.tryParse(str) ??
+          (throw context.parseException(
+              'Expected a float as a String or number', 1)); // TODO: error json
+    }
+
+    throw context.parseException(
+        'Expected a float as a String or number', 1); // TODO: error json
   }
 }
 
@@ -635,25 +660,36 @@ abstract class Int64ValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `Int64Value` is JSON string.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as Int64ValueMixin).value.toString();
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addString((message as Int64ValueMixin).value.toString());
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is int) {
-      (message as Int64ValueMixin).value = Int64(json);
-    } else if (json is String) {
-      try {
-        (message as Int64ValueMixin).value = Int64.parseInt(json);
-      } on FormatException {
-        throw context.parseException('Expected string to encode integer', json);
-      }
-    } else {
-      throw context.parseException(
-          'Expected an integer encoded as a String or number', json);
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    num? num_ = jsonReader.tryNum();
+    if (num_ != null) {
+      (message as Int64ValueMixin).value =
+          Int64(num_ as int); // TODO: check conversion
+      return;
     }
+
+    String? str = jsonReader.tryString();
+    if (str != null) {
+      try {
+        (message as Int64ValueMixin).value = Int64.parseInt(str);
+        return;
+      } on FormatException {
+        throw context.parseException(
+            'Expected string to encode integer', 1); // TODO: error json
+      }
+    }
+
+    throw context.parseException(
+        'Expected an integer encoded as a String or number', json);
   }
 }
 
@@ -663,26 +699,38 @@ abstract class UInt64ValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `UInt64Value` is JSON string.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as UInt64ValueMixin).value.toStringUnsigned();
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addString((message as UInt64ValueMixin).value.toStringUnsigned());
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is int) {
-      (message as UInt64ValueMixin).value = Int64(json);
-    } else if (json is String) {
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    num? num_ = jsonReader.tryNum();
+    if (num_ != null) {
+      (message as UInt64ValueMixin).value =
+          Int64(num_ as int); // TODO: check conversion
+      return;
+    }
+
+    String? str = jsonReader.tryString();
+    if (str != null) {
       try {
-        (message as UInt64ValueMixin).value = Int64.parseInt(json);
+        (message as UInt64ValueMixin).value = Int64.parseInt(str);
+        return;
       } on FormatException {
         throw context.parseException(
-            'Expected string to encode unsigned integer', json);
+            'Expected string to encode unsigned integer',
+            1); // TODO: error json
       }
-    } else {
-      throw context.parseException(
-          'Expected an unsigned integer as a String or integer', json);
     }
+
+    throw context.parseException(
+        'Expected an unsigned integer as a String or integer',
+        1); // TODO: error json
   }
 }
 
@@ -692,48 +740,68 @@ abstract class Int32ValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `Int32Value` is JSON number.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as Int32ValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addNumber((message as Int32ValueMixin).value);
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is int) {
-      (message as Int32ValueMixin).value = json;
-    } else if (json is String) {
-      (message as Int32ValueMixin).value = int.tryParse(json) ??
-          (throw context.parseException(
-              'Expected string to encode integer', json));
-    } else {
-      throw context.parseException(
-          'Expected an integer encoded as a String or number', json);
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    num? num_ = jsonReader.tryNum();
+    if (num_ != null) {
+      (message as Int32ValueMixin).value =
+          num_ as int; // TODO: check conversion
+      return;
     }
+
+    String? str = jsonReader.tryString();
+    if (str != null) {
+      (message as Int32ValueMixin).value = int.tryParse(str) ??
+          (throw context.parseException(
+              'Expected string to encode integer', 1)); // TODO: error json
+    }
+
+    throw context.parseException(
+        'Expected an integer encoded as a String or number',
+        1); // TODO: error json
   }
 }
 
 abstract class UInt32ValueMixin {
   int get value;
   set value(int value);
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as UInt32ValueMixin).value;
+
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addNumber((message as UInt32ValueMixin).value);
   }
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `UInt32Value` is JSON number.
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is int) {
-      (message as UInt32ValueMixin).value = json;
-    } else if (json is String) {
-      (message as UInt32ValueMixin).value = int.tryParse(json) ??
-          (throw context.parseException(
-              'Expected String to encode an integer', json));
-    } else {
-      throw context.parseException(
-          'Expected an unsigned integer as a String or integer', json);
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    num? num_ = jsonReader.tryNum();
+    if (num_ != null) {
+      (message as UInt32ValueMixin).value =
+          num_ as int; // TODO check conversion
     }
+
+    String? str = jsonReader.tryString();
+    if (str != null) {
+      (message as UInt32ValueMixin).value = int.tryParse(str) ??
+          (throw context.parseException(
+              'Expected String to encode an integer', 1)); // TODO: error json
+    }
+
+    throw context.parseException(
+        'Expected an unsigned integer as a String or integer',
+        1); // TODO: error json
   }
 }
 
@@ -743,18 +811,23 @@ abstract class BoolValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `BoolValue` is JSON `true` and `false`
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as BoolValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addBool((message as BoolValueMixin).value);
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is bool) {
-      (message as BoolValueMixin).value = json;
-    } else {
-      throw context.parseException('Expected a bool', json);
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    bool? b = jsonReader.tryBool();
+    if (b != null) {
+      (message as BoolValueMixin).value = b;
+      return;
     }
+
+    throw context.parseException('Expected a bool', 1); // TODO: error json
   }
 }
 
@@ -764,18 +837,22 @@ abstract class StringValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `StringValue` is JSON string.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as StringValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addString((message as StringValueMixin).value);
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is String) {
-      (message as StringValueMixin).value = json;
-    } else {
-      throw context.parseException('Expected a String', json);
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    String? str = jsonReader.tryString();
+    if (str != null) {
+      (message as StringValueMixin).value = str;
+      return;
     }
+    throw context.parseException('Expected a String', 1); // TODO: error json
   }
 }
 
@@ -785,23 +862,28 @@ abstract class BytesValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `BytesValue` is JSON string.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return base64.encode((message as BytesValueMixin).value);
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addString(base64.encode((message as BytesValueMixin).value));
   }
 
-  static void fromProto3JsonHelper(GeneratedMessage message, Object json,
-      TypeRegistry typeRegistry, JsonParsingContext context) {
-    if (json is String) {
+  static void fromProto3JsonHelper(
+      GeneratedMessage message,
+      JsonReader jsonReader,
+      TypeRegistry typeRegistry,
+      JsonParsingContext context) {
+    String? str = jsonReader.tryString();
+    if (str != null) {
       try {
-        (message as BytesValueMixin).value = base64.decode(json);
+        (message as BytesValueMixin).value = base64.decode(str);
+        return;
       } on FormatException {
         throw context.parseException(
-            'Expected bytes encoded as base64 String', json);
+            'Expected bytes encoded as base64 String', 1); // TODO: error json
       }
-    } else {
-      throw context.parseException(
-          'Expected bytes encoded as base64 String', json);
     }
+
+    throw context.parseException(
+        'Expected bytes encoded as base64 String', 1); // TODO: error json
   }
 }
