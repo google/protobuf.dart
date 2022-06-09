@@ -49,8 +49,8 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
   }
 
   if (!jsonReader.tryObject()) {
-    // TODO: Check error message
-    throw context.parseException('Expected JSON object', 1);
+    throw context.parseException(
+        'Expected JSON object', nextJsonObject(jsonReader));
   }
 
   final Map<String, FieldInfo> fieldsByName = meta.byName;
@@ -82,8 +82,8 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
       final mapFieldInfo = fieldInfo as MapFieldInfo<dynamic, dynamic>;
       final Map fieldValues = fieldSet._ensureMapField(meta, fieldInfo);
       if (!jsonReader.tryObject()) {
-        // TODO: We don't have the JSON string to show in error messages
-        throw context.parseException('Expected a map', 1);
+        throw context.parseException(
+            'Expected a map', nextJsonObject(jsonReader));
       }
       String? mapKeyStr = jsonReader.nextKey();
       while (mapKeyStr != null) {
@@ -103,8 +103,8 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
         fieldSet._ensureRepeatedField(meta, fieldInfo);
       } else {
         if (!jsonReader.tryArray()) {
-          // TODO: We don't have the JSON string to show in error messages
-          throw context.parseException('Expected a list', 1);
+          throw context.parseException(
+              'Expected a list', nextJsonObject(jsonReader));
         }
         List values = fieldSet._ensureRepeatedField(meta, fieldInfo);
         int i = 0;
@@ -157,8 +157,8 @@ Object? _parseProto3JsonValue(
       if (b != null) {
         return b;
       }
-      // TODO: We don't have the JSON string to show in error messages
-      throw context.parseException('Expected bool value', 1);
+      throw context.parseException(
+          'Expected bool value', nextJsonObject(jsonReader));
 
     case PbFieldType._BYTES_BIT:
       String? s = jsonReader.tryString();
@@ -166,21 +166,20 @@ Object? _parseProto3JsonValue(
         try {
           return base64Decode(s);
         } on FormatException {
-          // TODO: We don't have the JSON string to show in error messages
           throw context.parseException(
-              'Expected bytes encoded as base64 String', 1);
+              'Expected bytes encoded as base64 String', s);
         }
       }
-      // TODO: We don't have the JSON string to show in error messages
-      throw context.parseException('Expected String value', 1);
+      throw context.parseException(
+          'Expected String value', nextJsonObject(jsonReader));
 
     case PbFieldType._STRING_BIT:
       String? s = jsonReader.tryString();
       if (s != null) {
         return s;
       }
-      // TODO: We don't have the JSON string to show in error messages
-      throw context.parseException('Expected String value', 1);
+      throw context.parseException(
+          'Expected String value', nextJsonObject(jsonReader));
 
     case PbFieldType._FLOAT_BIT:
     case PbFieldType._DOUBLE_BIT:
@@ -194,9 +193,9 @@ Object? _parseProto3JsonValue(
             (throw context.parseException(
                 'Expected String to encode a double', s));
       }
-      // TODO: We don't have the JSON string to show in error messages
       throw context.parseException(
-          'Expected a double represented as a String or number', 1);
+          'Expected a double represented as a String or number',
+          nextJsonObject(jsonReader));
 
     case PbFieldType._ENUM_BIT:
       String? s = jsonReader.tryString();
@@ -218,8 +217,8 @@ Object? _parseProto3JsonValue(
                 ? null
                 : (throw context.parseException('Unknown enum value', n)));
       }
-      // TODO: We don't have the JSON string to show in error messages
-      throw context.parseException('Expected enum as a string or integer', 1);
+      throw context.parseException(
+          'Expected enum as a string or integer', nextJsonObject(jsonReader));
 
     case PbFieldType._UINT32_BIT:
     case PbFieldType._FIXED32_BIT:
@@ -229,15 +228,14 @@ Object? _parseProto3JsonValue(
           _check32BitUnsignedProto3(n, context);
           return n;
         }
-        // TODO: We don't have the JSON string to show in error messages
-        throw context.parseException('Expected int or stringified int', 1);
+        throw context.parseException('Expected 32-bit int', n);
       }
       String? s = jsonReader.tryString();
       if (s != null) {
         return _tryParse32BitProto3(s, context);
       }
-      // TODO: We don't have the JSON string to show in error messages
-      throw context.parseException('Expected int or stringified int', 1);
+      throw context.parseException(
+          'Expected 32-bit int or stringified int', nextJsonObject(jsonReader));
 
     case PbFieldType._INT32_BIT:
     case PbFieldType._SINT32_BIT:
@@ -248,14 +246,14 @@ Object? _parseProto3JsonValue(
           _check32BitSignedProto3(n, context);
           return n;
         }
-        throw context.parseException('Expected int or stringified int', 1);
+        throw context.parseException('Expected 32-bit int', n);
       }
       String? s = jsonReader.tryString();
       if (s != null) {
         return _tryParse32BitProto3(s, context);
       }
-      // TODO: We don't have the JSON string to show in error messages
-      throw context.parseException('Expected int or stringified int', 1);
+      throw context.parseException(
+          'Expected 32-bit int or stringified int', nextJsonObject(jsonReader));
 
     case PbFieldType._UINT64_BIT:
       num? n = jsonReader.tryNum();
@@ -263,15 +261,14 @@ Object? _parseProto3JsonValue(
         if (n is int) {
           return Int64(n);
         }
-        // TODO: We don't have the JSON string to show in error messages
-        throw context.parseException('Expected int or stringified int', 1);
+        throw context.parseException('Expected 64-bit int', n);
       }
       String? s = jsonReader.tryString();
       if (s != null) {
-        return _tryParse64BitProto3(1, s, context); // TODO: error value
+        return _tryParse64BitProto3(s, s, context);
       }
-      // TODO: We don't have the JSON string to show in error messages
-      throw context.parseException('Expected int or stringified int', 1);
+      throw context.parseException(
+          'Expected 64-bit int or stringified int', nextJsonObject(jsonReader));
 
     case PbFieldType._INT64_BIT:
     case PbFieldType._SINT64_BIT:
@@ -282,8 +279,7 @@ Object? _parseProto3JsonValue(
         if (n is int) {
           return Int64(n);
         }
-        throw context.parseException(
-            'Expected int or stringified int', 1); // TODO: error json
+        throw context.parseException('Expected 64-bit', n);
       }
       String? s = jsonReader.tryString();
       if (s != null) {
@@ -291,11 +287,11 @@ Object? _parseProto3JsonValue(
           return Int64.parseInt(s);
         } on FormatException {
           throw context.parseException(
-              'Expected int or stringified int', s); // TODO: error json
+              'Expected 64-bit int or stringified int', s);
         }
       }
-      // TODO: We don't have the JSON string to show in error messages
-      throw context.parseException('Expected int or stringified int', 1);
+      throw context.parseException(
+          'Expected 64-bit int or stringified int', nextJsonObject(jsonReader));
 
     case PbFieldType._GROUP_BIT:
     case PbFieldType._MESSAGE_BIT:
@@ -328,12 +324,12 @@ Object _decodeMapKey(String key, int fieldType, JsonParsingContext context) {
     case PbFieldType._UINT64_BIT:
       // TODO(sigurdm): We do not throw on negative values here.
       // That would probably require going via bignum.
-      return _tryParse64BitProto3(1, key, context); // TODO: Error json
+      return _tryParse64BitProto3(key, key, context);
     case PbFieldType._INT64_BIT:
     case PbFieldType._SINT64_BIT:
     case PbFieldType._SFIXED64_BIT:
     case PbFieldType._FIXED64_BIT:
-      return _tryParse64BitProto3(1, key, context); // TODO: Error json
+      return _tryParse64BitProto3(key, key, context);
     case PbFieldType._INT32_BIT:
     case PbFieldType._SINT32_BIT:
     case PbFieldType._FIXED32_BIT:

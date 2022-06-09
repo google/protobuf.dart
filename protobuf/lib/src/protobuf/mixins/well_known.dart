@@ -486,7 +486,7 @@ abstract class ValueMixin implements GeneratedMessage {
 
     throw context.parseException(
         'Expected a json-value (Map, List, String, number, bool or null)',
-        _nextJsonObject(jsonReader));
+        nextJsonObject(jsonReader));
   }
 }
 
@@ -906,16 +906,4 @@ abstract class BytesValueMixin {
     throw context.parseException(
         'Expected bytes encoded as base64 String', 1); // TODO: error json
   }
-}
-
-Object? _nextJsonObject(JsonReader reader) {
-  final jsonReader = JsonReader.fromObject(jsonObject);
-
-  Object? json;
-  final sink = jsonObjectWriter((result) {
-    json = result;
-  });
-  jsonReader.expectAnyValue(sink);
-
-  return json;
 }

@@ -48,6 +48,7 @@ part 'src/protobuf/utils.dart';
 part 'src/protobuf/unpack.dart';
 part 'src/protobuf/wire_format.dart';
 
+/// Used by generated code, do not use.
 // TODO(sra): Use Int64.parse() when available - see http://dartbug.com/21915.
 Int64 parseLongInt(String text) {
   if (text.startsWith('0x')) return Int64.parseHex(text.substring(2));
@@ -57,3 +58,16 @@ Int64 parseLongInt(String text) {
 }
 
 const _utf8 = Utf8Codec(allowMalformed: true);
+
+/// Used by generated code, do not use.
+///
+/// Reads the next JSON object from the given [JsonReader].
+Object? nextJsonObject(JsonReader jsonReader) {
+  Object? json;
+  final sink = jsonObjectWriter((result) {
+    json = result;
+  });
+  jsonReader.expectAnyValue(sink);
+
+  return json;
+}
