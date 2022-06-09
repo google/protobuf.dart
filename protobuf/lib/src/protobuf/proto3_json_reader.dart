@@ -50,7 +50,7 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
 
   if (!jsonReader.tryObject()) {
     // TODO: Check error message
-    throw context.parseException('Expected JSON object', jsonString);
+    throw context.parseException('Expected JSON object', 1);
   }
 
   final Map<String, FieldInfo> fieldsByName = meta.byName;
@@ -69,7 +69,10 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
 
     if (fieldInfo == null) {
       if (context.ignoreUnknownFields) {
-        return;
+        jsonReader.skipAnyValue();
+        context.popIndex();
+        key = jsonReader.nextKey();
+        continue;
       } else {
         throw context.parseException('Unknown field name \'$key\'', key);
       }
@@ -82,21 +85,17 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
         // TODO: We don't have the JSON string to show in error messages
         throw context.parseException('Expected a map', 1);
       }
-      String? key = jsonReader.nextKey();
-      while (key != null) {
-        String? keyStr = jsonReader.tryString();
-        if (keyStr == null) {
-          throw context.parseException('Expected a String key', keyStr);
-        }
-        context.addMapIndex(keyStr);
+      String? mapKeyStr = jsonReader.nextKey();
+      while (mapKeyStr != null) {
+        context.addMapIndex(mapKeyStr);
         Object mapKey =
-            _decodeMapKey(keyStr, mapFieldInfo.keyFieldType, context);
+            _decodeMapKey(mapKeyStr, mapFieldInfo.keyFieldType, context);
         Object? value = _parseProto3JsonValue(
             jsonReader, mapFieldInfo.valueFieldInfo, typeRegistry, context);
         fieldValues[mapKey] = value;
         context.popIndex();
 
-        key = jsonReader.nextKey();
+        mapKeyStr = jsonReader.nextKey();
       }
     } else if (_isRepeated(fieldInfo.type)) {
       if (jsonReader.tryNull()) {
@@ -118,6 +117,7 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
         }
       }
     } else if (_isGroupOrMessage(fieldInfo.type)) {
+      // TODO: Avoid allocating a message here
       var parsedSubMessage =
           _parseProto3JsonValue(jsonReader, fieldInfo, typeRegistry, context)
               as GeneratedMessage;
@@ -340,6 +340,18 @@ Object _decodeMapKey(String key, int fieldType, JsonParsingContext context) {
     default:
       throw StateError('Not a valid key type $fieldType');
   }
+}
+
+Object? _nextJsonObject(JsonReader reader) {
+    final jsonReader = JsonReader.fromObject(jsonObject);
+
+    Object? json;
+    final sink = jsonObjectWriter((result) {
+      json = result;
+    });
+    jsonReader.expectAnyValue(sink);
+
+    return json;
 }
 
 int _tryParse32BitProto3(String s, JsonParsingContext context) {
