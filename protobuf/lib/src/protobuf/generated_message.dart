@@ -249,6 +249,8 @@ abstract class GeneratedMessage {
   /// The [typeRegistry] is be used for encoding `Any` messages. If an `Any`
   /// message encoding a type not in [typeRegistry] is encountered, an error is
   /// thrown.
+  ///
+  /// The [newMessage] argument is for use in generated code, do not use.
   void toProto3JsonSink(TypeRegistry typeRegistry, JsonSink jsonSink,
       {bool newMessage = true}) {
     _writeToProto3JsonSink(_fieldSet, typeRegistry, jsonSink,
