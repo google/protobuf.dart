@@ -45,6 +45,7 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
   final wellKnownConverter = meta.mergeFromProto3JsonReader;
   if (wellKnownConverter != null) {
     wellKnownConverter(fieldSet._message!, jsonReader, typeRegistry, context);
+    return;
   }
 
   if (!jsonReader.tryObject()) {
