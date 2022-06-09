@@ -57,7 +57,14 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
   String? key = jsonReader.nextKey();
   while (key != null) {
     context.addMapIndex(key);
-    final FieldInfo? fieldInfo = fieldsByName[key];
+    FieldInfo? fieldInfo = fieldsByName[key];
+
+    if (fieldInfo == null && context.supportNamesWithUnderscores) {
+      // We don't optimize for field names with underscores, instead do a
+      // linear search for the index.
+      fieldInfo = meta.byName.values
+          .findFirst((FieldInfo info) => info.protoName == key);
+    }
 
     if (fieldInfo == null) {
       if (context.ignoreUnknownFields) {
@@ -91,18 +98,23 @@ void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
         key = jsonReader.nextKey();
       }
     } else if (_isRepeated(fieldInfo.type)) {
-      if (!jsonReader.tryArray()) {
-        // TODO: We don't have the JSON string to show in error messages
-        throw context.parseException('Expected a list', 1);
-      }
-      List values = fieldSet._ensureRepeatedField(meta, fieldInfo);
-      int i = 0;
-      while (jsonReader.hasNext()) {
-        context.addListIndex(i);
-        values.add(_parseProto3JsonValue(
-            jsonReader, fieldInfo, typeRegistry, context));
-        context.popIndex();
-        i += 1;
+      if (jsonReader.tryNull()) {
+        // `null` is accepted as the empty list [].
+        fieldSet._ensureRepeatedField(meta, fieldInfo);
+      } else {
+        if (!jsonReader.tryArray()) {
+          // TODO: We don't have the JSON string to show in error messages
+          throw context.parseException('Expected a list', 1);
+        }
+        List values = fieldSet._ensureRepeatedField(meta, fieldInfo);
+        int i = 0;
+        while (jsonReader.hasNext()) {
+          context.addListIndex(i);
+          values.add(_parseProto3JsonValue(
+              jsonReader, fieldInfo, typeRegistry, context));
+          context.popIndex();
+          i += 1;
+        }
       }
     } else if (_isGroupOrMessage(fieldInfo.type)) {
       var parsedSubMessage =
@@ -226,7 +238,10 @@ Object? _parseProto3JsonValue(
     case PbFieldType._SFIXED32_BIT:
       num? n = jsonReader.tryNum();
       if (n != null) {
-        return n as int; // TODO: conversion needs to be checked?
+        if (n is int) {
+          return n;
+        }
+        throw context.parseException('Expected int or stringified int', 1);
       }
       String? s = jsonReader.tryString();
       if (s != null) {
@@ -238,7 +253,11 @@ Object? _parseProto3JsonValue(
     case PbFieldType._UINT64_BIT:
       num? n = jsonReader.tryNum();
       if (n != null) {
-        return Int64(n as int); // TODO: conversion needs to be checked?
+        if (n is int) {
+          return Int64(n);
+        }
+        // TODO: We don't have the JSON string to show in error messages
+        throw context.parseException('Expected int or stringified int', 1);
       }
       String? s = jsonReader.tryString();
       if (s != null) {
@@ -253,14 +272,19 @@ Object? _parseProto3JsonValue(
     case PbFieldType._SFIXED64_BIT:
       num? n = jsonReader.tryNum();
       if (n != null) {
-        return Int64(n as int); // TODO: conversion needs to be checked?
+        if (n is int) {
+          return Int64(n);
+        }
+        throw context.parseException(
+            'Expected int or stringified int', 1); // TODO: error json
       }
       String? s = jsonReader.tryString();
       if (s != null) {
         try {
           return Int64.parseInt(s);
         } on FormatException {
-          throw context.parseException('Expected int or stringified int', s);
+          throw context.parseException(
+              'Expected int or stringified int', s); // TODO: error json
         }
       }
       // TODO: We don't have the JSON string to show in error messages
