@@ -475,19 +475,18 @@ abstract class ValueMixin implements GeneratedMessage {
       return;
     }
 
-    if (jsonReader.tryArray()) {
-      while (jsonReader.hasNext()) {
-        final listValue = value.listValue.deepCopy();
-        ListValueMixin.fromProto3JsonHelper(
-            listValue, jsonReader, typeRegistry, context);
-        value.listValue = listValue;
-      }
+    // Ditto
+    if (jsonReader.copy().tryArray()) {
+      final listValue = value.listValue.deepCopy();
+      ListValueMixin.fromProto3JsonHelper(
+          listValue, jsonReader, typeRegistry, context);
+      value.listValue = listValue;
       return;
     }
 
     throw context.parseException(
         'Expected a json-value (Map, List, String, number, bool or null)',
-        1); // TODO: error json
+        _nextJsonObject(jsonReader));
   }
 }
 
@@ -907,4 +906,16 @@ abstract class BytesValueMixin {
     throw context.parseException(
         'Expected bytes encoded as base64 String', 1); // TODO: error json
   }
+}
+
+Object? _nextJsonObject(JsonReader reader) {
+  final jsonReader = JsonReader.fromObject(jsonObject);
+
+  Object? json;
+  final sink = jsonObjectWriter((result) {
+    json = result;
+  });
+  jsonReader.expectAnyValue(sink);
+
+  return json;
 }
