@@ -676,9 +676,12 @@ abstract class Int64ValueMixin {
       JsonParsingContext context) {
     num? num_ = jsonReader.tryNum();
     if (num_ != null) {
-      (message as Int64ValueMixin).value =
-          Int64(num_ as int); // TODO: check conversion
-      return;
+      if (num_ is int) {
+        (message as Int64ValueMixin).value = Int64(num_);
+        return;
+      }
+      throw context.parseException(
+          'Expected an integer encoded as a String or number', json);
     }
 
     String? str = jsonReader.tryString();
@@ -715,9 +718,13 @@ abstract class UInt64ValueMixin {
       JsonParsingContext context) {
     num? num_ = jsonReader.tryNum();
     if (num_ != null) {
-      (message as UInt64ValueMixin).value =
-          Int64(num_ as int); // TODO: check conversion
-      return;
+      if (num_ is int) {
+        (message as UInt64ValueMixin).value = Int64(num_);
+        return;
+      }
+      throw context.parseException(
+          'Expected an unsigned integer as a String or integer',
+          1); // TODO: error json
     }
 
     String? str = jsonReader.tryString();
@@ -756,9 +763,13 @@ abstract class Int32ValueMixin {
       JsonParsingContext context) {
     num? num_ = jsonReader.tryNum();
     if (num_ != null) {
-      (message as Int32ValueMixin).value =
-          num_ as int; // TODO: check conversion
-      return;
+      if (num_ is int) {
+        (message as Int32ValueMixin).value = num_;
+        return;
+      }
+      throw context.parseException(
+          'Expected an integer encoded as a String or number',
+          1); // TODO: error json
     }
 
     String? str = jsonReader.tryString();
@@ -766,6 +777,7 @@ abstract class Int32ValueMixin {
       (message as Int32ValueMixin).value = int.tryParse(str) ??
           (throw context.parseException(
               'Expected string to encode integer', 1)); // TODO: error json
+      return;
     }
 
     throw context.parseException(
@@ -792,9 +804,13 @@ abstract class UInt32ValueMixin {
       JsonParsingContext context) {
     num? num_ = jsonReader.tryNum();
     if (num_ != null) {
-      (message as UInt32ValueMixin).value =
-          num_ as int; // TODO check conversion
-      return;
+      if (num_ is int) {
+        (message as UInt32ValueMixin).value = num_;
+        return;
+      }
+      throw context.parseException(
+          'Expected an unsigned integer as a String or integer',
+          1); // TODO: error json
     }
 
     String? str = jsonReader.tryString();
