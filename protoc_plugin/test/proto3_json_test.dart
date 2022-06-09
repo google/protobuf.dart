@@ -773,7 +773,7 @@ void main() {
       expect(
           TestMap()
             ..mergeFromProto3Json({
-              'int32ToInt32Field': <dynamic, dynamic>{'2': 21}
+              'int32ToInt32Field': <String, dynamic>{'2': 21}
             }),
           TestMap()..int32ToInt32Field[2] = 21);
     });
@@ -1205,7 +1205,7 @@ void main() {
             ])));
       expect(Struct()..mergeFromProto3Json(f), s);
 
-      expect(Struct()..mergeFromProto3Json(<dynamic, dynamic>{'a': 12}),
+      expect(Struct()..mergeFromProto3Json(<String, dynamic>{'a': 12}),
           (Struct()..fields['a'] = (Value()..numberValue = 12.0)),
           reason: 'Allow key type to be `dynamic`');
 
