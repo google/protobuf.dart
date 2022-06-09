@@ -64,10 +64,13 @@ const _utf8 = Utf8Codec(allowMalformed: true);
 /// Reads the next JSON object from the given [JsonReader].
 Object? nextJsonObject(JsonReader jsonReader) {
   Object? json;
-  final sink = jsonObjectWriter((result) {
-    json = result;
-  });
-  jsonReader.expectAnyValue(sink);
-
+  try {
+    final sink = jsonObjectWriter((result) {
+      json = result;
+    });
+    jsonReader.expectAnyValue(sink);
+  } on FormatException {
+    json = '<invalid Dart JSON object>';
+  }
   return json;
 }

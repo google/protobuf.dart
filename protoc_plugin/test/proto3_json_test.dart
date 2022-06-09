@@ -390,10 +390,8 @@ void main() {
       expect(decoded, getAllSet());
     });
     test('Type expectations', () {
-      // jsontool throws FormatException as the input isn't valid JSON.
-      // TODO: Handle jsontool FormatExceptions
-      // expect(
-      //     () => TestAllTypes()..mergeFromProto3Json({1: 1}), parseFailure([]));
+      expect(
+          () => TestAllTypes()..mergeFromProto3Json({1: 1}), parseFailure([]));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalBool': 1}),
           parseFailure(['optionalBool']));
       expect(() => TestAllTypes()..mergeFromProto3Json({'optionalBytes': 1}),
@@ -1220,9 +1218,8 @@ void main() {
       expect(() => Struct()..mergeFromProto3Json([]), parseFailure([]),
           reason: 'Non-string key in JSON object literal');
 
-      // TODO: Understand this
-      // expect(() => Value()..mergeFromProto3Json(Object()), parseFailure([]),
-      //     reason: 'Non JSON value');
+      expect(() => Value()..mergeFromProto3Json(Object()), parseFailure([]),
+          reason: 'Non JSON value');
 
       expect(() => ListValue()..mergeFromProto3Json({}), parseFailure([]),
           reason: 'Non-list');

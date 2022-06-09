@@ -252,8 +252,8 @@ abstract class TimestampMixin {
       JsonParsingContext context) {
     String? str = jsonReader.tryString();
     if (str == null) {
-      throw context.parseException(
-          'Expected timestamp represented as String', 1); // TODO: Error json
+      throw context.parseException('Expected timestamp represented as String',
+          nextJsonObject(jsonReader));
     }
 
     final String json = str;
@@ -274,7 +274,7 @@ abstract class TimestampMixin {
     final dateTimeWithoutFractionalSeconds =
         DateTime.tryParse(jsonWithoutFracSec) ??
             (throw context.parseException(
-                'Timestamp not well formatted. ', 1)); // TODO: Error json
+                'Timestamp not well formatted. ', str));
 
     final timestamp = message as TimestampMixin;
     setFromDateTime(timestamp, dateTimeWithoutFractionalSeconds);
@@ -317,7 +317,7 @@ abstract class DurationMixin {
     if (str == null) {
       throw context.parseException(
           'Expected a String of the form `<seconds>.<nanos>s`',
-          1); // TODO: error json
+          nextJsonObject(jsonReader));
     }
 
     String json = str;
@@ -362,7 +362,7 @@ abstract class StructMixin implements GeneratedMessage {
       JsonParsingContext context) {
     if (!jsonReader.tryObject()) {
       throw context.parseException(
-          'Expected a JSON object literal (map)', 1); // TODO: error json
+          'Expected a JSON object literal (map)', nextJsonObject(jsonReader));
     }
 
     // Check for emptiness to avoid setting `.fields` if there are no
@@ -560,7 +560,7 @@ abstract class FieldMaskMixin {
     String? str = jsonReader.tryString();
     if (str == null) {
       throw context.parseException(
-          'Expected String formatted as FieldMask', 1); // TODO: error json
+          'Expected String formatted as FieldMask', nextJsonObject(jsonReader));
     }
 
     if (str.contains('_')) {
@@ -612,12 +612,12 @@ abstract class DoubleValueMixin {
     if (str != null) {
       (message as DoubleValueMixin).value = double.tryParse(str) ??
           (throw context.parseException(
-              'Expected string to encode a double', 1)); // TODO error json
+              'Expected string to encode a double', str));
       return;
     }
 
     throw context.parseException(
-        'Expected a double as a String or number', 1); // TODO: error json
+        'Expected a double as a String or number', nextJsonObject(jsonReader));
   }
 }
 
@@ -647,12 +647,12 @@ abstract class FloatValueMixin {
     if (str != null) {
       (message as FloatValueMixin).value = double.tryParse(str) ??
           (throw context.parseException(
-              'Expected a float as a String or number', 1)); // TODO: error json
+              'Expected a float as a String or number', str));
       return;
     }
 
     throw context.parseException(
-        'Expected a float as a String or number', 1); // TODO: error json
+        'Expected a float as a String or number', nextJsonObject(jsonReader));
   }
 }
 
@@ -688,13 +688,13 @@ abstract class Int64ValueMixin {
         (message as Int64ValueMixin).value = Int64.parseInt(str);
         return;
       } on FormatException {
-        throw context.parseException(
-            'Expected string to encode integer', 1); // TODO: error json
+        throw context.parseException('Expected string to encode integer', str);
       }
     }
 
     throw context.parseException(
-        'Expected an integer encoded as a String or number', json);
+        'Expected an integer encoded as a String or number',
+        nextJsonObject(jsonReader));
   }
 }
 
@@ -721,8 +721,7 @@ abstract class UInt64ValueMixin {
         return;
       }
       throw context.parseException(
-          'Expected an unsigned integer as a String or integer',
-          1); // TODO: error json
+          'Expected an unsigned integer as a String or integer', num_);
     }
 
     String? str = jsonReader.tryString();
@@ -732,14 +731,13 @@ abstract class UInt64ValueMixin {
         return;
       } on FormatException {
         throw context.parseException(
-            'Expected string to encode unsigned integer',
-            1); // TODO: error json
+            'Expected string to encode unsigned integer', str);
       }
     }
 
     throw context.parseException(
         'Expected an unsigned integer as a String or integer',
-        1); // TODO: error json
+        nextJsonObject(jsonReader));
   }
 }
 
@@ -766,21 +764,20 @@ abstract class Int32ValueMixin {
         return;
       }
       throw context.parseException(
-          'Expected an integer encoded as a String or number',
-          1); // TODO: error json
+          'Expected an integer encoded as a String or number', num_);
     }
 
     String? str = jsonReader.tryString();
     if (str != null) {
       (message as Int32ValueMixin).value = int.tryParse(str) ??
           (throw context.parseException(
-              'Expected string to encode integer', 1)); // TODO: error json
+              'Expected string to encode integer', str));
       return;
     }
 
     throw context.parseException(
         'Expected an integer encoded as a String or number',
-        1); // TODO: error json
+        nextJsonObject(jsonReader));
   }
 }
 
@@ -807,21 +804,20 @@ abstract class UInt32ValueMixin {
         return;
       }
       throw context.parseException(
-          'Expected an unsigned integer as a String or integer',
-          1); // TODO: error json
+          'Expected an unsigned integer as a String or integer', num_);
     }
 
     String? str = jsonReader.tryString();
     if (str != null) {
       (message as UInt32ValueMixin).value = int.tryParse(str) ??
           (throw context.parseException(
-              'Expected String to encode an integer', 1)); // TODO: error json
+              'Expected String to encode an integer', str));
       return;
     }
 
     throw context.parseException(
         'Expected an unsigned integer as a String or integer',
-        1); // TODO: error json
+        nextJsonObject(jsonReader));
   }
 }
 
@@ -847,7 +843,7 @@ abstract class BoolValueMixin {
       return;
     }
 
-    throw context.parseException('Expected a bool', 1); // TODO: error json
+    throw context.parseException('Expected a bool', nextJsonObject(jsonReader));
   }
 }
 
@@ -872,7 +868,8 @@ abstract class StringValueMixin {
       (message as StringValueMixin).value = str;
       return;
     }
-    throw context.parseException('Expected a String', 1); // TODO: error json
+    throw context.parseException(
+        'Expected a String', nextJsonObject(jsonReader));
   }
 }
 
@@ -899,11 +896,11 @@ abstract class BytesValueMixin {
         return;
       } on FormatException {
         throw context.parseException(
-            'Expected bytes encoded as base64 String', 1); // TODO: error json
+            'Expected bytes encoded as base64 String', str);
       }
     }
 
     throw context.parseException(
-        'Expected bytes encoded as base64 String', 1); // TODO: error json
+        'Expected bytes encoded as base64 String', nextJsonObject(jsonReader));
   }
 }
