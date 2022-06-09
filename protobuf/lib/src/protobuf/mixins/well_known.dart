@@ -92,10 +92,10 @@ abstract class AnyMixin implements GeneratedMessage {
     jsonSink.addKey('@type');
     jsonSink.addString(any.typeUrl);
     if (info.writeToProto3JsonSink == null) {
-      unpacked.writeToProto3JsonSink(typeRegistry, jsonSink, newMessage: false);
+      unpacked.toProto3JsonSink(typeRegistry, jsonSink, newMessage: false);
     } else {
       jsonSink.addKey('value');
-      unpacked.writeToProto3JsonSink(typeRegistry, jsonSink, newMessage: true);
+      unpacked.toProto3JsonSink(typeRegistry, jsonSink, newMessage: true);
     }
     jsonSink.endObject();
   }

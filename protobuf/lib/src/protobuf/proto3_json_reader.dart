@@ -4,37 +4,19 @@
 
 part of protobuf;
 
-void _mergeFromProto3JsonString(
-    String jsonString,
+void _mergeFromProto3JsonReader(
+    JsonReader jsonReader,
     _FieldSet fieldSet,
     TypeRegistry typeRegistry,
     bool ignoreUnknownFields,
     bool supportNamesWithUnderscores,
     bool permissiveEnums) {
-  final JsonReader<StringSlice> jsonReader = JsonReader.fromString(jsonString);
-
   var context = JsonParsingContext(
       ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
-
-  _mergeFromProto3JsonReader(jsonReader, fieldSet, typeRegistry, context);
+  __mergeFromProto3JsonReader(jsonReader, fieldSet, typeRegistry, context);
 }
 
-void _mergeFromProto3JsonObject(
-    Object? jsonObject,
-    _FieldSet fieldSet,
-    TypeRegistry typeRegistry,
-    bool ignoreUnknownFields,
-    bool supportNamesWithUnderscores,
-    bool permissiveEnums) {
-  final JsonReader<Object?> jsonReader = JsonReader.fromObject(jsonObject);
-
-  var context = JsonParsingContext(
-      ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
-
-  _mergeFromProto3JsonReader(jsonReader, fieldSet, typeRegistry, context);
-}
-
-void _mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
+void __mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
     TypeRegistry typeRegistry, JsonParsingContext context) {
   if (jsonReader.tryNull()) {
     return;
@@ -296,7 +278,7 @@ Object? _parseProto3JsonValue(
     case PbFieldType._GROUP_BIT:
     case PbFieldType._MESSAGE_BIT:
       GeneratedMessage subMessage = fieldInfo.subBuilder!();
-      _mergeFromProto3JsonReader(
+      __mergeFromProto3JsonReader(
           jsonReader, subMessage._fieldSet, typeRegistry, context);
       return subMessage;
 
