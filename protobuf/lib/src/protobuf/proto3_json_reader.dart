@@ -225,7 +225,12 @@ Object? _parseProto3JsonValue(
     case PbFieldType._FIXED32_BIT:
       num? n = jsonReader.tryNum();
       if (n != null) {
-        return n as int; // TODO: conversion needs to be checked?
+        if (n is int) {
+          _check32BitUnsignedProto3(n, context);
+          return n;
+        }
+        // TODO: We don't have the JSON string to show in error messages
+        throw context.parseException('Expected int or stringified int', 1);
       }
       String? s = jsonReader.tryString();
       if (s != null) {
@@ -240,6 +245,7 @@ Object? _parseProto3JsonValue(
       num? n = jsonReader.tryNum();
       if (n != null) {
         if (n is int) {
+          _check32BitSignedProto3(n, context);
           return n;
         }
         throw context.parseException('Expected int or stringified int', 1);
@@ -343,15 +349,15 @@ Object _decodeMapKey(String key, int fieldType, JsonParsingContext context) {
 }
 
 Object? _nextJsonObject(JsonReader reader) {
-    final jsonReader = JsonReader.fromObject(jsonObject);
+  final jsonReader = JsonReader.fromObject(jsonObject);
 
-    Object? json;
-    final sink = jsonObjectWriter((result) {
-      json = result;
-    });
-    jsonReader.expectAnyValue(sink);
+  Object? json;
+  final sink = jsonObjectWriter((result) {
+    json = result;
+  });
+  jsonReader.expectAnyValue(sink);
 
-    return json;
+  return json;
 }
 
 int _tryParse32BitProto3(String s, JsonParsingContext context) {
