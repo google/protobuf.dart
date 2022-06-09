@@ -348,18 +348,6 @@ Object _decodeMapKey(String key, int fieldType, JsonParsingContext context) {
   }
 }
 
-Object? _nextJsonObject(JsonReader reader) {
-  final jsonReader = JsonReader.fromObject(jsonObject);
-
-  Object? json;
-  final sink = jsonObjectWriter((result) {
-    json = result;
-  });
-  jsonReader.expectAnyValue(sink);
-
-  return json;
-}
-
 int _tryParse32BitProto3(String s, JsonParsingContext context) {
   return int.tryParse(s) ??
       (throw context.parseException('expected integer', s));
