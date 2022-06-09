@@ -482,7 +482,6 @@ abstract class ValueMixin implements GeneratedMessage {
             listValue, jsonReader, typeRegistry, context);
         value.listValue = listValue;
       }
-      jsonReader.endArray();
       return;
     }
 
@@ -517,7 +516,7 @@ abstract class ListValueMixin implements GeneratedMessage {
     final list = message as ListValueMixin;
 
     if (!jsonReader.tryArray()) {
-      throw context.parseException('Expected a json-List', json);
+      throw context.parseException('Expected an array', json);
     }
 
     var subBuilder = message.info_.subBuilder(_valueFieldTagNumber)!;
