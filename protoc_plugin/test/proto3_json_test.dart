@@ -365,8 +365,15 @@ void main() {
   group('decode', () {
     Matcher parseFailure(List<String> expectedPath) => throwsA(predicate((e) {
           if (e is FormatException) {
-            final pathExpression =
-                RegExp(r'root(\["[^"]*"]*\])*').firstMatch(e.message)![0]!;
+            final firstMatch =
+                RegExp(r'root(\["[^"]*"]*\])*').firstMatch(e.message);
+            if (firstMatch == null) {
+              return false;
+            }
+            final pathExpression = firstMatch[0];
+            if (pathExpression == null) {
+              return false;
+            }
             final actualPath = RegExp(r'\["([^"]*)"\]')
                 .allMatches(pathExpression)
                 .map((match) => match[1])
