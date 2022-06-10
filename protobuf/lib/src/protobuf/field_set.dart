@@ -177,12 +177,13 @@ class _FieldSet {
       if (field.isRepeated) {
         final entries = _values[field.index!];
         if (entries == null) continue;
+        PbList list = entries;
         if (field.isGroupOrMessage) {
-          for (var subMessage in entries as List<GeneratedMessage>) {
+          for (GeneratedMessage subMessage in list) {
             subMessage.freeze();
           }
         }
-        _values[field.index!] = entries.toFrozenPbList();
+        _values[field.index!] = list.toFrozenPbList();
       } else if (field.isMapField) {
         PbMap? map = _values[field.index!];
         if (map == null) continue;
@@ -701,8 +702,9 @@ class _FieldSet {
     } else if (!_isEnum(fi.type)) {
       hash = _HashUtils._combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
+      PbList list = value;
       hash = _HashUtils._combine(
-          hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
+          hash, _HashUtils._hashObjects(list.map((enm) => enm.value)));
     } else {
       ProtobufEnum enm = value;
       hash = _HashUtils._combine(hash, enm.value);
@@ -802,11 +804,15 @@ class _FieldSet {
     var mustClone = _isGroupOrMessage(otherFi.type);
 
     if (fi!.isMapField) {
-      var f = fi as MapFieldInfo<dynamic, dynamic>;
+      if (fieldValue == null) {
+        return;
+      }
+      MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
       mustClone = _isGroupOrMessage(f.valueFieldType);
-      var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
+      PbMap<dynamic, dynamic> map = f._ensureMapField(meta, this) as dynamic;
       if (mustClone) {
-        for (MapEntry entry in fieldValue.entries) {
+        PbMap fieldValueMap = fieldValue;
+        for (MapEntry entry in fieldValueMap.entries) {
           map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
         }
       } else {
@@ -836,10 +842,11 @@ class _FieldSet {
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 
+      GeneratedMessage msg = fieldValue;
       if (currentFi == null) {
-        fieldValue = (fieldValue as GeneratedMessage).deepCopy();
+        fieldValue = msg.deepCopy();
       } else {
-        fieldValue = currentFi..mergeFromMessage(fieldValue);
+        fieldValue = currentFi..mergeFromMessage(msg);
       }
     }
 
