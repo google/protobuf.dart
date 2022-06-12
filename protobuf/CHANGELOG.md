@@ -31,7 +31,7 @@
   `protobuf.omit_enum_names` in debug strings (`toString` methods) ([#649])
 * `TimestampMixin.toDateTime` now takes an optional named `bool` argument
   `toLocal` (defaults to `false`) for generating a `DateTime` in the local time
-  zone (instead of UTC). (#653)
+  zone (instead of UTC). ([#653])
 * Fix serialization of `infinity` and `nan` doubles in JSON serializers
   ([#652])
 * Fix Dart generation for fields starting with underscore ([#651])
