@@ -1,3 +1,9 @@
+## 2.0.2-dev
+
+* Update `==` on `GeneratedMessage` to have the parameter type `Object`.
+  * Fixes mockitos ability to generate `Fake` protobuf instances.
+  * Matches the overridden `==` method from `Object`.
+
 ## 2.0.1
 
 * Fix bug of parsing map-values with default values.
