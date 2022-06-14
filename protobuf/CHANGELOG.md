@@ -20,8 +20,8 @@
   messages. ([#638])
 * Fix setting an extension field when there's an unknown field with the same
   tag. ([#639])
-* Fix sharing backing memory for `repeated bytes` and `optional bytes` fields
-  when parsing same buffer multiple times. ([#640])
+* Fix sharing backing memory for `repeated bytes` and `optional bytes` fields.
+  ([#640])
 * `GeneratedMessage.rebuild` now generates a warning when the return value is
   not used. ([#631])
 * Fix proto3 repeated field encoding without the `packed` option ([#345],
