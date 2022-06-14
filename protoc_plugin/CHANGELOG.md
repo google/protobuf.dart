@@ -1,10 +1,3 @@
-## 2.0.1-dev
-
-* Update README to mention [grpc] code generation: [#514]
-
-[#514]: https://github.com/google/protobuf.dart/pull/514
-[grpc]: https://pub.dev/packages/grpc
-
 ## 20.0.0
 
 * Stable release generating null-safe code.
