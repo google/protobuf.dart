@@ -1,4 +1,4 @@
-## 2.0.2-dev
+## 2.1.0
 
 * Update READMEs of `protobuf` and `protoc_plugin`:
   * Use `dart pub` instead of `pub` in command examples ([a7e75cb])
@@ -24,8 +24,6 @@
   ([#640])
 * `GeneratedMessage.rebuild` now generates a warning when the return value is
   not used. ([#631])
-* Fix proto3 repeated field encoding without the `packed` option ([#345],
-  [#635])
 * Fix hash code of messages with empty unknown field set ([#648])
 * Show field tags with `protobuf.omit_field_names`, enum value tags with
   `protobuf.omit_enum_names` in debug strings (`toString` methods) ([#649])
@@ -57,8 +55,6 @@
 [#640]: https://github.com/google/protobuf.dart/pull/640
 [#641]: https://github.com/google/protobuf.dart/pull/641
 [#631]: https://github.com/google/protobuf.dart/pull/631
-[#345]: https://github.com/google/protobuf.dart/issues/345
-[#635]: https://github.com/google/protobuf.dart/pull/635
 [#648]: https://github.com/google/protobuf.dart/pull/648
 [#649]: https://github.com/google/protobuf.dart/pull/649
 [#653]: https://github.com/google/protobuf.dart/pull/653
