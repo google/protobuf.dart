@@ -1,4 +1,11 @@
-## 2.0.2-dev
+## 20.1.0
+
+Starting with this release `protoc_plugin` and `protobuf` versions will be in
+sync. Please make sure to use the same versions of `protoc_plugin` and
+`protobuf`.
+
+This release is backwards compatible with `protobuf-2.0.1`. Major version was
+bumped to make it in sync with `protoc_plugin` version number.
 
 * Update READMEs of `protobuf` and `protoc_plugin`:
   * Use `dart pub` instead of `pub` in command examples ([a7e75cb])

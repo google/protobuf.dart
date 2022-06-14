@@ -1,3 +1,11 @@
+## 20.1.0
+
+Starting with this release `protoc_plugin` and `protobuf` versions will be in
+sync. Please make sure to use the same versions of `protoc_plugin` and
+`protobuf`.
+
+Further changelog entries will only be added to `protobuf` changelog.
+
 ## 20.0.0
 
 * Stable release generating null-safe code.
