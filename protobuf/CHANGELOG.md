@@ -1,8 +1,73 @@
 ## 2.0.2-dev
 
-* Update `==` on `GeneratedMessage` to have the parameter type `Object`.
-  * Fixes mockitos ability to generate `Fake` protobuf instances.
-  * Matches the overridden `==` method from `Object`.
+* Update READMEs of `protobuf` and `protoc_plugin`:
+  * Use `dart pub` instead of `pub` in command examples ([a7e75cb])
+  * Fix typos, clarify installation instructions, mention native compilation,
+    fix proto syntax for `protoc_plugin` ([#610], [#617], [#641])
+* Update some of the documentation according to Effective Dart documentation
+  guide ([#664], [#674])
+* Improve runtime perf by removing some of the runtime type checks ([#574],
+  [#573])
+* Fix a bug when converting negative `Timestamp` to Dart `DateTime` ([#580],
+  [#577])
+* Document `BuilderInfo` and `FieldInfo` properties ([#597])
+* Improve `BuilderInfo` initialization by doing some of the work lazily
+  ([#606])
+* Improve enum hash code generation ([#556])
+* Fix parsing nested `Any` messages from JSON ([#568])
+* Improve message hash code generation performance ([#554], [#633])
+* Fix reading uninitialized map fields changing equality and hash code of
+  messages. ([#638])
+* Fix setting an extension field when there's an unknown field with the same
+  tag. ([#639])
+* Fix sharing backing memory for `repeated bytes` and `optional bytes` fields.
+  ([#640])
+* `GeneratedMessage.rebuild` now generates a warning when the return value is
+  not used. ([#631])
+* Fix proto3 repeated field encoding without the `packed` option ([#345],
+  [#635])
+* Fix hash code of messages with empty unknown field set ([#648])
+* Show field tags with `protobuf.omit_field_names`, enum value tags with
+  `protobuf.omit_enum_names` in debug strings (`toString` methods) ([#649])
+* `TimestampMixin.toDateTime` now takes an optional named `bool` argument
+  `toLocal` (defaults to `false`) for generating a `DateTime` in the local time
+  zone (instead of UTC). ([#653])
+* Fix serialization of `infinity` and `nan` doubles in JSON serializers
+  ([#652])
+* Fix Dart generation for fields starting with underscore ([#651])
+* Fix proto3 JSON deserialization of fixed32 fields ([#655])
+* Fix uninitialized repeated field values runtime types for frozen messages
+  ([#654])
+
+[a7e75cb]: https://github.com/google/protobuf.dart/commit/a7e75cb
+[#610]: https://github.com/google/protobuf.dart/pull/610
+[#617]: https://github.com/google/protobuf.dart/pull/617
+[#574]: https://github.com/google/protobuf.dart/pull/574
+[#573]: https://github.com/google/protobuf.dart/issues/573
+[#580]: https://github.com/google/protobuf.dart/pull/580
+[#577]: https://github.com/google/protobuf.dart/issues/577
+[#597]: https://github.com/google/protobuf.dart/pull/597
+[#606]: https://github.com/google/protobuf.dart/pull/606
+[#556]: https://github.com/google/protobuf.dart/pull/556
+[#568]: https://github.com/google/protobuf.dart/pull/568
+[#554]: https://github.com/google/protobuf.dart/pull/554
+[#633]: https://github.com/google/protobuf.dart/pull/633
+[#638]: https://github.com/google/protobuf.dart/pull/638
+[#639]: https://github.com/google/protobuf.dart/pull/639
+[#640]: https://github.com/google/protobuf.dart/pull/640
+[#641]: https://github.com/google/protobuf.dart/pull/641
+[#631]: https://github.com/google/protobuf.dart/pull/631
+[#345]: https://github.com/google/protobuf.dart/issues/345
+[#635]: https://github.com/google/protobuf.dart/pull/635
+[#648]: https://github.com/google/protobuf.dart/pull/648
+[#649]: https://github.com/google/protobuf.dart/pull/649
+[#653]: https://github.com/google/protobuf.dart/pull/653
+[#652]: https://github.com/google/protobuf.dart/pull/652
+[#651]: https://github.com/google/protobuf.dart/pull/651
+[#655]: https://github.com/google/protobuf.dart/pull/655
+[#654]: https://github.com/google/protobuf.dart/pull/654
+[#664]: https://github.com/google/protobuf.dart/pull/664
+[#674]: https://github.com/google/protobuf.dart/pull/674
 
 ## 2.0.1
 
