@@ -39,7 +39,6 @@ part 'src/protobuf/pb_list.dart';
 part 'src/protobuf/pb_map.dart';
 part 'src/protobuf/protobuf_enum.dart';
 part 'src/protobuf/proto3_json.dart';
-part 'src/protobuf/readonly_message.dart';
 part 'src/protobuf/rpc_client.dart';
 part 'src/protobuf/unknown_field_set.dart';
 part 'src/protobuf/utils.dart';
