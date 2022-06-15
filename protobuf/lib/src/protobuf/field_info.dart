@@ -6,7 +6,10 @@ part of protobuf;
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
-  FrozenPbList<T>? _emptyList;
+  /// Cached read-only empty list for this field type. For non-repeated fields
+  /// this is always `null`. Otherwise it starts as `null` and gets initialized
+  /// in `readonlyDefault`.
+  PbList<T>? _emptyList;
 
   /// Name of this field as the `json_name` reported by protoc.
   ///
@@ -156,7 +159,7 @@ class FieldInfo<T> {
   /// [GeneratedMessage.getField], doesn't create a repeated field.
   dynamic get readonlyDefault {
     if (isRepeated) {
-      return _emptyList ??= FrozenPbList._([]);
+      return _emptyList ??= PbList.unmodifiable();
     }
     return makeDefault!();
   }
@@ -276,8 +279,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
       {ProtobufEnum? defaultEnumValue,
       String? protoName})
       : super(name, tagNumber, index, type,
-            defaultOrMaker: () =>
-                PbMap<K, V>(keyFieldType, valueFieldType, mapEntryBuilderInfo),
+            defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
             defaultEnumValue: defaultEnumValue,
             protoName: protoName) {
     ArgumentError.checkNotNull(name, 'name');

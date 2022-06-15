@@ -2,11 +2,16 @@
 
 * `ReadonlyMessageMixin` removed ([#183], [#644])
 * `frozenMessageModificationHandler` removed ([#175], [#643])
+* `PbListBase` and `FrozenPbList` types are removed. All proto repeated fields
+  now use `PbList`. To check if a list is frozen, use `isFrozen` getter.
+  ([#624], [#626])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
 [#175]: https://github.com/google/protobuf.dart/issues/175
 [#643]: https://github.com/google/protobuf.dart/pull/643
+[#624]: https://github.com/google/protobuf.dart/issues/624
+[#626]: https://github.com/google/protobuf.dart/pull/626
 
 ## 2.1.0
 

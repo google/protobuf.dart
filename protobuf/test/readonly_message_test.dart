@@ -90,24 +90,20 @@ void main() {
     var r = Rec.create()
       ..ints.add(10)
       ..freeze();
-    expect(
-        () => r.ints.clear(),
-        throwsError(UnsupportedError,
-            equals('Cannot call clear on an unmodifiable list')));
+    expect(() => r.ints.clear(),
+        throwsError(UnsupportedError, equals("'clear' on a read-only list")));
     expect(
         () => r.ints[0] = 2,
-        throwsError(UnsupportedError,
-            equals('Cannot call set on an unmodifiable list')));
+        throwsError(
+            UnsupportedError, equals("'set element' on a read-only list")));
     expect(() => r.sub.add(Rec.create()),
         throwsError(UnsupportedError, contains('add')));
 
     r = Rec.create()
       ..sub.add(Rec.create())
       ..freeze();
-    expect(
-        () => r.sub.add(Rec.create()),
-        throwsError(UnsupportedError,
-            equals('Cannot call add on an unmodifiable list')));
+    expect(() => r.sub.add(Rec.create()),
+        throwsError(UnsupportedError, equals("'add' on a read-only list")));
     expect(() => r.ints.length = 20,
         throwsError(UnsupportedError, contains('length')));
   });

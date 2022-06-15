@@ -147,18 +147,13 @@ class _FieldSet {
     _frozenState = true;
     for (var field in _meta.sortedByTag) {
       if (field.isRepeated) {
-        final entries = _values[field.index!];
-        if (entries == null) continue;
-        if (field.isGroupOrMessage) {
-          for (var subMessage in entries as List<GeneratedMessage>) {
-            subMessage.freeze();
-          }
-        }
-        _values[field.index!] = entries.toFrozenPbList();
+        PbList? list = _values[field.index!];
+        if (list == null) continue;
+        list.freeze();
       } else if (field.isMapField) {
         PbMap? map = _values[field.index!];
         if (map == null) continue;
-        _values[field.index!] = map.freeze();
+        map.freeze();
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.index!];
         if (entry != null) {
@@ -699,7 +694,7 @@ class _FieldSet {
 
     void writeFieldValue(fieldValue, String name) {
       if (fieldValue == null) return;
-      if (fieldValue is PbListBase) {
+      if (fieldValue is PbList) {
         for (var value in fieldValue) {
           renderValue(name, value);
         }
@@ -791,14 +786,14 @@ class _FieldSet {
     if (fi.isRepeated) {
       if (mustClone) {
         // fieldValue must be a PbListBase of GeneratedMessage.
-        PbListBase<GeneratedMessage> pbList = fieldValue;
+        PbList<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
         // fieldValue must be at least a PbListBase.
-        PbListBase pbList = fieldValue;
+        PbList pbList = fieldValue;
         fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
       return;
@@ -886,7 +881,7 @@ class _FieldSet {
             ..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
-        PbListBase? list = _values[index];
+        PbList? list = _values[index];
         if (list != null) {
           _values[index] = fieldInfo._createRepeatedField(_message!)
             ..addAll(list);
