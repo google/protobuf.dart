@@ -1,9 +1,12 @@
 ## 3.0.0-dev
 
 * `ReadonlyMessageMixin` removed ([#183], [#644])
+* `frozenMessageModificationHandler` removed ([#175], [#643])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
+[#175]: https://github.com/google/protobuf.dart/issues/175
+[#643]: https://github.com/google/protobuf.dart/pull/643
 
 ## 2.1.0
 
