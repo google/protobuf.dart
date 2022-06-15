@@ -27,10 +27,6 @@ bool _areMapsEqual(Map lhs, Map rhs) {
   return lhs.keys.every((key) => _deepEquals(lhs[key], rhs[key]));
 }
 
-@Deprecated('This function was not intended to be public. '
-    'It will be removed from the public api in next major version. ')
-List<T> sorted<T>(Iterable<T> list) => List.from(list)..sort();
-
 List<T> _sorted<T>(Iterable<T> list) => List.from(list)..sort();
 
 class _HashUtils {
