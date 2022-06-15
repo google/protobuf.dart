@@ -11,9 +11,6 @@ bool _deepEquals(lhs, rhs) {
   if (rhs is GeneratedMessage) return false;
   if ((lhs is List) && (rhs is List)) return _areListsEqual(lhs, rhs);
   if ((lhs is Map) && (rhs is Map)) return _areMapsEqual(lhs, rhs);
-  if ((lhs is ByteData) && (rhs is ByteData)) {
-    return _areByteDataEqual(lhs, rhs);
-  }
   return lhs == rhs;
 }
 
@@ -28,12 +25,6 @@ bool _areListsEqual(List lhs, List rhs) {
 bool _areMapsEqual(Map lhs, Map rhs) {
   if (lhs.length != rhs.length) return false;
   return lhs.keys.every((key) => _deepEquals(lhs[key], rhs[key]));
-}
-
-bool _areByteDataEqual(ByteData lhs, ByteData rhs) {
-  Uint8List asBytes(d) =>
-      Uint8List.view(d.buffer, d.offsetInBytes, d.lengthInBytes);
-  return _areListsEqual(asBytes(lhs), asBytes(rhs));
 }
 
 @Deprecated('This function was not intended to be public. '
