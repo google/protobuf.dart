@@ -61,8 +61,8 @@ abstract class ProtobufContainer {
   // The generator containing this entity.
   ProtobufContainer? get parent;
 
-  /// The top-level parent of this entity. If this entity is a top-level entity,
-  /// returns this.
+  /// The top-level parent of this entity, or itself if it is a top-level
+  /// entity.
   ProtobufContainer? get toplevelParent {
     if (parent == null) {
       return null;

@@ -62,9 +62,11 @@ class ProtobufField {
   bool get isRepeated =>
       descriptor.label == FieldDescriptorProto_Label.LABEL_REPEATED;
 
-  /// True if a numeric field is repeated and it should be encoded with packed
-  /// encoding. In proto3 repeated fields are encoded as packed by default.
-  /// proto2 requires `[packed=true]` option.
+  /// Whether a numeric field is repeated and must be encoded with packed
+  /// encoding.
+  ///
+  /// In proto3 repeated fields are encoded as packed by default. The proto2
+  /// requires `[packed=true]` option.
   bool get isPacked {
     if (!isRepeated) {
       return false; // only repeated fields can be packed

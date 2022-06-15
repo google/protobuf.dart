@@ -128,7 +128,7 @@ final Directory dataDir = () {
   return d;
 }();
 
-/// Returns the directory containing the pubspec.yaml file.
+/// The directory containing the pubspec.yaml file.
 final Directory pubspecDir = () {
   for (var d = Directory.current; d.parent != d; d = d.parent) {
     if (File('${d.path}/pubspec.yaml').existsSync()) {

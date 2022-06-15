@@ -1,3 +1,11 @@
+## 20.0.1
+
+* Fix proto3 repeated field encoding without the `packed` option ([#345],
+  [#635])
+
+[#345]: https://github.com/google/protobuf.dart/issues/345
+[#635]: https://github.com/google/protobuf.dart/pull/635
+
 ## 20.0.0
 
 * Stable release generating null-safe code.

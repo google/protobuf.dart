@@ -113,7 +113,9 @@ class _ExtensionFieldSet {
   }
 
   void _ensureWritable() {
-    if (_isReadOnly) frozenMessageModificationHandler(_parent._messageName);
+    if (_isReadOnly) {
+      _throwFrozenMessageModificationError(_parent._messageName);
+    }
   }
 
   void _validateInfo(Extension fi) {

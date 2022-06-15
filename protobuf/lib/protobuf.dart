@@ -39,15 +39,11 @@ part 'src/protobuf/pb_list.dart';
 part 'src/protobuf/pb_map.dart';
 part 'src/protobuf/protobuf_enum.dart';
 part 'src/protobuf/proto3_json.dart';
-part 'src/protobuf/readonly_message.dart';
 part 'src/protobuf/rpc_client.dart';
 part 'src/protobuf/unknown_field_set.dart';
 part 'src/protobuf/utils.dart';
 part 'src/protobuf/unpack.dart';
 part 'src/protobuf/wire_format.dart';
-
-// TODO(sra): Remove this method when clients upgrade to protoc 0.3.5
-Int64 makeLongInt(int n) => Int64(n);
 
 // TODO(sra): Use Int64.parse() when available - see http://dartbug.com/21915.
 Int64 parseLongInt(String text) {

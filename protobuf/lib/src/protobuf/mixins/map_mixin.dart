@@ -29,7 +29,7 @@ abstract class PbMapMixin {
   operator []=(key, val) {
     var tag = getTagNumber(key as String);
     if (tag == null) {
-      throw ArgumentError(
+      throw ArgumentError.value(key, 'key',
           "field '$key' not found in ${info_.qualifiedMessageName}");
     }
     setField(tag, val);

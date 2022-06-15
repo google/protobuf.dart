@@ -29,8 +29,8 @@ void main() {
       '"70":"410","71":411,"72":412,"73":false,"74":"415","75":"NDE2",'
       '"81":1,"82":4,"83":7,"84":"424","85":"425"}';
 
-  // Checks that message once serialized to JSON
-  // matches TEST_ALL_TYPES_JSON massaged with [:.replaceAll(from, to):].
+  /// Checks that the message, once serialized to JSON, matches
+  /// [testAllJsonTypes] massaged with `replaceAll(from, to)`.
   Matcher expectedJson(String from, String to) {
     var expectedJson = testAllJsonTypes.replaceAll(from, to);
     return predicate(
