@@ -1,3 +1,10 @@
+## 3.0.0-dev
+
+* `ReadonlyMessageMixin` removed ([#183], [#644])
+
+[#183]: https://github.com/google/protobuf.dart/issues/183
+[#644]: https://github.com/google/protobuf.dart/pull/644
+
 ## 2.1.0
 
 * Update READMEs of `protobuf` and `protoc_plugin`:
