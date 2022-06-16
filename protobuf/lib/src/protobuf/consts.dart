@@ -6,12 +6,12 @@ part of protobuf;
 
 /// Constant string value of `double.infinity.toString()` and the infinity
 /// value recognized by `double.parse(..)`.
-const infinity = 'Infinity';
+const _infinity = 'Infinity';
 
 /// Constant string value of `double.negativeInfinity.toString()` and the
 /// negative infinity value recognized by `double.parse(..)`.
-const negativeInfinity = '-Infinity';
+const _negativeInfinity = '-Infinity';
 
 /// Constant string value of `double.nan.toString()` and the NaN (not a number)
 /// value recognized by `double.parse(..)`.
-const nan = 'NaN';
+const _nan = 'NaN';

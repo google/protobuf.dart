@@ -6,21 +6,40 @@
 
 part of protobuf;
 
-const int TAG_TYPE_BITS = 3;
-const int TAG_TYPE_MASK = (1 << TAG_TYPE_BITS) - 1;
+const int _TAG_TYPE_BITS = 3;
+const int _TAG_TYPE_MASK = (1 << _TAG_TYPE_BITS) - 1;
 
+/// @nodoc
+@visibleForTesting
 const int WIRETYPE_VARINT = 0;
+
+/// @nodoc
+@visibleForTesting
 const int WIRETYPE_FIXED64 = 1;
+
+/// @nodoc
+@visibleForTesting
 const int WIRETYPE_LENGTH_DELIMITED = 2;
+
+/// @nodoc
+@visibleForTesting
 const int WIRETYPE_START_GROUP = 3;
+
+/// @nodoc
+@visibleForTesting
 const int WIRETYPE_END_GROUP = 4;
+
+/// @nodoc
+@visibleForTesting
 const int WIRETYPE_FIXED32 = 5;
 
-int getTagFieldNumber(int tag) => tag >> TAG_TYPE_BITS;
+int _getTagFieldNumber(int tag) => tag >> _TAG_TYPE_BITS;
 
-int getTagWireType(int tag) => tag & TAG_TYPE_MASK;
+int _getTagWireType(int tag) => tag & _TAG_TYPE_MASK;
 
-int makeTag(int fieldNumber, int tag) => (fieldNumber << TAG_TYPE_BITS) | tag;
+/// @nodoc
+@visibleForTesting
+int makeTag(int fieldNumber, int tag) => (fieldNumber << _TAG_TYPE_BITS) | tag;
 
 /// Returns true if the wireType can be merged into the given fieldType.
 bool _wireTypeMatches(int fieldType, int wireType) {

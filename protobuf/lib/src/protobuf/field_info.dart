@@ -96,7 +96,7 @@ class FieldInfo<T> {
   /// Function to verify when adding items to a repeated field.
   ///
   /// Only available in repeated fields.
-  final CheckFunc<T>? check;
+  final _CheckFunc<T>? check;
 
   FieldInfo(this.name, this.tagNumber, this.index, this.type,
       {dynamic defaultOrMaker,

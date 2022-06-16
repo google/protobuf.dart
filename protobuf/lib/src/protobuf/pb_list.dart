@@ -4,11 +4,11 @@
 
 part of protobuf;
 
-typedef CheckFunc<E> = void Function(E? x);
+typedef _CheckFunc<E> = void Function(E? x);
 
 class PbList<E> extends ListBase<E> {
   final List<E> _wrappedList;
-  final CheckFunc<E> _check;
+  final _CheckFunc<E> _check;
 
   bool _isReadOnly = false;
 

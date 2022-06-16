@@ -25,10 +25,10 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
       case PbFieldType._DOUBLE_BIT:
         final value = fieldValue as double;
         if (value.isNaN) {
-          return nan;
+          return _nan;
         }
         if (value.isInfinite) {
-          return value.isNegative ? negativeInfinity : infinity;
+          return value.isNegative ? _negativeInfinity : _infinity;
         }
         if (fieldValue.toInt() == fieldValue) {
           return fieldValue.toInt();

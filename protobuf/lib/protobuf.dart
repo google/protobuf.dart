@@ -11,7 +11,7 @@ import 'dart:math' as math;
 import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endian;
 
 import 'package:fixnum/fixnum.dart' show Int64;
-import 'package:meta/meta.dart' show UseResult;
+import 'package:meta/meta.dart' show UseResult, visibleForTesting;
 
 import 'src/protobuf/json_parsing_context.dart';
 import 'src/protobuf/permissive_compare.dart';
@@ -46,6 +46,7 @@ part 'src/protobuf/unpack.dart';
 part 'src/protobuf/wire_format.dart';
 
 // TODO(sra): Use Int64.parse() when available - see http://dartbug.com/21915.
+/// @nodoc
 Int64 parseLongInt(String text) {
   if (text.startsWith('0x')) return Int64.parseHex(text.substring(2));
   if (text.startsWith('+0x')) return Int64.parseHex(text.substring(3));

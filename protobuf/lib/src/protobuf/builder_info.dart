@@ -95,7 +95,7 @@ class BuilderInfo {
       int tagNumber,
       String name,
       int fieldType,
-      CheckFunc<T> check,
+      _CheckFunc<T> check,
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,

@@ -22,7 +22,7 @@ class Extension<T> extends FieldInfo<T> {
             protoName: protoName);
 
   Extension.repeated(this.extendee, String name, int tagNumber, int fieldType,
-      {CheckFunc<T>? check,
+      {_CheckFunc<T>? check,
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,

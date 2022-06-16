@@ -66,16 +66,13 @@ String? _getFieldError(int fieldType, var value) {
 
 // entry points for generated code
 
-// generated checkItem for message, group, enum calls this
-void checkItemFailed(val, String className) {
-  throw ArgumentError('Value ($val) is not an instance of $className');
-}
-
 /// Returns a function for validating items in a repeated field.
 ///
 /// For most types this is a not-null check, except for floats, and signed and
 /// unsigned 32 bit ints where there also is a range check.
-CheckFunc getCheckFunction(int fieldType) {
+///
+/// @nodoc
+_CheckFunc getCheckFunction(int fieldType) {
   switch (fieldType & ~0x7) {
     case PbFieldType._BOOL_BIT:
     case PbFieldType._BYTES_BIT:
