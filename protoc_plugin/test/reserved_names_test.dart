@@ -22,26 +22,11 @@ import 'package:test/test.dart';
 
 import 'mirror_util.dart' show findMemberNames;
 
-// These names are no longer reserved but we keep them in
-// `GeneratedMessage_reservedNames` to keep generated code backwards
-// compatible. Remove in next major release.
-const List<String> oldGeneratedMessageReservedNames = [
-  'fromBuffer',
-  'fromJson',
-  r'$_defaultFor',
-];
-
-// These names are no longer reserved but we keep them in
-// `ProtobufEnum_reservedNames` to keep generated code backwards compatible.
-// Remove in next major release.
-const List<String> oldProtobufEnumReservedNames = ['initByValue'];
-
 void main() {
   test('GeneratedMessage reserved names are up to date', () {
     var actual = Set<String>.from(GeneratedMessage_reservedNames);
     var expected =
-        findMemberNames('package:protobuf/protobuf.dart', #GeneratedMessage)
-          ..addAll(oldGeneratedMessageReservedNames);
+        findMemberNames('package:protobuf/protobuf.dart', #GeneratedMessage);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
   });
@@ -49,8 +34,7 @@ void main() {
   test('ProtobufEnum reserved names are up to date', () {
     var actual = Set<String>.from(ProtobufEnum_reservedNames);
     var expected =
-        findMemberNames('package:protobuf/protobuf.dart', #ProtobufEnum)
-          ..addAll(oldProtobufEnumReservedNames);
+        findMemberNames('package:protobuf/protobuf.dart', #ProtobufEnum);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
   });
