@@ -9,7 +9,7 @@ import '../out/protos/nested_message.pb.dart';
 
 void main() {
   test('testFreezingNestedFields', () {
-    Top top = Top(
+    var top = Top(
       nestedMessageList: [Nested(a: 1)],
       nestedMessageMap: {1: Nested(a: 2)},
       nestedMessage: Nested(a: 3),
