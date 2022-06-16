@@ -1,3 +1,11 @@
+## 21.0.0
+
+* Identifiers `fromBuffer`, `fromJson`, `$_defaultFor`, `initByValue` are no
+  longer reserved. Proto fields with those Dart names will no longer have a
+  suffix added. ([#679])
+
+[#679]: https://github.com/google/protobuf.dart/pull/679
+
 ## 20.0.1
 
 * Fix proto3 repeated field encoding without the `packed` option ([#345],
