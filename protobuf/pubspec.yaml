@@ -11,7 +11,7 @@ environment:
 dependencies:
   collection: ^1.15.0
   fixnum: ^1.0.0
-  jsontool: ^1.1.1
+  jsontool: ^1.1.2
   meta: ^1.7.0
 
 dev_dependencies:
