@@ -11,9 +11,8 @@ import 'package:protobuf/protobuf.dart'
         FieldBaseType,
         FieldType,
         GeneratedMessage,
-        UnknownFieldSetField,
-        frozenMessageModificationHandler,
-        defaultFrozenMessageModificationHandler;
+        PbFieldType,
+        UnknownFieldSetField;
 import 'package:test/test.dart';
 
 Matcher throwsError(Type expectedType, Matcher expectedMessage) =>
@@ -78,42 +77,6 @@ void main() {
             equals('Attempted to change a read-only message (rec)')));
   });
 
-  test('can set a field on a read-only message with a custom read-only handler',
-      () {
-    try {
-      var called = 0;
-
-      frozenMessageModificationHandler =
-          (String messageName, [String? methodName]) {
-        expect(messageName, 'rec');
-        expect(methodName, isNull);
-        called++;
-      };
-
-      Rec.getDefault().setField(1, 456);
-      expect(called, 1);
-    } finally {
-      frozenMessageModificationHandler =
-          defaultFrozenMessageModificationHandler;
-    }
-  });
-
-  test('eagerly computes hashCode if a custom read-only handler is used', () {
-    try {
-      final message = Rec.getDefault();
-      final initialHashCode = message.hashCode;
-
-      frozenMessageModificationHandler =
-          (String messageName, [String? methodName]) {};
-      message.setField(1, 456);
-      final modifiedHashCode = message.hashCode;
-      expect(initialHashCode == modifiedHashCode, isFalse);
-    } finally {
-      frozenMessageModificationHandler =
-          defaultFrozenMessageModificationHandler;
-    }
-  });
-
   test("can't clear a read-only message", () {
     expect(
         () => Rec.getDefault().clear(),
@@ -134,24 +97,20 @@ void main() {
     var r = Rec.create()
       ..ints.add(10)
       ..freeze();
-    expect(
-        () => r.ints.clear(),
-        throwsError(UnsupportedError,
-            equals('Cannot call clear on an unmodifiable list')));
+    expect(() => r.ints.clear(),
+        throwsError(UnsupportedError, equals("'clear' on a read-only list")));
     expect(
         () => r.ints[0] = 2,
-        throwsError(UnsupportedError,
-            equals('Cannot call set on an unmodifiable list')));
+        throwsError(
+            UnsupportedError, equals("'set element' on a read-only list")));
     expect(() => r.sub.add(Rec.create()),
         throwsError(UnsupportedError, contains('add')));
 
     r = Rec.create()
       ..sub.add(Rec.create())
       ..freeze();
-    expect(
-        () => r.sub.add(Rec.create()),
-        throwsError(UnsupportedError,
-            equals('Cannot call add on an unmodifiable list')));
+    expect(() => r.sub.add(Rec.create()),
+        throwsError(UnsupportedError, equals("'add' on a read-only list")));
     expect(() => r.ints.length = 20,
         throwsError(UnsupportedError, contains('length')));
   });

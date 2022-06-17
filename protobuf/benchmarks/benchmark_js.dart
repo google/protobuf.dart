@@ -11,20 +11,10 @@ library benchmark_js;
 import 'common.dart';
 import 'd8.dart';
 
-final files = [
-  'benchmarks/datasets/google_message1/proto3/dataset.google_message1_proto3.pb',
-  'benchmarks/datasets/google_message1/proto2/dataset.google_message1_proto2.pb',
-  'benchmarks/datasets/google_message2/dataset.google_message2.pb'
-];
-
-void main(List<String> arguments) {
-  final datasets = files
+void main() {
+  final datasets = datasetFiles
       .map((file) => Dataset.fromBinary(readAsBytesSync(file)))
       .toList(growable: false);
 
-  FromBinaryBenchmark(datasets).report();
-  ToBinaryBenchmark(datasets).report();
-  ToJsonBenchmark(datasets).report();
-  FromJsonBenchmark(datasets).report();
-  HashCodeBenchmark(datasets).report();
+  run(datasets);
 }

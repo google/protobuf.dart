@@ -6,73 +6,96 @@ part of protobuf;
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
-  FrozenPbList<T>? _emptyList;
+  /// Cached read-only empty list for this field type. For non-repeated fields
+  /// this is always `null`. Otherwise it starts as `null` and gets initialized
+  /// in `readonlyDefault`.
+  PbList<T>? _emptyList;
 
-  /// Name of this field as the `json_name` reported by protoc. Example:
+  /// Name of this field as the `json_name` reported by protoc.
+  ///
+  /// Example:
+  ///
   /// ```proto
   /// message Msg {
   ///   int32 foo_name = 1 [json_name = "barName"];
   /// }
   /// ```
+  ///
   /// Here `name` of the field is `barName`. When `json_name` is not specified
   /// in the proto definition, this is the camelCase version of the field name.
   /// In the example above, without the `json_name` field option, `name` would
   /// be `"fooName"`.
   final String name;
 
-  /// Name of this field as written in the proto definition. Example:
+  /// Name of this field as written in the proto definition.
+  ///
+  /// Example:
+  ///
   /// ```proto
   /// message SearchRequest {
   ///   ...
   ///   int32 result_per_page = 3;
   /// }
   /// ```
+  ///
   /// `protoName` for the `result_per_page` field above is `"result_per_page"`.
-  /// This will typically consist of words separated with underscores.
+  /// The name typically consist of words separated with underscores.
   String get protoName {
     return _protoName ??= _unCamelCase(name);
   }
 
   String? _protoName;
 
-  /// Field number as specified in the proto definition. Example:
+  /// Field number as specified in the proto definition.
+  ///
+  /// Example:
+  ///
   /// ```proto
   /// message SearchRequest {
   ///   ...
   ///   int32 result_per_page = 3;
   /// }
   /// ```
+  ///
   /// `tagNumber` of `result_per_page` field is 3.
   final int tagNumber;
 
   /// Index of the field in [_FieldSet._values] list of this field's message.
-  /// `null` for extensions.
+  ///
+  /// The value is `null` for extension fields.
   final int? index;
 
   /// Type of this field
   final FieldType type;
 
-  /// Constructs the default value of a field. For repeated fields, only used
-  /// when the `check` property is null.
+  /// Constructs the default value of a field.
+  ///
+  /// For repeated fields, only used when the `check` property is `null`.
   final MakeDefaultFunc? makeDefault;
 
-  /// Only available in fields with message type. Creates an empty message or
-  /// group when decoding a message.
+  /// Creates an empty message or group when decoding a message.
+  ///
+  /// Only available in fields with message type.
   final CreateBuilderFunc? subBuilder;
 
-  /// Only available in enum fields. List of all enum values.
+  /// List of all enum values.
+  ///
+  /// Only available in enum fields.
   final List<ProtobufEnum>? enumValues;
 
-  /// Only available in enum fields. Default enum value or a
-  /// `PbMap<[anything], ProtobufEnum>`.
+  /// Default enum value.
+  ///
+  /// Only available in enum fields.
   final ProtobufEnum? defaultEnumValue;
 
-  /// Only available in enum fields. Looks up the enum value given its integer
-  /// code.
+  /// Mapping from enum integer values to enum values.
+  ///
+  /// Only available in enum fields.
   final ValueOfFunc? valueOf;
 
-  /// Only available in repeated fields. Verifies an item being added to a
-  /// repeated field.
+  /// Function to verify when adding items to a repeated field.
+  ///
+  /// Only available in repeated fields.
   final CheckFunc<T>? check;
 
   FieldInfo(this.name, this.tagNumber, this.index, this.type,
@@ -120,8 +143,8 @@ class FieldInfo<T> {
     return () => defaultOrMaker;
   }
 
-  /// Returns `true` if this represents a dummy field standing in for a field
-  /// that has been removed by a program transformation.
+  /// Whether this represents a dummy field standing in for a field that has
+  /// been removed by a program transformation.
   bool get _isDummy => tagNumber == 0;
 
   bool get isRequired => type.isRequired;
@@ -134,7 +157,7 @@ class FieldInfo<T> {
   /// [GeneratedMessage.getField], doesn't create a repeated field.
   dynamic get readonlyDefault {
     if (isRepeated) {
-      return _emptyList ??= FrozenPbList._([]);
+      return _emptyList ??= PbList.unmodifiable();
     }
     return makeDefault!();
   }
@@ -250,8 +273,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
       {ProtobufEnum? defaultEnumValue,
       String? protoName})
       : super(name, tagNumber, index, type,
-            defaultOrMaker: () =>
-                PbMap<K, V>(keyFieldType, valueFieldType, mapEntryBuilderInfo),
+            defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
             defaultEnumValue: defaultEnumValue,
             protoName: protoName) {
     ArgumentError.checkNotNull(name, 'name');

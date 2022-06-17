@@ -167,10 +167,6 @@ class UnknownFieldSet {
             ..write(value._toString('$indent  '))
             ..write('$indent}\n');
         } else {
-          if (value is ByteData) {
-            // TODO(antonm): fix for longs.
-            value = value.getUint64(0, Endian.little);
-          }
           stringBuffer.write('$indent$tag: $value\n');
         }
       }
@@ -195,7 +191,7 @@ class UnknownFieldSet {
 
   void _ensureWritable(String methodName) {
     if (_isReadOnly) {
-      frozenMessageModificationHandler('UnknownFieldSet', methodName);
+      _throwFrozenMessageModificationError('UnknownFieldSet', methodName);
     }
   }
 }

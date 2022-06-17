@@ -4,10 +4,10 @@
 
 part of protobuf;
 
-/// A base class for all Protocol Buffer enum types.
+/// A base class for all proto enum types.
 ///
-/// All Protocol Buffer [:enum:] classes inherit from ProtobufEnum. For
-/// example, given the following enum defined in a .proto file:
+/// All proto `enum` classes inherit from [ProtobufEnum]. For example, given
+/// the following enum defined in a proto file:
 ///
 ///     message MyMessage {
 ///       enum Color {
@@ -18,13 +18,15 @@ part of protobuf;
 ///       // ...
 ///     }
 ///
-/// the generated Dart file will include a [:MyMessage_Color:] class that
-/// [:extends ProtobufEnum:]. It will also include a [:const MyMessage_Color:]
-/// for each of the three values defined. Here are some examples:
+/// the generated Dart file will include a `MyMessage_Color` class that extends
+/// `ProtobufEnum`. It will also include a `const MyMessage_Color` for each of
+/// the three values defined. Here are some examples:
 ///
-///     MyMessage_Color.RED  // => a MyMessage_Color instance
-///     MyMessage_Color.GREEN.value  // => 1
-///     MyMessage_Color.GREEN.name   // => "GREEN"
+/// ```
+/// MyMessage_Color.RED  // => a MyMessage_Color instance
+/// MyMessage_Color.GREEN.value  // => 1
+/// MyMessage_Color.GREEN.name   // => "GREEN"
+/// ```
 class ProtobufEnum {
   /// This enum's integer value, as specified in the .proto file.
   final int value;
@@ -32,10 +34,10 @@ class ProtobufEnum {
   /// This enum's name, as specified in the .proto file.
   final String name;
 
-  /// Returns a new constant ProtobufEnum using [value] and [name].
+  /// Creates a new constant [ProtobufEnum] using [value] and [name].
   const ProtobufEnum(this.value, this.name);
 
-  /// Returns a Map for all of the [ProtobufEnum]s in [byIndex], mapping each
+  /// Creates a Map for all of the [ProtobufEnum]s in [byIndex], mapping each
   /// [ProtobufEnum]'s [value] to the [ProtobufEnum].
   static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> byIndex) {
     var byValue = <int, T>{};

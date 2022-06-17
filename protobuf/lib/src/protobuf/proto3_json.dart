@@ -116,7 +116,7 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
             valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
       });
     } else if (fieldInfo.isRepeated) {
-      jsonValue = (value as PbListBase)
+      jsonValue = (value as PbList)
           .map((element) => valueToProto3Json(element, fieldInfo.type))
           .toList();
     } else {
@@ -126,6 +126,33 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
   }
   // Extensions and unknown fields are not encoded by proto3 JSON.
   return result;
+}
+
+int _tryParse32BitProto3(String s, JsonParsingContext context) {
+  return int.tryParse(s) ??
+      (throw context.parseException('expected integer', s));
+}
+
+int _check32BitSignedProto3(int n, JsonParsingContext context) {
+  if (n < -2147483648 || n > 2147483647) {
+    throw context.parseException('expected 32 bit signed integer', n);
+  }
+  return n;
+}
+
+int _check32BitUnsignedProto3(int n, JsonParsingContext context) {
+  if (n < 0 || n > 0xFFFFFFFF) {
+    throw context.parseException('expected 32 bit unsigned integer', n);
+  }
+  return n;
+}
+
+Int64 _tryParse64BitProto3(Object? json, String s, JsonParsingContext context) {
+  try {
+    return Int64.parseInt(s);
+  } on FormatException {
+    throw context.parseException('expected integer', json);
+  }
 }
 
 /// TODO(paulberry): find a better home for this?
@@ -149,35 +176,6 @@ void _mergeFromProto3Json(
       ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
   void recursionHelper(Object? json, _FieldSet fieldSet) {
-    int tryParse32Bit(String s) {
-      return int.tryParse(s) ??
-          (throw context.parseException('expected integer', s));
-    }
-
-    int check32BitSigned(int n) {
-      if (n < -2147483648 || n > 2147483647) {
-        throw context.parseException('expected 32 bit unsigned integer', n);
-      }
-      return n;
-    }
-
-    int check32BitUnsigned(int n) {
-      if (n < 0 || n > 0xFFFFFFFF) {
-        throw context.parseException('expected 32 bit unsigned integer', n);
-      }
-      return n;
-    }
-
-    Int64 tryParse64Bit(String s) {
-      Int64 result;
-      try {
-        result = Int64.parseInt(s);
-      } on FormatException {
-        throw context.parseException('expected integer', json);
-      }
-      return result;
-    }
-
     Object? convertProto3JsonValue(Object? value, FieldInfo fieldInfo) {
       if (value == null) {
         return fieldInfo.makeDefault!();
@@ -249,12 +247,12 @@ void _mergeFromProto3Json(
           if (value is int) {
             result = value;
           } else if (value is String) {
-            result = tryParse32Bit(value);
+            result = _tryParse32BitProto3(value, context);
           } else {
             throw context.parseException(
                 'Expected int or stringified int', value);
           }
-          return check32BitUnsigned(result);
+          return _check32BitUnsignedProto3(result, context);
 
         case FieldBaseType.int32:
         case FieldBaseType.sint32:
@@ -263,12 +261,12 @@ void _mergeFromProto3Json(
           if (value is int) {
             result = value;
           } else if (value is String) {
-            result = tryParse32Bit(value);
+            result = _tryParse32BitProto3(value, context);
           } else {
             throw context.parseException(
                 'Expected int or stringified int', value);
           }
-          check32BitSigned(result);
+          _check32BitSignedProto3(result, context);
           return result;
 
         case FieldBaseType.uint64:
@@ -276,7 +274,7 @@ void _mergeFromProto3Json(
           if (value is int) {
             result = Int64(value);
           } else if (value is String) {
-            result = tryParse64Bit(value);
+            result = _tryParse64BitProto3(json, value, context);
           } else {
             throw context.parseException(
                 'Expected int or stringified int', value);
@@ -330,22 +328,24 @@ void _mergeFromProto3Json(
         case FieldBaseType.uint64:
           // TODO(sigurdm): We do not throw on negative values here.
           // That would probably require going via bignum.
-          return tryParse64Bit(key);
+          return _tryParse64BitProto3(json, key, context);
 
         case FieldBaseType.int64:
         case FieldBaseType.sint64:
         case FieldBaseType.sfixed64:
         case FieldBaseType.fixed64:
-          return tryParse64Bit(key);
+          return _tryParse64BitProto3(json, key, context);
 
         case FieldBaseType.int32:
         case FieldBaseType.sint32:
         case FieldBaseType.fixed32:
         case FieldBaseType.sfixed32:
-          return check32BitSigned(tryParse32Bit(key));
+          return _check32BitSignedProto3(
+              _tryParse32BitProto3(key, context), context);
 
         case FieldBaseType.uint32:
-          return check32BitUnsigned(tryParse32Bit(key));
+          return _check32BitUnsignedProto3(
+              _tryParse32BitProto3(key, context), context);
 
         case FieldBaseType.bytes:
         case FieldBaseType.double:

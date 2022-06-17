@@ -24,7 +24,7 @@ class JsonParsingContext {
     _path.removeLast();
   }
 
-  /// Returns a FormatException indicating the indices to the current path.
+  /// Creates a [FormatException] indicating the indices to the current path.
   Exception parseException(String message, Object? source) {
     var formattedPath = _path.map((s) => '["$s"]').join();
     return FormatException(

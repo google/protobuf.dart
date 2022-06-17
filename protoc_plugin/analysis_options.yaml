@@ -8,8 +8,8 @@ linter:
   rules:
     - camel_case_types
     - comment_references
-    - control_flow_in_finally
     - directives_ordering
+    - omit_local_variable_types
     - prefer_relative_imports
     - prefer_single_quotes
     - throw_in_finally

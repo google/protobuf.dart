@@ -10,7 +10,7 @@ OUTPUT_DIR="${SCRIPT_DIR}/temp"
 
 mkdir -p "${OUTPUT_DIR}"
 
-dart2js --omit-implicit-checks          \
-        --trust-primitives              \
+dart compile js                         \
+        -O4                             \
         -o "${OUTPUT_DIR}"/benchmark.js \
         "${SCRIPT_DIR}"/benchmark_js.dart
