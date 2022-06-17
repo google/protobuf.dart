@@ -365,8 +365,15 @@ void main() {
   group('decode', () {
     Matcher parseFailure(List<String> expectedPath) => throwsA(predicate((e) {
           if (e is FormatException) {
-            final pathExpression =
-                RegExp(r'root(\["[^"]*"]*\])*').firstMatch(e.message)![0]!;
+            final firstMatch =
+                RegExp(r'root(\["[^"]*"]*\])*').firstMatch(e.message);
+            if (firstMatch == null) {
+              return false;
+            }
+            final pathExpression = firstMatch[0];
+            if (pathExpression == null) {
+              return false;
+            }
             final actualPath = RegExp(r'\["([^"]*)"\]')
                 .allMatches(pathExpression)
                 .map((match) => match[1])
@@ -773,7 +780,7 @@ void main() {
       expect(
           TestMap()
             ..mergeFromProto3Json({
-              'int32ToInt32Field': <dynamic, dynamic>{'2': 21}
+              'int32ToInt32Field': <String, dynamic>{'2': 21}
             }),
           TestMap()..int32ToInt32Field[2] = 21);
     });
@@ -1184,8 +1191,8 @@ void main() {
         'number': 22.3,
         'string': 'foo',
         'bool': false,
-        'struct': {'a': 0},
-        'list': [{}, [], 'why']
+        'struct': <String, dynamic>{'a': 0},
+        'list': <dynamic>[<String, dynamic>{}, <dynamic>[], 'why']
       };
 
       final s = Struct()
@@ -1205,7 +1212,7 @@ void main() {
             ])));
       expect(Struct()..mergeFromProto3Json(f), s);
 
-      expect(Struct()..mergeFromProto3Json(<dynamic, dynamic>{'a': 12}),
+      expect(Struct()..mergeFromProto3Json(<String, dynamic>{'a': 12}),
           (Struct()..fields['a'] = (Value()..numberValue = 12.0)),
           reason: 'Allow key type to be `dynamic`');
 
@@ -1242,7 +1249,7 @@ void main() {
   test('one-of', () {
     expectFirstSet(Foo()..mergeFromProto3Json({'first': 'oneof'}));
     expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
-    expectOneofNotSet(Foo()..mergeFromProto3Json({}));
+    expectOneofNotSet(Foo()..mergeFromProto3Json(<String, dynamic>{}));
   });
 
   group('Convert Double', () {
