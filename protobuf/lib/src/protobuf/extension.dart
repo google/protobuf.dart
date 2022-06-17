@@ -8,7 +8,7 @@ part of protobuf;
 class Extension<T> extends FieldInfo<T> {
   final String extendee;
 
-  Extension(this.extendee, String name, int tagNumber, int fieldType,
+  Extension(this.extendee, String name, int tagNumber, FieldType fieldType,
       {dynamic defaultOrMaker,
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
@@ -21,7 +21,8 @@ class Extension<T> extends FieldInfo<T> {
             enumValues: enumValues,
             protoName: protoName);
 
-  Extension.repeated(this.extendee, String name, int tagNumber, int fieldType,
+  Extension.repeated(
+      this.extendee, String name, int tagNumber, FieldType fieldType,
       {CheckFunc<T>? check,
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,

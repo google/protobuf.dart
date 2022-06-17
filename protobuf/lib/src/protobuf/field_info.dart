@@ -65,8 +65,8 @@ class FieldInfo<T> {
   /// The value is `null` for extension fields.
   final int? index;
 
-  /// Type of this field. See [PbFieldType].
-  final int type;
+  /// Type of this field
+  final FieldType type;
 
   /// Constructs the default value of a field.
   ///
@@ -108,18 +108,15 @@ class FieldInfo<T> {
       : makeDefault = findMakeDefault(type, defaultOrMaker),
         check = null,
         _protoName = protoName,
-        assert(type != 0),
-        assert(!_isGroupOrMessage(type) ||
-            subBuilder != null ||
-            _isMapField(type)),
-        assert(!_isEnum(type) || valueOf != null);
+        assert(!type.isGroupOrMessage || subBuilder != null || type.isMap),
+        assert(!type.isEnum || valueOf != null);
 
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
       : name = '<removed field>',
         _protoName = '<removed field>',
         tagNumber = 0,
-        type = 0,
+        type = FieldType.dummy(),
         makeDefault = null,
         valueOf = null,
         check = null,
@@ -134,12 +131,13 @@ class FieldInfo<T> {
         _protoName = protoName {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(tagNumber, 'tagNumber');
-    assert(_isRepeated(type));
+    assert(type.isRepeated);
     assert(check != null);
-    assert(!_isEnum(type) || valueOf != null);
+    assert(!type.isEnum || valueOf != null);
   }
 
-  static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
+  static MakeDefaultFunc? findMakeDefault(
+      FieldType type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
@@ -149,11 +147,11 @@ class FieldInfo<T> {
   /// been removed by a program transformation.
   bool get _isDummy => tagNumber == 0;
 
-  bool get isRequired => _isRequired(type);
-  bool get isRepeated => _isRepeated(type);
-  bool get isGroupOrMessage => _isGroupOrMessage(type);
-  bool get isEnum => _isEnum(type);
-  bool get isMapField => _isMapField(type);
+  bool get isRequired => type.isRequired;
+  bool get isRepeated => type.isRepeated;
+  bool get isGroupOrMessage => type.isGroup || type.isMessage;
+  bool get isEnum => type.isEnum;
+  bool get isMapField => type.isMap;
 
   /// Returns a read-only default value for a field. Unlike
   /// [GeneratedMessage.getField], doesn't create a repeated field.
@@ -168,7 +166,7 @@ class FieldInfo<T> {
   /// That is, it doesn't contain any required fields that aren't initialized.
   bool _hasRequiredValues(value) {
     if (value == null) return !isRequired; // missing is okay if optional
-    if (!_isGroupOrMessage(type)) return true; // primitive and present
+    if (!type.isGroupOrMessage) return true; // primitive and present
 
     if (!isRepeated) {
       // A required message: recurse.
@@ -191,7 +189,7 @@ class FieldInfo<T> {
   void _appendInvalidFields(List<String> problems, value, String prefix) {
     if (value == null) {
       if (isRequired) problems.add('$prefix$name');
-    } else if (!_isGroupOrMessage(type)) {
+    } else if (!type.isGroupOrMessage) {
       // primitive and present
     } else if (!isRepeated) {
       // Required message/group: recurse.
@@ -250,15 +248,11 @@ String _unCamelCase(String name) {
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
   /// integer type or `string`, and the type cannot be `repeated`.
-  ///
-  /// The `int` value is interpreted the same way as [FieldInfo.type].
-  final int keyFieldType;
+  final FieldType keyFieldType;
 
   /// Value type of the map. Per proto2 and proto3 specs, this can be any type
   /// other than `map`, and the type cannot be `repeated`.
-  ///
-  /// The `int` value is interpreted the same way as [FieldInfo.type].
-  final int valueFieldType;
+  final FieldType valueFieldType;
 
   /// Creates a new empty instance of the value type.
   ///
@@ -271,7 +265,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
       String name,
       int tagNumber,
       int index,
-      int type,
+      FieldType type,
       this.keyFieldType,
       this.valueFieldType,
       this.mapEntryBuilderInfo,
@@ -284,8 +278,8 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
             protoName: protoName) {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(tagNumber, 'tagNumber');
-    assert(_isMapField(type));
-    assert(!_isEnum(type) || valueOf != null);
+    assert(type.isMap);
+    assert(!type.isEnum || valueOf != null);
   }
 
   FieldInfo get valueFieldInfo =>
