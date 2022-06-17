@@ -11,7 +11,6 @@ import 'package:protobuf/protobuf.dart'
         FieldBaseType,
         FieldType,
         GeneratedMessage,
-        PbFieldType,
         UnknownFieldSetField;
 import 'package:test/test.dart';
 
