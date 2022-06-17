@@ -40,11 +40,7 @@ class FieldInfo<T> {
   ///
   /// `protoName` for the `result_per_page` field above is `"result_per_page"`.
   /// The name typically consist of words separated with underscores.
-  String get protoName {
-    return _protoName ??= _unCamelCase(name);
-  }
-
-  String? _protoName;
+  final String protoName;
 
   /// Field number as specified in the proto definition.
   ///
@@ -104,10 +100,9 @@ class FieldInfo<T> {
       this.valueOf,
       this.enumValues,
       this.defaultEnumValue,
-      String? protoName})
+      required this.protoName})
       : makeDefault = findMakeDefault(type, defaultOrMaker),
         check = null,
-        _protoName = protoName,
         assert(type != 0),
         assert(!_isGroupOrMessage(type) ||
             subBuilder != null ||
@@ -117,7 +112,7 @@ class FieldInfo<T> {
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
       : name = '<removed field>',
-        _protoName = '<removed field>',
+        protoName = '<removed field>',
         tagNumber = 0,
         type = 0,
         makeDefault = null,
@@ -129,9 +124,11 @@ class FieldInfo<T> {
 
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
       this.check, this.subBuilder,
-      {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
-      : makeDefault = (() => PbList<T>(check: check!)),
-        _protoName = protoName {
+      {this.valueOf,
+      this.enumValues,
+      this.defaultEnumValue,
+      required this.protoName})
+      : makeDefault = (() => PbList<T>(check: check!)) {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(tagNumber, 'tagNumber');
     assert(_isRepeated(type));
@@ -240,13 +237,6 @@ class FieldInfo<T> {
   String toString() => name;
 }
 
-final RegExp _upperCase = RegExp('[A-Z]');
-
-String _unCamelCase(String name) {
-  return name.replaceAllMapped(
-      _upperCase, (match) => '_${match.group(0)!.toLowerCase()}');
-}
-
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
   /// integer type or `string`, and the type cannot be `repeated`.
@@ -277,7 +267,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
       this.mapEntryBuilderInfo,
       this.valueCreator,
       {ProtobufEnum? defaultEnumValue,
-      String? protoName})
+      required String protoName})
       : super(name, tagNumber, index, type,
             defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
             defaultEnumValue: defaultEnumValue,

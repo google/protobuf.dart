@@ -45,10 +45,7 @@ class ProtobufField {
   /// `null` for an extension.
   int? get index => memberNames?.index;
 
-  String? get quotedProtoName =>
-      (_unCamelCase(descriptor.jsonName) == descriptor.name)
-          ? null
-          : "'${descriptor.name}'";
+  String get quotedProtoName => "'${descriptor.name}'";
 
   /// The position of this field as it appeared in the original DescriptorProto.
   int? get sourcePosition => memberNames?.sourcePosition;

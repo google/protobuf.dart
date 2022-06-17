@@ -14,9 +14,9 @@ import 'package2.pb.dart' as $2;
 
 class M extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'M', createEmptyInstance: create)
-    ..aOM<M>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm', subBuilder: M.create)
-    ..aOM<$1.M>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm1', subBuilder: $1.M.create)
-    ..aOM<$2.M>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm2', subBuilder: $2.M.create)
+    ..aOM<M>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm', protoName: 'm', subBuilder: M.create)
+    ..aOM<$1.M>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm1', protoName: 'm1', subBuilder: $1.M.create)
+    ..aOM<$2.M>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm2', protoName: 'm2', subBuilder: $2.M.create)
     ..hasRequiredFields = false
   ;
 

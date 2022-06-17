@@ -24,9 +24,10 @@ class Rec extends GeneratedMessage {
 
   @override
   BuilderInfo info_ = BuilderInfo('rec')
-    ..a(1, 'value', PbFieldType.O3)
-    ..pc<Rec>(2, 'sub', PbFieldType.PM, subBuilder: Rec.create)
-    ..p<int>(10, 'ints', PbFieldType.P3);
+    ..a(1, 'value', PbFieldType.O3, protoName: 'value')
+    ..pc<Rec>(2, 'sub', PbFieldType.PM,
+        subBuilder: Rec.create, protoName: 'sub')
+    ..p<int>(10, 'ints', PbFieldType.P3, protoName: 'ints');
 
   int get value => $_get(0, 0);
   set value(int v) {

@@ -3,7 +3,7 @@
 //  source: dart_options.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_this,unused_import,unused_shown_name
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -23,17 +23,20 @@ class DartMixin extends $pb.GeneratedMessage {
         1,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'name')
+            : 'name',
+        protoName: 'name')
     ..aOS(
         2,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'importFrom')
+            : 'importFrom',
+        protoName: 'import_from')
     ..aOS(
         3,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'parent')
+            : 'parent',
+        protoName: 'parent')
     ..hasRequiredFields = false;
 
   DartMixin._() : super();
@@ -133,6 +136,7 @@ class Imports extends $pb.GeneratedMessage {
             ? ''
             : 'mixins',
         $pb.PbFieldType.PM,
+        protoName: 'mixins',
         subBuilder: DartMixin.create)
     ..hasRequiredFields = false;
 
@@ -186,6 +190,7 @@ class Dart_options {
           : 'imports',
       28125061,
       $pb.PbFieldType.OM,
+      protoName: 'imports',
       defaultOrMaker: Imports.getDefault,
       subBuilder: Imports.create);
   static final defaultMixin = $pb.Extension<$core.String>(
@@ -196,7 +201,8 @@ class Dart_options {
           ? ''
           : 'defaultMixin',
       96128839,
-      $pb.PbFieldType.OS);
+      $pb.PbFieldType.OS,
+      protoName: 'default_mixin');
   static final mixin = $pb.Extension<$core.String>(
       const $core.bool.fromEnvironment('protobuf.omit_message_names')
           ? ''
@@ -205,7 +211,8 @@ class Dart_options {
           ? ''
           : 'mixin',
       96128839,
-      $pb.PbFieldType.OS);
+      $pb.PbFieldType.OS,
+      protoName: 'mixin');
   static final overrideGetter = $pb.Extension<$core.bool>(
       const $core.bool.fromEnvironment('protobuf.omit_message_names')
           ? ''
@@ -214,7 +221,8 @@ class Dart_options {
           ? ''
           : 'overrideGetter',
       28205290,
-      $pb.PbFieldType.OB);
+      $pb.PbFieldType.OB,
+      protoName: 'override_getter');
   static final overrideSetter = $pb.Extension<$core.bool>(
       const $core.bool.fromEnvironment('protobuf.omit_message_names')
           ? ''
@@ -223,7 +231,8 @@ class Dart_options {
           ? ''
           : 'overrideSetter',
       28937366,
-      $pb.PbFieldType.OB);
+      $pb.PbFieldType.OB,
+      protoName: 'override_setter');
   static final overrideHasMethod = $pb.Extension<$core.bool>(
       const $core.bool.fromEnvironment('protobuf.omit_message_names')
           ? ''
@@ -232,7 +241,8 @@ class Dart_options {
           ? ''
           : 'overrideHasMethod',
       28937461,
-      $pb.PbFieldType.OB);
+      $pb.PbFieldType.OB,
+      protoName: 'override_has_method');
   static final overrideClearMethod = $pb.Extension<$core.bool>(
       const $core.bool.fromEnvironment('protobuf.omit_message_names')
           ? ''
@@ -241,7 +251,8 @@ class Dart_options {
           ? ''
           : 'overrideClearMethod',
       28907907,
-      $pb.PbFieldType.OB);
+      $pb.PbFieldType.OB,
+      protoName: 'override_clear_method');
   static final dartName = $pb.Extension<$core.String>(
       const $core.bool.fromEnvironment('protobuf.omit_message_names')
           ? ''
@@ -250,7 +261,8 @@ class Dart_options {
           ? ''
           : 'dartName',
       28700919,
-      $pb.PbFieldType.OS);
+      $pb.PbFieldType.OS,
+      protoName: 'dart_name');
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
     registry.add(imports);
     registry.add(defaultMixin);

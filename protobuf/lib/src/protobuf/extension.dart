@@ -13,7 +13,7 @@ class Extension<T> extends FieldInfo<T> {
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
-      String? protoName})
+      required String protoName})
       : super(name, tagNumber, null, fieldType,
             defaultOrMaker: defaultOrMaker,
             subBuilder: subBuilder,
@@ -26,7 +26,7 @@ class Extension<T> extends FieldInfo<T> {
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
-      String? protoName})
+      required String protoName})
       : super.repeated(name, tagNumber, null, fieldType, check, subBuilder,
             valueOf: valueOf, enumValues: enumValues, protoName: protoName);
 

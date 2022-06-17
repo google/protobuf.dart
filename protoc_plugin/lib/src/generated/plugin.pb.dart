@@ -3,7 +3,7 @@
 //  source: plugin.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_this,unused_import,unused_shown_name
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -29,24 +29,28 @@ class Version extends $pb.GeneratedMessage {
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'major',
-        $pb.PbFieldType.O3)
+        $pb.PbFieldType.O3,
+        protoName: 'major')
     ..a<$core.int>(
         2,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'minor',
-        $pb.PbFieldType.O3)
+        $pb.PbFieldType.O3,
+        protoName: 'minor')
     ..a<$core.int>(
         3,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'patch',
-        $pb.PbFieldType.O3)
+        $pb.PbFieldType.O3,
+        protoName: 'patch')
     ..aOS(
         4,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'suffix')
+            : 'suffix',
+        protoName: 'suffix')
     ..hasRequiredFields = false;
 
   Version._() : super();
@@ -160,17 +164,20 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
         1,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'fileToGenerate')
+            : 'fileToGenerate',
+        protoName: 'file_to_generate')
     ..aOS(
         2,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'parameter')
+            : 'parameter',
+        protoName: 'parameter')
     ..aOM<Version>(
         3,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'compilerVersion',
+        protoName: 'compiler_version',
         subBuilder: Version.create)
     ..pc<$0.FileDescriptorProto>(
         15,
@@ -178,6 +185,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
             ? ''
             : 'protoFile',
         $pb.PbFieldType.PM,
+        protoName: 'proto_file',
         subBuilder: $0.FileDescriptorProto.create);
 
   CodeGeneratorRequest._() : super();
@@ -277,22 +285,26 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
         1,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'name')
+            : 'name',
+        protoName: 'name')
     ..aOS(
         2,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'insertionPoint')
+            : 'insertionPoint',
+        protoName: 'insertion_point')
     ..aOS(
         15,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'content')
+            : 'content',
+        protoName: 'content')
     ..aOM<$0.GeneratedCodeInfo>(
         16,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'generatedCodeInfo',
+        protoName: 'generated_code_info',
         subBuilder: $0.GeneratedCodeInfo.create)
     ..hasRequiredFields = false;
 
@@ -413,13 +425,15 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
         1,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
-            : 'error')
+            : 'error',
+        protoName: 'error')
     ..a<$fixnum.Int64>(
         2,
         const $core.bool.fromEnvironment('protobuf.omit_field_names')
             ? ''
             : 'supportedFeatures',
         $pb.PbFieldType.OU6,
+        protoName: 'supported_features',
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..pc<CodeGeneratorResponse_File>(
         15,
@@ -427,6 +441,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
             ? ''
             : 'file',
         $pb.PbFieldType.PM,
+        protoName: 'file',
         subBuilder: CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
 
