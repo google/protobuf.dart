@@ -4,10 +4,7 @@
 
 part of protobuf;
 
-typedef FrozenMessageErrorHandler = void Function(String messageName,
-    [String? methodName]);
-
-void defaultFrozenMessageModificationHandler(String messageName,
+void _throwFrozenMessageModificationError(String messageName,
     [String? methodName]) {
   if (methodName != null) {
     throw UnsupportedError(
@@ -16,31 +13,6 @@ void defaultFrozenMessageModificationHandler(String messageName,
   throw UnsupportedError(
       'Attempted to change a read-only message ($messageName)');
 }
-
-/// Invoked when an attempt is made to modify a frozen message.
-///
-/// This handler can log the attempt, throw an exception, or ignore the attempt
-/// altogether.
-///
-/// If the handler returns normally, the modification is allowed, and execution
-/// proceeds as if the message was writable.
-FrozenMessageErrorHandler _frozenMessageModificationHandler =
-    defaultFrozenMessageModificationHandler;
-FrozenMessageErrorHandler get frozenMessageModificationHandler =>
-    _frozenMessageModificationHandler;
-set frozenMessageModificationHandler(FrozenMessageErrorHandler value) {
-  _hashCodesCanBeMemoized = false;
-  _frozenMessageModificationHandler = value;
-}
-
-/// Indicator for whether the FieldSet hashCodes can be memoized.
-///
-/// HashCode memoization relies on the [defaultFrozenMessageModificationHandler]
-/// behavior--that is, after freezing, field set values can't ever be changed.
-/// This keeps track of whether an application has ever modified the
-/// [FrozenMessageErrorHandler] used, not allowing hashCodes to be memoized if
-/// it ever changed.
-bool _hashCodesCanBeMemoized = true;
 
 /// All the data in a GeneratedMessage.
 ///
@@ -175,18 +147,13 @@ class _FieldSet {
     _frozenState = true;
     for (var field in _meta.sortedByTag) {
       if (field.isRepeated) {
-        final entries = _values[field.index!];
-        if (entries == null) continue;
-        if (field.isGroupOrMessage) {
-          for (var subMessage in entries as List<GeneratedMessage>) {
-            subMessage.freeze();
-          }
-        }
-        _values[field.index!] = entries.toFrozenPbList();
+        PbList? list = _values[field.index!];
+        if (list == null) continue;
+        list.freeze();
       } else if (field.isMapField) {
         PbMap? map = _values[field.index!];
         if (map == null) continue;
-        _values[field.index!] = map.freeze();
+        map.freeze();
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.index!];
         if (entry != null) {
@@ -204,7 +171,9 @@ class _FieldSet {
   }
 
   void _ensureWritable() {
-    if (_isReadOnly) frozenMessageModificationHandler(_messageName);
+    if (_isReadOnly) {
+      _throwFrozenMessageModificationError(_messageName);
+    }
   }
 
   // Single-field operations
@@ -645,11 +614,10 @@ class _FieldSet {
   /// The hash may change when any field changes (recursively).
   /// Therefore, protobufs used as map keys shouldn't be changed.
   ///
-  /// If the protobuf contents have been frozen, and the
-  /// [FrozenMessageErrorHandler] has not been changed from the default
-  /// behavior, the hashCode can be memoized to speed up performance.
+  /// If the protobuf contents have been frozen the hashCode is memoized to
+  /// speed up performance.
   int get _hashCode {
-    if (_hashCodesCanBeMemoized && _memoizedHashCode != null) {
+    if (_memoizedHashCode != null) {
       return _memoizedHashCode!;
     }
 
@@ -677,7 +645,7 @@ class _FieldSet {
     // Hash with unknown fields.
     hash = _HashUtils._combine(hash, _unknownFields?.hashCode ?? 0);
 
-    if (_isReadOnly && _hashCodesCanBeMemoized) {
+    if (_isReadOnly) {
       _frozenState = hash;
     }
     return hash;
@@ -726,7 +694,7 @@ class _FieldSet {
 
     void writeFieldValue(fieldValue, String name) {
       if (fieldValue == null) return;
-      if (fieldValue is PbListBase) {
+      if (fieldValue is PbList) {
         for (var value in fieldValue) {
           renderValue(name, value);
         }
@@ -818,14 +786,14 @@ class _FieldSet {
     if (fi.isRepeated) {
       if (mustClone) {
         // fieldValue must be a PbListBase of GeneratedMessage.
-        PbListBase<GeneratedMessage> pbList = fieldValue;
+        PbList<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
         // fieldValue must be at least a PbListBase.
-        PbListBase pbList = fieldValue;
+        PbList pbList = fieldValue;
         fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
       return;
@@ -913,7 +881,7 @@ class _FieldSet {
             ..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
-        PbListBase? list = _values[index];
+        PbList? list = _values[index];
         if (list != null) {
           _values[index] = fieldInfo._createRepeatedField(_message!)
             ..addAll(list);

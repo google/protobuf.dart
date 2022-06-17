@@ -17,7 +17,7 @@ void _writeToProto3JsonSink(
     jsonSink.startObject(); // start message
   }
 
-  for (FieldInfo fieldInfo in fs._infosSortedByTag) {
+  for (var fieldInfo in fs._infosSortedByTag) {
     var value = fs._values[fieldInfo.index!];
 
     if (value == null || (value is List && value.isEmpty)) {
@@ -28,8 +28,8 @@ void _writeToProto3JsonSink(
 
     if (fieldInfo.isMapField) {
       jsonSink.startObject(); // start map field
-      final MapFieldInfo mapEntryInfo = fieldInfo as MapFieldInfo;
-      for (MapEntry entry in (value as PbMap).entries) {
+      final mapEntryInfo = fieldInfo as MapFieldInfo;
+      for (var entry in (value as PbMap).entries) {
         final key = entry.key;
         final value = entry.value;
         _writeMapKey(key, mapEntryInfo.keyFieldType, jsonSink);
@@ -39,7 +39,7 @@ void _writeToProto3JsonSink(
       jsonSink.endObject(); // end map field
     } else if (fieldInfo.isRepeated) {
       jsonSink.startArray(); // start repeated field
-      for (final element in value as PbListBase) {
+      for (final element in value as PbList) {
         _writeFieldValue(element, fieldInfo.type, jsonSink, typeRegistry);
       }
       jsonSink.endArray(); // end repeated field

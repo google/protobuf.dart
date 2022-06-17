@@ -19,11 +19,11 @@ import 'src/protobuf/permissive_compare.dart';
 import 'src/protobuf/type_registry.dart';
 export 'src/protobuf/type_registry.dart' show TypeRegistry;
 
+part 'src/protobuf/builder_info.dart';
 part 'src/protobuf/coded_buffer.dart';
 part 'src/protobuf/coded_buffer_reader.dart';
 part 'src/protobuf/coded_buffer_writer.dart';
 part 'src/protobuf/consts.dart';
-part 'src/protobuf/builder_info.dart';
 part 'src/protobuf/event_plugin.dart';
 part 'src/protobuf/exceptions.dart';
 part 'src/protobuf/extension.dart';
@@ -38,14 +38,13 @@ part 'src/protobuf/generated_service.dart';
 part 'src/protobuf/json.dart';
 part 'src/protobuf/pb_list.dart';
 part 'src/protobuf/pb_map.dart';
-part 'src/protobuf/protobuf_enum.dart';
 part 'src/protobuf/proto3_json_reader.dart';
 part 'src/protobuf/proto3_json_writer.dart';
-part 'src/protobuf/readonly_message.dart';
+part 'src/protobuf/protobuf_enum.dart';
 part 'src/protobuf/rpc_client.dart';
 part 'src/protobuf/unknown_field_set.dart';
-part 'src/protobuf/utils.dart';
 part 'src/protobuf/unpack.dart';
+part 'src/protobuf/utils.dart';
 part 'src/protobuf/wire_format.dart';
 
 /// Used by generated code, do not use.

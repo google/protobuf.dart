@@ -77,9 +77,8 @@ void main() {
     var options = parseGenerationOptions(
         CodeGeneratorRequest(), CodeGeneratorResponse())!;
 
-    FileGenerator fg = FileGenerator(fd, options);
-    MessageGenerator mg =
-        MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+    var fg = FileGenerator(fd, options);
+    var mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
     var ctx = GenerationContext(options);
     mg.register(ctx);
@@ -102,9 +101,8 @@ void main() {
   test('testMetadataIndices', () {
     var options = parseGenerationOptions(
         CodeGeneratorRequest(), CodeGeneratorResponse())!;
-    FileGenerator fg = FileGenerator(fd, options);
-    MessageGenerator mg =
-        MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+    var fg = FileGenerator(fd, options);
+    var mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
     var ctx = GenerationContext(options);
     mg.register(ctx);

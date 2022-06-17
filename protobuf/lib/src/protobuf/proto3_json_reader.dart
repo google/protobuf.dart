@@ -35,12 +35,12 @@ void __mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
         'Expected JSON object', nextJsonObject(jsonReader));
   }
 
-  final Map<String, FieldInfo> fieldsByName = meta.byName;
+  final fieldsByName = meta.byName;
 
-  String? key = jsonReader.nextKey();
+  var key = jsonReader.nextKey();
   while (key != null) {
     context.addMapIndex(key);
-    FieldInfo? fieldInfo = fieldsByName[key];
+    var fieldInfo = fieldsByName[key];
 
     if (fieldInfo == null && context.supportNamesWithUnderscores) {
       // We don't optimize for field names with underscores, instead do a
@@ -67,12 +67,12 @@ void __mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
         throw context.parseException(
             'Expected a map', nextJsonObject(jsonReader));
       }
-      String? mapKeyStr = jsonReader.nextKey();
+      var mapKeyStr = jsonReader.nextKey();
       while (mapKeyStr != null) {
         context.addMapIndex(mapKeyStr);
-        Object mapKey =
+        var mapKey =
             _decodeMapKey(mapKeyStr, mapFieldInfo.keyFieldType, context);
-        Object? value = _parseProto3JsonValue(
+        var value = _parseProto3JsonValue(
             jsonReader, mapFieldInfo.valueFieldInfo, typeRegistry, context);
         fieldValues[mapKey] = value;
         context.popIndex();
@@ -88,8 +88,8 @@ void __mergeFromProto3JsonReader(JsonReader jsonReader, _FieldSet fieldSet,
           throw context.parseException(
               'Expected a list', nextJsonObject(jsonReader));
         }
-        List values = fieldSet._ensureRepeatedField(meta, fieldInfo);
-        int i = 0;
+        var values = fieldSet._ensureRepeatedField(meta, fieldInfo);
+        var i = 0;
         while (jsonReader.hasNext()) {
           context.addListIndex(i);
           values.add(_parseProto3JsonValue(
@@ -135,7 +135,7 @@ Object? _parseProto3JsonValue(
 
   switch (PbFieldType._baseType(fieldType)) {
     case PbFieldType._BOOL_BIT:
-      bool? b = jsonReader.tryBool();
+      var b = jsonReader.tryBool();
       if (b != null) {
         return b;
       }
@@ -143,7 +143,7 @@ Object? _parseProto3JsonValue(
           'Expected bool value', nextJsonObject(jsonReader));
 
     case PbFieldType._BYTES_BIT:
-      String? s = jsonReader.tryString();
+      var s = jsonReader.tryString();
       if (s != null) {
         try {
           return base64Decode(s);
@@ -156,7 +156,7 @@ Object? _parseProto3JsonValue(
           'Expected String value', nextJsonObject(jsonReader));
 
     case PbFieldType._STRING_BIT:
-      String? s = jsonReader.tryString();
+      var s = jsonReader.tryString();
       if (s != null) {
         return s;
       }
@@ -165,11 +165,11 @@ Object? _parseProto3JsonValue(
 
     case PbFieldType._FLOAT_BIT:
     case PbFieldType._DOUBLE_BIT:
-      num? n = jsonReader.tryNum();
+      var n = jsonReader.tryNum();
       if (n != null) {
         return n.toDouble();
       }
-      String? s = jsonReader.tryString();
+      var s = jsonReader.tryString();
       if (s != null) {
         return double.tryParse(s) ??
             (throw context.parseException(
@@ -180,7 +180,7 @@ Object? _parseProto3JsonValue(
           nextJsonObject(jsonReader));
 
     case PbFieldType._ENUM_BIT:
-      String? s = jsonReader.tryString();
+      var s = jsonReader.tryString();
       if (s != null) {
         // TODO(sigurdm): Do we want to avoid linear search here? Measure...
         final result = context.permissiveEnums
@@ -192,7 +192,7 @@ Object? _parseProto3JsonValue(
         }
         throw context.parseException('Unknown enum value', s);
       }
-      num? n = jsonReader.tryNum();
+      var n = jsonReader.tryNum();
       if (n != null) {
         return fieldInfo.valueOf!(n as int) ??
             (context.ignoreUnknownFields
@@ -204,7 +204,7 @@ Object? _parseProto3JsonValue(
 
     case PbFieldType._UINT32_BIT:
     case PbFieldType._FIXED32_BIT:
-      num? n = jsonReader.tryNum();
+      var n = jsonReader.tryNum();
       if (n != null) {
         if (n is int) {
           _check32BitUnsignedProto3(n, context);
@@ -212,7 +212,7 @@ Object? _parseProto3JsonValue(
         }
         throw context.parseException('Expected 32-bit int', n);
       }
-      String? s = jsonReader.tryString();
+      var s = jsonReader.tryString();
       if (s != null) {
         return _tryParse32BitProto3(s, context);
       }
@@ -222,7 +222,7 @@ Object? _parseProto3JsonValue(
     case PbFieldType._INT32_BIT:
     case PbFieldType._SINT32_BIT:
     case PbFieldType._SFIXED32_BIT:
-      num? n = jsonReader.tryNum();
+      var n = jsonReader.tryNum();
       if (n != null) {
         if (n is int) {
           _check32BitSignedProto3(n, context);
@@ -230,7 +230,7 @@ Object? _parseProto3JsonValue(
         }
         throw context.parseException('Expected 32-bit int', n);
       }
-      String? s = jsonReader.tryString();
+      var s = jsonReader.tryString();
       if (s != null) {
         return _tryParse32BitProto3(s, context);
       }
@@ -238,14 +238,14 @@ Object? _parseProto3JsonValue(
           'Expected 32-bit int or stringified int', nextJsonObject(jsonReader));
 
     case PbFieldType._UINT64_BIT:
-      num? n = jsonReader.tryNum();
+      var n = jsonReader.tryNum();
       if (n != null) {
         if (n is int) {
           return Int64(n);
         }
         throw context.parseException('Expected 64-bit int', n);
       }
-      String? s = jsonReader.tryString();
+      var s = jsonReader.tryString();
       if (s != null) {
         return _tryParse64BitProto3(s, s, context);
       }
@@ -256,14 +256,14 @@ Object? _parseProto3JsonValue(
     case PbFieldType._SINT64_BIT:
     case PbFieldType._FIXED64_BIT:
     case PbFieldType._SFIXED64_BIT:
-      num? n = jsonReader.tryNum();
+      var n = jsonReader.tryNum();
       if (n != null) {
         if (n is int) {
           return Int64(n);
         }
         throw context.parseException('Expected 64-bit', n);
       }
-      String? s = jsonReader.tryString();
+      var s = jsonReader.tryString();
       if (s != null) {
         try {
           return Int64.parseInt(s);
@@ -277,7 +277,7 @@ Object? _parseProto3JsonValue(
 
     case PbFieldType._GROUP_BIT:
     case PbFieldType._MESSAGE_BIT:
-      GeneratedMessage subMessage = fieldInfo.subBuilder!();
+      var subMessage = fieldInfo.subBuilder!();
       __mergeFromProto3JsonReader(
           jsonReader, subMessage._fieldSet, typeRegistry, context);
       return subMessage;

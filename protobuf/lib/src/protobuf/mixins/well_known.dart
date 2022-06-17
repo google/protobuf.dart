@@ -80,14 +80,12 @@ abstract class AnyMixin implements GeneratedMessage {
   static void toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
     var any = message as AnyMixin;
-    final BuilderInfo? info =
-        typeRegistry.lookup(_typeNameFromUrl(any.typeUrl));
+    final info = typeRegistry.lookup(_typeNameFromUrl(any.typeUrl));
     if (info == null) {
       throw ArgumentError(
           'The type of the Any message (${any.typeUrl}) is not in the given typeRegistry.');
     }
-    final GeneratedMessage unpacked = info.createEmptyInstance!()
-      ..mergeFromBuffer(any.value);
+    final unpacked = info.createEmptyInstance!()..mergeFromBuffer(any.value);
     jsonSink.startObject();
     jsonSink.addKey('@type');
     jsonSink.addString(any.typeUrl);
@@ -108,7 +106,7 @@ abstract class AnyMixin implements GeneratedMessage {
     // TODO: We can avoid allocating JSON objects here by masking the `@type`
     // field in a `JsonReader` type
     Object? json;
-    final JsonWriter<Object?> sink = jsonObjectWriter((result) {
+    final sink = jsonObjectWriter((result) {
       json = result;
     });
     jsonReader.expectAnyValue(sink);
@@ -118,7 +116,7 @@ abstract class AnyMixin implements GeneratedMessage {
           'Expected Any message encoded as {@type,...},', json);
     }
 
-    final Map<String, dynamic> object = json as Map<String, dynamic>;
+    final object = json as Map<String, dynamic>;
     final typeUrl = object['@type'];
 
     if (typeUrl is! String) {
@@ -250,13 +248,13 @@ abstract class TimestampMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str == null) {
       throw context.parseException('Expected timestamp represented as String',
           nextJsonObject(jsonReader));
     }
 
-    final String json = str;
+    final json = str;
 
     var jsonWithoutFracSec = json;
     var nanos = 0;
@@ -313,14 +311,14 @@ abstract class DurationMixin {
       JsonParsingContext context) {
     var duration = message as DurationMixin;
 
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str == null) {
       throw context.parseException(
           'Expected a String of the form `<seconds>.<nanos>s`',
           nextJsonObject(jsonReader));
     }
 
-    String json = str;
+    var json = str;
 
     var match = durationPattern.matchAsPrefix(json);
     if (match == null) {
@@ -367,7 +365,7 @@ abstract class StructMixin implements GeneratedMessage {
 
     // Check for emptiness to avoid setting `.fields` if there are no
     // values.
-    String? nextKey = jsonReader.nextKey();
+    var nextKey = jsonReader.nextKey();
     if (nextKey != null) {
       var fields = (message as StructMixin).fields;
       var valueCreator =
@@ -446,19 +444,19 @@ abstract class ValueMixin implements GeneratedMessage {
       return;
     }
 
-    num? num_ = jsonReader.tryNum();
+    var num_ = jsonReader.tryNum();
     if (num_ != null) {
       value.numberValue = num_.toDouble();
       return;
     }
 
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str != null) {
       value.stringValue = str;
       return;
     }
 
-    bool? bool_ = jsonReader.tryBool();
+    var bool_ = jsonReader.tryBool();
     if (bool_ != null) {
       value.boolValue = bool_;
       return;
@@ -557,7 +555,7 @@ abstract class FieldMaskMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str == null) {
       throw context.parseException(
           'Expected String formatted as FieldMask', nextJsonObject(jsonReader));
@@ -602,13 +600,13 @@ abstract class DoubleValueMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    num? num_ = jsonReader.tryNum();
+    var num_ = jsonReader.tryNum();
     if (num_ != null) {
       (message as DoubleValueMixin).value = num_.toDouble();
       return;
     }
 
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str != null) {
       (message as DoubleValueMixin).value = double.tryParse(str) ??
           (throw context.parseException(
@@ -637,13 +635,13 @@ abstract class FloatValueMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    num? num_ = jsonReader.tryNum();
+    var num_ = jsonReader.tryNum();
     if (num_ != null) {
       (message as FloatValueMixin).value = num_.toDouble();
       return;
     }
 
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str != null) {
       (message as FloatValueMixin).value = double.tryParse(str) ??
           (throw context.parseException(
@@ -672,7 +670,7 @@ abstract class Int64ValueMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    num? num_ = jsonReader.tryNum();
+    var num_ = jsonReader.tryNum();
     if (num_ != null) {
       if (num_ is int) {
         (message as Int64ValueMixin).value = Int64(num_);
@@ -682,7 +680,7 @@ abstract class Int64ValueMixin {
           'Expected an integer encoded as a String or number', json);
     }
 
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str != null) {
       try {
         (message as Int64ValueMixin).value = Int64.parseInt(str);
@@ -714,7 +712,7 @@ abstract class UInt64ValueMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    num? num_ = jsonReader.tryNum();
+    var num_ = jsonReader.tryNum();
     if (num_ != null) {
       if (num_ is int) {
         (message as UInt64ValueMixin).value = Int64(num_);
@@ -724,7 +722,7 @@ abstract class UInt64ValueMixin {
           'Expected an unsigned integer as a String or integer', num_);
     }
 
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str != null) {
       try {
         (message as UInt64ValueMixin).value = Int64.parseInt(str);
@@ -757,7 +755,7 @@ abstract class Int32ValueMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    num? num_ = jsonReader.tryNum();
+    var num_ = jsonReader.tryNum();
     if (num_ != null) {
       if (num_ is int) {
         (message as Int32ValueMixin).value = num_;
@@ -767,7 +765,7 @@ abstract class Int32ValueMixin {
           'Expected an integer encoded as a String or number', num_);
     }
 
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str != null) {
       (message as Int32ValueMixin).value = int.tryParse(str) ??
           (throw context.parseException(
@@ -797,7 +795,7 @@ abstract class UInt32ValueMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    num? num_ = jsonReader.tryNum();
+    var num_ = jsonReader.tryNum();
     if (num_ != null) {
       if (num_ is int) {
         (message as UInt32ValueMixin).value = num_;
@@ -807,7 +805,7 @@ abstract class UInt32ValueMixin {
           'Expected an unsigned integer as a String or integer', num_);
     }
 
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str != null) {
       (message as UInt32ValueMixin).value = int.tryParse(str) ??
           (throw context.parseException(
@@ -837,7 +835,7 @@ abstract class BoolValueMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    bool? b = jsonReader.tryBool();
+    var b = jsonReader.tryBool();
     if (b != null) {
       (message as BoolValueMixin).value = b;
       return;
@@ -863,7 +861,7 @@ abstract class StringValueMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str != null) {
       (message as StringValueMixin).value = str;
       return;
@@ -889,7 +887,7 @@ abstract class BytesValueMixin {
       JsonReader jsonReader,
       TypeRegistry typeRegistry,
       JsonParsingContext context) {
-    String? str = jsonReader.tryString();
+    var str = jsonReader.tryString();
     if (str != null) {
       try {
         (message as BytesValueMixin).value = base64.decode(str);

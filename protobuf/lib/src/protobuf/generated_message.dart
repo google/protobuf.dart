@@ -111,7 +111,7 @@ abstract class GeneratedMessage {
   int? getTagNumber(String fieldName) => info_.tagNumber(fieldName);
 
   @override
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     return other is GeneratedMessage
         ? _fieldSet._equals(other._fieldSet)
@@ -218,7 +218,7 @@ abstract class GeneratedMessage {
   Object? toProto3Json(
       {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
     Object? object;
-    final JsonWriter<Object?> objectSink = jsonObjectWriter((newObject) {
+    final objectSink = jsonObjectWriter((newObject) {
       object = newObject;
     });
     _writeToProto3JsonSink(_fieldSet, typeRegistry, objectSink);
@@ -230,8 +230,8 @@ abstract class GeneratedMessage {
   /// See [toProto3JsonSink] for details.
   String toProto3JsonString(
       {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
-    final StringBuffer buf = StringBuffer();
-    final JsonWriter<String> stringSink = jsonStringWriter(buf);
+    final buf = StringBuffer();
+    final stringSink = jsonStringWriter(buf);
     toProto3JsonSink(typeRegistry, stringSink);
     return buf.toString();
   }
