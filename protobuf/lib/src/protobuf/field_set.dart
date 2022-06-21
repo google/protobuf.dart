@@ -779,7 +779,7 @@ class _FieldSet {
       PbMap<dynamic, dynamic> map = f._ensureMapField(meta, this) as dynamic;
       if (mustClone) {
         PbMap fieldValueMap = fieldValue;
-        for (MapEntry entry in fieldValueMap.entries) {
+        for (final entry in fieldValueMap.entries) {
           map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
         }
       } else {
