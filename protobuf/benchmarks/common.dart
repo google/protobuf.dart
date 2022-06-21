@@ -231,7 +231,7 @@ class ToProto3JsonStringBenchmark extends _ProtobufBenchmark {
   void run() {
     for (final ds in datasets) {
       for (final unpacked in ds.unpacked) {
-        jsonEncode(unpacked.toProto3Json());
+        unpacked.toProto3JsonString();
       }
     }
   }
