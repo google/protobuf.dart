@@ -427,11 +427,4 @@ class ProtobufField {
   String _typeNotImplemented(String methodName) => 'dart-protoc-plugin:'
       ' $methodName not implemented for type (${descriptor.type})'
       ' found in field $fullName';
-
-  static final RegExp _upperCase = RegExp('[A-Z]');
-
-  static String _unCamelCase(String name) {
-    return name.replaceAllMapped(
-        _upperCase, (match) => '_${match.group(0)!.toLowerCase()}');
-  }
 }
