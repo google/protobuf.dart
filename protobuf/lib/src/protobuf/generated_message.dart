@@ -208,22 +208,54 @@ abstract class GeneratedMessage {
   /// For the proto3 JSON format use: [toProto3Json].
   String writeToJson() => jsonEncode(writeToJsonMap());
 
-  /// Returns an Object representing Proto3 JSON serialization of `this`.
+  /// Returns Dart JSON object encoding this message following proto3 JSON
+  /// format.
+  ///
+  /// The returned object will have the same format as objects returned by
+  /// [jsonEncode].
+  ///
+  /// See [toProto3JsonSink] for details.
+  Object? toProto3Json(
+      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
+    Object? object;
+    final objectSink = jsonObjectWriter((newObject) {
+      object = newObject;
+    });
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, objectSink);
+    return object;
+  }
+
+  /// Returns a proto3 JSON string encoding this message.
+  ///
+  /// See [toProto3JsonSink] for details.
+  String toProto3JsonString(
+      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
+    final buf = StringBuffer();
+    final stringSink = jsonStringWriter(buf);
+    toProto3JsonSink(typeRegistry, stringSink);
+    return buf.toString();
+  }
+
+  /// Writes proto3 JSON serialization of this message to the given [JsonSink].
   ///
   /// The key for each field is be the camel-cased name of the field.
   ///
-  /// Well-known types and their special JSON encoding are supported.
-  /// If a well-known type cannot be encoded (eg. a `google.protobuf.Timestamp`
-  /// with negative `nanoseconds`) an error is thrown.
+  /// Well-known types and their special JSON encoding are supported. If a
+  /// well-known type cannot be encoded (eg. a `google.protobuf.Timestamp` with
+  /// negative `nanoseconds`) an error is thrown.
   ///
   /// Extensions and unknown fields are not encoded.
   ///
   /// The [typeRegistry] is be used for encoding `Any` messages. If an `Any`
-  /// message encoding a type not in [typeRegistry] is encountered, an
-  /// error is thrown.
-  Object? toProto3Json(
-          {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
-      _writeToProto3Json(_fieldSet, typeRegistry);
+  /// message encoding a type not in [typeRegistry] is encountered, an error is
+  /// thrown.
+  ///
+  /// The [newMessage] argument is for use in generated code, do not use.
+  void toProto3JsonSink(TypeRegistry typeRegistry, JsonSink jsonSink,
+      {bool newMessage = true}) {
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, jsonSink,
+        newMessage: newMessage);
+  }
 
   /// Merges field values from [json], a JSON object using proto3 encoding.
   ///

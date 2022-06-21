@@ -52,6 +52,8 @@ const GeneratedMessage_reservedNames = <String>[
   'toBuilder',
   'toDebugString',
   'toProto3Json',
+  'toProto3JsonSink',
+  'toProto3JsonString',
   'toString',
   'unknownFields',
   'writeToBuffer',
