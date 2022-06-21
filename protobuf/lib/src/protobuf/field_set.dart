@@ -670,8 +670,10 @@ class _FieldSet {
       hash = _HashUtils._combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
       PbList list = value;
-      hash = _HashUtils._combine(
-          hash, _HashUtils._hashObjects(list.map((enm) => enm.value)));
+      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(list.map((enm) {
+        ProtobufEnum enm_ = enm;
+        return enm_.value;
+      })));
     } else {
       ProtobufEnum enm = value;
       hash = _HashUtils._combine(hash, enm.value);
@@ -805,7 +807,7 @@ class _FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      final currentFi = isExtension!
+      GeneratedMessage? currentFi = isExtension!
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 

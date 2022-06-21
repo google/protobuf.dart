@@ -177,7 +177,7 @@ class _ExtensionFieldSet {
     _isReadOnly = true;
     for (var field in _info.values) {
       if (field.isRepeated) {
-        final entries = _values[field.tagNumber];
+        PbList? entries = _values[field.tagNumber];
         if (entries == null) continue;
         entries.freeze();
       } else if (field.isGroupOrMessage) {
