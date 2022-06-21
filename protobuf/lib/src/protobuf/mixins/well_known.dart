@@ -392,10 +392,9 @@ abstract class ValueMixin implements GeneratedMessage {
     } else if (value.hasBoolValue()) {
       jsonSink.addBool(value.boolValue);
     } else if (value.hasStructValue()) {
-      return StructMixin.toProto3JsonHelper(
-          value.structValue, typeRegistry, jsonSink);
+      StructMixin.toProto3JsonHelper(value.structValue, typeRegistry, jsonSink);
     } else if (value.hasListValue()) {
-      return ListValueMixin.toProto3JsonHelper(
+      ListValueMixin.toProto3JsonHelper(
           value.listValue, typeRegistry, jsonSink);
     } else {
       throw ArgumentError('Serializing google.protobuf.Value with no value');
@@ -530,7 +529,7 @@ abstract class DoubleValueMixin {
   // The JSON representation for `DoubleValue` is JSON number.
   static void toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
-    return jsonSink.addNumber((message as DoubleValueMixin).value);
+    jsonSink.addNumber((message as DoubleValueMixin).value);
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
