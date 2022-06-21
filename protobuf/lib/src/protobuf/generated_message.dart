@@ -191,7 +191,14 @@ abstract class GeneratedMessage {
   /// Returns the JSON encoding of this message as a Dart [Map].
   ///
   /// The encoding is described in [GeneratedMessage.writeToJson].
-  Map<String, dynamic> writeToJsonMap() => _writeToJsonMap(_fieldSet);
+  Map<String, dynamic> writeToJsonMap() {
+    Object? object;
+    final objectSink = jsonObjectWriter((newObject) {
+      object = newObject;
+    });
+    writeToJsonSink(objectSink);
+    return object as Map<String, dynamic>;
+  }
 
   /// Returns a JSON string that encodes this message.
   ///
@@ -206,7 +213,16 @@ abstract class GeneratedMessage {
   /// represented as their integer value.
   ///
   /// For the proto3 JSON format use: [toProto3Json].
-  String writeToJson() => jsonEncode(writeToJsonMap());
+  String writeToJson() {
+    final buf = StringBuffer();
+    final stringSink = jsonStringWriter(buf);
+    writeToJsonSink(stringSink);
+    return buf.toString();
+  }
+
+  void writeToJsonSink(JsonSink jsonSink) {
+    _writeToJsonMapSink(_fieldSet, jsonSink);
+  }
 
   /// Returns Dart JSON object encoding this message following proto3 JSON
   /// format.

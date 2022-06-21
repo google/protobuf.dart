@@ -193,15 +193,29 @@ class FromJsonBenchmark extends _ProtobufBenchmark {
   }
 }
 
-/// JSON serialization benchmark.
-class ToJsonBenchmark extends _ProtobufBenchmark {
-  ToJsonBenchmark(datasets) : super(datasets, 'ToJson');
+/// JSON serialization benchmark: from message to JSON string.
+class ToJsonStringBenchmark extends _ProtobufBenchmark {
+  ToJsonStringBenchmark(datasets) : super(datasets, 'ToJsonString');
 
   @override
   void run() {
     for (final ds in datasets) {
       for (final unpacked in ds.unpacked) {
         unpacked.writeToJson();
+      }
+    }
+  }
+}
+
+/// JSON serialization benchmark: from message to JSON object.
+class ToJsonObjectBenchmark extends _ProtobufBenchmark {
+  ToJsonObjectBenchmark(datasets) : super(datasets, 'ToJsonObject');
+
+  @override
+  void run() {
+    for (final ds in datasets) {
+      for (final unpacked in ds.unpacked) {
+        unpacked.writeToJsonMap();
       }
     }
   }
@@ -285,7 +299,8 @@ void run(List<Dataset> datasets) {
   FromBinaryBenchmark(datasets).report();
   ToBinaryBenchmark(datasets).report();
   FromJsonBenchmark(datasets).report();
-  ToJsonBenchmark(datasets).report();
+  ToJsonStringBenchmark(datasets).report();
+  ToJsonObjectBenchmark(datasets).report();
   FromProto3JsonStringBenchmark(datasets).report();
   ToProto3JsonStringBenchmark(datasets).report();
   FromProto3JsonObjectBenchmark(datasets).report();

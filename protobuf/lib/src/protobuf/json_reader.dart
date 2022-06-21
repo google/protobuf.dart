@@ -57,14 +57,14 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
     final convertedKey = _convertJsonValue(
         entryMeta,
         entryFieldSet,
-        jsonEntry['${PbMap._keyFieldNumber}'],
+        jsonEntry[PbMap._keyFieldNumberString],
         PbMap._keyFieldNumber,
         fi.keyFieldType,
         registry);
     var convertedValue = _convertJsonValue(
         entryMeta,
         entryFieldSet,
-        jsonEntry['${PbMap._valueFieldNumber}'],
+        jsonEntry[PbMap._valueFieldNumberString],
         PbMap._valueFieldNumber,
         fi.valueFieldType,
         registry);

@@ -4,76 +4,116 @@
 
 part of protobuf;
 
-Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
+void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
   dynamic convertToMap(dynamic fieldValue, int fieldType) {
     var baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
-      return List.from(fieldValue.map((e) => convertToMap(e, baseType)));
+      jsonSink.startArray();
+      for (final value in fieldValue as List) {
+        convertToMap(value, baseType);
+      }
+      jsonSink.endArray();
+      return;
     }
 
     switch (baseType) {
       case PbFieldType._BOOL_BIT:
+        jsonSink.addBool(fieldValue);
+        return;
+
       case PbFieldType._STRING_BIT:
+        jsonSink.addString(fieldValue);
+        return;
+
       case PbFieldType._INT32_BIT:
       case PbFieldType._SINT32_BIT:
       case PbFieldType._UINT32_BIT:
       case PbFieldType._FIXED32_BIT:
       case PbFieldType._SFIXED32_BIT:
-        return fieldValue;
+        jsonSink.addNumber(fieldValue);
+        return;
+
       case PbFieldType._FLOAT_BIT:
       case PbFieldType._DOUBLE_BIT:
         final value = fieldValue as double;
         if (value.isNaN) {
-          return nan;
+          jsonSink.addString(nan);
+          return;
         }
         if (value.isInfinite) {
-          return value.isNegative ? negativeInfinity : infinity;
+          jsonSink.addString(value.isNegative ? negativeInfinity : infinity);
+          return;
         }
         if (fieldValue.toInt() == fieldValue) {
-          return fieldValue.toInt();
+          jsonSink.addNumber(fieldValue.toInt());
+          return;
         }
-        return value;
+        jsonSink.addNumber(value);
+        return;
+
       case PbFieldType._BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
-        return base64Encode(fieldValue as List<int>);
+        jsonSink.addString(base64Encode(fieldValue as List<int>));
+        return;
+
       case PbFieldType._ENUM_BIT:
-        return fieldValue.value; // assume |value| < 2^52
+        jsonSink.addNumber(fieldValue.value); // assume |value| < 2^52
+        return;
+
       case PbFieldType._INT64_BIT:
       case PbFieldType._SINT64_BIT:
       case PbFieldType._SFIXED64_BIT:
-        return fieldValue.toString();
+        jsonSink.addString(fieldValue.toString());
+        return;
+
       case PbFieldType._UINT64_BIT:
       case PbFieldType._FIXED64_BIT:
-        return fieldValue.toStringUnsigned();
+        jsonSink.addString(fieldValue.toStringUnsigned());
+        return;
+
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        return fieldValue.writeToJsonMap();
+        (fieldValue as GeneratedMessage).writeToJsonSink(jsonSink);
+        return;
+
       default:
         throw 'Unknown type $fieldType';
     }
   }
 
-  List _writeMap(dynamic fieldValue, MapFieldInfo fi) =>
-      List.from(fieldValue.entries.map((MapEntry e) => {
-            '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
-            '${PbMap._valueFieldNumber}':
-                convertToMap(e.value, fi.valueFieldType)
-          }));
+  void _writeMap(dynamic fieldValue, MapFieldInfo fi) {
+    jsonSink.startArray();
+    for (final e in fieldValue.entries) {
+      jsonSink.startObject();
 
-  var result = <String, dynamic>{};
+      jsonSink.addKey(PbMap._keyFieldNumberString);
+      convertToMap(e.key, fi.keyFieldType);
+
+      jsonSink.addKey(PbMap._valueFieldNumberString);
+      convertToMap(e.value, fi.valueFieldType);
+
+      jsonSink.endObject();
+    }
+    jsonSink.endArray();
+  }
+
+  jsonSink.startObject();
+
   for (var fi in fs._infosSortedByTag) {
     var value = fs._values[fi.index!];
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
     }
     if (_isMapField(fi.type)) {
-      result['${fi.tagNumber}'] =
-          _writeMap(value, fi as MapFieldInfo<dynamic, dynamic>);
+      jsonSink.addKey(fi.tagNumber.toString());
+      _writeMap(value, fi as MapFieldInfo<dynamic, dynamic>);
       continue;
     }
-    result['${fi.tagNumber}'] = convertToMap(value, fi.type);
+    jsonSink.addKey(fi.tagNumber.toString());
+    convertToMap(value, fi.type);
   }
+
   if (fs._hasExtensions) {
     for (var tagNumber in _sorted(fs._extensions!._tagNumbers)) {
       var value = fs._extensions!._values[tagNumber];
@@ -81,8 +121,10 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         continue; // It's repeated or an empty byte array.
       }
       var fi = fs._extensions!._getInfoOrNull(tagNumber)!;
-      result['$tagNumber'] = convertToMap(value, fi.type);
+      jsonSink.addKey(tagNumber.toString());
+      convertToMap(value, fi.type);
     }
   }
-  return result;
+
+  jsonSink.endObject();
 }
