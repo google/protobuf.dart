@@ -111,7 +111,7 @@ abstract class GeneratedMessage {
   int? getTagNumber(String fieldName) => info_.tagNumber(fieldName);
 
   @override
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     return other is GeneratedMessage
         ? _fieldSet._equals(other._fieldSet)

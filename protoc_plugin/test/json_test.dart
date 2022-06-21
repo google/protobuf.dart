@@ -131,29 +131,28 @@ void main() {
   group('testConvertDouble', () {
     test('WithDecimal', () {
       final json = '{"12":1.2}';
-      TestAllTypes proto = TestAllTypes()..optionalDouble = 1.2;
+      var proto = TestAllTypes()..optionalDouble = 1.2;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('WholeNumber', () {
       final json = '{"12":5}';
-      TestAllTypes proto = TestAllTypes()..optionalDouble = 5.0;
+      var proto = TestAllTypes()..optionalDouble = 5.0;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('Infinity', () {
       final json = '{"12":"Infinity"}';
-      TestAllTypes proto = TestAllTypes()..optionalDouble = double.infinity;
+      var proto = TestAllTypes()..optionalDouble = double.infinity;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('NegativeInfinity', () {
       final json = '{"12":"-Infinity"}';
-      TestAllTypes proto = TestAllTypes()
-        ..optionalDouble = double.negativeInfinity;
+      var proto = TestAllTypes()..optionalDouble = double.negativeInfinity;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
