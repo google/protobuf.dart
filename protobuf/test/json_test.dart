@@ -1,7 +1,6 @@
 // Basic smoke tests for the GeneratedMessage JSON API.
 //
 // There are more JSON tests in the dart-protoc-plugin package.
-library json_test;
 
 import 'dart:convert';
 
