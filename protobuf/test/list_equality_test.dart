@@ -1,5 +1,4 @@
 // Test for ensuring that protobuf lists compare using value semantics.
-library list_equality_test;
 
 import 'package:test/test.dart';
 
