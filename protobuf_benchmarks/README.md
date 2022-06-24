@@ -12,22 +12,22 @@ Before running benchmarks you first need to compile all involved protos, which
 requires installing `protoc` and [protoc_plugin](../../protoc_plugin).
 
 ```console
-$ ./compile-protos.sh
+$ ./compile_protos.sh
 ```
 
-This produces temp folder with output of protoc.
+This compiles test protos to Dart.
 
 ## Running benchmarks on the VM
 
 ```
-$ dart benchmark_vm.dart
+$ dart bin/benchmark_vm.dart
 ```
 
 ## Running benchmarks via JavaScript (D8)
 
 ```
-$ ./compile-js.sh
-$ d8 $DART_SDK/lib/_internal/js_runtime/lib/preambles/d8.js temp/benchmark.js
+$ ./compile_js.sh
+$ d8 $DART_SDK/lib/_internal/js_runtime/lib/preambles/d8.js bin/benchmark.js
 ```
 
 Note: if you are seeing a "Error reading file" error while running the JS
