@@ -18,3 +18,7 @@ dev_dependencies:
   lints: ^1.0.0
   protoc_plugin:
     path: '../protoc_plugin'
+
+dependency_overrides:
+  protobuf:
+    path: "../protobuf"
