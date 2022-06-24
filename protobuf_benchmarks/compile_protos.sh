@@ -32,4 +32,4 @@ mkdir -p ${OUTPUT_DIR}
 
 set -x
 
-protoc -I"${SCRIPT_DIR}" --dart_out="${OUTPUT_DIR}" "${PROTOS[@]/#/$SCRIPT_DIR/}"
+protoc -I"${SCRIPT_DIR}" --dart_out="${OUTPUT_DIR}" --plugin=protoc-gen-dart=run_protoc_plugin.sh "${PROTOS[@]/#/$SCRIPT_DIR/}"
