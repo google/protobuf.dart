@@ -2,18 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// JS protobuf serialization/deserialization benchmark.
-///
-/// Loads benchmark [Dataset]s from the predefined list of files
-/// using D8's builtin readbuffer.
-library benchmark_js;
+// VM protobuf serialization/deserialization benchmark.
+//
+// Finds all files matching dataset*.pb pattern and loads benchmark
+// [Dataset]s from them.
 
-import 'common.dart';
-import 'd8.dart';
+import 'package:protobuf_benchmarks/common.dart';
+
+import 'dart:io';
 
 void main() {
   final datasets = datasetFiles
-      .map((file) => Dataset.fromBinary(readAsBytesSync(file)))
+      .map((file) => Dataset.fromBinary(File(file).readAsBytesSync()))
       .toList(growable: false);
 
   run(datasets);
