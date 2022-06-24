@@ -14,14 +14,14 @@ import 'dart:typed_data';
 import 'package:benchmark_harness/benchmark_harness.dart';
 import 'package:protobuf/protobuf.dart';
 
-import 'temp/benchmarks.pb.dart';
-import 'temp/datasets/google_message1/proto2/benchmark_message1_proto2.pb.dart'
+import 'generated/benchmarks.pb.dart';
+import 'generated/datasets/google_message1/proto2/benchmark_message1_proto2.pb.dart'
     as p2;
-import 'temp/datasets/google_message1/proto3/benchmark_message1_proto3.pb.dart'
+import 'generated/datasets/google_message1/proto3/benchmark_message1_proto3.pb.dart'
     as p3;
-import 'temp/datasets/google_message2/benchmark_message2.pb.dart';
-import 'temp/datasets/google_message3/benchmark_message3.pb.dart';
-import 'temp/datasets/google_message4/benchmark_message4.pb.dart';
+import 'generated/datasets/google_message2/benchmark_message2.pb.dart';
+import 'generated/datasets/google_message3/benchmark_message3.pb.dart';
+import 'generated/datasets/google_message4/benchmark_message4.pb.dart';
 
 final datasetFiles = [
   'datasets/google_message1/proto3/dataset.google_message1_proto3.pb',
