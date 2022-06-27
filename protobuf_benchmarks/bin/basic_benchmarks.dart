@@ -2,18 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// VM protobuf serialization/deserialization benchmark.
-//
-// Finds all files matching dataset*.pb pattern and loads benchmark
-// [Dataset]s from them.
-
 import 'package:protobuf_benchmarks/common.dart';
-
-import 'dart:io';
+import 'package:protobuf_benchmarks/readfile.dart';
 
 void main() {
   final datasets = datasetFiles
-      .map((file) => Dataset.fromBinary(File(file).readAsBytesSync()))
+      .map((file) => Dataset.fromBinary(readfile(file)))
       .toList(growable: false);
 
   run(datasets);
