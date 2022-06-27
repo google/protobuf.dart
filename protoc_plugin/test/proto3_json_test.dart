@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:core' hide Duration;
+import 'dart:convert' show jsonEncode;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
@@ -1257,6 +1258,7 @@ void main() {
       var proto = TestAllTypes()..optionalDouble = 5.0;
       expect(TestAllTypes()..mergeFromProto3Json(json), proto);
       expect(proto.toProto3Json(), json);
+      expect(jsonEncode(proto.toProto3Json()), '{"optionalDouble":5}');
     });
 
     test('Infinity', () {

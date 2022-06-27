@@ -67,6 +67,9 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
           if (value.isInfinite) {
             return value.isNegative ? negativeInfinity : infinity;
           }
+          if (fieldValue.toInt() == fieldValue) {
+            return fieldValue.toInt();
+          }
           return value;
         case PbFieldType._UINT64_BIT:
           return (fieldValue as Int64).toStringUnsigned();
