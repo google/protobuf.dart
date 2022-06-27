@@ -1735,8 +1735,8 @@ void setPackedExtensions(TestPackedExtensions message) {
   message.addExtension(Unittest.packedEnumExtension, ForeignEnum.FOREIGN_BAZ);
 }
 
-//Set every field of [message] to a unique value. Must correspond with
-//the values applied by [setUnpackedFields].
+// Set every field of [message] to a unique value. Must correspond with
+// the values applied by [setUnpackedFields].
 void setPackedFields(TestPackedTypes message) {
   message.packedInt32.add(601);
   message.packedInt64.add(make64(602));
