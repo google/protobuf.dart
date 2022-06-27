@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:core' hide Duration;
 import 'dart:convert' show jsonEncode;
+import 'dart:core' hide Duration;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
