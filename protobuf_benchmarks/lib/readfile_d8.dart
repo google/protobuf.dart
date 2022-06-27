@@ -13,6 +13,6 @@ import 'package:js/js.dart';
 external ByteBuffer readbuffer(String path);
 
 /// Read the file at the given [path].
-Uint8List readfile(String file) {
-  return Uint8List.view(readbuffer(file));
+Uint8List readfile(String path) {
+  return Uint8List.view(readbuffer(path));
 }
