@@ -60,7 +60,7 @@ class Dataset {
   final List<GeneratedMessage> unpacked = <GeneratedMessage>[];
 
   /// Create [Dataset] from a `BenchmarkDataset` proto.
-  factory Dataset.fromBinary(List<int> binary) {
+  factory Dataset.fromBinary(Uint8List binary) {
     final dataSet = BenchmarkDataset.fromBuffer(binary);
 
     final factories = Factories.forMessage(dataSet.messageName);

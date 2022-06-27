@@ -15,6 +15,7 @@ dependencies:
   protobuf: any
 
 dev_dependencies:
+  js: ^0.6.3
   lints: ^1.0.0
   protoc_plugin:
     path: "../protoc_plugin"
