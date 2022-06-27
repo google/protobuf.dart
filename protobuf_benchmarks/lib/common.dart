@@ -23,10 +23,13 @@ import 'generated/datasets/google_message2/benchmark_message2.pb.dart';
 import 'generated/datasets/google_message3/benchmark_message3.pb.dart';
 import 'generated/datasets/google_message4/benchmark_message4.pb.dart';
 
+const datasetsDir =
+    const String.fromEnvironment('datasets_dir', defaultValue: 'datasets');
+
 final datasetFiles = [
-  'datasets/google_message1/proto3/dataset.google_message1_proto3.pb',
-  'datasets/google_message1/proto2/dataset.google_message1_proto2.pb',
-  'datasets/google_message2/dataset.google_message2.pb'
+  '$datasetsDir/google_message1/proto3/dataset.google_message1_proto3.pb',
+  '$datasetsDir/google_message1/proto2/dataset.google_message1_proto2.pb',
+  '$datasetsDir/google_message2/dataset.google_message2.pb'
 ];
 
 /// Represents a dataset, a list of protobufs payloads, used for benchmarking.
