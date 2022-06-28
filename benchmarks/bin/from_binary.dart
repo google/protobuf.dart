@@ -14,17 +14,16 @@ import 'dart:typed_data';
 import 'package:benchmark_harness/benchmark_harness.dart';
 
 class Benchmark extends BenchmarkBase {
-  late final Uint8List _message1Proto2Input;
-  late final Uint8List _message1Proto3Input;
-  late final Uint8List _message2Input;
+  final Uint8List _message1Proto2Input;
+  final Uint8List _message1Proto3Input;
+  final Uint8List _message2Input;
 
   Benchmark(String name, List<int> message1Proto2Input,
       List<int> message1Proto3Input, List<int> message2Input)
-      : super(name) {
-    _message1Proto2Input = Uint8List.fromList(message1Proto2Input);
-    _message1Proto3Input = Uint8List.fromList(message1Proto3Input);
-    _message2Input = Uint8List.fromList(message2Input);
-  }
+      : _message1Proto2Input = Uint8List.fromList(message1Proto2Input),
+        _message1Proto3Input = Uint8List.fromList(message1Proto3Input),
+        _message2Input = Uint8List.fromList(message2Input),
+        super(name);
 
   @override
   void run() {

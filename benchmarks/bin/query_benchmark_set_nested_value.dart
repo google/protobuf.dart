@@ -11,11 +11,11 @@ import 'package:benchmark_harness/benchmark_harness.dart';
 import 'package:protobuf/protobuf.dart';
 
 class Benchmark extends BenchmarkBase {
-  late final f0.A0 _input;
+  final f0.A0 _input;
 
-  Benchmark(String name, List<int> input) : super(name) {
-    _input = f0.A0.fromBuffer(input)..freeze();
-  }
+  Benchmark(String name, List<int> input)
+      : _input = f0.A0.fromBuffer(input)..freeze(),
+        super(name);
 
   @override
   void run() {

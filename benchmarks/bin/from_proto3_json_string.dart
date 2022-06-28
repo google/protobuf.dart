@@ -14,20 +14,19 @@ import 'dart:convert' show jsonDecode, jsonEncode;
 import 'package:benchmark_harness/benchmark_harness.dart';
 
 class Benchmark extends BenchmarkBase {
-  late final String _message1Proto2Proto3JsonString;
-  late final String _message1Proto3Proto3JsonString;
-  late final String _message2Proto3JsonString;
+  final String _message1Proto2Proto3JsonString;
+  final String _message1Proto3Proto3JsonString;
+  final String _message2Proto3JsonString;
 
   Benchmark(String name, List<int> message1Proto2Input,
       List<int> message1Proto3Input, List<int> message2Input)
-      : super(name) {
-    _message1Proto2Proto3JsonString = jsonEncode(
-        p2.GoogleMessage1.fromBuffer(message1Proto2Input).toProto3Json());
-    _message1Proto3Proto3JsonString = jsonEncode(
-        p3.GoogleMessage1.fromBuffer(message1Proto3Input).toProto3Json());
-    _message2Proto3JsonString =
-        jsonEncode(GoogleMessage2.fromBuffer(message2Input).toProto3Json());
-  }
+      : _message1Proto2Proto3JsonString = jsonEncode(
+            p2.GoogleMessage1.fromBuffer(message1Proto2Input).toProto3Json()),
+        _message1Proto3Proto3JsonString = jsonEncode(
+            p3.GoogleMessage1.fromBuffer(message1Proto3Input).toProto3Json()),
+        _message2Proto3JsonString =
+            jsonEncode(GoogleMessage2.fromBuffer(message2Input).toProto3Json()),
+        super(name);
 
   @override
   void run() {

@@ -9,22 +9,19 @@ import 'package:protobuf_benchmarks/generated/google_message1_proto3.pb.dart'
     as p3;
 import 'package:protobuf_benchmarks/generated/google_message2.pb.dart';
 
-import 'dart:convert' show jsonEncode;
-
 import 'package:benchmark_harness/benchmark_harness.dart';
 
 class Benchmark extends BenchmarkBase {
-  late final p2.GoogleMessage1 _message1Proto2;
-  late final p3.GoogleMessage1 _message1Proto3;
-  late final GoogleMessage2 _message2;
+  final p2.GoogleMessage1 _message1Proto2;
+  final p3.GoogleMessage1 _message1Proto3;
+  final GoogleMessage2 _message2;
 
   Benchmark(String name, List<int> message1Proto2Input,
       List<int> message1Proto3Input, List<int> message2Input)
-      : super(name) {
-    _message1Proto2 = p2.GoogleMessage1.fromBuffer(message1Proto2Input);
-    _message1Proto3 = p3.GoogleMessage1.fromBuffer(message1Proto3Input);
-    _message2 = GoogleMessage2.fromBuffer(message2Input);
-  }
+      : _message1Proto2 = p2.GoogleMessage1.fromBuffer(message1Proto2Input),
+        _message1Proto3 = p3.GoogleMessage1.fromBuffer(message1Proto3Input),
+        _message2 = GoogleMessage2.fromBuffer(message2Input),
+        super(name);
 
   @override
   void run() {
