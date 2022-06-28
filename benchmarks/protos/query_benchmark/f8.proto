@@ -1,0 +1,63 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+package a10.a29;
+import "f5.proto";
+extend a10.A57 {
+  optional bool a30 = 147618788;
+  optional bool a32 = 149418587 [default = true];
+  optional string a33 = 190288050;
+}
+extend a10.A70 {
+  optional bool a34 = 149419467 [default = true];
+  optional bool a35 = 163526403;
+  optional string a36 = 190295313;
+}
+enum A71 {
+  A72 = 0;
+  A73 = 1;
+  A74 = 2;
+  A75 = 3;
+}
+extend a10.A56 {
+  optional A71 a37 = 179701954 [default = A73];
+}
+extend a10.A76 {
+  optional bool a38 = 162702653 [default = false];
+  optional bool a39 = 163486533 [default = false];
+  optional bool a40 = 170261731 [default = false];
+  repeated string a41 = 179096040;
+}
+enum A77 {
+  A67 = 0;
+  A78 = 1;
+  A79 = 2;
+  A80 = 3;
+  A81 = 4;
+  A82 = 5;
+  A83 = 6;
+  A84 = 7;
+  A85 = 8;
+  A86 = 9;
+  A87 = 10;
+  A88 = 11;
+  A89 = 12;
+  A90 = 13;
+  A91 = 14;
+  A92 = 15;
+  A93 = 16;
+  A94 = 17;
+  A95 = 18;
+  A96 = 100;
+  A97 = 101;
+}
+extend a10.A60 {
+  optional A77 a42 = 155465253 [default = A67];
+  optional bytes a43 = 157245250;
+  optional bool a44 = 180648220 [default = true];
+}
+extend a10.A98 {
+  optional bool a45 = 211030419;
+}
