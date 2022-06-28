@@ -9,28 +9,28 @@ import 'package:protobuf_benchmarks/generated/google_message1_proto3.pb.dart'
     as p3;
 import 'package:protobuf_benchmarks/generated/google_message2.pb.dart';
 
-import 'dart:typed_data';
-
 import 'package:benchmark_harness/benchmark_harness.dart';
 
 class Benchmark extends BenchmarkBase {
-  late final Uint8List _message1Proto2Input;
-  late final Uint8List _message1Proto3Input;
-  late final Uint8List _message2Input;
+  late final String _message1Proto2JsonString;
+  late final String _message1Proto3JsonString;
+  late final String _message2JsonString;
 
   Benchmark(String name, List<int> message1Proto2Input,
       List<int> message1Proto3Input, List<int> message2Input)
       : super(name) {
-    _message1Proto2Input = Uint8List.fromList(message1Proto2Input);
-    _message1Proto3Input = Uint8List.fromList(message1Proto3Input);
-    _message2Input = Uint8List.fromList(message2Input);
+
+
+    _message1Proto2JsonString = p2.GoogleMessage1.fromBuffer(message1Proto2Input).writeToJson();
+    _message1Proto3JsonString = p3.GoogleMessage1.fromBuffer(message1Proto3Input).writeToJson();
+    _message2JsonString = GoogleMessage2.fromBuffer(message2Input).writeToJson();
   }
 
   @override
   void run() {
-    p2.GoogleMessage1.fromBuffer(_message1Proto2Input);
-    p3.GoogleMessage1.fromBuffer(_message1Proto3Input);
-    GoogleMessage2.fromBuffer(_message2Input);
+    p2.GoogleMessage1.fromJson(_message1Proto2JsonString);
+    p3.GoogleMessage1.fromJson(_message1Proto3JsonString);
+    GoogleMessage2.fromJson(_message2JsonString);
   }
 }
 
@@ -40,7 +40,7 @@ void main() {
   List<int> message1Proto3Input =
       readfile('datasets/google_message1_proto3.pb');
   List<int> message2Input = readfile('datasets/google_message2.pb');
-  Benchmark('protobuf_decode_binary', message1Proto2Input, message1Proto3Input,
+  Benchmark('protobuf_from_json_string', message1Proto2Input, message1Proto3Input,
           message2Input)
       .report();
 }
