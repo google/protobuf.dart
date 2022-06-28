@@ -8,7 +8,6 @@ import 'package:protobuf_benchmarks/generated/f2.pb.dart' as f2;
 import 'package:protobuf_benchmarks/query_benchmark_common.dart';
 import 'package:protobuf_benchmarks/readfile.dart';
 
-import 'package:benchmark_harness/benchmark_harness.dart';
 import 'package:protobuf/protobuf.dart';
 
 class Benchmark extends QueryBenchmark {

@@ -6,8 +6,6 @@ import 'package:protobuf_benchmarks/generated/f0.pb.dart' as f0;
 import 'package:protobuf_benchmarks/query_benchmark_common.dart';
 import 'package:protobuf_benchmarks/readfile.dart';
 
-import 'package:benchmark_harness/benchmark_harness.dart';
-
 class Benchmark extends QueryBenchmark {
   final List<int> _input;
 
