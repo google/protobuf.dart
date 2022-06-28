@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert' show jsonEncode;
 import 'dart:core' hide Duration;
 
 import 'package:fixnum/fixnum.dart';
@@ -1253,6 +1254,7 @@ void main() {
       var proto = TestAllTypes()..optionalDouble = 5.0;
       expect(TestAllTypes()..mergeFromProto3Json(json), proto);
       expect(proto.toProto3Json(), json);
+      expect(jsonEncode(proto.toProto3Json()), '{"optionalDouble":5}');
     });
 
     test('Infinity', () {
