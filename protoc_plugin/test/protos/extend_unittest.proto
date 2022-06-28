@@ -4,6 +4,8 @@
 
 syntax = "proto2";
 
+package extend_unittest;
+
 import "google/protobuf/unittest.proto";
 
 message Outer {

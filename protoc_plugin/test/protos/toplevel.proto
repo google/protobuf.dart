@@ -4,6 +4,8 @@
 
 syntax = "proto2";
 
+package toplevel;
+
 message T {
   optional int32 a = 1;
   optional string b = 2;

@@ -4,6 +4,8 @@
 
 syntax = "proto2";
 
+package proto2_repeated;
+
 message Proto2Repeated {
   repeated int32 ints_default = 1;
   repeated int32 ints_packed = 2 [packed=true];

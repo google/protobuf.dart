@@ -4,9 +4,9 @@
 
 syntax = "proto2";
 
-import "dart_options.proto";
-
 package dart_name;
+
+import "dart_options.proto";
 
 message DartName {
   optional string field = 1 [

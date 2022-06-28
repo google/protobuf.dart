@@ -21,7 +21,6 @@ TEST_PROTO_LIST = \
 	google/protobuf/timestamp \
 	google/protobuf/type \
 	google/protobuf/unittest_import \
-	google/protobuf/unittest_nested_any \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest_well_known_types \
 	google/protobuf/unittest \
@@ -46,6 +45,7 @@ TEST_PROTO_LIST = \
 	map_field \
 	mixins \
 	multiple_files_test \
+	nested_any \
 	nested_extension \
 	nested_message \
 	non_nested_extension \

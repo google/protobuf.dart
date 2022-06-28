@@ -4,6 +4,8 @@
 
 syntax = "proto2";
 
+package default_value_escape;
+
 message F {
   optional string a = 1 [default = "a\nb"];
   optional string b = 2 [default = "a'b"];
