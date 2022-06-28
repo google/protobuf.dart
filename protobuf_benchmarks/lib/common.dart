@@ -20,8 +20,6 @@ import 'generated/datasets/google_message1/proto2/benchmark_message1_proto2.pb.d
 import 'generated/datasets/google_message1/proto3/benchmark_message1_proto3.pb.dart'
     as p3;
 import 'generated/datasets/google_message2/benchmark_message2.pb.dart';
-import 'generated/datasets/google_message3/benchmark_message3.pb.dart';
-import 'generated/datasets/google_message4/benchmark_message4.pb.dart';
 
 const datasetsDir =
     const String.fromEnvironment('datasets_dir', defaultValue: 'datasets');
@@ -121,20 +119,6 @@ class Factories {
             GoogleMessage2.create()..mergeFromProto3Json(jsonDecode(json)),
         fromProto3JsonObject: (Object json) =>
             GoogleMessage2.create()..mergeFromProto3Json(json)),
-    'benchmarks.google_message3.GoogleMessage3': Factories._(
-        fromBuffer: (List<int> binary) => GoogleMessage3.fromBuffer(binary),
-        fromJson: (String json) => GoogleMessage3.fromJson(json),
-        fromProto3JsonString: (String json) =>
-            GoogleMessage3.create()..mergeFromProto3Json(jsonDecode(json)),
-        fromProto3JsonObject: (Object json) =>
-            GoogleMessage3.create()..mergeFromProto3Json(json)),
-    'benchmarks.google_message4.GoogleMessage4': Factories._(
-        fromBuffer: (List<int> binary) => GoogleMessage4.fromBuffer(binary),
-        fromJson: (String json) => GoogleMessage4.fromJson(json),
-        fromProto3JsonString: (String json) =>
-            GoogleMessage4.create()..mergeFromProto3Json(jsonDecode(json)),
-        fromProto3JsonObject: (Object json) =>
-            GoogleMessage4.create()..mergeFromProto3Json(json)),
   };
 
   Factories._(
