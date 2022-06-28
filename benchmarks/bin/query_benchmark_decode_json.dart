@@ -3,11 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:protobuf_benchmarks/generated/f0.pb.dart' as f0;
+import 'package:protobuf_benchmarks/query_benchmark_common.dart';
 import 'package:protobuf_benchmarks/readfile.dart';
 
 import 'package:benchmark_harness/benchmark_harness.dart';
 
-class Benchmark extends BenchmarkBase {
+class Benchmark extends QueryBenchmark {
   final String _input;
 
   Benchmark(String name, List<int> input)

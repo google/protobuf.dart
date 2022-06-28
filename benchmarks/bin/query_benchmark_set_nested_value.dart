@@ -2,15 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:protobuf_benchmarks/readfile.dart';
 import 'package:protobuf_benchmarks/generated/f0.pb.dart' as f0;
 import 'package:protobuf_benchmarks/generated/f19.pb.dart' as f19;
 import 'package:protobuf_benchmarks/generated/f2.pb.dart' as f2;
+import 'package:protobuf_benchmarks/query_benchmark_common.dart';
+import 'package:protobuf_benchmarks/readfile.dart';
 
 import 'package:benchmark_harness/benchmark_harness.dart';
 import 'package:protobuf/protobuf.dart';
 
-class Benchmark extends BenchmarkBase {
+class Benchmark extends QueryBenchmark {
   final f0.A0 _input;
 
   Benchmark(String name, List<int> input)

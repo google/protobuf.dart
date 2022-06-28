@@ -10,10 +10,11 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
+  # NB. When bumping benchmark_harness check if `QueryBenchmark` needs updating
+  benchmark_harness: ^2.0.0
   protobuf: any
 
 dev_dependencies:
-  benchmark_harness: ^2.0.0
   js: ^0.6.3
   lints: ^1.0.0
   protoc_plugin:
