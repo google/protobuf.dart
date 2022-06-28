@@ -19,6 +19,7 @@ class Benchmark extends BenchmarkBase {
 
   @override
   void run() {
+    // ignore: unused_result
     _input.rebuild((f0.A0 a0Builder) {
       a0Builder.a4.last = a0Builder.a4.last.rebuild((f2.A1 a1builder) {
         a1builder.a378 = a1builder.a378
@@ -30,5 +31,5 @@ class Benchmark extends BenchmarkBase {
 
 void main() {
   List<int> encoded = readfile('datasets/query_benchmark.pb');
-  Benchmark('protobuf_encode_json', encoded).report();
+  Benchmark('protobuf_set_nested_value', encoded).report();
 }
