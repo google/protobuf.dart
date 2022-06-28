@@ -34,13 +34,13 @@
 
 syntax = "proto2";
 
+package protobuf_unittest;
+
 // Some generic_services option(s) added automatically.
 // See:  http://go/proto2-generic-services-default
 option java_generic_services = true;   // auto-added
 
 import "google/protobuf/unittest.proto";
-
-package protobuf_unittest;
 
 option java_multiple_files = true;
 option java_outer_classname = "MultipleFilesTestProto";
