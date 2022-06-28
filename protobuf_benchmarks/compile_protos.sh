@@ -10,19 +10,6 @@ PROTOS=(
   "datasets/google_message1/proto2/benchmark_message1_proto2.proto"
   "datasets/google_message1/proto3/benchmark_message1_proto3.proto"
   "datasets/google_message2/benchmark_message2.proto"
-  "datasets/google_message3/benchmark_message3.proto"
-  "datasets/google_message3/benchmark_message3_1.proto"
-  "datasets/google_message3/benchmark_message3_2.proto"
-  "datasets/google_message3/benchmark_message3_3.proto"
-  "datasets/google_message3/benchmark_message3_4.proto"
-  "datasets/google_message3/benchmark_message3_5.proto"
-  "datasets/google_message3/benchmark_message3_6.proto"
-  "datasets/google_message3/benchmark_message3_7.proto"
-  "datasets/google_message3/benchmark_message3_8.proto"
-  "datasets/google_message4/benchmark_message4.proto"
-  "datasets/google_message4/benchmark_message4_1.proto"
-  "datasets/google_message4/benchmark_message4_2.proto"
-  "datasets/google_message4/benchmark_message4_3.proto"
 )
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE}")
