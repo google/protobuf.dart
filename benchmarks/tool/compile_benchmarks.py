@@ -65,4 +65,7 @@ for file in os.listdir('bin'):
 print('Waiting for processes to finish...')
 
 for p in processes:
-    p.wait()
+    ret = p.wait()
+    if ret != 0:
+        print('Process returned %' % ret)
+        sys.exit(1)
