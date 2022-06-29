@@ -6,8 +6,8 @@
 
 - **AOT and JS:**
 
-  - Compile benchmark programs to native and JS with
-    `./tool/compile_benchmarks.py`
+  - Compile benchmark programs to native, JS, and JIT snapshots with
+    `./tool/compile_benchmarks.dart`
 
   - Run benchmark programs in `out/`:
     - AOT: `./out/from_binary.exe`
