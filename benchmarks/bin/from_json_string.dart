@@ -2,14 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:protobuf_benchmarks/readfile.dart';
+import 'package:protobuf_benchmarks/benchmark_base.dart';
 import 'package:protobuf_benchmarks/generated/google_message1_proto2.pb.dart'
     as p2;
 import 'package:protobuf_benchmarks/generated/google_message1_proto3.pb.dart'
     as p3;
 import 'package:protobuf_benchmarks/generated/google_message2.pb.dart';
-
-import 'package:benchmark_harness/benchmark_harness.dart';
+import 'package:protobuf_benchmarks/readfile.dart';
 
 class Benchmark extends BenchmarkBase {
   final String _message1Proto2JsonString;

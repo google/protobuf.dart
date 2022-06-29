@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:protobuf_benchmarks/benchmark_base.dart';
 import 'package:protobuf_benchmarks/generated/f0.pb.dart' as f0;
-import 'package:protobuf_benchmarks/query_benchmark_common.dart';
 import 'package:protobuf_benchmarks/readfile.dart';
 
-class Benchmark extends QueryBenchmark {
+class Benchmark extends BenchmarkBase {
   final String _input;
 
   Benchmark(String name, List<int> input)
@@ -15,7 +15,7 @@ class Benchmark extends QueryBenchmark {
 
   @override
   void run() {
-    f0.A0.fromJson(this._input);
+    f0.A0.fromJson(_input);
   }
 }
 
