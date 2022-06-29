@@ -70,7 +70,7 @@ Future<void> main(List<String> args) async {
   await for (final processResult in stream) {
     final exitCode = processResult.exitCode;
     if (exitCode != 0) {
-      print('Process returned exit code $exitCode');
+      print('Process exited with $exitCode');
       exit(1);
     }
   }
