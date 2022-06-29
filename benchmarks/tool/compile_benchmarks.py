@@ -4,16 +4,7 @@
 # for details. All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE file.
 
-# This does the same thing as `compile_benchmarks.sh`, but compiles inputs in
-# parallel.
-#
-# $ time ./tool/compile_benchmarks.py
-# ...
-# ./tool/compile_benchmarks.py  130.47s user 19.48s system 1074% cpu 13.951 total
-#
-# $ time ./tool/compile_benchmarks.sh
-# ...
-# ./tool/compile_benchmarks.sh  91.14s user 20.08s system 137% cpu 1:20.97 total
+# Compiles benchmark programs in `bin/` to native and JS, in parallel.
 
 import multiprocessing
 import os
