@@ -8,8 +8,15 @@ import 'package:pool/pool.dart' show Pool;
 
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()
-    ..addOption('target', mandatory: false, defaultsTo: 'jit,aot,js');
+    ..addOption('target', mandatory: false, defaultsTo: 'jit,aot,js')
+    ..addOption('jobs', abbr: 'j', mandatory: false);
+
   final parsedArgs = argParser.parse(args);
+
+  var jobs = Platform.numberOfProcessors;
+  if (parsedArgs['jobs'] != null) {
+    jobs = int.parse(parsedArgs['jobs']!);
+  }
 
   var targets = <Target>{};
   for (final targetStr in parsedArgs['target'].split(',')) {
@@ -44,26 +51,31 @@ Future<void> main(List<String> args) async {
     }
   }
 
-  final numCpus = Platform.numberOfProcessors;
-  final pool = Pool(numCpus);
-  final processes = [];
+  final commands = [];
 
   for (final sourceFile in sourceFiles) {
     for (final target in targets) {
-      final resource = await pool.request();
-      processes.add(target.compile(sourceFile));
-      resource.release();
+      commands.add(target.compileArgs(sourceFile));
     }
   }
 
-  for (final process in processes) {
-    final process_ = await process;
-    final exitCode = await process_.exitCode;
+  final pool = Pool(jobs);
+
+  final stream = pool.forEach(commands, (a) async {
+    var command = a as List<String>;
+    print(command.join(' '));
+    return Process.run(command[0], command.sublist(1));
+  });
+
+  await for (final processResult in stream) {
+    final exitCode = processResult.exitCode;
     if (exitCode != 0) {
       print('Process returned exit code $exitCode');
       exit(1);
     }
   }
+
+  await pool.done;
 }
 
 class Target {
@@ -77,10 +89,8 @@ class Target {
     return 'Target($_name)';
   }
 
-  Future<Process> compile(String sourceFile) {
-    final processArgs = _processArgs(sourceFile);
-    print(processArgs.join(' '));
-    return Process.start(processArgs[0], processArgs.sublist(1));
+  List<String> compileArgs(String sourceFile) {
+    return _processArgs(sourceFile);
   }
 }
 
