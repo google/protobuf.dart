@@ -15,17 +15,51 @@
 # ...
 # ./tool/compile_benchmarks.sh  91.14s user 20.08s system 137% cpu 1:20.97 total
 
+import multiprocessing
 import os
 import subprocess
+import time
 
 try:
     os.mkdir('out')
 except:
     pass
 
+n_cpus = multiprocessing.cpu_count()
+
+print('n_cpus:', n_cpus)
+
 processes = []
 
+def wait_processes():
+    global processes
+
+    while True:
+        new_processes = []
+
+        # Remove finished processes from the pool
+        for p in processes:
+            ret = p.poll()
+
+            if ret == None:
+                new_processes.append(p)
+                continue
+
+            if ret != 0:
+                print('Process returned %' % ret)
+                sys.exit(1)
+
+        processes = new_processes
+
+        if len(processes) == n_cpus:
+            time.sleep(1)
+        else:
+            return
+
 def run_cmd(args):
+    if len(processes) >= n_cpus:
+        wait_processes()
+
     print(' '.join(args))
 
     # Ignore outputs, print error messages
