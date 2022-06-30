@@ -1,6 +1,6 @@
 #!/usr/bin/env dart
 
-import 'dart:io' show exit, Platform, Process, Directory;
+import 'dart:io' show exit, Platform, Process, Directory, ProcessResult;
 
 import 'package:args/args.dart' show ArgParser;
 import 'package:path/path.dart' as path;
@@ -51,7 +51,7 @@ Future<void> main(List<String> args) async {
     }
   }
 
-  final commands = [];
+  final commands = <List<String>>[];
 
   for (final sourceFile in sourceFiles) {
     for (final target in targets) {
@@ -61,8 +61,8 @@ Future<void> main(List<String> args) async {
 
   final pool = Pool(jobs);
 
-  final stream = pool.forEach(commands, (a) async {
-    final command = a as List<String>;
+  final stream = pool.forEach<List<String>, ProcessResult>(commands,
+      (List<String> command) async {
     print(command.join(' '));
     return Process.run(command[0], command.sublist(1));
   });
