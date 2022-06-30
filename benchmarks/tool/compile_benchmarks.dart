@@ -18,7 +18,7 @@ Future<void> main(List<String> args) async {
     jobs = int.parse(parsedArgs['jobs']!);
   }
 
-  var targets = <Target>{};
+  final targets = <Target>{};
   for (final targetStr in parsedArgs['target'].split(',')) {
     switch (targetStr) {
       case 'jit':
@@ -41,7 +41,7 @@ Future<void> main(List<String> args) async {
   }
 
   // Arg list is immutable, clone it
-  var sourceFiles = List.from(parsedArgs.rest);
+  final sourceFiles = List.from(parsedArgs.rest);
 
   if (sourceFiles.isEmpty) {
     // Compile all files in bin/
@@ -62,7 +62,7 @@ Future<void> main(List<String> args) async {
   final pool = Pool(jobs);
 
   final stream = pool.forEach(commands, (a) async {
-    var command = a as List<String>;
+    final command = a as List<String>;
     print(command.join(' '));
     return Process.run(command[0], command.sublist(1));
   });
