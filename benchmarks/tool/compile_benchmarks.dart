@@ -8,7 +8,7 @@ import 'package:pool/pool.dart' show Pool;
 
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()
-    ..addOption('target', mandatory: false, defaultsTo: 'jit,exe,js')
+    ..addOption('target', mandatory: false, defaultsTo: 'aot,exe,jit,js')
     ..addOption('jobs', abbr: 'j', mandatory: false);
 
   final parsedArgs = argParser.parse(args);
@@ -21,12 +21,16 @@ Future<void> main(List<String> args) async {
   final targets = <Target>{};
   for (final targetStr in parsedArgs['target'].split(',')) {
     switch (targetStr) {
-      case 'jit':
-        targets.add(jitTarget);
+      case 'aot':
+        targets.add(aotTarget);
         break;
 
       case 'exe':
         targets.add(exeTarget);
+        break;
+
+      case 'jit':
+        targets.add(jitTarget);
         break;
 
       case 'js':
@@ -35,7 +39,7 @@ Future<void> main(List<String> args) async {
 
       default:
         print(
-            'Unsupported target: $targetStr. Supported targets: jit, exe, js');
+            'Unsupported target: $targetStr. Supported targets: aot, exe, jit, js');
         exit(1);
     }
   }
@@ -108,9 +112,29 @@ class Target {
   }
 }
 
-const jitTarget = Target('jit', jitProcessArgs);
+const aotTarget = Target('aot', aotProcessArgs);
 const exeTarget = Target('exe', exeProcessArgs);
+const jitTarget = Target('jit', jitProcessArgs);
 const jsTarget = Target('js', jsProcessArgs);
+
+List<String> aotProcessArgs(String sourceFile) {
+  final baseName = path.basename(sourceFile);
+  final baseNameNoExt = path.withoutExtension(baseName);
+  return [
+    'dart',
+    'compile',
+    'aot-snapshot',
+    sourceFile,
+    '-o',
+    'out/$baseNameNoExt.aot'
+  ];
+}
+
+List<String> exeProcessArgs(String sourceFile) {
+  final baseName = path.basename(sourceFile);
+  final baseNameNoExt = path.withoutExtension(baseName);
+  return ['dart', 'compile', 'exe', sourceFile, '-o', 'out/$baseNameNoExt.exe'];
+}
 
 List<String> jitProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
@@ -120,12 +144,6 @@ List<String> jitProcessArgs(String sourceFile) {
     '--snapshot=out/$baseName.dill',
     sourceFile
   ];
-}
-
-List<String> exeProcessArgs(String sourceFile) {
-  final baseName = path.basename(sourceFile);
-  final baseNameNoExt = path.withoutExtension(baseName);
-  return ['dart', 'compile', 'exe', sourceFile, '-o', 'out/$baseNameNoExt.exe'];
 }
 
 List<String> jsProcessArgs(String sourceFile) {
