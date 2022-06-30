@@ -51,7 +51,11 @@ Future<void> main(List<String> args) async {
     // Compile all files in bin/
     final dir = Directory('bin');
     for (final dirFile in dir.listSync(recursive: false)) {
-      sourceFiles.add(dirFile.path);
+      // Compiler hangs (instead of failing) when passed an .exe, so only try
+      // to compile Dart files
+      if (path.extension(dirFile.path) == '.dart') {
+        sourceFiles.add(dirFile.path);
+      }
     }
   }
 
