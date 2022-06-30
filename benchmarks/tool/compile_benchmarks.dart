@@ -53,6 +53,12 @@ Future<void> main(List<String> args) async {
 
   final commands = <List<String>>[];
 
+  if (sourceFiles.isNotEmpty && targets.isNotEmpty) {
+    try {
+      Directory('out').createSync();
+    } catch (_) {}
+  }
+
   for (final sourceFile in sourceFiles) {
     for (final target in targets) {
       commands.add(target.compileArgs(sourceFile));
