@@ -8,7 +8,7 @@ import 'package:pool/pool.dart' show Pool;
 
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()
-    ..addOption('target', mandatory: false, defaultsTo: 'jit,aot,js')
+    ..addOption('target', mandatory: false, defaultsTo: 'jit,exe,js')
     ..addOption('jobs', abbr: 'j', mandatory: false);
 
   final parsedArgs = argParser.parse(args);
@@ -25,8 +25,8 @@ Future<void> main(List<String> args) async {
         targets.add(jitTarget);
         break;
 
-      case 'aot':
-        targets.add(aotTarget);
+      case 'exe':
+        targets.add(exeTarget);
         break;
 
       case 'js':
@@ -35,7 +35,7 @@ Future<void> main(List<String> args) async {
 
       default:
         print(
-            'Unsupported target: $targetStr. Supported targets: jit, aot, js');
+            'Unsupported target: $targetStr. Supported targets: jit, exe, js');
         exit(1);
     }
   }
@@ -103,7 +103,7 @@ class Target {
 }
 
 const jitTarget = Target('jit', jitProcessArgs);
-const aotTarget = Target('aot', aotProcessArgs);
+const exeTarget = Target('exe', exeProcessArgs);
 const jsTarget = Target('js', jsProcessArgs);
 
 List<String> jitProcessArgs(String sourceFile) {
@@ -116,7 +116,7 @@ List<String> jitProcessArgs(String sourceFile) {
   ];
 }
 
-List<String> aotProcessArgs(String sourceFile) {
+List<String> exeProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
   return ['dart', 'compile', 'exe', sourceFile, '-o', 'out/$baseNameNoExt.exe'];
