@@ -71,6 +71,14 @@ Future<void> main(List<String> args) async {
     final exitCode = processResult.exitCode;
     if (exitCode != 0) {
       print('Process exited with $exitCode');
+      print(
+          'Process stdout ---------------------------------------------------');
+      print(processResult.stdout);
+      print(
+          'Process stderr ---------------------------------------------------');
+      print(processResult.stderr);
+      print(
+          '------------------------------------------------------------------');
       exit(1);
     }
   }
