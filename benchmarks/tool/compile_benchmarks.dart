@@ -62,7 +62,7 @@ Future<void> main(List<String> args) async {
   final pool = Pool(jobs);
 
   final stream = pool.forEach<List<String>, ProcessResult>(commands,
-      (List<String> command) async {
+      (List<String> command) {
     print(command.join(' '));
     return Process.run(command[0], command.sublist(1));
   });
