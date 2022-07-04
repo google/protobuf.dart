@@ -785,14 +785,14 @@ class _FieldSet {
 
     if (fi.isRepeated) {
       if (mustClone) {
-        // fieldValue must be a PbListBase of GeneratedMessage.
+        // fieldValue must be a PbList of GeneratedMessage.
         PbList<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
-        // fieldValue must be at least a PbListBase.
+        // fieldValue must be at least a PbList.
         PbList pbList = fieldValue;
         fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
