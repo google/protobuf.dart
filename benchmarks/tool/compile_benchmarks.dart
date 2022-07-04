@@ -8,7 +8,8 @@ import 'package:pool/pool.dart' show Pool;
 
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()
-    ..addOption('target', mandatory: false, defaultsTo: 'aot,exe,jit,js')
+    ..addOption('target',
+        mandatory: false, defaultsTo: 'aot,exe,jit,js,js-production')
     ..addOption('jobs', abbr: 'j', mandatory: false);
 
   final parsedArgs = argParser.parse(args);
@@ -37,9 +38,13 @@ Future<void> main(List<String> args) async {
         targets.add(jsTarget);
         break;
 
+      case 'js-production':
+        targets.add(jsProductionTarget);
+        break;
+
       default:
         print(
-            'Unsupported target: $targetStr. Supported targets: aot, exe, jit, js');
+            'Unsupported target: $targetStr. Supported targets: aot, exe, jit, js, js-production');
         exit(1);
     }
   }
@@ -120,6 +125,7 @@ const aotTarget = Target('aot', aotProcessArgs);
 const exeTarget = Target('exe', exeProcessArgs);
 const jitTarget = Target('jit', jitProcessArgs);
 const jsTarget = Target('js', jsProcessArgs);
+const jsProductionTarget = Target('js-production', jsProductionProcessArgs);
 
 List<String> aotProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
@@ -155,4 +161,24 @@ List<String> jsProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
   return ['dart', 'compile', 'js', sourceFile, '-o', 'out/$baseNameNoExt.js'];
+}
+
+List<String> jsProductionProcessArgs(String sourceFile) {
+  // This is used in golem "...-dart2js-production" benchmarks.
+  // `--benchmarking-production` is not documented, it enables
+  // `--omit-implicit-checks` and `--trust-primitives`:
+  // https://github.com/dart-lang/sdk/blob/c48f6fea580178bd34f2d872588dcc1c79bdb01c/pkg/compiler/lib/src/options.dart#L764-L767
+  //
+  // We will probably want to use `-O4` here.
+  final baseName = path.basename(sourceFile);
+  final baseNameNoExt = path.withoutExtension(baseName);
+  return [
+    'dart',
+    'compile',
+    'js',
+    sourceFile,
+    '--benchmarking-production',
+    '-o',
+    'out/$baseNameNoExt.production.js'
+  ];
 }
