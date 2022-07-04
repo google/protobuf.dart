@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert' show jsonDecode;
-
 import 'package:protobuf_benchmarks/benchmark_base.dart';
 import 'package:protobuf_benchmarks/generated/google_message1_proto2.pb.dart'
     as p2;
