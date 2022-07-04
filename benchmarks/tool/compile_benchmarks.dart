@@ -142,10 +142,11 @@ List<String> exeProcessArgs(String sourceFile) {
 
 List<String> jitProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
+  final baseNameNoExt = path.withoutExtension(baseName);
   return [
     'dart',
     '--snapshot-kind=kernel',
-    '--snapshot=out/$baseName.dill',
+    '--snapshot=out/$baseNameNoExt.dill',
     sourceFile
   ];
 }
