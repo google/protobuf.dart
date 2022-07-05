@@ -160,12 +160,6 @@ List<String> jsProcessArgs(String sourceFile) {
 }
 
 List<String> jsProductionProcessArgs(String sourceFile) {
-  // This is used in golem "...-dart2js-production" benchmarks.
-  // `--benchmarking-production` is not documented, it enables
-  // `--omit-implicit-checks` and `--trust-primitives`:
-  // https://github.com/dart-lang/sdk/blob/c48f6fea580178bd34f2d872588dcc1c79bdb01c/pkg/compiler/lib/src/options.dart#L764-L767
-  //
-  // We will probably want to use `-O4` here.
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
   return [
@@ -173,7 +167,7 @@ List<String> jsProductionProcessArgs(String sourceFile) {
     'compile',
     'js',
     sourceFile,
-    '--benchmarking-production',
+    '-O4',
     '-o',
     'out/$baseNameNoExt.production.js'
   ];
