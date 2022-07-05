@@ -57,6 +57,7 @@ Future<void> main(List<String> args) async {
     sourceFiles = Directory('bin')
         .listSync(recursive: false)
         .where((dirFile) => path.extension(dirFile.path) == '.dart')
+        .map((dirFile) => dirFile.path)
         .toList();
   }
 
