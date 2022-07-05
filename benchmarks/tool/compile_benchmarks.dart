@@ -77,22 +77,25 @@ Future<void> main(List<String> args) async {
 
   final pool = Pool(jobs);
 
-  final stream = pool.forEach<List<String>, ProcessResult>(commands,
-      (List<String> command) {
-    print(command.join(' '));
-    return Process.run(command[0], command.sublist(1));
+  final stream = pool.forEach<List<String>, CompileProcess>(commands,
+      (List<String> command) async {
+    final commandStr = command.join(' ');
+    print(commandStr);
+    final result = await Process.run(command[0], command.sublist(1));
+    return CompileProcess(commandStr, result);
   });
 
-  await for (final processResult in stream) {
-    final exitCode = processResult.exitCode;
+  await for (final compileProcess in stream) {
+    final exitCode = compileProcess.result.exitCode;
     if (exitCode != 0) {
       print('Process exited with $exitCode');
+      print('Command: ${compileProcess.command}');
       print(
           'Process stdout ---------------------------------------------------');
-      print(processResult.stdout);
+      print(compileProcess.result.stdout);
       print(
           'Process stderr ---------------------------------------------------');
-      print(processResult.stderr);
+      print(compileProcess.result.stderr);
       print(
           '------------------------------------------------------------------');
       exit(1);
@@ -100,6 +103,13 @@ Future<void> main(List<String> args) async {
   }
 
   await pool.done;
+}
+
+class CompileProcess {
+  final String command;
+  final ProcessResult result;
+
+  CompileProcess(this.command, this.result);
 }
 
 class Target {
