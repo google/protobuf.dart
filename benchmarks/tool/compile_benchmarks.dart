@@ -50,16 +50,14 @@ Future<void> main(List<String> args) async {
   }
 
   // Arg list is immutable, clone it
-  final sourceFiles = List.from(parsedArgs.rest);
+  var sourceFiles = List.from(parsedArgs.rest);
 
   if (sourceFiles.isEmpty) {
     // Compile all files in bin/
-    final dir = Directory('bin');
-    for (final dirFile in dir.listSync(recursive: false)) {
-      if (path.extension(dirFile.path) == '.dart') {
-        sourceFiles.add(dirFile.path);
-      }
-    }
+    sourceFiles = Directory('bin')
+        .listSync(recursive: false)
+        .where((dirFile) => path.extension(dirFile.path) == '.dart')
+        .toList();
   }
 
   final commands = <List<String>>[];
