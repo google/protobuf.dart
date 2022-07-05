@@ -36,7 +36,7 @@ void main() {
   List<int> message1Proto3Input =
       readfile('datasets/google_message1_proto3.pb');
   List<int> message2Input = readfile('datasets/google_message2.pb');
-  Benchmark('protobuf_hashCode', message1Proto2Input, message1Proto3Input,
-          message2Input)
+  Benchmark(
+          'hash_code', message1Proto2Input, message1Proto3Input, message2Input)
       .report();
 }

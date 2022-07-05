@@ -30,5 +30,5 @@ class Benchmark extends BenchmarkBase {
 
 void main() {
   List<int> encoded = readfile('datasets/query_benchmark.pb');
-  Benchmark('protobuf_set_nested_value', encoded).report();
+  Benchmark('query_benchmark_set_nested_value', encoded).report();
 }

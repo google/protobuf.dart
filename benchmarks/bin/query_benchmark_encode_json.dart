@@ -21,5 +21,5 @@ class Benchmark extends BenchmarkBase {
 
 void main() {
   List<int> encoded = readfile('datasets/query_benchmark.pb');
-  Benchmark('protobuf_encode_json', encoded).report();
+  Benchmark('query_benchmark_encode_json', encoded).report();
 }
