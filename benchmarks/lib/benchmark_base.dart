@@ -4,16 +4,29 @@
 
 import 'package:benchmark_harness/benchmark_harness.dart' as bh;
 
-/// A subclass of [bh.BenchmarkBase] to work around
-/// https://github.com/dart-lang/benchmark_harness/issues/30.
+/// A subclass of [bh.BenchmarkBase] with two changes:
 ///
-/// Overrides the relevant [bh.BenchmarkBase] method(s) to report accurate
-/// results, rather than 10x the actual results.
+/// 1. Work around https://github.com/dart-lang/benchmark_harness/issues/30 by
+///    dividing the result by 10.
+///
+/// 2. Report the results as "RunTimeRaw" instead of "RunTime". What
+///    benchmark_harness calls "RunTime" is called "RunTimeRaw" in Golem.
+///
 abstract class BenchmarkBase extends bh.BenchmarkBase {
-  BenchmarkBase(String name) : super(name);
+  BenchmarkBase(String name) : super(name, emitter: const _ResultPrinter());
 
   @override
   double measure() {
     return super.measure() / 10;
+  }
+}
+
+class _ResultPrinter implements bh.ScoreEmitter {
+  const _ResultPrinter() : super();
+
+  @override
+  void emit(String testName, double value) {
+    // Same as the default, but prints "RunTimeRaw" instead of "RunTime"
+    print('$testName(RunTimeRaw): $value us.');
   }
 }
