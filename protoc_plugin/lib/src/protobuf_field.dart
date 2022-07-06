@@ -19,7 +19,7 @@ class ProtobufField {
 
   final FieldDescriptorProto descriptor;
 
-  /// Dart names within a GeneratedMessage or `null` for an extension.
+  /// Dart names within a [GeneratedMessage] or `null` for an extension.
   final FieldNames? memberNames;
 
   final String fullName;
@@ -50,7 +50,10 @@ class ProtobufField {
           ? null
           : "'${descriptor.name}'";
 
-  /// The position of this field as it appeared in the original DescriptorProto.
+  /// The position of this field as it appeared in the original
+  /// DescriptorProto.
+  ///
+  /// `null` for an extension.
   int? get sourcePosition => memberNames?.sourcePosition;
 
   /// True if the field is to be encoded with [deprecated = true] encoding.
@@ -65,7 +68,7 @@ class ProtobufField {
   /// Whether a numeric field is repeated and must be encoded with packed
   /// encoding.
   ///
-  /// In proto3 repeated fields are encoded as packed by default. The proto2
+  /// In proto3 repeated fields are encoded as packed by default. proto2
   /// requires `[packed=true]` option.
   bool get isPacked {
     if (!isRepeated) {

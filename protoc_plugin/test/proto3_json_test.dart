@@ -1233,12 +1233,12 @@ void main() {
       expect(FieldMask()..mergeFromProto3Json(''), FieldMask());
       expect(() => FieldMask()..mergeFromProto3Json(12), parseFailure([]));
     });
-  });
 
-  test('one-of', () {
-    expectFirstSet(Foo()..mergeFromProto3Json({'first': 'oneof'}));
-    expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
-    expectOneofNotSet(Foo()..mergeFromProto3Json({}));
+    test('one-of', () {
+      expectFirstSet(Foo()..mergeFromProto3Json({'first': 'oneof'}));
+      expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
+      expectOneofNotSet(Foo()..mergeFromProto3Json({}));
+    });
   });
 
   group('Convert Double', () {
