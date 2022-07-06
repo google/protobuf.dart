@@ -7,17 +7,19 @@ import 'package:protobuf_benchmarks/generated/f0.pb.dart' as f0;
 import 'package:protobuf_benchmarks/readfile.dart';
 
 class Benchmark extends BenchmarkBase {
-  final List<int> _input;
+  final f0.A0 _input;
 
-  Benchmark(String name, this._input) : super(name);
+  Benchmark(String name, List<int> input)
+      : _input = f0.A0.fromBuffer(input),
+        super(name);
 
   @override
   void run() {
-    f0.A0.fromBuffer(_input);
+    _input.writeToBuffer();
   }
 }
 
 void main() {
   List<int> encoded = readfile('datasets/query_benchmark.pb');
-  Benchmark('query_benchmark_decode_binary', encoded).report();
+  Benchmark('query_encode_binary', encoded).report();
 }
