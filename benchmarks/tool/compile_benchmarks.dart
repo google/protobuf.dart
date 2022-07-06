@@ -65,8 +65,11 @@ Future<void> main(List<String> args) async {
 
   if (sourceFiles.isNotEmpty && targets.isNotEmpty) {
     try {
-      Directory('out').createSync();
-    } catch (_) {}
+      Directory('out').createSync(recursive: true);
+    } catch (e) {
+      print("Error while creating 'out' directory: $e");
+      exit(1);
+    }
   }
 
   for (final sourceFile in sourceFiles) {
