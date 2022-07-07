@@ -88,6 +88,10 @@ for PKG in ${PKGS}; do
         ./compile_protos.sh || EXIT_CODE=$?
         ;;
       command_2)
+        echo './tool/compile_protos.sh'
+        ./tool/compile_protos.sh || EXIT_CODE=$?
+        ;;
+      command_3)
         echo 'make protos'
         make protos || EXIT_CODE=$?
         ;;

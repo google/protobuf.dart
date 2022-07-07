@@ -1,8 +1,8 @@
-#!/usr/bin/env dart
 // Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert' show jsonEncode;
 import 'dart:core' hide Duration;
 
 import 'package:fixnum/fixnum.dart';
@@ -17,10 +17,10 @@ import '../out/protos/google/protobuf/field_mask.pb.dart';
 import '../out/protos/google/protobuf/struct.pb.dart';
 import '../out/protos/google/protobuf/timestamp.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
-import '../out/protos/google/protobuf/unittest_nested_any.pb.dart';
 import '../out/protos/google/protobuf/unittest_well_known_types.pb.dart';
 import '../out/protos/google/protobuf/wrappers.pb.dart';
 import '../out/protos/map_field.pb.dart';
+import '../out/protos/nested_any.pb.dart';
 import '../out/protos/oneof.pb.dart';
 import 'oneof_test.dart';
 import 'test_util.dart';
@@ -282,12 +282,10 @@ void main() {
           {
             'anyField2': {
               'value': '1',
-              '@type':
-                  'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+              '@type': 'type.googleapis.com/nested_any.AnyMessage1'
             },
             'value': '2',
-            '@type':
-                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+            '@type': 'type.googleapis.com/nested_any.AnyMessage2'
           });
     });
 
@@ -942,12 +940,10 @@ void main() {
         ..mergeFromProto3Json({
           'anyField2': {
             'value': '1',
-            '@type':
-                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+            '@type': 'type.googleapis.com/nested_any.AnyMessage1'
           },
           'value': '2',
-          '@type':
-              'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+          '@type': 'type.googleapis.com/nested_any.AnyMessage2'
         }, typeRegistry: TypeRegistry([AnyMessage1(), AnyMessage2()]));
 
       expect(
@@ -1237,12 +1233,12 @@ void main() {
       expect(FieldMask()..mergeFromProto3Json(''), FieldMask());
       expect(() => FieldMask()..mergeFromProto3Json(12), parseFailure([]));
     });
-  });
 
-  test('one-of', () {
-    expectFirstSet(Foo()..mergeFromProto3Json({'first': 'oneof'}));
-    expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
-    expectOneofNotSet(Foo()..mergeFromProto3Json({}));
+    test('one-of', () {
+      expectFirstSet(Foo()..mergeFromProto3Json({'first': 'oneof'}));
+      expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
+      expectOneofNotSet(Foo()..mergeFromProto3Json({}));
+    });
   });
 
   group('Convert Double', () {
@@ -1258,6 +1254,7 @@ void main() {
       var proto = TestAllTypes()..optionalDouble = 5.0;
       expect(TestAllTypes()..mergeFromProto3Json(json), proto);
       expect(proto.toProto3Json(), json);
+      expect(jsonEncode(proto.toProto3Json()), '{"optionalDouble":5}');
     });
 
     test('Infinity', () {

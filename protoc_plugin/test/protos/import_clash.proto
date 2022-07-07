@@ -4,9 +4,9 @@
 
 syntax = "proto2";
 
-import "foo.proto";
-
 package import_clash;
+
+import "foo.proto";
 
 message Clasher {
   required foo.Foo foo = 1;

@@ -4,6 +4,8 @@
 
 syntax = "proto2";
 
+package custom_option;
+
 import "descriptor.proto";
 
 extend google.protobuf.MessageOptions {
