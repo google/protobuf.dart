@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert' show jsonEncode;
-
 import 'package:protobuf_benchmarks/benchmark_base.dart';
 import 'package:protobuf_benchmarks/generated/google_message1_proto2.pb.dart'
     as p2;
@@ -26,9 +24,9 @@ class Benchmark extends BenchmarkBase {
 
   @override
   void run() {
-    jsonEncode(_message1Proto2.toProto3Json());
-    jsonEncode(_message1Proto3.toProto3Json());
-    jsonEncode(_message2.toProto3Json());
+    _message1Proto2.toProto3JsonString();
+    _message1Proto3.toProto3JsonString();
+    _message2.toProto3JsonString();
   }
 }
 

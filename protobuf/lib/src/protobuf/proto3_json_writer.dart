@@ -123,11 +123,18 @@ void _writeFieldValue(dynamic fieldValue, int fieldType, JsonSink jsonSink,
         double value = fieldValue;
         if (value.isNaN) {
           jsonSink.addString(nan);
-        } else if (value.isInfinite) {
-          jsonSink.addString(value.isNegative ? negativeInfinity : infinity);
-        } else {
-          jsonSink.addNumber(value);
+          break;
         }
+        if (value.isInfinite) {
+          jsonSink.addString(value.isNegative ? negativeInfinity : infinity);
+          break;
+        }
+        final intValue = value.toInt();
+        if (intValue == value) {
+          jsonSink.addNumber(intValue);
+          break;
+        }
+        jsonSink.addNumber(value);
         break;
       case PbFieldType._UINT64_BIT:
         jsonSink.addString((fieldValue as Int64).toStringUnsigned());
