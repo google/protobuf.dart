@@ -4,6 +4,8 @@
 
 syntax = "proto2";
 
+package high_tagnumber;
+
 message M {
   // Make sure that we handle 29 bits of tagnumber.
   // (1 << 28) + 1

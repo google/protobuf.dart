@@ -19,6 +19,7 @@ import 'src/protobuf/permissive_compare.dart';
 import 'src/protobuf/type_registry.dart';
 export 'src/protobuf/type_registry.dart' show TypeRegistry;
 
+part 'src/protobuf/annotations.dart';
 part 'src/protobuf/coded_buffer.dart';
 part 'src/protobuf/coded_buffer_reader.dart';
 part 'src/protobuf/coded_buffer_writer.dart';

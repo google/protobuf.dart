@@ -445,7 +445,7 @@ class CodedBufferWriter {
   /// where multiplication becomes a floating point multiplication.
   ///
   /// [1] http://supertech.csail.mit.edu/papers/debruijn.pdf
-  int _valueTypeIndex(int powerOf2) {
+  static int _valueTypeIndex(int powerOf2) {
     assert(powerOf2 & (powerOf2 - 1) == 0, '$powerOf2 is not a power of 2');
     return ((0x077CB531 * powerOf2) >> 27) & 31;
   }
