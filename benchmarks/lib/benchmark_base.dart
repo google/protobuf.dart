@@ -4,13 +4,16 @@
 
 import 'package:benchmark_harness/benchmark_harness.dart' as bh;
 
-/// A subclass of [bh.BenchmarkBase] with two changes:
+/// A subclass of [bh.BenchmarkBase] with a few changes:
 ///
-/// 1. Work around https://github.com/dart-lang/benchmark_harness/issues/30 by
-///    dividing the result by 10.
+/// - Work around https://github.com/dart-lang/benchmark_harness/issues/30 by
+///   dividing the result by 10.
 ///
-/// 2. Report the results as "RunTimeRaw" instead of "RunTime". What
-///    benchmark_harness calls "RunTime" is called "RunTimeRaw" in Golem.
+/// - Report the results as "RunTimeRaw" instead of "RunTime". What
+///   benchmark_harness calls "RunTime" is called "RunTimeRaw" in Golem.
+///
+/// - Add "protobuf_" prefix to test names. This is to make it easier to see
+///   what the benchmarks are about in Golem UI.
 ///
 abstract class BenchmarkBase extends bh.BenchmarkBase {
   BenchmarkBase(String name) : super(name, emitter: const _ResultPrinter());
@@ -27,6 +30,6 @@ class _ResultPrinter implements bh.ScoreEmitter {
   @override
   void emit(String testName, double value) {
     // Same as the default, but prints "RunTimeRaw" instead of "RunTime"
-    print('$testName(RunTimeRaw): $value us.');
+    print('protobuf_$testName(RunTimeRaw): $value us.');
   }
 }
