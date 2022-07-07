@@ -49,8 +49,7 @@ Future<void> main(List<String> args) async {
     }
   }
 
-  // Arg list is immutable, clone it
-  var sourceFiles = List.from(parsedArgs.rest);
+  var sourceFiles = parsedArgs.rest;
 
   if (sourceFiles.isEmpty) {
     // Compile all files in bin/
