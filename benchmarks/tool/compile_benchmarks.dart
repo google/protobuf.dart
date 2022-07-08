@@ -133,6 +133,7 @@ Future<void> main(List<String> args) async {
   await pool.done;
 }
 
+/// Stores [Process.run] arguments
 class ProcessInstructions {
   final String executable;
   final List<String> arguments;
@@ -141,18 +142,22 @@ class ProcessInstructions {
   ProcessInstructions(this.executable, this.arguments, {this.environment});
 }
 
+/// Supported aot snapshot targets
 enum AotTarget {
   x64,
   armv7hf,
   armv8,
 }
 
+/// Mapping of `--aot-target` arguments to their [AotTarget]s
 const aotTargets = <String, AotTarget>{
   'x64': AotTarget.x64,
   'armv7hf': AotTarget.armv7hf,
   'armv8': AotTarget.armv8,
 };
 
+/// Packs a debug string for a command being run to the command's result, to be
+/// able to show which command failed and why
 class CompileProcess {
   final String command;
   final ProcessResult result;
