@@ -14,6 +14,7 @@ Future<void> main(List<String> args) async {
     ..addOption('aot-target', mandatory: false, defaultsTo: 'x64');
 
   final parsedArgs = argParser.parse(args);
+  final env = Platform.environment;
 
   var jobs = Platform.numberOfProcessors;
   if (parsedArgs['jobs'] != null) {
@@ -24,11 +25,12 @@ Future<void> main(List<String> args) async {
   for (final targetStr in parsedArgs['target'].split(',')) {
     switch (targetStr) {
       case 'aot':
-        if (!bool.hasEnvironment("DART_SDK")) {
+        final dartSdkPath = env["DART_SDK"];
+
+        if (dartSdkPath == null) {
           print('\$DART_SDK needs to be set when generating aot snapshots');
           exit(1);
         }
-        final dartSdkPath = String.fromEnvironment("DART_SDK");
 
         final parsedAotTarget = parsedArgs['aot-target'];
         final aotTarget = aotTargets[parsedAotTarget];
@@ -149,11 +151,19 @@ enum AotTarget {
   armv8,
 }
 
-/// Mapping of `--aot-target` arguments to their [AotTarget]s
+/// Maps `--aot-target` arguments to their [AotTarget]s
 const aotTargets = <String, AotTarget>{
   'x64': AotTarget.x64,
   'armv7hf': AotTarget.armv7hf,
   'armv8': AotTarget.armv8,
+};
+
+/// Maps [AotTarget]s to `DART_CONFIGURATION` env values when invoking `precompiler2`
+// TODO: Product or release?
+const aotTargetDartConfiguration = <AotTarget, String>{
+  AotTarget.x64: "ProductX64",
+  AotTarget.armv7hf: "ProductXARM/clang_x86",
+  AotTarget.armv8: "ProductXARM64/clang_x64",
 };
 
 /// Packs a debug string for a command being run to the command's result, to be
@@ -186,8 +196,12 @@ Target makeAotTarget(String dartSdkPath, AotTarget aotTarget) {
     final baseName = path.basename(sourceFile);
     final baseNameNoExt = path.withoutExtension(baseName);
     // TODO: Do we need `-Ddart.vm.product=true`?
-    return ProcessInstructions('$dartSdkPath/pkg/vm/tool/precompiler2',
-        [sourceFile, 'out/$baseNameNoExt.aot']);
+    return ProcessInstructions('$dartSdkPath/pkg/vm/tool/precompiler2', [
+      sourceFile,
+      'out/$baseNameNoExt.aot'
+    ], environment: {
+      'DART_CONFIGURATION': aotTargetDartConfiguration[aotTarget]!
+    });
   });
 }
 
