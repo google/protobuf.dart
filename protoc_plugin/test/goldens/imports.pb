@@ -21,23 +21,7 @@ class M extends $pb.GeneratedMessage {
   ;
 
   M._() : super();
-  factory M({
-    M? m,
-    $1.M? m1,
-    $2.M? m2,
-  }) {
-    final _result = create();
-    if (m != null) {
-      _result.m = m;
-    }
-    if (m1 != null) {
-      _result.m1 = m1;
-    }
-    if (m2 != null) {
-      _result.m2 = m2;
-    }
-    return _result;
-  }
+  factory M() => create();
   factory M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
