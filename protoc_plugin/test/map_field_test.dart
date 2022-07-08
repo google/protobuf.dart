@@ -300,42 +300,28 @@ void main() {
     expect(value is Map<int, List<int>>, true);
   });
 
-  test('named optional arguments in constructor', () {
-    final testMap = TestMap(
-      int32ToInt32Field: {1: 11, 2: 22, 3: 33},
-      int32ToStringField: {1: '11', 2: '22', 3: '33'},
-      int32ToBytesField: {
-        1: utf8.encode('11'),
-        2: utf8.encode('22'),
-        3: utf8.encode('33')
-      },
-      int32ToEnumField: {
-        1: TestMap_EnumValue.DEFAULT,
-        2: TestMap_EnumValue.BAR,
-        3: TestMap_EnumValue.BAZ
-      },
-      int32ToMessageField: {
-        1: TestMap_MessageValue(value: 11),
-        2: TestMap_MessageValue(value: 22),
-        3: TestMap_MessageValue(value: 33)
-      },
-      stringToInt32Field: {'1': 11, '2': 22, '3': 33},
-    );
-    _expectMapValuesSet(testMap);
-  });
-
   test('Parses null keys and values', () {
     // Use a desugared version of the message to create missing
     // values in the serialized form.
-    final d = Desugared(int32ToStringField: [
-      Desugared_Int32ToString(key: null, value: 'abc'),
-      Desugared_Int32ToString(key: 42, value: null),
-      Desugared_Int32ToString(key: 11, value: 'def'),
-    ], stringToInt32Field: [
-      Desugared_StringToInt32(key: null, value: 11),
-      Desugared_StringToInt32(key: 'abc', value: null),
-      Desugared_StringToInt32(key: 'def', value: 42),
-    ]);
+    final d = Desugared()
+      ..int32ToStringField.add(Desugared_Int32ToString()
+        ..clearKey()
+        ..value = 'abc')
+      ..int32ToStringField.add(Desugared_Int32ToString()
+        ..key = 42
+        ..clearValue())
+      ..int32ToStringField.add(Desugared_Int32ToString()
+        ..key = 11
+        ..value = 'def')
+      ..stringToInt32Field.add(Desugared_StringToInt32()
+        ..clearKey()
+        ..value = 11)
+      ..stringToInt32Field.add(Desugared_StringToInt32()
+        ..key = 'abc'
+        ..clearValue())
+      ..stringToInt32Field.add(Desugared_StringToInt32()
+        ..key = 'def'
+        ..value = 42);
 
     final m = TestMap.fromBuffer(d.writeToBuffer());
     expect(m.int32ToStringField[0], 'abc');

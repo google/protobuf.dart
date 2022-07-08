@@ -24,7 +24,9 @@ void main() {
   });
 
   test('negative Timestamp', () {
-    final secondBeforeEpoch = Timestamp(seconds: Int64(-1), nanos: 1000000);
+    final secondBeforeEpoch = Timestamp()
+      ..seconds = Int64(-1)
+      ..nanos = 1000000;
     var dateTime = DateTime.fromMillisecondsSinceEpoch(-999, isUtc: true);
 
     expect(secondBeforeEpoch.toDateTime().millisecondsSinceEpoch,
