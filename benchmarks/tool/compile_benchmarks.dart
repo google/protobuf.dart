@@ -9,8 +9,9 @@ import 'package:pool/pool.dart' show Pool;
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()
     ..addOption('target',
-        mandatory: false, defaultsTo: 'aot,exe,jit,js,js-production')
-    ..addOption('jobs', abbr: 'j', mandatory: false);
+        mandatory: false, defaultsTo: 'exe,jit,js,js-production')
+    ..addOption('jobs', abbr: 'j', mandatory: false)
+    ..addOption('aot-target', mandatory: false, defaultsTo: 'x64');
 
   final parsedArgs = argParser.parse(args);
 
@@ -23,7 +24,22 @@ Future<void> main(List<String> args) async {
   for (final targetStr in parsedArgs['target'].split(',')) {
     switch (targetStr) {
       case 'aot':
-        targets.add(aotTarget);
+        if (!bool.hasEnvironment("DART_SDK")) {
+          print('\$DART_SDK needs to be set when generating aot snapshots');
+          exit(1);
+        }
+        final dartSdkPath = String.fromEnvironment("DART_SDK");
+
+        final parsedAotTarget = parsedArgs['aot-target'];
+        final aotTarget = aotTargets[parsedAotTarget];
+        if (aotTarget == null) {
+          print('Unsupported aot target: $parsedAotTarget');
+          print(
+              'Supported aot targets: ${aotTargets.keys.toList().join(', ')}');
+          exit(1);
+        }
+
+        targets.add(makeAotTarget(dartSdkPath, aotTarget));
         break;
 
       case 'exe':
@@ -60,7 +76,7 @@ Future<void> main(List<String> args) async {
         .toList();
   }
 
-  final commands = <List<String>>[];
+  final commands = <ProcessInstructions>[];
 
   if (sourceFiles.isNotEmpty && targets.isNotEmpty) {
     try {
@@ -79,11 +95,21 @@ Future<void> main(List<String> args) async {
 
   final pool = Pool(jobs);
 
-  final stream = pool.forEach<List<String>, CompileProcess>(commands,
-      (List<String> command) async {
-    final commandStr = command.join(' ');
+  final stream = pool.forEach<ProcessInstructions, CompileProcess>(commands,
+      (ProcessInstructions command) async {
+    var envStr = '';
+    if (command.environment != null) {
+      envStr = command.environment!.entries
+              .map((entry) => '${entry.key}=${entry.value}')
+              .join(' ') +
+          ' ';
+    }
+    final commandStr =
+        '$envStr${command.executable} ${command.arguments.join(' ')}';
     print(commandStr);
-    final result = await Process.run(command[0], command.sublist(1));
+
+    final result = await Process.run(command.executable, command.arguments,
+        environment: command.environment);
     return CompileProcess(commandStr, result);
   });
 
@@ -107,6 +133,26 @@ Future<void> main(List<String> args) async {
   await pool.done;
 }
 
+class ProcessInstructions {
+  final String executable;
+  final List<String> arguments;
+  final Map<String, String>? environment;
+
+  ProcessInstructions(this.executable, this.arguments, {this.environment});
+}
+
+enum AotTarget {
+  x64,
+  armv7hf,
+  armv8,
+}
+
+const aotTargets = <String, AotTarget>{
+  'x64': AotTarget.x64,
+  'armv7hf': AotTarget.armv7hf,
+  'armv8': AotTarget.armv8,
+};
+
 class CompileProcess {
   final String command;
   final ProcessResult result;
@@ -116,7 +162,7 @@ class CompileProcess {
 
 class Target {
   final String _name;
-  final List<String> Function(String) _processArgs;
+  final ProcessInstructions Function(String sourceFile) _processArgs;
 
   const Target(this._name, this._processArgs);
 
@@ -125,9 +171,19 @@ class Target {
     return 'Target($_name)';
   }
 
-  List<String> compileArgs(String sourceFile) {
+  ProcessInstructions compileArgs(String sourceFile) {
     return _processArgs(sourceFile);
   }
+}
+
+Target makeAotTarget(String dartSdkPath, AotTarget aotTarget) {
+  return Target('aot', (sourceFile) {
+    final baseName = path.basename(sourceFile);
+    final baseNameNoExt = path.withoutExtension(baseName);
+    // TODO: Do we need `-Ddart.vm.product=true`?
+    return ProcessInstructions('$dartSdkPath/pkg/vm/tool/precompiler2',
+        [sourceFile, 'out/$baseNameNoExt.aot']);
+  });
 }
 
 const aotTarget = Target('aot', aotProcessArgs);
@@ -136,52 +192,46 @@ const jitTarget = Target('jit', jitProcessArgs);
 const jsTarget = Target('js', jsProcessArgs);
 const jsProductionTarget = Target('js-production', jsProductionProcessArgs);
 
-List<String> aotProcessArgs(String sourceFile) {
+ProcessInstructions aotProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
-  return [
-    'dart',
-    'compile',
-    'aot-snapshot',
-    sourceFile,
-    '-o',
-    'out/$baseNameNoExt.aot'
-  ];
+  return ProcessInstructions('dart',
+      ['compile', 'aot-snapshot', sourceFile, '-o', 'out/$baseNameNoExt.aot']);
 }
 
-List<String> exeProcessArgs(String sourceFile) {
+ProcessInstructions exeProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
-  return ['dart', 'compile', 'exe', sourceFile, '-o', 'out/$baseNameNoExt.exe'];
+  return ProcessInstructions(
+      'dart', ['compile', 'exe', sourceFile, '-o', 'out/$baseNameNoExt.exe']);
 }
 
-List<String> jitProcessArgs(String sourceFile) {
+ProcessInstructions jitProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
-  return [
-    'dart',
+  return ProcessInstructions('dart', [
     '--snapshot-kind=kernel',
     '--snapshot=out/$baseNameNoExt.dill',
     sourceFile
-  ];
+  ]);
 }
 
-List<String> jsProcessArgs(String sourceFile) {
+ProcessInstructions jsProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
-  return ['dart', 'compile', 'js', sourceFile, '-o', 'out/$baseNameNoExt.js'];
+  return ProcessInstructions(
+      'dart', ['compile', 'js', sourceFile, '-o', 'out/$baseNameNoExt.js']);
 }
 
-List<String> jsProductionProcessArgs(String sourceFile) {
+ProcessInstructions jsProductionProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
-  return [
-    'dart',
+  return ProcessInstructions('dart', [
     'compile',
     'js',
     sourceFile,
     '-O4',
     '-o',
     'out/$baseNameNoExt.production.js'
-  ];
+  ]);
 }
