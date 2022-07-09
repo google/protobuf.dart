@@ -862,7 +862,6 @@ void main() {
 
   test('deepCopy', () {
     final value1 = getAllSet();
-    // TODO(sigurdm): Use the implicit syntax after resolution of https://github.com/dart-lang/sdk/issues/39160
     final value2 = value1.deepCopy();
     assertAllFieldsSet(value2);
     expect(value2, isNot(same(value1)));
