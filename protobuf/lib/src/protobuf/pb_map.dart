@@ -40,8 +40,8 @@ class PbMap<K, V> extends MapBase<K, V> {
     if (_isReadonly) {
       throw UnsupportedError('Attempted to change a read-only map field');
     }
-    _checkNotNull(key);
-    _checkNotNull(value);
+    ArgumentError.checkNotNull(key, 'key');
+    ArgumentError.checkNotNull(value, 'value');
     _wrappedMap[key] = value;
   }
 
@@ -107,12 +107,6 @@ class PbMap<K, V> extends MapBase<K, V> {
     var value =
         entryFieldSet._values[1] ?? mapEntryMeta.byIndex[1].makeDefault!();
     _wrappedMap[key] = value;
-  }
-
-  void _checkNotNull(Object? val) {
-    if (val == null) {
-      throw ArgumentError("Can't add a null to a map field");
-    }
   }
 
   PbMap freeze() {
