@@ -9,6 +9,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
+import '../out/protos/entity.pb.dart';
 import '../out/protos/enum_name.pb.dart';
 import '../out/protos/google/protobuf/any.pb.dart';
 import '../out/protos/google/protobuf/duration.pb.dart';
@@ -109,6 +110,26 @@ final testAllTypesJson = {
 };
 
 void main() {
+  test('toProto3Json works', () {
+    final proto = TopEntity()
+      ..id = Int64(1)
+      ..stringValue = 'foo'
+      ..strings.addAll(['test', 'repeated', 'field'])
+      ..anyValue = Any.pack(SubEntity()
+        ..id = Int64(4)
+        ..anyValue = Any.pack(SubSubEntity()..id = Int64(5)))
+      ..sub = (SubEntity()
+        ..id = Int64(2)
+        ..subSub = (SubSubEntity()..id = Int64(3)));
+    final typeRegistry = TypeRegistry([SubEntity(), SubSubEntity()]);
+    final json = proto.toProto3Json(typeRegistry: typeRegistry);
+    expect(
+        proto ==
+            (TopEntity()
+              ..mergeFromProto3Json(json, typeRegistry: typeRegistry)),
+        true);
+  });
+
   group('encode', () {
     test('testOutput', () {
       expect(getAllSet().toProto3Json(), testAllTypesJson);
