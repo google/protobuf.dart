@@ -344,12 +344,14 @@ void main() {
 
   test('getField and \$_getMap are in sync', () {
     final msg1 = TestMap();
+    expect(msg1.hasField(1), false);
     var map1 = msg1.getField(1) as Map<int, int>;
     expect(msg1.hasField(1), true);
     map1[1] = 2;
     expect(msg1.int32ToInt32Field[1], 2);
 
     final msg2 = TestMap();
+    expect(msg2.hasField(1), false);
     var map2 = msg2.$_getMap(0) as Map<int, int>;
     expect(msg2.hasField(1), true);
     map2[1] = 2;
