@@ -593,7 +593,7 @@ class _FieldSet {
     // An empty map field is the same as uninitialized.
     // This is because accessing a map field automatically creates it.
     // We don't want reading a field to change equality comparisons.
-    if (val is Map && val.isEmpty) return true;
+    if (val is PbMap && val.isEmpty) return true;
 
     // For now, initialized and uninitialized fields are different.
     // TODO(skybrian) consider other cases; should we compare with the
@@ -649,7 +649,7 @@ class _FieldSet {
       return hash; // It's either repeated or an empty byte array.
     }
 
-    if (value is Map && value.isEmpty) {
+    if (value is PbMap && value.isEmpty) {
       return hash;
     }
 
