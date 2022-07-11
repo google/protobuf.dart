@@ -198,6 +198,19 @@ void main() {
     expect(m.hashCode, isNot(m3.hashCode));
   });
 
+  test('Unitialized map field is equal to initialized', () {
+    final testMap1 = TestMap();
+    final testMap2 = TestMap();
+
+    // Do a trivial operation to initialize the map field of testMap2.
+    testMap2.int32ToStringField.clear();
+
+    expect(testMap1, equals(testMap2));
+    expect(testMap2, equals(testMap1));
+
+    expect(testMap1.hashCode, equals(testMap2.hashCode));
+  });
+
   test('merge from other message', () {
     var testMap = TestMap();
     _setValues(testMap);
