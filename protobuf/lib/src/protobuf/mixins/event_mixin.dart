@@ -54,7 +54,7 @@ class EventBuffer extends EventPlugin {
   @override
   void attach(GeneratedMessage parent) {
     assert(_parent == null);
-    ArgumentError.checkNotNull(parent, 'newParent');
+    ArgumentError.checkNotNull(parent, 'parent');
     _parent = parent;
   }
 
