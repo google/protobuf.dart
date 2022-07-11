@@ -83,9 +83,9 @@ class _FieldSet {
     return List.filled(length, null, growable: false);
   }
 
-  // Use a fixed length list and not a constant list to ensure that _values
-  // always has the same implementation type.
-  static final List _zeroList = [];
+  // Use `List.filled` and not a `[]` to ensure that `_values` always has the
+  // same implementation type.
+  static final List _zeroList = List.filled(0, null, growable: false);
 
   // Metadata about multiple fields
 
