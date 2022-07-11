@@ -208,28 +208,6 @@ class _FieldSet {
     return value;
   }
 
-  List<T> _getDefaultList<T>(FieldInfo<T> fi) {
-    assert(fi.isRepeated);
-    if (_isReadOnly) return fi.readonlyDefault;
-
-    var value = fi._createRepeatedFieldWithType<T>(_message!);
-    _setNonExtensionFieldUnchecked(_meta, fi, value);
-    return value;
-  }
-
-  Map<K, V> _getDefaultMap<K, V>(MapFieldInfo<K, V> fi) {
-    assert(fi.isMapField);
-
-    if (_isReadOnly) {
-      return PbMap<K, V>.unmodifiable(
-          PbMap<K, V>(fi.keyFieldType, fi.valueFieldType));
-    }
-
-    var value = fi._createMapField(_message!);
-    _setNonExtensionFieldUnchecked(_meta, fi, value);
-    return value;
-  }
-
   dynamic _getFieldOrNullByTag(int tagNumber) {
     var fi = _getFieldInfoOrNull(tagNumber);
     if (fi == null) return null;
@@ -410,15 +388,35 @@ class _FieldSet {
   List<T> _$getList<T>(int index) {
     var value = _values[index];
     if (value != null) return value as List<T>;
-    return _getDefaultList<T>(_nonExtensionInfoByIndex(index) as FieldInfo<T>);
+
+    final fi = _nonExtensionInfoByIndex(index) as FieldInfo<T>;
+    assert(fi.isRepeated);
+
+    if (_isReadOnly) {
+      return fi.readonlyDefault;
+    }
+
+    var list = fi._createRepeatedFieldWithType<T>(_message!);
+    _setNonExtensionFieldUnchecked(_meta, fi, list);
+    return list;
   }
 
   /// The implementation of a generated getter for map fields.
   Map<K, V> _$getMap<K, V>(GeneratedMessage parentMessage, int index) {
     var value = _values[index];
     if (value != null) return value as Map<K, V>;
-    return _getDefaultMap<K, V>(
-        _nonExtensionInfoByIndex(index) as MapFieldInfo<K, V>);
+
+    final fi = _nonExtensionInfoByIndex(index) as MapFieldInfo<K, V>;
+    assert(fi.isMapField);
+
+    if (_isReadOnly) {
+      return PbMap<K, V>.unmodifiable(
+          PbMap<K, V>(fi.keyFieldType, fi.valueFieldType));
+    }
+
+    var map = fi._createMapField(_message!);
+    _setNonExtensionFieldUnchecked(_meta, fi, map);
+    return map;
   }
 
   /// The implementation of a generated getter for `bool` fields.
