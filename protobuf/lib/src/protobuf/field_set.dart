@@ -200,13 +200,10 @@ class _FieldSet {
   }
 
   dynamic _getDefault(FieldInfo fi) {
-    if (!fi.isRepeated) return fi.makeDefault!();
+    if (!fi.isRepeated && !fi.isMapField) return fi.makeDefault!();
     if (_isReadOnly) return fi.readonlyDefault;
 
-    // TODO(skybrian) we could avoid this by generating another
-    // method for repeated fields:
-    //   msg.mutableFoo().add(123);
-    var value = fi._createRepeatedField(_message!);
+    var value = fi.makeDefault!();
     _setNonExtensionFieldUnchecked(_meta, fi, value);
     return value;
   }
@@ -215,9 +212,6 @@ class _FieldSet {
     assert(fi.isRepeated);
     if (_isReadOnly) return fi.readonlyDefault;
 
-    // TODO(skybrian) we could avoid this by generating another
-    // method for repeated fields:
-    //   msg.mutableFoo().add(123);
     var value = fi._createRepeatedFieldWithType<T>(_message!);
     _setNonExtensionFieldUnchecked(_meta, fi, value);
     return value;

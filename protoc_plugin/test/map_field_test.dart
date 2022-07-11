@@ -341,4 +341,18 @@ void main() {
     expect(m1, equals(m2));
     expect(m1.hashCode, equals(m2.hashCode));
   });
+
+  test('getField and \$_getMap are in sync', () {
+    final msg1 = TestMap();
+    var map1 = msg1.getField(1) as Map<int, int>;
+    expect(msg1.hasField(1), true);
+    map1[1] = 2;
+    expect(msg1.int32ToInt32Field[1], 2);
+
+    final msg2 = TestMap();
+    var map2 = msg2.$_getMap(0) as Map<int, int>;
+    expect(msg2.hasField(1), true);
+    map2[1] = 2;
+    expect(msg2.int32ToInt32Field[1], 2);
+  });
 }
