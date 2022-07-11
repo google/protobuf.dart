@@ -24,8 +24,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   bool _isReadonly = false;
 
-  // The provided [info] will be ignored.
-  PbMap(this.keyFieldType, this.valueFieldType, [BuilderInfo? info])
+  PbMap(this.keyFieldType, this.valueFieldType)
       : _wrappedMap = <K, V>{};
 
   PbMap.unmodifiable(PbMap other)
