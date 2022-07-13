@@ -5,7 +5,6 @@
 part of '../protoc.dart';
 
 final _dartIdentifier = RegExp(r'^\w+$');
-final _formatter = DartFormatter();
 const String _convertImportPrefix = r'$convert';
 
 const String _fixnumImportPrefix = r'$fixnum';
@@ -527,7 +526,7 @@ class FileGenerator extends ProtobufContainer {
       generator.generate(out);
     }
 
-    return _formatter.format(out.toString());
+    return out.toString();
   }
 
   void writeBinaryDescriptor(IndentingWriter out, String identifierName,

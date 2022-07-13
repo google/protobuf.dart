@@ -74,29 +74,19 @@ repeatedString: qux
 
   test('testRequiredForeign', () {
     var message = TestRequiredForeign();
-    expect(message.isInitialized(), isTrue,
-        reason: 'TestRequiredForeign without children should be initialized');
+    expect(message.isInitialized(), isTrue);
 
     message.optionalMessage = testRequiredUninitialized;
-    expect(message.isInitialized(), isFalse,
-        reason: 'TestRequiredForeign with optional TEST_REQUIRED_UNINITIALIZED '
-            'should not be initialized');
+    expect(message.isInitialized(), isFalse);
 
     message.optionalMessage = testRequiredInitialized;
-    expect(message.isInitialized(), isTrue,
-        reason: 'TestRequiredForeign with optional TEST_REQUIRED_INITIALIZED '
-            'should be initialized');
+    expect(message.isInitialized(), isTrue);
 
     message.repeatedMessage.add(testRequiredUninitialized);
-    expect(message.isInitialized(), isFalse,
-        reason:
-            'TestRequiredForeign with repeating TEST_REQUIRED_UNINITIALIZED '
-            'should not be initialized');
+    expect(message.isInitialized(), isFalse);
 
     message.repeatedMessage[0] = testRequiredInitialized;
-    expect(message.isInitialized(), isTrue,
-        reason: 'TestRequiredForeign with repeating TEST_REQUIRED_INITIALIZED '
-            'should be initialized');
+    expect(message.isInitialized(), isTrue);
   });
 
   test('testRequiredExtension', () {

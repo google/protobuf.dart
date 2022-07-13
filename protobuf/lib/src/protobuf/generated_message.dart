@@ -72,8 +72,6 @@ abstract class GeneratedMessage {
   /// be shared with the corresponding list in `this`.
   ///
   /// Similarly for map fields, the maps will be copied, but share the elements.
-  // TODO(nichite, sigurdm): Consider returning an actual builder object that
-  // lazily creates builders.
   GeneratedMessage toBuilder() {
     final result = createEmptyInstance();
     result._fieldSet._shallowCopyValues(_fieldSet);
@@ -107,7 +105,6 @@ abstract class GeneratedMessage {
   /// unset fields.
   void clear() => _fieldSet._clear();
 
-  // TODO(antonm): move to getters.
   int? getTagNumber(String fieldName) => info_.tagNumber(fieldName);
 
   @override

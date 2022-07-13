@@ -172,16 +172,8 @@ class ProtobufField {
   }
 
   static String _formatArguments(
-      List<String?> positionals, Map<String, String?> named) {
+      List<String> positionals, Map<String, String?> named) {
     final args = positionals.toList();
-    while (args.last == null) {
-      args.removeLast();
-    }
-    for (var i = 0; i < args.length; i++) {
-      if (args[i] == null) {
-        args[i] = 'null';
-      }
-    }
     named.forEach((key, value) {
       if (value != null) {
         args.add('$key: $value');
