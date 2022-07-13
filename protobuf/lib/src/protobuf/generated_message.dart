@@ -105,7 +105,6 @@ abstract class GeneratedMessage {
   /// unset fields.
   void clear() => _fieldSet._clear();
 
-  // TODO(antonm): move to getters.
   int? getTagNumber(String fieldName) => info_.tagNumber(fieldName);
 
   @override
