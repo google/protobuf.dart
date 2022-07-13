@@ -1,4 +1,3 @@
-#!/usr/bin/env dart
 // Copyright (c) 2013, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
@@ -207,6 +206,8 @@ void main() {
   test('testParseUnknownEnumValue', () {
     var singularFieldNum = testAllTypes.getTagNumber('optionalNestedEnum')!;
     var repeatedFieldNum = testAllTypes.getTagNumber('repeatedNestedEnum')!;
+    expect(singularFieldNum, isNotNull);
+    expect(repeatedFieldNum, isNotNull);
 
     var fieldSet = UnknownFieldSet()
       ..addField(

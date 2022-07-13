@@ -1,4 +1,3 @@
-#!/usr/bin/env dart
 // Copyright (c) 2015, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
@@ -10,8 +9,10 @@ import '../out/protos/proto3_repeated.pb.dart';
 
 void main() {
   test('check proto2 and proto3 repeated field encodings', () {
-    final proto2 = Proto2Repeated(
-        intsDefault: [1, 2], intsPacked: [1, 2], intsNotPacked: [1, 2]);
+    final proto2 = Proto2Repeated();
+    proto2.intsDefault.addAll([1, 2]);
+    proto2.intsPacked.addAll([1, 2]);
+    proto2.intsNotPacked.addAll([1, 2]);
     final proto2Encoded = proto2.writeToBuffer();
     expect(
         proto2Encoded.toList(),
@@ -29,8 +30,10 @@ void main() {
           2, // value = 2
         ]));
 
-    final proto3 = Proto3Repeated(
-        intsDefault: [1, 2], intsPacked: [1, 2], intsNotPacked: [1, 2]);
+    final proto3 = Proto3Repeated();
+    proto3.intsDefault.addAll([1, 2]);
+    proto3.intsPacked.addAll([1, 2]);
+    proto3.intsNotPacked.addAll([1, 2]);
     final proto3Encoded = proto3.writeToBuffer();
     expect(
         proto3Encoded.toList(),

@@ -1,9 +1,6 @@
-#!/usr/bin/env dart
 // Copyright (c) 2015, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-
-library readonly_message_test;
 
 import 'package:protobuf/protobuf.dart'
     show BuilderInfo, GeneratedMessage, PbFieldType, UnknownFieldSetField;
@@ -98,7 +95,7 @@ void main() {
         throwsError(
             UnsupportedError, equals("'set element' on a read-only list")));
     expect(() => r.sub.add(Rec.create()),
-        throwsError(UnsupportedError, contains('add')));
+        throwsError(UnsupportedError, equals("'add' on a read-only list")));
 
     r = Rec.create()
       ..sub.add(Rec.create())

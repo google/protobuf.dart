@@ -47,7 +47,7 @@ class FieldNames {
 
   // Identifier for the generated ensureX() method, without braces.
   //
-  // 'null' for scalar, repeated, and map fields.
+  // `null` for scalar, repeated, and map fields.
   final String? ensureMethodName;
 
   FieldNames(this.descriptor, this.index, this.sourcePosition, this.fieldName,
@@ -70,7 +70,7 @@ class OneofNames {
   /// Identifier for the generated enum definition.
   final String oneofEnumName;
 
-  ///  Identifier for the _XByTag map.
+  /// Identifier for the _XByTag map.
   final String byTagMapName;
 
   OneofNames(this.descriptor, this.index, this.clearMethodName,

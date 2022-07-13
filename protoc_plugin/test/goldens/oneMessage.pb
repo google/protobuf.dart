@@ -17,23 +17,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   ;
 
   PhoneNumber._() : super();
-  factory PhoneNumber({
-    $core.String? number,
-    $core.int? type,
-    $core.String? name,
-  }) {
-    final _result = create();
-    if (number != null) {
-      _result.number = number;
-    }
-    if (type != null) {
-      _result.type = type;
-    }
-    if (name != null) {
-      _result.name = name;
-    }
-    return _result;
-  }
+  factory PhoneNumber() => create();
   factory PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(

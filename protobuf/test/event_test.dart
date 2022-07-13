@@ -2,8 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Tests event delivery using PbEventMixin.
-library event_test;
+// Tests event delivery using PbEventMixin.
 
 import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'

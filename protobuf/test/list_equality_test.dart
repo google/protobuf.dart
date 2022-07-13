@@ -1,5 +1,8 @@
+// Copyright (c) 2021, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 // Test for ensuring that protobuf lists compare using value semantics.
-library list_equality_test;
 
 import 'package:test/test.dart';
 
