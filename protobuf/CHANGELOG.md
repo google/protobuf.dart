@@ -5,6 +5,10 @@
 * `PbListBase` and `FrozenPbList` types are removed. All proto repeated fields
   now use `PbList`. To check if a list is frozen, use `isFrozen` getter.
   ([#624], [#626])
+* `GeneratedMessage.getField` now initializes map fields. This behavior is
+  consistent with `getField` called on repeated fields. ([#373], [#707])
+* Unused and optional `PbMap` constructor argument (`BuilderInfo? info`)
+  removed.
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -12,6 +16,8 @@
 [#643]: https://github.com/google/protobuf.dart/pull/643
 [#624]: https://github.com/google/protobuf.dart/issues/624
 [#626]: https://github.com/google/protobuf.dart/pull/626
+[#373]: https://github.com/google/protobuf.dart/issues/373
+[#707]: https://github.com/google/protobuf.dart/pull/707
 
 ## 2.1.0
 

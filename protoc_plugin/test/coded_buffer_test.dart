@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/bytes.pb.dart';
+import '../out/protos/entity.pb.dart';
 
 void main() {
   test('Does not reuse input buffer for bytes fields', () {

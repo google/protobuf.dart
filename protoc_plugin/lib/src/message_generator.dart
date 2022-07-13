@@ -362,44 +362,7 @@ class MessageGenerator extends ProtobufContainer {
       out.printlnAnnotated('$classname._() : super();', [
         NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
       ]);
-      out.print('factory $classname(');
-      if (_fieldList.isNotEmpty) {
-        out.println('{');
-        for (final field in _fieldList) {
-          _emitDeprecatedIf(field.isDeprecated, out);
-          if (field.isRepeated && !field.isMapField) {
-            out.println(
-                '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames!.fieldName},');
-          } else {
-            out.println(
-                '  ${field.getDartType()}? ${field.memberNames!.fieldName},');
-          }
-        }
-        out.print('}');
-      }
-      if (_fieldList.isNotEmpty) {
-        out.println(') {');
-        out.println('  final _result = create();');
-        for (final field in _fieldList) {
-          out.println('  if (${field.memberNames!.fieldName} != null) {');
-          if (field.isDeprecated) {
-            out.println(
-                '    // ignore: deprecated_member_use_from_same_package');
-          }
-          if (field.isRepeated || field.isMapField) {
-            out.println(
-                '    _result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
-          } else {
-            out.println(
-                '    _result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');
-          }
-          out.println('  }');
-        }
-        out.println('  return _result;');
-        out.println('}');
-      } else {
-        out.println(') => create();');
-      }
+      out.println('factory $classname() => create();');
       out.println(
           'factory $classname.fromBuffer($coreImportPrefix.List<$coreImportPrefix.int> i,'
           ' [$protobufImportPrefix.ExtensionRegistry r = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
