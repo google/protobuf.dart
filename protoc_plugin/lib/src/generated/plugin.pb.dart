@@ -3,7 +3,7 @@
 //  source: plugin.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_this,unused_import,unused_shown_name
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -50,27 +50,7 @@ class Version extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   Version._() : super();
-  factory Version({
-    $core.int? major,
-    $core.int? minor,
-    $core.int? patch,
-    $core.String? suffix,
-  }) {
-    final _result = create();
-    if (major != null) {
-      _result.major = major;
-    }
-    if (minor != null) {
-      _result.minor = minor;
-    }
-    if (patch != null) {
-      _result.patch = patch;
-    }
-    if (suffix != null) {
-      _result.suffix = suffix;
-    }
-    return _result;
-  }
+  factory Version() => create();
   factory Version.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
@@ -181,27 +161,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
         subBuilder: $0.FileDescriptorProto.create);
 
   CodeGeneratorRequest._() : super();
-  factory CodeGeneratorRequest({
-    $core.Iterable<$core.String>? fileToGenerate,
-    $core.String? parameter,
-    Version? compilerVersion,
-    $core.Iterable<$0.FileDescriptorProto>? protoFile,
-  }) {
-    final _result = create();
-    if (fileToGenerate != null) {
-      _result.fileToGenerate.addAll(fileToGenerate);
-    }
-    if (parameter != null) {
-      _result.parameter = parameter;
-    }
-    if (compilerVersion != null) {
-      _result.compilerVersion = compilerVersion;
-    }
-    if (protoFile != null) {
-      _result.protoFile.addAll(protoFile);
-    }
-    return _result;
-  }
+  factory CodeGeneratorRequest() => create();
   factory CodeGeneratorRequest.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
@@ -297,27 +257,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse_File._() : super();
-  factory CodeGeneratorResponse_File({
-    $core.String? name,
-    $core.String? insertionPoint,
-    $core.String? content,
-    $0.GeneratedCodeInfo? generatedCodeInfo,
-  }) {
-    final _result = create();
-    if (name != null) {
-      _result.name = name;
-    }
-    if (insertionPoint != null) {
-      _result.insertionPoint = insertionPoint;
-    }
-    if (content != null) {
-      _result.content = content;
-    }
-    if (generatedCodeInfo != null) {
-      _result.generatedCodeInfo = generatedCodeInfo;
-    }
-    return _result;
-  }
+  factory CodeGeneratorResponse_File() => create();
   factory CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
@@ -431,23 +371,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   CodeGeneratorResponse._() : super();
-  factory CodeGeneratorResponse({
-    $core.String? error,
-    $fixnum.Int64? supportedFeatures,
-    $core.Iterable<CodeGeneratorResponse_File>? file,
-  }) {
-    final _result = create();
-    if (error != null) {
-      _result.error = error;
-    }
-    if (supportedFeatures != null) {
-      _result.supportedFeatures = supportedFeatures;
-    }
-    if (file != null) {
-      _result.file.addAll(file);
-    }
-    return _result;
-  }
+  factory CodeGeneratorResponse() => create();
   factory CodeGeneratorResponse.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
