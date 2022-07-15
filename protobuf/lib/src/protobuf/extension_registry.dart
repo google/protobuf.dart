@@ -134,8 +134,9 @@ T _reparseMessage<T extends GeneratedMessage>(
         resultMap ??= ensureResult()._fieldSet._values[field.index!];
 
     if (field.isRepeated) {
-      PbList? messageEntries = message._fieldSet._values[field.index!];
-      if (messageEntries == null) continue;
+      var messageEntriesDynamic = message._fieldSet._values[field.index!];
+      if (messageEntriesDynamic == null) continue;
+      PbList messageEntries = messageEntriesDynamic;
       if (field.isGroupOrMessage) {
         for (var i = 0; i < messageEntries.length; i++) {
           final GeneratedMessage entry = messageEntries[i];
@@ -146,8 +147,9 @@ T _reparseMessage<T extends GeneratedMessage>(
         }
       }
     } else if (field is MapFieldInfo) {
-      PbMap? messageMap = message._fieldSet._values[field.index!];
-      if (messageMap == null) continue;
+      var messageMapDynamic = message._fieldSet._values[field.index!];
+      if (messageMapDynamic == null) continue;
+      PbMap messageMap = messageMapDynamic;
       if (_isGroupOrMessage(field.valueFieldType)) {
         for (var key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];
