@@ -72,7 +72,7 @@ class CodedBufferWriter {
       if (list.isNotEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
-        for (var value in fieldValue) {
+        for (var value in list) {
           _writeValueAs(valueType, value);
         }
         _endLengthDelimited(mark);
