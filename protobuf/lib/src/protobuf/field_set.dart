@@ -661,7 +661,7 @@ class _FieldSet {
     } else if (!_isEnum(fi.type)) {
       hash = _HashUtils._combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
-      PbList list = value;
+      final PbList list = value;
       hash = _HashUtils._combine(hash, _HashUtils._hashObjects(list.map((enm) {
         ProtobufEnum enm_ = enm;
         return enm_.value;
@@ -768,9 +768,10 @@ class _FieldSet {
       if (fieldValue == null) {
         return;
       }
-      MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
+      final MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
       mustClone = _isGroupOrMessage(f.valueFieldType);
-      PbMap<dynamic, dynamic> map = f._ensureMapField(meta, this) as dynamic;
+      final PbMap<dynamic, dynamic> map =
+          f._ensureMapField(meta, this) as dynamic;
       if (mustClone) {
         PbMap fieldValueMap = fieldValue;
         for (final entry in fieldValueMap.entries) {
@@ -799,7 +800,7 @@ class _FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      GeneratedMessage? currentFi = isExtension!
+      final currentFi = isExtension!
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 
@@ -807,7 +808,8 @@ class _FieldSet {
       if (currentFi == null) {
         fieldValue = msg.deepCopy();
       } else {
-        fieldValue = currentFi..mergeFromMessage(msg);
+        final GeneratedMessage currentMsg = currentFi;
+        fieldValue = currentMsg..mergeFromMessage(msg);
       }
     }
 

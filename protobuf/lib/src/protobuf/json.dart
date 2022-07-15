@@ -9,7 +9,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     var baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
-      PbList list = fieldValue;
+      final PbList list = fieldValue;
       return List.from(list.map((e) => convertToMap(e, baseType)));
     }
 
@@ -39,7 +39,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         // Encode 'bytes' as a base64-encoded string.
         return base64Encode(fieldValue as List<int>);
       case PbFieldType._ENUM_BIT:
-        ProtobufEnum enum_ = fieldValue;
+        final ProtobufEnum enum_ = fieldValue;
         return enum_.value; // assume |value| < 2^52
       case PbFieldType._INT64_BIT:
       case PbFieldType._SINT64_BIT:
@@ -47,11 +47,11 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         return fieldValue.toString();
       case PbFieldType._UINT64_BIT:
       case PbFieldType._FIXED64_BIT:
-        Int64 int_ = fieldValue;
+        final Int64 int_ = fieldValue;
         return int_.toStringUnsigned();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        GeneratedMessage msg = fieldValue;
+        final GeneratedMessage msg = fieldValue;
         return msg.writeToJsonMap();
       default:
         throw 'Unknown type $fieldType';

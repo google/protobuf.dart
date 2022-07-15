@@ -68,7 +68,7 @@ class CodedBufferWriter {
     final valueType = PbFieldType._baseType(fieldType);
 
     if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
-      List list = fieldValue;
+      final PbList list = fieldValue;
       if (list.isNotEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
@@ -81,7 +81,7 @@ class CodedBufferWriter {
     }
 
     if ((fieldType & PbFieldType._MAP_BIT) != 0) {
-      PbMap map = fieldValue;
+      final PbMap map = fieldValue;
       final keyWireFormat = _wireTypes[_valueTypeIndex(map.keyFieldType)];
       final valueWireFormat = _wireTypes[_valueTypeIndex(map.valueFieldType)];
 
@@ -100,7 +100,7 @@ class CodedBufferWriter {
     final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
-      List list = fieldValue;
+      final List list = fieldValue;
       for (var i = 0; i < list.length; i++) {
         _writeValue(fieldNumber, valueType, list[i], wireFormat);
       }
@@ -350,7 +350,7 @@ class CodedBufferWriter {
         _writeFloat(value);
         break;
       case PbFieldType._ENUM_BIT:
-        ProtobufEnum enum_ = value;
+        final ProtobufEnum enum_ = value;
         _writeVarint32(enum_.value & 0xffffffff);
         break;
       case PbFieldType._GROUP_BIT:
@@ -389,7 +389,7 @@ class CodedBufferWriter {
         break;
       case PbFieldType._MESSAGE_BIT:
         final mark = _startLengthDelimited();
-        GeneratedMessage msg = value;
+        final GeneratedMessage msg = value;
         msg.writeToCodedBufferWriter(this);
         _endLengthDelimited(mark);
         break;
