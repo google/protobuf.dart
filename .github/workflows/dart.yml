@@ -1,4 +1,4 @@
-# Created with package:mono_repo v6.2.0
+# Created with package:mono_repo v6.3.0
 name: Dart CI
 on:
   push:
@@ -12,6 +12,7 @@ defaults:
     shell: bash
 env:
   PUB_ENVIRONMENT: bot.github
+permissions: read-all
 
 jobs:
   job_001:
@@ -19,20 +20,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:stable"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: stable
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - name: mono_repo self validate
-        run: dart pub global activate mono_repo 6.2.0
+        run: dart pub global activate mono_repo 6.3.0
       - name: mono_repo self validate
         run: dart pub global run mono_repo generate --validate
   job_002:
@@ -40,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protobuf;commands:analyze_1-analyze_2"
@@ -49,11 +50,11 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: "2.12.0"
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protobuf_pub_upgrade
         name: protobuf; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -72,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:api_benchmark;commands:format-command_0-command_1-analyze_0"
@@ -81,11 +82,11 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: dev
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: api_benchmark_pub_upgrade
         name: api_benchmark; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -112,7 +113,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:benchmarks;commands:format-command_0-command_2-analyze_0"
@@ -121,11 +122,11 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: dev
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: benchmarks_pub_upgrade
         name: benchmarks; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -152,7 +153,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:format-analyze_0"
@@ -161,11 +162,11 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: dev
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protobuf_pub_upgrade
         name: protobuf; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -184,7 +185,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:format-command_0-command_3-analyze_0"
@@ -193,11 +194,11 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: dev
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protoc_plugin_pub_upgrade
         name: protoc_plugin; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -224,7 +225,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protobuf;commands:test"
@@ -233,11 +234,11 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: "2.12.0"
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protobuf_pub_upgrade
         name: protobuf; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -259,7 +260,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protoc_plugin;commands:command_0-command_3-test"
@@ -268,11 +269,11 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: "2.12.0"
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protoc_plugin_pub_upgrade
         name: protoc_plugin; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -302,7 +303,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:test"
@@ -311,11 +312,11 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: dev
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protobuf_pub_upgrade
         name: protobuf; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -337,7 +338,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:command_0-command_3-test"
@@ -346,11 +347,11 @@ jobs:
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: dev
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protoc_plugin_pub_upgrade
         name: protoc_plugin; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -380,7 +381,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:macos-latest;pub-cache-hosted;sdk:2.12.0;packages:protobuf;commands:test"
@@ -389,11 +390,11 @@ jobs:
             os:macos-latest;pub-cache-hosted;sdk:2.12.0
             os:macos-latest;pub-cache-hosted
             os:macos-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: "2.12.0"
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protobuf_pub_upgrade
         name: protobuf; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -415,7 +416,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Cache Pub hosted dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@4504faf7e9bcf8f3ed0bc863c4e1d21499ab8ef8
         with:
           path: "~/.pub-cache/hosted"
           key: "os:macos-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:test"
@@ -424,11 +425,11 @@ jobs:
             os:macos-latest;pub-cache-hosted;sdk:dev
             os:macos-latest;pub-cache-hosted
             os:macos-latest
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: dev
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protobuf_pub_upgrade
         name: protobuf; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -449,11 +450,11 @@ jobs:
     name: "run_tests; windows; Dart 2.12.0; PKG: protobuf; `dart test`"
     runs-on: windows-latest
     steps:
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: "2.12.0"
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protobuf_pub_upgrade
         name: protobuf; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
@@ -474,11 +475,11 @@ jobs:
     name: "run_tests; windows; Dart dev; PKG: protobuf; `dart test`"
     runs-on: windows-latest
     steps:
-      - uses: dart-lang/setup-dart@v1.3
+      - uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
         with:
           sdk: dev
       - id: checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@d0651293c4a5a52e711f25b41b05b2212f385d28
       - id: protobuf_pub_upgrade
         name: protobuf; dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
