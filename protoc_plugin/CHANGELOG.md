@@ -22,6 +22,9 @@
     ..b.addAll([1, 2, 3])
   ```
 
+* `.pbenum.dart` files now export their public dependencies (`import public`s
+  in proto files), same as `.pb.dart` files.
+
 [#679]: https://github.com/google/protobuf.dart/pull/679
 [#703]: https://github.com/google/protobuf.dart/pull/703
 
