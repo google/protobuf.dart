@@ -484,7 +484,6 @@ class _FieldSet {
   bool _$has(int index) {
     var value = _values[index];
     if (value == null) return false;
-    if (value is List) return value.isNotEmpty;
     return true;
   }
 

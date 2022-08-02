@@ -9,6 +9,7 @@
   consistent with `getField` called on repeated fields. ([#373], [#707])
 * Unused and optional `PbMap` constructor argument (`BuilderInfo? info`)
   removed.
+* Fix presence of `bytes` fields ([#690])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -18,6 +19,7 @@
 [#626]: https://github.com/google/protobuf.dart/pull/626
 [#373]: https://github.com/google/protobuf.dart/issues/373
 [#707]: https://github.com/google/protobuf.dart/pull/707
+[#690]: https://github.com/google/protobuf.dart/issues/690
 
 ## 2.1.0
 
