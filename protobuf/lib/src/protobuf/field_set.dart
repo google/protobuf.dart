@@ -481,11 +481,7 @@ class _FieldSet {
   }
 
   /// The implementation of a generated 'has' method.
-  bool _$has(int index) {
-    var value = _values[index];
-    if (value == null) return false;
-    return true;
-  }
+  bool _$has(int index) => _values[index] != null;
 
   /// The implementation of a generated setter.
   ///
