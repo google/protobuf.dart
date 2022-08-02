@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+/// Runtime library for Dart implementation of [protobufs][1].
+///
+/// [1]: https://developers.google.com/protocol-buffers
 library protobuf;
 
 import 'dart:collection' show ListBase, MapBase;
