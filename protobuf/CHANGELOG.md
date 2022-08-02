@@ -1,14 +1,14 @@
 ## 3.0.0-dev
 
-* `ReadonlyMessageMixin` removed ([#183], [#644])
-* `frozenMessageModificationHandler` removed ([#175], [#643])
-* `PbListBase` and `FrozenPbList` types are removed. All proto repeated fields
-  now use `PbList`. To check if a list is frozen, use `isFrozen` getter.
-  ([#624], [#626])
-* `GeneratedMessage.getField` now initializes map fields. This behavior is
+* Remove `ReadonlyMessageMixin` ([#183], [#644])
+* Remove `frozenMessageModificationHandler` ([#175], [#643])
+* Remove `PbListBase` and `FrozenPbList` types. All proto repeated fields now
+  use `PbList`. To check if a list is frozen, use `isFrozen` getter. ([#624],
+  [#626])
+* Initialize map fields in `GeneratedMessage.getField`. This behavior is
   consistent with `getField` called on repeated fields. ([#373], [#707])
-* Unused and optional `PbMap` constructor argument (`BuilderInfo? info`)
-  removed.
+* Remove unused and optional `PbMap` constructor argument `BuilderInfo? info`.
+  ([d94d3f0])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -18,6 +18,7 @@
 [#626]: https://github.com/google/protobuf.dart/pull/626
 [#373]: https://github.com/google/protobuf.dart/issues/373
 [#707]: https://github.com/google/protobuf.dart/pull/707
+[d94d3f0]: https://github.com/google/protobuf.dart/commit/d94d3f0
 
 ## 2.1.0
 
