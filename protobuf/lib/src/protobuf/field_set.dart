@@ -431,11 +431,7 @@ class _FieldSet {
 
   /// The implementation of a generated getter for `bool` fields that default to
   /// `false`.
-  bool _$getBF(int index) {
-    var value = _values[index];
-    if (value == null) return false;
-    return value;
-  }
+  bool _$getBF(int index) => _values[index] ?? false;
 
   /// The implementation of a generated getter for int fields.
   int _$getI(int index, int? defaultValue) {
@@ -449,11 +445,7 @@ class _FieldSet {
 
   /// The implementation of a generated getter for `int` fields (int32, uint32,
   /// fixed32, sfixed32) that default to `0`.
-  int _$getIZ(int index) {
-    var value = _values[index];
-    if (value == null) return 0;
-    return value;
-  }
+  int _$getIZ(int index) => _values[index] ?? 0;
 
   /// The implementation of a generated getter for String fields.
   String _$getS(int index, String? defaultValue) {
@@ -467,11 +459,7 @@ class _FieldSet {
 
   /// The implementation of a generated getter for String fields that default to
   /// the empty string.
-  String _$getSZ(int index) {
-    var value = _values[index];
-    if (value == null) return '';
-    return value;
-  }
+  String _$getSZ(int index) => _values[index] ?? '';
 
   /// The implementation of a generated getter for Int64 fields.
   Int64 _$getI64(int index) {
