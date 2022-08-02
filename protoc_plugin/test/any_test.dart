@@ -13,10 +13,10 @@ import '../out/protos/using_any.pb.dart';
 void main() {
   test('pack -> unpack', () {
     var any = Any.pack(SearchRequest()..query = 'hest');
-    expect(any.typeUrl, 'type.googleapis.com/SearchRequest');
+    expect(any.typeUrl, 'type.googleapis.com/service.SearchRequest');
     var any1 = Any.pack(SearchRequest()..query = 'hest1',
         typeUrlPrefix: 'example.com');
-    expect(any1.typeUrl, 'example.com/SearchRequest');
+    expect(any1.typeUrl, 'example.com/service.SearchRequest');
     expect(any1.canUnpackInto(SearchRequest.getDefault()), true);
     expect(any1.canUnpackInto(SearchResponse.getDefault()), false);
     var searchRequest = any.unpackInto(SearchRequest());
@@ -42,7 +42,7 @@ void main() {
     var any = Any.pack(toplevel.T()
       ..a = 127
       ..b = 'hest');
-    expect(any.typeUrl, 'type.googleapis.com/T');
+    expect(any.typeUrl, 'type.googleapis.com/toplevel.T');
     var t2 = any.unpackInto(toplevel.T());
     expect(t2.a, 127);
     expect(t2.b, 'hest');

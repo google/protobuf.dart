@@ -2,12 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert' show jsonEncode;
 import 'dart:core' hide Duration;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
+import '../out/protos/entity.pb.dart';
 import '../out/protos/enum_name.pb.dart';
 import '../out/protos/google/protobuf/any.pb.dart';
 import '../out/protos/google/protobuf/duration.pb.dart';
@@ -16,10 +18,10 @@ import '../out/protos/google/protobuf/field_mask.pb.dart';
 import '../out/protos/google/protobuf/struct.pb.dart';
 import '../out/protos/google/protobuf/timestamp.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
-import '../out/protos/google/protobuf/unittest_nested_any.pb.dart';
 import '../out/protos/google/protobuf/unittest_well_known_types.pb.dart';
 import '../out/protos/google/protobuf/wrappers.pb.dart';
 import '../out/protos/map_field.pb.dart';
+import '../out/protos/nested_any.pb.dart';
 import '../out/protos/oneof.pb.dart';
 import 'oneof_test.dart';
 import 'test_util.dart';
@@ -108,6 +110,26 @@ final testAllTypesJson = {
 };
 
 void main() {
+  test('toProto3Json works', () {
+    final proto = TopEntity()
+      ..id = Int64(1)
+      ..stringValue = 'foo'
+      ..strings.addAll(['test', 'repeated', 'field'])
+      ..anyValue = Any.pack(SubEntity()
+        ..id = Int64(4)
+        ..anyValue = Any.pack(SubSubEntity()..id = Int64(5)))
+      ..sub = (SubEntity()
+        ..id = Int64(2)
+        ..subSub = (SubSubEntity()..id = Int64(3)));
+    final typeRegistry = TypeRegistry([SubEntity(), SubSubEntity()]);
+    final json = proto.toProto3Json(typeRegistry: typeRegistry);
+    expect(
+        proto ==
+            (TopEntity()
+              ..mergeFromProto3Json(json, typeRegistry: typeRegistry)),
+        true);
+  });
+
   group('encode', () {
     test('testOutput', () {
       expect(getAllSet().toProto3Json(), testAllTypesJson);
@@ -281,12 +303,10 @@ void main() {
           {
             'anyField2': {
               'value': '1',
-              '@type':
-                  'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+              '@type': 'type.googleapis.com/nested_any.AnyMessage1'
             },
             'value': '2',
-            '@type':
-                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+            '@type': 'type.googleapis.com/nested_any.AnyMessage2'
           });
     });
 
@@ -941,12 +961,10 @@ void main() {
         ..mergeFromProto3Json({
           'anyField2': {
             'value': '1',
-            '@type':
-                'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage1'
+            '@type': 'type.googleapis.com/nested_any.AnyMessage1'
           },
           'value': '2',
-          '@type':
-              'type.googleapis.com/protobuf_unittest_nested_any.AnyMessage2'
+          '@type': 'type.googleapis.com/nested_any.AnyMessage2'
         }, typeRegistry: TypeRegistry([AnyMessage1(), AnyMessage2()]));
 
       expect(
@@ -1236,12 +1254,12 @@ void main() {
       expect(FieldMask()..mergeFromProto3Json(''), FieldMask());
       expect(() => FieldMask()..mergeFromProto3Json(12), parseFailure([]));
     });
-  });
 
-  test('one-of', () {
-    expectFirstSet(Foo()..mergeFromProto3Json({'first': 'oneof'}));
-    expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
-    expectOneofNotSet(Foo()..mergeFromProto3Json({}));
+    test('one-of', () {
+      expectFirstSet(Foo()..mergeFromProto3Json({'first': 'oneof'}));
+      expectSecondSet(Foo()..mergeFromProto3Json({'second': 1}));
+      expectOneofNotSet(Foo()..mergeFromProto3Json({}));
+    });
   });
 
   group('Convert Double', () {
@@ -1257,6 +1275,7 @@ void main() {
       var proto = TestAllTypes()..optionalDouble = 5.0;
       expect(TestAllTypes()..mergeFromProto3Json(json), proto);
       expect(proto.toProto3Json(), json);
+      expect(jsonEncode(proto.toProto3Json()), '{"optionalDouble":5}');
     });
 
     test('Infinity', () {

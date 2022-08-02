@@ -4,6 +4,8 @@
 
 syntax = "proto3";
 
+package nested_message;
+
 message Top {
   repeated Nested nested_message_list = 1;
   map<int32, Nested> nested_message_map = 2;

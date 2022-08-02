@@ -206,6 +206,8 @@ void main() {
   test('testParseUnknownEnumValue', () {
     var singularFieldNum = testAllTypes.getTagNumber('optionalNestedEnum')!;
     var repeatedFieldNum = testAllTypes.getTagNumber('repeatedNestedEnum')!;
+    expect(singularFieldNum, isNotNull);
+    expect(repeatedFieldNum, isNotNull);
 
     var fieldSet = UnknownFieldSet()
       ..addField(

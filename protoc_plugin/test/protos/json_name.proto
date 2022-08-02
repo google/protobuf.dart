@@ -4,6 +4,8 @@
 
 syntax = "proto3";
 
+package json_name;
+
 message JsonNamedMessage {
   int32 foo_name = 1 [json_name = "barName"];
 

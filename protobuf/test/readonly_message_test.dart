@@ -94,7 +94,7 @@ void main() {
         throwsError(
             UnsupportedError, equals("'set element' on a read-only list")));
     expect(() => r.sub.add(Rec.create()),
-        throwsError(UnsupportedError, contains('add')));
+        throwsError(UnsupportedError, equals("'add' on a read-only list")));
 
     r = Rec.create()
       ..sub.add(Rec.create())

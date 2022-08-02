@@ -10,7 +10,7 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 String constant() => 'SHOULD_BE_PRESENT';
 
 Future<void> main() async {
-  test('enum name available depending on environment', () {
+  test('field name available depending on environment', () {
     var proto = TestAllTypes()..optionalForeignMessage = ForeignMessage();
 
     expect(

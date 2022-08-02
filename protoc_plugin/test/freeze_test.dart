@@ -8,11 +8,10 @@ import '../out/protos/nested_message.pb.dart';
 
 void main() {
   test('testFreezingNestedFields', () {
-    var top = Top(
-      nestedMessageList: [Nested(a: 1)],
-      nestedMessageMap: {1: Nested(a: 2)},
-      nestedMessage: Nested(a: 3),
-    );
+    final top = Top()
+      ..nestedMessageList.add(Nested()..a = 1)
+      ..nestedMessageMap[1] = (Nested()..a = 2)
+      ..nestedMessage = (Nested()..a = 3);
 
     // Create aliases to lists, maps, nested messages
     var list = top.nestedMessageList;
@@ -28,24 +27,24 @@ void main() {
     // Check list field
     expect(top.nestedMessageList.length, 1);
     expect(top.nestedMessageList[0].isFrozen, true);
-    expect(() => top.nestedMessageList.add(Nested(a: 0)),
+    expect(() => top.nestedMessageList.add(Nested()..a = 0),
         throwsA(const TypeMatcher<UnsupportedError>()));
 
     // Check map field
     expect(top.nestedMessageMap.length, 1);
     expect(top.nestedMessageMap[1]!.isFrozen, true);
-    expect(() => top.nestedMessageMap[2] = Nested(a: 0),
+    expect(() => top.nestedMessageMap[2] = Nested()..a = 0,
         throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => map[0] = Nested(a: 0),
+    expect(() => map[0] = Nested()..a = 0,
         throwsA(const TypeMatcher<UnsupportedError>()));
 
     // Check message field
     expect(top.nestedMessage.isFrozen, true);
 
     // Check aliases
-    expect(() => list.add(Nested(a: 0)),
+    expect(() => list.add(Nested()..a = 0),
         throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => map[123] = Nested(a: 0),
+    expect(() => map[123] = Nested()..a = 0,
         throwsA(const TypeMatcher<UnsupportedError>()));
     expect(list[0].isFrozen, true);
     expect(map[1]!.isFrozen, true);

@@ -84,7 +84,7 @@ class GenerateMetadataParser implements SingleOptionParser {
   @override
   void parse(String name, String? value, OnError onError) {
     if (value != null) {
-      onError('Invalid metadata option. No Value expected.');
+      onError('Invalid metadata option. No value expected.');
       return;
     }
     generateKytheInfo = true;

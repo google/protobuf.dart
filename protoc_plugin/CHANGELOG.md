@@ -1,10 +1,31 @@
-## 21.0.0
+## 21.0.0-dev
 
 * Identifiers `fromBuffer`, `fromJson`, `$_defaultFor`, `initByValue` are no
   longer reserved. Proto fields with those Dart names will no longer have a
   suffix added. ([#679])
+* Remove message constructor arguments. Constructors with arguments cause
+  increase in release binary sizes even when no arguments are passed to the
+  constructors. ([#703])
+
+  **Migration:**
+
+  Set the fields after construction, using cascade syntax. For example, if you
+  have:
+  ```dart
+  MyMessage(a: 123, b: [1, 2, 3])
+  ```
+  You can do:
+  ```dart
+  MyMessage()
+    ..a = 123
+    ..b.addAll([1, 2, 3])
+  ```
+* Export public dependencies (`import public`s in proto files) in
+  `.pbenum.dart` files, same as `.pb.dart` files. ([9aad6aa])
 
 [#679]: https://github.com/google/protobuf.dart/pull/679
+[#703]: https://github.com/google/protobuf.dart/pull/703
+[9aad6aa]: https://github.com/google/protobuf.dart/commits/9aad6aa
 
 ## 20.0.1
 
