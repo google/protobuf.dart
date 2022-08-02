@@ -4,6 +4,8 @@
 
 part of protobuf;
 
+/// Reader used for converting binary-encoded protobufs into
+/// [GeneratedMessage]s.
 class CodedBufferReader {
   // ignore: constant_identifier_names
   static const int DEFAULT_RECURSION_LIMIT = 64;

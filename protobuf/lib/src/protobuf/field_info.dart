@@ -247,6 +247,7 @@ String _unCamelCase(String name) {
       _upperCase, (match) => '_${match.group(0)!.toLowerCase()}');
 }
 
+/// A [FieldInfo] subclass for protobuf `map` fields.
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
   /// integer type or `string`, and the type cannot be `repeated`.

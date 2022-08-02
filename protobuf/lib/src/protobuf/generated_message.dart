@@ -6,18 +6,24 @@
 
 part of protobuf;
 
+/// Type of an empty message builder.
 typedef CreateBuilderFunc = GeneratedMessage Function();
+
+/// Type of a function that creates the default value of a protobuf field.
 typedef MakeDefaultFunc = Function();
+
+/// Type of a function that makes an enum integer value to corresponding
+/// [ProtobufEnum] value.
 typedef ValueOfFunc = ProtobufEnum? Function(int value);
 
 /// The base class for all protobuf message types.
 ///
-/// The protoc plugin generates subclasses providing type-specific
-/// properties and methods.
+/// The protoc plugin generates subclasses providing type-specific properties
+/// and methods.
 ///
 /// Public properties and methods added here should also be added to
-/// GeneratedMessage_reservedNames and should be unlikely to be used in
-/// a proto file.
+/// `GeneratedMessage_reservedNames` and should be unlikely to be used in a
+/// proto file.
 abstract class GeneratedMessage {
   _FieldSet? __fieldSet;
 
@@ -563,6 +569,7 @@ class PackageName {
   String get prefix => name == '' ? '' : '$name.';
 }
 
+/// Extensions on [GeneratedMessage]s.
 extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
   /// Apply [updates] to a copy of this message.
   ///

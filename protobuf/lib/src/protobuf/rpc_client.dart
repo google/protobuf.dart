@@ -4,7 +4,7 @@
 
 part of protobuf;
 
-/// Client side context.
+/// Client side context for [RpcClient]s.
 class ClientContext {
   /// The desired timeout of the RPC call.
   final Duration? timeout;

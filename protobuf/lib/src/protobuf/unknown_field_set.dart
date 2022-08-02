@@ -4,6 +4,7 @@
 
 part of protobuf;
 
+/// A set of unknown fields in a [GeneratedMessage].
 class UnknownFieldSet {
   static final UnknownFieldSet emptyUnknownFieldSet = UnknownFieldSet()
     .._markReadOnly();
@@ -196,6 +197,7 @@ class UnknownFieldSet {
   }
 }
 
+/// An unknown field in a [UnknownFieldSet].
 class UnknownFieldSetField {
   List<List<int>> _lengthDelimited = <List<int>>[];
   List<Int64> _varints = <Int64>[];

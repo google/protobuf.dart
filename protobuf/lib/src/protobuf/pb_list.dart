@@ -6,6 +6,7 @@ part of protobuf;
 
 typedef _CheckFunc<E> = void Function(E? x);
 
+/// A [ListBase] implementation used for protobuf `repeated` fields.
 class PbList<E> extends ListBase<E> {
   final List<E> _wrappedList;
   final _CheckFunc<E> _check;
