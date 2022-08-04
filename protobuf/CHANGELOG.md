@@ -11,7 +11,7 @@
   ([d94d3f0])
 * Fix presence of `bytes` fields ([#690], [#715])
 * `UnknownFieldSetField` methods `hasRequiredFields`, `isInitialized` and
-  getter `length` removed.
+  getter `length` removed. ([#721])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -24,6 +24,7 @@
 [d94d3f0]: https://github.com/google/protobuf.dart/commit/d94d3f0
 [#690]: https://github.com/google/protobuf.dart/issues/690
 [#715]: https://github.com/google/protobuf.dart/pull/715
+[#721]: https://github.com/google/protobuf.dart/pull/721
 
 ## 2.1.0
 
