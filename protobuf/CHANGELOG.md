@@ -10,6 +10,8 @@
 * Remove unused and optional `PbMap` constructor argument `BuilderInfo? info`.
   ([d94d3f0])
 * Fix presence of `bytes` fields ([#690], [#715])
+* `UnknownFieldSetField` methods `hasRequiredFields`, `isInitialized` and
+  getter `length` removed.
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
