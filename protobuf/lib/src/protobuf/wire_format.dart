@@ -33,12 +33,13 @@ const int WIRETYPE_END_GROUP = 4;
 @visibleForTesting
 const int WIRETYPE_FIXED32 = 5;
 
-int _getTagFieldNumber(int tag) => tag >> _TAG_TYPE_BITS;
-
-int _getTagWireType(int tag) => tag & _TAG_TYPE_MASK;
+/// @nodoc
+int getTagFieldNumber(int tag) => tag >> _TAG_TYPE_BITS;
 
 /// @nodoc
-@visibleForTesting
+int getTagWireType(int tag) => tag & _TAG_TYPE_MASK;
+
+/// @nodoc
 int makeTag(int fieldNumber, int tag) => (fieldNumber << _TAG_TYPE_BITS) | tag;
 
 /// Returns true if the wireType can be merged into the given fieldType.

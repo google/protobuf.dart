@@ -56,8 +56,8 @@ class UnknownFieldSet {
 
   bool mergeFieldFromBuffer(int tag, CodedBufferReader input) {
     _ensureWritable('mergeFieldFromBuffer');
-    var number = _getTagFieldNumber(tag);
-    switch (_getTagWireType(tag)) {
+    var number = getTagFieldNumber(tag);
+    switch (getTagWireType(tag)) {
       case WIRETYPE_VARINT:
         mergeVarintField(number, input.readInt64());
         return true;
