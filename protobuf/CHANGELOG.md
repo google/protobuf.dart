@@ -9,7 +9,6 @@
   consistent with `getField` called on repeated fields. ([#373], [#707])
 * Remove unused and optional `PbMap` constructor argument `BuilderInfo? info`.
   ([d94d3f0])
-* Fix presence of `bytes` fields ([#690], [#715])
 * `UnknownFieldSetField` methods `hasRequiredFields`, `isInitialized` and
   getter `length` removed. ([#721])
 * Update library documentation to hide internals, add documentation for public
@@ -24,8 +23,6 @@
 [#373]: https://github.com/google/protobuf.dart/issues/373
 [#707]: https://github.com/google/protobuf.dart/pull/707
 [d94d3f0]: https://github.com/google/protobuf.dart/commit/d94d3f0
-[#690]: https://github.com/google/protobuf.dart/issues/690
-[#715]: https://github.com/google/protobuf.dart/pull/715
 [#721]: https://github.com/google/protobuf.dart/pull/721
 [#681]: https://github.com/google/protobuf.dart/pull/681
 
