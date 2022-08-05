@@ -706,9 +706,9 @@ class _FieldSet {
 
   /// Merges the contents of the [other] into this message.
   ///
-  /// Singular fields that are set in [other] overwrite the corresponding fields
-  /// in this message. Repeated fields are appended. Singular sub-messages are
-  /// recursively merged.
+  /// Singular fields that are set in [other] overwrite the corresponding
+  /// fields in this message. Repeated fields are appended. Singular
+  /// sub-messages are recursively merged.
   void _mergeFromMessage(_FieldSet other) {
     final sameMessageType = identical(_meta, other._meta);
     for (var fi in other._infosSortedByTag) {
@@ -721,6 +721,7 @@ class _FieldSet {
         }
       }
     }
+
     if (other._hasExtensions) {
       var others = other._extensions!;
       for (var tagNumber in others._tagNumbers) {
@@ -741,8 +742,10 @@ class _FieldSet {
       final map =
           mapInfo._ensureMapField(_meta, this) as PbMap<dynamic, dynamic>;
       if (_isGroupOrMessage(mapInfo.valueFieldType)) {
-        for (MapEntry entry in fieldValue.entries) {
-          map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
+        Map pbMap = fieldValue;
+        for (final entry in pbMap.entries) {
+          GeneratedMessage value = entry.value;
+          map[entry.key] = value.deepCopy();
         }
       } else {
         map.addAll(fieldValue);
@@ -769,7 +772,8 @@ class _FieldSet {
       if (currentFieldValue == null) {
         fieldValue = (fieldValue as GeneratedMessage).deepCopy();
       } else {
-        fieldValue = currentFieldValue..mergeFromMessage(fieldValue);
+        final GeneratedMessage currentMsg = currentFieldValue;
+        fieldValue = currentMsg..mergeFromMessage(fieldValue);
       }
     }
 
