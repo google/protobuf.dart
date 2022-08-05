@@ -19,7 +19,7 @@ class ProtobufField {
 
   final FieldDescriptorProto descriptor;
 
-  /// Dart names within a GeneratedMessage or `null` for an extension.
+  /// Dart names within a [GeneratedMessage] or `null` for an extension.
   final FieldNames? memberNames;
 
   final String fullName;
@@ -50,7 +50,10 @@ class ProtobufField {
           ? null
           : "'${descriptor.name}'";
 
-  /// The position of this field as it appeared in the original DescriptorProto.
+  /// The position of this field as it appeared in the original
+  /// DescriptorProto.
+  ///
+  /// `null` for an extension.
   int? get sourcePosition => memberNames?.sourcePosition;
 
   /// True if the field is to be encoded with [deprecated = true] encoding.
@@ -62,9 +65,11 @@ class ProtobufField {
   bool get isRepeated =>
       descriptor.label == FieldDescriptorProto_Label.LABEL_REPEATED;
 
-  /// True if a numeric field is repeated and it should be encoded with packed
-  /// encoding. In proto3 repeated fields are encoded as packed by default.
-  /// proto2 requires `[packed=true]` option.
+  /// Whether a numeric field is repeated and must be encoded with packed
+  /// encoding.
+  ///
+  /// In proto3 repeated fields are encoded as packed by default. proto2
+  /// requires `[packed=true]` option.
   bool get isPacked {
     if (!isRepeated) {
       return false; // only repeated fields can be packed
@@ -167,16 +172,8 @@ class ProtobufField {
   }
 
   static String _formatArguments(
-      List<String?> positionals, Map<String, String?> named) {
+      List<String> positionals, Map<String, String?> named) {
     final args = positionals.toList();
-    while (args.last == null) {
-      args.removeLast();
-    }
-    for (var i = 0; i < args.length; i++) {
-      if (args[i] == null) {
-        args[i] = 'null';
-      }
-    }
     named.forEach((key, value) {
       if (value != null) {
         args.add('$key: $value');

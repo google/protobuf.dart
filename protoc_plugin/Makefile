@@ -21,15 +21,14 @@ TEST_PROTO_LIST = \
 	google/protobuf/timestamp \
 	google/protobuf/type \
 	google/protobuf/unittest_import \
-	google/protobuf/unittest_nested_any \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest_well_known_types \
 	google/protobuf/unittest \
 	google/protobuf/wrappers \
-	bytes \
 	custom_option \
 	dart_name \
         default_value_escape \
+	entity \
 	enum_extension \
 	enum_name \
 	extend_unittest \
@@ -46,7 +45,9 @@ TEST_PROTO_LIST = \
 	map_field \
 	mixins \
 	multiple_files_test \
+	nested_any \
 	nested_extension \
+	nested_message \
 	non_nested_extension \
 	oneof \
 	reserved_names \

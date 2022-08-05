@@ -1,5 +1,5 @@
 #!/bin/bash
-# Created with package:mono_repo v6.2.0
+# Created with package:mono_repo v6.3.0
 
 # Support built in commands on windows out of the box.
 # When it is a flutter repo (check the pubspec.yaml for "sdk: flutter")
@@ -88,6 +88,10 @@ for PKG in ${PKGS}; do
         ./compile_protos.sh || EXIT_CODE=$?
         ;;
       command_2)
+        echo './tool/compile_protos.sh'
+        ./tool/compile_protos.sh || EXIT_CODE=$?
+        ;;
+      command_3)
         echo 'make protos'
         make protos || EXIT_CODE=$?
         ;;

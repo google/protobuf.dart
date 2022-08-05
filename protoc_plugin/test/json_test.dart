@@ -1,4 +1,3 @@
-#!/usr/bin/env dart
 // Copyright (c) 2013, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
@@ -29,8 +28,8 @@ void main() {
       '"70":"410","71":411,"72":412,"73":false,"74":"415","75":"NDE2",'
       '"81":1,"82":4,"83":7,"84":"424","85":"425"}';
 
-  // Checks that message once serialized to JSON
-  // matches TEST_ALL_TYPES_JSON massaged with [:.replaceAll(from, to):].
+  /// Checks that the message, once serialized to JSON, matches
+  /// [testAllJsonTypes] massaged with `replaceAll(from, to)`.
   Matcher expectedJson(String from, String to) {
     var expectedJson = testAllJsonTypes.replaceAll(from, to);
     return predicate(
@@ -131,29 +130,28 @@ void main() {
   group('testConvertDouble', () {
     test('WithDecimal', () {
       final json = '{"12":1.2}';
-      TestAllTypes proto = TestAllTypes()..optionalDouble = 1.2;
+      var proto = TestAllTypes()..optionalDouble = 1.2;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('WholeNumber', () {
       final json = '{"12":5}';
-      TestAllTypes proto = TestAllTypes()..optionalDouble = 5.0;
+      var proto = TestAllTypes()..optionalDouble = 5.0;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('Infinity', () {
       final json = '{"12":"Infinity"}';
-      TestAllTypes proto = TestAllTypes()..optionalDouble = double.infinity;
+      var proto = TestAllTypes()..optionalDouble = double.infinity;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('NegativeInfinity', () {
       final json = '{"12":"-Infinity"}';
-      TestAllTypes proto = TestAllTypes()
-        ..optionalDouble = double.negativeInfinity;
+      var proto = TestAllTypes()..optionalDouble = double.negativeInfinity;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });

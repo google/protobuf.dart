@@ -61,8 +61,8 @@ abstract class ProtobufContainer {
   // The generator containing this entity.
   ProtobufContainer? get parent;
 
-  /// The top-level parent of this entity. If this entity is a top-level entity,
-  /// returns this.
+  /// The top-level parent of this entity, or itself if it is a top-level
+  /// entity.
   ProtobufContainer? get toplevelParent {
     if (parent == null) {
       return null;
@@ -74,7 +74,7 @@ abstract class ProtobufContainer {
   }
 }
 
-class CodeGenerator extends ProtobufContainer {
+class CodeGenerator {
   final Stream<List<int>> _streamIn;
   final IOSink _streamOut;
 
@@ -129,22 +129,4 @@ class CodeGenerator extends ProtobufContainer {
       _streamOut.add(response.writeToBuffer());
     });
   }
-
-  @override
-  String get package => '';
-
-  @override
-  String? get classname => null;
-
-  @override
-  String get fullName => '';
-
-  @override
-  FileGenerator? get fileGen => null;
-
-  @override
-  ProtobufContainer? get parent => null;
-
-  @override
-  List<int>? get fieldPath => [];
 }

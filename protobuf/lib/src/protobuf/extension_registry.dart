@@ -35,7 +35,7 @@ class ExtensionRegistry {
     return null;
   }
 
-  /// Returns a shallow copy of [message], with all extensions in `this` parsed
+  /// Creates a shallow copy of [message], with all extensions in `this` parsed
   /// from the unknown fields of [message] and of every nested submessage.
   ///
   /// Extensions already present in [message] will be preserved.
@@ -134,8 +134,9 @@ T _reparseMessage<T extends GeneratedMessage>(
         resultMap ??= ensureResult()._fieldSet._values[field.index!];
 
     if (field.isRepeated) {
-      final messageEntries = message._fieldSet._values[field.index!];
-      if (messageEntries == null) continue;
+      final messageEntriesDynamic = message._fieldSet._values[field.index!];
+      if (messageEntriesDynamic == null) continue;
+      final PbList messageEntries = messageEntriesDynamic;
       if (field.isGroupOrMessage) {
         for (var i = 0; i < messageEntries.length; i++) {
           final GeneratedMessage entry = messageEntries[i];
@@ -146,8 +147,9 @@ T _reparseMessage<T extends GeneratedMessage>(
         }
       }
     } else if (field is MapFieldInfo) {
-      final messageMap = message._fieldSet._values[field.index!];
-      if (messageMap == null) continue;
+      final messageMapDynamic = message._fieldSet._values[field.index!];
+      if (messageMapDynamic == null) continue;
+      final PbMap messageMap = messageMapDynamic;
       if (_isGroupOrMessage(field.valueFieldType)) {
         for (var key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];

@@ -9,7 +9,8 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     var baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
-      return List.from(fieldValue.map((e) => convertToMap(e, baseType)));
+      final PbList list = fieldValue;
+      return List.from(list.map((e) => convertToMap(e, baseType)));
     }
 
     switch (baseType) {
@@ -38,23 +39,26 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         // Encode 'bytes' as a base64-encoded string.
         return base64Encode(fieldValue as List<int>);
       case PbFieldType._ENUM_BIT:
-        return fieldValue.value; // assume |value| < 2^52
+        final ProtobufEnum enum_ = fieldValue;
+        return enum_.value; // assume |value| < 2^52
       case PbFieldType._INT64_BIT:
       case PbFieldType._SINT64_BIT:
       case PbFieldType._SFIXED64_BIT:
         return fieldValue.toString();
       case PbFieldType._UINT64_BIT:
       case PbFieldType._FIXED64_BIT:
-        return fieldValue.toStringUnsigned();
+        final Int64 int_ = fieldValue;
+        return int_.toStringUnsigned();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        return fieldValue.writeToJsonMap();
+        final GeneratedMessage msg = fieldValue;
+        return msg.writeToJsonMap();
       default:
         throw 'Unknown type $fieldType';
     }
   }
 
-  List _writeMap(dynamic fieldValue, MapFieldInfo fi) =>
+  List _writeMap(PbMap fieldValue, MapFieldInfo fi) =>
       List.from(fieldValue.entries.map((MapEntry e) => {
             '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
             '${PbMap._valueFieldNumber}':
@@ -174,13 +178,14 @@ void _setJsonField(BuilderInfo meta, _FieldSet fs, json, FieldInfo fi,
   fs._setFieldUnchecked(meta, fi, value);
 }
 
-/// Converts [value] from the Json format to the Dart data type
-/// suitable for inserting into the corresponding [GeneratedMessage] field.
+/// Converts [value] from the JSON format to the Dart data type suitable for
+/// inserting into the corresponding [GeneratedMessage] field.
 ///
-/// Returns the converted value.  This function returns `null` if it is an
-/// unknown enum value, in which case the caller should figure out the default
-/// enum value to return instead.
-/// This function throws [ArgumentError] if it cannot convert the value.
+/// Returns the converted value. Returns `null` if it is an unknown enum value,
+/// in which case the caller should figure out the default enum value to return
+/// instead.
+///
+/// Throws [ArgumentError] if it cannot convert the value.
 dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
     int fieldType, ExtensionRegistry? registry) {
   String expectedType; // for exception message

@@ -1,11 +1,9 @@
-#!/usr/bin/env dart
 // Copyright (c) 2015, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
 // Unit tests for PbMapMixin.
 // There are more tests in the dart-protoc-plugin package.
-library map_mixin_test;
 
 import 'dart:collection' show MapMixin;
 

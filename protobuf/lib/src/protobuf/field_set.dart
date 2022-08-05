@@ -4,10 +4,7 @@
 
 part of protobuf;
 
-typedef FrozenMessageErrorHandler = void Function(String messageName,
-    [String? methodName]);
-
-void defaultFrozenMessageModificationHandler(String messageName,
+void _throwFrozenMessageModificationError(String messageName,
     [String? methodName]) {
   if (methodName != null) {
     throw UnsupportedError(
@@ -16,31 +13,6 @@ void defaultFrozenMessageModificationHandler(String messageName,
   throw UnsupportedError(
       'Attempted to change a read-only message ($messageName)');
 }
-
-/// Invoked when an attempt is made to modify a frozen message.
-///
-/// This handler can log the attempt, throw an exception, or ignore the attempt
-/// altogether.
-///
-/// If the handler returns normally, the modification is allowed, and execution
-/// proceeds as if the message was writable.
-FrozenMessageErrorHandler _frozenMessageModificationHandler =
-    defaultFrozenMessageModificationHandler;
-FrozenMessageErrorHandler get frozenMessageModificationHandler =>
-    _frozenMessageModificationHandler;
-set frozenMessageModificationHandler(FrozenMessageErrorHandler value) {
-  _hashCodesCanBeMemoized = false;
-  _frozenMessageModificationHandler = value;
-}
-
-/// Indicator for whether the FieldSet hashCodes can be memoized.
-///
-/// HashCode memoization relies on the [defaultFrozenMessageModificationHandler]
-/// behavior--that is, after freezing, field set values can't ever be changed.
-/// This keeps track of whether an application has ever modified the
-/// [FrozenMessageErrorHandler] used, not allowing hashCodes to be memoized if
-/// it ever changed.
-bool _hashCodesCanBeMemoized = true;
 
 /// All the data in a GeneratedMessage.
 ///
@@ -111,9 +83,9 @@ class _FieldSet {
     return List.filled(length, null, growable: false);
   }
 
-  // Use a fixed length list and not a constant list to ensure that _values
-  // always has the same implementation type.
-  static final List _zeroList = [];
+  // Use `List.filled` and not a `[]` to ensure that `_values` always has the
+  // same implementation type.
+  static final List _zeroList = List.filled(0, null, growable: false);
 
   // Metadata about multiple fields
 
@@ -175,18 +147,13 @@ class _FieldSet {
     _frozenState = true;
     for (var field in _meta.sortedByTag) {
       if (field.isRepeated) {
-        final entries = _values[field.index!];
-        if (entries == null) continue;
-        if (field.isGroupOrMessage) {
-          for (var subMessage in entries as List<GeneratedMessage>) {
-            subMessage.freeze();
-          }
-        }
-        _values[field.index!] = entries.toFrozenPbList();
+        PbList? list = _values[field.index!];
+        if (list == null) continue;
+        list.freeze();
       } else if (field.isMapField) {
         PbMap? map = _values[field.index!];
         if (map == null) continue;
-        _values[field.index!] = map.freeze();
+        map.freeze();
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.index!];
         if (entry != null) {
@@ -204,7 +171,9 @@ class _FieldSet {
   }
 
   void _ensureWritable() {
-    if (_isReadOnly) frozenMessageModificationHandler(_messageName);
+    if (_isReadOnly) {
+      _throwFrozenMessageModificationError(_messageName);
+    }
   }
 
   // Single-field operations
@@ -231,38 +200,10 @@ class _FieldSet {
   }
 
   dynamic _getDefault(FieldInfo fi) {
-    if (!fi.isRepeated) return fi.makeDefault!();
+    if (!fi.isRepeated && !fi.isMapField) return fi.makeDefault!();
     if (_isReadOnly) return fi.readonlyDefault;
 
-    // TODO(skybrian) we could avoid this by generating another
-    // method for repeated fields:
-    //   msg.mutableFoo().add(123);
-    var value = fi._createRepeatedField(_message!);
-    _setNonExtensionFieldUnchecked(_meta, fi, value);
-    return value;
-  }
-
-  List<T> _getDefaultList<T>(FieldInfo<T> fi) {
-    assert(fi.isRepeated);
-    if (_isReadOnly) return fi.readonlyDefault;
-
-    // TODO(skybrian) we could avoid this by generating another
-    // method for repeated fields:
-    //   msg.mutableFoo().add(123);
-    var value = fi._createRepeatedFieldWithType<T>(_message!);
-    _setNonExtensionFieldUnchecked(_meta, fi, value);
-    return value;
-  }
-
-  Map<K, V> _getDefaultMap<K, V>(MapFieldInfo<K, V> fi) {
-    assert(fi.isMapField);
-
-    if (_isReadOnly) {
-      return PbMap<K, V>.unmodifiable(
-          PbMap<K, V>(fi.keyFieldType, fi.valueFieldType));
-    }
-
-    var value = fi._createMapField(_message!);
+    var value = fi.makeDefault!();
     _setNonExtensionFieldUnchecked(_meta, fi, value);
     return value;
   }
@@ -447,15 +388,35 @@ class _FieldSet {
   List<T> _$getList<T>(int index) {
     var value = _values[index];
     if (value != null) return value as List<T>;
-    return _getDefaultList<T>(_nonExtensionInfoByIndex(index) as FieldInfo<T>);
+
+    final fi = _nonExtensionInfoByIndex(index) as FieldInfo<T>;
+    assert(fi.isRepeated);
+
+    if (_isReadOnly) {
+      return fi.readonlyDefault;
+    }
+
+    var list = fi._createRepeatedFieldWithType<T>(_message!);
+    _setNonExtensionFieldUnchecked(_meta, fi, list);
+    return list;
   }
 
   /// The implementation of a generated getter for map fields.
   Map<K, V> _$getMap<K, V>(GeneratedMessage parentMessage, int index) {
     var value = _values[index];
     if (value != null) return value as Map<K, V>;
-    return _getDefaultMap<K, V>(
-        _nonExtensionInfoByIndex(index) as MapFieldInfo<K, V>);
+
+    final fi = _nonExtensionInfoByIndex(index) as MapFieldInfo<K, V>;
+    assert(fi.isMapField);
+
+    if (_isReadOnly) {
+      return PbMap<K, V>.unmodifiable(
+          PbMap<K, V>(fi.keyFieldType, fi.valueFieldType));
+    }
+
+    var map = fi._createMapField(_message!);
+    _setNonExtensionFieldUnchecked(_meta, fi, map);
+    return map;
   }
 
   /// The implementation of a generated getter for `bool` fields.
@@ -470,11 +431,7 @@ class _FieldSet {
 
   /// The implementation of a generated getter for `bool` fields that default to
   /// `false`.
-  bool _$getBF(int index) {
-    var value = _values[index];
-    if (value == null) return false;
-    return value;
-  }
+  bool _$getBF(int index) => _values[index] ?? false;
 
   /// The implementation of a generated getter for int fields.
   int _$getI(int index, int? defaultValue) {
@@ -488,11 +445,7 @@ class _FieldSet {
 
   /// The implementation of a generated getter for `int` fields (int32, uint32,
   /// fixed32, sfixed32) that default to `0`.
-  int _$getIZ(int index) {
-    var value = _values[index];
-    if (value == null) return 0;
-    return value;
-  }
+  int _$getIZ(int index) => _values[index] ?? 0;
 
   /// The implementation of a generated getter for String fields.
   String _$getS(int index, String? defaultValue) {
@@ -506,11 +459,7 @@ class _FieldSet {
 
   /// The implementation of a generated getter for String fields that default to
   /// the empty string.
-  String _$getSZ(int index) {
-    var value = _values[index];
-    if (value == null) return '';
-    return value;
-  }
+  String _$getSZ(int index) => _values[index] ?? '';
 
   /// The implementation of a generated getter for Int64 fields.
   Int64 _$getI64(int index) {
@@ -520,12 +469,7 @@ class _FieldSet {
   }
 
   /// The implementation of a generated 'has' method.
-  bool _$has(int index) {
-    var value = _values[index];
-    if (value == null) return false;
-    if (value is List) return value.isNotEmpty;
-    return true;
-  }
+  bool _$has(int index) => _values[index] != null;
 
   /// The implementation of a generated setter.
   ///
@@ -632,7 +576,7 @@ class _FieldSet {
     // An empty map field is the same as uninitialized.
     // This is because accessing a map field automatically creates it.
     // We don't want reading a field to change equality comparisons.
-    if (val is Map && val.isEmpty) return true;
+    if (val is PbMap && val.isEmpty) return true;
 
     // For now, initialized and uninitialized fields are different.
     // TODO(skybrian) consider other cases; should we compare with the
@@ -645,11 +589,10 @@ class _FieldSet {
   /// The hash may change when any field changes (recursively).
   /// Therefore, protobufs used as map keys shouldn't be changed.
   ///
-  /// If the protobuf contents have been frozen, and the
-  /// [FrozenMessageErrorHandler] has not been changed from the default
-  /// behavior, the hashCode can be memoized to speed up performance.
+  /// If the protobuf contents have been frozen the hashCode is memoized to
+  /// speed up performance.
   int get _hashCode {
-    if (_hashCodesCanBeMemoized && _memoizedHashCode != null) {
+    if (_memoizedHashCode != null) {
       return _memoizedHashCode!;
     }
 
@@ -677,7 +620,7 @@ class _FieldSet {
     // Hash with unknown fields.
     hash = _HashUtils._combine(hash, _unknownFields?.hashCode ?? 0);
 
-    if (_isReadOnly && _hashCodesCanBeMemoized) {
+    if (_isReadOnly) {
       _frozenState = hash;
     }
     return hash;
@@ -689,7 +632,7 @@ class _FieldSet {
       return hash; // It's either repeated or an empty byte array.
     }
 
-    if (value is Map && value.isEmpty) {
+    if (value is PbMap && value.isEmpty) {
       return hash;
     }
 
@@ -701,8 +644,11 @@ class _FieldSet {
     } else if (!_isEnum(fi.type)) {
       hash = _HashUtils._combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
-      hash = _HashUtils._combine(
-          hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
+      final PbList list = value;
+      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(list.map((enm) {
+        ProtobufEnum enm_ = enm;
+        return enm_.value;
+      })));
     } else {
       ProtobufEnum enm = value;
       hash = _HashUtils._combine(hash, enm.value);
@@ -726,11 +672,7 @@ class _FieldSet {
 
     void writeFieldValue(fieldValue, String name) {
       if (fieldValue == null) return;
-      if (fieldValue is ByteData) {
-        // TODO(skybrian): possibly unused. Delete?
-        final value = fieldValue.getUint64(0, Endian.little);
-        renderValue(name, value);
-      } else if (fieldValue is PbListBase) {
+      if (fieldValue is PbList) {
         for (var value in fieldValue) {
           renderValue(name, value);
         }
@@ -849,11 +791,16 @@ class _FieldSet {
     var mustClone = _isGroupOrMessage(otherFi.type);
 
     if (fi!.isMapField) {
-      var f = fi as MapFieldInfo<dynamic, dynamic>;
+      if (fieldValue == null) {
+        return;
+      }
+      final MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
       mustClone = _isGroupOrMessage(f.valueFieldType);
-      var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
+      final PbMap<dynamic, dynamic> map =
+          f._ensureMapField(meta, this) as dynamic;
       if (mustClone) {
-        for (MapEntry entry in fieldValue.entries) {
+        PbMap fieldValueMap = fieldValue;
+        for (final entry in fieldValueMap.entries) {
           map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
         }
       } else {
@@ -864,15 +811,15 @@ class _FieldSet {
 
     if (fi.isRepeated) {
       if (mustClone) {
-        // fieldValue must be a PbListBase of GeneratedMessage.
-        PbListBase<GeneratedMessage> pbList = fieldValue;
+        // fieldValue must be a PbList of GeneratedMessage.
+        PbList<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
-        // fieldValue must be at least a PbListBase.
-        PbListBase pbList = fieldValue;
+        // fieldValue must be at least a PbList.
+        PbList pbList = fieldValue;
         fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
       return;
@@ -883,10 +830,12 @@ class _FieldSet {
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 
+      GeneratedMessage msg = fieldValue;
       if (currentFi == null) {
-        fieldValue = (fieldValue as GeneratedMessage).deepCopy();
+        fieldValue = msg.deepCopy();
       } else {
-        fieldValue = currentFi..mergeFromMessage(fieldValue);
+        final GeneratedMessage currentMsg = currentFi;
+        fieldValue = currentMsg..mergeFromMessage(msg);
       }
     }
 
@@ -960,7 +909,7 @@ class _FieldSet {
             ..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
-        PbListBase? list = _values[index];
+        PbList? list = _values[index];
         if (list != null) {
           _values[index] = fieldInfo._createRepeatedField(_message!)
             ..addAll(list);

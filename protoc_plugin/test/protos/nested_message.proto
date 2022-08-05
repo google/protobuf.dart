@@ -1,0 +1,17 @@
+// Copyright (c) 2021, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto3";
+
+package nested_message;
+
+message Top {
+  repeated Nested nested_message_list = 1;
+  map<int32, Nested> nested_message_map = 2;
+  Nested nested_message = 3;
+}
+
+message Nested {
+  int32 a = 1;
+}

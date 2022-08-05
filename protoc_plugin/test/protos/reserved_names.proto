@@ -14,8 +14,6 @@ message ReservedNamesOptional {
   optional int32 to_string = 4;
 
   // Conflicts with GeneratedMessage.
-  optional int32 from_buffer = 10;
-  optional int32 from_json = 11;
   optional int32 has_required_fields = 12;
   optional int32 is_initialized = 13;
   optional int32 clear = 14;
@@ -60,8 +58,6 @@ message ReservedNamesRepeated {
   repeated int32 to_string = 4;
 
   // Conflicts with GeneratedMessage.
-  repeated int32 from_buffer = 10;
-  repeated int32 from_json = 11;
   repeated int32 has_required_fields = 12;
   repeated int32 is_initialized = 13;
   repeated int32 clear = 14;
@@ -106,8 +102,6 @@ message ReservedNamesRequired {
   required int32 to_string = 4;
 
   // Conflicts with GeneratedMessage.
-  required int32 from_buffer = 10;
-  required int32 from_json = 11;
   required int32 has_required_fields = 12;
   required int32 is_initialized = 13;
   required int32 clear = 14;

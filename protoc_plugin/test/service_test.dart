@@ -99,8 +99,8 @@ void main() {
   test('can read message descriptors from JSON', () {
     var map = service.$messageJson;
     expect(map.keys, [
-      '.SearchRequest',
-      '.SearchResponse',
+      '.service.SearchRequest',
+      '.service.SearchResponse',
       '.service2.SearchRequest',
       '.service2.SearchResponse',
       '.service3.SearchResult',
@@ -112,7 +112,7 @@ void main() {
       return descriptor.name;
     }
 
-    expect(readMessageName('.SearchRequest'), 'SearchRequest');
+    expect(readMessageName('.service.SearchRequest'), 'SearchRequest');
     expect(readMessageName('.service2.SearchRequest'), 'SearchRequest');
     expect(readMessageName('.service3.SearchResult'), 'SearchResult');
   });

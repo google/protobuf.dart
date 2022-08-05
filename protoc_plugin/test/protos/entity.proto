@@ -1,0 +1,36 @@
+// Copyright (c) 2022, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+
+package protobuf_unittest;
+
+import "google/protobuf/any.proto";
+
+message TopEntity {
+  optional int64 id = 1;
+  optional string string_value = 2;
+  repeated string strings = 3;
+  optional SubEntity sub = 4;
+  optional google.protobuf.Any any_value = 5;
+}
+
+message SubEntity {
+  optional int64 id = 1;
+  optional string string_value = 2;
+  repeated string strings = 3;
+  optional SubSubEntity sub_sub = 4;
+  optional google.protobuf.Any any_value = 5;
+}
+
+message SubSubEntity {
+  optional int64 id = 1;
+  optional string string_value = 2;
+  repeated string strings = 3;
+}
+
+message BytesEntity {
+  optional bytes value = 1;
+  repeated bytes values = 2;
+}

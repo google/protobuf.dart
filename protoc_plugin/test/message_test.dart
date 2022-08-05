@@ -1,4 +1,3 @@
-#!/usr/bin/env dart
 // Copyright (c) 2013, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
@@ -75,29 +74,19 @@ repeatedString: qux
 
   test('testRequiredForeign', () {
     var message = TestRequiredForeign();
-    expect(message.isInitialized(), isTrue,
-        reason: 'TestRequiredForeign without children should be initialized');
+    expect(message.isInitialized(), isTrue);
 
     message.optionalMessage = testRequiredUninitialized;
-    expect(message.isInitialized(), isFalse,
-        reason: 'TestRequiredForeign with optional TEST_REQUIRED_UNINITIALIZED '
-            'should not be initialized');
+    expect(message.isInitialized(), isFalse);
 
     message.optionalMessage = testRequiredInitialized;
-    expect(message.isInitialized(), isTrue,
-        reason: 'TestRequiredForeign with optional TEST_REQUIRED_INITIALIZED '
-            'should be initialized');
+    expect(message.isInitialized(), isTrue);
 
     message.repeatedMessage.add(testRequiredUninitialized);
-    expect(message.isInitialized(), isFalse,
-        reason:
-            'TestRequiredForeign with repeating TEST_REQUIRED_UNINITIALIZED '
-            'should not be initialized');
+    expect(message.isInitialized(), isFalse);
 
     message.repeatedMessage[0] = testRequiredInitialized;
-    expect(message.isInitialized(), isTrue,
-        reason: 'TestRequiredForeign with repeating TEST_REQUIRED_INITIALIZED '
-            'should be initialized');
+    expect(message.isInitialized(), isTrue);
   });
 
   test('testRequiredExtension', () {

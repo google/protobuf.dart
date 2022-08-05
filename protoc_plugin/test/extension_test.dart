@@ -1,9 +1,7 @@
-#!/usr/bin/env dart
 // Copyright (c) 2015, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:typed_data';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
@@ -554,7 +552,7 @@ void main() {
     final m = TestAllExtensions()
       ..setExtension(
           Extend_unittest.outer, Outer()..inner = (Inner()..value = 'hello'));
-    final Uint8List b = m.writeToBuffer();
+    final b = m.writeToBuffer();
     final c = TestAllExtensions.fromBuffer(b);
     final d = r.reparseMessage(c);
     expect(m.hashCode, d.hashCode);
