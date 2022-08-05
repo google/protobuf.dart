@@ -752,13 +752,13 @@ class _FieldSet {
 
     if (fi.isRepeated) {
       if (_isGroupOrMessage(fi.type)) {
-        PbListBase<GeneratedMessage> pbList = fieldValue;
+        PbList<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(_meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
-        PbListBase pbList = fieldValue;
+        PbList pbList = fieldValue;
         fi._ensureRepeatedField(_meta, this).addAll(pbList);
       }
       return;
