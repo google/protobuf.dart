@@ -710,11 +710,11 @@ class _FieldSet {
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
   void _mergeFromMessage(_FieldSet other) {
-    final sameMessage = identical(_meta, other._meta);
+    final sameMessageType = identical(_meta, other._meta);
     for (var fi in other._infosSortedByTag) {
       var value = other._values[fi.index!];
       if (value != null) {
-        if (sameMessage) {
+        if (sameMessageType) {
           _mergeNonExtensionFieldUnchecked(fi, value);
         } else {
           _mergeField(fi, value, isExtension: false);
