@@ -114,13 +114,14 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         fs._setFieldUnchecked(meta, fi, input.readSfixed64());
         break;
       case PbFieldType._OPTIONAL_MESSAGE:
-        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
-        var oldValue = fs._getFieldOrNull(fi);
+        GeneratedMessage? oldValue = fs._getFieldOrNull(fi);
         if (oldValue != null) {
-          subMessage.mergeFromMessage(oldValue);
+          input.readMessage(oldValue, registry);
+        } else {
+          var subMessage = meta._makeEmptyMessage(tagNumber, registry);
+          input.readMessage(subMessage, registry);
+          fs._setFieldUnchecked(meta, fi, subMessage);
         }
-        input.readMessage(subMessage, registry);
-        fs._setFieldUnchecked(meta, fi, subMessage);
         break;
       case PbFieldType._REPEATED_BOOL:
         _readPackable(meta, fs, input, wireType, fi, input.readBool);

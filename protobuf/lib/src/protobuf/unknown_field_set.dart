@@ -309,10 +309,4 @@ class UnknownFieldSetField {
   void addVarint(Int64 value) {
     varints.add(value);
   }
-
-  bool hasRequiredFields() => false;
-
-  bool isInitialized() => true;
-
-  int get length => values.length;
 }
