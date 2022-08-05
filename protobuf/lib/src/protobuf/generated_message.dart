@@ -44,6 +44,12 @@ abstract class GeneratedMessage {
   GeneratedMessage clone();
 
   /// Creates an empty instance of the same message type as this.
+  ///
+  /// This method is useful when you have a value of type [GeneratedMessage] or
+  /// `T extends GeneratedMessage` and you want a new empty message with the
+  /// same message type as the value. If you know the actual message type, it's
+  /// more direct to use the constructor, and this method creates the same
+  /// message as the message's constructor.
   GeneratedMessage createEmptyInstance();
 
   UnknownFieldSet get unknownFields => _fieldSet._ensureUnknownFields();
