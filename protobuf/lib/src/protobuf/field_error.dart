@@ -72,7 +72,7 @@ String? _getFieldError(int fieldType, var value) {
 /// unsigned 32 bit ints where there also is a range check.
 ///
 /// @nodoc
-_CheckFunc getCheckFunction(int fieldType) {
+CheckFunc getCheckFunction(int fieldType) {
   switch (fieldType & ~0x7) {
     case PbFieldType._BOOL_BIT:
     case PbFieldType._BYTES_BIT:

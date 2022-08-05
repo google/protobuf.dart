@@ -70,7 +70,7 @@ class FieldInfo<T> {
 
   /// Constructs the default value of a field.
   ///
-  /// For repeated fields, only used when the `check` property is `null`.
+  /// For repeated fields, only used when the [check] property is `null`.
   final MakeDefaultFunc? makeDefault;
 
   /// Creates an empty message or group when decoding a message.
@@ -93,10 +93,10 @@ class FieldInfo<T> {
   /// Only available in enum fields.
   final ValueOfFunc? valueOf;
 
-  /// Function to verify when adding items to a repeated field.
+  /// Function to verify items when adding to a repeated field.
   ///
   /// Only available in repeated fields.
-  final _CheckFunc<T>? check;
+  final CheckFunc<T>? check;
 
   FieldInfo(this.name, this.tagNumber, this.index, this.type,
       {dynamic defaultOrMaker,
