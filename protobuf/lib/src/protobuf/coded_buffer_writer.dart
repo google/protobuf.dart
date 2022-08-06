@@ -68,7 +68,7 @@ class CodedBufferWriter {
     final valueType = PbFieldType._baseType(fieldType);
 
     if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
-      final PbList list = fieldValue;
+      final List list = fieldValue;
       if (list.isNotEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
