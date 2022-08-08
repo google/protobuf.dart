@@ -432,6 +432,11 @@ class FileGenerator extends ProtobufContainer {
       out.println();
     }
 
+    for (var publicDependency in descriptor.publicDependency) {
+      _writeExport(out, config,
+          Uri.file(descriptor.dependency[publicDependency]), '.pbenum.dart');
+    }
+
     for (var e in enumGenerators) {
       e.generate(out);
     }

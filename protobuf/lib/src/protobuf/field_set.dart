@@ -431,11 +431,7 @@ class _FieldSet {
 
   /// The implementation of a generated getter for `bool` fields that default to
   /// `false`.
-  bool _$getBF(int index) {
-    var value = _values[index];
-    if (value == null) return false;
-    return value;
-  }
+  bool _$getBF(int index) => _values[index] ?? false;
 
   /// The implementation of a generated getter for int fields.
   int _$getI(int index, int? defaultValue) {
@@ -449,11 +445,7 @@ class _FieldSet {
 
   /// The implementation of a generated getter for `int` fields (int32, uint32,
   /// fixed32, sfixed32) that default to `0`.
-  int _$getIZ(int index) {
-    var value = _values[index];
-    if (value == null) return 0;
-    return value;
-  }
+  int _$getIZ(int index) => _values[index] ?? 0;
 
   /// The implementation of a generated getter for String fields.
   String _$getS(int index, String? defaultValue) {
@@ -467,11 +459,7 @@ class _FieldSet {
 
   /// The implementation of a generated getter for String fields that default to
   /// the empty string.
-  String _$getSZ(int index) {
-    var value = _values[index];
-    if (value == null) return '';
-    return value;
-  }
+  String _$getSZ(int index) => _values[index] ?? '';
 
   /// The implementation of a generated getter for Int64 fields.
   Int64 _$getI64(int index) {
@@ -661,8 +649,11 @@ class _FieldSet {
     } else if (!_isEnum(fi.type)) {
       hash = _HashUtils._combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
-      hash = _HashUtils._combine(
-          hash, _HashUtils._hashObjects(value.map((enm) => enm.value)));
+      final PbList list = value;
+      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(list.map((enm) {
+        ProtobufEnum enm_ = enm;
+        return enm_.value;
+      })));
     } else {
       ProtobufEnum enm = value;
       hash = _HashUtils._combine(hash, enm.value);
@@ -762,11 +753,16 @@ class _FieldSet {
     var mustClone = _isGroupOrMessage(otherFi.type);
 
     if (fi!.isMapField) {
-      var f = fi as MapFieldInfo<dynamic, dynamic>;
+      if (fieldValue == null) {
+        return;
+      }
+      final MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
       mustClone = _isGroupOrMessage(f.valueFieldType);
-      var map = f._ensureMapField(meta, this) as PbMap<dynamic, dynamic>;
+      final PbMap<dynamic, dynamic> map =
+          f._ensureMapField(meta, this) as dynamic;
       if (mustClone) {
-        for (MapEntry entry in fieldValue.entries) {
+        PbMap fieldValueMap = fieldValue;
+        for (final entry in fieldValueMap.entries) {
           map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
         }
       } else {
@@ -796,10 +792,12 @@ class _FieldSet {
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 
+      GeneratedMessage msg = fieldValue;
       if (currentFi == null) {
-        fieldValue = (fieldValue as GeneratedMessage).deepCopy();
+        fieldValue = msg.deepCopy();
       } else {
-        fieldValue = currentFi..mergeFromMessage(fieldValue);
+        final GeneratedMessage currentMsg = currentFi;
+        fieldValue = currentMsg..mergeFromMessage(msg);
       }
     }
 

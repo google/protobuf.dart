@@ -71,15 +71,11 @@ class ExtensionGenerator {
       Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
     if (!_resolved) throw StateError('resolve not called');
     var typeGen = _field.baseType.generator;
-    if (typeGen != null) {
-      // The type of this extension is defined in a different file,
-      // so we need to import it.
-      if (typeGen is EnumGenerator) {
-        // Enums are always in a different file.
-        enumImports.add(typeGen.fileGen!);
-      } else if (typeGen.fileGen != fileGen) {
-        imports.add(typeGen.fileGen!);
-      }
+    if (typeGen is EnumGenerator) {
+      // Enums are always in a different file.
+      enumImports.add(typeGen.fileGen!);
+    } else if (typeGen != null && typeGen.fileGen != fileGen) {
+      imports.add(typeGen.fileGen!);
     }
   }
 
