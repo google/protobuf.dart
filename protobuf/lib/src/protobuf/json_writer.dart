@@ -58,7 +58,8 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
         return;
 
       case PbFieldType._ENUM_BIT:
-        jsonSink.addNumber(fieldValue.value); // assume |value| < 2^52
+        final ProtobufEnum enum_ = fieldValue;
+        jsonSink.addNumber(enum_.value); // assume |value| < 2^52
         return;
 
       case PbFieldType._INT64_BIT:
@@ -69,7 +70,8 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
 
       case PbFieldType._UINT64_BIT:
       case PbFieldType._FIXED64_BIT:
-        jsonSink.addString(fieldValue.toStringUnsigned());
+        final Int64 int_ = fieldValue;
+        jsonSink.addString(int_.toStringUnsigned());
         return;
 
       case PbFieldType._GROUP_BIT:
@@ -82,7 +84,7 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
     }
   }
 
-  void _writeMap(dynamic fieldValue, MapFieldInfo fi) {
+  void _writeMap(PbMap fieldValue, MapFieldInfo fi) {
     jsonSink.startArray();
     for (final e in fieldValue.entries) {
       jsonSink.startObject();
