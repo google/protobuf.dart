@@ -341,7 +341,7 @@ abstract class GeneratedMessage {
   /// Mixins may override this method to change the List type. To ensure
   /// that the protobuf can be encoded correctly, the returned List must
   /// validate all items added to it. This can most easily be done
-  /// using the FieldInfo.check function.
+  /// using the [FieldInfo.check] function.
   List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
     return PbList<T>(check: fi.check!);
   }

@@ -14,16 +14,16 @@ part of protobuf;
 abstract class EventPlugin {
   /// Initializes the plugin.
   ///
-  /// GeneratedMessage calls this once in its constructors.
+  /// [GeneratedMessage] calls this once in its constructors.
   void attach(GeneratedMessage parent);
 
-  /// If false, GeneratedMessage will skip calls to event handlers.
+  /// If false, [GeneratedMessage] will skip calls to event handlers.
   bool get hasObservers;
 
   /// Called before setting a field.
   ///
   /// For repeated fields, this will be called when the list is created.
-  /// (For example in getField and merge methods.)
+  /// (For example in [GeneratedMessage.getField] and merge methods.)
   void beforeSetField(FieldInfo fi, newValue);
 
   /// Called before clearing a field.
