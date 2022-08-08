@@ -4,8 +4,12 @@
 
 part of protobuf;
 
+/// Type of a function that checks items added to a `PbList`.
+///
+/// Throws [ArgumentError] or [RangeError] when the item is not valid.
 typedef CheckFunc<E> = void Function(E? x);
 
+/// A [ListBase] implementation used for protobuf `repeated` fields.
 class PbList<E> extends ListBase<E> {
   final List<E> _wrappedList;
   final CheckFunc<E> _check;

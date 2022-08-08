@@ -6,18 +6,24 @@
 
 part of protobuf;
 
+/// Type of an empty message builder.
 typedef CreateBuilderFunc = GeneratedMessage Function();
+
+/// Type of a function that creates the default value of a protobuf field.
 typedef MakeDefaultFunc = Function();
+
+/// Type of a function that makes an enum integer value to corresponding
+/// [ProtobufEnum] value.
 typedef ValueOfFunc = ProtobufEnum? Function(int value);
 
 /// The base class for all protobuf message types.
 ///
-/// The protoc plugin generates subclasses providing type-specific
-/// properties and methods.
+/// The protoc plugin generates subclasses providing type-specific properties
+/// and methods.
 ///
 /// Public properties and methods added here should also be added to
-/// GeneratedMessage_reservedNames and should be unlikely to be used in
-/// a proto file.
+/// `GeneratedMessage_reservedNames` and should be unlikely to be used in a
+/// proto file.
 abstract class GeneratedMessage {
   _FieldSet? __fieldSet;
 
@@ -313,6 +319,8 @@ abstract class GeneratedMessage {
   /// The tagNumber should be a valid tag or extension.
   void clearField(int tagNumber) => _fieldSet._clearField(tagNumber);
 
+  /// For generated code only.
+  /// @nodoc
   int $_whichOneof(int oneofIndex) => _fieldSet._oneofCases![oneofIndex] ?? 0;
 
   bool extensionsAreInitialized() => _fieldSet._hasRequiredExtensionValues();
@@ -333,7 +341,7 @@ abstract class GeneratedMessage {
   /// Mixins may override this method to change the List type. To ensure
   /// that the protobuf can be encoded correctly, the returned List must
   /// validate all items added to it. This can most easily be done
-  /// using the FieldInfo.check function.
+  /// using the [FieldInfo.check] function.
   List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
     return PbList<T>(check: fi.check!);
   }
@@ -403,10 +411,12 @@ abstract class GeneratedMessage {
   }
 
   /// For generated code only.
+  /// @nodoc
   T $_get<T>(int index, T defaultValue) =>
       _fieldSet._$get<T>(index, defaultValue);
 
   /// For generated code only.
+  /// @nodoc
   T $_getN<T>(int index) {
     // The implicit downcast at the return is always correct by construction
     // from the protoc generator. dart2js will omit the implicit downcast when
@@ -419,53 +429,68 @@ abstract class GeneratedMessage {
   }
 
   /// For generated code only.
+  /// @nodoc
   T $_ensure<T>(int index) {
     return _fieldSet._$ensure<T>(index);
   }
 
   /// For generated code only.
+  /// @nodoc
   List<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
 
   /// For generated code only.
+  /// @nodoc
   Map<K, V> $_getMap<K, V>(int index) => _fieldSet._$getMap<K, V>(this, index);
 
   /// For generated code only.
+  /// @nodoc
   bool $_getB(int index, bool defaultValue) =>
       _fieldSet._$getB(index, defaultValue);
 
   /// For generated code only.
+  /// @nodoc
   bool $_getBF(int index) => _fieldSet._$getBF(index);
 
   /// For generated code only.
+  /// @nodoc
   int $_getI(int index, int defaultValue) =>
       _fieldSet._$getI(index, defaultValue);
 
   /// For generated code only.
+  /// @nodoc
   int $_getIZ(int index) => _fieldSet._$getIZ(index);
 
   /// For generated code only.
+  /// @nodoc
   String $_getS(int index, String defaultValue) =>
       _fieldSet._$getS(index, defaultValue);
 
   /// For generated code only.
+  /// @nodoc
   String $_getSZ(int index) => _fieldSet._$getSZ(index);
 
   /// For generated code only.
+  /// @nodoc
   Int64 $_getI64(int index) => _fieldSet._$getI64(index);
 
   /// For generated code only.
+  /// @nodoc
   bool $_has(int index) => _fieldSet._$has(index);
 
   /// For generated code only.
+  /// @nodoc
   void $_setBool(int index, bool value) => _fieldSet._$set(index, value);
 
   /// For generated code only.
+  /// @nodoc
   void $_setBytes(int index, List<int> value) => _fieldSet._$set(index, value);
 
   /// For generated code only.
+  /// @nodoc
   void $_setString(int index, String value) => _fieldSet._$set(index, value);
 
   /// For generated code only.
+  /// @nodoc
   void $_setFloat(int index, double value) {
     ArgumentError.checkNotNull(value, 'value');
     if (!_isFloat32(value)) {
@@ -475,9 +500,11 @@ abstract class GeneratedMessage {
   }
 
   /// For generated code only.
+  /// @nodoc
   void $_setDouble(int index, double value) => _fieldSet._$set(index, value);
 
   /// For generated code only.
+  /// @nodoc
   void $_setSignedInt32(int index, int value) {
     ArgumentError.checkNotNull(value, 'value');
     if (!_isSigned32(value)) {
@@ -487,6 +514,7 @@ abstract class GeneratedMessage {
   }
 
   /// For generated code only.
+  /// @nodoc
   void $_setUnsignedInt32(int index, int value) {
     ArgumentError.checkNotNull(value, 'value');
     if (!_isUnsigned32(value)) {
@@ -496,6 +524,7 @@ abstract class GeneratedMessage {
   }
 
   /// For generated code only.
+  /// @nodoc
   void $_setInt64(int index, Int64 value) => _fieldSet._$set(index, value);
 
   // Support for generating a read-only default singleton instance.
@@ -508,6 +537,7 @@ abstract class GeneratedMessage {
       _getSingletonMaker(createFn!)._frozenSingletonCreator;
 
   /// For generated code only.
+  /// @nodoc
   static T $_defaultFor<T extends GeneratedMessage>(T Function() createFn) =>
       _getSingletonMaker(createFn)._frozenSingleton;
 
@@ -545,6 +575,7 @@ class PackageName {
   String get prefix => name == '' ? '' : '$name.';
 }
 
+/// Extensions on [GeneratedMessage]s.
 extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
   /// Apply [updates] to a copy of this message.
   ///

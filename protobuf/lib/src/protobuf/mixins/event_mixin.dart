@@ -7,11 +7,11 @@ import 'dart:collection' show UnmodifiableListView;
 
 import '../../../protobuf.dart' show GeneratedMessage, FieldInfo, EventPlugin;
 
-/// Provides a stream of changes to fields in a GeneratedMessage.
+/// Provides a stream of changes to fields in a [GeneratedMessage].
 /// (Experimental.)
 ///
-/// This mixin is enabled via an option in
-/// dart_options.proto in dart-protoc-plugin.
+/// This mixin is enabled via an option in dart_options.proto in
+/// dart-protoc-plugin.
 abstract class PbEventMixin {
   final eventPlugin = EventBuffer();
 
@@ -26,7 +26,7 @@ abstract class PbEventMixin {
   void deliverChanges() => eventPlugin.deliverChanges();
 }
 
-/// A change to a field in a GeneratedMessage.
+/// A change to a field in a [GeneratedMessage].
 class PbFieldChange {
   final GeneratedMessage? message;
   final FieldInfo info;

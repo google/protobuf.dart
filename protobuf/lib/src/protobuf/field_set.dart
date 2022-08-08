@@ -14,11 +14,11 @@ void _throwFrozenMessageModificationError(String messageName,
       'Attempted to change a read-only message ($messageName)');
 }
 
-/// All the data in a GeneratedMessage.
+/// All the data in a [GeneratedMessage].
 ///
-/// These fields and methods are in a separate class to avoid
-/// polymorphic access due to inheritance. This turns out to
-/// be faster when compiled to JavaScript.
+/// These fields and methods are in a separate class to avoid polymorphic
+/// access due to inheritance. This turns out to be faster when compiled to
+/// JavaScript.
 class _FieldSet {
   final GeneratedMessage? _message;
   final EventPlugin? _eventPlugin;

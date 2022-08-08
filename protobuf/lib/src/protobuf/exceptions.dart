@@ -4,6 +4,7 @@
 
 part of protobuf;
 
+/// Exception thrown by the binary deserializer when the encoding is malformed.
 class InvalidProtocolBufferException implements Exception {
   final String message;
 
