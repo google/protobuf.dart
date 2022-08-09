@@ -738,29 +738,26 @@ class _FieldSet {
     }
   }
 
-  void _mergeField(FieldInfo otherFi, fieldValue, {bool? isExtension}) {
+  void _mergeField(FieldInfo otherFi, fieldValue, {required bool isExtension}) {
     final tagNumber = otherFi.tagNumber;
 
     // Determine the FieldInfo to use.
     // Don't allow regular fields to be overwritten by extensions.
     final meta = _meta;
     var fi = _nonExtensionInfo(meta, tagNumber);
-    if (fi == null && isExtension!) {
+    if (fi == null && isExtension) {
       // This will overwrite any existing extension field info.
       fi = otherFi;
     }
-
-    var mustClone = _isGroupOrMessage(otherFi.type);
 
     if (fi!.isMapField) {
       if (fieldValue == null) {
         return;
       }
       final MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
-      mustClone = _isGroupOrMessage(f.valueFieldType);
       final PbMap<dynamic, dynamic> map =
           f._ensureMapField(meta, this) as dynamic;
-      if (mustClone) {
+      if (_isGroupOrMessage(f.valueFieldType)) {
         PbMap fieldValueMap = fieldValue;
         for (final entry in fieldValueMap.entries) {
           map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
@@ -772,7 +769,7 @@ class _FieldSet {
     }
 
     if (fi.isRepeated) {
-      if (mustClone) {
+      if (_isGroupOrMessage(otherFi.type)) {
         // fieldValue must be a PbList of GeneratedMessage.
         PbList<GeneratedMessage> pbList = fieldValue;
         var repeatedFields = fi._ensureRepeatedField(meta, this);
@@ -788,7 +785,7 @@ class _FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      final currentFi = isExtension!
+      final currentFi = isExtension
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 
@@ -801,7 +798,7 @@ class _FieldSet {
       }
     }
 
-    if (isExtension!) {
+    if (isExtension) {
       _ensureExtensions()
           ._setFieldAndInfo(fi as Extension<dynamic>, fieldValue);
     } else {
@@ -812,7 +809,13 @@ class _FieldSet {
 
   // Error-checking
 
-  /// Checks the value for a field that's about to be set.
+  /// Checks that the message is mutable (not frozen) and the value for the
+  /// field is valid for the field type.
+  ///
+  /// Throws [UnsupportedError] if the message if immutable (frozen).
+  ///
+  /// Throws [ArgumentError] if the field value is not valid for the field
+  /// type. For example, when setting a proto `string` field a Dart `int`.
   void _validateField(FieldInfo fi, var newValue) {
     _ensureWritable();
     var message = _getFieldError(fi.type, newValue);
