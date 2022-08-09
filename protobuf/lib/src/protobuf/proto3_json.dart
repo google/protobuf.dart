@@ -157,6 +157,7 @@ void _mergeFromProto3Json(
     bool ignoreUnknownFields,
     bool supportNamesWithUnderscores,
     bool permissiveEnums) {
+  fieldSet._ensureWritable();
   var context = JsonParsingContext(
       ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
