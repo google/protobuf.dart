@@ -55,7 +55,7 @@ void main() {
     expect(msg3.isFrozen, true);
   });
 
-  test('frozen messages should not be updated by parse methods', () {
+  test('frozen messages should not be updated by merge methods', () {
     final top = TopEntity()..freeze();
 
     expect(() => top.mergeFromBuffer(<int>[]),
@@ -71,7 +71,7 @@ void main() {
         throwsA(TypeMatcher<UnsupportedError>()));
   });
 
-  test('nested frozen messages should not be updated by parse methods', () {
+  test('nested frozen messages should not be updated by merge methods', () {
     // Check that recursive calls to merge methods check mutability.
     // `mergeFromJsonMap` cannot be tested because of #726.
 
