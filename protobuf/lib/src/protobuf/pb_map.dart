@@ -95,12 +95,12 @@ class PbMap<K, V> extends MapBase<K, V> {
   }
 
   void _mergeEntry(BuilderInfo mapEntryMeta, CodedBufferReader input,
-      [ExtensionRegistry? registry]) {
+      ExtensionRegistry registry) {
     var length = input.readInt32();
     var oldLimit = input._currentLimit;
     input._currentLimit = input._bufferPos + length;
     final entryFieldSet = _FieldSet(null, mapEntryMeta, null);
-    _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry!);
+    _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
     var key =
