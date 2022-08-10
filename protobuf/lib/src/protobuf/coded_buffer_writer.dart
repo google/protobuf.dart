@@ -340,7 +340,7 @@ class CodedBufferWriter {
         _writeBytesNoTag(value);
         break;
       case PbFieldType._STRING_BIT:
-        _writeBytesNoTag(_utf8.encode(value));
+        _writeBytesNoTag(_utf8.encode(value) as dynamic);
         break;
       case PbFieldType._DOUBLE_BIT:
         _writeDouble(value);
@@ -395,8 +395,8 @@ class CodedBufferWriter {
     }
   }
 
-  void _writeBytesNoTag(dynamic value) {
-    writeInt32NoTag(value.length);
+  void _writeBytesNoTag(Uint8List value) {
+    writeInt32NoTag(value.lengthInBytes);
     writeRawBytes(value);
   }
 
