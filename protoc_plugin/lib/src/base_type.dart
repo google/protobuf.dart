@@ -103,12 +103,8 @@ class BaseType {
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_STRING, 'S',
             '$coreImportPrefix.String', r'$_setString', null);
       case FieldDescriptorProto_Type.TYPE_BYTES:
-        return const BaseType._raw(
-            FieldDescriptorProto_Type.TYPE_BYTES,
-            'Y',
-            '$coreImportPrefix.List<$coreImportPrefix.int>',
-            r'$_setBytes',
-            null);
+        return const BaseType._raw(FieldDescriptorProto_Type.TYPE_BYTES, 'Y',
+            '$_typedDataImportPrefix.Uint8List', r'$_setBytes', null);
 
       case FieldDescriptorProto_Type.TYPE_GROUP:
         constSuffix = 'G';

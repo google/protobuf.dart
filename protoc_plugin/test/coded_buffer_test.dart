@@ -2,13 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:typed_data';
+
 import 'package:test/test.dart';
 
 import '../out/protos/entity.pb.dart';
 
 void main() {
   test('Does not reuse input buffer for bytes fields', () {
-    var message = BytesEntity()..value = [1, 2, 3];
+    var message = BytesEntity()..value = Uint8List.fromList([1, 2, 3]);
     var bytes = message.writeToBuffer();
     var deserialized1 = BytesEntity()..mergeFromBuffer(bytes);
     var deserialized2 = BytesEntity()..mergeFromBuffer(bytes);
@@ -18,7 +20,7 @@ void main() {
   });
 
   test('Does not reuse input buffer for repeated bytes fields', () {
-    var message = BytesEntity()..values.add([1, 2, 3]);
+    var message = BytesEntity()..values.add(Uint8List.fromList([1, 2, 3]));
     var bytes = message.writeToBuffer();
     var deserialized1 = BytesEntity()..mergeFromBuffer(bytes);
     var deserialized2 = BytesEntity()..mergeFromBuffer(bytes);

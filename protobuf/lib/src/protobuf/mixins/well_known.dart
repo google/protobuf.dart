@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 
@@ -12,8 +13,8 @@ import '../json_parsing_context.dart';
 abstract class AnyMixin implements GeneratedMessage {
   String get typeUrl;
   set typeUrl(String value);
-  List<int> get value;
-  set value(List<int> value);
+  Uint8List get value;
+  set value(Uint8List value);
 
   /// Returns `true` if the encoded message matches the type of [instance].
   ///
@@ -713,8 +714,8 @@ abstract class StringValueMixin {
 }
 
 abstract class BytesValueMixin {
-  List<int> get value;
-  set value(List<int> value);
+  Uint8List get value;
+  set value(Uint8List value);
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `BytesValue` is JSON string.

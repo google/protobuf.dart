@@ -4,6 +4,8 @@
 
 // @dart=2.11
 
+import 'dart:typed_data';
+
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
@@ -115,7 +117,10 @@ void main() {
       message.repeatedString[1] = null;
     }, throwsArgumentError);
 
-    message.repeatedBytes.addAll(['one'.codeUnits, 'two'.codeUnits]);
+    message.repeatedBytes.addAll([
+      Uint8List.fromList('one'.codeUnits),
+      Uint8List.fromList('two'.codeUnits)
+    ]);
     expect(() {
       message.repeatedBytes[1] = null;
     }, throwsArgumentError);
@@ -163,7 +168,7 @@ void main() {
     }, throwsArgumentError);
 
     expect(() {
-      message.repeatedBytes.addAll(['one'.codeUnits, null]);
+      message.repeatedBytes.addAll([Uint8List.fromList('one'.codeUnits), null]);
     }, throwsArgumentError);
   });
 
@@ -306,7 +311,7 @@ void main() {
 
   test('testReadHugeBlob', () {
     // Allocate and initialize a 1MB blob.
-    var blob = List<int>.generate(1 << 20, (i) => i % 256);
+    var blob = Uint8List.fromList(List<int>.generate(1 << 20, (i) => i % 256));
 
     // Make a message containing it.
     var message = getAllSet();
@@ -819,8 +824,8 @@ void main() {
   });
 
   test('operator== and hashCode works for bytes', () {
-    final t1 = TestAllTypes()..optionalBytes = [1];
-    final t2 = TestAllTypes()..optionalBytes = [1];
+    final t1 = TestAllTypes()..optionalBytes = Uint8List.fromList([1]);
+    final t2 = TestAllTypes()..optionalBytes = Uint8List.fromList([1]);
     final t3 = TestAllTypes.fromBuffer(t1.writeToBuffer());
     expect(t1, equals(t2));
     expect(t1.hashCode, equals(t2.hashCode));

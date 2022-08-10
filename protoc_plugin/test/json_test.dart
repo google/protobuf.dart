@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:typed_data';
+
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
@@ -78,19 +80,26 @@ void main() {
   });
 
   test('testBase64Encode', () {
-    expect(getAllSet()..optionalBytes = 'Hello, world'.codeUnits,
+    expect(
+        getAllSet()
+          ..optionalBytes = Uint8List.fromList('Hello, world'.codeUnits),
         expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'));
 
-    expect(getAllSet()..optionalBytes = 'Hello, world!'.codeUnits,
+    expect(
+        getAllSet()
+          ..optionalBytes = Uint8List.fromList('Hello, world!'.codeUnits),
         expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'));
 
-    expect(getAllSet()..optionalBytes = 'Hello, world!!'.codeUnits,
+    expect(
+        getAllSet()
+          ..optionalBytes = Uint8List.fromList('Hello, world!!'.codeUnits),
         expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkISE=",'));
 
     // An empty list should not appear in the output.
-    expect(getAllSet()..optionalBytes = [], expectedJson('"15":"MTE2",', ''));
+    expect(getAllSet()..optionalBytes = Uint8List(0),
+        expectedJson('"15":"MTE2",', ''));
 
-    expect(getAllSet()..optionalBytes = 'a'.codeUnits,
+    expect(getAllSet()..optionalBytes = Uint8List.fromList('a'.codeUnits),
         expectedJson(':"MTE2",', ':"YQ==",'));
   });
 

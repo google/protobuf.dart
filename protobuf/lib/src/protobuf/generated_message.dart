@@ -483,7 +483,7 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
-  void $_setBytes(int index, List<int> value) => _fieldSet._$set(index, value);
+  void $_setBytes(int index, Uint8List value) => _fieldSet._$set(index, value);
 
   /// For generated code only.
   /// @nodoc

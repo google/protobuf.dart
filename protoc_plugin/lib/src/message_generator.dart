@@ -229,6 +229,20 @@ class MessageGenerator extends ProtobufContainer {
     return false;
   }
 
+  bool get needsTypedDataImport {
+    checkResolved();
+    for (var field in _fieldList) {
+      if (field.needsTypedDataImport) return true;
+    }
+    for (var m in _messageGenerators) {
+      if (m.needsTypedDataImport) return true;
+    }
+    for (var x in _extensionGenerators) {
+      if (x.needsTypedDataImport) return true;
+    }
+    return false;
+  }
+
   /// Adds dependencies of [generate] to [imports].
   ///
   /// For each .pb.dart file that the generated code needs to import,

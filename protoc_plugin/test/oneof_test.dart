@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:typed_data';
+
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
@@ -30,13 +32,13 @@ void main() {
     expect(foo.hasThird(), true);
     expect(foo.third, true);
     expect(foo.hasFourth(), false);
-    expect(foo.fourth, []);
+    expect(foo.fourth, Uint8List.fromList([]));
     expect(foo.hasIndex(), false);
     expect(foo.index, Bar());
     expect(foo.hasValues(), false);
     expect(foo.values, EnumType.DEFAULT);
 
-    foo.fourth = [1, 2];
+    foo.fourth = Uint8List.fromList([1, 2]);
     expect(foo.whichOneofField(), Foo_OneofField.fourth);
     expect(foo.hasFirst(), false);
     expect(foo.first, '');
@@ -60,7 +62,7 @@ void main() {
     expect(foo.hasThird(), false);
     expect(foo.third, false);
     expect(foo.hasFourth(), false);
-    expect(foo.fourth, []);
+    expect(foo.fourth, Uint8List.fromList([]));
     expect(foo.hasIndex(), true);
     expect(foo.index, Bar()..i = 1);
     expect(foo.hasValues(), false);
@@ -75,7 +77,7 @@ void main() {
     expect(foo.hasThird(), false);
     expect(foo.third, false);
     expect(foo.hasFourth(), false);
-    expect(foo.fourth, []);
+    expect(foo.fourth, Uint8List.fromList([]));
     expect(foo.hasIndex(), false);
     expect(foo.index, Bar());
     expect(foo.hasValues(), true);
@@ -195,7 +197,7 @@ void expectSecondSet(Foo foo) {
   expect(foo.hasThird(), false);
   expect(foo.third, false);
   expect(foo.hasFourth(), false);
-  expect(foo.fourth, []);
+  expect(foo.fourth, Uint8List.fromList([]));
   expect(foo.hasIndex(), false);
   expect(foo.index, Bar());
   expect(foo.hasValues(), false);
@@ -211,7 +213,7 @@ void expectFirstSet(Foo foo) {
   expect(foo.hasThird(), false);
   expect(foo.third, false);
   expect(foo.hasFourth(), false);
-  expect(foo.fourth, []);
+  expect(foo.fourth, Uint8List.fromList([]));
   expect(foo.hasIndex(), false);
   expect(foo.index, Bar());
   expect(foo.hasValues(), false);
@@ -227,7 +229,7 @@ void expectOneofNotSet(Foo foo) {
   expect(foo.hasThird(), false);
   expect(foo.third, false);
   expect(foo.hasFourth(), false);
-  expect(foo.fourth, []);
+  expect(foo.fourth, Uint8List.fromList([]));
   expect(foo.hasIndex(), false);
   expect(foo.index, Bar());
   expect(foo.hasValues(), false);

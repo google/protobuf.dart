@@ -109,12 +109,18 @@ class ProtobufField {
   bool get overridesClearMethod =>
       _hasBooleanOption(Dart_options.overrideClearMethod);
 
-  /// True if this field uses the Int64 from the fixnum package.
+  /// Whether the field uses `Int64` from `fixnum`
   bool get needsFixnumImport =>
       baseType.unprefixed == '$_fixnumImportPrefix.Int64';
 
-  /// True if this field is a map field definition:
-  /// `map<key_type, value_type> map_field = N`.
+  /// Whether the field uses `Uint8List` from `dart:typed_data`
+  bool get needsTypedDataImport =>
+      baseType.unprefixed == '$_typedDataImportPrefix.Uint8List';
+
+  /// Whether the field is a map field definition:
+  /// ```
+  /// map<key_type, value_type> map_field = N
+  /// ```
   bool get isMapField {
     if (!isRepeated || !baseType.isMessage) return false;
     final generator = baseType.generator as MessageGenerator;
@@ -374,7 +380,7 @@ class ProtobufField {
         var byteList = descriptor.defaultValue.codeUnits
             .map((b) => '0x${b.toRadixString(16)}')
             .join(',');
-        return '() => <$coreImportPrefix.int>[$byteList]';
+        return '() => $_typedDataImportPrefix.Uint8List.fromList([$byteList])';
       case FieldDescriptorProto_Type.TYPE_GROUP:
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
         return '${baseType.getDartType(parent.fileGen!)}.getDefault';

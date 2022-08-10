@@ -71,7 +71,7 @@ class PbFieldType {
 
   // Closures commonly used by initializers.
   static String _STRING_EMPTY() => '';
-  static List<int> _BYTES_EMPTY() => <int>[];
+  static Uint8List _BYTES_EMPTY() => Uint8List(0);
   static bool _BOOL_FALSE() => false;
   static int _INT_ZERO() => 0;
   static double _DOUBLE_ZERO() => 0.0;

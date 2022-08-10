@@ -4,6 +4,7 @@
 
 import 'dart:convert' show jsonEncode;
 import 'dart:core' hide Duration;
+import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
@@ -174,7 +175,7 @@ void main() {
         ..int32ToInt32Field[32] = 32
         ..int32ToStringField[0] = 'foo'
         ..int32ToStringField[1] = 'bar'
-        ..int32ToBytesField[-1] = [1, 2, 3]
+        ..int32ToBytesField[-1] = Uint8List.fromList([1, 2, 3])
         ..int32ToEnumField[1] = TestMap_EnumValue.BAZ
         ..int32ToMessageField[21] = (TestMap_MessageValue()
           ..value = 2
@@ -352,7 +353,7 @@ void main() {
         ..uint32Field = (UInt32Value()..value = 102)
         ..boolField = (BoolValue()..value = false)
         ..stringField = (StringValue()..value = 'Pop')
-        ..bytesField = (BytesValue()..value = [8, 9, 10]);
+        ..bytesField = (BytesValue()..value = Uint8List.fromList([8, 9, 10]));
       expect(t.toProto3Json(), {
         'doubleField': 10.01,
         'floatField': 3,
@@ -729,7 +730,7 @@ void main() {
         ..int32ToInt32Field[32] = 32
         ..int32ToStringField[0] = 'foo'
         ..int32ToStringField[1] = 'bar'
-        ..int32ToBytesField[-1] = [1, 2, 3]
+        ..int32ToBytesField[-1] = Uint8List.fromList([1, 2, 3])
         ..int32ToEnumField[1] = TestMap_EnumValue.BAZ
         ..int32ToMessageField[21] = (TestMap_MessageValue()
           ..value = 2
@@ -1089,7 +1090,8 @@ void main() {
             ..uint32Field = (UInt32Value()..value = 102)
             ..boolField = (BoolValue()..value = false)
             ..stringField = (StringValue()..value = 'Pop')
-            ..bytesField = (BytesValue()..value = [8, 9, 10]));
+            ..bytesField =
+                (BytesValue()..value = Uint8List.fromList([8, 9, 10])));
 
       expect(
           TestWellKnownTypes()

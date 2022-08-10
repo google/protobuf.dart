@@ -322,6 +322,11 @@ class FileGenerator extends ProtobufContainer {
     }
 
     out.println(_coreImport);
+
+    if (_needsTypedDataImport) {
+      out.println(_typedDataImport);
+    }
+
     out.println();
 
     if (_needsFixnumImport) {
@@ -375,6 +380,16 @@ class FileGenerator extends ProtobufContainer {
     }
     for (var x in extensionGenerators) {
       if (x.needsFixnumImport) return true;
+    }
+    return false;
+  }
+
+  bool get _needsTypedDataImport {
+    for (var m in messageGenerators) {
+      if (m.needsTypedDataImport) return true;
+    }
+    for (var x in extensionGenerators) {
+      if (x.needsTypedDataImport) return true;
     }
     return false;
   }

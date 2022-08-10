@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:typed_data';
+
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
@@ -25,7 +27,8 @@ final withExtensions = TestAllExtensions()
   ..setExtension(
       Unittest.optionalForeignMessageExtension, ForeignMessage()..c = 3)
   ..setExtension(Unittest.defaultStringExtension, 'bar')
-  ..getExtension(Unittest.repeatedBytesExtension).add('pop'.codeUnits)
+  ..getExtension(Unittest.repeatedBytesExtension)
+      .add(Uint8List.fromList('pop'.codeUnits))
   ..setExtension(
       Extend_unittest.outer,
       Outer()
@@ -287,7 +290,7 @@ void main() {
         reason:
             'ExtensionRegistry.reparseMessage does not leave reparsed fields in unknownFields');
     expect(reparsed.getExtension(Unittest.repeatedBytesExtension),
-        ['pop'.codeUnits]);
+        [Uint8List.fromList('pop'.codeUnits)]);
 
     expect(
         reparsed.getExtension(Unittest.optionalForeignMessageExtension).c, 3);

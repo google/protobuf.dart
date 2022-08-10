@@ -63,6 +63,11 @@ class ExtensionGenerator {
     return _field.needsFixnumImport;
   }
 
+  bool get needsTypedDataImport {
+    if (!_resolved) throw StateError('resolve not called');
+    return _field.needsTypedDataImport;
+  }
+
   /// Adds dependencies of [generate] to [imports].
   ///
   /// For each .pb.dart file that the generated code needs to import,

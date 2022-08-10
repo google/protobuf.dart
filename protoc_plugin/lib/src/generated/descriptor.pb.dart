@@ -6,6 +6,7 @@
 // ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
+import 'dart:typed_data' as $typed_data;
 
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
@@ -2765,9 +2766,9 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   void clearDoubleValue() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.List<$core.int> get stringValue => $_getN(5);
+  $typed_data.Uint8List get stringValue => $_getN(5);
   @$pb.TagNumber(7)
-  set stringValue($core.List<$core.int> v) {
+  set stringValue($typed_data.Uint8List v) {
     $_setBytes(5, v);
   }
 

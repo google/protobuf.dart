@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:typed_data';
+
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
@@ -77,8 +79,8 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.optionalDoubleExtension), 112.0);
   expect(message.getExtension(Unittest.optionalBoolExtension), true);
   expect(message.getExtension(Unittest.optionalStringExtension), '115');
-  expect(
-      message.getExtension(Unittest.optionalBytesExtension), '116'.codeUnits);
+  expect(message.getExtension(Unittest.optionalBytesExtension),
+      Uint8List.fromList('116'.codeUnits));
 
   expect(message.getExtension(Unittest.optionalGroupExtension).a, 117);
   expect(message.getExtension(Unittest.optionalNestedMessageExtension).bb, 118);
@@ -147,7 +149,7 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedBoolExtension)[0], true);
   expect(message.getExtension(Unittest.repeatedStringExtension)[0], '215');
   expect(message.getExtension(Unittest.repeatedBytesExtension)[0],
-      '216'.codeUnits);
+      Uint8List.fromList('216'.codeUnits));
 
   expect(message.getExtension(Unittest.repeatedGroupExtension)[0].a, 217);
   expect(
@@ -187,7 +189,7 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedBoolExtension)[1], false);
   expect(message.getExtension(Unittest.repeatedStringExtension)[1], '315');
   expect(message.getExtension(Unittest.repeatedBytesExtension)[1],
-      '316'.codeUnits);
+      Uint8List.fromList('316'.codeUnits));
 
   expect(message.getExtension(Unittest.repeatedGroupExtension)[1].a, 317);
   expect(
@@ -246,7 +248,8 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.defaultDoubleExtension), 412.0);
   expect(message.getExtension(Unittest.defaultBoolExtension), false);
   expect(message.getExtension(Unittest.defaultStringExtension), '415');
-  expect(message.getExtension(Unittest.defaultBytesExtension), '416'.codeUnits);
+  expect(message.getExtension(Unittest.defaultBytesExtension),
+      Uint8List.fromList('416'.codeUnits));
 
   expect(message.getExtension(Unittest.defaultNestedEnumExtension),
       TestAllTypes_NestedEnum.FOO);
@@ -307,7 +310,7 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.optionalDouble, 112.0);
   expect(message.optionalBool, true);
   expect(message.optionalString, '115');
-  expect(message.optionalBytes, '116'.codeUnits);
+  expect(message.optionalBytes, Uint8List.fromList('116'.codeUnits));
 
   expect(message.optionalGroup.a, 117);
   expect(message.optionalNestedMessage.bb, 118);
@@ -364,7 +367,7 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.repeatedDouble[0], 212.0);
   expect(message.repeatedBool[0], true);
   expect(message.repeatedString[0], '215');
-  expect(message.repeatedBytes[0], '216'.codeUnits);
+  expect(message.repeatedBytes[0], Uint8List.fromList('216'.codeUnits));
 
   expect(message.repeatedGroup[0].a, 217);
   expect(message.repeatedNestedMessage[0].bb, 218);
@@ -392,7 +395,7 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.repeatedDouble[1], 312.0);
   expect(message.repeatedBool[1], false);
   expect(message.repeatedString[1], '315');
-  expect(message.repeatedBytes[1], '316'.codeUnits);
+  expect(message.repeatedBytes[1], Uint8List.fromList('316'.codeUnits));
 
   expect(message.repeatedGroup[1].a, 317);
   expect(message.repeatedNestedMessage[1].bb, 318);
@@ -445,7 +448,7 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.defaultDouble, 412.0);
   expect(message.defaultBool, false);
   expect(message.defaultString, '415');
-  expect(message.defaultBytes, '416'.codeUnits);
+  expect(message.defaultBytes, Uint8List.fromList('416'.codeUnits));
 
   expect(message.defaultNestedEnum, TestAllTypes_NestedEnum.FOO);
   expect(message.defaultForeignEnum, ForeignEnum.FOREIGN_FOO);
@@ -588,7 +591,7 @@ void assertClear(TestAllTypes message) {
   expect(message.defaultDouble, 52e3);
   expect(message.defaultBool, isTrue);
   expect(message.defaultString, 'hello');
-  expect(message.defaultBytes, 'world'.codeUnits);
+  expect(message.defaultBytes, Uint8List.fromList('world'.codeUnits));
 
   expect(message.defaultNestedEnum, TestAllTypes_NestedEnum.BAR);
   expect(message.defaultForeignEnum, ForeignEnum.FOREIGN_BAR);
@@ -775,8 +778,8 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.getExtension(Unittest.defaultDoubleExtension), 52e3);
   expect(message.getExtension(Unittest.defaultBoolExtension), true);
   expect(message.getExtension(Unittest.defaultStringExtension), 'hello');
-  expect(
-      message.getExtension(Unittest.defaultBytesExtension), 'world'.codeUnits);
+  expect(message.getExtension(Unittest.defaultBytesExtension),
+      Uint8List.fromList('world'.codeUnits));
 
   expect(message.getExtension(Unittest.defaultNestedEnumExtension),
       TestAllTypes_NestedEnum.BAR);
@@ -945,8 +948,8 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.optionalDoubleExtension), 112.0);
   expect(message.getExtension(Unittest.optionalBoolExtension), true);
   expect(message.getExtension(Unittest.optionalStringExtension), '115');
-  expect(
-      message.getExtension(Unittest.optionalBytesExtension), '116'.codeUnits);
+  expect(message.getExtension(Unittest.optionalBytesExtension),
+      Uint8List.fromList('116'.codeUnits));
 
   expect(message.getExtension(Unittest.optionalGroupExtension).a, 117);
   expect(message.getExtension(Unittest.optionalNestedMessageExtension).bb, 118);
@@ -1015,7 +1018,7 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedBoolExtension)[0], true);
   expect(message.getExtension(Unittest.repeatedStringExtension)[0], '215');
   expect(message.getExtension(Unittest.repeatedBytesExtension)[0],
-      '216'.codeUnits);
+      Uint8List.fromList('216'.codeUnits));
 
   expect(message.getExtension(Unittest.repeatedGroupExtension)[0].a, 217);
   expect(
@@ -1055,7 +1058,7 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedBoolExtension)[1], true);
   expect(message.getExtension(Unittest.repeatedStringExtension)[1], '515');
   expect(message.getExtension(Unittest.repeatedBytesExtension)[1],
-      '516'.codeUnits);
+      Uint8List.fromList('516'.codeUnits));
 
   expect(message.getExtension(Unittest.repeatedGroupExtension)[1].a, 517);
   expect(
@@ -1115,7 +1118,8 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.defaultDoubleExtension), 412.0);
   expect(message.getExtension(Unittest.defaultBoolExtension), false);
   expect(message.getExtension(Unittest.defaultStringExtension), '415');
-  expect(message.getExtension(Unittest.defaultBytesExtension), '416'.codeUnits);
+  expect(message.getExtension(Unittest.defaultBytesExtension),
+      Uint8List.fromList('416'.codeUnits));
 
   expect(message.getExtension(Unittest.defaultNestedEnumExtension),
       TestAllTypes_NestedEnum.FOO);
@@ -1173,7 +1177,7 @@ void assertRepeatedFieldsModified(TestAllTypes message) {
   expect(message.repeatedDouble[0], 212.0);
   expect(message.repeatedBool[0], true);
   expect(message.repeatedString[0], '215');
-  expect(message.repeatedBytes[0], '216'.codeUnits);
+  expect(message.repeatedBytes[0], Uint8List.fromList('216'.codeUnits));
 
   expect(message.repeatedGroup[0].a, 217);
   expect(message.repeatedNestedMessage[0].bb, 218);
@@ -1202,7 +1206,7 @@ void assertRepeatedFieldsModified(TestAllTypes message) {
   expect(message.repeatedDouble[1], 512.0);
   expect(message.repeatedBool[1], true);
   expect(message.repeatedString[1], '515');
-  expect(message.repeatedBytes[1], '516'.codeUnits);
+  expect(message.repeatedBytes[1], Uint8List.fromList('516'.codeUnits));
 
   expect(message.repeatedGroup[1].a, 517);
   expect(message.repeatedNestedMessage[1].bb, 518);
@@ -1317,7 +1321,8 @@ void modifyRepeatedExtensions(TestAllExtensions message) {
   message.getExtension(Unittest.repeatedDoubleExtension)[1] = 512.0;
   message.getExtension(Unittest.repeatedBoolExtension)[1] = true;
   message.getExtension(Unittest.repeatedStringExtension)[1] = '515';
-  message.getExtension(Unittest.repeatedBytesExtension)[1] = '516'.codeUnits;
+  message.getExtension(Unittest.repeatedBytesExtension)[1] =
+      Uint8List.fromList('516'.codeUnits);
 
   dynamic msg;
 
@@ -1365,7 +1370,7 @@ void modifyRepeatedFields(TestAllTypes message) {
   message.repeatedDouble[1] = 512.0;
   message.repeatedBool[1] = true;
   message.repeatedString[1] = '515';
-  message.repeatedBytes[1] = '516'.codeUnits;
+  message.repeatedBytes[1] = Uint8List.fromList('516'.codeUnits);
 
   var repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 517;
@@ -1410,7 +1415,8 @@ void setAllExtensions(TestAllExtensions message) {
   message.setExtension(Unittest.optionalDoubleExtension, 112.0);
   message.setExtension(Unittest.optionalBoolExtension, true);
   message.setExtension(Unittest.optionalStringExtension, '115');
-  message.setExtension(Unittest.optionalBytesExtension, '116'.codeUnits);
+  message.setExtension(
+      Unittest.optionalBytesExtension, Uint8List.fromList('116'.codeUnits));
 
   var msg = OptionalGroup_extension();
   msg.a = 117;
@@ -1454,7 +1460,8 @@ void setAllExtensions(TestAllExtensions message) {
   message.addExtension(Unittest.repeatedDoubleExtension, 212.0);
   message.addExtension(Unittest.repeatedBoolExtension, true);
   message.addExtension(Unittest.repeatedStringExtension, '215');
-  message.addExtension(Unittest.repeatedBytesExtension, '216'.codeUnits);
+  message.addExtension(
+      Unittest.repeatedBytesExtension, Uint8List.fromList('216'.codeUnits));
 
   var msg5 = RepeatedGroup_extension();
   msg5.a = 217;
@@ -1497,7 +1504,8 @@ void setAllExtensions(TestAllExtensions message) {
   message.addExtension(Unittest.repeatedDoubleExtension, 312.0);
   message.addExtension(Unittest.repeatedBoolExtension, false);
   message.addExtension(Unittest.repeatedStringExtension, '315');
-  message.addExtension(Unittest.repeatedBytesExtension, '316'.codeUnits);
+  message.addExtension(
+      Unittest.repeatedBytesExtension, Uint8List.fromList('316'.codeUnits));
 
   var msg9 = RepeatedGroup_extension();
   msg9.a = 317;
@@ -1541,7 +1549,8 @@ void setAllExtensions(TestAllExtensions message) {
   message.setExtension(Unittest.defaultDoubleExtension, 412.0);
   message.setExtension(Unittest.defaultBoolExtension, false);
   message.setExtension(Unittest.defaultStringExtension, '415');
-  message.setExtension(Unittest.defaultBytesExtension, '416'.codeUnits);
+  message.setExtension(
+      Unittest.defaultBytesExtension, Uint8List.fromList('416'.codeUnits));
 
   message.setExtension(
       Unittest.defaultNestedEnumExtension, TestAllTypes_NestedEnum.FOO);
@@ -1571,7 +1580,7 @@ void setAllFields(TestAllTypes message) {
   message.optionalDouble = 112.0;
   message.optionalBool = true;
   message.optionalString = '115';
-  message.optionalBytes = '116'.codeUnits;
+  message.optionalBytes = Uint8List.fromList('116'.codeUnits);
 
   var optionalGroup = TestAllTypes_OptionalGroup();
   optionalGroup.a = 117;
@@ -1612,7 +1621,7 @@ void setAllFields(TestAllTypes message) {
   message.repeatedDouble.add(212.0);
   message.repeatedBool.add(true);
   message.repeatedString.add('215');
-  message.repeatedBytes.add('216'.codeUnits);
+  message.repeatedBytes.add(Uint8List.fromList('216'.codeUnits));
 
   var repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 217;
@@ -1652,7 +1661,7 @@ void setAllFields(TestAllTypes message) {
   message.repeatedDouble.add(312.0);
   message.repeatedBool.add(false);
   message.repeatedString.add('315');
-  message.repeatedBytes.add('316'.codeUnits);
+  message.repeatedBytes.add(Uint8List.fromList('316'.codeUnits));
 
   repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 317;
@@ -1693,7 +1702,7 @@ void setAllFields(TestAllTypes message) {
   message.defaultDouble = 412.0;
   message.defaultBool = false;
   message.defaultString = '415';
-  message.defaultBytes = '416'.codeUnits;
+  message.defaultBytes = Uint8List.fromList('416'.codeUnits);
 
   message.defaultNestedEnum = TestAllTypes_NestedEnum.FOO;
   message.defaultForeignEnum = ForeignEnum.FOREIGN_FOO;

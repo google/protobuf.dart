@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
@@ -18,9 +19,9 @@ void main() {
       ..int32ToStringField[1] = '11'
       ..int32ToStringField[2] = '22'
       ..int32ToStringField[3] = '33'
-      ..int32ToBytesField[1] = utf8.encode('11')
-      ..int32ToBytesField[2] = utf8.encode('22')
-      ..int32ToBytesField[3] = utf8.encode('33')
+      ..int32ToBytesField[1] = Uint8List.fromList(utf8.encode('11'))
+      ..int32ToBytesField[2] = Uint8List.fromList(utf8.encode('22'))
+      ..int32ToBytesField[3] = Uint8List.fromList(utf8.encode('33'))
       ..int32ToEnumField[1] = TestMap_EnumValue.DEFAULT
       ..int32ToEnumField[2] = TestMap_EnumValue.BAR
       ..int32ToEnumField[3] = TestMap_EnumValue.BAZ
@@ -40,9 +41,9 @@ void main() {
       ..int32ToStringField[1] = '111'
       ..int32ToStringField.remove(2)
       ..int32ToStringField[4] = '44'
-      ..int32ToBytesField[1] = utf8.encode('111')
+      ..int32ToBytesField[1] = Uint8List.fromList(utf8.encode('111'))
       ..int32ToBytesField.remove(2)
-      ..int32ToBytesField[4] = utf8.encode('44')
+      ..int32ToBytesField[4] = Uint8List.fromList(utf8.encode('44'))
       ..int32ToEnumField[1] = TestMap_EnumValue.BAR
       ..int32ToEnumField.remove(2)
       ..int32ToEnumField[4] = TestMap_EnumValue.ZOP
