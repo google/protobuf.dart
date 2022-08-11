@@ -10,27 +10,21 @@ const int _TAG_TYPE_BITS = 3;
 const int _TAG_TYPE_MASK = (1 << _TAG_TYPE_BITS) - 1;
 
 /// @nodoc
-@visibleForTesting
 const int WIRETYPE_VARINT = 0;
 
 /// @nodoc
-@visibleForTesting
 const int WIRETYPE_FIXED64 = 1;
 
 /// @nodoc
-@visibleForTesting
 const int WIRETYPE_LENGTH_DELIMITED = 2;
 
 /// @nodoc
-@visibleForTesting
 const int WIRETYPE_START_GROUP = 3;
 
 /// @nodoc
-@visibleForTesting
 const int WIRETYPE_END_GROUP = 4;
 
 /// @nodoc
-@visibleForTesting
 const int WIRETYPE_FIXED32 = 5;
 
 /// @nodoc
