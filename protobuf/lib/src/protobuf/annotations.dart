@@ -14,3 +14,12 @@ class TagNumber {
   /// protobuf field tag associated with the annotated accessor.
   const TagNumber(this.tagNumber);
 }
+
+/// Use to annotate generated gRPC classes with the ID of the corresponding
+/// service.
+class GrpcServiceName {
+  const GrpcServiceName(this.serviceId);
+
+  // This field is used by static analyzers.
+  final String serviceId;
+}
