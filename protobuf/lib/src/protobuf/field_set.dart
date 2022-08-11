@@ -157,10 +157,12 @@ class _FieldSet {
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.index!];
         if (entry != null) {
-          (entry as GeneratedMessage).freeze();
+          GeneratedMessage msg = entry;
+          msg.freeze();
         }
       }
     }
+
     if (_hasExtensions) {
       _ensureExtensions()._markReadOnly();
     }
@@ -308,14 +310,14 @@ class _FieldSet {
   /// Creates and stores the repeated field if it doesn't exist.
   /// If it's an extension and the list doesn't exist, validates and stores it.
   /// Suitable for decoders.
-  List<T?> _ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) {
+  List<T> _ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     if (fi.index == null) {
       return _ensureExtensions()._ensureRepeatedField(fi as Extension<T>);
     }
     var value = _getFieldOrNull(fi);
-    if (value != null) return value as List<T>;
+    if (value != null) return value;
 
     var newValue = fi._createRepeatedField(_message!);
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
@@ -328,7 +330,7 @@ class _FieldSet {
     assert(fi.index != null); // Map fields are not allowed to be extensions.
 
     var value = _getFieldOrNull(fi);
-    if (value != null) return value as PbMap<K, V>;
+    if (value != null) return value;
 
     var newValue = fi._createMapField(_message!);
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
@@ -359,7 +361,7 @@ class _FieldSet {
   /// The implementation of a generated getter.
   T _$get<T>(int index, T? defaultValue) {
     var value = _values[index];
-    if (value != null) return value as T;
+    if (value != null) return value;
     if (defaultValue != null) return defaultValue;
     return _getDefault(_nonExtensionInfoByIndex(index)) as T;
   }
@@ -387,7 +389,7 @@ class _FieldSet {
   /// The implementation of a generated getter for repeated fields.
   List<T> _$getList<T>(int index) {
     var value = _values[index];
-    if (value != null) return value as List<T>;
+    if (value != null) return value;
 
     final fi = _nonExtensionInfoByIndex(index) as FieldInfo<T>;
     assert(fi.isRepeated);
@@ -761,9 +763,9 @@ class _FieldSet {
       final PbMap<dynamic, dynamic> map =
           f._ensureMapField(meta, this) as dynamic;
       if (mustClone) {
-        PbMap fieldValueMap = fieldValue;
+        PbMap<dynamic, GeneratedMessage> fieldValueMap = fieldValue;
         for (final entry in fieldValueMap.entries) {
-          map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
+          map[entry.key] = entry.value.deepCopy();
         }
       } else {
         map.addAll(fieldValue);

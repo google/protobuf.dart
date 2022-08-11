@@ -198,7 +198,7 @@ class FieldInfo<T> {
       GeneratedMessage message = value;
       message._fieldSet._appendInvalidFields(problems, '$prefix$name.');
     } else {
-      final list = value as List<GeneratedMessage>;
+      List<GeneratedMessage> list = value;
       if (list.isEmpty) return;
 
       // For message types that (recursively) contain no required fields,
@@ -219,7 +219,7 @@ class FieldInfo<T> {
   ///
   /// Delegates actual list creation to the message, so that it can
   /// be overridden by a mixin.
-  List<T?> _createRepeatedField(GeneratedMessage m) {
+  List<T> _createRepeatedField(GeneratedMessage m) {
     assert(isRepeated);
     return m.createRepeatedField<T>(tagNumber, this);
   }
@@ -232,7 +232,7 @@ class FieldInfo<T> {
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
   /// _FieldSet._ensureRepeatedField.
-  List<T?> _ensureRepeatedField(BuilderInfo meta, _FieldSet fs) {
+  List<T> _ensureRepeatedField(BuilderInfo meta, _FieldSet fs) {
     return fs._ensureRepeatedField<T>(meta, this);
   }
 
