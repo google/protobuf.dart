@@ -6,7 +6,7 @@ part of protobuf;
 
 const _truncatedMessageText = '''
 While parsing a protocol message, the input ended unexpectedly
-in the middle of a field.  This could mean either than the
+in the middle of a field. This could mean either than the
 input has been truncated or that an embedded message
 misreported its own length.
 ''';
@@ -33,7 +33,7 @@ class InvalidProtocolBufferException implements Exception {
       : this._('CodedBufferReader encountered a malformed varint.');
 
   InvalidProtocolBufferException.recursionLimitExceeded() : this._('''
-Protocol message had too many levels of nesting.  May be malicious.
+Protocol message had too many levels of nesting. May be malicious.
 Use CodedBufferReader.setRecursionLimit() to increase the depth limit.
 ''');
 
