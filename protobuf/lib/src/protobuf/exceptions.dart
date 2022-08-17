@@ -6,9 +6,9 @@ part of protobuf;
 
 const _truncatedMessageText = '''
 While parsing a protocol message, the input ended unexpectedly
-in the middle of a field. This could mean either than the
-input has been truncated or that an embedded message
-misreported its own length.
+in the middle of a field. This could either mean that the input
+has been truncated or that an embedded message misreported its
+own length.
 ''';
 
 /// Exception thrown by the binary deserializer when the encoding is malformed.
