@@ -29,7 +29,7 @@ class CodedBufferReader {
     _currentLimit = _sizeLimit;
   }
 
-  void _reportTruncatedMessage(int limit) {
+  void _throwTruncatedMessageError(int limit) {
     if (limit > _sizeLimit && limit <= _buffer.length) {
       throw InvalidProtocolBufferException.truncatedMessageDueToSizeLimit(
           _buffer.length, _sizeLimit);
@@ -54,7 +54,7 @@ class CodedBufferReader {
     byteLimit += _bufferPos;
     var oldLimit = _currentLimit;
     if ((oldLimit != -1 && byteLimit > oldLimit) || byteLimit > _sizeLimit) {
-      _reportTruncatedMessage(byteLimit);
+      _throwTruncatedMessageError(byteLimit);
     }
     _currentLimit = byteLimit;
     callback();
@@ -107,7 +107,7 @@ class CodedBufferReader {
     var oldLimit = _currentLimit;
     _currentLimit = _bufferPos + length;
     if (_currentLimit > oldLimit) {
-      _reportTruncatedMessage(_currentLimit);
+      _throwTruncatedMessageError(_currentLimit);
     }
     ++_recursionDepth;
     message.mergeFromCodedBufferReader(this, extensionRegistry);
