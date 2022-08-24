@@ -224,8 +224,9 @@ class _FieldSet {
     if (fi != null) {
       // clear a non-extension field
       final eventPlugin = _eventPlugin;
-      if (eventPlugin != null && eventPlugin.hasObservers)
+      if (eventPlugin != null && eventPlugin.hasObservers) {
         eventPlugin.beforeClearField(fi);
+      }
       _values[fi.index!] = null;
 
       if (meta.oneofs.containsKey(fi.tagNumber)) {
