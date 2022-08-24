@@ -101,8 +101,6 @@ class _FieldSet {
   /// Returns true if we should send events to the plugin.
   bool get _hasObservers => _eventPlugin != null && _eventPlugin!.hasObservers;
 
-  bool get _hasUnknownFields => _unknownFields != null;
-
   _ExtensionFieldSet _ensureExtensions() =>
       _extensions ??= _ExtensionFieldSet(this);
 
@@ -158,14 +156,8 @@ class _FieldSet {
       }
     }
 
-    final extensions = _extensions;
-    if (extensions != null) {
-      extensions._markReadOnly();
-    }
-
-    if (_hasUnknownFields) {
-      _ensureUnknownFields()._markReadOnly();
-    }
+    _extensions?._markReadOnly();
+    _unknownFields?._markReadOnly();
   }
 
   void _ensureWritable() {
@@ -706,8 +698,10 @@ class _FieldSet {
             _extensions!._values[tagNumber],
             '[${_extensions!._info[tagNumber]!.name}]'));
     }
-    if (_hasUnknownFields) {
-      out.write(_unknownFields.toString());
+
+    final unknownFields = _unknownFields;
+    if (unknownFields != null) {
+      out.write(unknownFields.toString());
     } else {
       out.write(UnknownFieldSet().toString());
     }
@@ -728,6 +722,7 @@ class _FieldSet {
       var value = other._values[fi.index!];
       if (value != null) _mergeField(fi, value, isExtension: false);
     }
+
     final otherExtensions = other._extensions;
     if (otherExtensions != null) {
       for (var tagNumber in otherExtensions._tagNumbers) {
@@ -737,8 +732,9 @@ class _FieldSet {
       }
     }
 
-    if (other._hasUnknownFields) {
-      _ensureUnknownFields().mergeFromUnknownFieldSet(other._unknownFields!);
+    final otherUnknownFields = other._unknownFields;
+    if (otherUnknownFields != null) {
+      _ensureUnknownFields().mergeFromUnknownFieldSet(otherUnknownFields);
     }
   }
 
@@ -892,8 +888,9 @@ class _FieldSet {
       _ensureExtensions()._shallowCopyValues(originalExtensions);
     }
 
-    if (original._hasUnknownFields) {
-      _ensureUnknownFields()._fields.addAll(original._unknownFields!._fields);
+    final originalUnknownFields = original._unknownFields;
+    if (originalUnknownFields != null) {
+      _ensureUnknownFields()._fields.addAll(originalUnknownFields._fields);
     }
 
     _oneofCases?.addAll(original._oneofCases!);

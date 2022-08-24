@@ -191,8 +191,8 @@ class _ExtensionFieldSet {
   }
 
   void _checkNotInUnknown(Extension extension) {
-    if (_parent._hasUnknownFields &&
-        _parent._unknownFields!.hasField(extension.tagNumber)) {
+    final unknownFields = _parent._unknownFields;
+    if (unknownFields != null && unknownFields.hasField(extension.tagNumber)) {
       throw StateError(
           'Trying to get $extension that is present as an unknown field. '
           'Parse the message with this extension in the extension registry or '
