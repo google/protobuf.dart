@@ -101,13 +101,10 @@ class _FieldSet {
   /// Returns true if we should send events to the plugin.
   bool get _hasObservers => _eventPlugin != null && _eventPlugin!.hasObservers;
 
-  bool get _hasExtensions => _extensions != null;
   bool get _hasUnknownFields => _unknownFields != null;
 
-  _ExtensionFieldSet _ensureExtensions() {
-    if (!_hasExtensions) _extensions = _ExtensionFieldSet(this);
-    return _extensions!;
-  }
+  _ExtensionFieldSet _ensureExtensions() =>
+      _extensions ??= _ExtensionFieldSet(this);
 
   UnknownFieldSet _ensureUnknownFields() {
     if (_unknownFields == null) {
@@ -138,8 +135,7 @@ class _FieldSet {
   FieldInfo? _getFieldInfoOrNull(int tagNumber) {
     var fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi != null) return fi;
-    if (!_hasExtensions) return null;
-    return _extensions!._getInfoOrNull(tagNumber);
+    return _extensions?._getInfoOrNull(tagNumber);
   }
 
   void _markReadOnly() {
@@ -161,8 +157,10 @@ class _FieldSet {
         }
       }
     }
-    if (_hasExtensions) {
-      _ensureExtensions()._markReadOnly();
+
+    final extensions = _extensions;
+    if (extensions != null) {
+      extensions._markReadOnly();
     }
 
     if (_hasUnknownFields) {
@@ -190,10 +188,11 @@ class _FieldSet {
       if (value != null) return value;
       return _getDefault(fi);
     }
-    if (_hasExtensions) {
-      var fi = _extensions!._getInfoOrNull(tagNumber);
+    final extensions = _extensions;
+    if (extensions != null) {
+      var fi = extensions._getInfoOrNull(tagNumber);
       if (fi != null) {
-        return _extensions!._getFieldOrDefault(fi);
+        return extensions._getFieldOrDefault(fi);
       }
     }
     throw ArgumentError('tag $tagNumber not defined in $_messageName');
@@ -220,15 +219,13 @@ class _FieldSet {
   /// Works for both repeated and non-repeated fields.
   dynamic _getFieldOrNull(FieldInfo fi) {
     if (fi.index != null) return _values[fi.index!];
-    if (!_hasExtensions) return null;
-    return _extensions!._getFieldOrNull(fi as Extension<dynamic>);
+    return _extensions?._getFieldOrNull(fi as Extension<dynamic>);
   }
 
   bool _hasField(int tagNumber) {
     var fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi != null) return _$has(fi.index!);
-    if (!_hasExtensions) return false;
-    return _extensions!._hasField(tagNumber);
+    return _extensions?._hasField(tagNumber) ?? false;
   }
 
   void _clearField(int? tagNumber) {
@@ -249,10 +246,11 @@ class _FieldSet {
       return;
     }
 
-    if (_hasExtensions) {
-      var fi = _extensions!._getInfoOrNull(tagNumber);
+    final extensions = _extensions;
+    if (extensions != null) {
+      var fi = extensions._getInfoOrNull(tagNumber);
       if (fi != null) {
-        _extensions!._clearField(fi);
+        extensions._clearField(fi);
         return;
       }
     }
@@ -271,10 +269,11 @@ class _FieldSet {
     final meta = _meta;
     var fi = _nonExtensionInfo(meta, tagNumber);
     if (fi == null) {
-      if (!_hasExtensions) {
+      final extensions = _extensions;
+      if (extensions == null) {
         throw ArgumentError('tag $tagNumber not defined in $_messageName');
       }
-      _extensions!._setField(tagNumber, value);
+      extensions._setField(tagNumber, value);
       return;
     }
 
@@ -515,21 +514,23 @@ class _FieldSet {
       _unknownFields!.clear();
     }
 
+    final extensions = _extensions;
+
     if (_hasObservers) {
       for (var fi in _infos) {
         if (_values[fi.index!] != null) {
           _eventPlugin!.beforeClearField(fi);
         }
       }
-      if (_hasExtensions) {
-        for (var key in _extensions!._tagNumbers) {
-          var fi = _extensions!._getInfoOrNull(key)!;
+      if (extensions != null) {
+        for (var key in extensions._tagNumbers) {
+          var fi = extensions._getInfoOrNull(key)!;
           _eventPlugin!.beforeClearField(fi);
         }
       }
     }
     if (_values.isNotEmpty) _values.fillRange(0, _values.length, null);
-    if (_hasExtensions) _extensions!._clearValues();
+    extensions?._clearValues();
   }
 
   bool _equals(_FieldSet o) {
@@ -538,14 +539,16 @@ class _FieldSet {
       if (!_equalFieldValues(_values[i], o._values[i])) return false;
     }
 
-    if (!_hasExtensions || !_extensions!._hasValues) {
+    final extensions = _extensions;
+    if (extensions == null || !extensions._hasValues) {
       // Check if other extensions are logically empty.
       // (Don't create them unnecessarily.)
-      if (o._hasExtensions && o._extensions!._hasValues) {
+      final oExtensions = o._extensions;
+      if (oExtensions != null && oExtensions._hasValues) {
         return false;
       }
     } else {
-      if (!_extensions!._equalValues(o._extensions)) return false;
+      if (!extensions._equalValues(o._extensions)) return false;
     }
 
     if (_unknownFields == null || _unknownFields!.isEmpty) {
@@ -613,8 +616,8 @@ class _FieldSet {
     }
 
     // Hash with extension fields.
-    if (_hasExtensions) {
-      final extensions = _extensions!;
+    final extensions = _extensions;
+    if (extensions != null) {
       final sortedByTagNumbers = _sorted(extensions._tagNumbers);
       for (final tagNumber in sortedByTagNumbers) {
         final fi = extensions._getInfoOrNull(tagNumber)!;
@@ -695,8 +698,9 @@ class _FieldSet {
           fi.name == '' ? fi.tagNumber.toString() : fi.name);
     }
 
-    if (_hasExtensions) {
-      _extensions!._info.keys.toList()
+    final extensions = _extensions;
+    if (extensions != null) {
+      extensions._info.keys.toList()
         ..sort()
         ..forEach((int tagNumber) => writeFieldValue(
             _extensions!._values[tagNumber],
@@ -724,11 +728,11 @@ class _FieldSet {
       var value = other._values[fi.index!];
       if (value != null) _mergeField(fi, value, isExtension: false);
     }
-    if (other._hasExtensions) {
-      var others = other._extensions!;
-      for (var tagNumber in others._tagNumbers) {
-        var extension = others._getInfoOrNull(tagNumber)!;
-        var value = others._getFieldOrNull(extension);
+    final otherExtensions = other._extensions;
+    if (otherExtensions != null) {
+      for (var tagNumber in otherExtensions._tagNumbers) {
+        var extension = otherExtensions._getInfoOrNull(tagNumber)!;
+        var value = otherExtensions._getFieldOrNull(extension);
         _mergeField(extension, value, isExtension: true);
       }
     }
@@ -839,9 +843,10 @@ class _FieldSet {
   }
 
   bool _hasRequiredExtensionValues() {
-    if (!_hasExtensions) return true;
-    for (var fi in _extensions!._infos) {
-      var value = _extensions!._getFieldOrNull(fi);
+    final extensions = _extensions;
+    if (extensions == null) return true;
+    for (var fi in extensions._infos) {
+      var value = extensions._getFieldOrNull(fi);
       if (!fi._hasRequiredValues(value)) return false;
     }
     return true; // No problems found.
@@ -882,8 +887,9 @@ class _FieldSet {
       }
     }
 
-    if (original._hasExtensions) {
-      _ensureExtensions()._shallowCopyValues(original._extensions!);
+    final originalExtensions = original._extensions;
+    if (originalExtensions != null) {
+      _ensureExtensions()._shallowCopyValues(originalExtensions);
     }
 
     if (original._hasUnknownFields) {

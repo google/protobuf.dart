@@ -15,10 +15,11 @@ void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
     out.writeField(fi.tagNumber, fi.type, value);
   }
 
-  if (fs._hasExtensions) {
-    for (var tagNumber in _sorted(fs._extensions!._tagNumbers)) {
-      var fi = fs._extensions!._getInfoOrNull(tagNumber)!;
-      out.writeField(tagNumber, fi.type, fs._extensions!._getFieldOrNull(fi));
+  final extensions = fs._extensions;
+  if (extensions != null) {
+    for (var tagNumber in _sorted(extensions._tagNumbers)) {
+      var fi = extensions._getInfoOrNull(tagNumber)!;
+      out.writeField(tagNumber, fi.type, extensions._getFieldOrNull(fi));
     }
   }
   if (fs._hasUnknownFields) {
