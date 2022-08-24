@@ -108,8 +108,6 @@ class ExtensionGenerator {
     named['protoName'] = _field.quotedProtoName;
     if (_field.isRepeated) {
       invocation = '$protobufImportPrefix.Extension<$dartType>.repeated';
-      named['check'] =
-          '$protobufImportPrefix.getCheckFunction(${_field.typeConstant})';
       if (type.isMessage || type.isGroup) {
         named['subBuilder'] = '$dartType.create';
       } else if (type.isEnum) {
