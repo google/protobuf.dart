@@ -98,9 +98,6 @@ class _FieldSet {
   /// The FieldInfo for each non-extension field in tag order.
   Iterable<FieldInfo> get _infosSortedByTag => _meta.sortedByTag;
 
-  /// Returns true if we should send events to the plugin.
-  bool get _hasObservers => _eventPlugin != null && _eventPlugin!.hasObservers;
-
   _ExtensionFieldSet _ensureExtensions() =>
       _extensions ??= _ExtensionFieldSet(this);
 
@@ -226,7 +223,9 @@ class _FieldSet {
     var fi = _nonExtensionInfo(meta, tagNumber);
     if (fi != null) {
       // clear a non-extension field
-      if (_hasObservers) _eventPlugin!.beforeClearField(fi);
+      final eventPlugin = _eventPlugin;
+      if (eventPlugin != null && eventPlugin.hasObservers)
+        eventPlugin.beforeClearField(fi);
       _values[fi.index!] = null;
 
       if (meta.oneofs.containsKey(fi.tagNumber)) {
@@ -339,8 +338,9 @@ class _FieldSet {
     // beginning of this method but happens just before the value is set.
     // Otherwise the observers will be notified about 'clearField' and
     // 'setField' events in an incorrect order.
-    if (_hasObservers) {
-      _eventPlugin!.beforeSetField(fi, value);
+    final eventPlugin = _eventPlugin;
+    if (eventPlugin != null && eventPlugin.hasObservers) {
+      eventPlugin.beforeSetField(fi, value);
     }
     _values[fi.index!] = value;
   }
@@ -479,8 +479,9 @@ class _FieldSet {
     if (value == null) {
       _$check(index, value); // throw exception for null value
     }
-    if (_hasObservers) {
-      _eventPlugin!.beforeSetField(_nonExtensionInfoByIndex(index), value);
+    final eventPlugin = _eventPlugin;
+    if (eventPlugin != null && eventPlugin.hasObservers) {
+      eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
     }
     final meta = _meta;
     var tag = meta.byIndex[index].tagNumber;
@@ -508,16 +509,17 @@ class _FieldSet {
 
     final extensions = _extensions;
 
-    if (_hasObservers) {
+    final eventPlugin = _eventPlugin;
+    if (eventPlugin != null && eventPlugin.hasObservers) {
       for (var fi in _infos) {
         if (_values[fi.index!] != null) {
-          _eventPlugin!.beforeClearField(fi);
+          eventPlugin.beforeClearField(fi);
         }
       }
       if (extensions != null) {
         for (var key in extensions._tagNumbers) {
           var fi = extensions._getInfoOrNull(key)!;
-          _eventPlugin!.beforeClearField(fi);
+          eventPlugin.beforeClearField(fi);
         }
       }
     }
