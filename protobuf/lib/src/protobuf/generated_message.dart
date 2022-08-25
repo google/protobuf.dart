@@ -418,13 +418,6 @@ abstract class GeneratedMessage {
   /// For generated code only.
   /// @nodoc
   T $_getN<T>(int index) {
-    // The implicit downcast at the return is always correct by construction
-    // from the protoc generator. dart2js will omit the implicit downcast when
-    // compiling with `-O3` or higher. We should introduce some way to
-    // communicate that the downcast cannot fail to the other compilers.
-    //
-    // TODO(sra): With NNDB we will need to add 'as T', and a dart2js annotation
-    // (to be implemented) to omit the 'as' check.
     return _fieldSet._$getND(index);
   }
 
