@@ -326,9 +326,8 @@ abstract class GeneratedMessage {
   /// Returns the value of [extension].
   ///
   /// If not set, returns the extension's default value.
-  dynamic getExtension(Extension extension) {
-    return _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
-  }
+  dynamic getExtension(Extension extension) =>
+      _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
 
   /// Returns the value of the field associated with [tagNumber], or the
   /// default value if it is not set.
@@ -340,14 +339,12 @@ abstract class GeneratedMessage {
   /// that the protobuf can be encoded correctly, the returned List must
   /// validate all items added to it. This can most easily be done
   /// using the [FieldInfo.check] function.
-  List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
-    return PbList<T>(check: fi.check!);
-  }
+  List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) =>
+      PbList<T>(check: fi.check!);
 
   /// Creates a Map representing a map field.
-  Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) {
-    return PbMap<K, V>(fi.keyFieldType, fi.valueFieldType);
-  }
+  Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) =>
+      PbMap<K, V>(fi.keyFieldType, fi.valueFieldType);
 
   /// Returns the value of a field, ignoring any defaults.
   ///
@@ -414,15 +411,11 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
-  T $_getN<T>(int index) {
-    return _fieldSet._$getND(index);
-  }
+  T $_getN<T>(int index) => _fieldSet._$getND(index);
 
   /// For generated code only.
   /// @nodoc
-  T $_ensure<T>(int index) {
-    return _fieldSet._$ensure<T>(index);
-  }
+  T $_ensure<T>(int index) => _fieldSet._$ensure<T>(index);
 
   /// For generated code only.
   /// @nodoc
