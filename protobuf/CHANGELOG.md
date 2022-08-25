@@ -13,6 +13,9 @@
   getter `length` removed. ([#721])
 * Update library documentation to hide internals, add documentation for public
   types. ([#681])
+* Avoid copying when reading map fields of read-only messages. ([#741])
+* Fix `PbMap._isReadonly` field initialization in `PbMap.unmodifiable`.
+  ([#741])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -25,6 +28,7 @@
 [d94d3f0]: https://github.com/google/protobuf.dart/commit/d94d3f0
 [#721]: https://github.com/google/protobuf.dart/pull/721
 [#681]: https://github.com/google/protobuf.dart/pull/681
+[#741]: https://github.com/google/protobuf.dart/pull/741
 
 ## 2.1.0
 
