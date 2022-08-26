@@ -27,8 +27,8 @@ class BuilderInfo {
   /// Mapping from [FieldInfo.name]s to [FieldInfo]s.
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
 
-  /// Mapping from [FieldInfo.tagNumber]s to the corresponding `oneof` indices
-  /// (if any).
+  /// Mapping from `oneof` field [FieldInfo.tagNumber]s to the their indices in
+  /// [_FieldSet._oneofCases].
   final Map<int, int> oneofs = <int, int>{};
 
   /// Whether the message has extension fields.

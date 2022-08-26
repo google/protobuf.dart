@@ -12,7 +12,7 @@ class _ExtensionFieldSet {
 
   _ExtensionFieldSet(this._parent);
 
-  Extension? _getInfoOrNull(int? tagNumber) => _info[tagNumber];
+  Extension? _getInfoOrNull(int tagNumber) => _info[tagNumber];
 
   dynamic _getFieldOrDefault(Extension fi) {
     if (fi.isRepeated) return _getList(fi);
