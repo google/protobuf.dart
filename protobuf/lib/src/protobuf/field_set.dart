@@ -70,8 +70,8 @@ class _FieldSet {
   int? get _memoizedHashCode =>
       _frozenState is int ? _frozenState as int : null;
 
-  // Maps a oneof decl index to the tag number which is currently set. If the
-  // index is not present, the oneof field is unset.
+  /// Maps a `oneof` field index to the tag number which is currently set. If
+  /// the index is not present, the oneof field is unset.
   final Map<int, int>? _oneofCases;
 
   _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
@@ -217,24 +217,26 @@ class _FieldSet {
     return _extensions?._hasField(tagNumber) ?? false;
   }
 
-  void _clearField(int? tagNumber) {
+  void _clearField(int tagNumber) {
     _ensureWritable();
     final meta = _meta;
-    var fi = _nonExtensionInfo(meta, tagNumber);
+    final fi = _nonExtensionInfo(meta, tagNumber);
+
     if (fi != null) {
-      // clear a non-extension field
+      assert(tagNumber == fi.tagNumber);
+
+      // Clear a non-extension field
       final eventPlugin = _eventPlugin;
       if (eventPlugin != null && eventPlugin.hasObservers) {
         eventPlugin.beforeClearField(fi);
       }
       _values[fi.index!] = null;
 
-      if (meta.oneofs.containsKey(fi.tagNumber)) {
-        _oneofCases!.remove(meta.oneofs[fi.tagNumber]);
+      final oneofIndex = meta.oneofs[tagNumber];
+      if (oneofIndex != null) {
+        _oneofCases![oneofIndex] = 0;
       }
 
-      var oneofIndex = meta.oneofs[fi.tagNumber];
-      if (oneofIndex != null) _oneofCases![oneofIndex] = 0;
       return;
     }
 
@@ -328,10 +330,13 @@ class _FieldSet {
 
   /// Sets a non-extended field and fires events.
   void _setNonExtensionFieldUnchecked(BuilderInfo meta, FieldInfo fi, value) {
-    var tag = fi.tagNumber;
-    var oneofIndex = meta.oneofs[tag];
+    final tag = fi.tagNumber;
+    final oneofIndex = meta.oneofs[tag];
     if (oneofIndex != null) {
-      _clearField(_oneofCases![oneofIndex]);
+      final currentOneofTag = _oneofCases![oneofIndex];
+      if (currentOneofTag != null) {
+        _clearField(currentOneofTag);
+      }
       _oneofCases![oneofIndex] = tag;
     }
 
@@ -488,7 +493,10 @@ class _FieldSet {
     var oneofIndex = meta.oneofs[tag];
 
     if (oneofIndex != null) {
-      _clearField(_oneofCases![oneofIndex]);
+      final currentOneofTag = _oneofCases![oneofIndex];
+      if (currentOneofTag != null) {
+        _clearField(currentOneofTag);
+      }
       _oneofCases![oneofIndex] = tag;
     }
     _values[index] = value;
