@@ -279,12 +279,12 @@ abstract class GeneratedMessage {
     /// This is a slight regression on the Dart VM.
     /// TODO(skybrian) we could skip the reviver if we're running
     /// on the Dart VM for a slight speedup.
-    final jsonMap =
-        jsonDecode(data, reviver: _emptyReviver) as Map<String, dynamic>;
+    final Map<String, dynamic> jsonMap =
+        jsonDecode(data, reviver: _emptyReviver);
     _mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry);
   }
 
-  static dynamic _emptyReviver(k, v) => v;
+  static Object? _emptyReviver(Object? k, Object? v) => v;
 
   /// Merges field values from a JSON object represented as a Dart map.
   ///

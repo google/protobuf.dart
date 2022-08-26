@@ -301,12 +301,12 @@ class BuilderInfo {
         : qualifiedMessageName.substring(lastDot + 1);
   }
 
-  List<FieldInfo> _computeSortedByTag() {
-    // TODO(skybrian): perhaps the code generator should insert the FieldInfos
-    // in tag number order, to avoid sorting them?
-    return List<FieldInfo>.from(fieldInfo.values, growable: false)
-      ..sort((FieldInfo a, FieldInfo b) => a.tagNumber.compareTo(b.tagNumber));
-  }
+  List<FieldInfo> _computeSortedByTag() =>
+      // Code generator inserts fields in tag order, but it's possible for
+      // user-written code to insert unordered.
+      List<FieldInfo>.from(fieldInfo.values, growable: false)
+        ..sort(
+            (FieldInfo a, FieldInfo b) => a.tagNumber.compareTo(b.tagNumber));
 
   GeneratedMessage _makeEmptyMessage(
       int tagNumber, ExtensionRegistry? extensionRegistry) {
