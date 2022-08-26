@@ -204,8 +204,13 @@ class ProtobufField {
       final generator = baseType.generator as MessageGenerator;
       var key = generator._fieldList[0];
       var value = generator._fieldList[1];
-      var keyType = key.baseType.getDartType(parent.fileGen!);
-      var valueType = value.baseType.getDartType(parent.fileGen!);
+
+      // Key type is an integer type or string. No need to specify the default
+      // value as the library knows the default for integer and string fields.
+      final keyType = key.baseType.getDartType(parent.fileGen!);
+
+      // Value type can be anything other than another map.
+      final valueType = value.baseType.getDartType(parent.fileGen!);
 
       invocation = 'm<$keyType, $valueType>';
 
@@ -214,10 +219,12 @@ class ProtobufField {
       named['valueFieldType'] = value.typeConstant;
       if (value.baseType.isMessage || value.baseType.isGroup) {
         named['valueCreator'] = '$valueType.create';
+        named['valueDefaultOrMaker'] = value.generateDefaultFunction();
       }
       if (value.baseType.isEnum) {
         named['valueOf'] = '$valueType.valueOf';
         named['enumValues'] = '$valueType.values';
+        named['valueDefaultOrMaker'] = value.generateDefaultFunction();
         named['defaultEnumValue'] = value.generateDefaultFunction();
       }
       if (package != '') {

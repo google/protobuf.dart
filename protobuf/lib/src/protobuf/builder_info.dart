@@ -241,11 +241,12 @@ class BuilderInfo {
       List<ProtobufEnum>? enumValues,
       ProtobufEnum? defaultEnumValue,
       PackageName packageName = const PackageName(''),
-      String? protoName}) {
+      String? protoName,
+      dynamic valueDefaultOrMaker}) {
     var mapEntryBuilderInfo = BuilderInfo(entryClassName, package: packageName)
       ..add(PbMap._keyFieldNumber, 'key', keyFieldType, null, null, null, null)
-      ..add(PbMap._valueFieldNumber, 'value', valueFieldType, null,
-          valueCreator, valueOf, enumValues);
+      ..add(PbMap._valueFieldNumber, 'value', valueFieldType,
+          valueDefaultOrMaker, valueCreator, valueOf, enumValues);
 
     addMapField<K, V>(tagNumber, name, keyFieldType, valueFieldType,
         mapEntryBuilderInfo, valueCreator,
