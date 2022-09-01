@@ -22,7 +22,8 @@
   ```
 * Export public dependencies (`import public`s in proto files) in
   `.pbenum.dart` files, same as `.pb.dart` files. ([9aad6aa])
-* Fix two bugs in map field decoding. ([#719], [#745])
+* Fix decoding map fields when key or value (or both) fields of a map entry is
+  missing. ([#719], [#745])
 
 [#679]: https://github.com/google/protobuf.dart/pull/679
 [#703]: https://github.com/google/protobuf.dart/pull/703

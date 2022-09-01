@@ -16,7 +16,8 @@
 * Avoid copying when reading map fields of read-only messages. ([#741])
 * Fix `PbMap._isReadonly` field initialization in `PbMap.unmodifiable`.
   ([#741])
-* Fix two bugs in map field decoding. ([#719], [#745])
+* Fix decoding map fields when key or value (or both) fields of a map entry is
+  missing. ([#719], [#745])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
