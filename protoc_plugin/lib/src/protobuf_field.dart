@@ -206,7 +206,7 @@ class ProtobufField {
       var value = generator._fieldList[1];
 
       // Key type is an integer type or string. No need to specify the default
-      // value as the library knows the default for integer and string fields.
+      // value as the library knows the defaults for integer and string fields.
       final keyType = key.baseType.getDartType(parent.fileGen!);
 
       // Value type can be anything other than another map.
