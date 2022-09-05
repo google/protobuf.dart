@@ -31,7 +31,7 @@ class PbMap<K, V> extends MapBase<K, V> {
       : keyFieldType = other.keyFieldType,
         valueFieldType = other.valueFieldType,
         _wrappedMap = Map.unmodifiable(other._wrappedMap),
-        _isReadonly = other._isReadonly;
+        _isReadonly = true;
 
   @override
   V? operator [](Object? key) => _wrappedMap[key];

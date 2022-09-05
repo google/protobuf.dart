@@ -106,6 +106,8 @@ class GrpcServiceGenerator {
   }
 
   void _generateClient(IndentingWriter out) {
+    out.println(
+        '@$protobufImportPrefix.GrpcServiceName(\'$_fullServiceName\')');
     out.addBlock('class $_clientClassname extends $_client {', '}', () {
       for (final method in _methods) {
         method.generateClientMethodDescriptor(out);
@@ -124,6 +126,8 @@ class GrpcServiceGenerator {
   }
 
   void _generateService(IndentingWriter out) {
+    out.println(
+        '@$protobufImportPrefix.GrpcServiceName(\'$_fullServiceName\')');
     out.addBlock('abstract class $_serviceClassname extends $_service {', '}',
         () {
       out.println(

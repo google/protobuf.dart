@@ -96,7 +96,14 @@ class CodeGenerator {
             BytesBuilder(), (BytesBuilder builder, data) => builder..add(data))
         .then((builder) => builder.takeBytes())
         .then((List<int> bytes) {
-      var request = CodeGeneratorRequest.fromBuffer(bytes, extensions);
+      // Suppress CodedBufferReader builtin size limitation when reading
+      // the request, as protobuf definitions can be larger than default
+      // limit of 64Mb.
+      final reader = CodedBufferReader(bytes, sizeLimit: bytes.length);
+      final request = CodeGeneratorRequest();
+      request.mergeFromCodedBufferReader(reader, extensions);
+      reader.checkLastTagWas(0);
+
       var response = CodeGeneratorResponse();
 
       // Parse the options in the request. Return the errors is any.
