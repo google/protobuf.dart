@@ -12,4 +12,4 @@ stages:
       - command: ./../tool/setup.sh
       - command: make protos
       - test
-      sdk: [2.12.0, dev]
+      sdk: [pubspec, dev]

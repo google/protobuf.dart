@@ -9,8 +9,8 @@ stages:
     - group:
       - analyze: lib
       - analyze: test
-      sdk: [2.12.0]
+      sdk: [pubspec]
   - run_tests:
     - group: [test]
-      sdk: [2.12.0, dev]
+      sdk: [pubspec, dev]
       os: [linux, osx, windows]
