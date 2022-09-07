@@ -298,8 +298,6 @@ void _mergeFromProto3Json(
               throw context.parseException(
                   'Wrong boolean key, should be one of ("true", "false")', key);
           }
-          // ignore: dead_code
-          throw StateError('(Should have been) unreachable statement');
         case PbFieldType._STRING_BIT:
           return key;
         case PbFieldType._UINT64_BIT:

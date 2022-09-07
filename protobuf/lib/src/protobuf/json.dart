@@ -78,13 +78,14 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     }
     result['${fi.tagNumber}'] = convertToMap(value, fi.type);
   }
-  if (fs._hasExtensions) {
-    for (var tagNumber in _sorted(fs._extensions!._tagNumbers)) {
-      var value = fs._extensions!._values[tagNumber];
+  final extensions = fs._extensions;
+  if (extensions != null) {
+    for (var tagNumber in _sorted(extensions._tagNumbers)) {
+      var value = extensions._values[tagNumber];
       if (value is List && value.isEmpty) {
         continue; // It's repeated or an empty byte array.
       }
-      var fi = fs._extensions!._getInfoOrNull(tagNumber)!;
+      var fi = extensions._getInfoOrNull(tagNumber)!;
       result['$tagNumber'] = convertToMap(value, fi.type);
     }
   }

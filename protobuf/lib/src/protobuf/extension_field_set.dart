@@ -12,7 +12,7 @@ class _ExtensionFieldSet {
 
   _ExtensionFieldSet(this._parent);
 
-  Extension? _getInfoOrNull(int? tagNumber) => _info[tagNumber];
+  Extension? _getInfoOrNull(int tagNumber) => _info[tagNumber];
 
   dynamic _getFieldOrDefault(Extension fi) {
     if (fi.isRepeated) return _getList(fi);
@@ -76,7 +76,10 @@ class _ExtensionFieldSet {
   void _clearField(Extension fi) {
     _ensureWritable();
     _validateInfo(fi);
-    if (_parent._hasObservers) _parent._eventPlugin!.beforeClearField(fi);
+    final eventPlugin = _parent._eventPlugin;
+    if (eventPlugin != null && eventPlugin.hasObservers) {
+      eventPlugin.beforeClearField(fi);
+    }
     _values.remove(fi.tagNumber);
   }
 
@@ -131,8 +134,9 @@ class _ExtensionFieldSet {
   }
 
   void _setFieldUnchecked(Extension fi, value) {
-    if (_parent._hasObservers) {
-      _parent._eventPlugin!.beforeSetField(fi, value);
+    final eventPlugin = _parent._eventPlugin;
+    if (eventPlugin != null && eventPlugin.hasObservers) {
+      eventPlugin.beforeSetField(fi, value);
     }
     // If there was already an unknown field with the same tag number,
     // overwrite it.
@@ -191,8 +195,8 @@ class _ExtensionFieldSet {
   }
 
   void _checkNotInUnknown(Extension extension) {
-    if (_parent._hasUnknownFields &&
-        _parent._unknownFields!.hasField(extension.tagNumber)) {
+    final unknownFields = _parent._unknownFields;
+    if (unknownFields != null && unknownFields.hasField(extension.tagNumber)) {
       throw StateError(
           'Trying to get $extension that is present as an unknown field. '
           'Parse the message with this extension in the extension registry or '

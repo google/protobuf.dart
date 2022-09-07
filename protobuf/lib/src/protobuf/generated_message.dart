@@ -279,12 +279,12 @@ abstract class GeneratedMessage {
     /// This is a slight regression on the Dart VM.
     /// TODO(skybrian) we could skip the reviver if we're running
     /// on the Dart VM for a slight speedup.
-    final jsonMap =
-        jsonDecode(data, reviver: _emptyReviver) as Map<String, dynamic>;
+    final Map<String, dynamic> jsonMap =
+        jsonDecode(data, reviver: _emptyReviver);
     _mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry);
   }
 
-  static dynamic _emptyReviver(k, v) => v;
+  static Object? _emptyReviver(Object? k, Object? v) => v;
 
   /// Merges field values from a JSON object represented as a Dart map.
   ///
@@ -308,9 +308,7 @@ abstract class GeneratedMessage {
 
   /// Clears an extension field and also removes the extension.
   void clearExtension(Extension extension) {
-    if (_fieldSet._hasExtensions) {
-      _fieldSet._extensions!._clearFieldAndInfo(extension);
-    }
+    _fieldSet._extensions?._clearFieldAndInfo(extension);
   }
 
   /// Clears the contents of a given field.
@@ -328,9 +326,8 @@ abstract class GeneratedMessage {
   /// Returns the value of [extension].
   ///
   /// If not set, returns the extension's default value.
-  dynamic getExtension(Extension extension) {
-    return _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
-  }
+  dynamic getExtension(Extension extension) =>
+      _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
 
   /// Returns the value of the field associated with [tagNumber], or the
   /// default value if it is not set.
@@ -342,14 +339,12 @@ abstract class GeneratedMessage {
   /// that the protobuf can be encoded correctly, the returned List must
   /// validate all items added to it. This can most easily be done
   /// using the [FieldInfo.check] function.
-  List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) {
-    return PbList<T>(check: fi.check!);
-  }
+  List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) =>
+      PbList<T>(check: fi.check!);
 
   /// Creates a Map representing a map field.
-  Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) {
-    return PbMap<K, V>(fi.keyFieldType, fi.valueFieldType);
-  }
+  Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) =>
+      PbMap<K, V>(fi.keyFieldType, fi.valueFieldType);
 
   /// Returns the value of a field, ignoring any defaults.
   ///
@@ -368,8 +363,7 @@ abstract class GeneratedMessage {
 
   /// Returns `true` if a value of [extension] is present.
   bool hasExtension(Extension extension) =>
-      _fieldSet._hasExtensions &&
-      _fieldSet._extensions!._getFieldOrNull(extension) != null;
+      _fieldSet._extensions?._getFieldOrNull(extension) != null;
 
   /// Whether this message has a field associated with [tagNumber].
   bool hasField(int tagNumber) => _fieldSet._hasField(tagNumber);
@@ -417,22 +411,11 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
-  T $_getN<T>(int index) {
-    // The implicit downcast at the return is always correct by construction
-    // from the protoc generator. dart2js will omit the implicit downcast when
-    // compiling with `-O3` or higher. We should introduce some way to
-    // communicate that the downcast cannot fail to the other compilers.
-    //
-    // TODO(sra): With NNDB we will need to add 'as T', and a dart2js annotation
-    // (to be implemented) to omit the 'as' check.
-    return _fieldSet._$getND(index);
-  }
+  T $_getN<T>(int index) => _fieldSet._$getND(index);
 
   /// For generated code only.
   /// @nodoc
-  T $_ensure<T>(int index) {
-    return _fieldSet._$ensure<T>(index);
-  }
+  T $_ensure<T>(int index) => _fieldSet._$ensure<T>(index);
 
   /// For generated code only.
   /// @nodoc
