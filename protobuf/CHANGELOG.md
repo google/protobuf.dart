@@ -18,6 +18,8 @@
   ([#741])
 * Fix decoding map fields when key or value (or both) fields of a map entry is
   missing. ([#719], [#745])
+* Fix updating frozen (immutable) messages with merge methods
+  (`mergeFromBuffer`, `mergeFromProto3Json`, ...). ([#489], [#727])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -33,6 +35,8 @@
 [#741]: https://github.com/google/protobuf.dart/pull/741
 [#719]: https://github.com/google/protobuf.dart/issues/719
 [#745]: https://github.com/google/protobuf.dart/pull/745
+[#489]: https://github.com/google/protobuf.dart/issues/489
+[#727]: https://github.com/google/protobuf.dart/pull/727
 
 ## 2.1.0
 
