@@ -8,3 +8,4 @@ build/
 packages
 pubspec.lock
 benchmarks/out
+doc/

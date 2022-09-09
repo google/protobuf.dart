@@ -122,11 +122,11 @@ void _writeFieldValue(dynamic fieldValue, int fieldType, JsonSink jsonSink,
       case PbFieldType._DOUBLE_BIT:
         double value = fieldValue;
         if (value.isNaN) {
-          jsonSink.addString(nan);
+          jsonSink.addString(_nan);
           break;
         }
         if (value.isInfinite) {
-          jsonSink.addString(value.isNegative ? negativeInfinity : infinity);
+          jsonSink.addString(value.isNegative ? _negativeInfinity : _infinity);
           break;
         }
         final intValue = value.toInt();

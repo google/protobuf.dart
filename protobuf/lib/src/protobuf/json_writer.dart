@@ -38,11 +38,11 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
       case PbFieldType._DOUBLE_BIT:
         final value = fieldValue as double;
         if (value.isNaN) {
-          jsonSink.addString(nan);
+          jsonSink.addString(_nan);
           return;
         }
         if (value.isInfinite) {
-          jsonSink.addString(value.isNegative ? negativeInfinity : infinity);
+          jsonSink.addString(value.isNegative ? _negativeInfinity : _infinity);
           return;
         }
         if (fieldValue.toInt() == fieldValue) {
@@ -116,13 +116,14 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
     convertToMap(value, fi.type);
   }
 
-  if (fs._hasExtensions) {
-    for (var tagNumber in _sorted(fs._extensions!._tagNumbers)) {
-      var value = fs._extensions!._values[tagNumber];
+  final extensions = fs._extensions;
+  if (extensions != null) {
+    for (var tagNumber in _sorted(extensions._tagNumbers)) {
+      var value = extensions._values[tagNumber];
       if (value is List && value.isEmpty) {
         continue; // It's repeated or an empty byte array.
       }
-      var fi = fs._extensions!._getInfoOrNull(tagNumber)!;
+      var fi = extensions._getInfoOrNull(tagNumber)!;
       jsonSink.addKey(tagNumber.toString());
       convertToMap(value, fi.type);
     }

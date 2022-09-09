@@ -8,6 +8,7 @@ part of protobuf;
 // (Called recursively on nested messages.)
 void _mergeFromJsonMap(
     _FieldSet fs, Map<String, dynamic> json, ExtensionRegistry? registry) {
+  fs._ensureWritable();
   final keys = json.keys;
   final meta = fs._meta;
   for (var key in keys) {

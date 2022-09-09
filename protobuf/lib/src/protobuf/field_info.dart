@@ -70,7 +70,7 @@ class FieldInfo<T> {
 
   /// Constructs the default value of a field.
   ///
-  /// For repeated fields, only used when the `check` property is `null`.
+  /// For repeated fields, only used when the [check] property is `null`.
   final MakeDefaultFunc? makeDefault;
 
   /// Creates an empty message or group when decoding a message.
@@ -93,7 +93,7 @@ class FieldInfo<T> {
   /// Only available in enum fields.
   final ValueOfFunc? valueOf;
 
-  /// Function to verify when adding items to a repeated field.
+  /// Function to verify items when adding to a repeated field.
   ///
   /// Only available in repeated fields.
   final CheckFunc<T>? check;
@@ -247,6 +247,7 @@ String _unCamelCase(String name) {
       _upperCase, (match) => '_${match.group(0)!.toLowerCase()}');
 }
 
+/// A [FieldInfo] subclass for protobuf `map` fields.
 class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
   /// integer type or `string`, and the type cannot be `repeated`.

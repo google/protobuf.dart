@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+/// Runtime library for Dart implementation of [protobufs][1].
+///
+/// [1]: https://developers.google.com/protocol-buffers
 library protobuf;
 
 import 'dart:collection' show ListBase, MapBase;
@@ -50,6 +53,7 @@ part 'src/protobuf/unpack.dart';
 part 'src/protobuf/wire_format.dart';
 
 // TODO(sra): Use Int64.parse() when available - see http://dartbug.com/21915.
+/// @nodoc
 Int64 parseLongInt(String text) {
   if (text.startsWith('0x')) return Int64.parseHex(text.substring(2));
   if (text.startsWith('+0x')) return Int64.parseHex(text.substring(3));

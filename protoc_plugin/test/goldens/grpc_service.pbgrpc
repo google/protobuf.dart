@@ -13,6 +13,7 @@ import 'package:grpc/service_api.dart' as $grpc;
 import 'test.pb.dart' as $0;
 export 'test.pb.dart';
 
+@$pb.GrpcServiceName('Test')
 class TestClient extends $grpc.Client {
   static final _$unary = $grpc.ClientMethod<$0.Input, $0.Output>(
       '/Test/Unary',
@@ -54,6 +55,7 @@ class TestClient extends $grpc.Client {
   }
 }
 
+@$pb.GrpcServiceName('Test')
 abstract class TestServiceBase extends $grpc.Service {
   $core.String get $name => 'Test';
 

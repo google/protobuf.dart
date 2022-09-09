@@ -4,6 +4,14 @@
 
 part of protobuf;
 
+const _truncatedMessageText = '''
+While parsing a protocol message, the input ended unexpectedly
+in the middle of a field. This could either mean that the input
+has been truncated or that an embedded message misreported its
+own length.
+''';
+
+/// Exception thrown by the binary deserializer when the encoding is malformed.
 class InvalidProtocolBufferException implements Exception {
   final String message;
 
@@ -25,15 +33,20 @@ class InvalidProtocolBufferException implements Exception {
       : this._('CodedBufferReader encountered a malformed varint.');
 
   InvalidProtocolBufferException.recursionLimitExceeded() : this._('''
-Protocol message had too many levels of nesting.  May be malicious.
+Protocol message had too many levels of nesting. May be malicious.
 Use CodedBufferReader.setRecursionLimit() to increase the depth limit.
 ''');
 
-  InvalidProtocolBufferException.truncatedMessage() : this._('''
-While parsing a protocol message, the input ended unexpectedly
-in the middle of a field.  This could mean either than the
-input has been truncated or that an embedded message
-misreported its own length.
+  InvalidProtocolBufferException.truncatedMessage()
+      : this._(_truncatedMessageText);
+
+  InvalidProtocolBufferException.truncatedMessageDueToSizeLimit(
+      int originalSize, int truncatedSize)
+      : this._(_truncatedMessageText +
+            '''
+
+Note that the buffer containing the message has $originalSize bytes, but
+CodedBufferReader was allowed to parse only $truncatedSize bytes.
 ''');
 
   InvalidProtocolBufferException.wrongAnyMessage(
