@@ -271,7 +271,7 @@ abstract class DurationMixin {
 
   static final RegExp finalZeroes = RegExp(r'0+$');
 
-  static toProto3JsonHelper(
+  static void toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
     var duration = message as DurationMixin;
     var secFrac = duration.nanos
