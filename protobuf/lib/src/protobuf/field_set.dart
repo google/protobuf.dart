@@ -742,7 +742,9 @@ class _FieldSet {
       for (var tagNumber in otherExtensions._tagNumbers) {
         var extension = otherExtensions._getInfoOrNull(tagNumber)!;
         var value = otherExtensions._getFieldOrNull(extension);
-        _mergeExtensionField(extension, value);
+        if (value != null) {
+          _mergeExtensionField(extension, value);
+        }
       }
     }
 
@@ -805,9 +807,6 @@ class _FieldSet {
     var fi = _nonExtensionInfo(meta, tagNumber) ?? otherFi;
 
     if (fi.isMapField) {
-      if (fieldValue == null) {
-        return;
-      }
       final MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
       final PbMap<dynamic, dynamic> map =
           f._ensureMapField(meta, this) as dynamic;
