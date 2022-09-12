@@ -727,7 +727,7 @@ class _FieldSet {
 
     if (!identical(_meta, other._meta)) {
       throw ArgumentError(
-          'Merging messages with different types (BuilderInfos)', 'other');
+          'Merging messages with different types (BuilderInfos)');
     }
 
     for (var fi in other._infosSortedByTag) {
