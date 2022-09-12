@@ -733,7 +733,7 @@ class _FieldSet {
     for (var fi in other._infosSortedByTag) {
       var value = other._values[fi.index!];
       if (value != null) {
-        _mergeNonExtensionFieldUnchecked(fi, value);
+        _mergeNonExtensionField(fi, value);
       }
     }
 
@@ -752,7 +752,7 @@ class _FieldSet {
     }
   }
 
-  void _mergeNonExtensionFieldUnchecked(FieldInfo fi, dynamic fieldValue) {
+  void _mergeNonExtensionField(FieldInfo fi, dynamic fieldValue) {
     if (fi.isMapField) {
       final mapInfo = fi as MapFieldInfo<dynamic, dynamic>;
       final map =
@@ -839,14 +839,14 @@ class _FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      final currentFi =
+      final currentFieldValue =
           _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>);
 
       GeneratedMessage msg = fieldValue;
-      if (currentFi == null) {
+      if (currentFieldValue == null) {
         fieldValue = msg.deepCopy();
       } else {
-        final GeneratedMessage currentMsg = currentFi;
+        final GeneratedMessage currentMsg = currentFieldValue;
         fieldValue = currentMsg..mergeFromMessage(msg);
       }
     }
