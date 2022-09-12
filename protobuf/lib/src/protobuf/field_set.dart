@@ -733,7 +733,7 @@ class _FieldSet {
     for (var fi in other._infosSortedByTag) {
       var value = other._values[fi.index!];
       if (value != null) {
-        _mergeNonExtensionField(fi, value);
+        _mergeField(fi, value, isExtension: false);
       }
     }
 
@@ -743,7 +743,7 @@ class _FieldSet {
         var extension = otherExtensions._getInfoOrNull(tagNumber)!;
         var value = otherExtensions._getFieldOrNull(extension);
         if (value != null) {
-          _mergeExtensionField(extension, value);
+          _mergeField(extension, value, isExtension: true);
         }
       }
     }
@@ -754,7 +754,7 @@ class _FieldSet {
     }
   }
 
-  void _mergeNonExtensionField(FieldInfo fi, dynamic fieldValue) {
+  void _mergeField(FieldInfo fi, fieldValue, {required bool isExtension}) {
     if (fi.isMapField) {
       final MapFieldInfo<dynamic, dynamic> mapInfo = fi as dynamic;
       final map = mapInfo._ensureMapField(_meta, this);
@@ -785,52 +785,9 @@ class _FieldSet {
     }
 
     if (fi.isGroupOrMessage) {
-      final currentFieldValue = _values[fi.index!];
-      final GeneratedMessage msg = fieldValue;
-      if (currentFieldValue == null) {
-        fieldValue = msg.deepCopy();
-      } else {
-        final GeneratedMessage currentMsg = currentFieldValue;
-        fieldValue = currentMsg..mergeFromMessage(msg);
-      }
-    }
-
-    _setNonExtensionFieldUnchecked(_meta, fi, fieldValue);
-  }
-
-  void _mergeExtensionField(FieldInfo fi, fieldValue) {
-    if (fi.isMapField) {
-      final MapFieldInfo<dynamic, dynamic> mapInfo = fi as dynamic;
-      final map = mapInfo._ensureMapField(_meta, this);
-      if (_isGroupOrMessage(mapInfo.valueFieldType)) {
-        final Map fieldValueMap = fieldValue;
-        for (final entry in fieldValueMap.entries) {
-          final GeneratedMessage value = entry.value;
-          map[entry.key] = value.deepCopy();
-        }
-      } else {
-        map.addAll(fieldValue);
-      }
-      return;
-    }
-
-    if (fi.isRepeated) {
-      if (_isGroupOrMessage(fi.type)) {
-        final List<GeneratedMessage> list = fieldValue;
-        final repeatedFields = fi._ensureRepeatedField(_meta, this);
-        for (var i = 0; i < list.length; ++i) {
-          repeatedFields.add(list[i].deepCopy());
-        }
-      } else {
-        final List list = fieldValue;
-        fi._ensureRepeatedField(_meta, this).addAll(list);
-      }
-      return;
-    }
-
-    if (fi.isGroupOrMessage) {
-      final currentFieldValue =
-          _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>);
+      final currentFieldValue = isExtension
+          ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
+          : _values[fi.index!];
 
       final GeneratedMessage msg = fieldValue;
       if (currentFieldValue == null) {
@@ -841,7 +798,12 @@ class _FieldSet {
       }
     }
 
-    _ensureExtensions()._setFieldAndInfo(fi as Extension<dynamic>, fieldValue);
+    if (isExtension) {
+      _ensureExtensions()
+          ._setFieldAndInfo(fi as Extension<dynamic>, fieldValue);
+    } else {
+      _setNonExtensionFieldUnchecked(_meta, fi, fieldValue);
+    }
   }
 
   // Error-checking
