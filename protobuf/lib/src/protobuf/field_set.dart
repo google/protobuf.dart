@@ -723,20 +723,17 @@ class _FieldSet {
   /// fields in this message. Repeated fields are appended. Singular
   /// sub-messages are recursively merged.
   void _mergeFromMessage(_FieldSet other) {
-    // TODO(https://github.com/google/protobuf.dart/issues/60): Recognize
-    // when `this` and [other] are the same protobuf (e.g. from cloning). In
-    // this case, we can merge the non-extension fields without field lookups or
-    // validation checks.
     _ensureWritable();
-    final sameMessageType = identical(_meta, other._meta);
+
+    if (!identical(_meta, other._meta)) {
+      throw ArgumentError(
+          'Merging messages with different types (BuilderInfos)', 'other');
+    }
+
     for (var fi in other._infosSortedByTag) {
       var value = other._values[fi.index!];
       if (value != null) {
-        if (sameMessageType) {
-          _mergeNonExtensionFieldUnchecked(fi, value);
-        } else {
-          _mergeField(fi, value, isExtension: false);
-        }
+        _mergeNonExtensionFieldUnchecked(fi, value);
       }
     }
 
@@ -745,7 +742,7 @@ class _FieldSet {
       for (var tagNumber in otherExtensions._tagNumbers) {
         var extension = otherExtensions._getInfoOrNull(tagNumber)!;
         var value = otherExtensions._getFieldOrNull(extension);
-        _mergeField(extension, value, isExtension: true);
+        _mergeExtensionField(extension, value);
       }
     }
 
@@ -799,19 +796,15 @@ class _FieldSet {
     _setNonExtensionFieldUnchecked(_meta, fi, fieldValue);
   }
 
-  void _mergeField(FieldInfo otherFi, fieldValue, {required bool isExtension}) {
+  void _mergeExtensionField(FieldInfo otherFi, fieldValue) {
     final tagNumber = otherFi.tagNumber;
 
     // Determine the FieldInfo to use.
     // Don't allow regular fields to be overwritten by extensions.
     final meta = _meta;
-    var fi = _nonExtensionInfo(meta, tagNumber);
-    if (fi == null && isExtension) {
-      // This will overwrite any existing extension field info.
-      fi = otherFi;
-    }
+    var fi = _nonExtensionInfo(meta, tagNumber) ?? otherFi;
 
-    if (fi!.isMapField) {
+    if (fi.isMapField) {
       if (fieldValue == null) {
         return;
       }
@@ -846,9 +839,8 @@ class _FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      final currentFi = isExtension
-          ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
-          : _values[fi.index!];
+      final currentFi =
+          _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>);
 
       GeneratedMessage msg = fieldValue;
       if (currentFi == null) {
@@ -859,13 +851,7 @@ class _FieldSet {
       }
     }
 
-    if (isExtension) {
-      _ensureExtensions()
-          ._setFieldAndInfo(fi as Extension<dynamic>, fieldValue);
-    } else {
-      _validateField(fi, fieldValue);
-      _setNonExtensionFieldUnchecked(meta, fi, fieldValue);
-    }
+    _ensureExtensions()._setFieldAndInfo(fi as Extension<dynamic>, fieldValue);
   }
 
   // Error-checking
