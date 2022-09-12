@@ -722,6 +722,11 @@ class _FieldSet {
   /// Singular fields that are set in [other] overwrite the corresponding
   /// fields in this message. Repeated fields are appended. Singular
   /// sub-messages are recursively merged.
+  ///
+  /// Messages are expected to have the same [BuilderInfo].
+  ///
+  /// Throws [ArgumentError] when the messages don't have the same
+  /// [BuilderInfo].
   void _mergeFromMessage(_FieldSet other) {
     _ensureWritable();
 
