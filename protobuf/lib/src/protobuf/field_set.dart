@@ -756,13 +756,12 @@ class _FieldSet {
 
   void _mergeNonExtensionField(FieldInfo fi, dynamic fieldValue) {
     if (fi.isMapField) {
-      final mapInfo = fi as MapFieldInfo<dynamic, dynamic>;
-      final map =
-          mapInfo._ensureMapField(_meta, this) as PbMap<dynamic, dynamic>;
+      final MapFieldInfo<dynamic, dynamic> mapInfo = fi as dynamic;
+      final map = mapInfo._ensureMapField(_meta, this);
       if (_isGroupOrMessage(mapInfo.valueFieldType)) {
-        Map pbMap = fieldValue;
-        for (final entry in pbMap.entries) {
-          GeneratedMessage value = entry.value;
+        final Map fieldValueMap = fieldValue;
+        for (final entry in fieldValueMap.entries) {
+          final GeneratedMessage value = entry.value;
           map[entry.key] = value.deepCopy();
         }
       } else {
@@ -774,12 +773,12 @@ class _FieldSet {
     if (fi.isRepeated) {
       if (_isGroupOrMessage(fi.type)) {
         PbList<GeneratedMessage> pbList = fieldValue;
-        var repeatedFields = fi._ensureRepeatedField(_meta, this);
+        final repeatedFields = fi._ensureRepeatedField(_meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
-        PbList pbList = fieldValue;
+        final PbList pbList = fieldValue;
         fi._ensureRepeatedField(_meta, this).addAll(pbList);
       }
       return;
@@ -798,22 +797,15 @@ class _FieldSet {
     _setNonExtensionFieldUnchecked(_meta, fi, fieldValue);
   }
 
-  void _mergeExtensionField(FieldInfo otherFi, fieldValue) {
-    final tagNumber = otherFi.tagNumber;
-
-    // Determine the FieldInfo to use.
-    // Don't allow regular fields to be overwritten by extensions.
-    final meta = _meta;
-    var fi = _nonExtensionInfo(meta, tagNumber) ?? otherFi;
-
+  void _mergeExtensionField(FieldInfo fi, fieldValue) {
     if (fi.isMapField) {
-      final MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
-      final PbMap<dynamic, dynamic> map =
-          f._ensureMapField(meta, this) as dynamic;
-      if (_isGroupOrMessage(f.valueFieldType)) {
-        PbMap fieldValueMap = fieldValue;
+      final MapFieldInfo<dynamic, dynamic> mapInfo = fi as dynamic;
+      final map = mapInfo._ensureMapField(_meta, this);
+      if (_isGroupOrMessage(mapInfo.valueFieldType)) {
+        final Map fieldValueMap = fieldValue;
         for (final entry in fieldValueMap.entries) {
-          map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
+          final GeneratedMessage value = entry.value;
+          map[entry.key] = value.deepCopy();
         }
       } else {
         map.addAll(fieldValue);
@@ -822,22 +814,20 @@ class _FieldSet {
     }
 
     if (fi.isRepeated) {
-      if (_isGroupOrMessage(otherFi.type)) {
-        // fieldValue must be a PbList of GeneratedMessage.
+      if (_isGroupOrMessage(fi.type)) {
         PbList<GeneratedMessage> pbList = fieldValue;
-        var repeatedFields = fi._ensureRepeatedField(meta, this);
+        final repeatedFields = fi._ensureRepeatedField(_meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
-        // fieldValue must be at least a PbList.
-        PbList pbList = fieldValue;
-        fi._ensureRepeatedField(meta, this).addAll(pbList);
+        final PbList pbList = fieldValue;
+        fi._ensureRepeatedField(_meta, this).addAll(pbList);
       }
       return;
     }
 
-    if (otherFi.isGroupOrMessage) {
+    if (fi.isGroupOrMessage) {
       final currentFieldValue =
           _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>);
 
