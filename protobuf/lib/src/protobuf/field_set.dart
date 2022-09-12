@@ -786,12 +786,12 @@ class _FieldSet {
 
     if (fi.isGroupOrMessage) {
       final currentFieldValue = _values[fi.index!];
+      final GeneratedMessage msg = fieldValue;
       if (currentFieldValue == null) {
-        final GeneratedMessage msg = fieldValue;
         fieldValue = msg.deepCopy();
       } else {
         final GeneratedMessage currentMsg = currentFieldValue;
-        fieldValue = currentMsg..mergeFromMessage(fieldValue);
+        fieldValue = currentMsg..mergeFromMessage(msg);
       }
     }
 
