@@ -772,14 +772,14 @@ class _FieldSet {
 
     if (fi.isRepeated) {
       if (_isGroupOrMessage(fi.type)) {
-        PbList<GeneratedMessage> pbList = fieldValue;
+        final List<GeneratedMessage> list = fieldValue;
         final repeatedFields = fi._ensureRepeatedField(_meta, this);
-        for (var i = 0; i < pbList.length; ++i) {
-          repeatedFields.add(pbList[i].deepCopy());
+        for (var i = 0; i < list.length; ++i) {
+          repeatedFields.add(list[i].deepCopy());
         }
       } else {
-        final PbList pbList = fieldValue;
-        fi._ensureRepeatedField(_meta, this).addAll(pbList);
+        final List list = fieldValue;
+        fi._ensureRepeatedField(_meta, this).addAll(list);
       }
       return;
     }
@@ -787,7 +787,7 @@ class _FieldSet {
     if (fi.isGroupOrMessage) {
       final currentFieldValue = _values[fi.index!];
       if (currentFieldValue == null) {
-        GeneratedMessage msg = fieldValue;
+        final GeneratedMessage msg = fieldValue;
         fieldValue = msg.deepCopy();
       } else {
         final GeneratedMessage currentMsg = currentFieldValue;
@@ -816,14 +816,14 @@ class _FieldSet {
 
     if (fi.isRepeated) {
       if (_isGroupOrMessage(fi.type)) {
-        PbList<GeneratedMessage> pbList = fieldValue;
+        final List<GeneratedMessage> list = fieldValue;
         final repeatedFields = fi._ensureRepeatedField(_meta, this);
-        for (var i = 0; i < pbList.length; ++i) {
-          repeatedFields.add(pbList[i].deepCopy());
+        for (var i = 0; i < list.length; ++i) {
+          repeatedFields.add(list[i].deepCopy());
         }
       } else {
-        final PbList pbList = fieldValue;
-        fi._ensureRepeatedField(_meta, this).addAll(pbList);
+        final List list = fieldValue;
+        fi._ensureRepeatedField(_meta, this).addAll(list);
       }
       return;
     }
@@ -832,7 +832,7 @@ class _FieldSet {
       final currentFieldValue =
           _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>);
 
-      GeneratedMessage msg = fieldValue;
+      final GeneratedMessage msg = fieldValue;
       if (currentFieldValue == null) {
         fieldValue = msg.deepCopy();
       } else {
