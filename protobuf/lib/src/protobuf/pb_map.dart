@@ -4,6 +4,7 @@
 
 part of protobuf;
 
+/// A [MapBase] implementation used for protobuf `map` fields.
 class PbMap<K, V> extends MapBase<K, V> {
   /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
   /// integer type or `string`, and the type cannot be `repeated`.
@@ -30,7 +31,7 @@ class PbMap<K, V> extends MapBase<K, V> {
       : keyFieldType = other.keyFieldType,
         valueFieldType = other.valueFieldType,
         _wrappedMap = Map.unmodifiable(other._wrappedMap),
-        _isReadonly = other._isReadonly;
+        _isReadonly = true;
 
   @override
   V? operator [](Object? key) => _wrappedMap[key];
@@ -94,12 +95,12 @@ class PbMap<K, V> extends MapBase<K, V> {
   }
 
   void _mergeEntry(BuilderInfo mapEntryMeta, CodedBufferReader input,
-      [ExtensionRegistry? registry]) {
+      ExtensionRegistry registry) {
     var length = input.readInt32();
     var oldLimit = input._currentLimit;
     input._currentLimit = input._bufferPos + length;
     final entryFieldSet = _FieldSet(null, mapEntryMeta, null);
-    _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry!);
+    _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
     var key =

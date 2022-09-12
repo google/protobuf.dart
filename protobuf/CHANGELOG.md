@@ -9,9 +9,17 @@
   consistent with `getField` called on repeated fields. ([#373], [#707])
 * Remove unused and optional `PbMap` constructor argument `BuilderInfo? info`.
   ([d94d3f0])
-* Fix presence of `bytes` fields ([#690], [#715])
 * `UnknownFieldSetField` methods `hasRequiredFields`, `isInitialized` and
   getter `length` removed. ([#721])
+* Update library documentation to hide internals, add documentation for public
+  types. ([#681])
+* Avoid copying when reading map fields of read-only messages. ([#741])
+* Fix `PbMap._isReadonly` field initialization in `PbMap.unmodifiable`.
+  ([#741])
+* Fix decoding map fields when key or value (or both) fields of a map entry is
+  missing. ([#719], [#745])
+* Fix updating frozen (immutable) messages with merge methods
+  (`mergeFromBuffer`, `mergeFromProto3Json`, ...). ([#489], [#727])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -22,9 +30,13 @@
 [#373]: https://github.com/google/protobuf.dart/issues/373
 [#707]: https://github.com/google/protobuf.dart/pull/707
 [d94d3f0]: https://github.com/google/protobuf.dart/commit/d94d3f0
-[#690]: https://github.com/google/protobuf.dart/issues/690
-[#715]: https://github.com/google/protobuf.dart/pull/715
 [#721]: https://github.com/google/protobuf.dart/pull/721
+[#681]: https://github.com/google/protobuf.dart/pull/681
+[#741]: https://github.com/google/protobuf.dart/pull/741
+[#719]: https://github.com/google/protobuf.dart/issues/719
+[#745]: https://github.com/google/protobuf.dart/pull/745
+[#489]: https://github.com/google/protobuf.dart/issues/489
+[#727]: https://github.com/google/protobuf.dart/pull/727
 
 ## 2.1.0
 

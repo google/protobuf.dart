@@ -26,10 +26,10 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
       case PbFieldType._DOUBLE_BIT:
         final value = fieldValue as double;
         if (value.isNaN) {
-          return nan;
+          return _nan;
         }
         if (value.isInfinite) {
-          return value.isNegative ? negativeInfinity : infinity;
+          return value.isNegative ? _negativeInfinity : _infinity;
         }
         if (fieldValue.toInt() == fieldValue) {
           return fieldValue.toInt();
@@ -78,13 +78,14 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     }
     result['${fi.tagNumber}'] = convertToMap(value, fi.type);
   }
-  if (fs._hasExtensions) {
-    for (var tagNumber in _sorted(fs._extensions!._tagNumbers)) {
-      var value = fs._extensions!._values[tagNumber];
+  final extensions = fs._extensions;
+  if (extensions != null) {
+    for (var tagNumber in _sorted(extensions._tagNumbers)) {
+      var value = extensions._values[tagNumber];
       if (value is List && value.isEmpty) {
         continue; // It's repeated or an empty byte array.
       }
-      var fi = fs._extensions!._getInfoOrNull(tagNumber)!;
+      var fi = extensions._getInfoOrNull(tagNumber)!;
       result['$tagNumber'] = convertToMap(value, fi.type);
     }
   }
@@ -95,6 +96,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 // (Called recursively on nested messages.)
 void _mergeFromJsonMap(
     _FieldSet fs, Map<String, dynamic> json, ExtensionRegistry? registry) {
+  fs._ensureWritable();
   final keys = json.keys;
   final meta = fs._meta;
   for (var key in keys) {

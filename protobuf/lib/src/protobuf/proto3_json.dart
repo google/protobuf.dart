@@ -62,10 +62,10 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
         case PbFieldType._DOUBLE_BIT:
           double value = fieldValue;
           if (value.isNaN) {
-            return nan;
+            return _nan;
           }
           if (value.isInfinite) {
-            return value.isNegative ? negativeInfinity : infinity;
+            return value.isNegative ? _negativeInfinity : _infinity;
           }
           if (fieldValue.toInt() == fieldValue) {
             return fieldValue.toInt();
@@ -157,6 +157,7 @@ void _mergeFromProto3Json(
     bool ignoreUnknownFields,
     bool supportNamesWithUnderscores,
     bool permissiveEnums) {
+  fieldSet._ensureWritable();
   var context = JsonParsingContext(
       ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
@@ -297,8 +298,6 @@ void _mergeFromProto3Json(
               throw context.parseException(
                   'Wrong boolean key, should be one of ("true", "false")', key);
           }
-          // ignore: dead_code
-          throw StateError('(Should have been) unreachable statement');
         case PbFieldType._STRING_BIT:
           return key;
         case PbFieldType._UINT64_BIT:
