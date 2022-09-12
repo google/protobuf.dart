@@ -787,7 +787,8 @@ class _FieldSet {
     if (fi.isGroupOrMessage) {
       final currentFieldValue = _values[fi.index!];
       if (currentFieldValue == null) {
-        fieldValue = (fieldValue as GeneratedMessage).deepCopy();
+        GeneratedMessage msg = fieldValue;
+        fieldValue = msg.deepCopy();
       } else {
         final GeneratedMessage currentMsg = currentFieldValue;
         fieldValue = currentMsg..mergeFromMessage(fieldValue);
