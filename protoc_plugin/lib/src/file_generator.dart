@@ -659,4 +659,6 @@ const _ignores = {
   'unnecessary_this',
   'unused_import',
   'unused_shown_name',
+  'no_leading_underscores_for_local_identifiers',
+  'depend_on_referenced_packages',
 };
