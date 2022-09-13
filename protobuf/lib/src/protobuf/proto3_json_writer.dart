@@ -7,7 +7,7 @@ part of protobuf;
 void _writeToProto3JsonSink(
     _FieldSet fs, TypeRegistry typeRegistry, JsonSink jsonSink,
     {bool newMessage = true}) {
-  final wellKnownConverter = fs._meta.writeToProto3JsonSink;
+  final wellKnownConverter = fs._meta.toProto3Json;
   if (wellKnownConverter != null) {
     wellKnownConverter(fs._message!, typeRegistry, jsonSink);
     return;

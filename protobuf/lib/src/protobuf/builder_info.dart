@@ -44,7 +44,7 @@ class BuilderInfo {
   /// JSON generator for well-known types.
   final void Function(
           GeneratedMessage msg, TypeRegistry typeRegistry, JsonSink jsonSink)?
-      writeToProto3JsonSink;
+      toProto3Json;
 
   /// JSON parser for well-known types.
   final Function(GeneratedMessage targetMessage, Object json,
@@ -55,7 +55,7 @@ class BuilderInfo {
   BuilderInfo(String? messageName,
       {PackageName package = const PackageName(''),
       this.createEmptyInstance,
-      this.writeToProto3JsonSink,
+      this.toProto3Json,
       this.fromProto3Json})
       : qualifiedMessageName = '${package.prefix}$messageName';
 

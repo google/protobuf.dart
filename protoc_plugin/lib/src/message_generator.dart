@@ -304,7 +304,7 @@ class MessageGenerator extends ProtobufContainer {
     var packageClause =
         package == '' ? '' : ', package: $conditionalPackageName';
     var proto3JsonClause = (mixin?.hasProto3JsonHelpers ?? false)
-        ? ', writeToProto3JsonSink: $mixinImportPrefix.${mixin!.name}.toProto3JsonHelper, '
+        ? ', toProto3Json: $mixinImportPrefix.${mixin!.name}.toProto3JsonHelper, '
             'fromProto3Json: $mixinImportPrefix.${mixin!.name}.fromProto3JsonHelper'
         : '';
     out.addAnnotatedBlock(
