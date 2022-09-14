@@ -728,7 +728,7 @@ class _FieldSet {
     // when `this` and [other] are the same protobuf (e.g. from cloning). In
     // this case, we can merge the non-extension fields without field lookups or
     // validation checks.
-
+    _ensureWritable();
     for (var fi in other._infosSortedByTag) {
       var value = other._values[fi.index!];
       if (value != null) _mergeField(fi, value, isExtension: false);
