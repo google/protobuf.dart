@@ -229,10 +229,10 @@ abstract class GeneratedMessage {
     return buf.toString();
   }
 
-  /// Returns Dart JSON object encoding this message following proto3 JSON
+  /// Returns Dart JSON object encoding this message, following proto3 JSON
   /// format.
   ///
-  /// Key for a field is the the camel-cased name of the field.
+  /// Key for a field is the the camel-case name of the field.
   ///
   /// Well-known types and their special JSON encodings are supported.
   ///
