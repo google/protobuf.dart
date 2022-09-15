@@ -199,7 +199,7 @@ class BuilderInfo {
   }
 
   void aOM<T extends GeneratedMessage>(int tagNumber, String name,
-      {T Function()? subBuilder, String? protoName}) {
+      {required T Function() subBuilder, String? protoName}) {
     add<T>(
         tagNumber,
         name,
@@ -212,7 +212,7 @@ class BuilderInfo {
   }
 
   void aQM<T extends GeneratedMessage>(int tagNumber, String name,
-      {T Function()? subBuilder, String? protoName}) {
+      {required T Function() subBuilder, String? protoName}) {
     add<T>(
         tagNumber,
         name,
