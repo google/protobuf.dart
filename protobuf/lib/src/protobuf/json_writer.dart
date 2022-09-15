@@ -9,8 +9,9 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
     var baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
+      final List listValue = fieldValue;
       jsonSink.startArray();
-      for (final value in fieldValue as List) {
+      for (final value in listValue) {
         convertToMap(value, baseType);
       }
       jsonSink.endArray();
@@ -36,25 +37,27 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
 
       case PbFieldType._FLOAT_BIT:
       case PbFieldType._DOUBLE_BIT:
-        final value = fieldValue as double;
-        if (value.isNaN) {
+        final double doubleValue = fieldValue;
+        if (doubleValue.isNaN) {
           jsonSink.addString(_nan);
           return;
         }
-        if (value.isInfinite) {
-          jsonSink.addString(value.isNegative ? _negativeInfinity : _infinity);
+        if (doubleValue.isInfinite) {
+          jsonSink.addString(
+              doubleValue.isNegative ? _negativeInfinity : _infinity);
           return;
         }
         if (fieldValue.toInt() == fieldValue) {
           jsonSink.addNumber(fieldValue.toInt());
           return;
         }
-        jsonSink.addNumber(value);
+        jsonSink.addNumber(doubleValue);
         return;
 
       case PbFieldType._BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
-        jsonSink.addString(base64Encode(fieldValue as List<int>));
+        final List<int> listValue = fieldValue;
+        jsonSink.addString(base64Encode(listValue));
         return;
 
       case PbFieldType._ENUM_BIT:
@@ -76,7 +79,8 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
 
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        (fieldValue as GeneratedMessage).writeToJsonSink(jsonSink);
+        final GeneratedMessage messageValue = fieldValue;
+        messageValue.writeToJsonSink(jsonSink);
         return;
 
       default:
@@ -108,8 +112,9 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
       continue; // It's missing, repeated, or an empty byte array.
     }
     if (_isMapField(fi.type)) {
+      final MapFieldInfo mapFi = fi as dynamic;
       jsonSink.addKey(fi.tagNumber.toString());
-      _writeMap(value, fi as MapFieldInfo<dynamic, dynamic>);
+      _writeMap(value, mapFi);
       continue;
     }
     jsonSink.addKey(fi.tagNumber.toString());

@@ -28,18 +28,20 @@ void _writeToProto3JsonSink(
 
     if (fieldInfo.isMapField) {
       jsonSink.startObject(); // start map field
-      final mapEntryInfo = fieldInfo as MapFieldInfo;
-      for (var entry in (value as PbMap).entries) {
+      final MapFieldInfo mapFieldInfo = fieldInfo as dynamic;
+      final Map mapValue = value;
+      for (var entry in mapValue.entries) {
         final key = entry.key;
         final value = entry.value;
-        _writeMapKey(key, mapEntryInfo.keyFieldType, jsonSink);
+        _writeMapKey(key, mapFieldInfo.keyFieldType, jsonSink);
         _writeFieldValue(
-            value, mapEntryInfo.valueFieldType, jsonSink, typeRegistry);
+            value, mapFieldInfo.valueFieldType, jsonSink, typeRegistry);
       }
       jsonSink.endObject(); // end map field
     } else if (fieldInfo.isRepeated) {
       jsonSink.startArray(); // start repeated field
-      for (final element in value as PbList) {
+      final List listValue = value;
+      for (final element in listValue) {
         _writeFieldValue(element, fieldInfo.type, jsonSink, typeRegistry);
       }
       jsonSink.endArray(); // end repeated field
@@ -60,13 +62,16 @@ void _writeMapKey(dynamic key, int keyType, JsonSink jsonSink) {
 
   switch (baseType) {
     case PbFieldType._BOOL_BIT:
-      jsonSink.addKey((key as bool).toString());
+      final bool boolKey = key;
+      jsonSink.addKey(boolKey.toString());
       break;
     case PbFieldType._STRING_BIT:
-      jsonSink.addKey(key as String);
+      final String stringKey = key;
+      jsonSink.addKey(stringKey);
       break;
     case PbFieldType._UINT64_BIT:
-      jsonSink.addKey((key as Int64).toStringUnsigned().toString());
+      final Int64 intKey = key;
+      jsonSink.addKey(intKey.toStringUnsigned().toString());
       break;
     case PbFieldType._INT32_BIT:
     case PbFieldType._SINT32_BIT:
@@ -92,10 +97,11 @@ void _writeFieldValue(dynamic fieldValue, int fieldType, JsonSink jsonSink,
   }
 
   if (_isGroupOrMessage(fieldType)) {
-    _writeToProto3JsonSink(
-        (fieldValue as GeneratedMessage)._fieldSet, typeRegistry, jsonSink);
+    final GeneratedMessage messageValue = fieldValue;
+    _writeToProto3JsonSink(messageValue._fieldSet, typeRegistry, jsonSink);
   } else if (_isEnum(fieldType)) {
-    jsonSink.addString((fieldValue as ProtobufEnum).name);
+    final ProtobufEnum enumValue = fieldValue;
+    jsonSink.addString(enumValue.name);
   } else {
     final baseType = PbFieldType._baseType(fieldType);
     switch (baseType) {
@@ -137,7 +143,8 @@ void _writeFieldValue(dynamic fieldValue, int fieldType, JsonSink jsonSink,
         jsonSink.addNumber(value);
         break;
       case PbFieldType._UINT64_BIT:
-        jsonSink.addString((fieldValue as Int64).toStringUnsigned());
+        final Int64 intValue = fieldValue;
+        jsonSink.addString(intValue.toStringUnsigned());
         break;
       case PbFieldType._BYTES_BIT:
         jsonSink.addString(base64Encode(fieldValue));
