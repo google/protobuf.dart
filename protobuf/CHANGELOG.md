@@ -13,7 +13,6 @@
   getter `length` removed. ([#721])
 * Update library documentation to hide internals, add documentation for public
   types. ([#681])
-* Avoid copying when reading map fields of read-only messages. ([#741])
 * Fix `PbMap._isReadonly` field initialization in `PbMap.unmodifiable`.
   ([#741])
 * Fix decoding map fields when key or value (or both) fields of a map entry is
