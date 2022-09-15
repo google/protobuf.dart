@@ -260,7 +260,7 @@ abstract class GeneratedMessage {
       {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
     final buf = StringBuffer();
     final stringSink = jsonStringWriter(buf);
-    $_toProto3JsonSink(typeRegistry, stringSink);
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, stringSink);
     return buf.toString();
   }
 
