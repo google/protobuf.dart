@@ -232,33 +232,6 @@ abstract class GeneratedMessage {
   /// Returns Dart JSON object encoding this message following proto3 JSON
   /// format.
   ///
-  /// The returned object will have the same format as objects returned by
-  /// [jsonEncode].
-  ///
-  /// See [toProto3JsonSink] for details.
-  Object? toProto3Json(
-      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
-    Object? object;
-    final objectSink = jsonObjectWriter((newObject) {
-      object = newObject;
-    });
-    _writeToProto3JsonSink(_fieldSet, typeRegistry, objectSink);
-    return object;
-  }
-
-  /// Returns a proto3 JSON string encoding this message.
-  ///
-  /// See [toProto3JsonSink] for details.
-  String toProto3JsonString(
-      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
-    final buf = StringBuffer();
-    final stringSink = jsonStringWriter(buf);
-    toProto3JsonSink(typeRegistry, stringSink);
-    return buf.toString();
-  }
-
-  /// Writes proto3 JSON serialization of this message to the given [JsonSink].
-  ///
   /// The key for each field is be the camel-cased name of the field.
   ///
   /// Well-known types and their special JSON encoding are supported. If a
@@ -270,9 +243,30 @@ abstract class GeneratedMessage {
   /// The [typeRegistry] is be used for encoding `Any` messages. If an `Any`
   /// message encoding a type not in [typeRegistry] is encountered, an error is
   /// thrown.
+  Object? toProto3Json(
+      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
+    Object? object;
+    final objectSink = jsonObjectWriter((newObject) {
+      object = newObject;
+    });
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, objectSink);
+    return object;
+  }
+
+  /// Returns a proto3 JSON string encoding of this message.
   ///
-  /// The [newMessage] argument is for use in generated code, do not use.
-  void toProto3JsonSink(TypeRegistry typeRegistry, JsonSink jsonSink,
+  /// See [toProto3Json] for details.
+  String toProto3JsonString(
+      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
+    final buf = StringBuffer();
+    final stringSink = jsonStringWriter(buf);
+    $_toProto3JsonSink(typeRegistry, stringSink);
+    return buf.toString();
+  }
+
+  /// For generated code only.
+  /// @nodoc
+  void $_toProto3JsonSink(TypeRegistry typeRegistry, JsonSink jsonSink,
       {bool newMessage = true}) {
     _writeToProto3JsonSink(_fieldSet, typeRegistry, jsonSink,
         newMessage: newMessage);

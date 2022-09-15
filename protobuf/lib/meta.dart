@@ -52,7 +52,6 @@ const GeneratedMessage_reservedNames = <String>[
   'toBuilder',
   'toDebugString',
   'toProto3Json',
-  'toProto3JsonSink',
   'toProto3JsonString',
   'toString',
   'unknownFields',
@@ -81,6 +80,7 @@ const GeneratedMessage_reservedNames = <String>[
   r'$_setSignedInt32',
   r'$_setString',
   r'$_setUnsignedInt32',
+  r'$_toProto3JsonSink',
   r'$_whichOneof',
 ];
 

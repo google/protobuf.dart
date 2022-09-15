@@ -8,8 +8,7 @@
 library protobuf;
 
 import 'dart:collection' show ListBase, MapBase;
-import 'dart:convert'
-    show base64Decode, base64Encode, jsonEncode, jsonDecode, Utf8Codec;
+import 'dart:convert' show base64Decode, base64Encode, jsonDecode, Utf8Codec;
 import 'dart:math' as math;
 import 'dart:typed_data' show TypedData, Uint8List, ByteData, Endian;
 
