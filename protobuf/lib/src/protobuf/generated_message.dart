@@ -205,7 +205,7 @@ abstract class GeneratedMessage {
     final objectSink = jsonObjectWriter((newObject) {
       object = newObject;
     });
-    writeToJsonSink(objectSink);
+    _writeToJsonMapSink(_fieldSet, objectSink);
     return object as Map<String, dynamic>;
   }
 
@@ -225,12 +225,8 @@ abstract class GeneratedMessage {
   String writeToJson() {
     final buf = StringBuffer();
     final stringSink = jsonStringWriter(buf);
-    writeToJsonSink(stringSink);
+    _writeToJsonMapSink(_fieldSet, stringSink);
     return buf.toString();
-  }
-
-  void writeToJsonSink(JsonSink jsonSink) {
-    _writeToJsonMapSink(_fieldSet, jsonSink);
   }
 
   /// Returns Dart JSON object encoding this message following proto3 JSON

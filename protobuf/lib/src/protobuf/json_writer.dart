@@ -80,7 +80,7 @@ void _writeToJsonMapSink(_FieldSet fs, JsonSink jsonSink) {
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
         final GeneratedMessage messageValue = fieldValue;
-        messageValue.writeToJsonSink(jsonSink);
+        _writeToJsonMapSink(messageValue._fieldSet, jsonSink);
         return;
 
       default:
