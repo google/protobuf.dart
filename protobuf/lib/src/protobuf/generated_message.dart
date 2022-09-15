@@ -232,17 +232,19 @@ abstract class GeneratedMessage {
   /// Returns Dart JSON object encoding this message following proto3 JSON
   /// format.
   ///
-  /// The key for each field is be the camel-cased name of the field.
+  /// Key for a field is the the camel-cased name of the field.
   ///
-  /// Well-known types and their special JSON encoding are supported. If a
-  /// well-known type cannot be encoded (eg. a `google.protobuf.Timestamp` with
-  /// negative `nanoseconds`) an error is thrown.
+  /// Well-known types and their special JSON encodings are supported.
   ///
   /// Extensions and unknown fields are not encoded.
   ///
-  /// The [typeRegistry] is be used for encoding `Any` messages. If an `Any`
-  /// message encoding a type not in [typeRegistry] is encountered, an error is
-  /// thrown.
+  /// [typeRegistry] is used for encoding `Any` messages.
+  ///
+  /// Throws [ArgumentError] if type of an `Any` message is not in
+  /// [typeRegistry].
+  ///
+  /// Throws [ArgumentError] if a well-known type cannot be encoded. For
+  /// example, when a `google.protobuf.Timestamp` has negative `nanoseconds`.
   Object? toProto3Json(
       {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
     Object? object;
