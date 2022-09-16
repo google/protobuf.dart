@@ -39,26 +39,26 @@ class _ExtensionFieldSet {
   ///
   /// If it doesn't exist, creates the list and saves the extension.
   /// Suitable for public API and decoders.
-  List<T?> _ensureRepeatedField<T>(Extension<T?> fi) {
+  List<T> _ensureRepeatedField<T>(Extension<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     assert(fi.extendee == '' || fi.extendee == _parent._messageName);
 
     var list = _values[fi.tagNumber];
-    if (list != null) return list as List<T>;
+    if (list != null) return list;
 
-    return _addInfoAndCreateList(fi) as List<T?>;
+    return _addInfoAndCreateList(fi);
   }
 
-  List<T?> _getList<T>(Extension<T?> fi) {
+  List<T> _getList<T>(Extension<T> fi) {
     var value = _values[fi.tagNumber];
-    if (value != null) return value as List<T>;
+    if (value != null) return value;
     _checkNotInUnknown(fi);
     if (_isReadOnly) return List<T>.unmodifiable(const []);
-    return _addInfoAndCreateList(fi) as List<T?>;
+    return _addInfoAndCreateList<T>(fi);
   }
 
-  List _addInfoAndCreateList(Extension fi) {
+  List<T> _addInfoAndCreateList<T>(Extension<T> fi) {
     _validateInfo(fi);
     var newList = fi._createRepeatedField(_parent._message!);
     _addInfoUnchecked(fi);
@@ -188,7 +188,8 @@ class _ExtensionFieldSet {
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.tagNumber];
         if (entry != null) {
-          (entry as GeneratedMessage).freeze();
+          GeneratedMessage msg = entry;
+          msg.freeze();
         }
       }
     }
