@@ -447,4 +447,11 @@ void main() {
       expect(message, TestMap()..int32ToEnumField[0] = TestMap_EnumValue.BAR);
     }
   });
+
+  test('Read-only message uninitialized map field value is read-only', () {
+    final msg = TestMap()..freeze();
+    expect(() {
+      msg.int32ToInt32Field[0] = 1;
+    }, throwsA(const TypeMatcher<UnsupportedError>()));
+  });
 }
