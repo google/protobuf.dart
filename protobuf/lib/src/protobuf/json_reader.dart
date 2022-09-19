@@ -4,94 +4,6 @@
 
 part of protobuf;
 
-Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
-  dynamic convertToMap(dynamic fieldValue, int fieldType) {
-    var baseType = PbFieldType._baseType(fieldType);
-
-    if (_isRepeated(fieldType)) {
-      final PbList list = fieldValue;
-      return List.from(list.map((e) => convertToMap(e, baseType)));
-    }
-
-    switch (baseType) {
-      case PbFieldType._BOOL_BIT:
-      case PbFieldType._STRING_BIT:
-      case PbFieldType._INT32_BIT:
-      case PbFieldType._SINT32_BIT:
-      case PbFieldType._UINT32_BIT:
-      case PbFieldType._FIXED32_BIT:
-      case PbFieldType._SFIXED32_BIT:
-        return fieldValue;
-      case PbFieldType._FLOAT_BIT:
-      case PbFieldType._DOUBLE_BIT:
-        final value = fieldValue as double;
-        if (value.isNaN) {
-          return _nan;
-        }
-        if (value.isInfinite) {
-          return value.isNegative ? _negativeInfinity : _infinity;
-        }
-        if (fieldValue.toInt() == fieldValue) {
-          return fieldValue.toInt();
-        }
-        return value;
-      case PbFieldType._BYTES_BIT:
-        // Encode 'bytes' as a base64-encoded string.
-        return base64Encode(fieldValue as List<int>);
-      case PbFieldType._ENUM_BIT:
-        final ProtobufEnum enum_ = fieldValue;
-        return enum_.value; // assume |value| < 2^52
-      case PbFieldType._INT64_BIT:
-      case PbFieldType._SINT64_BIT:
-      case PbFieldType._SFIXED64_BIT:
-        return fieldValue.toString();
-      case PbFieldType._UINT64_BIT:
-      case PbFieldType._FIXED64_BIT:
-        final Int64 int_ = fieldValue;
-        return int_.toStringUnsigned();
-      case PbFieldType._GROUP_BIT:
-      case PbFieldType._MESSAGE_BIT:
-        final GeneratedMessage msg = fieldValue;
-        return msg.writeToJsonMap();
-      default:
-        throw 'Unknown type $fieldType';
-    }
-  }
-
-  List _writeMap(PbMap fieldValue, MapFieldInfo fi) =>
-      List.from(fieldValue.entries.map((MapEntry e) => {
-            '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
-            '${PbMap._valueFieldNumber}':
-                convertToMap(e.value, fi.valueFieldType)
-          }));
-
-  var result = <String, dynamic>{};
-  for (var fi in fs._infosSortedByTag) {
-    var value = fs._values[fi.index!];
-    if (value == null || (value is List && value.isEmpty)) {
-      continue; // It's missing, repeated, or an empty byte array.
-    }
-    if (_isMapField(fi.type)) {
-      result['${fi.tagNumber}'] =
-          _writeMap(value, fi as MapFieldInfo<dynamic, dynamic>);
-      continue;
-    }
-    result['${fi.tagNumber}'] = convertToMap(value, fi.type);
-  }
-  final extensions = fs._extensions;
-  if (extensions != null) {
-    for (var tagNumber in _sorted(extensions._tagNumbers)) {
-      var value = extensions._values[tagNumber];
-      if (value is List && value.isEmpty) {
-        continue; // It's repeated or an empty byte array.
-      }
-      var fi = extensions._getInfoOrNull(tagNumber)!;
-      result['$tagNumber'] = convertToMap(value, fi.type);
-    }
-  }
-  return result;
-}
-
 // Merge fields from a previously decoded JSON object.
 // (Called recursively on nested messages.)
 void _mergeFromJsonMap(
@@ -146,14 +58,14 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
     final convertedKey = _convertJsonValue(
         entryMeta,
         entryFieldSet,
-        jsonEntry['${PbMap._keyFieldNumber}'],
+        jsonEntry[PbMap._keyFieldNumberString],
         PbMap._keyFieldNumber,
         fi.keyFieldType,
         registry);
     var convertedValue = _convertJsonValue(
         entryMeta,
         entryFieldSet,
-        jsonEntry['${PbMap._valueFieldNumber}'],
+        jsonEntry[PbMap._valueFieldNumberString],
         PbMap._valueFieldNumber,
         fi.valueFieldType,
         registry);

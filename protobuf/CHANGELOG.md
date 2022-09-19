@@ -19,6 +19,11 @@
   missing. ([#719], [#745])
 * Fix updating frozen (immutable) messages with merge methods
   (`mergeFromBuffer`, `mergeFromProto3Json`, ...). ([#489], [#727])
+* New `GeneratedMessage` method `toProto3JsonString` added to generate proto3
+  JSON string of a message. This method is much more efficient than generating
+  proto3 JSON object of a message with `toProto3Json` and then encoding that
+  object with `dart:convert`'s `jsonEncode`. ([#683])
+* `GeneratedMessage.writeToJson` performance improved. ([#683])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -36,6 +41,8 @@
 [#745]: https://github.com/google/protobuf.dart/pull/745
 [#489]: https://github.com/google/protobuf.dart/issues/489
 [#727]: https://github.com/google/protobuf.dart/pull/727
+[jsontool]: https://pub.dev/packages/jsontool
+[#683]: https://github.com/google/protobuf.dart/pull/683
 
 ## 2.1.0
 

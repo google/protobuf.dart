@@ -41,11 +41,15 @@ class BuilderInfo {
 
   List<FieldInfo>? _sortedByTag;
 
-  // For well-known types.
-  final Object? Function(GeneratedMessage message, TypeRegistry typeRegistry)?
+  /// JSON generator for well-known types.
+  final void Function(
+          GeneratedMessage msg, TypeRegistry typeRegistry, JsonSink jsonSink)?
       toProto3Json;
+
+  /// JSON parser for well-known types.
   final Function(GeneratedMessage targetMessage, Object json,
       TypeRegistry typeRegistry, JsonParsingContext context)? fromProto3Json;
+
   final CreateBuilderFunc? createEmptyInstance;
 
   BuilderInfo(String? messageName,

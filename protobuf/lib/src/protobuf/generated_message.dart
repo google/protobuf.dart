@@ -200,7 +200,14 @@ abstract class GeneratedMessage {
   /// Returns the JSON encoding of this message as a Dart [Map].
   ///
   /// The encoding is described in [GeneratedMessage.writeToJson].
-  Map<String, dynamic> writeToJsonMap() => _writeToJsonMap(_fieldSet);
+  Map<String, dynamic> writeToJsonMap() {
+    Object? object;
+    final objectSink = jsonObjectWriter((newObject) {
+      object = newObject;
+    });
+    _writeToJsonMapSink(_fieldSet, objectSink);
+    return object as Map<String, dynamic>;
+  }
 
   /// Returns a JSON string that encodes this message.
   ///
@@ -215,24 +222,57 @@ abstract class GeneratedMessage {
   /// represented as their integer value.
   ///
   /// For the proto3 JSON format use: [toProto3Json].
-  String writeToJson() => jsonEncode(writeToJsonMap());
+  String writeToJson() {
+    final buf = StringBuffer();
+    final stringSink = jsonStringWriter(buf);
+    _writeToJsonMapSink(_fieldSet, stringSink);
+    return buf.toString();
+  }
 
-  /// Returns an Object representing Proto3 JSON serialization of `this`.
+  /// Returns Dart JSON object encoding this message, following proto3 JSON
+  /// format.
   ///
-  /// The key for each field is be the camel-cased name of the field.
+  /// Key for a field is the the camel-case name of the field.
   ///
-  /// Well-known types and their special JSON encoding are supported.
-  /// If a well-known type cannot be encoded (eg. a `google.protobuf.Timestamp`
-  /// with negative `nanoseconds`) an error is thrown.
+  /// Well-known types and their special JSON encodings are supported.
   ///
   /// Extensions and unknown fields are not encoded.
   ///
-  /// The [typeRegistry] is be used for encoding `Any` messages. If an `Any`
-  /// message encoding a type not in [typeRegistry] is encountered, an
-  /// error is thrown.
+  /// [typeRegistry] is used for encoding `Any` messages.
+  ///
+  /// Throws [ArgumentError] if type of an `Any` message is not in
+  /// [typeRegistry].
+  ///
+  /// Throws [ArgumentError] if a well-known type cannot be encoded. For
+  /// example, when a `google.protobuf.Timestamp` has negative `nanoseconds`.
   Object? toProto3Json(
-          {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
-      _writeToProto3Json(_fieldSet, typeRegistry);
+      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
+    Object? object;
+    final objectSink = jsonObjectWriter((newObject) {
+      object = newObject;
+    });
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, objectSink);
+    return object;
+  }
+
+  /// Returns a proto3 JSON string encoding of this message.
+  ///
+  /// See [toProto3Json] for details.
+  String toProto3JsonString(
+      {TypeRegistry typeRegistry = const TypeRegistry.empty()}) {
+    final buf = StringBuffer();
+    final stringSink = jsonStringWriter(buf);
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, stringSink);
+    return buf.toString();
+  }
+
+  /// For generated code only.
+  /// @nodoc
+  void $_toProto3JsonSink(TypeRegistry typeRegistry, JsonSink jsonSink,
+      {bool newMessage = true}) {
+    _writeToProto3JsonSink(_fieldSet, typeRegistry, jsonSink,
+        newMessage: newMessage);
+  }
 
   /// Merges field values from [json], a JSON object using proto3 encoding.
   ///

@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
+  jsontool:
+    dependency: transitive
+    description:
+      name: jsontool
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   lints:
     dependency: "direct dev"
     description:

@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:jsontool/jsontool.dart';
 
 import '../../../protobuf.dart';
 import '../json_parsing_context.dart';
@@ -76,23 +77,25 @@ abstract class AnyMixin implements GeneratedMessage {
   //       "@type": "type.googleapis.com/google.protobuf.Duration",
   //       "value": "1.212s"
   //     }
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
     var any = message as AnyMixin;
-    var info = typeRegistry.lookup(_typeNameFromUrl(any.typeUrl));
+    final info = typeRegistry.lookup(_typeNameFromUrl(any.typeUrl));
     if (info == null) {
       throw ArgumentError(
           'The type of the Any message (${any.typeUrl}) is not in the given typeRegistry.');
     }
-    var unpacked = info.createEmptyInstance!()..mergeFromBuffer(any.value);
-    var proto3Json = unpacked.toProto3Json(typeRegistry: typeRegistry);
+    final unpacked = info.createEmptyInstance!()..mergeFromBuffer(any.value);
+    jsonSink.startObject();
+    jsonSink.addKey('@type');
+    jsonSink.addString(any.typeUrl);
     if (info.toProto3Json == null) {
-      var map = proto3Json as Map<String, dynamic>;
-      map['@type'] = any.typeUrl;
-      return map;
+      unpacked.$_toProto3JsonSink(typeRegistry, jsonSink, newMessage: false);
     } else {
-      return {'@type': any.typeUrl, 'value': proto3Json};
+      jsonSink.addKey('value');
+      unpacked.$_toProto3JsonSink(typeRegistry, jsonSink, newMessage: true);
     }
+    jsonSink.endObject();
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -191,8 +194,8 @@ abstract class TimestampMixin {
   //
   // For example, "2017-01-15T01:30:15.01Z" encodes 15.01 seconds past
   // 01:30 UTC on January 15, 2017.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
     var timestamp = message as TimestampMixin;
     var dateTime = timestamp.toDateTime();
 
@@ -225,7 +228,7 @@ abstract class TimestampMixin {
               .padLeft(9, '0')
               .replaceFirst(finalGroupsOfThreeZeroes, '');
     }
-    return '$y-$m-${d}T$h:$min:$sec${secFrac}Z';
+    jsonSink.addString('$y-$m-${d}T$h:$min:$sec${secFrac}Z');
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -268,8 +271,8 @@ abstract class DurationMixin {
 
   static final RegExp finalZeroes = RegExp(r'0+$');
 
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
     var duration = message as DurationMixin;
     var secFrac = duration.nanos
         // nanos and seconds should always have the same sign.
@@ -278,7 +281,7 @@ abstract class DurationMixin {
         .padLeft(9, '0')
         .replaceFirst(finalZeroes, '');
     var secPart = secFrac == '' ? '' : '.$secFrac';
-    return '${duration.seconds}${secPart}s';
+    jsonSink.addString('${duration.seconds}${secPart}s');
   }
 
   static final RegExp durationPattern = RegExp(r'(-?\d*)(?:\.(\d*))?s$');
@@ -312,11 +315,16 @@ abstract class StructMixin implements GeneratedMessage {
 
   // From google/protobuf/struct.proto:
   // The JSON representation for `Struct` is JSON object.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
     var struct = message as StructMixin;
-    return struct.fields.map((key, value) =>
-        MapEntry(key, ValueMixin.toProto3JsonHelper(value, typeRegistry)));
+
+    jsonSink.startObject();
+    for (var entry in struct.fields.entries) {
+      jsonSink.addKey(entry.key);
+      ValueMixin.toProto3JsonHelper(entry.value, typeRegistry, jsonSink);
+    }
+    jsonSink.endObject();
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -370,23 +378,24 @@ abstract class ValueMixin implements GeneratedMessage {
 
   // From google/protobuf/struct.proto:
   // The JSON representation for `Value` is JSON value
-  static Object? toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
     var value = message as ValueMixin;
     // This would ideally be a switch, but we cannot import the enum we are
     // switching over.
     if (value.hasNullValue()) {
-      return null;
+      jsonSink.addNull();
     } else if (value.hasNumberValue()) {
-      return value.numberValue;
+      jsonSink.addNumber(value.numberValue);
     } else if (value.hasStringValue()) {
-      return value.stringValue;
+      jsonSink.addString(value.stringValue);
     } else if (value.hasBoolValue()) {
-      return value.boolValue;
+      jsonSink.addBool(value.boolValue);
     } else if (value.hasStructValue()) {
-      return StructMixin.toProto3JsonHelper(value.structValue, typeRegistry);
+      StructMixin.toProto3JsonHelper(value.structValue, typeRegistry, jsonSink);
     } else if (value.hasListValue()) {
-      return ListValueMixin.toProto3JsonHelper(value.listValue, typeRegistry);
+      ListValueMixin.toProto3JsonHelper(
+          value.listValue, typeRegistry, jsonSink);
     } else {
       throw ArgumentError('Serializing google.protobuf.Value with no value');
     }
@@ -429,12 +438,14 @@ abstract class ListValueMixin implements GeneratedMessage {
 
   // From google/protobuf/struct.proto:
   // The JSON representation for `ListValue` is JSON array.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    var list = message as ListValueMixin;
-    return list.values
-        .map((value) => ValueMixin.toProto3JsonHelper(value, typeRegistry))
-        .toList();
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    final list = message as ListValueMixin;
+    jsonSink.startArray();
+    for (final value in list.values) {
+      ValueMixin.toProto3JsonHelper(value, typeRegistry, jsonSink);
+    }
+    jsonSink.endArray();
   }
 
   static const _valueFieldTagNumber = 1;
@@ -467,8 +478,8 @@ abstract class FieldMaskMixin {
   // In JSON, a field mask is encoded as a single string where paths are
   // separated by a comma. Fields name in each path are converted
   // to/from lower-camel naming conventions.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
     var fieldMask = message as FieldMaskMixin;
     for (var path in fieldMask.paths) {
       if (path.contains(RegExp('[A-Z]|_[^a-z]'))) {
@@ -476,7 +487,7 @@ abstract class FieldMaskMixin {
             'Bad fieldmask $path. Does not round-trip to json.');
       }
     }
-    return fieldMask.paths.map(_toCamelCase).join(',');
+    jsonSink.addString(fieldMask.paths.map(_toCamelCase).join(','));
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -516,9 +527,9 @@ abstract class DoubleValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `DoubleValue` is JSON number.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as DoubleValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addNumber((message as DoubleValueMixin).value);
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -542,9 +553,9 @@ abstract class FloatValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `FloatValue` is JSON number.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as FloatValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addNumber((message as FloatValueMixin).value);
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -568,9 +579,9 @@ abstract class Int64ValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `Int64Value` is JSON string.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as Int64ValueMixin).value.toString();
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addString((message as Int64ValueMixin).value.toString());
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -596,9 +607,9 @@ abstract class UInt64ValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `UInt64Value` is JSON string.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as UInt64ValueMixin).value.toStringUnsigned();
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addString((message as UInt64ValueMixin).value.toStringUnsigned());
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -625,9 +636,9 @@ abstract class Int32ValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `Int32Value` is JSON number.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as Int32ValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addNumber((message as Int32ValueMixin).value);
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -648,9 +659,10 @@ abstract class Int32ValueMixin {
 abstract class UInt32ValueMixin {
   int get value;
   set value(int value);
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as UInt32ValueMixin).value;
+
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addNumber((message as UInt32ValueMixin).value);
   }
 
   // From google/protobuf/wrappers.proto:
@@ -676,9 +688,9 @@ abstract class BoolValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `BoolValue` is JSON `true` and `false`
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as BoolValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addBool((message as BoolValueMixin).value);
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -697,9 +709,9 @@ abstract class StringValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `StringValue` is JSON string.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return (message as StringValueMixin).value;
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addString((message as StringValueMixin).value);
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,
@@ -718,9 +730,9 @@ abstract class BytesValueMixin {
 
   // From google/protobuf/wrappers.proto:
   // The JSON representation for `BytesValue` is JSON string.
-  static Object toProto3JsonHelper(
-      GeneratedMessage message, TypeRegistry typeRegistry) {
-    return base64.encode((message as BytesValueMixin).value);
+  static void toProto3JsonHelper(
+      GeneratedMessage message, TypeRegistry typeRegistry, JsonSink jsonSink) {
+    jsonSink.addString(base64.encode((message as BytesValueMixin).value));
   }
 
   static void fromProto3JsonHelper(GeneratedMessage message, Object json,

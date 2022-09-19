@@ -19,7 +19,9 @@ class PbMap<K, V> extends MapBase<K, V> {
   final int valueFieldType;
 
   static const int _keyFieldNumber = 1;
+  static const String _keyFieldNumberString = '1';
   static const int _valueFieldNumber = 2;
+  static const String _valueFieldNumberString = '2';
 
   final Map<K, V> _wrappedMap;
 
