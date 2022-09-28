@@ -332,67 +332,47 @@ class CodedBufferWriter {
   }
 
   void _writeValueAs(int valueType, dynamic value) {
-    switch (valueType) {
-      case PbFieldType._BOOL_BIT:
-        _writeVarint32(value ? 1 : 0);
-        break;
-      case PbFieldType._BYTES_BIT:
-        _writeBytesNoTag(
-            value is TypedData ? value : Uint8List.fromList(value));
-        break;
-      case PbFieldType._STRING_BIT:
-        _writeBytesNoTag(_utf8.encode(value));
-        break;
-      case PbFieldType._DOUBLE_BIT:
-        _writeDouble(value);
-        break;
-      case PbFieldType._FLOAT_BIT:
-        _writeFloat(value);
-        break;
-      case PbFieldType._ENUM_BIT:
-        final ProtobufEnum enum_ = value;
-        _writeVarint32(enum_.value & 0xffffffff);
-        break;
-      case PbFieldType._GROUP_BIT:
-        // value is UnknownFieldSet or GeneratedMessage
-        value.writeToCodedBufferWriter(this);
-        break;
-      case PbFieldType._INT32_BIT:
-        _writeVarint64(Int64(value));
-        break;
-      case PbFieldType._INT64_BIT:
-        _writeVarint64(value);
-        break;
-      case PbFieldType._SINT32_BIT:
-        _writeVarint32(_encodeZigZag32(value));
-        break;
-      case PbFieldType._SINT64_BIT:
-        _writeVarint64(_encodeZigZag64(value));
-        break;
-      case PbFieldType._UINT32_BIT:
-        _writeVarint32(value);
-        break;
-      case PbFieldType._UINT64_BIT:
-        _writeVarint64(value);
-        break;
-      case PbFieldType._FIXED32_BIT:
-        _writeInt32(value);
-        break;
-      case PbFieldType._FIXED64_BIT:
-        _writeInt64(value);
-        break;
-      case PbFieldType._SFIXED32_BIT:
-        _writeInt32(value);
-        break;
-      case PbFieldType._SFIXED64_BIT:
-        _writeInt64(value);
-        break;
-      case PbFieldType._MESSAGE_BIT:
-        final mark = _startLengthDelimited();
-        final GeneratedMessage msg = value;
-        msg.writeToCodedBufferWriter(this);
-        _endLengthDelimited(mark);
-        break;
+    if (valueType == PbFieldType._BOOL_BIT) {
+      _writeVarint32(value ? 1 : 0);
+    } else if (valueType == PbFieldType._BYTES_BIT) {
+      _writeBytesNoTag(value is TypedData ? value : Uint8List.fromList(value));
+    } else if (valueType == PbFieldType._STRING_BIT) {
+      _writeBytesNoTag(_utf8.encode(value));
+    } else if (valueType == PbFieldType._DOUBLE_BIT) {
+      _writeDouble(value);
+    } else if (valueType == PbFieldType._FLOAT_BIT) {
+      _writeFloat(value);
+    } else if (valueType == PbFieldType._ENUM_BIT) {
+      final ProtobufEnum enum_ = value;
+      _writeVarint32(enum_.value & 0xffffffff);
+    } else if (valueType == PbFieldType._GROUP_BIT) {
+      // value is UnknownFieldSet or GeneratedMessage
+      value.writeToCodedBufferWriter(this);
+    } else if (valueType == PbFieldType._INT32_BIT) {
+      _writeVarint64(Int64(value));
+    } else if (valueType == PbFieldType._INT64_BIT) {
+      _writeVarint64(value);
+    } else if (valueType == PbFieldType._SINT32_BIT) {
+      _writeVarint32(_encodeZigZag32(value));
+    } else if (valueType == PbFieldType._SINT64_BIT) {
+      _writeVarint64(_encodeZigZag64(value));
+    } else if (valueType == PbFieldType._UINT32_BIT) {
+      _writeVarint32(value);
+    } else if (valueType == PbFieldType._UINT64_BIT) {
+      _writeVarint64(value);
+    } else if (valueType == PbFieldType._FIXED32_BIT) {
+      _writeInt32(value);
+    } else if (valueType == PbFieldType._FIXED64_BIT) {
+      _writeInt64(value);
+    } else if (valueType == PbFieldType._SFIXED32_BIT) {
+      _writeInt32(value);
+    } else if (valueType == PbFieldType._SFIXED64_BIT) {
+      _writeInt64(value);
+    } else if (valueType == PbFieldType._MESSAGE_BIT) {
+      final mark = _startLengthDelimited();
+      final GeneratedMessage msg = value;
+      msg.writeToCodedBufferWriter(this);
+      _endLengthDelimited(mark);
     }
   }
 
