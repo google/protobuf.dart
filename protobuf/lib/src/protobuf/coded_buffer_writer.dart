@@ -422,15 +422,14 @@ class CodedBufferWriter {
   ///
   /// Has a specialization for [Uint8List] for performance.
   static int _copyInto(Uint8List buffer, int pos, TypedData value) {
+    final len = value.lengthInBytes;
     if (value is Uint8List) {
       buffer.setAll(pos, value);
-      return pos + value.length;
     } else {
-      final len = value.lengthInBytes;
       final u8 = Uint8List.view(value.buffer, value.offsetInBytes, len);
       buffer.setAll(pos, u8);
-      return pos + len;
     }
+    return pos + len;
   }
 
   /// This function maps a power-of-2 value (2^0 .. 2^31) to a unique value
