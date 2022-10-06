@@ -423,12 +423,10 @@ class CodedBufferWriter {
   /// Has a specialization for [Uint8List] for performance.
   static int _copyInto(Uint8List buffer, int pos, TypedData value) {
     final len = value.lengthInBytes;
-    if (value is Uint8List) {
-      buffer.setAll(pos, value);
-    } else {
-      final u8 = Uint8List.view(value.buffer, value.offsetInBytes, len);
-      buffer.setAll(pos, u8);
-    }
+    final u8 = value is Uint8List
+        ? value
+        : Uint8List.view(value.buffer, value.offsetInBytes, len);
+    buffer.setAll(pos, u8);
     return pos + len;
   }
 
