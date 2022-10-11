@@ -1,0 +1,32 @@
+// Copyright (c) 2022, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = 'proto2';
+
+message TestRequired {
+  required int32 requiredInt = 1;
+  required string requiredString = 2;
+  required bytes requiredBytes = 3;
+  required float requiredFloat = 4;
+  required TestEnum requiredEnum = 5;
+  required NestedMessage requiredNestedMessage = 6;
+}
+
+enum TestEnum {
+  DEFAULT = 0;
+  A = 1;
+}
+
+message NestedMessage {
+  required int32 requiredInt = 1;
+  required string requiredString = 2;
+  required bytes requiredBytes = 3;
+  required float requiredFloat = 4;
+  required TestEnum requiredEnum = 5;
+  required NestedMessage2 requiredNestedMessage = 6;
+}
+
+message NestedMessage2 {
+  required int32 requiredInt = 1;
+}

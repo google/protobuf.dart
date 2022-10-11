@@ -323,12 +323,14 @@ void _mergeFromProto3Json(
       }
     }
 
+    final meta = fieldSet._meta;
+
     if (json == null) {
-      // `null` represents the default value. Do nothing more.
+      // `null` represents the default value, initialize required fields
+      _initializeRequiredFields(fieldSet);
       return;
     }
 
-    final meta = fieldSet._meta;
     final wellKnownConverter = meta.fromProto3Json;
     if (wellKnownConverter != null) {
       wellKnownConverter(fieldSet._message!, json, typeRegistry, context);
@@ -414,4 +416,27 @@ void _mergeFromProto3Json(
   }
 
   recursionHelper(json, fieldSet);
+}
+
+void _initializeRequiredFields(_FieldSet fieldSet) {
+  final meta = fieldSet._meta;
+
+  if (!meta.hasRequiredFields) {
+    return;
+  }
+
+  for (final fieldInfo in meta.sortedByTag) {
+    if (!fieldInfo.isRequired) {
+      continue;
+    }
+
+    var value = fieldInfo.makeDefault!();
+
+    if (value is GeneratedMessage) {
+      value = value.deepCopy();
+      _initializeRequiredFields(value._fieldSet);
+    }
+
+    fieldSet._setField(fieldInfo.tagNumber, value);
+  }
 }

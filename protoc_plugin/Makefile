@@ -50,6 +50,7 @@ TEST_PROTO_LIST = \
 	nested_message \
 	non_nested_extension \
 	oneof \
+	required \
 	reserved_names \
 	reserved_names_extension \
 	reserved_names_message \

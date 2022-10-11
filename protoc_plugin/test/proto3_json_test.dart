@@ -17,12 +17,13 @@ import '../out/protos/google/protobuf/empty.pb.dart';
 import '../out/protos/google/protobuf/field_mask.pb.dart';
 import '../out/protos/google/protobuf/struct.pb.dart';
 import '../out/protos/google/protobuf/timestamp.pb.dart';
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import '../out/protos/google/protobuf/unittest.pb.dart' hide TestRequired;
 import '../out/protos/google/protobuf/unittest_well_known_types.pb.dart';
 import '../out/protos/google/protobuf/wrappers.pb.dart';
 import '../out/protos/map_field.pb.dart';
 import '../out/protos/nested_any.pb.dart';
 import '../out/protos/oneof.pb.dart';
+import '../out/protos/required.pb.dart';
 import 'oneof_test.dart';
 import 'test_util.dart';
 
@@ -1290,6 +1291,23 @@ void main() {
       var proto = TestAllTypes()..optionalDouble = double.negativeInfinity;
       expect(TestAllTypes()..mergeFromProto3Json(json), proto);
       expect(proto.toProto3Json(), json);
+    });
+  });
+
+  test('Parsing null with required fields', () {
+    final message = TestRequired()..mergeFromProto3Json(null);
+    expect(message.toProto3Json(), {
+      'requiredInt': 0,
+      'requiredString': '',
+      'requiredFloat': 0,
+      'requiredEnum': 'DEFAULT',
+      'requiredNestedMessage': {
+        'requiredInt': 0,
+        'requiredString': '',
+        'requiredFloat': 0,
+        'requiredEnum': 'DEFAULT',
+        'requiredNestedMessage': {'requiredInt': 0}
+      }
     });
   });
 }
