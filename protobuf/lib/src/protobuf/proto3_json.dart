@@ -150,6 +150,8 @@ extension _FindFirst<E> on Iterable<E> {
   }
 }
 
+/// Merge a JSON object representing a message in proto3 JSON format ([json])
+/// to [fieldSet].
 void _mergeFromProto3Json(
     Object? json,
     _FieldSet fieldSet,
@@ -162,10 +164,7 @@ void _mergeFromProto3Json(
       ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
   void recursionHelper(Object? json, _FieldSet fieldSet) {
-    Object? convertProto3JsonValue(Object? value, FieldInfo fieldInfo) {
-      if (value == null) {
-        return fieldInfo.makeDefault!();
-      }
+    Object? convertProto3JsonValue(Object value, FieldInfo fieldInfo) {
       var fieldType = fieldInfo.type;
       switch (PbFieldType._baseType(fieldType)) {
         case PbFieldType._BOOL_BIT:
@@ -337,6 +336,9 @@ void _mergeFromProto3Json(
         final byName = meta.byName;
 
         json.forEach((key, Object? value) {
+          if (value == null) {
+            return;
+          }
           if (key is! String) {
             throw context.parseException('Key was not a String', key);
           }
@@ -375,10 +377,7 @@ void _mergeFromProto3Json(
               throw context.parseException('Expected a map', value);
             }
           } else if (_isRepeated(fieldInfo.type)) {
-            if (value == null) {
-              // `null` is accepted as the empty list [].
-              fieldSet._ensureRepeatedField(meta, fieldInfo);
-            } else if (value is List) {
+            if (value is List) {
               var values = fieldSet._ensureRepeatedField(meta, fieldInfo);
               for (var i = 0; i < value.length; i++) {
                 final entry = value[i];
