@@ -56,7 +56,7 @@ class ProtobufField {
   /// `null` for an extension.
   int? get sourcePosition => memberNames?.sourcePosition;
 
-  /// True if the field is to be encoded with [deprecated = true] encoding.
+  /// Whether the field is to be encoded with [deprecated = true] encoding.
   bool get isDeprecated => descriptor.options.deprecated;
 
   bool get isRequired =>
@@ -109,11 +109,11 @@ class ProtobufField {
   bool get overridesClearMethod =>
       _hasBooleanOption(Dart_options.overrideClearMethod);
 
-  /// True if this field uses the Int64 from the fixnum package.
+  /// Whether this field uses the Int64 from the fixnum package.
   bool get needsFixnumImport =>
       baseType.unprefixed == '$_fixnumImportPrefix.Int64';
 
-  /// True if this field is a map field definition:
+  /// Whether this field is a map field definition:
   /// `map<key_type, value_type> map_field = N`.
   bool get isMapField {
     if (!isRepeated || !baseType.isMessage) return false;
@@ -121,8 +121,9 @@ class ProtobufField {
     return generator._descriptor.options.hasMapEntry();
   }
 
-  // `true` if this field should have a `hazzer` generated.
+  /// Whether this field should have a `hazzer` generated.
   bool get hasPresence {
+    // NB. Map fields are represented as repeated message fields
     if (isRepeated) return false;
     return true;
     // TODO(sigurdm): to provide the correct semantics for non-optional proto3
@@ -140,8 +141,6 @@ class ProtobufField {
   }
 
   /// Returns the expression to use for the Dart type.
-  ///
-  /// This will be a List for repeated types.
   String getDartType() {
     if (isMapField) {
       final d = baseType.generator as MessageGenerator;

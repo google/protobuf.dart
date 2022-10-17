@@ -39,7 +39,7 @@ class PbMixin {
   /// Typically used for static helpers since you cannot mix in static members.
   final List<String>? injectedHelpers;
 
-  /// If `True` the mixin should have static methods for converting to and from
+  /// Whether the mixin should have static methods for converting to and from
   /// proto3 Json.
   final bool hasProto3JsonHelpers;
 
