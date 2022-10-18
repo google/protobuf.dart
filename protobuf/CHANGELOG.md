@@ -19,6 +19,7 @@
   missing. ([#719], [#745])
 * Fix updating frozen (immutable) messages with merge methods
   (`mergeFromBuffer`, `mergeFromProto3Json`, ...). ([#489], [#727])
+* Fix handling `null` values in proto3 JSON deserializer ([#760], [#763])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -36,6 +37,8 @@
 [#745]: https://github.com/google/protobuf.dart/pull/745
 [#489]: https://github.com/google/protobuf.dart/issues/489
 [#727]: https://github.com/google/protobuf.dart/pull/727
+[#760]: https://github.com/google/protobuf.dart/issues/760
+[#763]: https://github.com/google/protobuf.dart/pull/763
 
 ## 2.1.0
 
