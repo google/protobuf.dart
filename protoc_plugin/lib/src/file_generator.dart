@@ -144,7 +144,7 @@ class FileGenerator extends ProtobufContainer {
   final Set<String> usedExtensionNames = <String>{}
     ..addAll(forbiddenExtensionNames);
 
-  /// True if cross-references have been resolved.
+  /// Whether cross-references have been resolved.
   bool _linked = false;
 
   final ProtoSyntax syntax;
