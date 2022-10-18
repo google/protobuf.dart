@@ -118,7 +118,7 @@ class ProtobufField {
   bool get isMapField {
     if (!isRepeated || !baseType.isMessage) return false;
     final generator = baseType.generator as MessageGenerator;
-    return generator._descriptor.options.hasMapEntry();
+    return generator._descriptor.options.mapEntry;
   }
 
   // `true` if this field should have a `hazzer` generated.
