@@ -402,7 +402,7 @@ void main() {
     test('Nulls', () {
       final decoded = TestAllTypes()
         ..mergeFromProto3Json({'defaultString': null});
-      expect(decoded, TestAllTypes()..defaultString = 'hello');
+      expect(decoded, TestAllTypes());
     });
     test('decode TestAllTypes', () {
       final decoded = TestAllTypes()..mergeFromProto3Json(testAllTypesJson);
@@ -1181,16 +1181,7 @@ void main() {
               'stringField': null,
               'bytesField': null,
             }),
-          TestWellKnownTypes()
-            ..doubleField = DoubleValue()
-            ..floatField = FloatValue()
-            ..int64Field = Int64Value()
-            ..uint64Field = UInt64Value()
-            ..int32Field = Int32Value()
-            ..uint32Field = UInt32Value()
-            ..boolField = BoolValue()
-            ..stringField = StringValue()
-            ..bytesField = BytesValue(),
+          TestWellKnownTypes(),
           reason: 'having fields of wrapper types set to null will return an '
               'empty wrapper (with unset .value field)');
     });
