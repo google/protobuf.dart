@@ -43,7 +43,7 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  FileDescriptorSet clone() => FileDescriptorSet()..mergeFromMessage(this);
+  FileDescriptorSet clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -159,7 +159,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  FileDescriptorProto clone() => FileDescriptorProto()..mergeFromMessage(this);
+  FileDescriptorProto clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -303,8 +303,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  DescriptorProto_ExtensionRange clone() =>
-      DescriptorProto_ExtensionRange()..mergeFromMessage(this);
+  DescriptorProto_ExtensionRange clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -399,8 +398,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  DescriptorProto_ReservedRange clone() =>
-      DescriptorProto_ReservedRange()..mergeFromMessage(this);
+  DescriptorProto_ReservedRange clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -533,7 +531,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  DescriptorProto clone() => DescriptorProto()..mergeFromMessage(this);
+  DescriptorProto clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -632,8 +630,7 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  ExtensionRangeOptions clone() =>
-      ExtensionRangeOptions()..mergeFromMessage(this);
+  ExtensionRangeOptions clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -744,8 +741,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  FieldDescriptorProto clone() =>
-      FieldDescriptorProto()..mergeFromMessage(this);
+  FieldDescriptorProto clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -931,8 +927,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  OneofDescriptorProto clone() =>
-      OneofDescriptorProto()..mergeFromMessage(this);
+  OneofDescriptorProto clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -1013,8 +1008,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  EnumDescriptorProto_EnumReservedRange clone() =>
-      EnumDescriptorProto_EnumReservedRange()..mergeFromMessage(this);
+  EnumDescriptorProto_EnumReservedRange clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -1113,7 +1107,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  EnumDescriptorProto clone() => EnumDescriptorProto()..mergeFromMessage(this);
+  EnumDescriptorProto clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -1207,8 +1201,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  EnumValueDescriptorProto clone() =>
-      EnumValueDescriptorProto()..mergeFromMessage(this);
+  EnumValueDescriptorProto clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -1306,8 +1299,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  ServiceDescriptorProto clone() =>
-      ServiceDescriptorProto()..mergeFromMessage(this);
+  ServiceDescriptorProto clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -1409,8 +1401,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  MethodDescriptorProto clone() =>
-      MethodDescriptorProto()..mergeFromMessage(this);
+  MethodDescriptorProto clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -1640,7 +1631,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  FileOptions clone() => FileOptions()..mergeFromMessage(this);
+  FileOptions clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -1955,7 +1946,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  MessageOptions clone() => MessageOptions()..mergeFromMessage(this);
+  MessageOptions clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2093,7 +2084,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  FieldOptions clone() => FieldOptions()..mergeFromMessage(this);
+  FieldOptions clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2217,7 +2208,7 @@ class OneofOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  OneofOptions clone() => OneofOptions()..mergeFromMessage(this);
+  OneofOptions clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2279,7 +2270,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  EnumOptions clone() => EnumOptions()..mergeFromMessage(this);
+  EnumOptions clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2359,7 +2350,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  EnumValueOptions clone() => EnumValueOptions()..mergeFromMessage(this);
+  EnumValueOptions clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2428,7 +2419,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  ServiceOptions clone() => ServiceOptions()..mergeFromMessage(this);
+  ServiceOptions clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2506,7 +2497,7 @@ class MethodOptions extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  MethodOptions clone() => MethodOptions()..mergeFromMessage(this);
+  MethodOptions clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2585,8 +2576,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  UninterpretedOption_NamePart clone() =>
-      UninterpretedOption_NamePart()..mergeFromMessage(this);
+  UninterpretedOption_NamePart clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2695,7 +2685,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  UninterpretedOption clone() => UninterpretedOption()..mergeFromMessage(this);
+  UninterpretedOption clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2839,8 +2829,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  SourceCodeInfo_Location clone() =>
-      SourceCodeInfo_Location()..mergeFromMessage(this);
+  SourceCodeInfo_Location clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2923,7 +2912,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  SourceCodeInfo clone() => SourceCodeInfo()..mergeFromMessage(this);
+  SourceCodeInfo clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -2991,8 +2980,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GeneratedCodeInfo_Annotation clone() =>
-      GeneratedCodeInfo_Annotation()..mergeFromMessage(this);
+  GeneratedCodeInfo_Annotation clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -3083,7 +3071,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  GeneratedCodeInfo clone() => GeneratedCodeInfo()..mergeFromMessage(this);
+  GeneratedCodeInfo clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')

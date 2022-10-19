@@ -24,7 +24,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  PhoneNumber clone() => PhoneNumber()..mergeFromMessage(this);
+  PhoneNumber clone() => deepCopy();
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '

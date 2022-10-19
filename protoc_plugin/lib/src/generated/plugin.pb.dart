@@ -60,7 +60,7 @@ class Version extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  Version clone() => Version()..mergeFromMessage(this);
+  Version clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -171,8 +171,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  CodeGeneratorRequest clone() =>
-      CodeGeneratorRequest()..mergeFromMessage(this);
+  CodeGeneratorRequest clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -267,8 +266,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  CodeGeneratorResponse_File clone() =>
-      CodeGeneratorResponse_File()..mergeFromMessage(this);
+  CodeGeneratorResponse_File clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
@@ -381,8 +379,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
-  CodeGeneratorResponse clone() =>
-      CodeGeneratorResponse()..mergeFromMessage(this);
+  CodeGeneratorResponse clone() => deepCopy();
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')

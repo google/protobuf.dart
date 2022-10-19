@@ -374,8 +374,7 @@ class MessageGenerator extends ProtobufContainer {
 'Using this can add significant overhead to your binary. '
 'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
 'Will be removed in next major version')''');
-      out.println('$classname clone() =>'
-          ' $classname()..mergeFromMessage(this);');
+      out.println('$classname clone() => deepCopy();');
       out.println('''@$coreImportPrefix.Deprecated(
 'Using this can add significant overhead to your binary. '
 'Use [GeneratedMessageGenericExtensions.rebuild] instead. '

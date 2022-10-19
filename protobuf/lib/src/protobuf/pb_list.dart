@@ -14,13 +14,14 @@ class PbList<E> extends ListBase<E> {
   final List<E> _wrappedList;
   final CheckFunc<E> _check;
 
-  bool _isReadOnly = false;
+  bool _isReadOnly;
 
   bool get isFrozen => _isReadOnly;
 
   PbList({CheckFunc<E> check = _checkNotNull})
       : _wrappedList = <E>[],
-        _check = check;
+        _check = check,
+        _isReadOnly = false;
 
   PbList.unmodifiable()
       : _wrappedList = const [],
@@ -29,7 +30,8 @@ class PbList<E> extends ListBase<E> {
 
   PbList.from(List from)
       : _wrappedList = List<E>.from(from),
-        _check = _checkNotNull;
+        _check = _checkNotNull,
+        _isReadOnly = false;
 
   @override
   void add(E element) {

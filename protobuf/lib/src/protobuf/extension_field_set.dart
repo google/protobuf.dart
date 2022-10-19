@@ -6,11 +6,20 @@ part of protobuf;
 
 class _ExtensionFieldSet {
   final _FieldSet _parent;
-  final Map<int, Extension> _info = <int, Extension>{};
-  final Map<int, dynamic> _values = <int, dynamic>{};
-  bool _isReadOnly = false;
 
-  _ExtensionFieldSet(this._parent);
+  final Map<int, Extension> _info;
+
+  final Map<int, dynamic> _values;
+
+  bool _isReadOnly;
+
+  _ExtensionFieldSet(this._parent)
+      : _info = <int, Extension>{},
+        _values = <int, dynamic>{},
+        _isReadOnly = false;
+
+  _ExtensionFieldSet._(
+      this._parent, this._info, this._values, this._isReadOnly);
 
   Extension? _getInfoOrNull(int tagNumber) => _info[tagNumber];
 
@@ -203,5 +212,67 @@ class _ExtensionFieldSet {
           'Parse the message with this extension in the extension registry or '
           'use `ExtensionRegistry.reparseMessage`.');
     }
+  }
+
+  _ExtensionFieldSet deepCopy(_FieldSet parent, {bool freeze = false}) {
+    final values = <int, dynamic>{};
+
+    for (final entry in _values.entries) {
+      final key = entry.key;
+      final value = entry.value;
+      final fieldInfo = _info[key]!;
+
+      if (fieldInfo.isRepeated) {
+        final repeated = fieldInfo._createRepeatedField(parent._message!);
+        values[key] = repeated;
+
+        if (_isGroupOrMessage(fieldInfo.type)) {
+          final List<GeneratedMessage> listValue = value;
+          for (final message in listValue) {
+            repeated.add(message.deepCopy());
+          }
+          // repeated.addAll(listValue.map((message) => message.deepCopy()));
+        } else {
+          final List<dynamic> listValue = value;
+          repeated.addAll(listValue);
+        }
+
+        continue;
+      }
+
+      if (fieldInfo.isMapField) {
+        final MapFieldInfo<dynamic, dynamic> mapFieldInfo =
+            fieldInfo as dynamic;
+        final map = mapFieldInfo._createMapField(parent._message!);
+        values[key] = map;
+
+        if (_isGroupOrMessage(mapFieldInfo.valueFieldType)) {
+          Map<dynamic, GeneratedMessage> mapValue = value;
+          for (final entry in mapValue.entries) {
+            map[entry.key] = entry.value.deepCopy();
+          }
+        } else {
+          Map<dynamic, dynamic> mapValue = value;
+          map.addAll(mapValue);
+        }
+
+        continue;
+      }
+
+      if (fieldInfo.isGroupOrMessage) {
+        final GeneratedMessage messageValue = value;
+        values[key] = messageValue.deepCopy(freeze: freeze);
+        continue;
+      }
+
+      values[key] = value;
+    }
+
+    return _ExtensionFieldSet._(
+      parent,
+      _info,
+      values,
+      freeze,
+    );
   }
 }

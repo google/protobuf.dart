@@ -78,6 +78,9 @@ class _FieldSet {
       : _values = _makeValueList(meta.byIndex.length),
         _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
+  _FieldSet._(this._message, this._eventPlugin, this._values, this._extensions,
+      this._unknownFields, this._frozenState, this._oneofCases);
+
   static List _makeValueList(int length) {
     if (length == 0) return _zeroList;
     return List.filled(length, null, growable: false);
@@ -906,5 +909,80 @@ class _FieldSet {
     }
 
     _oneofCases?.addAll(original._oneofCases!);
+  }
+
+  _FieldSet deepCopy(GeneratedMessage message, EventPlugin? eventPlugin,
+      {bool freeze = false}) {
+    final values = _makeValueList(_values.length);
+    final meta = _meta;
+
+    for (var valueIdx = 0; valueIdx < _values.length; valueIdx += 1) {
+      final value = _values[valueIdx];
+
+      if (value == null) {
+        continue;
+      }
+
+      final fieldInfo = meta.byIndex[valueIdx];
+
+      if (fieldInfo.isRepeated) {
+        final repeated = fieldInfo._createRepeatedField(message);
+        values[valueIdx] = repeated;
+
+        if (_isGroupOrMessage(fieldInfo.type)) {
+          final List<GeneratedMessage> listValue = value;
+          for (final message in listValue) {
+            repeated.add(message.deepCopy());
+          }
+          // repeated.addAll(listValue.map((message) => message.deepCopy()));
+        } else {
+          final List<dynamic> listValue = value;
+          repeated.addAll(listValue);
+        }
+
+        continue;
+      }
+
+      if (fieldInfo.isMapField) {
+        final MapFieldInfo<dynamic, dynamic> mapFieldInfo =
+            fieldInfo as dynamic;
+        final map = mapFieldInfo._createMapField(message);
+        values[valueIdx] = map;
+
+        if (_isGroupOrMessage(mapFieldInfo.valueFieldType)) {
+          Map<dynamic, GeneratedMessage> mapValue = value;
+          for (final entry in mapValue.entries) {
+            map[entry.key] = entry.value.deepCopy();
+          }
+        } else {
+          Map<dynamic, dynamic> mapValue = value;
+          map.addAll(mapValue);
+        }
+
+        continue;
+      }
+
+      if (fieldInfo.isGroupOrMessage) {
+        final GeneratedMessage messageValue = value;
+        values[valueIdx] = messageValue.deepCopy(freeze: freeze);
+        continue;
+      }
+
+      values[valueIdx] = value;
+    }
+
+    final copy = _FieldSet._(
+      message,
+      eventPlugin,
+      values,
+      null,
+      _unknownFields?.deepCopy(freeze: freeze),
+      freeze, // TODO: Can we use `_frozenState` here?
+      _oneofCases == null ? null : Map.from(_oneofCases!),
+    );
+
+    copy._extensions = _extensions?.deepCopy(copy, freeze: freeze);
+
+    return copy;
   }
 }
