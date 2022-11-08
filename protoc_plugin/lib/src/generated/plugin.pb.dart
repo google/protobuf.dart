@@ -3,7 +3,13 @@
 //  source: plugin.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
+
+// ignore_for_file: annotate_overrides, camel_case_types
+// ignore_for_file: constant_identifier_names, directives_ordering
+// ignore_for_file: library_prefixes, non_constant_identifier_names
+// ignore_for_file: prefer_final_fields, return_of_invalid_type
+// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
+// ignore_for_file: unused_import, unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -57,6 +63,7 @@ class Version extends $pb.GeneratedMessage {
   factory Version.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -67,7 +74,9 @@ class Version extends $pb.GeneratedMessage {
   Version copyWith(void Function(Version) updates) =>
       super.copyWith((message) => updates(message as Version))
           as Version; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static Version create() => Version._();
   Version createEmptyInstance() => create();
@@ -168,6 +177,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   factory CodeGeneratorRequest.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -179,7 +189,9 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
       super.copyWith((message) => updates(message as CodeGeneratorRequest))
           as CodeGeneratorRequest; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest create() => CodeGeneratorRequest._();
   CodeGeneratorRequest createEmptyInstance() => create();
@@ -264,6 +276,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   factory CodeGeneratorResponse_File.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -277,7 +290,9 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
       super.copyWith(
               (message) => updates(message as CodeGeneratorResponse_File))
           as CodeGeneratorResponse_File; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File._();
   CodeGeneratorResponse_File createEmptyInstance() => create();
@@ -378,6 +393,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   factory CodeGeneratorResponse.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -390,7 +406,9 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
           void Function(CodeGeneratorResponse) updates) =>
       super.copyWith((message) => updates(message as CodeGeneratorResponse))
           as CodeGeneratorResponse; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse create() => CodeGeneratorResponse._();
   CodeGeneratorResponse createEmptyInstance() => create();

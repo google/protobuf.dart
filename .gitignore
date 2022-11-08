@@ -9,3 +9,4 @@ packages
 pubspec.lock
 benchmarks/out
 doc/
+protoc/

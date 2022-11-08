@@ -426,8 +426,9 @@ class FileGenerator extends ProtobufContainer {
     if (enumCount > 0) {
       // Make sure any other symbols in dart:core don't cause name conflicts
       // with enums that have the same name.
-      out.println('// ignore_for_file: UNDEFINED_SHOWN_NAME');
+      out.println('// ignore_for_file: undefined_shown_name');
       out.println(_coreImport);
+      out.println();
       out.println(_protobufImport);
       out.println();
     }
@@ -609,14 +610,30 @@ class FileGenerator extends ProtobufContainer {
     }).toList()
       ..sort();
 
+    // Group the ignores into lines not longer than 80 chars.
+    var ignorelines = <String>[];
+
+    if (ignores.isNotEmpty) {
+      ignorelines.add('// ignore_for_file: ${ignores.first}');
+
+      for (var ignore in ignores.skip(1)) {
+        if (ignorelines.last.length + ignore.length + ', '.length > 80) {
+          ignorelines.add('// ignore_for_file: $ignore');
+        } else {
+          ignorelines.add('${ignorelines.removeLast()}, $ignore');
+        }
+      }
+    }
+
     out.println('''
 ///
 //  Generated code. Do not modify.
 //  source: ${descriptor.name}
 //
 // @dart = 2.12
-// ignore_for_file: ${ignores.join(',')}
 ''');
+    ignorelines.forEach(out.println);
+    out.println('');
   }
 
   /// Writes an import of a .dart file corresponding to a .proto file.
@@ -647,9 +664,9 @@ class FileGenerator extends ProtobufContainer {
 
 const _ignores = {
   'annotate_overrides',
-  'directives_ordering',
   'camel_case_types',
   'constant_identifier_names',
+  'directives_ordering',
   'library_prefixes',
   'non_constant_identifier_names',
   'prefer_final_fields',

@@ -370,6 +370,8 @@ class MessageGenerator extends ProtobufContainer {
       out.println('factory $classname.fromJson($coreImportPrefix.String i,'
           ' [$protobufImportPrefix.ExtensionRegistry r = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
           ' => create()..mergeFromJson(i, r);');
+
+      out.println('');
       out.println('''@$coreImportPrefix.Deprecated(
 'Using this can add significant overhead to your binary. '
 'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -385,9 +387,11 @@ class MessageGenerator extends ProtobufContainer {
           ' as $classname;'
           ' // ignore: deprecated_member_use');
 
+      out.println('');
       out.println('$protobufImportPrefix.BuilderInfo get info_ => _i;');
 
       // Factory functions which can be used as default value closures.
+      out.println('');
       out.println("@$coreImportPrefix.pragma('dart2js:noInline')");
       out.println('static $classname create() => $classname._();');
       out.println('$classname createEmptyInstance() => create();');

@@ -3,7 +3,13 @@
 //  source: descriptor.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
+
+// ignore_for_file: annotate_overrides, camel_case_types
+// ignore_for_file: constant_identifier_names, directives_ordering
+// ignore_for_file: library_prefixes, non_constant_identifier_names
+// ignore_for_file: prefer_final_fields, return_of_invalid_type
+// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
+// ignore_for_file: unused_import, unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -40,6 +46,7 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   factory FileDescriptorSet.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -50,7 +57,9 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   FileDescriptorSet copyWith(void Function(FileDescriptorSet) updates) =>
       super.copyWith((message) => updates(message as FileDescriptorSet))
           as FileDescriptorSet; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static FileDescriptorSet create() => FileDescriptorSet._();
   FileDescriptorSet createEmptyInstance() => create();
@@ -156,6 +165,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   factory FileDescriptorProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -166,7 +176,9 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   FileDescriptorProto copyWith(void Function(FileDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as FileDescriptorProto))
           as FileDescriptorProto; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static FileDescriptorProto create() => FileDescriptorProto._();
   FileDescriptorProto createEmptyInstance() => create();
@@ -300,6 +312,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   factory DescriptorProto_ExtensionRange.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -313,7 +326,9 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
       super.copyWith(
               (message) => updates(message as DescriptorProto_ExtensionRange))
           as DescriptorProto_ExtensionRange; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ExtensionRange create() =>
       DescriptorProto_ExtensionRange._();
@@ -396,6 +411,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   factory DescriptorProto_ReservedRange.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -409,7 +425,9 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
       super.copyWith(
               (message) => updates(message as DescriptorProto_ReservedRange))
           as DescriptorProto_ReservedRange; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ReservedRange create() =>
       DescriptorProto_ReservedRange._();
@@ -530,6 +548,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
   factory DescriptorProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -540,7 +559,9 @@ class DescriptorProto extends $pb.GeneratedMessage {
   DescriptorProto copyWith(void Function(DescriptorProto) updates) =>
       super.copyWith((message) => updates(message as DescriptorProto))
           as DescriptorProto; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static DescriptorProto create() => DescriptorProto._();
   DescriptorProto createEmptyInstance() => create();
@@ -629,6 +650,7 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
   factory ExtensionRangeOptions.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -641,7 +663,9 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
           void Function(ExtensionRangeOptions) updates) =>
       super.copyWith((message) => updates(message as ExtensionRangeOptions))
           as ExtensionRangeOptions; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static ExtensionRangeOptions create() => ExtensionRangeOptions._();
   ExtensionRangeOptions createEmptyInstance() => create();
@@ -741,6 +765,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   factory FieldDescriptorProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -752,7 +777,9 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   FieldDescriptorProto copyWith(void Function(FieldDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as FieldDescriptorProto))
           as FieldDescriptorProto; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static FieldDescriptorProto create() => FieldDescriptorProto._();
   FieldDescriptorProto createEmptyInstance() => create();
@@ -928,6 +955,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   factory OneofDescriptorProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -939,7 +967,9 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   OneofDescriptorProto copyWith(void Function(OneofDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as OneofDescriptorProto))
           as OneofDescriptorProto; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static OneofDescriptorProto create() => OneofDescriptorProto._();
   OneofDescriptorProto createEmptyInstance() => create();
@@ -1010,6 +1040,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   factory EnumDescriptorProto_EnumReservedRange.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -1023,7 +1054,9 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
       super.copyWith((message) =>
               updates(message as EnumDescriptorProto_EnumReservedRange))
           as EnumDescriptorProto_EnumReservedRange; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto_EnumReservedRange create() =>
       EnumDescriptorProto_EnumReservedRange._();
@@ -1110,6 +1143,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   factory EnumDescriptorProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -1120,7 +1154,9 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   EnumDescriptorProto copyWith(void Function(EnumDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as EnumDescriptorProto))
           as EnumDescriptorProto; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto create() => EnumDescriptorProto._();
   EnumDescriptorProto createEmptyInstance() => create();
@@ -1204,6 +1240,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   factory EnumValueDescriptorProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -1216,7 +1253,9 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
           void Function(EnumValueDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as EnumValueDescriptorProto))
           as EnumValueDescriptorProto; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static EnumValueDescriptorProto create() => EnumValueDescriptorProto._();
   EnumValueDescriptorProto createEmptyInstance() => create();
@@ -1303,6 +1342,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   factory ServiceDescriptorProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -1315,7 +1355,9 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
           void Function(ServiceDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as ServiceDescriptorProto))
           as ServiceDescriptorProto; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static ServiceDescriptorProto create() => ServiceDescriptorProto._();
   ServiceDescriptorProto createEmptyInstance() => create();
@@ -1406,6 +1448,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   factory MethodDescriptorProto.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -1418,7 +1461,9 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
           void Function(MethodDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as MethodDescriptorProto))
           as MethodDescriptorProto; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static MethodDescriptorProto create() => MethodDescriptorProto._();
   MethodDescriptorProto createEmptyInstance() => create();
@@ -1637,6 +1682,7 @@ class FileOptions extends $pb.GeneratedMessage {
   factory FileOptions.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -1647,7 +1693,9 @@ class FileOptions extends $pb.GeneratedMessage {
   FileOptions copyWith(void Function(FileOptions) updates) =>
       super.copyWith((message) => updates(message as FileOptions))
           as FileOptions; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static FileOptions create() => FileOptions._();
   FileOptions createEmptyInstance() => create();
@@ -1952,6 +2000,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   factory MessageOptions.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -1962,7 +2011,9 @@ class MessageOptions extends $pb.GeneratedMessage {
   MessageOptions copyWith(void Function(MessageOptions) updates) =>
       super.copyWith((message) => updates(message as MessageOptions))
           as MessageOptions; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static MessageOptions create() => MessageOptions._();
   MessageOptions createEmptyInstance() => create();
@@ -2090,6 +2141,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   factory FieldOptions.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2100,7 +2152,9 @@ class FieldOptions extends $pb.GeneratedMessage {
   FieldOptions copyWith(void Function(FieldOptions) updates) =>
       super.copyWith((message) => updates(message as FieldOptions))
           as FieldOptions; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static FieldOptions create() => FieldOptions._();
   FieldOptions createEmptyInstance() => create();
@@ -2214,6 +2268,7 @@ class OneofOptions extends $pb.GeneratedMessage {
   factory OneofOptions.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2224,7 +2279,9 @@ class OneofOptions extends $pb.GeneratedMessage {
   OneofOptions copyWith(void Function(OneofOptions) updates) =>
       super.copyWith((message) => updates(message as OneofOptions))
           as OneofOptions; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static OneofOptions create() => OneofOptions._();
   OneofOptions createEmptyInstance() => create();
@@ -2276,6 +2333,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   factory EnumOptions.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2286,7 +2344,9 @@ class EnumOptions extends $pb.GeneratedMessage {
   EnumOptions copyWith(void Function(EnumOptions) updates) =>
       super.copyWith((message) => updates(message as EnumOptions))
           as EnumOptions; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static EnumOptions create() => EnumOptions._();
   EnumOptions createEmptyInstance() => create();
@@ -2356,6 +2416,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   factory EnumValueOptions.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2366,7 +2427,9 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   EnumValueOptions copyWith(void Function(EnumValueOptions) updates) =>
       super.copyWith((message) => updates(message as EnumValueOptions))
           as EnumValueOptions; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static EnumValueOptions create() => EnumValueOptions._();
   EnumValueOptions createEmptyInstance() => create();
@@ -2425,6 +2488,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
   factory ServiceOptions.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2435,7 +2499,9 @@ class ServiceOptions extends $pb.GeneratedMessage {
   ServiceOptions copyWith(void Function(ServiceOptions) updates) =>
       super.copyWith((message) => updates(message as ServiceOptions))
           as ServiceOptions; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static ServiceOptions create() => ServiceOptions._();
   ServiceOptions createEmptyInstance() => create();
@@ -2503,6 +2569,7 @@ class MethodOptions extends $pb.GeneratedMessage {
   factory MethodOptions.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2513,7 +2580,9 @@ class MethodOptions extends $pb.GeneratedMessage {
   MethodOptions copyWith(void Function(MethodOptions) updates) =>
       super.copyWith((message) => updates(message as MethodOptions))
           as MethodOptions; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static MethodOptions create() => MethodOptions._();
   MethodOptions createEmptyInstance() => create();
@@ -2582,6 +2651,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   factory UninterpretedOption_NamePart.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2595,7 +2665,9 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
       super.copyWith(
               (message) => updates(message as UninterpretedOption_NamePart))
           as UninterpretedOption_NamePart; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption_NamePart create() =>
       UninterpretedOption_NamePart._();
@@ -2692,6 +2764,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   factory UninterpretedOption.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2702,7 +2775,9 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   UninterpretedOption copyWith(void Function(UninterpretedOption) updates) =>
       super.copyWith((message) => updates(message as UninterpretedOption))
           as UninterpretedOption; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption create() => UninterpretedOption._();
   UninterpretedOption createEmptyInstance() => create();
@@ -2836,6 +2911,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   factory SourceCodeInfo_Location.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2848,7 +2924,9 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
           void Function(SourceCodeInfo_Location) updates) =>
       super.copyWith((message) => updates(message as SourceCodeInfo_Location))
           as SourceCodeInfo_Location; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo_Location create() => SourceCodeInfo_Location._();
   SourceCodeInfo_Location createEmptyInstance() => create();
@@ -2920,6 +2998,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   factory SourceCodeInfo.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -2930,7 +3009,9 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   SourceCodeInfo copyWith(void Function(SourceCodeInfo) updates) =>
       super.copyWith((message) => updates(message as SourceCodeInfo))
           as SourceCodeInfo; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo create() => SourceCodeInfo._();
   SourceCodeInfo createEmptyInstance() => create();
@@ -2988,6 +3069,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   factory GeneratedCodeInfo_Annotation.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -3001,7 +3083,9 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
       super.copyWith(
               (message) => updates(message as GeneratedCodeInfo_Annotation))
           as GeneratedCodeInfo_Annotation; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo_Annotation create() =>
       GeneratedCodeInfo_Annotation._();
@@ -3080,6 +3164,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   factory GeneratedCodeInfo.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -3090,7 +3175,9 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   GeneratedCodeInfo copyWith(void Function(GeneratedCodeInfo) updates) =>
       super.copyWith((message) => updates(message as GeneratedCodeInfo))
           as GeneratedCodeInfo; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo create() => GeneratedCodeInfo._();
   GeneratedCodeInfo createEmptyInstance() => create();
