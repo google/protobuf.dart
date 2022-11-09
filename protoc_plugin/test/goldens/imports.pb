@@ -3,7 +3,13 @@
 //  source: test.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
+
+// ignore_for_file: annotate_overrides, camel_case_types
+// ignore_for_file: constant_identifier_names, directives_ordering
+// ignore_for_file: library_prefixes, non_constant_identifier_names
+// ignore_for_file: prefer_final_fields, return_of_invalid_type
+// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
+// ignore_for_file: unused_import, unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -24,6 +30,7 @@ class M extends $pb.GeneratedMessage {
   factory M() => create();
   factory M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -34,7 +41,9 @@ class M extends $pb.GeneratedMessage {
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
   M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M)) as M; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static M create() => M._();
   M createEmptyInstance() => create();

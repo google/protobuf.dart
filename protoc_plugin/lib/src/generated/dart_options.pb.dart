@@ -3,7 +3,13 @@
 //  source: dart_options.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
+
+// ignore_for_file: annotate_overrides, camel_case_types
+// ignore_for_file: constant_identifier_names, directives_ordering
+// ignore_for_file: library_prefixes, non_constant_identifier_names
+// ignore_for_file: prefer_final_fields, return_of_invalid_type
+// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
+// ignore_for_file: unused_import, unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -44,6 +50,7 @@ class DartMixin extends $pb.GeneratedMessage {
   factory DartMixin.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -54,7 +61,9 @@ class DartMixin extends $pb.GeneratedMessage {
   DartMixin copyWith(void Function(DartMixin) updates) =>
       super.copyWith((message) => updates(message as DartMixin))
           as DartMixin; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static DartMixin create() => DartMixin._();
   DartMixin createEmptyInstance() => create();
@@ -128,6 +137,7 @@ class Imports extends $pb.GeneratedMessage {
   factory Imports.fromJson($core.String i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
+
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
       'Will be removed in next major version')
@@ -138,7 +148,9 @@ class Imports extends $pb.GeneratedMessage {
   Imports copyWith(void Function(Imports) updates) =>
       super.copyWith((message) => updates(message as Imports))
           as Imports; // ignore: deprecated_member_use
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static Imports create() => Imports._();
   Imports createEmptyInstance() => create();
