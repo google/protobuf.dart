@@ -1,1 +1,4 @@
-static final clientInfo = $pb.Extension<$core.String>(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Card', const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'clientInfo', 261486461, $pb.PbFieldType.OS);
+static final clientInfo = $pb.Extension<$core.String>(_omitMessageNames ? '' : 'Card', _omitFieldNames ? '' : 'clientInfo', 261486461, $pb.PbFieldType.OS);
+
+const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

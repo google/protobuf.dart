@@ -12,8 +12,8 @@
 // ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
 // ignore_for_file: unused_import, unused_shown_name
 
-import 'dart:core' as $core;
 import 'dart:convert' as $convert;
+import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 import 'foobar.pbjson.dart' as $1;
 
@@ -24,6 +24,7 @@ const SomeRequest$json = const {
 
 /// Descriptor for `SomeRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List someRequestDescriptor = $convert.base64Decode('CgtTb21lUmVxdWVzdA==');
+
 @$core.Deprecated('Use someReplyDescriptor instead')
 const SomeReply$json = const {
   '1': 'SomeReply',
@@ -31,6 +32,7 @@ const SomeReply$json = const {
 
 /// Descriptor for `SomeReply`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List someReplyDescriptor = $convert.base64Decode('CglTb21lUmVwbHk=');
+
 const $core.Map<$core.String, $core.dynamic> TestServiceBase$json = const {
   '1': 'Test',
   '2': const [
@@ -49,3 +51,4 @@ const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> TestServic
 
 /// Descriptor for `Test`. Decode as a `google.protobuf.ServiceDescriptorProto`.
 final $typed_data.Uint8List testServiceDescriptor = $convert.base64Decode('CgRUZXN0EjMKB0FNZXRob2QSFC50ZXN0cGtnLlNvbWVSZXF1ZXN0GhIudGVzdHBrZy5Tb21lUmVwbHkSPQoNQW5vdGhlck1ldGhvZBIVLmZvby5iYXIuRW1wdHlNZXNzYWdlGhUuZm9vLmJhci5Bbm90aGVyUmVwbHk=');
+
