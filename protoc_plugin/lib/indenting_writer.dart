@@ -27,6 +27,9 @@ class IndentingWriter {
   int _previousOffset = 0;
   final String? _sourceFile;
 
+  // Named text sections to write at the end of the file.
+  Map<String, String> suffixes = {};
+
   IndentingWriter({String? filename}) : _sourceFile = filename;
 
   /// Appends a string indented to the current level.
@@ -101,8 +104,23 @@ class IndentingWriter {
     }
   }
 
+  void addSuffix(String suffixName, String text) {
+    suffixes[suffixName] = text;
+  }
+
   @override
-  String toString() => _buffer.toString();
+  String toString() {
+    if (suffixes.isNotEmpty) {
+      // TODO: We may want to introduce the notion of closing the file stream.
+      println('');
+      for (var key in suffixes.keys.toList()..sort()) {
+        println(suffixes[key]!);
+      }
+      suffixes.clear();
+    }
+
+    return _buffer.toString();
+  }
 
   /// Writes part of a line of text.
   /// Adds indentation if we're at the start of a line.

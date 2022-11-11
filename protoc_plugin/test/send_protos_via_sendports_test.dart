@@ -15,7 +15,7 @@ Future<T> sendReceive<T>(T object) async {
   return (await rp.first) as T;
 }
 
-Future main() async {
+void main() async {
   test('Normal proto can be transferred via ports', () async {
     final object = Outer()
       ..inner = (Inner()..value = 'pip')

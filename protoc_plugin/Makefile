@@ -103,6 +103,10 @@ protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 run-tests: protos
 	dart run test
 
+update-goldens: protos
+	rm -rf test/goldens
+	dart run test
+
 clean:
 	rm -rf benchmark/lib/generated
 	rm -rf $(OUTPUT_DIR)

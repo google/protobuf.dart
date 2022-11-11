@@ -7,9 +7,6 @@ import 'package:test/test.dart';
 
 import '../out/protos/google/protobuf/unittest.pb.dart';
 
-// Suppress an analyzer warning for a deliberate type mismatch.
-dynamic cast(x) => x;
-
 void main() {
   test('check properties are initialized for repeated fields', () {
     var msg = TestAllTypes();

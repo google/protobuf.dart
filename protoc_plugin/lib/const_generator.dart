@@ -7,7 +7,7 @@ import 'string_escape.dart';
 
 /// Writes JSON data as a Dart constant expression.
 /// Accepts null, bool, num, String, and maps and lists.
-void writeJsonConst(IndentingWriter out, val) {
+void writeJsonConst(IndentingWriter out, Object? val) {
   if (val is Map) {
     if (val.values.any(_nonEmptyListOrMap)) {
       out.addBlock(
