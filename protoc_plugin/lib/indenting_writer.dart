@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection';
+
 import 'src/generated/descriptor.pb.dart';
 
 /// Specifies code locations where metadata annotations should be attached and
@@ -28,7 +30,7 @@ class IndentingWriter {
   final String? _sourceFile;
 
   // Named text sections to write at the end of the file.
-  Map<String, String> suffixes = {};
+  final Map<String, String> _suffixes = SplayTreeMap();
 
   IndentingWriter({String? filename}) : _sourceFile = filename;
 
@@ -104,19 +106,25 @@ class IndentingWriter {
     }
   }
 
-  void addSuffix(String suffixName, String text) {
-    suffixes[suffixName] = text;
+  /// Add a named piece of text that will be emitted at the end of the file
+  /// after the main contents are generated.
+  ///
+  /// The [suffixKey] is not emitted - it's just used as a key for uniqueness,
+  /// so that `addSuffix` could be called more than once with the same suffix
+  /// content, but only emit that particular suffix text once.
+  void addSuffix(String suffixKey, String text) {
+    _suffixes[suffixKey] = text;
   }
 
   @override
   String toString() {
-    if (suffixes.isNotEmpty) {
-      // TODO: We may want to introduce the notion of closing the file stream.
+    if (_suffixes.isNotEmpty) {
+      // TODO: We may want to introduce the notion of closing the writer.
       println('');
-      for (var key in suffixes.keys.toList()..sort()) {
-        println(suffixes[key]!);
+      for (var key in _suffixes.keys) {
+        println(_suffixes[key]!);
       }
-      suffixes.clear();
+      _suffixes.clear();
     }
 
     return _buffer.toString();
