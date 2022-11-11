@@ -24,6 +24,10 @@
   `.pbenum.dart` files, same as `.pb.dart` files. ([9aad6aa])
 * Fix decoding map fields when key or value (or both) fields of a map entry is
   missing. ([#719], [#745])
+* Generated files now split `ignore_for_file` comments across multiple lines
+  when necessary.
+* Generated files now uses shared consts to eliminate repeated
+  `bool.fromEnvironment()` expressions.
 
 [#679]: https://github.com/google/protobuf.dart/pull/679
 [#703]: https://github.com/google/protobuf.dart/pull/703
