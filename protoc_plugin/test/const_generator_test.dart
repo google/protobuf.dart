@@ -6,7 +6,7 @@ import 'package:protoc_plugin/const_generator.dart';
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:test/test.dart';
 
-String toConst(val) {
+String toConst(Object? val) {
   var out = IndentingWriter();
   writeJsonConst(out, val);
   return out.toString();

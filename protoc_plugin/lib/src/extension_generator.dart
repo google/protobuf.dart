@@ -90,12 +90,18 @@ class ExtensionGenerator {
     if (!_resolved) throw StateError('resolve not called');
 
     var name = _extensionName;
-    final conditionalName = configurationDependent(
-        'protobuf.omit_field_names', quoted(_extensionName));
     var type = _field.baseType;
     var dartType = type.getDartType(fileGen!);
-    final conditionalExtendedName = configurationDependent(
-        'protobuf.omit_message_names', quoted(_extendedFullName));
+
+    final omitFieldNames = ConditionalConstDefinition('omit_field_names');
+    out.addSuffix(
+        omitFieldNames.constFieldName, omitFieldNames.constDefinition);
+    final conditionalName = omitFieldNames.createTernary(_extensionName);
+    final omitMessageNames = ConditionalConstDefinition('omit_message_names');
+    out.addSuffix(
+        omitMessageNames.constFieldName, omitMessageNames.constDefinition);
+    final conditionalExtendedName =
+        omitMessageNames.createTernary(_extendedFullName);
 
     String invocation;
     var positionals = <String>[];

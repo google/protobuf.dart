@@ -19,10 +19,10 @@ import 'package1.pb.dart' as $1;
 import 'package2.pb.dart' as $2;
 
 class M extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'M', createEmptyInstance: create)
-    ..aOM<M>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm', subBuilder: M.create)
-    ..aOM<$1.M>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm1', subBuilder: $1.M.create)
-    ..aOM<$2.M>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'm2', subBuilder: $2.M.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'M', createEmptyInstance: create)
+    ..aOM<M>(1, _omitFieldNames ? '' : 'm', subBuilder: M.create)
+    ..aOM<$1.M>(2, _omitFieldNames ? '' : 'm1', subBuilder: $1.M.create)
+    ..aOM<$2.M>(3, _omitFieldNames ? '' : 'm2', subBuilder: $2.M.create)
     ..hasRequiredFields = false
   ;
 
@@ -86,3 +86,6 @@ class M extends $pb.GeneratedMessage {
   $2.M ensureM2() => $_ensure(2);
 }
 
+
+const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

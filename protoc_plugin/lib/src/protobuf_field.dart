@@ -183,12 +183,13 @@ class ProtobufField {
 
   /// Returns Dart code adding this field to a BuilderInfo object.
   /// The call will start with ".." and a method name.
-  String generateBuilderInfoCall(String package) {
+  void generateBuilderInfoCall(IndentingWriter out, String package) {
     assert(descriptor.hasJsonName());
-    var quotedName = configurationDependent(
-      'protobuf.omit_field_names',
-      quoted(descriptor.jsonName),
-    );
+
+    final omitFieldNames = ConditionalConstDefinition('omit_field_names');
+    out.addSuffix(
+        omitFieldNames.constFieldName, omitFieldNames.constDefinition);
+    final quotedName = omitFieldNames.createTernary(descriptor.jsonName);
 
     var type = baseType.getDartType(parent.fileGen!);
 
@@ -303,7 +304,9 @@ class ProtobufField {
         }
       }
     }
-    return '..$invocation(${_formatArguments(args, named)})';
+
+    var result = '..$invocation(${_formatArguments(args, named)})';
+    out.println(result);
   }
 
   /// Returns a Dart expression that evaluates to this field's default value.

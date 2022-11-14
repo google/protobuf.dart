@@ -8,123 +8,50 @@
 // ignore_for_file: constant_identifier_names, directives_ordering
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: prefer_final_fields, return_of_invalid_type
-// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
-// ignore_for_file: unused_import, unused_shown_name
+// ignore_for_file: undefined_shown_name, unnecessary_const, unnecessary_import
+// ignore_for_file: unnecessary_this, unused_import, unused_shown_name
 
-// ignore_for_file: undefined_shown_name
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
   static const FieldDescriptorProto_Type TYPE_DOUBLE =
-      FieldDescriptorProto_Type._(
-          1,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_DOUBLE');
+      FieldDescriptorProto_Type._(1, _omitEnumNames ? '' : 'TYPE_DOUBLE');
   static const FieldDescriptorProto_Type TYPE_FLOAT =
-      FieldDescriptorProto_Type._(
-          2,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_FLOAT');
+      FieldDescriptorProto_Type._(2, _omitEnumNames ? '' : 'TYPE_FLOAT');
   static const FieldDescriptorProto_Type TYPE_INT64 =
-      FieldDescriptorProto_Type._(
-          3,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_INT64');
+      FieldDescriptorProto_Type._(3, _omitEnumNames ? '' : 'TYPE_INT64');
   static const FieldDescriptorProto_Type TYPE_UINT64 =
-      FieldDescriptorProto_Type._(
-          4,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_UINT64');
+      FieldDescriptorProto_Type._(4, _omitEnumNames ? '' : 'TYPE_UINT64');
   static const FieldDescriptorProto_Type TYPE_INT32 =
-      FieldDescriptorProto_Type._(
-          5,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_INT32');
+      FieldDescriptorProto_Type._(5, _omitEnumNames ? '' : 'TYPE_INT32');
   static const FieldDescriptorProto_Type TYPE_FIXED64 =
-      FieldDescriptorProto_Type._(
-          6,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_FIXED64');
+      FieldDescriptorProto_Type._(6, _omitEnumNames ? '' : 'TYPE_FIXED64');
   static const FieldDescriptorProto_Type TYPE_FIXED32 =
-      FieldDescriptorProto_Type._(
-          7,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_FIXED32');
+      FieldDescriptorProto_Type._(7, _omitEnumNames ? '' : 'TYPE_FIXED32');
   static const FieldDescriptorProto_Type TYPE_BOOL =
-      FieldDescriptorProto_Type._(
-          8,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_BOOL');
+      FieldDescriptorProto_Type._(8, _omitEnumNames ? '' : 'TYPE_BOOL');
   static const FieldDescriptorProto_Type TYPE_STRING =
-      FieldDescriptorProto_Type._(
-          9,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_STRING');
+      FieldDescriptorProto_Type._(9, _omitEnumNames ? '' : 'TYPE_STRING');
   static const FieldDescriptorProto_Type TYPE_GROUP =
-      FieldDescriptorProto_Type._(
-          10,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_GROUP');
+      FieldDescriptorProto_Type._(10, _omitEnumNames ? '' : 'TYPE_GROUP');
   static const FieldDescriptorProto_Type TYPE_MESSAGE =
-      FieldDescriptorProto_Type._(
-          11,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_MESSAGE');
+      FieldDescriptorProto_Type._(11, _omitEnumNames ? '' : 'TYPE_MESSAGE');
   static const FieldDescriptorProto_Type TYPE_BYTES =
-      FieldDescriptorProto_Type._(
-          12,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_BYTES');
+      FieldDescriptorProto_Type._(12, _omitEnumNames ? '' : 'TYPE_BYTES');
   static const FieldDescriptorProto_Type TYPE_UINT32 =
-      FieldDescriptorProto_Type._(
-          13,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_UINT32');
+      FieldDescriptorProto_Type._(13, _omitEnumNames ? '' : 'TYPE_UINT32');
   static const FieldDescriptorProto_Type TYPE_ENUM =
-      FieldDescriptorProto_Type._(
-          14,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_ENUM');
+      FieldDescriptorProto_Type._(14, _omitEnumNames ? '' : 'TYPE_ENUM');
   static const FieldDescriptorProto_Type TYPE_SFIXED32 =
-      FieldDescriptorProto_Type._(
-          15,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_SFIXED32');
+      FieldDescriptorProto_Type._(15, _omitEnumNames ? '' : 'TYPE_SFIXED32');
   static const FieldDescriptorProto_Type TYPE_SFIXED64 =
-      FieldDescriptorProto_Type._(
-          16,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_SFIXED64');
+      FieldDescriptorProto_Type._(16, _omitEnumNames ? '' : 'TYPE_SFIXED64');
   static const FieldDescriptorProto_Type TYPE_SINT32 =
-      FieldDescriptorProto_Type._(
-          17,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_SINT32');
+      FieldDescriptorProto_Type._(17, _omitEnumNames ? '' : 'TYPE_SINT32');
   static const FieldDescriptorProto_Type TYPE_SINT64 =
-      FieldDescriptorProto_Type._(
-          18,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'TYPE_SINT64');
+      FieldDescriptorProto_Type._(18, _omitEnumNames ? '' : 'TYPE_SINT64');
 
   static const $core.List<FieldDescriptorProto_Type> values =
       <FieldDescriptorProto_Type>[
@@ -157,23 +84,11 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
 
 class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
   static const FieldDescriptorProto_Label LABEL_OPTIONAL =
-      FieldDescriptorProto_Label._(
-          1,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'LABEL_OPTIONAL');
+      FieldDescriptorProto_Label._(1, _omitEnumNames ? '' : 'LABEL_OPTIONAL');
   static const FieldDescriptorProto_Label LABEL_REQUIRED =
-      FieldDescriptorProto_Label._(
-          2,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'LABEL_REQUIRED');
+      FieldDescriptorProto_Label._(2, _omitEnumNames ? '' : 'LABEL_REQUIRED');
   static const FieldDescriptorProto_Label LABEL_REPEATED =
-      FieldDescriptorProto_Label._(
-          3,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'LABEL_REPEATED');
+      FieldDescriptorProto_Label._(3, _omitEnumNames ? '' : 'LABEL_REPEATED');
 
   static const $core.List<FieldDescriptorProto_Label> values =
       <FieldDescriptorProto_Label>[
@@ -191,22 +106,12 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
 }
 
 class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
-  static const FileOptions_OptimizeMode SPEED = FileOptions_OptimizeMode._(
-      1,
-      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-          ? ''
-          : 'SPEED');
-  static const FileOptions_OptimizeMode CODE_SIZE = FileOptions_OptimizeMode._(
-      2,
-      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-          ? ''
-          : 'CODE_SIZE');
+  static const FileOptions_OptimizeMode SPEED =
+      FileOptions_OptimizeMode._(1, _omitEnumNames ? '' : 'SPEED');
+  static const FileOptions_OptimizeMode CODE_SIZE =
+      FileOptions_OptimizeMode._(2, _omitEnumNames ? '' : 'CODE_SIZE');
   static const FileOptions_OptimizeMode LITE_RUNTIME =
-      FileOptions_OptimizeMode._(
-          3,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'LITE_RUNTIME');
+      FileOptions_OptimizeMode._(3, _omitEnumNames ? '' : 'LITE_RUNTIME');
 
   static const $core.List<FileOptions_OptimizeMode> values =
       <FileOptions_OptimizeMode>[
@@ -223,21 +128,12 @@ class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
 }
 
 class FieldOptions_CType extends $pb.ProtobufEnum {
-  static const FieldOptions_CType STRING = FieldOptions_CType._(
-      0,
-      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-          ? ''
-          : 'STRING');
-  static const FieldOptions_CType CORD = FieldOptions_CType._(
-      1,
-      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-          ? ''
-          : 'CORD');
-  static const FieldOptions_CType STRING_PIECE = FieldOptions_CType._(
-      2,
-      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-          ? ''
-          : 'STRING_PIECE');
+  static const FieldOptions_CType STRING =
+      FieldOptions_CType._(0, _omitEnumNames ? '' : 'STRING');
+  static const FieldOptions_CType CORD =
+      FieldOptions_CType._(1, _omitEnumNames ? '' : 'CORD');
+  static const FieldOptions_CType STRING_PIECE =
+      FieldOptions_CType._(2, _omitEnumNames ? '' : 'STRING_PIECE');
 
   static const $core.List<FieldOptions_CType> values = <FieldOptions_CType>[
     STRING,
@@ -253,21 +149,12 @@ class FieldOptions_CType extends $pb.ProtobufEnum {
 }
 
 class FieldOptions_JSType extends $pb.ProtobufEnum {
-  static const FieldOptions_JSType JS_NORMAL = FieldOptions_JSType._(
-      0,
-      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-          ? ''
-          : 'JS_NORMAL');
-  static const FieldOptions_JSType JS_STRING = FieldOptions_JSType._(
-      1,
-      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-          ? ''
-          : 'JS_STRING');
-  static const FieldOptions_JSType JS_NUMBER = FieldOptions_JSType._(
-      2,
-      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-          ? ''
-          : 'JS_NUMBER');
+  static const FieldOptions_JSType JS_NORMAL =
+      FieldOptions_JSType._(0, _omitEnumNames ? '' : 'JS_NORMAL');
+  static const FieldOptions_JSType JS_STRING =
+      FieldOptions_JSType._(1, _omitEnumNames ? '' : 'JS_STRING');
+  static const FieldOptions_JSType JS_NUMBER =
+      FieldOptions_JSType._(2, _omitEnumNames ? '' : 'JS_NUMBER');
 
   static const $core.List<FieldOptions_JSType> values = <FieldOptions_JSType>[
     JS_NORMAL,
@@ -285,22 +172,12 @@ class FieldOptions_JSType extends $pb.ProtobufEnum {
 class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
   static const MethodOptions_IdempotencyLevel IDEMPOTENCY_UNKNOWN =
       MethodOptions_IdempotencyLevel._(
-          0,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'IDEMPOTENCY_UNKNOWN');
+          0, _omitEnumNames ? '' : 'IDEMPOTENCY_UNKNOWN');
   static const MethodOptions_IdempotencyLevel NO_SIDE_EFFECTS =
       MethodOptions_IdempotencyLevel._(
-          1,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'NO_SIDE_EFFECTS');
+          1, _omitEnumNames ? '' : 'NO_SIDE_EFFECTS');
   static const MethodOptions_IdempotencyLevel IDEMPOTENT =
-      MethodOptions_IdempotencyLevel._(
-          2,
-          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
-              ? ''
-              : 'IDEMPOTENT');
+      MethodOptions_IdempotencyLevel._(2, _omitEnumNames ? '' : 'IDEMPOTENT');
 
   static const $core.List<MethodOptions_IdempotencyLevel> values =
       <MethodOptions_IdempotencyLevel>[
@@ -317,3 +194,5 @@ class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
   const MethodOptions_IdempotencyLevel._($core.int v, $core.String n)
       : super(v, n);
 }
+
+const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

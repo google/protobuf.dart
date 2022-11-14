@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection';
+
 import 'src/generated/descriptor.pb.dart';
 
 /// Specifies code locations where metadata annotations should be attached and
@@ -26,6 +28,9 @@ class IndentingWriter {
   // written to the buffer before the latest call to print or addBlock.
   int _previousOffset = 0;
   final String? _sourceFile;
+
+  // Named text sections to write at the end of the file.
+  final Map<String, String> _suffixes = SplayTreeMap();
 
   IndentingWriter({String? filename}) : _sourceFile = filename;
 
@@ -101,8 +106,29 @@ class IndentingWriter {
     }
   }
 
+  /// Add a named piece of text that will be emitted at the end of the file
+  /// after the main contents are generated.
+  ///
+  /// The [suffixKey] is not emitted - it's just used as a key for uniqueness,
+  /// so that `addSuffix` could be called more than once with the same suffix
+  /// content, but only emit that particular suffix text once.
+  void addSuffix(String suffixKey, String text) {
+    _suffixes[suffixKey] = text;
+  }
+
   @override
-  String toString() => _buffer.toString();
+  String toString() {
+    if (_suffixes.isNotEmpty) {
+      // TODO: We may want to introduce the notion of closing the writer.
+      println('');
+      for (var key in _suffixes.keys) {
+        println(_suffixes[key]!);
+      }
+      _suffixes.clear();
+    }
+
+    return _buffer.toString();
+  }
 
   /// Writes part of a line of text.
   /// Adds indentation if we're at the start of a line.

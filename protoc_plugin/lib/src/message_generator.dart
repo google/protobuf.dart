@@ -297,9 +297,12 @@ class MessageGenerator extends ProtobufContainer {
       mixinClause = ' with ${mixinNames.join(", ")}';
     }
 
-    final conditionalPackageName = 'const $protobufImportPrefix.PackageName(' +
-        configurationDependent('protobuf.omit_message_names', quoted(package)) +
-        ')';
+    final omitMessageNames = ConditionalConstDefinition('omit_message_names');
+    out.addSuffix(
+        omitMessageNames.constFieldName, omitMessageNames.constDefinition);
+
+    final conditionalPackageName = 'const $protobufImportPrefix.PackageName'
+        '(${omitMessageNames.createTernary(package)})';
 
     var packageClause =
         package == '' ? '' : ', package: $conditionalPackageName';
@@ -326,11 +329,14 @@ class MessageGenerator extends ProtobufContainer {
           out.println('0 : ${oneof.oneofEnumName}.notSet');
         });
       }
-      final conditionalMessageName = configurationDependent(
-          'protobuf.omit_message_names', quoted(messageName));
+
+      final omitMessageNames = ConditionalConstDefinition('omit_message_names');
+      out.addSuffix(
+          omitMessageNames.constFieldName, omitMessageNames.constDefinition);
+
       out.addBlock(
           'static final $protobufImportPrefix.BuilderInfo _i = '
-              '$protobufImportPrefix.BuilderInfo($conditionalMessageName'
+              '$protobufImportPrefix.BuilderInfo(${omitMessageNames.createTernary(messageName)}'
               '$packageClause'
               ', createEmptyInstance: create'
               '$proto3JsonClause)',
@@ -342,13 +348,13 @@ class MessageGenerator extends ProtobufContainer {
         }
 
         for (var field in _fieldList) {
-          out.println(field.generateBuilderInfoCall(package));
+          field.generateBuilderInfoCall(out, package);
         }
 
         if (_descriptor.extensionRange.isNotEmpty) {
           out.println('..hasExtensions = true');
         }
-        if (!_hasRequiredFields(this, <dynamic>{})) {
+        if (!_hasRequiredFields(this, {})) {
           out.println('..hasRequiredFields = false');
         }
       });
@@ -418,7 +424,7 @@ class MessageGenerator extends ProtobufContainer {
   //
   // already_seen is used to avoid checking the same type multiple times
   // (and also to protect against unbounded recursion).
-  bool _hasRequiredFields(MessageGenerator type, Set alreadySeen) {
+  bool _hasRequiredFields(MessageGenerator type, Set<String> alreadySeen) {
     checkResolved();
 
     if (alreadySeen.contains(type.fullName)) {

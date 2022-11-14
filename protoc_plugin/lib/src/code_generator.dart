@@ -107,7 +107,7 @@ class CodeGenerator {
 
       var response = CodeGeneratorResponse();
 
-      // Parse the options in the request. Return the errors is any.
+      // Parse the options in the request. Return the errors if any.
       var options = parseGenerationOptions(request, response, optionParsers);
       if (options == null) {
         _streamOut.add(response.writeToBuffer());

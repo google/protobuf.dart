@@ -4,9 +4,9 @@
 
 part of '../protoc.dart';
 
-final _dartIdentifier = RegExp(r'^\w+$');
-const String _convertImportPrefix = r'$convert';
+final RegExp _dartIdentifier = RegExp(r'^\w+$');
 
+const String _convertImportPrefix = r'$convert';
 const String _fixnumImportPrefix = r'$fixnum';
 const String _typedDataImportPrefix = r'$typed_data';
 const String _protobufImport =
@@ -16,18 +16,8 @@ const String _coreImport = "import 'dart:core' as $coreImportPrefix;";
 const String _typedDataImport =
     "import 'dart:typed_data' as $_typedDataImportPrefix;";
 const String _convertImport = "import 'dart:convert' as $_convertImportPrefix;";
-
 const String _grpcImport =
     "import 'package:grpc/service_api.dart' as $grpcImportPrefix;";
-
-/// Generates code that will evaluate to the empty string if
-/// `const bool.fromEnvironment(envName)` is `true` and evaluate to [value]
-/// otherwise.
-String configurationDependent(String envName, String value) {
-  return 'const $coreImportPrefix.bool.fromEnvironment(${quoted(envName)})'
-      ' ? \'\' '
-      ': $value';
-}
 
 enum ProtoSyntax {
   proto2,
@@ -421,12 +411,13 @@ class FileGenerator extends ProtobufContainer {
     if (!_linked) throw StateError('not linked');
 
     var out = makeWriter();
-    _writeHeading(out);
+    _writeHeading(out, extraIgnores: {
+      if (enumCount > 0) 'undefined_shown_name',
+    });
 
     if (enumCount > 0) {
       // Make sure any other symbols in dart:core don't cause name conflicts
       // with enums that have the same name.
-      out.println('// ignore_for_file: undefined_shown_name');
       out.println(_coreImport);
       out.println();
       out.println(_protobufImport);
@@ -553,8 +544,8 @@ class FileGenerator extends ProtobufContainer {
     _writeHeading(out,
         extraIgnores: {'deprecated_member_use_from_same_package'});
 
-    out.println(_coreImport);
     out.println(_convertImport);
+    out.println(_coreImport);
     out.println(_typedDataImport);
     // Import the .pbjson.dart files we depend on.
     var imports = _findJsonProtosToImport();
@@ -567,16 +558,19 @@ class FileGenerator extends ProtobufContainer {
       e.generateConstants(out);
       writeBinaryDescriptor(
           out, e.binaryDescriptorName, e._descriptor.name, e._descriptor);
+      out.println('');
     }
     for (var m in messageGenerators) {
       m.generateConstants(out);
       writeBinaryDescriptor(
           out, m.binaryDescriptorName, m._descriptor.name, m._descriptor);
+      out.println('');
     }
     for (var s in serviceGenerators) {
       s.generateConstants(out);
       writeBinaryDescriptor(
           out, s.binaryDescriptorName, s._descriptor.name, s._descriptor);
+      out.println('');
     }
 
     return out.toString();
@@ -604,11 +598,7 @@ class FileGenerator extends ProtobufContainer {
     IndentingWriter out, {
     Set<String> extraIgnores = const <String>{},
   }) {
-    final ignores = ({
-      ..._ignores,
-      ...extraIgnores,
-    }).toList()
-      ..sort();
+    final ignores = ({..._fileIgnores, ...extraIgnores}).toList()..sort();
 
     // Group the ignores into lines not longer than 80 chars.
     var ignorelines = <String>[];
@@ -662,7 +652,36 @@ class FileGenerator extends ProtobufContainer {
   }
 }
 
-const _ignores = {
+class ConditionalConstDefinition {
+  final String envName;
+  late String _fieldName;
+
+  ConditionalConstDefinition(this.envName) {
+    _fieldName = _convertToCamelCase(envName);
+  }
+
+  String get constFieldName => _fieldName;
+
+  String get constDefinition {
+    return 'const $constFieldName = '
+        "$coreImportPrefix.bool.fromEnvironment(${quoted('protobuf.$envName')});";
+  }
+
+  String createTernary(String ifFalse) {
+    return "$constFieldName ? '' : ${quoted(ifFalse)}";
+  }
+
+  // Convert foo_bar_baz to _fooBarBaz.
+  String _convertToCamelCase(String lowerUnderscoreCase) {
+    var parts = lowerUnderscoreCase.split('_');
+    var rest = parts.skip(1).map((item) {
+      return item.substring(0, 1).toUpperCase() + item.substring(1);
+    }).join();
+    return '_${parts.first}$rest';
+  }
+}
+
+const _fileIgnores = {
   'annotate_overrides',
   'camel_case_types',
   'constant_identifier_names',

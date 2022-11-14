@@ -116,8 +116,10 @@ class EnumGenerator extends ProtobufContainer {
       for (var i = 0; i < _canonicalValues.length; i++) {
         var val = _canonicalValues[i];
         final name = dartNames[val.name]!;
-        final conditionalValName = configurationDependent(
-            'protobuf.omit_enum_names', quoted(val.name));
+        final omitEnumNames = ConditionalConstDefinition('omit_enum_names');
+        out.addSuffix(
+            omitEnumNames.constFieldName, omitEnumNames.constDefinition);
+        final conditionalValName = omitEnumNames.createTernary(val.name);
         out.printlnAnnotated(
             'static const $classname $name = '
             '$classname._(${val.number}, $conditionalValName);',

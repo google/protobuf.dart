@@ -16,7 +16,7 @@ class _ToStringMatcher extends CustomMatcher {
   _ToStringMatcher(Matcher matcher)
       : super('object where toString() returns', 'toString()', matcher);
   @override
-  String featureValueOf(actual) => actual.toString();
+  String featureValueOf(dynamic actual) => actual.toString();
 }
 
 void main() {
