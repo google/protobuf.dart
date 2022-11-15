@@ -18,7 +18,7 @@ import 'dart:typed_data' as $typed_data;
 import 'foobar.pbjson.dart' as $1;
 
 @$core.Deprecated('Use someRequestDescriptor instead')
-const SomeRequest$json = const {
+const SomeRequest$json = {
   '1': 'SomeRequest',
 };
 
@@ -26,18 +26,22 @@ const SomeRequest$json = const {
 final $typed_data.Uint8List someRequestDescriptor = $convert.base64Decode('CgtTb21lUmVxdWVzdA==');
 
 @$core.Deprecated('Use someReplyDescriptor instead')
-const SomeReply$json = const {
+const SomeReply$json = {
   '1': 'SomeReply',
 };
 
 /// Descriptor for `SomeReply`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List someReplyDescriptor = $convert.base64Decode('CglTb21lUmVwbHk=');
 
+<<<<<<< Updated upstream
 const $core.Map<$core.String, $core.dynamic> TestServiceBase$json = const {
+=======
+const $core.Map<$core.String, $core.dynamic> TestServiceBase$json = {
+>>>>>>> Stashed changes
   '1': 'Test',
-  '2': const [
-    const {'1': 'AMethod', '2': '.testpkg.SomeRequest', '3': '.testpkg.SomeReply'},
-    const {'1': 'AnotherMethod', '2': '.foo.bar.EmptyMessage', '3': '.foo.bar.AnotherReply'},
+  '2': [
+    {'1': 'AMethod', '2': '.testpkg.SomeRequest', '3': '.testpkg.SomeReply'},
+    {'1': 'AnotherMethod', '2': '.foo.bar.EmptyMessage', '3': '.foo.bar.AnotherReply'},
   ],
 };
 
@@ -50,5 +54,9 @@ const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> TestServic
 };
 
 /// Descriptor for `Test`. Decode as a `google.protobuf.ServiceDescriptorProto`.
+<<<<<<< Updated upstream
 final $typed_data.Uint8List testServiceDescriptor = $convert.base64Decode('CgRUZXN0EjMKB0FNZXRob2QSFC50ZXN0cGtnLlNvbWVSZXF1ZXN0GhIudGVzdHBrZy5Tb21lUmVwbHkSPQoNQW5vdGhlck1ldGhvZBIVLmZvby5iYXIuRW1wdHlNZXNzYWdlGhUuZm9vLmJhci5Bbm90aGVyUmVwbHk=');
+=======
+final $typed_data.Uint8List testServiceDescriptor = $convert.base64Decode('CgRUZXN0EjMKB0FNZXRob2QSFC50ZXN0cGtnLlNvbWVSZXF1ZXN0GhIudGVzdHBrZy5Tb21lUm''VwbHkSPQoNQW5vdGhlck1ldGhvZBIVLmZvby5iYXIuRW1wdHlNZXNzYWdlGhUuZm9vLmJhci5B''bm90aGVyUmVwbHk=');
+>>>>>>> Stashed changes
 

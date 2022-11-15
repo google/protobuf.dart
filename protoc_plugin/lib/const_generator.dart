@@ -11,20 +11,20 @@ void writeJsonConst(IndentingWriter out, Object? val) {
   if (val is Map) {
     if (val.values.any(_nonEmptyListOrMap)) {
       out.addBlock(
-          'const {', '}', () => _writeMapItems(out, val, vertical: true),
+          /*const*/ '{', '}', () => _writeMapItems(out, val, vertical: true),
           endWithNewline: false);
     } else {
-      out.print('const {');
+      /*const*/ out.print('{');
       _writeMapItems(out, val);
       out.print('}');
     }
   } else if (val is List) {
     if (val.any(_nonEmptyListOrMap)) {
       out.addBlock(
-          'const [', ']', () => _writeListItems(out, val, vertical: true),
+          /*const*/ '[', ']', () => _writeListItems(out, val, vertical: true),
           endWithNewline: false);
     } else {
-      out.print('const [');
+      /*const*/ out.print('[');
       _writeListItems(out, val);
       out.print(']');
     }

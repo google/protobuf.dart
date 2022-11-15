@@ -528,12 +528,24 @@ class FileGenerator extends ProtobufContainer {
 
   void writeBinaryDescriptor(IndentingWriter out, String identifierName,
       String name, GeneratedMessage descriptor) {
-    var descriptorText = base64Encode(descriptor.writeToBuffer());
+    var base64 = base64Encode(descriptor.writeToBuffer());
     out.println('/// Descriptor for `$name`. Decode as a '
         '`${descriptor.info_.qualifiedMessageName}`.');
+
+    var base64Lines = splitString(base64, 74).map((s) => "'$s'").join();
     out.println('final $_typedDataImportPrefix.Uint8List '
         '$identifierName = '
-        '$_convertImportPrefix.base64Decode(\'$descriptorText\');');
+        '$_convertImportPrefix.base64Decode($base64Lines);');
+  }
+
+  List<String> splitString(String str, int segmentLength) {
+    var result = <String>[];
+    while (str.length >= segmentLength) {
+      result.add(str.substring(0, segmentLength));
+      str = str.substring(segmentLength);
+    }
+    if (str.isNotEmpty) result.add(str);
+    return result;
   }
 
   /// Returns the contents of the .pbjson.dart file for this .proto file.
