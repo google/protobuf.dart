@@ -454,7 +454,8 @@ class FileGenerator extends ProtobufContainer {
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError('not linked');
     var out = makeWriter();
-    _writeHeading(out);
+    _writeHeading(out,
+        extraIgnores: {'deprecated_member_use_from_same_package'});
 
     if (serviceGenerators.isNotEmpty) {
       out.println(_asyncImport);
