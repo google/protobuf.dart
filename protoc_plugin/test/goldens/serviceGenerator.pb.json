@@ -42,7 +42,7 @@ const $core.Map<$core.String, $core.dynamic> TestServiceBase$json = {
 };
 
 @$core.Deprecated('Use testServiceDescriptor instead')
-const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> TestServiceBase$messageJson = const {
+const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> TestServiceBase$messageJson = {
   '.testpkg.SomeRequest': SomeRequest$json,
   '.testpkg.SomeReply': SomeReply$json,
   '.foo.bar.EmptyMessage': $1.EmptyMessage$json,
