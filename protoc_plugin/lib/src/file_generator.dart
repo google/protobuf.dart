@@ -454,14 +454,14 @@ class FileGenerator extends ProtobufContainer {
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError('not linked');
     var out = makeWriter();
-    _writeHeading(out,
-        extraIgnores: {'deprecated_member_use_from_same_package'});
+    _writeHeading(out);
 
     if (serviceGenerators.isNotEmpty) {
       out.println(_asyncImport);
       out.println(_coreImport);
       out.println();
       out.println(_protobufImport);
+      out.println();
     }
 
     // Import .pb.dart files needed for requests and responses.
@@ -502,6 +502,7 @@ class FileGenerator extends ProtobufContainer {
     out.println(_coreImport);
     out.println();
     out.println(_grpcImport);
+    out.println();
 
     // Import .pb.dart files needed for requests and responses.
     var imports = <FileGenerator>{};
@@ -530,13 +531,18 @@ class FileGenerator extends ProtobufContainer {
     out.println('/// Descriptor for `$name`. Decode as a '
         '`${descriptor.info_.qualifiedMessageName}`.');
 
-    var base64Lines = splitString(base64, 74).map((s) => "'$s'").join();
+    const indent = '    ';
+
+    var base64Lines =
+        _splitString(base64, 74).map((s) => "'$s'").join('\n$indent');
     out.println('final $_typedDataImportPrefix.Uint8List '
         '$identifierName = '
-        '$_convertImportPrefix.base64Decode($base64Lines);');
+        '$_convertImportPrefix.base64Decode(\n$indent$base64Lines);');
   }
 
-  List<String> splitString(String str, int segmentLength) {
+  /// Return the given [str], split into separate segments, where no segment is
+  /// longer than [segmentLength].
+  static List<String> _splitString(String str, int segmentLength) {
     var result = <String>[];
     while (str.length >= segmentLength) {
       result.add(str.substring(0, segmentLength));
@@ -551,12 +557,13 @@ class FileGenerator extends ProtobufContainer {
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError('not linked');
     var out = makeWriter();
-    _writeHeading(out,
-        extraIgnores: {'deprecated_member_use_from_same_package'});
+    _writeHeading(out);
 
     out.println(_convertImport);
     out.println(_coreImport);
     out.println(_typedDataImport);
+    out.println();
+
     // Import the .pbjson.dart files we depend on.
     var imports = _findJsonProtosToImport();
     for (var target in imports) {
@@ -691,11 +698,14 @@ class ConditionalConstDefinition {
   }
 }
 
+// TODO(devoncarew): We should be able to shrink this down to just:
+//   annotate_overrides, camel_case_types, constant_identifier_names, and
+//   library_prefixes.
+
 const _fileIgnores = {
   'annotate_overrides',
   'camel_case_types',
   'constant_identifier_names',
-  'deprecated_member_use',
   'directives_ordering',
   'library_prefixes',
   'non_constant_identifier_names',
@@ -704,5 +714,4 @@ const _fileIgnores = {
   'unnecessary_import',
   'unnecessary_this',
   'unused_import',
-  'unused_shown_name',
 };
