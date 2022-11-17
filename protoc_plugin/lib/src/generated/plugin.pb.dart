@@ -5,10 +5,10 @@
 // @dart = 2.12
 
 // ignore_for_file: annotate_overrides, camel_case_types
-// ignore_for_file: constant_identifier_names, directives_ordering
-// ignore_for_file: library_prefixes, non_constant_identifier_names
-// ignore_for_file: prefer_final_fields, return_of_invalid_type
-// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
+// ignore_for_file: constant_identifier_names, deprecated_member_use
+// ignore_for_file: directives_ordering, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: return_of_invalid_type, unnecessary_import, unnecessary_this
 // ignore_for_file: unused_import, unused_shown_name
 
 import 'dart:core' as $core;
@@ -49,8 +49,7 @@ class Version extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   Version copyWith(void Function(Version) updates) =>
-      super.copyWith((message) => updates(message as Version))
-          as Version; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as Version)) as Version;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -145,7 +144,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
       super.copyWith((message) => updates(message as CodeGeneratorRequest))
-          as CodeGeneratorRequest; // ignore: deprecated_member_use
+          as CodeGeneratorRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -226,7 +225,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
           void Function(CodeGeneratorResponse_File) updates) =>
       super.copyWith(
               (message) => updates(message as CodeGeneratorResponse_File))
-          as CodeGeneratorResponse_File; // ignore: deprecated_member_use
+          as CodeGeneratorResponse_File;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -326,7 +325,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   CodeGeneratorResponse copyWith(
           void Function(CodeGeneratorResponse) updates) =>
       super.copyWith((message) => updates(message as CodeGeneratorResponse))
-          as CodeGeneratorResponse; // ignore: deprecated_member_use
+          as CodeGeneratorResponse;
 
   $pb.BuilderInfo get info_ => _i;
 

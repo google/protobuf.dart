@@ -459,10 +459,9 @@ class FileGenerator extends ProtobufContainer {
 
     if (serviceGenerators.isNotEmpty) {
       out.println(_asyncImport);
+      out.println(_coreImport);
       out.println();
       out.println(_protobufImport);
-      out.println();
-      out.println(_coreImport);
     }
 
     // Import .pb.dart files needed for requests and responses.
@@ -500,7 +499,6 @@ class FileGenerator extends ProtobufContainer {
     _writeHeading(out);
 
     out.println(_asyncImport);
-    out.println();
     out.println(_coreImport);
     out.println();
     out.println(_grpcImport);
@@ -697,12 +695,12 @@ const _fileIgnores = {
   'annotate_overrides',
   'camel_case_types',
   'constant_identifier_names',
+  'deprecated_member_use',
   'directives_ordering',
   'library_prefixes',
   'non_constant_identifier_names',
   'prefer_final_fields',
   'return_of_invalid_type',
-  'unnecessary_const',
   'unnecessary_import',
   'unnecessary_this',
   'unused_import',

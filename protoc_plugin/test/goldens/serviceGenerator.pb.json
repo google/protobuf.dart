@@ -5,12 +5,12 @@
 // @dart = 2.12
 
 // ignore_for_file: annotate_overrides, camel_case_types
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, deprecated_member_use
 // ignore_for_file: deprecated_member_use_from_same_package, directives_ordering
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: prefer_final_fields, return_of_invalid_type
-// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
-// ignore_for_file: unused_import, unused_shown_name
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: unused_shown_name
 
 import 'dart:convert' as $convert;
 import 'dart:core' as $core;
@@ -33,11 +33,7 @@ const SomeReply$json = {
 /// Descriptor for `SomeReply`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List someReplyDescriptor = $convert.base64Decode('CglTb21lUmVwbHk=');
 
-<<<<<<< Updated upstream
-const $core.Map<$core.String, $core.dynamic> TestServiceBase$json = const {
-=======
 const $core.Map<$core.String, $core.dynamic> TestServiceBase$json = {
->>>>>>> Stashed changes
   '1': 'Test',
   '2': [
     {'1': 'AMethod', '2': '.testpkg.SomeRequest', '3': '.testpkg.SomeReply'},
@@ -54,9 +50,5 @@ const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> TestServic
 };
 
 /// Descriptor for `Test`. Decode as a `google.protobuf.ServiceDescriptorProto`.
-<<<<<<< Updated upstream
-final $typed_data.Uint8List testServiceDescriptor = $convert.base64Decode('CgRUZXN0EjMKB0FNZXRob2QSFC50ZXN0cGtnLlNvbWVSZXF1ZXN0GhIudGVzdHBrZy5Tb21lUmVwbHkSPQoNQW5vdGhlck1ldGhvZBIVLmZvby5iYXIuRW1wdHlNZXNzYWdlGhUuZm9vLmJhci5Bbm90aGVyUmVwbHk=');
-=======
 final $typed_data.Uint8List testServiceDescriptor = $convert.base64Decode('CgRUZXN0EjMKB0FNZXRob2QSFC50ZXN0cGtnLlNvbWVSZXF1ZXN0GhIudGVzdHBrZy5Tb21lUm''VwbHkSPQoNQW5vdGhlck1ldGhvZBIVLmZvby5iYXIuRW1wdHlNZXNzYWdlGhUuZm9vLmJhci5B''bm90aGVyUmVwbHk=');
->>>>>>> Stashed changes
 
