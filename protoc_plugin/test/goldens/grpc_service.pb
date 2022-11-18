@@ -8,8 +8,7 @@
 // ignore_for_file: constant_identifier_names, directives_ordering
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: prefer_final_fields, return_of_invalid_type
-// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
-// ignore_for_file: unused_import, unused_shown_name
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
@@ -34,7 +33,7 @@ class Empty extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  Empty copyWith(void Function(Empty) updates) => super.copyWith((message) => updates(message as Empty)) as Empty; // ignore: deprecated_member_use
+  Empty copyWith(void Function(Empty) updates) => super.copyWith((message) => updates(message as Empty)) as Empty;
 
   $pb.BuilderInfo get info_ => _i;
 

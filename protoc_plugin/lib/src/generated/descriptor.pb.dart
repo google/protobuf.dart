@@ -8,8 +8,7 @@
 // ignore_for_file: constant_identifier_names, directives_ordering
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: prefer_final_fields, return_of_invalid_type
-// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
-// ignore_for_file: unused_import, unused_shown_name
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
@@ -48,7 +47,7 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   FileDescriptorSet copyWith(void Function(FileDescriptorSet) updates) =>
       super.copyWith((message) => updates(message as FileDescriptorSet))
-          as FileDescriptorSet; // ignore: deprecated_member_use
+          as FileDescriptorSet;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -115,7 +114,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   FileDescriptorProto copyWith(void Function(FileDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as FileDescriptorProto))
-          as FileDescriptorProto; // ignore: deprecated_member_use
+          as FileDescriptorProto;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -247,7 +246,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
           void Function(DescriptorProto_ExtensionRange) updates) =>
       super.copyWith(
               (message) => updates(message as DescriptorProto_ExtensionRange))
-          as DescriptorProto_ExtensionRange; // ignore: deprecated_member_use
+          as DescriptorProto_ExtensionRange;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -332,7 +331,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
           void Function(DescriptorProto_ReservedRange) updates) =>
       super.copyWith(
               (message) => updates(message as DescriptorProto_ReservedRange))
-          as DescriptorProto_ReservedRange; // ignore: deprecated_member_use
+          as DescriptorProto_ReservedRange;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -422,7 +421,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   DescriptorProto copyWith(void Function(DescriptorProto) updates) =>
       super.copyWith((message) => updates(message as DescriptorProto))
-          as DescriptorProto; // ignore: deprecated_member_use
+          as DescriptorProto;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -518,7 +517,7 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
   ExtensionRangeOptions copyWith(
           void Function(ExtensionRangeOptions) updates) =>
       super.copyWith((message) => updates(message as ExtensionRangeOptions))
-          as ExtensionRangeOptions; // ignore: deprecated_member_use
+          as ExtensionRangeOptions;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -582,7 +581,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   FieldDescriptorProto copyWith(void Function(FieldDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as FieldDescriptorProto))
-          as FieldDescriptorProto; // ignore: deprecated_member_use
+          as FieldDescriptorProto;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -760,7 +759,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   OneofDescriptorProto copyWith(void Function(OneofDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as OneofDescriptorProto))
-          as OneofDescriptorProto; // ignore: deprecated_member_use
+          as OneofDescriptorProto;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -833,7 +832,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
           void Function(EnumDescriptorProto_EnumReservedRange) updates) =>
       super.copyWith((message) =>
               updates(message as EnumDescriptorProto_EnumReservedRange))
-          as EnumDescriptorProto_EnumReservedRange; // ignore: deprecated_member_use
+          as EnumDescriptorProto_EnumReservedRange;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -909,7 +908,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   EnumDescriptorProto copyWith(void Function(EnumDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as EnumDescriptorProto))
-          as EnumDescriptorProto; // ignore: deprecated_member_use
+          as EnumDescriptorProto;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -991,7 +990,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   EnumValueDescriptorProto copyWith(
           void Function(EnumValueDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as EnumValueDescriptorProto))
-          as EnumValueDescriptorProto; // ignore: deprecated_member_use
+          as EnumValueDescriptorProto;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -1077,7 +1076,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   ServiceDescriptorProto copyWith(
           void Function(ServiceDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as ServiceDescriptorProto))
-          as ServiceDescriptorProto; // ignore: deprecated_member_use
+          as ServiceDescriptorProto;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -1155,7 +1154,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   MethodDescriptorProto copyWith(
           void Function(MethodDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as MethodDescriptorProto))
-          as MethodDescriptorProto; // ignore: deprecated_member_use
+          as MethodDescriptorProto;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -1299,7 +1298,7 @@ class FileOptions extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   FileOptions copyWith(void Function(FileOptions) updates) =>
       super.copyWith((message) => updates(message as FileOptions))
-          as FileOptions; // ignore: deprecated_member_use
+          as FileOptions;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -1593,7 +1592,7 @@ class MessageOptions extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   MessageOptions copyWith(void Function(MessageOptions) updates) =>
       super.copyWith((message) => updates(message as MessageOptions))
-          as MessageOptions; // ignore: deprecated_member_use
+          as MessageOptions;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -1702,7 +1701,7 @@ class FieldOptions extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   FieldOptions copyWith(void Function(FieldOptions) updates) =>
       super.copyWith((message) => updates(message as FieldOptions))
-          as FieldOptions; // ignore: deprecated_member_use
+          as FieldOptions;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -1821,7 +1820,7 @@ class OneofOptions extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   OneofOptions copyWith(void Function(OneofOptions) updates) =>
       super.copyWith((message) => updates(message as OneofOptions))
-          as OneofOptions; // ignore: deprecated_member_use
+          as OneofOptions;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -1870,7 +1869,7 @@ class EnumOptions extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   EnumOptions copyWith(void Function(EnumOptions) updates) =>
       super.copyWith((message) => updates(message as EnumOptions))
-          as EnumOptions; // ignore: deprecated_member_use
+          as EnumOptions;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -1941,7 +1940,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   EnumValueOptions copyWith(void Function(EnumValueOptions) updates) =>
       super.copyWith((message) => updates(message as EnumValueOptions))
-          as EnumValueOptions; // ignore: deprecated_member_use
+          as EnumValueOptions;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2001,7 +2000,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   ServiceOptions copyWith(void Function(ServiceOptions) updates) =>
       super.copyWith((message) => updates(message as ServiceOptions))
-          as ServiceOptions; // ignore: deprecated_member_use
+          as ServiceOptions;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2066,7 +2065,7 @@ class MethodOptions extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   MethodOptions copyWith(void Function(MethodOptions) updates) =>
       super.copyWith((message) => updates(message as MethodOptions))
-          as MethodOptions; // ignore: deprecated_member_use
+          as MethodOptions;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2139,7 +2138,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
           void Function(UninterpretedOption_NamePart) updates) =>
       super.copyWith(
               (message) => updates(message as UninterpretedOption_NamePart))
-          as UninterpretedOption_NamePart; // ignore: deprecated_member_use
+          as UninterpretedOption_NamePart;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2217,7 +2216,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   UninterpretedOption copyWith(void Function(UninterpretedOption) updates) =>
       super.copyWith((message) => updates(message as UninterpretedOption))
-          as UninterpretedOption; // ignore: deprecated_member_use
+          as UninterpretedOption;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2340,7 +2339,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   SourceCodeInfo_Location copyWith(
           void Function(SourceCodeInfo_Location) updates) =>
       super.copyWith((message) => updates(message as SourceCodeInfo_Location))
-          as SourceCodeInfo_Location; // ignore: deprecated_member_use
+          as SourceCodeInfo_Location;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2417,7 +2416,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   SourceCodeInfo copyWith(void Function(SourceCodeInfo) updates) =>
       super.copyWith((message) => updates(message as SourceCodeInfo))
-          as SourceCodeInfo; // ignore: deprecated_member_use
+          as SourceCodeInfo;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2468,7 +2467,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
           void Function(GeneratedCodeInfo_Annotation) updates) =>
       super.copyWith(
               (message) => updates(message as GeneratedCodeInfo_Annotation))
-          as GeneratedCodeInfo_Annotation; // ignore: deprecated_member_use
+          as GeneratedCodeInfo_Annotation;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -2552,7 +2551,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   GeneratedCodeInfo copyWith(void Function(GeneratedCodeInfo) updates) =>
       super.copyWith((message) => updates(message as GeneratedCodeInfo))
-          as GeneratedCodeInfo; // ignore: deprecated_member_use
+          as GeneratedCodeInfo;
 
   $pb.BuilderInfo get info_ => _i;
 

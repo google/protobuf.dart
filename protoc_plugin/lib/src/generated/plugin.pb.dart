@@ -8,8 +8,7 @@
 // ignore_for_file: constant_identifier_names, directives_ordering
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: prefer_final_fields, return_of_invalid_type
-// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
-// ignore_for_file: unused_import, unused_shown_name
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
@@ -49,8 +48,7 @@ class Version extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   Version copyWith(void Function(Version) updates) =>
-      super.copyWith((message) => updates(message as Version))
-          as Version; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as Version)) as Version;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -145,7 +143,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       'Will be removed in next major version')
   CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
       super.copyWith((message) => updates(message as CodeGeneratorRequest))
-          as CodeGeneratorRequest; // ignore: deprecated_member_use
+          as CodeGeneratorRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -226,7 +224,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
           void Function(CodeGeneratorResponse_File) updates) =>
       super.copyWith(
               (message) => updates(message as CodeGeneratorResponse_File))
-          as CodeGeneratorResponse_File; // ignore: deprecated_member_use
+          as CodeGeneratorResponse_File;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -326,7 +324,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   CodeGeneratorResponse copyWith(
           void Function(CodeGeneratorResponse) updates) =>
       super.copyWith((message) => updates(message as CodeGeneratorResponse))
-          as CodeGeneratorResponse; // ignore: deprecated_member_use
+          as CodeGeneratorResponse;
 
   $pb.BuilderInfo get info_ => _i;
 

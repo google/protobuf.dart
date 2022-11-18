@@ -232,7 +232,7 @@ class ServiceGenerator {
     out.addBlock(
         'const $coreImportPrefix.Map<$coreImportPrefix.String,'
             ' $coreImportPrefix.Map<$coreImportPrefix.String,'
-            ' $coreImportPrefix.dynamic>> $messageJsonConstant = const {',
+            ' $coreImportPrefix.dynamic>> $messageJsonConstant = {',
         '};', () {
       for (var key in typeConstants.keys) {
         var typeConst = typeConstants[key];

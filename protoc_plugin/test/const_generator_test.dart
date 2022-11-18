@@ -35,30 +35,30 @@ void main() {
   });
 
   test('writeJsonConst list examples', () {
-    expect(toConst([]), 'const []');
-    expect(toConst([1, 2, 3]), 'const [1, 2, 3]');
+    expect(toConst([]), '[]');
+    expect(toConst([1, 2, 3]), '[1, 2, 3]');
     expect(
         toConst([
           [1, 2],
           [3, 4]
         ]),
-        'const [\n'
-        '  const [1, 2],\n'
-        '  const [3, 4],\n'
+        '[\n'
+        '  [1, 2],\n'
+        '  [3, 4],\n'
         ']');
   });
 
   test('writeJsonConst map examples', () {
-    expect(toConst({}), 'const {}');
-    expect(toConst({'a': 1, 'b': 2}), "const {'a': 1, 'b': 2}");
+    expect(toConst({}), '{}');
+    expect(toConst({'a': 1, 'b': 2}), "{'a': 1, 'b': 2}");
     expect(
         toConst({
           'a': {'x': 1},
           'b': {'x': 2}
         }),
-        'const {\n'
-        "  'a': const {'x': 1},\n"
-        "  'b': const {'x': 2},\n"
+        '{\n'
+        "  'a': {'x': 1},\n"
+        "  'b': {'x': 2},\n"
         '}');
   });
 }

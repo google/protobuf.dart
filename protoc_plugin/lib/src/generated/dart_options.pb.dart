@@ -8,8 +8,7 @@
 // ignore_for_file: constant_identifier_names, directives_ordering
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: prefer_final_fields, return_of_invalid_type
-// ignore_for_file: unnecessary_const, unnecessary_import, unnecessary_this
-// ignore_for_file: unused_import, unused_shown_name
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
@@ -42,8 +41,7 @@ class DartMixin extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   DartMixin copyWith(void Function(DartMixin) updates) =>
-      super.copyWith((message) => updates(message as DartMixin))
-          as DartMixin; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as DartMixin)) as DartMixin;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -119,8 +117,7 @@ class Imports extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   Imports copyWith(void Function(Imports) updates) =>
-      super.copyWith((message) => updates(message as Imports))
-          as Imports; // ignore: deprecated_member_use
+      super.copyWith((message) => updates(message as Imports)) as Imports;
 
   $pb.BuilderInfo get info_ => _i;
 
