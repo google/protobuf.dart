@@ -634,7 +634,7 @@ class FileGenerator extends ProtobufContainer {
     }
 
     out.println('''
-///
+//
 //  Generated code. Do not modify.
 //  source: ${descriptor.name}
 //
