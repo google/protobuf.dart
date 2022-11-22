@@ -34,7 +34,7 @@ void main() {
     final list = msg.repeatedInt32;
     expect(
       list.firstWhere(
-        (_msg) => false,
+        (msgParam) => false,
         orElse: () => 123,
       ),
       123,

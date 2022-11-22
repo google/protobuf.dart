@@ -27,7 +27,7 @@ void main() {
   // this test is more strict than necessary. However, in the test cases
   // identifies, the hash codes should differ, and as a matter of principle
   // hash collisions should be relatively rare.
-  void _checkNotEqual(UnknownFieldSet s1, UnknownFieldSet s2) {
+  void checkNotEqual(UnknownFieldSet s1, UnknownFieldSet s2) {
     expect(s1 == s2, isFalse);
     expect(s2 == s1, isFalse);
 
@@ -37,7 +37,7 @@ void main() {
   }
 
   // Asserts that the given field sets are equal and have identical hash codes.
-  void _checkEqualsIsConsistent(UnknownFieldSet set) {
+  void checkEqualsIsConsistent(UnknownFieldSet set) {
     // Object should be equal to itself.
     expect(set, set);
 
@@ -290,32 +290,32 @@ void main() {
     var e = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addGroup(unknownFields));
 
-    _checkEqualsIsConsistent(a);
-    _checkEqualsIsConsistent(b);
-    _checkEqualsIsConsistent(c);
-    _checkEqualsIsConsistent(d);
-    _checkEqualsIsConsistent(e);
+    checkEqualsIsConsistent(a);
+    checkEqualsIsConsistent(b);
+    checkEqualsIsConsistent(c);
+    checkEqualsIsConsistent(d);
+    checkEqualsIsConsistent(e);
 
-    _checkNotEqual(a, b);
-    _checkNotEqual(a, c);
-    _checkNotEqual(a, d);
-    _checkNotEqual(a, e);
-    _checkNotEqual(b, c);
-    _checkNotEqual(b, d);
-    _checkNotEqual(b, e);
-    _checkNotEqual(c, d);
-    _checkNotEqual(c, e);
-    _checkNotEqual(d, e);
+    checkNotEqual(a, b);
+    checkNotEqual(a, c);
+    checkNotEqual(a, d);
+    checkNotEqual(a, e);
+    checkNotEqual(b, c);
+    checkNotEqual(b, d);
+    checkNotEqual(b, e);
+    checkNotEqual(c, d);
+    checkNotEqual(c, e);
+    checkNotEqual(d, e);
 
     var f1 = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addLengthDelimited([1, 2]));
     var f2 = UnknownFieldSet()
       ..addField(1, UnknownFieldSetField()..addLengthDelimited([2, 1]));
 
-    _checkEqualsIsConsistent(f1);
-    _checkEqualsIsConsistent(f2);
+    checkEqualsIsConsistent(f1);
+    checkEqualsIsConsistent(f2);
 
-    _checkNotEqual(f1, f2);
+    checkNotEqual(f1, f2);
   });
 
   test(

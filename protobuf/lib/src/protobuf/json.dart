@@ -58,7 +58,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     }
   }
 
-  List _writeMap(PbMap fieldValue, MapFieldInfo fi) =>
+  List writeMap(PbMap fieldValue, MapFieldInfo fi) =>
       List.from(fieldValue.entries.map((MapEntry e) => {
             '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
             '${PbMap._valueFieldNumber}':
@@ -73,7 +73,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     }
     if (_isMapField(fi.type)) {
       result['${fi.tagNumber}'] =
-          _writeMap(value, fi as MapFieldInfo<dynamic, dynamic>);
+          writeMap(value, fi as MapFieldInfo<dynamic, dynamic>);
       continue;
     }
     result['${fi.tagNumber}'] = convertToMap(value, fi.type);

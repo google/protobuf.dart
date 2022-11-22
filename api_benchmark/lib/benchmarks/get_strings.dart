@@ -17,7 +17,7 @@ class GetStringsBenchmark extends Benchmark {
   GetStringsBenchmark(this.height, this.fillValue) : super($id);
 
   @override
-  get summary {
+  String get summary {
     var fill = fillValue == null ? 'null' : "'$fillValue'";
     return '${id.name}($height x $fill)';
   }
@@ -38,11 +38,11 @@ class GetStringsBenchmark extends Benchmark {
   static pb.Grid10 _makeGrid(int height, String fillValue) {
     var grid = pb.Grid10();
 
-    for (int y = 0; y < height; y++) {
+    for (var y = 0; y < height; y++) {
       var line = pb.Line10();
       if (fillValue != null) {
-        for (int x = 0; x < width; x++) {
-          int tag = getTagForColumn(line, x);
+        for (var x = 0; x < width; x++) {
+          var tag = getTagForColumn(line, x);
           line.setField(tag, fillValue);
         }
       }
@@ -59,7 +59,7 @@ class GetStringsBenchmark extends Benchmark {
   @override
   int exercise() {
     const reps = 100;
-    for (int i = 0; i < reps; i++) {
+    for (var i = 0; i < reps; i++) {
       run();
     }
     return reps;
@@ -75,7 +75,7 @@ class GetStringsBenchmark extends Benchmark {
   }
 
   void _getDefaults() {
-    bool ok = true;
+    var ok = true;
     for (var line in grid.lines) {
       ok = ok && line.cell1.isEmpty;
       ok = ok && line.cell2.isEmpty;
@@ -92,7 +92,7 @@ class GetStringsBenchmark extends Benchmark {
   }
 
   void _getStrings() {
-    bool ok = true;
+    var ok = true;
     for (var line in grid.lines) {
       ok = ok && line.cell1.isNotEmpty;
       ok = ok && line.cell2.isNotEmpty;
@@ -114,10 +114,10 @@ class GetStringsBenchmark extends Benchmark {
   }
 
   @override
-  measureSample(Sample s) => stringReadsPerMillisecond(s);
+  double measureSample(Sample s) => stringReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => 'string reads/ms';
+  String get measureSampleUnits => 'string reads/ms';
 
   static const $id = BenchmarkID.GET_STRINGS;
   static final $type = BenchmarkType($id, $create);

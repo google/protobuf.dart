@@ -52,10 +52,10 @@ abstract class Benchmark {
       {Profiler profiler}) sync* {
     checkRequest(r);
 
-    int sampleMillis = r.duration;
+    var sampleMillis = r.duration;
     setup();
 
-    for (int i = 0; i < samples; i++) {
+    for (var i = 0; i < samples; i++) {
       yield _measureOnce(sampleMillis);
     }
 
@@ -102,7 +102,7 @@ abstract class Benchmark {
 
   /// Exercises the code and returns the number of repetitions.
   int exercise() {
-    for (int i = 0; i < _defaultReps; i++) {
+    for (var i = 0; i < _defaultReps; i++) {
       run();
     }
     return _defaultReps;
@@ -137,7 +137,7 @@ abstract class Benchmark {
     samples.sort((a, b) {
       return measureSample(a).compareTo(measureSample(b));
     });
-    int index = samples.length ~/ 2;
+    var index = samples.length ~/ 2;
     return samples[index];
   }
 
@@ -159,17 +159,17 @@ abstract class Benchmark {
   String get measureSampleUnits;
 
   @override
-  toString() => summary;
+  String toString() => summary;
 
   /// Measures the average time spent per repetition.
   ///
   /// Executes [runner] repeatedly until [minimumMillis] has been reached.
   /// [runner] should return the number of times it ran the benchmark.
   static pb.Sample _measureFor(Function runner, int minimumMillis) {
-    int minimumMicros = minimumMillis * 1000;
-    int reps = 0;
-    int elapsed = 0;
-    Stopwatch watch = Stopwatch()..start();
+    var minimumMicros = minimumMillis * 1000;
+    var reps = 0;
+    var elapsed = 0;
+    var watch = Stopwatch()..start();
     while (elapsed < minimumMicros) {
       reps += runner();
       elapsed = watch.elapsedMicroseconds;

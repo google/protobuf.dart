@@ -5,4 +5,4 @@
 import 'package:api_benchmark/suites/props.dart' show propsSuite;
 import 'package:api_benchmark/vm.dart' show runSuiteInVM;
 
-main() => runSuiteInVM(propsSuite);
+void main() => runSuiteInVM(propsSuite);

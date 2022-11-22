@@ -72,11 +72,11 @@ Choose baseline: <select class="dv-menu"></select>
 
   factory DashboardView() {
     Element elt = _template.clone(true);
-    find(String q) => elt.querySelector(q);
+    Element find(String q) => elt.querySelector(q);
     _Button button(q) => _Button(find(q));
-    label(q) => _Label(find(q));
-    menu(q) => _Menu(find(q));
-    json(q) => _JsonView(find(q));
+    _Label label(q) => _Label(find(q));
+    _Menu menu(q) => _Menu(find(q));
+    _JsonView json(q) => _JsonView(find(q));
     return DashboardView._raw(
         elt,
         button('.dv-run')
@@ -121,7 +121,7 @@ Choose baseline: <select class="dv-menu"></select>
   }
 
   void _renderEnv(pb.Report r) {
-    String newPlatform = r.env.platform.toString();
+    var newPlatform = r.env.platform.toString();
     if (newPlatform == _renderedPlatform) return;
     _envElt.text = newPlatform;
     _renderedPlatform = newPlatform;
@@ -212,7 +212,7 @@ class _JsonView {
 
   void render(pb.Report r) {
     // Don't show JSON while benchmarks are in progress.
-    String json = '';
+    var json = '';
     if (r.status == pb.Status.DONE) {
       json = encodeReport(r);
     }
@@ -266,7 +266,7 @@ class _MenuOption {
   String _renderedItem;
   bool _renderedSelected;
 
-  void render(String item, selected) {
+  void render(String item, bool selected) {
     if (_renderedItem != item) {
       elt.text = item;
       elt.value = item;

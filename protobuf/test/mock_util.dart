@@ -34,18 +34,18 @@ abstract class MockMessage extends GeneratedMessage {
   BuilderInfo get info_;
 
   int get val => $_get(0, 42);
-  set val(x) => setField(1, x);
+  set val(Object x) => setField(1, x);
 
   String get str => $_getS(1, '');
-  set str(x) => $_setString(1, x);
+  set str(String x) => $_setString(1, x);
 
   MockMessage get child => $_getN(2);
-  set child(x) => setField(3, x);
+  set child(Object x) => setField(3, x);
 
   List<int> get int32s => $_getList(3);
 
   Int64 get int64 => $_get(4, Int64(0));
-  set int64(x) => setField(5, x);
+  set int64(Object x) => setField(5, x);
 
   ProtobufEnum get enm => $_getN(5);
   bool get hasEnm => $_has(5);

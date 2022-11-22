@@ -24,7 +24,7 @@ abstract class EventPlugin {
   ///
   /// For repeated fields, this will be called when the list is created.
   /// (For example in [GeneratedMessage.getField] and merge methods.)
-  void beforeSetField(FieldInfo fi, newValue);
+  void beforeSetField(FieldInfo fi, Object? newValue);
 
   /// Called before clearing a field.
   void beforeClearField(FieldInfo fi);

@@ -49,7 +49,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   /// A [PbMap] is equal to another [PbMap] with equal key/value
   /// pairs in any order.
   @override
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) {
       return true;
     }

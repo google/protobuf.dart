@@ -44,7 +44,7 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
       var baseType = PbFieldType._baseType(fieldType);
       switch (baseType) {
         case PbFieldType._BOOL_BIT:
-          return fieldValue ? true : false;
+          return fieldValue as bool;
         case PbFieldType._STRING_BIT:
           return fieldValue;
         case PbFieldType._INT32_BIT:

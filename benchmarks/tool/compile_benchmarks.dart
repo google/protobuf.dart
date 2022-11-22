@@ -16,11 +16,11 @@ Future<void> main(List<String> args) async {
 
   var jobs = Platform.numberOfProcessors;
   if (parsedArgs['jobs'] != null) {
-    jobs = int.parse(parsedArgs['jobs']!);
+    jobs = int.parse(parsedArgs['jobs'] as String);
   }
 
   final targets = <Target>{};
-  for (final targetStr in parsedArgs['target'].split(',')) {
+  for (final targetStr in (parsedArgs['target'] as String).split(',')) {
     switch (targetStr) {
       case 'aot':
         targets.add(aotTarget);

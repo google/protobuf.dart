@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 import '../out/protos/map_field.pb.dart';
 
 void main() {
-  void _setValues(TestMap testMap) {
+  void setValues(TestMap testMap) {
     testMap
       ..int32ToInt32Field[1] = 11
       ..int32ToInt32Field[2] = 22
@@ -32,7 +32,7 @@ void main() {
       ..stringToInt32Field['3'] = 33;
   }
 
-  void _updateValues(TestMap testMap) {
+  void updateValues(TestMap testMap) {
     testMap
       ..int32ToInt32Field[1] = 111
       ..int32ToInt32Field.remove(2)
@@ -54,7 +54,7 @@ void main() {
       ..stringToInt32Field['4'] = 44;
   }
 
-  void _expectEmpty(TestMap testMap) {
+  void expectEmpty(TestMap testMap) {
     expect(testMap.int32ToInt32Field, isEmpty);
     expect(testMap.int32ToStringField, isEmpty);
     expect(testMap.int32ToBytesField, isEmpty);
@@ -63,7 +63,7 @@ void main() {
     expect(testMap.stringToInt32Field, isEmpty);
   }
 
-  void _expectMapValuesSet(TestMap testMap) {
+  void expectMapValuesSet(TestMap testMap) {
     expect(testMap.int32ToInt32Field[1], 11);
     expect(testMap.int32ToInt32Field[2], 22);
     expect(testMap.int32ToInt32Field[3], 33);
@@ -89,7 +89,7 @@ void main() {
     expect(testMap.stringToInt32Field['3'], 33);
   }
 
-  void _expectMapValuesUpdated(TestMap testMap) {
+  void expectMapValuesUpdated(TestMap testMap) {
     expect(testMap.int32ToInt32Field.length, 3);
     expect(testMap.int32ToInt32Field[1], 111);
     expect(testMap.int32ToInt32Field[3], 33);
@@ -123,52 +123,52 @@ void main() {
 
   test('set and clear values', () {
     var testMap = TestMap();
-    _expectEmpty(testMap);
+    expectEmpty(testMap);
 
-    _setValues(testMap);
-    _expectMapValuesSet(testMap);
+    setValues(testMap);
+    expectMapValuesSet(testMap);
 
     testMap.clear();
-    _expectEmpty(testMap);
+    expectEmpty(testMap);
   });
 
   test('update map values', () {
     var testMap = TestMap();
-    _setValues(testMap);
-    _updateValues(testMap);
-    _expectMapValuesUpdated(testMap);
+    setValues(testMap);
+    updateValues(testMap);
+    expectMapValuesUpdated(testMap);
   });
 
   test('Serialize and parse map', () {
     var testMap = TestMap();
-    _setValues(testMap);
+    setValues(testMap);
 
     testMap = TestMap.fromBuffer(testMap.writeToBuffer());
-    _expectMapValuesSet(testMap);
+    expectMapValuesSet(testMap);
 
-    _updateValues(testMap);
+    updateValues(testMap);
     testMap = TestMap.fromBuffer(testMap.writeToBuffer());
-    _expectMapValuesUpdated(testMap);
+    expectMapValuesUpdated(testMap);
 
     testMap.clear();
     testMap = TestMap.fromBuffer(testMap.writeToBuffer());
-    _expectEmpty(testMap);
+    expectEmpty(testMap);
   });
 
   test('json serialize map', () {
     var testMap = TestMap();
-    _setValues(testMap);
+    setValues(testMap);
 
     testMap = TestMap.fromJson(testMap.writeToJson());
-    _expectMapValuesSet(testMap);
+    expectMapValuesSet(testMap);
 
-    _updateValues(testMap);
+    updateValues(testMap);
     testMap = TestMap.fromJson(testMap.writeToJson());
-    _expectMapValuesUpdated(testMap);
+    expectMapValuesUpdated(testMap);
 
     testMap.clear();
     testMap = TestMap.fromJson(testMap.writeToJson());
-    _expectEmpty(testMap);
+    expectEmpty(testMap);
   });
 
   test(
@@ -213,11 +213,11 @@ void main() {
 
   test('merge from other message', () {
     var testMap = TestMap();
-    _setValues(testMap);
+    setValues(testMap);
 
     var other = TestMap();
     other.mergeFromMessage(testMap);
-    _expectMapValuesSet(other);
+    expectMapValuesSet(other);
 
     testMap = TestMap()
       ..int32ToMessageField[1] = (TestMap_MessageValue()..value = 42)
@@ -267,10 +267,10 @@ void main() {
 
   test('Freeze message with map field', () {
     var testMap = TestMap();
-    _setValues(testMap);
+    setValues(testMap);
     testMap.freeze();
 
-    expect(() => _updateValues(testMap),
+    expect(() => updateValues(testMap),
         throwsA(const TypeMatcher<UnsupportedError>()));
     expect(() => testMap.int32ToMessageField[1]!.value = 42,
         throwsA(const TypeMatcher<UnsupportedError>()));

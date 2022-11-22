@@ -8,11 +8,11 @@ import 'indenting_writer.dart';
 
 /// Finds [name] in the exported mixins.
 PbMixin? findMixin(String name) {
-  const _exportedMixins = {
+  const exportedMixins = {
     'PbMapMixin': _pbMapMixin,
     'PbEventMixin': _pbEventMixin,
   };
-  return _exportedMixins[name];
+  return exportedMixins[name];
 }
 
 /// PbMixin contains metadata needed by dart-protoc-plugin to apply a mixin.

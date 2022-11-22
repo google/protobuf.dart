@@ -84,7 +84,7 @@ class EventBuffer extends EventPlugin {
   }
 
   @override
-  void beforeSetField(FieldInfo fi, newValue) {
+  void beforeSetField(FieldInfo fi, Object? newValue) {
     var oldValue = _parent!.getFieldOrNull(fi.tagNumber);
     oldValue ??= fi.readonlyDefault;
     if (identical(oldValue, newValue)) return;

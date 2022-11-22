@@ -14,7 +14,7 @@ import 'package:test/test.dart' show expect, same, test, throwsArgumentError;
 import 'mock_util.dart' show MockMessage, mockInfo;
 
 // A minimal protobuf implementation compatible with PbMapMixin.
-class Rec extends MockMessage with MapMixin, PbMapMixin {
+class Rec extends MockMessage with MapMixin<Object?, Object>, PbMapMixin {
   @override
   BuilderInfo get info_ => _info;
   static final _info = mockInfo('Rec', () => Rec());
@@ -45,7 +45,7 @@ void main() {
     expect(v.toList()[1], '');
     expect(v.toList()[3].toString(), '[]');
     expect(v.toList()[4], 0);
-    expect(v.toList()[5].name, 'a');
+    expect((v.toList()[5] as ProtobufEnum).name, 'a');
   });
 
   test('operator []= sets record fields', () {

@@ -1,9 +1,5 @@
-include: package:lints/recommended.yaml
+include: ../analysis_options.yaml
 
-linter:
-  rules:
-    - comment_references
-    - directives_ordering
-    - omit_local_variable_types
-    - prefer_relative_imports
-    - prefer_single_quotes
+analyzer:
+  language:
+    strict-casts: false
