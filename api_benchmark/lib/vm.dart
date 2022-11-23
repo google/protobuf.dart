@@ -19,8 +19,8 @@ import 'suite.dart' show runSuite;
 Future<void> runSuiteInVM(pb.Suite suite) async {
   var env = await _loadEnv();
 
-  pb.Report lastReport;
-  pb.Response lastUpdate;
+  pb.Report? lastReport;
+  pb.Response? lastUpdate;
   for (var report in runSuite(suite.requests, samplesPerBatch: 10)) {
     report.env = env;
 
@@ -42,13 +42,12 @@ Future<void> runSuiteInVM(pb.Suite suite) async {
   // save the report to a file
   var outFile = '${dataDir.path}/$latestVMReportName';
   var tmpFile = File('$outFile.tmp');
-  await tmpFile.writeAsString(encodeReport(lastReport));
+  await tmpFile.writeAsString(encodeReport(lastReport!));
   await tmpFile.rename(outFile);
   print('\nWrote result to $outFile');
 }
 
 String _summarize(pb.Response r) {
-  assert(r != null);
   var b = createBenchmark(r.request);
   return b.summarizeResponse(r);
 }

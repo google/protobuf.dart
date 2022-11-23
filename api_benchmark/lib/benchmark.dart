@@ -49,7 +49,7 @@ abstract class Benchmark {
   /// If a [profiler] is provided, it will be used for one extra sample.
   /// (Not included in results.)
   Iterable<pb.Sample> measure(pb.Request r, int samples,
-      {Profiler profiler}) sync* {
+      {Profiler? profiler}) sync* {
     checkRequest(r);
 
     var sampleMillis = r.duration;
@@ -131,7 +131,7 @@ abstract class Benchmark {
   }
 
   /// Returns the sample with the median measurement.
-  pb.Sample medianSample(pb.Response response) {
+  pb.Sample? medianSample(pb.Response? response) {
     if (response == null || response.samples.isEmpty) return null;
     var samples = [...response.samples];
     samples.sort((a, b) {
@@ -142,9 +142,9 @@ abstract class Benchmark {
   }
 
   /// Returns the sample with the highest measurement.
-  pb.Sample maxSample(pb.Response response) {
+  pb.Sample? maxSample(pb.Response? response) {
     if (response == null) return null;
-    pb.Sample best;
+    pb.Sample? best;
     for (var s in response.samples) {
       best ??= s;
       if (measureSample(best) < measureSample(s)) {
@@ -154,7 +154,7 @@ abstract class Benchmark {
     return best;
   }
 
-  double measureSample(pb.Sample s);
+  double measureSample(pb.Sample? s);
 
   String get measureSampleUnits;
 
@@ -165,7 +165,7 @@ abstract class Benchmark {
   ///
   /// Executes [runner] repeatedly until [minimumMillis] has been reached.
   /// [runner] should return the number of times it ran the benchmark.
-  static pb.Sample _measureFor(Function runner, int minimumMillis) {
+  static pb.Sample _measureFor(int Function() runner, int minimumMillis) {
     var minimumMicros = minimumMillis * 1000;
     var reps = 0;
     var elapsed = 0;
@@ -181,22 +181,22 @@ abstract class Benchmark {
   }
 }
 
-double int32ReadsPerMillisecond(pb.Sample s) {
+double int32ReadsPerMillisecond(pb.Sample? s) {
   if (s == null || !s.counts.hasInt32Reads() || !s.hasDuration()) return 0.0;
   return s.counts.int32Reads * 1000 / s.duration;
 }
 
-double int64ReadsPerMillisecond(pb.Sample s) {
+double int64ReadsPerMillisecond(pb.Sample? s) {
   if (s == null || !s.counts.hasInt64Reads() || !s.hasDuration()) return 0.0;
   return s.counts.int64Reads * 1000 / s.duration;
 }
 
-double stringReadsPerMillisecond(pb.Sample s) {
+double stringReadsPerMillisecond(pb.Sample? s) {
   if (s == null || !s.counts.hasStringReads() || !s.hasDuration()) return 0.0;
   return s.counts.stringReads * 1000 / s.duration;
 }
 
-double stringWritesPerMillisecond(pb.Sample s) {
+double stringWritesPerMillisecond(pb.Sample? s) {
   if (s == null || !s.counts.hasStringWrites() || !s.hasDuration()) return 0.0;
   return s.counts.stringWrites * 1000 / s.duration;
 }

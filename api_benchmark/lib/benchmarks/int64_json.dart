@@ -13,8 +13,8 @@ import '../generated/int64grid.pb.dart' as pb;
 class Int64Benchmark extends Benchmark {
   final int width;
   final int height;
-  String json;
-  int lastFieldTag;
+  late String json;
+  int? lastFieldTag;
 
   Int64Benchmark(this.width, this.height) : super($id);
 
@@ -44,7 +44,7 @@ class Int64Benchmark extends Benchmark {
     for (var y = 0; y < height; y++) {
       var line = pb.Line10();
       for (var x = 0; x < width; x++) {
-        var tag = getTagForColumn(line, x);
+        var tag = getTagForColumn(line, x)!;
         line.setField(tag, Int64(x + y));
       }
       grid.lines.add(line);
@@ -53,14 +53,14 @@ class Int64Benchmark extends Benchmark {
     return grid;
   }
 
-  static int getTagForColumn(pb.Line10 line, int x) {
+  static int? getTagForColumn(pb.Line10 line, int x) {
     return line.getTagNumber('cell${x + 1}'); // assume x start from 1
   }
 
   @override
   void run() {
     var grid = pb.Grid10.fromJson(json);
-    var actual = grid.lines[height - 1].getField(lastFieldTag);
+    var actual = grid.lines[height - 1].getField(lastFieldTag!);
     if (actual != width + height - 2) throw 'failed; got $actual';
   }
 
@@ -70,7 +70,7 @@ class Int64Benchmark extends Benchmark {
   }
 
   @override
-  double measureSample(Sample s) => int64ReadsPerMillisecond(s);
+  double measureSample(Sample? s) => int64ReadsPerMillisecond(s);
 
   @override
   String get measureSampleUnits => 'int64 reads/ms';

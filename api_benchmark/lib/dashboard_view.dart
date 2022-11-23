@@ -48,12 +48,12 @@ Choose baseline: <select class="dv-menu"></select>
   final _Button _selectAllButton;
   final _Button _selectNoneButton;
   final _Label _status;
-  final PreElement _envElt;
+  final PreElement? _envElt;
   final _Menu _menu;
-  final TableElement _responseTable;
+  final TableElement? _responseTable;
   final _JsonView _jsonView;
 
-  String _renderedPlatform;
+  String? _renderedPlatform;
   final rowViews = <_ResponseView>[];
 
   final _selectionChanges =
@@ -71,30 +71,30 @@ Choose baseline: <select class="dv-menu"></select>
       this._jsonView);
 
   factory DashboardView() {
-    Element elt = _template.clone(true);
-    Element find(String q) => elt.querySelector(q);
-    _Button button(q) => _Button(find(q));
-    _Label label(q) => _Label(find(q));
-    _Menu menu(q) => _Menu(find(q));
-    _JsonView json(q) => _JsonView(find(q));
+    final elt = _template.clone(true) as Element;
+    Element? find(String q) => elt.querySelector(q);
+    _Button button(q) => _Button(find(q) as ButtonElement);
+    _Label label(q) => _Label(find(q) as HtmlElement?);
+    _Menu menu(q) => _Menu(find(q) as SelectElement);
+    _JsonView json(q) => _JsonView(find(q) as DivElement?);
     return DashboardView._raw(
-        elt,
+        elt as DivElement,
         button('.dv-run')
           ..elt.style.color = '#FFFFFF'
           ..elt.style.backgroundColor = 'rgb(209, 72, 64)',
         button('.dv-select-all'),
         button('.dv-select-none'),
         label('.dv-status'),
-        find('.dv-env'),
+        find('.dv-env') as PreElement?,
         menu('.dv-menu'),
-        find('.dv-table'),
+        find('.dv-table') as TableElement?,
         json('.dv-json'));
   }
 
   Stream get onRunButtonClick => _runButton.onClick;
   Stream get onSelectAllClick => _selectAllButton.onClick;
   Stream get onSelectNoneClick => _selectNoneButton.onClick;
-  Stream<String> get onMenuChange =>
+  Stream<String?> get onMenuChange =>
       _menu.onChange.map((item) => item == noBaseline ? null : item);
   Stream<SelectEvent<pb.Request>> get onSelectionChange =>
       _selectionChanges.stream;
@@ -123,7 +123,7 @@ Choose baseline: <select class="dv-menu"></select>
   void _renderEnv(pb.Report r) {
     var newPlatform = r.env.platform.toString();
     if (newPlatform == _renderedPlatform) return;
-    _envElt.text = newPlatform;
+    _envElt!.text = newPlatform;
     _renderedPlatform = newPlatform;
   }
 
@@ -141,7 +141,7 @@ Choose baseline: <select class="dv-menu"></select>
     // Add any new rows
     while (rowIt.moveNext()) {
       var row = _ResponseView()..render(rowIt.current, r, _selectionChanges);
-      _responseTable.append(row.elt);
+      _responseTable!.append(row.elt);
       rowViews.add(row);
     }
   }
@@ -164,12 +164,12 @@ class _ResponseView {
   _ResponseView() {
     elt.children.addAll([
       _selected.elt,
-      _summary.elt,
+      _summary.elt!,
       _baseline.elt,
       _median.elt,
       _max.elt,
-      _count.elt,
-      _units.elt
+      _count.elt!,
+      _units.elt!
     ]);
   }
 
@@ -190,7 +190,7 @@ class _ResponseView {
 /// A table cell holding the measurement for one sample.
 class _SampleView {
   final elt = TableCellElement()..style.textAlign = 'right';
-  double _rendered;
+  double? _rendered;
 
   void render(double value) {
     if (_rendered == value) return;
@@ -206,8 +206,8 @@ class _SampleView {
 
 /// Renders the benchmark report as JSON so it can be copied to a file.
 class _JsonView {
-  final DivElement elt;
-  String _rendered;
+  final DivElement? elt;
+  String? _rendered;
   _JsonView(this.elt);
 
   void render(pb.Report r) {
@@ -219,9 +219,9 @@ class _JsonView {
 
     if (json == _rendered) return;
 
-    elt.children.clear();
+    elt!.children.clear();
     if (json == '') return;
-    elt.children.addAll([
+    elt!.children.addAll([
       HeadingElement.h2()..text = 'Report data as JSON:',
       PreElement()..text = json
     ]);
@@ -232,16 +232,16 @@ class _JsonView {
 /// A menu of selectable text items.
 class _Menu {
   final SelectElement elt;
-  final _changes = StreamController<String>.broadcast();
+  final _changes = StreamController<String?>.broadcast();
   final _options = <_MenuOption>[];
 
   _Menu(this.elt) {
     elt.onChange.listen((e) => _changes.add(elt.value));
   }
 
-  Stream<String> get onChange => _changes.stream;
+  Stream<String?> get onChange => _changes.stream;
 
-  void render(List<String> items, String selected) {
+  void render(List<String> items, String? selected) {
     var it = items.iterator;
 
     // Update existing items
@@ -263,8 +263,8 @@ class _Menu {
 
 class _MenuOption {
   final elt = OptionElement();
-  String _renderedItem;
-  bool _renderedSelected;
+  String? _renderedItem;
+  bool? _renderedSelected;
 
   void render(String item, bool selected) {
     if (_renderedItem != item) {
@@ -280,13 +280,13 @@ class _MenuOption {
 }
 
 class _Label {
-  final HtmlElement elt;
-  String _rendered;
+  final HtmlElement? elt;
+  String? _rendered;
   _Label(this.elt);
 
   void render(String text) {
     if (_rendered == text) return;
-    elt.text = text;
+    elt!.text = text;
     _rendered = text;
   }
 }
@@ -294,8 +294,8 @@ class _Label {
 class _Button {
   final ButtonElement elt;
   final _clicks = StreamController.broadcast();
-  String _renderedLabel;
-  bool _renderedEnabled;
+  String? _renderedLabel;
+  bool? _renderedEnabled;
 
   _Button(this.elt) {
     elt.onClick.listen((e) => _clicks.add(true));
@@ -318,19 +318,19 @@ class _Button {
 class _Checkbox<T> {
   final elt = CheckboxInputElement();
 
-  bool _renderedChecked;
-  EventSink<SelectEvent<T>> _sink;
-  T _item;
+  bool? _renderedChecked;
+  EventSink<SelectEvent<T>>? _sink;
+  T? _item;
 
   _Checkbox() {
     elt.onChange.listen((e) {
       if (_sink != null) {
-        _sink.add(SelectEvent<T>(elt.checked, _item));
+        _sink!.add(SelectEvent<T>(elt.checked, _item));
       }
     });
   }
 
-  void render(bool checked, {EventSink<SelectEvent<T>> sink, T item}) {
+  void render(bool checked, {EventSink<SelectEvent<T>>? sink, T? item}) {
     if (_renderedChecked != checked) {
       elt.checked = checked;
       _renderedChecked = checked;

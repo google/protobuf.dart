@@ -11,8 +11,8 @@ import '../generated/string_grid.pb.dart' as pb;
 class GetStringsBenchmark extends Benchmark {
   static const width = 10;
   final int height;
-  final String fillValue; // null means start uninitialized.
-  pb.Grid10 grid;
+  final String? fillValue; // null means start uninitialized.
+  late pb.Grid10 grid;
 
   GetStringsBenchmark(this.height, this.fillValue) : super($id);
 
@@ -25,7 +25,7 @@ class GetStringsBenchmark extends Benchmark {
   @override
   Params makeParams() {
     var p = Params()..messageCount = height;
-    if (fillValue != null) p.stringValue = fillValue;
+    if (fillValue != null) p.stringValue = fillValue!;
     return p;
   }
 
@@ -35,7 +35,7 @@ class GetStringsBenchmark extends Benchmark {
   }
 
   // makes a rectangle where every cell has the same value.
-  static pb.Grid10 _makeGrid(int height, String fillValue) {
+  static pb.Grid10 _makeGrid(int height, String? fillValue) {
     var grid = pb.Grid10();
 
     for (var y = 0; y < height; y++) {
@@ -53,7 +53,7 @@ class GetStringsBenchmark extends Benchmark {
   }
 
   static int getTagForColumn(pb.Line10 line, int x) {
-    return line.getTagNumber('cell${x + 1}'); // assume x start from 1
+    return line.getTagNumber('cell${x + 1}')!; // assume x start from 1
   }
 
   @override
@@ -114,7 +114,7 @@ class GetStringsBenchmark extends Benchmark {
   }
 
   @override
-  double measureSample(Sample s) => stringReadsPerMillisecond(s);
+  double measureSample(Sample? s) => stringReadsPerMillisecond(s);
 
   @override
   String get measureSampleUnits => 'string reads/ms';
@@ -124,7 +124,7 @@ class GetStringsBenchmark extends Benchmark {
 
   static GetStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());
-    String value;
+    String? value;
     if (r.params.hasStringValue()) value = r.params.stringValue;
     return GetStringsBenchmark(r.params.messageCount, value);
   }
