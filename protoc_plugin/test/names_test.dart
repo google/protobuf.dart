@@ -116,7 +116,7 @@ void main() {
 
     {
       List<String> variants(String s) {
-        return ['a_' + s, 'b_' + s];
+        return ['a_$s', 'b_$s'];
       }
 
       final used = {'a_foo', 'b_foo_one'};

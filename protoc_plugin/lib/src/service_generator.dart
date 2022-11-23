@@ -31,9 +31,9 @@ class ServiceGenerator {
 
   static String serviceBaseName(String originalName) {
     if (originalName.endsWith('Service')) {
-      return originalName + 'Base'; // avoid: ServiceServiceBase
+      return '${originalName}Base'; // avoid: ServiceServiceBase
     } else {
-      return originalName + 'ServiceBase';
+      return '${originalName}ServiceBase';
     }
   }
 
@@ -127,7 +127,7 @@ class ServiceGenerator {
       // If it's the same file, we import it without using "as".
       return mg.classname;
     }
-    return mg.fileImportPrefix + '.' + mg.classname;
+    return '${mg.fileImportPrefix}.${mg.classname}';
   }
 
   List<MethodDescriptorProto> get _methodDescriptors => _descriptor.method;

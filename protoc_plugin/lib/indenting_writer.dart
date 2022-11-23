@@ -75,7 +75,7 @@ class IndentingWriter {
   void addBlock(String start, String end, void Function() body,
       {bool endWithNewline = true}) {
     println(start);
-    _addBlockBodyAndEnd(end, body, endWithNewline, _indent + '  ');
+    _addBlockBodyAndEnd(end, body, endWithNewline, '$_indent  ');
   }
 
   /// Prints a block of text with an unindented body.
@@ -90,7 +90,7 @@ class IndentingWriter {
       List<NamedLocation> namedLocations, void Function() body,
       {bool endWithNewline = true}) {
     printlnAnnotated(start, namedLocations);
-    _addBlockBodyAndEnd(end, body, endWithNewline, _indent + '  ');
+    _addBlockBodyAndEnd(end, body, endWithNewline, '$_indent  ');
   }
 
   void _addBlockBodyAndEnd(

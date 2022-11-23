@@ -165,9 +165,7 @@ class ProtobufField {
     } else if (isRepeated) {
       prefix = 'P';
     }
-    return '$protobufImportPrefix.PbFieldType.' +
-        prefix +
-        baseType.typeConstantSuffix;
+    return '$protobufImportPrefix.PbFieldType.$prefix${baseType.typeConstantSuffix}';
   }
 
   static String _formatArguments(

@@ -42,9 +42,7 @@ Use CodedBufferReader.setRecursionLimit() to increase the depth limit.
 
   InvalidProtocolBufferException.truncatedMessageDueToSizeLimit(
       int originalSize, int truncatedSize)
-      : this._(_truncatedMessageText +
-            '''
-
+      : this._('''$_truncatedMessageText
 Note that the buffer containing the message has $originalSize bytes, but
 CodedBufferReader was allowed to parse only $truncatedSize bytes.
 ''');

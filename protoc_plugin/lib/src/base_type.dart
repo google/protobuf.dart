@@ -40,7 +40,7 @@ class BaseType {
   /// The Dart expression to use for this type when in a different file.
   String get prefixed => generator == null
       ? unprefixed
-      : generator!.fileImportPrefix + '.' + unprefixed;
+      : '${generator!.fileImportPrefix}.$unprefixed';
 
   /// Returns the name to use in generated code for this Dart type.
   ///

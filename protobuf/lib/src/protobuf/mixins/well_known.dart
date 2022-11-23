@@ -219,11 +219,8 @@ abstract class TimestampMixin {
     var sec = _twoDigits(dateTime.second);
     var secFrac = '';
     if (timestamp.nanos > 0) {
-      secFrac = '.' +
-          timestamp.nanos
-              .toString()
-              .padLeft(9, '0')
-              .replaceFirst(finalGroupsOfThreeZeroes, '');
+      secFrac =
+          '.${timestamp.nanos.toString().padLeft(9, '0').replaceFirst(finalGroupsOfThreeZeroes, '')}';
     }
     return '$y-$m-${d}T$h:$min:$sec${secFrac}Z';
   }
