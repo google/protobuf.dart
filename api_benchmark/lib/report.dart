@@ -33,12 +33,12 @@ pb.Platform createPlatform() {
     ..checkedMode = _implicitChecksEnabled;
 }
 
-get _isDartVM => !identical(1, 1.0);
+bool get _isDartVM => !identical(1, 1.0);
 
 /// Returns `false` if running via dart2js and `--omit-implicit-checks` is set
 final bool _implicitChecksEnabled = () {
   // ignore: unused_local_variable
-  bool x = true;
+  var x = true;
   try {
     // Trigger an exception if we're in checked mode.
     x = '' as dynamic;
@@ -127,7 +127,7 @@ String _stringifyMap(StringBuffer out, Map json, String indent) {
 void _stringifyList(StringBuffer out, List json, String indent) {
   var childIndent = indent + '  ';
   out.write('[\n');
-  bool first = true;
+  var first = true;
   for (var item in json) {
     if (!first) out.write(',\n');
     first = false;

@@ -44,10 +44,10 @@ class GrpcServiceGenerator {
     }
 
     // avoid: ClientClient
-    _clientClassname = name.endsWith('Client') ? name : name + 'Client';
+    _clientClassname = name.endsWith('Client') ? name : '${name}Client';
     // avoid: ServiceServiceBase
     _serviceClassname =
-        name.endsWith('Service') ? name + 'Base' : name + 'ServiceBase';
+        name.endsWith('Service') ? '${name}Base' : '${name}ServiceBase';
   }
 
   /// Finds all message types used by this service.
@@ -96,7 +96,7 @@ class GrpcServiceGenerator {
       // TODO(nichite): Throw more actionable error.
       throw 'FAILURE: Unknown type reference ($fqname) for $location';
     }
-    return mg.fileImportPrefix + '.' + mg.classname;
+    return '${mg.fileImportPrefix}.${mg.classname}';
   }
 
   void generate(IndentingWriter out) {

@@ -17,7 +17,7 @@ class Int32Benchmark extends Benchmark {
   Int32Benchmark(this.width, this.height) : super($id);
 
   @override
-  get summary => '${id.name}($width x $height int32s)';
+  String get summary => '${id.name}($width x $height int32s)';
 
   @override
   Params makeParams() => Params()
@@ -39,10 +39,10 @@ class Int32Benchmark extends Benchmark {
     if (width > 10) throw ArgumentError('width out of range: $width');
     var grid = pb.Grid10();
 
-    for (int y = 0; y < height; y++) {
+    for (var y = 0; y < height; y++) {
       var line = pb.Line10();
-      for (int x = 0; x < width; x++) {
-        int tag = getTagForColumn(line, x);
+      for (var x = 0; x < width; x++) {
+        var tag = getTagForColumn(line, x);
         line.setField(tag, x + y);
       }
       grid.lines.add(line);
@@ -57,7 +57,7 @@ class Int32Benchmark extends Benchmark {
 
   @override
   void run() {
-    pb.Grid10 grid = pb.Grid10.fromJson(json);
+    var grid = pb.Grid10.fromJson(json);
     var actual = grid.lines[height - 1].getField(lastFieldTag);
     if (actual != width + height - 2) throw 'failed; got $actual';
   }
@@ -68,10 +68,10 @@ class Int32Benchmark extends Benchmark {
   }
 
   @override
-  measureSample(Sample s) => int32ReadsPerMillisecond(s);
+  double measureSample(Sample s) => int32ReadsPerMillisecond(s);
 
   @override
-  get measureSampleUnits => 'int32 reads/ms';
+  String get measureSampleUnits => 'int32 reads/ms';
 
   static const $id = BenchmarkID.READ_INT32_FIELDS_JSON;
   static final $type = BenchmarkType($id, $create);

@@ -79,7 +79,7 @@ class FileGenerator extends ProtobufContainer {
         }
 
         if (parentChain.contains(parentName)) {
-          var cycle = parentChain.join('->') + '->$parentName';
+          var cycle = '${parentChain.join('->')}->$parentName';
           throw mixinError('Cycle in parent chain: $cycle');
         }
         parentChain.add(parentName);

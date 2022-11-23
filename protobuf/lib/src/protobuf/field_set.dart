@@ -56,7 +56,7 @@ class _FieldSet {
   ///
   /// If the value is not a `bool`, then it must contain the memoized hash code
   /// value, in which case the proto must be read-only.
-  bool get _isReadOnly => _frozenState is bool ? _frozenState as bool : true;
+  bool get _isReadOnly => _frozenState is! bool || _frozenState as bool;
 
   /// Returns the value of [_frozenState] if it contains the pre-computed value
   /// of the hashCode for the frozen field sets.

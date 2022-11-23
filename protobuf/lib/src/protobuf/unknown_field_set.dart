@@ -136,7 +136,7 @@ class UnknownFieldSet {
   }
 
   @override
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     if (other is! UnknownFieldSet) return false;
 
     var o = other;
@@ -224,7 +224,7 @@ class UnknownFieldSetField {
   }
 
   @override
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     if (other is! UnknownFieldSetField) return false;
 
     var o = other;

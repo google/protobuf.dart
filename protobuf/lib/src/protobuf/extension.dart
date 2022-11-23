@@ -34,7 +34,7 @@ class Extension<T> extends FieldInfo<T> {
   int get hashCode => extendee.hashCode * 31 + tagNumber;
 
   @override
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     if (other is! Extension) return false;
 
     var o = other;

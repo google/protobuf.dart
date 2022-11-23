@@ -323,26 +323,26 @@ void main() {
   });
 
   test('testMaliciousRecursion', () {
-    TestRecursiveMessage _makeRecursiveMessage(int depth) {
+    TestRecursiveMessage makeRecursiveMessage(int depth) {
       return depth == 0
           ? (TestRecursiveMessage()..i = 5)
-          : (TestRecursiveMessage()..a = _makeRecursiveMessage(depth - 1));
+          : (TestRecursiveMessage()..a = makeRecursiveMessage(depth - 1));
     }
 
-    void _assertMessageDepth(TestRecursiveMessage message, int depth) {
+    void assertMessageDepth(TestRecursiveMessage message, int depth) {
       if (depth == 0) {
         expect(message.hasA(), isFalse);
         expect(message.i, 5);
       } else {
         expect(message.hasA(), isTrue);
-        _assertMessageDepth(message.a, depth - 1);
+        assertMessageDepth(message.a, depth - 1);
       }
     }
 
-    List<int> data64 = _makeRecursiveMessage(64).writeToBuffer();
-    List<int> data65 = _makeRecursiveMessage(65).writeToBuffer();
+    List<int> data64 = makeRecursiveMessage(64).writeToBuffer();
+    List<int> data65 = makeRecursiveMessage(65).writeToBuffer();
 
-    _assertMessageDepth(TestRecursiveMessage.fromBuffer(data64), 64);
+    assertMessageDepth(TestRecursiveMessage.fromBuffer(data64), 64);
 
     expect(() {
       TestRecursiveMessage.fromBuffer(data65);

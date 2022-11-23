@@ -122,9 +122,7 @@ abstract class GeneratedMessage {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is GeneratedMessage
-        ? _fieldSet._equals(other._fieldSet)
-        : false;
+    return other is GeneratedMessage && _fieldSet._equals(other._fieldSet);
   }
 
   /// Calculates a hash code based on the contents of the protobuf.
@@ -298,7 +296,7 @@ abstract class GeneratedMessage {
   ///
   /// The backing [List] will be created if necessary.
   /// If the list already exists, the old extension won't be overwritten.
-  void addExtension(Extension extension, var value) {
+  void addExtension(Extension extension, Object? value) {
     if (!extension.isRepeated) {
       throw ArgumentError(
           'Cannot add to a non-repeated field (use setExtension())');

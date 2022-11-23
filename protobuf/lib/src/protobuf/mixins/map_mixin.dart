@@ -19,20 +19,20 @@ abstract class PbMapMixin {
   dynamic getField(int tagNumber);
   void setField(int tagNumber, Object value);
 
-  dynamic operator [](key) {
+  dynamic operator [](Object? key) {
     if (key is! String) return null;
     var tag = getTagNumber(key);
     if (tag == null) return null;
     return getField(tag);
   }
 
-  operator []=(key, val) {
+  void operator []=(Object? key, Object? val) {
     var tag = getTagNumber(key as String);
     if (tag == null) {
       throw ArgumentError.value(key, 'key',
           "field '$key' not found in ${info_.qualifiedMessageName}");
     }
-    setField(tag, val);
+    setField(tag, val!);
   }
 
   Iterable<String> get keys => info_.byName.keys;
@@ -41,7 +41,7 @@ abstract class PbMapMixin {
 
   int get length => info_.byName.length;
 
-  dynamic remove(key) {
+  dynamic remove(Object? key) {
     throw UnsupportedError(
         'remove() not supported by ${info_.qualifiedMessageName}');
   }

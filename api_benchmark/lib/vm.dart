@@ -16,7 +16,7 @@ import 'suite.dart' show runSuite;
 /// Runs a benchmark suite.
 /// Writes a report to latest_vm.pb.json after every change,
 /// to make progress available to the browser.
-runSuiteInVM(pb.Suite suite) async {
+Future<void> runSuiteInVM(pb.Suite suite) async {
   var env = await _loadEnv();
 
   pb.Report lastReport;
@@ -81,7 +81,7 @@ Future<pb.Env> _loadEnv() async {
 /// Create files and symlinks in the data directory.
 ///
 /// This is so they can be accessed in browser benchmarks.
-_ensureDataDir() async {
+Future<void> _ensureDataDir() async {
   await hostnameFile.writeAsString(_hostname);
 
   if (!await pubspecYaml.exists()) {
@@ -101,7 +101,7 @@ String get _script {
 String get _hostname {
   // Only including the first part of the hostname.
   var h = Platform.localHostname;
-  int firstDot = h.indexOf('.');
+  var firstDot = h.indexOf('.');
   if (firstDot == -1) return h;
   return h.substring(0, firstDot);
 }

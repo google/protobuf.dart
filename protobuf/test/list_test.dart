@@ -12,7 +12,7 @@ final invalidArgumentException =
 final badArgument = throwsA(invalidArgumentException);
 
 // Suppress an analyzer warning for a deliberate type mismatch.
-T cast<T>(x) => x;
+T cast<T>(Object? x) => x as T;
 
 void main() {
   test('testPbList handles basic operations', () {

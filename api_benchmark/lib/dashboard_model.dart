@@ -41,7 +41,7 @@ class Table {
       Table._raw(suite, null, null, Set<pb.Request>.from(suite.requests));
 
   Table._raw(this.suite, this.baseline, this.report, this.selections) {
-    Iterator it = report == null ? [].iterator : report.responses.iterator;
+    var it = report == null ? [].iterator : report.responses.iterator;
     for (var r in suite.requests) {
       var b = createBenchmark(r);
       pb.Sample baseline;
@@ -99,5 +99,5 @@ class SelectEvent<T> {
   final T item;
   SelectEvent(this.selected, [this.item]);
   @override
-  toString() => 'SelectEvent($selected, $item)';
+  String toString() => 'SelectEvent($selected, $item)';
 }

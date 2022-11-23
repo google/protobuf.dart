@@ -8,7 +8,7 @@ import '../benchmarks/repeated_int32_json.dart';
 import '../benchmarks/repeated_int64_json.dart';
 import '../benchmarks/repeated_string_json.dart';
 import '../benchmarks/string_json.dart';
-import '../generated/benchmark.pb.dart' show Suite;
+import '../generated/benchmark.pb.dart';
 
 final Suite jsonSuite = () {
   var suite = Suite();
@@ -44,18 +44,20 @@ final Suite jsonSuite = () {
   return suite;
 }();
 
-_int32(int width, int height) => Int32Benchmark(width, height).makeRequest();
+Request _int32(int width, int height) =>
+    Int32Benchmark(width, height).makeRequest();
 
-_repeatedInt32(int width, int height) =>
+Request _repeatedInt32(int width, int height) =>
     RepeatedInt32Benchmark(width, height).makeRequest();
 
-_int64(int width, int height) => Int64Benchmark(width, height).makeRequest();
+Request _int64(int width, int height) =>
+    Int64Benchmark(width, height).makeRequest();
 
-_repeatedInt64(int width, int height) =>
+Request _repeatedInt64(int width, int height) =>
     RepeatedInt64Benchmark(width, height).makeRequest();
 
-_string(int width, int height, int size) =>
+Request _string(int width, int height, int size) =>
     StringBenchmark(width, height, size).makeRequest();
 
-_repeatedString(int width, int height, int size) =>
+Request _repeatedString(int width, int height, int size) =>
     RepeatedStringBenchmark(width, height, size).makeRequest();

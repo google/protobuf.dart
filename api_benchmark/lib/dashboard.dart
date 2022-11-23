@@ -42,14 +42,14 @@ Future showDashboard(pb.Suite suite, Element container) async {
 
   // Set up the main loop that runs the suite.
 
-  bool running = false;
+  var running = false;
   void runBenchmarks() {
     if (running) return;
     var profiler = JsProfiler();
     running = true;
     () async {
       var requests = model.table.selections.toList();
-      for (pb.Report report in runSuite(requests, profiler: profiler)) {
+      for (var report in runSuite(requests, profiler: profiler)) {
         await render(report);
       }
     }()
@@ -94,14 +94,14 @@ class JsProfiler implements Profiler {
   int count = 1;
 
   @override
-  startProfile(pb.Request request) {
+  void startProfile(pb.Request request) {
     var label = '$count-${request.id.name}';
     count++;
     console.callMethod('profile', [label]);
   }
 
   @override
-  endProfile(pb.Sample s) {
+  void endProfile(pb.Sample s) {
     console.callMethod('profileEnd');
     print('profile: $s');
   }
@@ -154,7 +154,7 @@ String chooseBaseline(pb.Env env, Map<String, pb.Report> reports) {
 
 /// Returns true if the baseline report used the same benchmarks.
 bool isCompatibleBaseline(pb.Suite suite, pb.Report report) {
-  for (int i = 0; i < suite.requests.length; i++) {
+  for (var i = 0; i < suite.requests.length; i++) {
     if (i >= report.responses.length) {
       return true; // additional benchmarks ok
     }
@@ -171,7 +171,7 @@ Future<String> _loadDataFile(String name,
     return await HttpRequest.getString('/data/$name');
   } catch (e) {
     if (optional) return null;
-    String error = 'File is missing in benchmark/data: $name';
+    var error = 'File is missing in benchmark/data: $name';
     if (advice != null) {
       error += '. $advice';
     }

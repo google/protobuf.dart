@@ -17,30 +17,30 @@ void main() {
       errors = [];
     });
 
-    void _onError(String message) {
+    void onError(String message) {
       errors.add(message);
     }
 
     test('should call onError for null values', () {
-      optionParser.parse(optionName, null, _onError);
+      optionParser.parse(optionName, null, onError);
       expect(errors, isNotEmpty);
     });
 
     test('should call onError for empty values', () {
-      optionParser.parse(optionName, '', _onError);
+      optionParser.parse(optionName, '', onError);
       expect(errors, isNotEmpty);
     });
 
     test('should call onError for malformed entries', () {
-      optionParser.parse(optionName, 'foo', _onError);
-      optionParser.parse(optionName, 'foo|bar', _onError);
-      optionParser.parse(optionName, 'foo|bar|baz|quux', _onError);
+      optionParser.parse(optionName, 'foo', onError);
+      optionParser.parse(optionName, 'foo|bar', onError);
+      optionParser.parse(optionName, 'foo|bar|baz|quux', onError);
       expect(errors.length, 3);
       expect(packages, isEmpty);
     });
 
     test('should handle a single package|path entry', () {
-      optionParser.parse(optionName, 'foo|bar/baz|wibble/wobble', _onError);
+      optionParser.parse(optionName, 'foo|bar/baz|wibble/wobble', onError);
       expect(errors, isEmpty);
       expect(packages.length, 1);
       expect(packages['bar/baz']!.name, 'foo');
@@ -52,7 +52,7 @@ void main() {
       optionParser.parse(
           optionName,
           'foo|bar/baz|wibble/wobble;a|b/c/d|e/f;one.two|three|four/five',
-          _onError);
+          onError);
       expect(errors, isEmpty);
       expect(packages.length, 3);
       expect(packages['bar/baz']!.name, 'foo');
@@ -68,7 +68,7 @@ void main() {
 
     test('should skip and continue past malformed entries', () {
       optionParser.parse(optionName,
-          'foo|bar/baz|wibble/wobble;fizz;a.b|c/d|e/f;x|y|zz|y', _onError);
+          'foo|bar/baz|wibble/wobble;fizz;a.b|c/d|e/f;x|y|zz|y', onError);
       expect(errors.length, 2);
       expect(packages.length, 2);
       expect(packages['bar/baz']!.name, 'foo');
@@ -77,7 +77,7 @@ void main() {
 
     test('should emit error for conflicting package names', () {
       optionParser.parse(optionName,
-          'foo|bar/baz|wibble/wobble;flob|bar/baz|wibble/wobble', _onError);
+          'foo|bar/baz|wibble/wobble;flob|bar/baz|wibble/wobble', onError);
       expect(errors.length, 1);
       expect(packages.length, 1);
       expect(packages['bar/baz']!.name, 'foo');
@@ -85,15 +85,15 @@ void main() {
 
     test('should emit error for conflicting outputRoots', () {
       optionParser.parse(optionName,
-          'foo|bar/baz|wibble/wobble;foo|bar/baz|womble/wumble', _onError);
+          'foo|bar/baz|wibble/wobble;foo|bar/baz|womble/wumble', onError);
       expect(errors.length, 1);
       expect(packages.length, 1);
       expect(packages['bar/baz']!.outputRoot, 'wibble/wobble');
     });
 
     test('should normalize paths', () {
-      optionParser.parse(optionName,
-          'foo|bar//baz/|quux/;a|b/|c;c|d//e/f///|g//h//', _onError);
+      optionParser.parse(
+          optionName, 'foo|bar//baz/|quux/;a|b/|c;c|d//e/f///|g//h//', onError);
       expect(errors, isEmpty);
       expect(packages.length, 3);
       expect(packages['bar/baz']!.name, 'foo');
