@@ -12,8 +12,8 @@ class RepeatedStringBenchmark extends Benchmark {
   final int width;
   final int height;
   final int stringSize;
-  String json;
-  int lastFieldTag;
+  late String json;
+  int? lastFieldTag;
 
   RepeatedStringBenchmark(this.width, this.height, this.stringSize)
       : super($id);
@@ -70,7 +70,7 @@ class RepeatedStringBenchmark extends Benchmark {
   }
 
   @override
-  double measureSample(Sample s) => stringReadsPerMillisecond(s);
+  double measureSample(Sample? s) => stringReadsPerMillisecond(s);
 
   @override
   String get measureSampleUnits => 'string reads/ms';

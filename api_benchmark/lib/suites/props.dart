@@ -21,9 +21,9 @@ final Suite propsSuite = () {
   return suite;
 }();
 
-Request _getStrings(int height, String fill) =>
+Request _getStrings(int height, String? fill) =>
     GetStringsBenchmark(height, fill).makeRequest();
-Request _setStrings(int height, String fill) =>
+Request _setStrings(int height, String? fill) =>
     SetStringsBenchmark(height, fill).makeRequest();
-Request _hasStrings(int height, String fill) =>
+Request _hasStrings(int height, String? fill) =>
     HasStringsBenchmark(height, fill).makeRequest();

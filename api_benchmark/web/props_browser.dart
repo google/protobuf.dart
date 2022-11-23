@@ -7,4 +7,4 @@ import 'dart:html' show querySelector;
 import 'package:api_benchmark/dashboard.dart' show showDashboard;
 import 'package:api_benchmark/suites/props.dart' show propsSuite;
 
-Future main() => showDashboard(propsSuite, querySelector('#dashboard'));
+Future main() => showDashboard(propsSuite, querySelector('#dashboard')!);

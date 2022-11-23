@@ -11,7 +11,7 @@ import '../generated/int32grid.pb.dart' as pb;
 class RepeatedInt32Benchmark extends Benchmark {
   final int width;
   final int height;
-  String json;
+  late String json;
 
   RepeatedInt32Benchmark(this.width, this.height) : super($id);
 
@@ -60,7 +60,7 @@ class RepeatedInt32Benchmark extends Benchmark {
   }
 
   @override
-  double measureSample(Sample s) => int32ReadsPerMillisecond(s);
+  double measureSample(Sample? s) => int32ReadsPerMillisecond(s);
 
   @override
   String get measureSampleUnits => 'int32 reads/ms';

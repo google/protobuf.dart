@@ -13,7 +13,7 @@ import '../generated/int64grid.pb.dart' as pb;
 class RepeatedInt64Benchmark extends Benchmark {
   final int width;
   final int height;
-  String json;
+  late String json;
 
   RepeatedInt64Benchmark(this.width, this.height) : super($id);
 
@@ -62,7 +62,7 @@ class RepeatedInt64Benchmark extends Benchmark {
   }
 
   @override
-  double measureSample(Sample s) => int64ReadsPerMillisecond(s);
+  double measureSample(Sample? s) => int64ReadsPerMillisecond(s);
 
   @override
   String get measureSampleUnits => 'int64 reads/ms';

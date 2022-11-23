@@ -8,9 +8,8 @@ import 'package:yaml/yaml.dart';
 
 import 'generated/benchmark.pb.dart' as pb;
 
-pb.Response findUpdatedResponse(pb.Report beforeRep, pb.Report afterRep) {
+pb.Response? findUpdatedResponse(pb.Report? beforeRep, pb.Report afterRep) {
   if (beforeRep == null) return afterRep.responses[0];
-  assert(afterRep != null);
   assert(beforeRep.responses.length == afterRep.responses.length);
   for (var i = 0; i < afterRep.responses.length; i++) {
     var before = beforeRep.responses[i];
