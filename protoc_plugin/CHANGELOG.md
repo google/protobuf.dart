@@ -28,6 +28,8 @@
   when necessary.
 * Generated files now uses shared consts to eliminate repeated
   `bool.fromEnvironment()` expressions.
+* Removed accidental `///` at the top of generated Dart files to avoid new
+  `dangling_library_doc_comments` lint.
 
 [#679]: https://github.com/google/protobuf.dart/pull/679
 [#703]: https://github.com/google/protobuf.dart/pull/703
