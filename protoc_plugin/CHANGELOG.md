@@ -30,6 +30,8 @@
   `bool.fromEnvironment()` expressions.
 * Removed accidental `///` at the top of generated Dart files to avoid new
   `dangling_library_doc_comments` lint.
+* Generated files now have sorted imports and have fewer import-related
+  `ignore_for_file:` analysis directives.
 
 [#679]: https://github.com/google/protobuf.dart/pull/679
 [#703]: https://github.com/google/protobuf.dart/pull/703
@@ -81,7 +83,7 @@
 
   If a target is built with `dart_env = {"protobuf.omit_enum_names": "true"}`
   enum names will not be present in the compiled binary.
-* Make message and field names dependenc on a fromEnvironment constants
+* Make message and field names depend on fromEnvironment constants
   `protobuf.omit_message_names` and `protobuf.omit_field_names` respectively.
 * Omit type on a left hand side of generated static fields for extensions,
   which results in stricter type (`Extension<ExtensionType>` instead of just
