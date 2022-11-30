@@ -6,18 +6,18 @@ part of '../protoc.dart';
 
 final RegExp _dartIdentifier = RegExp(r'^\w+$');
 
+const String _asyncImportUrl = 'dart:async';
+
 const String _convertImportPrefix = r'$convert';
+const String _convertImportUrl = 'dart:convert';
+
+const String _coreImportUrl = 'dart:core';
 const String _fixnumImportPrefix = r'$fixnum';
+const String _grpcImportUrl = 'package:grpc/service_api.dart';
+const String _protobufImportUrl = 'package:protobuf/protobuf.dart';
+
 const String _typedDataImportPrefix = r'$typed_data';
-const String _protobufImport =
-    "import 'package:protobuf/protobuf.dart' as $protobufImportPrefix;";
-const String _asyncImport = "import 'dart:async' as $asyncImportPrefix;";
-const String _coreImport = "import 'dart:core' as $coreImportPrefix;";
-const String _typedDataImport =
-    "import 'dart:typed_data' as $_typedDataImportPrefix;";
-const String _convertImport = "import 'dart:convert' as $_convertImportPrefix;";
-const String _grpcImport =
-    "import 'package:grpc/service_api.dart' as $grpcImportPrefix;";
+const String _typedDataImportUrl = 'dart:typed_data';
 
 enum ProtoSyntax {
   proto2,
@@ -303,32 +303,30 @@ class FileGenerator extends ProtobufContainer {
   /// Writes the header and imports for the .pb.dart file.
   void writeMainHeader(IndentingWriter out,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
-    _writeHeading(out);
+    _writeHeading(out, extraIgnores: {'unnecessary_import'});
+
+    var importWriter = ImportWriter();
 
     // We only add the dart:async import if there are generic client API
     // generators for services in the FileDescriptorProto.
     if (clientApiGenerators.isNotEmpty) {
-      out.println(_asyncImport);
+      importWriter.addImport(_asyncImportUrl, prefix: asyncImportPrefix);
     }
 
-    out.println(_coreImport);
-    out.println();
+    importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
 
     if (_needsFixnumImport) {
-      out.println(
-          "import 'package:fixnum/fixnum.dart' as $_fixnumImportPrefix;");
+      importWriter.addImport('package:fixnum/fixnum.dart',
+          prefix: _fixnumImportPrefix);
     }
 
     if (_needsProtobufImport) {
-      out.println(_protobufImport);
-      out.println();
+      importWriter.addImport(_protobufImportUrl, prefix: protobufImportPrefix);
     }
 
-    final mixinImports = findMixinImports();
-    for (var libraryUri in mixinImports) {
-      out.println("import '$libraryUri' as $mixinImportPrefix;");
+    for (var libraryUri in findMixinImports()) {
+      importWriter.addImport(libraryUri, prefix: mixinImportPrefix);
     }
-    if (mixinImports.isNotEmpty) out.println();
 
     // Import the .pb.dart files we depend on.
     var imports = Set<FileGenerator>.identity();
@@ -336,27 +334,26 @@ class FileGenerator extends ProtobufContainer {
     _findProtosToImport(imports, enumImports);
 
     for (var target in imports) {
-      _writeImport(out, config, target, '.pb.dart');
+      _addImport(importWriter, config, target, '.pb.dart');
     }
-    if (imports.isNotEmpty) out.println();
 
     for (var target in enumImports) {
-      _writeImport(out, config, target, '.pbenum.dart');
+      _addImport(importWriter, config, target, '.pbenum.dart');
     }
-    if (enumImports.isNotEmpty) out.println();
 
     for (var publicDependency in descriptor.publicDependency) {
-      _writeExport(out, config,
+      _addExport(importWriter, config,
           Uri.file(descriptor.dependency[publicDependency]), '.pb.dart');
     }
 
     // Export enums in main file for backward compatibility.
     if (enumCount > 0) {
-      var resolvedImport =
+      var url =
           config.resolveImport(protoFileUri, protoFileUri, '.pbenum.dart');
-      out.println("export '$resolvedImport';");
-      out.println();
+      importWriter.addExport(url.toString());
     }
+
+    out.println(importWriter.emit());
   }
 
   bool get _needsFixnumImport {
@@ -415,18 +412,22 @@ class FileGenerator extends ProtobufContainer {
       if (enumCount > 0) 'undefined_shown_name',
     });
 
+    var importWriter = ImportWriter();
+
     if (enumCount > 0) {
       // Make sure any other symbols in dart:core don't cause name conflicts
       // with enums that have the same name.
-      out.println(_coreImport);
-      out.println();
-      out.println(_protobufImport);
-      out.println();
+      importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
+      importWriter.addImport(_protobufImportUrl, prefix: protobufImportPrefix);
     }
 
     for (var publicDependency in descriptor.publicDependency) {
-      _writeExport(out, config,
+      _addExport(importWriter, config,
           Uri.file(descriptor.dependency[publicDependency]), '.pbenum.dart');
+    }
+
+    if (importWriter.hasImports) {
+      out.println(importWriter.emit());
     }
 
     for (var e in enumGenerators) {
@@ -457,12 +458,12 @@ class FileGenerator extends ProtobufContainer {
     _writeHeading(out,
         extraIgnores: {'deprecated_member_use_from_same_package'});
 
+    var importWriter = ImportWriter();
+
     if (serviceGenerators.isNotEmpty) {
-      out.println(_asyncImport);
-      out.println(_coreImport);
-      out.println();
-      out.println(_protobufImport);
-      out.println();
+      importWriter.addImport(_asyncImportUrl, prefix: asyncImportPrefix);
+      importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
+      importWriter.addImport(_protobufImportUrl, prefix: protobufImportPrefix);
     }
 
     // Import .pb.dart files needed for requests and responses.
@@ -471,19 +472,20 @@ class FileGenerator extends ProtobufContainer {
       x.addImportsTo(imports);
     }
     for (var target in imports) {
-      _writeImport(out, config, target, '.pb.dart');
+      _addImport(importWriter, config, target, '.pb.dart');
     }
 
     // Import .pbjson.dart file needed for $json and $messageJson.
     if (serviceGenerators.isNotEmpty) {
-      _writeImport(out, config, this, '.pbjson.dart');
-      out.println();
+      _addImport(importWriter, config, this, '.pbjson.dart');
     }
 
-    var resolvedImport =
-        config.resolveImport(protoFileUri, protoFileUri, '.pb.dart');
-    out.println("export '$resolvedImport';");
-    out.println();
+    var url = config.resolveImport(protoFileUri, protoFileUri, '.pb.dart');
+    importWriter.addExport(url.toString());
+
+    if (importWriter.hasImports) {
+      out.println(importWriter.emit());
+    }
 
     for (var s in serviceGenerators) {
       s.generate(out);
@@ -499,11 +501,11 @@ class FileGenerator extends ProtobufContainer {
     var out = makeWriter();
     _writeHeading(out);
 
-    out.println(_asyncImport);
-    out.println(_coreImport);
-    out.println();
-    out.println(_grpcImport);
-    out.println();
+    var importWriter = ImportWriter();
+
+    importWriter.addImport(_asyncImportUrl, prefix: asyncImportPrefix);
+    importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
+    importWriter.addImport(_grpcImportUrl, prefix: grpcImportPrefix);
 
     // Import .pb.dart files needed for requests and responses.
     var imports = <FileGenerator>{};
@@ -511,13 +513,13 @@ class FileGenerator extends ProtobufContainer {
       generator.addImportsTo(imports);
     }
     for (var target in imports) {
-      _writeImport(out, config, target, '.pb.dart');
+      _addImport(importWriter, config, target, '.pb.dart');
     }
 
-    var resolvedImport =
-        config.resolveImport(protoFileUri, protoFileUri, '.pb.dart');
-    out.println("export '$resolvedImport';");
-    out.println();
+    var url = config.resolveImport(protoFileUri, protoFileUri, '.pb.dart');
+    importWriter.addExport(url.toString());
+
+    out.println(importWriter.emit());
 
     for (var generator in grpcGenerators) {
       generator.generate(out);
@@ -560,17 +562,18 @@ class FileGenerator extends ProtobufContainer {
     var out = makeWriter();
     _writeHeading(out);
 
-    out.println(_convertImport);
-    out.println(_coreImport);
-    out.println(_typedDataImport);
-    out.println();
+    var importWriter = ImportWriter();
+    importWriter.addImport(_convertImportUrl, prefix: _convertImportPrefix);
+    importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
+    importWriter.addImport(_typedDataImportUrl, prefix: _typedDataImportPrefix);
 
     // Import the .pbjson.dart files we depend on.
     var imports = _findJsonProtosToImport();
     for (var target in imports) {
-      _writeImport(out, config, target, '.pbjson.dart');
+      _addImport(importWriter, config, target, '.pbjson.dart');
     }
-    if (imports.isNotEmpty) out.println();
+
+    out.println(importWriter.emit());
 
     for (var e in enumGenerators) {
       e.generateConstants(out);
@@ -646,27 +649,26 @@ class FileGenerator extends ProtobufContainer {
 
   /// Writes an import of a .dart file corresponding to a .proto file.
   /// (Possibly the same .proto file.)
-  void _writeImport(IndentingWriter out, OutputConfiguration config,
-      FileGenerator target, String extension) {
-    var resolvedImport =
-        config.resolveImport(target.protoFileUri, protoFileUri, extension);
-    out.print("import '$resolvedImport'");
+  void _addImport(ImportWriter importWriter, OutputConfiguration config,
+      FileGenerator target, String ext) {
+    var url = config.resolveImport(target.protoFileUri, protoFileUri, ext);
 
-    // .pb.dart files should always be prefixed--the protoFileUri check
-    // will evaluate to true not just for the main .pb.dart file based off
-    // the proto file, but also for the .pbserver.dart, .pbgrpc.dart files.
-    if ((extension == '.pb.dart') || protoFileUri != target.protoFileUri) {
-      out.print(' as ${target.fileImportPrefix}');
+    // .pb.dart files should always be prefixed -- the protoFileUri check will
+    // evaluate to true not just for the main .pb.dart file based off the proto
+    // file, but also for the .pbserver.dart, .pbgrpc.dart files.
+    if ((ext == '.pb.dart') || protoFileUri != target.protoFileUri) {
+      importWriter.addImport(url.toString(), prefix: target.fileImportPrefix);
+    } else {
+      importWriter.addImport(url.toString());
     }
-    out.println(';');
   }
 
   /// Writes an export of a pb.dart file corresponding to a .proto file.
   /// (Possibly the same .proto file.)
-  void _writeExport(IndentingWriter out, OutputConfiguration config, Uri target,
-      String extension) {
-    var resolvedImport = config.resolveImport(target, protoFileUri, extension);
-    out.println("export '$resolvedImport';");
+  void _addExport(ImportWriter importWriter, OutputConfiguration config,
+      Uri target, String ext) {
+    var url = config.resolveImport(target, protoFileUri, ext);
+    importWriter.addExport(url.toString());
   }
 }
 
@@ -707,12 +709,9 @@ const _fileIgnores = {
   'annotate_overrides',
   'camel_case_types',
   'constant_identifier_names',
-  'directives_ordering',
   'library_prefixes',
   'non_constant_identifier_names',
   'prefer_final_fields',
   'return_of_invalid_type',
-  'unnecessary_import',
   'unnecessary_this',
-  'unused_import',
 };

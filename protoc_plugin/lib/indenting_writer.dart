@@ -12,6 +12,7 @@ class NamedLocation {
   final String name;
   final List<int> fieldPathSegment;
   final int start;
+
   NamedLocation(
       {required this.name,
       required this.fieldPathSegment,
@@ -162,5 +163,63 @@ class IndentingWriter {
       ..begin = _previousOffset + start
       ..end = _previousOffset + start + name.length;
     sourceLocationInfo.annotation.add(annotation);
+  }
+}
+
+/// A utility class to generate a set of imports. The imports will be grouped
+/// by kind (`dart:` imports, `package:` imports, ...) and sorted lexically
+/// within the groups.
+class ImportWriter {
+  final Set<String> _dartImports = SplayTreeSet<String>();
+  final Set<String> _packageImports = SplayTreeSet<String>();
+  final Set<String> _fileImports = SplayTreeSet<String>();
+  final Set<String> _exports = SplayTreeSet<String>();
+
+  /// Whether any imports were written.
+  bool get hasImports =>
+      _dartImports.isNotEmpty ||
+      _packageImports.isNotEmpty ||
+      _fileImports.isNotEmpty ||
+      _exports.isNotEmpty;
+
+  /// Add an import with an optional import prefix.
+  void addImport(String url, {String? prefix}) {
+    var directive =
+        prefix == null ? "import '$url';" : "import '$url' as $prefix;";
+    if (url.startsWith('dart:')) {
+      _dartImports.add(directive);
+    } else if (url.startsWith('package:')) {
+      _packageImports.add(directive);
+    } else {
+      _fileImports.add(directive);
+    }
+  }
+
+  /// And an export.
+  void addExport(String url) {
+    _exports.add("export '$url';");
+  }
+
+  /// Return the generated text for the set of imports.
+  String emit() {
+    var buf = StringBuffer();
+
+    if (_dartImports.isNotEmpty) {
+      _dartImports.forEach(buf.writeln);
+    }
+    if (_packageImports.isNotEmpty) {
+      if (buf.isNotEmpty) buf.writeln();
+      _packageImports.forEach(buf.writeln);
+    }
+    if (_fileImports.isNotEmpty) {
+      if (buf.isNotEmpty) buf.writeln();
+      _fileImports.forEach(buf.writeln);
+    }
+    if (_exports.isNotEmpty) {
+      if (buf.isNotEmpty) buf.writeln();
+      _exports.forEach(buf.writeln);
+    }
+
+    return buf.toString();
   }
 }

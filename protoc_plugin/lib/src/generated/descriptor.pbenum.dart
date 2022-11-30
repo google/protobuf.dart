@@ -5,11 +5,10 @@
 // @dart = 2.12
 
 // ignore_for_file: annotate_overrides, camel_case_types
-// ignore_for_file: constant_identifier_names, directives_ordering
-// ignore_for_file: library_prefixes, non_constant_identifier_names
-// ignore_for_file: prefer_final_fields, return_of_invalid_type
-// ignore_for_file: undefined_shown_name, unnecessary_import, unnecessary_this
-// ignore_for_file: unused_import
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: return_of_invalid_type, undefined_shown_name
+// ignore_for_file: unnecessary_this
 
 import 'dart:core' as $core;
 
