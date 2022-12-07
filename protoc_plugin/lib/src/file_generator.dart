@@ -408,9 +408,7 @@ class FileGenerator extends ProtobufContainer {
     if (!_linked) throw StateError('not linked');
 
     var out = makeWriter();
-    _writeHeading(out, extraIgnores: {
-      if (enumCount > 0) 'undefined_shown_name',
-    });
+    _writeHeading(out);
 
     var importWriter = ImportWriter();
 
