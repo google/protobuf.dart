@@ -117,12 +117,12 @@ Iterable<String> extensionSuffixes() sync* {
   }
 }
 
-/// Replaces all characters in [imput] that are not valid in a dart identifier
+/// Replaces all characters in [input] that are not valid in a dart identifier
 /// with _.
 ///
 /// This function does not take care of leading underscores.
-String legalDartIdentifier(String imput) {
-  return imput.replaceAll(RegExp(r'[^a-zA-Z0-9$_]'), '_');
+String legalDartIdentifier(String input) {
+  return input.replaceAll(RegExp(r'[^a-zA-Z0-9$_]'), '_');
 }
 
 /// Chooses the name of the Dart class holding top-level extensions.
