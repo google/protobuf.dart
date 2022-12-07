@@ -168,7 +168,7 @@ class ServiceGenerator {
     out.println();
   }
 
-  void _generateDispatchMethod(out) {
+  void _generateDispatchMethod(IndentingWriter out) {
     out.addBlock(
         '$_future<$_generatedMessage> handleCall($_serverContext ctx, '
             '$coreImportPrefix.String method, $_generatedMessage request) {',
