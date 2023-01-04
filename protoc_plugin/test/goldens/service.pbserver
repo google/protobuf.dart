@@ -23,17 +23,17 @@ export 'test.pb.dart';
 abstract class TestServiceBase extends $pb.GeneratedService {
   $async.Future<$0.Empty> ping($pb.ServerContext ctx, $0.Empty request);
 
-  $pb.GeneratedMessage createRequest($core.String method) {
-    switch (method) {
+  $pb.GeneratedMessage createRequest($core.String methodName) {
+    switch (methodName) {
       case 'Ping': return $0.Empty();
-      default: throw $core.ArgumentError('Unknown method: $method');
+      default: throw $core.ArgumentError('Unknown method: $methodName');
     }
   }
 
-  $async.Future<$pb.GeneratedMessage> handleCall($pb.ServerContext ctx, $core.String method, $pb.GeneratedMessage request) {
-    switch (method) {
+  $async.Future<$pb.GeneratedMessage> handleCall($pb.ServerContext ctx, $core.String methodName, $pb.GeneratedMessage request) {
+    switch (methodName) {
       case 'Ping': return this.ping(ctx, request as $0.Empty);
-      default: throw $core.ArgumentError('Unknown method: $method');
+      default: throw $core.ArgumentError('Unknown method: $methodName');
     }
   }
 
