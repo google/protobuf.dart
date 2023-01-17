@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=2.11
-
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
@@ -18,8 +16,6 @@ import '../out/protos/package3.pb.dart' as p3;
 import '../out/protos/reserved_names.pb.dart';
 import '../out/protos/reserved_names_extension.pb.dart';
 import '../out/protos/reserved_names_message.pb.dart';
-import '../out/protos/toplevel.pb.dart';
-import '../out/protos/toplevel_import.pb.dart' as t;
 import 'test_util.dart';
 
 void main() {
@@ -36,40 +32,6 @@ void main() {
     expect(value2.repeatedInt32, value1.repeatedInt32);
     expect(value2.repeatedImportEnum, value1.repeatedImportEnum);
     expect(value2.repeatedForeignMessage, value1.repeatedForeignMessage);
-  });
-
-  test('testSettersRejectNull', () {
-    var message = TestAllTypes();
-    expect(() {
-      message.optionalString = null;
-    }, throwsArgumentError);
-    expect(() {
-      message.optionalBytes = null;
-    }, throwsArgumentError);
-    expect(() {
-      message.optionalNestedMessage = null;
-    }, throwsArgumentError);
-    expect(() {
-      message.optionalNestedMessage = null;
-    }, throwsArgumentError);
-    expect(() {
-      message.optionalNestedEnum = null;
-    }, throwsArgumentError);
-    expect(() {
-      message.repeatedString.add(null);
-    }, throwsArgumentError);
-    expect(() {
-      message.repeatedBytes.add(null);
-    }, throwsArgumentError);
-    expect(() {
-      message.repeatedNestedMessage.add(null);
-    }, throwsArgumentError);
-    expect(() {
-      message.repeatedNestedMessage.add(null);
-    }, throwsArgumentError);
-    expect(() {
-      message.repeatedNestedEnum.add(null);
-    }, throwsArgumentError);
   });
 
   test('testDefaultMessageIsReadOnly', () {
@@ -107,34 +69,6 @@ void main() {
     assertRepeatedFieldsModified(message);
   });
 
-  test('testRepeatedSettersRejectNull', () {
-    var message = TestAllTypes();
-
-    message.repeatedString.addAll(['one', 'two']);
-    expect(() {
-      message.repeatedString[1] = null;
-    }, throwsArgumentError);
-
-    message.repeatedBytes.addAll(['one'.codeUnits, 'two'.codeUnits]);
-    expect(() {
-      message.repeatedBytes[1] = null;
-    }, throwsArgumentError);
-
-    message.repeatedNestedMessage.addAll([
-      TestAllTypes_NestedMessage()..bb = 318,
-      TestAllTypes_NestedMessage()..bb = 456
-    ]);
-    expect(() {
-      message.repeatedNestedMessage[1] = null;
-    }, throwsArgumentError);
-
-    message.repeatedNestedEnum
-        .addAll([TestAllTypes_NestedEnum.FOO, TestAllTypes_NestedEnum.BAR]);
-    expect(() {
-      message.repeatedNestedEnum[1] = null;
-    }, throwsArgumentError);
-  });
-
   test('testRepeatedAppend', () {
     var message = TestAllTypes()
       ..repeatedInt32.addAll([1, 2, 3, 4])
@@ -145,26 +79,6 @@ void main() {
     expect(message.repeatedForeignEnum, [ForeignEnum.FOREIGN_BAZ]);
     expect(message.repeatedForeignMessage.length, 1);
     expect(message.repeatedForeignMessage[0].c, 12);
-  });
-
-  test('testRepeatedAppendRejectsNull', () {
-    var message = TestAllTypes();
-
-    expect(() {
-      message.repeatedForeignMessage.addAll([ForeignMessage()..c = 12, null]);
-    }, throwsArgumentError);
-
-    expect(() {
-      message.repeatedForeignEnum.addAll([ForeignEnum.FOREIGN_BAZ, null]);
-    }, throwsArgumentError);
-
-    expect(() {
-      message.repeatedString.addAll(['one', null]);
-    }, throwsArgumentError);
-
-    expect(() {
-      message.repeatedBytes.addAll(['one'.codeUnits, null]);
-    }, throwsArgumentError);
   });
 
   test('testSettingForeignMessage', () {
@@ -263,8 +177,7 @@ void main() {
     // expect(MessageWithNoOuter.getDescriptor().getFile(),
     //        MultipleFilesTestProto.getDescriptor());
 
-    var tagNumber = message.getTagNumber('foreignEnum');
-    expect(tagNumber, isNotNull);
+    var tagNumber = message.getTagNumber('foreignEnum') as int;
     expect(message.getField(tagNumber), EnumWithNoOuter.BAR);
 
     // Not currently supported in Dart protobuf.
@@ -805,12 +718,6 @@ void main() {
     message.m2M = p2.M_M();
     message.m3 = p3.M();
     message.m3M = p3.M_M();
-  });
-
-  test('testToplevel', () {
-    var message = t.M();
-    message.t = T();
-    t.SApi(null);
   });
 
   test('to toDebugString', () {
