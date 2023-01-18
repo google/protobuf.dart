@@ -191,14 +191,14 @@ jobs:
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
   job_006:
-    name: "format_analyze; linux; Dart dev; PKG: protoc_plugin; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `make protos`, `dart analyze --fatal-infos`"
+    name: "format_analyze; linux; Dart dev; PKG: protoc_plugin; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `make protos`, `dart analyze --fatal-infos bin lib test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:format-command_0-command_3-analyze_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:format-command_0-command_3-analyze_3"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
@@ -228,8 +228,8 @@ jobs:
         run: make protos
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
-      - name: "protoc_plugin; dart analyze --fatal-infos"
-        run: dart analyze --fatal-infos
+      - name: "protoc_plugin; dart analyze --fatal-infos bin lib test"
+        run: dart analyze --fatal-infos bin lib test
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
   job_007:
@@ -240,7 +240,7 @@ jobs:
         uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protobuf;commands:test"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protobuf;commands:test_0"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protobuf
             os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0
@@ -277,7 +277,7 @@ jobs:
         uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protoc_plugin;commands:command_0-command_3-test"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protoc_plugin;commands:command_0-command_3-test_0"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0
@@ -322,7 +322,7 @@ jobs:
         uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:test"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:test_0"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
@@ -359,7 +359,7 @@ jobs:
         uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:command_0-command_3-test"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:command_0-command_3-test_0"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
@@ -404,7 +404,7 @@ jobs:
         uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:macos-latest;pub-cache-hosted;sdk:2.12.0;packages:protobuf;commands:test"
+          key: "os:macos-latest;pub-cache-hosted;sdk:2.12.0;packages:protobuf;commands:test_0"
           restore-keys: |
             os:macos-latest;pub-cache-hosted;sdk:2.12.0;packages:protobuf
             os:macos-latest;pub-cache-hosted;sdk:2.12.0
@@ -441,7 +441,7 @@ jobs:
         uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:macos-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:test"
+          key: "os:macos-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:test_0"
           restore-keys: |
             os:macos-latest;pub-cache-hosted;sdk:dev;packages:protobuf
             os:macos-latest;pub-cache-hosted;sdk:dev
@@ -524,3 +524,56 @@ jobs:
       - job_004
       - job_005
       - job_006
+  job_015:
+    name: "run_legacy_tests; linux; Dart 2.12.0; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test legacy_tests/generated_message_test.dart`"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Pub hosted dependencies
+        uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
+        with:
+          path: "~/.pub-cache/hosted"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protoc_plugin;commands:command_0-command_3-test_1"
+          restore-keys: |
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0;packages:protoc_plugin
+            os:ubuntu-latest;pub-cache-hosted;sdk:2.12.0
+            os:ubuntu-latest;pub-cache-hosted
+            os:ubuntu-latest
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d
+        with:
+          sdk: "2.12.0"
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
+      - id: protoc_plugin_pub_upgrade
+        name: protoc_plugin; dart pub upgrade
+        run: dart pub upgrade
+        if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; ./../tool/setup.sh
+        run: ./../tool/setup.sh
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; make protos
+        run: make protos
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; dart test legacy_tests/generated_message_test.dart
+        run: dart test legacy_tests/generated_message_test.dart
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+    needs:
+      - job_001
+      - job_002
+      - job_003
+      - job_004
+      - job_005
+      - job_006
+      - job_007
+      - job_008
+      - job_009
+      - job_010
+      - job_011
+      - job_012
+      - job_013
+      - job_014
