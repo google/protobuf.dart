@@ -5,7 +5,8 @@ stages:
       - format
       - command: ./../tool/setup.sh
       - command: make protos
-      - analyze: --fatal-infos
+      # Specify directores to exclude legacy_tests
+      - analyze: --fatal-infos bin lib test
       sdk: [dev]
   - run_tests:
     - group:
