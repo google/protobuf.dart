@@ -99,9 +99,13 @@ for PKG in ${PKGS}; do
         echo 'dart format --output=none --set-exit-if-changed .'
         dart format --output=none --set-exit-if-changed . || EXIT_CODE=$?
         ;;
-      test)
+      test_0)
         echo 'dart test'
         dart test || EXIT_CODE=$?
+        ;;
+      test_1)
+        echo 'dart test legacy_tests/generated_message_test.dart'
+        dart test legacy_tests/generated_message_test.dart || EXIT_CODE=$?
         ;;
       *)
         echo -e "\033[31mUnknown TASK '${TASK}' - TERMINATING JOB\033[0m"

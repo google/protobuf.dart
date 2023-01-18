@@ -13,3 +13,9 @@ stages:
       - command: make protos
       - test
       sdk: [pubspec, dev]
+  - run_legacy_tests:
+    - group:
+      - command: ./../tool/setup.sh
+      - command: make protos
+      - test: legacy_tests/generated_message_test.dart
+      sdk: [pubspec]

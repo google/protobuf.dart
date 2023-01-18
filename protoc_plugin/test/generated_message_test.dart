@@ -177,7 +177,7 @@ void main() {
     // expect(MessageWithNoOuter.getDescriptor().getFile(),
     //        MultipleFilesTestProto.getDescriptor());
 
-    var tagNumber = message.getTagNumber('foreignEnum') as int;
+    var tagNumber = message.getTagNumber('foreignEnum')!;
     expect(message.getField(tagNumber), EnumWithNoOuter.BAR);
 
     // Not currently supported in Dart protobuf.
