@@ -12,6 +12,7 @@
   - Run benchmark programs in `out/`:
     - AOT: `./out/from_binary.exe`
     - JS: `d8 $DART_SDK/lib/_internal/js_runtime/lib/preambles/d8.js out/from_binary.js`
+    - Wasm: `$DART_SDK/bin/run_dart2wasm_d8 out/from_binary.wasm`
 
 ## Development
 

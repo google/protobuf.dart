@@ -9,7 +9,7 @@ import 'package:pool/pool.dart' show Pool;
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()
     ..addOption('target',
-        mandatory: false, defaultsTo: 'aot,exe,jit,js,js-production')
+        mandatory: false, defaultsTo: 'aot,exe,jit,js,js-production,wasm')
     ..addOption('jobs', abbr: 'j', mandatory: false);
 
   final parsedArgs = argParser.parse(args);
@@ -40,6 +40,10 @@ Future<void> main(List<String> args) async {
 
       case 'js-production':
         targets.add(jsProductionTarget);
+        break;
+
+      case 'wasm':
+        targets.add(wasmTarget);
         break;
 
       default:
@@ -135,6 +139,7 @@ const exeTarget = Target('exe', exeProcessArgs);
 const jitTarget = Target('jit', jitProcessArgs);
 const jsTarget = Target('js', jsProcessArgs);
 const jsProductionTarget = Target('js-production', jsProductionProcessArgs);
+const wasmTarget = Target('wasm', wasmProcessArgs);
 
 List<String> aotProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
@@ -183,5 +188,15 @@ List<String> jsProductionProcessArgs(String sourceFile) {
     '-O4',
     '-o',
     'out/$baseNameNoExt.production.js'
+  ];
+}
+
+List<String> wasmProcessArgs(String sourceFile) {
+  final baseName = path.basename(sourceFile);
+  final baseNameNoExt = path.withoutExtension(baseName);
+  return [
+    '/usr/local/google/home/omersa/dart/sdk/sdk/sdk/bin/dart2wasm',
+    sourceFile,
+    'out/$baseNameNoExt.wasm'
   ];
 }
