@@ -196,6 +196,8 @@ List<String> wasmProcessArgs(String sourceFile) {
   final baseNameNoExt = path.withoutExtension(baseName);
   return [
     '/usr/local/google/home/omersa/dart/sdk/sdk/sdk/bin/dart2wasm',
+    '--omit-type-checks',
+    '--omit-bounds-checks',
     sourceFile,
     'out/$baseNameNoExt.wasm'
   ];
