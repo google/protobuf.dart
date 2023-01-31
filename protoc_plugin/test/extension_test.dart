@@ -543,8 +543,9 @@ void main() {
         isTrue);
     expect(
         identical(withUnknownFields.innerMap[1], reparsed.innerMap[1]), isTrue);
-    expect(withUnknownFields.stringMap.length, reparsed.stringMap.length);
-    expect(withUnknownFields.stringMap[0], reparsed.stringMap[0]);
+    expect(withUnknownFields.stringMap.length, 1);
+    expect(reparsed.stringMap.length, 1);
+    expect(withUnknownFields.stringMap['hello']!, reparsed.stringMap['hello']!);
   });
 
   test('consistent hashcode for reparsed messages with extensions', () {
