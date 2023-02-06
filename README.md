@@ -15,3 +15,8 @@ Package | Description | Published Version
 [protoc_plugin](protoc_plugin/) | A Dart back-end for the protoc compiler | [![pub package](https://img.shields.io/pub/v/protoc_plugin.svg)](https://pub.dev/packages/protoc_plugin)
 [api_benchmark](api_benchmark/) | Benchmarking for various API calls |
 [query_benchmark](query_benchmark/) | Benchmark for encoding and decoding of a "real-world" protobuf |
+
+## Publishing automation
+
+For information about our publishing automation and release process, see
+https://github.com/dart-lang/ecosystem/wiki/Publishing-automation.

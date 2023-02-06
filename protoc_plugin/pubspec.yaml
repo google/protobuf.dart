@@ -1,10 +1,10 @@
 name: protoc_plugin
 version: 21.0.0-dev
-description: Protoc compiler plugin to generate Dart code
+description: A protobuf protoc compiler plugin used to generate Dart code.
 repository: https://github.com/google/protobuf.dart/tree/master/protoc_plugin
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
   fixnum: ^1.0.0
@@ -19,7 +19,3 @@ dev_dependencies:
 
 executables:
   protoc-gen-dart: protoc_plugin
-
-dependency_overrides:
-  protobuf:
-    path: ../protobuf

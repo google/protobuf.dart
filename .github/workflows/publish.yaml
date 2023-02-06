@@ -1,0 +1,19 @@
+# A CI configuration to auto-publish pub packages.
+
+name: Publish
+
+on:
+  # Trigger on pull requests that target the default branch.
+  pull_request:
+    branches: [ master ]
+  # Also, trigger when tags are pushed to the repo.
+  push:
+    tags: [ '[A-z]+-v[0-9]+.[0-9]+.[0-9]+*' ]
+
+# The script below will perform publishing checks (version checks, publishing
+# dry run, ...) when run on a PR, and perform an actual pub publish when run as
+# a result of a git tag event.
+jobs:
+  publish:
+    if: ${{ github.repository_owner == 'google' }}
+    uses: dart-lang/ecosystem/.github/workflows/publish.yaml@main
