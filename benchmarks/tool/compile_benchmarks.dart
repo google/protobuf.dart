@@ -9,7 +9,7 @@ import 'package:pool/pool.dart' show Pool;
 Future<void> main(List<String> args) async {
   final argParser = ArgParser()
     ..addOption('target',
-        mandatory: false, defaultsTo: 'aot,exe,jit,js,js-production,wasm')
+        mandatory: false, defaultsTo: 'aot,exe,jit,js,js-production')
     ..addOption('jobs', abbr: 'j', mandatory: false);
 
   final parsedArgs = argParser.parse(args);
@@ -44,6 +44,10 @@ Future<void> main(List<String> args) async {
 
       case 'wasm':
         targets.add(wasmTarget);
+        break;
+
+      case 'wasm-opt':
+        targets.add(wasmOptTarget);
         break;
 
       default:
@@ -140,6 +144,7 @@ const jitTarget = Target('jit', jitProcessArgs);
 const jsTarget = Target('js', jsProcessArgs);
 const jsProductionTarget = Target('js-production', jsProductionProcessArgs);
 const wasmTarget = Target('wasm', wasmProcessArgs);
+const wasmOptTarget = Target('wasm-opt', wasmOptProcessArgs);
 
 List<String> aotProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
@@ -192,12 +197,28 @@ List<String> jsProductionProcessArgs(String sourceFile) {
 }
 
 List<String> wasmProcessArgs(String sourceFile) {
+  final sdkPath = Platform.environment['DART_SDK'];
+  if (sdkPath == null) {
+    throw '\$DART_SDK environment variable not set';
+  }
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
   return [
-    '/usr/local/google/home/omersa/dart/sdk/sdk/sdk/bin/dart2wasm',
-    '--omit-type-checks',
-    '--omit-bounds-checks',
+    '$sdkPath/bin/dart2wasm',
+    sourceFile,
+    'out/$baseNameNoExt.wasm'
+  ];
+}
+
+List<String> wasmOptProcessArgs(String sourceFile) {
+  final sdkPath = Platform.environment['DART_SDK'];
+  if (sdkPath == null) {
+    throw '\$DART_SDK environment variable not set';
+  }
+  final baseName = path.basename(sourceFile);
+  final baseNameNoExt = path.withoutExtension(baseName);
+  return [
+    '$sdkPath/../pkg/dart2wasm/tool/compile_benchmark',
     sourceFile,
     'out/$baseNameNoExt.wasm'
   ];
