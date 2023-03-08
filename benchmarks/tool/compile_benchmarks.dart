@@ -220,6 +220,6 @@ List<String> wasmOptProcessArgs(String sourceFile) {
   return [
     '$sdkPath/../pkg/dart2wasm/tool/compile_benchmark',
     sourceFile,
-    'out/$baseNameNoExt.wasm'
+    'out/$baseNameNoExt.opt.wasm'
   ];
 }

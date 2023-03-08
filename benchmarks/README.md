@@ -28,7 +28,8 @@
     - `wasm`: Doesn't run any optimizations
     - `wasm-opt`: Runs binaryen optimizations
 
-  - Run with: `$DART_SDK/bin/run_dart2wasm_d8 out/from_binary.wasm`
+  - Run with: `$DART_SDK/bin/run_dart2wasm_d8 out/from_binary.wasm`, or use
+    `.opt.wasm` extension for the `wasm-opt` target: `from_binary.opt.wasm`.
 
 [1]: https://github.com/dart-lang/sdk/wiki/Building
 [2]: https://github.com/dart-lang/sdk/tree/main/sdk
