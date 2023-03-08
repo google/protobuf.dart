@@ -203,11 +203,7 @@ List<String> wasmProcessArgs(String sourceFile) {
   }
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
-  return [
-    '$sdkPath/bin/dart2wasm',
-    sourceFile,
-    'out/$baseNameNoExt.wasm'
-  ];
+  return ['$sdkPath/bin/dart2wasm', sourceFile, 'out/$baseNameNoExt.wasm'];
 }
 
 List<String> wasmOptProcessArgs(String sourceFile) {
