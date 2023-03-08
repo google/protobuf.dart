@@ -316,6 +316,19 @@ class MessageGenerator extends ProtobufContainer {
       NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
+      out.println('factory $classname() => create();');
+      out.printlnAnnotated('$classname._() : super();', [
+        NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
+      ]);
+      out.println(
+          'factory $classname.fromBuffer($coreImportPrefix.List<$coreImportPrefix.int> i,'
+          ' [$protobufImportPrefix.ExtensionRegistry r = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
+          ' => create()..mergeFromBuffer(i, r);');
+      out.println('factory $classname.fromJson($coreImportPrefix.String i,'
+          ' [$protobufImportPrefix.ExtensionRegistry r = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
+          ' => create()..mergeFromJson(i, r);');
+
+      out.println();
       for (var oneof in _oneofNames) {
         out.addBlock(
             'static const $coreImportPrefix.Map<$coreImportPrefix.int, ${oneof.oneofEnumName}> ${oneof.byTagMapName} = {',
@@ -364,20 +377,6 @@ class MessageGenerator extends ProtobufContainer {
       }
 
       out.println();
-
-      out.printlnAnnotated('$classname._() : super();', [
-        NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
-      ]);
-      out.println('factory $classname() => create();');
-      out.println(
-          'factory $classname.fromBuffer($coreImportPrefix.List<$coreImportPrefix.int> i,'
-          ' [$protobufImportPrefix.ExtensionRegistry r = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' => create()..mergeFromBuffer(i, r);');
-      out.println('factory $classname.fromJson($coreImportPrefix.String i,'
-          ' [$protobufImportPrefix.ExtensionRegistry r = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' => create()..mergeFromJson(i, r);');
-
-      out.println('');
       out.println('''@$coreImportPrefix.Deprecated(
 'Using this can add significant overhead to your binary. '
 'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
