@@ -81,7 +81,6 @@ CheckFunc getCheckFunction(int fieldType) {
     case PbFieldType._ENUM_BIT:
     case PbFieldType._GROUP_BIT:
     case PbFieldType._MESSAGE_BIT:
-
     case PbFieldType._INT64_BIT:
     case PbFieldType._SINT64_BIT:
     case PbFieldType._SFIXED64_BIT:
