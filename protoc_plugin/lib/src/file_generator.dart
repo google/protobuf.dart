@@ -223,6 +223,13 @@ class FileGenerator extends ProtobufContainer {
   List<CodeGeneratorResponse_File> generateFiles(OutputConfiguration config) {
     if (!_linked) throw StateError('not linked');
 
+    String formatDartCode(String code) {
+      final formatter = DartFormatter();
+
+      final formattedCode = formatter.format(code);
+      return formattedCode;
+    }
+
     CodeGeneratorResponse_File makeFile(String extension, String content) {
       var protoUrl = Uri.file(descriptor.name);
       var dartUrl = config.outputPathFor(protoUrl, extension);
@@ -235,9 +242,9 @@ class FileGenerator extends ProtobufContainer {
     var enumWriter = generateEnumFile(config);
 
     final files = [
-      makeFile('.pb.dart', mainWriter.toString()),
-      makeFile('.pbenum.dart', enumWriter.toString()),
-      makeFile('.pbjson.dart', generateJsonFile(config)),
+      makeFile('.pb.dart', formatDartCode(mainWriter.toString())),
+      makeFile('.pbenum.dart', formatDartCode(enumWriter.toString())),
+      makeFile('.pbjson.dart', formatDartCode(generateJsonFile(config))),
     ];
 
     if (options.generateMetadata) {
