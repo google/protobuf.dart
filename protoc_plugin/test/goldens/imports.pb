@@ -17,17 +17,17 @@ import 'package1.pb.dart' as $1;
 import 'package2.pb.dart' as $2;
 
 class M extends $pb.GeneratedMessage {
+  factory M() => create();
+  M._() : super();
+  factory M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'M', createEmptyInstance: create)
     ..aOM<M>(1, _omitFieldNames ? '' : 'm', subBuilder: M.create)
     ..aOM<$1.M>(2, _omitFieldNames ? '' : 'm1', subBuilder: $1.M.create)
     ..aOM<$2.M>(3, _omitFieldNames ? '' : 'm2', subBuilder: $2.M.create)
     ..hasRequiredFields = false
   ;
-
-  M._() : super();
-  factory M() => create();
-  factory M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
