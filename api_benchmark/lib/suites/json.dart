@@ -11,7 +11,7 @@ import '../benchmarks/string_json.dart';
 import '../generated/benchmark.pb.dart';
 
 final Suite jsonSuite = () {
-  var suite = Suite();
+  final suite = Suite();
   suite.requests.addAll([
     _int32(1, 100),
     _int32(2, 100),
