@@ -13,19 +13,19 @@ import 'service_util.dart';
 
 void main() {
   test('testServiceGenerator', () {
-    var options = GenerationOptions();
-    var fd = buildFileDescriptor(
+    final options = GenerationOptions();
+    final fd = buildFileDescriptor(
         'testpkg', 'testpkg.proto', ['SomeRequest', 'SomeReply']);
     fd.service.add(buildServiceDescriptor());
-    var fg = FileGenerator(fd, options);
+    final fg = FileGenerator(fd, options);
 
-    var fd2 = buildFileDescriptor(
+    final fd2 = buildFileDescriptor(
         'foo.bar', 'foobar.proto', ['EmptyMessage', 'AnotherReply']);
-    var fg2 = FileGenerator(fd2, options);
+    final fg2 = FileGenerator(fd2, options);
 
     link(GenerationOptions(), [fg, fg2]);
 
-    var serviceWriter = IndentingWriter();
+    final serviceWriter = IndentingWriter();
     fg.serviceGenerators[0].generate(serviceWriter);
     expectMatchesGoldenFile(
         serviceWriter.toString(), 'test/goldens/serviceGenerator');

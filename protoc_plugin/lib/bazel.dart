@@ -51,18 +51,18 @@ class BazelOptionParser implements SingleOptionParser {
       return;
     }
 
-    for (var entry in value.split(';')) {
-      var fields = entry.split('|');
+    for (final entry in value.split(';')) {
+      final fields = entry.split('|');
       if (fields.length != 3) {
         onError(
             'ERROR: expected package_name|input_root|output_root. Got: $entry');
         continue;
       }
-      var pkg = BazelPackage(fields[0], fields[1], fields[2]);
+      final pkg = BazelPackage(fields[0], fields[1], fields[2]);
       if (!output.containsKey(pkg.inputRoot)) {
         output[pkg.inputRoot] = pkg;
       } else {
-        var prev = output[pkg.inputRoot]!;
+        final prev = output[pkg.inputRoot]!;
         if (pkg.name != prev.name) {
           onError('ERROR: multiple packages with input_root ${pkg.inputRoot}: '
               '${prev.name} and ${pkg.name}');
@@ -99,7 +99,7 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
     var index = searchPath.lastIndexOf('/');
     while (index > 0) {
       searchPath = searchPath.substring(0, index);
-      var pkg = packages[searchPath];
+      final pkg = packages[searchPath];
       if (pkg != null) return pkg;
       index = searchPath.lastIndexOf('/');
     }
@@ -108,23 +108,23 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
 
   @override
   Uri outputPathFor(Uri inputPath, String extension) {
-    var pkg = _findPackage(inputPath.path);
+    final pkg = _findPackage(inputPath.path);
     if (pkg == null) {
       throw ArgumentError('Unable to locate package for input $inputPath.');
     }
 
     // Bazel package-relative paths.
-    var relativeInput = inputPath.path.substring('${pkg.inputRoot}/'.length);
-    var base = p.withoutExtension(relativeInput);
-    var outputPath = p.join(pkg.outputRoot, '$base$extension');
+    final relativeInput = inputPath.path.substring('${pkg.inputRoot}/'.length);
+    final base = p.withoutExtension(relativeInput);
+    final outputPath = p.join(pkg.outputRoot, '$base$extension');
     return Uri.file(outputPath);
   }
 
   @override
   Uri resolveImport(Uri target, Uri source, String extension) {
-    var targetBase = p.withoutExtension(target.path);
-    var targetUri = _packageUriFor('$targetBase$extension');
-    var sourceUri = _packageUriFor(source.path);
+    final targetBase = p.withoutExtension(target.path);
+    final targetUri = _packageUriFor('$targetBase$extension');
+    final sourceUri = _packageUriFor(source.path);
 
     if (targetUri == null && sourceUri != null) {
       // We can't reach outside of the lib/ directory of a package without
@@ -141,9 +141,9 @@ class BazelOutputConfiguration extends DefaultOutputConfiguration {
   }
 
   _PackageUri? _packageUriFor(String target) {
-    var pkg = _findPackage(target);
+    final pkg = _findPackage(target);
     if (pkg == null) return null;
-    var relPath = target.substring(pkg.inputRoot.length + 1);
+    final relPath = target.substring(pkg.inputRoot.length + 1);
     return _PackageUri(pkg.name, relPath);
   }
 }

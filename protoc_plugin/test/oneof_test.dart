@@ -9,12 +9,12 @@ import '../out/protos/oneof.pb.dart';
 
 void main() {
   test('empty oneof', () {
-    var foo = Foo();
+    final foo = Foo();
     expectOneofNotSet(foo);
   });
 
   test('set oneof', () {
-    var foo = Foo();
+    final foo = Foo();
     foo.first = 'oneof';
     expectFirstSet(foo);
 
@@ -83,7 +83,7 @@ void main() {
   });
 
   test('set and clear oneof', () {
-    var foo = Foo()..first = 'oneof';
+    final foo = Foo()..first = 'oneof';
     expectFirstSet(foo);
 
     foo.clearOneofField();
@@ -117,10 +117,10 @@ void main() {
     var foo = Foo()..first = 'oneof';
     expectFirstSet(foo);
 
-    var foo2 = Foo()..second = 1;
+    final foo2 = Foo()..second = 1;
     expectSecondSet(foo2);
 
-    var concat = [...foo.writeToBuffer(), ...foo2.writeToBuffer()];
+    final concat = [...foo.writeToBuffer(), ...foo2.writeToBuffer()];
     foo = Foo.fromBuffer(concat);
     expectSecondSet(foo);
   });
@@ -129,10 +129,10 @@ void main() {
     var foo = Foo()..first = 'oneof';
     expectFirstSet(foo);
 
-    var foo2 = Foo()..second = 1;
+    final foo2 = Foo()..second = 1;
     expectSecondSet(foo2);
 
-    var jsonConcat =
+    final jsonConcat =
         '${foo2.writeToJson().substring(0, foo2.writeToJson().length - 1)}, '
         '${foo.writeToJson().substring(1)}';
     foo = Foo.fromJson(jsonConcat);
@@ -140,7 +140,7 @@ void main() {
   });
 
   test('set and clear second oneof field', () {
-    var foo = Foo();
+    final foo = Foo();
     expectOneofNotSet(foo);
 
     foo.red = 'r';
@@ -159,22 +159,22 @@ void main() {
   });
 
   test('copyWith preserves oneof state', () {
-    var foo = Foo();
+    final foo = Foo();
     expectOneofNotSet(foo);
     // `ignore` below to work around https://github.com/dart-lang/sdk/issues/48879
-    var copy1 =
+    final copy1 =
         foo.deepCopy().freeze().rebuild((_) {}) as Foo; // ignore: unused_result
     expectOneofNotSet(copy1);
     foo.first = 'oneof';
     expectFirstSet(foo);
     // `ignore` below to work around https://github.com/dart-lang/sdk/issues/48879
-    var copy2 =
+    final copy2 =
         foo.deepCopy().freeze().rebuild((_) {}) as Foo; // ignore: unused_result
     expectFirstSet(copy2);
   });
 
   test('oneof semantics is preserved when using ensure method', () {
-    var foo = Foo();
+    final foo = Foo();
     foo.first = 'oneof';
     expectFirstSet(foo);
     foo.ensureIndex();

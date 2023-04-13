@@ -23,8 +23,8 @@ Extension comment = Extension('Rec', 'comment', 6, PbFieldType.OS);
 
 void main() {
   test('Events are sent when setting and clearing a non-repeated field', () {
-    var log = makeLog();
-    var r = Rec();
+    final log = makeLog();
+    final r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       log.add(changes);
     });
@@ -51,8 +51,8 @@ void main() {
   });
 
   test('Events are sent when creating and clearing a repeated field', () {
-    var log = makeLog();
-    var r = Rec();
+    final log = makeLog();
+    final r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       log.add(changes);
     });
@@ -60,7 +60,7 @@ void main() {
     // Accessing a repeated field replaces the default,
     // read-only [] with a mutable [],
     // which counts as a change.
-    var list = r.int32s;
+    final list = r.int32s;
     r.deliverChanges();
     checkLogOnce(log, [4, [], []]);
 
@@ -79,8 +79,8 @@ void main() {
   });
 
   test('Events are sent when clearing multiple fields', () {
-    var log = makeLog();
-    var r = Rec()
+    final log = makeLog();
+    final r = Rec()
       ..val = 123
       ..str = 'hello'
       ..child = Rec()
@@ -109,14 +109,14 @@ void main() {
   });
 
   test('Events are sent when merging from another protobuf', () {
-    var log = makeLog();
-    var src = Rec()
+    final log = makeLog();
+    final src = Rec()
       ..val = 123
       ..str = 'hello'
       ..child = Rec()
       ..int32s.add(456);
 
-    var dest = Rec();
+    final dest = Rec();
     dest.changes.listen((List<PbFieldChange> changes) {
       checkHasAllFields(dest, true);
       log.add(changes);
@@ -139,8 +139,8 @@ void main() {
   });
 
   test('Events are sent when merging JSON', () {
-    var log = makeLog();
-    var r = Rec();
+    final log = makeLog();
+    final r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       // verify that we are not called until all fields are set
       checkHasAllFields(r, true);
@@ -165,16 +165,16 @@ void main() {
   });
 
   test('Events are sent when merging binary', () {
-    var log = makeLog();
+    final log = makeLog();
 
-    var bytes = (Rec()
+    final bytes = (Rec()
           ..val = 123
           ..str = 'hello'
           ..child = Rec()
           ..int32s.add(456))
         .writeToBuffer();
 
-    var r = Rec();
+    final r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       // verify that we are not called until all fields are set
       checkHasAllFields(r, true);
@@ -199,8 +199,8 @@ void main() {
   });
 
   test('Events are sent for extensions', () {
-    var log = makeLog();
-    var r = Rec();
+    final log = makeLog();
+    final r = Rec();
     r.changes.listen((List<PbFieldChange> changes) {
       log.add(changes);
     });
@@ -238,21 +238,21 @@ void main() {
     r.deliverChanges();
     checkLogOnce(log, [tag, 'hello', '']);
 
-    var registry = ExtensionRegistry()..add(comment);
+    final registry = ExtensionRegistry()..add(comment);
     r.mergeFromJson('{"$tag": "hello"}', registry);
     expect(r.getExtension(comment), 'hello');
     r.deliverChanges();
     checkLogOnce(log, [tag, '', 'hello']);
     clear('hello');
 
-    var src = Rec()..setExtension(comment, 'hello');
+    final src = Rec()..setExtension(comment, 'hello');
     r.mergeFromMessage(src);
     expect(r.getExtension(comment), 'hello');
     r.deliverChanges();
     checkLogOnce(log, [tag, '', 'hello']);
     clear('hello');
 
-    var bytes = src.writeToBuffer();
+    final bytes = src.writeToBuffer();
     r.mergeFromBuffer(bytes, registry);
     expect(r.getExtension(comment), 'hello');
     r.deliverChanges();
@@ -269,10 +269,10 @@ void checkLogOnce(List<List<PbFieldChange>> log, List expectedEntry) =>
     ]);
 
 void checkLog(List<List<PbFieldChange>> log, List<List<List>> expected) {
-  var actual = <List<List>>[];
-  for (var list in log) {
-    var tuples = <List>[];
-    for (var item in list) {
+  final actual = <List<List>>[];
+  for (final list in log) {
+    final tuples = <List>[];
+    for (final item in list) {
       tuples.add(toTuple(item));
     }
     actual.add(tuples);

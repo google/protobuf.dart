@@ -21,13 +21,13 @@ abstract class PbMapMixin {
 
   dynamic operator [](Object? key) {
     if (key is! String) return null;
-    var tag = getTagNumber(key);
+    final tag = getTagNumber(key);
     if (tag == null) return null;
     return getField(tag);
   }
 
   void operator []=(Object? key, Object? val) {
-    var tag = getTagNumber(key as String);
+    final tag = getTagNumber(key as String);
     if (tag == null) {
       throw ArgumentError.value(key, 'key',
           "field '$key' not found in ${info_.qualifiedMessageName}");

@@ -49,7 +49,7 @@ class ServiceGenerator {
   /// If a type name can't be resolved, puts it in [_undefinedDeps].
   /// Precondition: messages have been registered and resolved.
   void resolve(GenerationContext ctx) {
-    for (var m in _methodDescriptors) {
+    for (final m in _methodDescriptors) {
       _addDependency(ctx, m.inputType, 'input type of ${m.name}');
       _addDependency(ctx, m.outputType, 'output type of ${m.name}');
     }
@@ -83,7 +83,7 @@ class ServiceGenerator {
     mg.checkResolved();
     if (depth == 0) _deps[mg.dottedName] = mg;
     _transitiveDeps[mg.dottedName] = mg;
-    for (var field in mg._fieldList) {
+    for (final field in mg._fieldList) {
       if (field.baseType.isGroup || field.baseType.isMessage) {
         _addDepsRecursively(
             field.baseType.generator as MessageGenerator, depth + 1);
@@ -96,7 +96,7 @@ class ServiceGenerator {
   /// For each .pb.dart file that the generated code needs to import,
   /// add its generator.
   void addImportsTo(Set<FileGenerator> imports) {
-    for (var mg in _deps.values) {
+    for (final mg in _deps.values) {
       imports.add(mg.fileGen);
     }
   }
@@ -106,7 +106,7 @@ class ServiceGenerator {
   /// For each .pbjson.dart file that the generated code needs to import,
   /// add its generator.
   void addConstantImportsTo(Set<FileGenerator> imports) {
-    for (var mg in _transitiveDeps.values) {
+    for (final mg in _transitiveDeps.values) {
       imports.add(mg.fileGen);
     }
   }
@@ -118,9 +118,9 @@ class ServiceGenerator {
   /// should be prefixed unless the target file is the main file (the client
   /// generator calls this method). Otherwise, prefix everything.
   String _getDartClassName(String fqname, {bool forMainFile = false}) {
-    var mg = _deps[fqname];
+    final mg = _deps[fqname];
     if (mg == null) {
-      var location = _undefinedDeps[fqname];
+      final location = _undefinedDeps[fqname];
       throw 'FAILURE: Unknown type reference ($fqname) for $location';
     }
     if (forMainFile && fileGen.protoFileUri == mg.fileGen.protoFileUri) {
@@ -137,16 +137,16 @@ class ServiceGenerator {
   String get _parentClass => _generatedService;
 
   void _generateStub(IndentingWriter out, MethodDescriptorProto m) {
-    var methodName = _methodName(m.name);
-    var inputClass = _getDartClassName(m.inputType);
-    var outputClass = _getDartClassName(m.outputType);
+    final methodName = _methodName(m.name);
+    final inputClass = _getDartClassName(m.inputType);
+    final outputClass = _getDartClassName(m.outputType);
 
     out.println('$_future<$outputClass> $methodName('
         '$_serverContext ctx, $inputClass request);');
   }
 
   void _generateStubs(IndentingWriter out) {
-    for (var m in _methodDescriptors) {
+    for (final m in _methodDescriptors) {
       _generateStub(out, m);
     }
     out.println();
@@ -157,8 +157,8 @@ class ServiceGenerator {
         '$_generatedMessage createRequest($coreImportPrefix.String methodName) {',
         '}', () {
       out.addBlock('switch (methodName) {', '}', () {
-        for (var m in _methodDescriptors) {
-          var inputClass = _getDartClassName(m.inputType);
+        for (final m in _methodDescriptors) {
+          final inputClass = _getDartClassName(m.inputType);
           out.println("case '${m.name}': return $inputClass();");
         }
         out.println('default: '
@@ -174,9 +174,9 @@ class ServiceGenerator {
             '$coreImportPrefix.String methodName, $_generatedMessage request) {',
         '}', () {
       out.addBlock('switch (methodName) {', '}', () {
-        for (var m in _methodDescriptors) {
-          var methodName = _methodName(m.name);
-          var inputClass = _getDartClassName(m.inputType);
+        for (final m in _methodDescriptors) {
+          final methodName = _methodName(m.name);
+          final inputClass = _getDartClassName(m.inputType);
           out.println("case '${m.name}': return this.$methodName"
               '(ctx, request as $inputClass);');
         }
@@ -222,8 +222,8 @@ class ServiceGenerator {
     out.println(';');
     out.println();
 
-    var typeConstants = <String, String>{};
-    for (var key in _transitiveDeps.keys) {
+    final typeConstants = <String, String>{};
+    for (final key in _transitiveDeps.keys) {
       typeConstants[key] = _transitiveDeps[key]!.getJsonConstant(fileGen);
     }
 
@@ -234,16 +234,16 @@ class ServiceGenerator {
             ' $coreImportPrefix.Map<$coreImportPrefix.String,'
             ' $coreImportPrefix.dynamic>> $messageJsonConstant = {',
         '};', () {
-      for (var key in typeConstants.keys) {
-        var typeConst = typeConstants[key];
+      for (final key in typeConstants.keys) {
+        final typeConst = typeConstants[key];
         out.println("'$key': $typeConst,");
       }
     });
     out.println();
 
     if (_undefinedDeps.isNotEmpty) {
-      for (var name in _undefinedDeps.keys) {
-        var location = _undefinedDeps[name];
+      for (final name in _undefinedDeps.keys) {
+        final location = _undefinedDeps[name];
         out.println("// can't resolve ($name) used by $location");
       }
       out.println();

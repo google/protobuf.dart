@@ -128,16 +128,16 @@ String legalDartIdentifier(String input) {
 /// Chooses the name of the Dart class holding top-level extensions.
 String extensionClassName(
     FileDescriptorProto descriptor, Set<String> usedNames) {
-  var s = avoidInitialUnderscore(
+  final s = avoidInitialUnderscore(
       legalDartIdentifier(_fileNameWithoutExtension(descriptor)));
-  var candidate = '${s[0].toUpperCase()}${s.substring(1)}';
+  final candidate = '${s[0].toUpperCase()}${s.substring(1)}';
   return disambiguateName(candidate, usedNames, extensionSuffixes());
 }
 
 String _fileNameWithoutExtension(FileDescriptorProto descriptor) {
-  var path = Uri.file(descriptor.name);
-  var fileName = path.pathSegments.last;
-  var dot = fileName.lastIndexOf('.');
+  final path = Uri.file(descriptor.name);
+  final fileName = path.pathSegments.last;
+  final dot = fileName.lastIndexOf('.');
   return dot == -1 ? fileName : fileName.substring(0, dot);
 }
 
@@ -171,7 +171,7 @@ String disambiguateName(
   var candidateVariants = generateVariants(name);
 
   if (!allVariantsAvailable(candidateVariants)) {
-    for (var suffix in suffixes) {
+    for (final suffix in suffixes) {
       candidateVariants = generateVariants('$name$suffix');
       if (allVariantsAvailable(candidateVariants)) {
         usedSuffix = suffix;
@@ -244,10 +244,10 @@ Iterable<String> enumSuffixes() sync* {
 MemberNames messageMemberNames(DescriptorProto descriptor,
     String parentClassName, Set<String> usedTopLevelNames,
     {Iterable<String> reserved = const []}) {
-  var fieldList = List<FieldDescriptorProto>.from(descriptor.field);
-  var sourcePositions =
+  final fieldList = List<FieldDescriptorProto>.from(descriptor.field);
+  final sourcePositions =
       fieldList.asMap().map((index, field) => MapEntry(field.name, index));
-  var sorted = fieldList
+  final sorted = fieldList
     ..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
       if (a.number < b.number) return -1;
       if (a.number > b.number) return 1;
@@ -255,15 +255,15 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
     });
 
   // Choose indexes first, based on their position in the sorted list.
-  var indexes = <String, int>{};
-  for (var field in sorted) {
-    var index = indexes.length;
+  final indexes = <String, int>{};
+  for (final field in sorted) {
+    final index = indexes.length;
     indexes[field.name] = index;
   }
 
-  var existingNames = <String>{...reservedMemberNames, ...reserved};
+  final existingNames = <String>{...reservedMemberNames, ...reserved};
 
-  var fieldNames = List<FieldNames?>.filled(indexes.length, null);
+  final fieldNames = List<FieldNames?>.filled(indexes.length, null);
 
   void takeFieldNames(FieldNames chosen) {
     fieldNames[chosen.index!] = chosen;
@@ -280,7 +280,7 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
   // Handle fields with a dart_name option.
   // They have higher priority than automatically chosen names.
   // Explicitly setting a name that's already taken is a build error.
-  for (var field in sorted) {
+  for (final field in sorted) {
     if (_nameOption(field)!.isNotEmpty) {
       takeFieldNames(_memberNamesFromOption(descriptor, field,
           indexes[field.name]!, sourcePositions[field.name]!, existingNames));
@@ -289,16 +289,16 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
 
   // Then do other fields.
   // They are automatically renamed until we find something unused.
-  for (var field in sorted) {
+  for (final field in sorted) {
     if (_nameOption(field)!.isEmpty) {
-      var index = indexes[field.name]!;
-      var sourcePosition = sourcePositions[field.name];
+      final index = indexes[field.name]!;
+      final sourcePosition = sourcePositions[field.name];
       takeFieldNames(
           _unusedMemberNames(field, index, sourcePosition, existingNames));
     }
   }
 
-  var oneofNames = <OneofNames>[];
+  final oneofNames = <OneofNames>[];
 
   void takeOneofNames(OneofNames chosen) {
     oneofNames.add(chosen);
@@ -313,16 +313,16 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
 
   final realOneofCount = countRealOneofs(descriptor);
   for (var i = 0; i < realOneofCount; i++) {
-    var oneof = descriptor.oneofDecl[i];
+    final oneof = descriptor.oneofDecl[i];
 
-    var oneofName = disambiguateName(
+    final oneofName = disambiguateName(
         underscoresToCamelCase(oneof.name), existingNames, defaultSuffixes(),
         generateVariants: oneofNameVariants);
 
-    var oneofEnumName =
+    final oneofEnumName =
         oneofEnumClassName(oneof.name, usedTopLevelNames, parentClassName);
 
-    var enumMapName = disambiguateName(
+    final enumMapName = disambiguateName(
         '_${oneofEnumName}ByTag', existingNames, defaultSuffixes());
 
     takeOneofNames(OneofNames(oneof, i, _defaultClearMethodName(oneofName),
@@ -343,7 +343,7 @@ FieldNames _memberNamesFromOption(
     int sourcePosition,
     Set<String> existingNames) {
   // TODO(skybrian): provide more context in errors (filename).
-  var where = '${message.name}.${field.name}';
+  final where = '${message.name}.${field.name}';
 
   void checkAvailable(String name) {
     if (existingNames.contains(name)) {
@@ -352,7 +352,7 @@ FieldNames _memberNamesFromOption(
     }
   }
 
-  var name = _nameOption(field)!;
+  final name = _nameOption(field)!;
   if (name.isEmpty) {
     throw ArgumentError("field doesn't have dart_name option");
   }
@@ -366,10 +366,10 @@ FieldNames _memberNamesFromOption(
     return FieldNames(field, index, sourcePosition, name);
   }
 
-  var hasMethod = 'has${_capitalize(name)}';
+  final hasMethod = 'has${_capitalize(name)}';
   checkAvailable(hasMethod);
 
-  var clearMethod = 'clear${_capitalize(name)}';
+  final clearMethod = 'clear${_capitalize(name)}';
   checkAvailable(clearMethod);
 
   String? ensureMethod;
@@ -404,7 +404,7 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int? index,
   }
 
   List<String> generateNameVariants(String name) {
-    var result = <String>[
+    final result = <String>[
       _defaultFieldName(name),
       _defaultHasMethodName(name),
       _defaultClearMethodName(name),
@@ -416,7 +416,7 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int? index,
     return result;
   }
 
-  var name = disambiguateName(_fieldMethodSuffix(field), existingNames,
+  final name = disambiguateName(_fieldMethodSuffix(field), existingNames,
       _memberNamesSuffix(field.number),
       generateVariants: generateNameVariants);
 
@@ -457,7 +457,7 @@ String _fieldMethodSuffix(FieldDescriptorProto field) {
 
   // For groups, use capitalization of 'typeName' rather than 'name'.
   name = field.typeName;
-  var index = name.lastIndexOf('.');
+  final index = name.lastIndexOf('.');
   if (index != -1) {
     name = name.substring(index + 1);
   }

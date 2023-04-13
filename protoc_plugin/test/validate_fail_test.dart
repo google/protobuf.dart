@@ -8,7 +8,7 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 
 void main() {
   test('testValidationFailureMessages', () {
-    var builder = TestAllTypes();
+    final builder = TestAllTypes();
 
     expect(() {
       builder.optionalInt32 = -2147483649;

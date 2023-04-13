@@ -44,7 +44,7 @@ abstract class ProtobufContainer {
       '${lowerCaseFirstLetter(classname!)}Descriptor';
 
   String _getFileImportPrefix() {
-    var path = fileGen!.protoFileUri.toString();
+    final path = fileGen!.protoFileUri.toString();
     if (_importPrefixes.containsKey(path)) {
       return _importPrefixes[path]!;
     }
@@ -89,7 +89,7 @@ class CodeGenerator {
   void generate(
       {Map<String, SingleOptionParser>? optionParsers,
       OutputConfiguration config = const DefaultOutputConfiguration()}) {
-    var extensions = ExtensionRegistry();
+    final extensions = ExtensionRegistry();
     Dart_options.registerAllExtensions(extensions);
 
     _streamIn
@@ -105,10 +105,10 @@ class CodeGenerator {
       request.mergeFromCodedBufferReader(reader, extensions);
       reader.checkLastTagWas(0);
 
-      var response = CodeGeneratorResponse();
+      final response = CodeGeneratorResponse();
 
       // Parse the options in the request. Return the errors if any.
-      var options = parseGenerationOptions(request, response, optionParsers);
+      final options = parseGenerationOptions(request, response, optionParsers);
       if (options == null) {
         _streamOut.add(response.writeToBuffer());
         return;
@@ -116,8 +116,8 @@ class CodeGenerator {
 
       // Create a syntax tree for each .proto file given to us.
       // (We may import it even if we don't generate the .pb.dart file.)
-      var generators = <FileGenerator>[];
-      for (var file in request.protoFile) {
+      final generators = <FileGenerator>[];
+      for (final file in request.protoFile) {
         generators.add(FileGenerator(file, options));
       }
 
@@ -125,8 +125,8 @@ class CodeGenerator {
       link(options, generators);
 
       // Generate the .pb.dart file if requested.
-      for (var gen in generators) {
-        var name = gen.descriptor.name;
+      for (final gen in generators) {
+        final name = gen.descriptor.name;
         if (request.fileToGenerate.contains(name)) {
           response.file.addAll(gen.generateFiles(config));
         }
