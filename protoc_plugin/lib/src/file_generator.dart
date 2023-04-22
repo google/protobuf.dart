@@ -270,6 +270,10 @@ class FileGenerator extends ProtobufContainer {
 
     writeMainHeader(out, config);
 
+    if (package.isNotEmpty) {
+      out.println("const \$core.String kPackageName = '$package';\n");
+    }
+
     // Generate code.
     for (var m in messageGenerators) {
       m.generate(out);
