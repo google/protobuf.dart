@@ -17,12 +17,11 @@ class Benchmark extends BenchmarkBase {
   final Uint8List _message1Proto3Input;
   final Uint8List _message2Input;
 
-  Benchmark(String name, List<int> message1Proto2Input,
+  Benchmark(super.name, List<int> message1Proto2Input,
       List<int> message1Proto3Input, List<int> message2Input)
       : _message1Proto2Input = Uint8List.fromList(message1Proto2Input),
         _message1Proto3Input = Uint8List.fromList(message1Proto3Input),
-        _message2Input = Uint8List.fromList(message2Input),
-        super(name);
+        _message2Input = Uint8List.fromList(message2Input);
 
   @override
   void run() {
