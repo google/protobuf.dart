@@ -4,7 +4,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// Writer used for converting [GeneratedMessage]s into binary
 /// representation.
@@ -268,7 +268,7 @@ class CodedBufferWriter {
       value >>= 7;
     }
     _outputChunk![i++] = value;
-    _bytesTotal += (i - _bytesInChunk);
+    _bytesTotal += i - _bytesInChunk;
     _bytesInChunk = i;
   }
 
@@ -283,7 +283,7 @@ class CodedBufferWriter {
       hi >>= 7;
     }
     _outputChunk![i++] = lo;
-    _bytesTotal += (i - _bytesInChunk);
+    _bytesTotal += i - _bytesInChunk;
     _bytesInChunk = i;
   }
 
@@ -338,10 +338,10 @@ class CodedBufferWriter {
         break;
       case PbFieldType._BYTES_BIT:
         _writeBytesNoTag(
-            value is TypedData ? value : Uint8List.fromList(value));
+            value is Uint8List ? value : Uint8List.fromList(value));
         break;
       case PbFieldType._STRING_BIT:
-        _writeBytesNoTag(_utf8.encode(value));
+        _writeBytesNoTag(_utf8.encoder.convert(value));
         break;
       case PbFieldType._DOUBLE_BIT:
         _writeDouble(value);
@@ -355,6 +355,7 @@ class CodedBufferWriter {
         break;
       case PbFieldType._GROUP_BIT:
         // value is UnknownFieldSet or GeneratedMessage
+        // ignore: avoid_dynamic_calls
         value.writeToCodedBufferWriter(this);
         break;
       case PbFieldType._INT32_BIT:
@@ -396,7 +397,7 @@ class CodedBufferWriter {
     }
   }
 
-  void _writeBytesNoTag(dynamic value) {
+  void _writeBytesNoTag(Uint8List value) {
     writeInt32NoTag(value.length);
     writeRawBytes(value);
   }

@@ -34,8 +34,8 @@ void main() {
         () => example..mergeFromProto3Json({'enm': 'c'}),
         throwsA(allOf(
             isFormatException,
-            predicate(
-                (dynamic e) => e.message.contains('Unknown enum value')))));
+            predicate((FormatException e) =>
+                e.message.contains('Unknown enum value')))));
     // `example` hasn't changed.
     expect(example.hasEnm, isTrue);
     expect(example.enm.name, equals('b'));
@@ -55,8 +55,8 @@ void main() {
         () => example..mergeFromProto3Json({'enm': 3}),
         throwsA(allOf(
             isFormatException,
-            predicate(
-                (dynamic e) => e.message.contains('Unknown enum value')))));
+            predicate((FormatException e) =>
+                e.message.contains('Unknown enum value')))));
     // `example` hasn't changed.
     expect(example.hasEnm, isTrue);
     expect(example.enm.name, equals('b'));

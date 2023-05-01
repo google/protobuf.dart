@@ -188,7 +188,7 @@ Iterable<String> defaultSuffixes() sync* {
   yield '_';
   var i = 0;
   while (true) {
-    yield ('_$i');
+    yield '_$i';
     i++;
   }
 }

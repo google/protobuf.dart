@@ -1,4 +1,4 @@
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// An `EventPlugin` receives callbacks when the fields of a [GeneratedMessage]
 /// change.

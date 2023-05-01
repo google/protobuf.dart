@@ -7,14 +7,14 @@
 import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin, PbFieldChange;
-import 'package:test/test.dart' show test, expect;
+import 'package:test/test.dart' show expect, test;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
 class Rec extends MockMessage with PbEventMixin {
   @override
   BuilderInfo get info_ => _info;
-  static final _info = mockInfo('Rec', () => Rec());
+  static final _info = mockInfo('Rec', Rec.new);
   @override
   Rec createEmptyInstance() => Rec();
 }

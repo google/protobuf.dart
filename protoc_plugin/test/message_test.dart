@@ -107,12 +107,16 @@ repeatedString: qux
   });
 
   test('testUninitializedException', () {
-    try {
-      TestRequired().check();
-      fail('Should have thrown an exception.');
-    } on StateError catch (e) {
-      expect(e.message, 'Message missing required fields: a, b, c');
-    }
+    expect(
+      () => TestRequired().check(),
+      throwsA(
+        isA<StateError>().having(
+          (p0) => p0.message,
+          'message',
+          'Message missing required fields: a, b, c',
+        ),
+      ),
+    );
   });
 
   test('testBuildPartial', () {
@@ -122,30 +126,29 @@ repeatedString: qux
   });
 
   test('testNestedUninitializedException', () {
-    try {
-      var message = TestRequiredForeign();
-      message.optionalMessage = testRequiredUninitialized;
-      message.repeatedMessage.add(testRequiredUninitialized);
-      message.repeatedMessage.add(testRequiredUninitialized);
-      message.check();
-      fail('Should have thrown an exception.');
-    } on StateError catch (e) {
-      // NOTE: error message differs from Java in that
-      // fields are referenced using Dart fieldnames r.t.
-      // proto field names.
-      expect(
-          e.message,
+    var message = TestRequiredForeign();
+    message.optionalMessage = testRequiredUninitialized;
+    message.repeatedMessage.add(testRequiredUninitialized);
+    message.repeatedMessage.add(testRequiredUninitialized);
+    expect(
+      () => message.check(),
+      throwsA(
+        isA<StateError>().having(
+          (p0) => p0.message,
+          'message',
           'Message missing required fields: '
-          'optionalMessage.a, '
-          'optionalMessage.b, '
-          'optionalMessage.c, '
-          'repeatedMessage[0].a, '
-          'repeatedMessage[0].b, '
-          'repeatedMessage[0].c, '
-          'repeatedMessage[1].a, '
-          'repeatedMessage[1].b, '
-          'repeatedMessage[1].c');
-    }
+              'optionalMessage.a, '
+              'optionalMessage.b, '
+              'optionalMessage.c, '
+              'repeatedMessage[0].a, '
+              'repeatedMessage[0].b, '
+              'repeatedMessage[0].c, '
+              'repeatedMessage[1].a, '
+              'repeatedMessage[1].b, '
+              'repeatedMessage[1].c',
+        ),
+      ),
+    );
   });
 
   test('testBuildNestedPartial', () {
@@ -158,12 +161,16 @@ repeatedString: qux
   });
 
   test('testParseUnititialized', () {
-    try {
-      (TestRequired.fromBuffer([])).check();
-      fail('Should have thrown an exception.');
-    } on StateError catch (e) {
-      expect(e.message, 'Message missing required fields: a, b, c');
-    }
+    expect(
+      () => TestRequired.fromBuffer([]).check(),
+      throwsA(
+        isA<StateError>().having(
+          (p0) => p0.message,
+          'message',
+          'Message missing required fields: a, b, c',
+        ),
+      ),
+    );
   });
 
   test('testParseNestedUnititialized', () {
@@ -173,26 +180,25 @@ repeatedString: qux
     message.repeatedMessage.add(testRequiredUninitialized);
     List<int> buffer = message.writeToBuffer();
 
-    try {
-      (TestRequiredForeign.fromBuffer(buffer)).check();
-      fail('Should have thrown an exception.');
-    } on StateError catch (e) {
-      // NOTE: error message differs from Java in that
-      // fields are referenced using Dart fieldnames r.t.
-      // proto field names.
-      expect(
-          e.message,
+    expect(
+      () => TestRequiredForeign.fromBuffer(buffer).check(),
+      throwsA(
+        isA<StateError>().having(
+          (p0) => p0.message,
+          'message',
           'Message missing required fields: '
-          'optionalMessage.a, '
-          'optionalMessage.b, '
-          'optionalMessage.c, '
-          'repeatedMessage[0].a, '
-          'repeatedMessage[0].b, '
-          'repeatedMessage[0].c, '
-          'repeatedMessage[1].a, '
-          'repeatedMessage[1].b, '
-          'repeatedMessage[1].c');
-    }
+              'optionalMessage.a, '
+              'optionalMessage.b, '
+              'optionalMessage.c, '
+              'repeatedMessage[0].a, '
+              'repeatedMessage[0].b, '
+              'repeatedMessage[0].c, '
+              'repeatedMessage[1].a, '
+              'repeatedMessage[1].b, '
+              'repeatedMessage[1].c',
+        ),
+      ),
+    );
   });
 
   test('testClearField', () {

@@ -99,7 +99,7 @@ String encodeReport(pb.Report report) {
 }
 
 String _stringifyMap(StringBuffer out, Map json, String indent) {
-  var childIndent = indent + '  ';
+  var childIndent = '$indent  ';
   out.writeln('{');
   var first = true;
   for (var key in json.keys) {
@@ -124,7 +124,7 @@ String _stringifyMap(StringBuffer out, Map json, String indent) {
 }
 
 void _stringifyList(StringBuffer out, List json, String indent) {
-  var childIndent = indent + '  ';
+  var childIndent = '$indent  ';
   out.write('[\n');
   var first = true;
   for (var item in json) {

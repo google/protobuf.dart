@@ -4,6 +4,8 @@
 
 /// Provides metadata about mixins to dart-protoc-plugin.
 /// (Experimental API; subject to change.)
+library;
+
 import 'indenting_writer.dart';
 
 /// Finds [name] in the exported mixins.

@@ -9,20 +9,21 @@ description: Benchmarking a number of different api calls.
 publish_to: none
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.19.0 <3.0.0'
 
 dependencies:
+  fixnum: any
   protobuf: any
+  yaml: ^3.0.0
 
 dev_dependencies:
   build: ^2.0.0
   build_runner: ^2.0.6
   build_web_compilers: ^3.0.0
+  dart_flutter_team_lints: ^1.0.0
   glob: ^2.0.0
-  lints: ^1.0.0
   protoc_plugin:
     path: "../protoc_plugin"
-  yaml: ^3.0.0
 
 dependency_overrides:
   protobuf:

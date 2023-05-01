@@ -6,7 +6,7 @@
 * Remove message constructor arguments. Constructors with arguments cause
   increase in release binary sizes even when no arguments are passed to the
   constructors. ([#703])
-* Require Dart `2.17`.
+* Require Dart `2.19`.
 
   **Migration:**
 

@@ -4,7 +4,7 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// Type of an empty message builder.
 typedef CreateBuilderFunc = GeneratedMessage Function();

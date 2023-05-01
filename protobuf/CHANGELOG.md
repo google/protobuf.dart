@@ -1,5 +1,6 @@
 ## 3.0.0-dev
 
+* Require Dart `2.19`.
 * Remove `ReadonlyMessageMixin` ([#183], [#644])
 * Remove `frozenMessageModificationHandler` ([#175], [#643])
 * Remove `PbListBase` and `FrozenPbList` types. All proto repeated fields now

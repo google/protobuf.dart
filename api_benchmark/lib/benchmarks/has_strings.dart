@@ -4,7 +4,7 @@
 
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart'
-    show BenchmarkID, Request, Params, Sample;
+    show BenchmarkID, Params, Request, Sample;
 import '../generated/string_grid.pb.dart' as pb;
 
 /// A benchmark that checks the existence of each item in a grid of strings.

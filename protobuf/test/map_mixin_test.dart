@@ -9,7 +9,8 @@ import 'dart:collection' show MapMixin;
 
 import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart';
-import 'package:test/test.dart' show expect, same, test, throwsArgumentError;
+import 'package:test/test.dart'
+    show expect, isA, same, test, throwsArgumentError;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
@@ -17,7 +18,7 @@ import 'mock_util.dart' show MockMessage, mockInfo;
 class Rec extends MockMessage with MapMixin<Object?, Object>, PbMapMixin {
   @override
   BuilderInfo get info_ => _info;
-  static final _info = mockInfo('Rec', () => Rec());
+  static final _info = mockInfo('Rec', Rec.new);
   @override
   Rec createEmptyInstance() => Rec();
 
@@ -35,7 +36,7 @@ void main() {
 
     expect(r['val'], 42);
     expect(r['str'], '');
-    expect(r['child'].runtimeType, Rec);
+    expect(r['child'], isA<Rec>());
     expect(r['child'].toString(), 'Rec(42, "")');
     expect(r['int32s'], []);
 
@@ -65,7 +66,7 @@ void main() {
     expect(r['child'], same(child));
 
     expect(() => r['int32s'] = 123, throwsArgumentError);
-    r['int32s'].add(123);
+    (r['int32s'] as List).add(123);
     expect(r['int32s'], [123]);
     expect(r['int32s'], same(r['int32s']));
   });
