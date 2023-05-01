@@ -94,8 +94,8 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 
 // Merge fields from a previously decoded JSON object.
 // (Called recursively on nested messages.)
-void _mergeFromJsonMap(
-    _FieldSet fs, Map<String, dynamic> json, ExtensionRegistry? registry) {
+void _mergeFromJsonMap(_FieldSet fs, Map<String, dynamic> json,
+    ExtensionRegistry? registry, bool frozen) {
   fs._ensureWritable();
   final keys = json.keys;
   final meta = fs._meta;
@@ -107,18 +107,19 @@ void _mergeFromJsonMap(
       if (fi == null) continue; // Unknown tag; skip
     }
     if (fi.isMapField) {
-      _appendJsonMap(
-          meta, fs, json[key], fi as MapFieldInfo<dynamic, dynamic>, registry);
+      _appendJsonMap(meta, fs, json[key], fi as MapFieldInfo<dynamic, dynamic>,
+          registry, frozen);
     } else if (fi.isRepeated) {
-      _appendJsonList(meta, fs, json[key], fi, registry);
+      _appendJsonList(meta, fs, json[key], fi, registry, frozen);
     } else {
       _setJsonField(meta, fs, json[key], fi, registry);
     }
   }
+  fs._frozenState = frozen;
 }
 
 void _appendJsonList(BuilderInfo meta, _FieldSet fs, List jsonList,
-    FieldInfo fi, ExtensionRegistry? registry) {
+    FieldInfo fi, ExtensionRegistry? registry, bool frozen) {
   final repeated = fi._ensureRepeatedField(meta, fs);
   // Micro optimization. Using "for in" generates the following and iterator
   // alloc:
@@ -134,10 +135,13 @@ void _appendJsonList(BuilderInfo meta, _FieldSet fs, List jsonList,
     convertedValue ??= fi.defaultEnumValue;
     repeated.add(convertedValue);
   }
+  if (repeated is PbList) {
+    repeated._isReadOnly = frozen;
+  }
 }
 
 void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
-    MapFieldInfo fi, ExtensionRegistry? registry) {
+    MapFieldInfo fi, ExtensionRegistry? registry, bool frozen) {
   final entryMeta = fi.mapEntryBuilderInfo;
   final map = fi._ensureMapField(meta, fs) as PbMap<dynamic, dynamic>;
   for (var jsonEntryDynamic in jsonList) {
@@ -163,6 +167,7 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
     convertedValue ??= fi.defaultEnumValue;
     map[convertedKey] = convertedValue;
   }
+  map._isReadonly = frozen;
 }
 
 void _setJsonField(BuilderInfo meta, _FieldSet fs, json, FieldInfo fi,
@@ -279,7 +284,7 @@ dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
       if (value is Map) {
         final messageValue = value as Map<String, dynamic>;
         var subMessage = meta._makeEmptyMessage(tagNumber, registry);
-        _mergeFromJsonMap(subMessage._fieldSet, messageValue, registry);
+        _mergeFromJsonMap(subMessage._fieldSet, messageValue, registry, false);
         return subMessage;
       }
       expectedType = 'nested message or group';
