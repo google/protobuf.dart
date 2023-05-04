@@ -171,10 +171,37 @@ abstract class GeneratedMessage {
   void writeToCodedBufferWriter(CodedBufferWriter output) =>
       _writeToCodedBufferWriter(_fieldSet, output);
 
+  /// Merges serialized protocol buffer data into this message.
+  ///
+  /// For each field in [input] that is already present in this message:
+  ///
+  /// * If it's a repeated field, this appends to the end of our list.
+  /// * Else, if it's a scalar, this overwrites our field.
+  /// * Else, (it's a non-repeated sub-message), this recursively merges into
+  ///   the existing sub-message.
   void mergeFromCodedBufferReader(CodedBufferReader input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     final meta = _fieldSet._meta;
-    _mergeFromCodedBufferReader(meta, _fieldSet, input, extensionRegistry);
+    _mergeFromCodedBufferReader(
+        meta, _fieldSet, input, extensionRegistry, false);
+  }
+
+  /// Merges serialized protocol buffer data into this message.
+  ///
+  /// For each field in [input] that is already present in this message:
+  ///
+  /// * If it's a repeated field, this appends to the end of our list.
+  /// * Else, if it's a scalar, this overwrites our field.
+  /// * Else, (it's a non-repeated sub-message), this recursively merges into
+  ///   the existing sub-message.
+  ///
+  /// NOTE: Sub-messages that are already part of this message are not marked as
+  /// read-only.
+  void mergeFromCodedBufferReaderFrozen(CodedBufferReader input,
+      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    final meta = _fieldSet._meta;
+    _mergeFromCodedBufferReader(
+        meta, _fieldSet, input, extensionRegistry, true);
   }
 
   /// Merges serialized protocol buffer data into this message.
@@ -189,7 +216,28 @@ abstract class GeneratedMessage {
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     var codedInput = CodedBufferReader(input);
     final meta = _fieldSet._meta;
-    _mergeFromCodedBufferReader(meta, _fieldSet, codedInput, extensionRegistry);
+    _mergeFromCodedBufferReader(
+        meta, _fieldSet, codedInput, extensionRegistry, false);
+    codedInput.checkLastTagWas(0);
+  }
+
+  /// Merges serialized protocol buffer data into this message and makes it read-only.
+  ///
+  /// For each field in [input] that is already present in this message:
+  ///
+  /// * If it's a repeated field, this appends to the end of our list.
+  /// * Else, if it's a scalar, this overwrites our field.
+  /// * Else, (it's a non-repeated sub-message), this recursively merges into
+  ///   the existing sub-message.
+  ///
+  /// NOTE: Sub-messages that are already part of this message are not marked as
+  /// read-only.
+  void mergeFromBufferFrozen(List<int> input,
+      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    var codedInput = CodedBufferReader(input);
+    final meta = _fieldSet._meta;
+    _mergeFromCodedBufferReader(
+        meta, _fieldSet, codedInput, extensionRegistry, true);
     codedInput.checkLastTagWas(0);
   }
 
@@ -279,7 +327,25 @@ abstract class GeneratedMessage {
     /// on the Dart VM for a slight speedup.
     final Map<String, dynamic> jsonMap =
         jsonDecode(data, reviver: _emptyReviver);
-    _mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry);
+    _mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry, false);
+  }
+
+  /// Merges field values from [data], a JSON object, encoded as described by
+  /// [GeneratedMessage.writeToJson] and marks the message read-only.
+  ///
+  /// For the proto3 JSON format use: [mergeFromProto3Json].
+  ///
+  /// NOTE: Sub-messages that are already part of this message are not marked as
+  /// read-only.
+  void mergeFromJsonFrozen(String data,
+      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    /// Disable lazy creation of Dart objects for a dart2js speedup.
+    /// This is a slight regression on the Dart VM.
+    /// TODO(skybrian) we could skip the reviver if we're running
+    /// on the Dart VM for a slight speedup.
+    final Map<String, dynamic> jsonMap =
+        jsonDecode(data, reviver: _emptyReviver);
+    _mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry, true);
   }
 
   static Object? _emptyReviver(Object? k, Object? v) => v;
@@ -289,7 +355,19 @@ abstract class GeneratedMessage {
   /// The encoding is described in [GeneratedMessage.writeToJson].
   void mergeFromJsonMap(Map<String, dynamic> json,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    _mergeFromJsonMap(_fieldSet, json, extensionRegistry);
+    _mergeFromJsonMap(_fieldSet, json, extensionRegistry, false);
+  }
+
+  /// Merges field values from a JSON object represented as a Dart map
+  /// and marks the message read-only.
+  ///
+  /// The encoding is described in [GeneratedMessage.writeToJson].
+  ///
+  /// NOTE: Sub-messages that are already part of this message are not marked as
+  /// read-only.
+  void mergeFromJsonMapFrozen(Map<String, dynamic> json,
+      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    _mergeFromJsonMap(_fieldSet, json, extensionRegistry, true);
   }
 
   /// Adds an extension field value to a repeated field.
