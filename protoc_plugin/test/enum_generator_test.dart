@@ -12,7 +12,7 @@ import 'golden_file.dart';
 
 void main() {
   test('testEnumGenerator', () {
-    var ed = EnumDescriptorProto()
+    final ed = EnumDescriptorProto()
       ..name = 'PhoneType'
       ..value.addAll([
         EnumValueDescriptorProto()
@@ -28,9 +28,9 @@ void main() {
           ..name = 'BUSINESS'
           ..number = 2
       ]);
-    var writer = IndentingWriter(filename: 'sample.proto');
-    var fg = FileGenerator(FileDescriptorProto(), GenerationOptions());
-    var eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);
+    final writer = IndentingWriter(filename: 'sample.proto');
+    final fg = FileGenerator(FileDescriptorProto(), GenerationOptions());
+    final eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);
     eg.generate(writer);
     expectMatchesGoldenFile(writer.toString(), 'test/goldens/enum');
     expectMatchesGoldenFile(

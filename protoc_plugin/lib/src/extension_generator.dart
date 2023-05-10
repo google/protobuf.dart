@@ -40,7 +40,7 @@ class ExtensionGenerator {
     _field = ProtobufField.extension(_descriptor, _parent, ctx);
     _resolved = true;
 
-    var extendedType = ctx.getFieldType(_descriptor.extendee);
+    final extendedType = ctx.getFieldType(_descriptor.extendee);
     // TODO(skybrian) When would this be null?
     if (extendedType != null) {
       _extendedFullName = extendedType.fullName;
@@ -54,7 +54,7 @@ class ExtensionGenerator {
 
   String get name {
     if (!_resolved) throw StateError('resolve not called');
-    var name = _extensionName;
+    final name = _extensionName;
     return _parent is MessageGenerator ? '${_parent.classname}.$name' : name;
   }
 
@@ -70,7 +70,7 @@ class ExtensionGenerator {
   void addImportsTo(
       Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
     if (!_resolved) throw StateError('resolve not called');
-    var typeGen = _field.baseType.generator;
+    final typeGen = _field.baseType.generator;
     if (typeGen is EnumGenerator) {
       // Enums are always in a different file.
       enumImports.add(typeGen.fileGen!);
@@ -89,9 +89,9 @@ class ExtensionGenerator {
   void generate(IndentingWriter out) {
     if (!_resolved) throw StateError('resolve not called');
 
-    var name = _extensionName;
-    var type = _field.baseType;
-    var dartType = type.getDartType(fileGen!);
+    final name = _extensionName;
+    final type = _field.baseType;
+    final dartType = type.getDartType(fileGen!);
 
     final omitFieldNames = ConditionalConstDefinition('omit_field_names');
     out.addSuffix(
@@ -104,13 +104,13 @@ class ExtensionGenerator {
         omitMessageNames.createTernary(_extendedFullName);
 
     String invocation;
-    var positionals = <String>[];
+    final positionals = <String>[];
     positionals.add(conditionalExtendedName);
     positionals.add(conditionalName);
     positionals.add('${_field.number}');
     positionals.add(_field.typeConstant);
 
-    var named = <String, String?>{};
+    final named = <String, String?>{};
     named['protoName'] = _field.quotedProtoName;
     if (_field.isRepeated) {
       invocation = '$protobufImportPrefix.Extension<$dartType>.repeated';
@@ -128,12 +128,12 @@ class ExtensionGenerator {
       if (type.isMessage || type.isGroup) {
         named['subBuilder'] = '$dartType.create';
       } else if (type.isEnum) {
-        var dartEnum = type.getDartType(fileGen!);
+        final dartEnum = type.getDartType(fileGen!);
         named['valueOf'] = '$dartEnum.valueOf';
         named['enumValues'] = '$dartEnum.values';
       }
     }
-    var fieldDefinition = 'static final ';
+    final fieldDefinition = 'static final ';
     out.printAnnotated(
         '$fieldDefinition$name = '
         '$invocation(${ProtobufField._formatArguments(positionals, named)});\n',

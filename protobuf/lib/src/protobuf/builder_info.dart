@@ -64,7 +64,7 @@ class BuilderInfo {
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
       {String? protoName}) {
-    var index = byIndex.length;
+    final index = byIndex.length;
     final fieldInfo = (tagNumber == 0)
         ? FieldInfo.dummy(index)
         : FieldInfo<T>(name, tagNumber, index, fieldType!,
@@ -85,7 +85,7 @@ class BuilderInfo {
       CreateBuilderFunc? valueCreator,
       {ProtobufEnum? defaultEnumValue,
       String? protoName}) {
-    var index = byIndex.length;
+    final index = byIndex.length;
     _addField(MapFieldInfo<K, V>(name, tagNumber, index, PbFieldType.M,
         keyFieldType, valueFieldType, mapEntryBuilderInfo, valueCreator,
         defaultEnumValue: defaultEnumValue, protoName: protoName));
@@ -101,7 +101,7 @@ class BuilderInfo {
       List<ProtobufEnum>? enumValues,
       {ProtobufEnum? defaultEnumValue,
       String? protoName}) {
-    var index = byIndex.length;
+    final index = byIndex.length;
     _addField(FieldInfo<T>.repeated(
         name, tagNumber, index, fieldType, check, subBuilder,
         valueOf: valueOf,
@@ -226,7 +226,7 @@ class BuilderInfo {
 
   // oneof declarations.
   void oo(int oneofIndex, List<int> tags) {
-    for (var tag in tags) {
+    for (final tag in tags) {
       oneofs[tag] = oneofIndex;
     }
   }
@@ -243,7 +243,8 @@ class BuilderInfo {
       PackageName packageName = const PackageName(''),
       String? protoName,
       dynamic valueDefaultOrMaker}) {
-    var mapEntryBuilderInfo = BuilderInfo(entryClassName, package: packageName)
+    final mapEntryBuilderInfo = BuilderInfo(entryClassName,
+        package: packageName)
       ..add(PbMap._keyFieldNumber, 'key', keyFieldType, null, null, null, null)
       ..add(PbMap._valueFieldNumber, 'value', valueFieldType,
           valueDefaultOrMaker, valueCreator, valueOf, enumValues);
@@ -256,38 +257,38 @@ class BuilderInfo {
   bool containsTagNumber(int tagNumber) => fieldInfo.containsKey(tagNumber);
 
   dynamic defaultValue(int tagNumber) {
-    var func = makeDefault(tagNumber);
+    final func = makeDefault(tagNumber);
     return func == null ? null : func();
   }
 
   // Returns the field name for a given tag number, for debugging purposes.
   String? fieldName(int tagNumber) {
-    var i = fieldInfo[tagNumber];
+    final i = fieldInfo[tagNumber];
     return i?.name;
   }
 
   int? fieldType(int tagNumber) {
-    var i = fieldInfo[tagNumber];
+    final i = fieldInfo[tagNumber];
     return i?.type;
   }
 
   MakeDefaultFunc? makeDefault(int tagNumber) {
-    var i = fieldInfo[tagNumber];
+    final i = fieldInfo[tagNumber];
     return i?.makeDefault;
   }
 
   CreateBuilderFunc? subBuilder(int tagNumber) {
-    var i = fieldInfo[tagNumber];
+    final i = fieldInfo[tagNumber];
     return i?.subBuilder;
   }
 
   int? tagNumber(String fieldName) {
-    var i = byName[fieldName];
+    final i = byName[fieldName];
     return i?.tagNumber;
   }
 
   ValueOfFunc? valueOfFunc(int tagNumber) {
-    var i = fieldInfo[tagNumber];
+    final i = fieldInfo[tagNumber];
     return i?.valueOf;
   }
 

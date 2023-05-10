@@ -124,25 +124,25 @@ void main() {
 
     group('outputPathForUri', () {
       test('should handle files at package root', () {
-        var p =
+        final p =
             config.outputPathFor(Uri.parse('foo/bar/quux.proto'), '.pb.dart');
         expect(p.path, 'baz/flob/quux.pb.dart');
       });
 
       test('should handle files below package root', () {
-        var p = config.outputPathFor(
+        final p = config.outputPathFor(
             Uri.parse('foo/bar/a/b/quux.proto'), '.pb.dart');
         expect(p.path, 'baz/flob/a/b/quux.pb.dart');
       });
 
       test('should handle files in a nested package root', () {
-        var p = config.outputPathFor(
+        final p = config.outputPathFor(
             Uri.parse('foo/bar/baz/quux.proto'), '.pb.dart');
         expect(p.path, 'baz/flob/foo/quux.pb.dart');
       });
 
       test('should handle files below a nested package root', () {
-        var p = config.outputPathFor(
+        final p = config.outputPathFor(
             Uri.parse('foo/bar/baz/a/b/quux.proto'), '.pb.dart');
         expect(p.path, 'baz/flob/foo/a/b/quux.pb.dart');
       });
@@ -157,45 +157,45 @@ void main() {
 
     group('resolveImport', () {
       test('should emit relative import if in same package', () {
-        var target = Uri.parse('foo/bar/quux.proto');
-        var source = Uri.parse('foo/bar/baz.proto');
-        var uri = config.resolveImport(target, source, '.pb.dart');
+        final target = Uri.parse('foo/bar/quux.proto');
+        final source = Uri.parse('foo/bar/baz.proto');
+        final uri = config.resolveImport(target, source, '.pb.dart');
         expect(uri.path, 'quux.pb.dart');
       });
 
       test('should emit relative import if in subdir of same package', () {
-        var target = Uri.parse('foo/bar/a/b/quux.proto');
-        var source = Uri.parse('foo/bar/baz.proto');
-        var uri = config.resolveImport(target, source, '.pb.dart');
+        final target = Uri.parse('foo/bar/a/b/quux.proto');
+        final source = Uri.parse('foo/bar/baz.proto');
+        final uri = config.resolveImport(target, source, '.pb.dart');
         expect(uri.path, 'a/b/quux.pb.dart');
       });
 
       test('should emit relative import if in parent dir in same package', () {
-        var target = Uri.parse('foo/bar/quux.proto');
-        var source = Uri.parse('foo/bar/a/b/baz.proto');
-        var uri = config.resolveImport(target, source, '.pb.dart');
+        final target = Uri.parse('foo/bar/quux.proto');
+        final source = Uri.parse('foo/bar/a/b/baz.proto');
+        final uri = config.resolveImport(target, source, '.pb.dart');
         expect(uri.path, '../../quux.pb.dart');
       });
 
       test('should emit package: import if in different package', () {
-        var target = Uri.parse('wibble/wobble/quux.proto');
-        var source = Uri.parse('foo/bar/baz.proto');
-        var uri = config.resolveImport(target, source, '.pb.dart');
+        final target = Uri.parse('wibble/wobble/quux.proto');
+        final source = Uri.parse('foo/bar/baz.proto');
+        final uri = config.resolveImport(target, source, '.pb.dart');
         expect(uri.scheme, 'package');
         expect(uri.path, 'wibble.wobble/quux.pb.dart');
       });
 
       test('should emit package: import if in subdir of different package', () {
-        var target = Uri.parse('wibble/wobble/foo/bar/quux.proto');
-        var source = Uri.parse('foo/bar/baz.proto');
-        var uri = config.resolveImport(target, source, '.pb.dart');
+        final target = Uri.parse('wibble/wobble/foo/bar/quux.proto');
+        final source = Uri.parse('foo/bar/baz.proto');
+        final uri = config.resolveImport(target, source, '.pb.dart');
         expect(uri.scheme, 'package');
         expect(uri.path, 'wibble.wobble/foo/bar/quux.pb.dart');
       });
 
       test('should throw if target is in unknown package', () {
-        var target = Uri.parse('flob/flub/quux.proto');
-        var source = Uri.parse('foo/bar/baz.proto');
+        final target = Uri.parse('flob/flub/quux.proto');
+        final source = Uri.parse('foo/bar/baz.proto');
         expect(() => config.resolveImport(target, source, '.pb.dart'),
             throwsA(startsWith('ERROR: cannot generate import for')));
       });

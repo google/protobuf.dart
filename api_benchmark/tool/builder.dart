@@ -13,9 +13,9 @@ Builder benchmarkBuilder(BuilderOptions options) => _BenchmarkBuilder();
 class _BenchmarkBuilder implements Builder {
   @override
   Future build(BuildStep buildStep) async {
-    var data = <String, String>{};
+    final data = <String, String>{};
 
-    await for (var item in buildStep.findAssets(Glob('**/*.pb.json')).where(
+    await for (final item in buildStep.findAssets(Glob('**/*.pb.json')).where(
         (id) =>
             id.pathSegments.length > 2 &&
             id.pathSegments[0] == 'benchmark' &&

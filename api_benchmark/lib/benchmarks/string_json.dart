@@ -28,7 +28,7 @@ class StringBenchmark extends Benchmark {
 
   @override
   void setup() {
-    var grid = _makeGrid(width, height, stringSize);
+    final grid = _makeGrid(width, height, stringSize);
     json = grid.writeToJson();
     lastFieldTag = getTagForColumn(pb.Line10(), width - 1);
   }
@@ -39,15 +39,15 @@ class StringBenchmark extends Benchmark {
   // "23" "34" "45" "56"
   static pb.Grid10 _makeGrid(int width, int height, int stringSize) {
     if (width > 10) throw ArgumentError('width out of range: $width');
-    var grid = pb.Grid10();
+    final grid = pb.Grid10();
 
-    var zero = '0'.codeUnits[0];
+    final zero = '0'.codeUnits[0];
 
     for (var y = 0; y < height; y++) {
-      var line = pb.Line10();
+      final line = pb.Line10();
       for (var x = 0; x < width; x++) {
-        var tag = getTagForColumn(line, x)!;
-        var charCodes = <int>[];
+        final tag = getTagForColumn(line, x)!;
+        final charCodes = <int>[];
         for (var i = 0; i < stringSize; i++) {
           charCodes.add(zero + ((x + y + i) % 10));
         }
@@ -65,8 +65,8 @@ class StringBenchmark extends Benchmark {
 
   @override
   void run() {
-    var grid = pb.Grid10.fromJson(json);
-    var actual = grid.lines[height - 1].getField(lastFieldTag!);
+    final grid = pb.Grid10.fromJson(json);
+    final actual = grid.lines[height - 1].getField(lastFieldTag!);
     if (actual.length != stringSize) throw 'failed; got $actual';
   }
 

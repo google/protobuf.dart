@@ -122,7 +122,7 @@ void main() {
   }
 
   test('set and clear values', () {
-    var testMap = TestMap();
+    final testMap = TestMap();
     expectEmpty(testMap);
 
     setValues(testMap);
@@ -133,7 +133,7 @@ void main() {
   });
 
   test('update map values', () {
-    var testMap = TestMap();
+    final testMap = TestMap();
     setValues(testMap);
     updateValues(testMap);
     expectMapValuesUpdated(testMap);
@@ -174,13 +174,13 @@ void main() {
   test(
       'PbMap` is equal to another PbMap with equal key/value pairs in any order',
       () {
-    var t = TestMap()
+    final t = TestMap()
       ..int32ToStringField[2] = 'test2'
       ..int32ToStringField[1] = 'test';
-    var t2 = TestMap()
+    final t2 = TestMap()
       ..int32ToStringField[1] = 'test'
       ..int32ToStringField[2] = 'test2';
-    var t3 = TestMap()..int32ToStringField[1] = 'test';
+    final t3 = TestMap()..int32ToStringField[1] = 'test';
 
     final m = t.int32ToStringField;
     final m2 = t2.int32ToStringField;
@@ -232,10 +232,10 @@ void main() {
   });
 
   test('parse duplicate keys', () {
-    var testMap = TestMap()..int32ToStringField[1] = 'foo';
-    var testMap2 = TestMap()..int32ToStringField[1] = 'bar';
+    final testMap = TestMap()..int32ToStringField[1] = 'foo';
+    final testMap2 = TestMap()..int32ToStringField[1] = 'bar';
 
-    var merge = TestMap.fromBuffer(
+    final merge = TestMap.fromBuffer(
         [...testMap.writeToBuffer(), ...testMap2.writeToBuffer()]);
 
     // When parsing from the wire, if there are duplicate map keys the last key
@@ -245,28 +245,28 @@ void main() {
   });
 
   test('Deep merge from other message', () {
-    var i1 = Inner()..innerMap['a'] = 'a';
-    var i2 = Inner()..innerMap['b'] = 'b';
+    final i1 = Inner()..innerMap['a'] = 'a';
+    final i2 = Inner()..innerMap['b'] = 'b';
 
-    var o1 = Outer()..i = i1;
-    var o2 = Outer()..i = i2;
+    final o1 = Outer()..i = i1;
+    final o2 = Outer()..i = i2;
 
     o1.mergeFromMessage(o2);
     expect(o1.i.innerMap.length, 2);
   });
 
   test('retain explicit default values of sub-messages', () {
-    var testMap = TestMap()..int32ToMessageField[1] = TestMap_MessageValue();
+    final testMap = TestMap()..int32ToMessageField[1] = TestMap_MessageValue();
     expect(testMap.int32ToMessageField[1]!.secondValue, 42);
 
-    var testMap2 = TestMap()..int32ToMessageField[2] = TestMap_MessageValue();
+    final testMap2 = TestMap()..int32ToMessageField[2] = TestMap_MessageValue();
 
     testMap.mergeFromBuffer(testMap2.writeToBuffer());
     expect(testMap.int32ToMessageField[2]!.secondValue, 42);
   });
 
   test('Freeze message with map field', () {
-    var testMap = TestMap();
+    final testMap = TestMap();
     setValues(testMap);
     testMap.freeze();
 
@@ -281,7 +281,7 @@ void main() {
   });
 
   test('Values for different keys are not merged together when decoding', () {
-    var testMap = TestMap();
+    final testMap = TestMap();
     testMap.int32ToMessageField[1] = (TestMap_MessageValue()..value = 11);
     testMap.int32ToMessageField[2] = (TestMap_MessageValue()..secondValue = 12);
 
@@ -358,14 +358,14 @@ void main() {
   test('getField and \$_getMap are in sync', () {
     final msg1 = TestMap();
     expect(msg1.hasField(1), false);
-    var map1 = msg1.getField(1) as Map<int, int>;
+    final map1 = msg1.getField(1) as Map<int, int>;
     expect(msg1.hasField(1), true);
     map1[1] = 2;
     expect(msg1.int32ToInt32Field[1], 2);
 
     final msg2 = TestMap();
     expect(msg2.hasField(1), false);
-    var map2 = msg2.$_getMap(0) as Map<int, int>;
+    final map2 = msg2.$_getMap(0) as Map<int, int>;
     expect(msg2.hasField(1), true);
     map2[1] = 2;
     expect(msg2.int32ToInt32Field[1], 2);

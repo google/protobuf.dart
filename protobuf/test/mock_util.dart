@@ -52,7 +52,7 @@ abstract class MockMessage extends GeneratedMessage {
 
   @override
   GeneratedMessage clone() {
-    var create = info_.byName['child']!.subBuilder!;
+    final create = info_.byName['child']!.subBuilder!;
     return create()..mergeFromMessage(this);
   }
 }

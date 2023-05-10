@@ -72,7 +72,7 @@ class CodedBufferWriter {
       if (list.isNotEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
-        for (var value in list) {
+        for (final value in list) {
           _writeValueAs(valueType, value);
         }
         _endLengthDelimited(mark);
@@ -110,7 +110,7 @@ class CodedBufferWriter {
   }
 
   Uint8List toBuffer() {
-    var result = Uint8List(_bytesTotal);
+    final result = Uint8List(_bytesTotal);
     writeTo(result);
     return result;
   }
@@ -236,7 +236,7 @@ class CodedBufferWriter {
   /// of bytes written into the reserved slice space.
   int _startLengthDelimited() {
     _commitSplice();
-    var index = _splices.length;
+    final index = _splices.length;
     // Reserve a space for a splice and use it to record the current number of
     // bytes written so that we can compute the length of data later in
     // _endLengthDelimited.
@@ -423,14 +423,14 @@ class CodedBufferWriter {
   /// Has a specialization for Uint8List for performance.
   int _copyInto(Uint8List buffer, int pos, TypedData value) {
     if (value is Uint8List) {
-      var len = value.length;
+      final len = value.length;
       for (var j = 0; j < len; j++) {
         buffer[pos++] = value[j];
       }
       return pos;
     } else {
-      var len = value.lengthInBytes;
-      var u8 = Uint8List.view(
+      final len = value.lengthInBytes;
+      final u8 = Uint8List.view(
           value.buffer, value.offsetInBytes, value.lengthInBytes);
       for (var j = 0; j < len; j++) {
         buffer[pos++] = u8[j];

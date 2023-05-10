@@ -17,16 +17,16 @@ import 'generated/benchmark.pb.dart' as pb;
 Iterable<pb.Report> runSuite(List<pb.Request?> requests,
     {int samplesPerBatch = 1, Profiler? profiler}) sync* {
   // Create a blank report with one response per request.
-  var report = pb.Report()..status = pb.Status.RUNNING;
-  for (var request in requests) {
-    var r = pb.Response()..request = request!;
+  final report = pb.Report()..status = pb.Status.RUNNING;
+  for (final request in requests) {
+    final r = pb.Response()..request = request!;
     report.responses.add(r);
   }
 
   // Set up progress reports.
   var sampleCount = 0;
   var totalSamples = 0;
-  for (var request in requests) {
+  for (final request in requests) {
     totalSamples += request!.samples;
   }
   pb.Report progress() {
@@ -37,21 +37,21 @@ Iterable<pb.Report> runSuite(List<pb.Request?> requests,
   // Send first progress message before starting.
   yield progress();
 
-  var benchmarks = <Benchmark>[];
-  for (var r in report.responses) {
+  final benchmarks = <Benchmark>[];
+  for (final r in report.responses) {
     benchmarks.add(createBenchmark(r.request));
   }
 
   // Collect the requested number of samples.
   while (sampleCount < totalSamples) {
     for (var i = 0; i < benchmarks.length; i++) {
-      var b = benchmarks[i];
-      var r = report.responses[i];
+      final b = benchmarks[i];
+      final r = report.responses[i];
       var batchSize = r.request.samples - r.samples.length;
       if (batchSize == 0) continue;
       if (batchSize > samplesPerBatch) batchSize = samplesPerBatch;
-      var p = r.samples.isEmpty ? profiler : null;
-      for (var s in b.measure(r.request, batchSize, profiler: p)) {
+      final p = r.samples.isEmpty ? profiler : null;
+      for (final s in b.measure(r.request, batchSize, profiler: p)) {
         r.samples.add(s);
         sampleCount++;
         yield progress();

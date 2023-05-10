@@ -15,7 +15,7 @@ class ExtensionRegistry {
 
   /// Stores an [extension] in the registry.
   void add(Extension extension) {
-    var map =
+    final map =
         _extensions.putIfAbsent(extension.extendee, () => <int, Extension>{});
     map[extension.tagNumber] = extension;
   }
@@ -28,7 +28,7 @@ class ExtensionRegistry {
   /// Retrieves an extension from the registry that adds tag number [tagNumber]
   /// to the [messageName] message type.
   Extension? getExtension(String messageName, int tagNumber) {
-    var map = _extensions[messageName];
+    final map = _extensions[messageName];
     if (map != null) {
       return map[tagNumber];
     }
@@ -106,9 +106,9 @@ T _reparseMessage<T extends GeneratedMessage>(
   UnknownFieldSet ensureUnknownFields() =>
       resultUnknownFields ??= ensureResult()._fieldSet._unknownFields!;
 
-  var messageUnknownFields = message._fieldSet._unknownFields;
+  final messageUnknownFields = message._fieldSet._unknownFields;
   if (messageUnknownFields != null) {
-    var codedBufferWriter = CodedBufferWriter();
+    final codedBufferWriter = CodedBufferWriter();
     extensionRegistry._extensions[message.info_.qualifiedMessageName]
         ?.forEach((tagNumber, extension) {
       final unknownField = messageUnknownFields._fields[tagNumber];
@@ -124,7 +124,7 @@ T _reparseMessage<T extends GeneratedMessage>(
     }
   }
 
-  for (var field in message._fieldSet._meta.byIndex) {
+  for (final field in message._fieldSet._meta.byIndex) {
     PbList? resultEntries;
     PbList ensureEntries() =>
         resultEntries ??= ensureResult()._fieldSet._values[field.index!];
@@ -151,7 +151,7 @@ T _reparseMessage<T extends GeneratedMessage>(
       if (messageMapDynamic == null) continue;
       final PbMap messageMap = messageMapDynamic;
       if (_isGroupOrMessage(field.valueFieldType)) {
-        for (var key in messageMap.keys) {
+        for (final key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];
           final reparsedValue = _reparseMessage(value, extensionRegistry);
           if (!identical(value, reparsedValue)) {

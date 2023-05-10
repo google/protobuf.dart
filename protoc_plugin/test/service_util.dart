@@ -5,7 +5,7 @@
 import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
 
 ServiceDescriptorProto buildServiceDescriptor() {
-  var sd = ServiceDescriptorProto()
+  final sd = ServiceDescriptorProto()
     ..name = 'Test'
     ..method.addAll([
       MethodDescriptorProto()
@@ -22,11 +22,11 @@ ServiceDescriptorProto buildServiceDescriptor() {
 
 FileDescriptorProto buildFileDescriptor(
     String package, String fileUri, List<String> messages) {
-  var fd = FileDescriptorProto()
+  final fd = FileDescriptorProto()
     ..package = package
     ..name = fileUri;
-  for (var name in messages) {
-    var md = DescriptorProto()..name = name;
+  for (final name in messages) {
+    final md = DescriptorProto()..name = name;
 
     fd.messageType.add(md);
   }

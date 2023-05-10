@@ -6,7 +6,7 @@ part of protobuf;
 
 Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
   String? convertToMapKey(dynamic key, int keyType) {
-    var baseType = PbFieldType._baseType(keyType);
+    final baseType = PbFieldType._baseType(keyType);
 
     assert(!_isRepeated(keyType));
 
@@ -41,7 +41,7 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     } else if (_isEnum(fieldType)) {
       return (fieldValue as ProtobufEnum).name;
     } else {
-      var baseType = PbFieldType._baseType(fieldType);
+      final baseType = PbFieldType._baseType(fieldType);
       switch (baseType) {
         case PbFieldType._BOOL_BIT:
           return fieldValue as bool;
@@ -60,7 +60,7 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
           return fieldValue.toString();
         case PbFieldType._FLOAT_BIT:
         case PbFieldType._DOUBLE_BIT:
-          double value = fieldValue;
+          final double value = fieldValue;
           if (value.isNaN) {
             return _nan;
           }
@@ -87,16 +87,16 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     return meta.toProto3Json!(fs._message!, typeRegistry);
   }
 
-  var result = <String, dynamic>{};
-  for (var fieldInfo in fs._infosSortedByTag) {
-    var value = fs._values[fieldInfo.index!];
+  final result = <String, dynamic>{};
+  for (final fieldInfo in fs._infosSortedByTag) {
+    final value = fs._values[fieldInfo.index!];
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
     }
     dynamic jsonValue;
     if (fieldInfo.isMapField) {
       jsonValue = (value as PbMap).map((key, entryValue) {
-        var mapEntryInfo = fieldInfo as MapFieldInfo;
+        final mapEntryInfo = fieldInfo as MapFieldInfo;
         return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType),
             valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
       });
@@ -143,7 +143,7 @@ Int64 _tryParse64BitProto3(Object? json, String s, JsonParsingContext context) {
 /// TODO(paulberry): find a better home for this?
 extension _FindFirst<E> on Iterable<E> {
   E? findFirst(bool Function(E) test) {
-    for (var element in this) {
+    for (final element in this) {
       if (test(element)) return element;
     }
     return null;
@@ -160,12 +160,12 @@ void _mergeFromProto3Json(
     bool supportNamesWithUnderscores,
     bool permissiveEnums) {
   fieldSet._ensureWritable();
-  var context = JsonParsingContext(
+  final context = JsonParsingContext(
       ignoreUnknownFields, supportNamesWithUnderscores, permissiveEnums);
 
   void recursionHelper(Object? json, _FieldSet fieldSet) {
     Object? convertProto3JsonValue(Object value, FieldInfo fieldInfo) {
-      var fieldType = fieldInfo.type;
+      final fieldType = fieldInfo.type;
       switch (PbFieldType._baseType(fieldType)) {
         case PbFieldType._BOOL_BIT:
           if (value is bool) {
@@ -277,7 +277,7 @@ void _mergeFromProto3Json(
               'Expected int or stringified int', value);
         case PbFieldType._GROUP_BIT:
         case PbFieldType._MESSAGE_BIT:
-          var subMessage = fieldInfo.subBuilder!();
+          final subMessage = fieldInfo.subBuilder!();
           recursionHelper(value, subMessage._fieldSet);
           return subMessage;
         default:
@@ -378,7 +378,7 @@ void _mergeFromProto3Json(
             }
           } else if (_isRepeated(fieldInfo.type)) {
             if (value is List) {
-              var values = fieldSet._ensureRepeatedField(meta, fieldInfo);
+              final values = fieldSet._ensureRepeatedField(meta, fieldInfo);
               for (var i = 0; i < value.length; i++) {
                 final entry = value[i];
                 context.addListIndex(i);
@@ -391,9 +391,10 @@ void _mergeFromProto3Json(
           } else if (_isGroupOrMessage(fieldInfo.type)) {
             // TODO(sigurdm) consider a cleaner separation between parsing and
             // merging.
-            var parsedSubMessage =
+            final parsedSubMessage =
                 convertProto3JsonValue(value, fieldInfo) as GeneratedMessage;
-            GeneratedMessage? original = fieldSet._values[fieldInfo.index!];
+            final GeneratedMessage? original =
+                fieldSet._values[fieldInfo.index!];
             if (original == null) {
               fieldSet._setNonExtensionFieldUnchecked(
                   meta, fieldInfo, parsedSubMessage);

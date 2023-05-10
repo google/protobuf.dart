@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 import 'mock_util.dart' show T, mockEnumValues;
 
 void main() {
-  var example = T()
+  final example = T()
     ..val = 123
     ..str = 'hello'
     ..int32s.addAll(<int>[1, 2, 3]);
@@ -72,7 +72,7 @@ void main() {
   });
 
   test('testWriteToJson', () {
-    var json = example.writeToJson();
+    final json = example.writeToJson();
     checkJsonMap(jsonDecode(json));
   });
 
@@ -83,18 +83,18 @@ void main() {
   });
 
   test('writeToJsonMap', () {
-    Map m = example.writeToJsonMap();
+    final Map m = example.writeToJsonMap();
     checkJsonMap(m);
   });
 
   test('testMergeFromJson', () {
-    var t = T();
+    final t = T();
     t.mergeFromJson('''{"1": 123, "2": "hello"}''');
     checkMessage(t);
   });
 
   test('testMergeFromJsonMap', () {
-    var t = T();
+    final t = T();
     t.mergeFromJsonMap({'1': 123, '2': 'hello'});
     checkMessage(t);
   });

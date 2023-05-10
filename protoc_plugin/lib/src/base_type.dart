@@ -124,7 +124,7 @@ class BaseType {
         throw ArgumentError('unimplemented type: ${field.type.name}');
     }
 
-    var generator = ctx.getFieldType(field.typeName);
+    final generator = ctx.getFieldType(field.typeName);
     if (generator == null) {
       throw 'FAILURE: Unknown type reference ${field.typeName}';
     }

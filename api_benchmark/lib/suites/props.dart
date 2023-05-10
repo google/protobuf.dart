@@ -8,7 +8,7 @@ import '../benchmarks/set_strings.dart';
 import '../generated/benchmark.pb.dart';
 
 final Suite propsSuite = () {
-  var suite = Suite();
+  final suite = Suite();
   suite.requests.addAll([
     _getStrings(10, null),
     _getStrings(10, 'x'),
