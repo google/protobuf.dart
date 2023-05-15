@@ -47,15 +47,6 @@ class ProtobufEnum {
     return byValue;
   }
 
-  // Subclasses will typically have a private constructor and a fixed set of
-  // instances, so `Object.operator==()` will work, and does not need to
-  // be overridden explicitly.
-  @override
-  bool operator ==(Object other);
-
-  @override
-  int get hashCode => value;
-
   /// Returns this enum's [name] or the [value] if names are not represented.
   @override
   String toString() => name == '' ? value.toString() : name;
