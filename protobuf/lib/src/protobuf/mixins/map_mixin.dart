@@ -10,7 +10,7 @@ import '../../../protobuf.dart' show BuilderInfo;
 ///
 /// Since PbMapMixin is built in, this is done automatically, so this mixin can
 /// be enabled by specifying only a dart_options.mixin option.
-abstract class PbMapMixin {
+mixin PbMapMixin {
   // GeneratedMessage properties and methods used by this mixin.
 
   BuilderInfo get info_;

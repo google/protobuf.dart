@@ -156,8 +156,8 @@ class FileGenerator extends ProtobufContainer {
     final defaultMixin =
         declaredMixins[defaultMixinName] ?? findMixin(defaultMixinName);
     if (defaultMixin == null && defaultMixinName.isNotEmpty) {
-      throw ('Option default_mixin on file ${descriptor.name}: Unknown mixin '
-          '$defaultMixinName');
+      throw 'Option default_mixin on file ${descriptor.name}: Unknown mixin '
+          '$defaultMixinName';
     }
 
     // Load and register all enum and message types.

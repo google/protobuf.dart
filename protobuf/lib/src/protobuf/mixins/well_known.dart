@@ -9,7 +9,7 @@ import 'package:fixnum/fixnum.dart';
 import '../../../protobuf.dart';
 import '../json_parsing_context.dart';
 
-abstract class AnyMixin implements GeneratedMessage {
+mixin AnyMixin implements GeneratedMessage {
   String get typeUrl;
   set typeUrl(String value);
   List<int> get value;
@@ -138,7 +138,7 @@ String _typeNameFromUrl(String typeUrl) {
   return index < 0 ? '' : typeUrl.substring(index + 1);
 }
 
-abstract class TimestampMixin {
+mixin TimestampMixin {
   static final RegExp finalGroupsOfThreeZeroes = RegExp(r'(?:000)*$');
 
   Int64 get seconds;
@@ -256,7 +256,7 @@ abstract class TimestampMixin {
   }
 }
 
-abstract class DurationMixin {
+mixin DurationMixin {
   Int64 get seconds;
   set seconds(Int64 value);
 
@@ -303,7 +303,7 @@ abstract class DurationMixin {
   }
 }
 
-abstract class StructMixin implements GeneratedMessage {
+mixin StructMixin implements GeneratedMessage {
   Map<String, ValueMixin> get fields;
   static const _fieldsFieldTagNumber = 1;
 
@@ -345,7 +345,7 @@ abstract class StructMixin implements GeneratedMessage {
   }
 }
 
-abstract class ValueMixin implements GeneratedMessage {
+mixin ValueMixin implements GeneratedMessage {
   bool hasNullValue();
   ProtobufEnum get nullValue;
   set nullValue(covariant ProtobufEnum value);
@@ -421,7 +421,7 @@ abstract class ValueMixin implements GeneratedMessage {
   }
 }
 
-abstract class ListValueMixin implements GeneratedMessage {
+mixin ListValueMixin implements GeneratedMessage {
   List<ValueMixin> get values;
 
   // From google/protobuf/struct.proto:
@@ -455,7 +455,7 @@ abstract class ListValueMixin implements GeneratedMessage {
   }
 }
 
-abstract class FieldMaskMixin {
+mixin FieldMaskMixin {
   List<String> get paths;
 
   // From google/protobuf/field_mask.proto:
@@ -507,7 +507,7 @@ abstract class FieldMaskMixin {
   }
 }
 
-abstract class DoubleValueMixin {
+mixin DoubleValueMixin {
   double get value;
   set value(double value);
 
@@ -533,7 +533,7 @@ abstract class DoubleValueMixin {
   }
 }
 
-abstract class FloatValueMixin {
+mixin FloatValueMixin {
   double get value;
   set value(double value);
 
@@ -559,7 +559,7 @@ abstract class FloatValueMixin {
   }
 }
 
-abstract class Int64ValueMixin {
+mixin Int64ValueMixin {
   Int64 get value;
   set value(Int64 value);
 
@@ -587,7 +587,7 @@ abstract class Int64ValueMixin {
   }
 }
 
-abstract class UInt64ValueMixin {
+mixin UInt64ValueMixin {
   Int64 get value;
   set value(Int64 value);
 
@@ -616,7 +616,7 @@ abstract class UInt64ValueMixin {
   }
 }
 
-abstract class Int32ValueMixin {
+mixin Int32ValueMixin {
   int get value;
   set value(int value);
 
@@ -642,7 +642,7 @@ abstract class Int32ValueMixin {
   }
 }
 
-abstract class UInt32ValueMixin {
+mixin UInt32ValueMixin {
   int get value;
   set value(int value);
   static Object toProto3JsonHelper(
@@ -667,7 +667,7 @@ abstract class UInt32ValueMixin {
   }
 }
 
-abstract class BoolValueMixin {
+mixin BoolValueMixin {
   bool get value;
   set value(bool value);
 
@@ -688,7 +688,7 @@ abstract class BoolValueMixin {
   }
 }
 
-abstract class StringValueMixin {
+mixin StringValueMixin {
   String get value;
   set value(String value);
 
@@ -709,7 +709,7 @@ abstract class StringValueMixin {
   }
 }
 
-abstract class BytesValueMixin {
+mixin BytesValueMixin {
   List<int> get value;
   set value(List<int> value);
 

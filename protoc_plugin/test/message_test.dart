@@ -159,7 +159,7 @@ repeatedString: qux
 
   test('testParseUnititialized', () {
     try {
-      (TestRequired.fromBuffer([])).check();
+      TestRequired.fromBuffer([]).check();
       fail('Should have thrown an exception.');
     } on StateError catch (e) {
       expect(e.message, 'Message missing required fields: a, b, c');
