@@ -12,7 +12,7 @@ import '../../../protobuf.dart' show GeneratedMessage, FieldInfo, EventPlugin;
 ///
 /// This mixin is enabled via an option in dart_options.proto in
 /// dart-protoc-plugin.
-abstract class PbEventMixin {
+mixin PbEventMixin {
   final eventPlugin = EventBuffer();
 
   /// A stream of changes to fields in the GeneratedMessage.

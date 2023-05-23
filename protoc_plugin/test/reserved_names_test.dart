@@ -66,6 +66,7 @@ void main() {
     final expected = findMemberNames(meta.importFrom, #PbEventMixin)
       ..removeAll(GeneratedMessage_reservedNames);
 
-    expect(actual.toList()..sort(), equals(expected.toList()..sort()));
+    expect(
+        actual.toList()..sort(), containsAllInOrder(expected.toList()..sort()));
   });
 }

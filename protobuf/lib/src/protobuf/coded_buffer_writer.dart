@@ -268,7 +268,7 @@ class CodedBufferWriter {
       value >>= 7;
     }
     _outputChunk![i++] = value;
-    _bytesTotal += (i - _bytesInChunk);
+    _bytesTotal += i - _bytesInChunk;
     _bytesInChunk = i;
   }
 
@@ -283,7 +283,7 @@ class CodedBufferWriter {
       hi >>= 7;
     }
     _outputChunk![i++] = lo;
-    _bytesTotal += (i - _bytesInChunk);
+    _bytesTotal += i - _bytesInChunk;
     _bytesInChunk = i;
   }
 
