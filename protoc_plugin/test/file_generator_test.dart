@@ -14,7 +14,9 @@ import 'golden_file.dart';
 
 FileDescriptorProto buildFileDescriptor(
     {bool phoneNumber = true, bool topLevelEnum = false}) {
-  final fd = FileDescriptorProto()..name = 'test';
+  final fd = FileDescriptorProto()
+    ..name = 'test'
+    ..package = 'testPackage';
 
   if (topLevelEnum) {
     fd.enumType.add(EnumDescriptorProto()

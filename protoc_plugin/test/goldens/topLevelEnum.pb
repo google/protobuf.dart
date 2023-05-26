@@ -13,3 +13,5 @@ import 'dart:core' as $core;
 
 export 'test.pbenum.dart';
 
+const $core.String kPackageName = 'testPackage';
+
