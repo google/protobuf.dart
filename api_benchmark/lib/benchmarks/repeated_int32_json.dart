@@ -25,7 +25,7 @@ class RepeatedInt32Benchmark extends Benchmark {
 
   @override
   void setup() {
-    var grid = _makeGrid(width, height);
+    final grid = _makeGrid(width, height);
     json = grid.writeToJson();
   }
 
@@ -34,10 +34,10 @@ class RepeatedInt32Benchmark extends Benchmark {
   // 1 2 3 4
   // 2 3 4 5
   static pb.Grid _makeGrid(int width, int height) {
-    var grid = pb.Grid();
+    final grid = pb.Grid();
 
     for (var y = 0; y < height; y++) {
-      var line = pb.Line();
+      final line = pb.Line();
       for (var x = 0; x < width; x++) {
         line.cells.add(x + y);
       }
@@ -49,8 +49,8 @@ class RepeatedInt32Benchmark extends Benchmark {
 
   @override
   void run() {
-    var grid = pb.Grid.fromJson(json);
-    var actual = grid.lines[height - 1].cells[width - 1];
+    final grid = pb.Grid.fromJson(json);
+    final actual = grid.lines[height - 1].cells[width - 1];
     if (actual != width + height - 2) throw 'failed; got $actual';
   }
 

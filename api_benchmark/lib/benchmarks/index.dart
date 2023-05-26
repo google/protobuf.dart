@@ -16,7 +16,7 @@ import 'string_json.dart';
 
 /// Creates the appropriate Benchmark instance for a protobuf.
 Benchmark createBenchmark(pb.Request r) {
-  var type = allBenchmarks[r.id];
+  final type = allBenchmarks[r.id];
   if (type == null) {
     throw ArgumentError('unknown benchmark: ${r.id.name}');
   }
@@ -36,8 +36,8 @@ final Map<pb.BenchmarkID, BenchmarkType> allBenchmarks = _makeTypeMap([
 ]);
 
 Map<pb.BenchmarkID, BenchmarkType> _makeTypeMap(List<BenchmarkType> types) {
-  var out = <pb.BenchmarkID, BenchmarkType>{};
-  for (var type in types) {
+  final out = <pb.BenchmarkID, BenchmarkType>{};
+  for (final type in types) {
     if (out.containsKey(type.id)) {
       throw 'already added: $type.id.name';
     }

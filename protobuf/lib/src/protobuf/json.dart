@@ -6,7 +6,7 @@ part of protobuf;
 
 Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
   dynamic convertToMap(dynamic fieldValue, int fieldType) {
-    var baseType = PbFieldType._baseType(fieldType);
+    final baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
       final PbList list = fieldValue;
@@ -65,9 +65,9 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
                 convertToMap(e.value, fi.valueFieldType)
           }));
 
-  var result = <String, dynamic>{};
-  for (var fi in fs._infosSortedByTag) {
-    var value = fs._values[fi.index!];
+  final result = <String, dynamic>{};
+  for (final fi in fs._infosSortedByTag) {
+    final value = fs._values[fi.index!];
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
     }
@@ -80,12 +80,12 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
   }
   final extensions = fs._extensions;
   if (extensions != null) {
-    for (var tagNumber in _sorted(extensions._tagNumbers)) {
-      var value = extensions._values[tagNumber];
+    for (final tagNumber in _sorted(extensions._tagNumbers)) {
+      final value = extensions._values[tagNumber];
       if (value is List && value.isEmpty) {
         continue; // It's repeated or an empty byte array.
       }
-      var fi = extensions._getInfoOrNull(tagNumber)!;
+      final fi = extensions._getInfoOrNull(tagNumber)!;
       result['$tagNumber'] = convertToMap(value, fi.type);
     }
   }
@@ -99,7 +99,7 @@ void _mergeFromJsonMap(
   fs._ensureWritable();
   final keys = json.keys;
   final meta = fs._meta;
-  for (var key in keys) {
+  for (final key in keys) {
     var fi = meta.byTagAsString[key];
     if (fi == null) {
       if (registry == null) continue; // Unknown tag; skip
@@ -125,7 +125,7 @@ void _appendJsonList(BuilderInfo meta, _FieldSet fs, List jsonList,
   //   for (t1 = J.get$iterator$ax(json), t2 = fi.tagNumber, t3 = fi.type,
   //       t4 = J.getInterceptor$ax(repeated); t1.moveNext$0();)
   for (var i = 0, len = jsonList.length; i < len; i++) {
-    var value = jsonList[i];
+    final value = jsonList[i];
     var convertedValue =
         _convertJsonValue(meta, fs, value, fi.tagNumber, fi.type, registry);
     // In the case of an unknown enum value, the converted value may return
@@ -140,8 +140,8 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
     MapFieldInfo fi, ExtensionRegistry? registry) {
   final entryMeta = fi.mapEntryBuilderInfo;
   final map = fi._ensureMapField(meta, fs) as PbMap<dynamic, dynamic>;
-  for (var jsonEntryDynamic in jsonList) {
-    var jsonEntry = jsonEntryDynamic as Map<String, dynamic>;
+  for (final jsonEntryDynamic in jsonList) {
+    final jsonEntry = jsonEntryDynamic as Map<String, dynamic>;
     final entryFieldSet = _FieldSet(null, entryMeta, null);
     final convertedKey = _convertJsonValue(
         entryMeta,
@@ -278,7 +278,7 @@ dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
     case PbFieldType._MESSAGE_BIT:
       if (value is Map) {
         final messageValue = value as Map<String, dynamic>;
-        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
+        final subMessage = meta._makeEmptyMessage(tagNumber, registry);
         _mergeFromJsonMap(subMessage._fieldSet, messageValue, registry);
         return subMessage;
       }

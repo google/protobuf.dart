@@ -29,7 +29,7 @@ class RepeatedStringBenchmark extends Benchmark {
 
   @override
   void setup() {
-    var grid = _makeGrid(width, height, stringSize);
+    final grid = _makeGrid(width, height, stringSize);
     json = grid.writeToJson();
   }
 
@@ -39,14 +39,14 @@ class RepeatedStringBenchmark extends Benchmark {
   // "23" "34" "45" "56"
   static pb.Grid _makeGrid(int width, int height, int stringSize) {
     if (width > 10) throw ArgumentError('width out of range: $width');
-    var grid = pb.Grid();
+    final grid = pb.Grid();
 
-    var zero = '0'.codeUnits[0];
+    final zero = '0'.codeUnits[0];
 
     for (var y = 0; y < height; y++) {
-      var line = pb.Line();
+      final line = pb.Line();
       for (var x = 0; x < width; x++) {
-        var charCodes = <int>[];
+        final charCodes = <int>[];
         for (var i = 0; i < stringSize; i++) {
           charCodes.add(zero + ((x + y + i) % 10));
         }
@@ -59,8 +59,8 @@ class RepeatedStringBenchmark extends Benchmark {
 
   @override
   void run() {
-    var grid = pb.Grid.fromJson(json);
-    var actual = grid.lines[height - 1].cells[width - 1];
+    final grid = pb.Grid.fromJson(json);
+    final actual = grid.lines[height - 1].cells[width - 1];
     if (actual.length != stringSize) throw 'failed; got $actual';
   }
 

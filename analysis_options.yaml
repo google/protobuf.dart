@@ -13,6 +13,8 @@ linter:
   - directives_ordering
   - no_leading_underscores_for_local_identifiers
   - omit_local_variable_types
+  - prefer_final_in_for_each
+  - prefer_final_locals
   - prefer_relative_imports
   - prefer_single_quotes
   - prefer_spread_collections

@@ -12,7 +12,7 @@ import '../../../protobuf.dart' show GeneratedMessage, FieldInfo, EventPlugin;
 ///
 /// This mixin is enabled via an option in dart_options.proto in
 /// dart-protoc-plugin.
-abstract class PbEventMixin {
+mixin PbEventMixin {
   final eventPlugin = EventBuffer();
 
   /// A stream of changes to fields in the GeneratedMessage.
@@ -59,7 +59,7 @@ class EventBuffer extends EventPlugin {
   }
 
   Stream<List<PbFieldChange>> get changes {
-    var controller = _controller ??= StreamController.broadcast(sync: true);
+    final controller = _controller ??= StreamController.broadcast(sync: true);
     return controller.stream;
   }
 
@@ -67,7 +67,7 @@ class EventBuffer extends EventPlugin {
   bool get hasObservers => _controller != null && _controller!.hasListener;
 
   void deliverChanges() {
-    var records = _buffer;
+    final records = _buffer;
     _buffer = null;
     if (records != null && hasObservers) {
       _controller!.add(UnmodifiableListView<PbFieldChange>(records));
@@ -93,9 +93,9 @@ class EventBuffer extends EventPlugin {
 
   @override
   void beforeClearField(FieldInfo fi) {
-    var oldValue = _parent!.getFieldOrNull(fi.tagNumber);
+    final oldValue = _parent!.getFieldOrNull(fi.tagNumber);
     if (oldValue == null) return;
-    var newValue = fi.readonlyDefault;
+    final newValue = fi.readonlyDefault;
     addEvent(PbFieldChange(_parent, fi, oldValue, newValue));
   }
 }

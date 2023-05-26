@@ -18,13 +18,13 @@ class HasStringsBenchmark extends Benchmark {
 
   @override
   String get summary {
-    var fill = fillValue == null ? 'null' : "'$fillValue'";
+    final fill = fillValue == null ? 'null' : "'$fillValue'";
     return '${id.name}($height x $fill)';
   }
 
   @override
   Params makeParams() {
-    var p = Params()..messageCount = height;
+    final p = Params()..messageCount = height;
     if (fillValue != null) p.stringValue = fillValue!;
     return p;
   }
@@ -36,13 +36,13 @@ class HasStringsBenchmark extends Benchmark {
 
   // makes a rectangle where no fields have been set.
   static pb.Grid10 _makeGrid(int width, int height, String? fillValue) {
-    var grid = pb.Grid10();
+    final grid = pb.Grid10();
 
     for (var y = 0; y < height; y++) {
-      var line = pb.Line10();
+      final line = pb.Line10();
       if (fillValue != null) {
         for (var x = 0; x < width; x++) {
-          var tag = getTagForColumn(line, x);
+          final tag = getTagForColumn(line, x);
           line.setField(tag, fillValue);
         }
       }
@@ -76,7 +76,7 @@ class HasStringsBenchmark extends Benchmark {
 
   void runFilled() {
     var allPresent = true;
-    for (var line in grid.lines) {
+    for (final line in grid.lines) {
       allPresent = allPresent && line.hasCell1();
       allPresent = allPresent && line.hasCell2();
       allPresent = allPresent && line.hasCell3();
@@ -93,7 +93,7 @@ class HasStringsBenchmark extends Benchmark {
 
   void runEmpty() {
     var allEmpty = true;
-    for (var line in grid.lines) {
+    for (final line in grid.lines) {
       allEmpty = allEmpty && !line.hasCell1();
       allEmpty = allEmpty && !line.hasCell2();
       allEmpty = allEmpty && !line.hasCell3();

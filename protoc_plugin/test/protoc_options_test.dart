@@ -9,10 +9,10 @@ import 'package:test/test.dart';
 void main() {
   test('testValidGeneratorOptions', () {
     void checkValid(String? parameter) {
-      var request = CodeGeneratorRequest();
+      final request = CodeGeneratorRequest();
       if (parameter != null) request.parameter = parameter;
-      var response = CodeGeneratorResponse();
-      var options = parseGenerationOptions(request, response);
+      final response = CodeGeneratorResponse();
+      final options = parseGenerationOptions(request, response);
       expect(options, TypeMatcher<GenerationOptions>());
       expect(response.error, '');
     }
@@ -26,10 +26,10 @@ void main() {
 
   test('testInvalidGeneratorOptions', () {
     void checkInvalid(String parameter) {
-      var request = CodeGeneratorRequest();
+      final request = CodeGeneratorRequest();
       request.parameter = parameter;
-      var response = CodeGeneratorResponse();
-      var options = parseGenerationOptions(request, response);
+      final response = CodeGeneratorResponse();
+      final options = parseGenerationOptions(request, response);
       expect(options, isNull);
     }
 

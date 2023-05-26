@@ -39,13 +39,13 @@ class IndentingWriter {
   /// (Indentation will be added after newline characters where needed.)
   void print(String text) {
     _previousOffset = _buffer.length;
-    var lastNewline = text.lastIndexOf('\n');
+    final lastNewline = text.lastIndexOf('\n');
     if (lastNewline == -1) {
       _writeChunk(text);
       return;
     }
 
-    for (var line in text.substring(0, lastNewline).split('\n')) {
+    for (final line in text.substring(0, lastNewline).split('\n')) {
       _writeChunk(line);
       _newline();
     }
@@ -96,7 +96,7 @@ class IndentingWriter {
 
   void _addBlockBodyAndEnd(
       String end, void Function() body, bool endWithNewline, String newIndent) {
-    var oldIndent = _indent;
+    final oldIndent = _indent;
     _indent = newIndent;
     body();
     _indent = oldIndent;
@@ -122,7 +122,7 @@ class IndentingWriter {
     if (_suffixes.isNotEmpty) {
       // TODO: We may want to introduce the notion of closing the writer.
       println('');
-      for (var key in _suffixes.keys) {
+      for (final key in _suffixes.keys) {
         println(_suffixes[key]!);
       }
       _suffixes.clear();
@@ -157,7 +157,7 @@ class IndentingWriter {
     if (_sourceFile == null) {
       return;
     }
-    var annotation = GeneratedCodeInfo_Annotation()
+    final annotation = GeneratedCodeInfo_Annotation()
       ..path.addAll(fieldPath)
       ..sourceFile = _sourceFile!
       ..begin = _previousOffset + start
@@ -184,7 +184,7 @@ class ImportWriter {
 
   /// Add an import with an optional import prefix.
   void addImport(String url, {String? prefix}) {
-    var directive =
+    final directive =
         prefix == null ? "import '$url';" : "import '$url' as $prefix;";
     if (url.startsWith('dart:')) {
       _dartImports.add(directive);
@@ -202,7 +202,7 @@ class ImportWriter {
 
   /// Return the generated text for the set of imports.
   String emit() {
-    var buf = StringBuffer();
+    final buf = StringBuffer();
 
     if (_dartImports.isNotEmpty) {
       _dartImports.forEach(buf.writeln);

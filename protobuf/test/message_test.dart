@@ -27,14 +27,14 @@ Matcher throwsError(Type expectedType, String expectedMessage) =>
 
 void main() {
   test('getField with invalid tag throws exception', () {
-    var r = Rec();
+    final r = Rec();
     expect(() {
       r.getField(123);
     }, throwsError(ArgumentError, 'tag 123 not defined in Rec'));
   });
 
   test('getDefaultForField with invalid tag throws exception', () {
-    var r = Rec();
+    final r = Rec();
     expect(() {
       r.getDefaultForField(123);
     }, throwsError(ArgumentError, 'tag 123 not defined in Rec'));
@@ -68,10 +68,10 @@ void main() {
   });
 
   test('operator== and hashCode work for a simple record', () {
-    var a = Rec();
+    final a = Rec();
     expect(a == a, true);
 
-    var b = Rec();
+    final b = Rec();
     expect(a.info_ == b.info_, true, reason: 'BuilderInfo should be the same');
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);

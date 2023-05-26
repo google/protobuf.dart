@@ -8,20 +8,20 @@ import '../out/protos/entity.pb.dart';
 
 void main() {
   test('Does not reuse input buffer for bytes fields', () {
-    var message = BytesEntity()..value = [1, 2, 3];
-    var bytes = message.writeToBuffer();
-    var deserialized1 = BytesEntity()..mergeFromBuffer(bytes);
-    var deserialized2 = BytesEntity()..mergeFromBuffer(bytes);
+    final message = BytesEntity()..value = [1, 2, 3];
+    final bytes = message.writeToBuffer();
+    final deserialized1 = BytesEntity()..mergeFromBuffer(bytes);
+    final deserialized2 = BytesEntity()..mergeFromBuffer(bytes);
     deserialized1.value[0] = 100;
     expect(deserialized1.value[0], 100);
     expect(deserialized2.value[0], 1);
   });
 
   test('Does not reuse input buffer for repeated bytes fields', () {
-    var message = BytesEntity()..values.add([1, 2, 3]);
-    var bytes = message.writeToBuffer();
-    var deserialized1 = BytesEntity()..mergeFromBuffer(bytes);
-    var deserialized2 = BytesEntity()..mergeFromBuffer(bytes);
+    final message = BytesEntity()..values.add([1, 2, 3]);
+    final bytes = message.writeToBuffer();
+    final deserialized1 = BytesEntity()..mergeFromBuffer(bytes);
+    final deserialized2 = BytesEntity()..mergeFromBuffer(bytes);
     deserialized1.values.first[0] = 100;
     expect(deserialized1.values.first[0], 100);
     expect(deserialized2.values.first[0], 1);

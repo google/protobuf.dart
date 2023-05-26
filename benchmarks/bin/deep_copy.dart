@@ -32,11 +32,11 @@ class Benchmark extends BenchmarkBase {
 }
 
 void main() {
-  List<int> message1Proto2Input =
+  final List<int> message1Proto2Input =
       readfile('datasets/google_message1_proto2.pb');
-  List<int> message1Proto3Input =
+  final List<int> message1Proto3Input =
       readfile('datasets/google_message1_proto3.pb');
-  List<int> message2Input = readfile('datasets/google_message2.pb');
+  final List<int> message2Input = readfile('datasets/google_message2.pb');
   Benchmark(
           'deep_copy', message1Proto2Input, message1Proto3Input, message2Input)
       .report();

@@ -7,23 +7,23 @@ import 'dart:mirrors';
 /// Returns the names of the public properties and non-static methods of a
 /// class. Also visits its superclasses, recursively.
 Set<String> findMemberNames(String importName, Symbol classSymbol) {
-  var lib = currentMirrorSystem().libraries[Uri.parse(importName)]!;
+  final lib = currentMirrorSystem().libraries[Uri.parse(importName)]!;
   var cls = lib.declarations[classSymbol] as ClassMirror?;
 
-  var result = <String>{};
+  final result = <String>{};
 
   void addNames(ClassMirror cls) {
-    var prefixToRemove = '${MirrorSystem.getName(cls.simpleName)}.';
+    final prefixToRemove = '${MirrorSystem.getName(cls.simpleName)}.';
 
     String chooseName(Symbol sym) {
-      var name = MirrorSystem.getName(sym);
+      final name = MirrorSystem.getName(sym);
       if (name.startsWith(prefixToRemove)) {
         return name.substring(prefixToRemove.length);
       }
       return name;
     }
 
-    for (var decl in cls.declarations.values) {
+    for (final decl in cls.declarations.values) {
       if (!decl.isPrivate &&
           decl is! VariableMirror &&
           decl is! TypeVariableMirror &&

@@ -11,7 +11,7 @@ String constant() => 'SHOULD_BE_PRESENT';
 
 Future<void> main() async {
   test('field name available depending on environment', () {
-    var proto = TestAllTypes()..optionalForeignMessage = ForeignMessage();
+    final proto = TestAllTypes()..optionalForeignMessage = ForeignMessage();
 
     expect(
         proto.toString(),

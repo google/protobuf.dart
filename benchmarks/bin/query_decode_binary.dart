@@ -18,6 +18,6 @@ class Benchmark extends BenchmarkBase {
 }
 
 void main() {
-  List<int> encoded = readfile('datasets/query_benchmark.pb');
+  final List<int> encoded = readfile('datasets/query_benchmark.pb');
   Benchmark('query_decode_binary', encoded).report();
 }

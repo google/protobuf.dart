@@ -21,7 +21,7 @@ class _ToStringMatcher extends CustomMatcher {
 
 void main() {
   test('Can access a field that was renamed using dart_name option', () {
-    var msg = pb.DartName();
+    final msg = pb.DartName();
     expect(msg.hasRenamedField(), false);
     msg.renamedField = 'test';
     expect(msg.hasRenamedField(), true);
@@ -31,13 +31,13 @@ void main() {
   });
 
   test('Can access a filed started with underscore and digit', () {
-    var msg = pb.UnderscoreDigitName();
+    final msg = pb.UnderscoreDigitName();
     msg.x3d = 'one';
     expect(msg.getField(1), 'one');
   });
 
   test('Can swap field names using dart_name option', () {
-    var msg = pb.SwapNames();
+    final msg = pb.SwapNames();
     msg.first = 'one';
     msg.second = 'two';
     expect(msg.getField(1), 'two');
@@ -45,7 +45,7 @@ void main() {
   });
 
   test("Can take another field's name using dart_name option", () {
-    var msg = pb.TakeExistingName();
+    final msg = pb.TakeExistingName();
     msg.first = 'one';
     expect(msg.getField(2), 'one');
     msg.first_1 = 'renamed';
@@ -53,7 +53,7 @@ void main() {
   });
 
   test('Throws exception for dart_name option containing a space', () {
-    var descriptor = DescriptorProto()
+    final descriptor = DescriptorProto()
       ..name = 'Example'
       ..field.add(stringField('first', 1, 'hello world'));
     expect(() {
@@ -64,7 +64,7 @@ void main() {
   });
 
   test('Throws exception for dart_name option set to reserved word', () {
-    var descriptor = DescriptorProto()
+    final descriptor = DescriptorProto()
       ..name = 'Example'
       ..field.add(stringField('first', 1, 'class'));
     expect(() {
@@ -75,7 +75,7 @@ void main() {
   });
 
   test('Throws exception for duplicate dart_name options', () {
-    var descriptor = DescriptorProto()
+    final descriptor = DescriptorProto()
       ..name = 'Example'
       ..field.addAll([
         stringField('first', 1, 'renamed'),
@@ -150,20 +150,20 @@ void main() {
   });
 
   test('oneof names no disambiguation', () {
-    var oneofDescriptor = oneofField('foo');
-    var descriptor = DescriptorProto()
+    final oneofDescriptor = oneofField('foo');
+    final descriptor = DescriptorProto()
       ..name = 'Parent'
       ..field.addAll([stringFieldOneof('first', 1, 0)])
       ..oneofDecl.add(oneofDescriptor);
 
-    var usedTopLevelNames = <String>{};
-    var memberNames =
+    final usedTopLevelNames = <String>{};
+    final memberNames =
         names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
 
     expect(usedTopLevelNames.length, 1);
     expect(usedTopLevelNames, {'Parent_Foo'});
     expect(memberNames.oneofNames.length, 1);
-    var oneof = memberNames.oneofNames[0];
+    final oneof = memberNames.oneofNames[0];
     expect(oneof.descriptor, oneofDescriptor);
     expect(oneof.index, 0);
     expect(oneof.oneofEnumName, 'Parent_Foo');
@@ -173,21 +173,21 @@ void main() {
   });
 
   test('oneof names disambiguate method names', () {
-    var oneofDescriptor = oneofField('foo');
-    var descriptor = DescriptorProto()
+    final oneofDescriptor = oneofField('foo');
+    final descriptor = DescriptorProto()
       ..name = 'Parent'
       ..field.addAll([stringFieldOneof('first', 1, 0)])
       ..oneofDecl.add(oneofDescriptor);
 
-    var usedTopLevelNames = <String>{};
-    var memberNames = names.messageMemberNames(
+    final usedTopLevelNames = <String>{};
+    final memberNames = names.messageMemberNames(
         descriptor, 'Parent', usedTopLevelNames,
         reserved: ['clearFoo']);
 
     expect(usedTopLevelNames.length, 1);
     expect(usedTopLevelNames, {'Parent_Foo'});
     expect(memberNames.oneofNames.length, 1);
-    var oneof = memberNames.oneofNames[0];
+    final oneof = memberNames.oneofNames[0];
     expect(oneof.descriptor, oneofDescriptor);
     expect(oneof.index, 0);
     expect(oneof.oneofEnumName, 'Parent_Foo');
@@ -197,20 +197,20 @@ void main() {
   });
 
   test('oneof names disambiguate top level name', () {
-    var oneofDescriptor = oneofField('foo');
-    var descriptor = DescriptorProto()
+    final oneofDescriptor = oneofField('foo');
+    final descriptor = DescriptorProto()
       ..name = 'Parent'
       ..field.addAll([stringFieldOneof('first', 1, 0)])
       ..oneofDecl.add(oneofDescriptor);
 
-    var usedTopLevelNames = {'Parent_Foo'};
-    var memberNames =
+    final usedTopLevelNames = {'Parent_Foo'};
+    final memberNames =
         names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
 
     expect(usedTopLevelNames.length, 2);
     expect(usedTopLevelNames, {'Parent_Foo', 'Parent_Foo_'});
     expect(memberNames.oneofNames.length, 1);
-    var oneof = memberNames.oneofNames[0];
+    final oneof = memberNames.oneofNames[0];
     expect(oneof.descriptor, oneofDescriptor);
     expect(oneof.index, 0);
     expect(oneof.oneofEnumName, 'Parent_Foo_');

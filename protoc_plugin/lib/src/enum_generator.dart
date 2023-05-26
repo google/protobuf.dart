@@ -48,8 +48,8 @@ class EnumGenerator extends ProtobufContainer {
         _descriptor = descriptor {
     final usedNames = {...reservedEnumNames};
     for (var i = 0; i < descriptor.value.length; i++) {
-      var value = descriptor.value[i];
-      var canonicalValue =
+      final value = descriptor.value[i];
+      final canonicalValue =
           descriptor.value.firstWhere((v) => v.number == value.number);
       if (value == canonicalValue) {
         _canonicalValues.add(value);
@@ -93,7 +93,7 @@ class EnumGenerator extends ProtobufContainer {
   /// Returns a const expression that evaluates to the JSON for this message.
   /// [usage] represents the .pb.dart file where the expression will be used.
   String getJsonConstant(FileGenerator usage) {
-    var name = '$classname\$json';
+    final name = '$classname\$json';
     if (usage.protoFileUri == fileGen!.protoFileUri) {
       return name;
     }
@@ -114,7 +114,7 @@ class EnumGenerator extends ProtobufContainer {
       // -----------------------------------------------------------------
       // Define enum types.
       for (var i = 0; i < _canonicalValues.length; i++) {
-        var val = _canonicalValues[i];
+        final val = _canonicalValues[i];
         final name = dartNames[val.name]!;
         final omitEnumNames = ConditionalConstDefinition('omit_enum_names');
         out.addSuffix(
@@ -134,7 +134,7 @@ class EnumGenerator extends ProtobufContainer {
       if (_aliases.isNotEmpty) {
         out.println();
         for (var i = 0; i < _aliases.length; i++) {
-          var alias = _aliases[i];
+          final alias = _aliases[i];
           final name = dartNames[alias.value.name]!;
           out.printlnAnnotated(
               'static const $classname $name ='
@@ -152,7 +152,7 @@ class EnumGenerator extends ProtobufContainer {
 
       out.println('static const $coreImportPrefix.List<$classname> values ='
           ' <$classname> [');
-      for (var val in _canonicalValues) {
+      for (final val in _canonicalValues) {
         final name = dartNames[val.name];
         out.println('  $name,');
       }
@@ -174,8 +174,8 @@ class EnumGenerator extends ProtobufContainer {
 
   /// Writes a Dart constant containing the JSON for the EnumProtoDescriptor.
   void generateConstants(IndentingWriter out) {
-    var name = getJsonConstant(fileGen!);
-    var json = _descriptor.writeToJsonMap();
+    final name = getJsonConstant(fileGen!);
+    final json = _descriptor.writeToJsonMap();
 
     out.println('@$coreImportPrefix.Deprecated'
         '(\'Use ${toplevelParent!.binaryDescriptorName} instead\')');

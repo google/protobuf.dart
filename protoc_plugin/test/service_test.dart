@@ -11,7 +11,7 @@ class SearchService extends pb.SearchServiceBase {
   @override
   Future<pb.SearchResponse> search(
       ServerContext ctx, pb.SearchRequest request) async {
-    var out = pb.SearchResponse();
+    final out = pb.SearchResponse();
     if (request.query == 'hello' || request.query == 'world') {
       out.result.add('hello, world!');
     }
@@ -21,9 +21,9 @@ class SearchService extends pb.SearchServiceBase {
   @override
   Future<pb2.SearchResponse> search2(
       ServerContext ctx, pb2.SearchRequest request) async {
-    var out = pb2.SearchResponse();
+    final out = pb2.SearchResponse();
     if (request.query == '2') {
-      var result = pb3.SearchResult()
+      final result = pb3.SearchResult()
         ..url = 'http://example.com/'
         ..snippet = 'hello world (2)!';
       out.results.add(result);
@@ -39,10 +39,10 @@ class FakeJsonServer {
   Future<String> messageHandler(
       String serviceName, String methodName, String requestJson) async {
     if (serviceName == 'SearchService') {
-      var request = searchService.createRequest(methodName);
+      final request = searchService.createRequest(methodName);
       request.mergeFromJson(requestJson);
-      var ctx = ServerContext();
-      var reply = await searchService.handleCall(ctx, methodName, request);
+      final ctx = ServerContext();
+      final reply = await searchService.handleCall(ctx, methodName, request);
       return reply.writeToJson();
     } else {
       throw 'unknown service: $serviceName';
@@ -62,8 +62,8 @@ class FakeJsonClient implements RpcClient {
       String methodName,
       GeneratedMessage request,
       T response) async {
-    var requestJson = request.writeToJson();
-    var replyJson =
+    final requestJson = request.writeToJson();
+    final replyJson =
         await server.messageHandler(serviceName, methodName, requestJson);
     response.mergeFromJson(replyJson);
     return response;
@@ -71,33 +71,34 @@ class FakeJsonClient implements RpcClient {
 }
 
 void main() {
-  var service = SearchService();
-  var server = FakeJsonServer(service);
-  var api = pb.SearchServiceApi(FakeJsonClient(server));
+  final service = SearchService();
+  final server = FakeJsonServer(service);
+  final api = pb.SearchServiceApi(FakeJsonClient(server));
 
   test('end to end RPC using JSON', () async {
-    var request = pb.SearchRequest()..query = 'hello';
-    var reply = await api.search(ClientContext(), request);
+    final request = pb.SearchRequest()..query = 'hello';
+    final reply = await api.search(ClientContext(), request);
     expect(reply.result, ['hello, world!']);
   });
 
   test('end to end RPC using message from a different package', () async {
-    var request = pb2.SearchRequest()..query = '2';
-    var reply = await api.search2(ClientContext(), request);
+    final request = pb2.SearchRequest()..query = '2';
+    final reply = await api.search2(ClientContext(), request);
     expect(reply.results.length, 1);
     expect(reply.results[0].url, 'http://example.com/');
     expect(reply.results[0].snippet, 'hello world (2)!');
   });
 
   test('can read service descriptor from JSON', () {
-    var descriptor = ServiceDescriptorProto()..mergeFromJsonMap(service.$json);
+    final descriptor = ServiceDescriptorProto()
+      ..mergeFromJsonMap(service.$json);
     expect(descriptor.name, 'SearchService');
-    var methodNames = descriptor.method.map((m) => m.name).toList();
+    final methodNames = descriptor.method.map((m) => m.name).toList();
     expect(methodNames, ['Search', 'Search2']);
   });
 
   test('can read message descriptors from JSON', () {
-    var map = service.$messageJson;
+    final map = service.$messageJson;
     expect(map.keys, [
       '.service.SearchRequest',
       '.service.SearchResponse',
@@ -107,8 +108,8 @@ void main() {
     ]);
 
     String readMessageName(fqname) {
-      var json = map[fqname]!;
-      var descriptor = DescriptorProto()..mergeFromJsonMap(json);
+      final json = map[fqname]!;
+      final descriptor = DescriptorProto()..mergeFromJsonMap(json);
       return descriptor.name;
     }
 
