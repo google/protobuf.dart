@@ -10,9 +10,6 @@ linter:
   rules:
   - avoid_bool_literals_in_conditional_expressions
   - comment_references
-  - directives_ordering
-  - no_leading_underscores_for_local_identifiers
-  - omit_local_variable_types
   - prefer_final_in_for_each
   - prefer_final_locals
   - prefer_relative_imports
