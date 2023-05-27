@@ -13,7 +13,7 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 
 void main() {
   group('frozen and tobuilder', () {
-    var original = Outer()
+    final original = Outer()
       ..inner = (Inner()..value = 'foo')
       ..inners.add(Inner()..value = 'repeatedInner')
       ..setExtension(FooExt.inner, Inner()..value = 'extension')
@@ -136,7 +136,7 @@ void main() {
 
     test('can add fields to a builder with unknown fields', () {
       emptyMessage.freeze();
-      var builder = emptyMessage.toBuilder() as TestEmptyMessage;
+      final builder = emptyMessage.toBuilder() as TestEmptyMessage;
 
       builder.unknownFields
           .addField(2, UnknownFieldSetField()..fixed32s.add(42));
@@ -145,7 +145,7 @@ void main() {
 
     test('cannot mutate already added UnknownFieldSetField on builder', () {
       emptyMessage.freeze();
-      var builder = emptyMessage.toBuilder() as TestEmptyMessage;
+      final builder = emptyMessage.toBuilder() as TestEmptyMessage;
 
       expect(
           () => builder.unknownFields.getField(1)!.lengthDelimited[0] =
@@ -189,7 +189,7 @@ void main() {
 
     test('cannot merge message into a frozen UnknownFieldSet', () {
       emptyMessage.freeze();
-      var other = emptyMessage.deepCopy();
+      final other = emptyMessage.deepCopy();
 
       expect(() => emptyMessage.mergeFromBuffer(other.writeToBuffer()),
           throwsA(TypeMatcher<UnsupportedError>()));

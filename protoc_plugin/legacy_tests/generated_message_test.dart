@@ -12,7 +12,7 @@ import '../out/protos/toplevel_import.pb.dart' as t;
 
 void main() {
   test('testSettersRejectNull', () {
-    var message = TestAllTypes();
+    final message = TestAllTypes();
     expect(() {
       message.optionalString = null;
     }, throwsArgumentError);
@@ -46,7 +46,7 @@ void main() {
   });
 
   test('testRepeatedSettersRejectNull', () {
-    var message = TestAllTypes();
+    final message = TestAllTypes();
 
     message.repeatedString.addAll(['one', 'two']);
     expect(() {
@@ -74,7 +74,7 @@ void main() {
   });
 
   test('testRepeatedAppendRejectsNull', () {
-    var message = TestAllTypes();
+    final message = TestAllTypes();
 
     expect(() {
       message.repeatedForeignMessage.addAll([ForeignMessage()..c = 12, null]);
@@ -94,7 +94,7 @@ void main() {
   });
 
   test('testToplevel', () {
-    var message = t.M();
+    final message = t.M();
     message.t = T();
     t.SApi(null);
   });

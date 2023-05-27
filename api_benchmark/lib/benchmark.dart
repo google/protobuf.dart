@@ -52,7 +52,7 @@ abstract class Benchmark {
       {Profiler? profiler}) sync* {
     checkRequest(r);
 
-    var sampleMillis = r.duration;
+    final sampleMillis = r.duration;
     setup();
 
     for (var i = 0; i < samples; i++) {
@@ -61,7 +61,7 @@ abstract class Benchmark {
 
     if (profiler != null) {
       profiler.startProfile(r);
-      var s = _measureOnce(sampleMillis);
+      final s = _measureOnce(sampleMillis);
       profiler.endProfile(s);
     }
 
@@ -84,7 +84,7 @@ abstract class Benchmark {
       return 1;
     }, 100);
 
-    var sample = _measureFor(exercise, sampleMillis);
+    final sample = _measureFor(exercise, sampleMillis);
     setCounts(sample);
     return sample;
   }
@@ -121,10 +121,10 @@ abstract class Benchmark {
   String summarizeResponse(pb.Response r) {
     checkRequest(r.request);
 
-    var prefix = summary.padRight(39);
-    var sampleCount = r.samples.length.toStringAsFixed(0).padLeft(2);
-    var median = measureSample(medianSample(r)).toStringAsFixed(0).padLeft(4);
-    var max = measureSample(maxSample(r)).toStringAsFixed(0).padLeft(4);
+    final prefix = summary.padRight(39);
+    final sampleCount = r.samples.length.toStringAsFixed(0).padLeft(2);
+    final median = measureSample(medianSample(r)).toStringAsFixed(0).padLeft(4);
+    final max = measureSample(maxSample(r)).toStringAsFixed(0).padLeft(4);
 
     return '$prefix samples: $sampleCount'
         ' median: $median max: $max $measureSampleUnits';
@@ -133,11 +133,11 @@ abstract class Benchmark {
   /// Returns the sample with the median measurement.
   pb.Sample? medianSample(pb.Response? response) {
     if (response == null || response.samples.isEmpty) return null;
-    var samples = [...response.samples];
+    final samples = [...response.samples];
     samples.sort((a, b) {
       return measureSample(a).compareTo(measureSample(b));
     });
-    var index = samples.length ~/ 2;
+    final index = samples.length ~/ 2;
     return samples[index];
   }
 
@@ -145,7 +145,7 @@ abstract class Benchmark {
   pb.Sample? maxSample(pb.Response? response) {
     if (response == null) return null;
     pb.Sample? best;
-    for (var s in response.samples) {
+    for (final s in response.samples) {
       best ??= s;
       if (measureSample(best) < measureSample(s)) {
         best = s;
@@ -166,10 +166,10 @@ abstract class Benchmark {
   /// Executes [runner] repeatedly until [minimumMillis] has been reached.
   /// [runner] should return the number of times it ran the benchmark.
   static pb.Sample _measureFor(int Function() runner, int minimumMillis) {
-    var minimumMicros = minimumMillis * 1000;
+    final minimumMicros = minimumMillis * 1000;
     var reps = 0;
     var elapsed = 0;
-    var watch = Stopwatch()..start();
+    final watch = Stopwatch()..start();
     while (elapsed < minimumMicros) {
       reps += runner();
       elapsed = watch.elapsedMicroseconds;

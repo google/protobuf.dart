@@ -111,7 +111,7 @@ Choose baseline: <select class="dv-menu"></select>
 
     _renderEnv(model.latest);
 
-    var items = [noBaseline, ...model.savedReports.keys];
+    final items = [noBaseline, ...model.savedReports.keys];
     var selected = model.table.baseline;
     selected ??= noBaseline;
     _menu.render(items, model.table.baseline);
@@ -121,7 +121,7 @@ Choose baseline: <select class="dv-menu"></select>
   }
 
   void _renderEnv(pb.Report r) {
-    var newPlatform = r.env.platform.toString();
+    final newPlatform = r.env.platform.toString();
     if (newPlatform == _renderedPlatform) return;
     _envElt!.text = newPlatform;
     _renderedPlatform = newPlatform;
@@ -129,18 +129,18 @@ Choose baseline: <select class="dv-menu"></select>
 
   /// Renders a table with one row for each benchmark.
   void _renderResponses(Table table, pb.Report r) {
-    var rowIt = table.rows.iterator;
+    final rowIt = table.rows.iterator;
 
     // Update existing rows (we assume the table never shrinks)
-    for (var view in rowViews) {
-      var hasNext = rowIt.moveNext();
+    for (final view in rowViews) {
+      final hasNext = rowIt.moveNext();
       assert(hasNext);
       view.render(rowIt.current, r, _selectionChanges);
     }
 
     // Add any new rows
     while (rowIt.moveNext()) {
-      var row = _ResponseView()..render(rowIt.current, r, _selectionChanges);
+      final row = _ResponseView()..render(rowIt.current, r, _selectionChanges);
       _responseTable!.append(row.elt);
       rowViews.add(row);
     }
@@ -175,8 +175,8 @@ class _ResponseView {
 
   void render(
       Row row, pb.Report r, EventSink<SelectEvent<pb.Request>> rowSelected) {
-    var b = row.benchmark;
-    var response = row.findResponse(r);
+    final b = row.benchmark;
+    final response = row.findResponse(r);
     _selected.render(row.selected, item: row.request, sink: rowSelected);
     _summary.render(b.summary);
     _baseline.render(b.measureSample(row.baseline));
@@ -242,18 +242,18 @@ class _Menu {
   Stream<String?> get onChange => _changes.stream;
 
   void render(List<String> items, String? selected) {
-    var it = items.iterator;
+    final it = items.iterator;
 
     // Update existing items
-    for (var opt in _options) {
-      var hasNext = it.moveNext();
+    for (final opt in _options) {
+      final hasNext = it.moveNext();
       assert(hasNext); // assume menu never shrinks
       opt.render(it.current, it.current == selected);
     }
 
     // Add any new items
     while (it.moveNext()) {
-      var opt = _MenuOption();
+      final opt = _MenuOption();
       opt.render(it.current, it.current == selected);
       elt.append(opt.elt);
       _options.add(opt);

@@ -50,10 +50,9 @@ class TestApi {
   $pb.RpcClient _client;
   TestApi(this._client);
 
-  $async.Future<Empty> ping($pb.ClientContext? ctx, Empty request) {
-    var emptyResponse = Empty();
-    return _client.invoke<Empty>(ctx, 'Test', 'Ping', request, emptyResponse);
-  }
+  $async.Future<Empty> ping($pb.ClientContext? ctx, Empty request) =>
+    _client.invoke<Empty>(ctx, 'Test', 'Ping', request, Empty())
+  ;
 }
 
 

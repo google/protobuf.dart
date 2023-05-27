@@ -9,7 +9,7 @@ import '../out/protos/_leading_underscores.pb.dart';
 
 void main() {
   test('can set, read and clear all fields and refer to types', () {
-    var message = A_();
+    final message = A_();
     message.setExtension(Leading_underscores_.p, Int64(99));
     expect(message.getExtension(Leading_underscores_.p), Int64(99));
     message.f = 'foo';
@@ -22,7 +22,7 @@ void main() {
     expect(message.hasF_2(), false);
     expect(message.f, '');
     expect(message.f_2, '');
-    var messageA = A();
+    final messageA = A();
     messageA.b = message;
     messageA.b_6 = message;
     expect(messageA.b_6, message);
@@ -57,7 +57,7 @@ void main() {
     messageA.setExtension(Leading_underscores_.q, Int64(100));
     expect(messageA.getExtension(Leading_underscores_.q), Int64(100));
 
-    var a = A__()..foo = 'hi';
+    final a = A__()..foo = 'hi';
     expect(a.foo, 'hi');
   });
 }

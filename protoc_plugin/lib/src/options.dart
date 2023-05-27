@@ -13,9 +13,9 @@ typedef OnError = void Function(String details);
 /// the option to it. Returns `true` if no errors were reported.
 bool genericOptionsParser(CodeGeneratorRequest request,
     CodeGeneratorResponse response, Map<String, SingleOptionParser> parsers) {
-  var parameter = request.parameter;
-  var options = parameter.trim().split(',');
-  var errors = [];
+  final parameter = request.parameter;
+  final options = parameter.trim().split(',');
+  final errors = [];
 
   for (var option in options) {
     option = option.trim();
@@ -24,19 +24,19 @@ bool genericOptionsParser(CodeGeneratorRequest request,
       errors.add('Error found trying to parse the option: $option.\n$details');
     }
 
-    var nameValue = option.split('=');
+    final nameValue = option.split('=');
     if (nameValue.length != 1 && nameValue.length != 2) {
       reportError('Options should be a single token, or a name=value pair');
       continue;
     }
-    var name = nameValue[0].trim();
-    var parser = parsers[name];
+    final name = nameValue[0].trim();
+    final parser = parsers[name];
     if (parser == null) {
       reportError('Unknown option ($name).');
       continue;
     }
 
-    var value = nameValue.length > 1 ? nameValue[1].trim() : null;
+    final value = nameValue.length > 1 ? nameValue[1].trim() : null;
     parser.parse(name, value, reportError);
   }
 

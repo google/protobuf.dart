@@ -10,7 +10,7 @@ import '../../../protobuf.dart' show BuilderInfo;
 ///
 /// Since PbMapMixin is built in, this is done automatically, so this mixin can
 /// be enabled by specifying only a dart_options.mixin option.
-abstract class PbMapMixin {
+mixin PbMapMixin {
   // GeneratedMessage properties and methods used by this mixin.
 
   BuilderInfo get info_;
@@ -21,13 +21,13 @@ abstract class PbMapMixin {
 
   dynamic operator [](Object? key) {
     if (key is! String) return null;
-    var tag = getTagNumber(key);
+    final tag = getTagNumber(key);
     if (tag == null) return null;
     return getField(tag);
   }
 
   void operator []=(Object? key, Object? val) {
-    var tag = getTagNumber(key as String);
+    final tag = getTagNumber(key as String);
     if (tag == null) {
       throw ArgumentError.value(key, 'key',
           "field '$key' not found in ${info_.qualifiedMessageName}");

@@ -144,8 +144,8 @@ class ProtobufField {
   String getDartType() {
     if (isMapField) {
       final d = baseType.generator as MessageGenerator;
-      var keyType = d._fieldList[0].baseType.getDartType(parent.fileGen!);
-      var valueType = d._fieldList[1].baseType.getDartType(parent.fileGen!);
+      final keyType = d._fieldList[0].baseType.getDartType(parent.fileGen!);
+      final valueType = d._fieldList[1].baseType.getDartType(parent.fileGen!);
       return '$coreImportPrefix.Map<$keyType, $valueType>';
     }
     if (isRepeated) return baseType.getRepeatedDartType(parent.fileGen!);
@@ -189,19 +189,19 @@ class ProtobufField {
         omitFieldNames.constFieldName, omitFieldNames.constDefinition);
     final quotedName = omitFieldNames.createTernary(descriptor.jsonName);
 
-    var type = baseType.getDartType(parent.fileGen!);
+    final type = baseType.getDartType(parent.fileGen!);
 
     String invocation;
 
-    var args = <String>[];
-    var named = <String, String?>{'protoName': quotedProtoName};
+    final args = <String>[];
+    final named = <String, String?>{'protoName': quotedProtoName};
     args.add('$number');
     args.add(quotedName);
 
     if (isMapField) {
       final generator = baseType.generator as MessageGenerator;
-      var key = generator._fieldList[0];
-      var value = generator._fieldList[1];
+      final key = generator._fieldList[0];
+      final value = generator._fieldList[1];
 
       // Key type is an integer type or string. No need to specify the default
       // value as the library knows the defaults for integer and string fields.
@@ -250,7 +250,7 @@ class ProtobufField {
       }
     } else {
       // Singular field.
-      var makeDefault = generateDefaultFunction();
+      final makeDefault = generateDefaultFunction();
 
       if (baseType.isEnum) {
         args.add(typeConstant);
@@ -303,7 +303,7 @@ class ProtobufField {
       }
     }
 
-    var result = '..$invocation(${_formatArguments(args, named)})';
+    final result = '..$invocation(${_formatArguments(args, named)})';
     out.println(result);
   }
 
@@ -378,7 +378,7 @@ class ProtobufField {
         if (!descriptor.hasDefaultValue() || descriptor.defaultValue.isEmpty) {
           return null;
         }
-        var byteList = descriptor.defaultValue.codeUnits
+        final byteList = descriptor.defaultValue.codeUnits
             .map((b) => '0x${b.toRadixString(16)}')
             .join(',');
         return '() => <$coreImportPrefix.int>[$byteList]';
@@ -386,7 +386,7 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
         return '${baseType.getDartType(parent.fileGen!)}.getDefault';
       case FieldDescriptorProto_Type.TYPE_ENUM:
-        var className = baseType.getDartType(parent.fileGen!);
+        final className = baseType.getDartType(parent.fileGen!);
         final gen = baseType.generator as EnumGenerator;
         if (descriptor.hasDefaultValue() &&
             descriptor.defaultValue.isNotEmpty) {

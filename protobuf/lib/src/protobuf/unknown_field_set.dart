@@ -56,7 +56,7 @@ class UnknownFieldSet {
 
   bool mergeFieldFromBuffer(int tag, CodedBufferReader input) {
     _ensureWritable('mergeFieldFromBuffer');
-    var number = getTagFieldNumber(tag);
+    final number = getTagFieldNumber(tag);
     switch (getTagWireType(tag)) {
       case WIRETYPE_VARINT:
         mergeVarintField(number, input.readInt64());
@@ -68,7 +68,7 @@ class UnknownFieldSet {
         mergeLengthDelimitedField(number, input.readBytes());
         return true;
       case WIRETYPE_START_GROUP:
-        var subGroup = input.readUnknownFieldSetGroup(number);
+        final subGroup = input.readUnknownFieldSetGroup(number);
         mergeGroupField(number, subGroup);
         return true;
       case WIRETYPE_END_GROUP:
@@ -84,7 +84,7 @@ class UnknownFieldSet {
   void mergeFromCodedBufferReader(CodedBufferReader input) {
     _ensureWritable('mergeFromCodedBufferReader');
     while (true) {
-      var tag = input.readTag();
+      final tag = input.readTag();
       if (tag == 0 || !mergeFieldFromBuffer(tag, input)) {
         break;
       }
@@ -93,7 +93,7 @@ class UnknownFieldSet {
 
   void mergeFromUnknownFieldSet(UnknownFieldSet other) {
     _ensureWritable('mergeFromUnknownFieldSet');
-    for (var key in other._fields.keys) {
+    for (final key in other._fields.keys) {
       mergeField(key, other._fields[key]!);
     }
   }
@@ -139,7 +139,7 @@ class UnknownFieldSet {
   bool operator ==(Object other) {
     if (other is! UnknownFieldSet) return false;
 
-    var o = other;
+    final o = other;
     return _areMapsEqual(o._fields, _fields);
   }
 
@@ -157,11 +157,11 @@ class UnknownFieldSet {
   String toString() => _toString('');
 
   String _toString(String indent) {
-    var stringBuffer = StringBuffer();
+    final stringBuffer = StringBuffer();
 
-    for (var tag in _sorted(_fields.keys)) {
-      var field = _fields[tag]!;
-      for (var value in field.values) {
+    for (final tag in _sorted(_fields.keys)) {
+      final field = _fields[tag]!;
+      for (final value in field.values) {
         if (value is UnknownFieldSet) {
           stringBuffer
             ..write('$indent$tag: {\n')
@@ -177,14 +177,14 @@ class UnknownFieldSet {
   }
 
   void writeToCodedBufferWriter(CodedBufferWriter output) {
-    for (var key in _fields.keys) {
+    for (final key in _fields.keys) {
       _fields[key]!.writeTo(key, output);
     }
   }
 
   void _markReadOnly() {
     if (_isReadOnly) return;
-    for (var f in _fields.values) {
+    for (final f in _fields.values) {
       f._markReadOnly();
     }
     _isReadOnly = true;
@@ -227,7 +227,7 @@ class UnknownFieldSetField {
   bool operator ==(Object other) {
     if (other is! UnknownFieldSetField) return false;
 
-    var o = other;
+    final o = other;
     if (lengthDelimited.length != o.lengthDelimited.length) return false;
     for (var i = 0; i < lengthDelimited.length; i++) {
       if (!_areListsEqual(o.lengthDelimited[i], lengthDelimited[i])) {

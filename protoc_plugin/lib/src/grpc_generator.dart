@@ -56,7 +56,7 @@ class GrpcServiceGenerator {
   /// in [_undefinedDeps].
   /// Precondition: messages have been registered and resolved.
   void resolve(GenerationContext ctx) {
-    for (var method in _descriptor.method) {
+    for (final method in _descriptor.method) {
       _methods.add(_GrpcMethod(this, ctx, method));
     }
   }
@@ -81,7 +81,7 @@ class GrpcServiceGenerator {
   /// For each .pb.dart file that the generated code needs to import,
   /// add its generator.
   void addImportsTo(Set<FileGenerator> imports) {
-    for (var mg in _deps.values) {
+    for (final mg in _deps.values) {
       imports.add(mg.fileGen);
     }
   }
@@ -90,9 +90,9 @@ class GrpcServiceGenerator {
   ///
   /// Throws an exception if it can't be resolved.
   String _getDartClassName(String fqname) {
-    var mg = _deps[fqname];
+    final mg = _deps[fqname];
     if (mg == null) {
-      var location = _undefinedDeps[fqname];
+      final location = _undefinedDeps[fqname];
       // TODO(nichite): Throw more actionable error.
       throw 'FAILURE: Unknown type reference ($fqname) for $location';
     }

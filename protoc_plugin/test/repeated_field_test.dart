@@ -9,7 +9,7 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 
 void main() {
   test('check properties are initialized for repeated fields', () {
-    var msg = TestAllTypes();
+    final msg = TestAllTypes();
     expect(
         (msg.info_.byName['repeatedNestedMessage']
                 as FieldInfo<TestAllTypes_NestedMessage>)

@@ -17,17 +17,17 @@ import 'suite.dart' show runSuite;
 /// Writes a report to latest_vm.pb.json after every change,
 /// to make progress available to the browser.
 Future<void> runSuiteInVM(pb.Suite suite) async {
-  var env = await _loadEnv();
+  final env = await _loadEnv();
 
   pb.Report? lastReport;
   pb.Response? lastUpdate;
-  for (var report in runSuite(suite.requests, samplesPerBatch: 10)) {
+  for (final report in runSuite(suite.requests, samplesPerBatch: 10)) {
     report.env = env;
 
     // show progress
-    var update = findUpdatedResponse(lastReport, report);
+    final update = findUpdatedResponse(lastReport, report);
     if (update != null) {
-      var summary = _summarize(update);
+      final summary = _summarize(update);
       if (lastUpdate == null || update.request != lastUpdate.request) {
         stdout.write('\n$summary');
       } else {
@@ -40,15 +40,15 @@ Future<void> runSuiteInVM(pb.Suite suite) async {
   }
 
   // save the report to a file
-  var outFile = '${dataDir.path}/$latestVMReportName';
-  var tmpFile = File('$outFile.tmp');
+  final outFile = '${dataDir.path}/$latestVMReportName';
+  final tmpFile = File('$outFile.tmp');
   await tmpFile.writeAsString(encodeReport(lastReport!));
   await tmpFile.rename(outFile);
   print('\nWrote result to $outFile');
 }
 
 String _summarize(pb.Response r) {
-  var b = createBenchmark(r.request);
+  final b = createBenchmark(r.request);
   return b.summarizeResponse(r);
 }
 
@@ -63,13 +63,13 @@ void _overwrite(String line) {
 Future<pb.Env> _loadEnv() async {
   await _ensureDataDir();
 
-  var platform = createPlatform()
+  final platform = createPlatform()
     ..hostname = _hostname
     ..osType = _osType
     ..dartVersion = Platform.version;
 
-  var pubspec = await File(pubspecYaml.path).readAsString();
-  var lock = await File(pubspecLock.path).readAsString();
+  final pubspec = await File(pubspecYaml.path).readAsString();
+  final lock = await File(pubspecLock.path).readAsString();
 
   return pb.Env()
     ..script = _script
@@ -99,8 +99,8 @@ String get _script {
 
 String get _hostname {
   // Only including the first part of the hostname.
-  var h = Platform.localHostname;
-  var firstDot = h.indexOf('.');
+  final h = Platform.localHostname;
+  final firstDot = h.indexOf('.');
   if (firstDot == -1) return h;
   return h.substring(0, firstDot);
 }
@@ -120,7 +120,7 @@ final Link pubspecYaml = Link('${dataDir.path}/$pubspecYamlName');
 final Link pubspecLock = Link('${dataDir.path}/$pubspecLockName');
 
 final Directory dataDir = () {
-  var d = Directory('${pubspecDir.path}/web/data');
+  final d = Directory('${pubspecDir.path}/web/data');
   if (!d.existsSync()) {
     throw "data dir doesn't exist at ${d.path}";
   }

@@ -8,31 +8,31 @@ import 'options.dart';
 
 /// Resolves all cross-references in a set of proto files.
 void link(GenerationOptions? options, Iterable<FileGenerator> files) {
-  var ctx = GenerationContext(options);
+  final ctx = GenerationContext(options);
 
   // Register the targets of cross-references.
-  for (var f in files) {
+  for (final f in files) {
     ctx.registerProtoFile(f);
 
-    for (var m in f.messageGenerators) {
+    for (final m in f.messageGenerators) {
       m.register(ctx);
     }
-    for (var e in f.enumGenerators) {
+    for (final e in f.enumGenerators) {
       e.register(ctx);
     }
   }
 
-  for (var f in files) {
+  for (final f in files) {
     f.resolve(ctx);
   }
 
   // Resolve service generators last.
   // (They depend on all messages being resolved.)
-  for (var f in files) {
-    for (var s in f.serviceGenerators) {
+  for (final f in files) {
+    for (final s in f.serviceGenerators) {
       s.resolve(ctx);
     }
-    for (var s in f.grpcGenerators) {
+    for (final s in f.grpcGenerators) {
       s.resolve(ctx);
     }
   }

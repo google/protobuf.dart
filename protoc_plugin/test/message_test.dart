@@ -13,22 +13,22 @@ import '../out/protos/google/protobuf/unittest.pbjson.dart';
 import 'test_util.dart';
 
 void main() {
-  var testRequiredUninitialized = TestRequired();
+  final testRequiredUninitialized = TestRequired();
 
-  var testRequiredInitialized = TestRequired()
+  final testRequiredInitialized = TestRequired()
     ..a = 1
     ..b = 2
     ..c = 3;
 
   test('testMergeFrom', () {
-    var mergeSource = TestAllTypes()
+    final mergeSource = TestAllTypes()
       ..optionalInt32 = 1
       ..optionalString = 'foo'
       ..optionalForeignMessage = ForeignMessage()
       ..optionalNestedMessage = (TestAllTypes_NestedMessage()..i = 42)
       ..repeatedString.add('bar');
 
-    var mergeDest = TestAllTypes()
+    final mergeDest = TestAllTypes()
       ..optionalInt64 = make64(2)
       ..optionalString = 'baz'
       ..optionalForeignMessage = ForeignMessage()
@@ -36,7 +36,7 @@ void main() {
       ..optionalNestedMessage = (TestAllTypes_NestedMessage()..bb = 43)
       ..repeatedString.add('qux');
 
-    var mergeResultExpected = '''
+    final mergeResultExpected = '''
 optionalInt32: 1
 optionalInt64: 2
 optionalString: baz
@@ -51,7 +51,7 @@ repeatedString: bar
 repeatedString: qux
 ''';
 
-    var result = TestAllTypes()
+    final result = TestAllTypes()
       ..mergeFromMessage(mergeSource)
       ..mergeFromMessage(mergeDest);
 
@@ -59,7 +59,7 @@ repeatedString: qux
   });
 
   test('testRequired', () {
-    var message = TestRequired();
+    final message = TestRequired();
 
     expect(message.isInitialized(), isFalse, reason: 'no required fields set');
     message.a = 1;
@@ -73,7 +73,7 @@ repeatedString: qux
   });
 
   test('testRequiredForeign', () {
-    var message = TestRequiredForeign();
+    final message = TestRequiredForeign();
     expect(message.isInitialized(), isTrue);
 
     message.optionalMessage = testRequiredUninitialized;
@@ -90,7 +90,7 @@ repeatedString: qux
   });
 
   test('testRequiredExtension', () {
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
     expect(message.isInitialized(), isTrue);
 
     message.setExtension(TestRequired.single, testRequiredUninitialized);
@@ -121,17 +121,17 @@ repeatedString: qux
 
   test('testBuildPartial', () {
     // We're mostly testing that no exception is thrown.
-    var message = TestRequired();
+    final message = TestRequired();
     expect(message.isInitialized(), isFalse);
   });
 
   test('testNestedUninitializedException', () {
-    var message = TestRequiredForeign();
+    final message = TestRequiredForeign();
     message.optionalMessage = testRequiredUninitialized;
     message.repeatedMessage.add(testRequiredUninitialized);
     message.repeatedMessage.add(testRequiredUninitialized);
     expect(
-      () => message.check(),
+      message.check,
       throwsA(
         isA<StateError>().having(
           (p0) => p0.message,
@@ -153,7 +153,7 @@ repeatedString: qux
 
   test('testBuildNestedPartial', () {
     // We're mostly testing that no exception is thrown.
-    var message = TestRequiredForeign();
+    final message = TestRequiredForeign();
     message.optionalMessage = testRequiredUninitialized;
     message.repeatedMessage.add(testRequiredUninitialized);
     message.repeatedMessage.add(testRequiredUninitialized);
@@ -174,11 +174,11 @@ repeatedString: qux
   });
 
   test('testParseNestedUnititialized', () {
-    var message = TestRequiredForeign();
+    final message = TestRequiredForeign();
     message.optionalMessage = testRequiredUninitialized;
     message.repeatedMessage.add(testRequiredUninitialized);
     message.repeatedMessage.add(testRequiredUninitialized);
-    List<int> buffer = message.writeToBuffer();
+    final List<int> buffer = message.writeToBuffer();
 
     expect(
       () => TestRequiredForeign.fromBuffer(buffer).check(),
@@ -203,7 +203,7 @@ repeatedString: qux
 
   test('testClearField', () {
     int fieldNo;
-    var message = TestAllTypes();
+    final message = TestAllTypes();
 
     // Singular field with no default.
     fieldNo = 1;
@@ -249,7 +249,7 @@ repeatedString: qux
   });
 
   test('Can read JSON constant into DescriptorProto', () {
-    var d = DescriptorProto()..mergeFromJsonMap(TestAllTypes$json);
+    final d = DescriptorProto()..mergeFromJsonMap(TestAllTypes$json);
     expect(d.name, 'TestAllTypes');
     expect(d.field[0].name, 'optional_int32');
     expect(d.nestedType[0].name, 'NestedMessage');

@@ -15,7 +15,7 @@ class DashboardModel {
   DashboardModel(this.savedReports, this.table, this.latest);
 
   DashboardModel withBaseline(String? name) {
-    var nextTable = table.withBaseline(name, savedReports[name]);
+    final nextTable = table.withBaseline(name, savedReports[name]);
     return DashboardModel(savedReports, nextTable, latest);
   }
 
@@ -41,10 +41,10 @@ class Table {
       Table._raw(suite, null, null, Set<pb.Request>.from(suite.requests));
 
   Table._raw(this.suite, this.baseline, this.report, this.selections) {
-    var it =
+    final it =
         report == null ? <pb.Response>[].iterator : report!.responses.iterator;
-    for (var r in suite.requests) {
-      var b = createBenchmark(r);
+    for (final r in suite.requests) {
+      final b = createBenchmark(r);
       pb.Sample? baseline;
       if (it.moveNext()) {
         b.checkRequest(it.current.request);
@@ -67,7 +67,7 @@ class Table {
   }
 
   Table withSelection(pb.Request? request, bool selected) {
-    var s = Set<pb.Request?>.from(selections);
+    final s = Set<pb.Request?>.from(selections);
     if (selected) {
       s.add(request);
     } else {
@@ -87,7 +87,7 @@ class Row {
 
   /// Returns the response that should be displayed in this row.
   pb.Response? findResponse(pb.Report r) {
-    for (var candidate in r.responses) {
+    for (final candidate in r.responses) {
       if (candidate.request == request) return candidate;
     }
     return null;

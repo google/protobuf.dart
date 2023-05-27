@@ -19,6 +19,15 @@ import 'descriptor.pb.dart' as $0;
 export 'plugin.pbenum.dart';
 
 class Version extends $pb.GeneratedMessage {
+  factory Version() => create();
+  Version._() : super();
+  factory Version.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory Version.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Version',
       package: const $pb.PackageName(
@@ -29,15 +38,6 @@ class Version extends $pb.GeneratedMessage {
     ..a<$core.int>(3, _omitFieldNames ? '' : 'patch', $pb.PbFieldType.O3)
     ..aOS(4, _omitFieldNames ? '' : 'suffix')
     ..hasRequiredFields = false;
-
-  Version._() : super();
-  factory Version() => create();
-  factory Version.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory Version.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -110,6 +110,15 @@ class Version extends $pb.GeneratedMessage {
 }
 
 class CodeGeneratorRequest extends $pb.GeneratedMessage {
+  factory CodeGeneratorRequest() => create();
+  CodeGeneratorRequest._() : super();
+  factory CodeGeneratorRequest.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory CodeGeneratorRequest.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorRequest',
       package: const $pb.PackageName(
@@ -122,15 +131,6 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     ..pc<$0.FileDescriptorProto>(
         15, _omitFieldNames ? '' : 'protoFile', $pb.PbFieldType.PM,
         subBuilder: $0.FileDescriptorProto.create);
-
-  CodeGeneratorRequest._() : super();
-  factory CodeGeneratorRequest() => create();
-  factory CodeGeneratorRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CodeGeneratorRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -190,6 +190,15 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
 }
 
 class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
+  factory CodeGeneratorResponse_File() => create();
+  CodeGeneratorResponse_File._() : super();
+  factory CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory CodeGeneratorResponse_File.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorResponse.File',
       package: const $pb.PackageName(
@@ -201,15 +210,6 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
     ..aOM<$0.GeneratedCodeInfo>(16, _omitFieldNames ? '' : 'generatedCodeInfo',
         subBuilder: $0.GeneratedCodeInfo.create)
     ..hasRequiredFields = false;
-
-  CodeGeneratorResponse_File._() : super();
-  factory CodeGeneratorResponse_File() => create();
-  factory CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CodeGeneratorResponse_File.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -289,6 +289,15 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
 }
 
 class CodeGeneratorResponse extends $pb.GeneratedMessage {
+  factory CodeGeneratorResponse() => create();
+  CodeGeneratorResponse._() : super();
+  factory CodeGeneratorResponse.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory CodeGeneratorResponse.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorResponse',
       package: const $pb.PackageName(
@@ -302,15 +311,6 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
         15, _omitFieldNames ? '' : 'file', $pb.PbFieldType.PM,
         subBuilder: CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
-
-  CodeGeneratorResponse._() : super();
-  factory CodeGeneratorResponse() => create();
-  factory CodeGeneratorResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CodeGeneratorResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '

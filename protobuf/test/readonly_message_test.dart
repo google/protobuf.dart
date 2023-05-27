@@ -102,8 +102,8 @@ void main() {
   });
 
   test("can't modify sub-messages on a read-only message", () {
-    var subMessage = Rec.create()..value = 1;
-    var r = Rec.create()
+    final subMessage = Rec.create()..value = 1;
+    final r = Rec.create()
       ..sub.add(Rec.create()..sub.add(subMessage))
       ..freeze();
     expect(r.sub[0].sub[0].value, 1);

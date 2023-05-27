@@ -16,11 +16,11 @@ void main() {
       ..nestedMessage = (Nested()..a = 3);
 
     // Create aliases to lists, maps, nested messages
-    var list = top.nestedMessageList;
-    var map = top.nestedMessageMap;
-    var msg1 = top.nestedMessageList[0];
-    var msg2 = top.nestedMessageMap[1]!;
-    var msg3 = top.nestedMessage;
+    final list = top.nestedMessageList;
+    final map = top.nestedMessageMap;
+    final msg1 = top.nestedMessageList[0];
+    final msg2 = top.nestedMessageMap[1]!;
+    final msg3 = top.nestedMessage;
 
     top.freeze();
 

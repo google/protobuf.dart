@@ -37,7 +37,7 @@ class Extension<T> extends FieldInfo<T> {
   bool operator ==(Object other) {
     if (other is! Extension) return false;
 
-    var o = other;
+    final o = other;
     return extendee == o.extendee && tagNumber == o.tagNumber;
   }
 }

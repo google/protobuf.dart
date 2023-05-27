@@ -15,7 +15,7 @@ void main() {
   ByteData makeData(Uint8List bytes) => ByteData.view(bytes.buffer);
 
   Uint8List Function(dynamic) convertToBytes(fieldType) => (value) {
-        var writer = CodedBufferWriter()..writeField(0, fieldType, value);
+        final writer = CodedBufferWriter()..writeField(0, fieldType, value);
         return writer.toBuffer().sublist(1);
       };
 
@@ -138,7 +138,7 @@ void main() {
 
   void test32(int bits, double value) {
     double readFloat(int bits) {
-      var bytes = dataToBytes(ByteData(4)..setUint32(0, bits, Endian.little));
+      final bytes = dataToBytes(ByteData(4)..setUint32(0, bits, Endian.little));
       return CodedBufferReader(bytes).readFloat();
     }
 
@@ -150,8 +150,8 @@ void main() {
 
   void test64(List<int> hilo, double value) {
     // Encode a double to its wire format.
-    var data = makeData(doubleToBytes(value));
-    var actualHilo = [
+    final data = makeData(doubleToBytes(value));
+    final actualHilo = [
       data.getUint32(4, Endian.little),
       data.getUint32(0, Endian.little)
     ];
@@ -159,8 +159,8 @@ void main() {
     expect(actualHilo, hilo);
 
     // Decode it again (round trip).
-    var bytes = dataToBytes(data);
-    var reencoded = CodedBufferReader(bytes).readDouble();
+    final bytes = dataToBytes(data);
+    final reencoded = CodedBufferReader(bytes).readDouble();
     expect(reencoded, doubleEquals(value));
   }
 
@@ -705,12 +705,12 @@ void main() {
   });
 
   test('testWriteTo', () {
-    var writer = CodedBufferWriter()..writeField(0, PbFieldType.O3, 1337);
+    final writer = CodedBufferWriter()..writeField(0, PbFieldType.O3, 1337);
     expect(writer.lengthInBytes, 3);
-    var buffer = Uint8List(5);
+    final buffer = Uint8List(5);
     buffer[0] = 0x55;
     buffer[4] = 0xAA;
-    var expected = writer.toBuffer();
+    final expected = writer.toBuffer();
     expect(writer.writeTo(buffer, 1), isTrue);
     expect(buffer[0], 0x55);
     expect(buffer[4], 0xAA);
