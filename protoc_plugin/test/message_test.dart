@@ -132,6 +132,9 @@ repeatedString: qux
     message.repeatedMessage.add(testRequiredUninitialized);
     expect(
       message.check,
+      // NOTE: error message differs from Java in that
+      // fields are referenced using Dart fieldnames r.t.
+      // proto field names.
       throwsA(
         isA<StateError>().having(
           (p0) => p0.message,
@@ -182,6 +185,9 @@ repeatedString: qux
 
     expect(
       () => TestRequiredForeign.fromBuffer(buffer).check(),
+      // NOTE: error message differs from Java in that
+      // fields are referenced using Dart fieldnames r.t.
+      // proto field names.
       throwsA(
         isA<StateError>().having(
           (p0) => p0.message,
