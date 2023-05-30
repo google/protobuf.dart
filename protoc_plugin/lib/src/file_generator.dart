@@ -710,6 +710,7 @@ const _fileIgnores = {
   'library_prefixes',
   'non_constant_identifier_names',
   'prefer_final_fields',
+  'unnecessary_import',
   'unnecessary_this',
   'unused_import',
 };
