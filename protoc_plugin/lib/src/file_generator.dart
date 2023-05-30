@@ -303,7 +303,7 @@ class FileGenerator extends ProtobufContainer {
   /// Writes the header and imports for the .pb.dart file.
   void writeMainHeader(IndentingWriter out,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
-    _writeHeading(out, extraIgnores: {'unnecessary_import'});
+    _writeHeading(out);
 
     final importWriter = ImportWriter();
 
@@ -710,6 +710,7 @@ const _fileIgnores = {
   'library_prefixes',
   'non_constant_identifier_names',
   'prefer_final_fields',
-  'return_of_invalid_type',
+  'unnecessary_import',
   'unnecessary_this',
+  'unused_import',
 };
