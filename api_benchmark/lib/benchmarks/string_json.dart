@@ -4,7 +4,7 @@
 
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart'
-    show BenchmarkID, Request, Params, Sample;
+    show BenchmarkID, Params, Request, Sample;
 import '../generated/string_grid.pb.dart' as pb;
 
 /// A benchmark that deserializes a grid of string fields.
@@ -66,7 +66,7 @@ class StringBenchmark extends Benchmark {
   @override
   void run() {
     final grid = pb.Grid10.fromJson(json);
-    final actual = grid.lines[height - 1].getField(lastFieldTag!);
+    final actual = grid.lines[height - 1].getField(lastFieldTag!) as String;
     if (actual.length != stringSize) throw 'failed; got $actual';
   }
 

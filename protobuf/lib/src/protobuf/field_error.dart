@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// Returns the error message for an invalid field value,
 /// or null if it's valid.

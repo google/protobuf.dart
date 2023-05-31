@@ -9,7 +9,7 @@ import 'package:protobuf_benchmarks/readfile.dart';
 class Benchmark extends BenchmarkBase {
   final List<int> _input;
 
-  Benchmark(String name, this._input) : super(name);
+  Benchmark(super.name, this._input);
 
   @override
   void run() {

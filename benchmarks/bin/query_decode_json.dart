@@ -9,9 +9,8 @@ import 'package:protobuf_benchmarks/readfile.dart';
 class Benchmark extends BenchmarkBase {
   final String _input;
 
-  Benchmark(String name, List<int> input)
-      : _input = f0.A0.fromBuffer(input).writeToJson(),
-        super(name);
+  Benchmark(super.name, List<int> input)
+      : _input = f0.A0.fromBuffer(input).writeToJson();
 
   @override
   void run() {

@@ -7,14 +7,14 @@
 import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
     show PbEventMixin, PbFieldChange;
-import 'package:test/test.dart' show test, expect;
+import 'package:test/test.dart' show expect, test;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
 class Rec extends MockMessage with PbEventMixin {
   @override
   BuilderInfo get info_ => _info;
-  static final _info = mockInfo('Rec', () => Rec());
+  static final _info = mockInfo('Rec', Rec.new);
   @override
   Rec createEmptyInstance() => Rec();
 }
@@ -25,9 +25,7 @@ void main() {
   test('Events are sent when setting and clearing a non-repeated field', () {
     final log = makeLog();
     final r = Rec();
-    r.changes.listen((List<PbFieldChange> changes) {
-      log.add(changes);
-    });
+    r.changes.listen(log.add);
 
     r.val = 123;
     r.deliverChanges();
@@ -53,9 +51,7 @@ void main() {
   test('Events are sent when creating and clearing a repeated field', () {
     final log = makeLog();
     final r = Rec();
-    r.changes.listen((List<PbFieldChange> changes) {
-      log.add(changes);
-    });
+    r.changes.listen(log.add);
 
     // Accessing a repeated field replaces the default,
     // read-only [] with a mutable [],
@@ -201,9 +197,7 @@ void main() {
   test('Events are sent for extensions', () {
     final log = makeLog();
     final r = Rec();
-    r.changes.listen((List<PbFieldChange> changes) {
-      log.add(changes);
-    });
+    r.changes.listen(log.add);
 
     final tag = comment.tagNumber;
     void setComment(String value) {

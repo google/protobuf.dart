@@ -3,14 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async' show Future;
-import 'dart:io' show File, Directory, Link, Platform, stdout;
+import 'dart:io' show Directory, File, Link, Platform, stdout;
 
 import 'benchmarks/index.dart' show createBenchmark;
 import 'data_index.dart'
-    show latestVMReportName, pubspecYamlName, pubspecLockName, hostfileName;
+    show hostfileName, latestVMReportName, pubspecLockName, pubspecYamlName;
 import 'generated/benchmark.pb.dart' as pb;
 import 'report.dart'
-    show createPlatform, createPackages, encodeReport, findUpdatedResponse;
+    show createPackages, createPlatform, encodeReport, findUpdatedResponse;
 import 'suite.dart' show runSuite;
 
 /// Runs a benchmark suite.
@@ -68,8 +68,8 @@ Future<pb.Env> _loadEnv() async {
     ..osType = _osType
     ..dartVersion = Platform.version;
 
-  final pubspec = await (File(pubspecYaml.path).readAsString());
-  final lock = await (File(pubspecLock.path).readAsString());
+  final pubspec = await File(pubspecYaml.path).readAsString();
+  final lock = await File(pubspecLock.path).readAsString();
 
   return pb.Env()
     ..script = _script

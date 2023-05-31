@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
   String? convertToMapKey(dynamic key, int keyType) {
@@ -67,8 +67,8 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
           if (value.isInfinite) {
             return value.isNegative ? _negativeInfinity : _infinity;
           }
-          if (fieldValue.toInt() == fieldValue) {
-            return fieldValue.toInt();
+          if (value.toInt() == fieldValue) {
+            return value.toInt();
           }
           return value;
         case PbFieldType._UINT64_BIT:

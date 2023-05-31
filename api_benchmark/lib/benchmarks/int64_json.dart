@@ -6,7 +6,7 @@ import 'package:fixnum/fixnum.dart' show Int64;
 
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart'
-    show BenchmarkID, Request, Params, Sample;
+    show BenchmarkID, Params, Request, Sample;
 import '../generated/int64grid.pb.dart' as pb;
 
 /// A benchmark that deserializes a grid of int fields.

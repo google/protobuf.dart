@@ -41,7 +41,8 @@ class Table {
       Table._raw(suite, null, null, Set<pb.Request>.from(suite.requests));
 
   Table._raw(this.suite, this.baseline, this.report, this.selections) {
-    final it = report == null ? [].iterator : report!.responses.iterator;
+    final it =
+        report == null ? <pb.Response>[].iterator : report!.responses.iterator;
     for (final r in suite.requests) {
       final b = createBenchmark(r);
       pb.Sample? baseline;

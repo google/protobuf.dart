@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// A set of unknown fields in a [GeneratedMessage].
 class UnknownFieldSet {
@@ -132,7 +132,7 @@ class UnknownFieldSet {
   UnknownFieldSetField _getField(int number) {
     _checkFieldNumber(number);
     if (_isReadOnly) assert(_fields.containsKey(number));
-    return _fields.putIfAbsent(number, () => UnknownFieldSetField());
+    return _fields.putIfAbsent(number, UnknownFieldSetField.new);
   }
 
   @override

@@ -7,13 +7,22 @@
 // ignore_for_file: annotate_overrides, camel_case_types
 // ignore_for_file: constant_identifier_names, library_prefixes
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: return_of_invalid_type, unnecessary_import, unnecessary_this
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class DartMixin extends $pb.GeneratedMessage {
+  factory DartMixin() => create();
+  DartMixin._() : super();
+  factory DartMixin.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory DartMixin.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DartMixin',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'dart_options'),
@@ -22,15 +31,6 @@ class DartMixin extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'importFrom')
     ..aOS(3, _omitFieldNames ? '' : 'parent')
     ..hasRequiredFields = false;
-
-  DartMixin._() : super();
-  factory DartMixin() => create();
-  factory DartMixin.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory DartMixin.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -91,6 +91,15 @@ class DartMixin extends $pb.GeneratedMessage {
 }
 
 class Imports extends $pb.GeneratedMessage {
+  factory Imports() => create();
+  Imports._() : super();
+  factory Imports.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory Imports.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Imports',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'dart_options'),
@@ -98,15 +107,6 @@ class Imports extends $pb.GeneratedMessage {
     ..pc<DartMixin>(1, _omitFieldNames ? '' : 'mixins', $pb.PbFieldType.PM,
         subBuilder: DartMixin.create)
     ..hasRequiredFields = false;
-
-  Imports._() : super();
-  factory Imports() => create();
-  factory Imports.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory Imports.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '

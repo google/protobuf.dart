@@ -113,9 +113,7 @@ void main() {
     final input = CodedBufferReader(output.toBuffer());
     expect(input.readTag(), tag);
 
-    expect(() {
-      input.readBytes();
-    }, throwsInvalidProtocolBufferException);
+    expect(input.readBytes, throwsInvalidProtocolBufferException);
   });
 
   /// Tests that if we read a string that contains invalid UTF-8, no exception

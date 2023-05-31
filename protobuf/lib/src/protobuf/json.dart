@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
   dynamic convertToMap(dynamic fieldValue, int fieldType) {
@@ -54,7 +54,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         final GeneratedMessage msg = fieldValue;
         return msg.writeToJsonMap();
       default:
-        throw 'Unknown type $fieldType';
+        throw UnsupportedError('Unknown type $fieldType');
     }
   }
 

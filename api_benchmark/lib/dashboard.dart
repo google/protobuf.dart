@@ -5,14 +5,14 @@
 import 'dart:async' show Future;
 import 'dart:convert';
 import 'dart:html';
-import 'dart:js' show context, JsObject;
+import 'dart:js' show JsObject, context;
 
 import 'benchmark.dart' show Profiler;
-import 'dashboard_model.dart' show DashboardModel, Table, SelectEvent;
+import 'dashboard_model.dart' show DashboardModel, SelectEvent, Table;
 import 'dashboard_view.dart' show DashboardView;
 import 'data_index.dart' as data;
 import 'generated/benchmark.pb.dart' as pb;
-import 'report.dart' show createPlatform, createPackages;
+import 'report.dart' show createPackages, createPlatform;
 import 'suite.dart' show runSuite;
 
 /// Displays a dashboard that can be used to run benchmarks.

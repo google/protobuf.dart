@@ -35,7 +35,7 @@ void main() {
 
     expect(lb1.lastIndexOf(99), 5);
 
-    expect(lb1.firstWhere((e) => e % 2 == 0), 0);
+    expect(lb1.firstWhere((e) => e.isEven), 0);
 
     expect(lb1.last, 99);
     final last = lb1.removeLast();
@@ -48,7 +48,7 @@ void main() {
     }
     expect(count, 108);
 
-    bool isEven(int i) => i % 2 == 0;
+    bool isEven(int i) => i.isEven;
     final evens = List<int>.from(lb1.where(isEven));
     expect(evens, [0, 2, 6]);
 
@@ -91,7 +91,8 @@ void main() {
 
   test('PbList validates items', () {
     expect(() {
-      (PbList<int>() as dynamic).add('hello');
+      // ignore: unnecessary_cast
+      (PbList<int>() as List).add('hello');
     }, throwsA(TypeMatcher<TypeError>()));
   });
 

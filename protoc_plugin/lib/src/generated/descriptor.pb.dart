@@ -7,7 +7,7 @@
 // ignore_for_file: annotate_overrides, camel_case_types
 // ignore_for_file: constant_identifier_names, library_prefixes
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: return_of_invalid_type, unnecessary_import, unnecessary_this
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
@@ -19,6 +19,15 @@ import 'descriptor.pbenum.dart';
 export 'descriptor.pbenum.dart';
 
 class FileDescriptorSet extends $pb.GeneratedMessage {
+  factory FileDescriptorSet() => create();
+  FileDescriptorSet._() : super();
+  factory FileDescriptorSet.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FileDescriptorSet.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FileDescriptorSet',
       package:
@@ -27,15 +36,6 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
     ..pc<FileDescriptorProto>(
         1, _omitFieldNames ? '' : 'file', $pb.PbFieldType.PM,
         subBuilder: FileDescriptorProto.create);
-
-  FileDescriptorSet._() : super();
-  factory FileDescriptorSet() => create();
-  factory FileDescriptorSet.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FileDescriptorSet.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -65,6 +65,15 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
 }
 
 class FileDescriptorProto extends $pb.GeneratedMessage {
+  factory FileDescriptorProto() => create();
+  FileDescriptorProto._() : super();
+  factory FileDescriptorProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FileDescriptorProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FileDescriptorProto',
       package:
@@ -94,15 +103,6 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
     ..p<$core.int>(
         11, _omitFieldNames ? '' : 'weakDependency', $pb.PbFieldType.P3)
     ..aOS(12, _omitFieldNames ? '' : 'syntax');
-
-  FileDescriptorProto._() : super();
-  factory FileDescriptorProto() => create();
-  factory FileDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FileDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -214,6 +214,15 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
+  factory DescriptorProto_ExtensionRange() => create();
+  DescriptorProto_ExtensionRange._() : super();
+  factory DescriptorProto_ExtensionRange.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory DescriptorProto_ExtensionRange.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DescriptorProto.ExtensionRange',
       package:
@@ -223,15 +232,6 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
     ..a<$core.int>(2, _omitFieldNames ? '' : 'end', $pb.PbFieldType.O3)
     ..aOM<ExtensionRangeOptions>(3, _omitFieldNames ? '' : 'options',
         subBuilder: ExtensionRangeOptions.create);
-
-  DescriptorProto_ExtensionRange._() : super();
-  factory DescriptorProto_ExtensionRange() => create();
-  factory DescriptorProto_ExtensionRange.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory DescriptorProto_ExtensionRange.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -300,6 +300,15 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
+  factory DescriptorProto_ReservedRange() => create();
+  DescriptorProto_ReservedRange._() : super();
+  factory DescriptorProto_ReservedRange.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory DescriptorProto_ReservedRange.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DescriptorProto.ReservedRange',
       package:
@@ -308,15 +317,6 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
     ..a<$core.int>(1, _omitFieldNames ? '' : 'start', $pb.PbFieldType.O3)
     ..a<$core.int>(2, _omitFieldNames ? '' : 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
-
-  DescriptorProto_ReservedRange._() : super();
-  factory DescriptorProto_ReservedRange() => create();
-  factory DescriptorProto_ReservedRange.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory DescriptorProto_ReservedRange.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -371,6 +371,15 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto extends $pb.GeneratedMessage {
+  factory DescriptorProto() => create();
+  DescriptorProto._() : super();
+  factory DescriptorProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory DescriptorProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DescriptorProto',
       package:
@@ -401,15 +410,6 @@ class DescriptorProto extends $pb.GeneratedMessage {
         9, _omitFieldNames ? '' : 'reservedRange', $pb.PbFieldType.PM,
         subBuilder: DescriptorProto_ReservedRange.create)
     ..pPS(10, _omitFieldNames ? '' : 'reservedName');
-
-  DescriptorProto._() : super();
-  factory DescriptorProto() => create();
-  factory DescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory DescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -486,6 +486,15 @@ class DescriptorProto extends $pb.GeneratedMessage {
 }
 
 class ExtensionRangeOptions extends $pb.GeneratedMessage {
+  factory ExtensionRangeOptions() => create();
+  ExtensionRangeOptions._() : super();
+  factory ExtensionRangeOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory ExtensionRangeOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ExtensionRangeOptions',
       package:
@@ -495,15 +504,6 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
-
-  ExtensionRangeOptions._() : super();
-  factory ExtensionRangeOptions() => create();
-  factory ExtensionRangeOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ExtensionRangeOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -535,6 +535,15 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
 }
 
 class FieldDescriptorProto extends $pb.GeneratedMessage {
+  factory FieldDescriptorProto() => create();
+  FieldDescriptorProto._() : super();
+  factory FieldDescriptorProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FieldDescriptorProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FieldDescriptorProto',
       package:
@@ -560,15 +569,6 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     ..a<$core.int>(9, _omitFieldNames ? '' : 'oneofIndex', $pb.PbFieldType.O3)
     ..aOS(10, _omitFieldNames ? '' : 'jsonName')
     ..aOB(17, _omitFieldNames ? '' : 'proto3Optional');
-
-  FieldDescriptorProto._() : super();
-  factory FieldDescriptorProto() => create();
-  factory FieldDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FieldDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -730,6 +730,15 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class OneofDescriptorProto extends $pb.GeneratedMessage {
+  factory OneofDescriptorProto() => create();
+  OneofDescriptorProto._() : super();
+  factory OneofDescriptorProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory OneofDescriptorProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'OneofDescriptorProto',
       package:
@@ -738,15 +747,6 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOM<OneofOptions>(2, _omitFieldNames ? '' : 'options',
         subBuilder: OneofOptions.create);
-
-  OneofDescriptorProto._() : super();
-  factory OneofDescriptorProto() => create();
-  factory OneofDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory OneofDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -800,6 +800,16 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
+  factory EnumDescriptorProto_EnumReservedRange() => create();
+  EnumDescriptorProto_EnumReservedRange._() : super();
+  factory EnumDescriptorProto_EnumReservedRange.fromBuffer(
+          $core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory EnumDescriptorProto_EnumReservedRange.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumDescriptorProto.EnumReservedRange',
       package:
@@ -808,16 +818,6 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
     ..a<$core.int>(1, _omitFieldNames ? '' : 'start', $pb.PbFieldType.O3)
     ..a<$core.int>(2, _omitFieldNames ? '' : 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
-
-  EnumDescriptorProto_EnumReservedRange._() : super();
-  factory EnumDescriptorProto_EnumReservedRange() => create();
-  factory EnumDescriptorProto_EnumReservedRange.fromBuffer(
-          $core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumDescriptorProto_EnumReservedRange.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -873,6 +873,15 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
 }
 
 class EnumDescriptorProto extends $pb.GeneratedMessage {
+  factory EnumDescriptorProto() => create();
+  EnumDescriptorProto._() : super();
+  factory EnumDescriptorProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory EnumDescriptorProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumDescriptorProto',
       package:
@@ -888,15 +897,6 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
         4, _omitFieldNames ? '' : 'reservedRange', $pb.PbFieldType.PM,
         subBuilder: EnumDescriptorProto_EnumReservedRange.create)
     ..pPS(5, _omitFieldNames ? '' : 'reservedName');
-
-  EnumDescriptorProto._() : super();
-  factory EnumDescriptorProto() => create();
-  factory EnumDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -959,6 +959,15 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
+  factory EnumValueDescriptorProto() => create();
+  EnumValueDescriptorProto._() : super();
+  factory EnumValueDescriptorProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory EnumValueDescriptorProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumValueDescriptorProto',
       package:
@@ -968,15 +977,6 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
     ..a<$core.int>(2, _omitFieldNames ? '' : 'number', $pb.PbFieldType.O3)
     ..aOM<EnumValueOptions>(3, _omitFieldNames ? '' : 'options',
         subBuilder: EnumValueOptions.create);
-
-  EnumValueDescriptorProto._() : super();
-  factory EnumValueDescriptorProto() => create();
-  factory EnumValueDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumValueDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1043,6 +1043,15 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class ServiceDescriptorProto extends $pb.GeneratedMessage {
+  factory ServiceDescriptorProto() => create();
+  ServiceDescriptorProto._() : super();
+  factory ServiceDescriptorProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory ServiceDescriptorProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ServiceDescriptorProto',
       package:
@@ -1054,15 +1063,6 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
         subBuilder: MethodDescriptorProto.create)
     ..aOM<ServiceOptions>(3, _omitFieldNames ? '' : 'options',
         subBuilder: ServiceOptions.create);
-
-  ServiceDescriptorProto._() : super();
-  factory ServiceDescriptorProto() => create();
-  factory ServiceDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ServiceDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1120,6 +1120,15 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class MethodDescriptorProto extends $pb.GeneratedMessage {
+  factory MethodDescriptorProto() => create();
+  MethodDescriptorProto._() : super();
+  factory MethodDescriptorProto.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MethodDescriptorProto.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MethodDescriptorProto',
       package:
@@ -1132,15 +1141,6 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
         subBuilder: MethodOptions.create)
     ..aOB(5, _omitFieldNames ? '' : 'clientStreaming')
     ..aOB(6, _omitFieldNames ? '' : 'serverStreaming');
-
-  MethodDescriptorProto._() : super();
-  factory MethodDescriptorProto() => create();
-  factory MethodDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory MethodDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1243,6 +1243,15 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class FileOptions extends $pb.GeneratedMessage {
+  factory FileOptions() => create();
+  FileOptions._() : super();
+  factory FileOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FileOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FileOptions',
       package:
@@ -1278,15 +1287,6 @@ class FileOptions extends $pb.GeneratedMessage {
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
-
-  FileOptions._() : super();
-  factory FileOptions() => create();
-  factory FileOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FileOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1559,6 +1559,15 @@ class FileOptions extends $pb.GeneratedMessage {
 }
 
 class MessageOptions extends $pb.GeneratedMessage {
+  factory MessageOptions() => create();
+  MessageOptions._() : super();
+  factory MessageOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MessageOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MessageOptions',
       package:
@@ -1572,15 +1581,6 @@ class MessageOptions extends $pb.GeneratedMessage {
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
-
-  MessageOptions._() : super();
-  factory MessageOptions() => create();
-  factory MessageOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory MessageOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1658,6 +1658,15 @@ class MessageOptions extends $pb.GeneratedMessage {
 }
 
 class FieldOptions extends $pb.GeneratedMessage {
+  factory FieldOptions() => create();
+  FieldOptions._() : super();
+  factory FieldOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory FieldOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FieldOptions',
       package:
@@ -1681,15 +1690,6 @@ class FieldOptions extends $pb.GeneratedMessage {
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
-
-  FieldOptions._() : super();
-  factory FieldOptions() => create();
-  factory FieldOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FieldOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1791,6 +1791,15 @@ class FieldOptions extends $pb.GeneratedMessage {
 }
 
 class OneofOptions extends $pb.GeneratedMessage {
+  factory OneofOptions() => create();
+  OneofOptions._() : super();
+  factory OneofOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory OneofOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'OneofOptions',
       package:
@@ -1800,15 +1809,6 @@ class OneofOptions extends $pb.GeneratedMessage {
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
-
-  OneofOptions._() : super();
-  factory OneofOptions() => create();
-  factory OneofOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory OneofOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1838,6 +1838,15 @@ class OneofOptions extends $pb.GeneratedMessage {
 }
 
 class EnumOptions extends $pb.GeneratedMessage {
+  factory EnumOptions() => create();
+  EnumOptions._() : super();
+  factory EnumOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory EnumOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumOptions',
       package:
@@ -1849,15 +1858,6 @@ class EnumOptions extends $pb.GeneratedMessage {
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
-
-  EnumOptions._() : super();
-  factory EnumOptions() => create();
-  factory EnumOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1910,6 +1910,15 @@ class EnumOptions extends $pb.GeneratedMessage {
 }
 
 class EnumValueOptions extends $pb.GeneratedMessage {
+  factory EnumValueOptions() => create();
+  EnumValueOptions._() : super();
+  factory EnumValueOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory EnumValueOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumValueOptions',
       package:
@@ -1920,15 +1929,6 @@ class EnumValueOptions extends $pb.GeneratedMessage {
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
-
-  EnumValueOptions._() : super();
-  factory EnumValueOptions() => create();
-  factory EnumValueOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumValueOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -1970,6 +1970,15 @@ class EnumValueOptions extends $pb.GeneratedMessage {
 }
 
 class ServiceOptions extends $pb.GeneratedMessage {
+  factory ServiceOptions() => create();
+  ServiceOptions._() : super();
+  factory ServiceOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory ServiceOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ServiceOptions',
       package:
@@ -1980,15 +1989,6 @@ class ServiceOptions extends $pb.GeneratedMessage {
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
-
-  ServiceOptions._() : super();
-  factory ServiceOptions() => create();
-  factory ServiceOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ServiceOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2030,6 +2030,15 @@ class ServiceOptions extends $pb.GeneratedMessage {
 }
 
 class MethodOptions extends $pb.GeneratedMessage {
+  factory MethodOptions() => create();
+  MethodOptions._() : super();
+  factory MethodOptions.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MethodOptions.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MethodOptions',
       package:
@@ -2045,15 +2054,6 @@ class MethodOptions extends $pb.GeneratedMessage {
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
-
-  MethodOptions._() : super();
-  factory MethodOptions() => create();
-  factory MethodOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory MethodOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2107,6 +2107,15 @@ class MethodOptions extends $pb.GeneratedMessage {
 }
 
 class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
+  factory UninterpretedOption_NamePart() => create();
+  UninterpretedOption_NamePart._() : super();
+  factory UninterpretedOption_NamePart.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory UninterpretedOption_NamePart.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'UninterpretedOption.NamePart',
       package:
@@ -2115,15 +2124,6 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
     ..aQS(1, _omitFieldNames ? '' : 'namePart')
     ..a<$core.bool>(
         2, _omitFieldNames ? '' : 'isExtension', $pb.PbFieldType.QB);
-
-  UninterpretedOption_NamePart._() : super();
-  factory UninterpretedOption_NamePart() => create();
-  factory UninterpretedOption_NamePart.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory UninterpretedOption_NamePart.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2178,6 +2178,15 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
 }
 
 class UninterpretedOption extends $pb.GeneratedMessage {
+  factory UninterpretedOption() => create();
+  UninterpretedOption._() : super();
+  factory UninterpretedOption.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory UninterpretedOption.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'UninterpretedOption',
       package:
@@ -2196,15 +2205,6 @@ class UninterpretedOption extends $pb.GeneratedMessage {
     ..a<$core.List<$core.int>>(
         7, _omitFieldNames ? '' : 'stringValue', $pb.PbFieldType.OY)
     ..aOS(8, _omitFieldNames ? '' : 'aggregateValue');
-
-  UninterpretedOption._() : super();
-  factory UninterpretedOption() => create();
-  factory UninterpretedOption.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory UninterpretedOption.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2306,6 +2306,15 @@ class UninterpretedOption extends $pb.GeneratedMessage {
 }
 
 class SourceCodeInfo_Location extends $pb.GeneratedMessage {
+  factory SourceCodeInfo_Location() => create();
+  SourceCodeInfo_Location._() : super();
+  factory SourceCodeInfo_Location.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SourceCodeInfo_Location.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SourceCodeInfo.Location',
       package:
@@ -2317,15 +2326,6 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
     ..aOS(4, _omitFieldNames ? '' : 'trailingComments')
     ..pPS(6, _omitFieldNames ? '' : 'leadingDetachedComments')
     ..hasRequiredFields = false;
-
-  SourceCodeInfo_Location._() : super();
-  factory SourceCodeInfo_Location() => create();
-  factory SourceCodeInfo_Location.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory SourceCodeInfo_Location.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2387,6 +2387,15 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
 }
 
 class SourceCodeInfo extends $pb.GeneratedMessage {
+  factory SourceCodeInfo() => create();
+  SourceCodeInfo._() : super();
+  factory SourceCodeInfo.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory SourceCodeInfo.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SourceCodeInfo',
       package:
@@ -2396,15 +2405,6 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
         1, _omitFieldNames ? '' : 'location', $pb.PbFieldType.PM,
         subBuilder: SourceCodeInfo_Location.create)
     ..hasRequiredFields = false;
-
-  SourceCodeInfo._() : super();
-  factory SourceCodeInfo() => create();
-  factory SourceCodeInfo.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory SourceCodeInfo.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2434,6 +2434,15 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
 }
 
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
+  factory GeneratedCodeInfo_Annotation() => create();
+  GeneratedCodeInfo_Annotation._() : super();
+  factory GeneratedCodeInfo_Annotation.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory GeneratedCodeInfo_Annotation.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GeneratedCodeInfo.Annotation',
       package:
@@ -2444,15 +2453,6 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
     ..a<$core.int>(3, _omitFieldNames ? '' : 'begin', $pb.PbFieldType.O3)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
-
-  GeneratedCodeInfo_Annotation._() : super();
-  factory GeneratedCodeInfo_Annotation() => create();
-  factory GeneratedCodeInfo_Annotation.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GeneratedCodeInfo_Annotation.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -2522,6 +2522,15 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
 }
 
 class GeneratedCodeInfo extends $pb.GeneratedMessage {
+  factory GeneratedCodeInfo() => create();
+  GeneratedCodeInfo._() : super();
+  factory GeneratedCodeInfo.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory GeneratedCodeInfo.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GeneratedCodeInfo',
       package:
@@ -2531,15 +2540,6 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
         1, _omitFieldNames ? '' : 'annotation', $pb.PbFieldType.PM,
         subBuilder: GeneratedCodeInfo_Annotation.create)
     ..hasRequiredFields = false;
-
-  GeneratedCodeInfo._() : super();
-  factory GeneratedCodeInfo() => create();
-  factory GeneratedCodeInfo.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GeneratedCodeInfo.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '

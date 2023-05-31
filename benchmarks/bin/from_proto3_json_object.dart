@@ -15,15 +15,14 @@ class Benchmark extends BenchmarkBase {
   final Object? _message1Proto3Proto3JsonObject;
   final Object? _message2Proto3JsonObject;
 
-  Benchmark(String name, List<int> message1Proto2Input,
+  Benchmark(super.name, List<int> message1Proto2Input,
       List<int> message1Proto3Input, List<int> message2Input)
       : _message1Proto2Proto3JsonObject =
             p2.GoogleMessage1.fromBuffer(message1Proto2Input).toProto3Json(),
         _message1Proto3Proto3JsonObject =
             p3.GoogleMessage1.fromBuffer(message1Proto3Input).toProto3Json(),
         _message2Proto3JsonObject =
-            GoogleMessage2.fromBuffer(message2Input).toProto3Json(),
-        super(name);
+            GoogleMessage2.fromBuffer(message2Input).toProto3Json();
 
   @override
   void run() {
