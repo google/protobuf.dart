@@ -41,7 +41,8 @@ abstract class MessageSet extends GeneratedMessage {
       }
 
       if (tagNumber != 1) {
-        throw 'Strange message set tag: $tag (type = $wireType, tag number = $tagNumber)';
+        throw UnsupportedError(
+            'Invalid message set (type = $wireType, tag = $tagNumber)');
       }
 
       int? typeId;
@@ -73,7 +74,7 @@ abstract class MessageSet extends GeneratedMessage {
             continue outer;
           }
         } else {
-          throw 'Invalid message set (tag = $tagNumber)';
+          throw UnsupportedError('Invalid message set item (tag = $tagNumber)');
         }
       }
     }
