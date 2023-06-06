@@ -311,8 +311,15 @@ class MessageGenerator extends ProtobufContainer {
         ? ', toProto3Json: $mixinImportPrefix.${mixin!.name}.toProto3JsonHelper, '
             'fromProto3Json: $mixinImportPrefix.${mixin!.name}.fromProto3JsonHelper'
         : '';
+
+    final String extendedClass;
+    if (_descriptor.options.messageSetWireFormat) {
+      extendedClass = 'MessageSet';
+    } else {
+      extendedClass = 'GeneratedMessage';
+    }
     out.addAnnotatedBlock(
-        'class $classname extends $protobufImportPrefix.GeneratedMessage$mixinClause {',
+        'class $classname extends $protobufImportPrefix.$extendedClass$mixinClause {',
         '}', [
       NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)

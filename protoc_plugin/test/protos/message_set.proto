@@ -20,6 +20,6 @@ message TestMessage {
 }
 
 message ExtensionMessage {
-  optional int32 a = 1;
-  optional string b = 2;
+  optional int32 a = 6;
+  optional string b = 7;
 }
