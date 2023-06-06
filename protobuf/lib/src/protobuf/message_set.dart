@@ -33,8 +33,8 @@ abstract class MessageSet extends GeneratedMessage {
     outer:
     while (true) {
       final tag = input.readTag();
-      final wireType = tag & 0x7;
-      final tagNumber = tag >> 3;
+      final wireType = getTagWireType(tag);
+      final tagNumber = getTagFieldNumber(tag);
 
       if (tag == 0) {
         break;
@@ -50,7 +50,7 @@ abstract class MessageSet extends GeneratedMessage {
       // Parse items
       while (true) {
         final tag = input.readTag();
-        final tagNumber = tag >> 3;
+        final tagNumber = getTagFieldNumber(tag);
 
         if (tag == 0) {
           break;

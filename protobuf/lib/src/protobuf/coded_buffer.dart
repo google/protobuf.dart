@@ -36,8 +36,8 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
   while (true) {
     final tag = input.readTag();
     if (tag == 0) return;
-    final wireType = tag & 0x7;
-    final tagNumber = tag >> 3;
+    final wireType = getTagWireType(tag);
+    final tagNumber = getTagFieldNumber(tag);
 
     final fi = fs._nonExtensionInfo(meta, tagNumber) ??
         registry.getExtension(meta.qualifiedMessageName, tagNumber);
