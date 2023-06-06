@@ -1,0 +1,25 @@
+// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto2";
+
+message MessageSet {
+  option message_set_wire_format = true;
+
+  extensions 4 to 524999999;
+  extensions 525000000 to max;
+}
+
+message TestMessage {
+  extend MessageSet {
+    optional ExtensionMessage message_set_extension = 1758024;
+  }
+
+  optional MessageSet info = 123;
+}
+
+message ExtensionMessage {
+  optional int32 a = 1;
+  optional string b = 2;
+}

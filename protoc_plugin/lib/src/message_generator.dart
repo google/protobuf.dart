@@ -348,12 +348,18 @@ class MessageGenerator extends ProtobufContainer {
       out.addSuffix(
           omitMessageNames.constFieldName, omitMessageNames.constDefinition);
 
+      final messageSetWireFormat = _descriptor.options.messageSetWireFormat
+          ? ', messageSetWireFormat: true'
+          : '';
+
       out.addBlock(
           'static final $protobufImportPrefix.BuilderInfo _i = '
               '$protobufImportPrefix.BuilderInfo(${omitMessageNames.createTernary(messageName)}'
               '$packageClause'
               ', createEmptyInstance: create'
-              '$proto3JsonClause)',
+              '$proto3JsonClause'
+              '$messageSetWireFormat'
+              ')',
           ';', () {
         for (var oneof = 0; oneof < _oneofFields.length; oneof++) {
           final tags =

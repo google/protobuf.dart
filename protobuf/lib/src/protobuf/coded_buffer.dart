@@ -39,8 +39,8 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
     final wireType = tag & 0x7;
     final tagNumber = tag >> 3;
 
-    var fi = fs._nonExtensionInfo(meta, tagNumber);
-    fi ??= registry.getExtension(meta.qualifiedMessageName, tagNumber);
+    final fi = fs._nonExtensionInfo(meta, tagNumber) ??
+        registry.getExtension(meta.qualifiedMessageName, tagNumber);
 
     if (fi == null || !_wireTypeMatches(fi.type, wireType)) {
       if (!fs._ensureUnknownFields().mergeFieldFromBuffer(tag, input)) {
