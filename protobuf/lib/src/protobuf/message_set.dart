@@ -10,7 +10,21 @@ const messageTag = 3;
 abstract class MessageSet extends GeneratedMessage {
   @override
   void writeToCodedBufferWriter(CodedBufferWriter output) {
-    throw 'TODO';
+    final extensions = _fieldSet._ensureExtensions();
+
+    for (final ext in extensions._values.entries) {
+      final typeId = ext.key;
+      final message = ext.value as GeneratedMessage;
+
+      output._writeTag(1, WIRETYPE_START_GROUP);
+      output._writeTag(2, WIRETYPE_VARINT);
+      output._writeVarint32(typeId);
+      output._writeTag(3, WIRETYPE_LENGTH_DELIMITED);
+      final mark = output._startLengthDelimited();
+      message.writeToCodedBufferWriter(output);
+      output._endLengthDelimited(mark);
+      output._writeTag(1, WIRETYPE_END_GROUP);
+    }
   }
 
   @override
@@ -36,7 +50,6 @@ abstract class MessageSet extends GeneratedMessage {
       // Parse items
       while (true) {
         final tag = input.readTag();
-        final wireType = tag & 0x7;
         final tagNumber = tag >> 3;
 
         if (tag == 0) {
@@ -44,7 +57,6 @@ abstract class MessageSet extends GeneratedMessage {
         }
 
         if (tagNumber == typeIdTag) {
-          assert(wireType == WIRETYPE_VARINT);
           typeId = input.readInt32();
           if (message != null) {
             _parseExtension(typeId, message, extensionRegistry);
@@ -53,7 +65,6 @@ abstract class MessageSet extends GeneratedMessage {
             continue outer;
           }
         } else if (tagNumber == messageTag) {
-          assert(wireType == WIRETYPE_LENGTH_DELIMITED);
           message = input.readBytes();
           if (typeId != null) {
             _parseExtension(typeId, message, extensionRegistry);
@@ -74,12 +85,17 @@ abstract class MessageSet extends GeneratedMessage {
     mergeFromCodedBufferReader(CodedBufferReader(input), extensionRegistry);
   }
 
-  void _parseExtension(int typeId, List<int> message, ExtensionRegistry extensionRegistry) {
+  void _parseExtension(
+      int typeId, List<int> message, ExtensionRegistry extensionRegistry) {
     final ext = extensionRegistry.getExtension('MessageSet', typeId);
     if (ext == null) {
-      _fieldSet._ensureUnknownFields().addField(typeId, UnknownFieldSetField()..addLengthDelimited(message));
+      _fieldSet._ensureUnknownFields().addField(
+          typeId, UnknownFieldSetField()..addLengthDelimited(message));
     } else {
-      setExtension(ext, (ext.makeDefault!() as GeneratedMessage).deepCopy()..mergeFromBuffer(message));
+      setExtension(
+          ext,
+          (ext.makeDefault!() as GeneratedMessage).deepCopy()
+            ..mergeFromBuffer(message));
     }
   }
 }
