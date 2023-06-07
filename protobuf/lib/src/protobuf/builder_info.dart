@@ -41,8 +41,6 @@ class BuilderInfo {
 
   List<FieldInfo>? _sortedByTag;
 
-  bool messageSetWireFormat;
-
   // For well-known types.
   final Object? Function(GeneratedMessage message, TypeRegistry typeRegistry)?
       toProto3Json;
@@ -54,8 +52,7 @@ class BuilderInfo {
       {PackageName package = const PackageName(''),
       this.createEmptyInstance,
       this.toProto3Json,
-      this.fromProto3Json,
-      this.messageSetWireFormat = false})
+      this.fromProto3Json})
       : qualifiedMessageName = '${package.prefix}$messageName';
 
   void add<T>(
