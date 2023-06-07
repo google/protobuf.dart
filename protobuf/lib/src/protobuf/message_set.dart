@@ -93,10 +93,7 @@ abstract class MessageSet extends GeneratedMessage {
       _fieldSet._ensureUnknownFields().addField(
           typeId, UnknownFieldSetField()..addLengthDelimited(message));
     } else {
-      setExtension(
-          ext,
-          (ext.makeDefault!() as GeneratedMessage).deepCopy()
-            ..mergeFromBuffer(message));
+      setExtension(ext, ext.subBuilder!()..mergeFromBuffer(message));
     }
   }
 }
