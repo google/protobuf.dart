@@ -8,7 +8,6 @@ const _messageSetItemTypeIdTag = 2;
 const _messageSetItemMessageTag = 3;
 
 abstract class MessageSet extends GeneratedMessage {
-
   @override
   void writeToCodedBufferWriter(CodedBufferWriter output) {
     final extensions = _fieldSet._ensureExtensions();
