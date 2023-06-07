@@ -4,10 +4,11 @@
 
 part of '../../protobuf.dart';
 
-const typeIdTag = 2;
-const messageTag = 3;
+const _messageSetItemTypeIdTag = 2;
+const _messageSetItemMessageTag = 3;
 
 abstract class MessageSet extends GeneratedMessage {
+
   @override
   void writeToCodedBufferWriter(CodedBufferWriter output) {
     final extensions = _fieldSet._ensureExtensions();
@@ -68,7 +69,7 @@ abstract class MessageSet extends GeneratedMessage {
           break;
         }
 
-        if (tagNumber == typeIdTag) {
+        if (tagNumber == _messageSetItemTypeIdTag) {
           typeId = input.readInt32();
           if (message != null) {
             _parseExtension(typeId, message, extensionRegistry);
@@ -76,7 +77,7 @@ abstract class MessageSet extends GeneratedMessage {
             message = null;
             continue outer;
           }
-        } else if (tagNumber == messageTag) {
+        } else if (tagNumber == _messageSetItemMessageTag) {
           message = input.readBytes();
           if (typeId != null) {
             _parseExtension(typeId, message, extensionRegistry);
