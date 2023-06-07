@@ -30,6 +30,11 @@ abstract class MessageSet extends GeneratedMessage {
   @override
   void mergeFromCodedBufferReader(CodedBufferReader input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+    // Parse items. The field for the items looks like:
+    //
+    //   repeated Item items = 1;
+    //
+    // Since message sets are compatible with proto1 items can't be packed.
     outer:
     while (true) {
       final tag = input.readTag();
@@ -45,10 +50,16 @@ abstract class MessageSet extends GeneratedMessage {
             'Invalid message set (type = $wireType, tag = $tagNumber)');
       }
 
+      // Parse an item. An item is a message with two fields:
+      //
+      //   message Item {
+      //     int32 type_id = 2;
+      //     Message message = 3;
+      //   }
+      //
+      // We can see the fields in any order, so loop until parsing both fields.
       int? typeId;
       List<int>? message;
-
-      // Parse items
       while (true) {
         final tag = input.readTag();
         final tagNumber = getTagFieldNumber(tag);
