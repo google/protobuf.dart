@@ -26,19 +26,25 @@
 * Fix decoding map fields when key or value (or both) fields of a map entry is
   missing. ([#719], [#745])
 * Generated files now split `ignore_for_file` comments across multiple lines
-  when necessary.
+  when necessary. ([#770])
 * Generated files now uses shared consts to eliminate repeated
-  `bool.fromEnvironment()` expressions.
+  `bool.fromEnvironment()` expressions. ([#772])
 * Removed accidental `///` at the top of generated Dart files to avoid new
-  `dangling_library_doc_comments` lint.
+  `dangling_library_doc_comments` lint. ([#774])
 * Generated files now have sorted imports and have fewer import-related
-  `ignore_for_file:` analysis directives.
+  `ignore_for_file:` analysis directives. ([#778])
+* Remove duplicated consts in generated files. ([#773])
 
 [#679]: https://github.com/google/protobuf.dart/pull/679
 [#703]: https://github.com/google/protobuf.dart/pull/703
 [9aad6aa]: https://github.com/google/protobuf.dart/commits/9aad6aa
 [#719]: https://github.com/google/protobuf.dart/issues/719
 [#745]: https://github.com/google/protobuf.dart/pull/745
+[#770]: https://github.com/google/protobuf.dart/pull/770
+[#772]: https://github.com/google/protobuf.dart/pull/772
+[#773]: https://github.com/google/protobuf.dart/pull/773
+[#774]: https://github.com/google/protobuf.dart/pull/774
+[#778]: https://github.com/google/protobuf.dart/pull/778
 
 ## 20.0.1
 

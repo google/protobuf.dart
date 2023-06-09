@@ -15,7 +15,7 @@
 * Update library documentation to hide internals, add documentation for public
   types. ([#681])
 * Fix `PbMap._isReadonly` field initialization in `PbMap.unmodifiable`.
-  ([#741])
+  ([#741], [#754])
 * Fix decoding map fields when key or value (or both) fields of a map entry is
   missing. ([#719], [#745])
 * Fix updating frozen (immutable) messages with merge methods
@@ -42,6 +42,7 @@
 [#751]: https://github.com/google/protobuf.dart/issues/751
 [#760]: https://github.com/google/protobuf.dart/issues/760
 [#763]: https://github.com/google/protobuf.dart/pull/763
+[#754]: https://github.com/google/protobuf.dart/pull/754
 
 ## 2.1.0
 
