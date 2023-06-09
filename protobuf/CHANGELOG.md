@@ -20,7 +20,7 @@
   missing. ([#719], [#745])
 * Fix updating frozen (immutable) messages with merge methods
   (`mergeFromBuffer`, `mergeFromProto3Json`, ...). ([#489], [#727])
-* Fix handling `null` values in proto3 JSON deserializer ([#751], [#760],
+* Fix handling `null` values in proto3 JSON deserializer. ([#751], [#760],
   [#763])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
