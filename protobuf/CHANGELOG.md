@@ -22,6 +22,7 @@
   (`mergeFromBuffer`, `mergeFromProto3Json`, ...). ([#489], [#727])
 * Fix handling `null` values in proto3 JSON deserializer. ([#751], [#760],
   [#763])
+* Fix handling negative JSON values when parsing uint32 fields. ([#839])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -43,6 +44,7 @@
 [#760]: https://github.com/google/protobuf.dart/issues/760
 [#763]: https://github.com/google/protobuf.dart/pull/763
 [#754]: https://github.com/google/protobuf.dart/pull/754
+[#839]: https://github.com/google/protobuf.dart/pull/839
 
 ## 2.1.0
 

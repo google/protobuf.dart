@@ -174,6 +174,13 @@ void main() {
     expect(message.count, 2214672939);
   });
 
+  test('testUint32Negative', () {
+    var message = foo.Inner.fromJson('{"6": -1}');
+    expect(message.countUint32, 4294967295);
+    message = foo.Inner.fromJson('{"6": -2080294357}');
+    expect(message.countUint32, 2214672939);
+  });
+
   test('testParse', () {
     expect(TestAllTypes.fromJson(testAllJsonTypes), getAllSet());
   });
