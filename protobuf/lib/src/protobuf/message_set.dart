@@ -101,8 +101,18 @@ abstract class MessageSet extends GeneratedMessage {
       int typeId, List<int> message, ExtensionRegistry extensionRegistry) {
     final ext = extensionRegistry.getExtension('MessageSet', typeId);
     if (ext == null) {
+      final itemMessage = UnknownFieldSet();
+      itemMessage.addField(
+          2, UnknownFieldSetField()..varints.add(Int64(typeId)));
+      itemMessage.addField(
+          3, UnknownFieldSetField()..lengthDelimited.add(message));
+      final itemMessageBuffer = CodedBufferWriter();
+      itemMessage.writeToCodedBufferWriter(itemMessageBuffer);
+
       _fieldSet._ensureUnknownFields().addField(
-          typeId, UnknownFieldSetField()..addLengthDelimited(message));
+          1,
+          UnknownFieldSetField()
+            ..lengthDelimited.add(itemMessageBuffer.toBuffer()));
     } else {
       setExtension(ext, ext.subBuilder!()..mergeFromBuffer(message));
     }
