@@ -37,6 +37,10 @@ void main() {
   test('Reparse with extensions', () {
     final msg = TestMessage.fromBuffer(encoded);
     final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
-    registry.reparseMessage(msg);
+    final reparsedInfo = registry.reparseMessage(msg.info);
+    final extensionValue = reparsedInfo
+        .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
+    expect(extensionValue.a, 123);
+    expect(extensionValue.b, 'hi');
   });
 }

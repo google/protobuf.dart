@@ -133,6 +133,7 @@ class CodedBufferReader {
   }
 
   bool readBool() => _readRawVarint32(true) != 0;
+
   List<int> readBytes() {
     final length = readInt32();
     _checkLimit(length);
