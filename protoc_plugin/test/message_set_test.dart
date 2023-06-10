@@ -34,11 +34,21 @@ void main() {
     expect(msg.writeToBuffer(), encoded);
   });
 
-  test('Reparse with extensions', () {
+  test('Reparse with extensions (nested message)', () {
     final msg = TestMessage.fromBuffer(encoded);
     final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
     final reparsedInfo = registry.reparseMessage(msg.info);
     final extensionValue = reparsedInfo
+        .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
+    expect(extensionValue.a, 123);
+    expect(extensionValue.b, 'hi');
+  });
+
+  test('Reparse with extensions (top-level message)', () {
+    final msg = TestMessage.fromBuffer(encoded);
+    final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
+    final reparsedMsg = registry.reparseMessage(msg);
+    final extensionValue = reparsedMsg.info
         .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
     expect(extensionValue.a, 123);
     expect(extensionValue.b, 'hi');
