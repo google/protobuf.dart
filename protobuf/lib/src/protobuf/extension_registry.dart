@@ -94,7 +94,6 @@ class ExtensionRegistry {
 T _reparseMessage<T extends GeneratedMessage>(
     T message, ExtensionRegistry extensionRegistry) {
   T? result;
-
   T ensureResult() {
     if (result == null) {
       result ??= message.info_.createEmptyInstance!() as T;
@@ -104,7 +103,6 @@ T _reparseMessage<T extends GeneratedMessage>(
   }
 
   UnknownFieldSet? resultUnknownFields;
-
   UnknownFieldSet ensureUnknownFields() =>
       resultUnknownFields ??= ensureResult()._fieldSet._unknownFields!;
 

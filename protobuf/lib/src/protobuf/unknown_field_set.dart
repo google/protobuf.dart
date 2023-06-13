@@ -8,7 +8,6 @@ part of '../../protobuf.dart';
 class UnknownFieldSet {
   static final UnknownFieldSet emptyUnknownFieldSet = UnknownFieldSet()
     .._markReadOnly();
-
   final Map<int, UnknownFieldSetField> _fields = <int, UnknownFieldSetField>{};
 
   UnknownFieldSet();
@@ -20,9 +19,7 @@ class UnknownFieldSet {
   UnknownFieldSet clone() => UnknownFieldSet._clone(this);
 
   bool get isEmpty => _fields.isEmpty;
-
   bool get isNotEmpty => _fields.isNotEmpty;
-
   bool _isReadOnly = false;
 
   Map<int, UnknownFieldSetField> asMap() => Map.from(_fields);
