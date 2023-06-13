@@ -111,8 +111,10 @@ T _reparseMessage<T extends GeneratedMessage>(
     final codedBufferWriter = CodedBufferWriter();
 
     if (message is $_MessageSet) {
-      final itemList = messageUnknownFields._fields[_messageSetItemsTag]!;
-      itemList.writeTo(_messageSetItemsTag, codedBufferWriter);
+      final itemList = messageUnknownFields._fields[_messageSetItemsTag];
+      if (itemList != null) {
+        itemList.writeTo(_messageSetItemsTag, codedBufferWriter);
+      }
     } else {
       extensionRegistry._extensions[message.info_.qualifiedMessageName]
           ?.forEach((tagNumber, extension) {
