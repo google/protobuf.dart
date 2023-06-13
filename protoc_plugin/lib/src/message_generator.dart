@@ -314,7 +314,7 @@ class MessageGenerator extends ProtobufContainer {
 
     final String extendedClass;
     if (_descriptor.options.messageSetWireFormat) {
-      extendedClass = 'MessageSet';
+      extendedClass = '\$_MessageSet';
     } else {
       extendedClass = 'GeneratedMessage';
     }

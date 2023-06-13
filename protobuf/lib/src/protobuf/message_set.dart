@@ -7,7 +7,7 @@ part of '../../protobuf.dart';
 const _messageSetItemTypeIdTag = 2;
 const _messageSetItemMessageTag = 3;
 
-abstract class MessageSet extends GeneratedMessage {
+abstract class $_MessageSet extends GeneratedMessage {
   @override
   void writeToCodedBufferWriter(CodedBufferWriter output) {
     final extensions = _fieldSet._ensureExtensions();
@@ -99,7 +99,8 @@ abstract class MessageSet extends GeneratedMessage {
 
   void _parseExtension(
       int typeId, List<int> message, ExtensionRegistry extensionRegistry) {
-    final ext = extensionRegistry.getExtension('MessageSet', typeId);
+    final ext =
+        extensionRegistry.getExtension(info_.qualifiedMessageName, typeId);
     if (ext == null) {
       _fieldSet._ensureUnknownFields().addMessageSetField(typeId, message);
     } else {
