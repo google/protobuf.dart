@@ -44,13 +44,6 @@ class UnknownFieldSet {
     _fields[number] = field;
   }
 
-  void addMessageSetField(int typeId, List<int> message) {
-    _ensureWritable('addMessageSetField');
-    final field = UnknownFieldSetField().._lengthDelimited.add(message);
-    field._isMessageSetItem = true;
-    _fields[typeId] = field;
-  }
-
   void mergeField(int number, UnknownFieldSetField field) {
     _ensureWritable('mergeField');
     _getField(number)
@@ -220,8 +213,6 @@ class UnknownFieldSetField {
 
   bool _isReadOnly = false;
 
-  bool _isMessageSetItem = false;
-
   void _markReadOnly() {
     if (_isReadOnly) return;
     _isReadOnly = true;
@@ -292,24 +283,11 @@ class UnknownFieldSetField {
       output.writeField(fieldNumber, type, value);
     }
 
-    if (_isMessageSetItem) {
-      final typeId = fieldNumber;
-      final message = _lengthDelimited[0];
-      output._writeTag(1, WIRETYPE_START_GROUP);
-      output._writeTag(2, WIRETYPE_VARINT);
-      output._writeVarint32(typeId);
-      output._writeTag(3, WIRETYPE_LENGTH_DELIMITED);
-      final mark = output._startLengthDelimited();
-      output.writeRawBytes(Uint8List.fromList(message));
-      output._endLengthDelimited(mark);
-      output._writeTag(1, WIRETYPE_END_GROUP);
-    } else {
-      write(PbFieldType._REPEATED_UINT64, varints);
-      write(PbFieldType._REPEATED_FIXED32, fixed32s);
-      write(PbFieldType._REPEATED_FIXED64, fixed64s);
-      write(PbFieldType._REPEATED_BYTES, lengthDelimited);
-      write(PbFieldType._REPEATED_GROUP, groups);
-    }
+    write(PbFieldType._REPEATED_UINT64, varints);
+    write(PbFieldType._REPEATED_FIXED32, fixed32s);
+    write(PbFieldType._REPEATED_FIXED64, fixed64s);
+    write(PbFieldType._REPEATED_BYTES, lengthDelimited);
+    write(PbFieldType._REPEATED_GROUP, groups);
   }
 
   void addGroup(UnknownFieldSet value) {

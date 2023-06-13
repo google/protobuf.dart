@@ -109,14 +109,20 @@ T _reparseMessage<T extends GeneratedMessage>(
   final messageUnknownFields = message._fieldSet._unknownFields;
   if (messageUnknownFields != null) {
     final codedBufferWriter = CodedBufferWriter();
-    extensionRegistry._extensions[message.info_.qualifiedMessageName]
-        ?.forEach((tagNumber, extension) {
-      final unknownField = messageUnknownFields._fields[tagNumber];
-      if (unknownField != null) {
-        unknownField.writeTo(tagNumber, codedBufferWriter);
-        ensureUnknownFields()._fields.remove(tagNumber);
-      }
-    });
+
+    if (message is $_MessageSet) {
+      final itemList = messageUnknownFields._fields[_messageSetItemsTag]!;
+      itemList.writeTo(_messageSetItemsTag, codedBufferWriter);
+    } else {
+      extensionRegistry._extensions[message.info_.qualifiedMessageName]
+          ?.forEach((tagNumber, extension) {
+        final unknownField = messageUnknownFields._fields[tagNumber];
+        if (unknownField != null) {
+          unknownField.writeTo(tagNumber, codedBufferWriter);
+          ensureUnknownFields()._fields.remove(tagNumber);
+        }
+      });
+    }
 
     final buffer = codedBufferWriter.toBuffer();
     if (buffer.isNotEmpty) {

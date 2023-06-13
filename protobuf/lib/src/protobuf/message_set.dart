@@ -4,6 +4,7 @@
 
 part of '../../protobuf.dart';
 
+const _messageSetItemsTag = 1;
 const _messageSetItemTypeIdTag = 2;
 const _messageSetItemMessageTag = 3;
 
@@ -16,14 +17,19 @@ abstract class $_MessageSet extends GeneratedMessage {
       final typeId = ext.key;
       final message = ext.value as GeneratedMessage;
 
-      output._writeTag(1, WIRETYPE_START_GROUP);
-      output._writeTag(2, WIRETYPE_VARINT);
+      output._writeTag(_messageSetItemsTag, WIRETYPE_START_GROUP);
+      output._writeTag(_messageSetItemTypeIdTag, WIRETYPE_VARINT);
       output._writeVarint32(typeId);
-      output._writeTag(3, WIRETYPE_LENGTH_DELIMITED);
+      output._writeTag(_messageSetItemMessageTag, WIRETYPE_LENGTH_DELIMITED);
       final mark = output._startLengthDelimited();
       message.writeToCodedBufferWriter(output);
       output._endLengthDelimited(mark);
-      output._writeTag(1, WIRETYPE_END_GROUP);
+      output._writeTag(_messageSetItemsTag, WIRETYPE_END_GROUP);
+    }
+
+    final unknownFields = _fieldSet._unknownFields;
+    if (unknownFields != null) {
+      unknownFields.writeToCodedBufferWriter(output);
     }
   }
 
@@ -45,7 +51,7 @@ abstract class $_MessageSet extends GeneratedMessage {
         break;
       }
 
-      if (tagNumber != 1) {
+      if (tagNumber != _messageSetItemsTag) {
         throw UnsupportedError(
             'Invalid message set (type = $wireType, tag = $tagNumber)');
       }
@@ -102,7 +108,20 @@ abstract class $_MessageSet extends GeneratedMessage {
     final ext =
         extensionRegistry.getExtension(info_.qualifiedMessageName, typeId);
     if (ext == null) {
-      _fieldSet._ensureUnknownFields().addMessageSetField(typeId, message);
+      final messageItem = UnknownFieldSet();
+      messageItem.addField(_messageSetItemTypeIdTag,
+          UnknownFieldSetField()..varints.add(Int64(typeId)));
+      messageItem.addField(_messageSetItemMessageTag,
+          UnknownFieldSetField()..lengthDelimited.add(message));
+
+      final itemListField =
+          _fieldSet._ensureUnknownFields().getField(_messageSetItemsTag) ??
+              UnknownFieldSetField();
+      itemListField.addGroup(messageItem);
+
+      _fieldSet
+          ._ensureUnknownFields()
+          .addField(_messageSetItemsTag, itemListField);
     } else {
       setExtension(ext, ext.subBuilder!()..mergeFromBuffer(message));
     }
