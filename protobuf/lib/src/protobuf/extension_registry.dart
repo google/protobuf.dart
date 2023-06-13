@@ -27,13 +27,8 @@ class ExtensionRegistry {
 
   /// Retrieves an extension from the registry that adds tag number [tagNumber]
   /// to the [messageName] message type.
-  Extension? getExtension(String messageName, int tagNumber) {
-    final map = _extensions[messageName];
-    if (map != null) {
-      return map[tagNumber];
-    }
-    return null;
-  }
+  Extension? getExtension(String messageName, int tagNumber) =>
+      _extensions[messageName]?[tagNumber];
 
   /// Creates a shallow copy of [message], with all extensions in `this` parsed
   /// from the unknown fields of [message] and of every nested submessage.
