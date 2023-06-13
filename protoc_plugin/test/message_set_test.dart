@@ -34,6 +34,11 @@ void main() {
     expect(msg.writeToBuffer(), encoded);
   });
 
+  test('Parse as unknown fields and serialize', () {
+    final msg = TestMessage.fromBuffer(encoded);
+    expect(msg.writeToBuffer(), encoded);
+  });
+
   test('Reparse with extensions (nested message)', () {
     final msg = TestMessage.fromBuffer(encoded);
     final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
