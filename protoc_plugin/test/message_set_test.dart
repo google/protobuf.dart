@@ -47,6 +47,7 @@ void main() {
         .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
     expect(extensionValue.a, 123);
     expect(extensionValue.b, 'hi');
+    expect(reparsedInfo.unknownFields.isEmpty, true);
   });
 
   test('Reparse with extensions (top-level message)', () {
@@ -57,5 +58,6 @@ void main() {
         .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
     expect(extensionValue.a, 123);
     expect(extensionValue.b, 'hi');
+    expect(msg.unknownFields.isEmpty, true);
   });
 }

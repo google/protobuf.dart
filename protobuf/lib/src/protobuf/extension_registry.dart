@@ -107,20 +107,30 @@ T _reparseMessage<T extends GeneratedMessage>(
 
     if (message is $_MessageSet) {
       final itemList = messageUnknownFields._fields[_messageSetItemsTag];
+
       final parsedItemList = UnknownFieldSetField();
+      final unparsedItemList = UnknownFieldSetField();
 
       if (itemList != null) {
         for (final group in itemList.groups) {
           final typeId =
               group._fields[_messageSetItemTypeIdTag]!.varints[0].toInt();
           if (extensionRegistry.getExtension(
-                  message.info_.qualifiedMessageName, typeId) !=
+                  message.info_.qualifiedMessageName, typeId) ==
               null) {
+            unparsedItemList.addGroup(group);
+          } else {
             parsedItemList.addGroup(group);
           }
         }
 
         parsedItemList.writeTo(_messageSetItemsTag, codedBufferWriter);
+
+        if (unparsedItemList.groups.isEmpty) {
+          messageUnknownFields._fields.remove(_messageSetItemsTag);
+        } else {
+          messageUnknownFields._fields[_messageSetItemsTag] = unparsedItemList;
+        }
       }
     } else {
       extensionRegistry._extensions[message.info_.qualifiedMessageName]
