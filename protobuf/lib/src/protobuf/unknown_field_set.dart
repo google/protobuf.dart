@@ -177,8 +177,8 @@ class UnknownFieldSet {
   }
 
   void writeToCodedBufferWriter(CodedBufferWriter output) {
-    for (final key in _fields.keys) {
-      _fields[key]!.writeTo(key, output);
+    for (final entry in _fields.entries) {
+      entry.value.writeTo(entry.key, output);
     }
   }
 
@@ -279,7 +279,7 @@ class UnknownFieldSetField {
       ];
 
   void writeTo(int fieldNumber, CodedBufferWriter output) {
-    void write(type, value) {
+    void write(int type, value) {
       output.writeField(fieldNumber, type, value);
     }
 
