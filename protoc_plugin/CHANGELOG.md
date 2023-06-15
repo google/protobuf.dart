@@ -1,4 +1,4 @@
-## 21.0.0-dev
+## 21.0.0
 
 * Identifiers `fromBuffer`, `fromJson`, `$_defaultFor`, `initByValue` are no
   longer reserved. Proto fields with those Dart names will no longer have a
