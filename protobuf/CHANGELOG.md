@@ -1,4 +1,4 @@
-## 3.0.0-dev
+## 3.0.0
 
 * Require Dart `2.19`.
 * Remove `ReadonlyMessageMixin` ([#183], [#644])
