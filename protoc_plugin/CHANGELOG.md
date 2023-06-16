@@ -12,7 +12,6 @@
 * Remove message constructor arguments. Constructors with arguments cause
   increase in release binary sizes even when no arguments are passed to the
   constructors. ([#703])
-* Require Dart `2.19`.
 
   **Migration:**
 
@@ -27,6 +26,7 @@
     ..a = 123
     ..b.addAll([1, 2, 3])
   ```
+* Require Dart `2.19`.
 * Export public dependencies (`import public`s in proto files) in
   `.pbenum.dart` files, same as `.pb.dart` files. ([9aad6aa])
 * Fix decoding map fields when key or value (or both) fields of a map entry is
