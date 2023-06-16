@@ -504,6 +504,7 @@ class FileGenerator extends ProtobufContainer {
     importWriter.addImport(_asyncImportUrl, prefix: asyncImportPrefix);
     importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
     importWriter.addImport(_grpcImportUrl, prefix: grpcImportPrefix);
+    importWriter.addImport(_protobufImportUrl, prefix: protobufImportPrefix);
 
     // Import .pb.dart files needed for requests and responses.
     final imports = <FileGenerator>{};

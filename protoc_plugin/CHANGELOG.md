@@ -1,3 +1,9 @@
+## 21.0.1
+
+* Fix missing protobuf import in generated grpc files. ([#844])
+
+[#844]: https://github.com/google/protobuf.dart/issues/844
+
 ## 21.0.0
 
 * Identifiers `fromBuffer`, `fromJson`, `$_defaultFor`, `initByValue` are no
