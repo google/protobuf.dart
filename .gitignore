@@ -9,3 +9,13 @@ packages
 pubspec.lock
 benchmarks/out
 doc/
+
+# `dart compile exe` outputs
+*.exe
+
+# `dart compile js` outputs
+*.js*
+
+# `dart compile wasm` outputs
+*.wasm
+*.mjs
