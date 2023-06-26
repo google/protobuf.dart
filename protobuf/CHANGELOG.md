@@ -1,3 +1,5 @@
+## 3.0.1-dev
+
 ## 3.0.0
 
 * Require Dart `2.19`.
@@ -24,7 +26,6 @@
   [#763])
 * Fix handling negative JSON values when parsing uint32 fields. ([#839])
 * Avoid serializing unknown fields twice in `reparseMessage`. ([#840])
-* Implement message set wire format. ([#836])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -48,7 +49,6 @@
 [#754]: https://github.com/google/protobuf.dart/pull/754
 [#839]: https://github.com/google/protobuf.dart/pull/839
 [#840]: https://github.com/google/protobuf.dart/pull/840
-[#836]: https://github.com/google/protobuf.dart/pull/836
 
 ## 2.1.0
 

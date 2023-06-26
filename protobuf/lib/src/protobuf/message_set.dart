@@ -8,6 +8,20 @@ const _messageSetItemsTag = 1;
 const _messageSetItemTypeIdTag = 2;
 const _messageSetItemMessageTag = 3;
 
+/// Overrides binary serialization and deserialization methods to implement the
+/// message set binary format.
+///
+/// Message set format is very old and only used in Google. When a message has
+/// this option:
+///
+/// ```
+/// option message_set_wire_format = true;
+/// ```
+///
+/// The plugin extends the generated message class with this class instead of
+/// [GeneratedMessage].
+///
+/// @nodoc
 abstract class $_MessageSet extends GeneratedMessage {
   @override
   void writeToCodedBufferWriter(CodedBufferWriter output) {
