@@ -426,45 +426,36 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   void _generateFactory(IndentingWriter out) {
-    if (fileGen.options.generateConstructorArguments) {
-      out.print('factory $classname(');
-      if (_fieldList.isNotEmpty) {
-        out.println('{');
-        for (final field in _fieldList) {
-          _emitDeprecatedIf(field.isDeprecated, out);
-          if (field.isRepeated && !field.isMapField) {
-            out.println(
-                '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames!.fieldName},');
-          } else {
-            out.println(
-                '  ${field.getDartType()}? ${field.memberNames!.fieldName},');
-          }
+    if (fileGen.options.generateConstructorArguments && _fieldList.isNotEmpty) {
+      out.println('factory $classname({');
+      for (final field in _fieldList) {
+        _emitDeprecatedIf(field.isDeprecated, out);
+        if (field.isRepeated && !field.isMapField) {
+          out.println(
+              '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames!.fieldName},');
+        } else {
+          out.println(
+              '  ${field.getDartType()}? ${field.memberNames!.fieldName},');
         }
-        out.print('}');
       }
-      if (_fieldList.isNotEmpty) {
-        out.println(') {');
-        out.println('  final result = create();');
-        for (final field in _fieldList) {
-          out.println('  if (${field.memberNames!.fieldName} != null) {');
-          if (field.isDeprecated) {
-            out.println(
-                '    // ignore: deprecated_member_use_from_same_package');
-          }
-          if (field.isRepeated || field.isMapField) {
-            out.println(
-                '    result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
-          } else {
-            out.println(
-                '    result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');
-          }
-          out.println('  }');
+      out.println('}) {');
+      out.println('  final result = create();');
+      for (final field in _fieldList) {
+        out.println('  if (${field.memberNames!.fieldName} != null) {');
+        if (field.isDeprecated) {
+          out.println('    // ignore: deprecated_member_use_from_same_package');
         }
-        out.println('  return result;');
-        out.println('}');
-      } else {
-        out.println(') => create();');
+        if (field.isRepeated || field.isMapField) {
+          out.println(
+              '    result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
+        } else {
+          out.println(
+              '    result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');
+        }
+        out.println('  }');
       }
+      out.println('  return result;');
+      out.println('}');
     } else {
       out.println('factory $classname() => create();');
     }
