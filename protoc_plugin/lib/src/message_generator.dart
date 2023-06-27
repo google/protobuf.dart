@@ -444,7 +444,7 @@ class MessageGenerator extends ProtobufContainer {
       }
       if (_fieldList.isNotEmpty) {
         out.println(') {');
-        out.println('  final _result = create();');
+        out.println('  final result = create();');
         for (final field in _fieldList) {
           out.println('  if (${field.memberNames!.fieldName} != null) {');
           if (field.isDeprecated) {
@@ -453,14 +453,14 @@ class MessageGenerator extends ProtobufContainer {
           }
           if (field.isRepeated || field.isMapField) {
             out.println(
-                '    _result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
+                '    result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
           } else {
             out.println(
-                '    _result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');
+                '    result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');
           }
           out.println('  }');
         }
-        out.println('  return _result;');
+        out.println('  return result;');
         out.println('}');
       } else {
         out.println(') => create();');
