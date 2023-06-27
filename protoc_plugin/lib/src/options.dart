@@ -50,8 +50,12 @@ bool genericOptionsParser(CodeGeneratorRequest request,
 class GenerationOptions {
   final bool useGrpc;
   final bool generateMetadata;
+  final bool generateConstructorArguments;
 
-  GenerationOptions({this.useGrpc = false, this.generateMetadata = false});
+  GenerationOptions(
+      {this.useGrpc = false,
+      this.generateMetadata = false,
+      this.generateConstructorArguments = false});
 }
 
 /// A parser for a name-value pair option. Options parsed in
@@ -84,10 +88,24 @@ class GenerateMetadataParser implements SingleOptionParser {
   @override
   void parse(String name, String? value, OnError onError) {
     if (value != null) {
-      onError('Invalid metadata option. No value expected.');
+      onError('Invalid generate_kythe_info option. No value expected.');
       return;
     }
     generateKytheInfo = true;
+  }
+}
+
+class GenerateConstructorArgumentsParser implements SingleOptionParser {
+  bool generateConstructorArguments = false;
+
+  @override
+  void parse(String name, String? value, OnError onError) {
+    if (value != null) {
+      onError(
+          'Invalid generate_constructor_arguments option. No value expected.');
+      return;
+    }
+    generateConstructorArguments = true;
   }
 }
 
@@ -102,13 +120,21 @@ GenerationOptions? parseGenerationOptions(
 
   final grpcOptionParser = GrpcOptionParser();
   newParsers['grpc'] = grpcOptionParser;
+
   final generateMetadataParser = GenerateMetadataParser();
   newParsers['generate_kythe_info'] = generateMetadataParser;
+
+  final generateConstructorArgumentsParser =
+      GenerateConstructorArgumentsParser();
+  newParsers['generate_constructor_arguments'] =
+      generateConstructorArgumentsParser;
 
   if (genericOptionsParser(request, response, newParsers)) {
     return GenerationOptions(
         useGrpc: grpcOptionParser.grpcEnabled,
-        generateMetadata: generateMetadataParser.generateKytheInfo);
+        generateMetadata: generateMetadataParser.generateKytheInfo,
+        generateConstructorArguments:
+            generateConstructorArgumentsParser.generateConstructorArguments);
   }
   return null;
 }

@@ -1,3 +1,15 @@
+## 21.0.3
+
+* New protoc_plugin flag `generate_constructor_arguments` added to bring back
+  the old message factory methods with arguments. These arguments were removed
+  in 21.0.0 ([#703]) as they caused bloat in generated binaries in some cases.
+
+  Example usage:
+
+  ```
+  protoc --dart_out='generate_constructor_arguments,<other options>:.' ...
+  ```
+
 ## 21.0.2
 
 * Fix missing protobuf import in generated grpc files. ([#844])
