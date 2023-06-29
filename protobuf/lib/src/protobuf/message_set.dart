@@ -105,7 +105,10 @@ abstract class $_MessageSet extends GeneratedMessage {
             continue outer;
           }
         } else {
-          throw UnsupportedError('Invalid message set item (tag = $tagNumber)');
+          // Skip unknown tags.
+          if (!input.skipField(tag)) {
+            break outer; // End of group.
+          }
         }
       }
     }
