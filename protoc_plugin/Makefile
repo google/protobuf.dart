@@ -1,9 +1,6 @@
 PLUGIN_SRC = \
-	prepend.dart \
 	bin/protoc_plugin.dart \
-	lib/*.dart \
-	lib/src/descriptor.pb.dart \
-	lib/src/plugin.pb.dart
+	lib/**/*.dart
 
 OUTPUT_DIR=out
 PLUGIN_NAME=protoc-gen-dart
@@ -79,8 +76,8 @@ TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), \
 
 PREGENERATED_SRCS=protos/descriptor.proto protos/plugin.proto protos/dart_options.proto
 
-$(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
-	[ -d $(TEST_PROTO_DIR) ] || mkdir -p $(TEST_PROTO_DIR)
+$(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
+	mkdir -p $(TEST_PROTO_DIR)
 	protoc\
 		--experimental_allow_proto3_optional\
 		--dart_out=$(TEST_PROTO_DIR)\
@@ -89,8 +86,6 @@ $(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
 	dart format $(TEST_PROTO_DIR)
-
-build-plugin: $(PLUGIN_PATH)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 	protoc --dart_out=lib/src/generated -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
@@ -109,5 +104,4 @@ update-goldens: protos
 	dart run test
 
 clean:
-	rm -rf benchmark/lib/generated
 	rm -rf $(OUTPUT_DIR)
