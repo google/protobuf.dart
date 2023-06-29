@@ -157,6 +157,34 @@ class CodedBufferReader {
     return _lastTag;
   }
 
+  bool skipField(int tag) {
+    final tagType = getTagWireType(tag);
+
+    if (isAtEnd() || tagType == WIRETYPE_END_GROUP) {
+      return false;
+    }
+
+    switch (getTagWireType(tag)) {
+      case WIRETYPE_VARINT:
+        readInt64();
+        return true;
+      case WIRETYPE_FIXED64:
+        readFixed64();
+        return true;
+      case WIRETYPE_LENGTH_DELIMITED:
+        readBytes();
+        return true;
+      case WIRETYPE_FIXED32:
+        readFixed32();
+        return true;
+      case WIRETYPE_START_GROUP:
+        readUnknownFieldSetGroup(getTagFieldNumber(tag));
+        return true;
+      default:
+        throw InvalidProtocolBufferException.invalidWireType();
+    }
+  }
+
   static int _decodeZigZag32(int value) {
     if ((value & 0x1) == 1) {
       return -(value >> 1) - 1;

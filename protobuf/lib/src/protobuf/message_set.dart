@@ -58,7 +58,6 @@ abstract class $_MessageSet extends GeneratedMessage {
     outer:
     while (true) {
       final tag = input.readTag();
-      final wireType = getTagWireType(tag);
       final tagNumber = getTagFieldNumber(tag);
 
       if (tag == 0) {
@@ -66,8 +65,11 @@ abstract class $_MessageSet extends GeneratedMessage {
       }
 
       if (tagNumber != _messageSetItemsTag) {
-        throw UnsupportedError(
-            'Invalid message set (type = $wireType, tag = $tagNumber)');
+        if (!input.skipField(tag)) {
+          break; // End of group.
+        } else {
+          continue;
+        }
       }
 
       // Parse an item. An item is a message with two fields:
@@ -105,7 +107,10 @@ abstract class $_MessageSet extends GeneratedMessage {
             continue outer;
           }
         } else {
-          throw UnsupportedError('Invalid message set item (tag = $tagNumber)');
+          // Skip unknown tags.
+          if (!input.skipField(tag)) {
+            break outer; // End of group.
+          }
         }
       }
     }
