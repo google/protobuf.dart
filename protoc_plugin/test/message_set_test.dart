@@ -52,13 +52,9 @@ void main() {
     expect(msg.unknownFields.isEmpty, true);
   });
 
-  test('Ignore extra item tags', () {
+  test('Ignore extra tags in items', () {
     // Generate a message set encoding using unknown fields. Message set item
     // will have extra tags.
-
-    final messageSetUnknownFields = UnknownFieldSet();
-
-    final itemField = UnknownFieldSetField();
 
     final itemFieldGroup = UnknownFieldSet();
 
@@ -83,9 +79,9 @@ void main() {
     itemFieldGroup.addField(
         2, UnknownFieldSetField()..addVarint(Int64(1758024)));
 
-    itemField.addGroup(itemFieldGroup);
-
-    messageSetUnknownFields.addField(1, itemField);
+    final messageSetUnknownFields = UnknownFieldSet();
+    messageSetUnknownFields.addField(
+        1, UnknownFieldSetField()..addGroup(itemFieldGroup));
 
     final messageSetEncoded = CodedBufferWriter();
     messageSetUnknownFields.writeToCodedBufferWriter(messageSetEncoded);
@@ -104,5 +100,27 @@ void main() {
     expect(extensionValue.a, 123456);
     expect(extensionValue.b, 'test');
     expect(msg.unknownFields.isEmpty, true);
+  });
+
+  test('Ignore invalid tags in repeated items', () {
+    // Extra fields other than `repeated Item items = 1` in the outer message.
+
+    final messageSetUnknownFields = UnknownFieldSet();
+    messageSetUnknownFields.addField(
+        2, UnknownFieldSetField()..addVarint(Int64(987)));
+
+    final messageSetEncoded = CodedBufferWriter();
+    messageSetUnknownFields.writeToCodedBufferWriter(messageSetEncoded);
+
+    final encoded = (Empty()
+          ..unknownFields.addField(
+              123,
+              UnknownFieldSetField()
+                ..lengthDelimited.add(messageSetEncoded.toBuffer())))
+        .writeToBuffer();
+
+    final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
+    final msg = TestMessage.fromBuffer(encoded, registry);
+    expect(msg.info.hasExtension(TestMessage.messageSetExtension), false);
   });
 }
