@@ -1,6 +1,8 @@
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
+import '../out/protos/google/protobuf/empty.pb.dart';
 import '../out/protos/message_set.pb.dart';
 
 void main() {
@@ -43,6 +45,60 @@ void main() {
         .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
     expect(extensionValue.a, 123);
     expect(extensionValue.b, 'hi');
+    expect(msg.unknownFields.isEmpty, true);
+  });
+
+  test('Ignore extra item tags', () {
+    // Generate a message set encoding using unknown fields. Message set item
+    // will have extra tags.
+
+    final messageSetUnknownFields = UnknownFieldSet();
+
+    final itemField = UnknownFieldSetField();
+
+    final itemFieldGroup = UnknownFieldSet();
+
+    // Invalid field with tag 1.
+    itemFieldGroup.addField(
+        1, UnknownFieldSetField()..addLengthDelimited([1, 2, 3]));
+
+    // Extension field.
+    itemFieldGroup.addField(
+        3,
+        UnknownFieldSetField()
+          ..addLengthDelimited((ExtensionMessage()
+                ..a = 123456
+                ..b = 'test')
+              .writeToBuffer()));
+
+    // Invalid field with tag 3.
+    itemFieldGroup.addField(
+        4, UnknownFieldSetField()..addVarint(Int64(123456)));
+
+    // Type id field.
+    itemFieldGroup.addField(
+        2, UnknownFieldSetField()..addVarint(Int64(1758024)));
+
+    itemField.addGroup(itemFieldGroup);
+
+    messageSetUnknownFields.addField(1, itemField);
+
+    final messageSetEncoded = CodedBufferWriter();
+    messageSetUnknownFields.writeToCodedBufferWriter(messageSetEncoded);
+
+    final encoded = (Empty()
+          ..unknownFields.addField(
+              123,
+              UnknownFieldSetField()
+                ..lengthDelimited.add(messageSetEncoded.toBuffer())))
+        .writeToBuffer();
+
+    final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
+    final msg = TestMessage.fromBuffer(encoded, registry);
+    final extensionValue = msg.info
+        .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
+    expect(extensionValue.a, 123456);
+    expect(extensionValue.b, 'test');
     expect(msg.unknownFields.isEmpty, true);
   });
 }
