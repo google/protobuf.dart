@@ -44,6 +44,7 @@ TEST_PROTO_LIST = \
 	map_api2 \
 	map_enum_value \
 	map_field \
+	message_set \
 	mixins \
 	multiple_files_test \
 	nested_any \

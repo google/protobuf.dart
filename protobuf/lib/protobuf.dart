@@ -40,6 +40,7 @@ part 'src/protobuf/field_type.dart';
 part 'src/protobuf/generated_message.dart';
 part 'src/protobuf/generated_service.dart';
 part 'src/protobuf/json.dart';
+part 'src/protobuf/message_set.dart';
 part 'src/protobuf/pb_list.dart';
 part 'src/protobuf/pb_map.dart';
 part 'src/protobuf/proto3_json.dart';
