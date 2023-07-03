@@ -52,10 +52,9 @@ abstract class $_MessageSet extends GeneratedMessage {
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     // Parse items. The field for the items looks like:
     //
-    //   repeated Item items = 1;
+    //   repeated group Item items = 1;
     //
     // Since message sets are compatible with proto1 items can't be packed.
-    outer:
     while (true) {
       final tag = input.readTag();
       final tagNumber = getTagFieldNumber(tag);
@@ -96,7 +95,6 @@ abstract class $_MessageSet extends GeneratedMessage {
             _parseExtension(typeId, message, extensionRegistry);
             typeId = null;
             message = null;
-            continue outer;
           }
         } else if (tagNumber == _messageSetItemMessageTag) {
           message = input.readBytes();
@@ -104,12 +102,11 @@ abstract class $_MessageSet extends GeneratedMessage {
             _parseExtension(typeId, message, extensionRegistry);
             typeId = null;
             message = null;
-            continue outer;
           }
         } else {
           // Skip unknown tags.
           if (!input.skipField(tag)) {
-            break outer; // End of group.
+            break; // End of group.
           }
         }
       }

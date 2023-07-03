@@ -11,17 +11,27 @@ import '../out/protos/message_set.pb.dart';
 
 void main() {
   final encoded = [
-    0xda, 0x07, 0x0e, 0x0b, 0x10, 0xc8, 0xa6, 0x6b, 0x1a, //
-    0x06, 0x08, 0x7b, 0x12, 0x02, 0x68, 0x69, 0x0c
+    10, 44, 11, 16, 200, 166, 107, 26, 19, 8, 123, 18, 7, 116, 101, 115, //
+    116, 105, 110, 103, 26, 6, 40, 0, 40, 1, 40, 2, 12, 11, 16, 162, 233, //
+    111, 26, 9, 40, 219, 7, 40, 142, 5, 40, 193, 2, 12
   ];
 
-  test('Simple message set field', () {
-    final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
+  test('Parse message set extensions', () {
+    final registry = ExtensionRegistry()
+      ..add(TestMessage.ext1)
+      ..add(TestMessage.ext2);
     final msg = TestMessage.fromBuffer(encoded, registry);
-    final extensionValue = msg.info
-        .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
-    expect(extensionValue.a, 123);
-    expect(extensionValue.b, 'hi');
+
+    final ext1Value =
+        msg.info.getExtension(TestMessage.ext1) as ExtensionMessage1;
+    expect(ext1Value.a, 123);
+    expect(ext1Value.b, 'testing');
+    expect(ext1Value.c.ints, [0, 1, 2]);
+
+    final ext2Value =
+        msg.info.getExtension(TestMessage.ext2) as ExtensionMessage2;
+    expect(ext2Value.ints, [987, 654, 321]);
+
     expect(msg.writeToBuffer(), encoded);
   });
 
@@ -32,23 +42,39 @@ void main() {
 
   test('Reparse with extensions (nested message)', () {
     final msg = TestMessage.fromBuffer(encoded);
-    final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
+    final registry = ExtensionRegistry()
+      ..add(TestMessage.ext1)
+      ..add(TestMessage.ext2);
     final reparsedInfo = registry.reparseMessage(msg.info);
-    final extensionValue = reparsedInfo
-        .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
-    expect(extensionValue.a, 123);
-    expect(extensionValue.b, 'hi');
+
+    final ext1Value =
+        reparsedInfo.getExtension(TestMessage.ext1) as ExtensionMessage1;
+    expect(ext1Value.a, 123);
+    expect(ext1Value.b, 'testing');
+
+    final ext2Value =
+        reparsedInfo.getExtension(TestMessage.ext2) as ExtensionMessage2;
+    expect(ext2Value.ints, [987, 654, 321]);
+
     expect(reparsedInfo.unknownFields.isEmpty, true);
   });
 
   test('Reparse with extensions (top-level message)', () {
     final msg = TestMessage.fromBuffer(encoded);
-    final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
+    final registry = ExtensionRegistry()
+      ..add(TestMessage.ext1)
+      ..add(TestMessage.ext2);
     final reparsedMsg = registry.reparseMessage(msg);
-    final extensionValue = reparsedMsg.info
-        .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
-    expect(extensionValue.a, 123);
-    expect(extensionValue.b, 'hi');
+
+    final ext1Value =
+        reparsedMsg.info.getExtension(TestMessage.ext1) as ExtensionMessage1;
+    expect(ext1Value.a, 123);
+    expect(ext1Value.b, 'testing');
+
+    final ext2Value =
+        reparsedMsg.info.getExtension(TestMessage.ext2) as ExtensionMessage2;
+    expect(ext2Value.ints, [987, 654, 321]);
+
     expect(msg.unknownFields.isEmpty, true);
   });
 
@@ -66,7 +92,7 @@ void main() {
     itemFieldGroup.addField(
         3,
         UnknownFieldSetField()
-          ..addLengthDelimited((ExtensionMessage()
+          ..addLengthDelimited((ExtensionMessage1()
                 ..a = 123456
                 ..b = 'test')
               .writeToBuffer()));
@@ -88,15 +114,16 @@ void main() {
 
     final encoded = (Empty()
           ..unknownFields.addField(
-              123,
+              1,
               UnknownFieldSetField()
                 ..lengthDelimited.add(messageSetEncoded.toBuffer())))
         .writeToBuffer();
 
-    final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
+    final registry = ExtensionRegistry()..add(TestMessage.ext1);
     final msg = TestMessage.fromBuffer(encoded, registry);
-    final extensionValue = msg.info
-        .getExtension(TestMessage.messageSetExtension) as ExtensionMessage;
+    final extensionValue =
+        msg.info.getExtension(TestMessage.ext1) as ExtensionMessage1;
+
     expect(extensionValue.a, 123456);
     expect(extensionValue.b, 'test');
     expect(msg.unknownFields.isEmpty, true);
@@ -119,8 +146,8 @@ void main() {
                 ..lengthDelimited.add(messageSetEncoded.toBuffer())))
         .writeToBuffer();
 
-    final registry = ExtensionRegistry()..add(TestMessage.messageSetExtension);
+    final registry = ExtensionRegistry()..add(TestMessage.ext1);
     final msg = TestMessage.fromBuffer(encoded, registry);
-    expect(msg.info.hasExtension(TestMessage.messageSetExtension), false);
+    expect(msg.info.hasExtension(TestMessage.ext1), false);
   });
 }
