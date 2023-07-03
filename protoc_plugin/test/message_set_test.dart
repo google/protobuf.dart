@@ -10,6 +10,31 @@ import '../out/protos/google/protobuf/empty.pb.dart';
 import '../out/protos/message_set.pb.dart';
 
 void main() {
+  // Example message encoded with the C++ library. `protoc --decode_raw`
+  // output:
+  //
+  // 1 {
+  //   1 {
+  //     2: 1758024
+  //     3 {
+  //       1: 123
+  //       2: "testing"
+  //       3 {
+  //         5: 0
+  //         5: 1
+  //         5: 2
+  //       }
+  //     }
+  //   }
+  //   1 {
+  //     2: 1832098
+  //     3 {
+  //       5: 987
+  //       5: 654
+  //       5: 321
+  //     }
+  //   }
+  // }
   final encoded = [
     10, 44, 11, 16, 200, 166, 107, 26, 19, 8, 123, 18, 7, 116, 101, 115, //
     116, 105, 110, 103, 26, 6, 40, 0, 40, 1, 40, 2, 12, 11, 16, 162, 233, //
