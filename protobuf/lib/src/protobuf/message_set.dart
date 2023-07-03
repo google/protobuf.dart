@@ -104,7 +104,8 @@ abstract class $_MessageSet extends GeneratedMessage {
             message = null;
           }
         } else {
-          // Skip unknown tags.
+          // Skip unknown tags. If we're at the end of the group consume the
+          // EGROUP tag.
           if (!input.skipField(tag)) {
             break; // End of group.
           }
