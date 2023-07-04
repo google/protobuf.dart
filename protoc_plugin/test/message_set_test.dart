@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:typed_data';
+
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
@@ -144,51 +146,31 @@ void main() {
     // Generate a message set encoding using unknown fields. Message set item
     // will have extra tags.
 
-    final itemFieldGroup = UnknownFieldSet();
-
-    // Invalid field with tag 1.
-    itemFieldGroup.addField(
-        1, UnknownFieldSetField()..addLengthDelimited([1, 2, 3]));
-
-    // Extension field.
-    itemFieldGroup.addField(
-        3,
-        UnknownFieldSetField()
-          ..addLengthDelimited((ExtensionMessage1()
-                ..a = 123456
-                ..b = 'test')
-              .writeToBuffer()));
-
-    // Invalid field with tag 3.
-    itemFieldGroup.addField(
-        4, UnknownFieldSetField()..addVarint(Int64(123456)));
-
-    // Type id field.
-    itemFieldGroup.addField(
-        2, UnknownFieldSetField()..addVarint(Int64(1758024)));
-
-    final messageSetUnknownFields = UnknownFieldSet();
-    messageSetUnknownFields.addField(
-        1, UnknownFieldSetField()..addGroup(itemFieldGroup));
-
-    final messageSetEncoded = CodedBufferWriter();
-    messageSetUnknownFields.writeToCodedBufferWriter(messageSetEncoded);
-
-    final encoded = (Empty()
-          ..unknownFields.addField(
-              1,
-              UnknownFieldSetField()
-                ..lengthDelimited.add(messageSetEncoded.toBuffer())))
-        .writeToBuffer();
+    final encoded = encodeMessageSetWithExtraItemTags(Encoding.group);
 
     final registry = ExtensionRegistry()..add(TestMessage.ext1);
-    final msg = TestMessage.fromBuffer(encoded, registry);
+    final decodedMsg = MessageSet.fromBuffer(encoded, registry);
     final extensionValue =
-        msg.info.getExtension(TestMessage.ext1) as ExtensionMessage1;
+        decodedMsg.getExtension(TestMessage.ext1) as ExtensionMessage1;
 
     expect(extensionValue.a, 123456);
     expect(extensionValue.b, 'test');
-    expect(msg.unknownFields.isEmpty, true);
+    expect(decodedMsg.unknownFields.isEmpty, true);
+  });
+
+  test('Ignore extra tags in items (length delimited encoding)', () {
+    // Same as above, but tests length delimited encoding.
+
+    final encoded = encodeMessageSetWithExtraItemTags(Encoding.lengthDelimited);
+
+    final registry = ExtensionRegistry()..add(TestMessage.ext1);
+    final decodedMsg = MessageSet.fromBuffer(encoded, registry);
+    final extensionValue =
+        decodedMsg.getExtension(TestMessage.ext1) as ExtensionMessage1;
+
+    expect(extensionValue.a, 123456);
+    expect(extensionValue.b, 'test');
+    expect(decodedMsg.unknownFields.isEmpty, true);
   });
 
   test('Ignore invalid tags in repeated items', () {
@@ -212,4 +194,81 @@ void main() {
     final msg = TestMessage.fromBuffer(encoded, registry);
     expect(msg.info.hasExtension(TestMessage.ext1), false);
   });
+
+  test('Encode message set as length prefixed', () {
+    // Message sets are generally encoded as groups, but we support length
+    // delimited as well.
+
+    final messageSetUnknownFields = UnknownFieldSet();
+    messageSetUnknownFields.addField(
+        2, UnknownFieldSetField()..addVarint(Int64(987)));
+
+    final messageSetEncoded = CodedBufferWriter();
+    messageSetUnknownFields.writeToCodedBufferWriter(messageSetEncoded);
+
+    final encoded = (Empty()
+          ..unknownFields.addField(
+              123,
+              UnknownFieldSetField()
+                ..lengthDelimited.add(messageSetEncoded.toBuffer())))
+        .writeToBuffer();
+
+    final registry = ExtensionRegistry()..add(TestMessage.ext1);
+    final msg = TestMessage.fromBuffer(encoded, registry);
+    expect(msg.info.hasExtension(TestMessage.ext1), false);
+  });
+}
+
+enum Encoding {
+  lengthDelimited,
+  group,
+}
+
+/// Generate a message set encoding with one extension. Extension will have
+/// extra tags.
+Uint8List encodeMessageSetWithExtraItemTags(Encoding encoding) {
+  final itemFieldGroup = UnknownFieldSet();
+
+  // Invalid field with tag 1.
+  itemFieldGroup.addField(
+      1, UnknownFieldSetField()..addLengthDelimited([1, 2, 3]));
+
+  // Extension field.
+  itemFieldGroup.addField(
+      3,
+      UnknownFieldSetField()
+        ..addLengthDelimited((ExtensionMessage1()
+              ..a = 123456
+              ..b = 'test')
+            .writeToBuffer()));
+
+  // Invalid field with tag 3.
+  itemFieldGroup.addField(4, UnknownFieldSetField()..addVarint(Int64(123456)));
+
+  // Type id field.
+  itemFieldGroup.addField(2, UnknownFieldSetField()..addVarint(Int64(1758024)));
+
+  final messageSet = Empty();
+  final messageSetUnknownFields = messageSet.unknownFields;
+
+  switch (encoding) {
+    case Encoding.lengthDelimited:
+      final writer = CodedBufferWriter();
+      itemFieldGroup.writeToCodedBufferWriter(writer);
+      messageSetUnknownFields.addField(
+          1, UnknownFieldSetField()..addLengthDelimited(writer.toBuffer()));
+      break;
+    case Encoding.group:
+      messageSetUnknownFields.addField(
+          1, UnknownFieldSetField()..addGroup(itemFieldGroup));
+      break;
+  }
+
+  messageSetUnknownFields.addField(
+      1, UnknownFieldSetField()..addGroup(itemFieldGroup));
+
+  final messageSetEncoded = CodedBufferWriter();
+  messageSetUnknownFields.writeToCodedBufferWriter(messageSetEncoded);
+
+  return messageSet.writeToBuffer();
 }
