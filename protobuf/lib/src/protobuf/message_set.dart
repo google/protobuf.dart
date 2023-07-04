@@ -60,7 +60,7 @@ abstract class $_MessageSet extends GeneratedMessage {
       final tagNumber = getTagFieldNumber(tag);
 
       if (tag == 0) {
-        break;
+        break; // End of input.
       }
 
       if (tagNumber != _messageSetItemsTag) {
@@ -86,7 +86,7 @@ abstract class $_MessageSet extends GeneratedMessage {
         final tagNumber = getTagFieldNumber(tag);
 
         if (tag == 0) {
-          break;
+          break; // End of input.
         }
 
         if (tagNumber == _messageSetItemTypeIdTag) {
