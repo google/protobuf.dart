@@ -10,8 +10,8 @@ import '../out/protos/google/protobuf/empty.pb.dart';
 import '../out/protos/message_set.pb.dart';
 
 void main() {
-  // Example message encoded with the C++ library. `protoc --decode_raw`
-  // output:
+  // Example message with a nested message set, encoded with the C++ library.
+  // `protoc --decode_raw` output:
   //
   // 1 {
   //   1 {
@@ -35,17 +35,37 @@ void main() {
   //     }
   //   }
   // }
-  final encoded = [
+  final encodedNested = [
     10, 44, 11, 16, 200, 166, 107, 26, 19, 8, 123, 18, 7, 116, 101, 115, //
     116, 105, 110, 103, 26, 6, 40, 0, 40, 1, 40, 2, 12, 11, 16, 162, 233, //
     111, 26, 9, 40, 219, 7, 40, 142, 5, 40, 193, 2, 12
   ];
 
-  test('Parse message set extensions', () {
+  // Example message with a top-level message set, encoded with the C++
+  // library. `protoc --decode_raw` output:
+  //
+  // 1 {
+  //   2: 1758024
+  //   3 {
+  //     1: 123
+  //   }
+  // }
+  // 1 {
+  //   2: 1832098
+  //   3 {
+  //     5: 987
+  //   }
+  // }
+  final encodedTopLevel = [
+    11, 16, 200, 166, 107, 26, 2, 8, 123, 12, 11, 16, 162, 233, 111, 26, 3, //
+    40, 219, 7, 12
+  ];
+
+  test('Parse message set extensions (nested)', () {
     final registry = ExtensionRegistry()
       ..add(TestMessage.ext1)
       ..add(TestMessage.ext2);
-    final msg = TestMessage.fromBuffer(encoded, registry);
+    final msg = TestMessage.fromBuffer(encodedNested, registry);
 
     final ext1Value =
         msg.info.getExtension(TestMessage.ext1) as ExtensionMessage1;
@@ -57,16 +77,33 @@ void main() {
         msg.info.getExtension(TestMessage.ext2) as ExtensionMessage2;
     expect(ext2Value.ints, [987, 654, 321]);
 
-    expect(msg.writeToBuffer(), encoded);
+    expect(msg.writeToBuffer(), encodedNested);
+  });
+
+  test('Parse message set (top-level)', () {
+    final registry = ExtensionRegistry()
+      ..add(TestMessage.ext1)
+      ..add(TestMessage.ext2);
+    final msg = MessageSet.fromBuffer(encodedTopLevel, registry);
+
+    final ext1Value = msg.getExtension(TestMessage.ext1) as ExtensionMessage1;
+    expect(ext1Value.a, 123);
+    expect(ext1Value.b, ''); // not set
+    expect(ext1Value.c.ints, []); // not set
+
+    final ext2Value = msg.getExtension(TestMessage.ext2) as ExtensionMessage2;
+    expect(ext2Value.ints, [987]);
+
+    expect(msg.writeToBuffer(), encodedTopLevel);
   });
 
   test('Parse as unknown fields and serialize', () {
-    final msg = TestMessage.fromBuffer(encoded);
-    expect(msg.writeToBuffer(), encoded);
+    final msg = TestMessage.fromBuffer(encodedNested);
+    expect(msg.writeToBuffer(), encodedNested);
   });
 
   test('Reparse with extensions (nested message)', () {
-    final msg = TestMessage.fromBuffer(encoded);
+    final msg = TestMessage.fromBuffer(encodedNested);
     final registry = ExtensionRegistry()
       ..add(TestMessage.ext1)
       ..add(TestMessage.ext2);
@@ -85,7 +122,7 @@ void main() {
   });
 
   test('Reparse with extensions (top-level message)', () {
-    final msg = TestMessage.fromBuffer(encoded);
+    final msg = TestMessage.fromBuffer(encodedNested);
     final registry = ExtensionRegistry()
       ..add(TestMessage.ext1)
       ..add(TestMessage.ext2);
