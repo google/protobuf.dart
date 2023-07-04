@@ -13,13 +13,20 @@ message MessageSet {
 
 message TestMessage {
   extend MessageSet {
-    optional ExtensionMessage message_set_extension = 1758024;
+    optional ExtensionMessage1 ext1 = 1758024;
+    optional ExtensionMessage2 ext2 = 1832098;
   }
 
-  optional MessageSet info = 123;
+  optional MessageSet info = 1;
+  optional int32 i = 2;
 }
 
-message ExtensionMessage {
+message ExtensionMessage1 {
   optional int32 a = 1;
   optional string b = 2;
+  optional ExtensionMessage2 c = 3;
+}
+
+message ExtensionMessage2 {
+  repeated int32 ints = 5;
 }
