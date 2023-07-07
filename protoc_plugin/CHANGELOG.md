@@ -1,3 +1,9 @@
+## 21.1.0-wip
+
+* Experimental support for generating comments. Use the `generate_comments` option. ([#161])
+
+[#161]: https://github.com/google/protobuf.dart/issues/161
+
 ## 21.0.2
 
 * Fix missing protobuf import in generated grpc files. ([#844])

@@ -13,6 +13,7 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+/// Sync with code_generator.h.
 class CodeGeneratorResponse_Feature extends $pb.ProtobufEnum {
   static const CodeGeneratorResponse_Feature FEATURE_NONE =
       CodeGeneratorResponse_Feature._(0, _omitEnumNames ? '' : 'FEATURE_NONE');

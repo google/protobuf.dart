@@ -103,6 +103,7 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
   const FieldDescriptorProto_Label._($core.int v, $core.String n) : super(v, n);
 }
 
+/// Generated classes can be optimized for speed or code size.
 class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
   static const FileOptions_OptimizeMode SPEED =
       FileOptions_OptimizeMode._(1, _omitEnumNames ? '' : 'SPEED');
@@ -167,6 +168,9 @@ class FieldOptions_JSType extends $pb.ProtobufEnum {
   const FieldOptions_JSType._($core.int v, $core.String n) : super(v, n);
 }
 
+/// Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
+/// or neither? HTTP based RPC implementation may choose GET verb for safe
+/// methods, and PUT verb for idempotent methods instead of the default POST.
 class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
   static const MethodOptions_IdempotencyLevel IDEMPOTENCY_UNKNOWN =
       MethodOptions_IdempotencyLevel._(

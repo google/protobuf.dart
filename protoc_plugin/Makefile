@@ -88,7 +88,7 @@ $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 	dart format $(TEST_PROTO_DIR)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
-	protoc --dart_out=lib/src/generated -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
+	protoc --dart_out=generate_comments:lib/src/generated -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
 	rm lib/src/generated/descriptor.pb{json,server}.dart
 	rm lib/src/generated/dart_options.pb{enum,json,server}.dart
 	rm lib/src/generated/plugin.pb{json,server}.dart
