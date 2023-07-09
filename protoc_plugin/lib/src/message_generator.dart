@@ -545,7 +545,7 @@ class MessageGenerator extends ProtobufContainer {
 
   void generateFieldAccessorsMutators(
       ProtobufField field, IndentingWriter out, List<int> memberFieldPath) {
-    final fieldTypeString = field.getDartType();
+    var fieldTypeString = field.getDartType();
     final defaultExpr = field.getDefaultExpr();
     final names = field.memberNames;
 
@@ -591,7 +591,7 @@ class MessageGenerator extends ProtobufContainer {
             '${names.clearMethodName}() because it is repeated.';
       }
     } else {
-      final fastSetter = field.baseType.setter;
+      var fastSetter = field.baseType.setter;
       _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesSetter, out);
       _emitIndexAnnotation(field.number, out);

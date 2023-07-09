@@ -287,7 +287,7 @@ class _FieldSet {
   /// Suitable for public API.
   void _setFieldNullable(int tagNumber, Object? value) {
     final meta = _meta;
-    var fi = _nonExtensionInfo(meta, tagNumber);
+    final fi = _nonExtensionInfo(meta, tagNumber);
     if (fi == null) {
       final extensions = _extensions;
       if (extensions == null) {
