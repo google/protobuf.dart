@@ -24,9 +24,7 @@ extension FileDescriptorProtoExt on FileGenerator {
 
     if (bits.length == 1) {
       final match = bits.single;
-      if (match.hasLeadingComments()) {
-        return toDartComment(match.leadingComments);
-      }
+      return toDartComment(match.leadingComments);
     }
 
     if (bits.length > 1) {
