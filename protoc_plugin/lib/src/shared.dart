@@ -14,9 +14,7 @@ const mixinImportPrefix = r'$mixin';
 
 extension FileDescriptorProtoExt on FileGenerator {
   String? commentBlock(List<int> path) {
-    if (!options.generateComments) {
-      return null;
-    }
+    if (!options.generateComments) return null;
 
     final bits = descriptor.sourceCodeInfo.location
         .where((element) => element.path.toString() == path.toString())
@@ -36,25 +34,23 @@ extension FileDescriptorProtoExt on FileGenerator {
 }
 
 String? toDartComment(String value) {
-  if (value.isNotEmpty) {
-    var lines = LineSplitter.split(value).toList();
+  if (value.isEmpty) return null;
 
-    final leadingSpaces = _leadingSpaces.firstMatch(lines.first);
-    if (leadingSpaces != null) {
-      final prefix = leadingSpaces.group(0)!;
-      if (lines.every((element) => element.startsWith(prefix))) {
-        lines = lines.map((e) => e.substring(prefix.length)).toList();
-      }
+  var lines = LineSplitter.split(value).toList();
+
+  final leadingSpaces = _leadingSpaces.firstMatch(lines.first);
+  if (leadingSpaces != null) {
+    final prefix = leadingSpaces.group(0)!;
+    if (lines.every((element) => element.startsWith(prefix))) {
+      lines = lines.map((e) => e.substring(prefix.length)).toList();
     }
-
-    while (lines.last.isEmpty) {
-      lines.removeLast();
-    }
-
-    return lines.map((e) => '/// $e'.trimRight()).join('\n');
   }
 
-  return null;
+  while (lines.last.isEmpty) {
+    lines.removeLast();
+  }
+
+  return lines.map((e) => '/// $e'.trimRight()).join('\n');
 }
 
 final _leadingSpaces = RegExp('^ +');
