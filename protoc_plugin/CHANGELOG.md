@@ -1,4 +1,4 @@
-## 21.1.0-wip
+## 21.1.0-dev
 
 * Experimental support for generating comments. Use the `generate_comments` option. ([#161])
 
