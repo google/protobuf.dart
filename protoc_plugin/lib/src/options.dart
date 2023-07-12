@@ -50,12 +50,10 @@ bool genericOptionsParser(CodeGeneratorRequest request,
 class GenerationOptions {
   final bool useGrpc;
   final bool generateMetadata;
-  final bool generateComments;
 
   GenerationOptions({
     this.useGrpc = false,
     this.generateMetadata = false,
-    this.generateComments = false,
   });
 }
 
@@ -96,19 +94,6 @@ class GenerateMetadataParser implements SingleOptionParser {
   }
 }
 
-class GenerateCommentsParser implements SingleOptionParser {
-  bool generateComments = false;
-
-  @override
-  void parse(String name, String? value, OnError onError) {
-    if (value != null) {
-      onError('Invalid metadata option. No value expected.');
-      return;
-    }
-    generateComments = true;
-  }
-}
-
 /// Parser used by the compiler, which supports the `rpc` option (see
 /// [GrpcOptionParser]) and any additional option added in [parsers]. If
 /// [parsers] has a key for `rpc`, it will be ignored.
@@ -122,14 +107,11 @@ GenerationOptions? parseGenerationOptions(
   newParsers['grpc'] = grpcOptionParser;
   final generateMetadataParser = GenerateMetadataParser();
   newParsers['generate_kythe_info'] = generateMetadataParser;
-  final generateCommentsParser = GenerateCommentsParser();
-  newParsers['generate_comments'] = generateCommentsParser;
 
   if (genericOptionsParser(request, response, newParsers)) {
     return GenerationOptions(
       useGrpc: grpcOptionParser.grpcEnabled,
       generateMetadata: generateMetadataParser.generateKytheInfo,
-      generateComments: generateCommentsParser.generateComments,
     );
   }
   return null;

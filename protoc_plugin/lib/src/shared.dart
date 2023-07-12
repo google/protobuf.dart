@@ -14,8 +14,6 @@ const mixinImportPrefix = r'$mixin';
 
 extension FileDescriptorProtoExt on FileGenerator {
   String? commentBlock(List<int> path) {
-    if (!options.generateComments) return null;
-
     final bits = descriptor.sourceCodeInfo.location
         .where((element) => element.path.toString() == path.toString())
         .toList();

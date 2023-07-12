@@ -1,6 +1,6 @@
 ## 21.1.0-dev
 
-* Experimental support for generating comments. Use the `generate_comments` option. ([#161])
+* Generate code comments for annotated protobuf inputs. ([#161])
 
 [#161]: https://github.com/google/protobuf.dart/issues/161
 
