@@ -51,7 +51,10 @@ class GenerationOptions {
   final bool useGrpc;
   final bool generateMetadata;
 
-  GenerationOptions({this.useGrpc = false, this.generateMetadata = false});
+  GenerationOptions({
+    this.useGrpc = false,
+    this.generateMetadata = false,
+  });
 }
 
 /// A parser for a name-value pair option. Options parsed in
@@ -107,8 +110,9 @@ GenerationOptions? parseGenerationOptions(
 
   if (genericOptionsParser(request, response, newParsers)) {
     return GenerationOptions(
-        useGrpc: grpcOptionParser.grpcEnabled,
-        generateMetadata: generateMetadataParser.generateKytheInfo);
+      useGrpc: grpcOptionParser.grpcEnabled,
+      generateMetadata: generateMetadataParser.generateKytheInfo,
+    );
   }
   return null;
 }

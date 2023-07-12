@@ -1,3 +1,9 @@
+## 21.1.0-dev
+
+* Generate code comments for annotated protobuf inputs. ([#161])
+
+[#161]: https://github.com/google/protobuf.dart/issues/161
+
 ## 21.0.2
 
 * Fix missing protobuf import in generated grpc files. ([#844])

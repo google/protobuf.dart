@@ -4,7 +4,7 @@
 //
 // @dart = 2.12
 
-// ignore_for_file: annotate_overrides, camel_case_types
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
 // ignore_for_file: unnecessary_import, unnecessary_this, unused_import
@@ -13,6 +13,8 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+/// A mixin that can be used in the 'with' clause of the generated Dart class
+/// for a proto message.
 class DartMixin extends $pb.GeneratedMessage {
   factory DartMixin() => create();
   DartMixin._() : super();
@@ -53,6 +55,7 @@ class DartMixin extends $pb.GeneratedMessage {
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DartMixin>(create);
   static DartMixin? _defaultInstance;
 
+  /// The name of the mixin class.
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
@@ -65,6 +68,8 @@ class DartMixin extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearName() => clearField(1);
 
+  /// A URI pointing to the Dart library that defines the mixin.
+  /// The generated Dart code will use this in an import statement.
   @$pb.TagNumber(2)
   $core.String get importFrom => $_getSZ(1);
   @$pb.TagNumber(2)
@@ -77,6 +82,9 @@ class DartMixin extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearImportFrom() => clearField(2);
 
+  /// The name of another mixin to be applied ahead of this one.
+  /// The generated class for the message will inherit from all mixins
+  /// in the parent chain.
   @$pb.TagNumber(3)
   $core.String get parent => $_getSZ(2);
   @$pb.TagNumber(3)
@@ -90,6 +98,7 @@ class DartMixin extends $pb.GeneratedMessage {
   void clearParent() => clearField(3);
 }
 
+/// Defines additional Dart imports to be used with messages in this file.
 class Imports extends $pb.GeneratedMessage {
   factory Imports() => create();
   Imports._() : super();
@@ -129,6 +138,14 @@ class Imports extends $pb.GeneratedMessage {
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Imports>(create);
   static Imports? _defaultInstance;
 
+  ///  Mixins to be used on messages in this file.
+  ///  These mixins are in addition to internally defined mixins (e.g PbMapMixin)
+  ///  and may override them.
+  ///
+  ///  Warning: mixins are experimental. The protoc Dart plugin doesn't check
+  ///  for name conflicts between mixin class members and generated class members,
+  ///  so the generated code may contain errors. Therefore, running dartanalyzer
+  ///  on the generated file is a good idea.
   @$pb.TagNumber(1)
   $core.List<DartMixin> get mixins => $_getList(0);
 }
