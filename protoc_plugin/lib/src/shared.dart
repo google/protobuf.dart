@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:io';
 
 import '../protoc.dart';
 
@@ -24,7 +25,8 @@ extension FileDescriptorProtoExt on FileGenerator {
     }
 
     if (bits.length > 1) {
-      throw 'WTH? ${descriptor.sourceCodeInfo.toProto3Json()}';
+      // TODO: evaluate if we should just concatenate all of the entries.
+      stderr.writeln('Too many source code locations. Skipping.');
     }
 
     return null;

@@ -707,6 +707,7 @@ class ConditionalConstDefinition {
 const _fileIgnores = {
   'annotate_overrides',
   'camel_case_types',
+  'comment_references',
   'constant_identifier_names',
   'library_prefixes',
   'non_constant_identifier_names',
