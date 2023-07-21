@@ -318,8 +318,14 @@ class MessageGenerator extends ProtobufContainer {
     } else {
       extendedClass = 'GeneratedMessage';
     }
+
+    var commentBlock = fileGen.commentBlock(fieldPath) ?? '';
+    if (commentBlock.isNotEmpty) {
+      commentBlock = '$commentBlock\n';
+    }
+
     out.addAnnotatedBlock(
-        'class $classname extends $protobufImportPrefix.$extendedClass$mixinClause {',
+        '${commentBlock}class $classname extends $protobufImportPrefix.$extendedClass$mixinClause {',
         '}', [
       NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
@@ -530,11 +536,17 @@ class MessageGenerator extends ProtobufContainer {
     final defaultExpr = field.getDefaultExpr();
     final names = field.memberNames;
 
+    final commentBlock = fileGen.commentBlock(memberFieldPath);
+    if (commentBlock != null) {
+      out.println(commentBlock.trim());
+    }
+
     _emitDeprecatedIf(field.isDeprecated, out);
     _emitOverrideIf(field.overridesGetter, out);
     _emitIndexAnnotation(field.number, out);
     final getterExpr = _getterExpression(fieldTypeString, field.index!,
         defaultExpr, field.isRepeated, field.isMapField);
+
     out.printlnAnnotated(
         '$fieldTypeString get ${names!.fieldName} => $getterExpr;', [
       NamedLocation(
