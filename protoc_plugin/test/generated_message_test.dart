@@ -789,7 +789,7 @@ void main() {
     assertAllExtensionsSet(value2);
   });
 
-  test('named arguments in constructor', () {
+  test('Named arguments in constructors', () {
     final value = constructor_args_unittest.TestAllTypes(
       optionalInt32: 101,
       optionalInt64: make64(102),
@@ -886,7 +886,8 @@ void main() {
       defaultCord: '425',
     );
 
-    // TODO
-    // assertAllFieldsSet(value);
+    // Convert the message with constructor arguments to the message without
+    // constructor arguments, to be able to reuse `assertAllFieldsSet`.
+    assertAllFieldsSet(TestAllTypes.fromBuffer(value.writeToBuffer()));
   });
 }
