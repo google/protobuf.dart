@@ -78,6 +78,7 @@ PREGENERATED_SRCS=protos/descriptor.proto protos/plugin.proto protos/dart_option
 
 $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 	mkdir -p $(TEST_PROTO_DIR)
+
 	protoc\
 		--experimental_allow_proto3_optional\
 		--dart_out=$(TEST_PROTO_DIR)\
@@ -85,7 +86,19 @@ $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
+
+	mkdir -p $(TEST_PROTO_DIR)/constructor_args
+
+	protoc\
+		--experimental_allow_proto3_optional\
+		--dart_out="generate_constructor_arguments:$(TEST_PROTO_DIR)/constructor_args"\
+		-Iprotos\
+		-I$(TEST_PROTO_SRC_DIR)\
+		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
+		$(TEST_PROTO_SRCS)
+
 	dart format $(TEST_PROTO_DIR)
+
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 	protoc --dart_out=lib/src/generated -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
