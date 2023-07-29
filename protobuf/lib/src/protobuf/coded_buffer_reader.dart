@@ -133,7 +133,13 @@ class CodedBufferReader {
   }
 
   bool readBool() => _readRawVarint32(true) != 0;
-  List<int> readBytes() {
+
+  /// Read a length-delimited field as bytes. Note that the returned
+  /// [Uint8List] will be a view of the [CodedBufferReader]'s buffer. When
+  /// storing the returned value directly (instead of e.g. parsing it as a
+  /// UTF-8 string and copying) make sure to copy it to avoid holding on to the
+  /// whole message.
+  Uint8List readBytes() {
     final length = readInt32();
     _checkLimit(length);
     return Uint8List.view(
