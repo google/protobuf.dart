@@ -1,5 +1,10 @@
 ## 3.0.1-dev
 
+* Avoid holding onto the input buffer when parsing unknown length-delimited
+  fields. ([#863])
+
+[#863]: https://github.com/google/protobuf.dart/pull/863
+
 ## 3.0.0
 
 * Require Dart `2.19`.
