@@ -66,7 +66,7 @@ class UnknownFieldSet {
         return true;
       case WIRETYPE_LENGTH_DELIMITED:
         mergeLengthDelimitedField(
-            number, Uint8List.fromList(input.readBytes()));
+            number, Uint8List.fromList(input.readBytesAsView()));
         return true;
       case WIRETYPE_START_GROUP:
         final subGroup = input.readUnknownFieldSetGroup(number);

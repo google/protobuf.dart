@@ -57,7 +57,8 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         fs._setFieldUnchecked(meta, fi, input.readBool());
         break;
       case PbFieldType._OPTIONAL_BYTES:
-        fs._setFieldUnchecked(meta, fi, Uint8List.fromList(input.readBytes()));
+        fs._setFieldUnchecked(
+            meta, fi, Uint8List.fromList(input.readBytesAsView()));
         break;
       case PbFieldType._OPTIONAL_STRING:
         fs._setFieldUnchecked(meta, fi, input.readString());
@@ -133,7 +134,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_BYTES:
         fs
             ._ensureRepeatedField(meta, fi)
-            .add(Uint8List.fromList(input.readBytes()));
+            .add(Uint8List.fromList(input.readBytesAsView()));
         break;
       case PbFieldType._REPEATED_STRING:
         fs._ensureRepeatedField(meta, fi).add(input.readString());

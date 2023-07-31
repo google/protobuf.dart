@@ -1,7 +1,8 @@
-## 3.0.1-dev
+## 4.0.0-dev
 
 * Avoid holding onto the input buffer when parsing unknown length-delimited
-  fields. ([#863])
+  fields. `CodedBufferReader` `readBytes` is renamed as `readBytesAsView`.
+  ([#863])
 
 [#863]: https://github.com/google/protobuf.dart/pull/863
 
