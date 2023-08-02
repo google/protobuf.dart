@@ -133,14 +133,22 @@ class CodedBufferReader {
   }
 
   bool readBool() => _readRawVarint32(true) != 0;
-  List<int> readBytes() {
+
+  /// Read a length-delimited field as bytes.
+  Uint8List readBytes() => Uint8List.fromList(readBytesAsView());
+
+  /// Read a length-delimited field as a view of the [CodedBufferReader]'s
+  /// buffer. When storing the returned value directly (instead of e.g. parsing
+  /// it as a UTF-8 string and copying) use [readBytes] instead to avoid
+  /// holding on to the whole message, or copy the returned view.
+  Uint8List readBytesAsView() {
     final length = readInt32();
     _checkLimit(length);
     return Uint8List.view(
         _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
   }
 
-  String readString() => _utf8.decode(readBytes());
+  String readString() => _utf8.decode(readBytesAsView());
   double readFloat() => _readByteData(4).getFloat32(0, Endian.little);
   double readDouble() => _readByteData(8).getFloat64(0, Endian.little);
 
@@ -172,7 +180,7 @@ class CodedBufferReader {
         readFixed64();
         return true;
       case WIRETYPE_LENGTH_DELIMITED:
-        readBytes();
+        readBytesAsView();
         return true;
       case WIRETYPE_FIXED32:
         readFixed32();

@@ -80,7 +80,7 @@ abstract class $_MessageSet extends GeneratedMessage {
       //
       // We can see the fields in any order, so loop until parsing both fields.
       int? typeId;
-      List<int>? message;
+      Uint8List? message;
       while (true) {
         final tag = input.readTag();
         final tagNumber = getTagFieldNumber(tag);
@@ -97,7 +97,7 @@ abstract class $_MessageSet extends GeneratedMessage {
             message = null;
           }
         } else if (tagNumber == _messageSetItemMessageTag) {
-          message = input.readBytes();
+          message = input.readBytesAsView();
           if (typeId != null) {
             _parseExtension(typeId, message, extensionRegistry);
             typeId = null;
@@ -121,15 +121,17 @@ abstract class $_MessageSet extends GeneratedMessage {
   }
 
   void _parseExtension(
-      int typeId, List<int> message, ExtensionRegistry extensionRegistry) {
+      int typeId, Uint8List message, ExtensionRegistry extensionRegistry) {
     final ext =
         extensionRegistry.getExtension(info_.qualifiedMessageName, typeId);
     if (ext == null) {
       final messageItem = UnknownFieldSet();
       messageItem.addField(_messageSetItemTypeIdTag,
           UnknownFieldSetField()..varints.add(Int64(typeId)));
-      messageItem.addField(_messageSetItemMessageTag,
-          UnknownFieldSetField()..lengthDelimited.add(message));
+      messageItem.addField(
+          _messageSetItemMessageTag,
+          UnknownFieldSetField()
+            ..lengthDelimited.add(Uint8List.fromList(message)));
 
       final itemListField =
           _fieldSet._ensureUnknownFields().getField(_messageSetItemsTag) ??
