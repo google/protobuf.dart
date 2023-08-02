@@ -1,8 +1,11 @@
-## 4.0.0-dev
+## 3.1.0-dev
 
-* Avoid holding onto the input buffer when parsing unknown length-delimited
-  fields. `CodedBufferReader` `readBytes` is renamed as `readBytesAsView`.
-  ([#863])
+* `CodedBufferReader` `readBytes` now copies the returned bytes to avoid
+  accidental sharing of the input buffer with the returned `Uint8List`. New
+  member `readBytesAsView` added with the old behavior. ([#863])
+
+* Avoid sharing the input buffer in unknown length-delimited fields using the
+  new `readBytes`. ([#863])
 
 [#863]: https://github.com/google/protobuf.dart/pull/863
 
