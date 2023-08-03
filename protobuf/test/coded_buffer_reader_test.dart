@@ -76,7 +76,7 @@ void main() {
       expect(cis.readString(), 'optional_string');
 
       expect(cis.readTag(), makeTag(115, WIRETYPE_LENGTH_DELIMITED));
-      expect(cis.readBytes(), 'optional_bytes'.codeUnits);
+      expect(cis.readBytesAsView(), 'optional_bytes'.codeUnits);
     }
 
     test('normal-list', () {
@@ -113,7 +113,7 @@ void main() {
     final input = CodedBufferReader(output.toBuffer());
     expect(input.readTag(), tag);
 
-    expect(input.readBytes, throwsInvalidProtocolBufferException);
+    expect(input.readBytesAsView, throwsInvalidProtocolBufferException);
   });
 
   /// Tests that if we read a string that contains invalid UTF-8, no exception

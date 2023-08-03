@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:typed_data';
+
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
@@ -325,5 +327,30 @@ void main() {
     // Force an unknown field set.
     final m2 = TestAllExtensions()..unknownFields;
     expect(m.hashCode, m2.hashCode);
+  });
+
+  test('Copy length delimited fields', () {
+    // Length-delimited fields should be copied before adding to the unknown
+    // field set to avoid aliasing.
+    final originalBytes = [1, 2, 3, 4, 5, 6];
+    final bytes = Uint8List.fromList([
+      10, // tag = 1, type = length delimited
+      originalBytes.length,
+      ...originalBytes
+    ]);
+
+    final parsed = UnknownFieldSet()
+      ..mergeFromCodedBufferReader(CodedBufferReader(bytes));
+
+    expect(parsed.getField(1)?.lengthDelimited, [originalBytes]);
+
+    // Modify the message. Input buffer should not be updated.
+    final newBytes = [9, 8, 7, 6, 5, 4];
+    parsed.getField(1)!.lengthDelimited[0].setRange(0, 6, newBytes);
+    expect(bytes.sublist(2), originalBytes);
+
+    // Modify the input buffer. Message should not be updated.
+    bytes.setRange(2, 8, [10, 11, 12, 13, 14, 15]);
+    expect(parsed.getField(1)!.lengthDelimited[0], newBytes);
   });
 }
