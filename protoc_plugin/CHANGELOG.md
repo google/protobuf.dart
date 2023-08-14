@@ -2,7 +2,7 @@
 
 * Generate code comments for annotated protobuf inputs. ([#161])
 * Generate message constructor arguments by default again. New flag
-  `disable_constructor_args` added to disable generating the arguments.
+  `disable_constructor_args` disables generating the arguments.
 
   Constructor arguments were removed in 21.0.0 as they increase dart2js binary
   sizes even when the arguments are not used.
