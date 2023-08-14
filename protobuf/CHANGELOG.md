@@ -1,4 +1,4 @@
-## 3.1.0-dev
+## 3.1.0
 
 * `CodedBufferReader` `readBytes` now copies the returned bytes to avoid
   accidental sharing of the input buffer with the returned `Uint8List`. New

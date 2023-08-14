@@ -1,4 +1,4 @@
-## 21.1.0-dev
+## 21.1.0
 
 * Generate code comments for annotated protobuf inputs. ([#161])
 * Generate message constructor arguments by default again. New flag
