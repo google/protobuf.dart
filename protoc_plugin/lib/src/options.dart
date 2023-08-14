@@ -50,12 +50,12 @@ bool genericOptionsParser(CodeGeneratorRequest request,
 class GenerationOptions {
   final bool useGrpc;
   final bool generateMetadata;
-  final bool generateConstructorArguments;
+  final bool disableConstructorArgs;
 
   GenerationOptions(
       {this.useGrpc = false,
       this.generateMetadata = false,
-      this.generateConstructorArguments = false});
+      this.disableConstructorArgs = false});
 }
 
 /// A parser for a name-value pair option. Options parsed in
@@ -95,16 +95,16 @@ class GenerateMetadataParser implements SingleOptionParser {
   }
 }
 
-class GenerateConstructorArgumentsParser implements SingleOptionParser {
-  bool generateConstructorArguments = false;
+class DisableConstructorArgsParser implements SingleOptionParser {
+  bool value = false;
 
   @override
   void parse(String name, String? value, OnError onError) {
     if (value != null) {
-      onError('Invalid constructor_args option. No value expected.');
+      onError('Invalid disable_constructor_args option. No value expected.');
       return;
     }
-    generateConstructorArguments = true;
+    this.value = true;
   }
 }
 
@@ -123,16 +123,14 @@ GenerationOptions? parseGenerationOptions(
   final generateMetadataParser = GenerateMetadataParser();
   newParsers['generate_kythe_info'] = generateMetadataParser;
 
-  final generateConstructorArgumentsParser =
-      GenerateConstructorArgumentsParser();
-  newParsers['constructor_args'] = generateConstructorArgumentsParser;
+  final disableConstructorArgsParser = DisableConstructorArgsParser();
+  newParsers['disable_constructor_args'] = disableConstructorArgsParser;
 
   if (genericOptionsParser(request, response, newParsers)) {
     return GenerationOptions(
         useGrpc: grpcOptionParser.grpcEnabled,
         generateMetadata: generateMetadataParser.generateKytheInfo,
-        generateConstructorArguments:
-            generateConstructorArgumentsParser.generateConstructorArguments);
+        disableConstructorArgs: disableConstructorArgsParser.value);
   }
   return null;
 }

@@ -432,7 +432,7 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   void _generateFactory(IndentingWriter out) {
-    if (fileGen.options.generateConstructorArguments && _fieldList.isNotEmpty) {
+    if (!fileGen.options.disableConstructorArgs && _fieldList.isNotEmpty) {
       out.println('factory $classname({');
       for (final field in _fieldList) {
         _emitDeprecatedIf(field.isDeprecated, out);

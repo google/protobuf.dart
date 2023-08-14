@@ -81,7 +81,7 @@ $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 
 	protoc\
 		--experimental_allow_proto3_optional\
-		--dart_out=$(TEST_PROTO_DIR)\
+		--dart_out="disable_constructor_args:$(TEST_PROTO_DIR)"\
 		-Iprotos\
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
@@ -91,7 +91,7 @@ $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 
 	protoc\
 		--experimental_allow_proto3_optional\
-		--dart_out="constructor_args:$(TEST_PROTO_DIR)/constructor_args"\
+		--dart_out="$(TEST_PROTO_DIR)/constructor_args"\
 		-Iprotos\
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
