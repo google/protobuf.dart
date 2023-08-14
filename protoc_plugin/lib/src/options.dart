@@ -101,8 +101,7 @@ class GenerateConstructorArgumentsParser implements SingleOptionParser {
   @override
   void parse(String name, String? value, OnError onError) {
     if (value != null) {
-      onError(
-          'Invalid constructor_args option. No value expected.');
+      onError('Invalid constructor_args option. No value expected.');
       return;
     }
     generateConstructorArguments = true;
@@ -126,8 +125,7 @@ GenerationOptions? parseGenerationOptions(
 
   final generateConstructorArgumentsParser =
       GenerateConstructorArgumentsParser();
-  newParsers['constructor_args'] =
-      generateConstructorArgumentsParser;
+  newParsers['constructor_args'] = generateConstructorArgumentsParser;
 
   if (genericOptionsParser(request, response, newParsers)) {
     return GenerationOptions(
