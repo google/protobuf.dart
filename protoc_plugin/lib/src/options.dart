@@ -50,11 +50,12 @@ bool genericOptionsParser(CodeGeneratorRequest request,
 class GenerationOptions {
   final bool useGrpc;
   final bool generateMetadata;
+  final bool disableConstructorArgs;
 
-  GenerationOptions({
-    this.useGrpc = false,
-    this.generateMetadata = false,
-  });
+  GenerationOptions(
+      {this.useGrpc = false,
+      this.generateMetadata = false,
+      this.disableConstructorArgs = false});
 }
 
 /// A parser for a name-value pair option. Options parsed in
@@ -87,10 +88,23 @@ class GenerateMetadataParser implements SingleOptionParser {
   @override
   void parse(String name, String? value, OnError onError) {
     if (value != null) {
-      onError('Invalid metadata option. No value expected.');
+      onError('Invalid generate_kythe_info option. No value expected.');
       return;
     }
     generateKytheInfo = true;
+  }
+}
+
+class DisableConstructorArgsParser implements SingleOptionParser {
+  bool value = false;
+
+  @override
+  void parse(String name, String? value, OnError onError) {
+    if (value != null) {
+      onError('Invalid disable_constructor_args option. No value expected.');
+      return;
+    }
+    this.value = true;
   }
 }
 
@@ -105,14 +119,18 @@ GenerationOptions? parseGenerationOptions(
 
   final grpcOptionParser = GrpcOptionParser();
   newParsers['grpc'] = grpcOptionParser;
+
   final generateMetadataParser = GenerateMetadataParser();
   newParsers['generate_kythe_info'] = generateMetadataParser;
 
+  final disableConstructorArgsParser = DisableConstructorArgsParser();
+  newParsers['disable_constructor_args'] = disableConstructorArgsParser;
+
   if (genericOptionsParser(request, response, newParsers)) {
     return GenerationOptions(
-      useGrpc: grpcOptionParser.grpcEnabled,
-      generateMetadata: generateMetadataParser.generateKytheInfo,
-    );
+        useGrpc: grpcOptionParser.grpcEnabled,
+        generateMetadata: generateMetadataParser.generateKytheInfo,
+        disableConstructorArgs: disableConstructorArgsParser.value);
   }
   return null;
 }

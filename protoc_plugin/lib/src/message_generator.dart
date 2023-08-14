@@ -330,7 +330,8 @@ class MessageGenerator extends ProtobufContainer {
       NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
-      out.println('factory $classname() => create();');
+      _generateFactory(out);
+
       out.printlnAnnotated('$classname._() : super();', [
         NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
       ]);
@@ -428,6 +429,42 @@ class MessageGenerator extends ProtobufContainer {
       mixin?.injectHelpers(out);
     });
     out.println();
+  }
+
+  void _generateFactory(IndentingWriter out) {
+    if (!fileGen.options.disableConstructorArgs && _fieldList.isNotEmpty) {
+      out.println('factory $classname({');
+      for (final field in _fieldList) {
+        _emitDeprecatedIf(field.isDeprecated, out);
+        if (field.isRepeated && !field.isMapField) {
+          out.println(
+              '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames!.fieldName},');
+        } else {
+          out.println(
+              '  ${field.getDartType()}? ${field.memberNames!.fieldName},');
+        }
+      }
+      out.println('}) {');
+      out.println('  final result = create();');
+      for (final field in _fieldList) {
+        out.println('  if (${field.memberNames!.fieldName} != null) {');
+        if (field.isDeprecated) {
+          out.println('    // ignore: deprecated_member_use_from_same_package');
+        }
+        if (field.isRepeated || field.isMapField) {
+          out.println(
+              '    result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
+        } else {
+          out.println(
+              '    result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');
+        }
+        out.println('  }');
+      }
+      out.println('  return result;');
+      out.println('}');
+    } else {
+      out.println('factory $classname() => create();');
+    }
   }
 
   // Returns true if the message type has any required fields.  If it doesn't,

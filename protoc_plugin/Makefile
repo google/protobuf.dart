@@ -78,13 +78,25 @@ PREGENERATED_SRCS=protos/descriptor.proto protos/plugin.proto protos/dart_option
 
 $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 	mkdir -p $(TEST_PROTO_DIR)
+
 	protoc\
 		--experimental_allow_proto3_optional\
-		--dart_out=$(TEST_PROTO_DIR)\
+		--dart_out="disable_constructor_args:$(TEST_PROTO_DIR)"\
 		-Iprotos\
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
+
+	mkdir -p $(TEST_PROTO_DIR)/constructor_args
+
+	protoc\
+		--experimental_allow_proto3_optional\
+		--dart_out="$(TEST_PROTO_DIR)/constructor_args"\
+		-Iprotos\
+		-I$(TEST_PROTO_SRC_DIR)\
+		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
+		$(TEST_PROTO_SRCS)
+
 	dart format $(TEST_PROTO_DIR)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
@@ -97,11 +109,11 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 
 run-tests: protos
-	dart run test
+	dart test
 
 update-goldens: protos
 	rm -rf test/goldens
-	dart run test
+	dart test
 
 clean:
 	rm -rf $(OUTPUT_DIR)

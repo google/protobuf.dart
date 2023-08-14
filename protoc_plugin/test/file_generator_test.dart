@@ -93,7 +93,8 @@ void main() {
       () {
     final fd = buildFileDescriptor();
     final options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
@@ -103,7 +104,8 @@ void main() {
   test('FileGenerator outputs a .pb.dart file for an Int64 message', () {
     final fd = createInt64Proto();
     final options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
@@ -115,7 +117,8 @@ void main() {
       () {
     final fd = buildFileDescriptor();
     final options = parseGenerationOptions(
-        CodeGeneratorRequest()..parameter = 'generate_kythe_info',
+        CodeGeneratorRequest()
+          ..parameter = 'generate_kythe_info,disable_constructor_args',
         CodeGeneratorResponse())!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -127,7 +130,8 @@ void main() {
       () {
     final fd = buildFileDescriptor();
     final options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
     expectMatchesGoldenFile(
@@ -137,7 +141,8 @@ void main() {
   test('FileGenerator generates files for a top-level enum', () {
     final fd = buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     final options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
 
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -150,7 +155,8 @@ void main() {
   test('FileGenerator generates metadata files for a top-level enum', () {
     final fd = buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     final options = parseGenerationOptions(
-        CodeGeneratorRequest()..parameter = 'generate_kythe_info',
+        CodeGeneratorRequest()
+          ..parameter = 'generate_kythe_info,disable_constructor_args',
         CodeGeneratorResponse())!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -164,7 +170,8 @@ void main() {
   test('FileGenerator generates a .pbjson.dart file for a top-level enum', () {
     final fd = buildFileDescriptor(phoneNumber: false, topLevelEnum: true);
     final options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
 
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -176,7 +183,8 @@ void main() {
     final fd = buildFileDescriptor();
     fd.package = 'pb_library';
     final options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
 
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -201,7 +209,8 @@ void main() {
         ]));
 
     final options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
 
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -228,7 +237,8 @@ void main() {
       ..service.add(sd);
 
     final options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
 
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
@@ -415,7 +425,8 @@ void main() {
       ..name = 'test.proto'
       ..messageType.add(md);
     fd.dependency.addAll(['package1.proto', 'package2.proto']);
-    final request = CodeGeneratorRequest();
+    final request = CodeGeneratorRequest()
+      ..parameter = 'disable_constructor_args';
     final response = CodeGeneratorResponse();
     final options = parseGenerationOptions(request, response)!;
 
