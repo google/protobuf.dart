@@ -2,14 +2,14 @@
 
 * Generate code comments for annotated protobuf inputs. ([#161])
 
-* New protoc_plugin flag `generate_constructor_arguments` added to bring back
-  the old message factory methods with arguments. These arguments were removed
-  in 21.0.0 ([#703]) as they caused bloat in generated binaries in some cases.
+* New protoc_plugin flag `constructor_args` added to bring back the old message
+  factory methods with arguments. These arguments were removed in 21.0.0
+  ([#703]) as they caused bloat in generated binaries in some cases.
 
   Example usage:
 
   ```
-  protoc --dart_out='generate_constructor_arguments,<other options>:.' ...
+  protoc --dart_out='constructor_args,<other options>:.' ...
   ```
 
 [#161]: https://github.com/google/protobuf.dart/issues/161
