@@ -6,6 +6,7 @@ on:
   # Trigger on pull requests that target the default branch.
   pull_request:
     branches: [ master ]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
   # Also, trigger when tags are pushed to the repo.
   push:
     tags: [ '[A-z]+-v[0-9]+.[0-9]+.[0-9]+*' ]
