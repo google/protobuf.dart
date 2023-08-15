@@ -445,6 +445,7 @@ class MessageGenerator extends ProtobufContainer {
         }
       }
       out.println('}) {');
+      // Add '$' prefix to avoid proto field name conflicts.
       out.println('  final \$result = create();');
       for (final field in _fieldList) {
         out.println('  if (${field.memberNames!.fieldName} != null) {');
