@@ -21,7 +21,15 @@ export 'descriptor.pbenum.dart';
 /// The protocol compiler can output a FileDescriptorSet containing the .proto
 /// files it parses.
 class FileDescriptorSet extends $pb.GeneratedMessage {
-  factory FileDescriptorSet() => create();
+  factory FileDescriptorSet({
+    $core.Iterable<FileDescriptorProto>? file,
+  }) {
+    final $result = create();
+    if (file != null) {
+      $result.file.addAll(file);
+    }
+    return $result;
+  }
   FileDescriptorSet._() : super();
   factory FileDescriptorSet.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -68,7 +76,59 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
 
 /// Describes a complete .proto file.
 class FileDescriptorProto extends $pb.GeneratedMessage {
-  factory FileDescriptorProto() => create();
+  factory FileDescriptorProto({
+    $core.String? name,
+    $core.String? package,
+    $core.Iterable<$core.String>? dependency,
+    $core.Iterable<DescriptorProto>? messageType,
+    $core.Iterable<EnumDescriptorProto>? enumType,
+    $core.Iterable<ServiceDescriptorProto>? service,
+    $core.Iterable<FieldDescriptorProto>? extension,
+    FileOptions? options,
+    SourceCodeInfo? sourceCodeInfo,
+    $core.Iterable<$core.int>? publicDependency,
+    $core.Iterable<$core.int>? weakDependency,
+    $core.String? syntax,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (package != null) {
+      $result.package = package;
+    }
+    if (dependency != null) {
+      $result.dependency.addAll(dependency);
+    }
+    if (messageType != null) {
+      $result.messageType.addAll(messageType);
+    }
+    if (enumType != null) {
+      $result.enumType.addAll(enumType);
+    }
+    if (service != null) {
+      $result.service.addAll(service);
+    }
+    if (extension != null) {
+      $result.extension.addAll(extension);
+    }
+    if (options != null) {
+      $result.options = options;
+    }
+    if (sourceCodeInfo != null) {
+      $result.sourceCodeInfo = sourceCodeInfo;
+    }
+    if (publicDependency != null) {
+      $result.publicDependency.addAll(publicDependency);
+    }
+    if (weakDependency != null) {
+      $result.weakDependency.addAll(weakDependency);
+    }
+    if (syntax != null) {
+      $result.syntax = syntax;
+    }
+    return $result;
+  }
   FileDescriptorProto._() : super();
   factory FileDescriptorProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -228,7 +288,23 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
-  factory DescriptorProto_ExtensionRange() => create();
+  factory DescriptorProto_ExtensionRange({
+    $core.int? start,
+    $core.int? end,
+    ExtensionRangeOptions? options,
+  }) {
+    final $result = create();
+    if (start != null) {
+      $result.start = start;
+    }
+    if (end != null) {
+      $result.end = end;
+    }
+    if (options != null) {
+      $result.options = options;
+    }
+    return $result;
+  }
   DescriptorProto_ExtensionRange._() : super();
   factory DescriptorProto_ExtensionRange.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -317,7 +393,19 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
 /// fields or extension ranges in the same message. Reserved ranges may
 /// not overlap.
 class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
-  factory DescriptorProto_ReservedRange() => create();
+  factory DescriptorProto_ReservedRange({
+    $core.int? start,
+    $core.int? end,
+  }) {
+    final $result = create();
+    if (start != null) {
+      $result.start = start;
+    }
+    if (end != null) {
+      $result.end = end;
+    }
+    return $result;
+  }
   DescriptorProto_ReservedRange._() : super();
   factory DescriptorProto_ReservedRange.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -389,7 +477,51 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
 
 /// Describes a message type.
 class DescriptorProto extends $pb.GeneratedMessage {
-  factory DescriptorProto() => create();
+  factory DescriptorProto({
+    $core.String? name,
+    $core.Iterable<FieldDescriptorProto>? field,
+    $core.Iterable<DescriptorProto>? nestedType,
+    $core.Iterable<EnumDescriptorProto>? enumType,
+    $core.Iterable<DescriptorProto_ExtensionRange>? extensionRange,
+    $core.Iterable<FieldDescriptorProto>? extension,
+    MessageOptions? options,
+    $core.Iterable<OneofDescriptorProto>? oneofDecl,
+    $core.Iterable<DescriptorProto_ReservedRange>? reservedRange,
+    $core.Iterable<$core.String>? reservedName,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (field != null) {
+      $result.field.addAll(field);
+    }
+    if (nestedType != null) {
+      $result.nestedType.addAll(nestedType);
+    }
+    if (enumType != null) {
+      $result.enumType.addAll(enumType);
+    }
+    if (extensionRange != null) {
+      $result.extensionRange.addAll(extensionRange);
+    }
+    if (extension != null) {
+      $result.extension.addAll(extension);
+    }
+    if (options != null) {
+      $result.options = options;
+    }
+    if (oneofDecl != null) {
+      $result.oneofDecl.addAll(oneofDecl);
+    }
+    if (reservedRange != null) {
+      $result.reservedRange.addAll(reservedRange);
+    }
+    if (reservedName != null) {
+      $result.reservedName.addAll(reservedName);
+    }
+    return $result;
+  }
   DescriptorProto._() : super();
   factory DescriptorProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -506,7 +638,15 @@ class DescriptorProto extends $pb.GeneratedMessage {
 }
 
 class ExtensionRangeOptions extends $pb.GeneratedMessage {
-  factory ExtensionRangeOptions() => create();
+  factory ExtensionRangeOptions({
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
+  }) {
+    final $result = create();
+    if (uninterpretedOption != null) {
+      $result.uninterpretedOption.addAll(uninterpretedOption);
+    }
+    return $result;
+  }
   ExtensionRangeOptions._() : super();
   factory ExtensionRangeOptions.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -557,7 +697,55 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
 
 /// Describes a field within a message.
 class FieldDescriptorProto extends $pb.GeneratedMessage {
-  factory FieldDescriptorProto() => create();
+  factory FieldDescriptorProto({
+    $core.String? name,
+    $core.String? extendee,
+    $core.int? number,
+    FieldDescriptorProto_Label? label,
+    FieldDescriptorProto_Type? type,
+    $core.String? typeName,
+    $core.String? defaultValue,
+    FieldOptions? options,
+    $core.int? oneofIndex,
+    $core.String? jsonName,
+    $core.bool? proto3Optional,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (extendee != null) {
+      $result.extendee = extendee;
+    }
+    if (number != null) {
+      $result.number = number;
+    }
+    if (label != null) {
+      $result.label = label;
+    }
+    if (type != null) {
+      $result.type = type;
+    }
+    if (typeName != null) {
+      $result.typeName = typeName;
+    }
+    if (defaultValue != null) {
+      $result.defaultValue = defaultValue;
+    }
+    if (options != null) {
+      $result.options = options;
+    }
+    if (oneofIndex != null) {
+      $result.oneofIndex = oneofIndex;
+    }
+    if (jsonName != null) {
+      $result.jsonName = jsonName;
+    }
+    if (proto3Optional != null) {
+      $result.proto3Optional = proto3Optional;
+    }
+    return $result;
+  }
   FieldDescriptorProto._() : super();
   factory FieldDescriptorProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -794,7 +982,19 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
 
 /// Describes a oneof.
 class OneofDescriptorProto extends $pb.GeneratedMessage {
-  factory OneofDescriptorProto() => create();
+  factory OneofDescriptorProto({
+    $core.String? name,
+    OneofOptions? options,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (options != null) {
+      $result.options = options;
+    }
+    return $result;
+  }
   OneofDescriptorProto._() : super();
   factory OneofDescriptorProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -870,7 +1070,19 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
 ///  is inclusive such that it can appropriately represent the entire int32
 ///  domain.
 class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
-  factory EnumDescriptorProto_EnumReservedRange() => create();
+  factory EnumDescriptorProto_EnumReservedRange({
+    $core.int? start,
+    $core.int? end,
+  }) {
+    final $result = create();
+    if (start != null) {
+      $result.start = start;
+    }
+    if (end != null) {
+      $result.end = end;
+    }
+    return $result;
+  }
   EnumDescriptorProto_EnumReservedRange._() : super();
   factory EnumDescriptorProto_EnumReservedRange.fromBuffer(
           $core.List<$core.int> i,
@@ -944,7 +1156,31 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
 
 /// Describes an enum type.
 class EnumDescriptorProto extends $pb.GeneratedMessage {
-  factory EnumDescriptorProto() => create();
+  factory EnumDescriptorProto({
+    $core.String? name,
+    $core.Iterable<EnumValueDescriptorProto>? value,
+    EnumOptions? options,
+    $core.Iterable<EnumDescriptorProto_EnumReservedRange>? reservedRange,
+    $core.Iterable<$core.String>? reservedName,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (value != null) {
+      $result.value.addAll(value);
+    }
+    if (options != null) {
+      $result.options = options;
+    }
+    if (reservedRange != null) {
+      $result.reservedRange.addAll(reservedRange);
+    }
+    if (reservedName != null) {
+      $result.reservedName.addAll(reservedName);
+    }
+    return $result;
+  }
   EnumDescriptorProto._() : super();
   factory EnumDescriptorProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -1036,7 +1272,23 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
 
 /// Describes a value within an enum.
 class EnumValueDescriptorProto extends $pb.GeneratedMessage {
-  factory EnumValueDescriptorProto() => create();
+  factory EnumValueDescriptorProto({
+    $core.String? name,
+    $core.int? number,
+    EnumValueOptions? options,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (number != null) {
+      $result.number = number;
+    }
+    if (options != null) {
+      $result.options = options;
+    }
+    return $result;
+  }
   EnumValueDescriptorProto._() : super();
   factory EnumValueDescriptorProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -1121,7 +1373,23 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
 
 /// Describes a service.
 class ServiceDescriptorProto extends $pb.GeneratedMessage {
-  factory ServiceDescriptorProto() => create();
+  factory ServiceDescriptorProto({
+    $core.String? name,
+    $core.Iterable<MethodDescriptorProto>? method,
+    ServiceOptions? options,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (method != null) {
+      $result.method.addAll(method);
+    }
+    if (options != null) {
+      $result.options = options;
+    }
+    return $result;
+  }
   ServiceDescriptorProto._() : super();
   factory ServiceDescriptorProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -1199,7 +1467,35 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
 
 /// Describes a method of a service.
 class MethodDescriptorProto extends $pb.GeneratedMessage {
-  factory MethodDescriptorProto() => create();
+  factory MethodDescriptorProto({
+    $core.String? name,
+    $core.String? inputType,
+    $core.String? outputType,
+    MethodOptions? options,
+    $core.bool? clientStreaming,
+    $core.bool? serverStreaming,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (inputType != null) {
+      $result.inputType = inputType;
+    }
+    if (outputType != null) {
+      $result.outputType = outputType;
+    }
+    if (options != null) {
+      $result.options = options;
+    }
+    if (clientStreaming != null) {
+      $result.clientStreaming = clientStreaming;
+    }
+    if (serverStreaming != null) {
+      $result.serverStreaming = serverStreaming;
+    }
+    return $result;
+  }
   MethodDescriptorProto._() : super();
   factory MethodDescriptorProto.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -1326,7 +1622,97 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
 }
 
 class FileOptions extends $pb.GeneratedMessage {
-  factory FileOptions() => create();
+  factory FileOptions({
+    $core.String? javaPackage,
+    $core.String? javaOuterClassname,
+    FileOptions_OptimizeMode? optimizeFor,
+    $core.bool? javaMultipleFiles,
+    $core.String? goPackage,
+    $core.bool? ccGenericServices,
+    $core.bool? javaGenericServices,
+    $core.bool? pyGenericServices,
+    @$core.Deprecated('This field is deprecated.')
+    $core.bool? javaGenerateEqualsAndHash,
+    $core.bool? deprecated,
+    $core.bool? javaStringCheckUtf8,
+    $core.bool? ccEnableArenas,
+    $core.String? objcClassPrefix,
+    $core.String? csharpNamespace,
+    $core.String? swiftPrefix,
+    $core.String? phpClassPrefix,
+    $core.String? phpNamespace,
+    $core.bool? phpGenericServices,
+    $core.String? phpMetadataNamespace,
+    $core.String? rubyPackage,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
+  }) {
+    final $result = create();
+    if (javaPackage != null) {
+      $result.javaPackage = javaPackage;
+    }
+    if (javaOuterClassname != null) {
+      $result.javaOuterClassname = javaOuterClassname;
+    }
+    if (optimizeFor != null) {
+      $result.optimizeFor = optimizeFor;
+    }
+    if (javaMultipleFiles != null) {
+      $result.javaMultipleFiles = javaMultipleFiles;
+    }
+    if (goPackage != null) {
+      $result.goPackage = goPackage;
+    }
+    if (ccGenericServices != null) {
+      $result.ccGenericServices = ccGenericServices;
+    }
+    if (javaGenericServices != null) {
+      $result.javaGenericServices = javaGenericServices;
+    }
+    if (pyGenericServices != null) {
+      $result.pyGenericServices = pyGenericServices;
+    }
+    if (javaGenerateEqualsAndHash != null) {
+      // ignore: deprecated_member_use_from_same_package
+      $result.javaGenerateEqualsAndHash = javaGenerateEqualsAndHash;
+    }
+    if (deprecated != null) {
+      $result.deprecated = deprecated;
+    }
+    if (javaStringCheckUtf8 != null) {
+      $result.javaStringCheckUtf8 = javaStringCheckUtf8;
+    }
+    if (ccEnableArenas != null) {
+      $result.ccEnableArenas = ccEnableArenas;
+    }
+    if (objcClassPrefix != null) {
+      $result.objcClassPrefix = objcClassPrefix;
+    }
+    if (csharpNamespace != null) {
+      $result.csharpNamespace = csharpNamespace;
+    }
+    if (swiftPrefix != null) {
+      $result.swiftPrefix = swiftPrefix;
+    }
+    if (phpClassPrefix != null) {
+      $result.phpClassPrefix = phpClassPrefix;
+    }
+    if (phpNamespace != null) {
+      $result.phpNamespace = phpNamespace;
+    }
+    if (phpGenericServices != null) {
+      $result.phpGenericServices = phpGenericServices;
+    }
+    if (phpMetadataNamespace != null) {
+      $result.phpMetadataNamespace = phpMetadataNamespace;
+    }
+    if (rubyPackage != null) {
+      $result.rubyPackage = rubyPackage;
+    }
+    if (uninterpretedOption != null) {
+      $result.uninterpretedOption.addAll(uninterpretedOption);
+    }
+    return $result;
+  }
   FileOptions._() : super();
   factory FileOptions.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -1705,7 +2091,31 @@ class FileOptions extends $pb.GeneratedMessage {
 }
 
 class MessageOptions extends $pb.GeneratedMessage {
-  factory MessageOptions() => create();
+  factory MessageOptions({
+    $core.bool? messageSetWireFormat,
+    $core.bool? noStandardDescriptorAccessor,
+    $core.bool? deprecated,
+    $core.bool? mapEntry,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
+  }) {
+    final $result = create();
+    if (messageSetWireFormat != null) {
+      $result.messageSetWireFormat = messageSetWireFormat;
+    }
+    if (noStandardDescriptorAccessor != null) {
+      $result.noStandardDescriptorAccessor = noStandardDescriptorAccessor;
+    }
+    if (deprecated != null) {
+      $result.deprecated = deprecated;
+    }
+    if (mapEntry != null) {
+      $result.mapEntry = mapEntry;
+    }
+    if (uninterpretedOption != null) {
+      $result.uninterpretedOption.addAll(uninterpretedOption);
+    }
+    return $result;
+  }
   MessageOptions._() : super();
   factory MessageOptions.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -1851,7 +2261,39 @@ class MessageOptions extends $pb.GeneratedMessage {
 }
 
 class FieldOptions extends $pb.GeneratedMessage {
-  factory FieldOptions() => create();
+  factory FieldOptions({
+    FieldOptions_CType? ctype,
+    $core.bool? packed,
+    $core.bool? deprecated,
+    $core.bool? lazy,
+    FieldOptions_JSType? jstype,
+    $core.bool? weak,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
+  }) {
+    final $result = create();
+    if (ctype != null) {
+      $result.ctype = ctype;
+    }
+    if (packed != null) {
+      $result.packed = packed;
+    }
+    if (deprecated != null) {
+      $result.deprecated = deprecated;
+    }
+    if (lazy != null) {
+      $result.lazy = lazy;
+    }
+    if (jstype != null) {
+      $result.jstype = jstype;
+    }
+    if (weak != null) {
+      $result.weak = weak;
+    }
+    if (uninterpretedOption != null) {
+      $result.uninterpretedOption.addAll(uninterpretedOption);
+    }
+    return $result;
+  }
   FieldOptions._() : super();
   factory FieldOptions.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2038,7 +2480,15 @@ class FieldOptions extends $pb.GeneratedMessage {
 }
 
 class OneofOptions extends $pb.GeneratedMessage {
-  factory OneofOptions() => create();
+  factory OneofOptions({
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
+  }) {
+    final $result = create();
+    if (uninterpretedOption != null) {
+      $result.uninterpretedOption.addAll(uninterpretedOption);
+    }
+    return $result;
+  }
   OneofOptions._() : super();
   factory OneofOptions.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2086,7 +2536,23 @@ class OneofOptions extends $pb.GeneratedMessage {
 }
 
 class EnumOptions extends $pb.GeneratedMessage {
-  factory EnumOptions() => create();
+  factory EnumOptions({
+    $core.bool? allowAlias,
+    $core.bool? deprecated,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
+  }) {
+    final $result = create();
+    if (allowAlias != null) {
+      $result.allowAlias = allowAlias;
+    }
+    if (deprecated != null) {
+      $result.deprecated = deprecated;
+    }
+    if (uninterpretedOption != null) {
+      $result.uninterpretedOption.addAll(uninterpretedOption);
+    }
+    return $result;
+  }
   EnumOptions._() : super();
   factory EnumOptions.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2165,7 +2631,19 @@ class EnumOptions extends $pb.GeneratedMessage {
 }
 
 class EnumValueOptions extends $pb.GeneratedMessage {
-  factory EnumValueOptions() => create();
+  factory EnumValueOptions({
+    $core.bool? deprecated,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
+  }) {
+    final $result = create();
+    if (deprecated != null) {
+      $result.deprecated = deprecated;
+    }
+    if (uninterpretedOption != null) {
+      $result.uninterpretedOption.addAll(uninterpretedOption);
+    }
+    return $result;
+  }
   EnumValueOptions._() : super();
   factory EnumValueOptions.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2230,7 +2708,19 @@ class EnumValueOptions extends $pb.GeneratedMessage {
 }
 
 class ServiceOptions extends $pb.GeneratedMessage {
-  factory ServiceOptions() => create();
+  factory ServiceOptions({
+    $core.bool? deprecated,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
+  }) {
+    final $result = create();
+    if (deprecated != null) {
+      $result.deprecated = deprecated;
+    }
+    if (uninterpretedOption != null) {
+      $result.uninterpretedOption.addAll(uninterpretedOption);
+    }
+    return $result;
+  }
   ServiceOptions._() : super();
   factory ServiceOptions.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2295,7 +2785,23 @@ class ServiceOptions extends $pb.GeneratedMessage {
 }
 
 class MethodOptions extends $pb.GeneratedMessage {
-  factory MethodOptions() => create();
+  factory MethodOptions({
+    $core.bool? deprecated,
+    MethodOptions_IdempotencyLevel? idempotencyLevel,
+    $core.Iterable<UninterpretedOption>? uninterpretedOption,
+  }) {
+    final $result = create();
+    if (deprecated != null) {
+      $result.deprecated = deprecated;
+    }
+    if (idempotencyLevel != null) {
+      $result.idempotencyLevel = idempotencyLevel;
+    }
+    if (uninterpretedOption != null) {
+      $result.uninterpretedOption.addAll(uninterpretedOption);
+    }
+    return $result;
+  }
   MethodOptions._() : super();
   factory MethodOptions.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2382,7 +2888,19 @@ class MethodOptions extends $pb.GeneratedMessage {
 /// E.g.,{ ["foo", false], ["bar.baz", true], ["qux", false] } represents
 /// "foo.(bar.baz).qux".
 class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
-  factory UninterpretedOption_NamePart() => create();
+  factory UninterpretedOption_NamePart({
+    $core.String? namePart,
+    $core.bool? isExtension,
+  }) {
+    final $result = create();
+    if (namePart != null) {
+      $result.namePart = namePart;
+    }
+    if (isExtension != null) {
+      $result.isExtension = isExtension;
+    }
+    return $result;
+  }
   UninterpretedOption_NamePart._() : super();
   factory UninterpretedOption_NamePart.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2459,7 +2977,39 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
 /// or produced by Descriptor::CopyTo()) will never have UninterpretedOptions
 /// in them.
 class UninterpretedOption extends $pb.GeneratedMessage {
-  factory UninterpretedOption() => create();
+  factory UninterpretedOption({
+    $core.Iterable<UninterpretedOption_NamePart>? name,
+    $core.String? identifierValue,
+    $fixnum.Int64? positiveIntValue,
+    $fixnum.Int64? negativeIntValue,
+    $core.double? doubleValue,
+    $core.List<$core.int>? stringValue,
+    $core.String? aggregateValue,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name.addAll(name);
+    }
+    if (identifierValue != null) {
+      $result.identifierValue = identifierValue;
+    }
+    if (positiveIntValue != null) {
+      $result.positiveIntValue = positiveIntValue;
+    }
+    if (negativeIntValue != null) {
+      $result.negativeIntValue = negativeIntValue;
+    }
+    if (doubleValue != null) {
+      $result.doubleValue = doubleValue;
+    }
+    if (stringValue != null) {
+      $result.stringValue = stringValue;
+    }
+    if (aggregateValue != null) {
+      $result.aggregateValue = aggregateValue;
+    }
+    return $result;
+  }
   UninterpretedOption._() : super();
   factory UninterpretedOption.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2589,7 +3139,31 @@ class UninterpretedOption extends $pb.GeneratedMessage {
 }
 
 class SourceCodeInfo_Location extends $pb.GeneratedMessage {
-  factory SourceCodeInfo_Location() => create();
+  factory SourceCodeInfo_Location({
+    $core.Iterable<$core.int>? path,
+    $core.Iterable<$core.int>? span,
+    $core.String? leadingComments,
+    $core.String? trailingComments,
+    $core.Iterable<$core.String>? leadingDetachedComments,
+  }) {
+    final $result = create();
+    if (path != null) {
+      $result.path.addAll(path);
+    }
+    if (span != null) {
+      $result.span.addAll(span);
+    }
+    if (leadingComments != null) {
+      $result.leadingComments = leadingComments;
+    }
+    if (trailingComments != null) {
+      $result.trailingComments = trailingComments;
+    }
+    if (leadingDetachedComments != null) {
+      $result.leadingDetachedComments.addAll(leadingDetachedComments);
+    }
+    return $result;
+  }
   SourceCodeInfo_Location._() : super();
   factory SourceCodeInfo_Location.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2747,7 +3321,15 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
 /// Encapsulates information about the original source file from which a
 /// FileDescriptorProto was generated.
 class SourceCodeInfo extends $pb.GeneratedMessage {
-  factory SourceCodeInfo() => create();
+  factory SourceCodeInfo({
+    $core.Iterable<SourceCodeInfo_Location>? location,
+  }) {
+    final $result = create();
+    if (location != null) {
+      $result.location.addAll(location);
+    }
+    return $result;
+  }
   SourceCodeInfo._() : super();
   factory SourceCodeInfo.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2837,7 +3419,27 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
 }
 
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
-  factory GeneratedCodeInfo_Annotation() => create();
+  factory GeneratedCodeInfo_Annotation({
+    $core.Iterable<$core.int>? path,
+    $core.String? sourceFile,
+    $core.int? begin,
+    $core.int? end,
+  }) {
+    final $result = create();
+    if (path != null) {
+      $result.path.addAll(path);
+    }
+    if (sourceFile != null) {
+      $result.sourceFile = sourceFile;
+    }
+    if (begin != null) {
+      $result.begin = begin;
+    }
+    if (end != null) {
+      $result.end = end;
+    }
+    return $result;
+  }
   GeneratedCodeInfo_Annotation._() : super();
   factory GeneratedCodeInfo_Annotation.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -2936,7 +3538,15 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
 /// file. A GeneratedCodeInfo message is associated with only one generated
 /// source file, but may contain references to different source .proto files.
 class GeneratedCodeInfo extends $pb.GeneratedMessage {
-  factory GeneratedCodeInfo() => create();
+  factory GeneratedCodeInfo({
+    $core.Iterable<GeneratedCodeInfo_Annotation>? annotation,
+  }) {
+    final $result = create();
+    if (annotation != null) {
+      $result.annotation.addAll(annotation);
+    }
+    return $result;
+  }
   GeneratedCodeInfo._() : super();
   factory GeneratedCodeInfo.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>

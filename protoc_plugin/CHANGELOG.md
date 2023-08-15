@@ -1,3 +1,8 @@
+## 21.1.1
+
+* Rename a local variable used with message constructors to avoid potential
+  conflicts with protobuf field names.
+
 ## 21.1.0
 
 * Generate code comments for annotated protobuf inputs. ([#161])
