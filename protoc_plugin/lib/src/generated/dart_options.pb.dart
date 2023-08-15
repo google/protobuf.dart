@@ -16,7 +16,23 @@ import 'package:protobuf/protobuf.dart' as $pb;
 /// A mixin that can be used in the 'with' clause of the generated Dart class
 /// for a proto message.
 class DartMixin extends $pb.GeneratedMessage {
-  factory DartMixin() => create();
+  factory DartMixin({
+    $core.String? name,
+    $core.String? importFrom,
+    $core.String? parent,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (importFrom != null) {
+      $result.importFrom = importFrom;
+    }
+    if (parent != null) {
+      $result.parent = parent;
+    }
+    return $result;
+  }
   DartMixin._() : super();
   factory DartMixin.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -100,7 +116,15 @@ class DartMixin extends $pb.GeneratedMessage {
 
 /// Defines additional Dart imports to be used with messages in this file.
 class Imports extends $pb.GeneratedMessage {
-  factory Imports() => create();
+  factory Imports({
+    $core.Iterable<DartMixin>? mixins,
+  }) {
+    final $result = create();
+    if (mixins != null) {
+      $result.mixins.addAll(mixins);
+    }
+    return $result;
+  }
   Imports._() : super();
   factory Imports.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>

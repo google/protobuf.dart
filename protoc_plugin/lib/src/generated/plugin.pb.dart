@@ -20,7 +20,27 @@ export 'plugin.pbenum.dart';
 
 /// The version number of protocol compiler.
 class Version extends $pb.GeneratedMessage {
-  factory Version() => create();
+  factory Version({
+    $core.int? major,
+    $core.int? minor,
+    $core.int? patch,
+    $core.String? suffix,
+  }) {
+    final $result = create();
+    if (major != null) {
+      $result.major = major;
+    }
+    if (minor != null) {
+      $result.minor = minor;
+    }
+    if (patch != null) {
+      $result.patch = patch;
+    }
+    if (suffix != null) {
+      $result.suffix = suffix;
+    }
+    return $result;
+  }
   Version._() : super();
   factory Version.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -114,7 +134,27 @@ class Version extends $pb.GeneratedMessage {
 
 /// An encoded CodeGeneratorRequest is written to the plugin's stdin.
 class CodeGeneratorRequest extends $pb.GeneratedMessage {
-  factory CodeGeneratorRequest() => create();
+  factory CodeGeneratorRequest({
+    $core.Iterable<$core.String>? fileToGenerate,
+    $core.String? parameter,
+    Version? compilerVersion,
+    $core.Iterable<$0.FileDescriptorProto>? protoFile,
+  }) {
+    final $result = create();
+    if (fileToGenerate != null) {
+      $result.fileToGenerate.addAll(fileToGenerate);
+    }
+    if (parameter != null) {
+      $result.parameter = parameter;
+    }
+    if (compilerVersion != null) {
+      $result.compilerVersion = compilerVersion;
+    }
+    if (protoFile != null) {
+      $result.protoFile.addAll(protoFile);
+    }
+    return $result;
+  }
   CodeGeneratorRequest._() : super();
   factory CodeGeneratorRequest.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -214,7 +254,27 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
 
 /// Represents a single generated file.
 class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
-  factory CodeGeneratorResponse_File() => create();
+  factory CodeGeneratorResponse_File({
+    $core.String? name,
+    $core.String? insertionPoint,
+    $core.String? content,
+    $0.GeneratedCodeInfo? generatedCodeInfo,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    if (insertionPoint != null) {
+      $result.insertionPoint = insertionPoint;
+    }
+    if (content != null) {
+      $result.content = content;
+    }
+    if (generatedCodeInfo != null) {
+      $result.generatedCodeInfo = generatedCodeInfo;
+    }
+    return $result;
+  }
   CodeGeneratorResponse_File._() : super();
   factory CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -366,7 +426,23 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
 
 /// The plugin writes an encoded CodeGeneratorResponse to stdout.
 class CodeGeneratorResponse extends $pb.GeneratedMessage {
-  factory CodeGeneratorResponse() => create();
+  factory CodeGeneratorResponse({
+    $core.String? error,
+    $fixnum.Int64? supportedFeatures,
+    $core.Iterable<CodeGeneratorResponse_File>? file,
+  }) {
+    final $result = create();
+    if (error != null) {
+      $result.error = error;
+    }
+    if (supportedFeatures != null) {
+      $result.supportedFeatures = supportedFeatures;
+    }
+    if (file != null) {
+      $result.file.addAll(file);
+    }
+    return $result;
+  }
   CodeGeneratorResponse._() : super();
   factory CodeGeneratorResponse.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
