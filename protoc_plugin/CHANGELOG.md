@@ -1,4 +1,40 @@
-## 21.0.0-dev
+## 21.1.1
+
+* Rename a local variable used with message constructors to avoid potential
+  conflicts with protobuf field names.
+
+## 21.1.0
+
+* Generate code comments for annotated protobuf inputs. ([#161])
+* Generate message constructor arguments by default again. New flag
+  `disable_constructor_args` disables generating the arguments.
+
+  Constructor arguments were removed in 21.0.0 as they increase dart2js binary
+  sizes even when the arguments are not used.
+
+  Example usage to disable constructor arguments:
+
+  ```
+  protoc --dart_out='disable_constructor_args,<other options>:.' ...
+  ```
+
+  ([#850], [#855])
+
+[#161]: https://github.com/google/protobuf.dart/issues/161
+[#850]: https://github.com/google/protobuf.dart/issues/850
+[#855]: https://github.com/google/protobuf.dart/pull/855
+
+## 21.0.2
+
+* Fix missing protobuf import in generated grpc files. ([#844])
+
+[#844]: https://github.com/google/protobuf.dart/issues/844
+
+## 21.0.1
+
+(Bad release, retracted)
+
+## 21.0.0
 
 * Identifiers `fromBuffer`, `fromJson`, `$_defaultFor`, `initByValue` are no
   longer reserved. Proto fields with those Dart names will no longer have a
@@ -20,24 +56,31 @@
     ..a = 123
     ..b.addAll([1, 2, 3])
   ```
+* Require Dart `2.19`.
 * Export public dependencies (`import public`s in proto files) in
   `.pbenum.dart` files, same as `.pb.dart` files. ([9aad6aa])
 * Fix decoding map fields when key or value (or both) fields of a map entry is
   missing. ([#719], [#745])
 * Generated files now split `ignore_for_file` comments across multiple lines
-  when necessary.
+  when necessary. ([#770])
 * Generated files now uses shared consts to eliminate repeated
-  `bool.fromEnvironment()` expressions.
+  `bool.fromEnvironment()` expressions. ([#772])
 * Removed accidental `///` at the top of generated Dart files to avoid new
-  `dangling_library_doc_comments` lint.
+  `dangling_library_doc_comments` lint. ([#774])
 * Generated files now have sorted imports and have fewer import-related
-  `ignore_for_file:` analysis directives.
+  `ignore_for_file:` analysis directives. ([#778])
+* Remove duplicated consts in generated files. ([#773])
 
 [#679]: https://github.com/google/protobuf.dart/pull/679
 [#703]: https://github.com/google/protobuf.dart/pull/703
 [9aad6aa]: https://github.com/google/protobuf.dart/commits/9aad6aa
 [#719]: https://github.com/google/protobuf.dart/issues/719
 [#745]: https://github.com/google/protobuf.dart/pull/745
+[#770]: https://github.com/google/protobuf.dart/pull/770
+[#772]: https://github.com/google/protobuf.dart/pull/772
+[#773]: https://github.com/google/protobuf.dart/pull/773
+[#774]: https://github.com/google/protobuf.dart/pull/774
+[#778]: https://github.com/google/protobuf.dart/pull/778
 
 ## 20.0.1
 

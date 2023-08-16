@@ -12,9 +12,8 @@ import 'package:protobuf_benchmarks/readfile.dart';
 class Benchmark extends BenchmarkBase {
   final f0.A0 _input;
 
-  Benchmark(String name, List<int> input)
-      : _input = f0.A0.fromBuffer(input)..freeze(),
-        super(name);
+  Benchmark(super.name, List<int> input)
+      : _input = f0.A0.fromBuffer(input)..freeze();
 
   @override
   void run() {
@@ -29,6 +28,6 @@ class Benchmark extends BenchmarkBase {
 }
 
 void main() {
-  List<int> encoded = readfile('datasets/query_benchmark.pb');
+  final List<int> encoded = readfile('datasets/query_benchmark.pb');
   Benchmark('query_set_nested_value', encoded).report();
 }

@@ -73,13 +73,14 @@ void main() {
       ..enumType.add(ed);
   });
   test('testMessageGenerator', () {
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
+    final options = parseGenerationOptions(
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
 
-    var fg = FileGenerator(fd, options);
-    var mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+    final fg = FileGenerator(fd, options);
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
-    var ctx = GenerationContext(options);
+    final ctx = GenerationContext(options);
     mg.register(ctx);
     mg.resolve(ctx);
 
@@ -98,20 +99,21 @@ void main() {
   });
 
   test('testMetadataIndices', () {
-    var options = parseGenerationOptions(
-        CodeGeneratorRequest(), CodeGeneratorResponse())!;
-    var fg = FileGenerator(fd, options);
-    var mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+    final options = parseGenerationOptions(
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+        CodeGeneratorResponse())!;
+    final fg = FileGenerator(fd, options);
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
-    var ctx = GenerationContext(options);
+    final ctx = GenerationContext(options);
     mg.register(ctx);
     mg.resolve(ctx);
 
-    var writer = IndentingWriter(filename: '');
+    final writer = IndentingWriter(filename: '');
     mg.generate(writer);
 
-    var eq = ListEquality();
-    var fieldStringsMap = HashMap(
+    final eq = ListEquality();
+    final fieldStringsMap = HashMap(
         equals: eq.equals, hashCode: eq.hash, isValidKey: eq.isValidKey);
     fieldStringsMap[[4, 0]] = ['PhoneNumber'];
     fieldStringsMap[[4, 0, 2, 0]] = ['type', 'hasType', 'clearType'];
@@ -123,12 +125,12 @@ void main() {
       'clearDeprecatedField'
     ];
 
-    var generatedContents = writer.toString();
-    var metadata = writer.sourceLocationInfo;
-    for (var annotation in metadata.annotation) {
-      var annotatedName =
+    final generatedContents = writer.toString();
+    final metadata = writer.sourceLocationInfo;
+    for (final annotation in metadata.annotation) {
+      final annotatedName =
           generatedContents.substring(annotation.begin, annotation.end);
-      var expectedStrings = fieldStringsMap[annotation.path];
+      final expectedStrings = fieldStringsMap[annotation.path];
       if (expectedStrings == null) {
         fail('The field path ${annotation.path} '
             'did not match any expected field path.');

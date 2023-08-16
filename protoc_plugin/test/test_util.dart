@@ -1265,7 +1265,7 @@ void assertUnpackedFieldsSet(TestUnpackedTypes message) {
 }
 
 TestAllExtensions getAllExtensionsSet() {
-  var message = TestAllExtensions();
+  final message = TestAllExtensions();
   setAllExtensions(message);
   return message;
 }
@@ -1273,31 +1273,31 @@ TestAllExtensions getAllExtensionsSet() {
 // Get a [TestAllTypes] with all fields set as they would
 // be by [setAllFields(TestAllTypes)].
 TestAllTypes getAllSet() {
-  var message = TestAllTypes();
+  final message = TestAllTypes();
   setAllFields(message);
   return message;
 }
 
 ExtensionRegistry getExtensionRegistry() {
-  var registry = ExtensionRegistry();
+  final registry = ExtensionRegistry();
   registerAllExtensions(registry);
   return registry /*.getUnmodifiable()*/;
 }
 
 TestPackedExtensions getPackedExtensionsSet() {
-  var message = TestPackedExtensions();
+  final message = TestPackedExtensions();
   setPackedExtensions(message);
   return message;
 }
 
 TestPackedTypes getPackedSet() {
-  var message = TestPackedTypes();
+  final message = TestPackedTypes();
   setPackedFields(message);
   return message;
 }
 
 TestUnpackedTypes getUnpackedSet() {
-  var message = TestUnpackedTypes();
+  final message = TestUnpackedTypes();
   setUnpackedFields(message);
   return message;
 }
@@ -1367,19 +1367,19 @@ void modifyRepeatedFields(TestAllTypes message) {
   message.repeatedString[1] = '515';
   message.repeatedBytes[1] = '516'.codeUnits;
 
-  var repeatedGroup = TestAllTypes_RepeatedGroup();
+  final repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 517;
   message.repeatedGroup[1] = repeatedGroup;
 
-  var optionalNestedMessage = TestAllTypes_NestedMessage();
+  final optionalNestedMessage = TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 518;
   message.repeatedNestedMessage[1] = optionalNestedMessage;
 
-  var optionalForeignMessage = ForeignMessage();
+  final optionalForeignMessage = ForeignMessage();
   optionalForeignMessage.c = 519;
   message.repeatedForeignMessage[1] = optionalForeignMessage;
 
-  var optionalImportMessage = ImportMessage();
+  final optionalImportMessage = ImportMessage();
   optionalImportMessage.d = 520;
   message.repeatedImportMessage[1] = optionalImportMessage;
 
@@ -1412,19 +1412,19 @@ void setAllExtensions(TestAllExtensions message) {
   message.setExtension(Unittest.optionalStringExtension, '115');
   message.setExtension(Unittest.optionalBytesExtension, '116'.codeUnits);
 
-  var msg = OptionalGroup_extension();
+  final msg = OptionalGroup_extension();
   msg.a = 117;
   message.setExtension(Unittest.optionalGroupExtension, msg);
 
-  var msg2 = TestAllTypes_NestedMessage();
+  final msg2 = TestAllTypes_NestedMessage();
   msg2.bb = 118;
   message.setExtension(Unittest.optionalNestedMessageExtension, msg2);
 
-  var msg3 = ForeignMessage();
+  final msg3 = ForeignMessage();
   msg3.c = 119;
   message.setExtension(Unittest.optionalForeignMessageExtension, msg3);
 
-  var msg4 = ImportMessage();
+  final msg4 = ImportMessage();
   msg4.d = 120;
   message.setExtension(Unittest.optionalImportMessageExtension, msg4);
 
@@ -1456,19 +1456,19 @@ void setAllExtensions(TestAllExtensions message) {
   message.addExtension(Unittest.repeatedStringExtension, '215');
   message.addExtension(Unittest.repeatedBytesExtension, '216'.codeUnits);
 
-  var msg5 = RepeatedGroup_extension();
+  final msg5 = RepeatedGroup_extension();
   msg5.a = 217;
   message.addExtension(Unittest.repeatedGroupExtension, msg5);
 
-  var msg6 = TestAllTypes_NestedMessage();
+  final msg6 = TestAllTypes_NestedMessage();
   msg6.bb = 218;
   message.addExtension(Unittest.repeatedNestedMessageExtension, msg6);
 
-  var msg7 = ForeignMessage();
+  final msg7 = ForeignMessage();
   msg7.c = 219;
   message.addExtension(Unittest.repeatedForeignMessageExtension, msg7);
 
-  var msg8 = ImportMessage();
+  final msg8 = ImportMessage();
   msg8.d = 220;
   message.addExtension(Unittest.repeatedImportMessageExtension, msg8);
 
@@ -1499,19 +1499,19 @@ void setAllExtensions(TestAllExtensions message) {
   message.addExtension(Unittest.repeatedStringExtension, '315');
   message.addExtension(Unittest.repeatedBytesExtension, '316'.codeUnits);
 
-  var msg9 = RepeatedGroup_extension();
+  final msg9 = RepeatedGroup_extension();
   msg9.a = 317;
   message.addExtension(Unittest.repeatedGroupExtension, msg9);
 
-  var msg10 = TestAllTypes_NestedMessage();
+  final msg10 = TestAllTypes_NestedMessage();
   msg10.bb = 318;
   message.addExtension(Unittest.repeatedNestedMessageExtension, msg10);
 
-  var msg11 = ForeignMessage();
+  final msg11 = ForeignMessage();
   msg11.c = 319;
   message.addExtension(Unittest.repeatedForeignMessageExtension, msg11);
 
-  var msg12 = ImportMessage();
+  final msg12 = ImportMessage();
   msg12.d = 320;
   message.addExtension(Unittest.repeatedImportMessageExtension, msg12);
 
@@ -1573,19 +1573,19 @@ void setAllFields(TestAllTypes message) {
   message.optionalString = '115';
   message.optionalBytes = '116'.codeUnits;
 
-  var optionalGroup = TestAllTypes_OptionalGroup();
+  final optionalGroup = TestAllTypes_OptionalGroup();
   optionalGroup.a = 117;
   message.optionalGroup = optionalGroup;
 
-  var optionalNestedMessage = TestAllTypes_NestedMessage();
+  final optionalNestedMessage = TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 118;
   message.optionalNestedMessage = optionalNestedMessage;
 
-  var optionalForeignMessage = ForeignMessage();
+  final optionalForeignMessage = ForeignMessage();
   optionalForeignMessage.c = 119;
   message.optionalForeignMessage = optionalForeignMessage;
 
-  var optionalImportMessage = ImportMessage();
+  final optionalImportMessage = ImportMessage();
   optionalImportMessage.d = 120;
   message.optionalImportMessage = optionalImportMessage;
 

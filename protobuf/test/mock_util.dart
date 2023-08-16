@@ -52,7 +52,7 @@ abstract class MockMessage extends GeneratedMessage {
 
   @override
   GeneratedMessage clone() {
-    var create = info_.byName['child']!.subBuilder!;
+    final create = info_.byName['child']!.subBuilder!;
     return create()..mergeFromMessage(this);
   }
 }
@@ -60,7 +60,7 @@ abstract class MockMessage extends GeneratedMessage {
 class T extends MockMessage {
   @override
   BuilderInfo get info_ => _info;
-  static final _info = mockInfo('T', () => T());
+  static final _info = mockInfo('T', T.new);
   @override
   T createEmptyInstance() => T();
 }

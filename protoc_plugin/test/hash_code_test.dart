@@ -9,14 +9,14 @@ import '../out/protos/google/protobuf/unittest.pb.dart';
 
 void main() {
   test('testHashCodeEmptyMessage', () {
-    var m1 = TestAllTypes();
-    var m2 = TestAllTypes();
+    final m1 = TestAllTypes();
+    final m2 = TestAllTypes();
     expect(m1.hashCode, m2.hashCode);
   });
 
   test('testHashCodeOptionalInt32', () {
-    var m1 = TestAllTypes()..optionalInt32 = 42;
-    var m2 = TestAllTypes()..optionalInt32 = 42;
+    final m1 = TestAllTypes()..optionalInt32 = 42;
+    final m2 = TestAllTypes()..optionalInt32 = 42;
     expect(m1.hashCode, m2.hashCode);
 
     m1.optionalInt32 = 43;
@@ -27,8 +27,8 @@ void main() {
   });
 
   test('testHashCodeOptionalInt64', () {
-    var m1 = TestAllTypes()..optionalInt64 = Int64(42);
-    var m2 = TestAllTypes()..optionalInt64 = Int64(42);
+    final m1 = TestAllTypes()..optionalInt64 = Int64(42);
+    final m2 = TestAllTypes()..optionalInt64 = Int64(42);
     expect(m1.hashCode, m2.hashCode);
 
     m1.optionalInt64 = Int64(43);
@@ -39,8 +39,8 @@ void main() {
   });
 
   test('testHashCodeOptionalString', () {
-    var m1 = TestAllTypes()..optionalString = 'Dart';
-    var m2 = TestAllTypes()..optionalString = 'Dart';
+    final m1 = TestAllTypes()..optionalString = 'Dart';
+    final m2 = TestAllTypes()..optionalString = 'Dart';
     expect(m1.hashCode, m2.hashCode);
 
     m1.optionalString = 'JavaScript';
@@ -51,8 +51,8 @@ void main() {
   });
 
   test('testHashCodeOptionalEnum', () {
-    var m1 = TestAllTypes()..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
-    var m2 = TestAllTypes()..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
+    final m1 = TestAllTypes()..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
+    final m2 = TestAllTypes()..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
     expect(m1.hashCode, m2.hashCode);
 
     m1.optionalNestedEnum = TestAllTypes_NestedEnum.BAZ;
@@ -63,16 +63,16 @@ void main() {
   });
 
   test('testHashCodeRepeatedInt32', () {
-    var m1 = TestAllTypes();
-    var m2 = TestAllTypes();
+    final m1 = TestAllTypes();
+    final m2 = TestAllTypes();
     m1.repeatedInt32.add(42);
     m2.repeatedInt32.add(42);
     expect(m1.hashCode, m2.hashCode);
   });
 
   test('testHashCodeRepeatedInt64', () {
-    var m1 = TestAllTypes();
-    var m2 = TestAllTypes();
+    final m1 = TestAllTypes();
+    final m2 = TestAllTypes();
     m1.repeatedInt32.add(42);
     m2.repeatedInt32.add(42);
     expect(m1.hashCode, m2.hashCode);
@@ -91,8 +91,8 @@ void main() {
   });
 
   test('testHashCodeRepeatedString', () {
-    var m1 = TestAllTypes();
-    var m2 = TestAllTypes();
+    final m1 = TestAllTypes();
+    final m2 = TestAllTypes();
     m1.repeatedString.add('Dart');
     m2.repeatedString.add('Dart');
     expect(m1.hashCode, m2.hashCode);
@@ -111,8 +111,8 @@ void main() {
   });
 
   test('testHashCodeRepeatedEnum', () {
-    var m1 = TestAllTypes();
-    var m2 = TestAllTypes();
+    final m1 = TestAllTypes();
+    final m2 = TestAllTypes();
     m1.repeatedNestedEnum.add(TestAllTypes_NestedEnum.BAR);
     m2.repeatedNestedEnum.add(TestAllTypes_NestedEnum.BAR);
     expect(m1.hashCode, m2.hashCode);
@@ -125,20 +125,20 @@ void main() {
   });
 
   test('testHashCodeUnknownFields', () {
-    var m1 = TestAllTypes();
-    var m2 = TestAllTypes();
+    final m1 = TestAllTypes();
+    final m2 = TestAllTypes();
     m1.unknownFields.mergeVarintField(12345, Int64(123));
     m2.unknownFields.mergeVarintField(12345, Int64(123));
     expect(m1.hashCode, m2.hashCode);
   });
 
   test('testHashCodeCombined', () {
-    var m1 = TestAllTypes()
+    final m1 = TestAllTypes()
       ..optionalInt32 = 42
       ..optionalInt64 = Int64(42)
       ..optionalString = 'Dart'
       ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
-    var m2 = TestAllTypes()
+    final m2 = TestAllTypes()
       ..optionalInt32 = 42
       ..optionalInt64 = Int64(42)
       ..optionalString = 'Dart'

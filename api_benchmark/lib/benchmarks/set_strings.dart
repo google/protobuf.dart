@@ -4,7 +4,7 @@
 
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart'
-    show BenchmarkID, Request, Params, Sample;
+    show BenchmarkID, Params, Request, Sample;
 import '../generated/string_grid.pb.dart' as pb;
 
 /// A benchmark that sets each value in a grid of string fields.
@@ -18,13 +18,13 @@ class SetStringsBenchmark extends Benchmark {
 
   @override
   String get summary {
-    var fill = fillValue == null ? 'null' : "'$fillValue'";
+    final fill = fillValue == null ? 'null' : "'$fillValue'";
     return '${id.name}($height x $fill)';
   }
 
   @override
   Params makeParams() {
-    var p = Params()..messageCount = height;
+    final p = Params()..messageCount = height;
     if (fillValue != null) p.stringValue = fillValue!;
     return p;
   }
@@ -36,13 +36,13 @@ class SetStringsBenchmark extends Benchmark {
 
   // makes a rectangle where no fields have been set.
   static pb.Grid10 _makeGrid(int width, int height, String? fillValue) {
-    var grid = pb.Grid10();
+    final grid = pb.Grid10();
 
     for (var y = 0; y < height; y++) {
-      var line = pb.Line10();
+      final line = pb.Line10();
       if (fillValue != null) {
         for (var x = 0; x < width; x++) {
-          var tag = getTagForColumn(line, x);
+          final tag = getTagForColumn(line, x);
           line.setField(tag, fillValue);
         }
       }
@@ -67,8 +67,8 @@ class SetStringsBenchmark extends Benchmark {
 
   @override
   void run() {
-    var newValue = '';
-    for (var line in grid.lines) {
+    final newValue = '';
+    for (final line in grid.lines) {
       line.cell1 = newValue;
       line.cell2 = newValue;
       line.cell3 = newValue;

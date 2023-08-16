@@ -7,6 +7,7 @@
 // These tests will be skipped on js, as the dart2js platform
 // does not support 64-bit ints.
 @TestOn('!js')
+library;
 
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:test/test.dart';

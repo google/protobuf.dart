@@ -13,21 +13,21 @@ import 'service_util.dart';
 
 void main() {
   test('testClientGenerator', () {
-    var options = GenerationOptions();
-    var fd = buildFileDescriptor(
+    final options = GenerationOptions();
+    final fd = buildFileDescriptor(
         'testpkg', 'testpkg.proto', ['SomeRequest', 'SomeReply']);
     fd.service.add(buildServiceDescriptor());
-    var fg = FileGenerator(fd, options);
+    final fg = FileGenerator(fd, options);
 
-    var fd2 = buildFileDescriptor(
+    final fd2 = buildFileDescriptor(
         'foo.bar', 'foobar.proto', ['EmptyMessage', 'AnotherReply']);
-    var fg2 = FileGenerator(fd2, options);
+    final fg2 = FileGenerator(fd2, options);
 
     link(GenerationOptions(), [fg, fg2]);
 
-    var cag = fg.clientApiGenerators[0];
+    final cag = fg.clientApiGenerators[0];
 
-    var writer = IndentingWriter();
+    final writer = IndentingWriter();
     cag.generate(writer);
     expectMatchesGoldenFile(writer.toString(), 'test/goldens/client');
   });

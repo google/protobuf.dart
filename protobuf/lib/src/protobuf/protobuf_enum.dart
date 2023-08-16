@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// A base class for all proto enum types.
 ///
@@ -40,21 +40,12 @@ class ProtobufEnum {
   /// Creates a Map for all of the [ProtobufEnum]s in [byIndex], mapping each
   /// [ProtobufEnum]'s [value] to the [ProtobufEnum].
   static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> byIndex) {
-    var byValue = <int, T>{};
-    for (var v in byIndex) {
+    final byValue = <int, T>{};
+    for (final v in byIndex) {
       byValue[v.value] = v;
     }
     return byValue;
   }
-
-  // Subclasses will typically have a private constructor and a fixed set of
-  // instances, so `Object.operator==()` will work, and does not need to
-  // be overridden explicitly.
-  @override
-  bool operator ==(Object other);
-
-  @override
-  int get hashCode => value;
 
   /// Returns this enum's [name] or the [value] if names are not represented.
   @override

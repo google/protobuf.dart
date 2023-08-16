@@ -4,7 +4,7 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// Type of an empty message builder.
 typedef CreateBuilderFunc = GeneratedMessage Function();
@@ -148,22 +148,22 @@ abstract class GeneratedMessage {
   /// This generates the same output as [toString], but can be used by mixins
   /// to compose debug strings with additional information.
   String toDebugString() {
-    var out = StringBuffer();
+    final out = StringBuffer();
     _fieldSet.writeString(out, '');
     return out.toString();
   }
 
   void check() {
     if (!isInitialized()) {
-      var invalidFields = <String>[];
+      final invalidFields = <String>[];
       _fieldSet._appendInvalidFields(invalidFields, '');
-      var missingFields = (invalidFields..sort()).join(', ');
+      final missingFields = (invalidFields..sort()).join(', ');
       throw StateError('Message missing required fields: $missingFields');
     }
   }
 
   Uint8List writeToBuffer() {
-    var out = CodedBufferWriter();
+    final out = CodedBufferWriter();
     writeToCodedBufferWriter(out);
     return out.toBuffer();
   }
@@ -187,7 +187,7 @@ abstract class GeneratedMessage {
   ///   the existing sub-message.
   void mergeFromBuffer(List<int> input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    var codedInput = CodedBufferReader(input);
+    final codedInput = CodedBufferReader(input);
     final meta = _fieldSet._meta;
     _mergeFromCodedBufferReader(meta, _fieldSet, codedInput, extensionRegistry);
     codedInput.checkLastTagWas(0);

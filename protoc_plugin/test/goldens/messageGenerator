@@ -1,15 +1,15 @@
 class PhoneNumber extends $pb.GeneratedMessage {
+  factory PhoneNumber() => create();
+  PhoneNumber._() : super();
+  factory PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PhoneNumber', createEmptyInstance: create)
     ..aQS(1, _omitFieldNames ? '' : 'number')
     ..e<PhoneNumber_PhoneType>(2, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE, defaultOrMaker: PhoneNumber_PhoneType.MOBILE, valueOf: PhoneNumber_PhoneType.valueOf, enumValues: PhoneNumber_PhoneType.values)
     ..a<$core.String>(3, _omitFieldNames ? '' : 'name', $pb.PbFieldType.OS, defaultOrMaker: '\$')
     ..aOS(4, _omitFieldNames ? '' : 'deprecatedField')
   ;
-
-  PhoneNumber._() : super();
-  factory PhoneNumber() => create();
-  factory PhoneNumber.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory PhoneNumber.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '

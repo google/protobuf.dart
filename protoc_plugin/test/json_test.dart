@@ -31,14 +31,14 @@ void main() {
   /// Checks that the message, once serialized to JSON, matches
   /// [testAllJsonTypes] massaged with `replaceAll(from, to)`.
   Matcher expectedJson(String from, String to) {
-    var expectedJson = testAllJsonTypes.replaceAll(from, to);
+    final expectedJson = testAllJsonTypes.replaceAll(from, to);
     return predicate(
         (GeneratedMessage message) => message.writeToJson() == expectedJson,
         'Incorrect output');
   }
 
   test('testUnsignedOutput', () {
-    var message = TestAllTypes();
+    final message = TestAllTypes();
     // These values selected because:
     // (1) large enough to set the sign bit
     // (2) don't set all of the first 10 bits under the sign bit
@@ -46,7 +46,7 @@ void main() {
     message.optionalUint64 = Int64.parseHex('f0000000ffff0000');
     message.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
-    var expectedJsonValue =
+    final expectedJsonValue =
         '{"4":"17293822573397606400","8":"17293822573397606401"}';
     expect(message.writeToJson(), expectedJsonValue);
   });
@@ -96,7 +96,7 @@ void main() {
 
   test('testBase64Decode', () {
     String optionalBytes(String from, String to) {
-      var json = testAllJsonTypes.replaceAll(from, to);
+      final json = testAllJsonTypes.replaceAll(from, to);
       return String.fromCharCodes(TestAllTypes.fromJson(json).optionalBytes);
     }
 
@@ -118,9 +118,9 @@ void main() {
   });
 
   test('testParseUnsigned', () {
-    var parsed = TestAllTypes.fromJson(
+    final parsed = TestAllTypes.fromJson(
         '{"4":"17293822573397606400","8":"17293822573397606401"}');
-    var expected = TestAllTypes();
+    final expected = TestAllTypes();
     expected.optionalUint64 = Int64.parseHex('f0000000ffff0000');
     expected.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
@@ -130,37 +130,37 @@ void main() {
   group('testConvertDouble', () {
     test('WithDecimal', () {
       final json = '{"12":1.2}';
-      var proto = TestAllTypes()..optionalDouble = 1.2;
+      final proto = TestAllTypes()..optionalDouble = 1.2;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('WholeNumber', () {
       final json = '{"12":5}';
-      var proto = TestAllTypes()..optionalDouble = 5.0;
+      final proto = TestAllTypes()..optionalDouble = 5.0;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('Infinity', () {
       final json = '{"12":"Infinity"}';
-      var proto = TestAllTypes()..optionalDouble = double.infinity;
+      final proto = TestAllTypes()..optionalDouble = double.infinity;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('NegativeInfinity', () {
       final json = '{"12":"-Infinity"}';
-      var proto = TestAllTypes()..optionalDouble = double.negativeInfinity;
+      final proto = TestAllTypes()..optionalDouble = double.negativeInfinity;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
   });
 
   test('testParseUnsignedLegacy', () {
-    var parsed = TestAllTypes.fromJson(
+    final parsed = TestAllTypes.fromJson(
         '{"4":"-1152921500311945216","8":"-1152921500311945215"}');
-    var expected = TestAllTypes();
+    final expected = TestAllTypes();
     expected.optionalUint64 = Int64.parseHex('f0000000ffff0000');
     expected.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
@@ -174,6 +174,13 @@ void main() {
     expect(message.count, 2214672939);
   });
 
+  test('testUint32Negative', () {
+    var message = foo.Inner.fromJson('{"6": -1}');
+    expect(message.countUint32, 4294967295);
+    message = foo.Inner.fromJson('{"6": -2080294357}');
+    expect(message.countUint32, 2214672939);
+  });
+
   test('testParse', () {
     expect(TestAllTypes.fromJson(testAllJsonTypes), getAllSet());
   });
@@ -183,14 +190,14 @@ void main() {
   });
 
   test('testExtensionsParse', () {
-    var registry = getExtensionRegistry();
+    final registry = getExtensionRegistry();
     expect(TestAllExtensions.fromJson(testAllJsonTypes, registry),
         getAllExtensionsSet());
   });
 
   test('testUnknownEnumValueInOptionalField', () {
     // optional NestedEnum optional_nested_enum = 21;
-    var message = TestAllTypes.fromJson('{"21": 4}');
+    final message = TestAllTypes.fromJson('{"21": 4}');
     // 4 is an unknown value.
     expect(message.optionalNestedEnum, equals(TestAllTypes_NestedEnum.FOO));
   });

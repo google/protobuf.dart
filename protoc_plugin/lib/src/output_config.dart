@@ -33,15 +33,15 @@ class DefaultOutputConfiguration extends OutputConfiguration {
 
   @override
   Uri outputPathFor(Uri inputPath, String extension) {
-    var base = path.withoutExtension(path.url.fromUri(inputPath));
+    final base = path.withoutExtension(path.url.fromUri(inputPath));
     return path.url.toUri('$base$extension');
   }
 
   @override
   Uri resolveImport(Uri target, Uri source, String extension) {
-    var targetPath = path.url.fromUri(target);
-    var sourceDir = path.url.dirname(path.url.fromUri(source));
-    var base =
+    final targetPath = path.url.fromUri(target);
+    final sourceDir = path.url.dirname(path.url.fromUri(source));
+    final base =
         path.withoutExtension(path.url.relative(targetPath, from: sourceDir));
     return path.url.toUri('$base$extension');
   }

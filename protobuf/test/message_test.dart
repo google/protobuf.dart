@@ -6,38 +6,34 @@
 
 import 'package:matcher/src/interfaces.dart';
 import 'package:protobuf/protobuf.dart';
-import 'package:test/test.dart' show test, expect, predicate, throwsA;
+import 'package:test/test.dart' show expect, isA, test, throwsA;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
 class Rec extends MockMessage {
   @override
   BuilderInfo get info_ => _info;
-  static final _info = mockInfo('Rec', () => Rec());
+  static final _info = mockInfo('Rec', Rec.new);
   @override
   Rec createEmptyInstance() => Rec();
 }
 
-Matcher throwsError(Type expectedType, String expectedMessage) =>
-    throwsA(predicate((dynamic x) {
-      expect(x.runtimeType, expectedType);
-      expect(x!.message, expectedMessage);
-      return true;
-    }));
+Matcher throwsError(String expectedMessage) => throwsA(isA<ArgumentError>()
+    .having((p0) => p0.message, 'message', expectedMessage));
 
 void main() {
   test('getField with invalid tag throws exception', () {
-    var r = Rec();
+    final r = Rec();
     expect(() {
       r.getField(123);
-    }, throwsError(ArgumentError, 'tag 123 not defined in Rec'));
+    }, throwsError('tag 123 not defined in Rec'));
   });
 
   test('getDefaultForField with invalid tag throws exception', () {
-    var r = Rec();
+    final r = Rec();
     expect(() {
       r.getDefaultForField(123);
-    }, throwsError(ArgumentError, 'tag 123 not defined in Rec'));
+    }, throwsError('tag 123 not defined in Rec'));
   });
 
   test('operator== and hashCode works for frozen message', () {
@@ -68,10 +64,10 @@ void main() {
   });
 
   test('operator== and hashCode work for a simple record', () {
-    var a = Rec();
+    final a = Rec();
     expect(a == a, true);
 
-    var b = Rec();
+    final b = Rec();
     expect(a.info_ == b.info_, true, reason: 'BuilderInfo should be the same');
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);

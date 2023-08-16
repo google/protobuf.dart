@@ -34,13 +34,13 @@ final withExtensions = TestAllExtensions()
 
 void main() {
   test('can set all extension types', () {
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
     setAllExtensions(message);
     assertAllExtensionsSet(message);
   });
 
   test('can modify all repeated extension types', () {
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
     setAllExtensions(message);
     modifyRepeatedExtensions(message);
     assertRepeatedExtensionsModified(message);
@@ -59,23 +59,23 @@ void main() {
 
   test('can clear an optional extension', () {
     // clearExtension() is not actually used in test_util, so try it manually.
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
     message.setExtension(Unittest.optionalInt32Extension, 1);
     message.clearExtension(Unittest.optionalInt32Extension);
     expect(message.hasExtension(Unittest.optionalInt32Extension), isFalse);
   });
 
   test('can clear a repeated extension', () {
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
     message.addExtension(Unittest.repeatedInt32Extension, 1);
     message.clearExtension(Unittest.repeatedInt32Extension);
     expect(message.getExtension(Unittest.repeatedInt32Extension).length, 0);
   });
 
   test('can clone an extension field', () {
-    var original = TestAllExtensions();
+    final original = TestAllExtensions();
     original.setExtension(Unittest.optionalInt32Extension, 1);
-    var clone = original.deepCopy();
+    final clone = original.deepCopy();
     expect(clone.hasExtension(Unittest.optionalInt32Extension), isTrue);
     expect(clone.getExtension(Unittest.optionalInt32Extension), 1);
   });
@@ -85,15 +85,15 @@ void main() {
   });
 
   test('can merge extension', () {
-    var nestedMessage = TestAllTypes_NestedMessage()..i = 42;
-    var mergeSource = TestAllExtensions()
+    final nestedMessage = TestAllTypes_NestedMessage()..i = 42;
+    final mergeSource = TestAllExtensions()
       ..setExtension(Unittest.optionalNestedMessageExtension, nestedMessage);
 
-    var nestedMessage2 = TestAllTypes_NestedMessage()..bb = 43;
-    var mergeDest = TestAllExtensions()
+    final nestedMessage2 = TestAllTypes_NestedMessage()..bb = 43;
+    final mergeDest = TestAllExtensions()
       ..setExtension(Unittest.optionalNestedMessageExtension, nestedMessage2);
 
-    var result = TestAllExtensions()
+    final result = TestAllExtensions()
       ..mergeFromMessage(mergeSource)
       ..mergeFromMessage(mergeDest);
 
@@ -102,7 +102,7 @@ void main() {
   });
 
   test("throws if field number isn't allowed for extension", () {
-    var message = TestAllTypes(); // does not allow extensions
+    final message = TestAllTypes(); // does not allow extensions
     expect(() {
       message.setExtension(Unittest.optionalInt32Extension, 0);
     },
@@ -117,7 +117,7 @@ void main() {
   });
 
   test('throws if an int32 extension is set to a bad value', () {
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
     expect(() {
       message.setExtension(Unittest.optionalInt32Extension, 'hello');
     },
@@ -127,7 +127,7 @@ void main() {
   });
 
   test('throws if an int64 extension is set to a bad value', () {
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
     expect(() {
       message.setExtension(Unittest.optionalInt64Extension, 123);
     },
@@ -137,7 +137,7 @@ void main() {
   });
 
   test('throws if a message extension is set to a bad value', () {
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
 
     // For a non-repeated message, we only check for a GeneratedMessage.
     expect(() {
@@ -155,7 +155,7 @@ void main() {
   });
 
   test('throws if an enum extension is set to a bad value', () {
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
 
     // For a non-repeated enum, we only check for a ProtobufEnum.
     expect(() {
@@ -186,7 +186,7 @@ void main() {
   });
 
   test('can extend message with enum', () {
-    var msg = Extendable();
+    final msg = Extendable();
     msg.setExtension(Enum_extension.animal, Animal.CAT);
   });
 
@@ -199,7 +199,7 @@ void main() {
   });
 
   test('to toDebugString', () {
-    var value = TestAllExtensions()
+    final value = TestAllExtensions()
       ..setExtension(Unittest.optionalInt32Extension, 1)
       ..addExtension(Unittest.repeatedStringExtension, 'hello')
       ..addExtension(Unittest.repeatedStringExtension, 'world')
@@ -208,7 +208,7 @@ void main() {
       ..setExtension(
           Unittest.optionalNestedEnumExtension, TestAllTypes_NestedEnum.BAR);
 
-    var expected = '[optionalInt32Extension]: 1\n'
+    final expected = '[optionalInt32Extension]: 1\n'
         '[optionalNestedMessageExtension]: {\n'
         '  i: 42\n'
         '}\n'
@@ -225,7 +225,7 @@ void main() {
       ..setExtension(Unittest.myExtensionString, 'bar');
     final b = withExtension.writeToBuffer();
     final withUnknownField = TestFieldOrderings.fromBuffer(b);
-    var r = ExtensionRegistry();
+    final r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
     final decodedWithExtension = TestFieldOrderings.fromBuffer(b, r);
     final noExtension = TestFieldOrderings()..myString = 'foo';
@@ -243,10 +243,10 @@ void main() {
   test(
       'ExtensionRegistry.reparseMessage will preserve already registered extensions',
       () {
-    var r1 = ExtensionRegistry();
+    final r1 = ExtensionRegistry();
     Unittest.registerAllExtensions(r1);
 
-    var r2 = ExtensionRegistry();
+    final r2 = ExtensionRegistry();
     Extend_unittest.registerAllExtensions(r2);
     final withUnknownFields =
         TestAllExtensions.fromBuffer(withExtensions.writeToBuffer());
@@ -266,7 +266,7 @@ void main() {
   test(
       'ExtensionRegistry.reparseMessage reparses extensions that were not in the original registry',
       () {
-    var r = ExtensionRegistry();
+    final r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
     Extend_unittest.registerAllExtensions(r);
 
@@ -322,7 +322,7 @@ void main() {
   });
 
   test('ExtensionRegistry.reparseMessage does not update the original', () {
-    var r = ExtensionRegistry();
+    final r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
     Extend_unittest.registerAllExtensions(r);
 
@@ -543,8 +543,9 @@ void main() {
         isTrue);
     expect(
         identical(withUnknownFields.innerMap[1], reparsed.innerMap[1]), isTrue);
-    expect(withUnknownFields.stringMap.length, reparsed.stringMap.length);
-    expect(withUnknownFields.stringMap[0], reparsed.stringMap[0]);
+    expect(withUnknownFields.stringMap.length, 1);
+    expect(reparsed.stringMap.length, 1);
+    expect(withUnknownFields.stringMap['hello']!, reparsed.stringMap['hello']!);
   });
 
   test('consistent hashcode for reparsed messages with extensions', () {

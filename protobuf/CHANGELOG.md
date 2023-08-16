@@ -1,5 +1,17 @@
-## 3.0.0-dev
+## 3.1.0
 
+* `CodedBufferReader` `readBytes` now copies the returned bytes to avoid
+  accidental sharing of the input buffer with the returned `Uint8List`. New
+  member `readBytesAsView` added with the old behavior. ([#863])
+
+* Avoid sharing the input buffer in unknown length-delimited fields using the
+  new `readBytes`. ([#863])
+
+[#863]: https://github.com/google/protobuf.dart/pull/863
+
+## 3.0.0
+
+* Require Dart `2.19`.
 * Remove `ReadonlyMessageMixin` ([#183], [#644])
 * Remove `frozenMessageModificationHandler` ([#175], [#643])
 * Remove `PbListBase` and `FrozenPbList` types. All proto repeated fields now
@@ -14,13 +26,15 @@
 * Update library documentation to hide internals, add documentation for public
   types. ([#681])
 * Fix `PbMap._isReadonly` field initialization in `PbMap.unmodifiable`.
-  ([#741])
+  ([#741], [#754])
 * Fix decoding map fields when key or value (or both) fields of a map entry is
   missing. ([#719], [#745])
 * Fix updating frozen (immutable) messages with merge methods
   (`mergeFromBuffer`, `mergeFromProto3Json`, ...). ([#489], [#727])
-* Fix handling `null` values in proto3 JSON deserializer ([#751], [#760],
+* Fix handling `null` values in proto3 JSON deserializer. ([#751], [#760],
   [#763])
+* Fix handling negative JSON values when parsing uint32 fields. ([#839])
+* Avoid serializing unknown fields twice in `reparseMessage`. ([#840])
 
 [#183]: https://github.com/google/protobuf.dart/issues/183
 [#644]: https://github.com/google/protobuf.dart/pull/644
@@ -41,6 +55,9 @@
 [#751]: https://github.com/google/protobuf.dart/issues/751
 [#760]: https://github.com/google/protobuf.dart/issues/760
 [#763]: https://github.com/google/protobuf.dart/pull/763
+[#754]: https://github.com/google/protobuf.dart/pull/754
+[#839]: https://github.com/google/protobuf.dart/pull/839
+[#840]: https://github.com/google/protobuf.dart/pull/840
 
 ## 2.1.0
 

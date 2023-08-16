@@ -12,8 +12,8 @@ pb.Response? findUpdatedResponse(pb.Report? beforeRep, pb.Report afterRep) {
   if (beforeRep == null) return afterRep.responses[0];
   assert(beforeRep.responses.length == afterRep.responses.length);
   for (var i = 0; i < afterRep.responses.length; i++) {
-    var before = beforeRep.responses[i];
-    var after = afterRep.responses[i];
+    final before = beforeRep.responses[i];
+    final after = afterRep.responses[i];
     assert(before.request.id == after.request.id);
     assert(before.request.params == after.request.params);
     if (before.samples.length != after.samples.length) {
@@ -50,7 +50,7 @@ final bool _implicitChecksEnabled = () {
 /// Given the contents of the pubspec.yaml and pubspec.lock files,
 /// create a pb.Packages object.
 pb.Packages createPackages(String pubspecYaml, String pubspecLock) {
-  var out = pb.Packages();
+  final out = pb.Packages();
 
   for (var line in pubspecYaml.split('\n')) {
     line = line.trim();
@@ -71,17 +71,17 @@ pb.Packages createPackages(String pubspecYaml, String pubspecLock) {
 ///   start a new package
 /// - only allows known keys within a package
 Iterable<pb.PackageVersion> _parseLockFile(String contents) sync* {
-  var yaml = loadYaml(contents) as YamlMap;
-  var packages = yaml['packages'] as YamlMap;
+  final yaml = loadYaml(contents) as YamlMap;
+  final packages = yaml['packages'] as YamlMap;
 
-  for (var entry in packages.entries) {
-    var map = entry.value as YamlMap;
-    var pkgVersion = pb.PackageVersion()
+  for (final entry in packages.entries) {
+    final map = entry.value as YamlMap;
+    final pkgVersion = pb.PackageVersion()
       ..name = entry.key as String
       ..source = map['source']
       ..version = map['version'];
 
-    var path = (map['description'] as YamlMap)['path'];
+    final path = (map['description'] as YamlMap)['path'];
     if (path != null) {
       pkgVersion.path = path;
     }
@@ -91,22 +91,22 @@ Iterable<pb.PackageVersion> _parseLockFile(String contents) sync* {
 
 /// Encodes a report as nicely-formatted JSON.
 String encodeReport(pb.Report report) {
-  var json = report.writeToJsonMap();
-  var out = StringBuffer();
+  final json = report.writeToJsonMap();
+  final out = StringBuffer();
   _stringifyMap(out, json, '');
   out.writeln();
   return out.toString();
 }
 
 String _stringifyMap(StringBuffer out, Map json, String indent) {
-  var childIndent = indent + '  ';
+  final childIndent = '$indent  ';
   out.writeln('{');
   var first = true;
-  for (var key in json.keys) {
+  for (final key in json.keys) {
     if (!first) out.writeln(',');
     first = false;
 
-    var value = json[key];
+    final value = json[key];
     out.write(childIndent);
     out.write(jsonEncode(key));
     out.write(': ');
@@ -124,10 +124,10 @@ String _stringifyMap(StringBuffer out, Map json, String indent) {
 }
 
 void _stringifyList(StringBuffer out, List json, String indent) {
-  var childIndent = indent + '  ';
+  final childIndent = '$indent  ';
   out.write('[\n');
   var first = true;
-  for (var item in json) {
+  for (final item in json) {
     if (!first) out.write(',\n');
     first = false;
     out.write(childIndent);

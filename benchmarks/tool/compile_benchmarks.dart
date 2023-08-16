@@ -1,6 +1,6 @@
 #!/usr/bin/env dart
 
-import 'dart:io' show exit, Platform, Process, Directory, ProcessResult;
+import 'dart:io' show Directory, Platform, Process, ProcessResult, exit;
 
 import 'package:args/args.dart' show ArgParser;
 import 'package:path/path.dart' as path;

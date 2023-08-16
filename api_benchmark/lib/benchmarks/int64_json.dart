@@ -6,7 +6,7 @@ import 'package:fixnum/fixnum.dart' show Int64;
 
 import '../benchmark.dart';
 import '../generated/benchmark.pb.dart'
-    show BenchmarkID, Request, Params, Sample;
+    show BenchmarkID, Params, Request, Sample;
 import '../generated/int64grid.pb.dart' as pb;
 
 /// A benchmark that deserializes a grid of int fields.
@@ -28,7 +28,7 @@ class Int64Benchmark extends Benchmark {
 
   @override
   void setup() {
-    var grid = _makeGrid(width, height);
+    final grid = _makeGrid(width, height);
     json = grid.writeToJson();
     lastFieldTag = getTagForColumn(pb.Line10(), width - 1);
   }
@@ -39,12 +39,12 @@ class Int64Benchmark extends Benchmark {
   // 2 3 4 5
   static pb.Grid10 _makeGrid(int width, int height) {
     if (width > 10) throw ArgumentError('width out of range: $width');
-    var grid = pb.Grid10();
+    final grid = pb.Grid10();
 
     for (var y = 0; y < height; y++) {
-      var line = pb.Line10();
+      final line = pb.Line10();
       for (var x = 0; x < width; x++) {
-        var tag = getTagForColumn(line, x)!;
+        final tag = getTagForColumn(line, x)!;
         line.setField(tag, Int64(x + y));
       }
       grid.lines.add(line);
@@ -59,8 +59,8 @@ class Int64Benchmark extends Benchmark {
 
   @override
   void run() {
-    var grid = pb.Grid10.fromJson(json);
-    var actual = grid.lines[height - 1].getField(lastFieldTag!);
+    final grid = pb.Grid10.fromJson(json);
+    final actual = grid.lines[height - 1].getField(lastFieldTag!);
     if (actual != width + height - 2) throw 'failed; got $actual';
   }
 

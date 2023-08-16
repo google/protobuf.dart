@@ -2,23 +2,23 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
   // Sorting by tag number isn't required, but it sometimes enables
   // performance optimizations for the receiver. See:
   // https://developers.google.com/protocol-buffers/docs/encoding?hl=en#order
 
-  for (var fi in fs._infosSortedByTag) {
-    var value = fs._values[fi.index!];
+  for (final fi in fs._infosSortedByTag) {
+    final value = fs._values[fi.index!];
     if (value == null) continue;
     out.writeField(fi.tagNumber, fi.type, value);
   }
 
   final extensions = fs._extensions;
   if (extensions != null) {
-    for (var tagNumber in _sorted(extensions._tagNumbers)) {
-      var fi = extensions._getInfoOrNull(tagNumber)!;
+    for (final tagNumber in _sorted(extensions._tagNumbers)) {
+      final fi = extensions._getInfoOrNull(tagNumber)!;
       out.writeField(tagNumber, fi.type, extensions._getFieldOrNull(fi));
     }
   }
@@ -34,10 +34,10 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
   ArgumentError.checkNotNull(registry);
   fs._ensureWritable();
   while (true) {
-    var tag = input.readTag();
+    final tag = input.readTag();
     if (tag == 0) return;
-    var wireType = tag & 0x7;
-    var tagNumber = tag >> 3;
+    final wireType = tag & 0x7;
+    final tagNumber = tag >> 3;
 
     var fi = fs._nonExtensionInfo(meta, tagNumber);
     fi ??= registry.getExtension(meta.qualifiedMessageName, tagNumber);
@@ -57,7 +57,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         fs._setFieldUnchecked(meta, fi, input.readBool());
         break;
       case PbFieldType._OPTIONAL_BYTES:
-        fs._setFieldUnchecked(meta, fi, Uint8List.fromList(input.readBytes()));
+        fs._setFieldUnchecked(meta, fi, input.readBytes());
         break;
       case PbFieldType._OPTIONAL_STRING:
         fs._setFieldUnchecked(meta, fi, input.readString());
@@ -69,18 +69,18 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         fs._setFieldUnchecked(meta, fi, input.readDouble());
         break;
       case PbFieldType._OPTIONAL_ENUM:
-        var rawValue = input.readEnum();
-        var value = meta._decodeEnum(tagNumber, registry, rawValue);
+        final rawValue = input.readEnum();
+        final value = meta._decodeEnum(tagNumber, registry, rawValue);
         if (value == null) {
-          var unknown = fs._ensureUnknownFields();
+          final unknown = fs._ensureUnknownFields();
           unknown.mergeVarintField(tagNumber, Int64(rawValue));
         } else {
           fs._setFieldUnchecked(meta, fi, value);
         }
         break;
       case PbFieldType._OPTIONAL_GROUP:
-        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
-        var oldValue = fs._getFieldOrNull(fi);
+        final subMessage = meta._makeEmptyMessage(tagNumber, registry);
+        final oldValue = fs._getFieldOrNull(fi);
         if (oldValue != null) {
           subMessage.mergeFromMessage(oldValue);
         }
@@ -118,11 +118,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         fs._setFieldUnchecked(meta, fi, input.readSfixed64());
         break;
       case PbFieldType._OPTIONAL_MESSAGE:
-        GeneratedMessage? oldValue = fs._getFieldOrNull(fi);
+        final GeneratedMessage? oldValue = fs._getFieldOrNull(fi);
         if (oldValue != null) {
           input.readMessage(oldValue, registry);
         } else {
-          var subMessage = meta._makeEmptyMessage(tagNumber, registry);
+          final subMessage = meta._makeEmptyMessage(tagNumber, registry);
           input.readMessage(subMessage, registry);
           fs._setFieldUnchecked(meta, fi, subMessage);
         }
@@ -131,9 +131,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         _readPackable(meta, fs, input, wireType, fi, input.readBool);
         break;
       case PbFieldType._REPEATED_BYTES:
-        fs
-            ._ensureRepeatedField(meta, fi)
-            .add(Uint8List.fromList(input.readBytes()));
+        fs._ensureRepeatedField(meta, fi).add(input.readBytes());
         break;
       case PbFieldType._REPEATED_STRING:
         fs._ensureRepeatedField(meta, fi).add(input.readString());
@@ -149,7 +147,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
             meta, fs, input, wireType, fi, tagNumber, registry);
         break;
       case PbFieldType._REPEATED_GROUP:
-        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
+        final subMessage = meta._makeEmptyMessage(tagNumber, registry);
         input.readGroup(tagNumber, subMessage, registry);
         fs._ensureRepeatedField(meta, fi).add(subMessage);
         break;
@@ -184,7 +182,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         _readPackable(meta, fs, input, wireType, fi, input.readSfixed64);
         break;
       case PbFieldType._REPEATED_MESSAGE:
-        var subMessage = meta._makeEmptyMessage(tagNumber, registry);
+        final subMessage = meta._makeEmptyMessage(tagNumber, registry);
         input.readMessage(subMessage, registry);
         fs._ensureRepeatedField(meta, fi).add(subMessage);
         break;
@@ -196,7 +194,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
             ._mergeEntry(mapEntryMeta, input, registry);
         break;
       default:
-        throw 'Unknown field type $fieldType';
+        throw UnsupportedError('Unknown field type $fieldType');
     }
   }
 }
@@ -216,10 +214,10 @@ void _readPackableToListEnum(
     int tagNumber,
     ExtensionRegistry registry) {
   void readToList(List list) {
-    var rawValue = input.readEnum();
-    var value = meta._decodeEnum(tagNumber, registry, rawValue);
+    final rawValue = input.readEnum();
+    final value = meta._decodeEnum(tagNumber, registry, rawValue);
     if (value == null) {
-      var unknown = fs._ensureUnknownFields();
+      final unknown = fs._ensureUnknownFields();
       unknown.mergeVarintField(tagNumber, Int64(rawValue));
     } else {
       list.add(value);
@@ -236,7 +234,7 @@ void _readPackableToList(
     int wireType,
     FieldInfo fi,
     Function(List) readToList) {
-  var list = fs._ensureRepeatedField(meta, fi);
+  final list = fs._ensureRepeatedField(meta, fi);
 
   if (wireType == WIRETYPE_LENGTH_DELIMITED) {
     // Packed.

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
@@ -172,11 +172,11 @@ class FieldInfo<T> {
 
     if (!isRepeated) {
       // A required message: recurse.
-      GeneratedMessage message = value;
+      final GeneratedMessage message = value;
       return message._fieldSet._hasRequiredValues();
     }
 
-    List<GeneratedMessage> list = value;
+    final List<GeneratedMessage> list = value;
     if (list.isEmpty) return true;
 
     // For message types that (recursively) contain no required fields,
@@ -195,10 +195,10 @@ class FieldInfo<T> {
       // primitive and present
     } else if (!isRepeated) {
       // Required message/group: recurse.
-      GeneratedMessage message = value;
+      final GeneratedMessage message = value;
       message._fieldSet._appendInvalidFields(problems, '$prefix$name.');
     } else {
-      List<GeneratedMessage> list = value;
+      final List<GeneratedMessage> list = value;
       if (list.isEmpty) return;
 
       // For message types that (recursively) contain no required fields,
@@ -207,7 +207,7 @@ class FieldInfo<T> {
 
       // Recurse on each item in the list.
       var position = 0;
-      for (var message in list) {
+      for (final message in list) {
         message._fieldSet
             ._appendInvalidFields(problems, '$prefix$name[$position].');
         position++;

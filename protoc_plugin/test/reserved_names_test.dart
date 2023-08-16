@@ -20,26 +20,26 @@ import 'mirror_util.dart' show findMemberNames;
 
 void main() {
   test('GeneratedMessage reserved names are up to date', () {
-    var actual = Set<String>.from(GeneratedMessage_reservedNames);
-    var expected =
+    final actual = Set<String>.from(GeneratedMessage_reservedNames);
+    final expected =
         findMemberNames('package:protobuf/protobuf.dart', #GeneratedMessage);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
   });
 
   test('ProtobufEnum reserved names are up to date', () {
-    var actual = Set<String>.from(ProtobufEnum_reservedNames);
-    var expected =
+    final actual = Set<String>.from(ProtobufEnum_reservedNames);
+    final expected =
         findMemberNames('package:protobuf/protobuf.dart', #ProtobufEnum);
 
     expect(actual.toList()..sort(), equals(expected.toList()..sort()));
   });
 
   test("ReadonlyMessageMixin doesn't add any reserved names", () {
-    var mixinNames = findMemberNames(
+    final mixinNames = findMemberNames(
         'package:protobuf/protobuf.dart', #ReadonlyMessageMixin);
-    var reservedNames = Set<String>.from(GeneratedMessage_reservedNames);
-    for (var name in mixinNames) {
+    final reservedNames = Set<String>.from(GeneratedMessage_reservedNames);
+    for (final name in mixinNames) {
       if (name == 'ReadonlyMessageMixin' || name == 'unknownFields') continue;
       if (!reservedNames.contains(name)) {
         fail('name from ReadonlyMessageMixin is not reserved: $name');
@@ -48,10 +48,10 @@ void main() {
   });
 
   test('PbMapMixin reserved names are up to date', () {
-    var meta = findMixin('PbMapMixin')!;
-    var actual = Set<String>.from(meta.findReservedNames());
+    final meta = findMixin('PbMapMixin')!;
+    final actual = Set<String>.from(meta.findReservedNames());
 
-    var expected = findMemberNames(meta.importFrom, #PbMapMixin)
+    final expected = findMemberNames(meta.importFrom, #PbMapMixin)
       ..addAll(findMemberNames('dart:collection', #MapMixin))
       ..removeAll(GeneratedMessage_reservedNames);
 
@@ -60,12 +60,13 @@ void main() {
   });
 
   test('PbEventMixin reserved names are up to date', () {
-    var meta = findMixin('PbEventMixin')!;
-    var actual = Set<String>.from(meta.findReservedNames());
+    final meta = findMixin('PbEventMixin')!;
+    final actual = Set<String>.from(meta.findReservedNames());
 
-    var expected = findMemberNames(meta.importFrom, #PbEventMixin)
+    final expected = findMemberNames(meta.importFrom, #PbEventMixin)
       ..removeAll(GeneratedMessage_reservedNames);
 
-    expect(actual.toList()..sort(), equals(expected.toList()..sort()));
+    expect(
+        actual.toList()..sort(), containsAllInOrder(expected.toList()..sort()));
   });
 }

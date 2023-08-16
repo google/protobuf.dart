@@ -15,15 +15,14 @@ class Benchmark extends BenchmarkBase {
   final String _message1Proto3JsonString;
   final String _message2JsonString;
 
-  Benchmark(String name, List<int> message1Proto2Input,
+  Benchmark(super.name, List<int> message1Proto2Input,
       List<int> message1Proto3Input, List<int> message2Input)
       : _message1Proto2JsonString =
             p2.GoogleMessage1.fromBuffer(message1Proto2Input).writeToJson(),
         _message1Proto3JsonString =
             p3.GoogleMessage1.fromBuffer(message1Proto3Input).writeToJson(),
         _message2JsonString =
-            GoogleMessage2.fromBuffer(message2Input).writeToJson(),
-        super(name);
+            GoogleMessage2.fromBuffer(message2Input).writeToJson();
 
   @override
   void run() {
@@ -34,11 +33,11 @@ class Benchmark extends BenchmarkBase {
 }
 
 void main() {
-  List<int> message1Proto2Input =
+  final List<int> message1Proto2Input =
       readfile('datasets/google_message1_proto2.pb');
-  List<int> message1Proto3Input =
+  final List<int> message1Proto3Input =
       readfile('datasets/google_message1_proto3.pb');
-  List<int> message2Input = readfile('datasets/google_message2.pb');
+  final List<int> message2Input = readfile('datasets/google_message2.pb');
   Benchmark('from_json_string', message1Proto2Input, message1Proto3Input,
           message2Input)
       .report();

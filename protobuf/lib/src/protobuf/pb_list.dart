@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// Type of a function that checks items added to a `PbList`.
 ///
@@ -186,7 +186,7 @@ class PbList<E> extends ListBase<E> {
     // Per spec `repeated map<..>` and `repeated repeated ..` are not allowed
     // so we only check for messages
     if (_wrappedList.isNotEmpty && _wrappedList[0] is GeneratedMessage) {
-      for (var elem in _wrappedList as Iterable<GeneratedMessage>) {
+      for (final elem in _wrappedList as Iterable<GeneratedMessage>) {
         elem.freeze();
       }
     }

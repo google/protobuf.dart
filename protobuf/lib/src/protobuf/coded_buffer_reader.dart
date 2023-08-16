@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// Reader used for converting binary-encoded protobufs into
 /// [GeneratedMessage]s.
@@ -52,7 +52,7 @@ class CodedBufferReader {
           ' which claimed to have negative size.');
     }
     byteLimit += _bufferPos;
-    var oldLimit = _currentLimit;
+    final oldLimit = _currentLimit;
     if ((oldLimit != -1 && byteLimit > oldLimit) || byteLimit > _sizeLimit) {
       _throwTruncatedMessageError(byteLimit);
     }
@@ -85,7 +85,7 @@ class CodedBufferReader {
       throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
     ++_recursionDepth;
-    var unknownFieldSet = UnknownFieldSet();
+    final unknownFieldSet = UnknownFieldSet();
     unknownFieldSet.mergeFromCodedBufferReader(this);
     checkLastTagWas(makeTag(fieldNumber, WIRETYPE_END_GROUP));
     --_recursionDepth;
@@ -94,7 +94,7 @@ class CodedBufferReader {
 
   void readMessage(
       GeneratedMessage message, ExtensionRegistry extensionRegistry) {
-    var length = readInt32();
+    final length = readInt32();
     if (_recursionDepth >= _recursionLimit) {
       throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
@@ -104,7 +104,7 @@ class CodedBufferReader {
           ' which claimed to have negative size.');
     }
 
-    var oldLimit = _currentLimit;
+    final oldLimit = _currentLimit;
     _currentLimit = _bufferPos + length;
     if (_currentLimit > oldLimit) {
       _throwTruncatedMessageError(_currentLimit);
@@ -127,20 +127,28 @@ class CodedBufferReader {
   Int64 readFixed64() => readSfixed64();
   int readSfixed32() => _readByteData(4).getInt32(0, Endian.little);
   Int64 readSfixed64() {
-    var data = _readByteData(8);
-    var view = Uint8List.view(data.buffer, data.offsetInBytes, 8);
+    final data = _readByteData(8);
+    final view = Uint8List.view(data.buffer, data.offsetInBytes, 8);
     return Int64.fromBytes(view);
   }
 
   bool readBool() => _readRawVarint32(true) != 0;
-  List<int> readBytes() {
-    var length = readInt32();
+
+  /// Read a length-delimited field as bytes.
+  Uint8List readBytes() => Uint8List.fromList(readBytesAsView());
+
+  /// Read a length-delimited field as a view of the [CodedBufferReader]'s
+  /// buffer. When storing the returned value directly (instead of e.g. parsing
+  /// it as a UTF-8 string and copying) use [readBytes] instead to avoid
+  /// holding on to the whole message, or copy the returned view.
+  Uint8List readBytesAsView() {
+    final length = readInt32();
     _checkLimit(length);
     return Uint8List.view(
         _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
   }
 
-  String readString() => _utf8.decode(readBytes());
+  String readString() => _utf8.decode(readBytesAsView());
   double readFloat() => _readByteData(4).getFloat32(0, Endian.little);
   double readDouble() => _readByteData(8).getFloat64(0, Endian.little);
 
@@ -155,6 +163,34 @@ class CodedBufferReader {
       throw InvalidProtocolBufferException.invalidTag();
     }
     return _lastTag;
+  }
+
+  bool skipField(int tag) {
+    final tagType = getTagWireType(tag);
+
+    if (isAtEnd() || tagType == WIRETYPE_END_GROUP) {
+      return false;
+    }
+
+    switch (getTagWireType(tag)) {
+      case WIRETYPE_VARINT:
+        readInt64();
+        return true;
+      case WIRETYPE_FIXED64:
+        readFixed64();
+        return true;
+      case WIRETYPE_LENGTH_DELIMITED:
+        readBytesAsView();
+        return true;
+      case WIRETYPE_FIXED32:
+        readFixed32();
+        return true;
+      case WIRETYPE_START_GROUP:
+        readUnknownFieldSetGroup(getTagFieldNumber(tag));
+        return true;
+      default:
+        throw InvalidProtocolBufferException.invalidWireType();
+    }
   }
 
   static int _decodeZigZag32(int value) {
@@ -184,7 +220,7 @@ class CodedBufferReader {
     if (bytes > 10) bytes = 10;
     var result = 0;
     for (var i = 0; i < bytes; i++) {
-      var byte = _buffer[bufferPos++];
+      final byte = _buffer[bufferPos++];
       result |= (byte & 0x7f) << (i * 7);
       if ((byte & 0x80) == 0) {
         result &= 0xffffffff;
@@ -202,14 +238,14 @@ class CodedBufferReader {
 
     // Read low 28 bits.
     for (var i = 0; i < 4; i++) {
-      var byte = _readRawVarintByte();
+      final byte = _readRawVarintByte();
       lo |= (byte & 0x7f) << (i * 7);
       if ((byte & 0x80) == 0) return Int64.fromInts(hi, lo);
     }
 
     // Read middle 7 bits: 4 low belong to low part above,
     // 3 remaining belong to hi.
-    var byte = _readRawVarintByte();
+    final byte = _readRawVarintByte();
     lo |= (byte & 0xf) << 28;
     hi = (byte >> 4) & 0x7;
     if ((byte & 0x80) == 0) {
@@ -218,7 +254,7 @@ class CodedBufferReader {
 
     // Read remaining bits of hi.
     for (var i = 0; i < 5; i++) {
-      var byte = _readRawVarintByte();
+      final byte = _readRawVarintByte();
       hi |= (byte & 0x7f) << ((i * 7) + 3);
       if ((byte & 0x80) == 0) return Int64.fromInts(hi, lo);
     }

@@ -1,9 +1,6 @@
 PLUGIN_SRC = \
-	prepend.dart \
 	bin/protoc_plugin.dart \
-	lib/*.dart \
-	lib/src/descriptor.pb.dart \
-	lib/src/plugin.pb.dart
+	lib/**/*.dart
 
 OUTPUT_DIR=out
 PLUGIN_NAME=protoc-gen-dart
@@ -43,6 +40,7 @@ TEST_PROTO_LIST = \
 	map_api2 \
 	map_enum_value \
 	map_field \
+	message_set \
 	mixins \
 	multiple_files_test \
 	nested_any \
@@ -78,18 +76,28 @@ TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), \
 
 PREGENERATED_SRCS=protos/descriptor.proto protos/plugin.proto protos/dart_options.proto
 
-$(TEST_PROTO_LIBS): $(PLUGIN_PATH) $(TEST_PROTO_SRCS)
-	[ -d $(TEST_PROTO_DIR) ] || mkdir -p $(TEST_PROTO_DIR)
+$(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
+	mkdir -p $(TEST_PROTO_DIR)
+
 	protoc\
 		--experimental_allow_proto3_optional\
-		--dart_out=$(TEST_PROTO_DIR)\
+		--dart_out="disable_constructor_args:$(TEST_PROTO_DIR)"\
 		-Iprotos\
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
-	dart format $(TEST_PROTO_DIR)
 
-build-plugin: $(PLUGIN_PATH)
+	mkdir -p $(TEST_PROTO_DIR)/constructor_args
+
+	protoc\
+		--experimental_allow_proto3_optional\
+		--dart_out="$(TEST_PROTO_DIR)/constructor_args"\
+		-Iprotos\
+		-I$(TEST_PROTO_SRC_DIR)\
+		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
+		$(TEST_PROTO_SRCS)
+
+	dart format $(TEST_PROTO_DIR)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 	protoc --dart_out=lib/src/generated -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
@@ -101,12 +109,11 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 
 run-tests: protos
-	dart run test
+	dart test
 
 update-goldens: protos
 	rm -rf test/goldens
-	dart run test
+	dart test
 
 clean:
-	rm -rf benchmark/lib/generated
 	rm -rf $(OUTPUT_DIR)

@@ -7,7 +7,7 @@ description: Benchmarks various protobuf functions
 publish_to: none
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=2.19.0 <3.0.0'
 
 dependencies:
   # NB. When bumping benchmark_harness check if `benchmark_base.BenchmarkBase`
@@ -19,7 +19,7 @@ dependencies:
 
 dev_dependencies:
   args: ^2.3.1
-  lints: ^1.0.0
+  dart_flutter_team_lints: ^1.0.0
   path: ^1.8.2
   pool: ^1.5.1
   protoc_plugin:

@@ -13,9 +13,9 @@ typedef OnError = void Function(String details);
 /// the option to it. Returns `true` if no errors were reported.
 bool genericOptionsParser(CodeGeneratorRequest request,
     CodeGeneratorResponse response, Map<String, SingleOptionParser> parsers) {
-  var parameter = request.parameter;
-  var options = parameter.trim().split(',');
-  var errors = [];
+  final parameter = request.parameter;
+  final options = parameter.trim().split(',');
+  final errors = [];
 
   for (var option in options) {
     option = option.trim();
@@ -24,19 +24,19 @@ bool genericOptionsParser(CodeGeneratorRequest request,
       errors.add('Error found trying to parse the option: $option.\n$details');
     }
 
-    var nameValue = option.split('=');
+    final nameValue = option.split('=');
     if (nameValue.length != 1 && nameValue.length != 2) {
       reportError('Options should be a single token, or a name=value pair');
       continue;
     }
-    var name = nameValue[0].trim();
-    var parser = parsers[name];
+    final name = nameValue[0].trim();
+    final parser = parsers[name];
     if (parser == null) {
       reportError('Unknown option ($name).');
       continue;
     }
 
-    var value = nameValue.length > 1 ? nameValue[1].trim() : null;
+    final value = nameValue.length > 1 ? nameValue[1].trim() : null;
     parser.parse(name, value, reportError);
   }
 
@@ -50,8 +50,12 @@ bool genericOptionsParser(CodeGeneratorRequest request,
 class GenerationOptions {
   final bool useGrpc;
   final bool generateMetadata;
+  final bool disableConstructorArgs;
 
-  GenerationOptions({this.useGrpc = false, this.generateMetadata = false});
+  GenerationOptions(
+      {this.useGrpc = false,
+      this.generateMetadata = false,
+      this.disableConstructorArgs = false});
 }
 
 /// A parser for a name-value pair option. Options parsed in
@@ -84,10 +88,23 @@ class GenerateMetadataParser implements SingleOptionParser {
   @override
   void parse(String name, String? value, OnError onError) {
     if (value != null) {
-      onError('Invalid metadata option. No value expected.');
+      onError('Invalid generate_kythe_info option. No value expected.');
       return;
     }
     generateKytheInfo = true;
+  }
+}
+
+class DisableConstructorArgsParser implements SingleOptionParser {
+  bool value = false;
+
+  @override
+  void parse(String name, String? value, OnError onError) {
+    if (value != null) {
+      onError('Invalid disable_constructor_args option. No value expected.');
+      return;
+    }
+    this.value = true;
   }
 }
 
@@ -102,13 +119,18 @@ GenerationOptions? parseGenerationOptions(
 
   final grpcOptionParser = GrpcOptionParser();
   newParsers['grpc'] = grpcOptionParser;
+
   final generateMetadataParser = GenerateMetadataParser();
   newParsers['generate_kythe_info'] = generateMetadataParser;
+
+  final disableConstructorArgsParser = DisableConstructorArgsParser();
+  newParsers['disable_constructor_args'] = disableConstructorArgsParser;
 
   if (genericOptionsParser(request, response, newParsers)) {
     return GenerationOptions(
         useGrpc: grpcOptionParser.grpcEnabled,
-        generateMetadata: generateMetadataParser.generateKytheInfo);
+        generateMetadata: generateMetadataParser.generateKytheInfo,
+        disableConstructorArgs: disableConstructorArgsParser.value);
   }
   return null;
 }

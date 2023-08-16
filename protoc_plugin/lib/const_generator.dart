@@ -49,7 +49,7 @@ void _writeString(IndentingWriter out, String val) {
 
 void _writeListItems(IndentingWriter out, List val, {bool vertical = false}) {
   var first = true;
-  for (var item in val) {
+  for (final item in val) {
     if (!first && !vertical) {
       out.print(', ');
     }
@@ -64,7 +64,7 @@ void _writeListItems(IndentingWriter out, List val, {bool vertical = false}) {
 void _writeMapItems(IndentingWriter out, Map<dynamic, dynamic> val,
     {bool vertical = false}) {
   var first = true;
-  for (var key in val.keys) {
+  for (final key in val.keys) {
     if (!first && !vertical) out.print(', ');
     _writeString(out, key as String);
     out.print(': ');

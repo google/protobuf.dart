@@ -13,22 +13,22 @@ import '../out/protos/google/protobuf/unittest.pbjson.dart';
 import 'test_util.dart';
 
 void main() {
-  var testRequiredUninitialized = TestRequired();
+  final testRequiredUninitialized = TestRequired();
 
-  var testRequiredInitialized = TestRequired()
+  final testRequiredInitialized = TestRequired()
     ..a = 1
     ..b = 2
     ..c = 3;
 
   test('testMergeFrom', () {
-    var mergeSource = TestAllTypes()
+    final mergeSource = TestAllTypes()
       ..optionalInt32 = 1
       ..optionalString = 'foo'
       ..optionalForeignMessage = ForeignMessage()
       ..optionalNestedMessage = (TestAllTypes_NestedMessage()..i = 42)
       ..repeatedString.add('bar');
 
-    var mergeDest = TestAllTypes()
+    final mergeDest = TestAllTypes()
       ..optionalInt64 = make64(2)
       ..optionalString = 'baz'
       ..optionalForeignMessage = ForeignMessage()
@@ -36,7 +36,7 @@ void main() {
       ..optionalNestedMessage = (TestAllTypes_NestedMessage()..bb = 43)
       ..repeatedString.add('qux');
 
-    var mergeResultExpected = '''
+    final mergeResultExpected = '''
 optionalInt32: 1
 optionalInt64: 2
 optionalString: baz
@@ -51,7 +51,7 @@ repeatedString: bar
 repeatedString: qux
 ''';
 
-    var result = TestAllTypes()
+    final result = TestAllTypes()
       ..mergeFromMessage(mergeSource)
       ..mergeFromMessage(mergeDest);
 
@@ -59,7 +59,7 @@ repeatedString: qux
   });
 
   test('testRequired', () {
-    var message = TestRequired();
+    final message = TestRequired();
 
     expect(message.isInitialized(), isFalse, reason: 'no required fields set');
     message.a = 1;
@@ -73,7 +73,7 @@ repeatedString: qux
   });
 
   test('testRequiredForeign', () {
-    var message = TestRequiredForeign();
+    final message = TestRequiredForeign();
     expect(message.isInitialized(), isTrue);
 
     message.optionalMessage = testRequiredUninitialized;
@@ -90,7 +90,7 @@ repeatedString: qux
   });
 
   test('testRequiredExtension', () {
-    var message = TestAllExtensions();
+    final message = TestAllExtensions();
     expect(message.isInitialized(), isTrue);
 
     message.setExtension(TestRequired.single, testRequiredUninitialized);
@@ -107,50 +107,56 @@ repeatedString: qux
   });
 
   test('testUninitializedException', () {
-    try {
-      TestRequired().check();
-      fail('Should have thrown an exception.');
-    } on StateError catch (e) {
-      expect(e.message, 'Message missing required fields: a, b, c');
-    }
+    expect(
+      () => TestRequired().check(),
+      throwsA(
+        isA<StateError>().having(
+          (p0) => p0.message,
+          'message',
+          'Message missing required fields: a, b, c',
+        ),
+      ),
+    );
   });
 
   test('testBuildPartial', () {
     // We're mostly testing that no exception is thrown.
-    var message = TestRequired();
+    final message = TestRequired();
     expect(message.isInitialized(), isFalse);
   });
 
   test('testNestedUninitializedException', () {
-    try {
-      var message = TestRequiredForeign();
-      message.optionalMessage = testRequiredUninitialized;
-      message.repeatedMessage.add(testRequiredUninitialized);
-      message.repeatedMessage.add(testRequiredUninitialized);
-      message.check();
-      fail('Should have thrown an exception.');
-    } on StateError catch (e) {
+    final message = TestRequiredForeign();
+    message.optionalMessage = testRequiredUninitialized;
+    message.repeatedMessage.add(testRequiredUninitialized);
+    message.repeatedMessage.add(testRequiredUninitialized);
+    expect(
+      message.check,
       // NOTE: error message differs from Java in that
       // fields are referenced using Dart fieldnames r.t.
       // proto field names.
-      expect(
-          e.message,
+      throwsA(
+        isA<StateError>().having(
+          (p0) => p0.message,
+          'message',
           'Message missing required fields: '
-          'optionalMessage.a, '
-          'optionalMessage.b, '
-          'optionalMessage.c, '
-          'repeatedMessage[0].a, '
-          'repeatedMessage[0].b, '
-          'repeatedMessage[0].c, '
-          'repeatedMessage[1].a, '
-          'repeatedMessage[1].b, '
-          'repeatedMessage[1].c');
-    }
+              'optionalMessage.a, '
+              'optionalMessage.b, '
+              'optionalMessage.c, '
+              'repeatedMessage[0].a, '
+              'repeatedMessage[0].b, '
+              'repeatedMessage[0].c, '
+              'repeatedMessage[1].a, '
+              'repeatedMessage[1].b, '
+              'repeatedMessage[1].c',
+        ),
+      ),
+    );
   });
 
   test('testBuildNestedPartial', () {
     // We're mostly testing that no exception is thrown.
-    var message = TestRequiredForeign();
+    final message = TestRequiredForeign();
     message.optionalMessage = testRequiredUninitialized;
     message.repeatedMessage.add(testRequiredUninitialized);
     message.repeatedMessage.add(testRequiredUninitialized);
@@ -158,46 +164,52 @@ repeatedString: qux
   });
 
   test('testParseUnititialized', () {
-    try {
-      (TestRequired.fromBuffer([])).check();
-      fail('Should have thrown an exception.');
-    } on StateError catch (e) {
-      expect(e.message, 'Message missing required fields: a, b, c');
-    }
+    expect(
+      () => TestRequired.fromBuffer([]).check(),
+      throwsA(
+        isA<StateError>().having(
+          (p0) => p0.message,
+          'message',
+          'Message missing required fields: a, b, c',
+        ),
+      ),
+    );
   });
 
   test('testParseNestedUnititialized', () {
-    var message = TestRequiredForeign();
+    final message = TestRequiredForeign();
     message.optionalMessage = testRequiredUninitialized;
     message.repeatedMessage.add(testRequiredUninitialized);
     message.repeatedMessage.add(testRequiredUninitialized);
-    List<int> buffer = message.writeToBuffer();
+    final List<int> buffer = message.writeToBuffer();
 
-    try {
-      (TestRequiredForeign.fromBuffer(buffer)).check();
-      fail('Should have thrown an exception.');
-    } on StateError catch (e) {
+    expect(
+      () => TestRequiredForeign.fromBuffer(buffer).check(),
       // NOTE: error message differs from Java in that
       // fields are referenced using Dart fieldnames r.t.
       // proto field names.
-      expect(
-          e.message,
+      throwsA(
+        isA<StateError>().having(
+          (p0) => p0.message,
+          'message',
           'Message missing required fields: '
-          'optionalMessage.a, '
-          'optionalMessage.b, '
-          'optionalMessage.c, '
-          'repeatedMessage[0].a, '
-          'repeatedMessage[0].b, '
-          'repeatedMessage[0].c, '
-          'repeatedMessage[1].a, '
-          'repeatedMessage[1].b, '
-          'repeatedMessage[1].c');
-    }
+              'optionalMessage.a, '
+              'optionalMessage.b, '
+              'optionalMessage.c, '
+              'repeatedMessage[0].a, '
+              'repeatedMessage[0].b, '
+              'repeatedMessage[0].c, '
+              'repeatedMessage[1].a, '
+              'repeatedMessage[1].b, '
+              'repeatedMessage[1].c',
+        ),
+      ),
+    );
   });
 
   test('testClearField', () {
     int fieldNo;
-    var message = TestAllTypes();
+    final message = TestAllTypes();
 
     // Singular field with no default.
     fieldNo = 1;
@@ -243,7 +255,7 @@ repeatedString: qux
   });
 
   test('Can read JSON constant into DescriptorProto', () {
-    var d = DescriptorProto()..mergeFromJsonMap(TestAllTypes$json);
+    final d = DescriptorProto()..mergeFromJsonMap(TestAllTypes$json);
     expect(d.name, 'TestAllTypes');
     expect(d.field[0].name, 'optional_int32');
     expect(d.nestedType[0].name, 'NestedMessage');

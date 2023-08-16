@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// An object representing an extension field.
 class Extension<T> extends FieldInfo<T> {
@@ -37,7 +37,7 @@ class Extension<T> extends FieldInfo<T> {
   bool operator ==(Object other) {
     if (other is! Extension) return false;
 
-    var o = other;
+    final o = other;
     return extendee == o.extendee && tagNumber == o.tagNumber;
   }
 }

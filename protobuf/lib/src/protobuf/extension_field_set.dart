@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 class _ExtensionFieldSet {
   final _FieldSet _parent;
@@ -20,7 +20,7 @@ class _ExtensionFieldSet {
     // TODO(skybrian) seems unnecessary to add info?
     // I think this was originally here for repeated extensions.
     _addInfoUnchecked(fi);
-    var value = _getFieldOrNull(fi);
+    final value = _getFieldOrNull(fi);
     if (value == null) {
       _checkNotInUnknown(fi);
       return fi.makeDefault!();
@@ -29,7 +29,7 @@ class _ExtensionFieldSet {
   }
 
   bool _hasField(int tagNumber) {
-    var value = _values[tagNumber];
+    final value = _values[tagNumber];
     if (value == null) return false;
     if (value is List) return value.isNotEmpty;
     return true;
@@ -44,14 +44,14 @@ class _ExtensionFieldSet {
     assert(fi.isRepeated);
     assert(fi.extendee == '' || fi.extendee == _parent._messageName);
 
-    var list = _values[fi.tagNumber];
+    final list = _values[fi.tagNumber];
     if (list != null) return list;
 
     return _addInfoAndCreateList(fi);
   }
 
   List<T> _getList<T>(Extension<T> fi) {
-    var value = _values[fi.tagNumber];
+    final value = _values[fi.tagNumber];
     if (value != null) return value;
     _checkNotInUnknown(fi);
     if (_isReadOnly) return List<T>.unmodifiable(const []);
@@ -60,7 +60,7 @@ class _ExtensionFieldSet {
 
   List<T> _addInfoAndCreateList<T>(Extension<T> fi) {
     _validateInfo(fi);
-    var newList = fi._createRepeatedField(_parent._message!);
+    final newList = fi._createRepeatedField(_parent._message!);
     _addInfoUnchecked(fi);
     _setFieldUnchecked(fi, newList);
     return newList;
@@ -86,7 +86,7 @@ class _ExtensionFieldSet {
   /// Sets a value for a non-repeated extension that has already been added.
   /// Does error-checking.
   void _setField(int tagNumber, value) {
-    var fi = _getInfoOrNull(tagNumber);
+    final fi = _getInfoOrNull(tagNumber);
     if (fi == null) {
       throw ArgumentError(
           'tag $tagNumber not defined in $_parent._messageName');
@@ -161,8 +161,8 @@ class _ExtensionFieldSet {
   /// Repeated fields are copied.
   /// Extensions cannot contain map fields.
   void _shallowCopyValues(_ExtensionFieldSet original) {
-    for (var tagNumber in original._tagNumbers) {
-      var extension = original._getInfoOrNull(tagNumber)!;
+    for (final tagNumber in original._tagNumbers) {
+      final extension = original._getInfoOrNull(tagNumber)!;
       _addInfoUnchecked(extension);
 
       final value = original._getFieldOrNull(extension);
@@ -179,7 +179,7 @@ class _ExtensionFieldSet {
   void _markReadOnly() {
     if (_isReadOnly) return;
     _isReadOnly = true;
-    for (var field in _info.values) {
+    for (final field in _info.values) {
       if (field.isRepeated) {
         final entriesDynamic = _values[field.tagNumber];
         if (entriesDynamic == null) continue;
@@ -188,7 +188,7 @@ class _ExtensionFieldSet {
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.tagNumber];
         if (entry != null) {
-          GeneratedMessage msg = entry;
+          final GeneratedMessage msg = entry;
           msg.freeze();
         }
       }

@@ -4,6 +4,8 @@
 
 /// Provides metadata about mixins to dart-protoc-plugin.
 /// (Experimental API; subject to change.)
+library;
+
 import 'indenting_writer.dart';
 
 /// Finds [name] in the exported mixins.
@@ -54,7 +56,7 @@ class PbMixin {
 
   /// Returns the mixin and its ancestors, in the order they should be applied.
   Iterable<PbMixin> findMixinsToApply() {
-    var result = [this];
+    final result = [this];
     for (var p = parent; p != null; p = p.parent) {
       result.add(p);
     }
@@ -63,7 +65,7 @@ class PbMixin {
 
   /// Returns all the reserved names, including from ancestor mixins.
   Iterable<String> findReservedNames() {
-    var names = <String>{};
+    final names = <String>{};
     for (PbMixin? m = this; m != null; m = m.parent) {
       names.add(m.name);
       if (m.reservedNames != null) {

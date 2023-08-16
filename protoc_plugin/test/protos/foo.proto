@@ -28,6 +28,7 @@ message Inner {
   repeated string strings = 3;
   optional Inner inner = 4;
   optional fixed32 count = 5;
+  optional uint32 count_uint32 = 6;
 }
 
 extend Outer {

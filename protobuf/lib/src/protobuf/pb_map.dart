@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// A [MapBase] implementation used for protobuf `map` fields.
 class PbMap<K, V> extends MapBase<K, V> {
@@ -96,16 +96,16 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   void _mergeEntry(BuilderInfo mapEntryMeta, CodedBufferReader input,
       ExtensionRegistry registry) {
-    var length = input.readInt32();
-    var oldLimit = input._currentLimit;
+    final length = input.readInt32();
+    final oldLimit = input._currentLimit;
     input._currentLimit = input._bufferPos + length;
     final entryFieldSet = _FieldSet(null, mapEntryMeta, null);
     _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;
-    var key =
+    final key =
         entryFieldSet._values[0] ?? mapEntryMeta.byIndex[0].makeDefault!();
-    var value =
+    final value =
         entryFieldSet._values[1] ?? mapEntryMeta.byIndex[1].makeDefault!();
     _wrappedMap[key] = value;
   }
@@ -113,7 +113,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   PbMap freeze() {
     _isReadonly = true;
     if (_isGroupOrMessage(valueFieldType)) {
-      for (var subMessage in values as Iterable<GeneratedMessage>) {
+      for (final subMessage in values as Iterable<GeneratedMessage>) {
         subMessage.freeze();
       }
     }

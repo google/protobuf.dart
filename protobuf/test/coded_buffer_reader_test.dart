@@ -76,7 +76,7 @@ void main() {
       expect(cis.readString(), 'optional_string');
 
       expect(cis.readTag(), makeTag(115, WIRETYPE_LENGTH_DELIMITED));
-      expect(cis.readBytes(), 'optional_bytes'.codeUnits);
+      expect(cis.readBytesAsView(), 'optional_bytes'.codeUnits);
     }
 
     test('normal-list', () {
@@ -100,9 +100,9 @@ void main() {
   });
 
   test('testReadMaliciouslyLargeBlob', () {
-    var output = CodedBufferWriter();
+    final output = CodedBufferWriter();
 
-    var tag = makeTag(1, WIRETYPE_LENGTH_DELIMITED);
+    final tag = makeTag(1, WIRETYPE_LENGTH_DELIMITED);
     output.writeInt32NoTag(tag);
     output.writeInt32NoTag(0x7FFFFFFF);
     // Pad with a few random bytes.
@@ -110,20 +110,18 @@ void main() {
     output.writeInt32NoTag(32);
     output.writeInt32NoTag(47);
 
-    var input = CodedBufferReader(output.toBuffer());
+    final input = CodedBufferReader(output.toBuffer());
     expect(input.readTag(), tag);
 
-    expect(() {
-      input.readBytes();
-    }, throwsInvalidProtocolBufferException);
+    expect(input.readBytesAsView, throwsInvalidProtocolBufferException);
   });
 
   /// Tests that if we read a string that contains invalid UTF-8, no exception
   /// is thrown. Instead, the invalid bytes are replaced with the Unicode
   /// 'replacement character' U+FFFD.
   test('testReadInvalidUtf8', () {
-    var input = CodedBufferReader([1, 0x80]);
-    var text = input.readString();
+    final input = CodedBufferReader([1, 0x80]);
+    final text = input.readString();
     expect(text.codeUnitAt(0), 0xfffd);
   });
 

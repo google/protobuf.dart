@@ -4,7 +4,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// Writer used for converting [GeneratedMessage]s into binary
 /// representation.
@@ -72,7 +72,7 @@ class CodedBufferWriter {
       if (list.isNotEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
-        for (var value in list) {
+        for (final value in list) {
           _writeValueAs(valueType, value);
         }
         _endLengthDelimited(mark);
@@ -110,7 +110,7 @@ class CodedBufferWriter {
   }
 
   Uint8List toBuffer() {
-    var result = Uint8List(_bytesTotal);
+    final result = Uint8List(_bytesTotal);
     writeTo(result);
     return result;
   }
@@ -236,7 +236,7 @@ class CodedBufferWriter {
   /// of bytes written into the reserved slice space.
   int _startLengthDelimited() {
     _commitSplice();
-    var index = _splices.length;
+    final index = _splices.length;
     // Reserve a space for a splice and use it to record the current number of
     // bytes written so that we can compute the length of data later in
     // _endLengthDelimited.
@@ -268,7 +268,7 @@ class CodedBufferWriter {
       value >>= 7;
     }
     _outputChunk![i++] = value;
-    _bytesTotal += (i - _bytesInChunk);
+    _bytesTotal += i - _bytesInChunk;
     _bytesInChunk = i;
   }
 
@@ -283,7 +283,7 @@ class CodedBufferWriter {
       hi >>= 7;
     }
     _outputChunk![i++] = lo;
-    _bytesTotal += (i - _bytesInChunk);
+    _bytesTotal += i - _bytesInChunk;
     _bytesInChunk = i;
   }
 
@@ -338,10 +338,10 @@ class CodedBufferWriter {
         break;
       case PbFieldType._BYTES_BIT:
         _writeBytesNoTag(
-            value is TypedData ? value : Uint8List.fromList(value));
+            value is Uint8List ? value : Uint8List.fromList(value));
         break;
       case PbFieldType._STRING_BIT:
-        _writeBytesNoTag(_utf8.encode(value));
+        _writeBytesNoTag(_utf8.encoder.convert(value));
         break;
       case PbFieldType._DOUBLE_BIT:
         _writeDouble(value);
@@ -355,6 +355,7 @@ class CodedBufferWriter {
         break;
       case PbFieldType._GROUP_BIT:
         // value is UnknownFieldSet or GeneratedMessage
+        // ignore: avoid_dynamic_calls
         value.writeToCodedBufferWriter(this);
         break;
       case PbFieldType._INT32_BIT:
@@ -396,7 +397,7 @@ class CodedBufferWriter {
     }
   }
 
-  void _writeBytesNoTag(dynamic value) {
+  void _writeBytesNoTag(Uint8List value) {
     writeInt32NoTag(value.length);
     writeRawBytes(value);
   }
@@ -423,14 +424,14 @@ class CodedBufferWriter {
   /// Has a specialization for Uint8List for performance.
   int _copyInto(Uint8List buffer, int pos, TypedData value) {
     if (value is Uint8List) {
-      var len = value.length;
+      final len = value.length;
       for (var j = 0; j < len; j++) {
         buffer[pos++] = value[j];
       }
       return pos;
     } else {
-      var len = value.lengthInBytes;
-      var u8 = Uint8List.view(
+      final len = value.lengthInBytes;
+      final u8 = Uint8List.view(
           value.buffer, value.offsetInBytes, value.lengthInBytes);
       for (var j = 0; j < len; j++) {
         buffer[pos++] = u8[j];

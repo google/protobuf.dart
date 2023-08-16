@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of '../../protobuf.dart';
 
 /// Unpacks the message in [value] into [instance].
 ///
@@ -23,7 +23,7 @@ void unpackIntoHelper<T extends GeneratedMessage>(
   //   in the type URL, for example "foo.bar.com/x/y.z" will yield type
   //   name "y.z".
   if (!canUnpackIntoHelper(instance, typeUrl)) {
-    var typeName = instance.info_.qualifiedMessageName;
+    final typeName = instance.info_.qualifiedMessageName;
     throw InvalidProtocolBufferException.wrongAnyMessage(
         _typeNameFromUrl(typeUrl), typeName);
   }
@@ -41,6 +41,6 @@ bool canUnpackIntoHelper(GeneratedMessage instance, String typeUrl) {
 }
 
 String _typeNameFromUrl(String typeUrl) {
-  var index = typeUrl.lastIndexOf('/');
+  final index = typeUrl.lastIndexOf('/');
   return index == -1 ? '' : typeUrl.substring(index + 1);
 }

@@ -56,6 +56,9 @@ class BaseType {
   String getRepeatedDartType(FileGenerator fileGen) =>
       '$coreImportPrefix.List<${getDartType(fileGen)}>';
 
+  String getRepeatedDartTypeIterable(FileGenerator fileGen) =>
+      '$coreImportPrefix.Iterable<${getDartType(fileGen)}>';
+
   factory BaseType(FieldDescriptorProto field, GenerationContext ctx) {
     String constSuffix;
 
@@ -124,7 +127,7 @@ class BaseType {
         throw ArgumentError('unimplemented type: ${field.type.name}');
     }
 
-    var generator = ctx.getFieldType(field.typeName);
+    final generator = ctx.getFieldType(field.typeName);
     if (generator == null) {
       throw 'FAILURE: Unknown type reference ${field.typeName}';
     }
