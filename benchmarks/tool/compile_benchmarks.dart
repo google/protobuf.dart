@@ -1,4 +1,5 @@
 #!/usr/bin/env dart
+// ignore_for_file: only_throw_errors
 
 import 'dart:io' show Directory, Platform, Process, ProcessResult, exit;
 
@@ -42,9 +43,17 @@ Future<void> main(List<String> args) async {
         targets.add(jsProductionTarget);
         break;
 
+      case 'wasm':
+        targets.add(wasmTarget);
+        break;
+
+      case 'wasm-omit-checks':
+        targets.add(wasmOmitChecksTarget);
+        break;
+
       default:
-        print(
-            'Unsupported target: $targetStr. Supported targets: aot, exe, jit, js, js-production');
+        print('Unsupported target: $targetStr. Supported targets: aot, exe, '
+            'jit, js, js-production, wasm, wasm-omit-checks');
         exit(1);
     }
   }
@@ -135,6 +144,9 @@ const exeTarget = Target('exe', exeProcessArgs);
 const jitTarget = Target('jit', jitProcessArgs);
 const jsTarget = Target('js', jsProcessArgs);
 const jsProductionTarget = Target('js-production', jsProductionProcessArgs);
+const wasmTarget = Target('wasm', wasmProcessArgs);
+const wasmOmitChecksTarget =
+    Target('wasm-omit-checks', wasmOmitChecksProcessArgs);
 
 List<String> aotProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
@@ -183,5 +195,34 @@ List<String> jsProductionProcessArgs(String sourceFile) {
     '-O4',
     '-o',
     'out/$baseNameNoExt.production.js'
+  ];
+}
+
+List<String> wasmProcessArgs(String sourceFile) {
+  final sdkPath = Platform.environment['DART_SDK'];
+  if (sdkPath == null) {
+    throw '\$DART_SDK environment variable is not set';
+  }
+  final baseName = path.basename(sourceFile);
+  final baseNameNoExt = path.withoutExtension(baseName);
+  return [
+    '$sdkPath/../pkg/dart2wasm/tool/compile_benchmark',
+    sourceFile,
+    'out/$baseNameNoExt.wasm',
+  ];
+}
+
+List<String> wasmOmitChecksProcessArgs(String sourceFile) {
+  final sdkPath = Platform.environment['DART_SDK'];
+  if (sdkPath == null) {
+    throw '\$DART_SDK environment variable is not set';
+  }
+  final baseName = path.basename(sourceFile);
+  final baseNameNoExt = path.withoutExtension(baseName);
+  return [
+    '$sdkPath/../pkg/dart2wasm/tool/compile_benchmark',
+    sourceFile,
+    'out/$baseNameNoExt.omit-checks.wasm',
+    '--omit-checks',
   ];
 }
