@@ -1,4 +1,5 @@
 #!/usr/bin/env dart
+// ignore_for_file: only_throw_errors
 
 import 'dart:io' show Directory, Platform, Process, ProcessResult, exit;
 
@@ -216,6 +217,6 @@ List<String> wasmOptProcessArgs(String sourceFile) {
   return [
     '$sdkPath/../pkg/dart2wasm/tool/compile_benchmark',
     sourceFile,
-    'out/$baseNameNoExt.opt.wasm'
+    'out/$baseNameNoExt.opt.wasm',
   ];
 }
