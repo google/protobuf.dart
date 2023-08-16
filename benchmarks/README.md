@@ -25,11 +25,12 @@
   - Compile benchmarks with `./tool/compile_benchmarks.dart --target=<target>`
     where `<target>` is one of:
 
-    - `wasm`: Doesn't run any optimizations
-    - `wasm-opt`: Runs binaryen optimizations
+    - `wasm`: Default optimized build
+    - `wasm-omit-checks`: Optimized build with `--omit-checks`
 
   - Run with: `$DART_SDK/bin/run_dart2wasm_d8 out/from_binary.wasm`, or use
-    `.opt.wasm` extension for the `wasm-opt` target: `from_binary.opt.wasm`.
+    `.omit-checks.wasm` extension for the `wasm-omit-checks` target:
+    `from_binary.omit-checks.wasm`.
 
 [1]: https://github.com/dart-lang/sdk/wiki/Building
 [2]: https://github.com/dart-lang/sdk/tree/main/sdk
