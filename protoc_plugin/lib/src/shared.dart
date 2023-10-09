@@ -38,8 +38,8 @@ String? toDartComment(String value) {
 
   var lines = LineSplitter.split(value).toList();
 
-  // Find any leading spaces in the first line.
-  // If all of the lines have the same leading spaces, remove them all.
+  // Find any leading spaces in the first line. If all of the lines have the
+  // same leading spaces, remove them all.
   final leadingSpaces = _leadingSpaces.firstMatch(lines.first);
   if (leadingSpaces != null) {
     final prefix = leadingSpaces.group(0)!;
@@ -48,9 +48,14 @@ String? toDartComment(String value) {
     }
   }
 
-  // Remove empty, trailing lines
-  while (lines.last.isEmpty) {
+  // Remove empty, trailing lines.
+  while (lines.isNotEmpty && lines.last.trim().isEmpty) {
     lines.removeLast();
+  }
+
+  // Don't generate a documentation comment if all lines are empty.
+  if (lines.isEmpty) {
+    return null;
   }
 
   return lines.map((e) => '/// $e'.trimRight()).join('\n');
