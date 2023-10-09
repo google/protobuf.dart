@@ -1,3 +1,9 @@
+## 21.1.2-dev
+
+* Fix a bug in comment parsing ([#871]).
+
+[#871]: https://github.com/google/protobuf.dart/issues/871
+
 ## 21.1.1
 
 * Rename a local variable used with message constructors to avoid potential

@@ -7,6 +7,10 @@ void main() {
       expect(toDartComment(''), null);
     });
 
+    test('just space', () {
+      expect(toDartComment(' '), null);
+    });
+
     test('indent', () {
       expect(
         toDartComment('''
