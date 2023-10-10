@@ -1,4 +1,4 @@
-## 21.1.2-dev
+## 21.1.2
 
 * Fix a bug in comment parsing ([#871], [#879]).
 
