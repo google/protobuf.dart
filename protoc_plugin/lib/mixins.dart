@@ -12,7 +12,6 @@ import 'indenting_writer.dart';
 PbMixin? findMixin(String name) {
   const exportedMixins = {
     'PbMapMixin': _pbMapMixin,
-    'PbEventMixin': _pbEventMixin,
   };
   return exportedMixins[name];
 }
@@ -85,10 +84,6 @@ class PbMixin {
 const _pbMapMixin = PbMixin('PbMapMixin',
     importFrom: 'package:protobuf/src/protobuf/mixins/map_mixin.dart',
     parent: _mapMixin);
-
-const _pbEventMixin = PbMixin('PbEventMixin',
-    importFrom: 'package:protobuf/src/protobuf/mixins/event_mixin.dart',
-    reservedNames: ['changes', 'deliverChanges']);
 
 const List<String> _reservedNamesForMap = [
   '[]',

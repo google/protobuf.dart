@@ -142,7 +142,7 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
   final map = fi._ensureMapField(meta, fs) as PbMap<dynamic, dynamic>;
   for (final jsonEntryDynamic in jsonList) {
     final jsonEntry = jsonEntryDynamic as Map<String, dynamic>;
-    final entryFieldSet = _FieldSet(null, entryMeta, null);
+    final entryFieldSet = _FieldSet(null, entryMeta);
     final convertedKey = _convertJsonValue(
         entryMeta,
         entryFieldSet,

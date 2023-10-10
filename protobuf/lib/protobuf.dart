@@ -28,7 +28,6 @@ part 'src/protobuf/coded_buffer.dart';
 part 'src/protobuf/coded_buffer_reader.dart';
 part 'src/protobuf/coded_buffer_writer.dart';
 part 'src/protobuf/consts.dart';
-part 'src/protobuf/event_plugin.dart';
 part 'src/protobuf/exceptions.dart';
 part 'src/protobuf/extension.dart';
 part 'src/protobuf/extension_field_set.dart';

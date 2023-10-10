@@ -1,3 +1,9 @@
+## 4.0.0-dev
+
+* Remove `PbEventMixin`, `PbFieldChange`, `EventBuffer` types. ([#738])
+
+[#738]: https://github.com/google/protobuf.dart/issues/738
+
 ## 3.1.0
 
 * `CodedBufferReader` `readBytes` now copies the returned bytes to avoid

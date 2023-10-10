@@ -23,7 +23,6 @@ const GeneratedMessage_reservedNames = <String>[
   'createEmptyInstance',
   'createMapField',
   'createRepeatedField',
-  'eventPlugin',
   'extensionsAreInitialized',
   'freeze',
   'getDefaultForField',

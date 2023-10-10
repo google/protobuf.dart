@@ -31,16 +31,11 @@ abstract class GeneratedMessage {
   _FieldSet get _fieldSet => __fieldSet!;
 
   GeneratedMessage() {
-    __fieldSet = _FieldSet(this, info_, eventPlugin);
-    if (eventPlugin != null) eventPlugin!.attach(this);
+    __fieldSet = _FieldSet(this, info_);
   }
 
   // Overridden by subclasses.
   BuilderInfo get info_;
-
-  /// Subclasses can override this getter to be notified of changes
-  /// to protobuf fields.
-  EventPlugin? get eventPlugin => null;
 
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)

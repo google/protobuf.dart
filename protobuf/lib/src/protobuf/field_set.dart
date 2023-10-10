@@ -21,7 +21,6 @@ void _throwFrozenMessageModificationError(String messageName,
 /// JavaScript.
 class _FieldSet {
   final GeneratedMessage? _message;
-  final EventPlugin? _eventPlugin;
 
   /// The value of each non-extension field in a fixed-length array.
   /// The index of a field can be found in [FieldInfo.index].
@@ -74,7 +73,7 @@ class _FieldSet {
   /// the index is not present, the oneof field is unset.
   final Map<int, int>? _oneofCases;
 
-  _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
+  _FieldSet(this._message, BuilderInfo meta)
       : _values = _makeValueList(meta.byIndex.length),
         _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
@@ -227,10 +226,6 @@ class _FieldSet {
       assert(tagNumber == fi.tagNumber);
 
       // Clear a non-extension field
-      final eventPlugin = _eventPlugin;
-      if (eventPlugin != null && eventPlugin.hasObservers) {
-        eventPlugin.beforeClearField(fi);
-      }
       _values[fi.index!] = null;
 
       final oneofIndex = meta.oneofs[tagNumber];
@@ -341,14 +336,6 @@ class _FieldSet {
       _oneofCases![oneofIndex] = tag;
     }
 
-    // It is important that the callback to the observers is not moved to the
-    // beginning of this method but happens just before the value is set.
-    // Otherwise the observers will be notified about 'clearField' and
-    // 'setField' events in an incorrect order.
-    final eventPlugin = _eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeSetField(fi, value);
-    }
     _values[fi.index!] = value;
   }
 
@@ -486,10 +473,6 @@ class _FieldSet {
     if (value == null) {
       _$check(index, value); // throw exception for null value
     }
-    final eventPlugin = _eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
-    }
     final meta = _meta;
     final tag = meta.byIndex[index].tagNumber;
     final oneofIndex = meta.oneofs[tag];
@@ -516,25 +499,8 @@ class _FieldSet {
     if (_unknownFields != null) {
       _unknownFields!.clear();
     }
-
-    final extensions = _extensions;
-
-    final eventPlugin = _eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      for (final fi in _infos) {
-        if (_values[fi.index!] != null) {
-          eventPlugin.beforeClearField(fi);
-        }
-      }
-      if (extensions != null) {
-        for (final key in extensions._tagNumbers) {
-          final fi = extensions._getInfoOrNull(key)!;
-          eventPlugin.beforeClearField(fi);
-        }
-      }
-    }
     if (_values.isNotEmpty) _values.fillRange(0, _values.length, null);
-    extensions?._clearValues();
+    _extensions?._clearValues();
   }
 
   bool _equals(_FieldSet o) {

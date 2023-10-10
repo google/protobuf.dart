@@ -76,10 +76,6 @@ class _ExtensionFieldSet {
   void _clearField(Extension fi) {
     _ensureWritable();
     _validateInfo(fi);
-    final eventPlugin = _parent._eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeClearField(fi);
-    }
     _values.remove(fi.tagNumber);
   }
 
@@ -134,10 +130,6 @@ class _ExtensionFieldSet {
   }
 
   void _setFieldUnchecked(Extension fi, value) {
-    final eventPlugin = _parent._eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeSetField(fi, value);
-    }
     // If there was already an unknown field with the same tag number,
     // overwrite it.
     _parent._unknownFields?.clearField(fi.tagNumber);
