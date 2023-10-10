@@ -39,7 +39,7 @@ class _ExtensionFieldSet {
   ///
   /// If it doesn't exist, creates the list and saves the extension.
   /// Suitable for public API and decoders.
-  List<T> _ensureRepeatedField<T>(Extension<T> fi) {
+  PbList<T> _ensureRepeatedField<T>(Extension<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     assert(fi.extendee == '' || fi.extendee == _parent._messageName);
@@ -50,15 +50,15 @@ class _ExtensionFieldSet {
     return _addInfoAndCreateList(fi);
   }
 
-  List<T> _getList<T>(Extension<T> fi) {
+  PbList<T> _getList<T>(Extension<T> fi) {
     final value = _values[fi.tagNumber];
     if (value != null) return value;
     _checkNotInUnknown(fi);
-    if (_isReadOnly) return List<T>.unmodifiable(const []);
+    if (_isReadOnly) return PbList<T>.unmodifiable();
     return _addInfoAndCreateList<T>(fi);
   }
 
-  List<T> _addInfoAndCreateList<T>(Extension<T> fi) {
+  PbList<T> _addInfoAndCreateList<T>(Extension<T> fi) {
     _validateInfo(fi);
     final newList = fi._createRepeatedField();
     _addInfoUnchecked(fi);

@@ -297,7 +297,7 @@ class _FieldSet {
   /// Creates and stores the repeated field if it doesn't exist.
   /// If it's an extension and the list doesn't exist, validates and stores it.
   /// Suitable for decoders.
-  List<T> _ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) {
+  PbList<T> _ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     if (fi.index == null) {
