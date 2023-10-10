@@ -326,19 +326,6 @@ abstract class GeneratedMessage {
   /// default value if it is not set.
   dynamic getField(int tagNumber) => _fieldSet._getField(tagNumber);
 
-  /// Creates List implementing a mutable repeated field.
-  ///
-  /// Mixins may override this method to change the List type. To ensure
-  /// that the protobuf can be encoded correctly, the returned List must
-  /// validate all items added to it. This can most easily be done
-  /// using the [FieldInfo.check] function.
-  List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) =>
-      PbList<T>(check: fi.check!);
-
-  /// Creates a Map representing a map field.
-  Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) =>
-      PbMap<K, V>(fi.keyFieldType, fi.valueFieldType);
-
   /// Returns the value of a field, ignoring any defaults.
   ///
   /// For unset or cleared fields, returns null.

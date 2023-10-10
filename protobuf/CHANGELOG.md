@@ -1,6 +1,16 @@
 ## 4.0.0-dev
 
-* Remove `PbEventMixin`, `PbFieldChange`, `EventBuffer` types. ([#738])
+* The following types and members are now removed:
+
+  - `PbEventMixin`
+  - `PbFieldChange`
+  - `EventBuffer`
+  - `GeneratedMessage.createRepeatedField`
+  - `GeneratedMessage.createMapField`
+
+  These were used to implement events, which are unused internally. To keep API
+  surface small (to make it easier to change the library or migrate to another
+  library) these types and members are removed. ([#738])
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
 

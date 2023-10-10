@@ -21,8 +21,6 @@ const GeneratedMessage_reservedNames = <String>[
   'clone',
   'copyWith',
   'createEmptyInstance',
-  'createMapField',
-  'createRepeatedField',
   'extensionsAreInitialized',
   'freeze',
   'getDefaultForField',
