@@ -1,6 +1,6 @@
-## 21.1.2-dev
+## 21.1.2
 
-* Fix a bug in comment parsing ([#871], [#879]).
+* Fix a bug in comment parsing. ([#871], [#879])
 
 [#871]: https://github.com/google/protobuf.dart/issues/871
 [#879]: https://github.com/google/protobuf.dart/pull/879
