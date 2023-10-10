@@ -321,7 +321,7 @@ class _FieldSet {
 
     final newValue = fi._createMapField();
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
-    return newValue as PbMap<K, V>;
+    return newValue;
   }
 
   /// Sets a non-extended field and fires events.
