@@ -228,7 +228,7 @@ class FieldInfo<T> {
   }
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
-  /// _FieldSet._ensureRepeatedField.
+  /// `_FieldSet._ensureRepeatedField`.
   List<T> _ensureRepeatedField(BuilderInfo meta, _FieldSet fs) {
     return fs._ensureRepeatedField<T>(meta, this);
   }

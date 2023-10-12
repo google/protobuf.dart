@@ -32,6 +32,16 @@ abstract class GeneratedMessage {
 
   GeneratedMessage() {
     __fieldSet = _FieldSet(this, info_);
+
+    // The following two returns confuse dart2js into avoiding inlining the
+    // constructor *body*. A `@pragma('dart2js:never-inline')` annotation on
+    // the constructor affects inlining of the generative constructor factory,
+    // not the constructor body that is called from all the subclasses.
+    //
+    // TODO(http://dartbug.com/49475): Remove this when there is an annotation
+    // that will give the desired result.
+    return;
+    return; // ignore: dead_code
   }
 
   // Overridden by subclasses.
