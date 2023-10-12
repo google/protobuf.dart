@@ -39,7 +39,7 @@ class _ExtensionFieldSet {
   ///
   /// If it doesn't exist, creates the list and saves the extension.
   /// Suitable for public API and decoders.
-  List<T> _ensureRepeatedField<T>(Extension<T> fi) {
+  PbList<T> _ensureRepeatedField<T>(Extension<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     assert(fi.extendee == '' || fi.extendee == _parent._messageName);
@@ -50,17 +50,17 @@ class _ExtensionFieldSet {
     return _addInfoAndCreateList(fi);
   }
 
-  List<T> _getList<T>(Extension<T> fi) {
+  PbList<T> _getList<T>(Extension<T> fi) {
     final value = _values[fi.tagNumber];
     if (value != null) return value;
     _checkNotInUnknown(fi);
-    if (_isReadOnly) return List<T>.unmodifiable(const []);
+    if (_isReadOnly) return PbList<T>.unmodifiable();
     return _addInfoAndCreateList<T>(fi);
   }
 
-  List<T> _addInfoAndCreateList<T>(Extension<T> fi) {
+  PbList<T> _addInfoAndCreateList<T>(Extension<T> fi) {
     _validateInfo(fi);
-    final newList = fi._createRepeatedField(_parent._message!);
+    final newList = fi._createRepeatedField();
     _addInfoUnchecked(fi);
     _setFieldUnchecked(fi, newList);
     return newList;
@@ -76,10 +76,6 @@ class _ExtensionFieldSet {
   void _clearField(Extension fi) {
     _ensureWritable();
     _validateInfo(fi);
-    final eventPlugin = _parent._eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeClearField(fi);
-    }
     _values.remove(fi.tagNumber);
   }
 
@@ -134,10 +130,6 @@ class _ExtensionFieldSet {
   }
 
   void _setFieldUnchecked(Extension fi, value) {
-    final eventPlugin = _parent._eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeSetField(fi, value);
-    }
     // If there was already an unknown field with the same tag number,
     // overwrite it.
     _parent._unknownFields?.clearField(fi.tagNumber);

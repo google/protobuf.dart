@@ -1,3 +1,9 @@
+## 22.0.0-dev
+
+* Remove `PbEventMixin` mixin. ([#738])
+
+[#738]: https://github.com/google/protobuf.dart/issues/738
+
 ## 21.1.2
 
 * Fix a bug in comment parsing. ([#871], [#879])

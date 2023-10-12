@@ -31,16 +31,21 @@ abstract class GeneratedMessage {
   _FieldSet get _fieldSet => __fieldSet!;
 
   GeneratedMessage() {
-    __fieldSet = _FieldSet(this, info_, eventPlugin);
-    if (eventPlugin != null) eventPlugin!.attach(this);
+    __fieldSet = _FieldSet(this, info_);
+
+    // The following two returns confuse dart2js into avoiding inlining the
+    // constructor *body*. A `@pragma('dart2js:never-inline')` annotation on
+    // the constructor affects inlining of the generative constructor factory,
+    // not the constructor body that is called from all the subclasses.
+    //
+    // TODO(http://dartbug.com/49475): Remove this when there is an annotation
+    // that will give the desired result.
+    return;
+    return; // ignore: dead_code
   }
 
   // Overridden by subclasses.
   BuilderInfo get info_;
-
-  /// Subclasses can override this getter to be notified of changes
-  /// to protobuf fields.
-  EventPlugin? get eventPlugin => null;
 
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)
@@ -330,19 +335,6 @@ abstract class GeneratedMessage {
   /// Returns the value of the field associated with [tagNumber], or the
   /// default value if it is not set.
   dynamic getField(int tagNumber) => _fieldSet._getField(tagNumber);
-
-  /// Creates List implementing a mutable repeated field.
-  ///
-  /// Mixins may override this method to change the List type. To ensure
-  /// that the protobuf can be encoded correctly, the returned List must
-  /// validate all items added to it. This can most easily be done
-  /// using the [FieldInfo.check] function.
-  List<T> createRepeatedField<T>(int tagNumber, FieldInfo<T> fi) =>
-      PbList<T>(check: fi.check!);
-
-  /// Creates a Map representing a map field.
-  Map<K, V> createMapField<K, V>(int tagNumber, MapFieldInfo<K, V> fi) =>
-      PbMap<K, V>(fi.keyFieldType, fi.valueFieldType);
 
   /// Returns the value of a field, ignoring any defaults.
   ///

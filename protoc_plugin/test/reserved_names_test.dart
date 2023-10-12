@@ -10,8 +10,6 @@ import 'package:protobuf/meta.dart'
 // Import the libraries we will access via the mirrors.
 // ignore_for_file: unused_import
 import 'package:protobuf/protobuf.dart' show GeneratedMessage, ProtobufEnum;
-import 'package:protobuf/src/protobuf/mixins/event_mixin.dart'
-    show PbEventMixin;
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart' show PbMapMixin;
 import 'package:protoc_plugin/mixins.dart' show findMixin;
 import 'package:test/test.dart';
@@ -53,17 +51,6 @@ void main() {
 
     final expected = findMemberNames(meta.importFrom, #PbMapMixin)
       ..addAll(findMemberNames('dart:collection', #MapMixin))
-      ..removeAll(GeneratedMessage_reservedNames);
-
-    expect(
-        actual.toList()..sort(), containsAllInOrder(expected.toList()..sort()));
-  });
-
-  test('PbEventMixin reserved names are up to date', () {
-    final meta = findMixin('PbEventMixin')!;
-    final actual = Set<String>.from(meta.findReservedNames());
-
-    final expected = findMemberNames(meta.importFrom, #PbEventMixin)
       ..removeAll(GeneratedMessage_reservedNames);
 
     expect(

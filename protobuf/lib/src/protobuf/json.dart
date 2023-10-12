@@ -139,10 +139,10 @@ void _appendJsonList(BuilderInfo meta, _FieldSet fs, List jsonList,
 void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
     MapFieldInfo fi, ExtensionRegistry? registry) {
   final entryMeta = fi.mapEntryBuilderInfo;
-  final map = fi._ensureMapField(meta, fs) as PbMap<dynamic, dynamic>;
+  final map = fi._ensureMapField(meta, fs);
   for (final jsonEntryDynamic in jsonList) {
     final jsonEntry = jsonEntryDynamic as Map<String, dynamic>;
-    final entryFieldSet = _FieldSet(null, entryMeta, null);
+    final entryFieldSet = _FieldSet(null, entryMeta);
     final convertedKey = _convertJsonValue(
         entryMeta,
         entryFieldSet,

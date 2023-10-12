@@ -215,23 +215,20 @@ class FieldInfo<T> {
     }
   }
 
-  /// Creates a repeated field to be attached to the given message.
-  ///
-  /// Delegates actual list creation to the message, so that it can
-  /// be overridden by a mixin.
-  List<T> _createRepeatedField(GeneratedMessage m) {
+  /// Creates a repeated field.
+  PbList<T> _createRepeatedField() {
     assert(isRepeated);
-    return m.createRepeatedField<T>(tagNumber, this);
+    return PbList<T>(check: check!);
   }
 
-  /// Same as above, but allow a tighter typed List to be created.
-  List<S> _createRepeatedFieldWithType<S extends T>(GeneratedMessage m) {
+  /// Same as above, but allow a tighter typed [PbList] to be created.
+  PbList<S> _createRepeatedFieldWithType<S extends T>() {
     assert(isRepeated);
-    return m.createRepeatedField<S>(tagNumber, this as FieldInfo<S>);
+    return PbList<S>(check: check!);
   }
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
-  /// _FieldSet._ensureRepeatedField.
+  /// `_FieldSet._ensureRepeatedField`.
   List<T> _ensureRepeatedField(BuilderInfo meta, _FieldSet fs) {
     return fs._ensureRepeatedField<T>(meta, this);
   }
@@ -292,12 +289,12 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   FieldInfo get valueFieldInfo =>
       mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber]!;
 
-  Map<K, V> _ensureMapField(BuilderInfo meta, _FieldSet fs) {
+  PbMap<K, V> _ensureMapField(BuilderInfo meta, _FieldSet fs) {
     return fs._ensureMapField<K, V>(meta, this);
   }
 
-  Map<K, V> _createMapField(GeneratedMessage m) {
+  PbMap<K, V> _createMapField() {
     assert(isMapField);
-    return m.createMapField<K, V>(tagNumber, this);
+    return PbMap<K, V>(keyFieldType, valueFieldType);
   }
 }

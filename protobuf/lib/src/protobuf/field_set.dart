@@ -21,7 +21,6 @@ void _throwFrozenMessageModificationError(String messageName,
 /// JavaScript.
 class _FieldSet {
   final GeneratedMessage? _message;
-  final EventPlugin? _eventPlugin;
 
   /// The value of each non-extension field in a fixed-length array.
   /// The index of a field can be found in [FieldInfo.index].
@@ -74,7 +73,7 @@ class _FieldSet {
   /// the index is not present, the oneof field is unset.
   final Map<int, int>? _oneofCases;
 
-  _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
+  _FieldSet(this._message, BuilderInfo meta)
       : _values = _makeValueList(meta.byIndex.length),
         _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
@@ -227,10 +226,6 @@ class _FieldSet {
       assert(tagNumber == fi.tagNumber);
 
       // Clear a non-extension field
-      final eventPlugin = _eventPlugin;
-      if (eventPlugin != null && eventPlugin.hasObservers) {
-        eventPlugin.beforeClearField(fi);
-      }
       _values[fi.index!] = null;
 
       final oneofIndex = meta.oneofs[tagNumber];
@@ -302,7 +297,7 @@ class _FieldSet {
   /// Creates and stores the repeated field if it doesn't exist.
   /// If it's an extension and the list doesn't exist, validates and stores it.
   /// Suitable for decoders.
-  List<T> _ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) {
+  PbList<T> _ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     if (fi.index == null) {
@@ -311,7 +306,7 @@ class _FieldSet {
     final value = _getFieldOrNull(fi);
     if (value != null) return value;
 
-    final newValue = fi._createRepeatedField(_message!);
+    final newValue = fi._createRepeatedField();
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
     return newValue;
   }
@@ -324,9 +319,9 @@ class _FieldSet {
     final value = _getFieldOrNull(fi);
     if (value != null) return value;
 
-    final newValue = fi._createMapField(_message!);
+    final newValue = fi._createMapField();
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
-    return newValue as PbMap<K, V>;
+    return newValue;
   }
 
   /// Sets a non-extended field and fires events.
@@ -341,14 +336,6 @@ class _FieldSet {
       _oneofCases![oneofIndex] = tag;
     }
 
-    // It is important that the callback to the observers is not moved to the
-    // beginning of this method but happens just before the value is set.
-    // Otherwise the observers will be notified about 'clearField' and
-    // 'setField' events in an incorrect order.
-    final eventPlugin = _eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeSetField(fi, value);
-    }
     _values[fi.index!] = value;
   }
 
@@ -394,7 +381,7 @@ class _FieldSet {
       return fi.readonlyDefault;
     }
 
-    final list = fi._createRepeatedFieldWithType<T>(_message!);
+    final list = fi._createRepeatedFieldWithType<T>();
     _setNonExtensionFieldUnchecked(_meta, fi, list);
     return list;
   }
@@ -412,7 +399,7 @@ class _FieldSet {
           PbMap<K, V>(fi.keyFieldType, fi.valueFieldType));
     }
 
-    final map = fi._createMapField(_message!);
+    final map = fi._createMapField();
     _setNonExtensionFieldUnchecked(_meta, fi, map);
     return map;
   }
@@ -486,10 +473,6 @@ class _FieldSet {
     if (value == null) {
       _$check(index, value); // throw exception for null value
     }
-    final eventPlugin = _eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeSetField(_nonExtensionInfoByIndex(index), value);
-    }
     final meta = _meta;
     final tag = meta.byIndex[index].tagNumber;
     final oneofIndex = meta.oneofs[tag];
@@ -516,25 +499,8 @@ class _FieldSet {
     if (_unknownFields != null) {
       _unknownFields!.clear();
     }
-
-    final extensions = _extensions;
-
-    final eventPlugin = _eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      for (final fi in _infos) {
-        if (_values[fi.index!] != null) {
-          eventPlugin.beforeClearField(fi);
-        }
-      }
-      if (extensions != null) {
-        for (final key in extensions._tagNumbers) {
-          final fi = extensions._getInfoOrNull(key)!;
-          eventPlugin.beforeClearField(fi);
-        }
-      }
-    }
     if (_values.isNotEmpty) _values.fillRange(0, _values.length, null);
-    extensions?._clearValues();
+    _extensions?._clearValues();
   }
 
   bool _equals(_FieldSet o) {
@@ -882,15 +848,13 @@ class _FieldSet {
       if (fieldInfo.isMapField) {
         final PbMap? map = _values[index];
         if (map != null) {
-          _values[index] = (fieldInfo as MapFieldInfo)
-              ._createMapField(_message!)
+          _values[index] = (fieldInfo as MapFieldInfo)._createMapField()
             ..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
         final PbList? list = _values[index];
         if (list != null) {
-          _values[index] = fieldInfo._createRepeatedField(_message!)
-            ..addAll(list);
+          _values[index] = fieldInfo._createRepeatedField()..addAll(list);
         }
       }
     }
