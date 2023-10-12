@@ -132,7 +132,7 @@ abstract class GeneratedMessage {
   @override
   int get hashCode => _fieldSet._hashCode;
 
-  /// Returns a String representation of this message.
+  /// Returns a [String] representation of this message.
   ///
   /// This representation is similar to, but not quite, the Protocol Buffer
   /// TextFormat. Each field is printed on its own line. Sub-messages are
@@ -143,7 +143,7 @@ abstract class GeneratedMessage {
   @override
   String toString() => toDebugString();
 
-  /// Returns a String representation of this message.
+  /// Returns a [String] representation of this message.
   ///
   /// This generates the same output as [toString], but can be used by mixins
   /// to compose debug strings with additional information.
@@ -167,14 +167,14 @@ abstract class GeneratedMessage {
     }
   }
 
-  /// Serialize the message.
+  /// Serialize the message as the protobuf binary format.
   Uint8List writeToBuffer() {
     final out = CodedBufferWriter();
     writeToCodedBufferWriter(out);
     return out.toBuffer();
   }
 
-  /// Serialize the message to the given [CodedBufferWriter].
+  /// Same as [writeToBuffer], but serializes to the given [CodedBufferWriter].
   void writeToCodedBufferWriter(CodedBufferWriter output) =>
       _writeToCodedBufferWriter(_fieldSet, output);
 
