@@ -153,6 +153,11 @@ abstract class GeneratedMessage {
     return out.toString();
   }
 
+  /// Throws a [StateError] if the message has required fields without a value.
+  ///
+  /// This library does not check in any of the methods that required fields in
+  /// have values. Use this method if you need to check that required fields
+  /// have values.
   void check() {
     if (!isInitialized()) {
       final invalidFields = <String>[];
@@ -162,15 +167,18 @@ abstract class GeneratedMessage {
     }
   }
 
+  /// Serialize the message.
   Uint8List writeToBuffer() {
     final out = CodedBufferWriter();
     writeToCodedBufferWriter(out);
     return out.toBuffer();
   }
 
+  /// Serialize the message to the given [CodedBufferWriter].
   void writeToCodedBufferWriter(CodedBufferWriter output) =>
       _writeToCodedBufferWriter(_fieldSet, output);
 
+  /// Same as [mergeFromBuffer], but takes a [CodedBufferReader] input.
   void mergeFromCodedBufferReader(CodedBufferReader input,
       [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
     final meta = _fieldSet._meta;

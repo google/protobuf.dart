@@ -92,10 +92,10 @@ class _FieldSet {
   String get _messageName => _meta.qualifiedMessageName;
   bool get _hasRequiredFields => _meta.hasRequiredFields;
 
-  /// The FieldInfo for each non-extension field.
+  /// The [FieldInfo] for each non-extension field.
   Iterable<FieldInfo> get _infos => _meta.fieldInfo.values;
 
-  /// The FieldInfo for each non-extension field in tag order.
+  /// The [FieldInfo] for each non-extension field in tag order.
   Iterable<FieldInfo> get _infosSortedByTag => _meta.sortedByTag;
 
   _ExtensionFieldSet _ensureExtensions() =>
