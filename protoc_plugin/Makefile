@@ -36,8 +36,6 @@ TEST_PROTO_LIST = \
 	import_clash \
 	import_public \
 	json_name \
-	map_api \
-	map_api2 \
 	map_enum_value \
 	map_field \
 	message_set \

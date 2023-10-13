@@ -2,11 +2,12 @@
 
 * The following types and members are now removed:
 
+  - `EventBuffer`
+  - `GeneratedMessage.createMapField`
+  - `GeneratedMessage.createRepeatedField`
   - `PbEventMixin`
   - `PbFieldChange`
-  - `EventBuffer`
-  - `GeneratedMessage.createRepeatedField`
-  - `GeneratedMessage.createMapField`
+  - `PbMapMixin`
 
   These were used to implement events, which are unused internally. To keep API
   surface small (to make it easier to change the library or migrate to another

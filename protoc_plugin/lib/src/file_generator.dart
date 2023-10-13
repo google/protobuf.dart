@@ -69,9 +69,6 @@ class FileGenerator extends ProtobufContainer {
         final parentName = currentMixin.parent;
 
         final declaredMixin = dartMixins.containsKey(parentName);
-        final internalMixin = !declaredMixin && findMixin(parentName) != null;
-
-        if (internalMixin) break; // No further validation of parent chain.
 
         if (!declaredMixin) {
           throw mixinError('Unknown mixin parent "${mixin.parent}" of '
@@ -99,7 +96,7 @@ class FileGenerator extends ProtobufContainer {
         pbMixins[name] = pbMixin;
         return pbMixin;
       }
-      return findMixin(name);
+      return null;
     }
 
     for (final mixin in dartMixins.values) {
@@ -153,8 +150,7 @@ class FileGenerator extends ProtobufContainer {
     final defaultMixinName =
         descriptor.options.getExtension(Dart_options.defaultMixin) as String? ??
             '';
-    final defaultMixin =
-        declaredMixins[defaultMixinName] ?? findMixin(defaultMixinName);
+    final defaultMixin = declaredMixins[defaultMixinName];
     if (defaultMixin == null && defaultMixinName.isNotEmpty) {
       throw 'Option default_mixin on file ${descriptor.name}: Unknown mixin '
           '$defaultMixinName';

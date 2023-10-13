@@ -8,14 +8,6 @@ library;
 
 import 'indenting_writer.dart';
 
-/// Finds [name] in the exported mixins.
-PbMixin? findMixin(String name) {
-  const exportedMixins = {
-    'PbMapMixin': _pbMapMixin,
-  };
-  return exportedMixins[name];
-}
-
 /// PbMixin contains metadata needed by dart-protoc-plugin to apply a mixin.
 ///
 /// The mixin can be applied to a message using options in dart_options.proto.
@@ -80,34 +72,3 @@ class PbMixin {
     }
   }
 }
-
-const _pbMapMixin = PbMixin('PbMapMixin',
-    importFrom: 'package:protobuf/src/protobuf/mixins/map_mixin.dart',
-    parent: _mapMixin);
-
-const List<String> _reservedNamesForMap = [
-  '[]',
-  '[]=',
-  'addAll',
-  'addEntries',
-  'cast',
-  'containsKey',
-  'containsValue',
-  'entries',
-  'forEach',
-  'isEmpty',
-  'isNotEmpty',
-  'keys',
-  'length',
-  'map',
-  'putIfAbsent',
-  'remove',
-  'removeWhere',
-  'retype',
-  'update',
-  'updateAll',
-  'values',
-];
-
-const _mapMixin = PbMixin('MapMixin',
-    importFrom: 'dart:collection', reservedNames: _reservedNamesForMap);

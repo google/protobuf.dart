@@ -747,8 +747,7 @@ class MessageGenerator extends ProtobufContainer {
 
   /// Returns the mixin for this message, or null if none.
   ///
-  /// First searches [_wellKnownMixins], then [declaredMixins],
-  /// then internal mixins declared by [findMixin].
+  /// First searches [_wellKnownMixins], then [declaredMixins].
   PbMixin? _getMixin(
       Map<String, PbMixin> declaredMixins, PbMixin? defaultMixin) {
     final wellKnownMixin = wellKnownMixinForFullName(fullName);
@@ -760,7 +759,7 @@ class MessageGenerator extends ProtobufContainer {
 
     final name = _descriptor.options.getExtension(Dart_options.mixin) as String;
     if (name.isEmpty) return null; // don't use any mixins (override default)
-    final mixin = declaredMixins[name] ?? findMixin(name);
+    final mixin = declaredMixins[name];
     if (mixin == null) {
       throw '${_descriptor.name} in ${parent!.fileGen!.descriptor.name}: mixin "$name" not found';
     }
