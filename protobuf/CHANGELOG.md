@@ -11,9 +11,11 @@
 
   These were used to implement events, which are unused internally. To keep API
   surface small (to make it easier to change the library or migrate to another
-  library) these types and members are removed. ([#738])
+  library) these types and members are removed. ([#738], [#880], [#883]])
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
+[#880]: https://github.com/google/protobuf.dart/pull/880
+[#883]: https://github.com/google/protobuf.dart/pull/883
 
 ## 3.1.0
 

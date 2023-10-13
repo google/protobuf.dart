@@ -1,8 +1,10 @@
 ## 22.0.0-dev
 
-* Remove `PbEventMixin` and `PbMapMixin` mixins. ([#738])
+* Remove `PbEventMixin` and `PbMapMixin` mixins. ([#738], [#880], [#883]])
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
+[#880]: https://github.com/google/protobuf.dart/pull/880
+[#883]: https://github.com/google/protobuf.dart/pull/883
 
 ## 21.1.2
 
