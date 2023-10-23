@@ -421,22 +421,19 @@ class CodedBufferWriter {
 
   /// Copy bytes from the given typed data array into the output buffer.
   ///
-  /// Has a specialization for Uint8List for performance.
+  /// Has a specialization for [Uint8List] for performance.
   int _copyInto(Uint8List buffer, int pos, TypedData value) {
     if (value is Uint8List) {
       final len = value.length;
-      for (var j = 0; j < len; j++) {
-        buffer[pos++] = value[j];
-      }
-      return pos;
+      final end = pos + len;
+      buffer.setRange(pos, end, value);
+      return end;
     } else {
       final len = value.lengthInBytes;
-      final u8 = Uint8List.view(
-          value.buffer, value.offsetInBytes, value.lengthInBytes);
-      for (var j = 0; j < len; j++) {
-        buffer[pos++] = u8[j];
-      }
-      return pos;
+      final end = pos + len;
+      final u8 = Uint8List.view(value.buffer, value.offsetInBytes, len);
+      buffer.setRange(pos, end, u8);
+      return end;
     }
   }
 
