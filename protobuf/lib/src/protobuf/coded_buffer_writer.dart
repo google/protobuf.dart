@@ -337,11 +337,22 @@ class CodedBufferWriter {
         _writeVarint32(value ? 1 : 0);
         break;
       case PbFieldType._BYTES_BIT:
-        _writeBytesNoTag(
-            value is Uint8List ? value : Uint8List.fromList(value));
+        final List<int> bytes = value;
+        if (bytes is Uint8List) {
+          _writeBytesNoTag(bytes);
+        } else if (bytes.isEmpty) {
+          writeInt32NoTag(0);
+        } else {
+          _writeBytesNoTag(Uint8List.fromList(value));
+        }
         break;
       case PbFieldType._STRING_BIT:
-        _writeBytesNoTag(_utf8.encoder.convert(value));
+        final String string = value;
+        if (string.isEmpty) {
+          writeInt32NoTag(0);
+        } else {
+          _writeBytesNoTag(_utf8.encoder.convert(string));
+        }
         break;
       case PbFieldType._DOUBLE_BIT:
         _writeDouble(value);
