@@ -141,22 +141,32 @@ class CodedBufferWriter {
           }
           buffer[outPos++] = v;
         } else {
-          // action is an amount of bytes to copy from _outputChunks into the
-          // buffer.
+          // `action` is an amount of bytes to copy from `_outputChunks` into
+          // the buffer.
           var bytesToCopy = action;
           while (bytesToCopy > 0) {
             final Uint8List chunk = _outputChunks[chunkIndex];
             final int bytesInChunk = _outputChunks[chunkIndex + 1];
 
-            // Copy at most bytesToCopy bytes from the current chunk.
+            // Copy at most `bytesToCopy` bytes from the current chunk.
             final leftInChunk = bytesInChunk - chunkPos;
             final bytesToCopyFromChunk =
                 leftInChunk > bytesToCopy ? bytesToCopy : leftInChunk;
             final endPos = chunkPos + bytesToCopyFromChunk;
-            while (chunkPos < endPos) {
-              buffer[outPos++] = chunk[chunkPos++];
+
+            if (bytesToCopyFromChunk <= 20) {
+              while (chunkPos < endPos) {
+                buffer[outPos++] = chunk[chunkPos++];
+              }
+              bytesToCopy -= bytesToCopyFromChunk;
+            } else {
+              final chunkSlice = Uint8List.sublistView(chunk, chunkPos, endPos);
+              buffer.setRange(
+                  outPos, outPos + bytesToCopyFromChunk, chunkSlice);
+              chunkPos += bytesToCopyFromChunk;
+              outPos += bytesToCopyFromChunk;
+              bytesToCopy -= bytesToCopyFromChunk;
             }
-            bytesToCopy -= bytesToCopyFromChunk;
 
             // Move to the next chunk if the current one is exhausted.
             if (chunkPos == bytesInChunk) {
