@@ -152,21 +152,11 @@ class CodedBufferWriter {
             final leftInChunk = bytesInChunk - chunkPos;
             final bytesToCopyFromChunk =
                 leftInChunk > bytesToCopy ? bytesToCopy : leftInChunk;
-            final endPos = chunkPos + bytesToCopyFromChunk;
-
-            if (bytesToCopyFromChunk <= 20) {
-              while (chunkPos < endPos) {
-                buffer[outPos++] = chunk[chunkPos++];
-              }
-              bytesToCopy -= bytesToCopyFromChunk;
-            } else {
-              final chunkSlice = Uint8List.sublistView(chunk, chunkPos, endPos);
-              buffer.setRange(
-                  outPos, outPos + bytesToCopyFromChunk, chunkSlice);
-              chunkPos += bytesToCopyFromChunk;
-              outPos += bytesToCopyFromChunk;
-              bytesToCopy -= bytesToCopyFromChunk;
-            }
+            buffer.setRange(
+                outPos, outPos + bytesToCopyFromChunk, chunk, chunkPos);
+            chunkPos += bytesToCopyFromChunk;
+            outPos += bytesToCopyFromChunk;
+            bytesToCopy -= bytesToCopyFromChunk;
 
             // Move to the next chunk if the current one is exhausted.
             if (chunkPos == bytesInChunk) {
