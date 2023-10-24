@@ -223,9 +223,11 @@ class CodedBufferWriter {
   /// Add TypedData splice - these bytes would be directly copied into the
   /// output buffer by [writeTo].
   void writeRawBytes(TypedData value) {
+    final length = value.lengthInBytes;
+    if (length == 0) return;
     _commitSplice();
     _splices.add(value);
-    _bytesTotal += value.lengthInBytes;
+    _bytesTotal += length;
   }
 
   /// Start writing a length-delimited data.
