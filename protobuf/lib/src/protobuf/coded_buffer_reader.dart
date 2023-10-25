@@ -13,6 +13,11 @@ class CodedBufferReader {
   static const int DEFAULT_SIZE_LIMIT = 64 << 20;
 
   final Uint8List _buffer;
+
+  /// [ByteData] of [_buffer], created once to be able to decode fixed-size
+  /// integers and floats without having to allocate a [ByteData] every time.
+  final ByteData _byteData;
+
   int _bufferPos = 0;
   int _currentLimit = -1;
   int _lastTag = 0;
@@ -20,10 +25,18 @@ class CodedBufferReader {
   final int _recursionLimit;
   final int _sizeLimit;
 
-  CodedBufferReader(List<int> buffer,
-      {int recursionLimit = DEFAULT_RECURSION_LIMIT,
-      int sizeLimit = DEFAULT_SIZE_LIMIT})
-      : _buffer = buffer is Uint8List ? buffer : Uint8List.fromList(buffer),
+  factory CodedBufferReader(List<int> buffer,
+          {int recursionLimit = DEFAULT_RECURSION_LIMIT,
+          int sizeLimit = DEFAULT_SIZE_LIMIT}) =>
+      CodedBufferReader._(
+        buffer is Uint8List ? buffer : Uint8List.fromList(buffer),
+        recursionLimit,
+        sizeLimit,
+      );
+
+  CodedBufferReader._(Uint8List buffer, int recursionLimit, int sizeLimit)
+      : _buffer = buffer,
+        _byteData = ByteData.sublistView(buffer),
         _recursionLimit = recursionLimit,
         _sizeLimit = math.min(sizeLimit, buffer.length) {
     _currentLimit = _sizeLimit;
@@ -123,9 +136,20 @@ class CodedBufferReader {
   Int64 readUint64() => _readRawVarint64();
   int readSint32() => _decodeZigZag32(readUint32());
   Int64 readSint64() => _decodeZigZag64(readUint64());
-  int readFixed32() => _readByteData(4).getUint32(0, Endian.little);
+
+  int readFixed32() {
+    final pos = _bufferPos;
+    _checkLimit(4);
+    return _byteData.getUint32(pos, Endian.little);
+  }
+
   Int64 readFixed64() => readSfixed64();
-  int readSfixed32() => _readByteData(4).getInt32(0, Endian.little);
+
+  int readSfixed32() {
+    final pos = _bufferPos;
+    _checkLimit(4);
+    return _byteData.getInt32(pos, Endian.little);
+  }
 
   Int64 readSfixed64() {
     final pos = _bufferPos;
@@ -158,8 +182,17 @@ class CodedBufferReader {
         .convert(_buffer, stringPos, stringPos + length);
   }
 
-  double readFloat() => _readByteData(4).getFloat32(0, Endian.little);
-  double readDouble() => _readByteData(8).getFloat64(0, Endian.little);
+  double readFloat() {
+    final pos = _bufferPos;
+    _checkLimit(4);
+    return _byteData.getFloat32(pos, Endian.little);
+  }
+
+  double readDouble() {
+    final pos = _bufferPos;
+    _checkLimit(8);
+    return _byteData.getFloat64(pos, Endian.little);
+  }
 
   int readTag() {
     if (isAtEnd()) {
@@ -269,11 +302,5 @@ class CodedBufferReader {
       if ((byte & 0x80) == 0) return Int64.fromInts(hi, lo);
     }
     throw InvalidProtocolBufferException.malformedVarint();
-  }
-
-  ByteData _readByteData(int sizeInBytes) {
-    _checkLimit(sizeInBytes);
-    return ByteData.view(_buffer.buffer,
-        _buffer.offsetInBytes + _bufferPos - sizeInBytes, sizeInBytes);
   }
 }
