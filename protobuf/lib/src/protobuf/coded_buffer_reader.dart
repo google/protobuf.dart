@@ -152,7 +152,7 @@ class CodedBufferReader {
     final length = readInt32();
     final stringPos = _bufferPos;
     _checkLimit(length);
-    return Utf8Decoder(allowMalformed: true)
+    return const Utf8Decoder(allowMalformed: true)
         .convert(_buffer, stringPos, stringPos + length);
   }
 
