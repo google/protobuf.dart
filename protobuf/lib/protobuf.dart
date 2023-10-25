@@ -9,7 +9,13 @@ library;
 
 import 'dart:collection' show ListBase, MapBase;
 import 'dart:convert'
-    show Utf8Codec, base64Decode, base64Encode, jsonDecode, jsonEncode;
+    show
+        Utf8Decoder,
+        Utf8Encoder,
+        base64Decode,
+        base64Encode,
+        jsonDecode,
+        jsonEncode;
 import 'dart:math' as math;
 import 'dart:typed_data' show ByteData, Endian, TypedData, Uint8List;
 
@@ -58,5 +64,3 @@ Int64 parseLongInt(String text) {
   if (text.startsWith('-0x')) return -Int64.parseHex(text.substring(3));
   return Int64.parseInt(text);
 }
-
-const _utf8 = Utf8Codec(allowMalformed: true);
