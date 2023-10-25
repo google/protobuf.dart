@@ -126,9 +126,11 @@ class CodedBufferReader {
   int readFixed32() => _readByteData(4).getUint32(0, Endian.little);
   Int64 readFixed64() => readSfixed64();
   int readSfixed32() => _readByteData(4).getInt32(0, Endian.little);
+
   Int64 readSfixed64() {
-    final data = _readByteData(8);
-    final view = Uint8List.view(data.buffer, data.offsetInBytes, 8);
+    final pos = _bufferPos;
+    _checkLimit(8);
+    final view = Uint8List.sublistView(_buffer, pos, pos + 8);
     return Int64.fromBytes(view);
   }
 
