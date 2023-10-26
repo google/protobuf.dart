@@ -16,7 +16,7 @@ class CodedBufferReader {
 
   /// [ByteData] of [_buffer], created once to be able to decode fixed-size
   /// integers and floats without having to allocate a [ByteData] every time.
-  final ByteData _byteData;
+  late final ByteData _byteData = ByteData.sublistView(_buffer);
 
   int _bufferPos = 0;
   int _currentLimit = -1;
@@ -25,18 +25,10 @@ class CodedBufferReader {
   final int _recursionLimit;
   final int _sizeLimit;
 
-  factory CodedBufferReader(List<int> buffer,
-          {int recursionLimit = DEFAULT_RECURSION_LIMIT,
-          int sizeLimit = DEFAULT_SIZE_LIMIT}) =>
-      CodedBufferReader._(
-        buffer is Uint8List ? buffer : Uint8List.fromList(buffer),
-        recursionLimit,
-        sizeLimit,
-      );
-
-  CodedBufferReader._(Uint8List buffer, int recursionLimit, int sizeLimit)
-      : _buffer = buffer,
-        _byteData = ByteData.sublistView(buffer),
+  CodedBufferReader(List<int> buffer,
+      {int recursionLimit = DEFAULT_RECURSION_LIMIT,
+      int sizeLimit = DEFAULT_SIZE_LIMIT})
+      : _buffer = buffer is Uint8List ? buffer : Uint8List.fromList(buffer),
         _recursionLimit = recursionLimit,
         _sizeLimit = math.min(sizeLimit, buffer.length) {
     _currentLimit = _sizeLimit;
