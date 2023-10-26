@@ -17,7 +17,7 @@ import 'dart:convert'
         jsonDecode,
         jsonEncode;
 import 'dart:math' as math;
-import 'dart:typed_data' show ByteData, Endian, TypedData, Uint8List;
+import 'dart:typed_data' show ByteData, Endian, Uint8List;
 
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:meta/meta.dart' show UseResult;
