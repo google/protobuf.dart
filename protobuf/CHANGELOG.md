@@ -1,6 +1,6 @@
 ## 4.0.0-dev
 
-* The following types and members are now removed:
+* **Breaking:** The following types and members are now removed:
 
   - `PbEventMixin`
   - `PbFieldChange`
@@ -11,6 +11,9 @@
   These were used to implement events, which are unused internally. To keep API
   surface small (to make it easier to change the library or migrate to another
   library) these types and members are removed. ([#738])
+
+* **Breaking:** `CodedBufferWriter.writeRawBytes` now takes a `Uint8List`
+  argument (instead of `TypedData`).
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
 
