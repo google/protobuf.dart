@@ -346,15 +346,15 @@ class CodedBufferWriter {
         if (bytes is Uint8List) {
           _writeBytesNoTag(bytes);
         } else if (bytes.isEmpty) {
-          writeInt32NoTag(0);
+          _writeEmptyBytes();
         } else {
-          _writeBytesNoTag(Uint8List.fromList(value));
+          _writeBytesNoTag(Uint8List.fromList(bytes));
         }
         break;
       case PbFieldType._STRING_BIT:
         final String string = value;
         if (string.isEmpty) {
-          writeInt32NoTag(0);
+          _writeEmptyBytes();
         } else {
           _writeBytesNoTag(const Utf8Encoder().convert(string));
         }
@@ -416,6 +416,10 @@ class CodedBufferWriter {
   void _writeBytesNoTag(Uint8List value) {
     writeInt32NoTag(value.length);
     writeRawBytes(value);
+  }
+
+  void _writeEmptyBytes() {
+    writeInt32NoTag(0);
   }
 
   void _writeTag(int fieldNumber, int wireFormat) {
