@@ -126,9 +126,11 @@ class CodedBufferReader {
   int readFixed32() => _readByteData(4).getUint32(0, Endian.little);
   Int64 readFixed64() => readSfixed64();
   int readSfixed32() => _readByteData(4).getInt32(0, Endian.little);
+
   Int64 readSfixed64() {
-    final data = _readByteData(8);
-    final view = Uint8List.view(data.buffer, data.offsetInBytes, 8);
+    final pos = _bufferPos;
+    _checkLimit(8);
+    final view = Uint8List.sublistView(_buffer, pos, pos + 8);
     return Int64.fromBytes(view);
   }
 
@@ -148,7 +150,14 @@ class CodedBufferReader {
         _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
   }
 
-  String readString() => _utf8.decode(readBytesAsView());
+  String readString() {
+    final length = readInt32();
+    final stringPos = _bufferPos;
+    _checkLimit(length);
+    return const Utf8Decoder(allowMalformed: true)
+        .convert(_buffer, stringPos, stringPos + length);
+  }
+
   double readFloat() => _readByteData(4).getFloat32(0, Endian.little);
   double readDouble() => _readByteData(8).getFloat64(0, Endian.little);
 
@@ -180,7 +189,8 @@ class CodedBufferReader {
         readFixed64();
         return true;
       case WIRETYPE_LENGTH_DELIMITED:
-        readBytesAsView();
+        final length = readInt32();
+        _checkLimit(length);
         return true;
       case WIRETYPE_FIXED32:
         readFixed32();

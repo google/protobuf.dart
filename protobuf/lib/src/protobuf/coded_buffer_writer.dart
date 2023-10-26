@@ -22,8 +22,8 @@ part of '../../protobuf.dart';
 class CodedBufferWriter {
   /// Array of splices representing the data written into the writer.
   /// Each element might be one of:
-  ///   * a TypedData object - represents a sequence of bytes that need to be
-  ///                          emitted into the result as-is;
+  ///   * a [Uint8List] object - represents a sequence of bytes that need to be
+  ///                            emitted into the result as-is;
   ///   * a positive integer - a number of bytes to copy from [_outputChunks]
   ///                          into resulting buffer;
   ///   * a non-positive integer - a positive number that needs to be emitted
@@ -166,9 +166,12 @@ class CodedBufferWriter {
           }
         }
       } else {
-        // action is a TypedData containing bytes to emit into the output
+        // action is a `Uint8List` containing bytes to emit into the output
         // buffer.
-        outPos = _copyInto(buffer, outPos, action);
+        final Uint8List value = action;
+        final end = outPos + value.length;
+        buffer.setRange(outPos, end, value);
+        outPos = end;
       }
     }
 
@@ -210,7 +213,7 @@ class CodedBufferWriter {
   /// Record number of bytes written into output chunks since last splice.
   ///
   /// This is used before reserving space for an unknown varint splice or
-  /// adding a TypedData array splice.
+  /// adding a [Uint8List] array splice.
   void _commitSplice() {
     final pos = _bytesInChunk + _outputChunksBytes;
     final bytes = pos - _lastSplicePos;
@@ -220,9 +223,9 @@ class CodedBufferWriter {
     _lastSplicePos = pos;
   }
 
-  /// Add TypedData splice - these bytes would be directly copied into the
-  /// output buffer by [writeTo].
-  void writeRawBytes(TypedData value) {
+  /// Add a [Uint8List] splice, without copying. These bytes will be directly
+  /// copied into the output buffer by [writeTo].
+  void writeRawBytes(Uint8List value) {
     final length = value.lengthInBytes;
     if (length == 0) return;
     _commitSplice();
@@ -353,7 +356,7 @@ class CodedBufferWriter {
         if (string.isEmpty) {
           writeInt32NoTag(0);
         } else {
-          _writeBytesNoTag(_utf8.encoder.convert(string));
+          _writeBytesNoTag(const Utf8Encoder().convert(string));
         }
         break;
       case PbFieldType._DOUBLE_BIT:
@@ -430,24 +433,6 @@ class CodedBufferWriter {
 
   void writeInt32NoTag(int value) {
     _writeVarint32(value & 0xFFFFFFFF);
-  }
-
-  /// Copy bytes from the given typed data array into the output buffer.
-  ///
-  /// Has a specialization for [Uint8List] for performance.
-  int _copyInto(Uint8List buffer, int pos, TypedData value) {
-    if (value is Uint8List) {
-      final len = value.length;
-      final end = pos + len;
-      buffer.setRange(pos, end, value);
-      return end;
-    } else {
-      final len = value.lengthInBytes;
-      final end = pos + len;
-      final u8 = Uint8List.view(value.buffer, value.offsetInBytes, len);
-      buffer.setRange(pos, end, u8);
-      return end;
-    }
   }
 
   /// This function maps a power-of-2 value (2^0 .. 2^31) to a unique value
