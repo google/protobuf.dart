@@ -56,7 +56,8 @@ part 'src/protobuf/unpack.dart';
 part 'src/protobuf/utils.dart';
 part 'src/protobuf/wire_format.dart';
 
-// TODO(sra): Use Int64.parse() when available - see http://dartbug.com/21915.
+// TODO(sra): Use `Int64.parse()` when available:
+// https://github.com/dart-lang/fixnum/issues/18.
 /// @nodoc
 Int64 parseLongInt(String text) {
   if (text.startsWith('0x')) return Int64.parseHex(text.substring(2));
