@@ -17,7 +17,7 @@ import 'dart:convert'
         jsonDecode,
         jsonEncode;
 import 'dart:math' as math;
-import 'dart:typed_data' show ByteData, Endian, TypedData, Uint8List;
+import 'dart:typed_data' show ByteData, Endian, Uint8List;
 
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:meta/meta.dart' show UseResult;
@@ -56,7 +56,8 @@ part 'src/protobuf/unpack.dart';
 part 'src/protobuf/utils.dart';
 part 'src/protobuf/wire_format.dart';
 
-// TODO(sra): Use Int64.parse() when available - see http://dartbug.com/21915.
+// TODO(sra): Use `Int64.parse()` when available:
+// https://github.com/dart-lang/fixnum/issues/18.
 /// @nodoc
 Int64 parseLongInt(String text) {
   if (text.startsWith('0x')) return Int64.parseHex(text.substring(2));
