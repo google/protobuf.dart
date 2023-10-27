@@ -370,9 +370,19 @@ class CodedBufferWriter {
         _writeVarint32(enum_.value & 0xffffffff);
         break;
       case PbFieldType._GROUP_BIT:
-        // value is UnknownFieldSet or GeneratedMessage
-        // ignore: avoid_dynamic_calls
-        value.writeToCodedBufferWriter(this);
+        // `value` is `UnknownFieldSet` or `GeneratedMessage`. Test for
+        // `UnknownFieldSet` as it doesn't have subtypes, so the type test will
+        // be fast.
+        if (value is UnknownFieldSet) {
+          // Give the variable a type to not rely on type promotion to
+          // eliminate the dynamic call below.
+          // ignore: omit_local_variable_types
+          final UnknownFieldSet unknownFieldSet = value;
+          unknownFieldSet.writeToCodedBufferWriter(this);
+        } else {
+          final GeneratedMessage message = value;
+          message.writeToCodedBufferWriter(this);
+        }
         break;
       case PbFieldType._INT32_BIT:
         _writeVarint64(Int64(value));
