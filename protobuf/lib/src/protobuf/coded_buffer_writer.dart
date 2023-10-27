@@ -226,9 +226,11 @@ class CodedBufferWriter {
   /// Add a [Uint8List] splice, without copying. These bytes will be directly
   /// copied into the output buffer by [writeTo].
   void writeRawBytes(Uint8List value) {
+    final length = value.lengthInBytes;
+    if (length == 0) return;
     _commitSplice();
     _splices.add(value);
-    _bytesTotal += value.lengthInBytes;
+    _bytesTotal += length;
   }
 
   /// Start writing a length-delimited data.
@@ -340,11 +342,22 @@ class CodedBufferWriter {
         _writeVarint32(value ? 1 : 0);
         break;
       case PbFieldType._BYTES_BIT:
-        _writeBytesNoTag(
-            value is Uint8List ? value : Uint8List.fromList(value));
+        final List<int> bytes = value;
+        if (bytes is Uint8List) {
+          _writeBytesNoTag(bytes);
+        } else if (bytes.isEmpty) {
+          _writeEmptyBytes();
+        } else {
+          _writeBytesNoTag(Uint8List.fromList(bytes));
+        }
         break;
       case PbFieldType._STRING_BIT:
-        _writeBytesNoTag(const Utf8Encoder().convert(value));
+        final String string = value;
+        if (string.isEmpty) {
+          _writeEmptyBytes();
+        } else {
+          _writeBytesNoTag(const Utf8Encoder().convert(string));
+        }
         break;
       case PbFieldType._DOUBLE_BIT:
         _writeDouble(value);
@@ -403,6 +416,10 @@ class CodedBufferWriter {
   void _writeBytesNoTag(Uint8List value) {
     writeInt32NoTag(value.length);
     writeRawBytes(value);
+  }
+
+  void _writeEmptyBytes() {
+    writeInt32NoTag(0);
   }
 
   void _writeTag(int fieldNumber, int wireFormat) {
