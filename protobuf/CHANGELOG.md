@@ -15,7 +15,12 @@
 * **Breaking:** `CodedBufferWriter.writeRawBytes` now takes a `Uint8List`
   argument (instead of `TypedData`).
 
+* `GeneratedMessageGenericExtensions.deepCopy` is now annotated with
+  `@useResult` and will generate a warning when its result is not used.
+  ([#896])
+
 [#738]: https://github.com/google/protobuf.dart/issues/738
+[#896]: https://github.com/google/protobuf.dart/issues/896
 
 ## 3.1.0
 
