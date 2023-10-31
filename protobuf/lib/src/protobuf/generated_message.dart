@@ -576,5 +576,7 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
   }
 
   /// Returns a writable deep copy of this message.
+  @UseResult('[GeneratedMessageGenericExtensions.deepCopy] '
+      'does not update the message, returns a new message')
   T deepCopy() => info_.createEmptyInstance!() as T..mergeFromMessage(this);
 }
