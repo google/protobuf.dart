@@ -24,8 +24,11 @@ class Benchmark extends BenchmarkBase {
 
   @override
   void run() {
+    // ignore: unused_result
     _message1Proto2.deepCopy();
+    // ignore: unused_result
     _message1Proto3.deepCopy();
+    // ignore: unused_result
     _message2.deepCopy();
   }
 }
