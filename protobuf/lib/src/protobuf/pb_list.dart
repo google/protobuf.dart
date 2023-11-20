@@ -11,7 +11,14 @@ typedef CheckFunc<E> = void Function(E? x);
 
 /// A [ListBase] implementation used for protobuf `repeated` fields.
 class PbList<E> extends ListBase<E> {
+  /// The actual list storing the elements.
+  ///
+  /// We want only one [List] implementation class to be stored here to make
+  /// sure the list operations are monomorphic and can be inlined. To make this
+  /// explicit we use the `<E>[]` syntax when initializing this field (instead
+  /// of factory methods like `List.from`).
   final List<E> _wrappedList;
+
   final CheckFunc<E> _check;
 
   bool _isReadOnly = false;
@@ -23,12 +30,14 @@ class PbList<E> extends ListBase<E> {
         _check = check;
 
   PbList.unmodifiable()
-      : _wrappedList = const [],
+      : _wrappedList = <E>[],
         _check = _checkNotNull,
         _isReadOnly = true;
 
-  PbList.from(List from)
-      : _wrappedList = List<E>.from(from),
+  PbList.from(List<E> from)
+      // Use `<E>[]` to allocate the list, see [_wrappedList] documentation.
+      // ignore: prefer_spread_collections
+      : _wrappedList = <E>[]..addAll(from),
         _check = _checkNotNull;
 
   @override
