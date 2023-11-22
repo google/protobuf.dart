@@ -13,11 +13,18 @@ typedef CheckFunc<E> = void Function(E? x);
 class PbList<E> extends ListBase<E> {
   /// The actual list storing the elements.
   ///
-  /// We want only one [List] implementation class to be stored here to make
-  /// sure the list operations are monomorphic and can be inlined. To make this
-  /// explicit we use the `<E>[]` syntax when initializing this field (instead
-  /// of factory methods like `List.from`).
+  /// Note: We want only one [List] implementation class to be stored here to
+  /// make sure the list operations are monomorphic and can be inlined. In
+  /// constructors make sure initializers for this field all return the same
+  /// implementation class. (e.g. `_GrowableList` on the VM)
   final List<E> _wrappedList;
+
+  /// A growable list, to be used in `unmodifiable` constructor to avoid
+  /// allocating a list every time.
+  ///
+  /// We can't use `const <E>[]` as it makes the `_wrappedList` field
+  /// polymorphic.
+  static final _emptyList = <Never>[];
 
   final CheckFunc<E> _check;
 
@@ -30,14 +37,12 @@ class PbList<E> extends ListBase<E> {
         _check = check;
 
   PbList.unmodifiable()
-      : _wrappedList = <E>[],
+      : _wrappedList = _emptyList,
         _check = _checkNotNull,
         _isReadOnly = true;
 
   PbList.from(List<E> from)
-      // Use `<E>[]` to allocate the list, see [_wrappedList] documentation.
-      // ignore: prefer_spread_collections
-      : _wrappedList = <E>[]..addAll(from),
+      : _wrappedList = List<E>.from(from),
         _check = _checkNotNull;
 
   @override

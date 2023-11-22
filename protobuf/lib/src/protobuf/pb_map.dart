@@ -21,23 +21,14 @@ class PbMap<K, V> extends MapBase<K, V> {
   static const int _keyFieldNumber = 1;
   static const int _valueFieldNumber = 2;
 
-  /// The actual map storing the elements.
-  ///
-  /// We want only one [Map] implementation class to be stored here to make
-  /// sure the map operations are monomorphic and can be inlined. To make this
-  /// explicit we use the `<K, V>{}` syntax when initializing this field
-  /// (instead of factory methods like `Map.unmodifiable`).
-  final Map<K, V> _wrappedMap;
+  final Map<K, V> _wrappedMap = <K, V>{};
 
   bool _isReadonly = false;
 
-  PbMap(this.keyFieldType, this.valueFieldType) : _wrappedMap = <K, V>{};
+  PbMap(this.keyFieldType, this.valueFieldType);
 
-  PbMap.unmodifiable(PbMap<K, V> other)
-      : keyFieldType = other.keyFieldType,
-        valueFieldType = other.valueFieldType,
-        _wrappedMap = <K, V>{}..addAll(other._wrappedMap),
-        _isReadonly = true;
+  PbMap.unmodifiable(this.keyFieldType, this.valueFieldType)
+      : _isReadonly = true;
 
   @override
   V? operator [](Object? key) => _wrappedMap[key];
