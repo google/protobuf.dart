@@ -19,8 +19,8 @@
   `@useResult` and will generate a warning when its result is not used.
   ([#896])
 
-* **Breaking:** `PbMap.unmodifiable` now takes a key and value field types as
-  argument, instead of another `PbMap`.
+* **Breaking:** `PbMap.unmodifiable` now takes key and value field types as
+  arguments, instead of another `PbMap`.
 
   To migrate, use `PbMap.unmodifiable(map.keyFieldType, map.valueFieldType)`
   instead of `PbMap.unmodifiable(map)`. ([#902])
