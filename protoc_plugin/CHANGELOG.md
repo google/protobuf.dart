@@ -1,8 +1,13 @@
 ## 22.0.0-dev
 
 * Remove `PbEventMixin` mixin. ([#738])
+* Repeated fields now have `PbList` return type (instead of `List`), map fields
+  now have `PbMap` return type (instead of `Map`). ([#903])
+
+  This change requires protobuf-4.0.0.
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
+[#903]: https://github.com/google/protobuf.dart/pull/903
 
 ## 21.1.2
 
