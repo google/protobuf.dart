@@ -21,21 +21,34 @@ class PbMap<K, V> extends MapBase<K, V> {
   static const int _keyFieldNumber = 1;
   static const int _valueFieldNumber = 2;
 
-  final Map<K, V> _wrappedMap = <K, V>{};
+  /// The actual list storing the elements.
+  ///
+  /// Note: We want only one [Map] implementation class to be stored here to
+  /// make sure the map operations are monomorphic and can be inlined. In
+  /// constructors make sure initializers for this field all return the same
+  /// implementation class.
+  final Map<K, V> _wrappedMap;
 
-  bool _isReadonly = false;
+  /// The map instance to be used in `PbMap.unmodifiable`.
+  ///
+  /// We can't use `const <K, V>{}` as it makes the `_wrappedMap` field
+  /// polymorphic.
+  static final _emptyMap = <Never, Never>{};
 
-  PbMap(this.keyFieldType, this.valueFieldType);
+  bool _isReadOnly = false;
+
+  PbMap(this.keyFieldType, this.valueFieldType) : _wrappedMap = <K, V>{};
 
   PbMap.unmodifiable(this.keyFieldType, this.valueFieldType)
-      : _isReadonly = true;
+      : _wrappedMap = _emptyMap,
+        _isReadOnly = true;
 
   @override
   V? operator [](Object? key) => _wrappedMap[key];
 
   @override
   void operator []=(K key, V value) {
-    if (_isReadonly) {
+    if (_isReadOnly) {
       throw UnsupportedError('Attempted to change a read-only map field');
     }
     ArgumentError.checkNotNull(key, 'key');
@@ -74,7 +87,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   @override
   void clear() {
-    if (_isReadonly) {
+    if (_isReadOnly) {
       throw UnsupportedError('Attempted to change a read-only map field');
     }
     _wrappedMap.clear();
@@ -85,7 +98,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   @override
   V? remove(Object? key) {
-    if (_isReadonly) {
+    if (_isReadOnly) {
       throw UnsupportedError('Attempted to change a read-only map field');
     }
     return _wrappedMap.remove(key);
@@ -108,7 +121,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   }
 
   PbMap freeze() {
-    _isReadonly = true;
+    _isReadOnly = true;
     if (_isGroupOrMessage(valueFieldType)) {
       for (final subMessage in values as Iterable<GeneratedMessage>) {
         subMessage.freeze();
