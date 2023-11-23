@@ -417,11 +417,12 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
-  List<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
+  PbList<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
 
   /// For generated code only.
   /// @nodoc
-  Map<K, V> $_getMap<K, V>(int index) => _fieldSet._$getMap<K, V>(this, index);
+  PbMap<K, V> $_getMap<K, V>(int index) =>
+      _fieldSet._$getMap<K, V>(this, index);
 
   /// For generated code only.
   /// @nodoc
