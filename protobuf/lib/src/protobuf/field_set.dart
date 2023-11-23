@@ -395,8 +395,7 @@ class _FieldSet {
     assert(fi.isMapField);
 
     if (_isReadOnly) {
-      return PbMap<K, V>.unmodifiable(
-          PbMap<K, V>(fi.keyFieldType, fi.valueFieldType));
+      return PbMap<K, V>.unmodifiable(fi.keyFieldType, fi.valueFieldType);
     }
 
     final map = fi._createMapField();
