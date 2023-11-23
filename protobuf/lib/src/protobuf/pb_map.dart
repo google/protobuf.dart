@@ -31,8 +31,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   /// The map instance to be used in `PbMap.unmodifiable`.
   ///
-  /// We can't use `const <K, V>{}` as it makes the `_wrappedMap` field
-  /// polymorphic.
+  /// We can't use `const {}` as it makes the `_wrappedMap` field polymorphic.
   static final _emptyMap = <Never, Never>{};
 
   bool _isReadOnly = false;

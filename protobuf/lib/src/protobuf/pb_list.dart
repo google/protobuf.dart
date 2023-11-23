@@ -22,8 +22,7 @@ class PbList<E> extends ListBase<E> {
   /// A growable list, to be used in `unmodifiable` constructor to avoid
   /// allocating a list every time.
   ///
-  /// We can't use `const <E>[]` as it makes the `_wrappedList` field
-  /// polymorphic.
+  /// We can't use `const []` as it makes the `_wrappedList` field polymorphic.
   static final _emptyList = <Never>[];
 
   final CheckFunc<E> _check;
