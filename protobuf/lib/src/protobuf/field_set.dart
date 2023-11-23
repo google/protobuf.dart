@@ -389,7 +389,7 @@ class _FieldSet {
   /// The implementation of a generated getter for map fields.
   PbMap<K, V> _$getMap<K, V>(GeneratedMessage parentMessage, int index) {
     final value = _values[index];
-    if (value != null) return value as PbMap<K, V>;
+    if (value != null) return value;
 
     final fi = _nonExtensionInfoByIndex(index) as MapFieldInfo<K, V>;
     assert(fi.isMapField);
