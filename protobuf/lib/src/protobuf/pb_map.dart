@@ -29,17 +29,12 @@ class PbMap<K, V> extends MapBase<K, V> {
   /// implementation class.
   final Map<K, V> _wrappedMap;
 
-  /// The map instance to be used in `PbMap.unmodifiable`.
-  ///
-  /// We can't use `const {}` as it makes the `_wrappedMap` field polymorphic.
-  static final _emptyMap = <Never, Never>{};
-
   bool _isReadOnly = false;
 
   PbMap(this.keyFieldType, this.valueFieldType) : _wrappedMap = <K, V>{};
 
   PbMap.unmodifiable(this.keyFieldType, this.valueFieldType)
-      : _wrappedMap = _emptyMap,
+      : _wrappedMap = <K, V>{},
         _isReadOnly = true;
 
   @override
