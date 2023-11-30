@@ -171,7 +171,7 @@ class Imports extends $pb.GeneratedMessage {
   ///  so the generated code may contain errors. Therefore, running dartanalyzer
   ///  on the generated file is a good idea.
   @$pb.TagNumber(1)
-  $core.List<DartMixin> get mixins => $_getList(0);
+  $pb.PbList<DartMixin> get mixins => $_getList(0);
 }
 
 class Dart_options {

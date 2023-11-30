@@ -204,7 +204,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   /// code generator should generate code only for these files.  Each file's
   /// descriptor will be included in proto_file, below.
   @$pb.TagNumber(1)
-  $core.List<$core.String> get fileToGenerate => $_getList(0);
+  $pb.PbList<$core.String> get fileToGenerate => $_getList(0);
 
   /// The generator parameter passed on the command-line.
   @$pb.TagNumber(2)
@@ -249,7 +249,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   ///  Type names of fields and extensions in the FileDescriptorProto are always
   ///  fully qualified.
   @$pb.TagNumber(15)
-  $core.List<$0.FileDescriptorProto> get protoFile => $_getList(3);
+  $pb.PbList<$0.FileDescriptorProto> get protoFile => $_getList(3);
 }
 
 /// Represents a single generated file.
@@ -525,7 +525,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   void clearSupportedFeatures() => clearField(2);
 
   @$pb.TagNumber(15)
-  $core.List<CodeGeneratorResponse_File> get file => $_getList(2);
+  $pb.PbList<CodeGeneratorResponse_File> get file => $_getList(2);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
