@@ -5,12 +5,12 @@
 part of '../../protobuf.dart';
 
 Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
-  dynamic convertToMap(dynamic fieldValue, int fieldType) {
+  dynamic convertToMap(Object? fieldValue, int fieldType) {
     final baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
-      final PbList list = fieldValue;
-      return List.from(list.map((e) => convertToMap(e, baseType)));
+      final list = fieldValue as PbList;
+      return list.map((e) => convertToMap(e, baseType)).toList();
     }
 
     switch (baseType) {
@@ -39,7 +39,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         // Encode 'bytes' as a base64-encoded string.
         return base64Encode(fieldValue as List<int>);
       case PbFieldType._ENUM_BIT:
-        final ProtobufEnum enum_ = fieldValue;
+        final enum_ = fieldValue as ProtobufEnum;
         return enum_.value; // assume |value| < 2^52
       case PbFieldType._INT64_BIT:
       case PbFieldType._SINT64_BIT:
@@ -47,11 +47,11 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         return fieldValue.toString();
       case PbFieldType._UINT64_BIT:
       case PbFieldType._FIXED64_BIT:
-        final Int64 int_ = fieldValue;
+        final int_ = fieldValue as Int64;
         return int_.toStringUnsigned();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        final GeneratedMessage msg = fieldValue;
+        final msg = fieldValue as GeneratedMessage;
         return msg.writeToJsonMap();
       default:
         throw UnsupportedError('Unknown type $fieldType');
@@ -165,7 +165,7 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
   }
 }
 
-void _setJsonField(BuilderInfo meta, _FieldSet fs, json, FieldInfo fi,
+void _setJsonField(BuilderInfo meta, _FieldSet fs, Object? json, FieldInfo fi,
     ExtensionRegistry? registry) {
   final value =
       _convertJsonValue(meta, fs, json, fi.tagNumber, fi.type, registry);
@@ -188,8 +188,8 @@ void _setJsonField(BuilderInfo meta, _FieldSet fs, json, FieldInfo fi,
 /// instead.
 ///
 /// Throws [ArgumentError] if it cannot convert the value.
-dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
-    int fieldType, ExtensionRegistry? registry) {
+dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, Object? value,
+    int tagNumber, int fieldType, ExtensionRegistry? registry) {
   String expectedType; // for exception message
   switch (PbFieldType._baseType(fieldType)) {
     case PbFieldType._BOOL_BIT:

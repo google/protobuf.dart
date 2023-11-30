@@ -13,7 +13,7 @@ void main() {
       if (parameter != null) request.parameter = parameter;
       final response = CodeGeneratorResponse();
       final options = parseGenerationOptions(request, response);
-      expect(options, TypeMatcher<GenerationOptions>());
+      expect(options, isA<GenerationOptions>());
       expect(response.error, '');
     }
 

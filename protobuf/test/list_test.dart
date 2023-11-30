@@ -93,7 +93,7 @@ void main() {
     expect(() {
       // ignore: unnecessary_cast
       (PbList<int>() as List).add('hello');
-    }, throwsA(TypeMatcher<TypeError>()));
+    }, throwsA(isA<TypeError>()));
   });
 
   test('PbList for signed int32 validates items', () {

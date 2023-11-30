@@ -44,7 +44,7 @@ class BuilderInfo {
   // For well-known types.
   final Object? Function(GeneratedMessage message, TypeRegistry typeRegistry)?
       toProto3Json;
-  final Function(GeneratedMessage targetMessage, Object json,
+  final void Function(GeneratedMessage targetMessage, Object json,
       TypeRegistry typeRegistry, JsonParsingContext context)? fromProto3Json;
   final CreateBuilderFunc? createEmptyInstance;
 
@@ -66,7 +66,7 @@ class BuilderInfo {
       {String? protoName}) {
     final index = byIndex.length;
     final fieldInfo = (tagNumber == 0)
-        ? FieldInfo.dummy(index)
+        ? FieldInfo<Never>.dummy(index)
         : FieldInfo<T>(name, tagNumber, index, fieldType!,
             defaultOrMaker: defaultOrMaker,
             subBuilder: subBuilder,

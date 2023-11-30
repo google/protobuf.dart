@@ -279,7 +279,7 @@ class UnknownFieldSetField {
       ];
 
   void writeTo(int fieldNumber, CodedBufferWriter output) {
-    void write(int type, value) {
+    void write(int type, List value) {
       output.writeField(fieldNumber, type, value);
     }
 

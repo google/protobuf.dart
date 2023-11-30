@@ -200,7 +200,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
 }
 
 void _readPackable(BuilderInfo meta, _FieldSet fs, CodedBufferReader input,
-    int wireType, FieldInfo fi, Function() readFunc) {
+    int wireType, FieldInfo fi, Object? Function() readFunc) {
   void readToList(List list) => list.add(readFunc());
   _readPackableToList(meta, fs, input, wireType, fi, readToList);
 }
@@ -233,7 +233,7 @@ void _readPackableToList(
     CodedBufferReader input,
     int wireType,
     FieldInfo fi,
-    Function(List) readToList) {
+    void Function(List) readToList) {
   final list = fs._ensureRepeatedField(meta, fi);
 
   if (wireType == WIRETYPE_LENGTH_DELIMITED) {

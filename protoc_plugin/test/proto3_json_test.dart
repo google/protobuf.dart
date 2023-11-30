@@ -218,9 +218,9 @@ void main() {
       expect(Timestamp.fromDateTime(DateTime.utc(420)).toProto3Json(),
           '0420-01-01T00:00:00Z');
       expect(() => Timestamp.fromDateTime(DateTime.utc(42001)).toProto3Json(),
-          throwsA(TypeMatcher<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
       expect(() => Timestamp.fromDateTime(DateTime.utc(-1)).toProto3Json(),
-          throwsA(TypeMatcher<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
       expect(
           Timestamp.fromDateTime(DateTime.utc(9999, 12, 31, 23, 59, 59))
               .toProto3Json(),
@@ -231,11 +231,11 @@ void main() {
       expect((Timestamp()..nanos = 8200000).toProto3Json(),
           '1970-01-01T00:00:00.008200Z');
       expect(() => (Timestamp()..nanos = -8200000).toProto3Json(),
-          throwsA(TypeMatcher<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
       expect(() => (Timestamp()..nanos = -8200000).toProto3Json(),
-          throwsA(TypeMatcher<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
       expect(() => (Timestamp()..nanos = 1000000000).toProto3Json(),
-          throwsA(TypeMatcher<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
     });
 
     test('Duration', () {
@@ -289,7 +289,7 @@ void main() {
       expect(
           () => Any.pack(Timestamp.fromDateTime(DateTime(1969, 7, 20, 20, 17)))
               .toProto3Json(),
-          throwsA(TypeMatcher<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
     });
 
     test('Nested Any', () {
@@ -334,8 +334,7 @@ void main() {
         'struct': {'a': 0},
         'list': [{}, [], 'why']
       });
-      expect(
-          () => Value().toProto3Json(), throwsA(TypeMatcher<ArgumentError>()));
+      expect(() => Value().toProto3Json(), throwsA(isA<ArgumentError>()));
     });
 
     test('empty', () {
@@ -373,11 +372,11 @@ void main() {
       expect((FieldMask()..paths.addAll(['foo_bar', 'zop'])).toProto3Json(),
           'fooBar,zop');
       expect(() => (FieldMask()..paths.add('foo_3_bar')).toProto3Json(),
-          throwsA(TypeMatcher<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
       expect(() => (FieldMask()..paths.add('foo__bar')).toProto3Json(),
-          throwsA(TypeMatcher<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
       expect(() => (FieldMask()..paths.add('fooBar')).toProto3Json(),
-          throwsA(TypeMatcher<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
     });
   });
 

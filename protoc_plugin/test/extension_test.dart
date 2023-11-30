@@ -173,7 +173,7 @@ void main() {
 
   test('can extend a message with a message field with a different type', () {
     expect(Non_nested_extension.nonNestedExtension.makeDefault!(),
-        TypeMatcher<MyNonNestedExtension>());
+        const TypeMatcher<MyNonNestedExtension>());
     expect(Non_nested_extension.nonNestedExtension.name, 'nonNestedExtension');
   });
 
@@ -379,7 +379,7 @@ void main() {
         () => r
             .reparseMessage(withUnknownFields)
             .setExtension(Unittest.defaultStringExtension, 'blah'),
-        throwsA(TypeMatcher<UnsupportedError>()));
+        throwsA(isA<UnsupportedError>()));
   });
 
   test(

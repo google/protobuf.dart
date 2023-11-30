@@ -5,7 +5,7 @@
 part of '../../protobuf.dart';
 
 // TODO(antonm): reconsider later if PbList should take care of equality.
-bool _deepEquals(lhs, rhs) {
+bool _deepEquals(Object? lhs, Object? rhs) {
   // Some GeneratedMessages implement Map, so test this first.
   if (lhs is GeneratedMessage) return lhs == rhs;
   if (rhs is GeneratedMessage) return false;
@@ -49,6 +49,6 @@ class _HashUtils {
       _finish(objects.fold(0, (h, i) => _combine(h, i.hashCode)));
 
   /// Generates a hash code for two objects.
-  static int _hash2(a, b) =>
+  static int _hash2(Object? a, Object? b) =>
       _finish(_combine(_combine(0, a.hashCode), b.hashCode));
 }

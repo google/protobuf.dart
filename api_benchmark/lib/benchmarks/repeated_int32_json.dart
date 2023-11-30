@@ -66,7 +66,7 @@ class RepeatedInt32Benchmark extends Benchmark {
   String get measureSampleUnits => 'int32 reads/ms';
 
   static const $id = BenchmarkID.READ_INT32_REPEATED_JSON;
-  static final $type = BenchmarkType($id, $create);
+  static final $type = const BenchmarkType($id, $create);
   static RepeatedInt32Benchmark $create(Request r) {
     assert(r.params.hasInt32RepeatCount());
     assert(r.params.hasMessageCount());

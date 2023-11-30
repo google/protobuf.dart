@@ -26,7 +26,7 @@ class _BenchmarkBuilder implements Builder {
 
     await buildStep.writeAsString(
         AssetId(buildStep.inputId.package, 'web/data/data.json'),
-        JsonEncoder.withIndent(' ').convert(data));
+        const JsonEncoder.withIndent(' ').convert(data));
   }
 
   @override

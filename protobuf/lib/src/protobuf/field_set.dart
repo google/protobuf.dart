@@ -279,7 +279,7 @@ class _FieldSet {
   ///
   /// Works for both extended and non-extended fields.
   /// Suitable for decoders that do their own validation.
-  void _setFieldUnchecked(BuilderInfo meta, FieldInfo fi, value) {
+  void _setFieldUnchecked(BuilderInfo meta, FieldInfo fi, Object? value) {
     ArgumentError.checkNotNull(fi, 'fi');
     assert(!fi.isRepeated);
     if (fi.index == null) {
@@ -325,7 +325,8 @@ class _FieldSet {
   }
 
   /// Sets a non-extended field and fires events.
-  void _setNonExtensionFieldUnchecked(BuilderInfo meta, FieldInfo fi, value) {
+  void _setNonExtensionFieldUnchecked(
+      BuilderInfo meta, FieldInfo fi, Object? value) {
     final tag = fi.tagNumber;
     final oneofIndex = meta.oneofs[tag];
     if (oneofIndex != null) {
@@ -486,7 +487,7 @@ class _FieldSet {
     _values[index] = value;
   }
 
-  bool _$check(int index, var newValue) {
+  bool _$check(int index, Object? newValue) {
     _validateField(_nonExtensionInfoByIndex(index), newValue);
     return true; // Allows use in an assertion.
   }
@@ -534,7 +535,7 @@ class _FieldSet {
     return true;
   }
 
-  bool _equalFieldValues(left, right) {
+  bool _equalFieldValues(Object? left, Object? right) {
     if (left != null && right != null) return _deepEquals(left, right);
 
     final val = left ?? right;
@@ -604,7 +605,7 @@ class _FieldSet {
   }
 
   // Hashes the value of one field (recursively).
-  static int _hashField(int hash, FieldInfo fi, value) {
+  static int _hashField(int hash, FieldInfo fi, Object? value) {
     if (value is List && value.isEmpty) {
       return hash; // It's either repeated or an empty byte array.
     }
@@ -617,17 +618,17 @@ class _FieldSet {
     if (_isBytes(fi.type)) {
       // Bytes are represented as a List<int> (Usually with byte-data).
       // We special case that to match our equality semantics.
-      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
+      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value as List));
     } else if (!_isEnum(fi.type)) {
       hash = _HashUtils._combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
-      final PbList list = value;
+      final list = value as PbList;
       hash = _HashUtils._combine(hash, _HashUtils._hashObjects(list.map((enm) {
         final ProtobufEnum enm_ = enm;
         return enm_.value;
       })));
     } else {
-      final ProtobufEnum enm = value;
+      final enm = value as ProtobufEnum;
       hash = _HashUtils._combine(hash, enm.value);
     }
 
@@ -635,7 +636,7 @@ class _FieldSet {
   }
 
   void writeString(StringBuffer out, String indent) {
-    void renderValue(key, value) {
+    void renderValue(String key, Object? value) {
       if (value is GeneratedMessage) {
         out.write('$indent$key: {\n');
         value._fieldSet.writeString(out, '$indent  ');
@@ -647,7 +648,7 @@ class _FieldSet {
       }
     }
 
-    void writeFieldValue(fieldValue, String name) {
+    void writeFieldValue(Object? fieldValue, String name) {
       if (fieldValue == null) return;
       if (fieldValue is PbList) {
         for (final value in fieldValue) {
@@ -715,7 +716,8 @@ class _FieldSet {
     }
   }
 
-  void _mergeField(FieldInfo otherFi, fieldValue, {required bool isExtension}) {
+  void _mergeField(FieldInfo otherFi, Object? fieldValue,
+      {required bool isExtension}) {
     final tagNumber = otherFi.tagNumber;
 
     // Determine the FieldInfo to use.
@@ -735,12 +737,12 @@ class _FieldSet {
       final PbMap<dynamic, dynamic> map =
           f._ensureMapField(meta, this) as dynamic;
       if (_isGroupOrMessage(f.valueFieldType)) {
-        final PbMap<dynamic, GeneratedMessage> fieldValueMap = fieldValue;
+        final fieldValueMap = fieldValue as PbMap<dynamic, GeneratedMessage>;
         for (final entry in fieldValueMap.entries) {
           map[entry.key] = entry.value.deepCopy();
         }
       } else {
-        map.addAll(fieldValue);
+        map.addAll(fieldValue as Map);
       }
       return;
     }
@@ -748,14 +750,14 @@ class _FieldSet {
     if (fi.isRepeated) {
       if (_isGroupOrMessage(otherFi.type)) {
         // fieldValue must be a PbList of GeneratedMessage.
-        final PbList<GeneratedMessage> pbList = fieldValue;
+        final pbList = fieldValue as PbList<GeneratedMessage>;
         final repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
         // fieldValue must be at least a PbList.
-        final PbList pbList = fieldValue;
+        final pbList = fieldValue as PbList;
         fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
       return;
@@ -766,7 +768,7 @@ class _FieldSet {
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 
-      final GeneratedMessage msg = fieldValue;
+      final msg = fieldValue as GeneratedMessage;
       if (currentFi == null) {
         fieldValue = msg.deepCopy();
       } else {
@@ -793,7 +795,7 @@ class _FieldSet {
   ///
   /// Throws [ArgumentError] if the field value is not valid for the field
   /// type. For example, when setting a proto `string` field a Dart `int`.
-  void _validateField(FieldInfo fi, var newValue) {
+  void _validateField(FieldInfo fi, Object? newValue) {
     _ensureWritable();
     final message = _getFieldError(fi.type, newValue);
     if (message != null) {
@@ -801,7 +803,7 @@ class _FieldSet {
     }
   }
 
-  String _setFieldFailedMessage(FieldInfo fi, var value, String detail) {
+  String _setFieldFailedMessage(FieldInfo fi, Object? value, String detail) {
     return 'Illegal to set field ${fi.name} (${fi.tagNumber}) of $_messageName'
         ' to value ($value): $detail';
   }

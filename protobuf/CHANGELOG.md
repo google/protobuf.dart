@@ -25,6 +25,8 @@
   To migrate, use `PbMap.unmodifiable(map.keyFieldType, map.valueFieldType)`
   instead of `PbMap.unmodifiable(map)`. ([#902])
 
+* Require Dart `3.0`.
+
 [#738]: https://github.com/google/protobuf.dart/issues/738
 [#896]: https://github.com/google/protobuf.dart/issues/896
 [#902]: https://github.com/google/protobuf.dart/issues/902

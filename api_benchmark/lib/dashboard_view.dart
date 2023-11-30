@@ -73,10 +73,10 @@ Choose baseline: <select class="dv-menu"></select>
   factory DashboardView() {
     final elt = _template.clone(true) as Element;
     Element? find(String q) => elt.querySelector(q);
-    _Button button(q) => _Button(find(q) as ButtonElement);
-    _Label label(q) => _Label(find(q) as HtmlElement?);
-    _Menu menu(q) => _Menu(find(q) as SelectElement);
-    _JsonView json(q) => _JsonView(find(q) as DivElement?);
+    _Button button(String q) => _Button(find(q) as ButtonElement);
+    _Label label(String q) => _Label(find(q) as HtmlElement?);
+    _Menu menu(String q) => _Menu(find(q) as SelectElement);
+    _JsonView json(String q) => _JsonView(find(q) as DivElement?);
     return DashboardView._raw(
         elt as DivElement,
         button('.dv-run')
@@ -293,7 +293,7 @@ class _Label {
 
 class _Button {
   final ButtonElement elt;
-  final _clicks = StreamController.broadcast();
+  final _clicks = StreamController<bool>.broadcast();
   String? _renderedLabel;
   bool? _renderedEnabled;
 

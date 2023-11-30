@@ -48,7 +48,7 @@ CodedBufferReader was allowed to parse only $truncatedSize bytes.
 ''');
 
   InvalidProtocolBufferException.wrongAnyMessage(
-      String anyTypeName, unpackerTypeName)
+      String anyTypeName, Object unpackerTypeName)
       : this._('''
 The type of the Any message ($anyTypeName) does not match the given
 unpacker ($unpackerTypeName).

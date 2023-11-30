@@ -1,4 +1,4 @@
-# Created with package:mono_repo v6.5.7
+# Created with package:mono_repo v6.6.1
 name: Dart CI
 on:
   push:
@@ -35,27 +35,27 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
       - name: mono_repo self validate
-        run: dart pub global activate mono_repo 6.5.7
+        run: dart pub global activate mono_repo 6.6.1
       - name: mono_repo self validate
         run: dart pub global run mono_repo generate --validate
   job_002:
-    name: "format_analyze; linux; Dart 2.19.0; PKG: protobuf; `dart analyze lib`, `dart analyze test`"
+    name: "format_analyze; linux; Dart 3.0.0; PKG: protobuf; `dart analyze lib`, `dart analyze test`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0;packages:protobuf;commands:analyze_1-analyze_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.0;packages:protobuf;commands:analyze_1-analyze_2"
           restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0;packages:protobuf
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.0;packages:protobuf
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.0
             os:ubuntu-latest;pub-cache-hosted
             os:ubuntu-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
         with:
-          sdk: "2.19.0"
+          sdk: "3.0.0"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
@@ -233,43 +233,6 @@ jobs:
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
   job_007:
-    name: "run_tests; linux; Dart 2.19.0; PKG: protobuf; `dart test`"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cache Pub hosted dependencies
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
-        with:
-          path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0;packages:protobuf;commands:test_0"
-          restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0;packages:protobuf
-            os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0
-            os:ubuntu-latest;pub-cache-hosted
-            os:ubuntu-latest
-      - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
-        with:
-          sdk: "2.19.0"
-      - id: checkout
-        name: Checkout repository
-        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
-      - id: protobuf_pub_upgrade
-        name: protobuf; dart pub upgrade
-        run: dart pub upgrade
-        if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
-      - name: protobuf; dart test
-        run: dart test
-        if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
-    needs:
-      - job_001
-      - job_002
-      - job_003
-      - job_004
-      - job_005
-      - job_006
-  job_008:
     name: "run_tests; linux; Dart 2.19.0; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
     runs-on: ubuntu-latest
     steps:
@@ -307,6 +270,43 @@ jobs:
         run: dart test
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
+    needs:
+      - job_001
+      - job_002
+      - job_003
+      - job_004
+      - job_005
+      - job_006
+  job_008:
+    name: "run_tests; linux; Dart 3.0.0; PKG: protobuf; `dart test`"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Pub hosted dependencies
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: "~/.pub-cache/hosted"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.0.0;packages:protobuf;commands:test_0"
+          restore-keys: |
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.0;packages:protobuf
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.0.0
+            os:ubuntu-latest;pub-cache-hosted
+            os:ubuntu-latest
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
+        with:
+          sdk: "3.0.0"
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
+      - id: protobuf_pub_upgrade
+        name: protobuf; dart pub upgrade
+        run: dart pub upgrade
+        if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: protobuf
+      - name: protobuf; dart test
+        run: dart test
+        if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
+        working-directory: protobuf
     needs:
       - job_001
       - job_002
@@ -397,23 +397,23 @@ jobs:
       - job_005
       - job_006
   job_011:
-    name: "run_tests; osx; Dart 2.19.0; PKG: protobuf; `dart test`"
+    name: "run_tests; osx; Dart 3.0.0; PKG: protobuf; `dart test`"
     runs-on: macos-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:macos-latest;pub-cache-hosted;sdk:2.19.0;packages:protobuf;commands:test_0"
+          key: "os:macos-latest;pub-cache-hosted;sdk:3.0.0;packages:protobuf;commands:test_0"
           restore-keys: |
-            os:macos-latest;pub-cache-hosted;sdk:2.19.0;packages:protobuf
-            os:macos-latest;pub-cache-hosted;sdk:2.19.0
+            os:macos-latest;pub-cache-hosted;sdk:3.0.0;packages:protobuf
+            os:macos-latest;pub-cache-hosted;sdk:3.0.0
             os:macos-latest;pub-cache-hosted
             os:macos-latest
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
         with:
-          sdk: "2.19.0"
+          sdk: "3.0.0"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
@@ -471,13 +471,13 @@ jobs:
       - job_005
       - job_006
   job_013:
-    name: "run_tests; windows; Dart 2.19.0; PKG: protobuf; `dart test`"
+    name: "run_tests; windows; Dart 3.0.0; PKG: protobuf; `dart test`"
     runs-on: windows-latest
     steps:
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
         with:
-          sdk: "2.19.0"
+          sdk: "3.0.0"
       - id: checkout
         name: Checkout repository
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
