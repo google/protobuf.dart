@@ -75,10 +75,6 @@ for PKG in ${PKGS}; do
         echo 'dart analyze test'
         dart analyze test || EXIT_CODE=$?
         ;;
-      analyze_3)
-        echo 'dart analyze --fatal-infos bin lib test'
-        dart analyze --fatal-infos bin lib test || EXIT_CODE=$?
-        ;;
       command_0)
         echo './../tool/setup.sh'
         ./../tool/setup.sh || EXIT_CODE=$?
@@ -99,13 +95,9 @@ for PKG in ${PKGS}; do
         echo 'dart format --output=none --set-exit-if-changed .'
         dart format --output=none --set-exit-if-changed . || EXIT_CODE=$?
         ;;
-      test_0)
+      test)
         echo 'dart test'
         dart test || EXIT_CODE=$?
-        ;;
-      test_1)
-        echo 'dart test legacy_tests/generated_message_test.dart'
-        dart test legacy_tests/generated_message_test.dart || EXIT_CODE=$?
         ;;
       *)
         echo -e "\033[31mUnknown TASK '${TASK}' - TERMINATING JOB\033[0m"
