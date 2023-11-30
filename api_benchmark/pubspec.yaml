@@ -9,7 +9,7 @@ description: Benchmarking a number of different api calls.
 publish_to: none
 
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.1.0
 
 dependencies:
   fixnum: any

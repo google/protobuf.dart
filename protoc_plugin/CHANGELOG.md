@@ -1,5 +1,6 @@
 ## 22.0.0-dev
 
+* Require Dart `3.1`.
 * Remove `PbEventMixin` mixin. ([#738])
 * Type of repeated fields is now `PbList` (instead of `List`), type of map
   fields is now `PbMap` (instead of `Map`). ([#903])
