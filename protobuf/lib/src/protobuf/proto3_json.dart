@@ -288,15 +288,14 @@ void _mergeFromProto3Json(
     Object decodeMapKey(String key, int fieldType) {
       switch (PbFieldType._baseType(fieldType)) {
         case PbFieldType._BOOL_BIT:
-          switch (key) {
-            case 'true':
-              return true;
-            case 'false':
-              return false;
-            default:
-              throw context.parseException(
-                  'Wrong boolean key, should be one of ("true", "false")', key);
-          }
+          return switch (key) {
+            'true' => true,
+            'false' => false,
+            _ => throw context.parseException(
+                'Wrong boolean key, should be one of ("true", "false")',
+                key,
+              )
+          };
         case PbFieldType._STRING_BIT:
           return key;
         case PbFieldType._UINT64_BIT:
