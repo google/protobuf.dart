@@ -370,7 +370,7 @@ class _FieldSet {
   }
 
   /// The implementation of a generated getter for repeated fields.
-  List<T> _$getList<T>(int index) {
+  PbList<T> _$getList<T>(int index) {
     final value = _values[index];
     if (value != null) return value;
 
@@ -387,16 +387,15 @@ class _FieldSet {
   }
 
   /// The implementation of a generated getter for map fields.
-  Map<K, V> _$getMap<K, V>(GeneratedMessage parentMessage, int index) {
+  PbMap<K, V> _$getMap<K, V>(GeneratedMessage parentMessage, int index) {
     final value = _values[index];
-    if (value != null) return value as Map<K, V>;
+    if (value != null) return value;
 
     final fi = _nonExtensionInfoByIndex(index) as MapFieldInfo<K, V>;
     assert(fi.isMapField);
 
     if (_isReadOnly) {
-      return PbMap<K, V>.unmodifiable(
-          PbMap<K, V>(fi.keyFieldType, fi.valueFieldType));
+      return PbMap<K, V>.unmodifiable(fi.keyFieldType, fi.valueFieldType);
     }
 
     final map = fi._createMapField();

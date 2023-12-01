@@ -417,11 +417,12 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
-  List<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
+  PbList<T> $_getList<T>(int index) => _fieldSet._$getList<T>(index);
 
   /// For generated code only.
   /// @nodoc
-  Map<K, V> $_getMap<K, V>(int index) => _fieldSet._$getMap<K, V>(this, index);
+  PbMap<K, V> $_getMap<K, V>(int index) =>
+      _fieldSet._$getMap<K, V>(this, index);
 
   /// For generated code only.
   /// @nodoc
@@ -576,5 +577,7 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
   }
 
   /// Returns a writable deep copy of this message.
+  @UseResult('[GeneratedMessageGenericExtensions.deepCopy] '
+      'does not update the message, returns a new message')
   T deepCopy() => info_.createEmptyInstance!() as T..mergeFromMessage(this);
 }

@@ -146,7 +146,7 @@ class ProtobufField {
       final d = baseType.generator as MessageGenerator;
       final keyType = d._fieldList[0].baseType.getDartType(parent.fileGen!);
       final valueType = d._fieldList[1].baseType.getDartType(parent.fileGen!);
-      return '$coreImportPrefix.Map<$keyType, $valueType>';
+      return '$protobufImportPrefix.PbMap<$keyType, $valueType>';
     }
     if (isRepeated) return baseType.getRepeatedDartType(parent.fileGen!);
     return baseType.getDartType(parent.fileGen!);
