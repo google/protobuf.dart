@@ -45,6 +45,7 @@ class PbList<E> extends ListBase<E> {
         _check = _checkNotNull;
 
   @override
+  @pragma('dart2js:never-inline')
   void add(E element) {
     _checkModifiable('add');
     _check(element);
@@ -52,6 +53,7 @@ class PbList<E> extends ListBase<E> {
   }
 
   @override
+  @pragma('dart2js:never-inline')
   void addAll(Iterable<E> iterable) {
     _checkModifiable('addAll');
     iterable.forEach(_check);
@@ -74,6 +76,7 @@ class PbList<E> extends ListBase<E> {
   }
 
   @override
+  @pragma('dart2js:never-inline')
   void clear() {
     _checkModifiable('clear');
     _wrappedList.clear();
@@ -162,6 +165,16 @@ class PbList<E> extends ListBase<E> {
 
   @override
   int get length => _wrappedList.length;
+
+  @override
+  bool get isEmpty => _wrappedList.isEmpty;
+
+  @override
+  bool get isNotEmpty => _wrappedList.isNotEmpty;
+
+  @override
+  @pragma('dart2js:never-inline')
+  Iterator<E> get iterator => _wrappedList.iterator;
 
   @override
   set length(int newLength) {
