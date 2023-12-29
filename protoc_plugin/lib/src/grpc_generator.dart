@@ -106,6 +106,10 @@ class GrpcServiceGenerator {
   }
 
   void _generateClient(IndentingWriter out) {
+    if (_descriptor.options.deprecated) {
+      out.println(
+          '@$coreImportPrefix.Deprecated(\'This service is deprecated\')');
+    }
     out.println(
         '@$protobufImportPrefix.GrpcServiceName(\'$_fullServiceName\')');
     out.addBlock('class $_clientClassname extends $_client {', '}', () {
@@ -170,6 +174,8 @@ class _GrpcMethod {
   final String _clientReturnType;
   final String _serverReturnType;
 
+  final bool _deprecated;
+
   _GrpcMethod._(
       this._grpcName,
       this._dartName,
@@ -180,7 +186,8 @@ class _GrpcMethod {
       this._responseType,
       this._argumentType,
       this._clientReturnType,
-      this._serverReturnType);
+      this._serverReturnType,
+      this._deprecated);
 
   factory _GrpcMethod(GrpcServiceGenerator service, GenerationContext ctx,
       MethodDescriptorProto method) {
@@ -204,6 +211,8 @@ class _GrpcMethod {
     final serverReturnType =
         serverStreaming ? '$_stream<$responseType>' : '$_future<$responseType>';
 
+    final deprecated = method.options.deprecated;
+
     return _GrpcMethod._(
         grpcName,
         dartName,
@@ -214,7 +223,8 @@ class _GrpcMethod {
         responseType,
         argumentType,
         clientReturnType,
-        serverReturnType);
+        serverReturnType,
+        deprecated);
   }
 
   void generateClientMethodDescriptor(IndentingWriter out) {
@@ -228,6 +238,10 @@ class _GrpcMethod {
 
   void generateClientStub(IndentingWriter out) {
     out.println();
+    if (_deprecated) {
+      out.println(
+          '@$coreImportPrefix.Deprecated(\'This method is deprecated\')');
+    }
     out.addBlock(
         '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions}? options}) {',
         '}', () {
