@@ -176,7 +176,7 @@ class FileGenerator extends ProtobufContainer {
     for (var i = 0; i < descriptor.service.length; i++) {
       final service = descriptor.service[i];
       if (options.useGrpc) {
-        grpcGenerators.add(GrpcServiceGenerator(service, this, i));
+        grpcGenerators.add(GrpcServiceGenerator(service, this));
       } else {
         final serviceGen =
             ServiceGenerator(service, this, usedTopLevelServiceNames);
