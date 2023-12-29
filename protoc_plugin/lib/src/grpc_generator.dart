@@ -33,13 +33,7 @@ class GrpcServiceGenerator {
   /// List of gRPC methods.
   final _methods = <_GrpcMethod>[];
 
-  final List<int> _fieldPathSegment;
-
-  late final List<int> _fieldPath = List.from(fileGen.fieldPath)
-    ..addAll(_fieldPathSegment);
-
-  GrpcServiceGenerator(this._descriptor, this.fileGen, int repeatedFieldIndex)
-      : _fieldPathSegment = [6, repeatedFieldIndex] {
+  GrpcServiceGenerator(this._descriptor, this.fileGen) {
     final name = _descriptor.name;
     final package = fileGen.package;
 
