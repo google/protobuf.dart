@@ -16,6 +16,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 export 'deprecations.pbenum.dart';
 
+@$core.Deprecated('This message is deprecated')
 class HelloRequest extends $pb.GeneratedMessage {
   factory HelloRequest() => create();
   HelloRequest._() : super();

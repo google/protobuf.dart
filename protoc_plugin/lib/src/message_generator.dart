@@ -324,6 +324,10 @@ class MessageGenerator extends ProtobufContainer {
       commentBlock = '$commentBlock\n';
     }
 
+    if (_descriptor.options.deprecated) {
+      out.println(
+          '@$coreImportPrefix.Deprecated(\'This message is deprecated\')');
+    }
     out.addAnnotatedBlock(
         '${commentBlock}class $classname extends $protobufImportPrefix.$extendedClass$mixinClause {',
         '}', [
