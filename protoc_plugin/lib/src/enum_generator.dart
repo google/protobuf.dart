@@ -15,7 +15,7 @@ class EnumGenerator extends ProtobufContainer {
   final ProtobufContainer? parent;
 
   @override
-  final String? classname;
+  final String classname;
 
   @override
   final String fullName;
@@ -110,7 +110,7 @@ class EnumGenerator extends ProtobufContainer {
         'class $classname extends $protobufImportPrefix.ProtobufEnum {',
         '}\n', [
       NamedLocation(
-          name: classname!, fieldPathSegment: fieldPath, start: 'class '.length)
+          name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
       // -----------------------------------------------------------------
       // Define enum types.
