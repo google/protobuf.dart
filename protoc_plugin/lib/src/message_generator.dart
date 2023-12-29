@@ -117,8 +117,13 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
+  /// Tag of `FileDescriptorProto.message_type`.
   static const _topLevelMessageTag = 4;
+
+  /// Tag of `DescriptorProto.nested_type`.
   static const _nestedMessageTag = 3;
+
+  /// Tag of `DescriptorProto.field`.
   static const _messageFieldTag = 2;
 
   MessageGenerator.topLevel(

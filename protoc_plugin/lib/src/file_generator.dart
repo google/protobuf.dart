@@ -173,15 +173,16 @@ class FileGenerator extends ProtobufContainer {
       extensionGenerators.add(ExtensionGenerator.topLevel(
           descriptor.extension[i], this, usedExtensionNames, i));
     }
-    for (final service in descriptor.service) {
+    for (var i = 0; i < descriptor.service.length; i++) {
+      final service = descriptor.service[i];
       if (options.useGrpc) {
-        grpcGenerators.add(GrpcServiceGenerator(service, this));
+        grpcGenerators.add(GrpcServiceGenerator(service, this, i));
       } else {
         final serviceGen =
             ServiceGenerator(service, this, usedTopLevelServiceNames);
         serviceGenerators.add(serviceGen);
         clientApiGenerators
-            .add(ClientApiGenerator(serviceGen, usedTopLevelNames));
+            .add(ClientApiGenerator(serviceGen, usedTopLevelNames, i));
       }
     }
   }

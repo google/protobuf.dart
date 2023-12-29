@@ -122,10 +122,12 @@ class HelloReply extends $pb.GeneratedMessage {
   void clearMessage() => clearField(1);
 }
 
+/// This is a service.
 class GreeterApi {
   $pb.RpcClient _client;
   GreeterApi(this._client);
 
+  /// This is a service method.
   $async.Future<HelloReply> sayHello(
           $pb.ClientContext? ctx, HelloRequest request) =>
       _client.invoke<HelloReply>(
