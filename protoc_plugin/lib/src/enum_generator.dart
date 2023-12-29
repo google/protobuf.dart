@@ -32,7 +32,6 @@ class EnumGenerator extends ProtobufContainer {
   List<int>? _fieldPath;
   final List<int> _fieldPathSegment;
 
-  /// See [[ProtobufContainer]
   @override
   List<int>? get fieldPath =>
       _fieldPath ??= List.from(parent!.fieldPath!)..addAll(_fieldPathSegment);
@@ -107,6 +106,9 @@ class EnumGenerator extends ProtobufContainer {
     if (comment != null) {
       out.println(comment);
     }
+    if (_descriptor.options.deprecated) {
+      out.println('@$coreImportPrefix.Deprecated(\'This enum is deprecated\')');
+    }
     out.addAnnotatedBlock(
         'class $classname extends $protobufImportPrefix.ProtobufEnum {',
         '}\n', [
@@ -124,6 +126,10 @@ class EnumGenerator extends ProtobufContainer {
         out.addSuffix(
             omitEnumNames.constFieldName, omitEnumNames.constDefinition);
         final conditionalValName = omitEnumNames.createTernary(val.name);
+        if (val.options.deprecated) {
+          out.println(
+              '@$coreImportPrefix.Deprecated(\'This enum value is deprecated\')');
+        }
         out.printlnAnnotated(
             'static const $classname $name = '
             '$classname._(${val.number}, $conditionalValName);',
