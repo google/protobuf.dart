@@ -12,7 +12,7 @@ class EnumAlias {
 
 class EnumGenerator extends ProtobufContainer {
   @override
-  final ProtobufContainer? parent;
+  final ProtobufContainer parent;
 
   @override
   final String classname;
@@ -34,13 +34,13 @@ class EnumGenerator extends ProtobufContainer {
 
   @override
   List<int> get fieldPath =>
-      _fieldPath ??= List.from(parent!.fieldPath!)..addAll(_fieldPathSegment);
+      _fieldPath ??= List.from(parent.fieldPath!)..addAll(_fieldPathSegment);
 
   EnumGenerator._(EnumDescriptorProto descriptor, this.parent,
       Set<String> usedClassNames, int repeatedFieldIndex, int fieldIdTag)
       : _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
         classname = messageOrEnumClassName(descriptor.name, usedClassNames,
-            parent: parent!.classname ?? ''),
+            parent: parent.classname ?? ''),
         fullName = parent.fullName == ''
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
@@ -79,10 +79,10 @@ class EnumGenerator extends ProtobufContainer {
             _nestedFieldTag);
 
   @override
-  String get package => parent!.package;
+  String get package => parent.package;
 
   @override
-  FileGenerator? get fileGen => parent!.fileGen;
+  FileGenerator? get fileGen => parent.fileGen;
 
   /// Make this enum available as a field type.
   void register(GenerationContext ctx) {
