@@ -319,13 +319,12 @@ class MessageGenerator extends ProtobufContainer {
       extendedClass = 'GeneratedMessage';
     }
 
-    var commentBlock = fileGen.commentBlock(fieldPath) ?? '';
-    if (commentBlock.isNotEmpty) {
-      commentBlock = '$commentBlock\n';
+    final commentBlock = fileGen.commentBlock(fieldPath);
+    if (commentBlock != null) {
+      out.println(commentBlock);
     }
-
     out.addAnnotatedBlock(
-        '${commentBlock}class $classname extends $protobufImportPrefix.$extendedClass$mixinClause {',
+        'class $classname extends $protobufImportPrefix.$extendedClass$mixinClause {',
         '}', [
       NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
@@ -539,7 +538,7 @@ class MessageGenerator extends ProtobufContainer {
 
     final commentBlock = fileGen.commentBlock(memberFieldPath);
     if (commentBlock != null) {
-      out.println(commentBlock.trim());
+      out.println(commentBlock);
     }
 
     _emitDeprecatedIf(field.isDeprecated, out);

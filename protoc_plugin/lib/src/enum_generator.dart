@@ -103,9 +103,9 @@ class EnumGenerator extends ProtobufContainer {
   static const int _enumValueTag = 2;
 
   void generate(IndentingWriter out) {
-    final comment = fileGen?.commentBlock(fieldPath!);
-    if (comment != null) {
-      out.println(comment);
+    final commentBlock = fileGen?.commentBlock(fieldPath!);
+    if (commentBlock != null) {
+      out.println(commentBlock);
     }
     out.addAnnotatedBlock(
         'class $classname extends $protobufImportPrefix.ProtobufEnum {',
