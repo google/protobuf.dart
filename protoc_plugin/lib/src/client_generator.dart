@@ -20,6 +20,10 @@ class ClientApiGenerator {
   String get _clientType => '$protobufImportPrefix.RpcClient';
 
   void generate(IndentingWriter out) {
+    if (service._descriptor.options.deprecated) {
+      out.println(
+          '@$coreImportPrefix.Deprecated(\'This service is deprecated\')');
+    }
     out.addBlock('class ${className}Api {', '}', () {
       out.println('$_clientType _client;');
       out.println('${className}Api(this._client);');
@@ -41,6 +45,10 @@ class ClientApiGenerator {
     final inputType = service._getDartClassName(m.inputType, forMainFile: true);
     final outputType =
         service._getDartClassName(m.outputType, forMainFile: true);
+    if (m.options.deprecated) {
+      out.println(
+          '@$coreImportPrefix.Deprecated(\'This method is deprecated\')');
+    }
     out.addBlock(
         '$asyncImportPrefix.Future<$outputType> $methodName('
             '$protobufImportPrefix.ClientContext? ctx, $inputType request) =>',
