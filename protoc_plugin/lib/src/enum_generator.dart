@@ -32,9 +32,8 @@ class EnumGenerator extends ProtobufContainer {
   List<int>? _fieldPath;
   final List<int> _fieldPathSegment;
 
-  /// See [[ProtobufContainer]
   @override
-  List<int>? get fieldPath =>
+  List<int> get fieldPath =>
       _fieldPath ??= List.from(parent!.fieldPath!)..addAll(_fieldPathSegment);
 
   EnumGenerator._(EnumDescriptorProto descriptor, this.parent,
@@ -103,7 +102,7 @@ class EnumGenerator extends ProtobufContainer {
   static const int _enumValueTag = 2;
 
   void generate(IndentingWriter out) {
-    final commentBlock = fileGen?.commentBlock(fieldPath!);
+    final commentBlock = fileGen?.commentBlock(fieldPath);
     if (commentBlock != null) {
       out.println(commentBlock);
     }
@@ -111,9 +110,7 @@ class EnumGenerator extends ProtobufContainer {
         'class $classname extends $protobufImportPrefix.ProtobufEnum {',
         '}\n', [
       NamedLocation(
-          name: classname!,
-          fieldPathSegment: fieldPath!,
-          start: 'class '.length)
+          name: classname!, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
       // -----------------------------------------------------------------
       // Define enum types.
@@ -124,14 +121,21 @@ class EnumGenerator extends ProtobufContainer {
         out.addSuffix(
             omitEnumNames.constFieldName, omitEnumNames.constDefinition);
         final conditionalValName = omitEnumNames.createTernary(val.name);
+        final fieldPathSegment = List<int>.from(fieldPath)
+          ..addAll([_enumValueTag, _originalCanonicalIndices[i]]);
+
+        final commentBlock = fileGen?.commentBlock(fieldPathSegment);
+        if (commentBlock != null) {
+          out.println(commentBlock);
+        }
+
         out.printlnAnnotated(
             'static const $classname $name = '
             '$classname._(${val.number}, $conditionalValName);',
             [
               NamedLocation(
                   name: name,
-                  fieldPathSegment: List.from(fieldPath!)
-                    ..addAll([_enumValueTag, _originalCanonicalIndices[i]]),
+                  fieldPathSegment: fieldPathSegment,
                   start: 'static const $classname '.length)
             ]);
       }
@@ -146,7 +150,7 @@ class EnumGenerator extends ProtobufContainer {
               [
                 NamedLocation(
                     name: name,
-                    fieldPathSegment: List.from(fieldPath!)
+                    fieldPathSegment: List.from(fieldPath)
                       ..addAll([_enumValueTag, _originalAliasIndices[i]]),
                     start: 'static const $classname '.length)
               ]);
