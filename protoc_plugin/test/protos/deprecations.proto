@@ -27,6 +27,6 @@ message HelloReply {
 enum A {
   option deprecated = true;
 
-  A1 = 0;
+  A1 = 0 [deprecated = true];
   A2 = 1;
 }

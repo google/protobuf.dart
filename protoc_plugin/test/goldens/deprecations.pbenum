@@ -15,6 +15,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 @$core.Deprecated('This enum is deprecated')
 class A extends $pb.ProtobufEnum {
+  @$core.Deprecated('This enum value is deprecated')
   static const A A1 = A._(0, _omitEnumNames ? '' : 'A1');
   static const A A2 = A._(1, _omitEnumNames ? '' : 'A2');
 
