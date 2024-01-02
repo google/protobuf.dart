@@ -5,9 +5,9 @@
   fields is now `PbMap` (instead of `Map`). ([#903])
 
   This change requires protobuf-4.0.0.
-* "Deprecated" options messages, grpc services and methods, and enum types and
-  values are now handled to generate Dart `@deprecated` annotations. ([#900],
-  [#908])
+* `deprecated` options in messages, grpc services and methods, and enum types
+  and values are now handled to generate Dart `@deprecated` annotations.
+  ([#900], [#908])
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
 [#903]: https://github.com/google/protobuf.dart/pull/903
