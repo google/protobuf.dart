@@ -173,14 +173,16 @@ class ImportWriter {
   final Set<String> _dartImports = SplayTreeSet<String>();
   final Set<String> _packageImports = SplayTreeSet<String>();
   final Set<String> _fileImports = SplayTreeSet<String>();
-  final Set<String> _exports = SplayTreeSet<String>();
+  final Set<String> _packageExports = SplayTreeSet<String>();
+  final Set<String> _fileExports = SplayTreeSet<String>();
 
   /// Whether any imports were written.
   bool get hasImports =>
       _dartImports.isNotEmpty ||
       _packageImports.isNotEmpty ||
       _fileImports.isNotEmpty ||
-      _exports.isNotEmpty;
+      _packageExports.isNotEmpty ||
+      _fileExports.isNotEmpty;
 
   /// Add an import with an optional import prefix.
   void addImport(String url, {String? prefix}) {
@@ -196,8 +198,15 @@ class ImportWriter {
   }
 
   /// And an export.
-  void addExport(String url) {
-    _exports.add("export '$url';");
+  void addExport(String url, {List<String> members = const []}) {
+    final directive = members.isNotEmpty
+        ? "export '$url' show ${members.join(', ')};"
+        : "export '$url';";
+    if (url.startsWith('package:')) {
+      _packageExports.add(directive);
+    } else {
+      _fileExports.add(directive);
+    }
   }
 
   /// Return the generated text for the set of imports.
@@ -215,9 +224,13 @@ class ImportWriter {
       if (buf.isNotEmpty) buf.writeln();
       _fileImports.forEach(buf.writeln);
     }
-    if (_exports.isNotEmpty) {
+    if (_packageExports.isNotEmpty) {
       if (buf.isNotEmpty) buf.writeln();
-      _exports.forEach(buf.writeln);
+      _packageExports.forEach(buf.writeln);
+    }
+    if (_fileExports.isNotEmpty) {
+      if (buf.isNotEmpty) buf.writeln();
+      _fileExports.forEach(buf.writeln);
     }
 
     return buf.toString();

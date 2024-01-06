@@ -5,9 +5,13 @@
   fields is now `PbMap` (instead of `Map`). ([#903])
 
   This change requires protobuf-4.0.0.
+* Generated files now export `GeneratedMessageGenericExtensions` from the
+  protobuf library. ([#503], [#907])
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
 [#903]: https://github.com/google/protobuf.dart/pull/903
+[#503]: https://github.com/google/protobuf.dart/issues/503
+[#907]: https://github.com/google/protobuf.dart/pull/907
 
 ## 21.1.2
 
