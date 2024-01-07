@@ -342,6 +342,9 @@ class FileGenerator extends ProtobufContainer {
       _addImport(importWriter, config, target, '.pbenum.dart');
     }
 
+    importWriter.addExport(_protobufImportUrl,
+        members: ['GeneratedMessageGenericExtensions']);
+
     for (final publicDependency in descriptor.publicDependency) {
       _addExport(importWriter, config,
           Uri.file(descriptor.dependency[publicDependency]), '.pb.dart');
