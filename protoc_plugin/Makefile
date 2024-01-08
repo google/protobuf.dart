@@ -25,6 +25,7 @@ TEST_PROTO_LIST = \
 	custom_option \
 	dart_name \
 	deprecations \
+	doc_comments \
         default_value_escape \
 	entity \
 	enum_extension \

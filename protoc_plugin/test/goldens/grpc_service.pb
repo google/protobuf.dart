@@ -13,6 +13,8 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
+
 class Empty extends $pb.GeneratedMessage {
   factory Empty() => create();
   Empty._() : super();

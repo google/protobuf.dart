@@ -173,7 +173,8 @@ class FileGenerator extends ProtobufContainer {
       extensionGenerators.add(ExtensionGenerator.topLevel(
           descriptor.extension[i], this, usedExtensionNames, i));
     }
-    for (final service in descriptor.service) {
+    for (var i = 0; i < descriptor.service.length; i++) {
+      final service = descriptor.service[i];
       if (options.useGrpc) {
         grpcGenerators.add(GrpcServiceGenerator(service, this));
       } else {
@@ -181,7 +182,7 @@ class FileGenerator extends ProtobufContainer {
             ServiceGenerator(service, this, usedTopLevelServiceNames);
         serviceGenerators.add(serviceGen);
         clientApiGenerators
-            .add(ClientApiGenerator(serviceGen, usedTopLevelNames));
+            .add(ClientApiGenerator(serviceGen, usedTopLevelNames, i));
       }
     }
   }
@@ -340,6 +341,9 @@ class FileGenerator extends ProtobufContainer {
     for (final target in enumImports) {
       _addImport(importWriter, config, target, '.pbenum.dart');
     }
+
+    importWriter.addExport(_protobufImportUrl,
+        members: ['GeneratedMessageGenericExtensions']);
 
     for (final publicDependency in descriptor.publicDependency) {
       _addExport(importWriter, config,

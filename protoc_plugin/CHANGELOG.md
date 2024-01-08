@@ -5,13 +5,20 @@
   fields is now `PbMap` (instead of `Map`). ([#903])
 
   This change requires protobuf-4.0.0.
+* Generated files now export `GeneratedMessageGenericExtensions` from the
+  protobuf library. ([#503], [#907])
+* Generate doc comments for enum types and values, rpc services and methods.
+  ([#900], [#909])
 * `deprecated` options in messages, grpc services and methods, and enum types
   and values are now handled to generate Dart `@deprecated` annotations.
   ([#900], [#908])
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
 [#903]: https://github.com/google/protobuf.dart/pull/903
+[#503]: https://github.com/google/protobuf.dart/issues/503
+[#907]: https://github.com/google/protobuf.dart/pull/907
 [#900]: https://github.com/google/protobuf.dart/issues/900
+[#909]: https://github.com/google/protobuf.dart/pull/909
 [#908]: https://github.com/google/protobuf.dart/pull/908
 
 ## 21.1.2

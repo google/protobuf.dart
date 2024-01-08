@@ -12,10 +12,10 @@ class EnumAlias {
 
 class EnumGenerator extends ProtobufContainer {
   @override
-  final ProtobufContainer? parent;
+  final ProtobufContainer parent;
 
   @override
-  final String? classname;
+  final String classname;
 
   @override
   final String fullName;
@@ -33,14 +33,14 @@ class EnumGenerator extends ProtobufContainer {
   final List<int> _fieldPathSegment;
 
   @override
-  List<int>? get fieldPath =>
-      _fieldPath ??= List.from(parent!.fieldPath!)..addAll(_fieldPathSegment);
+  List<int> get fieldPath =>
+      _fieldPath ??= List.from(parent.fieldPath!)..addAll(_fieldPathSegment);
 
   EnumGenerator._(EnumDescriptorProto descriptor, this.parent,
       Set<String> usedClassNames, int repeatedFieldIndex, int fieldIdTag)
       : _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
         classname = messageOrEnumClassName(descriptor.name, usedClassNames,
-            parent: parent!.classname ?? ''),
+            parent: parent.classname ?? ''),
         fullName = parent.fullName == ''
             ? descriptor.name
             : '${parent.fullName}.${descriptor.name}',
@@ -79,10 +79,10 @@ class EnumGenerator extends ProtobufContainer {
             _nestedFieldTag);
 
   @override
-  String get package => parent!.package;
+  String get package => parent.package;
 
   @override
-  FileGenerator? get fileGen => parent!.fileGen;
+  FileGenerator? get fileGen => parent.fileGen;
 
   /// Make this enum available as a field type.
   void register(GenerationContext ctx) {
@@ -102,9 +102,9 @@ class EnumGenerator extends ProtobufContainer {
   static const int _enumValueTag = 2;
 
   void generate(IndentingWriter out) {
-    final comment = fileGen?.commentBlock(fieldPath!);
-    if (comment != null) {
-      out.println(comment);
+    final commentBlock = fileGen?.commentBlock(fieldPath);
+    if (commentBlock != null) {
+      out.println(commentBlock);
     }
     if (_descriptor.options.deprecated) {
       out.println('@$coreImportPrefix.Deprecated(\'This enum is deprecated\')');
@@ -113,9 +113,7 @@ class EnumGenerator extends ProtobufContainer {
         'class $classname extends $protobufImportPrefix.ProtobufEnum {',
         '}\n', [
       NamedLocation(
-          name: classname!,
-          fieldPathSegment: fieldPath!,
-          start: 'class '.length)
+          name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
     ], () {
       // -----------------------------------------------------------------
       // Define enum types.
@@ -126,18 +124,26 @@ class EnumGenerator extends ProtobufContainer {
         out.addSuffix(
             omitEnumNames.constFieldName, omitEnumNames.constDefinition);
         final conditionalValName = omitEnumNames.createTernary(val.name);
+        final fieldPathSegment = List<int>.from(fieldPath)
+          ..addAll([_enumValueTag, _originalCanonicalIndices[i]]);
+
+        final commentBlock = fileGen?.commentBlock(fieldPathSegment);
+        if (commentBlock != null) {
+          out.println(commentBlock);
+        }
+
         if (val.options.deprecated) {
           out.println(
               '@$coreImportPrefix.Deprecated(\'This enum value is deprecated\')');
         }
+
         out.printlnAnnotated(
             'static const $classname $name = '
             '$classname._(${val.number}, $conditionalValName);',
             [
               NamedLocation(
                   name: name,
-                  fieldPathSegment: List.from(fieldPath!)
-                    ..addAll([_enumValueTag, _originalCanonicalIndices[i]]),
+                  fieldPathSegment: fieldPathSegment,
                   start: 'static const $classname '.length)
             ]);
       }
@@ -152,7 +158,7 @@ class EnumGenerator extends ProtobufContainer {
               [
                 NamedLocation(
                     name: name,
-                    fieldPathSegment: List.from(fieldPath!)
+                    fieldPathSegment: List.from(fieldPath)
                       ..addAll([_enumValueTag, _originalAliasIndices[i]]),
                     start: 'static const $classname '.length)
               ]);
