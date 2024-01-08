@@ -1,0 +1,36 @@
+//
+//  Generated code. Do not modify.
+//  source: doc_comments.proto
+//
+// @dart = 2.12
+
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+
+import 'dart:core' as $core;
+
+import 'package:protobuf/protobuf.dart' as $pb;
+
+/// This is an enum.
+class A extends $pb.ProtobufEnum {
+  /// This is an enum variant.
+  static const A A1 = A._(0, _omitEnumNames ? '' : 'A1');
+
+  /// This is another enum variant.
+  static const A A2 = A._(1, _omitEnumNames ? '' : 'A2');
+
+  static const $core.List<A> values = <A>[
+    A1,
+    A2,
+  ];
+
+  static final $core.Map<$core.int, A> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static A? valueOf($core.int value) => _byValue[value];
+
+  const A._($core.int v, $core.String n) : super(v, n);
+}
+
+const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

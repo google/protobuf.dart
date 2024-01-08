@@ -14,6 +14,14 @@ const grpcImportPrefix = r'$grpc';
 const mixinImportPrefix = r'$mixin';
 
 extension FileDescriptorProtoExt on FileGenerator {
+  /// Convert leading comments of a definition at [path] to Dart doc comment
+  /// syntax.
+  ///
+  /// This never returns an empty string: if the comment is empty it returns
+  /// `null`.
+  ///
+  /// The output can contain multiple lines. None of the lines will have
+  /// trailing whitespace.
   String? commentBlock(List<int> path) {
     final bits = descriptor.sourceCodeInfo.location
         .where((element) => element.path.toString() == path.toString())
@@ -33,6 +41,10 @@ extension FileDescriptorProtoExt on FileGenerator {
   }
 }
 
+/// Convert a comment to Dart doc comment syntax.
+///
+/// This is the internal method for [FileDescriptorProtoExt.commentBlock],
+/// public to be able to test.
 String? toDartComment(String value) {
   if (value.isEmpty) return null;
 

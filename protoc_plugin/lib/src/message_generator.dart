@@ -67,7 +67,6 @@ class MessageGenerator extends ProtobufContainer {
 
   final List<int> _fieldPathSegment;
 
-  /// See [[ProtobufContainer]
   @override
   late final List<int> fieldPath = List.from(parent!.fieldPath!)
     ..addAll(_fieldPathSegment);
@@ -118,8 +117,13 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
+  /// Tag of `FileDescriptorProto.message_type`.
   static const _topLevelMessageTag = 4;
+
+  /// Tag of `DescriptorProto.nested_type`.
   static const _nestedMessageTag = 3;
+
+  /// Tag of `DescriptorProto.field`.
   static const _messageFieldTag = 2;
 
   MessageGenerator.topLevel(
@@ -319,13 +323,12 @@ class MessageGenerator extends ProtobufContainer {
       extendedClass = 'GeneratedMessage';
     }
 
-    var commentBlock = fileGen.commentBlock(fieldPath) ?? '';
-    if (commentBlock.isNotEmpty) {
-      commentBlock = '$commentBlock\n';
+    final commentBlock = fileGen.commentBlock(fieldPath);
+    if (commentBlock != null) {
+      out.println(commentBlock);
     }
-
     out.addAnnotatedBlock(
-        '${commentBlock}class $classname extends $protobufImportPrefix.$extendedClass$mixinClause {',
+        'class $classname extends $protobufImportPrefix.$extendedClass$mixinClause {',
         '}', [
       NamedLocation(
           name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
@@ -539,7 +542,7 @@ class MessageGenerator extends ProtobufContainer {
 
     final commentBlock = fileGen.commentBlock(memberFieldPath);
     if (commentBlock != null) {
-      out.println(commentBlock.trim());
+      out.println(commentBlock);
     }
 
     _emitDeprecatedIf(field.isDeprecated, out);
