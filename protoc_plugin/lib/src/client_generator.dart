@@ -46,6 +46,10 @@ class ClientApiGenerator {
     if (commentBlock != null) {
       out.println(commentBlock);
     }
+    if (service._descriptor.options.deprecated) {
+      out.println(
+          '@$coreImportPrefix.Deprecated(\'This service is deprecated\')');
+    }
     out.addBlock('class ${className}Api {', '}', () {
       out.println('$_clientType _client;');
       out.println('${className}Api(this._client);');
@@ -72,6 +76,10 @@ class ClientApiGenerator {
         .commentBlock(_methodDescriptorPath(methodRepeatedFieldIndex));
     if (commentBlock != null) {
       out.println(commentBlock);
+    }
+    if (m.options.deprecated) {
+      out.println(
+          '@$coreImportPrefix.Deprecated(\'This method is deprecated\')');
     }
     out.addBlock(
         '$asyncImportPrefix.Future<$outputType> $methodName('

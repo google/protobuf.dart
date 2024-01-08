@@ -4,28 +4,29 @@
 
 syntax = "proto3";
 
-package service1;
+package service2;
 
-// This is a service.
 service Greeter {
-  // This is a service method.
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  option deprecated = true;
+
+  rpc SayHello (HelloRequest) returns (HelloReply) {
+    option deprecated = true;
+  }
 }
 
-// This is a message.
 message HelloRequest {
-  // This is a message field.
-  string name = 1;
+  option deprecated = true;
+
+  string name = 1 [deprecated = true];
 }
 
 message HelloReply {
   string message = 1;
 }
 
-// This is an enum.
 enum A {
-  // This is an enum variant.
-  A1 = 0;
-  // This is another enum variant.
+  option deprecated = true;
+
+  A1 = 0 [deprecated = true];
   A2 = 1;
 }

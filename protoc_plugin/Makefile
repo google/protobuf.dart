@@ -24,6 +24,7 @@ TEST_PROTO_LIST = \
 	google/protobuf/wrappers \
 	custom_option \
 	dart_name \
+	deprecations \
 	doc_comments \
         default_value_escape \
 	entity \

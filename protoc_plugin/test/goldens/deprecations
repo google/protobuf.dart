@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: doc_comments.proto
+//  source: deprecations.proto
 //
 // @dart = 2.12
 
@@ -16,9 +16,9 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
-export 'doc_comments.pbenum.dart';
+export 'deprecations.pbenum.dart';
 
-/// This is a message.
+@$core.Deprecated('This message is deprecated')
 class HelloRequest extends $pb.GeneratedMessage {
   factory HelloRequest() => create();
   HelloRequest._() : super();
@@ -31,7 +31,7 @@ class HelloRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'HelloRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'service1'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'service2'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..hasRequiredFields = false;
@@ -59,16 +59,19 @@ class HelloRequest extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<HelloRequest>(create);
   static HelloRequest? _defaultInstance;
 
-  /// This is a message field.
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1)
   set name($core.String v) {
     $_setString(0, v);
   }
 
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
+  @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(1)
   void clearName() => clearField(1);
 }
@@ -85,7 +88,7 @@ class HelloReply extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'HelloReply',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'service1'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'service2'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'message')
     ..hasRequiredFields = false;
@@ -124,12 +127,12 @@ class HelloReply extends $pb.GeneratedMessage {
   void clearMessage() => clearField(1);
 }
 
-/// This is a service.
+@$core.Deprecated('This service is deprecated')
 class GreeterApi {
   $pb.RpcClient _client;
   GreeterApi(this._client);
 
-  /// This is a service method.
+  @$core.Deprecated('This method is deprecated')
   $async.Future<HelloReply> sayHello(
           $pb.ClientContext? ctx, HelloRequest request) =>
       _client.invoke<HelloReply>(

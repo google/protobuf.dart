@@ -106,6 +106,9 @@ class EnumGenerator extends ProtobufContainer {
     if (commentBlock != null) {
       out.println(commentBlock);
     }
+    if (_descriptor.options.deprecated) {
+      out.println('@$coreImportPrefix.Deprecated(\'This enum is deprecated\')');
+    }
     out.addAnnotatedBlock(
         'class $classname extends $protobufImportPrefix.ProtobufEnum {',
         '}\n', [
@@ -127,6 +130,11 @@ class EnumGenerator extends ProtobufContainer {
         final commentBlock = fileGen?.commentBlock(fieldPathSegment);
         if (commentBlock != null) {
           out.println(commentBlock);
+        }
+
+        if (val.options.deprecated) {
+          out.println(
+              '@$coreImportPrefix.Deprecated(\'This enum value is deprecated\')');
         }
 
         out.printlnAnnotated(
