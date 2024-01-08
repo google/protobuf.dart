@@ -14,6 +14,8 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
+
 export 'doc_comments.pbenum.dart';
 
 /// This is a message.
@@ -29,7 +31,7 @@ class HelloRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'HelloRequest',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'service'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'service1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..hasRequiredFields = false;
@@ -83,7 +85,7 @@ class HelloReply extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'HelloReply',
-      package: const $pb.PackageName(_omitMessageNames ? '' : 'service'),
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'service1'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'message')
     ..hasRequiredFields = false;

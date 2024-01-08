@@ -4,7 +4,7 @@
 
 syntax = "proto3";
 
-package service;
+package service1;
 
 // This is a service.
 service Greeter {
