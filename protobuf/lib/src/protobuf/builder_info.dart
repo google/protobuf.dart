@@ -323,10 +323,13 @@ class BuilderInfo {
 
   ProtobufEnum? _decodeEnum(
       int tagNumber, ExtensionRegistry? registry, int rawValue) {
-    var f = valueOfFunc(tagNumber);
-    if (f == null && registry != null) {
-      f = registry.getExtension(qualifiedMessageName, tagNumber)!.valueOf;
+    final f = valueOfFunc(tagNumber);
+    if (f != null) {
+      return f(rawValue);
     }
-    return f!(rawValue);
+    return registry
+        ?.getExtension(qualifiedMessageName, tagNumber)
+        ?.valueOf
+        ?.call(rawValue);
   }
 }
