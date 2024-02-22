@@ -33,19 +33,8 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
     CodedBufferReader input, ExtensionRegistry registry) {
   ArgumentError.checkNotNull(registry);
   fs._ensureWritable();
-
-  // Micro-optimization: cache the storage lookup for repeated fields.
-  var prevTag = -1;
-  List? cachedList;
-
   while (true) {
     final tag = input.readTag();
-    // If the current field's tag is different from previous, invalidate cache.
-    if (tag != prevTag) {
-      cachedList = null;
-      prevTag = tag;
-    }
-
     if (tag == 0) return;
     final wireType = tag & 0x7;
     final tagNumber = tag >> 3;
@@ -139,7 +128,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_BOOL:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readBool()));
         } else {
@@ -147,15 +136,15 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_BYTES:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         list.add(input.readBytes());
         break;
       case PbFieldType._REPEATED_STRING:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         list.add(input.readString());
         break;
       case PbFieldType._REPEATED_FLOAT:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readFloat()));
         } else {
@@ -163,7 +152,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_DOUBLE:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readDouble()));
         } else {
@@ -171,18 +160,18 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_ENUM:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         _readPackableToListEnum(
             list, meta, fs, input, wireType, tagNumber, registry);
         break;
       case PbFieldType._REPEATED_GROUP:
         final subMessage = meta._makeEmptyMessage(tagNumber, registry);
         input.readGroup(tagNumber, subMessage, registry);
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         list.add(subMessage);
         break;
       case PbFieldType._REPEATED_INT32:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readInt32()));
         } else {
@@ -190,7 +179,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_INT64:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readInt64()));
         } else {
@@ -198,7 +187,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_SINT32:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readSint32()));
         } else {
@@ -206,7 +195,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_SINT64:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readSint64()));
         } else {
@@ -214,7 +203,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_UINT32:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readUint32()));
         } else {
@@ -222,7 +211,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_UINT64:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readUint64()));
         } else {
@@ -230,7 +219,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_FIXED32:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readFixed32()));
         } else {
@@ -238,7 +227,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_FIXED64:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readFixed64()));
         } else {
@@ -246,7 +235,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_SFIXED32:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readSfixed32()));
         } else {
@@ -254,7 +243,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         }
         break;
       case PbFieldType._REPEATED_SFIXED64:
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           _readPacked(input, () => list.add(input.readSfixed64()));
         } else {
@@ -264,7 +253,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_MESSAGE:
         final subMessage = meta._makeEmptyMessage(tagNumber, registry);
         input.readMessage(subMessage, registry);
-        final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
+        final list = fs._ensureRepeatedField(meta, fi);
         list.add(subMessage);
         break;
       case PbFieldType._MAP:
