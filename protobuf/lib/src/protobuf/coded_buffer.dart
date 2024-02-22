@@ -208,9 +208,9 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_SINT64:
         final list = cachedList ??= fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readSint32()));
+          _readPacked(input, () => list.add(input.readSint64()));
         } else {
-          list.add(input.readSint32());
+          list.add(input.readSint64());
         }
         break;
       case PbFieldType._REPEATED_UINT32:
