@@ -300,25 +300,23 @@ void _readPackableToListEnum(
     // Packed.
     input._withLimit(input.readInt32(), () {
       while (!input.isAtEnd()) {
-        final rawValue = input.readEnum();
-        final value = meta._decodeEnum(tagNumber, registry, rawValue);
-        if (value == null) {
-          final unknown = fs._ensureUnknownFields();
-          unknown.mergeVarintField(tagNumber, Int64(rawValue));
-        } else {
-          list.add(value);
-        }
+        _readRepeatedEnum(list, meta, fs, input, tagNumber, registry);
       }
     });
   } else {
     // Not packed.
-    final rawValue = input.readEnum();
-    final value = meta._decodeEnum(tagNumber, registry, rawValue);
-    if (value == null) {
-      final unknown = fs._ensureUnknownFields();
-      unknown.mergeVarintField(tagNumber, Int64(rawValue));
-    } else {
-      list.add(value);
-    }
+    _readRepeatedEnum(list, meta, fs, input, tagNumber, registry);
+  }
+}
+
+void _readRepeatedEnum(List list, BuilderInfo meta, _FieldSet fs,
+    CodedBufferReader input, int tagNumber, ExtensionRegistry registry) {
+  final rawValue = input.readEnum();
+  final value = meta._decodeEnum(tagNumber, registry, rawValue);
+  if (value == null) {
+    final unknown = fs._ensureUnknownFields();
+    unknown.mergeVarintField(tagNumber, Int64(rawValue));
+  } else {
+    list.add(value);
   }
 }
