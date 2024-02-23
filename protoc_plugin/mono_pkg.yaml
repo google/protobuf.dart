@@ -1,6 +1,6 @@
 # See https://github.com/dart-lang/mono_repo for details
 stages:
-  - format_analyze:
+  - format_analyze_test:
     - group:
       - format
       - command: ./../tool/setup.sh
@@ -8,13 +8,13 @@ stages:
       # Specify directores to exclude legacy_tests
       - analyze: --fatal-infos bin lib test
       sdk: [dev]
-  - run_tests:
+
     - group:
       - command: ./../tool/setup.sh
       - command: make protos
       - test
       sdk: [pubspec, dev]
-  - run_legacy_tests:
+
     - group:
       - command: ./../tool/setup.sh
       - command: make protos

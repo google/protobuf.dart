@@ -1,16 +1,17 @@
 # See https://github.com/dart-lang/mono_repo for details
 
 stages:
-  - format_analyze:
+  - format_analyze_test:
     - group:
       - format
       - analyze: --fatal-infos
       sdk: [dev]
+
     - group:
       - analyze: lib
       - analyze: test
       sdk: [pubspec]
-  - run_tests:
+
     - group: [test]
       sdk: [pubspec, dev]
       os: [linux, osx, windows]
