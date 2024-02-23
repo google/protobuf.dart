@@ -198,9 +198,12 @@ abstract class GeneratedMessage {
   /// * Else, if it's a scalar, this overwrites our field.
   /// * Else, (it's a non-repeated sub-message), this recursively merges into
   ///   the existing sub-message.
-  void mergeFromBuffer(List<int> input,
-      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
-    final codedInput = CodedBufferReader(input);
+  void mergeFromBuffer(
+    List<int> input, [
+    ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+    int? sizeLimit,
+  ]) {
+    final codedInput = CodedBufferReader(input, sizeLimit: sizeLimit);
     final meta = _fieldSet._meta;
     _mergeFromCodedBufferReader(meta, _fieldSet, codedInput, extensionRegistry);
     codedInput.checkLastTagWas(0);
