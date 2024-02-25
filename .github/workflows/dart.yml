@@ -72,8 +72,6 @@ jobs:
         run: dart analyze test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-    needs:
-      - job_001
   job_003:
     name: "format_analyze_test; linux; Dart 2.19.0; PKG: protobuf; `dart test`"
     runs-on: ubuntu-latest
@@ -104,8 +102,6 @@ jobs:
         run: dart test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-    needs:
-      - job_001
   job_004:
     name: "format_analyze_test; linux; Dart 2.19.0; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test legacy_tests/generated_message_test.dart`"
     runs-on: ubuntu-latest
@@ -144,8 +140,6 @@ jobs:
         run: dart test legacy_tests/generated_message_test.dart
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
-    needs:
-      - job_001
   job_005:
     name: "format_analyze_test; linux; Dart 2.19.0; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
     runs-on: ubuntu-latest
@@ -184,8 +178,6 @@ jobs:
         run: dart test
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
-    needs:
-      - job_001
   job_006:
     name: "format_analyze_test; linux; Dart dev; PKG: protobuf; `dart format --output=none --set-exit-if-changed .`, `dart analyze --fatal-infos`"
     runs-on: ubuntu-latest
@@ -220,8 +212,6 @@ jobs:
         run: dart analyze --fatal-infos
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-    needs:
-      - job_001
   job_007:
     name: "format_analyze_test; linux; Dart dev; PKG: protobuf; `dart test`"
     runs-on: ubuntu-latest
@@ -252,8 +242,6 @@ jobs:
         run: dart test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-    needs:
-      - job_001
   job_008:
     name: "format_analyze_test; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
     runs-on: ubuntu-latest
@@ -292,8 +280,6 @@ jobs:
         run: dart test
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
-    needs:
-      - job_001
   job_009:
     name: "format_analyze_test; linux; Dart dev; PKG: protoc_plugin; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `make protos`, `dart analyze --fatal-infos bin lib test`"
     runs-on: ubuntu-latest
@@ -336,8 +322,6 @@ jobs:
         run: dart analyze --fatal-infos bin lib test
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
-    needs:
-      - job_001
   job_010:
     name: "format_analyze_test; osx; Dart 2.19.0; PKG: protobuf; `dart test`"
     runs-on: macos-latest
@@ -368,8 +352,6 @@ jobs:
         run: dart test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-    needs:
-      - job_001
   job_011:
     name: "format_analyze_test; osx; Dart dev; PKG: protobuf; `dart test`"
     runs-on: macos-latest
@@ -400,8 +382,6 @@ jobs:
         run: dart test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-    needs:
-      - job_001
   job_012:
     name: "format_analyze_test; windows; Dart 2.19.0; PKG: protobuf; `dart test`"
     runs-on: windows-latest
@@ -422,8 +402,6 @@ jobs:
         run: dart test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-    needs:
-      - job_001
   job_013:
     name: "format_analyze_test; windows; Dart dev; PKG: protobuf; `dart test`"
     runs-on: windows-latest
@@ -444,8 +422,6 @@ jobs:
         run: dart test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-    needs:
-      - job_001
   job_014:
     name: "format_analyze; linux; Dart dev; PKG: api_benchmark; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./compile_protos.sh`, `dart analyze --fatal-infos`"
     runs-on: ubuntu-latest

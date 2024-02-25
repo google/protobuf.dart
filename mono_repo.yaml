@@ -1,5 +1,5 @@
 # See https://github.com/google/mono_repo.dart for details on this file
-self_validate: format_analyze
+self_validate: format_analyze_test
 
 github:
   on:
