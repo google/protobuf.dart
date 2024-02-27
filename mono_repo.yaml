@@ -10,6 +10,3 @@ github:
       branches: master
     schedule:
       - cron: "0 0 * * 0"
-
-merge_stages:
-- format_analyze_test

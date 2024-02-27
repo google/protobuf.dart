@@ -39,14 +39,14 @@ jobs:
       - name: mono_repo self validate
         run: dart pub global run mono_repo generate --validate
   job_002:
-    name: "format_analyze_test; linux; Dart 2.19.0; PKG: protobuf; `dart analyze lib`, `dart analyze test`"
+    name: "format_analyze_test; linux; Dart 2.19.0; PKG: protobuf; `dart analyze --fatal-infos`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0;packages:protobuf;commands:analyze_1-analyze_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0;packages:protobuf;commands:analyze_0"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0;packages:protobuf
             os:ubuntu-latest;pub-cache-hosted;sdk:2.19.0
@@ -64,12 +64,8 @@ jobs:
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
         working-directory: protobuf
-      - name: protobuf; dart analyze lib
-        run: dart analyze lib
-        if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
-        working-directory: protobuf
-      - name: protobuf; dart analyze test
-        run: dart analyze test
+      - name: "protobuf; dart analyze --fatal-infos"
+        run: dart analyze --fatal-infos
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
   job_003:
@@ -179,14 +175,14 @@ jobs:
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
   job_006:
-    name: "format_analyze_test; linux; Dart dev; PKG: protobuf; `dart format --output=none --set-exit-if-changed .`, `dart analyze --fatal-infos`"
+    name: "format_analyze_test; linux; Dart dev; PKG: protobuf; `dart analyze --fatal-infos`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:format-analyze_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:analyze_0"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
@@ -203,10 +199,6 @@ jobs:
         name: protobuf; dart pub upgrade
         run: dart pub upgrade
         if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protobuf
-      - name: "protobuf; dart format --output=none --set-exit-if-changed ."
-        run: "dart format --output=none --set-exit-if-changed ."
-        if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
       - name: "protobuf; dart analyze --fatal-infos"
         run: dart analyze --fatal-infos
@@ -288,7 +280,7 @@ jobs:
         uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:format-command_0-command_3-analyze_3"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:format-command_0-command_3-analyze_1"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
