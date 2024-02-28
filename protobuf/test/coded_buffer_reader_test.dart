@@ -85,8 +85,8 @@ void main() {
 
     test('unmodifiable-uint8-list-view', () {
       // TODO: Use `Uint8List.asUnmodifiableView` instead of
-      // `UnmodifiableUint8ListView` when it's available in the minimum
-      // supported version.
+      // `UnmodifiableUint8ListView` when it's available in the oldest
+      // supported SDK version.
       // ignore: deprecated_member_use
       testWithList(UnmodifiableUint8ListView(Uint8List.fromList(inputBuffer)));
     });
