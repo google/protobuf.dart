@@ -55,33 +55,33 @@ class M extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   M get m => $_getN(0);
   @$pb.TagNumber(1)
-  set m(M v) { setField(1, v); }
+  set m(M v) { $_setField(1, v); }
   @$pb.TagNumber(1)
   $core.bool hasM() => $_has(0);
   @$pb.TagNumber(1)
-  void clearM() => clearField(1);
+  void clearM() => $_clearField(1);
   @$pb.TagNumber(1)
   M ensureM() => $_ensure(0);
 
   @$pb.TagNumber(2)
   $1.M get m1 => $_getN(1);
   @$pb.TagNumber(2)
-  set m1($1.M v) { setField(2, v); }
+  set m1($1.M v) { $_setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasM1() => $_has(1);
   @$pb.TagNumber(2)
-  void clearM1() => clearField(2);
+  void clearM1() => $_clearField(2);
   @$pb.TagNumber(2)
   $1.M ensureM1() => $_ensure(1);
 
   @$pb.TagNumber(3)
   $2.M get m2 => $_getN(2);
   @$pb.TagNumber(3)
-  set m2($2.M v) { setField(3, v); }
+  set m2($2.M v) { $_setField(3, v); }
   @$pb.TagNumber(3)
   $core.bool hasM2() => $_has(2);
   @$pb.TagNumber(3)
-  void clearM2() => clearField(3);
+  void clearM2() => $_clearField(3);
   @$pb.TagNumber(3)
   $2.M ensureM2() => $_ensure(2);
 }
