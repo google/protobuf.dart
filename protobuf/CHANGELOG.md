@@ -25,9 +25,20 @@
   To migrate, use `PbMap.unmodifiable(map.keyFieldType, map.valueFieldType)`
   instead of `PbMap.unmodifiable(map)`. ([#902])
 
+* Messages deserialized from JSON now generate the unknown fields when
+  serialized as JSON.
+
+  Note that, as before, unknown fields in JSON messages are not stored in the
+  `unknownFields` of the message. They are only used by the JSON serializers to
+  support roundtripping.
+
+  ([#49], [#918])
+
 [#738]: https://github.com/google/protobuf.dart/issues/738
 [#896]: https://github.com/google/protobuf.dart/issues/896
 [#902]: https://github.com/google/protobuf.dart/issues/902
+[#49]: https://github.com/google/protobuf.dart/issues/49
+[#918]: https://github.com/google/protobuf.dart/pulls/918
 
 ## 3.1.0
 
