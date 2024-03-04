@@ -535,7 +535,7 @@ class MessageGenerator extends ProtobufContainer {
     out.println('${oneof.oneofEnumName} ${oneof.whichOneofMethodName}() '
         '=> ${oneof.byTagMapName}[\$_whichOneof(${oneof.index})]!;');
     out.println('void ${oneof.clearMethodName}() '
-        '=> clearField(\$_whichOneof(${oneof.index}));');
+        '=> \$_clearField(\$_whichOneof(${oneof.index}));');
   }
 
   void generateFieldAccessorsMutators(
@@ -597,7 +597,7 @@ class MessageGenerator extends ProtobufContainer {
         out.printlnAnnotated(
             'set ${names.fieldName}'
             '($fieldTypeString v) { '
-            'setField(${field.number}, v);'
+            '\$_setField(${field.number}, v);'
             ' }',
             [
               NamedLocation(
@@ -625,7 +625,7 @@ class MessageGenerator extends ProtobufContainer {
       _emitIndexAnnotation(field.number, out);
       out.printlnAnnotated(
           'void ${names.clearMethodName}() =>'
-          ' clearField(${field.number});',
+          ' \$_clearField(${field.number});',
           [
             NamedLocation(
                 name: names.clearMethodName!,

@@ -91,7 +91,7 @@ class Version extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasMajor() => $_has(0);
   @$pb.TagNumber(1)
-  void clearMajor() => clearField(1);
+  void clearMajor() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get minor => $_getIZ(1);
@@ -103,7 +103,7 @@ class Version extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasMinor() => $_has(1);
   @$pb.TagNumber(2)
-  void clearMinor() => clearField(2);
+  void clearMinor() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.int get patch => $_getIZ(2);
@@ -115,7 +115,7 @@ class Version extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasPatch() => $_has(2);
   @$pb.TagNumber(3)
-  void clearPatch() => clearField(3);
+  void clearPatch() => $_clearField(3);
 
   /// A suffix for alpha, beta or rc release, e.g., "alpha-1", "rc2". It should
   /// be empty for mainline stable releases.
@@ -129,7 +129,7 @@ class Version extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasSuffix() => $_has(3);
   @$pb.TagNumber(4)
-  void clearSuffix() => clearField(4);
+  void clearSuffix() => $_clearField(4);
 }
 
 /// An encoded CodeGeneratorRequest is written to the plugin's stdin.
@@ -217,20 +217,20 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasParameter() => $_has(1);
   @$pb.TagNumber(2)
-  void clearParameter() => clearField(2);
+  void clearParameter() => $_clearField(2);
 
   /// The version number of protocol compiler.
   @$pb.TagNumber(3)
   Version get compilerVersion => $_getN(2);
   @$pb.TagNumber(3)
   set compilerVersion(Version v) {
-    setField(3, v);
+    $_setField(3, v);
   }
 
   @$pb.TagNumber(3)
   $core.bool hasCompilerVersion() => $_has(2);
   @$pb.TagNumber(3)
-  void clearCompilerVersion() => clearField(3);
+  void clearCompilerVersion() => $_clearField(3);
   @$pb.TagNumber(3)
   Version ensureCompilerVersion() => $_ensure(2);
 
@@ -342,7 +342,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   ///  If non-empty, indicates that the named file should already exist, and the
   ///  content here is to be inserted into that file at a defined insertion
@@ -391,7 +391,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasInsertionPoint() => $_has(1);
   @$pb.TagNumber(2)
-  void clearInsertionPoint() => clearField(2);
+  void clearInsertionPoint() => $_clearField(2);
 
   /// The file contents.
   @$pb.TagNumber(15)
@@ -404,7 +404,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$pb.TagNumber(15)
   $core.bool hasContent() => $_has(2);
   @$pb.TagNumber(15)
-  void clearContent() => clearField(15);
+  void clearContent() => $_clearField(15);
 
   /// Information describing the file content being inserted. If an insertion
   /// point is used, this information will be appropriately offset and inserted
@@ -413,13 +413,13 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   $0.GeneratedCodeInfo get generatedCodeInfo => $_getN(3);
   @$pb.TagNumber(16)
   set generatedCodeInfo($0.GeneratedCodeInfo v) {
-    setField(16, v);
+    $_setField(16, v);
   }
 
   @$pb.TagNumber(16)
   $core.bool hasGeneratedCodeInfo() => $_has(3);
   @$pb.TagNumber(16)
-  void clearGeneratedCodeInfo() => clearField(16);
+  void clearGeneratedCodeInfo() => $_clearField(16);
   @$pb.TagNumber(16)
   $0.GeneratedCodeInfo ensureGeneratedCodeInfo() => $_ensure(3);
 }
@@ -508,7 +508,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasError() => $_has(0);
   @$pb.TagNumber(1)
-  void clearError() => clearField(1);
+  void clearError() => $_clearField(1);
 
   /// A bitmask of supported features that the code generator supports.
   /// This is a bitwise "or" of values from the Feature enum.
@@ -522,7 +522,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasSupportedFeatures() => $_has(1);
   @$pb.TagNumber(2)
-  void clearSupportedFeatures() => clearField(2);
+  void clearSupportedFeatures() => $_clearField(2);
 
   @$pb.TagNumber(15)
   $core.List<CodeGeneratorResponse_File> get file => $_getList(2);

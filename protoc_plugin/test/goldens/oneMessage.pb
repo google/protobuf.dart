@@ -55,7 +55,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasNumber() => $_has(0);
   @$pb.TagNumber(1)
-  void clearNumber() => clearField(1);
+  void clearNumber() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get type => $_getIZ(1);
@@ -64,7 +64,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasType() => $_has(1);
   @$pb.TagNumber(2)
-  void clearType() => clearField(2);
+  void clearType() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get name => $_getS(2, '\$');
@@ -73,7 +73,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasName() => $_has(2);
   @$pb.TagNumber(3)
-  void clearName() => clearField(3);
+  void clearName() => $_clearField(3);
 }
 
 

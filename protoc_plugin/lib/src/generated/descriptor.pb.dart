@@ -200,7 +200,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.String get package => $_getSZ(1);
@@ -212,7 +212,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasPackage() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPackage() => clearField(2);
+  void clearPackage() => $_clearField(2);
 
   /// Names of files imported by this file.
   @$pb.TagNumber(3)
@@ -235,13 +235,13 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   FileOptions get options => $_getN(7);
   @$pb.TagNumber(8)
   set options(FileOptions v) {
-    setField(8, v);
+    $_setField(8, v);
   }
 
   @$pb.TagNumber(8)
   $core.bool hasOptions() => $_has(7);
   @$pb.TagNumber(8)
-  void clearOptions() => clearField(8);
+  void clearOptions() => $_clearField(8);
   @$pb.TagNumber(8)
   FileOptions ensureOptions() => $_ensure(7);
 
@@ -253,13 +253,13 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   SourceCodeInfo get sourceCodeInfo => $_getN(8);
   @$pb.TagNumber(9)
   set sourceCodeInfo(SourceCodeInfo v) {
-    setField(9, v);
+    $_setField(9, v);
   }
 
   @$pb.TagNumber(9)
   $core.bool hasSourceCodeInfo() => $_has(8);
   @$pb.TagNumber(9)
-  void clearSourceCodeInfo() => clearField(9);
+  void clearSourceCodeInfo() => $_clearField(9);
   @$pb.TagNumber(9)
   SourceCodeInfo ensureSourceCodeInfo() => $_ensure(8);
 
@@ -284,7 +284,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(12)
   $core.bool hasSyntax() => $_has(11);
   @$pb.TagNumber(12)
-  void clearSyntax() => clearField(12);
+  void clearSyntax() => $_clearField(12);
 }
 
 class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
@@ -360,7 +360,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasStart() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStart() => clearField(1);
+  void clearStart() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get end => $_getIZ(1);
@@ -372,19 +372,19 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasEnd() => $_has(1);
   @$pb.TagNumber(2)
-  void clearEnd() => clearField(2);
+  void clearEnd() => $_clearField(2);
 
   @$pb.TagNumber(3)
   ExtensionRangeOptions get options => $_getN(2);
   @$pb.TagNumber(3)
   set options(ExtensionRangeOptions v) {
-    setField(3, v);
+    $_setField(3, v);
   }
 
   @$pb.TagNumber(3)
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
-  void clearOptions() => clearField(3);
+  void clearOptions() => $_clearField(3);
   @$pb.TagNumber(3)
   ExtensionRangeOptions ensureOptions() => $_ensure(2);
 }
@@ -460,7 +460,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasStart() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStart() => clearField(1);
+  void clearStart() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get end => $_getIZ(1);
@@ -472,7 +472,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasEnd() => $_has(1);
   @$pb.TagNumber(2)
-  void clearEnd() => clearField(2);
+  void clearEnd() => $_clearField(2);
 }
 
 /// Describes a message type.
@@ -594,7 +594,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.List<FieldDescriptorProto> get field => $_getList(1);
@@ -615,13 +615,13 @@ class DescriptorProto extends $pb.GeneratedMessage {
   MessageOptions get options => $_getN(6);
   @$pb.TagNumber(7)
   set options(MessageOptions v) {
-    setField(7, v);
+    $_setField(7, v);
   }
 
   @$pb.TagNumber(7)
   $core.bool hasOptions() => $_has(6);
   @$pb.TagNumber(7)
-  void clearOptions() => clearField(7);
+  void clearOptions() => $_clearField(7);
   @$pb.TagNumber(7)
   MessageOptions ensureOptions() => $_ensure(6);
 
@@ -814,7 +814,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   /// For extensions, this is the name of the type being extended.  It is
   /// resolved in the same manner as type_name.
@@ -828,7 +828,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasExtendee() => $_has(1);
   @$pb.TagNumber(2)
-  void clearExtendee() => clearField(2);
+  void clearExtendee() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.int get number => $_getIZ(2);
@@ -840,19 +840,19 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasNumber() => $_has(2);
   @$pb.TagNumber(3)
-  void clearNumber() => clearField(3);
+  void clearNumber() => $_clearField(3);
 
   @$pb.TagNumber(4)
   FieldDescriptorProto_Label get label => $_getN(3);
   @$pb.TagNumber(4)
   set label(FieldDescriptorProto_Label v) {
-    setField(4, v);
+    $_setField(4, v);
   }
 
   @$pb.TagNumber(4)
   $core.bool hasLabel() => $_has(3);
   @$pb.TagNumber(4)
-  void clearLabel() => clearField(4);
+  void clearLabel() => $_clearField(4);
 
   /// If type_name is set, this need not be set.  If both this and type_name
   /// are set, this must be one of TYPE_ENUM, TYPE_MESSAGE or TYPE_GROUP.
@@ -860,13 +860,13 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   FieldDescriptorProto_Type get type => $_getN(4);
   @$pb.TagNumber(5)
   set type(FieldDescriptorProto_Type v) {
-    setField(5, v);
+    $_setField(5, v);
   }
 
   @$pb.TagNumber(5)
   $core.bool hasType() => $_has(4);
   @$pb.TagNumber(5)
-  void clearType() => clearField(5);
+  void clearType() => $_clearField(5);
 
   /// For message and enum types, this is the name of the type.  If the name
   /// starts with a '.', it is fully-qualified.  Otherwise, C++-like scoping
@@ -883,7 +883,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.bool hasTypeName() => $_has(5);
   @$pb.TagNumber(6)
-  void clearTypeName() => clearField(6);
+  void clearTypeName() => $_clearField(6);
 
   /// For numeric types, contains the original text representation of the value.
   /// For booleans, "true" or "false".
@@ -900,19 +900,19 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.bool hasDefaultValue() => $_has(6);
   @$pb.TagNumber(7)
-  void clearDefaultValue() => clearField(7);
+  void clearDefaultValue() => $_clearField(7);
 
   @$pb.TagNumber(8)
   FieldOptions get options => $_getN(7);
   @$pb.TagNumber(8)
   set options(FieldOptions v) {
-    setField(8, v);
+    $_setField(8, v);
   }
 
   @$pb.TagNumber(8)
   $core.bool hasOptions() => $_has(7);
   @$pb.TagNumber(8)
-  void clearOptions() => clearField(8);
+  void clearOptions() => $_clearField(8);
   @$pb.TagNumber(8)
   FieldOptions ensureOptions() => $_ensure(7);
 
@@ -928,7 +928,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(9)
   $core.bool hasOneofIndex() => $_has(8);
   @$pb.TagNumber(9)
-  void clearOneofIndex() => clearField(9);
+  void clearOneofIndex() => $_clearField(9);
 
   /// JSON name of this field. The value is set by protocol compiler. If the
   /// user has set a "json_name" option on this field, that option's value
@@ -944,7 +944,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   $core.bool hasJsonName() => $_has(9);
   @$pb.TagNumber(10)
-  void clearJsonName() => clearField(10);
+  void clearJsonName() => $_clearField(10);
 
   ///  If true, this is a proto3 "optional". When a proto3 field is optional, it
   ///  tracks presence regardless of field type.
@@ -977,7 +977,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(17)
   $core.bool hasProto3Optional() => $_has(10);
   @$pb.TagNumber(17)
-  void clearProto3Optional() => clearField(17);
+  void clearProto3Optional() => $_clearField(17);
 }
 
 /// Describes a oneof.
@@ -1046,19 +1046,19 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
   OneofOptions get options => $_getN(1);
   @$pb.TagNumber(2)
   set options(OneofOptions v) {
-    setField(2, v);
+    $_setField(2, v);
   }
 
   @$pb.TagNumber(2)
   $core.bool hasOptions() => $_has(1);
   @$pb.TagNumber(2)
-  void clearOptions() => clearField(2);
+  void clearOptions() => $_clearField(2);
   @$pb.TagNumber(2)
   OneofOptions ensureOptions() => $_ensure(1);
 }
@@ -1139,7 +1139,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasStart() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStart() => clearField(1);
+  void clearStart() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get end => $_getIZ(1);
@@ -1151,7 +1151,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasEnd() => $_has(1);
   @$pb.TagNumber(2)
-  void clearEnd() => clearField(2);
+  void clearEnd() => $_clearField(2);
 }
 
 /// Describes an enum type.
@@ -1238,7 +1238,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.List<EnumValueDescriptorProto> get value => $_getList(1);
@@ -1247,13 +1247,13 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   EnumOptions get options => $_getN(2);
   @$pb.TagNumber(3)
   set options(EnumOptions v) {
-    setField(3, v);
+    $_setField(3, v);
   }
 
   @$pb.TagNumber(3)
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
-  void clearOptions() => clearField(3);
+  void clearOptions() => $_clearField(3);
   @$pb.TagNumber(3)
   EnumOptions ensureOptions() => $_ensure(2);
 
@@ -1342,7 +1342,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get number => $_getIZ(1);
@@ -1354,19 +1354,19 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasNumber() => $_has(1);
   @$pb.TagNumber(2)
-  void clearNumber() => clearField(2);
+  void clearNumber() => $_clearField(2);
 
   @$pb.TagNumber(3)
   EnumValueOptions get options => $_getN(2);
   @$pb.TagNumber(3)
   set options(EnumValueOptions v) {
-    setField(3, v);
+    $_setField(3, v);
   }
 
   @$pb.TagNumber(3)
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
-  void clearOptions() => clearField(3);
+  void clearOptions() => $_clearField(3);
   @$pb.TagNumber(3)
   EnumValueOptions ensureOptions() => $_ensure(2);
 }
@@ -1445,7 +1445,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.List<MethodDescriptorProto> get method => $_getList(1);
@@ -1454,13 +1454,13 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   ServiceOptions get options => $_getN(2);
   @$pb.TagNumber(3)
   set options(ServiceOptions v) {
-    setField(3, v);
+    $_setField(3, v);
   }
 
   @$pb.TagNumber(3)
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
-  void clearOptions() => clearField(3);
+  void clearOptions() => $_clearField(3);
   @$pb.TagNumber(3)
   ServiceOptions ensureOptions() => $_ensure(2);
 }
@@ -1552,7 +1552,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   /// Input and output type names.  These are resolved in the same way as
   /// FieldDescriptorProto.type_name, but must refer to a message type.
@@ -1566,7 +1566,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasInputType() => $_has(1);
   @$pb.TagNumber(2)
-  void clearInputType() => clearField(2);
+  void clearInputType() => $_clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get outputType => $_getSZ(2);
@@ -1578,19 +1578,19 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasOutputType() => $_has(2);
   @$pb.TagNumber(3)
-  void clearOutputType() => clearField(3);
+  void clearOutputType() => $_clearField(3);
 
   @$pb.TagNumber(4)
   MethodOptions get options => $_getN(3);
   @$pb.TagNumber(4)
   set options(MethodOptions v) {
-    setField(4, v);
+    $_setField(4, v);
   }
 
   @$pb.TagNumber(4)
   $core.bool hasOptions() => $_has(3);
   @$pb.TagNumber(4)
-  void clearOptions() => clearField(4);
+  void clearOptions() => $_clearField(4);
   @$pb.TagNumber(4)
   MethodOptions ensureOptions() => $_ensure(3);
 
@@ -1605,7 +1605,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool hasClientStreaming() => $_has(4);
   @$pb.TagNumber(5)
-  void clearClientStreaming() => clearField(5);
+  void clearClientStreaming() => $_clearField(5);
 
   /// Identifies if server streams multiple server messages
   @$pb.TagNumber(6)
@@ -1618,7 +1618,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.bool hasServerStreaming() => $_has(5);
   @$pb.TagNumber(6)
-  void clearServerStreaming() => clearField(6);
+  void clearServerStreaming() => $_clearField(6);
 }
 
 class FileOptions extends $pb.GeneratedMessage {
@@ -1793,7 +1793,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasJavaPackage() => $_has(0);
   @$pb.TagNumber(1)
-  void clearJavaPackage() => clearField(1);
+  void clearJavaPackage() => $_clearField(1);
 
   /// If set, all the classes from the .proto file are wrapped in a single
   /// outer class with the given name.  This applies to both Proto1
@@ -1810,19 +1810,19 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   $core.bool hasJavaOuterClassname() => $_has(1);
   @$pb.TagNumber(8)
-  void clearJavaOuterClassname() => clearField(8);
+  void clearJavaOuterClassname() => $_clearField(8);
 
   @$pb.TagNumber(9)
   FileOptions_OptimizeMode get optimizeFor => $_getN(2);
   @$pb.TagNumber(9)
   set optimizeFor(FileOptions_OptimizeMode v) {
-    setField(9, v);
+    $_setField(9, v);
   }
 
   @$pb.TagNumber(9)
   $core.bool hasOptimizeFor() => $_has(2);
   @$pb.TagNumber(9)
-  void clearOptimizeFor() => clearField(9);
+  void clearOptimizeFor() => $_clearField(9);
 
   /// If set true, then the Java code generator will generate a separate .java
   /// file for each top-level message, enum, and service defined in the .proto
@@ -1840,7 +1840,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   $core.bool hasJavaMultipleFiles() => $_has(3);
   @$pb.TagNumber(10)
-  void clearJavaMultipleFiles() => clearField(10);
+  void clearJavaMultipleFiles() => $_clearField(10);
 
   /// Sets the Go package where structs generated from this .proto will be
   /// placed. If omitted, the Go package will be derived from the following:
@@ -1857,7 +1857,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(11)
   $core.bool hasGoPackage() => $_has(4);
   @$pb.TagNumber(11)
-  void clearGoPackage() => clearField(11);
+  void clearGoPackage() => $_clearField(11);
 
   ///  Should generic services be generated in each language?  "Generic" services
   ///  are not specific to any particular RPC system.  They are generated by the
@@ -1879,7 +1879,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(16)
   $core.bool hasCcGenericServices() => $_has(5);
   @$pb.TagNumber(16)
-  void clearCcGenericServices() => clearField(16);
+  void clearCcGenericServices() => $_clearField(16);
 
   @$pb.TagNumber(17)
   $core.bool get javaGenericServices => $_getBF(6);
@@ -1891,7 +1891,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(17)
   $core.bool hasJavaGenericServices() => $_has(6);
   @$pb.TagNumber(17)
-  void clearJavaGenericServices() => clearField(17);
+  void clearJavaGenericServices() => $_clearField(17);
 
   @$pb.TagNumber(18)
   $core.bool get pyGenericServices => $_getBF(7);
@@ -1903,7 +1903,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(18)
   $core.bool hasPyGenericServices() => $_has(7);
   @$pb.TagNumber(18)
-  void clearPyGenericServices() => clearField(18);
+  void clearPyGenericServices() => $_clearField(18);
 
   /// This option does nothing.
   @$core.Deprecated('This field is deprecated.')
@@ -1920,7 +1920,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool hasJavaGenerateEqualsAndHash() => $_has(8);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(20)
-  void clearJavaGenerateEqualsAndHash() => clearField(20);
+  void clearJavaGenerateEqualsAndHash() => $_clearField(20);
 
   /// Is this file deprecated?
   /// Depending on the target platform, this can emit Deprecated annotations
@@ -1936,7 +1936,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(23)
   $core.bool hasDeprecated() => $_has(9);
   @$pb.TagNumber(23)
-  void clearDeprecated() => clearField(23);
+  void clearDeprecated() => $_clearField(23);
 
   /// If set true, then the Java2 code generator will generate code that
   /// throws an exception whenever an attempt is made to assign a non-UTF-8
@@ -1954,7 +1954,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(27)
   $core.bool hasJavaStringCheckUtf8() => $_has(10);
   @$pb.TagNumber(27)
-  void clearJavaStringCheckUtf8() => clearField(27);
+  void clearJavaStringCheckUtf8() => $_clearField(27);
 
   /// Enables the use of arenas for the proto messages in this file. This applies
   /// only to generated classes for C++.
@@ -1968,7 +1968,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(31)
   $core.bool hasCcEnableArenas() => $_has(11);
   @$pb.TagNumber(31)
-  void clearCcEnableArenas() => clearField(31);
+  void clearCcEnableArenas() => $_clearField(31);
 
   /// Sets the objective c class prefix which is prepended to all objective c
   /// generated classes from this .proto. There is no default.
@@ -1982,7 +1982,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(36)
   $core.bool hasObjcClassPrefix() => $_has(12);
   @$pb.TagNumber(36)
-  void clearObjcClassPrefix() => clearField(36);
+  void clearObjcClassPrefix() => $_clearField(36);
 
   /// Namespace for generated classes; defaults to the package.
   @$pb.TagNumber(37)
@@ -1995,7 +1995,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(37)
   $core.bool hasCsharpNamespace() => $_has(13);
   @$pb.TagNumber(37)
-  void clearCsharpNamespace() => clearField(37);
+  void clearCsharpNamespace() => $_clearField(37);
 
   /// By default Swift generators will take the proto package and CamelCase it
   /// replacing '.' with underscore and use that to prefix the types/symbols
@@ -2011,7 +2011,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(39)
   $core.bool hasSwiftPrefix() => $_has(14);
   @$pb.TagNumber(39)
-  void clearSwiftPrefix() => clearField(39);
+  void clearSwiftPrefix() => $_clearField(39);
 
   /// Sets the php class prefix which is prepended to all php generated classes
   /// from this .proto. Default is empty.
@@ -2025,7 +2025,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(40)
   $core.bool hasPhpClassPrefix() => $_has(15);
   @$pb.TagNumber(40)
-  void clearPhpClassPrefix() => clearField(40);
+  void clearPhpClassPrefix() => $_clearField(40);
 
   /// Use this option to change the namespace of php generated classes. Default
   /// is empty. When this option is empty, the package name will be used for
@@ -2040,7 +2040,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(41)
   $core.bool hasPhpNamespace() => $_has(16);
   @$pb.TagNumber(41)
-  void clearPhpNamespace() => clearField(41);
+  void clearPhpNamespace() => $_clearField(41);
 
   @$pb.TagNumber(42)
   $core.bool get phpGenericServices => $_getBF(17);
@@ -2052,7 +2052,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(42)
   $core.bool hasPhpGenericServices() => $_has(17);
   @$pb.TagNumber(42)
-  void clearPhpGenericServices() => clearField(42);
+  void clearPhpGenericServices() => $_clearField(42);
 
   /// Use this option to change the namespace of php generated metadata classes.
   /// Default is empty. When this option is empty, the proto file name will be
@@ -2067,7 +2067,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(44)
   $core.bool hasPhpMetadataNamespace() => $_has(18);
   @$pb.TagNumber(44)
-  void clearPhpMetadataNamespace() => clearField(44);
+  void clearPhpMetadataNamespace() => $_clearField(44);
 
   /// Use this option to change the package of ruby generated classes. Default
   /// is empty. When this option is not set, the package name will be used for
@@ -2082,7 +2082,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(45)
   $core.bool hasRubyPackage() => $_has(19);
   @$pb.TagNumber(45)
-  void clearRubyPackage() => clearField(45);
+  void clearRubyPackage() => $_clearField(45);
 
   /// The parser stores options it doesn't recognize here.
   /// See the documentation for the "Options" section above.
@@ -2189,7 +2189,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasMessageSetWireFormat() => $_has(0);
   @$pb.TagNumber(1)
-  void clearMessageSetWireFormat() => clearField(1);
+  void clearMessageSetWireFormat() => $_clearField(1);
 
   /// Disables the generation of the standard "descriptor()" accessor, which can
   /// conflict with a field of the same name.  This is meant to make migration
@@ -2204,7 +2204,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasNoStandardDescriptorAccessor() => $_has(1);
   @$pb.TagNumber(2)
-  void clearNoStandardDescriptorAccessor() => clearField(2);
+  void clearNoStandardDescriptorAccessor() => $_clearField(2);
 
   /// Is this message deprecated?
   /// Depending on the target platform, this can emit Deprecated annotations
@@ -2220,7 +2220,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasDeprecated() => $_has(2);
   @$pb.TagNumber(3)
-  void clearDeprecated() => clearField(3);
+  void clearDeprecated() => $_clearField(3);
 
   ///  Whether the message is an automatically generated map entry type for the
   ///  maps field.
@@ -2253,7 +2253,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.bool hasMapEntry() => $_has(3);
   @$pb.TagNumber(7)
-  void clearMapEntry() => clearField(7);
+  void clearMapEntry() => $_clearField(7);
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
@@ -2357,13 +2357,13 @@ class FieldOptions extends $pb.GeneratedMessage {
   FieldOptions_CType get ctype => $_getN(0);
   @$pb.TagNumber(1)
   set ctype(FieldOptions_CType v) {
-    setField(1, v);
+    $_setField(1, v);
   }
 
   @$pb.TagNumber(1)
   $core.bool hasCtype() => $_has(0);
   @$pb.TagNumber(1)
-  void clearCtype() => clearField(1);
+  void clearCtype() => $_clearField(1);
 
   /// The packed option can be enabled for repeated primitive fields to enable
   /// a more efficient representation on the wire. Rather than repeatedly
@@ -2380,7 +2380,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasPacked() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPacked() => clearField(2);
+  void clearPacked() => $_clearField(2);
 
   /// Is this field deprecated?
   /// Depending on the target platform, this can emit Deprecated annotations
@@ -2396,7 +2396,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasDeprecated() => $_has(2);
   @$pb.TagNumber(3)
-  void clearDeprecated() => clearField(3);
+  void clearDeprecated() => $_clearField(3);
 
   ///  Should this field be parsed lazily?  Lazy applies only to message-type
   ///  fields.  It means that when the outer message is initially parsed, the
@@ -2436,7 +2436,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool hasLazy() => $_has(3);
   @$pb.TagNumber(5)
-  void clearLazy() => clearField(5);
+  void clearLazy() => $_clearField(5);
 
   ///  The jstype option determines the JavaScript type used for values of the
   ///  field.  The option is permitted only for 64 bit integral and fixed types
@@ -2453,13 +2453,13 @@ class FieldOptions extends $pb.GeneratedMessage {
   FieldOptions_JSType get jstype => $_getN(4);
   @$pb.TagNumber(6)
   set jstype(FieldOptions_JSType v) {
-    setField(6, v);
+    $_setField(6, v);
   }
 
   @$pb.TagNumber(6)
   $core.bool hasJstype() => $_has(4);
   @$pb.TagNumber(6)
-  void clearJstype() => clearField(6);
+  void clearJstype() => $_clearField(6);
 
   /// For Google-internal migration only. Do not use.
   @$pb.TagNumber(10)
@@ -2472,7 +2472,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   $core.bool hasWeak() => $_has(5);
   @$pb.TagNumber(10)
-  void clearWeak() => clearField(10);
+  void clearWeak() => $_clearField(10);
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
@@ -2607,7 +2607,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasAllowAlias() => $_has(0);
   @$pb.TagNumber(2)
-  void clearAllowAlias() => clearField(2);
+  void clearAllowAlias() => $_clearField(2);
 
   /// Is this enum deprecated?
   /// Depending on the target platform, this can emit Deprecated annotations
@@ -2623,7 +2623,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasDeprecated() => $_has(1);
   @$pb.TagNumber(3)
-  void clearDeprecated() => clearField(3);
+  void clearDeprecated() => $_clearField(3);
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
@@ -2700,7 +2700,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasDeprecated() => $_has(0);
   @$pb.TagNumber(1)
-  void clearDeprecated() => clearField(1);
+  void clearDeprecated() => $_clearField(1);
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
@@ -2777,7 +2777,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(33)
   $core.bool hasDeprecated() => $_has(0);
   @$pb.TagNumber(33)
-  void clearDeprecated() => clearField(33);
+  void clearDeprecated() => $_clearField(33);
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
@@ -2863,19 +2863,19 @@ class MethodOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(33)
   $core.bool hasDeprecated() => $_has(0);
   @$pb.TagNumber(33)
-  void clearDeprecated() => clearField(33);
+  void clearDeprecated() => $_clearField(33);
 
   @$pb.TagNumber(34)
   MethodOptions_IdempotencyLevel get idempotencyLevel => $_getN(1);
   @$pb.TagNumber(34)
   set idempotencyLevel(MethodOptions_IdempotencyLevel v) {
-    setField(34, v);
+    $_setField(34, v);
   }
 
   @$pb.TagNumber(34)
   $core.bool hasIdempotencyLevel() => $_has(1);
   @$pb.TagNumber(34)
-  void clearIdempotencyLevel() => clearField(34);
+  void clearIdempotencyLevel() => $_clearField(34);
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
@@ -2955,7 +2955,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasNamePart() => $_has(0);
   @$pb.TagNumber(1)
-  void clearNamePart() => clearField(1);
+  void clearNamePart() => $_clearField(1);
 
   @$pb.TagNumber(2)
   $core.bool get isExtension => $_getBF(1);
@@ -2967,7 +2967,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasIsExtension() => $_has(1);
   @$pb.TagNumber(2)
-  void clearIsExtension() => clearField(2);
+  void clearIsExtension() => $_clearField(2);
 }
 
 /// A message representing a option the parser does not recognize. This only
@@ -3075,7 +3075,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasIdentifierValue() => $_has(1);
   @$pb.TagNumber(3)
-  void clearIdentifierValue() => clearField(3);
+  void clearIdentifierValue() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $fixnum.Int64 get positiveIntValue => $_getI64(2);
@@ -3087,7 +3087,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasPositiveIntValue() => $_has(2);
   @$pb.TagNumber(4)
-  void clearPositiveIntValue() => clearField(4);
+  void clearPositiveIntValue() => $_clearField(4);
 
   @$pb.TagNumber(5)
   $fixnum.Int64 get negativeIntValue => $_getI64(3);
@@ -3099,7 +3099,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool hasNegativeIntValue() => $_has(3);
   @$pb.TagNumber(5)
-  void clearNegativeIntValue() => clearField(5);
+  void clearNegativeIntValue() => $_clearField(5);
 
   @$pb.TagNumber(6)
   $core.double get doubleValue => $_getN(4);
@@ -3111,7 +3111,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.bool hasDoubleValue() => $_has(4);
   @$pb.TagNumber(6)
-  void clearDoubleValue() => clearField(6);
+  void clearDoubleValue() => $_clearField(6);
 
   @$pb.TagNumber(7)
   $core.List<$core.int> get stringValue => $_getN(5);
@@ -3123,7 +3123,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.bool hasStringValue() => $_has(5);
   @$pb.TagNumber(7)
-  void clearStringValue() => clearField(7);
+  void clearStringValue() => $_clearField(7);
 
   @$pb.TagNumber(8)
   $core.String get aggregateValue => $_getSZ(6);
@@ -3135,7 +3135,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   $core.bool hasAggregateValue() => $_has(6);
   @$pb.TagNumber(8)
-  void clearAggregateValue() => clearField(8);
+  void clearAggregateValue() => $_clearField(8);
 }
 
 class SourceCodeInfo_Location extends $pb.GeneratedMessage {
@@ -3300,7 +3300,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasLeadingComments() => $_has(2);
   @$pb.TagNumber(3)
-  void clearLeadingComments() => clearField(3);
+  void clearLeadingComments() => $_clearField(3);
 
   @$pb.TagNumber(4)
   $core.String get trailingComments => $_getSZ(3);
@@ -3312,7 +3312,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasTrailingComments() => $_has(3);
   @$pb.TagNumber(4)
-  void clearTrailingComments() => clearField(4);
+  void clearTrailingComments() => $_clearField(4);
 
   @$pb.TagNumber(6)
   $core.List<$core.String> get leadingDetachedComments => $_getList(4);
@@ -3502,7 +3502,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasSourceFile() => $_has(1);
   @$pb.TagNumber(2)
-  void clearSourceFile() => clearField(2);
+  void clearSourceFile() => $_clearField(2);
 
   /// Identifies the starting offset in bytes in the generated code
   /// that relates to the identified object.
@@ -3516,7 +3516,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasBegin() => $_has(2);
   @$pb.TagNumber(3)
-  void clearBegin() => clearField(3);
+  void clearBegin() => $_clearField(3);
 
   /// Identifies the ending offset in bytes in the generated code that
   /// relates to the identified offset. The end offset should be one past
@@ -3531,7 +3531,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.bool hasEnd() => $_has(3);
   @$pb.TagNumber(4)
-  void clearEnd() => clearField(4);
+  void clearEnd() => $_clearField(4);
 }
 
 /// Describes the relationship between generated code and its original source

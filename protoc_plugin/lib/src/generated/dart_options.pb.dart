@@ -82,7 +82,7 @@ class DartMixin extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearName() => $_clearField(1);
 
   /// A URI pointing to the Dart library that defines the mixin.
   /// The generated Dart code will use this in an import statement.
@@ -96,7 +96,7 @@ class DartMixin extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool hasImportFrom() => $_has(1);
   @$pb.TagNumber(2)
-  void clearImportFrom() => clearField(2);
+  void clearImportFrom() => $_clearField(2);
 
   /// The name of another mixin to be applied ahead of this one.
   /// The generated class for the message will inherit from all mixins
@@ -111,7 +111,7 @@ class DartMixin extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool hasParent() => $_has(2);
   @$pb.TagNumber(3)
-  void clearParent() => clearField(3);
+  void clearParent() => $_clearField(3);
 }
 
 /// Defines additional Dart imports to be used with messages in this file.
