@@ -13,6 +13,8 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
+
 /// A mixin that can be used in the 'with' clause of the generated Dart class
 /// for a proto message.
 class DartMixin extends $pb.GeneratedMessage {
@@ -171,7 +173,7 @@ class Imports extends $pb.GeneratedMessage {
   ///  so the generated code may contain errors. Therefore, running dartanalyzer
   ///  on the generated file is a good idea.
   @$pb.TagNumber(1)
-  $core.List<DartMixin> get mixins => $_getList(0);
+  $pb.PbList<DartMixin> get mixins => $_getList(0);
 }
 
 class Dart_options {

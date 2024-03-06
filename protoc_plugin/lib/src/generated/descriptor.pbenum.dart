@@ -14,14 +14,22 @@ import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
+  /// 0 is reserved for errors.
+  /// Order is weird for historical reasons.
   static const FieldDescriptorProto_Type TYPE_DOUBLE =
       FieldDescriptorProto_Type._(1, _omitEnumNames ? '' : 'TYPE_DOUBLE');
   static const FieldDescriptorProto_Type TYPE_FLOAT =
       FieldDescriptorProto_Type._(2, _omitEnumNames ? '' : 'TYPE_FLOAT');
+
+  /// Not ZigZag encoded.  Negative numbers take 10 bytes.  Use TYPE_SINT64 if
+  /// negative values are likely.
   static const FieldDescriptorProto_Type TYPE_INT64 =
       FieldDescriptorProto_Type._(3, _omitEnumNames ? '' : 'TYPE_INT64');
   static const FieldDescriptorProto_Type TYPE_UINT64 =
       FieldDescriptorProto_Type._(4, _omitEnumNames ? '' : 'TYPE_UINT64');
+
+  /// Not ZigZag encoded.  Negative numbers take 10 bytes.  Use TYPE_SINT32 if
+  /// negative values are likely.
   static const FieldDescriptorProto_Type TYPE_INT32 =
       FieldDescriptorProto_Type._(5, _omitEnumNames ? '' : 'TYPE_INT32');
   static const FieldDescriptorProto_Type TYPE_FIXED64 =
@@ -32,10 +40,17 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
       FieldDescriptorProto_Type._(8, _omitEnumNames ? '' : 'TYPE_BOOL');
   static const FieldDescriptorProto_Type TYPE_STRING =
       FieldDescriptorProto_Type._(9, _omitEnumNames ? '' : 'TYPE_STRING');
+
+  /// Tag-delimited aggregate.
+  /// Group type is deprecated and not supported in proto3. However, Proto3
+  /// implementations should still be able to parse the group wire format and
+  /// treat group fields as unknown fields.
   static const FieldDescriptorProto_Type TYPE_GROUP =
       FieldDescriptorProto_Type._(10, _omitEnumNames ? '' : 'TYPE_GROUP');
   static const FieldDescriptorProto_Type TYPE_MESSAGE =
       FieldDescriptorProto_Type._(11, _omitEnumNames ? '' : 'TYPE_MESSAGE');
+
+  /// New in version 2.
   static const FieldDescriptorProto_Type TYPE_BYTES =
       FieldDescriptorProto_Type._(12, _omitEnumNames ? '' : 'TYPE_BYTES');
   static const FieldDescriptorProto_Type TYPE_UINT32 =
@@ -81,6 +96,7 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
 }
 
 class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
+  /// 0 is reserved for errors
   static const FieldDescriptorProto_Label LABEL_OPTIONAL =
       FieldDescriptorProto_Label._(1, _omitEnumNames ? '' : 'LABEL_OPTIONAL');
   static const FieldDescriptorProto_Label LABEL_REQUIRED =
@@ -107,6 +123,8 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
 class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
   static const FileOptions_OptimizeMode SPEED =
       FileOptions_OptimizeMode._(1, _omitEnumNames ? '' : 'SPEED');
+
+  /// etc.
   static const FileOptions_OptimizeMode CODE_SIZE =
       FileOptions_OptimizeMode._(2, _omitEnumNames ? '' : 'CODE_SIZE');
   static const FileOptions_OptimizeMode LITE_RUNTIME =
@@ -127,6 +145,7 @@ class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
 }
 
 class FieldOptions_CType extends $pb.ProtobufEnum {
+  /// Default mode.
   static const FieldOptions_CType STRING =
       FieldOptions_CType._(0, _omitEnumNames ? '' : 'STRING');
   static const FieldOptions_CType CORD =
@@ -148,10 +167,15 @@ class FieldOptions_CType extends $pb.ProtobufEnum {
 }
 
 class FieldOptions_JSType extends $pb.ProtobufEnum {
+  /// Use the default type.
   static const FieldOptions_JSType JS_NORMAL =
       FieldOptions_JSType._(0, _omitEnumNames ? '' : 'JS_NORMAL');
+
+  /// Use JavaScript strings.
   static const FieldOptions_JSType JS_STRING =
       FieldOptions_JSType._(1, _omitEnumNames ? '' : 'JS_STRING');
+
+  /// Use JavaScript numbers.
   static const FieldOptions_JSType JS_NUMBER =
       FieldOptions_JSType._(2, _omitEnumNames ? '' : 'JS_NUMBER');
 
