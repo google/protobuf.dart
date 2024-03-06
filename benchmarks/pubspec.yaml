@@ -19,7 +19,7 @@ dependencies:
 
 dev_dependencies:
   args: ^2.3.1
-  dart_flutter_team_lints: ^1.0.0
+  dart_flutter_team_lints: ^2.0.0
   path: ^1.8.2
   pool: ^1.5.1
   protoc_plugin:

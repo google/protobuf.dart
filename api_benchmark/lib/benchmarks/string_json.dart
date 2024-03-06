@@ -82,7 +82,7 @@ class StringBenchmark extends Benchmark {
   String get measureSampleUnits => 'string reads/ms';
 
   static const $id = BenchmarkID.READ_STRING_FIELDS_JSON;
-  static final $type = BenchmarkType($id, $create);
+  static final $type = const BenchmarkType($id, $create);
 
   static StringBenchmark $create(Request r) {
     assert(r.params.hasStringFieldCount());

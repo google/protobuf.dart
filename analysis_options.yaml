@@ -4,13 +4,13 @@ analyzer:
   language:
     strict-casts: true
   errors:
+    inference_failure_on_collection_literal: ignore
+    inference_failure_on_untyped_parameter: ignore
+    inference_failure_on_function_invocation: ignore
     lines_longer_than_80_chars: ignore
 
 linter:
   rules:
   - avoid_bool_literals_in_conditional_expressions
-  - comment_references
   - prefer_final_in_for_each
   - prefer_final_locals
-  - prefer_relative_imports
-  - use_super_parameters

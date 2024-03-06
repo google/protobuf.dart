@@ -270,14 +270,13 @@ void main() {
     setValues(testMap);
     testMap.freeze();
 
-    expect(() => updateValues(testMap),
-        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => updateValues(testMap), throwsA(isA<UnsupportedError>()));
     expect(() => testMap.int32ToMessageField[1]!.value = 42,
-        throwsA(const TypeMatcher<UnsupportedError>()));
+        throwsA(isA<UnsupportedError>()));
     expect(() => testMap.int32ToStringField.remove(1),
-        throwsA(const TypeMatcher<UnsupportedError>()));
+        throwsA(isA<UnsupportedError>()));
     expect(() => testMap.int32ToStringField.clear(),
-        throwsA(const TypeMatcher<UnsupportedError>()));
+        throwsA(isA<UnsupportedError>()));
   });
 
   test('Values for different keys are not merged together when decoding', () {
@@ -452,6 +451,6 @@ void main() {
     final msg = TestMap()..freeze();
     expect(() {
       msg.int32ToInt32Field[0] = 1;
-    }, throwsA(const TypeMatcher<UnsupportedError>()));
+    }, throwsA(isA<UnsupportedError>()));
   });
 }
