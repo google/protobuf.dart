@@ -120,7 +120,7 @@ class GetStringsBenchmark extends Benchmark {
   String get measureSampleUnits => 'string reads/ms';
 
   static const $id = BenchmarkID.GET_STRINGS;
-  static final $type = BenchmarkType($id, $create);
+  static final $type = const BenchmarkType($id, $create);
 
   static GetStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());

@@ -337,7 +337,7 @@ class _FieldSet {
       if (currentOneofTag != null) {
         _clearField(currentOneofTag);
       }
-      _oneofCases![oneofIndex] = tag;
+      _oneofCases[oneofIndex] = tag;
     }
 
     _values[fi.index!] = value;
@@ -485,7 +485,7 @@ class _FieldSet {
       if (currentOneofTag != null) {
         _clearField(currentOneofTag);
       }
-      _oneofCases![oneofIndex] = tag;
+      _oneofCases[oneofIndex] = tag;
     }
     _values[index] = value;
   }

@@ -293,7 +293,7 @@ class _Label {
 
 class _Button {
   final ButtonElement elt;
-  final _clicks = StreamController.broadcast();
+  final _clicks = StreamController<bool>.broadcast();
   String? _renderedLabel;
   bool? _renderedEnabled;
 
@@ -301,7 +301,7 @@ class _Button {
     elt.onClick.listen((e) => _clicks.add(true));
   }
 
-  Stream get onClick => _clicks.stream;
+  Stream<bool> get onClick => _clicks.stream;
 
   void render(String label, bool enabled) {
     if (label != _renderedLabel) {

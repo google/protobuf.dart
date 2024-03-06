@@ -25,7 +25,7 @@ void main() {
     expect(searchRequest1.query, 'hest1');
     expect(() {
       any.unpackInto(SearchResponse());
-    }, throwsA(const TypeMatcher<InvalidProtocolBufferException>()));
+    }, throwsA(isA<InvalidProtocolBufferException>()));
   });
 
   test('any inside any', () {

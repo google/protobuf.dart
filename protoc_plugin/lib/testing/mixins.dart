@@ -1,4 +1,4 @@
-abstract class Mixin1 {
+abstract mixin class Mixin1 {
   String get overriddenString => 'mixin1';
 
   String get interfaceString;
@@ -6,10 +6,10 @@ abstract class Mixin1 {
   bool hasInterfaceString();
 }
 
-abstract class Mixin2 {
+abstract mixin class Mixin2 {
   String get overriddenString => 'mixin2';
 
   bool hasOverriddenHasMethod() => false;
 }
 
-abstract class Mixin3 {}
+abstract mixin class Mixin3 {}

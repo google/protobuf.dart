@@ -34,7 +34,7 @@ void main() async {
     expect(!identical(object, clone), true);
     expect(!identical(object.inner, clone.inner), true);
     expect(identical(object.info_, clone.info_), true);
-  }, onPlatform: {'js': Skip('dart:isolate only works on Dart VM')});
+  }, onPlatform: {'js': const Skip('dart:isolate only works on Dart VM')});
 
   test('Map-using proto can be transferred via ports', () async {
     final object = map.TestMap()
@@ -54,5 +54,5 @@ void main() async {
     // the `_info_` did not get cloned.
     expect(!identical(object, clone), true);
     expect(identical(object.info_, clone.info_), true);
-  }, onPlatform: {'js': Skip('dart:isolate only works on Dart VM')});
+  }, onPlatform: {'js': const Skip('dart:isolate only works on Dart VM')});
 }

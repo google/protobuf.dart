@@ -1,5 +1,7 @@
 ## 4.0.0-dev
 
+* Require Dart 3.3
+
 * **Breaking:** The following types and members are now removed:
 
   - `PbEventMixin`

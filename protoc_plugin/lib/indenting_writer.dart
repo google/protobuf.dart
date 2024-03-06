@@ -159,7 +159,7 @@ class IndentingWriter {
     }
     final annotation = GeneratedCodeInfo_Annotation()
       ..path.addAll(fieldPath)
-      ..sourceFile = _sourceFile!
+      ..sourceFile = _sourceFile
       ..begin = _previousOffset + start
       ..end = _previousOffset + start + name.length;
     sourceLocationInfo.annotation.add(annotation);

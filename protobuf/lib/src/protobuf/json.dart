@@ -10,7 +10,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 
     if (_isRepeated(fieldType)) {
       final PbList list = fieldValue;
-      return List.from(list.map((e) => convertToMap(e, baseType)));
+      return List<dynamic>.from(list.map((e) => convertToMap(e, baseType)));
     }
 
     switch (baseType) {
