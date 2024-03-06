@@ -1,16 +1,26 @@
 # See https://github.com/dart-lang/mono_repo for details
 
 stages:
-  - format_analyze:
-    - group:
-      - format
-      - analyze: --fatal-infos
+  - format_analyze_test:
+
+    # Analyze with the dev version, but ignore failures. Warnings/infos in dev
+    # version may not be fixable with the latest stable, for example when the
+    # dev version deprecates a member and adds a replacement, the replacement
+    # may not be available in the latest stable.
+    #
+    # TODO: How do we ignore failures in this step (don't mark it as "failing"
+    # in GitHub)?
+    - analyze: --fatal-infos
       sdk: [dev]
-    - group:
-      - analyze: lib
-      - analyze: test
+
+    - analyze: --fatal-infos
       sdk: [pubspec]
-  - run_tests:
+
+    # TODO: Similar to above, dev tests should not mark the PR tests as "failing".
     - group: [test]
-      sdk: [pubspec, dev]
+      sdk: [dev]
+      os: [linux, osx, windows]
+
+    - group: [test]
+      sdk: [pubspec]
       os: [linux, osx, windows]
