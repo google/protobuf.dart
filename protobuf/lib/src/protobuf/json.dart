@@ -89,6 +89,12 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
       result['$tagNumber'] = convertToMap(value, fi.type);
     }
   }
+  final unknownJsonData = fs._unknownJsonData;
+  if (unknownJsonData != null) {
+    unknownJsonData.forEach((key, value) {
+      result[key] = value;
+    });
+  }
   return result;
 }
 
@@ -102,9 +108,11 @@ void _mergeFromJsonMap(
   for (final key in keys) {
     var fi = meta.byTagAsString[key];
     if (fi == null) {
-      if (registry == null) continue; // Unknown tag; skip
-      fi = registry.getExtension(fs._messageName, int.parse(key));
-      if (fi == null) continue; // Unknown tag; skip
+      fi = registry?.getExtension(fs._messageName, int.parse(key));
+      if (fi == null) {
+        (fs._unknownJsonData ??= {})[key] = json[key];
+        continue;
+      }
     }
     if (fi.isMapField) {
       _appendJsonMap(

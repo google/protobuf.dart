@@ -33,6 +33,9 @@ class _FieldSet {
   /// Contains all the unknown fields, or null if there aren't any.
   UnknownFieldSet? _unknownFields;
 
+  /// Contains unknown data for messages deserialized from json.
+  Map<String, dynamic>? _unknownJsonData;
+
   /// Encodes whether `this` has been frozen, and if so, also memoizes the
   /// hash code.
   ///
@@ -105,6 +108,7 @@ class _FieldSet {
       if (_isReadOnly) return UnknownFieldSet.emptyUnknownFieldSet;
       _unknownFields = UnknownFieldSet();
     }
+    _unknownJsonData = null;
     return _unknownFields!;
   }
 
@@ -531,6 +535,8 @@ class _FieldSet {
       if (_unknownFields != o._unknownFields) return false;
     }
 
+    // Ignore _unknownJsonData to preserve existing equality behavior.
+
     return true;
   }
 
@@ -596,6 +602,8 @@ class _FieldSet {
 
     // Hash with unknown fields.
     hash = _HashUtils._combine(hash, _unknownFields?.hashCode ?? 0);
+
+    // Ignore _unknownJsonData to preserve existing hashing behavior.
 
     if (_isReadOnly) {
       _frozenState = hash;
@@ -682,6 +690,11 @@ class _FieldSet {
     } else {
       out.write(UnknownFieldSet().toString());
     }
+
+    final unknownJsonData = _unknownJsonData;
+    if (unknownJsonData != null) {
+      out.write(unknownJsonData.toString());
+    }
   }
 
   /// Merges the contents of the [other] into this message.
@@ -712,6 +725,15 @@ class _FieldSet {
     final otherUnknownFields = other._unknownFields;
     if (otherUnknownFields != null) {
       _ensureUnknownFields().mergeFromUnknownFieldSet(otherUnknownFields);
+    }
+
+    final otherUnknownJsonData = other._unknownJsonData;
+    if (otherUnknownJsonData != null) {
+      final newUnknownJsonData =
+          Map<String, dynamic>.from(_unknownJsonData ?? {});
+      otherUnknownJsonData
+          .forEach((key, value) => newUnknownJsonData[key] = value);
+      _unknownJsonData = newUnknownJsonData.isEmpty ? null : newUnknownJsonData;
     }
   }
 
@@ -866,6 +888,11 @@ class _FieldSet {
     final originalUnknownFields = original._unknownFields;
     if (originalUnknownFields != null) {
       _ensureUnknownFields()._fields.addAll(originalUnknownFields._fields);
+    }
+
+    final unknownJsonData = original._unknownJsonData;
+    if (unknownJsonData != null) {
+      _unknownJsonData = Map.from(unknownJsonData);
     }
 
     _oneofCases?.addAll(original._oneofCases!);

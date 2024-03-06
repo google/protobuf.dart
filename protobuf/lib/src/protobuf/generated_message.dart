@@ -173,6 +173,10 @@ abstract class GeneratedMessage {
   }
 
   /// Serialize the message as the protobuf binary format.
+  ///
+  /// Unknown field data, data for which there is no metadata for the associated
+  /// field, will only be included if this message was deserialized from the
+  /// same wire format.
   Uint8List writeToBuffer() {
     final out = CodedBufferWriter();
     writeToCodedBufferWriter(out);
@@ -211,6 +215,10 @@ abstract class GeneratedMessage {
   /// Returns the JSON encoding of this message as a Dart [Map].
   ///
   /// The encoding is described in [GeneratedMessage.writeToJson].
+  ///
+  /// Unknown field data, data for which there is no metadata for the associated
+  /// field, will only be included if this message was deserialized from the
+  /// same wire format.
   Map<String, dynamic> writeToJsonMap() => _writeToJsonMap(_fieldSet);
 
   /// Returns a JSON string that encodes this message.
@@ -226,6 +234,10 @@ abstract class GeneratedMessage {
   /// represented as their integer value.
   ///
   /// For the proto3 JSON format use: [toProto3Json].
+  ///
+  /// Unknown field data, data for which there is no metadata for the associated
+  /// field, will only be included if this message was deserialized from the
+  /// same wire format.
   String writeToJson() => jsonEncode(writeToJsonMap());
 
   /// Returns an Object representing Proto3 JSON serialization of `this`.
@@ -241,6 +253,9 @@ abstract class GeneratedMessage {
   /// The [typeRegistry] is be used for encoding `Any` messages. If an `Any`
   /// message encoding a type not in [typeRegistry] is encountered, an
   /// error is thrown.
+  ///
+  /// Unknown field data, data for which there is no metadata for the associated
+  /// field, will not be included.
   Object? toProto3Json(
           {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
       _writeToProto3Json(_fieldSet, typeRegistry);
@@ -508,6 +523,17 @@ abstract class GeneratedMessage {
   /// For generated code only.
   /// @nodoc
   void $_setInt64(int index, Int64 value) => _fieldSet._$set(index, value);
+
+  /// For generated code only. Separate from [setField] to distinguish
+  /// reflective accesses.
+  /// @nodoc
+  void $_setField(int tagNumber, Object value) =>
+      _fieldSet._setField(tagNumber, value);
+
+  /// For generated code only. Separate from [clearField] to distinguish
+  /// reflective accesses.
+  /// @nodoc
+  void $_clearField(int tagNumber) => _fieldSet._clearField(tagNumber);
 
   // Support for generating a read-only default singleton instance.
 

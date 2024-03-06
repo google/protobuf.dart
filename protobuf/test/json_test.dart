@@ -87,7 +87,7 @@ void main() {
     checkJsonMap(m);
   });
 
-  test('testMergeFromJson', () {
+  test('testWriteToJsonMap', () {
     final t = T();
     t.mergeFromJson('''{"1": 123, "2": "hello"}''');
     checkMessage(t);
@@ -118,13 +118,21 @@ void main() {
     final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
+
+  test('testJsonMapWithUnknown', () {
+    final m = example.writeToJsonMap();
+    m['9999'] = 'world';
+    final t = T()..mergeFromJsonMap(m);
+    checkJsonMap(t.writeToJsonMap(), unknownFields: {'9999': 'world'});
+  });
 }
 
-void checkJsonMap(Map m) {
-  expect(m.length, 3);
+void checkJsonMap(Map m, {Map<String, dynamic>? unknownFields}) {
+  expect(m.length, 3 + (unknownFields?.length ?? 0));
   expect(m['1'], 123);
   expect(m['2'], 'hello');
   expect(m['4'], [1, 2, 3]);
+  unknownFields?.forEach((k, v) => expect(m[k], v));
 }
 
 void checkMessage(T t) {
