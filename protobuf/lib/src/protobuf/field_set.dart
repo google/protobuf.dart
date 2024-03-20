@@ -279,6 +279,38 @@ class _FieldSet {
     _setNonExtensionFieldUnchecked(meta, fi, value);
   }
 
+  /// Sets a non-repeated nullable field with error-checking.
+  ///
+  /// Works for both extended and non-extended fields.
+  /// Suitable for public API.
+  void _setFieldNullable(int tagNumber, Object? value) {
+    final meta = _meta;
+    var fi = _nonExtensionInfo(meta, tagNumber);
+    if (fi == null) {
+      final extensions = _extensions;
+      if (extensions == null) {
+        throw ArgumentError('tag $tagNumber not defined in $_messageName');
+      }
+      if (value == null) {
+        _clearField(tagNumber);
+        return;
+      }
+      extensions._setField(tagNumber, value);
+      return;
+    }
+
+    if (fi.isRepeated) {
+      throw ArgumentError(_setFieldFailedMessage(
+          fi, value, 'repeating field (use get + .add())'));
+    }
+    if (value == null) {
+      _clearField(tagNumber);
+      return;
+    }
+    _validateField(fi, value);
+    _setNonExtensionFieldUnchecked(meta, fi, value);
+  }
+
   /// Sets a non-repeated field without validating it.
   ///
   /// Works for both extended and non-extended fields.
@@ -421,6 +453,9 @@ class _FieldSet {
   /// `false`.
   bool _$getBF(int index) => _values[index] ?? false;
 
+  /// The implementation of a generated getter for nullable `bool` fields.
+  bool? _$getBNullable(int index) => _values[index];
+
   /// The implementation of a generated getter for int fields.
   int _$getI(int index, int? defaultValue) {
     var value = _values[index];
@@ -434,6 +469,9 @@ class _FieldSet {
   /// The implementation of a generated getter for `int` fields (int32, uint32,
   /// fixed32, sfixed32) that default to `0`.
   int _$getIZ(int index) => _values[index] ?? 0;
+
+  /// The implementation of a generated getter for nullable int fields.
+  int? _$getINullable(int index) => _values[index];
 
   /// The implementation of a generated getter for String fields.
   String _$getS(int index, String? defaultValue) {
@@ -449,12 +487,18 @@ class _FieldSet {
   /// the empty string.
   String _$getSZ(int index) => _values[index] ?? '';
 
+  /// The implementation of a generated getter for nullable String fields.
+  String? _$getSNullable(int index) => _values[index];
+
   /// The implementation of a generated getter for Int64 fields.
   Int64 _$getI64(int index) {
     var value = _values[index];
     value ??= _getDefault(_nonExtensionInfoByIndex(index));
     return value;
   }
+
+  /// The implementation of a generated getter for nullable Int64 fields.
+  Int64? _$getI64Nullable(int index) => _values[index];
 
   /// The implementation of a generated 'has' method.
   bool _$has(int index) {
@@ -490,10 +534,24 @@ class _FieldSet {
     _values[index] = value;
   }
 
+  void _$setNullable(int index, Object? value) {
+    assert(!_nonExtensionInfoByIndex(index).isRepeated);
+    assert(value == null || _$check(index, value));
+    if (value == null) {
+      _clearField(_meta.byIndex[index].tagNumber);
+      return;
+    }
+
+    _$set(index, value);
+  }
+
   bool _$check(int index, var newValue) {
     _validateField(_nonExtensionInfoByIndex(index), newValue);
     return true; // Allows use in an assertion.
   }
+
+  /// The implementation of a generated nullable getter.
+  T _$getNullable<T>(int index) => _values[index];
 
   // Bulk operations reading or writing multiple fields
 

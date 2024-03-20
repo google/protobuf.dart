@@ -417,6 +417,15 @@ abstract class GeneratedMessage {
     _fieldSet._setField(tagNumber, value);
   }
 
+  /// Sets the value of a field by its [tagNumber].
+  ///
+  /// Throws an [ArgumentError] if [value] does not match the type associated
+  /// with [tagNumber].
+  @pragma('dart2js:noInline')
+  void setFieldNullable(int tagNumber, Object? value) {
+    _fieldSet._setFieldNullable(tagNumber, value);
+  }
+
   /// For generated code only.
   /// @nodoc
   T $_get<T>(int index, T defaultValue) =>
@@ -425,6 +434,10 @@ abstract class GeneratedMessage {
   /// For generated code only.
   /// @nodoc
   T $_getN<T>(int index) => _fieldSet._$getND(index);
+
+  /// For generated code only.
+  /// @nodoc
+  T $_getNullable<T>(int index) => _fieldSet._$getNullable<T>(index);
 
   /// For generated code only.
   /// @nodoc
@@ -450,12 +463,20 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
+  bool? $_getBNullable(int index) => _fieldSet._$getBNullable(index);
+
+  /// For generated code only.
+  /// @nodoc
   int $_getI(int index, int defaultValue) =>
       _fieldSet._$getI(index, defaultValue);
 
   /// For generated code only.
   /// @nodoc
   int $_getIZ(int index) => _fieldSet._$getIZ(index);
+
+  /// For generated code only.
+  /// @nodoc
+  int? $_getINullable(int index) => _fieldSet._$getINullable(index);
 
   /// For generated code only.
   /// @nodoc
@@ -468,7 +489,15 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
+  String? $_getSNullable(int index) => _fieldSet._$getSNullable(index);
+
+  /// For generated code only.
+  /// @nodoc
   Int64 $_getI64(int index) => _fieldSet._$getI64(index);
+
+  /// For generated code only.
+  /// @nodoc
+  Int64? $_getI64Nullable(int index) => _fieldSet._$getI64Nullable(index);
 
   /// For generated code only.
   /// @nodoc
@@ -480,11 +509,26 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
+  void $_setBoolNullable(int index, bool? value) =>
+      _fieldSet._$setNullable(index, value);
+
+  /// For generated code only.
+  /// @nodoc
   void $_setBytes(int index, List<int> value) => _fieldSet._$set(index, value);
 
   /// For generated code only.
   /// @nodoc
+  void $_setBytesNullable(int index, List<int>? value) =>
+      _fieldSet._$setNullable(index, value);
+
+  /// For generated code only.
+  /// @nodoc
   void $_setString(int index, String value) => _fieldSet._$set(index, value);
+
+  /// For generated code only.
+  /// @nodoc
+  void $_setStringNullable(int index, String? value) =>
+      _fieldSet._$setNullable(index, value);
 
   /// For generated code only.
   /// @nodoc
@@ -498,7 +542,21 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
+  void $_setFloatNullable(int index, double? value) {
+    if (value != null && !_isFloat32(value)) {
+      _fieldSet._$check(index, value);
+    }
+    _fieldSet._$setNullable(index, value);
+  }
+
+  /// For generated code only.
+  /// @nodoc
   void $_setDouble(int index, double value) => _fieldSet._$set(index, value);
+
+  /// For generated code only.
+  /// @nodoc
+  void $_setDoubleNullable(int index, double? value) =>
+      _fieldSet._$setNullable(index, value);
 
   /// For generated code only.
   /// @nodoc
@@ -508,6 +566,15 @@ abstract class GeneratedMessage {
       _fieldSet._$check(index, value);
     }
     _fieldSet._$set(index, value);
+  }
+
+  /// For generated code only.
+  /// @nodoc
+  void $_setSignedInt32Nullable(int index, int? value) {
+    if (value != null && !_isSigned32(value)) {
+      _fieldSet._$check(index, value);
+    }
+    _fieldSet._$setNullable(index, value);
   }
 
   /// For generated code only.
@@ -522,13 +589,33 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
+  void $_setUnsignedInt32Nullable(int index, int? value) {
+    if (value != null && !_isUnsigned32(value)) {
+      _fieldSet._$check(index, value);
+    }
+    _fieldSet._$setNullable(index, value);
+  }
+
+  /// For generated code only.
+  /// @nodoc
   void $_setInt64(int index, Int64 value) => _fieldSet._$set(index, value);
+
+  /// For generated code only.
+  /// @nodoc
+  void $_setInt64Nullable(int index, Int64? value) =>
+      _fieldSet._$setNullable(index, value);
 
   /// For generated code only. Separate from [setField] to distinguish
   /// reflective accesses.
   /// @nodoc
   void $_setField(int tagNumber, Object value) =>
       _fieldSet._setField(tagNumber, value);
+
+  /// For generated code only. Separate from [setFieldNullable] to distinguish
+  /// reflective accesses.
+  /// @nodoc
+  void $_setFieldNullable(int tagNumber, Object? value) =>
+      _fieldSet._setFieldNullable(tagNumber, value);
 
   /// For generated code only. Separate from [clearField] to distinguish
   /// reflective accesses.
