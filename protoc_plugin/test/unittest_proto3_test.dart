@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import '../out/protos/google/protobuf/unittest_proto3.pb.dart';
+import '../out/protos/nullable/google/protobuf/unittest_proto3.pb.dart';
 
 void main() {
   group('Optional fields should be nullable for', () {
@@ -16,7 +16,7 @@ void main() {
       expect(obj2.optionalSingleInt32, null);
       // should not generate linting errors
       expect(obj2.optionalSingleInt32 ?? 1, 1);
-      expect(obj.hasOptionalSingleInt32(), false);
+      expect(obj2.hasOptionalSingleInt32(), false);
     });
   });
 }
