@@ -418,6 +418,8 @@ abstract class GeneratedMessage {
   }
 
   /// Sets the value of a field by its [tagNumber].
+  /// This method should be used for optional fields when the nullable option
+  /// is set. When `null` is passed as value, the field is cleared.
   ///
   /// Throws an [ArgumentError] if [value] does not match the type associated
   /// with [tagNumber].

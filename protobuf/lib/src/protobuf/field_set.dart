@@ -279,7 +279,9 @@ class _FieldSet {
     _setNonExtensionFieldUnchecked(meta, fi, value);
   }
 
-  /// Sets a non-repeated nullable field with error-checking.
+  /// Sets a non-repeated field with error-checking.
+  /// This method behaves like [_setField], except if `null` is passed as
+  /// value. In this case, [_clearField] will be called.
   ///
   /// Works for both extended and non-extended fields.
   /// Suitable for public API.
