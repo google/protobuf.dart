@@ -115,8 +115,11 @@ abstract class $_MessageSet extends GeneratedMessage {
   }
 
   @override
-  void mergeFromBuffer(List<int> input,
-      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+  void mergeFromBuffer(
+    List<int> input, [
+    ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+    int? sizeLimit,
+  ]) {
     mergeFromCodedBufferReader(CodedBufferReader(input), extensionRegistry);
   }
 
