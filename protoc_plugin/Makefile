@@ -111,7 +111,7 @@ update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 
 run-tests: protos
-	dart test
+	dart test && dart -Dprotobuf.omit_enum_names=true test
 
 update-goldens: protos
 	rm -rf test/goldens
