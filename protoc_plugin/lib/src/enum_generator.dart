@@ -110,10 +110,10 @@ class EnumGenerator extends ProtobufContainer {
       out.println('@$coreImportPrefix.Deprecated(\'This enum is deprecated\')');
     }
     out.addAnnotatedBlock(
-        'class $classname extends $protobufImportPrefix.ProtobufEnum {',
+        'enum $classname implements $protobufImportPrefix.ProtobufEnum {',
         '}\n', [
       NamedLocation(
-          name: classname, fieldPathSegment: fieldPath, start: 'class '.length)
+          name: classname, fieldPathSegment: fieldPath, start: 'enum '.length)
     ], () {
       // -----------------------------------------------------------------
       // Define enum types.
@@ -137,16 +137,14 @@ class EnumGenerator extends ProtobufContainer {
               '@$coreImportPrefix.Deprecated(\'This enum value is deprecated\')');
         }
 
-        out.printlnAnnotated(
-            'static const $classname $name = '
-            '$classname._(${val.number}, $conditionalValName);',
-            [
-              NamedLocation(
-                  name: name,
-                  fieldPathSegment: fieldPathSegment,
-                  start: 'static const $classname '.length)
-            ]);
+        out.printlnAnnotated('$name(${val.number}, $conditionalValName),', [
+          NamedLocation(
+              name: name, fieldPathSegment: fieldPathSegment, start: 0)
+        ]);
+        out.println();
       }
+      out.println(';');
+
       if (_aliases.isNotEmpty) {
         out.println();
         for (var i = 0; i < _aliases.length; i++) {
@@ -164,27 +162,29 @@ class EnumGenerator extends ProtobufContainer {
               ]);
         }
       }
-      out.println();
 
-      out.println('static const $coreImportPrefix.List<$classname> values ='
-          ' <$classname> [');
-      for (final val in _canonicalValues) {
-        final name = dartNames[val.name];
-        out.println('  $name,');
-      }
-      out.println('];');
       out.println();
-
       out.println(
           'static final $coreImportPrefix.Map<$coreImportPrefix.int, $classname> _byValue ='
           ' $protobufImportPrefix.ProtobufEnum.initByValue(values);');
       out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
           ' _byValue[value];');
-      out.println();
 
+      out.println();
+      out.println('@$coreImportPrefix.override');
+      out.println('final $coreImportPrefix.int value;');
+      out.println();
+      out.println('@$coreImportPrefix.override');
+      out.println('final $coreImportPrefix.String name;');
+      out.println();
+      out.println('const $classname(this.value, this.name);');
+      out.println();
       out.println(
-          'const $classname._($coreImportPrefix.int v, $coreImportPrefix.String n) '
-          ': super(v, n);');
+          "/// Returns this enum's [name] or the [value] if names are not"
+          ' represented.');
+      out.println('@$coreImportPrefix.override');
+      out.println("$coreImportPrefix.String toString() => name == '' ? "
+          'value.toString() : name;');
     });
   }
 
