@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:collection/collection.dart';
 
 import '../protoc.dart';
 
@@ -23,8 +24,9 @@ extension FileDescriptorProtoExt on FileGenerator {
   /// The output can contain multiple lines. None of the lines will have
   /// trailing whitespace.
   String? commentBlock(List<int> path) {
+    final eq = ListEquality().equals;
     final bits = descriptor.sourceCodeInfo.location
-        .where((element) => element.path.toString() == path.toString())
+        .where((element) => eq(element.path, path))
         .toList();
 
     if (bits.length == 1) {
