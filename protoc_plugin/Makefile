@@ -18,9 +18,12 @@ TEST_PROTO_LIST = \
 	google/protobuf/timestamp \
 	google/protobuf/type \
 	google/protobuf/unittest_import \
+	google/protobuf/unittest_import_proto3 \
+	google/protobuf/unittest_import_public_proto3 \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest_well_known_types \
 	google/protobuf/unittest \
+	google/protobuf/unittest_proto3 \
 	google/protobuf/wrappers \
 	custom_option \
 	dart_name \
@@ -94,6 +97,16 @@ $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 	protoc\
 		--experimental_allow_proto3_optional\
 		--dart_out="$(TEST_PROTO_DIR)/constructor_args"\
+		-Iprotos\
+		-I$(TEST_PROTO_SRC_DIR)\
+		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
+		$(TEST_PROTO_SRCS)
+
+	mkdir -p $(TEST_PROTO_DIR)/nullable
+
+	protoc\
+		--experimental_allow_proto3_optional\
+		--dart_out="nullable:$(TEST_PROTO_DIR)/nullable"\
 		-Iprotos\
 		-I$(TEST_PROTO_SRC_DIR)\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
