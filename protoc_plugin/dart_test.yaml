@@ -1,0 +1,4 @@
+tags:
+  # Tests that change their behavior base on `protobuf.omit_enum_names`.
+  # Thos tests should also be run with `-Dprotobuf.omit_enum_names=true`
+  tests_omit_enum_names: {}

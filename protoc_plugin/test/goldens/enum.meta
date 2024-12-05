@@ -2,8 +2,8 @@ annotation: {
   path: 5
   path: 0
   sourceFile: sample.proto
-  begin: 6
-  end: 15
+  begin: 5
+  end: 14
 }
 annotation: {
   path: 5
@@ -11,8 +11,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: sample.proto
-  begin: 68
-  end: 74
+  begin: 47
+  end: 53
 }
 annotation: {
   path: 5
@@ -20,8 +20,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: sample.proto
-  begin: 150
-  end: 154
+  begin: 93
+  end: 97
 }
 annotation: {
   path: 5
@@ -29,8 +29,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: sample.proto
-  begin: 228
-  end: 232
+  begin: 135
+  end: 139
 }
 annotation: {
   path: 5
@@ -38,6 +38,6 @@ annotation: {
   path: 2
   path: 3
   sourceFile: sample.proto
-  begin: 307
-  end: 315
+  begin: 205
+  end: 213
 }
