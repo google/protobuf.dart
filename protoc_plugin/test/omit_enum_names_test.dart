@@ -22,5 +22,5 @@ Future<void> main() async {
             ? '4'
             : 'FOREIGN_FOO');
     expect(constant(), 'SHOULD_BE_PRESENT');
-  });
+  }, tags: ['tests_omit_enum_names']);
 }
