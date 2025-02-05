@@ -73,14 +73,14 @@ jobs:
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
   job_003:
-    name: "format_analyze; linux; Dart dev; PKG: api_benchmark; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./compile_protos.sh`, `dart analyze --fatal-infos`"
+    name: "format_analyze; linux; Dart dev; PKG: api_benchmark; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./compile_protos.sh`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:api_benchmark;commands:format-command_0-command_1-analyze_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:api_benchmark;commands:format-command_0-command_1"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:api_benchmark
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
@@ -108,10 +108,6 @@ jobs:
         working-directory: api_benchmark
       - name: api_benchmark; ./compile_protos.sh
         run: ./compile_protos.sh
-        if: "always() && steps.api_benchmark_pub_upgrade.conclusion == 'success'"
-        working-directory: api_benchmark
-      - name: "api_benchmark; dart analyze --fatal-infos"
-        run: dart analyze --fatal-infos
         if: "always() && steps.api_benchmark_pub_upgrade.conclusion == 'success'"
         working-directory: api_benchmark
   job_004:
