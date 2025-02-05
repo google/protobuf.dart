@@ -28,7 +28,7 @@ class A extends $pb.ProtobufEnum {
       $pb.ProtobufEnum.initByValue(values);
   static A? valueOf($core.int value) => _byValue[value];
 
-  const A._($core.int v, $core.String n) : super(v, n);
+  const A._(super.v, super.n);
 }
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
