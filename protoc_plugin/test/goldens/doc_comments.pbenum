@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: doc_comments.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -30,7 +30,7 @@ class A extends $pb.ProtobufEnum {
       $pb.ProtobufEnum.initByValue(values);
   static A? valueOf($core.int value) => _byValue[value];
 
-  const A._($core.int v, $core.String n) : super(v, n);
+  const A._(super.v, super.n);
 }
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

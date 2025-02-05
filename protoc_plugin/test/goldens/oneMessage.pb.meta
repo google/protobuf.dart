@@ -2,24 +2,15 @@ annotation: {
   path: 4
   path: 0
   sourceFile: test
-  begin: 526
-  end: 537
+  begin: 525
+  end: 536
 }
 annotation: {
   path: 4
   path: 0
   sourceFile: test
-  begin: 608
-  end: 619
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 0
-  sourceFile: test
-  begin: 2328
-  end: 2334
+  begin: 607
+  end: 618
 }
 annotation: {
   path: 4
@@ -27,8 +18,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 2376
-  end: 2382
+  begin: 2327
+  end: 2333
 }
 annotation: {
   path: 4
@@ -36,8 +27,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 2455
-  end: 2464
+  begin: 2375
+  end: 2381
 }
 annotation: {
   path: 4
@@ -45,17 +36,17 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 2507
-  end: 2518
+  begin: 2454
+  end: 2463
 }
 annotation: {
   path: 4
   path: 0
   path: 2
-  path: 1
+  path: 0
   sourceFile: test
-  begin: 2578
-  end: 2582
+  begin: 2506
+  end: 2517
 }
 annotation: {
   path: 4
@@ -63,8 +54,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 2624
-  end: 2628
+  begin: 2577
+  end: 2581
 }
 annotation: {
   path: 4
@@ -72,8 +63,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 2703
-  end: 2710
+  begin: 2623
+  end: 2627
 }
 annotation: {
   path: 4
@@ -81,8 +72,17 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 2753
-  end: 2762
+  begin: 2702
+  end: 2709
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 1
+  sourceFile: test
+  begin: 2752
+  end: 2761
 }
 annotation: {
   path: 4
@@ -90,8 +90,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 2825
-  end: 2829
+  begin: 2824
+  end: 2828
 }
 annotation: {
   path: 4
@@ -99,8 +99,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 2876
-  end: 2880
+  begin: 2875
+  end: 2879
 }
 annotation: {
   path: 4
@@ -108,8 +108,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 2953
-  end: 2960
+  begin: 2952
+  end: 2959
 }
 annotation: {
   path: 4
@@ -117,6 +117,6 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 3003
-  end: 3012
+  begin: 3002
+  end: 3011
 }

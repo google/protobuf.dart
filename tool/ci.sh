@@ -1,9 +1,10 @@
 #!/bin/bash
-# Created with package:mono_repo v6.5.7
+# Created with package:mono_repo v6.6.2
 
 # Support built in commands on windows out of the box.
+
 # When it is a flutter repo (check the pubspec.yaml for "sdk: flutter")
-# then "flutter" is called instead of "pub".
+# then "flutter pub" is called instead of "dart pub".
 # This assumes that the Flutter SDK has been installed in a previous step.
 function pub() {
   if grep -Fq "sdk: flutter" "${PWD}/pubspec.yaml"; then
@@ -12,18 +13,13 @@ function pub() {
     command dart pub "$@"
   fi
 }
-# When it is a flutter repo (check the pubspec.yaml for "sdk: flutter")
-# then "flutter" is called instead of "pub".
-# This assumes that the Flutter SDK has been installed in a previous step.
+
 function format() {
-  if grep -Fq "sdk: flutter" "${PWD}/pubspec.yaml"; then
-    command flutter format "$@"
-  else
-    command dart format "$@"
-  fi
+  command dart format "$@"
 }
+
 # When it is a flutter repo (check the pubspec.yaml for "sdk: flutter")
-# then "flutter" is called instead of "pub".
+# then "flutter analyze" is called instead of "dart analyze".
 # This assumes that the Flutter SDK has been installed in a previous step.
 function analyze() {
   if grep -Fq "sdk: flutter" "${PWD}/pubspec.yaml"; then
@@ -79,10 +75,6 @@ for PKG in ${PKGS}; do
         echo 'dart analyze test'
         dart analyze test || EXIT_CODE=$?
         ;;
-      analyze_3)
-        echo 'dart analyze --fatal-infos bin lib test'
-        dart analyze --fatal-infos bin lib test || EXIT_CODE=$?
-        ;;
       command_0)
         echo './../tool/setup.sh'
         ./../tool/setup.sh || EXIT_CODE=$?
@@ -103,13 +95,9 @@ for PKG in ${PKGS}; do
         echo 'dart format --output=none --set-exit-if-changed .'
         dart format --output=none --set-exit-if-changed . || EXIT_CODE=$?
         ;;
-      test_0)
+      test)
         echo 'dart test'
         dart test || EXIT_CODE=$?
-        ;;
-      test_1)
-        echo 'dart test legacy_tests/generated_message_test.dart'
-        dart test legacy_tests/generated_message_test.dart || EXIT_CODE=$?
         ;;
       *)
         echo -e "\033[31mUnknown TASK '${TASK}' - TERMINATING JOB\033[0m"

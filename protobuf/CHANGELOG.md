@@ -34,11 +34,14 @@
 
   ([#49], [#918])
 
+* Minimum SDK dependency bumped from 2.19.0 to 3.3.0. (#953)
+
 [#738]: https://github.com/google/protobuf.dart/issues/738
 [#896]: https://github.com/google/protobuf.dart/issues/896
 [#902]: https://github.com/google/protobuf.dart/issues/902
 [#49]: https://github.com/google/protobuf.dart/issues/49
 [#918]: https://github.com/google/protobuf.dart/pulls/918
+[#953]: https://github.com/google/protobuf.dart/pull/953
 
 ## 3.1.0
 
