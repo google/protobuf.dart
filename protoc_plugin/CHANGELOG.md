@@ -13,6 +13,7 @@
   and values are now handled to generate Dart `@deprecated` annotations.
   ([#900], [#908])
 * `protoc_plugin` and generated files now require Dart 3.3.0. (#953)
+* Fix performance issues when handling documentation comments in protobufs.
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
 [#903]: https://github.com/google/protobuf.dart/pull/903

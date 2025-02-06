@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../protoc.dart';
+import '../src/generated/descriptor.pb.dart';
 
 const protobufImportPrefix = r'$pb';
 const asyncImportPrefix = r'$async';
@@ -14,6 +15,20 @@ const grpcImportPrefix = r'$grpc';
 const mixinImportPrefix = r'$mixin';
 
 extension FileDescriptorProtoExt on FileGenerator {
+  bool _listEquals(List<int> a, List<int> b) {
+    if (a.length != b.length) {
+      return false;
+    }
+    // Note: paths are much likely to share common prefixes than to share common
+    // suffixes, so it's probably faster to run this loop backwards ;)
+    for (var i = a.length - 1; i >= 0; i--) {
+      if (a[i] != b[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   /// Convert leading comments of a definition at [path] to Dart doc comment
   /// syntax.
   ///
@@ -23,18 +38,22 @@ extension FileDescriptorProtoExt on FileGenerator {
   /// The output can contain multiple lines. None of the lines will have
   /// trailing whitespace.
   String? commentBlock(List<int> path) {
-    final bits = descriptor.sourceCodeInfo.location
-        .where((element) => element.path.toString() == path.toString())
-        .toList();
-
-    if (bits.length == 1) {
-      final match = bits.single;
-      return toDartComment(match.leadingComments);
+    SourceCodeInfo_Location? singleMatch;
+    for (final location in descriptor.sourceCodeInfo.location) {
+      if (_listEquals(location.path, path)) {
+        if (singleMatch == null) {
+          singleMatch = location;
+        } else {
+          // TODO: evaluate if we should just concatenate all of the matching
+          // entries.
+          stderr.writeln('Too many source code locations. Skipping.');
+          return null;
+        }
+      }
     }
 
-    if (bits.length > 1) {
-      // TODO: evaluate if we should just concatenate all of the entries.
-      stderr.writeln('Too many source code locations. Skipping.');
+    if (singleMatch != null) {
+      return toDartComment(singleMatch.leadingComments);
     }
 
     return null;
