@@ -182,9 +182,7 @@ class EnumGenerator extends ProtobufContainer {
           ' _byValue[value];');
       out.println();
 
-      out.println(
-          'const $classname._($coreImportPrefix.int v, $coreImportPrefix.String n) '
-          ': super(v, n);');
+      out.println('const $classname._(super.v, super.n);');
     });
   }
 
