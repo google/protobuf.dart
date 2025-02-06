@@ -22,12 +22,12 @@ class Extension<T> extends FieldInfo<T> {
             protoName: protoName);
 
   Extension.repeated(this.extendee, String name, int tagNumber, int fieldType,
-      {CheckFunc<T>? check,
-      CreateBuilderFunc? subBuilder,
+      {CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
       String? protoName})
-      : super.repeated(name, tagNumber, null, fieldType, check, subBuilder,
+      : super.repeated(name, tagNumber, null, fieldType,
+            getCheckFunction(fieldType), subBuilder,
             valueOf: valueOf, enumValues: enumValues, protoName: protoName);
 
   @override
