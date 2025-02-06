@@ -47,10 +47,6 @@ Future<void> main(List<String> args) async {
         targets.add(wasmTarget);
         break;
 
-      case 'wasm-omit-checks':
-        targets.add(wasmOmitChecksTarget);
-        break;
-
       default:
         print('Unsupported target: $targetStr. Supported targets: aot, exe, '
             'jit, js, js-production, wasm, wasm-omit-checks');
@@ -145,8 +141,6 @@ const jitTarget = Target('jit', jitProcessArgs);
 const jsTarget = Target('js', jsProcessArgs);
 const jsProductionTarget = Target('js-production', jsProductionProcessArgs);
 const wasmTarget = Target('wasm', wasmProcessArgs);
-const wasmOmitChecksTarget =
-    Target('wasm-omit-checks', wasmOmitChecksProcessArgs);
 
 List<String> aotProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
@@ -199,30 +193,15 @@ List<String> jsProductionProcessArgs(String sourceFile) {
 }
 
 List<String> wasmProcessArgs(String sourceFile) {
-  final sdkPath = Platform.environment['DART_SDK'];
-  if (sdkPath == null) {
-    throw '\$DART_SDK environment variable is not set';
-  }
   final baseName = path.basename(sourceFile);
   final baseNameNoExt = path.withoutExtension(baseName);
   return [
-    '$sdkPath/../pkg/dart2wasm/tool/compile_benchmark',
+    'dart',
+    'compile',
+    'wasm',
     sourceFile,
-    'out/$baseNameNoExt.wasm',
-  ];
-}
-
-List<String> wasmOmitChecksProcessArgs(String sourceFile) {
-  final sdkPath = Platform.environment['DART_SDK'];
-  if (sdkPath == null) {
-    throw '\$DART_SDK environment variable is not set';
-  }
-  final baseName = path.basename(sourceFile);
-  final baseNameNoExt = path.withoutExtension(baseName);
-  return [
-    '$sdkPath/../pkg/dart2wasm/tool/compile_benchmark',
-    sourceFile,
-    'out/$baseNameNoExt.omit-checks.wasm',
-    '--omit-checks',
+    '-O4',
+    '-o',
+    'out/$baseNameNoExt.wasm'
   ];
 }

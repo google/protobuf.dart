@@ -3,5 +3,4 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'readfile_vm.dart'
-    if (dart.library.js) 'readfile_js.dart'
-    if (dart.library.wasm) 'readfile_wasm.dart' show readfile;
+    if (dart.library.js_interop) 'readfile_js.dart' show readfile;
