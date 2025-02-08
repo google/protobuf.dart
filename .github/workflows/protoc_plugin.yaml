@@ -28,9 +28,9 @@ jobs:
         with:
           sdk: ${{ matrix.sdk }}
       - run: ../tool/setup.sh
-      - run: make protos
 
       - run: dart pub get
+      - run: make protos
       - run: dart analyze --fatal-infos
       - run: dart format --output=none --set-exit-if-changed .
         if: ${{ matrix.sdk == 'stable' }}
