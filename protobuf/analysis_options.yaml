@@ -1,5 +1,16 @@
-include: ../analysis_options.yaml
+include: package:dart_flutter_team_lints/analysis_options.yaml
 
 analyzer:
   language:
     strict-casts: false
+  errors:
+    lines_longer_than_80_chars: ignore
+
+linter:
+  rules:
+  - avoid_bool_literals_in_conditional_expressions
+  - comment_references
+  - prefer_final_in_for_each
+  - prefer_final_locals
+  - prefer_relative_imports
+  - use_super_parameters

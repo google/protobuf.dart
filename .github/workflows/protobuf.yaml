@@ -1,0 +1,37 @@
+name: package:protobuf
+permissions: read-all
+
+on:
+  # Run CI on pushes to the main branch and on PRs against main.
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    - cron: "0 0 * * 0"
+
+defaults:
+  run:
+    working-directory: protobuf/
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, macos, windows]
+        sdk: [stable, dev]
+    runs-on: ${{ matrix.os }}-latest
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
+        with:
+          sdk: ${{ matrix.sdk }}
+      - run: ../tool/setup.sh
+
+      - run: dart pub get
+      - run: dart analyze --fatal-infos
+      - run: dart format --output=none --set-exit-if-changed .
+        if: ${{ matrix.sdk == 'stable' }}
+      - run: dart test
