@@ -29,8 +29,8 @@ void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
   }
 }
 
-void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
-    CodedBufferReader input, ExtensionRegistry registry) {
+void _mergeFromCodedBufferReader(final BuilderInfo meta, final _FieldSet fs,
+    final CodedBufferReader input, final ExtensionRegistry registry) {
   fs._ensureWritable();
   while (true) {
     final tag = input.readTag();
