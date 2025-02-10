@@ -46,7 +46,7 @@ jobs:
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.3.0;packages:protobuf;commands:analyze_1-analyze_2"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.3.0;packages:protobuf;commands:analyze_2-analyze_3"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:3.3.0;packages:protobuf
             os:ubuntu-latest;pub-cache-hosted;sdk:3.3.0
@@ -73,14 +73,14 @@ jobs:
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
   job_003:
-    name: "format_analyze; linux; Dart dev; PKG: api_benchmark; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./compile_protos.sh`"
+    name: "format_analyze; linux; Dart dev; PKG: api_benchmark; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./compile_protos.sh`, `dart analyze`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:api_benchmark;commands:format-command_0-command_1"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:api_benchmark;commands:format-command_0-command_1-analyze_0"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:api_benchmark
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
@@ -110,6 +110,10 @@ jobs:
         run: ./compile_protos.sh
         if: "always() && steps.api_benchmark_pub_upgrade.conclusion == 'success'"
         working-directory: api_benchmark
+      - name: api_benchmark; dart analyze
+        run: dart analyze
+        if: "always() && steps.api_benchmark_pub_upgrade.conclusion == 'success'"
+        working-directory: api_benchmark
   job_004:
     name: "format_analyze; linux; Dart dev; PKG: benchmarks; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./tool/compile_protos.sh`, `dart analyze --fatal-infos`"
     runs-on: ubuntu-latest
@@ -118,7 +122,7 @@ jobs:
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:benchmarks;commands:format-command_0-command_2-analyze_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:benchmarks;commands:format-command_0-command_2-analyze_1"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:benchmarks
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
@@ -160,7 +164,7 @@ jobs:
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:format-analyze_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf;commands:format-analyze_1"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protobuf
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
@@ -194,7 +198,7 @@ jobs:
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:format-command_0-command_3-analyze_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:format-command_0-command_3-analyze_1"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;sdk:dev

@@ -64,14 +64,18 @@ for PKG in ${PKGS}; do
       echo -e "\033[1mPKG: ${PKG}; TASK: ${TASK}\033[22m"
       case ${TASK} in
       analyze_0)
+        echo 'dart analyze'
+        dart analyze || EXIT_CODE=$?
+        ;;
+      analyze_1)
         echo 'dart analyze --fatal-infos'
         dart analyze --fatal-infos || EXIT_CODE=$?
         ;;
-      analyze_1)
+      analyze_2)
         echo 'dart analyze lib'
         dart analyze lib || EXIT_CODE=$?
         ;;
-      analyze_2)
+      analyze_3)
         echo 'dart analyze test'
         dart analyze test || EXIT_CODE=$?
         ;;
