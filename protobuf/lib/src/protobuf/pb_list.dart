@@ -52,6 +52,12 @@ class PbList<E> extends ListBase<E> {
     _wrappedList.add(element);
   }
 
+  @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
+  void _addUnchecked(E element) {
+    _wrappedList.add(element);
+  }
+
   @override
   @pragma('dart2js:never-inline')
   void addAll(Iterable<E> iterable) {
