@@ -162,7 +162,6 @@ class _FieldSet {
     _unknownFields?._markReadOnly();
   }
 
-  @pragma('vm:prefer-inline')
   void _ensureWritable() {
     if (_isReadOnly) {
       _throwFrozenMessageModificationError(_messageName);

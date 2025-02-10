@@ -190,7 +190,6 @@ class UnknownFieldSet {
     _isReadOnly = true;
   }
 
-  @pragma('vm:prefer-inline')
   void _ensureWritable(String methodName) {
     if (_isReadOnly) {
       _throwFrozenMessageModificationError('UnknownFieldSet', methodName);
