@@ -130,9 +130,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_BOOL:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readBool());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readBool());
+            }
+          });
         } else {
           list.add(input.readBool());
         }
@@ -148,9 +150,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_FLOAT:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readFloat());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readFloat());
+            }
+          });
         } else {
           list.add(input.readFloat());
         }
@@ -158,9 +162,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_DOUBLE:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readDouble());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readDouble());
+            }
+          });
         } else {
           list.add(input.readDouble());
         }
@@ -179,9 +185,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_INT32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readInt32());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readInt32());
+            }
+          });
         } else {
           list.add(input.readInt32());
         }
@@ -189,9 +197,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_INT64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readInt64());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readInt64());
+            }
+          });
         } else {
           list.add(input.readInt64());
         }
@@ -199,9 +209,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_SINT32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readSint32());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readSint32());
+            }
+          });
         } else {
           list.add(input.readSint32());
         }
@@ -209,9 +221,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_SINT64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readSint64());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readSint64());
+            }
+          });
         } else {
           list.add(input.readSint64());
         }
@@ -219,9 +233,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_UINT32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readUint32());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readUint32());
+            }
+          });
         } else {
           list.add(input.readUint32());
         }
@@ -229,9 +245,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_UINT64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readUint64());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readUint64());
+            }
+          });
         } else {
           list.add(input.readUint64());
         }
@@ -239,9 +257,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_FIXED32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readFixed32());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readFixed32());
+            }
+          });
         } else {
           list.add(input.readFixed32());
         }
@@ -249,9 +269,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_FIXED64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readFixed64());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readFixed64());
+            }
+          });
         } else {
           list.add(input.readFixed64());
         }
@@ -259,9 +281,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_SFIXED32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readSfixed32());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readSfixed32());
+            }
+          });
         } else {
           list.add(input.readSfixed32());
         }
@@ -269,9 +293,11 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_SFIXED64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          @pragma('vm:prefer-inline')
-          void readElem() => list.add(input.readSfixed64());
-          _readPacked(input, readElem);
+          input._withLimit(input.readInt32(), () {
+            while (!input.isAtEnd()) {
+              list.add(input.readSfixed64());
+            }
+          });
         } else {
           list.add(input.readSfixed64());
         }
@@ -293,15 +319,6 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         throw UnsupportedError('Unknown field type $fieldType');
     }
   }
-}
-
-@pragma('vm:prefer-inline')
-void _readPacked(CodedBufferReader input, final void Function() readFunc) {
-  input._withLimit(input.readInt32(), () {
-    while (!input.isAtEnd()) {
-      readFunc();
-    }
-  });
 }
 
 void _readPackableToListEnum(
