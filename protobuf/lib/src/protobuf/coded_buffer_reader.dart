@@ -127,22 +127,22 @@ class CodedBufferReader {
 
   @pragma('vm:prefer-inline')
   int readEnum() => readInt32();
-  
+
   @pragma('vm:prefer-inline')
   int readInt32() => _readRawVarint32(true);
-  
+
   @pragma('vm:prefer-inline')
   Int64 readInt64() => _readRawVarint64();
-  
+
   @pragma('vm:prefer-inline')
   int readUint32() => _readRawVarint32(false);
-  
+
   @pragma('vm:prefer-inline')
   Int64 readUint64() => _readRawVarint64();
-  
+
   @pragma('vm:prefer-inline')
   int readSint32() => _decodeZigZag32(readUint32());
-  
+
   @pragma('vm:prefer-inline')
   Int64 readSint64() => _decodeZigZag64(readUint64());
 
