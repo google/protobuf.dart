@@ -260,8 +260,6 @@ class _FieldSet {
   /// Works for both extended and non-extended fields.
   /// Suitable for public API.
   void _setField(int tagNumber, Object value) {
-    ArgumentError.checkNotNull(value, 'value');
-
     final meta = _meta;
     final fi = _nonExtensionInfo(meta, tagNumber);
     if (fi == null) {
@@ -286,7 +284,6 @@ class _FieldSet {
   /// Works for both extended and non-extended fields.
   /// Suitable for decoders that do their own validation.
   void _setFieldUnchecked(BuilderInfo meta, FieldInfo fi, value) {
-    ArgumentError.checkNotNull(fi, 'fi');
     assert(!fi.isRepeated);
     if (fi.index == null) {
       _ensureExtensions()

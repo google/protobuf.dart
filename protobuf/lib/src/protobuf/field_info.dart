@@ -132,8 +132,6 @@ class FieldInfo<T> {
       {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
       : makeDefault = (() => PbList<T>(check: check!)),
         _protoName = protoName {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(tagNumber, 'tagNumber');
     assert(_isRepeated(type));
     assert(check != null);
     assert(!_isEnum(type) || valueOf != null);
@@ -280,8 +278,6 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
             defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
             defaultEnumValue: defaultEnumValue,
             protoName: protoName) {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(tagNumber, 'tagNumber');
     assert(_isMapField(type));
     assert(!_isEnum(type) || valueOf != null);
   }
