@@ -4,6 +4,7 @@
 
 part of '../../protobuf.dart';
 
+@pragma('vm:never-inline')
 void _throwFrozenMessageModificationError(String messageName,
     [String? methodName]) {
   if (methodName != null) {
@@ -161,6 +162,7 @@ class _FieldSet {
     _unknownFields?._markReadOnly();
   }
 
+  @pragma('vm:prefer-inline')
   void _ensureWritable() {
     if (_isReadOnly) {
       _throwFrozenMessageModificationError(_messageName);
