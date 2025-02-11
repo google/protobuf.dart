@@ -396,7 +396,6 @@ abstract class GeneratedMessage {
 
   /// Sets the value of a non-repeated extension field to [value].
   void setExtension(Extension extension, Object value) {
-    ArgumentError.checkNotNull(value, 'value');
     if (_isRepeated(extension.type)) {
       throw ArgumentError(_fieldSet._setFieldFailedMessage(
           extension, value, 'repeating field (use get + .add())'));
@@ -489,7 +488,6 @@ abstract class GeneratedMessage {
   /// For generated code only.
   /// @nodoc
   void $_setFloat(int index, double value) {
-    ArgumentError.checkNotNull(value, 'value');
     if (!_isFloat32(value)) {
       _fieldSet._$check(index, value);
     }
@@ -503,7 +501,6 @@ abstract class GeneratedMessage {
   /// For generated code only.
   /// @nodoc
   void $_setSignedInt32(int index, int value) {
-    ArgumentError.checkNotNull(value, 'value');
     if (!_isSigned32(value)) {
       _fieldSet._$check(index, value);
     }
@@ -513,7 +510,6 @@ abstract class GeneratedMessage {
   /// For generated code only.
   /// @nodoc
   void $_setUnsignedInt32(int index, int value) {
-    ArgumentError.checkNotNull(value, 'value');
     if (!_isUnsigned32(value)) {
       _fieldSet._$check(index, value);
     }
