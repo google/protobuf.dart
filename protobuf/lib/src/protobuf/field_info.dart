@@ -128,12 +128,11 @@ class FieldInfo<T> {
         subBuilder = null;
 
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
-      this.check, this.subBuilder,
+      CheckFunc<T> this.check, this.subBuilder,
       {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
-      : makeDefault = (() => PbList<T>(check: check!)),
+      : makeDefault = (() => PbList<T>(check: check)),
         _protoName = protoName,
         assert(_isRepeated(type)),
-        assert(check != null),
         assert(!_isEnum(type) || valueOf != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
