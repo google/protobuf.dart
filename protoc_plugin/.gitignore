@@ -9,4 +9,4 @@ benchmark/data/pubspec.link.lock
 benchmark/data/hostname.txt
 benchmark/data/latest_vm.pb.json
 benchmark/lib/generated
-out
+out/
