@@ -128,16 +128,12 @@ class FieldInfo<T> {
         subBuilder = null;
 
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
-      this.check, this.subBuilder,
+      CheckFunc<T> this.check, this.subBuilder,
       {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
-      : makeDefault = (() => PbList<T>(check: check!)),
-        _protoName = protoName {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(tagNumber, 'tagNumber');
-    assert(_isRepeated(type));
-    assert(check != null);
-    assert(!_isEnum(type) || valueOf != null);
-  }
+      : makeDefault = (() => PbList<T>(check: check)),
+        _protoName = protoName,
+        assert(_isRepeated(type)),
+        assert(!_isEnum(type) || valueOf != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
@@ -276,13 +272,11 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
       this.valueCreator,
       {ProtobufEnum? defaultEnumValue,
       String? protoName})
-      : super(name, tagNumber, index, type,
+      : assert(_isMapField(type)),
+        super(name, tagNumber, index, type,
             defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
             defaultEnumValue: defaultEnumValue,
             protoName: protoName) {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(tagNumber, 'tagNumber');
-    assert(_isMapField(type));
     assert(!_isEnum(type) || valueOf != null);
   }
 
