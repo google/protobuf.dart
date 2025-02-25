@@ -288,18 +288,21 @@ void main() {
       ..outputType = '.Output'
       ..clientStreaming = false
       ..serverStreaming = false;
+
     final clientStreaming = MethodDescriptorProto()
       ..name = 'ClientStreaming'
       ..inputType = '.Input'
       ..outputType = '.Output'
       ..clientStreaming = true
       ..serverStreaming = false;
+
     final serverStreaming = MethodDescriptorProto()
       ..name = 'ServerStreaming'
       ..inputType = '.Input'
       ..outputType = '.Output'
       ..clientStreaming = false
       ..serverStreaming = true;
+
     final bidirectional = MethodDescriptorProto()
       ..name = 'Bidirectional'
       ..inputType = '.Input'
@@ -307,9 +310,27 @@ void main() {
       ..clientStreaming = true
       ..serverStreaming = true;
 
+    // A method with name 'call' to test that it doesn't conflict with the
+    // method arguments with the same name, see issue #963.
+    final keywordCall = MethodDescriptorProto()
+      ..name = 'Call'
+      ..inputType = '.Input'
+      ..outputType = '.Output'
+      ..clientStreaming = false
+      ..serverStreaming = false;
+
+    // A method with name 'request' to test that it doesn't conflict with the
+    // method arguments with the same name, see issue #159.
+    final keywordRequest = MethodDescriptorProto()
+      ..name = 'Request'
+      ..inputType = '.Input'
+      ..outputType = '.Output'
+      ..clientStreaming = false
+      ..serverStreaming = false;
+
     final sd = ServiceDescriptorProto()
       ..name = 'Test'
-      ..method.addAll([unary, clientStreaming, serverStreaming, bidirectional]);
+      ..method.addAll([unary, clientStreaming, serverStreaming, bidirectional, keywordCall, keywordRequest]);
 
     final fd = FileDescriptorProto()
       ..name = 'test'
