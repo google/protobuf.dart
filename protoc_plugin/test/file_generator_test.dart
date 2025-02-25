@@ -330,7 +330,14 @@ void main() {
 
     final sd = ServiceDescriptorProto()
       ..name = 'Test'
-      ..method.addAll([unary, clientStreaming, serverStreaming, bidirectional, keywordCall, keywordRequest]);
+      ..method.addAll([
+        unary,
+        clientStreaming,
+        serverStreaming,
+        bidirectional,
+        keywordCall,
+        keywordRequest
+      ]);
 
     final fd = FileDescriptorProto()
       ..name = 'test'
