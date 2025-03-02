@@ -289,7 +289,7 @@ class _GrpcMethod {
 
   void generateServiceMethodStub(IndentingWriter out) {
     out.println(
-        '$_serverReturnType $_dartName($_serviceCall \$call, $_argumentType \$request);');
+        '$_serverReturnType $_dartName($_serviceCall call, $_argumentType request);');
   }
 
   static final String _serviceCall = '$grpcImportPrefix.ServiceCall';

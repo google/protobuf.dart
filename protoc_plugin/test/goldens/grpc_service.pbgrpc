@@ -142,10 +142,10 @@ abstract class TestServiceBase extends $grpc.Service {
     return request($call, await $request);
   }
 
-  $async.Future<$0.Output> unary($grpc.ServiceCall $call, $0.Input $request);
-  $async.Future<$0.Output> clientStreaming($grpc.ServiceCall $call, $async.Stream<$0.Input> $request);
-  $async.Stream<$0.Output> serverStreaming($grpc.ServiceCall $call, $0.Input $request);
-  $async.Stream<$0.Output> bidirectional($grpc.ServiceCall $call, $async.Stream<$0.Input> $request);
-  $async.Future<$0.Output> call($grpc.ServiceCall $call, $0.Input $request);
-  $async.Future<$0.Output> request($grpc.ServiceCall $call, $0.Input $request);
+  $async.Future<$0.Output> unary($grpc.ServiceCall call, $0.Input request);
+  $async.Future<$0.Output> clientStreaming($grpc.ServiceCall call, $async.Stream<$0.Input> request);
+  $async.Stream<$0.Output> serverStreaming($grpc.ServiceCall call, $0.Input request);
+  $async.Stream<$0.Output> bidirectional($grpc.ServiceCall call, $async.Stream<$0.Input> request);
+  $async.Future<$0.Output> call($grpc.ServiceCall call, $0.Input request);
+  $async.Future<$0.Output> request($grpc.ServiceCall call, $0.Input request);
 }
