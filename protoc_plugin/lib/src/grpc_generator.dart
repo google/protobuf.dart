@@ -276,12 +276,12 @@ class _GrpcMethod {
     if (_clientStreaming) return;
 
     out.addBlock(
-        '$_serverReturnType ${_dartName}_Pre($_serviceCall call, $_future<$_requestType> request) async${_serverStreaming ? '*' : ''} {',
+        '$_serverReturnType ${_dartName}_Pre($_serviceCall \$call, $_future<$_requestType> \$request) async${_serverStreaming ? '*' : ''} {',
         '}', () {
       if (_serverStreaming) {
-        out.println('yield* $_dartName(call, await request);');
+        out.println('yield* $_dartName(\$call, await \$request);');
       } else {
-        out.println('return $_dartName(call, await request);');
+        out.println('return $_dartName(\$call, await \$request);');
       }
     });
     out.println();
