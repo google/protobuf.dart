@@ -107,7 +107,7 @@ void main() {
       '.service3.SearchResult',
     ]);
 
-    String readMessageName(fqname) {
+    String readMessageName(String fqname) {
       final json = map[fqname]!;
       final descriptor = DescriptorProto()..mergeFromJsonMap(json);
       return descriptor.name;

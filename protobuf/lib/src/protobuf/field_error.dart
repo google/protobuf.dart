@@ -9,7 +9,7 @@ part of '../../protobuf.dart';
 ///
 /// For enums, group, and message fields, this check is only approximate,
 /// because the exact type isn't included in [fieldType].
-String? _getFieldError(int fieldType, var value) {
+String? _getFieldError(int fieldType, Object? value) {
   switch (PbFieldType._baseType(fieldType)) {
     case PbFieldType._BOOL_BIT:
       if (value is! bool) return 'not type bool';
@@ -130,7 +130,7 @@ void _checkUnsigned32(Object? val) {
   }
 }
 
-RangeError _createFieldRangeError(val, String wantedType) =>
+RangeError _createFieldRangeError(Object val, String wantedType) =>
     RangeError('Value ($val) is not $wantedType');
 
 bool _isSigned32(int value) => (-2147483648 <= value) && (value <= 2147483647);

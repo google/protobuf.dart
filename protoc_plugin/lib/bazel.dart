@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Bazel support for protoc_plugin.
-library protoc_bazel;
+library;
 
 import 'package:path/path.dart' as p;
 

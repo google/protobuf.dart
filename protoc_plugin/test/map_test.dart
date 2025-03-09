@@ -84,7 +84,7 @@ void main() {
 
   test('keys returns each field name (even when unset)', () {
     final rec = pb.Rec();
-    expect(Set.from(rec.keys), {'msg', 'num', 'nums', 'str'});
+    expect(Set.of(rec.keys), {'msg', 'num', 'nums', 'str'});
   });
 
   test('containsKey returns true for fields that exist (even when unset)', () {
