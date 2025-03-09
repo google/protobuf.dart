@@ -15,7 +15,7 @@ bool genericOptionsParser(CodeGeneratorRequest request,
     CodeGeneratorResponse response, Map<String, SingleOptionParser> parsers) {
   final parameter = request.parameter;
   final options = parameter.trim().split(',');
-  final errors = [];
+  final errors = <String>[];
 
   for (var option in options) {
     option = option.trim();

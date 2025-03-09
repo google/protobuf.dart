@@ -14,7 +14,7 @@ typedef RoundtripTester<T> = void Function(T value, List<int> bytes);
 void main() {
   ByteData makeData(Uint8List bytes) => ByteData.view(bytes.buffer);
 
-  Uint8List Function(dynamic) convertToBytes(fieldType) => (value) {
+  Uint8List Function(dynamic) convertToBytes(int fieldType) => (value) {
         final writer = CodedBufferWriter()..writeField(0, fieldType, value);
         return writer.toBuffer().sublist(1);
       };

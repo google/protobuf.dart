@@ -76,7 +76,7 @@ class RepeatedStringBenchmark extends Benchmark {
   String get measureSampleUnits => 'string reads/ms';
 
   static const $id = BenchmarkID.READ_STRING_REPEATED_JSON;
-  static final $type = BenchmarkType($id, $create);
+  static final $type = const BenchmarkType($id, $create);
 
   static RepeatedStringBenchmark $create(Request r) {
     assert(r.params.hasStringFieldCount());

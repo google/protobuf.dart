@@ -50,7 +50,7 @@ class CodedBufferReader {
 
   bool isAtEnd() => _bufferPos >= _currentLimit;
 
-  void _withLimit(int byteLimit, Function() callback) {
+  void _withLimit(int byteLimit, void Function() callback) {
     if (byteLimit < 0) {
       throw ArgumentError(
           'CodedBufferReader encountered an embedded string or message'

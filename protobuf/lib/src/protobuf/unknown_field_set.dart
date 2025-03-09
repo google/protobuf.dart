@@ -22,7 +22,7 @@ class UnknownFieldSet {
   bool get isNotEmpty => _fields.isNotEmpty;
   bool _isReadOnly = false;
 
-  Map<int, UnknownFieldSetField> asMap() => Map.from(_fields);
+  Map<int, UnknownFieldSetField> asMap() => Map.of(_fields);
 
   void clear() {
     _ensureWritable('clear');
@@ -279,7 +279,7 @@ class UnknownFieldSetField {
       ];
 
   void writeTo(int fieldNumber, CodedBufferWriter output) {
-    void write(int type, value) {
+    void write(int type, Object? value) {
       output.writeField(fieldNumber, type, value);
     }
 

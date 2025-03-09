@@ -112,8 +112,8 @@ void main() {
     final writer = IndentingWriter(filename: '');
     mg.generate(writer);
 
-    final eq = ListEquality();
-    final fieldStringsMap = HashMap(
+    final eq = const ListEquality<int>();
+    final fieldStringsMap = HashMap<List<int>, List<String>>(
         equals: eq.equals, hashCode: eq.hash, isValidKey: eq.isValidKey);
     fieldStringsMap[[4, 0]] = ['PhoneNumber'];
     fieldStringsMap[[4, 0, 2, 0]] = ['type', 'hasType', 'clearType'];

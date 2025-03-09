@@ -2226,7 +2226,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   ///  maps field.
   ///
   ///  For maps fields:
-  ///      map<KeyType, ValueType> map_field = 1;
+  ///      `map<KeyType, ValueType> map_field = 1;`
   ///  The parsed descriptor looks like:
   ///      message MapFieldEntry {
   ///          option map_entry = true;
