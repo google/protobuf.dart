@@ -1,4 +1,4 @@
-## 22.0.0-dev
+## 22.0.0-wip
 
 * Remove `PbEventMixin` mixin. ([#738])
 * Type of repeated fields is now `PbList` (instead of `List`), type of map
