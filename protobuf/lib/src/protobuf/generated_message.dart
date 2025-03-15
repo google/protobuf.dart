@@ -10,7 +10,7 @@ part of '../../protobuf.dart';
 typedef CreateBuilderFunc = GeneratedMessage Function();
 
 /// Type of a function that creates the default value of a protobuf field.
-typedef MakeDefaultFunc = Function();
+typedef MakeDefaultFunc = Object? Function();
 
 /// Type of a function that makes an enum integer value to corresponding
 /// [ProtobufEnum] value.

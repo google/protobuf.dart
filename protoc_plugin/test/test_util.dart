@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 
-final Matcher throwsATypeError = throwsA(TypeMatcher<TypeError>());
+final Matcher throwsATypeError = throwsA(isA<TypeError>());
 
 Int64 make64(int lo, [int? hi]) {
   hi ??= lo < 0 ? -1 : 0;
