@@ -1,3 +1,7 @@
+## 22.0.1
+
+* Bump `protobuf` constraint to `^4.0.0`
+
 ## 22.0.0
 
 * Remove `PbEventMixin` mixin. ([#738])
