@@ -1,4 +1,4 @@
-## 22.0.0-wip
+## 22.0.0
 
 * Remove `PbEventMixin` mixin. ([#738])
 * Type of repeated fields is now `PbList` (instead of `List`), type of map
@@ -30,7 +30,7 @@
 [#935]: https://github.com/google/protobuf.dart/pull/935
 [#955]: https://github.com/google/protobuf.dart/pull/955
 [#963]: https://github.com/google/protobuf.dart/issues/963
-[#153]: https://github.com/google/protobuf.dart/issues/153
+[#159]: https://github.com/google/protobuf.dart/issues/159
 
 ## 21.1.2
 
