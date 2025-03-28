@@ -30,7 +30,7 @@
 [#935]: https://github.com/google/protobuf.dart/pull/935
 [#955]: https://github.com/google/protobuf.dart/pull/955
 [#963]: https://github.com/google/protobuf.dart/issues/963
-[#153]: https://github.com/google/protobuf.dart/issues/153
+[#159]: https://github.com/google/protobuf.dart/issues/159
 
 ## 21.1.2
 
