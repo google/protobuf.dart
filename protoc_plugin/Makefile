@@ -30,6 +30,7 @@ TEST_PROTO_LIST = \
 	entity \
 	enum_extension \
 	enum_name \
+	enum_test \
 	extend_unittest \
 	ExtensionEnumNameConflict \
 	ExtensionNameConflict \
