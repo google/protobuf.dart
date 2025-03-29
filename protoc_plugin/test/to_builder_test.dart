@@ -27,22 +27,22 @@ void main() {
 
     test('frozen message cannot be modified', () {
       expect(() => original.inner = (Inner()..value = 'bar'),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
       expect(() => original.inner..value = 'bar',
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
       expect(() => original.inners.add(Inner()..value = 'bar'),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
     });
 
     test('extensions cannot be modified', () {
       expect(() => original.setExtension(FooExt.inner, Inner()..value = 'bar'),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
       expect(() => original.getExtension(FooExt.inner).value = 'bar',
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
       expect(
           () =>
               original.getExtension(FooExt.inners).add(Inner()..value = 'bar'),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
     });
 
     final builder = original.toBuilder() as Outer;
@@ -69,8 +69,8 @@ void main() {
     test(
         'the builder is only a shallow copy, the nested message is still frozen.',
         () {
-      expect(() => builder.inner.value = 'bar',
-          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(
+          () => builder.inner.value = 'bar', throwsA(isA<UnsupportedError>()));
     });
     test('the builder is mutable', () {
       builder.inner = (Inner()..value = 'zop');
@@ -150,41 +150,38 @@ void main() {
       expect(
           () => builder.unknownFields.getField(1)!.lengthDelimited[0] =
               utf8.encode('alice'),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
     });
 
     test('cannot add to a frozen UnknownFieldSetField', () {
       emptyMessage.freeze();
 
+      expect(() => field.addFixed32(1), throwsA(isA<UnsupportedError>()));
+      expect(() => field.fixed32s.add(1), throwsA(isA<UnsupportedError>()));
       expect(
-          () => field.addFixed32(1), throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.fixed32s.add(1),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.addFixed64(Int64(1)),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.fixed64s.add(Int64(1)),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          () => field.addFixed64(Int64(1)), throwsA(isA<UnsupportedError>()));
+      expect(
+          () => field.fixed64s.add(Int64(1)), throwsA(isA<UnsupportedError>()));
       expect(() => field.addLengthDelimited([1]),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
       expect(() => field.lengthDelimited.add([1]),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
       expect(() => field.addGroup(unknownFieldSet.clone()),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
       expect(() => field.groups.add(unknownFieldSet.clone()),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.addVarint(Int64(1)),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.varints.add(Int64(1)),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
+      expect(() => field.addVarint(Int64(1)), throwsA(isA<UnsupportedError>()));
+      expect(
+          () => field.varints.add(Int64(1)), throwsA(isA<UnsupportedError>()));
     });
 
     test('cannot add or merge field to a frozen UnknownFieldSet', () {
       emptyMessage.freeze();
 
       expect(() => unknownFieldSet.addField(2, field),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
       expect(() => unknownFieldSet.mergeField(2, field),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
     });
 
     test('cannot merge message into a frozen UnknownFieldSet', () {
@@ -192,16 +189,16 @@ void main() {
       final other = emptyMessage.deepCopy();
 
       expect(() => emptyMessage.mergeFromBuffer(other.writeToBuffer()),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
       expect(() => emptyMessage.mergeFromMessage(other),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
     });
 
     test('cannot add a field to a frozen UnknownFieldSet', () {
       emptyMessage.freeze();
 
       expect(() => unknownFieldSet.addField(tagNumber, field),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
     });
   });
 }

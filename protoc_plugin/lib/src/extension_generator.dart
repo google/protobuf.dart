@@ -16,7 +16,7 @@ class ExtensionGenerator {
   final List<int> _fieldPathSegment;
 
   /// See [ProtobufContainer]
-  late final List<int> fieldPath = List.from(_parent.fieldPath!)
+  late final List<int> fieldPath = List.of(_parent.fieldPath!)
     ..addAll(_fieldPathSegment);
 
   ExtensionGenerator._(this._descriptor, this._parent, Set<String> usedNames,
@@ -140,7 +140,7 @@ class ExtensionGenerator {
         [
           NamedLocation(
               name: name,
-              fieldPathSegment: List.from(fieldPath),
+              fieldPathSegment: List.of(fieldPath),
               start: fieldDefinition.length)
         ]);
   }
