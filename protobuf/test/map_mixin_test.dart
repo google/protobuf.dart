@@ -97,15 +97,15 @@ void main() {
 
   test("protobuf doesn't compare equal to a map with the same values", () {
     final a = Rec();
-    expect(a == Map.from(a), false);
-    expect(Map.from(a) == a, false);
+    expect(a == Map.of(a), false);
+    expect(Map.of(a) == a, false);
   });
 
   test("reading protobuf values shouldn't change equality", () {
     final a = Rec();
     final b = Rec();
     expect(a == b, true);
-    Map.from(a);
+    Map.of(a);
     expect(a == b, true);
   });
 }

@@ -94,7 +94,7 @@ class SetStringsBenchmark extends Benchmark {
   String get measureSampleUnits => 'string writes/ms';
 
   static const $id = BenchmarkID.SET_STRINGS;
-  static final $type = BenchmarkType($id, $create);
+  static final $type = const BenchmarkType($id, $create);
 
   static SetStringsBenchmark $create(Request r) {
     assert(r.params.hasMessageCount());

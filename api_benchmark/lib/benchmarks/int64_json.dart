@@ -76,7 +76,7 @@ class Int64Benchmark extends Benchmark {
   String get measureSampleUnits => 'int64 reads/ms';
 
   static const $id = BenchmarkID.READ_INT64_FIELDS_JSON;
-  static final $type = BenchmarkType($id, $create);
+  static final $type = const BenchmarkType($id, $create);
 
   static Int64Benchmark $create(Request r) {
     assert(r.params.hasInt64FieldCount());

@@ -10,7 +10,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 
     if (_isRepeated(fieldType)) {
       final PbList list = fieldValue;
-      return List.from(list.map((e) => convertToMap(e, baseType)));
+      return List.of(list.map((e) => convertToMap(e, baseType)));
     }
 
     switch (baseType) {
@@ -173,7 +173,7 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
   }
 }
 
-void _setJsonField(BuilderInfo meta, _FieldSet fs, json, FieldInfo fi,
+void _setJsonField(BuilderInfo meta, _FieldSet fs, Object? json, FieldInfo fi,
     ExtensionRegistry? registry) {
   final value =
       _convertJsonValue(meta, fs, json, fi.tagNumber, fi.type, registry);
@@ -196,8 +196,8 @@ void _setJsonField(BuilderInfo meta, _FieldSet fs, json, FieldInfo fi,
 /// instead.
 ///
 /// Throws [ArgumentError] if it cannot convert the value.
-dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
-    int fieldType, ExtensionRegistry? registry) {
+dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, Object? value,
+    int tagNumber, int fieldType, ExtensionRegistry? registry) {
   String expectedType; // for exception message
   switch (PbFieldType._baseType(fieldType)) {
     case PbFieldType._BOOL_BIT:

@@ -34,7 +34,7 @@ class EnumGenerator extends ProtobufContainer {
 
   @override
   List<int> get fieldPath =>
-      _fieldPath ??= List.from(parent.fieldPath!)..addAll(_fieldPathSegment);
+      _fieldPath ??= List.of(parent.fieldPath!)..addAll(_fieldPathSegment);
 
   EnumGenerator._(EnumDescriptorProto descriptor, this.parent,
       Set<String> usedClassNames, int repeatedFieldIndex, int fieldIdTag)
@@ -158,7 +158,7 @@ class EnumGenerator extends ProtobufContainer {
               [
                 NamedLocation(
                     name: name,
-                    fieldPathSegment: List.from(fieldPath)
+                    fieldPathSegment: List.of(fieldPath)
                       ..addAll([_enumValueTag, _originalAliasIndices[i]]),
                     start: 'static const $classname '.length)
               ]);

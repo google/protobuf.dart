@@ -173,7 +173,7 @@ void main() {
 
   test('can extend a message with a message field with a different type', () {
     expect(Non_nested_extension.nonNestedExtension.makeDefault!(),
-        TypeMatcher<MyNonNestedExtension>());
+        isA<MyNonNestedExtension>());
     expect(Non_nested_extension.nonNestedExtension.name, 'nonNestedExtension');
   });
 
@@ -276,7 +276,7 @@ void main() {
 
     expect(
         () => withUnknownFields.getExtension(Unittest.defaultStringExtension),
-        throwsA(const TypeMatcher<StateError>()));
+        throwsA(isA<StateError>()));
 
     expect(reparsed.getExtension(Unittest.defaultStringExtension), 'bar');
 
@@ -306,7 +306,7 @@ void main() {
             .reparseMessage(withUnknownFields)
             .getExtension(Extend_unittest.outer)
             .getExtension(Extend_unittest.extensionInner),
-        throwsA(const TypeMatcher<StateError>()));
+        throwsA(isA<StateError>()));
 
     expect(
         reparsed
@@ -364,7 +364,7 @@ void main() {
         reason:
             'this succeeds because it does not decode Extend_unittest.outer');
     expect(() => r2.reparseMessage(withMalformedExtensionEncoding),
-        throwsA(const TypeMatcher<InvalidProtocolBufferException>()));
+        throwsA(isA<InvalidProtocolBufferException>()));
   });
 
   test('ExtensionRegistry.reparseMessage preserves frozenness', () {
@@ -379,7 +379,7 @@ void main() {
         () => r
             .reparseMessage(withUnknownFields)
             .setExtension(Unittest.defaultStringExtension, 'blah'),
-        throwsA(TypeMatcher<UnsupportedError>()));
+        throwsA(isA<UnsupportedError>()));
   });
 
   test(
