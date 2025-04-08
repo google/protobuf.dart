@@ -81,7 +81,7 @@ class _ExtensionFieldSet {
 
   /// Sets a value for a non-repeated extension that has already been added.
   /// Does error-checking.
-  void _setField(int tagNumber, value) {
+  void _setField(int tagNumber, Object? value) {
     final fi = _getInfoOrNull(tagNumber);
     if (fi == null) {
       throw ArgumentError(
@@ -98,7 +98,7 @@ class _ExtensionFieldSet {
 
   /// Sets a non-repeated value and extension.
   /// Overwrites any existing extension.
-  void _setFieldAndInfo(Extension fi, value) {
+  void _setFieldAndInfo(Extension fi, Object? value) {
     _ensureWritable();
     if (fi.isRepeated) {
       throw ArgumentError(_parent._setFieldFailedMessage(
@@ -129,7 +129,7 @@ class _ExtensionFieldSet {
     _info[fi.tagNumber] = fi;
   }
 
-  void _setFieldUnchecked(Extension fi, value) {
+  void _setFieldUnchecked(Extension fi, Object? value) {
     // If there was already an unknown field with the same tag number,
     // overwrite it.
     _parent._unknownFields?.clearField(fi.tagNumber);

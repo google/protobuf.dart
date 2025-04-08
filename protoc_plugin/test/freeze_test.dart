@@ -30,24 +30,21 @@ void main() {
     expect(top.nestedMessageList.length, 1);
     expect(top.nestedMessageList[0].isFrozen, true);
     expect(() => top.nestedMessageList.add(Nested()..a = 0),
-        throwsA(const TypeMatcher<UnsupportedError>()));
+        throwsA(isA<UnsupportedError>()));
 
     // Check map field
     expect(top.nestedMessageMap.length, 1);
     expect(top.nestedMessageMap[1]!.isFrozen, true);
     expect(() => top.nestedMessageMap[2] = Nested()..a = 0,
-        throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => map[0] = Nested()..a = 0,
-        throwsA(const TypeMatcher<UnsupportedError>()));
+        throwsA(isA<UnsupportedError>()));
+    expect(() => map[0] = Nested()..a = 0, throwsA(isA<UnsupportedError>()));
 
     // Check message field
     expect(top.nestedMessage.isFrozen, true);
 
     // Check aliases
-    expect(() => list.add(Nested()..a = 0),
-        throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => map[123] = Nested()..a = 0,
-        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(() => list.add(Nested()..a = 0), throwsA(isA<UnsupportedError>()));
+    expect(() => map[123] = Nested()..a = 0, throwsA(isA<UnsupportedError>()));
     expect(list[0].isFrozen, true);
     expect(map[1]!.isFrozen, true);
     expect(msg1.isFrozen, true);
@@ -58,17 +55,15 @@ void main() {
   test('frozen messages should not be updated by merge methods', () {
     final top = TopEntity()..freeze();
 
-    expect(() => top.mergeFromBuffer(<int>[]),
-        throwsA(TypeMatcher<UnsupportedError>()));
+    expect(
+        () => top.mergeFromBuffer(<int>[]), throwsA(isA<UnsupportedError>()));
 
-    expect(() => top.mergeFromJsonMap({}),
-        throwsA(TypeMatcher<UnsupportedError>()));
+    expect(() => top.mergeFromJsonMap({}), throwsA(isA<UnsupportedError>()));
 
     expect(() => top.mergeFromMessage(TopEntity()),
-        throwsA(TypeMatcher<UnsupportedError>()));
+        throwsA(isA<UnsupportedError>()));
 
-    expect(() => top.mergeFromProto3Json({}),
-        throwsA(TypeMatcher<UnsupportedError>()));
+    expect(() => top.mergeFromProto3Json({}), throwsA(isA<UnsupportedError>()));
   });
 
   test('nested frozen messages should not be updated by merge methods', () {
@@ -91,7 +86,7 @@ void main() {
                 (1 << 3) | 0, // tag = 1, type = varint
                 123, // int64 id = 123
               ]),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
     }
 
     {
@@ -103,7 +98,7 @@ void main() {
       expect(
           () => top.mergeFromMessage(
               TopEntity()..sub = (SubEntity()..id = Int64(123))),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
     }
 
     {
@@ -116,7 +111,7 @@ void main() {
           () => top.mergeFromProto3Json({
                 'sub': {'id': 123}
               }),
-          throwsA(TypeMatcher<UnsupportedError>()));
+          throwsA(isA<UnsupportedError>()));
     }
   });
 }
