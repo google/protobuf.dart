@@ -1,4 +1,4 @@
-## 4.0.0-dev
+## 4.0.0
 
 * **Breaking:** The following types and members are now removed:
 
