@@ -610,7 +610,7 @@ class _FieldSet {
   }
 
   // Hashes the value of one field (recursively).
-  static int _hashField(int hash, FieldInfo fi, Object? value) {
+  static int _hashField(int hash, FieldInfo fi, dynamic value) {
     if (value is List && value.isEmpty) {
       return hash; // It's either repeated or an empty byte array.
     }
@@ -623,18 +623,17 @@ class _FieldSet {
     if (_isBytes(fi.type)) {
       // Bytes are represented as a List<int> (Usually with byte-data).
       // We special case that to match our equality semantics.
-      hash =
-          _HashUtils._combine(hash, _HashUtils._hashObjects(value as Iterable));
+      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
     } else if (!_isEnum(fi.type)) {
       hash = _HashUtils._combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
-      final list = value as PbList;
+      final PbList list = value;
       hash = _HashUtils._combine(hash, _HashUtils._hashObjects(list.map((enm) {
         final ProtobufEnum enm_ = enm;
         return enm_.value;
       })));
     } else {
-      final enm = value as ProtobufEnum;
+      final ProtobufEnum enm = value;
       hash = _HashUtils._combine(hash, enm.value);
     }
 
@@ -736,7 +735,7 @@ class _FieldSet {
     }
   }
 
-  void _mergeField(FieldInfo otherFi, Object? fieldValue,
+  void _mergeField(FieldInfo otherFi, dynamic fieldValue,
       {required bool isExtension}) {
     final tagNumber = otherFi.tagNumber;
 
@@ -757,7 +756,7 @@ class _FieldSet {
       final PbMap<dynamic, dynamic> map =
           f._ensureMapField(meta, this) as dynamic;
       if (_isGroupOrMessage(f.valueFieldType)) {
-        final fieldValueMap = fieldValue as PbMap<dynamic, GeneratedMessage>;
+        final PbMap<dynamic, GeneratedMessage> fieldValueMap = fieldValue;
         for (final entry in fieldValueMap.entries) {
           map[entry.key] = entry.value.deepCopy();
         }
@@ -770,14 +769,14 @@ class _FieldSet {
     if (fi.isRepeated) {
       if (_isGroupOrMessage(otherFi.type)) {
         // fieldValue must be a PbList of GeneratedMessage.
-        final pbList = fieldValue as PbList<GeneratedMessage>;
+        final PbList<GeneratedMessage> pbList = fieldValue;
         final repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
         // fieldValue must be at least a PbList.
-        final pbList = fieldValue as PbList;
+        final PbList pbList = fieldValue;
         fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
       return;
@@ -788,7 +787,7 @@ class _FieldSet {
           ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
           : _values[fi.index!];
 
-      final msg = fieldValue as GeneratedMessage;
+      final GeneratedMessage msg = fieldValue;
       if (currentFi == null) {
         fieldValue = msg.deepCopy();
       } else {

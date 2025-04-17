@@ -162,17 +162,17 @@ class FieldInfo<T> {
 
   /// Returns true if the field's value is okay to transmit.
   /// That is, it doesn't contain any required fields that aren't initialized.
-  bool _hasRequiredValues(Object? value) {
+  bool _hasRequiredValues(dynamic value) {
     if (value == null) return !isRequired; // missing is okay if optional
     if (!_isGroupOrMessage(type)) return true; // primitive and present
 
     if (!isRepeated) {
       // A required message: recurse.
-      final message = value as GeneratedMessage;
+      final GeneratedMessage message = value;
       return message._fieldSet._hasRequiredValues();
     }
 
-    final list = value as List<GeneratedMessage>;
+    final List<GeneratedMessage> list = value;
     if (list.isEmpty) return true;
 
     // For message types that (recursively) contain no required fields,
@@ -185,17 +185,17 @@ class FieldInfo<T> {
 
   /// Appends the dotted path to each required field that's missing a value.
   void _appendInvalidFields(
-      List<String> problems, Object? value, String prefix) {
+      List<String> problems, dynamic value, String prefix) {
     if (value == null) {
       if (isRequired) problems.add('$prefix$name');
     } else if (!_isGroupOrMessage(type)) {
       // primitive and present
     } else if (!isRepeated) {
       // Required message/group: recurse.
-      final message = value as GeneratedMessage;
+      final GeneratedMessage message = value;
       message._fieldSet._appendInvalidFields(problems, '$prefix$name.');
     } else {
-      final list = value as List<GeneratedMessage>;
+      final List<GeneratedMessage> list = value;
       if (list.isEmpty) return;
 
       // For message types that (recursively) contain no required fields,
