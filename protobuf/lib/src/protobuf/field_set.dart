@@ -761,7 +761,7 @@ class _FieldSet {
           map[entry.key] = entry.value.deepCopy();
         }
       } else {
-        map.addAll(fieldValue as Map);
+        map.addAll(fieldValue);
       }
       return;
     }
