@@ -13,3 +13,4 @@ linter:
   - avoid_bool_literals_in_conditional_expressions
   - prefer_final_in_for_each
   - prefer_final_locals
+  - unnecessary_ignore

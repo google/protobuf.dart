@@ -1,5 +1,4 @@
 #!/usr/bin/env dart
-// ignore_for_file: only_throw_errors
 
 import 'dart:io' show Directory, Platform, Process, ProcessResult, exit;
 

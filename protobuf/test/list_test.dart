@@ -91,7 +91,6 @@ void main() {
 
   test('PbList validates items', () {
     expect(() {
-      // ignore: unnecessary_cast
       (PbList<int>() as List).add('hello');
     }, throwsA(isA<TypeError>()));
   });
