@@ -2,12 +2,13 @@
 //  Generated code. Do not modify.
 //  source: plugin.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: unintended_html_in_doc_comment, unnecessary_import
+// ignore_for_file: unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
@@ -15,6 +16,8 @@ import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'descriptor.pb.dart' as $0;
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 export 'plugin.pbenum.dart';
 
@@ -204,7 +207,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   /// code generator should generate code only for these files.  Each file's
   /// descriptor will be included in proto_file, below.
   @$pb.TagNumber(1)
-  $core.List<$core.String> get fileToGenerate => $_getList(0);
+  $pb.PbList<$core.String> get fileToGenerate => $_getList(0);
 
   /// The generator parameter passed on the command-line.
   @$pb.TagNumber(2)
@@ -249,7 +252,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   ///  Type names of fields and extensions in the FileDescriptorProto are always
   ///  fully qualified.
   @$pb.TagNumber(15)
-  $core.List<$0.FileDescriptorProto> get protoFile => $_getList(3);
+  $pb.PbList<$0.FileDescriptorProto> get protoFile => $_getList(3);
 }
 
 /// Represents a single generated file.
@@ -525,7 +528,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   void clearSupportedFeatures() => $_clearField(2);
 
   @$pb.TagNumber(15)
-  $core.List<CodeGeneratorResponse_File> get file => $_getList(2);
+  $pb.PbList<CodeGeneratorResponse_File> get file => $_getList(2);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
