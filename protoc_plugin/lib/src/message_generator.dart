@@ -446,6 +446,12 @@ class MessageGenerator extends ProtobufContainer {
         if (field.isRepeated && !field.isMapField) {
           out.println(
               '  ${field.baseType.getRepeatedDartTypeIterable(fileGen)}? ${field.memberNames!.fieldName},');
+        } else if (field.isMapField) {
+          final keyType = field.getDartMapKeyType();
+          final valueType = field.getDartMapValueType();
+          out.println(
+              '  $coreImportPrefix.Iterable<$coreImportPrefix.MapEntry<$keyType, $valueType>>? '
+              '${field.memberNames!.fieldName},');
         } else {
           out.println(
               '  ${field.getDartType()}? ${field.memberNames!.fieldName},');
@@ -459,9 +465,12 @@ class MessageGenerator extends ProtobufContainer {
         if (field.isDeprecated) {
           out.println('    // ignore: deprecated_member_use_from_same_package');
         }
-        if (field.isRepeated || field.isMapField) {
+        if (field.isRepeated && !field.isMapField) {
           out.println(
               '    \$result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
+        } else if (field.isMapField) {
+          out.println(
+              '    \$result.${field.memberNames!.fieldName}.addEntries(${field.memberNames!.fieldName});');
         } else {
           out.println(
               '    \$result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');

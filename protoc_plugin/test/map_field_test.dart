@@ -8,6 +8,7 @@ import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import '../out/protos/map_field.pb.dart';
+import '../out/protos/constructor_args/map_field.pb.dart' as with_constructors;
 
 void main() {
   void setValues(TestMap testMap) {
@@ -453,5 +454,19 @@ void main() {
     expect(() {
       msg.int32ToInt32Field[0] = 1;
     }, throwsA(const TypeMatcher<UnsupportedError>()));
+  });
+
+  test('Constructor map arguments accept key-value iterators', () {
+    final msg = with_constructors.TestMap(
+      stringToInt32Field: [
+        MapEntry('a', 1),
+        MapEntry('b', 2),
+        MapEntry('a', 3)
+      ],
+      int32ToStringField: {1: 'hi'}.entries,
+    );
+    expect(msg.stringToInt32Field['a'], 3);
+    expect(msg.stringToInt32Field['b'], 2);
+    expect(msg.int32ToStringField[1], 'hi');
   });
 }
