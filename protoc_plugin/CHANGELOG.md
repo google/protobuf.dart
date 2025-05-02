@@ -1,4 +1,8 @@
-## 22.0.0-dev
+## 22.0.1
+
+* Bump `protobuf` constraint to `^4.0.0`
+
+## 22.0.0
 
 * Remove `PbEventMixin` mixin. ([#738])
 * Type of repeated fields is now `PbList` (instead of `List`), type of map
@@ -15,6 +19,9 @@
 * `protoc_plugin` and generated files now require Dart 3.3.0. (#953)
 * Fix performance issues when handling documentation comments in protobufs.
   ([#935], [#955])
+* Fix grpc methods with names 'call' and 'request' conflicting with other
+  methods in the generated code and causing compile-time errors. ([#963],
+  [#159])
 
 [#738]: https://github.com/google/protobuf.dart/issues/738
 [#903]: https://github.com/google/protobuf.dart/pull/903
@@ -26,6 +33,8 @@
 [#953]: https://github.com/google/protobuf.dart/pull/953
 [#935]: https://github.com/google/protobuf.dart/pull/935
 [#955]: https://github.com/google/protobuf.dart/pull/955
+[#963]: https://github.com/google/protobuf.dart/issues/963
+[#159]: https://github.com/google/protobuf.dart/issues/159
 
 ## 21.1.2
 

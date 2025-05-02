@@ -6,4 +6,5 @@ stages:
       - format
       - command: ./../tool/setup.sh
       - command: ./compile_protos.sh
+      - analyze:
       sdk: dev
