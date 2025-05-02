@@ -7,8 +7,8 @@ import 'dart:convert';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/map_field.pb.dart';
 import '../out/protos/constructor_args/map_field.pb.dart' as with_constructors;
+import '../out/protos/map_field.pb.dart';
 
 void main() {
   void setValues(TestMap testMap) {
