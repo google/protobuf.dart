@@ -54,6 +54,7 @@ class PbList<E> extends ListBase<E> {
 
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   void _addUnchecked(E element) {
     _wrappedList.add(element);
   }

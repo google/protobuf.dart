@@ -43,6 +43,7 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   void checkLastTagWas(int value) {
     if (_lastTag != value) {
       throw InvalidProtocolBufferException.invalidEndTag();
@@ -50,9 +51,11 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   bool isAtEnd() => _bufferPos >= _currentLimit;
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   void _withLimit(int byteLimit, Function() callback) {
     if (byteLimit < 0) {
       throw ArgumentError(
@@ -70,6 +73,7 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   void _checkLimit(int increment) {
     assert(_currentLimit != -1);
     _bufferPos += increment;
@@ -126,27 +130,35 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readEnum() => readInt32();
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readInt32() => _readRawVarint32(true);
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readInt64() => _readRawVarint64();
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readUint32() => _readRawVarint32(false);
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readUint64() => _readRawVarint64();
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readSint32() => _decodeZigZag32(readUint32());
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readSint64() => _decodeZigZag64(readUint64());
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readFixed32() {
     final pos = _bufferPos;
     _checkLimit(4);
@@ -154,9 +166,11 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readFixed64() => readSfixed64();
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readSfixed32() {
     final pos = _bufferPos;
     _checkLimit(4);
@@ -164,6 +178,7 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readSfixed64() {
     final pos = _bufferPos;
     _checkLimit(8);
@@ -172,10 +187,12 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   bool readBool() => _readRawVarint32(true) != 0;
 
   /// Read a length-delimited field as bytes.
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Uint8List readBytes() => Uint8List.fromList(readBytesAsView());
 
   /// Read a length-delimited field as a view of the [CodedBufferReader]'s
@@ -183,6 +200,7 @@ class CodedBufferReader {
   /// it as a UTF-8 string and copying) use [readBytes] instead to avoid
   /// holding on to the whole message, or copy the returned view.
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Uint8List readBytesAsView() {
     final length = readInt32();
     _checkLimit(length);
@@ -191,6 +209,7 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   String readString() {
     final length = readInt32();
     final stringPos = _bufferPos;
@@ -200,6 +219,7 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   double readFloat() {
     final pos = _bufferPos;
     _checkLimit(4);
@@ -207,6 +227,7 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   double readDouble() {
     final pos = _bufferPos;
     _checkLimit(8);
@@ -214,6 +235,7 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readTag() {
     if (isAtEnd()) {
       _lastTag = 0;
@@ -257,6 +279,7 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   static int _decodeZigZag32(int value) {
     if ((value & 0x1) == 1) {
       return -(value >> 1) - 1;
@@ -266,12 +289,14 @@ class CodedBufferReader {
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   static Int64 _decodeZigZag64(Int64 value) {
     if ((value & 0x1) == 1) value = -value;
     return value >> 1;
   }
 
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int _readRawVarintByte() {
     _checkLimit(1);
     return _buffer[_bufferPos - 1];
