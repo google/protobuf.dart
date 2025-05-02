@@ -9,15 +9,15 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf_benchmarks/benchmark_base.dart';
 import 'package:protobuf_benchmarks/generated/packed_fields.pb.dart';
 
-PackedFields? sink = null;
+PackedFields? sink;
 
 class PackedInt32DecodingBenchmark extends BenchmarkBase {
   late final Uint8List encoded;
 
-  PackedInt32DecodingBenchmark() : super("PackedInt32Decoding") {
+  PackedInt32DecodingBenchmark() : super('PackedInt32Decoding') {
     final rand = Random(123);
     final message = PackedFields();
-    for (int i = 0; i < 1000000; i += 1) {
+    for (var i = 0; i < 1000000; i += 1) {
       message.packedInt32.add(rand.nextInt(2147483647));
     }
     encoded = message.writeToBuffer();
@@ -32,10 +32,10 @@ class PackedInt32DecodingBenchmark extends BenchmarkBase {
 class PackedInt64DecodingBenchmark extends BenchmarkBase {
   late final Uint8List encoded;
 
-  PackedInt64DecodingBenchmark() : super("PackedInt64Decoding") {
+  PackedInt64DecodingBenchmark() : super('PackedInt64Decoding') {
     final rand = Random(123);
     final message = PackedFields();
-    for (int i = 0; i < 1000000; i += 1) {
+    for (var i = 0; i < 1000000; i += 1) {
       // Note: `Random` cannot generate more than the number below.
       message.packedInt64.add(Int64(rand.nextInt(4294967296)));
     }
@@ -51,10 +51,10 @@ class PackedInt64DecodingBenchmark extends BenchmarkBase {
 class PackedUint32DecodingBenchmark extends BenchmarkBase {
   late final Uint8List encoded;
 
-  PackedUint32DecodingBenchmark() : super("PackedUint32Decoding") {
+  PackedUint32DecodingBenchmark() : super('PackedUint32Decoding') {
     final rand = Random(123);
     final message = PackedFields();
-    for (int i = 0; i < 1000000; i += 1) {
+    for (var i = 0; i < 1000000; i += 1) {
       message.packedUint32.add(rand.nextInt(4294967295));
     }
     encoded = message.writeToBuffer();
@@ -69,10 +69,10 @@ class PackedUint32DecodingBenchmark extends BenchmarkBase {
 class PackedUint64DecodingBenchmark extends BenchmarkBase {
   late final Uint8List encoded;
 
-  PackedUint64DecodingBenchmark() : super("PackedUint64Decoding") {
+  PackedUint64DecodingBenchmark() : super('PackedUint64Decoding') {
     final rand = Random(123);
     final message = PackedFields();
-    for (int i = 0; i < 1000000; i += 1) {
+    for (var i = 0; i < 1000000; i += 1) {
       // Note: `Random` cannot generate more than the number below.
       message.packedUint64.add(Int64(rand.nextInt(4294967296)));
     }
@@ -88,10 +88,10 @@ class PackedUint64DecodingBenchmark extends BenchmarkBase {
 class PackedSint32DecodingBenchmark extends BenchmarkBase {
   late final Uint8List encoded;
 
-  PackedSint32DecodingBenchmark() : super("PackedSint32Decoding") {
+  PackedSint32DecodingBenchmark() : super('PackedSint32Decoding') {
     final rand = Random(123);
     final message = PackedFields();
-    for (int i = 0; i < 1000000; i += 1) {
+    for (var i = 0; i < 1000000; i += 1) {
       message.packedSint32.add(rand.nextInt(2147483647));
     }
     encoded = message.writeToBuffer();
@@ -106,10 +106,10 @@ class PackedSint32DecodingBenchmark extends BenchmarkBase {
 class PackedSint64DecodingBenchmark extends BenchmarkBase {
   late final Uint8List encoded;
 
-  PackedSint64DecodingBenchmark() : super("PackedSint64Decoding") {
+  PackedSint64DecodingBenchmark() : super('PackedSint64Decoding') {
     final rand = Random(123);
     final message = PackedFields();
-    for (int i = 0; i < 1000000; i += 1) {
+    for (var i = 0; i < 1000000; i += 1) {
       // Note: `Random` cannot generate more than the number below.
       message.packedSint64.add(Int64(rand.nextInt(4294967296)));
     }
@@ -125,10 +125,10 @@ class PackedSint64DecodingBenchmark extends BenchmarkBase {
 class PackedBoolDecodingBenchmark extends BenchmarkBase {
   late final Uint8List encoded;
 
-  PackedBoolDecodingBenchmark() : super("PackedBoolDecoding") {
+  PackedBoolDecodingBenchmark() : super('PackedBoolDecoding') {
     final rand = Random(123);
     final message = PackedFields();
-    for (int i = 0; i < 1000000; i += 1) {
+    for (var i = 0; i < 1000000; i += 1) {
       message.packedBool.add(rand.nextBool());
     }
     encoded = message.writeToBuffer();
@@ -143,11 +143,11 @@ class PackedBoolDecodingBenchmark extends BenchmarkBase {
 class PackedEnumDecodingBenchmark extends BenchmarkBase {
   late final Uint8List encoded;
 
-  PackedEnumDecodingBenchmark() : super("PackedEnumDecoding") {
+  PackedEnumDecodingBenchmark() : super('PackedEnumDecoding') {
     final rand = Random(123);
     final message = PackedFields();
     final numEnums = Enum.values.length;
-    for (int i = 0; i < 1000000; i += 1) {
+    for (var i = 0; i < 1000000; i += 1) {
       message.packedEnum.add(Enum.values[rand.nextInt(numEnums)]);
     }
     encoded = message.writeToBuffer();
