@@ -5,6 +5,7 @@
 part of '../../protobuf.dart';
 
 @pragma('vm:never-inline')
+@pragma('wasm:never-inline')
 void _throwFrozenMessageModificationError(String messageName,
     [String? methodName]) {
   if (methodName != null) {
