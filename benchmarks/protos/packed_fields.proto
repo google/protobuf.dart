@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message PackedFields {
+    repeated int32 packedInt32 = 1 [packed = true];
+    repeated int64 packedInt64 = 2 [packed = true];
+    repeated uint32 packedUint32 = 3 [packed = true];
+    repeated uint64 packedUint64 = 4 [packed = true];
+    repeated sint32 packedSint32 = 5 [packed = true];
+    repeated sint64 packedSint64 = 6 [packed = true];
+    repeated bool packedBool = 7 [packed = true];
+    repeated Enum packedEnum = 8 [packed = true];
+}
+
+enum Enum {
+  ENUM_1 = 0;
+  ENUM_2 = 1;
+  ENUM_3 = 2;
+  ENUM_4 = 4;
+  ENUM_5 = 5;
+}

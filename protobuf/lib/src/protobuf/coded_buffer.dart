@@ -129,33 +129,65 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_BOOL:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readBool()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            // No need to check the element as for `bool` fields we only need to
+            // check that the value is not null, and we know in `add` below that
+            // the value isn't null (`readBool` doesn't return `null`).
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readBool());
+              }
+            });
+          }
         } else {
-          list.add(input.readBool());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readBool());
         }
         break;
       case PbFieldType._REPEATED_BYTES:
         final list = fs._ensureRepeatedField(meta, fi);
-        list.add(input.readBytes());
+        list._checkModifiable('add');
+        list._addUnchecked(input.readBytes());
         break;
       case PbFieldType._REPEATED_STRING:
         final list = fs._ensureRepeatedField(meta, fi);
-        list.add(input.readString());
+        list._checkModifiable('add');
+        list._addUnchecked(input.readString());
         break;
       case PbFieldType._REPEATED_FLOAT:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readFloat()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readFloat());
+              }
+            });
+          }
         } else {
-          list.add(input.readFloat());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readFloat());
         }
         break;
       case PbFieldType._REPEATED_DOUBLE:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readDouble()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readDouble());
+              }
+            });
+          }
         } else {
-          list.add(input.readDouble());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readDouble());
         }
         break;
       case PbFieldType._REPEATED_ENUM:
@@ -172,81 +204,171 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_INT32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readInt32()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readInt32());
+              }
+            });
+          }
         } else {
-          list.add(input.readInt32());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readInt32());
         }
         break;
       case PbFieldType._REPEATED_INT64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readInt64()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readInt64());
+              }
+            });
+          }
         } else {
-          list.add(input.readInt64());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readInt64());
         }
         break;
       case PbFieldType._REPEATED_SINT32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readSint32()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readSint32());
+              }
+            });
+          }
         } else {
-          list.add(input.readSint32());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readSint32());
         }
         break;
       case PbFieldType._REPEATED_SINT64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readSint64()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readSint64());
+              }
+            });
+          }
         } else {
-          list.add(input.readSint64());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readSint64());
         }
         break;
       case PbFieldType._REPEATED_UINT32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readUint32()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readUint32());
+              }
+            });
+          }
         } else {
-          list.add(input.readUint32());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readUint32());
         }
         break;
       case PbFieldType._REPEATED_UINT64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readUint64()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readUint64());
+              }
+            });
+          }
         } else {
-          list.add(input.readUint64());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readUint64());
         }
         break;
       case PbFieldType._REPEATED_FIXED32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readFixed32()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readFixed32());
+              }
+            });
+          }
         } else {
-          list.add(input.readFixed32());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readFixed32());
         }
         break;
       case PbFieldType._REPEATED_FIXED64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readFixed64()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readFixed64());
+              }
+            });
+          }
         } else {
-          list.add(input.readFixed64());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readFixed64());
         }
         break;
       case PbFieldType._REPEATED_SFIXED32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readSfixed32()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readSfixed32());
+              }
+            });
+          }
         } else {
-          list.add(input.readSfixed32());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readSfixed32());
         }
         break;
       case PbFieldType._REPEATED_SFIXED64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
-          _readPacked(input, () => list.add(input.readSfixed64()));
+          final limit = input.readInt32();
+          if (limit != 0) {
+            list._checkModifiable('add');
+            input._withLimit(limit, () {
+              while (!input.isAtEnd()) {
+                list._addUnchecked(input.readSfixed64());
+              }
+            });
+          }
         } else {
-          list.add(input.readSfixed64());
+          list._checkModifiable('add');
+          list._addUnchecked(input.readSfixed64());
         }
         break;
       case PbFieldType._REPEATED_MESSAGE:
@@ -266,14 +388,6 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         throw UnsupportedError('Unknown field type $fieldType');
     }
   }
-}
-
-void _readPacked(CodedBufferReader input, void Function() readFunc) {
-  input._withLimit(input.readInt32(), () {
-    while (!input.isAtEnd()) {
-      readFunc();
-    }
-  });
 }
 
 void _readPackableToListEnum(
