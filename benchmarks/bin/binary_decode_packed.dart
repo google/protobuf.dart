@@ -168,4 +168,6 @@ void main() {
   PackedSint64DecodingBenchmark().report();
   PackedBoolDecodingBenchmark().report();
   PackedEnumDecodingBenchmark().report();
+
+  if (int.parse('1') == 0) print(sink);
 }
