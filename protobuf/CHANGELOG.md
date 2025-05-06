@@ -1,3 +1,9 @@
+## 4.0.1-wip
+
+* Improve packed field decoding performance. ([#959])
+
+[#959]: https://github.com/google/protobuf.dart/pull/959
+
 ## 4.0.0
 
 * **Breaking:** The following types and members are now removed:
