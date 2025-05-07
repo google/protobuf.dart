@@ -8,13 +8,22 @@ message PackedFields {
     repeated sint32 packedSint32 = 5 [packed = true];
     repeated sint64 packedSint64 = 6 [packed = true];
     repeated bool packedBool = 7 [packed = true];
-    repeated Enum packedEnum = 8 [packed = true];
+    repeated Enum1 packedEnum1 = 8 [packed = true];
+    repeated Enum2 packedEnum2 = 9 [packed = true];
 }
 
-enum Enum {
-  ENUM_1 = 0;
-  ENUM_2 = 1;
-  ENUM_3 = 2;
-  ENUM_4 = 4;
-  ENUM_5 = 5;
+enum Enum1 {
+  ENUM_1_1 = 0;
+  ENUM_1_2 = 1;
+  ENUM_1_3 = 2;
+  ENUM_1_4 = 4;
+  ENUM_1_5 = 5;
+}
+
+enum Enum2 {
+  ENUM_2_1 = 0;
+  ENUM_2_2 = 1;
+  ENUM_2_3 = 2;
+  ENUM_2_4 = 4;
+  ENUM_2_5 = 5;
 }
