@@ -1,3 +1,9 @@
+## 22.0.2-wip
+
+* Fix factory argument types for protobuf `Map` fields. ([#975])
+
+[#975]: https://github.com/google/protobuf.dart/issues/975
+
 ## 22.0.1
 
 * Bump `protobuf` constraint to `^4.0.0`
