@@ -450,7 +450,7 @@ void main() {
       expect(
           TestAllTypes()..mergeFromProto3Json({'optionalNestedEnum': 1}),
           TestAllTypes()
-            ..optionalNestedEnum = TestAllTypes_NestedEnum.valueOf(1)!);
+            ..optionalNestedEnum = TestAllTypes_NestedEnum.byValue[1]!);
       expect(TestAllTypes()..mergeFromProto3Json({'repeatedBool': null}),
           TestAllTypes());
       expect(() => TestAllTypes()..mergeFromProto3Json({'repeatedBool': 100}),

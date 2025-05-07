@@ -28,7 +28,6 @@ class A extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, A> byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static A? valueOf($core.int value) => byValue[value];
 
   const A._(super.v, super.n);
 }

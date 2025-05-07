@@ -91,8 +91,6 @@ class FieldInfo<T> {
   /// Mapping from enum integer values to enum values.
   ///
   /// Only available in enum fields.
-  final ValueOfFunc? valueOf;
-
   final Map<int, ProtobufEnum>? enumValueMap;
 
   /// Function to verify items when adding to a repeated field.
@@ -103,7 +101,6 @@ class FieldInfo<T> {
   FieldInfo(this.name, this.tagNumber, this.index, this.type,
       {dynamic defaultOrMaker,
       this.subBuilder,
-      this.valueOf,
       this.enumValueMap,
       this.enumValues,
       this.defaultEnumValue,
@@ -115,8 +112,7 @@ class FieldInfo<T> {
         assert(!_isGroupOrMessage(type) ||
             subBuilder != null ||
             _isMapField(type)),
-        assert(!_isEnum(type) || (valueOf != null && enumValueMap != null),
-            'isEnum = ${_isEnum(type)}, valueOf = $valueOf, enumValueMap = $enumValueMap');
+        assert(!_isEnum(type) || enumValueMap != null);
 
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
@@ -125,7 +121,6 @@ class FieldInfo<T> {
         tagNumber = 0,
         type = 0,
         makeDefault = null,
-        valueOf = null,
         enumValueMap = null,
         check = null,
         enumValues = null,
@@ -134,15 +129,14 @@ class FieldInfo<T> {
 
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
       CheckFunc<T> this.check, this.subBuilder,
-      {this.valueOf,
-      this.enumValueMap,
+      {this.enumValueMap,
       this.enumValues,
       this.defaultEnumValue,
       String? protoName})
       : makeDefault = (() => PbList<T>(check: check)),
         _protoName = protoName,
         assert(_isRepeated(type)),
-        assert(!_isEnum(type) || (valueOf != null && enumValueMap != null));
+        assert(!_isEnum(type) || enumValueMap != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
@@ -286,7 +280,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
             defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
             defaultEnumValue: defaultEnumValue,
             protoName: protoName) {
-    assert(!_isEnum(type) || (valueOf != null && enumValueMap != null));
+    assert(!_isEnum(type) || enumValueMap != null);
   }
 
   FieldInfo get valueFieldInfo =>

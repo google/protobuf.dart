@@ -213,7 +213,7 @@ void _mergeFromProto3Json(
             if ((result != null) || ignoreUnknownFields) return result;
             throw context.parseException('Unknown enum value', value);
           } else if (value is int) {
-            return fieldInfo.valueOf!(value) ??
+            return fieldInfo.enumValueMap![value] ??
                 (ignoreUnknownFields
                     ? null
                     : (throw context.parseException(

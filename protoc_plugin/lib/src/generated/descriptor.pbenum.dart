@@ -90,7 +90,6 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FieldDescriptorProto_Type> byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldDescriptorProto_Type? valueOf($core.int value) => byValue[value];
 
   const FieldDescriptorProto_Type._(super.v, super.n);
 }
@@ -113,7 +112,6 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FieldDescriptorProto_Label> byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldDescriptorProto_Label? valueOf($core.int value) => byValue[value];
 
   const FieldDescriptorProto_Label._(super.v, super.n);
 }
@@ -138,7 +136,6 @@ class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FileOptions_OptimizeMode> byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FileOptions_OptimizeMode? valueOf($core.int value) => byValue[value];
 
   const FileOptions_OptimizeMode._(super.v, super.n);
 }
@@ -160,7 +157,6 @@ class FieldOptions_CType extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FieldOptions_CType> byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldOptions_CType? valueOf($core.int value) => byValue[value];
 
   const FieldOptions_CType._(super.v, super.n);
 }
@@ -186,7 +182,6 @@ class FieldOptions_JSType extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, FieldOptions_JSType> byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static FieldOptions_JSType? valueOf($core.int value) => byValue[value];
 
   const FieldOptions_JSType._(super.v, super.n);
 }
@@ -213,8 +208,6 @@ class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, MethodOptions_IdempotencyLevel> byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static MethodOptions_IdempotencyLevel? valueOf($core.int value) =>
-      byValue[value];
 
   const MethodOptions_IdempotencyLevel._(super.v, super.n);
 }

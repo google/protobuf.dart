@@ -29,8 +29,6 @@ class CodeGeneratorResponse_Feature extends $pb.ProtobufEnum {
 
   static final $core.Map<$core.int, CodeGeneratorResponse_Feature> byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static CodeGeneratorResponse_Feature? valueOf($core.int value) =>
-      byValue[value];
 
   const CodeGeneratorResponse_Feature._(super.v, super.n);
 }

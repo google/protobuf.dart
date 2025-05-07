@@ -12,7 +12,6 @@ class PhoneType extends $pb.ProtobufEnum {
   ];
 
   static final $core.Map<$core.int, PhoneType> byValue = $pb.ProtobufEnum.initByValue(values);
-  static PhoneType? valueOf($core.int value) => byValue[value];
 
   const PhoneType._(super.v, super.n);
 }
