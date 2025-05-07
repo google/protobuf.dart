@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: plugin.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -27,13 +27,12 @@ class CodeGeneratorResponse_Feature extends $pb.ProtobufEnum {
     FEATURE_PROTO3_OPTIONAL,
   ];
 
-  static final $core.Map<$core.int, CodeGeneratorResponse_Feature> _byValue =
+  static final $core.Map<$core.int, CodeGeneratorResponse_Feature> byValue =
       $pb.ProtobufEnum.initByValue(values);
   static CodeGeneratorResponse_Feature? valueOf($core.int value) =>
-      _byValue[value];
+      byValue[value];
 
-  const CodeGeneratorResponse_Feature._($core.int v, $core.String n)
-      : super(v, n);
+  const CodeGeneratorResponse_Feature._(super.v, super.n);
 }
 
 const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');

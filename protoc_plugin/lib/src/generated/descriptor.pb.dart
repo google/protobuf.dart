@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: descriptor.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -15,6 +15,8 @@ import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'descriptor.pbenum.dart';
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 export 'descriptor.pbenum.dart';
 
@@ -71,7 +73,7 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   static FileDescriptorSet? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<FileDescriptorProto> get file => $_getList(0);
+  $pb.PbList<FileDescriptorProto> get file => $_getList(0);
 }
 
 /// Describes a complete .proto file.
@@ -216,20 +218,20 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 
   /// Names of files imported by this file.
   @$pb.TagNumber(3)
-  $core.List<$core.String> get dependency => $_getList(2);
+  $pb.PbList<$core.String> get dependency => $_getList(2);
 
   /// All top-level definitions in this file.
   @$pb.TagNumber(4)
-  $core.List<DescriptorProto> get messageType => $_getList(3);
+  $pb.PbList<DescriptorProto> get messageType => $_getList(3);
 
   @$pb.TagNumber(5)
-  $core.List<EnumDescriptorProto> get enumType => $_getList(4);
+  $pb.PbList<EnumDescriptorProto> get enumType => $_getList(4);
 
   @$pb.TagNumber(6)
-  $core.List<ServiceDescriptorProto> get service => $_getList(5);
+  $pb.PbList<ServiceDescriptorProto> get service => $_getList(5);
 
   @$pb.TagNumber(7)
-  $core.List<FieldDescriptorProto> get extension => $_getList(6);
+  $pb.PbList<FieldDescriptorProto> get extension => $_getList(6);
 
   @$pb.TagNumber(8)
   FileOptions get options => $_getN(7);
@@ -265,12 +267,12 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
 
   /// Indexes of the public imported files in the dependency list above.
   @$pb.TagNumber(10)
-  $core.List<$core.int> get publicDependency => $_getList(9);
+  $pb.PbList<$core.int> get publicDependency => $_getList(9);
 
   /// Indexes of the weak imported files in the dependency list.
   /// For Google-internal migration only. Do not use.
   @$pb.TagNumber(11)
-  $core.List<$core.int> get weakDependency => $_getList(10);
+  $pb.PbList<$core.int> get weakDependency => $_getList(10);
 
   /// The syntax of the proto file.
   /// The supported values are "proto2" and "proto3".
@@ -597,19 +599,19 @@ class DescriptorProto extends $pb.GeneratedMessage {
   void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<FieldDescriptorProto> get field => $_getList(1);
+  $pb.PbList<FieldDescriptorProto> get field => $_getList(1);
 
   @$pb.TagNumber(3)
-  $core.List<DescriptorProto> get nestedType => $_getList(2);
+  $pb.PbList<DescriptorProto> get nestedType => $_getList(2);
 
   @$pb.TagNumber(4)
-  $core.List<EnumDescriptorProto> get enumType => $_getList(3);
+  $pb.PbList<EnumDescriptorProto> get enumType => $_getList(3);
 
   @$pb.TagNumber(5)
-  $core.List<DescriptorProto_ExtensionRange> get extensionRange => $_getList(4);
+  $pb.PbList<DescriptorProto_ExtensionRange> get extensionRange => $_getList(4);
 
   @$pb.TagNumber(6)
-  $core.List<FieldDescriptorProto> get extension => $_getList(5);
+  $pb.PbList<FieldDescriptorProto> get extension => $_getList(5);
 
   @$pb.TagNumber(7)
   MessageOptions get options => $_getN(6);
@@ -626,15 +628,15 @@ class DescriptorProto extends $pb.GeneratedMessage {
   MessageOptions ensureOptions() => $_ensure(6);
 
   @$pb.TagNumber(8)
-  $core.List<OneofDescriptorProto> get oneofDecl => $_getList(7);
+  $pb.PbList<OneofDescriptorProto> get oneofDecl => $_getList(7);
 
   @$pb.TagNumber(9)
-  $core.List<DescriptorProto_ReservedRange> get reservedRange => $_getList(8);
+  $pb.PbList<DescriptorProto_ReservedRange> get reservedRange => $_getList(8);
 
   /// Reserved field names, which may not be used by fields in the same message.
   /// A given name may only be reserved once.
   @$pb.TagNumber(10)
-  $core.List<$core.String> get reservedName => $_getList(9);
+  $pb.PbList<$core.String> get reservedName => $_getList(9);
 }
 
 class ExtensionRangeOptions extends $pb.GeneratedMessage {
@@ -692,7 +694,7 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(0);
+  $pb.PbList<UninterpretedOption> get uninterpretedOption => $_getList(0);
 }
 
 /// Describes a field within a message.
@@ -766,11 +768,13 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
         4, _omitFieldNames ? '' : 'label', $pb.PbFieldType.OE,
         defaultOrMaker: FieldDescriptorProto_Label.LABEL_OPTIONAL,
         valueOf: FieldDescriptorProto_Label.valueOf,
+        valueOfMap: FieldDescriptorProto_Label.byValue,
         enumValues: FieldDescriptorProto_Label.values)
     ..e<FieldDescriptorProto_Type>(
         5, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
         defaultOrMaker: FieldDescriptorProto_Type.TYPE_DOUBLE,
         valueOf: FieldDescriptorProto_Type.valueOf,
+        valueOfMap: FieldDescriptorProto_Type.byValue,
         enumValues: FieldDescriptorProto_Type.values)
     ..aOS(6, _omitFieldNames ? '' : 'typeName')
     ..aOS(7, _omitFieldNames ? '' : 'defaultValue')
@@ -1241,7 +1245,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<EnumValueDescriptorProto> get value => $_getList(1);
+  $pb.PbList<EnumValueDescriptorProto> get value => $_getList(1);
 
   @$pb.TagNumber(3)
   EnumOptions get options => $_getN(2);
@@ -1261,13 +1265,13 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   /// by enum values in the same enum declaration. Reserved ranges may not
   /// overlap.
   @$pb.TagNumber(4)
-  $core.List<EnumDescriptorProto_EnumReservedRange> get reservedRange =>
+  $pb.PbList<EnumDescriptorProto_EnumReservedRange> get reservedRange =>
       $_getList(3);
 
   /// Reserved enum value names, which may not be reused. A given name may only
   /// be reserved once.
   @$pb.TagNumber(5)
-  $core.List<$core.String> get reservedName => $_getList(4);
+  $pb.PbList<$core.String> get reservedName => $_getList(4);
 }
 
 /// Describes a value within an enum.
@@ -1448,7 +1452,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   void clearName() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<MethodDescriptorProto> get method => $_getList(1);
+  $pb.PbList<MethodDescriptorProto> get method => $_getList(1);
 
   @$pb.TagNumber(3)
   ServiceOptions get options => $_getN(2);
@@ -1732,6 +1736,7 @@ class FileOptions extends $pb.GeneratedMessage {
         9, _omitFieldNames ? '' : 'optimizeFor', $pb.PbFieldType.OE,
         defaultOrMaker: FileOptions_OptimizeMode.SPEED,
         valueOf: FileOptions_OptimizeMode.valueOf,
+        valueOfMap: FileOptions_OptimizeMode.byValue,
         enumValues: FileOptions_OptimizeMode.values)
     ..aOB(10, _omitFieldNames ? '' : 'javaMultipleFiles')
     ..aOS(11, _omitFieldNames ? '' : 'goPackage')
@@ -2087,7 +2092,7 @@ class FileOptions extends $pb.GeneratedMessage {
   /// The parser stores options it doesn't recognize here.
   /// See the documentation for the "Options" section above.
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(20);
+  $pb.PbList<UninterpretedOption> get uninterpretedOption => $_getList(20);
 }
 
 class MessageOptions extends $pb.GeneratedMessage {
@@ -2257,7 +2262,7 @@ class MessageOptions extends $pb.GeneratedMessage {
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(4);
+  $pb.PbList<UninterpretedOption> get uninterpretedOption => $_getList(4);
 }
 
 class FieldOptions extends $pb.GeneratedMessage {
@@ -2311,6 +2316,7 @@ class FieldOptions extends $pb.GeneratedMessage {
         1, _omitFieldNames ? '' : 'ctype', $pb.PbFieldType.OE,
         defaultOrMaker: FieldOptions_CType.STRING,
         valueOf: FieldOptions_CType.valueOf,
+        valueOfMap: FieldOptions_CType.byValue,
         enumValues: FieldOptions_CType.values)
     ..aOB(2, _omitFieldNames ? '' : 'packed')
     ..aOB(3, _omitFieldNames ? '' : 'deprecated')
@@ -2319,6 +2325,7 @@ class FieldOptions extends $pb.GeneratedMessage {
         6, _omitFieldNames ? '' : 'jstype', $pb.PbFieldType.OE,
         defaultOrMaker: FieldOptions_JSType.JS_NORMAL,
         valueOf: FieldOptions_JSType.valueOf,
+        valueOfMap: FieldOptions_JSType.byValue,
         enumValues: FieldOptions_JSType.values)
     ..aOB(10, _omitFieldNames ? '' : 'weak')
     ..pc<UninterpretedOption>(
@@ -2476,7 +2483,7 @@ class FieldOptions extends $pb.GeneratedMessage {
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(6);
+  $pb.PbList<UninterpretedOption> get uninterpretedOption => $_getList(6);
 }
 
 class OneofOptions extends $pb.GeneratedMessage {
@@ -2532,7 +2539,7 @@ class OneofOptions extends $pb.GeneratedMessage {
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(0);
+  $pb.PbList<UninterpretedOption> get uninterpretedOption => $_getList(0);
 }
 
 class EnumOptions extends $pb.GeneratedMessage {
@@ -2627,7 +2634,7 @@ class EnumOptions extends $pb.GeneratedMessage {
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(2);
+  $pb.PbList<UninterpretedOption> get uninterpretedOption => $_getList(2);
 }
 
 class EnumValueOptions extends $pb.GeneratedMessage {
@@ -2704,7 +2711,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(1);
+  $pb.PbList<UninterpretedOption> get uninterpretedOption => $_getList(1);
 }
 
 class ServiceOptions extends $pb.GeneratedMessage {
@@ -2781,7 +2788,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(1);
+  $pb.PbList<UninterpretedOption> get uninterpretedOption => $_getList(1);
 }
 
 class MethodOptions extends $pb.GeneratedMessage {
@@ -2820,6 +2827,7 @@ class MethodOptions extends $pb.GeneratedMessage {
         34, _omitFieldNames ? '' : 'idempotencyLevel', $pb.PbFieldType.OE,
         defaultOrMaker: MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
         valueOf: MethodOptions_IdempotencyLevel.valueOf,
+        valueOfMap: MethodOptions_IdempotencyLevel.byValue,
         enumValues: MethodOptions_IdempotencyLevel.values)
     ..pc<UninterpretedOption>(
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
@@ -2879,7 +2887,7 @@ class MethodOptions extends $pb.GeneratedMessage {
 
   /// The parser stores options it doesn't recognize here. See above.
   @$pb.TagNumber(999)
-  $core.List<UninterpretedOption> get uninterpretedOption => $_getList(2);
+  $pb.PbList<UninterpretedOption> get uninterpretedOption => $_getList(2);
 }
 
 /// The name of the uninterpreted option.  Each string represents a segment in
@@ -3061,7 +3069,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   static UninterpretedOption? _defaultInstance;
 
   @$pb.TagNumber(2)
-  $core.List<UninterpretedOption_NamePart> get name => $_getList(0);
+  $pb.PbList<UninterpretedOption_NamePart> get name => $_getList(0);
 
   /// The value of the uninterpreted option, in whatever type the tokenizer
   /// identified it as during parsing. Exactly one of these should be set.
@@ -3233,7 +3241,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   ///  this path refers to the whole field declaration (from the beginning
   ///  of the label to the terminating semicolon).
   @$pb.TagNumber(1)
-  $core.List<$core.int> get path => $_getList(0);
+  $pb.PbList<$core.int> get path => $_getList(0);
 
   /// Always has exactly three or four elements: start line, start column,
   /// end line (optional, otherwise assumed same as start line), end column.
@@ -3241,7 +3249,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   /// and column numbers are zero-based -- typically you will want to add
   /// 1 to each before displaying to a user.
   @$pb.TagNumber(2)
-  $core.List<$core.int> get span => $_getList(1);
+  $pb.PbList<$core.int> get span => $_getList(1);
 
   ///  If this SourceCodeInfo represents a complete declaration, these are any
   ///  comments appearing before and after the declaration which appear to be
@@ -3315,7 +3323,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   void clearTrailingComments() => $_clearField(4);
 
   @$pb.TagNumber(6)
-  $core.List<$core.String> get leadingDetachedComments => $_getList(4);
+  $pb.PbList<$core.String> get leadingDetachedComments => $_getList(4);
 }
 
 /// Encapsulates information about the original source file from which a
@@ -3415,7 +3423,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   ///    ignore those that it doesn't understand, as more types of locations could
   ///    be recorded in the future.
   @$pb.TagNumber(1)
-  $core.List<SourceCodeInfo_Location> get location => $_getList(0);
+  $pb.PbList<SourceCodeInfo_Location> get location => $_getList(0);
 }
 
 class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
@@ -3489,7 +3497,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   /// Identifies the element in the original source .proto file. This field
   /// is formatted the same as SourceCodeInfo.Location.path.
   @$pb.TagNumber(1)
-  $core.List<$core.int> get path => $_getList(0);
+  $pb.PbList<$core.int> get path => $_getList(0);
 
   /// Identifies the filesystem path to the original source .proto.
   @$pb.TagNumber(2)
@@ -3591,7 +3599,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   /// An Annotation connects some span of text in generated code to an element
   /// of its generating .proto file.
   @$pb.TagNumber(1)
-  $core.List<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
+  $pb.PbList<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');

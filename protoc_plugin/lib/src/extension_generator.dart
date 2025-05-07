@@ -120,6 +120,7 @@ class ExtensionGenerator {
         named['subBuilder'] = '$dartType.create';
       } else if (type.isEnum) {
         named['valueOf'] = '$dartType.valueOf';
+        named['valueOfMap'] = '$dartType.byValue';
         named['enumValues'] = '$dartType.values';
       }
     } else {
@@ -130,6 +131,7 @@ class ExtensionGenerator {
       } else if (type.isEnum) {
         final dartEnum = type.getDartType(fileGen!);
         named['valueOf'] = '$dartEnum.valueOf';
+        named['valueOfMap'] = '$dartEnum.byValue';
         named['enumValues'] = '$dartEnum.values';
       }
     }

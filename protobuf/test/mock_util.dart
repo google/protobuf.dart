@@ -24,6 +24,8 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
     ..e(7, 'enm', PbFieldType.OE,
         defaultOrMaker: mockEnumValues.first,
         valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
+        valueOfMap:
+            Map.fromEntries(mockEnumValues.map((e) => MapEntry(e.value, e))),
         enumValues: mockEnumValues);
 }
 

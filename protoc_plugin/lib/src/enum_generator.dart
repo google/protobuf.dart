@@ -176,10 +176,10 @@ class EnumGenerator extends ProtobufContainer {
       out.println();
 
       out.println(
-          'static final $coreImportPrefix.Map<$coreImportPrefix.int, $classname> _byValue ='
+          'static final $coreImportPrefix.Map<$coreImportPrefix.int, $classname> byValue ='
           ' $protobufImportPrefix.ProtobufEnum.initByValue(values);');
       out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
-          ' _byValue[value];');
+          ' byValue[value];');
       out.println();
 
       out.println('const $classname._(super.v, super.n);');
