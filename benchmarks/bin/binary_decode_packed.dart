@@ -168,10 +168,10 @@ class PackedEnumDecodingBenchmark extends BenchmarkBase {
     final encoded = message.writeToBuffer();
     final decoded = PackedFields()..mergeFromBuffer(encoded);
     if (decoded.packedEnum1.length != 100) {
-      throw AssertionError("BUG");
+      throw AssertionError('BUG');
     }
     if (decoded.packedEnum2.length != 100) {
-      throw AssertionError("BUG");
+      throw AssertionError('BUG');
     }
   }
 
