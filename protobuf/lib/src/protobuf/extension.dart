@@ -12,14 +12,14 @@ class Extension<T> extends FieldInfo<T> {
       {dynamic defaultOrMaker,
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
-      Map<int, ProtobufEnum>? valueOfMap,
+      Map<int, ProtobufEnum>? enumValueMap,
       List<ProtobufEnum>? enumValues,
       String? protoName})
       : super(name, tagNumber, null, fieldType,
             defaultOrMaker: defaultOrMaker,
             subBuilder: subBuilder,
             valueOf: valueOf,
-            valueOfMap: valueOfMap,
+            enumValueMap: enumValueMap,
             enumValues: enumValues,
             protoName: protoName);
 
@@ -27,12 +27,12 @@ class Extension<T> extends FieldInfo<T> {
       {required CheckFunc<T> check,
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
-      Map<int, ProtobufEnum>? valueOfMap,
+      Map<int, ProtobufEnum>? enumValueMap,
       List<ProtobufEnum>? enumValues,
       String? protoName})
       : super.repeated(name, tagNumber, null, fieldType, check, subBuilder,
             valueOf: valueOf,
-            valueOfMap: valueOfMap,
+            enumValueMap: enumValueMap,
             enumValues: enumValues,
             protoName: protoName);
 

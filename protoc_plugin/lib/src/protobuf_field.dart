@@ -221,7 +221,7 @@ class ProtobufField {
       }
       if (value.baseType.isEnum) {
         named['valueOf'] = '$valueType.valueOf';
-        named['valueOfMap'] = '$valueType.byValue';
+        named['enumValueMap'] = '$valueType.byValue';
         named['enumValues'] = '$valueType.values';
         named['valueDefaultOrMaker'] = value.generateDefaultFunction();
         named['defaultEnumValue'] = value.generateDefaultFunction();
@@ -245,7 +245,7 @@ class ProtobufField {
           named['subBuilder'] = '$type.create';
         } else if (baseType.isEnum) {
           named['valueOf'] = '$type.valueOf';
-          named['valueOfMap'] = '$type.byValue';
+          named['enumValueMap'] = '$type.byValue';
           named['enumValues'] = '$type.values';
           named['defaultEnumValue'] = generateDefaultFunction();
         }
@@ -258,7 +258,7 @@ class ProtobufField {
         args.add(typeConstant);
         named['defaultOrMaker'] = makeDefault;
         named['valueOf'] = '$type.valueOf';
-        named['valueOfMap'] = '$type.byValue';
+        named['enumValueMap'] = '$type.byValue';
         named['enumValues'] = '$type.values';
         invocation = 'e<$type>';
       } else if (makeDefault == null) {
