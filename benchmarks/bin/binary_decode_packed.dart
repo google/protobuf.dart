@@ -146,11 +146,33 @@ class PackedEnumDecodingBenchmark extends BenchmarkBase {
   PackedEnumDecodingBenchmark() : super('PackedEnumDecoding') {
     final rand = Random(123);
     final message = PackedFields();
-    final numEnums = Enum.values.length;
+    final numEnums = Enum1.values.length;
     for (var i = 0; i < 1000000; i += 1) {
-      message.packedEnum.add(Enum.values[rand.nextInt(numEnums)]);
+      message.packedEnum1.add(Enum1.values[rand.nextInt(numEnums)]);
     }
     encoded = message.writeToBuffer();
+  }
+
+  @override
+  void setup() {
+    // Decode different enums to prevent TFA from specializing enum decoding
+    // code to one type.
+    final rand = Random(123);
+    final message = PackedFields();
+    for (var i = 0; i < 100; i += 1) {
+      message.packedEnum1.add(Enum1.values[rand.nextInt(Enum1.values.length)]);
+    }
+    for (var i = 0; i < 100; i += 1) {
+      message.packedEnum2.add(Enum2.values[rand.nextInt(Enum2.values.length)]);
+    }
+    final encoded = message.writeToBuffer();
+    final decoded = PackedFields()..mergeFromBuffer(encoded);
+    if (decoded.packedEnum1.length != 100) {
+      throw "BUG";
+    }
+    if (decoded.packedEnum2.length != 100) {
+      throw "BUG";
+    }
   }
 
   @override
