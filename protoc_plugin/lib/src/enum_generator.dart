@@ -102,6 +102,9 @@ class EnumGenerator extends ProtobufContainer {
   static const int _enumValueTag = 2;
 
   void generate(IndentingWriter out) {
+    assert(_canonicalValues
+        .isSortedBy<num>((EnumValueDescriptorProto a) => a.number));
+
     final commentBlock = fileGen?.commentBlock(fieldPath);
     if (commentBlock != null) {
       out.println(commentBlock);
@@ -165,7 +168,6 @@ class EnumGenerator extends ProtobufContainer {
         }
       }
       out.println();
-
       out.println('static const $coreImportPrefix.List<$classname> values ='
           ' <$classname> [');
       for (final val in _canonicalValues) {
@@ -175,11 +177,32 @@ class EnumGenerator extends ProtobufContainer {
       out.println('];');
       out.println();
 
-      out.println(
-          'static final $coreImportPrefix.Map<$coreImportPrefix.int, $classname> _byValue ='
-          ' $protobufImportPrefix.ProtobufEnum.initByValue(values);');
-      out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
-          ' _byValue[value];');
+      var useList = _canonicalValues.isEmpty;
+      if (_canonicalValues.isNotEmpty) {
+        if (_canonicalValues.every((val) => !val.number.isNegative)) {
+          if (_canonicalValues.length / (_canonicalValues.last.number + 1) >=
+              0.7) {
+            useList = true;
+          }
+        }
+      }
+
+      if (useList) {
+        out.println(
+            'static final $coreImportPrefix.List<$classname?> _byValue ='
+            ' $protobufImportPrefix.ProtobufEnum.initByValueList(values);');
+
+        out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
+            '  value < 0 || value >= _byValue.length ? null : _byValue[value];');
+      } else {
+        out.println(
+            'static final $coreImportPrefix.Map<$coreImportPrefix.int, $classname> _byValue ='
+            ' $protobufImportPrefix.ProtobufEnum.initByValueMap(values);');
+
+        out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
+            ' _byValue[value];');
+      }
+
       out.println();
 
       out.println('const $classname._(super.v, super.n);');

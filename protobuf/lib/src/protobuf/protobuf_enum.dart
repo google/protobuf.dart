@@ -37,9 +37,16 @@ class ProtobufEnum {
   /// Creates a new constant [ProtobufEnum] using [value] and [name].
   const ProtobufEnum(this.value, this.name);
 
-  /// Creates a Map for all of the [ProtobufEnum]s in [byIndex], mapping each
-  /// [ProtobufEnum]'s [value] to the [ProtobufEnum].
-  static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> byIndex) {
+  static List<T?> initByValueList<T extends ProtobufEnum>(List<T> byIndex) {
+    if (byIndex.isEmpty) return [];
+    final byValue = List<T?>.filled(byIndex.last.value + 1, null);
+    for (final enumValue in byIndex) {
+      byValue[enumValue.value] = enumValue;
+    }
+    return byValue;
+  }
+
+  static Map<int, T> initByValueMap<T extends ProtobufEnum>(List<T> byIndex) {
     final byValue = <int, T>{};
     for (final v in byIndex) {
       byValue[v.value] = v;
