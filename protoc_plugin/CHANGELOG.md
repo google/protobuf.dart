@@ -1,8 +1,11 @@
 ## 22.0.2-wip
 
 * Fix factory argument types for protobuf `Map` fields. ([#975])
+* Fix import order changes when files are passed in different order to `protoc`.
+([#952])
 
 [#975]: https://github.com/google/protobuf.dart/issues/975
+[#952]: https://github.com/google/protobuf.dart/issues/952
 
 ## 22.0.1
 
