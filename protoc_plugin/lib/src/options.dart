@@ -51,11 +51,13 @@ class GenerationOptions {
   final bool useGrpc;
   final bool generateMetadata;
   final bool disableConstructorArgs;
+  final bool useNullable;
 
   GenerationOptions(
       {this.useGrpc = false,
       this.generateMetadata = false,
-      this.disableConstructorArgs = false});
+      this.disableConstructorArgs = false,
+      this.useNullable = false});
 }
 
 /// A parser for a name-value pair option. Options parsed in
@@ -108,6 +110,19 @@ class DisableConstructorArgsParser implements SingleOptionParser {
   }
 }
 
+class NullableOptionParser implements SingleOptionParser {
+  bool nullableEnabled = false;
+
+  @override
+  void parse(String name, String? value, OnError onError) {
+    if (value != null) {
+      onError('Invalid nullable option. No value expected.');
+      return;
+    }
+    nullableEnabled = true;
+  }
+}
+
 /// Parser used by the compiler, which supports the `rpc` option (see
 /// [GrpcOptionParser]) and any additional option added in [parsers]. If
 /// [parsers] has a key for `rpc`, it will be ignored.
@@ -122,6 +137,8 @@ GenerationOptions? parseGenerationOptions(
 
   final generateMetadataParser = GenerateMetadataParser();
   newParsers['generate_kythe_info'] = generateMetadataParser;
+  final nullableOptionParser = NullableOptionParser();
+  newParsers['nullable'] = nullableOptionParser;
 
   final disableConstructorArgsParser = DisableConstructorArgsParser();
   newParsers['disable_constructor_args'] = disableConstructorArgsParser;
@@ -130,7 +147,8 @@ GenerationOptions? parseGenerationOptions(
     return GenerationOptions(
         useGrpc: grpcOptionParser.grpcEnabled,
         generateMetadata: generateMetadataParser.generateKytheInfo,
-        disableConstructorArgs: disableConstructorArgsParser.value);
+        disableConstructorArgs: disableConstructorArgsParser.value,
+        useNullable: nullableOptionParser.nullableEnabled);
   }
   return null;
 }

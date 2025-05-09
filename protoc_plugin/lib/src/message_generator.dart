@@ -77,6 +77,8 @@ class MessageGenerator extends ProtobufContainer {
 
   Set<String> _usedTopLevelNames;
 
+  final bool useNullable;
+
   MessageGenerator._(
       DescriptorProto descriptor,
       this.parent,
@@ -84,7 +86,8 @@ class MessageGenerator extends ProtobufContainer {
       PbMixin? defaultMixin,
       this._usedTopLevelNames,
       int repeatedFieldIndex,
-      int fieldIdTag)
+      int fieldIdTag,
+      this.useNullable)
       : _descriptor = descriptor,
         _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
         classname = messageOrEnumClassName(descriptor.name, _usedTopLevelNames,
@@ -103,8 +106,8 @@ class MessageGenerator extends ProtobufContainer {
 
     for (var i = 0; i < _descriptor.nestedType.length; i++) {
       final n = _descriptor.nestedType[i];
-      _messageGenerators.add(MessageGenerator.nested(
-          n, this, declaredMixins, defaultMixin, _usedTopLevelNames, i));
+      _messageGenerators.add(MessageGenerator.nested(n, this, declaredMixins,
+          defaultMixin, _usedTopLevelNames, i, useNullable));
     }
 
     // Extensions within messages won't create top-level classes and don't need
@@ -132,9 +135,10 @@ class MessageGenerator extends ProtobufContainer {
       Map<String, PbMixin> declaredMixins,
       PbMixin? defaultMixin,
       Set<String> usedNames,
-      int repeatedFieldIndex)
+      int repeatedFieldIndex,
+      bool useNullable)
       : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
-            repeatedFieldIndex, _topLevelMessageTag);
+            repeatedFieldIndex, _topLevelMessageTag, useNullable);
 
   MessageGenerator.nested(
       DescriptorProto descriptor,
@@ -142,9 +146,10 @@ class MessageGenerator extends ProtobufContainer {
       Map<String, PbMixin> declaredMixins,
       PbMixin? defaultMixin,
       Set<String> usedNames,
-      int repeatedFieldIndex)
+      int repeatedFieldIndex,
+      bool useNullable)
       : this._(descriptor, parent, declaredMixins, defaultMixin, usedNames,
-            repeatedFieldIndex, _nestedMessageTag);
+            repeatedFieldIndex, _nestedMessageTag, useNullable);
 
   @override
   String get package => parent!.package;
@@ -549,7 +554,7 @@ class MessageGenerator extends ProtobufContainer {
 
   void generateFieldAccessorsMutators(
       ProtobufField field, IndentingWriter out, List<int> memberFieldPath) {
-    final fieldTypeString = field.getDartType();
+    var fieldTypeString = field.getDartType();
     final defaultExpr = field.getDefaultExpr();
     final names = field.memberNames;
 
@@ -558,11 +563,20 @@ class MessageGenerator extends ProtobufContainer {
       out.println(commentBlock);
     }
 
+    if (useNullable && field.isOptional) {
+      fieldTypeString += '?';
+    }
+
     _emitDeprecatedIf(field.isDeprecated, out);
     _emitOverrideIf(field.overridesGetter, out);
     _emitIndexAnnotation(field.number, out);
-    final getterExpr = _getterExpression(fieldTypeString, field.index!,
-        defaultExpr, field.isRepeated, field.isMapField);
+    final getterExpr = _getterExpression(
+        fieldTypeString,
+        field.index!,
+        defaultExpr,
+        field.isRepeated,
+        field.isMapField,
+        useNullable && field.isOptional);
 
     out.printlnAnnotated(
         '$fieldTypeString get ${names!.fieldName} => $getterExpr;', [
@@ -586,11 +600,14 @@ class MessageGenerator extends ProtobufContainer {
             '${names.clearMethodName}() because it is repeated.';
       }
     } else {
-      final fastSetter = field.baseType.setter;
+      var fastSetter = field.baseType.setter;
       _emitDeprecatedIf(field.isDeprecated, out);
       _emitOverrideIf(field.overridesSetter, out);
       _emitIndexAnnotation(field.number, out);
       if (fastSetter != null) {
+        if (useNullable && field.isOptional) {
+          fastSetter += 'Nullable';
+        }
         out.printlnAnnotated(
             'set ${names.fieldName}'
             '($fieldTypeString v) { '
@@ -603,10 +620,13 @@ class MessageGenerator extends ProtobufContainer {
                   start: 'set '.length)
             ]);
       } else {
+        final setterName =
+            useNullable && field.isOptional ? '\$_setFieldNullable' : '\$_setField';
+
         out.printlnAnnotated(
             'set ${names.fieldName}'
             '($fieldTypeString v) { '
-            '\$_setField(${field.number}, v);'
+            '$setterName(${field.number}, v);'
             ' }',
             [
               NamedLocation(
@@ -658,7 +678,7 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   String _getterExpression(String fieldType, int index, String defaultExpr,
-      bool isRepeated, bool isMapField) {
+      bool isRepeated, bool isMapField, bool isNullable) {
     if (isMapField) {
       return '\$_getMap($index)';
     }
@@ -668,11 +688,17 @@ class MessageGenerator extends ProtobufContainer {
       }
       return '\$_getS($index, $defaultExpr)';
     }
+    if (fieldType == '$coreImportPrefix.String?') {
+      return '\$_getSNullable($index)';
+    }
     if (fieldType == '$coreImportPrefix.bool') {
       if (defaultExpr == 'false') {
         return '\$_getBF($index)';
       }
       return '\$_getB($index, $defaultExpr)';
+    }
+    if (fieldType == '$coreImportPrefix.bool?') {
+      return '\$_getBNullable($index)';
     }
     if (fieldType == '$coreImportPrefix.int') {
       if (defaultExpr == '0') {
@@ -680,8 +706,17 @@ class MessageGenerator extends ProtobufContainer {
       }
       return '\$_getI($index, $defaultExpr)';
     }
+    if (fieldType == '$coreImportPrefix.int?') {
+      return '\$_getINullable($index)';
+    }
     if (fieldType == '$_fixnumImportPrefix.Int64' && defaultExpr == 'null') {
       return '\$_getI64($index)';
+    }
+    if (fieldType == '$_fixnumImportPrefix.Int64?') {
+      return '\$_getI64Nullable($index)';
+    }
+    if (isNullable) {
+      return '\$_getNullable($index)';
     }
     if (defaultExpr == 'null') {
       return isRepeated ? '\$_getList($index)' : '\$_getN($index)';

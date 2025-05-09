@@ -166,8 +166,14 @@ class FileGenerator extends ProtobufContainer {
           descriptor.enumType[i], this, usedTopLevelNames, i));
     }
     for (var i = 0; i < descriptor.messageType.length; i++) {
-      messageGenerators.add(MessageGenerator.topLevel(descriptor.messageType[i],
-          this, declaredMixins, defaultMixin, usedTopLevelNames, i));
+      messageGenerators.add(MessageGenerator.topLevel(
+          descriptor.messageType[i],
+          this,
+          declaredMixins,
+          defaultMixin,
+          usedTopLevelNames,
+          i,
+          options.useNullable));
     }
     for (var i = 0; i < descriptor.extension.length; i++) {
       extensionGenerators.add(ExtensionGenerator.topLevel(
