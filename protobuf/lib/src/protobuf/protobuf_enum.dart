@@ -54,6 +54,27 @@ class ProtobufEnum {
     return byValue;
   }
 
+  static List<T> initSparseList<T extends ProtobufEnum>(List<T> byIndex) =>
+    byIndex.toList()..sort((e1, e2) => e1.value.compareTo(e2.value));
+
+  static T? binarySearch<T extends ProtobufEnum>(
+      List<T> sortedList, int value) {
+    var min = 0;
+    var max = sortedList.length;
+    while (min < max) {
+      final mid = min + ((max - min) >> 1);
+      final element = sortedList[mid];
+      final comp = element.value.compareTo(value);
+      if (comp == 0) return element;
+      if (comp < 0) {
+        min = mid + 1;
+      } else {
+        max = mid;
+      }
+    }
+    return null;
+  }
+
   /// Returns this enum's [name] or the [value] if names are not represented.
   @override
   String toString() => name == '' ? value.toString() : name;
