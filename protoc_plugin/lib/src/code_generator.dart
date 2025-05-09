@@ -5,6 +5,7 @@
 import 'dart:io' hide BytesBuilder;
 import 'dart:typed_data' show BytesBuilder;
 
+import 'package:collection/collection.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
@@ -104,6 +105,8 @@ class CodeGenerator {
       final request = CodeGeneratorRequest();
       request.mergeFromCodedBufferReader(reader, extensions);
       reader.checkLastTagWas(0);
+
+      request.protoFile.sortBy((desc) => desc.name);
 
       final response = CodeGeneratorResponse();
 
