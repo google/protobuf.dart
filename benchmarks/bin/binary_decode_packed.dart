@@ -181,6 +181,25 @@ class PackedEnumDecodingBenchmark extends BenchmarkBase {
   }
 }
 
+class PackedSparseEnumDecodingBenchmark extends BenchmarkBase {
+  late final Uint8List encoded;
+
+  PackedSparseEnumDecodingBenchmark() : super('PackedSparseEnumDecoding') {
+    final rand = Random(123);
+    final message = PackedFields();
+    final numEnums = SparseEnum.values.length;
+    for (var i = 0; i < 1000000; i += 1) {
+      message.sparseEnum.add(SparseEnum.values[rand.nextInt(numEnums)]);
+    }
+    encoded = message.writeToBuffer();
+  }
+
+  @override
+  void run() {
+    sink = PackedFields()..mergeFromBuffer(encoded);
+  }
+}
+
 void main() {
   PackedInt32DecodingBenchmark().report();
   PackedInt64DecodingBenchmark().report();
@@ -190,6 +209,7 @@ void main() {
   PackedSint64DecodingBenchmark().report();
   PackedBoolDecodingBenchmark().report();
   PackedEnumDecodingBenchmark().report();
+  PackedSparseEnumDecodingBenchmark().report();
 
   if (int.parse('1') == 0) print(sink);
 }
