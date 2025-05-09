@@ -140,16 +140,34 @@ class ProtobufField {
     // for example in package:protobuf/src/protobuf/mixins/well_known.dart.
   }
 
-  /// Returns the expression to use for the Dart type.
+  /// Returns the type to use for the Dart field type.
   String getDartType() {
     if (isMapField) {
-      final d = baseType.generator as MessageGenerator;
-      final keyType = d._fieldList[0].baseType.getDartType(parent.fileGen!);
-      final valueType = d._fieldList[1].baseType.getDartType(parent.fileGen!);
+      final keyType = getDartMapKeyType();
+      final valueType = getDartMapValueType();
       return '$protobufImportPrefix.PbMap<$keyType, $valueType>';
     }
     if (isRepeated) return baseType.getRepeatedDartType(parent.fileGen!);
     return baseType.getDartType(parent.fileGen!);
+  }
+
+  /// Only for map fields: returns the type to use for Dart map field key type.
+  String getDartMapKeyType() {
+    assert(isMapField);
+    return (baseType.generator as MessageGenerator)
+        ._fieldList[0]
+        .baseType
+        .getDartType(parent.fileGen!);
+  }
+
+  /// Only for map fields: returns the type to use for Dart map field value
+  /// type.
+  String getDartMapValueType() {
+    assert(isMapField);
+    return (baseType.generator as MessageGenerator)
+        ._fieldList[1]
+        .baseType
+        .getDartType(parent.fileGen!);
   }
 
   /// Returns the tag number of the underlying proto field.
