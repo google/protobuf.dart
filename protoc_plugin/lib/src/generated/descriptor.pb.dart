@@ -767,12 +767,12 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     ..e<FieldDescriptorProto_Label>(
         4, _omitFieldNames ? '' : 'label', $pb.PbFieldType.OE,
         defaultOrMaker: FieldDescriptorProto_Label.LABEL_OPTIONAL,
-        valueOf: FieldDescriptorProto_Label.valueOf,
+        enumValueMap: FieldDescriptorProto_Label.byValue,
         enumValues: FieldDescriptorProto_Label.values)
     ..e<FieldDescriptorProto_Type>(
         5, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
         defaultOrMaker: FieldDescriptorProto_Type.TYPE_DOUBLE,
-        valueOf: FieldDescriptorProto_Type.valueOf,
+        enumValueMap: FieldDescriptorProto_Type.byValue,
         enumValues: FieldDescriptorProto_Type.values)
     ..aOS(6, _omitFieldNames ? '' : 'typeName')
     ..aOS(7, _omitFieldNames ? '' : 'defaultValue')
@@ -1733,7 +1733,7 @@ class FileOptions extends $pb.GeneratedMessage {
     ..e<FileOptions_OptimizeMode>(
         9, _omitFieldNames ? '' : 'optimizeFor', $pb.PbFieldType.OE,
         defaultOrMaker: FileOptions_OptimizeMode.SPEED,
-        valueOf: FileOptions_OptimizeMode.valueOf,
+        enumValueMap: FileOptions_OptimizeMode.byValue,
         enumValues: FileOptions_OptimizeMode.values)
     ..aOB(10, _omitFieldNames ? '' : 'javaMultipleFiles')
     ..aOS(11, _omitFieldNames ? '' : 'goPackage')
@@ -2312,7 +2312,7 @@ class FieldOptions extends $pb.GeneratedMessage {
     ..e<FieldOptions_CType>(
         1, _omitFieldNames ? '' : 'ctype', $pb.PbFieldType.OE,
         defaultOrMaker: FieldOptions_CType.STRING,
-        valueOf: FieldOptions_CType.valueOf,
+        enumValueMap: FieldOptions_CType.byValue,
         enumValues: FieldOptions_CType.values)
     ..aOB(2, _omitFieldNames ? '' : 'packed')
     ..aOB(3, _omitFieldNames ? '' : 'deprecated')
@@ -2320,7 +2320,7 @@ class FieldOptions extends $pb.GeneratedMessage {
     ..e<FieldOptions_JSType>(
         6, _omitFieldNames ? '' : 'jstype', $pb.PbFieldType.OE,
         defaultOrMaker: FieldOptions_JSType.JS_NORMAL,
-        valueOf: FieldOptions_JSType.valueOf,
+        enumValueMap: FieldOptions_JSType.byValue,
         enumValues: FieldOptions_JSType.values)
     ..aOB(10, _omitFieldNames ? '' : 'weak')
     ..pc<UninterpretedOption>(
@@ -2821,7 +2821,7 @@ class MethodOptions extends $pb.GeneratedMessage {
     ..e<MethodOptions_IdempotencyLevel>(
         34, _omitFieldNames ? '' : 'idempotencyLevel', $pb.PbFieldType.OE,
         defaultOrMaker: MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
-        valueOf: MethodOptions_IdempotencyLevel.valueOf,
+        enumValueMap: MethodOptions_IdempotencyLevel.byValue,
         enumValues: MethodOptions_IdempotencyLevel.values)
     ..pc<UninterpretedOption>(
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,

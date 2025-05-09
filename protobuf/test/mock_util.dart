@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:collection/collection.dart';
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart'
     show
@@ -23,7 +22,8 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
     // 6 is reserved for extensions in other tests.
     ..e(7, 'enm', PbFieldType.OE,
         defaultOrMaker: mockEnumValues.first,
-        valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
+        enumValueMap:
+            Map.fromEntries(mockEnumValues.map((e) => MapEntry(e.value, e))),
         enumValues: mockEnumValues);
 }
 

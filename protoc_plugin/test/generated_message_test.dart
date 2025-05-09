@@ -151,9 +151,9 @@ void main() {
 
   test('testEnumMap', () {
     for (final value in ForeignEnum.values) {
-      expect(ForeignEnum.valueOf(value.value), value);
+      expect(ForeignEnum.byValue[value.value], value);
     }
-    expect(ForeignEnum.valueOf(12345), isNull);
+    expect(ForeignEnum.byValue[12345], isNull);
   });
 
   test('testParsePackedToUnpacked', () {
