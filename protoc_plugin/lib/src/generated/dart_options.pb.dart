@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: dart_options.proto
 //
-// @dart = 2.12
+// @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
 // ignore_for_file: constant_identifier_names, library_prefixes
@@ -12,6 +12,8 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+
+export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 /// A mixin that can be used in the 'with' clause of the generated Dart class
 /// for a proto message.
@@ -171,7 +173,7 @@ class Imports extends $pb.GeneratedMessage {
   ///  so the generated code may contain errors. Therefore, running dartanalyzer
   ///  on the generated file is a good idea.
   @$pb.TagNumber(1)
-  $core.List<DartMixin> get mixins => $_getList(0);
+  $pb.PbList<DartMixin> get mixins => $_getList(0);
 }
 
 class Dart_options {
