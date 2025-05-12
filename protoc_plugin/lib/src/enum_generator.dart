@@ -190,16 +190,16 @@ class EnumGenerator extends ProtobufContainer {
       if (useList) {
         out.println(
             'static final $coreImportPrefix.List<$classname?> _byValue ='
-            ' $protobufImportPrefix.ProtobufEnum.initByValueList(values);');
+            ' $protobufImportPrefix.ProtobufEnum.\$_initDenseList(values);');
 
         out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
             '  value < 0 || value >= _byValue.length ? null : _byValue[value];');
       } else {
         out.println('static final $coreImportPrefix.List<$classname> _byValue ='
-            ' $protobufImportPrefix.ProtobufEnum.initSparseList(values);');
+            ' $protobufImportPrefix.ProtobufEnum.\$_initSparseList(values);');
 
         out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
-            ' $protobufImportPrefix.ProtobufEnum.binarySearch(_byValue, value);');
+            ' $protobufImportPrefix.ProtobufEnum.\$_binarySearch(_byValue, value);');
       }
 
       out.println();

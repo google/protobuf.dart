@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: non_constant_identifier_names
+
 part of '../../protobuf.dart';
 
 /// A base class for all proto enum types.
@@ -37,7 +39,8 @@ class ProtobufEnum {
   /// Creates a new constant [ProtobufEnum] using [value] and [name].
   const ProtobufEnum(this.value, this.name);
 
-  static List<T?> initByValueList<T extends ProtobufEnum>(List<T> byIndex) {
+  /// @nodoc
+  static List<T?> $_initDenseList<T extends ProtobufEnum>(List<T> byIndex) {
     if (byIndex.isEmpty) return [];
     final byValue = List<T?>.filled(byIndex.last.value + 1, null);
     for (final enumValue in byIndex) {
@@ -46,18 +49,11 @@ class ProtobufEnum {
     return byValue;
   }
 
-  static Map<int, T> initByValueMap<T extends ProtobufEnum>(List<T> byIndex) {
-    final byValue = <int, T>{};
-    for (final v in byIndex) {
-      byValue[v.value] = v;
-    }
-    return byValue;
-  }
-
-  static List<T> initSparseList<T extends ProtobufEnum>(List<T> byIndex) =>
+  /// @nodoc
+  static List<T> $_initSparseList<T extends ProtobufEnum>(List<T> byIndex) =>
       byIndex.toList()..sort((e1, e2) => e1.value.compareTo(e2.value));
 
-  static T? binarySearch<T extends ProtobufEnum>(
+  static T? $_binarySearch<T extends ProtobufEnum>(
       List<T> sortedList, int value) {
     var min = 0;
     var max = sortedList.length;
