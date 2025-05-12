@@ -41,13 +41,13 @@ class ProtobufEnum {
 
   /// This function is for generated code.
   ///
-  /// Creates a Map for all of the [ProtobufEnum]s in [byIndex], mapping each
+  /// Creates a Map for all of the [ProtobufEnum]s in [enumValues], mapping each
   /// [ProtobufEnum]'s [value] to the [ProtobufEnum].
   ///
   /// @nodoc
-  static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> byIndex) {
+  static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> enumValues) {
     final byValue = <int, T>{};
-    for (final v in byIndex) {
+    for (final v in enumValues) {
       byValue[v.value] = v;
     }
     return byValue;
@@ -56,10 +56,19 @@ class ProtobufEnum {
   /// This function is for generated code.
   ///
   /// @nodoc
-  static List<T?> $_initByValueList<T extends ProtobufEnum>(List<T> byIndex) {
-    if (byIndex.isEmpty) return [];
-    final byValue = List<T?>.filled(byIndex.last.value + 1, null);
-    for (final enumValue in byIndex) {
+  static List<T?> $_initByValueList<T extends ProtobufEnum>(List<T> enumValues) {
+    if (enumValues.isEmpty) return [];
+
+    var maxValue = enumValues[0].value;
+    for (var i = 0; i < enumValues.length; i += 1) {
+      final value = enumValues[i].value;
+      if (value > maxValue) {
+        maxValue = value;
+      }
+    }
+
+    final byValue = List<T?>.filled(maxValue + 1, null);
+    for (final enumValue in enumValues) {
       byValue[enumValue.value] = enumValue;
     }
     return byValue;
