@@ -102,9 +102,6 @@ class EnumGenerator extends ProtobufContainer {
   static const int _enumValueTag = 2;
 
   void generate(IndentingWriter out) {
-    assert(_canonicalValues
-        .isSortedBy<num>((EnumValueDescriptorProto a) => a.number));
-
     final commentBlock = fileGen?.commentBlock(fieldPath);
     if (commentBlock != null) {
       out.println(commentBlock);
