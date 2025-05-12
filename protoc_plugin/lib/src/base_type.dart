@@ -89,19 +89,19 @@ class BaseType {
             'SF3', '$coreImportPrefix.int', r'$_setSignedInt32', null);
       case FieldDescriptorProto_Type.TYPE_INT64:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_INT64, '6',
-            '$_fixnumImportPrefix.Int64', r'$_setInt64', null);
+            '$fixnumImportPrefix.Int64', r'$_setInt64', null);
       case FieldDescriptorProto_Type.TYPE_UINT64:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_UINT64, 'U6',
-            '$_fixnumImportPrefix.Int64', r'$_setInt64', null);
+            '$fixnumImportPrefix.Int64', r'$_setInt64', null);
       case FieldDescriptorProto_Type.TYPE_SINT64:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_SINT64, 'S6',
-            '$_fixnumImportPrefix.Int64', r'$_setInt64', null);
+            '$fixnumImportPrefix.Int64', r'$_setInt64', null);
       case FieldDescriptorProto_Type.TYPE_FIXED64:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_FIXED64, 'F6',
-            '$_fixnumImportPrefix.Int64', r'$_setInt64', null);
+            '$fixnumImportPrefix.Int64', r'$_setInt64', null);
       case FieldDescriptorProto_Type.TYPE_SFIXED64:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_SFIXED64,
-            'SF6', '$_fixnumImportPrefix.Int64', r'$_setInt64', null);
+            'SF6', '$fixnumImportPrefix.Int64', r'$_setInt64', null);
       case FieldDescriptorProto_Type.TYPE_STRING:
         return const BaseType._raw(FieldDescriptorProto_Type.TYPE_STRING, 'S',
             '$coreImportPrefix.String', r'$_setString', null);

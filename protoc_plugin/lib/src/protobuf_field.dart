@@ -111,7 +111,7 @@ class ProtobufField {
 
   /// Whether this field uses the Int64 from the fixnum package.
   bool get needsFixnumImport =>
-      baseType.unprefixed == '$_fixnumImportPrefix.Int64';
+      baseType.unprefixed == '$fixnumImportPrefix.Int64';
 
   /// Whether this field is a map field definition:
   /// `map<key_type, value_type> map_field = N`.
@@ -302,8 +302,8 @@ class ProtobufField {
             break;
         }
       } else {
-        if (makeDefault == '$_fixnumImportPrefix.Int64.ZERO' &&
-            type == '$_fixnumImportPrefix.Int64' &&
+        if (makeDefault == '$fixnumImportPrefix.Int64.ZERO' &&
+            type == '$fixnumImportPrefix.Int64' &&
             typeConstant == '$protobufImportPrefix.PbFieldType.O6') {
           invocation = 'aInt64';
         } else {
@@ -388,7 +388,7 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_SFIXED64:
         var value = '0';
         if (descriptor.hasDefaultValue()) value = descriptor.defaultValue;
-        if (value == '0') return '$_fixnumImportPrefix.Int64.ZERO';
+        if (value == '0') return '$fixnumImportPrefix.Int64.ZERO';
         return "$protobufImportPrefix.parseLongInt('$value')";
       case FieldDescriptorProto_Type.TYPE_STRING:
         return _getDefaultAsStringExpr(null);
