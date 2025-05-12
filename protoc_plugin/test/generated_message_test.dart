@@ -11,7 +11,6 @@ import '../out/protos/constructor_args/google/protobuf/unittest_import.pb.dart'
     as constructor_args_unittest_import;
 import '../out/protos/duplicate_names_import.pb.dart';
 import '../out/protos/enums.pb.dart';
-import '../out/protos/enums.pbenum.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
