@@ -12,9 +12,9 @@ const _wellKnownImportPath =
 
 const _wellKnownMixins = {
   'google.protobuf.Any': PbMixin('AnyMixin',
-    importFrom: _wellKnownImportPath,
-    injectedHelpers: [
-      '''
+      importFrom: _wellKnownImportPath,
+      injectedHelpers: [
+        '''
 /// Creates a new [Any] encoding [message].
 ///
 /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
