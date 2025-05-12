@@ -366,7 +366,7 @@ class BuilderInfo {
       return _decodeEnumExtension(tagNumber, registry, rawValue);
     }
 
-    if (fi.sparseEnum!) {
+    if (fi.sparseEnum) {
       return ProtobufEnum.$_binarySearch(valuesByTag, rawValue);
     } else {
       if (rawValue >= 0 && rawValue < valuesByTag.length) {

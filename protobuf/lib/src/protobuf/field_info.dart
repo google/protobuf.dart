@@ -102,7 +102,7 @@ class FieldInfo<T> {
   ///
   /// Otherwise the decoder indexes the list (after a range check) with the enum
   /// value on the wire.
-  final bool? sparseEnum;
+  final bool sparseEnum;
 
   /// Function to verify items when adding to a repeated field.
   ///
@@ -115,17 +115,18 @@ class FieldInfo<T> {
       this.valueOf,
       this.enumValues,
       this.enumValuesByTag,
-      this.sparseEnum,
+      bool? sparseEnum,
       this.defaultEnumValue,
       String? protoName})
       : makeDefault = findMakeDefault(type, defaultOrMaker),
+        sparseEnum = sparseEnum ?? false,
         check = null,
         _protoName = protoName,
         assert(type != 0),
         assert(!_isGroupOrMessage(type) ||
             subBuilder != null ||
             _isMapField(type)),
-        assert(!_isEnum(type) || (valueOf != null && sparseEnum != null));
+        assert(!_isEnum(type) || valueOf != null);
 
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
@@ -135,7 +136,7 @@ class FieldInfo<T> {
         type = 0,
         makeDefault = null,
         valueOf = null,
-        sparseEnum = null,
+        sparseEnum = false,
         check = null,
         enumValues = null,
         enumValuesByTag = null,
@@ -145,15 +146,16 @@ class FieldInfo<T> {
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
       CheckFunc<T> this.check, this.subBuilder,
       {this.valueOf,
-      this.sparseEnum,
+      bool? sparseEnum,
       this.enumValues,
       this.enumValuesByTag,
       this.defaultEnumValue,
       String? protoName})
       : makeDefault = (() => PbList<T>(check: check)),
         _protoName = protoName,
+        sparseEnum = sparseEnum ?? false,
         assert(_isRepeated(type)),
-        assert(!_isEnum(type) || (valueOf != null && sparseEnum != null));
+        assert(!_isEnum(type) || valueOf != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
