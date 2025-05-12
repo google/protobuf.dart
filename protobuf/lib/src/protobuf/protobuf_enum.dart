@@ -8,17 +8,19 @@ part of '../../protobuf.dart';
 
 /// A base class for all proto enum types.
 ///
-/// All proto `enum` classes inherit from [ProtobufEnum]. For example, given
-/// the following enum defined in a proto file:
+/// All proto `enum` classes inherit from [ProtobufEnum]. For example, given the
+/// following enum defined in a proto file:
 ///
-///     message MyMessage {
-///       enum Color {
-///         RED = 0;
-///         GREEN = 1;
-///         BLUE = 2;
-///       };
-///       // ...
-///     }
+/// ```
+/// message MyMessage {
+///   enum Color {
+///     RED = 0;
+///     GREEN = 1;
+///     BLUE = 2;
+///   };
+///   // ...
+/// }
+/// ```
 ///
 /// the generated Dart file will include a `MyMessage_Color` class that extends
 /// `ProtobufEnum`. It will also include a `const MyMessage_Color` for each of
