@@ -12,6 +12,7 @@ const protobufImportPrefix = r'$pb';
 const asyncImportPrefix = r'$async';
 const coreImportPrefix = r'$core';
 const grpcImportPrefix = r'$grpc';
+const fixnumImportPrefix = r'$fixnum';
 const mixinImportPrefix = r'$mixin';
 
 extension FileDescriptorProtoExt on FileGenerator {

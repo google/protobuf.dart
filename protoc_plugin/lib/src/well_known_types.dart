@@ -12,9 +12,9 @@ const _wellKnownImportPath =
 
 const _wellKnownMixins = {
   'google.protobuf.Any': PbMixin('AnyMixin',
-      importFrom: _wellKnownImportPath,
-      injectedHelpers: [
-        '''
+    importFrom: _wellKnownImportPath,
+    injectedHelpers: [
+      '''
 /// Creates a new [Any] encoding [message].
 ///
 /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
@@ -45,6 +45,24 @@ static Timestamp fromDateTime($coreImportPrefix.DateTime dateTime) {
   'google.protobuf.Duration': PbMixin(
     'DurationMixin',
     importFrom: _wellKnownImportPath,
+    injectedHelpers: [
+      '''
+/// Converts the [Duration] to [$coreImportPrefix.Duration].
+///
+/// This is a lossy conversion, as [$coreImportPrefix.Duration] is limited to [int]
+/// microseconds and also does not support nanosecond precision.
+$coreImportPrefix.Duration toDart() =>
+  $coreImportPrefix.Duration(
+    seconds: seconds.toInt(),
+    microseconds: nanos ~/ 1000,
+  );
+
+/// Creates a new instance from [$coreImportPrefix.Duration].
+static Duration fromDart($coreImportPrefix.Duration duration) => Duration()
+  ..seconds = $fixnumImportPrefix.Int64(duration.inSeconds)
+  ..nanos = (duration.inMicroseconds % $coreImportPrefix.Duration.microsecondsPerSecond) * 1000;
+''',
+    ],
     hasProto3JsonHelpers: true,
   ),
   'google.protobuf.Struct': PbMixin(
