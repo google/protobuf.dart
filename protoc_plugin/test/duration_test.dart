@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:fixnum/fixnum.dart';
-import 'package:protoc_plugin/test/protos/google/protobuf/duration.pb.dart'
-    as pb;
 import 'package:test/test.dart';
+
+import '../out/protos/google/protobuf/duration.pb.dart' as pb;
 
 void main() {
   test('core duration -> proto duration', () {
