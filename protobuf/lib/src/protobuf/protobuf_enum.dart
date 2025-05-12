@@ -55,7 +55,7 @@ class ProtobufEnum {
   }
 
   static List<T> initSparseList<T extends ProtobufEnum>(List<T> byIndex) =>
-    byIndex.toList()..sort((e1, e2) => e1.value.compareTo(e2.value));
+      byIndex.toList()..sort((e1, e2) => e1.value.compareTo(e2.value));
 
   static T? binarySearch<T extends ProtobufEnum>(
       List<T> sortedList, int value) {

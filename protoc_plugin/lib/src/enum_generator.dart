@@ -195,8 +195,7 @@ class EnumGenerator extends ProtobufContainer {
         out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
             '  value < 0 || value >= _byValue.length ? null : _byValue[value];');
       } else {
-        out.println(
-            'static final $coreImportPrefix.List<$classname> _byValue ='
+        out.println('static final $coreImportPrefix.List<$classname> _byValue ='
             ' $protobufImportPrefix.ProtobufEnum.initSparseList(values);');
 
         out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
