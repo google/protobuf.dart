@@ -56,7 +56,8 @@ class ProtobufEnum {
   /// This function is for generated code.
   ///
   /// @nodoc
-  static List<T?> $_initByValueList<T extends ProtobufEnum>(List<T> enumValues) {
+  static List<T?> $_initByValueList<T extends ProtobufEnum>(
+      List<T> enumValues) {
     if (enumValues.isEmpty) return [];
 
     var maxValue = enumValues[0].value;

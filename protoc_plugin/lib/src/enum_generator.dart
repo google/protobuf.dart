@@ -174,10 +174,20 @@ class EnumGenerator extends ProtobufContainer {
       out.println('];');
       out.println();
 
+      var maxEnumValue = -1;
+      for (final valueDescriptor in _canonicalValues) {
+        if (valueDescriptor.number.isNegative) {
+          maxEnumValue = -1; // don't use list
+          break;
+        }
+        if (valueDescriptor.number > maxEnumValue) {
+          maxEnumValue = valueDescriptor.number;
+        }
+      }
+
       final useList = _canonicalValues.isEmpty ||
-          (_canonicalValues.every((val) => !val.number.isNegative) &&
-              _canonicalValues.length / (_canonicalValues.last.number + 1) >=
-                  0.7);
+          (maxEnumValue >= 0 &&
+              _canonicalValues.length / (maxEnumValue + 1) >= 0.7);
 
       if (useList) {
         out.println(
