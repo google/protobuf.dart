@@ -55,6 +55,7 @@ class ProtobufEnum {
   static List<T> $_initSparseList<T extends ProtobufEnum>(List<T> byIndex) =>
       byIndex.toList()..sort((e1, e2) => e1.value.compareTo(e2.value));
 
+  /// @nodoc
   static T? $_binarySearch<T extends ProtobufEnum>(
       List<T> sortedList, int value) {
     var min = 0;
