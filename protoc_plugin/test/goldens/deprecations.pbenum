@@ -24,10 +24,13 @@ class A extends $pb.ProtobufEnum {
     A2,
   ];
 
-  static final $core.List<A?> _byValue =
+  static final $core.List<A?> enumValuesByTag =
       $pb.ProtobufEnum.$_initDenseList(values);
+  static final $core.bool $_sparseEnum = false;
   static A? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
+      value < 0 || value >= enumValuesByTag.length
+          ? null
+          : enumValuesByTag[value];
 
   const A._(super.v, super.n);
 }

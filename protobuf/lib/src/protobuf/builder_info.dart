@@ -62,7 +62,9 @@ class BuilderInfo {
       dynamic defaultOrMaker,
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
+      bool? sparseEnum,
       List<ProtobufEnum>? enumValues,
+      List<ProtobufEnum?>? enumValuesByTag,
       {String? protoName}) {
     final index = byIndex.length;
     final fieldInfo = (tagNumber == 0)
@@ -71,7 +73,9 @@ class BuilderInfo {
             defaultOrMaker: defaultOrMaker,
             subBuilder: subBuilder,
             valueOf: valueOf,
+            sparseEnum: sparseEnum,
             enumValues: enumValues,
+            enumValuesByTag: enumValuesByTag,
             protoName: protoName);
     _addField(fieldInfo);
   }
@@ -99,6 +103,8 @@ class BuilderInfo {
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
+      List<ProtobufEnum?>? enumValuesByTag,
+      bool? sparseEnum,
       {ProtobufEnum? defaultEnumValue,
       String? protoName}) {
     final index = byIndex.length;
@@ -106,6 +112,8 @@ class BuilderInfo {
         name, tagNumber, index, fieldType, check, subBuilder,
         valueOf: valueOf,
         enumValues: enumValues,
+        enumValuesByTag: enumValuesByTag,
+        sparseEnum: sparseEnum,
         defaultEnumValue: defaultEnumValue,
         protoName: protoName));
   }
@@ -127,42 +135,48 @@ class BuilderInfo {
       {dynamic defaultOrMaker,
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
+      bool? sparseEnum,
       List<ProtobufEnum>? enumValues,
+      List<ProtobufEnum>? enumValuesByTag,
       String? protoName}) {
     add<T>(tagNumber, name, fieldType, defaultOrMaker, subBuilder, valueOf,
-        enumValues,
+        sparseEnum, enumValues, enumValuesByTag,
         protoName: protoName);
   }
 
   /// Adds PbFieldType.OS String with no default value to reduce generated
   /// code size.
   void aOS(int tagNumber, String name, {String? protoName}) {
-    add<String>(tagNumber, name, PbFieldType.OS, null, null, null, null,
+    add<String>(
+        tagNumber, name, PbFieldType.OS, null, null, null, null, null, null,
         protoName: protoName);
   }
 
   /// Adds PbFieldType.PS String with no default value.
   void pPS(int tagNumber, String name, {String? protoName}) {
     addRepeated<String>(tagNumber, name, PbFieldType.PS,
-        getCheckFunction(PbFieldType.PS), null, null, null,
+        getCheckFunction(PbFieldType.PS), null, null, null, null, null,
         protoName: protoName);
   }
 
   /// Adds PbFieldType.QS String with no default value.
   void aQS(int tagNumber, String name, {String? protoName}) {
-    add<String>(tagNumber, name, PbFieldType.QS, null, null, null, null,
+    add<String>(
+        tagNumber, name, PbFieldType.QS, null, null, null, null, null, null,
         protoName: protoName);
   }
 
   /// Adds Int64 field with Int64.ZERO default.
   void aInt64(int tagNumber, String name, {String? protoName}) {
     add<Int64>(tagNumber, name, PbFieldType.O6, Int64.ZERO, null, null, null,
+        null, null,
         protoName: protoName);
   }
 
   /// Adds a boolean with no default value.
   void aOB(int tagNumber, String name, {String? protoName}) {
-    add<bool>(tagNumber, name, PbFieldType.OB, null, null, null, null,
+    add<bool>(
+        tagNumber, name, PbFieldType.OB, null, null, null, null, null, null,
         protoName: protoName);
   }
 
@@ -170,10 +184,12 @@ class BuilderInfo {
   void e<T>(int tagNumber, String name, int fieldType,
       {dynamic defaultOrMaker,
       ValueOfFunc? valueOf,
+      bool? sparseEnum,
       List<ProtobufEnum>? enumValues,
+      List<ProtobufEnum?>? enumValuesByTag,
       String? protoName}) {
-    add<T>(
-        tagNumber, name, fieldType, defaultOrMaker, null, valueOf, enumValues,
+    add<T>(tagNumber, name, fieldType, defaultOrMaker, null, valueOf,
+        sparseEnum, enumValues, enumValuesByTag,
         protoName: protoName);
   }
 
@@ -181,7 +197,7 @@ class BuilderInfo {
   void p<T>(int tagNumber, String name, int fieldType, {String? protoName}) {
     assert(!_isGroupOrMessage(fieldType) && !_isEnum(fieldType));
     addRepeated<T>(tagNumber, name, fieldType, getCheckFunction(fieldType),
-        null, null, null,
+        null, null, null, null, null,
         protoName: protoName);
   }
 
@@ -189,12 +205,14 @@ class BuilderInfo {
   void pc<T>(int tagNumber, String name, int fieldType,
       {CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
+      bool? sparseEnum,
       List<ProtobufEnum>? enumValues,
+      List<ProtobufEnum?>? enumValuesByTag,
       ProtobufEnum? defaultEnumValue,
       String? protoName}) {
     assert(_isGroupOrMessage(fieldType) || _isEnum(fieldType));
     addRepeated<T>(tagNumber, name, fieldType, _checkNotNull, subBuilder,
-        valueOf, enumValues,
+        valueOf, enumValues, enumValuesByTag, sparseEnum,
         defaultEnumValue: defaultEnumValue, protoName: protoName);
   }
 
@@ -208,6 +226,8 @@ class BuilderInfo {
         subBuilder,
         null,
         null,
+        null,
+        null,
         protoName: protoName);
   }
 
@@ -219,6 +239,8 @@ class BuilderInfo {
         PbFieldType.QM,
         GeneratedMessage._defaultMakerFor<T>(subBuilder),
         subBuilder,
+        null,
+        null,
         null,
         null,
         protoName: protoName);
@@ -238,16 +260,27 @@ class BuilderInfo {
       required int valueFieldType,
       CreateBuilderFunc? valueCreator,
       ValueOfFunc? valueOf,
+      bool? sparseEnum,
       List<ProtobufEnum>? enumValues,
+      List<ProtobufEnum?>? enumValuesByTag,
       ProtobufEnum? defaultEnumValue,
       PackageName packageName = const PackageName(''),
       String? protoName,
       dynamic valueDefaultOrMaker}) {
-    final mapEntryBuilderInfo = BuilderInfo(entryClassName,
-        package: packageName)
-      ..add(PbMap._keyFieldNumber, 'key', keyFieldType, null, null, null, null)
-      ..add(PbMap._valueFieldNumber, 'value', valueFieldType,
-          valueDefaultOrMaker, valueCreator, valueOf, enumValues);
+    final mapEntryBuilderInfo =
+        BuilderInfo(entryClassName, package: packageName)
+          ..add(PbMap._keyFieldNumber, 'key', keyFieldType, null, null, null,
+              null, null, null)
+          ..add(
+              PbMap._valueFieldNumber,
+              'value',
+              valueFieldType,
+              valueDefaultOrMaker,
+              valueCreator,
+              valueOf,
+              sparseEnum,
+              enumValues,
+              enumValuesByTag);
 
     addMapField<K, V>(tagNumber, name, keyFieldType, valueFieldType,
         mapEntryBuilderInfo, valueCreator,
@@ -323,13 +356,31 @@ class BuilderInfo {
 
   ProtobufEnum? _decodeEnum(
       int tagNumber, ExtensionRegistry? registry, int rawValue) {
-    final f = valueOfFunc(tagNumber);
-    if (f != null) {
-      return f(rawValue);
+    final fi = fieldInfo[tagNumber];
+    if (fi == null) {
+      return _decodeEnumExtension(tagNumber, registry, rawValue);
     }
-    return registry
-        ?.getExtension(qualifiedMessageName, tagNumber)
-        ?.valueOf
-        ?.call(rawValue);
+
+    final valuesByTag = fi.enumValuesByTag;
+    if (valuesByTag == null) {
+      return _decodeEnumExtension(tagNumber, registry, rawValue);
+    }
+
+    if (fi.sparseEnum!) {
+      return ProtobufEnum.$_binarySearch(valuesByTag, rawValue);
+    } else {
+      if (rawValue >= 0 && rawValue < valuesByTag.length) {
+        return valuesByTag[rawValue];
+      } else {
+        return null;
+      }
+    }
   }
+
+  ProtobufEnum? _decodeEnumExtension(
+          int tagNumber, ExtensionRegistry? registry, int rawValue) =>
+      registry
+          ?.getExtension(qualifiedMessageName, tagNumber)
+          ?.valueOf
+          ?.call(rawValue);
 }

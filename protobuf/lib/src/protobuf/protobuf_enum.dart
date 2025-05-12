@@ -57,13 +57,13 @@ class ProtobufEnum {
 
   /// @nodoc
   static T? $_binarySearch<T extends ProtobufEnum>(
-      List<T> sortedList, int value) {
+      List<T?> sortedList, int value) {
     var min = 0;
     var max = sortedList.length;
     while (min < max) {
       final mid = min + ((max - min) >> 1);
       final element = sortedList[mid];
-      final comp = element.value.compareTo(value);
+      final comp = element!.value.compareTo(value);
       if (comp == 0) return element;
       if (comp < 0) {
         min = mid + 1;

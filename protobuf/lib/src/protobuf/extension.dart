@@ -13,12 +13,16 @@ class Extension<T> extends FieldInfo<T> {
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
+      List<ProtobufEnum?>? enumValuesByTag,
+      bool? sparseEnum,
       String? protoName})
       : super(name, tagNumber, null, fieldType,
             defaultOrMaker: defaultOrMaker,
             subBuilder: subBuilder,
             valueOf: valueOf,
             enumValues: enumValues,
+            enumValuesByTag: enumValuesByTag,
+            sparseEnum: sparseEnum,
             protoName: protoName);
 
   Extension.repeated(this.extendee, String name, int tagNumber, int fieldType,
@@ -26,9 +30,15 @@ class Extension<T> extends FieldInfo<T> {
       CreateBuilderFunc? subBuilder,
       ValueOfFunc? valueOf,
       List<ProtobufEnum>? enumValues,
+      List<ProtobufEnum?>? enumValuesByTag,
+      bool? sparseEnum,
       String? protoName})
       : super.repeated(name, tagNumber, null, fieldType, check, subBuilder,
-            valueOf: valueOf, enumValues: enumValues, protoName: protoName);
+            valueOf: valueOf,
+            enumValues: enumValues,
+            enumValuesByTag: enumValuesByTag,
+            sparseEnum: sparseEnum,
+            protoName: protoName);
 
   @override
   int get hashCode => extendee.hashCode * 31 + tagNumber;

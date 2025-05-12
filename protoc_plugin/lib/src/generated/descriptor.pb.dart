@@ -768,12 +768,16 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
         4, _omitFieldNames ? '' : 'label', $pb.PbFieldType.OE,
         defaultOrMaker: FieldDescriptorProto_Label.LABEL_OPTIONAL,
         valueOf: FieldDescriptorProto_Label.valueOf,
-        enumValues: FieldDescriptorProto_Label.values)
+        enumValues: FieldDescriptorProto_Label.values,
+        enumValuesByTag: FieldDescriptorProto_Label.enumValuesByTag,
+        sparseEnum: FieldDescriptorProto_Label.$_sparseEnum)
     ..e<FieldDescriptorProto_Type>(
         5, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE,
         defaultOrMaker: FieldDescriptorProto_Type.TYPE_DOUBLE,
         valueOf: FieldDescriptorProto_Type.valueOf,
-        enumValues: FieldDescriptorProto_Type.values)
+        enumValues: FieldDescriptorProto_Type.values,
+        enumValuesByTag: FieldDescriptorProto_Type.enumValuesByTag,
+        sparseEnum: FieldDescriptorProto_Type.$_sparseEnum)
     ..aOS(6, _omitFieldNames ? '' : 'typeName')
     ..aOS(7, _omitFieldNames ? '' : 'defaultValue')
     ..aOM<FieldOptions>(8, _omitFieldNames ? '' : 'options',
@@ -1734,7 +1738,9 @@ class FileOptions extends $pb.GeneratedMessage {
         9, _omitFieldNames ? '' : 'optimizeFor', $pb.PbFieldType.OE,
         defaultOrMaker: FileOptions_OptimizeMode.SPEED,
         valueOf: FileOptions_OptimizeMode.valueOf,
-        enumValues: FileOptions_OptimizeMode.values)
+        enumValues: FileOptions_OptimizeMode.values,
+        enumValuesByTag: FileOptions_OptimizeMode.enumValuesByTag,
+        sparseEnum: FileOptions_OptimizeMode.$_sparseEnum)
     ..aOB(10, _omitFieldNames ? '' : 'javaMultipleFiles')
     ..aOS(11, _omitFieldNames ? '' : 'goPackage')
     ..aOB(16, _omitFieldNames ? '' : 'ccGenericServices')
@@ -2313,7 +2319,9 @@ class FieldOptions extends $pb.GeneratedMessage {
         1, _omitFieldNames ? '' : 'ctype', $pb.PbFieldType.OE,
         defaultOrMaker: FieldOptions_CType.STRING,
         valueOf: FieldOptions_CType.valueOf,
-        enumValues: FieldOptions_CType.values)
+        enumValues: FieldOptions_CType.values,
+        enumValuesByTag: FieldOptions_CType.enumValuesByTag,
+        sparseEnum: FieldOptions_CType.$_sparseEnum)
     ..aOB(2, _omitFieldNames ? '' : 'packed')
     ..aOB(3, _omitFieldNames ? '' : 'deprecated')
     ..aOB(5, _omitFieldNames ? '' : 'lazy')
@@ -2321,7 +2329,9 @@ class FieldOptions extends $pb.GeneratedMessage {
         6, _omitFieldNames ? '' : 'jstype', $pb.PbFieldType.OE,
         defaultOrMaker: FieldOptions_JSType.JS_NORMAL,
         valueOf: FieldOptions_JSType.valueOf,
-        enumValues: FieldOptions_JSType.values)
+        enumValues: FieldOptions_JSType.values,
+        enumValuesByTag: FieldOptions_JSType.enumValuesByTag,
+        sparseEnum: FieldOptions_JSType.$_sparseEnum)
     ..aOB(10, _omitFieldNames ? '' : 'weak')
     ..pc<UninterpretedOption>(
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
@@ -2822,7 +2832,9 @@ class MethodOptions extends $pb.GeneratedMessage {
         34, _omitFieldNames ? '' : 'idempotencyLevel', $pb.PbFieldType.OE,
         defaultOrMaker: MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
         valueOf: MethodOptions_IdempotencyLevel.valueOf,
-        enumValues: MethodOptions_IdempotencyLevel.values)
+        enumValues: MethodOptions_IdempotencyLevel.values,
+        enumValuesByTag: MethodOptions_IdempotencyLevel.enumValuesByTag,
+        sparseEnum: MethodOptions_IdempotencyLevel.$_sparseEnum)
     ..pc<UninterpretedOption>(
         999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)

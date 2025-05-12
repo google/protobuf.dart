@@ -240,6 +240,8 @@ class ProtobufField {
       if (value.baseType.isEnum) {
         named['valueOf'] = '$valueType.valueOf';
         named['enumValues'] = '$valueType.values';
+        named['enumValuesByTag'] = '$valueType.enumValuesByTag';
+        named['sparseEnum'] = '$valueType.\$_sparseEnum';
         named['valueDefaultOrMaker'] = value.generateDefaultFunction();
         named['defaultEnumValue'] = value.generateDefaultFunction();
       }
@@ -263,6 +265,8 @@ class ProtobufField {
         } else if (baseType.isEnum) {
           named['valueOf'] = '$type.valueOf';
           named['enumValues'] = '$type.values';
+          named['enumValuesByTag'] = '$type.enumValuesByTag';
+          named['sparseEnum'] = '$type.\$_sparseEnum';
           named['defaultEnumValue'] = generateDefaultFunction();
         }
       }
@@ -275,6 +279,8 @@ class ProtobufField {
         named['defaultOrMaker'] = makeDefault;
         named['valueOf'] = '$type.valueOf';
         named['enumValues'] = '$type.values';
+        named['enumValuesByTag'] = '$type.enumValuesByTag';
+        named['sparseEnum'] = '$type.\$_sparseEnum';
         invocation = 'e<$type>';
       } else if (makeDefault == null) {
         switch (type) {

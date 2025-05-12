@@ -27,10 +27,13 @@ class CodeGeneratorResponse_Feature extends $pb.ProtobufEnum {
     FEATURE_PROTO3_OPTIONAL,
   ];
 
-  static final $core.List<CodeGeneratorResponse_Feature?> _byValue =
+  static final $core.List<CodeGeneratorResponse_Feature?> enumValuesByTag =
       $pb.ProtobufEnum.$_initDenseList(values);
+  static final $core.bool $_sparseEnum = false;
   static CodeGeneratorResponse_Feature? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
+      value < 0 || value >= enumValuesByTag.length
+          ? null
+          : enumValuesByTag[value];
 
   const CodeGeneratorResponse_Feature._(super.v, super.n);
 }

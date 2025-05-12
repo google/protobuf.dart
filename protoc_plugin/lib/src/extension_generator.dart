@@ -121,6 +121,8 @@ class ExtensionGenerator {
       } else if (type.isEnum) {
         named['valueOf'] = '$dartType.valueOf';
         named['enumValues'] = '$dartType.values';
+        named['enumValuesByTag'] = '$dartType.enumValuesByTag';
+        named['sparseEnum'] = '$dartType.\$_sparseEnum';
       }
     } else {
       invocation = '$protobufImportPrefix.Extension<$dartType>';
@@ -131,6 +133,8 @@ class ExtensionGenerator {
         final dartEnum = type.getDartType(fileGen!);
         named['valueOf'] = '$dartEnum.valueOf';
         named['enumValues'] = '$dartEnum.values';
+        named['enumValuesByTag'] = '$dartEnum.enumValuesByTag';
+        named['sparseEnum'] = '$dartEnum.\$_sparseEnum';
       }
     }
     final fieldDefinition = 'static final ';

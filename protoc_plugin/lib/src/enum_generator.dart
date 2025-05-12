@@ -189,17 +189,24 @@ class EnumGenerator extends ProtobufContainer {
 
       if (useList) {
         out.println(
-            'static final $coreImportPrefix.List<$classname?> _byValue ='
+            'static final $coreImportPrefix.List<$classname?> enumValuesByTag ='
             ' $protobufImportPrefix.ProtobufEnum.\$_initDenseList(values);');
 
-        out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
-            '  value < 0 || value >= _byValue.length ? null : _byValue[value];');
-      } else {
-        out.println('static final $coreImportPrefix.List<$classname> _byValue ='
-            ' $protobufImportPrefix.ProtobufEnum.\$_initSparseList(values);');
+        out.println(
+            'static final $coreImportPrefix.bool \$_sparseEnum = false;');
 
         out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
-            ' $protobufImportPrefix.ProtobufEnum.\$_binarySearch(_byValue, value);');
+            '  value < 0 || value >= enumValuesByTag.length ? null : enumValuesByTag[value];');
+      } else {
+        out.println(
+            'static final $coreImportPrefix.List<$classname> enumValuesByTag ='
+            ' $protobufImportPrefix.ProtobufEnum.\$_initSparseList(values);');
+
+        out.println(
+            'static final $coreImportPrefix.bool \$_sparseEnum = true;');
+
+        out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
+            ' $protobufImportPrefix.ProtobufEnum.\$_binarySearch(enumValuesByTag, value);');
       }
 
       out.println();

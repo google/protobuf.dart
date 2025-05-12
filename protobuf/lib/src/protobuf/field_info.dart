@@ -78,10 +78,13 @@ class FieldInfo<T> {
   /// Only available in fields with message type.
   final CreateBuilderFunc? subBuilder;
 
-  /// List of all enum values.
+  /// List of all enum values, in the order they appear in the proto definition.
+  /// (not sorted by enum name or value)
   ///
   /// Only available in enum fields.
   final List<ProtobufEnum>? enumValues;
+
+  final List<ProtobufEnum?>? enumValuesByTag;
 
   /// Default enum value.
   ///
@@ -93,6 +96,14 @@ class FieldInfo<T> {
   /// Only available in enum fields.
   final ValueOfFunc? valueOf;
 
+  /// Tells the binary decoder how to search in the enum list by tag.
+  ///
+  /// When the enum is "sparse", the decoder binarys earches.
+  ///
+  /// Otherwise the decoder indexes the list (after a range check) with the enum
+  /// value on the wire.
+  final bool? sparseEnum;
+
   /// Function to verify items when adding to a repeated field.
   ///
   /// Only available in repeated fields.
@@ -103,6 +114,8 @@ class FieldInfo<T> {
       this.subBuilder,
       this.valueOf,
       this.enumValues,
+      this.enumValuesByTag,
+      this.sparseEnum,
       this.defaultEnumValue,
       String? protoName})
       : makeDefault = findMakeDefault(type, defaultOrMaker),
@@ -112,7 +125,7 @@ class FieldInfo<T> {
         assert(!_isGroupOrMessage(type) ||
             subBuilder != null ||
             _isMapField(type)),
-        assert(!_isEnum(type) || valueOf != null);
+        assert(!_isEnum(type) || (valueOf != null && sparseEnum != null));
 
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
@@ -122,18 +135,25 @@ class FieldInfo<T> {
         type = 0,
         makeDefault = null,
         valueOf = null,
+        sparseEnum = null,
         check = null,
         enumValues = null,
+        enumValuesByTag = null,
         defaultEnumValue = null,
         subBuilder = null;
 
   FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
       CheckFunc<T> this.check, this.subBuilder,
-      {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
+      {this.valueOf,
+      this.sparseEnum,
+      this.enumValues,
+      this.enumValuesByTag,
+      this.defaultEnumValue,
+      String? protoName})
       : makeDefault = (() => PbList<T>(check: check)),
         _protoName = protoName,
         assert(_isRepeated(type)),
-        assert(!_isEnum(type) || valueOf != null);
+        assert(!_isEnum(type) || (valueOf != null && sparseEnum != null));
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
@@ -277,7 +297,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
             defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
             defaultEnumValue: defaultEnumValue,
             protoName: protoName) {
-    assert(!_isEnum(type) || valueOf != null);
+    assert(!_isEnum(type) || (valueOf != null && sparseEnum != null));
   }
 
   FieldInfo get valueFieldInfo =>

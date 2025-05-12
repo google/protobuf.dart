@@ -88,10 +88,13 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
     TYPE_SINT64,
   ];
 
-  static final $core.List<FieldDescriptorProto_Type?> _byValue =
+  static final $core.List<FieldDescriptorProto_Type?> enumValuesByTag =
       $pb.ProtobufEnum.$_initDenseList(values);
+  static final $core.bool $_sparseEnum = false;
   static FieldDescriptorProto_Type? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
+      value < 0 || value >= enumValuesByTag.length
+          ? null
+          : enumValuesByTag[value];
 
   const FieldDescriptorProto_Type._(super.v, super.n);
 }
@@ -112,10 +115,13 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
     LABEL_REPEATED,
   ];
 
-  static final $core.List<FieldDescriptorProto_Label?> _byValue =
+  static final $core.List<FieldDescriptorProto_Label?> enumValuesByTag =
       $pb.ProtobufEnum.$_initDenseList(values);
+  static final $core.bool $_sparseEnum = false;
   static FieldDescriptorProto_Label? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
+      value < 0 || value >= enumValuesByTag.length
+          ? null
+          : enumValuesByTag[value];
 
   const FieldDescriptorProto_Label._(super.v, super.n);
 }
@@ -138,10 +144,13 @@ class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
     LITE_RUNTIME,
   ];
 
-  static final $core.List<FileOptions_OptimizeMode?> _byValue =
+  static final $core.List<FileOptions_OptimizeMode?> enumValuesByTag =
       $pb.ProtobufEnum.$_initDenseList(values);
+  static final $core.bool $_sparseEnum = false;
   static FileOptions_OptimizeMode? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
+      value < 0 || value >= enumValuesByTag.length
+          ? null
+          : enumValuesByTag[value];
 
   const FileOptions_OptimizeMode._(super.v, super.n);
 }
@@ -161,10 +170,13 @@ class FieldOptions_CType extends $pb.ProtobufEnum {
     STRING_PIECE,
   ];
 
-  static final $core.List<FieldOptions_CType?> _byValue =
+  static final $core.List<FieldOptions_CType?> enumValuesByTag =
       $pb.ProtobufEnum.$_initDenseList(values);
+  static final $core.bool $_sparseEnum = false;
   static FieldOptions_CType? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
+      value < 0 || value >= enumValuesByTag.length
+          ? null
+          : enumValuesByTag[value];
 
   const FieldOptions_CType._(super.v, super.n);
 }
@@ -188,10 +200,13 @@ class FieldOptions_JSType extends $pb.ProtobufEnum {
     JS_NUMBER,
   ];
 
-  static final $core.List<FieldOptions_JSType?> _byValue =
+  static final $core.List<FieldOptions_JSType?> enumValuesByTag =
       $pb.ProtobufEnum.$_initDenseList(values);
+  static final $core.bool $_sparseEnum = false;
   static FieldOptions_JSType? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
+      value < 0 || value >= enumValuesByTag.length
+          ? null
+          : enumValuesByTag[value];
 
   const FieldOptions_JSType._(super.v, super.n);
 }
@@ -216,10 +231,13 @@ class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
     IDEMPOTENT,
   ];
 
-  static final $core.List<MethodOptions_IdempotencyLevel?> _byValue =
+  static final $core.List<MethodOptions_IdempotencyLevel?> enumValuesByTag =
       $pb.ProtobufEnum.$_initDenseList(values);
+  static final $core.bool $_sparseEnum = false;
   static MethodOptions_IdempotencyLevel? valueOf($core.int value) =>
-      value < 0 || value >= _byValue.length ? null : _byValue[value];
+      value < 0 || value >= enumValuesByTag.length
+          ? null
+          : enumValuesByTag[value];
 
   const MethodOptions_IdempotencyLevel._(super.v, super.n);
 }
