@@ -174,15 +174,10 @@ class EnumGenerator extends ProtobufContainer {
       out.println('];');
       out.println();
 
-      var useList = _canonicalValues.isEmpty;
-      if (_canonicalValues.isNotEmpty) {
-        if (_canonicalValues.every((val) => !val.number.isNegative)) {
-          if (_canonicalValues.length / (_canonicalValues.last.number + 1) >=
-              0.7) {
-            useList = true;
-          }
-        }
-      }
+      final useList = _canonicalValues.isEmpty ||
+          (_canonicalValues.every((val) => !val.number.isNegative) &&
+              _canonicalValues.length / (_canonicalValues.last.number + 1) >=
+                  0.7);
 
       if (useList) {
         out.println(

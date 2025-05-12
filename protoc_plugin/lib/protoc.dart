@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:protobuf/protobuf.dart';
 
 import 'const_generator.dart' show writeJsonConst;
