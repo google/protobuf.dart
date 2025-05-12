@@ -102,9 +102,6 @@ class EnumGenerator extends ProtobufContainer {
   static const int _enumValueTag = 2;
 
   void generate(IndentingWriter out) {
-    assert(_canonicalValues
-        .isSortedBy<num>((EnumValueDescriptorProto a) => a.number));
-
     final commentBlock = fileGen?.commentBlock(fieldPath);
     if (commentBlock != null) {
       out.println(commentBlock);
@@ -190,14 +187,14 @@ class EnumGenerator extends ProtobufContainer {
       if (useList) {
         out.println(
             'static final $coreImportPrefix.List<$classname?> _byValue ='
-            ' $protobufImportPrefix.ProtobufEnum.initByValueList(values);');
+            ' $protobufImportPrefix.ProtobufEnum.\$_initByValueList(values);');
 
         out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
             '  value < 0 || value >= _byValue.length ? null : _byValue[value];');
       } else {
         out.println(
             'static final $coreImportPrefix.Map<$coreImportPrefix.int, $classname> _byValue ='
-            ' $protobufImportPrefix.ProtobufEnum.initByValueMap(values);');
+            ' $protobufImportPrefix.ProtobufEnum.initByValue(values);');
 
         out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
             ' _byValue[value];');

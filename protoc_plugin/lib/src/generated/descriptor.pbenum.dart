@@ -89,7 +89,7 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
   ];
 
   static final $core.List<FieldDescriptorProto_Type?> _byValue =
-      $pb.ProtobufEnum.initByValueList(values);
+      $pb.ProtobufEnum.$_initByValueList(values);
   static FieldDescriptorProto_Type? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
@@ -113,7 +113,7 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
   ];
 
   static final $core.List<FieldDescriptorProto_Label?> _byValue =
-      $pb.ProtobufEnum.initByValueList(values);
+      $pb.ProtobufEnum.$_initByValueList(values);
   static FieldDescriptorProto_Label? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
@@ -139,7 +139,7 @@ class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
   ];
 
   static final $core.List<FileOptions_OptimizeMode?> _byValue =
-      $pb.ProtobufEnum.initByValueList(values);
+      $pb.ProtobufEnum.$_initByValueList(values);
   static FileOptions_OptimizeMode? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
@@ -162,7 +162,7 @@ class FieldOptions_CType extends $pb.ProtobufEnum {
   ];
 
   static final $core.List<FieldOptions_CType?> _byValue =
-      $pb.ProtobufEnum.initByValueList(values);
+      $pb.ProtobufEnum.$_initByValueList(values);
   static FieldOptions_CType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
@@ -189,7 +189,7 @@ class FieldOptions_JSType extends $pb.ProtobufEnum {
   ];
 
   static final $core.List<FieldOptions_JSType?> _byValue =
-      $pb.ProtobufEnum.initByValueList(values);
+      $pb.ProtobufEnum.$_initByValueList(values);
   static FieldOptions_JSType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
@@ -217,7 +217,7 @@ class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
   ];
 
   static final $core.List<MethodOptions_IdempotencyLevel?> _byValue =
-      $pb.ProtobufEnum.initByValueList(values);
+      $pb.ProtobufEnum.$_initByValueList(values);
   static MethodOptions_IdempotencyLevel? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 

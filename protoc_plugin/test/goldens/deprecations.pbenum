@@ -25,7 +25,7 @@ class A extends $pb.ProtobufEnum {
   ];
 
   static final $core.List<A?> _byValue =
-      $pb.ProtobufEnum.initByValueList(values);
+      $pb.ProtobufEnum.$_initByValueList(values);
   static A? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
