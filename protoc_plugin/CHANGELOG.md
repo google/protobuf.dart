@@ -3,9 +3,12 @@
 * Fix factory argument types for protobuf `Map` fields. ([#975])
 * Fix import order changes when files are passed in different order to `protoc`.
 ([#952])
+* Add fromDart() and toDart() methods to convert between core Duration and proto
+  Duration ([#986])
 
 [#975]: https://github.com/google/protobuf.dart/issues/975
 [#952]: https://github.com/google/protobuf.dart/issues/952
+[#986]: https://github.com/google/protobuf.dart/issues/986
 
 ## 22.0.1
 

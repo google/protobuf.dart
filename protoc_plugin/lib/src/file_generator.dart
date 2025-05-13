@@ -12,7 +12,6 @@ const String _convertImportPrefix = r'$convert';
 const String _convertImportUrl = 'dart:convert';
 
 const String _coreImportUrl = 'dart:core';
-const String _fixnumImportPrefix = r'$fixnum';
 const String _grpcImportUrl = 'package:grpc/service_api.dart';
 const String _protobufImportUrl = 'package:protobuf/protobuf.dart';
 
@@ -318,7 +317,7 @@ class FileGenerator extends ProtobufContainer {
 
     if (_needsFixnumImport) {
       importWriter.addImport('package:fixnum/fixnum.dart',
-          prefix: _fixnumImportPrefix);
+          prefix: fixnumImportPrefix);
     }
 
     if (_needsProtobufImport) {
