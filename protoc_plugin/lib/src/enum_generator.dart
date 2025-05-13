@@ -165,6 +165,7 @@ class EnumGenerator extends ProtobufContainer {
         }
       }
       out.println();
+
       out.println('static const $coreImportPrefix.List<$classname> values ='
           ' <$classname> [');
       for (final val in _canonicalValues) {
