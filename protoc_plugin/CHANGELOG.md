@@ -5,6 +5,8 @@
 ([#952])
 * Add fromDart() and toDart() methods to convert between core Duration and proto
   Duration ([#986])
+* Update the GRPC service generator to emit constructors that use super
+  parameters.
 
 [#975]: https://github.com/google/protobuf.dart/issues/975
 [#952]: https://github.com/google/protobuf.dart/issues/952
