@@ -57,18 +57,9 @@ class ProtobufEnum {
   ///
   /// @nodoc
   static List<T?> $_initByValueList<T extends ProtobufEnum>(
-      List<T> enumValues) {
-    if (enumValues.isEmpty) return [];
-
-    var maxValue = enumValues[0].value;
-    for (var i = 0; i < enumValues.length; i += 1) {
-      final value = enumValues[i].value;
-      if (value > maxValue) {
-        maxValue = value;
-      }
-    }
-
-    final byValue = List<T?>.filled(maxValue + 1, null);
+      List<T> enumValues, int maxEnumValue) {
+    if (enumValues.isEmpty) return List.filled(0, null);
+    final byValue = List<T?>.filled(maxEnumValue + 1, null);
     for (final enumValue in enumValues) {
       byValue[enumValue.value] = enumValue;
     }

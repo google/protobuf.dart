@@ -11,7 +11,7 @@ class PhoneNumber_PhoneType extends $pb.ProtobufEnum {
     WORK,
   ];
 
-  static final $core.List<PhoneNumber_PhoneType?> _byValue = $pb.ProtobufEnum.$_initByValueList(values);
+  static final $core.List<PhoneNumber_PhoneType?> _byValue = $pb.ProtobufEnum.$_initByValueList(values, 2);
   static PhoneNumber_PhoneType? valueOf($core.int value) =>  value < 0 || value >= _byValue.length ? null : _byValue[value];
 
   const PhoneNumber_PhoneType._(super.v, super.n);

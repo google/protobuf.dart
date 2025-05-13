@@ -192,7 +192,7 @@ class EnumGenerator extends ProtobufContainer {
       if (useList) {
         out.println(
             'static final $coreImportPrefix.List<$classname?> _byValue ='
-            ' $protobufImportPrefix.ProtobufEnum.\$_initByValueList(values);');
+            ' $protobufImportPrefix.ProtobufEnum.\$_initByValueList(values, $maxEnumValue);');
 
         out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
             '  value < 0 || value >= _byValue.length ? null : _byValue[value];');
