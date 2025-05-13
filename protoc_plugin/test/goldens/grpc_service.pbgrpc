@@ -46,11 +46,7 @@ class TestClient extends $grpc.Client {
       ($0.Input value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Output.fromBuffer(value));
 
-  TestClient($grpc.ClientChannel channel,
-      {$grpc.CallOptions? options,
-      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
-      : super(channel, options: options,
-        interceptors: interceptors);
+  TestClient(super.channel, {super.options, super.interceptors});
 
   $grpc.ResponseFuture<$0.Output> unary($0.Input request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$unary, request, options: options);

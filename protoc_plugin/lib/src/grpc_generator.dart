@@ -108,21 +108,16 @@ class GrpcServiceGenerator {
   void _generateClient(IndentingWriter out) {
     if (_descriptor.options.deprecated) {
       out.println(
-          '@$coreImportPrefix.Deprecated(\'This service is deprecated\')');
+          "@$coreImportPrefix.Deprecated('This service is deprecated')");
     }
-    out.println(
-        '@$protobufImportPrefix.GrpcServiceName(\'$_fullServiceName\')');
+    out.println("@$protobufImportPrefix.GrpcServiceName('$_fullServiceName')");
     out.addBlock('class $_clientClassname extends $_client {', '}', () {
       for (final method in _methods) {
         method.generateClientMethodDescriptor(out);
       }
       out.println();
-      out.println('$_clientClassname($_clientChannel channel,');
-      out.println('    {$_callOptions? options,');
       out.println(
-          '    $coreImportPrefix.Iterable<$_interceptor>? interceptors})');
-      out.println('    : super(channel, options: options,');
-      out.println('      interceptors: interceptors);');
+          '$_clientClassname(super.channel, {super.options, super.interceptors});');
       for (final method in _methods) {
         method.generateClientStub(out);
       }
@@ -130,12 +125,11 @@ class GrpcServiceGenerator {
   }
 
   void _generateService(IndentingWriter out) {
-    out.println(
-        '@$protobufImportPrefix.GrpcServiceName(\'$_fullServiceName\')');
+    out.println("@$protobufImportPrefix.GrpcServiceName('$_fullServiceName')");
     out.addBlock('abstract class $_serviceClassname extends $_service {', '}',
         () {
       out.println(
-          '$coreImportPrefix.String get \$name => \'$_fullServiceName\';');
+          "$coreImportPrefix.String get \$name => '$_fullServiceName';");
       out.println();
       out.addBlock('$_serviceClassname() {', '}', () {
         for (final method in _methods) {
@@ -153,9 +147,7 @@ class GrpcServiceGenerator {
   }
 
   static final String _callOptions = '$grpcImportPrefix.CallOptions';
-  static final String _interceptor = '$grpcImportPrefix.ClientInterceptor';
   static final String _client = '$grpcImportPrefix.Client';
-  static final String _clientChannel = '$grpcImportPrefix.ClientChannel';
   static final String _service = '$grpcImportPrefix.Service';
 }
 
