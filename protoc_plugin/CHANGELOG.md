@@ -1,4 +1,4 @@
-## 22.0.2-wip
+## 22.1.0
 
 * Fix factory argument types for protobuf `Map` fields. ([#975])
 * Fix import order changes when files are passed in different order to `protoc`.
