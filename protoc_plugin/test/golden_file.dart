@@ -16,7 +16,7 @@ void expectMatchesGoldenFile(String actual, String goldenFilePath) {
     expect(actual, equals(goldenFile.readAsStringSync()),
         reason: 'goldenFilePath: "$goldenFilePath"');
   } else {
-    // This enables writing the updated file when the run in otherwise hermetic
+    // This enables writing the updated file when run in otherwise hermetic
     // settings.
     final workspaceDirectory =
         Platform.environment['BUILD_WORKSPACE_DIRECTORY'];
