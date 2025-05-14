@@ -10,26 +10,28 @@ class ClientApiGenerator {
   final String className;
   final Set<String> usedMethodNames = {...reservedMemberNames};
 
-  /// Tag of `FileDescriptorProto.service`.
-  static const _fileDescriptorServiceTag = 6;
-
   /// Tag of `ServiceDescriptorProto.method`.
-  static const _serviceDescriptorMethodTag = 2;
+  static const serviceDescriptorMethodTag = 2;
+
+  /// Tag of `FileDescriptorProto.service`.
+  static const fileDescriptorServiceTag = 6;
 
   /// Index of the service in `FileDescriptorProto.service` repeated field.
   final int _repeatedFieldIndex;
 
-  List<int> get _serviceDescriptorPath => [
-        ...service.fileGen.fieldPath,
-        _fileDescriptorServiceTag,
-        _repeatedFieldIndex
-      ];
+  late final List<int> _serviceDescriptorPath = [
+    ...service.fileGen.fieldPath,
+    fileDescriptorServiceTag,
+    _repeatedFieldIndex
+  ];
 
-  List<int> _methodDescriptorPath(int methodRepeatedFieldIndex) => [
-        ..._serviceDescriptorPath,
-        _serviceDescriptorMethodTag,
-        methodRepeatedFieldIndex
-      ];
+  List<int> _methodDescriptorPath(int methodIndex) {
+    return [
+      ..._serviceDescriptorPath,
+      serviceDescriptorMethodTag,
+      methodIndex,
+    ];
+  }
 
   ClientApiGenerator(
       this.service, Set<String> usedNames, this._repeatedFieldIndex)
@@ -63,21 +65,22 @@ class ClientApiGenerator {
   }
 
   // Subclasses can override this.
-  void generateMethod(IndentingWriter out, MethodDescriptorProto m,
-      int methodRepeatedFieldIndex) {
+  void generateMethod(
+      IndentingWriter out, MethodDescriptorProto method, int methodIndex) {
     final methodName = disambiguateName(
-        avoidInitialUnderscore(service._methodName(m.name)),
+        avoidInitialUnderscore(service._methodName(method.name)),
         usedMethodNames,
         defaultSuffixes());
-    final inputType = service._getDartClassName(m.inputType, forMainFile: true);
+    final inputType =
+        service._getDartClassName(method.inputType, forMainFile: true);
     final outputType =
-        service._getDartClassName(m.outputType, forMainFile: true);
-    final commentBlock = service.fileGen
-        .commentBlock(_methodDescriptorPath(methodRepeatedFieldIndex));
+        service._getDartClassName(method.outputType, forMainFile: true);
+    final commentBlock =
+        service.fileGen.commentBlock(_methodDescriptorPath(methodIndex));
     if (commentBlock != null) {
       out.println(commentBlock);
     }
-    if (m.options.deprecated) {
+    if (method.options.deprecated) {
       out.println(
           '@$coreImportPrefix.Deprecated(\'This method is deprecated\')');
     }
@@ -86,7 +89,7 @@ class ClientApiGenerator {
             '$protobufImportPrefix.ClientContext? ctx, $inputType request) =>',
         ';', () {
       out.println('_client.invoke<$outputType>(ctx, \'$className\', '
-          '\'${m.name}\', request, $outputType())');
+          '\'${method.name}\', request, $outputType())');
     });
   }
 }

@@ -29,12 +29,10 @@ class EnumGenerator extends ProtobufContainer {
   /// Maps the name of an enum value to the Dart name we will use for it.
   final Map<String, String> dartNames = <String, String>{};
   final List<int> _originalAliasIndices = <int>[];
-  List<int>? _fieldPath;
   final List<int> _fieldPathSegment;
 
   @override
-  List<int> get fieldPath =>
-      _fieldPath ??= List.from(parent.fieldPath!)..addAll(_fieldPathSegment);
+  late final List<int> fieldPath = [...parent.fieldPath, ..._fieldPathSegment];
 
   EnumGenerator._(EnumDescriptorProto descriptor, this.parent,
       Set<String> usedClassNames, int repeatedFieldIndex, int fieldIdTag)

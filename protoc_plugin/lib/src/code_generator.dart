@@ -32,7 +32,7 @@ abstract class ProtobufContainer {
   /// the message in question.
   /// For more information see
   /// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/descriptor.proto#L728
-  List<int>? get fieldPath;
+  List<int> get fieldPath;
 
   /// The fully qualified name with a leading '.'.
   ///
