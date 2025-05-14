@@ -1,5 +1,5 @@
 #!/bin/bash
-# Created with package:mono_repo v6.6.2
+# Created with package:mono_repo v6.6.3
 
 # Support built in commands on windows out of the box.
 
@@ -64,18 +64,14 @@ for PKG in ${PKGS}; do
       echo -e "\033[1mPKG: ${PKG}; TASK: ${TASK}\033[22m"
       case ${TASK} in
       analyze_0)
-        echo 'dart analyze'
-        dart analyze || EXIT_CODE=$?
-        ;;
-      analyze_1)
         echo 'dart analyze --fatal-infos'
         dart analyze --fatal-infos || EXIT_CODE=$?
         ;;
-      analyze_2)
+      analyze_1)
         echo 'dart analyze lib'
         dart analyze lib || EXIT_CODE=$?
         ;;
-      analyze_3)
+      analyze_2)
         echo 'dart analyze test'
         dart analyze test || EXIT_CODE=$?
         ;;
@@ -84,14 +80,10 @@ for PKG in ${PKGS}; do
         ./../tool/setup.sh || EXIT_CODE=$?
         ;;
       command_1)
-        echo './compile_protos.sh'
-        ./compile_protos.sh || EXIT_CODE=$?
-        ;;
-      command_2)
         echo './tool/compile_protos.sh'
         ./tool/compile_protos.sh || EXIT_CODE=$?
         ;;
-      command_3)
+      command_2)
         echo 'make protos'
         make protos || EXIT_CODE=$?
         ;;
