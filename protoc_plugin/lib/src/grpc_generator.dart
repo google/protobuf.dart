@@ -112,6 +112,26 @@ class GrpcServiceGenerator {
     }
     out.println("@$protobufImportPrefix.GrpcServiceName('$_fullServiceName')");
     out.addBlock('class $_clientClassname extends $_client {', '}', () {
+      // Look for and generate default_host info.
+      final defaultHost = _descriptor.options.defaultHost;
+      if (defaultHost != null) {
+        out.println('/// The hostname for this service.');
+        out.println("static const $_string defaultHost = '$defaultHost';");
+        out.println();
+      }
+
+      // Look for and generate oauth_scopes info.
+      final oauthScopes = _descriptor.options.oauthScopes;
+      if (oauthScopes != null) {
+        out.println('/// OAuth scopes needed for the client.');
+        out.println('static const $_list<$_string> oauthScopes = [');
+        for (final scope in oauthScopes.split(',')) {
+          out.println("  '$scope',");
+        }
+        out.println('];');
+        out.println();
+      }
+
       for (final method in _methods) {
         method.generateClientMethodDescriptor(out);
       }
@@ -149,6 +169,8 @@ class GrpcServiceGenerator {
   static final String _callOptions = '$grpcImportPrefix.CallOptions';
   static final String _client = '$grpcImportPrefix.Client';
   static final String _service = '$grpcImportPrefix.Service';
+  static final String _list = '$coreImportPrefix.List';
+  static final String _string = '$coreImportPrefix.String';
 }
 
 class _GrpcMethod {
@@ -291,4 +313,10 @@ class _GrpcMethod {
   static final String _stream = '$asyncImportPrefix.Stream';
   static final String _responseFuture = '$grpcImportPrefix.ResponseFuture';
   static final String _responseStream = '$grpcImportPrefix.ResponseStream';
+}
+
+extension on ServiceOptions {
+  String? get defaultHost => getExtension(Client.defaultHost) as String?;
+
+  String? get oauthScopes => getExtension(Client.oauthScopes) as String?;
 }

@@ -7,6 +7,7 @@ import 'indenting_writer.dart';
 import 'mixins.dart';
 import 'names.dart';
 import 'src/code_generator.dart';
+import 'src/generated/client.pb.dart';
 import 'src/generated/dart_options.pb.dart';
 import 'src/generated/descriptor.pb.dart';
 import 'src/generated/plugin.pb.dart';
