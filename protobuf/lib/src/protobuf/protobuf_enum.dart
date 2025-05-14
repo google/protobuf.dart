@@ -47,8 +47,8 @@ class ProtobufEnum {
   /// @nodoc
   static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> enumValues) {
     final byValue = <int, T>{};
-    for (final v in enumValues) {
-      byValue[v.value] = v;
+    for (final enumValue in enumValues) {
+      byValue[enumValue.value] = enumValue;
     }
     return byValue;
   }
