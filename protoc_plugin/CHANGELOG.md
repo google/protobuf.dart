@@ -1,3 +1,8 @@
+## 22.2.0-wip
+
+* Read `default_host` and `oauth_scopes` options from gRPC service definitions
+  and write that information to the generated gRPC clients.
+
 ## 22.1.0
 
 * Fix factory argument types for protobuf `Map` fields. ([#975])

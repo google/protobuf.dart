@@ -21,6 +21,15 @@ export 'test.pb.dart';
 
 @$pb.GrpcServiceName('Test')
 class TestClient extends $grpc.Client {
+  /// The hostname for this service.
+  static const $core.String defaultHost = 'www.example.com';
+
+  /// OAuth scopes needed for the client.
+  static const $core.List<$core.String> oauthScopes = [
+    'https://www.googleapis.com/auth/cloud-platform',
+    'https://www.googleapis.com/auth/datastore',
+  ];
+
   static final _$unary = $grpc.ClientMethod<$0.Input, $0.Output>(
       '/Test/Unary',
       ($0.Input value) => value.writeToBuffer(),
