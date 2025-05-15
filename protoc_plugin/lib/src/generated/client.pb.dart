@@ -404,17 +404,17 @@ class JavaSettings extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<JavaSettings>(create);
   static JavaSettings? _defaultInstance;
 
-  ///  The package name to use in Java. Clobbers the java_package option
-  ///  set in the protobuf. This should be used **only** by APIs
-  ///  who have already set the language_settings.java.package_name" field
-  ///  in gapic.yaml. API teams should use the protobuf java_package option
-  ///  where possible.
+  /// The package name to use in Java. Clobbers the java_package option
+  /// set in the protobuf. This should be used **only** by APIs
+  /// who have already set the language_settings.java.package_name" field
+  /// in gapic.yaml. API teams should use the protobuf java_package option
+  /// where possible.
   ///
-  ///  Example of a YAML configuration::
+  /// Example of a YAML configuration::
   ///
-  ///   publishing:
-  ///     java_settings:
-  ///       library_package: com.google.cloud.pubsub.v1
+  ///  publishing:
+  ///    java_settings:
+  ///      library_package: com.google.cloud.pubsub.v1
   @$pb.TagNumber(1)
   $core.String get libraryPackage => $_getSZ(0);
   @$pb.TagNumber(1)
@@ -427,20 +427,20 @@ class JavaSettings extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearLibraryPackage() => $_clearField(1);
 
-  ///  Configure the Java class name to use instead of the service's for its
-  ///  corresponding generated GAPIC client. Keys are fully-qualified
-  ///  service names as they appear in the protobuf (including the full
-  ///  the language_settings.java.interface_names" field in gapic.yaml. API
-  ///  teams should otherwise use the service name as it appears in the
-  ///  protobuf.
+  /// Configure the Java class name to use instead of the service's for its
+  /// corresponding generated GAPIC client. Keys are fully-qualified
+  /// service names as they appear in the protobuf (including the full
+  /// the language_settings.java.interface_names" field in gapic.yaml. API
+  /// teams should otherwise use the service name as it appears in the
+  /// protobuf.
   ///
-  ///  Example of a YAML configuration::
+  /// Example of a YAML configuration::
   ///
-  ///   publishing:
-  ///     java_settings:
-  ///       service_class_names:
-  ///         - google.pubsub.v1.Publisher: TopicAdmin
-  ///         - google.pubsub.v1.Subscriber: SubscriptionAdmin
+  ///  publishing:
+  ///    java_settings:
+  ///      service_class_names:
+  ///        - google.pubsub.v1.Publisher: TopicAdmin
+  ///        - google.pubsub.v1.Subscriber: SubscriptionAdmin
   @$pb.TagNumber(2)
   $pb.PbMap<$core.String, $core.String> get serviceClassNames => $_getMap(1);
 
@@ -1135,14 +1135,14 @@ class GoSettings extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   CommonLanguageSettings ensureCommon() => $_ensure(0);
 
-  ///  Map of service names to renamed services. Keys are the package relative
-  ///  service names and values are the name to be used for the service client
-  ///  and call options.
+  /// Map of service names to renamed services. Keys are the package relative
+  /// service names and values are the name to be used for the service client
+  /// and call options.
   ///
-  ///  publishing:
-  ///    go_settings:
-  ///      renamed_services:
-  ///        Publisher: TopicAdmin
+  /// publishing:
+  ///   go_settings:
+  ///     renamed_services:
+  ///       Publisher: TopicAdmin
   @$pb.TagNumber(2)
   $pb.PbMap<$core.String, $core.String> get renamedServices => $_getMap(1);
 }

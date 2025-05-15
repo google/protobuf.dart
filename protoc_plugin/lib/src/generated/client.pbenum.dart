@@ -61,9 +61,10 @@ class ClientLibraryOrganization extends $pb.ProtobufEnum {
     GENERATIVE_AI,
   ];
 
-  static final $core.Map<$core.int, ClientLibraryOrganization> _byValue =
-      $pb.ProtobufEnum.initByValue(values);
-  static ClientLibraryOrganization? valueOf($core.int value) => _byValue[value];
+  static final $core.List<ClientLibraryOrganization?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 7);
+  static ClientLibraryOrganization? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
 
   const ClientLibraryOrganization._(super.v, super.n);
 }

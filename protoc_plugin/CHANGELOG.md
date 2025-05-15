@@ -4,6 +4,35 @@
   and write that information to the generated gRPC clients.
 * Generate dartdocs for grpc services ([#973]).
 
+We now parse and generate code cooresponding to the proto options
+`google.api.default_host` and `google.api.oauth_scopes`:
+
+```proto
+service Firestore {
+  option (google.api.default_host) = "firestore.googleapis.com";
+  option (google.api.oauth_scopes) =
+      "https://www.googleapis.com/auth/cloud-platform,"
+      "https://www.googleapis.com/auth/datastore";
+
+  ...
+```
+
+Will generate as:
+
+```dart
+class FirestoreClient extends $grpc.Client {
+  /// The hostname for this service.
+  static const $core.String defaultHost = 'firestore.googleapis.com';
+
+  /// OAuth scopes needed for the client.
+  static const $core.List<$core.String> oauthScopes = [
+    'https://www.googleapis.com/auth/cloud-platform',
+    'https://www.googleapis.com/auth/datastore',
+  ];
+
+  ...
+```
+
 [#973]: https://github.com/google/protobuf.dart/issues/973
 
 ## 22.1.0
