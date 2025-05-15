@@ -1,0 +1,54 @@
+enum DenseEnum {
+    DENSE_ENUM_0 = 0;
+    DENSE_ENUM_1 = 1;
+    DENSE_ENUM_2 = 2;
+    DENSE_ENUM_3 = 3;
+    DENSE_ENUM_4 = 4;
+}
+
+enum DenseEnumOutOfOrder {
+    DENSE_ENUM_OOO_0 = 0;
+    DENSE_ENUM_OOO_2 = 2;
+    DENSE_ENUM_OOO_4 = 4;
+    DENSE_ENUM_OOO_3 = 3;
+    DENSE_ENUM_OOO_1 = 1;
+}
+
+enum SparseEnum {
+    SPARSE_ENUM_ZERO = 0;
+    SPARSE_ENUM_MIN_INT = -2147483648;
+    SPARSE_ENUM_1 = -1000000000;
+    SPARSE_ENUM_2 = -100000000;
+    SPARSE_ENUM_3 = -10000000;
+    SPARSE_ENUM_4 = -1000000;
+    SPARSE_ENUM_5 = -100000;
+    SPARSE_ENUM_6 = 100000;
+    SPARSE_ENUM_7 = 1000000;
+    SPARSE_ENUM_8 = 10000000;
+    SPARSE_ENUM_9 = 100000000;
+    SPARSE_ENUM_10 = 1000000000;
+    SPARSE_ENUM_MAX_INT = 2147483647;
+}
+
+enum SparseEnumOutOfOrder {
+    SPARSE_ENUM_OOO_ZERO = 0;
+    SPARSE_ENUM_OOO_1 = -1000000000;
+    SPARSE_ENUM_OOO_MAX_INT = 2147483647;
+    SPARSE_ENUM_OOO_4 = -1000000;
+    SPARSE_ENUM_OOO_6 = 100000;
+    SPARSE_ENUM_OOO_MIN_INT = -2147483648;
+    SPARSE_ENUM_OOO_7 = 1000000;
+    SPARSE_ENUM_OOO_5 = -100000;
+    SPARSE_ENUM_OOO_8 = 10000000;
+    SPARSE_ENUM_OOO_3 = -10000000;
+    SPARSE_ENUM_OOO_10 = 1000000000;
+    SPARSE_ENUM_OOO_2 = -100000000;
+    SPARSE_ENUM_OOO_9 = 100000000;
+}
+
+message MessageWithEnums {
+    repeated DenseEnum denseEnums = 1;
+    repeated DenseEnumOutOfOrder denseOutOfOrderEnums = 2;
+    repeated SparseEnum sparseEnums = 3;
+    repeated SparseEnumOutOfOrder sparseOutOfOrderEnums = 4;
+}
