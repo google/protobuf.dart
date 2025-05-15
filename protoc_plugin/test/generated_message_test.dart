@@ -10,6 +10,7 @@ import '../out/protos/constructor_args/google/protobuf/unittest.pb.dart'
 import '../out/protos/constructor_args/google/protobuf/unittest_import.pb.dart'
     as constructor_args_unittest_import;
 import '../out/protos/duplicate_names_import.pb.dart';
+import '../out/protos/enums.pb.dart';
 import '../out/protos/google/protobuf/unittest.pb.dart';
 import '../out/protos/google/protobuf/unittest_import.pb.dart';
 import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
@@ -889,5 +890,28 @@ void main() {
     // Convert the message with constructor arguments to the message without
     // constructor arguments, to be able to reuse `assertAllFieldsSet`.
     assertAllFieldsSet(TestAllTypes.fromBuffer(value.writeToBuffer()));
+  });
+
+  test('Handling enums defined out of order', () {
+    final message = MessageWithEnums();
+    for (final enum_ in DenseEnum.values) {
+      message.denseEnums.add(enum_);
+    }
+    for (final enum_ in DenseEnumOutOfOrder.values) {
+      message.denseOutOfOrderEnums.add(enum_);
+    }
+    for (final enum_ in SparseEnum.values) {
+      message.sparseEnums.add(enum_);
+    }
+    for (final enum_ in SparseEnumOutOfOrder.values) {
+      message.sparseOutOfOrderEnums.add(enum_);
+    }
+
+    final encoded = message.writeToBuffer();
+    final decoded = MessageWithEnums.fromBuffer(encoded);
+    expect(decoded.denseEnums, DenseEnum.values);
+    expect(decoded.denseOutOfOrderEnums, DenseEnumOutOfOrder.values);
+    expect(decoded.sparseEnums, SparseEnum.values);
+    expect(decoded.sparseOutOfOrderEnums, SparseEnumOutOfOrder.values);
   });
 }
