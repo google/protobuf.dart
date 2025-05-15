@@ -1,3 +1,9 @@
+## 22.1.1-wip
+
+* Generate dartdocs for grpc services ([#973]).
+
+[#973]: https://github.com/google/protobuf.dart/issues/973
+
 ## 22.1.0
 
 * Fix factory argument types for protobuf `Map` fields. ([#975])

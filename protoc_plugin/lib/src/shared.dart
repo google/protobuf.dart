@@ -66,6 +66,9 @@ extension FileDescriptorProtoExt on FileGenerator {
 /// This is the internal method for [FileDescriptorProtoExt.commentBlock],
 /// public to be able to test.
 String? toDartComment(String value) {
+  // TODO: Handle converting proto references to Dart references.
+  // "[Foo][google.firestore.v1.Foo]" => to either "`Foo`" or "[Foo]".
+
   if (value.isEmpty) return null;
 
   var lines = LineSplitter.split(value).toList();
@@ -75,8 +78,10 @@ String? toDartComment(String value) {
   final leadingSpaces = _leadingSpaces.firstMatch(lines.first);
   if (leadingSpaces != null) {
     final prefix = leadingSpaces.group(0)!;
-    if (lines.every((element) => element.startsWith(prefix))) {
-      lines = lines.map((e) => e.substring(prefix.length)).toList();
+    if (lines.every((line) => line.isEmpty || line.startsWith(prefix))) {
+      lines = lines
+          .map((line) => line.isEmpty ? line : line.substring(prefix.length))
+          .toList();
     }
   }
 

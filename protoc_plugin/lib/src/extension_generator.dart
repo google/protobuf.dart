@@ -16,8 +16,7 @@ class ExtensionGenerator {
   final List<int> _fieldPathSegment;
 
   /// See [ProtobufContainer]
-  late final List<int> fieldPath = List.from(_parent.fieldPath!)
-    ..addAll(_fieldPathSegment);
+  late final List<int> fieldPath = [..._parent.fieldPath, ..._fieldPathSegment];
 
   ExtensionGenerator._(this._descriptor, this._parent, Set<String> usedNames,
       int repeatedFieldIndex, int fieldIdTag)

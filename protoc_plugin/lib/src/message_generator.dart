@@ -68,8 +68,7 @@ class MessageGenerator extends ProtobufContainer {
   final List<int> _fieldPathSegment;
 
   @override
-  late final List<int> fieldPath = List.from(parent!.fieldPath!)
-    ..addAll(_fieldPathSegment);
+  late final List<int> fieldPath = [...parent!.fieldPath, ..._fieldPathSegment];
 
   // populated by resolve()
   late List<ProtobufField> _fieldList;
