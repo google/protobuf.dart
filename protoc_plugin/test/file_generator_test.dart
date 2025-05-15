@@ -4,6 +4,7 @@
 
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
+import 'package:protoc_plugin/src/generated/client.pb.dart';
 import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
 import 'package:protoc_plugin/src/generated/plugin.pb.dart';
 import 'package:protoc_plugin/src/linker.dart';
@@ -328,8 +329,17 @@ void main() {
       ..clientStreaming = false
       ..serverStreaming = false;
 
+    final serviceOptions = ServiceOptions();
+    serviceOptions.setExtension(Client.defaultHost, 'www.example.com');
+    serviceOptions.setExtension(
+      Client.oauthScopes,
+      'https://www.googleapis.com/auth/cloud-platform,'
+      'https://www.googleapis.com/auth/datastore',
+    );
+
     final sd = ServiceDescriptorProto()
       ..name = 'Test'
+      ..options = serviceOptions
       ..method.addAll([
         unary,
         clientStreaming,
