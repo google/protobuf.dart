@@ -29,12 +29,10 @@ class EnumGenerator extends ProtobufContainer {
   /// Maps the name of an enum value to the Dart name we will use for it.
   final Map<String, String> dartNames = <String, String>{};
   final List<int> _originalAliasIndices = <int>[];
-  List<int>? _fieldPath;
   final List<int> _fieldPathSegment;
 
   @override
-  List<int> get fieldPath =>
-      _fieldPath ??= List.from(parent.fieldPath!)..addAll(_fieldPathSegment);
+  late final List<int> fieldPath = [...parent.fieldPath, ..._fieldPathSegment];
 
   EnumGenerator._(EnumDescriptorProto descriptor, this.parent,
       Set<String> usedClassNames, int repeatedFieldIndex, int fieldIdTag)
@@ -175,11 +173,37 @@ class EnumGenerator extends ProtobufContainer {
       out.println('];');
       out.println();
 
-      out.println(
-          'static final $coreImportPrefix.Map<$coreImportPrefix.int, $classname> _byValue ='
-          ' $protobufImportPrefix.ProtobufEnum.initByValue(values);');
-      out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
-          ' _byValue[value];');
+      var maxEnumValue = -1;
+      for (final valueDescriptor in _canonicalValues) {
+        if (valueDescriptor.number.isNegative) {
+          maxEnumValue = -1; // don't use list
+          break;
+        }
+        if (valueDescriptor.number > maxEnumValue) {
+          maxEnumValue = valueDescriptor.number;
+        }
+      }
+
+      final useList = _canonicalValues.isEmpty ||
+          (maxEnumValue >= 0 &&
+              _canonicalValues.length / (maxEnumValue + 1) >= 0.7);
+
+      if (useList) {
+        out.println(
+            'static final $coreImportPrefix.List<$classname?> _byValue ='
+            ' $protobufImportPrefix.ProtobufEnum.\$_initByValueList(values, $maxEnumValue);');
+
+        out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
+            '  value < 0 || value >= _byValue.length ? null : _byValue[value];');
+      } else {
+        out.println(
+            'static final $coreImportPrefix.Map<$coreImportPrefix.int, $classname> _byValue ='
+            ' $protobufImportPrefix.ProtobufEnum.initByValue(values);');
+
+        out.println('static $classname? valueOf($coreImportPrefix.int value) =>'
+            ' _byValue[value];');
+      }
+
       out.println();
 
       out.println('const $classname._(super.v, super.n);');

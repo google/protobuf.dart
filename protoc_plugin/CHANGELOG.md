@@ -1,7 +1,10 @@
-## 22.2.0-wip
+## 22.2.0
 
 * Read `default_host` and `oauth_scopes` options from gRPC service definitions
   and write that information to the generated gRPC clients.
+* Generate dartdocs for grpc services ([#973]).
+
+[#973]: https://github.com/google/protobuf.dart/issues/973
 
 ## 22.1.0
 

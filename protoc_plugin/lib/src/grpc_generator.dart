@@ -10,16 +10,18 @@ class GrpcServiceGenerator {
   /// The generator of the .pb.dart file that will contain this service.
   final FileGenerator fileGen;
 
+  final int _serviceIndex;
+
   /// The message types needed directly by this service.
   ///
   /// The key is the fully qualified name.
   /// Populated by [resolve].
-  final _deps = <String, MessageGenerator>{};
+  final Map<String, MessageGenerator> _deps = {};
 
   /// Maps each undefined type to a string describing its location.
   ///
   /// Populated by [resolve].
-  final _undefinedDeps = <String, String>{};
+  final Map<String, String> _undefinedDeps = {};
 
   /// Fully-qualified gRPC service name.
   late final String _fullServiceName;
@@ -31,9 +33,15 @@ class GrpcServiceGenerator {
   late final String _serviceClassname;
 
   /// List of gRPC methods.
-  final _methods = <_GrpcMethod>[];
+  final List<_GrpcMethod> _methods = [];
 
-  GrpcServiceGenerator(this._descriptor, this.fileGen) {
+  late final List<int> _serviceDescriptorPath = [
+    ...fileGen.fieldPath,
+    ClientApiGenerator.fileDescriptorServiceTag,
+    _serviceIndex,
+  ];
+
+  GrpcServiceGenerator(this._descriptor, this.fileGen, this._serviceIndex) {
     final name = _descriptor.name;
     final package = fileGen.package;
 
@@ -106,6 +114,10 @@ class GrpcServiceGenerator {
   }
 
   void _generateClient(IndentingWriter out) {
+    final commentBlock = fileGen.commentBlock(_serviceDescriptorPath);
+    if (commentBlock != null) {
+      out.println(commentBlock);
+    }
     if (_descriptor.options.deprecated) {
       out.println(
           "@$coreImportPrefix.Deprecated('This service is deprecated')");
@@ -138,8 +150,8 @@ class GrpcServiceGenerator {
       out.println();
       out.println(
           '$_clientClassname(super.channel, {super.options, super.interceptors});');
-      for (final method in _methods) {
-        method.generateClientStub(out);
+      for (var i = 0; i < _methods.length; i++) {
+        _methods[i].generateClientStub(out, this, i);
       }
     });
   }
@@ -250,8 +262,22 @@ class _GrpcMethod {
         '    ($coreImportPrefix.List<$coreImportPrefix.int> value) => $_responseType.fromBuffer(value));');
   }
 
-  void generateClientStub(IndentingWriter out) {
+  List<int> _methodDescriptorPath(GrpcServiceGenerator generator, int index) {
+    return [
+      ...generator._serviceDescriptorPath,
+      ClientApiGenerator.serviceDescriptorMethodTag,
+      index,
+    ];
+  }
+
+  void generateClientStub(IndentingWriter out,
+      GrpcServiceGenerator serviceGenerator, int methodIndex) {
     out.println();
+    final commentBlock = serviceGenerator.fileGen
+        .commentBlock(_methodDescriptorPath(serviceGenerator, methodIndex));
+    if (commentBlock != null) {
+      out.println(commentBlock);
+    }
     if (_deprecated) {
       out.println(
           '@$coreImportPrefix.Deprecated(\'This method is deprecated\')');

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-pushd api_benchmark
-./compile_protos.sh
-popd
-
 pushd benchmarks
 ./tool/compile_protos.sh
 popd

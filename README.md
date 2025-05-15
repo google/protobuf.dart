@@ -11,7 +11,6 @@ This repository is home to packages related to
 | --- | --- | --- |
 | [protobuf](protobuf/) | Runtime library for protocol buffers support. | [![pub package](https://img.shields.io/pub/v/protobuf.svg)](https://pub.dev/packages/protobuf) |
 | [protoc_plugin](protoc_plugin/) | A protobuf protoc compiler plugin used to generate Dart code. | [![pub package](https://img.shields.io/pub/v/protoc_plugin.svg)](https://pub.dev/packages/protoc_plugin) |
-| [api_benchmark](api_benchmark/) | Benchmarking a number of different api calls. | |
 | [benchmarks](benchmarks/) | Benchmarks for various protobuf functions. | |
 
 ## Publishing automation

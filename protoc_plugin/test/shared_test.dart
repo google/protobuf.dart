@@ -26,5 +26,19 @@ void main() {
 /// with one indent - trailing whitespace removed''',
       );
     });
+
+    test('indent with blank lines', () {
+      expect(
+        toDartComment('''
+ This is indented.
+
+ This is indented.
+'''),
+        '''
+/// This is indented.
+///
+/// This is indented.''',
+      );
+    });
   });
 }
