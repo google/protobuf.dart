@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: descriptor.proto
+//  source: google/protobuf/descriptor.proto
 //
 // @dart = 3.3
 

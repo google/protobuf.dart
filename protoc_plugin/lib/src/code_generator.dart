@@ -11,9 +11,9 @@ import 'package:protobuf/protobuf.dart';
 
 import '../names.dart' show lowerCaseFirstLetter;
 import '../protoc.dart' show FileGenerator;
-import 'generated/client.pb.dart';
-import 'generated/dart_options.pb.dart';
-import 'generated/plugin.pb.dart';
+import 'gen/dart_options.pb.dart';
+import 'gen/google/api/client.pb.dart';
+import 'gen/google/protobuf/compiler/plugin.pb.dart';
 import 'linker.dart';
 import 'options.dart';
 import 'output_config.dart';

@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:protoc_plugin/indenting_writer.dart';
-import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
+import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart';
 import 'package:test/test.dart';
 
 void main() {

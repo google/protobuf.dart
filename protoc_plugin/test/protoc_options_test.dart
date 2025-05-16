@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:protoc_plugin/src/generated/plugin.pb.dart';
+import 'package:protoc_plugin/src/gen/google/protobuf/compiler/plugin.pb.dart';
 import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 

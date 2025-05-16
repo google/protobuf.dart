@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
+import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart';
 
 ServiceDescriptorProto buildServiceDescriptor() {
   final sd = ServiceDescriptorProto()
