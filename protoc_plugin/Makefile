@@ -77,38 +77,36 @@ TEST_PROTO_SRC_DIR=test/protos
 TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), \
   $(TEST_PROTO_SRC_DIR)/$(proto).proto)
 
-PREGENERATED_SRCS=protos/descriptor.proto protos/client.proto protos/plugin.proto protos/dart_options.proto
+PREGENERATED_SRCS := $(shell find protos -name '*.proto')
 
 $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 	mkdir -p $(TEST_PROTO_DIR)
 
 	protoc\
-		--experimental_allow_proto3_optional\
 		--dart_out="disable_constructor_args:$(TEST_PROTO_DIR)"\
-		-Iprotos\
 		-I$(TEST_PROTO_SRC_DIR)\
+		-Iprotos\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
 
 	mkdir -p $(TEST_PROTO_DIR)/constructor_args
 
 	protoc\
-		--experimental_allow_proto3_optional\
 		--dart_out="$(TEST_PROTO_DIR)/constructor_args"\
-		-Iprotos\
 		-I$(TEST_PROTO_SRC_DIR)\
+		-Iprotos\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
 
 	dart format $(TEST_PROTO_DIR)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
-	protoc --dart_out=lib/src/generated -Iprotos --plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
-	rm lib/src/generated/client.pb{json,server}.dart
-	rm lib/src/generated/descriptor.pb{json,server}.dart
-	rm lib/src/generated/dart_options.pb{enum,json,server}.dart
-	rm lib/src/generated/plugin.pb{json,server}.dart
-	dart format lib/src/generated
+	protoc --dart_out=lib/src/gen \
+	  -Iprotos \
+		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
+	find lib/src/gen -name '*.pbjson.dart' -delete
+	find lib/src/gen -name '*.pbserver.dart' -delete
+	dart format lib/src/gen
 
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 

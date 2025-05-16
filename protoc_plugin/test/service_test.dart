@@ -1,5 +1,5 @@
 import 'package:protobuf/protobuf.dart';
-import 'package:protoc_plugin/src/generated/descriptor.pb.dart'
+import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart'
     show DescriptorProto, ServiceDescriptorProto;
 import 'package:test/test.dart';
 

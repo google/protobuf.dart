@@ -4,7 +4,7 @@
 
 import 'dart:collection';
 
-import 'src/generated/descriptor.pb.dart';
+import 'src/gen/google/protobuf/descriptor.pb.dart';
 
 /// Specifies code locations where metadata annotations should be attached and
 /// where they should point to in the original proto.
@@ -183,6 +183,9 @@ class ImportWriter {
       _fileImports.isNotEmpty ||
       _packageExports.isNotEmpty ||
       _fileExports.isNotEmpty;
+
+  bool get hasSrcImport =>
+      _packageImports.any((item) => item.contains('/src/'));
 
   /// Add an import with an optional import prefix.
   void addImport(String url, {String? prefix}) {

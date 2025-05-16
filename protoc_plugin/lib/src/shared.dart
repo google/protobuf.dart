@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../protoc.dart';
-import '../src/generated/descriptor.pb.dart';
+import '../src/gen/google/protobuf/descriptor.pb.dart';
 
 const protobufImportPrefix = r'$pb';
 const asyncImportPrefix = r'$async';
