@@ -10,7 +10,7 @@ dependencies:
   collection: ^1.15.0
   fixnum: ^1.0.0
   path: ^1.8.0
-  protobuf: ^4.0.0
+  protobuf: ^4.1.0
 
 dev_dependencies:
   dart_flutter_team_lints: ^1.0.0
