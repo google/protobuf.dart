@@ -1,4 +1,4 @@
-## 4.0.1-wip
+## 4.1.0
 
 * Improve packed field decoding performance. ([#959], [#981])
 

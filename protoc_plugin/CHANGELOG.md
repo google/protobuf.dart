@@ -1,5 +1,6 @@
 ## 22.2.0
 
+* Bump `protobuf` constraint to `^4.1.0`
 * Read `default_host` and `oauth_scopes` options from gRPC service definitions
   and write that information to the generated gRPC clients.
 * Generate dartdocs for grpc services ([#973]).
