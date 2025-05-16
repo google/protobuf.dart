@@ -554,16 +554,19 @@ class PhpSettings extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<PhpSettings>(create);
   static PhpSettings? _defaultInstance;
 
-  // CommonLanguageSettings common
-
   /// Some settings.
+  @$pb.TagNumber(1)
   CommonLanguageSettings get common => $_getN(0);
+  @$pb.TagNumber(1)
   set common(CommonLanguageSettings v) {
     $_setField(1, v);
   }
 
+  @$pb.TagNumber(1)
   $core.bool hasCommon() => $_has(0);
+  @$pb.TagNumber(1)
   void clearCommon() => $_clearField(1);
+  @$pb.TagNumber(1)
   CommonLanguageSettings ensureCommon() => $_ensure(0);
 }
 
