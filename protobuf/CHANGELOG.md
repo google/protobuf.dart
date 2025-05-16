@@ -1,8 +1,9 @@
 ## 4.0.1-wip
 
-* Improve packed field decoding performance. ([#959])
+* Improve packed field decoding performance. ([#959], [#981])
 
 [#959]: https://github.com/google/protobuf.dart/pull/959
+[#981]: https://github.com/google/protobuf.dart/pull/981
 
 ## 4.0.0
 
