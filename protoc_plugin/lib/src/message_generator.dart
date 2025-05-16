@@ -398,16 +398,12 @@ class MessageGenerator extends ProtobufContainer {
       }
 
       out.println();
-      out.println('''@$coreImportPrefix.Deprecated(
-'Using this can add significant overhead to your binary. '
-'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-'Will be removed in next major version')''');
-      out.println('$classname clone() =>'
-          ' $classname()..mergeFromMessage(this);');
-      out.println('''@$coreImportPrefix.Deprecated(
-'Using this can add significant overhead to your binary. '
-'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-'Will be removed in next major version')''');
+      out.println('@$coreImportPrefix.Deprecated('
+          "'See https://github.com/google/protobuf.dart/issues/998.')");
+      out.println(
+          '$classname clone() => $classname()..mergeFromMessage(this);');
+      out.println('@$coreImportPrefix.Deprecated('
+          "'See https://github.com/google/protobuf.dart/issues/998.')");
       out.println('$classname copyWith(void Function($classname) updates) =>'
           ' super.copyWith((message) => updates(message as $classname))'
           ' as $classname;');

@@ -64,14 +64,10 @@ class CommonLanguageSettings extends $pb.GeneratedMessage {
         subBuilder: SelectiveGapicGeneration.create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CommonLanguageSettings clone() =>
       CommonLanguageSettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CommonLanguageSettings copyWith(
           void Function(CommonLanguageSettings) updates) =>
       super.copyWith((message) => updates(message as CommonLanguageSettings))
@@ -200,13 +196,9 @@ class Publishing extends $pb.GeneratedMessage {
     ..aOS(111, _omitFieldNames ? '' : 'restReferenceDocumentationUri')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Publishing clone() => Publishing()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Publishing copyWith(void Function(Publishing) updates) =>
       super.copyWith((message) => updates(message as Publishing)) as Publishing;
 
@@ -381,13 +373,9 @@ class JavaSettings extends $pb.GeneratedMessage {
         subBuilder: CommonLanguageSettings.create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   JavaSettings clone() => JavaSettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   JavaSettings copyWith(void Function(JavaSettings) updates) =>
       super.copyWith((message) => updates(message as JavaSettings))
           as JavaSettings;
@@ -487,13 +475,9 @@ class CppSettings extends $pb.GeneratedMessage {
         subBuilder: CommonLanguageSettings.create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CppSettings clone() => CppSettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CppSettings copyWith(void Function(CppSettings) updates) =>
       super.copyWith((message) => updates(message as CppSettings))
           as CppSettings;
@@ -552,13 +536,9 @@ class PhpSettings extends $pb.GeneratedMessage {
         subBuilder: CommonLanguageSettings.create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PhpSettings clone() => PhpSettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PhpSettings copyWith(void Function(PhpSettings) updates) =>
       super.copyWith((message) => updates(message as PhpSettings))
           as PhpSettings;
@@ -629,14 +609,10 @@ class PythonSettings_ExperimentalFeatures extends $pb.GeneratedMessage {
     ..aOB(3, _omitFieldNames ? '' : 'unversionedPackageDisabled')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PythonSettings_ExperimentalFeatures clone() =>
       PythonSettings_ExperimentalFeatures()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PythonSettings_ExperimentalFeatures copyWith(
           void Function(PythonSettings_ExperimentalFeatures) updates) =>
       super.copyWith((message) =>
@@ -740,13 +716,9 @@ class PythonSettings extends $pb.GeneratedMessage {
         subBuilder: PythonSettings_ExperimentalFeatures.create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PythonSettings clone() => PythonSettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PythonSettings copyWith(void Function(PythonSettings) updates) =>
       super.copyWith((message) => updates(message as PythonSettings))
           as PythonSettings;
@@ -822,13 +794,9 @@ class NodeSettings extends $pb.GeneratedMessage {
         subBuilder: CommonLanguageSettings.create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   NodeSettings clone() => NodeSettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   NodeSettings copyWith(void Function(NodeSettings) updates) =>
       super.copyWith((message) => updates(message as NodeSettings))
           as NodeSettings;
@@ -923,13 +891,9 @@ class DotnetSettings extends $pb.GeneratedMessage {
     ..pPS(6, _omitFieldNames ? '' : 'handwrittenSignatures')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   DotnetSettings clone() => DotnetSettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   DotnetSettings copyWith(void Function(DotnetSettings) updates) =>
       super.copyWith((message) => updates(message as DotnetSettings))
           as DotnetSettings;
@@ -1024,13 +988,9 @@ class RubySettings extends $pb.GeneratedMessage {
         subBuilder: CommonLanguageSettings.create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   RubySettings clone() => RubySettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   RubySettings copyWith(void Function(RubySettings) updates) =>
       super.copyWith((message) => updates(message as RubySettings))
           as RubySettings;
@@ -1099,13 +1059,9 @@ class GoSettings extends $pb.GeneratedMessage {
         packageName: const $pb.PackageName('google.api'))
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GoSettings clone() => GoSettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GoSettings copyWith(void Function(GoSettings) updates) =>
       super.copyWith((message) => updates(message as GoSettings)) as GoSettings;
 
@@ -1179,14 +1135,10 @@ class SelectiveGapicGeneration extends $pb.GeneratedMessage {
     ..aOB(2, _omitFieldNames ? '' : 'generateOmittedAsInternal')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SelectiveGapicGeneration clone() =>
       SelectiveGapicGeneration()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SelectiveGapicGeneration copyWith(
           void Function(SelectiveGapicGeneration) updates) =>
       super.copyWith((message) => updates(message as SelectiveGapicGeneration))
