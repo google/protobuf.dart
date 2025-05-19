@@ -1,3 +1,0 @@
-dependency_overrides:
-  protobuf:
-    path: ../protobuf

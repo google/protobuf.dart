@@ -7,7 +7,9 @@ description: Benchmarks for various protobuf functions.
 publish_to: none
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: '^3.6.0'
+
+resolution: workspace
 
 dependencies:
   # NB. When bumping benchmark_harness check if `benchmark_base.BenchmarkBase`
@@ -24,7 +26,3 @@ dev_dependencies:
   pool: ^1.5.1
   protoc_plugin:
     path: '../protoc_plugin'
-
-dependency_overrides:
-  protobuf:
-    path: "../protobuf"
