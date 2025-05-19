@@ -3,9 +3,9 @@
 * Bump `protobuf` constraint to `^4.1.0`
 * Read `default_host` and `oauth_scopes` options from gRPC service definitions
   and write that information to the generated gRPC clients.
-* Generate dartdocs for grpc services ([#973]).
 * Adjust the deprecation messages for the message `clone()` and `copyWith()`
   methods ([#998]).
+* Generate dartdocs for grpc services ([#973]).
 
   We now parse and generate code cooresponding to the proto options
   `google.api.default_host` and `google.api.oauth_scopes`:
