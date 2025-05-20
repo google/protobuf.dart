@@ -177,11 +177,11 @@ class ServiceGenerator {
         for (final m in _methodDescriptors) {
           final methodName = _methodName(m.name);
           final inputClass = _getDartClassName(m.inputType);
-          out.println("case '${m.name}': return this.$methodName"
-              '(ctx, request as $inputClass);');
+          out.println("case '${m.name}': "
+              'return $methodName(ctx, request as $inputClass);');
         }
-        out.println('default: '
-            "throw $coreImportPrefix.ArgumentError('Unknown method: \$methodName');");
+        out.println('default: throw $coreImportPrefix.ArgumentError('
+            "'Unknown method: \$methodName');");
       });
     });
     out.println();

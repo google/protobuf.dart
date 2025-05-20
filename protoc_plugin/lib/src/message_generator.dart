@@ -338,16 +338,21 @@ class MessageGenerator extends ProtobufContainer {
     ], () {
       _generateFactory(out);
 
-      out.printlnAnnotated('$classname._() : super();', [
+      out.println();
+
+      out.printlnAnnotated('$classname._();', [
         NamedLocation(name: classname, fieldPathSegment: fieldPath, start: 0)
       ]);
+
+      out.println();
+
       out.println(
-          'factory $classname.fromBuffer($coreImportPrefix.List<$coreImportPrefix.int> i,'
-          ' [$protobufImportPrefix.ExtensionRegistry r = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' => create()..mergeFromBuffer(i, r);');
-      out.println('factory $classname.fromJson($coreImportPrefix.String i,'
-          ' [$protobufImportPrefix.ExtensionRegistry r = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' => create()..mergeFromJson(i, r);');
+          'factory $classname.fromBuffer($coreImportPrefix.List<$coreImportPrefix.int> data,'
+          ' [$protobufImportPrefix.ExtensionRegistry registry = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
+          ' => create()..mergeFromBuffer(data, registry);');
+      out.println('factory $classname.fromJson($coreImportPrefix.String json,'
+          ' [$protobufImportPrefix.ExtensionRegistry registry = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
+          ' => create()..mergeFromJson(json, registry);');
 
       out.println();
       for (final oneof in _oneofNames) {
@@ -408,13 +413,15 @@ class MessageGenerator extends ProtobufContainer {
           ' super.copyWith((message) => updates(message as $classname))'
           ' as $classname;');
 
-      out.println('');
+      out.println();
+      out.println('@$coreImportPrefix.override');
       out.println('$protobufImportPrefix.BuilderInfo get info_ => _i;');
 
       // Factory functions which can be used as default value closures.
-      out.println('');
+      out.println();
       out.println("@$coreImportPrefix.pragma('dart2js:noInline')");
       out.println('static $classname create() => $classname._();');
+      out.println('@$coreImportPrefix.override');
       out.println('$classname createEmptyInstance() => create();');
 
       out.println(
@@ -452,28 +459,30 @@ class MessageGenerator extends ProtobufContainer {
               '  ${field.getDartType()}? ${field.memberNames!.fieldName},');
         }
       }
-      out.println('}) {');
-      // Add '$' prefix to avoid proto field name conflicts.
-      out.println('  final \$result = create();');
-      for (final field in _fieldList) {
-        out.println('  if (${field.memberNames!.fieldName} != null) {');
-        if (field.isDeprecated) {
-          out.println('    // ignore: deprecated_member_use_from_same_package');
-        }
-        if (field.isRepeated && !field.isMapField) {
-          out.println(
-              '    \$result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
-        } else if (field.isMapField) {
-          out.println(
-              '    \$result.${field.memberNames!.fieldName}.addEntries(${field.memberNames!.fieldName});');
-        } else {
-          out.println(
-              '    \$result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');
-        }
-        out.println('  }');
+      out.print('}) ');
+
+      final names = _fieldList.map((f) => f.memberNames!.fieldName).toSet();
+      var result = 'result';
+      if (names.contains(result)) {
+        result += r'$';
       }
-      out.println('  return \$result;');
-      out.println('}');
+      out.addBlock('{', '}', () {
+        out.println('final $result = create();');
+        for (final field in _fieldList) {
+          out.print('if (${field.memberNames!.fieldName} != null) ');
+          if (field.isRepeated && !field.isMapField) {
+            out.println(
+                '$result.${field.memberNames!.fieldName}.addAll(${field.memberNames!.fieldName});');
+          } else if (field.isMapField) {
+            out.println(
+                '$result.${field.memberNames!.fieldName}.addEntries(${field.memberNames!.fieldName});');
+          } else {
+            out.println(
+                '$result.${field.memberNames!.fieldName} = ${field.memberNames!.fieldName};');
+          }
+        }
+        out.println('return $result;');
+      });
     } else {
       out.println('factory $classname() => create();');
     }
@@ -587,28 +596,26 @@ class MessageGenerator extends ProtobufContainer {
       _emitIndexAnnotation(field.number, out);
       if (fastSetter != null) {
         out.printlnAnnotated(
-            'set ${names.fieldName}'
-            '($fieldTypeString v) { '
-            '$fastSetter(${field.index}, v);'
-            ' }',
-            [
-              NamedLocation(
-                  name: names.fieldName,
-                  fieldPathSegment: memberFieldPath,
-                  start: 'set '.length)
-            ]);
+          'set ${names.fieldName}($fieldTypeString value) => '
+          '$fastSetter(${field.index}, value);',
+          [
+            NamedLocation(
+                name: names.fieldName,
+                fieldPathSegment: memberFieldPath,
+                start: 'set '.length)
+          ],
+        );
       } else {
         out.printlnAnnotated(
-            'set ${names.fieldName}'
-            '($fieldTypeString v) { '
-            '\$_setField(${field.number}, v);'
-            ' }',
-            [
-              NamedLocation(
-                  name: names.fieldName,
-                  fieldPathSegment: memberFieldPath,
-                  start: 'set '.length)
-            ]);
+          'set ${names.fieldName}($fieldTypeString value) => '
+          '\$_setField(${field.number}, value);',
+          [
+            NamedLocation(
+                name: names.fieldName,
+                fieldPathSegment: memberFieldPath,
+                start: 'set '.length)
+          ],
+        );
       }
       if (field.hasPresence) {
         _emitDeprecatedIf(field.isDeprecated, out);
