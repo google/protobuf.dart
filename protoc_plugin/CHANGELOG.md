@@ -3,38 +3,42 @@
 * Bump `protobuf` constraint to `^4.1.0`
 * Read `default_host` and `oauth_scopes` options from gRPC service definitions
   and write that information to the generated gRPC clients.
+* Adjust the deprecation messages for the message `clone()` and `copyWith()`
+  methods ([#998]).
 * Generate dartdocs for grpc services ([#973]).
 
-We now parse and generate code cooresponding to the proto options
-`google.api.default_host` and `google.api.oauth_scopes`:
-
-```proto
-service Firestore {
-  option (google.api.default_host) = "firestore.googleapis.com";
-  option (google.api.oauth_scopes) =
-      "https://www.googleapis.com/auth/cloud-platform,"
-      "https://www.googleapis.com/auth/datastore";
-
-  ...
-```
-
-Will generate as:
-
-```dart
-class FirestoreClient extends $grpc.Client {
-  /// The hostname for this service.
-  static const $core.String defaultHost = 'firestore.googleapis.com';
-
-  /// OAuth scopes needed for the client.
-  static const $core.List<$core.String> oauthScopes = [
-    'https://www.googleapis.com/auth/cloud-platform',
-    'https://www.googleapis.com/auth/datastore',
-  ];
-
-  ...
-```
+  We now parse and generate code cooresponding to the proto options
+  `google.api.default_host` and `google.api.oauth_scopes`:
+  
+  ```proto
+  service Firestore {
+    option (google.api.default_host) = "firestore.googleapis.com";
+    option (google.api.oauth_scopes) =
+        "https://www.googleapis.com/auth/cloud-platform,"
+        "https://www.googleapis.com/auth/datastore";
+  
+    ...
+  ```
+  
+  Will generate as:
+  
+  ```dart
+  class FirestoreClient extends $grpc.Client {
+    /// The hostname for this service.
+    static const $core.String defaultHost = 'firestore.googleapis.com';
+  
+    /// OAuth scopes needed for the client.
+    static const $core.List<$core.String> oauthScopes = [
+      'https://www.googleapis.com/auth/cloud-platform',
+      'https://www.googleapis.com/auth/datastore',
+    ];
+  
+    ...
+  ```
+* Minimum SDK dependency bumped from 3.3.0 to 3.6.0. ([#1001])
 
 [#973]: https://github.com/google/protobuf.dart/issues/973
+[#1001]: https://github.com/google/protobuf.dart/pull/1001
 
 ## 22.1.0
 
@@ -49,6 +53,7 @@ class FirestoreClient extends $grpc.Client {
 [#975]: https://github.com/google/protobuf.dart/issues/975
 [#952]: https://github.com/google/protobuf.dart/issues/952
 [#986]: https://github.com/google/protobuf.dart/issues/986
+[#998]: https://github.com/google/protobuf.dart/issues/998
 
 ## 22.0.1
 
