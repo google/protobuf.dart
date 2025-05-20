@@ -1,5 +1,6 @@
 class TestApi {
-  $pb.RpcClient _client;
+  final $pb.RpcClient _client;
+
   TestApi(this._client);
 
   $async.Future<SomeReply> aMethod($pb.ClientContext? ctx, SomeRequest request) =>
