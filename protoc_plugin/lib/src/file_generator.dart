@@ -354,8 +354,8 @@ class FileGenerator extends ProtobufContainer {
       importWriter.addExport(url.toString());
     }
 
-    // The WKT mixins create src/ refs into package:protobuf; we should likely
-    // refactor this so that they're regular (non-src/) references.
+    // The well-known-types mixins create src/ refs into package:protobuf; we
+    // should likely refactor this so they're regular (non-src/) references.
     //
     // For now, we surpress the analysis warning.
     _writeHeading(out, extraIgnores: {
