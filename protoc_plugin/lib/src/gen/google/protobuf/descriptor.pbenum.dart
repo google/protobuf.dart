@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -93,7 +94,7 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
   static FieldDescriptorProto_Type? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldDescriptorProto_Type._(super.v, super.n);
+  const FieldDescriptorProto_Type._(super.value, super.name);
 }
 
 class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
@@ -117,7 +118,7 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
   static FieldDescriptorProto_Label? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldDescriptorProto_Label._(super.v, super.n);
+  const FieldDescriptorProto_Label._(super.value, super.name);
 }
 
 /// Generated classes can be optimized for speed or code size.
@@ -143,7 +144,7 @@ class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
   static FileOptions_OptimizeMode? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FileOptions_OptimizeMode._(super.v, super.n);
+  const FileOptions_OptimizeMode._(super.value, super.name);
 }
 
 class FieldOptions_CType extends $pb.ProtobufEnum {
@@ -166,7 +167,7 @@ class FieldOptions_CType extends $pb.ProtobufEnum {
   static FieldOptions_CType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldOptions_CType._(super.v, super.n);
+  const FieldOptions_CType._(super.value, super.name);
 }
 
 class FieldOptions_JSType extends $pb.ProtobufEnum {
@@ -193,7 +194,7 @@ class FieldOptions_JSType extends $pb.ProtobufEnum {
   static FieldOptions_JSType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldOptions_JSType._(super.v, super.n);
+  const FieldOptions_JSType._(super.value, super.name);
 }
 
 /// Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
@@ -221,7 +222,8 @@ class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
   static MethodOptions_IdempotencyLevel? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const MethodOptions_IdempotencyLevel._(super.v, super.n);
+  const MethodOptions_IdempotencyLevel._(super.value, super.name);
 }
 
-const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
+const $core.bool _omitEnumNames =
+    $core.bool.fromEnvironment('protobuf.omit_enum_names');

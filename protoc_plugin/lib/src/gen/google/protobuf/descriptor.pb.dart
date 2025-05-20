@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -26,19 +27,19 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   factory FileDescriptorSet({
     $core.Iterable<FileDescriptorProto>? file,
   }) {
-    final $result = create();
-    if (file != null) {
-      $result.file.addAll(file);
-    }
-    return $result;
+    final result = create();
+    if (file != null) result.file.addAll(file);
+    return result;
   }
-  FileDescriptorSet._() : super();
-  factory FileDescriptorSet.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FileDescriptorSet.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FileDescriptorSet._();
+
+  factory FileDescriptorSet.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FileDescriptorSet.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FileDescriptorSet',
@@ -56,10 +57,12 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FileDescriptorSet))
           as FileDescriptorSet;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FileDescriptorSet create() => FileDescriptorSet._();
+  @$core.override
   FileDescriptorSet createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorSet> createRepeated() =>
       $pb.PbList<FileDescriptorSet>();
@@ -88,52 +91,31 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
     $core.Iterable<$core.int>? weakDependency,
     $core.String? syntax,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (package != null) {
-      $result.package = package;
-    }
-    if (dependency != null) {
-      $result.dependency.addAll(dependency);
-    }
-    if (messageType != null) {
-      $result.messageType.addAll(messageType);
-    }
-    if (enumType != null) {
-      $result.enumType.addAll(enumType);
-    }
-    if (service != null) {
-      $result.service.addAll(service);
-    }
-    if (extension != null) {
-      $result.extension.addAll(extension);
-    }
-    if (options != null) {
-      $result.options = options;
-    }
-    if (sourceCodeInfo != null) {
-      $result.sourceCodeInfo = sourceCodeInfo;
-    }
-    if (publicDependency != null) {
-      $result.publicDependency.addAll(publicDependency);
-    }
-    if (weakDependency != null) {
-      $result.weakDependency.addAll(weakDependency);
-    }
-    if (syntax != null) {
-      $result.syntax = syntax;
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (package != null) result.package = package;
+    if (dependency != null) result.dependency.addAll(dependency);
+    if (messageType != null) result.messageType.addAll(messageType);
+    if (enumType != null) result.enumType.addAll(enumType);
+    if (service != null) result.service.addAll(service);
+    if (extension != null) result.extension.addAll(extension);
+    if (options != null) result.options = options;
+    if (sourceCodeInfo != null) result.sourceCodeInfo = sourceCodeInfo;
+    if (publicDependency != null)
+      result.publicDependency.addAll(publicDependency);
+    if (weakDependency != null) result.weakDependency.addAll(weakDependency);
+    if (syntax != null) result.syntax = syntax;
+    return result;
   }
-  FileDescriptorProto._() : super();
-  factory FileDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FileDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FileDescriptorProto._();
+
+  factory FileDescriptorProto.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FileDescriptorProto.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FileDescriptorProto',
@@ -172,10 +154,12 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FileDescriptorProto))
           as FileDescriptorProto;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FileDescriptorProto create() => FileDescriptorProto._();
+  @$core.override
   FileDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FileDescriptorProto> createRepeated() =>
       $pb.PbList<FileDescriptorProto>();
@@ -187,10 +171,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -199,10 +180,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get package => $_getSZ(1);
   @$pb.TagNumber(2)
-  set package($core.String v) {
-    $_setString(1, v);
-  }
-
+  set package($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasPackage() => $_has(1);
   @$pb.TagNumber(2)
@@ -228,10 +206,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   FileOptions get options => $_getN(7);
   @$pb.TagNumber(8)
-  set options(FileOptions v) {
-    $_setField(8, v);
-  }
-
+  set options(FileOptions value) => $_setField(8, value);
   @$pb.TagNumber(8)
   $core.bool hasOptions() => $_has(7);
   @$pb.TagNumber(8)
@@ -246,10 +221,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(9)
   SourceCodeInfo get sourceCodeInfo => $_getN(8);
   @$pb.TagNumber(9)
-  set sourceCodeInfo(SourceCodeInfo v) {
-    $_setField(9, v);
-  }
-
+  set sourceCodeInfo(SourceCodeInfo value) => $_setField(9, value);
   @$pb.TagNumber(9)
   $core.bool hasSourceCodeInfo() => $_has(8);
   @$pb.TagNumber(9)
@@ -271,10 +243,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(12)
   $core.String get syntax => $_getSZ(11);
   @$pb.TagNumber(12)
-  set syntax($core.String v) {
-    $_setString(11, v);
-  }
-
+  set syntax($core.String value) => $_setString(11, value);
   @$pb.TagNumber(12)
   $core.bool hasSyntax() => $_has(11);
   @$pb.TagNumber(12)
@@ -287,25 +256,21 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
     $core.int? end,
     ExtensionRangeOptions? options,
   }) {
-    final $result = create();
-    if (start != null) {
-      $result.start = start;
-    }
-    if (end != null) {
-      $result.end = end;
-    }
-    if (options != null) {
-      $result.options = options;
-    }
-    return $result;
+    final result = create();
+    if (start != null) result.start = start;
+    if (end != null) result.end = end;
+    if (options != null) result.options = options;
+    return result;
   }
-  DescriptorProto_ExtensionRange._() : super();
-  factory DescriptorProto_ExtensionRange.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory DescriptorProto_ExtensionRange.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  DescriptorProto_ExtensionRange._();
+
+  factory DescriptorProto_ExtensionRange.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory DescriptorProto_ExtensionRange.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DescriptorProto.ExtensionRange',
@@ -327,11 +292,13 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
               (message) => updates(message as DescriptorProto_ExtensionRange))
           as DescriptorProto_ExtensionRange;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ExtensionRange create() =>
       DescriptorProto_ExtensionRange._();
+  @$core.override
   DescriptorProto_ExtensionRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ExtensionRange> createRepeated() =>
       $pb.PbList<DescriptorProto_ExtensionRange>();
@@ -343,10 +310,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get start => $_getIZ(0);
   @$pb.TagNumber(1)
-  set start($core.int v) {
-    $_setSignedInt32(0, v);
-  }
-
+  set start($core.int value) => $_setSignedInt32(0, value);
   @$pb.TagNumber(1)
   $core.bool hasStart() => $_has(0);
   @$pb.TagNumber(1)
@@ -355,10 +319,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.int get end => $_getIZ(1);
   @$pb.TagNumber(2)
-  set end($core.int v) {
-    $_setSignedInt32(1, v);
-  }
-
+  set end($core.int value) => $_setSignedInt32(1, value);
   @$pb.TagNumber(2)
   $core.bool hasEnd() => $_has(1);
   @$pb.TagNumber(2)
@@ -367,10 +328,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   ExtensionRangeOptions get options => $_getN(2);
   @$pb.TagNumber(3)
-  set options(ExtensionRangeOptions v) {
-    $_setField(3, v);
-  }
-
+  set options(ExtensionRangeOptions value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
@@ -387,22 +345,20 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
     $core.int? start,
     $core.int? end,
   }) {
-    final $result = create();
-    if (start != null) {
-      $result.start = start;
-    }
-    if (end != null) {
-      $result.end = end;
-    }
-    return $result;
+    final result = create();
+    if (start != null) result.start = start;
+    if (end != null) result.end = end;
+    return result;
   }
-  DescriptorProto_ReservedRange._() : super();
-  factory DescriptorProto_ReservedRange.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory DescriptorProto_ReservedRange.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  DescriptorProto_ReservedRange._();
+
+  factory DescriptorProto_ReservedRange.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory DescriptorProto_ReservedRange.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DescriptorProto.ReservedRange',
@@ -423,11 +379,13 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
               (message) => updates(message as DescriptorProto_ReservedRange))
           as DescriptorProto_ReservedRange;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ReservedRange create() =>
       DescriptorProto_ReservedRange._();
+  @$core.override
   DescriptorProto_ReservedRange createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto_ReservedRange> createRepeated() =>
       $pb.PbList<DescriptorProto_ReservedRange>();
@@ -439,10 +397,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get start => $_getIZ(0);
   @$pb.TagNumber(1)
-  set start($core.int v) {
-    $_setSignedInt32(0, v);
-  }
-
+  set start($core.int value) => $_setSignedInt32(0, value);
   @$pb.TagNumber(1)
   $core.bool hasStart() => $_has(0);
   @$pb.TagNumber(1)
@@ -451,10 +406,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.int get end => $_getIZ(1);
   @$pb.TagNumber(2)
-  set end($core.int v) {
-    $_setSignedInt32(1, v);
-  }
-
+  set end($core.int value) => $_setSignedInt32(1, value);
   @$pb.TagNumber(2)
   $core.bool hasEnd() => $_has(1);
   @$pb.TagNumber(2)
@@ -475,46 +427,28 @@ class DescriptorProto extends $pb.GeneratedMessage {
     $core.Iterable<DescriptorProto_ReservedRange>? reservedRange,
     $core.Iterable<$core.String>? reservedName,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (field != null) {
-      $result.field.addAll(field);
-    }
-    if (nestedType != null) {
-      $result.nestedType.addAll(nestedType);
-    }
-    if (enumType != null) {
-      $result.enumType.addAll(enumType);
-    }
-    if (extensionRange != null) {
-      $result.extensionRange.addAll(extensionRange);
-    }
-    if (extension != null) {
-      $result.extension.addAll(extension);
-    }
-    if (options != null) {
-      $result.options = options;
-    }
-    if (oneofDecl != null) {
-      $result.oneofDecl.addAll(oneofDecl);
-    }
-    if (reservedRange != null) {
-      $result.reservedRange.addAll(reservedRange);
-    }
-    if (reservedName != null) {
-      $result.reservedName.addAll(reservedName);
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (field != null) result.field.addAll(field);
+    if (nestedType != null) result.nestedType.addAll(nestedType);
+    if (enumType != null) result.enumType.addAll(enumType);
+    if (extensionRange != null) result.extensionRange.addAll(extensionRange);
+    if (extension != null) result.extension.addAll(extension);
+    if (options != null) result.options = options;
+    if (oneofDecl != null) result.oneofDecl.addAll(oneofDecl);
+    if (reservedRange != null) result.reservedRange.addAll(reservedRange);
+    if (reservedName != null) result.reservedName.addAll(reservedName);
+    return result;
   }
-  DescriptorProto._() : super();
-  factory DescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory DescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  DescriptorProto._();
+
+  factory DescriptorProto.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory DescriptorProto.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DescriptorProto',
@@ -554,10 +488,12 @@ class DescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DescriptorProto))
           as DescriptorProto;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static DescriptorProto create() => DescriptorProto._();
+  @$core.override
   DescriptorProto createEmptyInstance() => create();
   static $pb.PbList<DescriptorProto> createRepeated() =>
       $pb.PbList<DescriptorProto>();
@@ -569,10 +505,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -596,10 +529,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   MessageOptions get options => $_getN(6);
   @$pb.TagNumber(7)
-  set options(MessageOptions v) {
-    $_setField(7, v);
-  }
-
+  set options(MessageOptions value) => $_setField(7, value);
   @$pb.TagNumber(7)
   $core.bool hasOptions() => $_has(6);
   @$pb.TagNumber(7)
@@ -623,19 +553,20 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
   factory ExtensionRangeOptions({
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
-    final $result = create();
-    if (uninterpretedOption != null) {
-      $result.uninterpretedOption.addAll(uninterpretedOption);
-    }
-    return $result;
+    final result = create();
+    if (uninterpretedOption != null)
+      result.uninterpretedOption.addAll(uninterpretedOption);
+    return result;
   }
-  ExtensionRangeOptions._() : super();
-  factory ExtensionRangeOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ExtensionRangeOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ExtensionRangeOptions._();
+
+  factory ExtensionRangeOptions.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ExtensionRangeOptions.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ExtensionRangeOptions',
@@ -656,10 +587,12 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ExtensionRangeOptions))
           as ExtensionRangeOptions;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ExtensionRangeOptions create() => ExtensionRangeOptions._();
+  @$core.override
   ExtensionRangeOptions createEmptyInstance() => create();
   static $pb.PbList<ExtensionRangeOptions> createRepeated() =>
       $pb.PbList<ExtensionRangeOptions>();
@@ -688,49 +621,29 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     $core.String? jsonName,
     $core.bool? proto3Optional,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (extendee != null) {
-      $result.extendee = extendee;
-    }
-    if (number != null) {
-      $result.number = number;
-    }
-    if (label != null) {
-      $result.label = label;
-    }
-    if (type != null) {
-      $result.type = type;
-    }
-    if (typeName != null) {
-      $result.typeName = typeName;
-    }
-    if (defaultValue != null) {
-      $result.defaultValue = defaultValue;
-    }
-    if (options != null) {
-      $result.options = options;
-    }
-    if (oneofIndex != null) {
-      $result.oneofIndex = oneofIndex;
-    }
-    if (jsonName != null) {
-      $result.jsonName = jsonName;
-    }
-    if (proto3Optional != null) {
-      $result.proto3Optional = proto3Optional;
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (extendee != null) result.extendee = extendee;
+    if (number != null) result.number = number;
+    if (label != null) result.label = label;
+    if (type != null) result.type = type;
+    if (typeName != null) result.typeName = typeName;
+    if (defaultValue != null) result.defaultValue = defaultValue;
+    if (options != null) result.options = options;
+    if (oneofIndex != null) result.oneofIndex = oneofIndex;
+    if (jsonName != null) result.jsonName = jsonName;
+    if (proto3Optional != null) result.proto3Optional = proto3Optional;
+    return result;
   }
-  FieldDescriptorProto._() : super();
-  factory FieldDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FieldDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FieldDescriptorProto._();
+
+  factory FieldDescriptorProto.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FieldDescriptorProto.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FieldDescriptorProto',
@@ -766,10 +679,12 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FieldDescriptorProto))
           as FieldDescriptorProto;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FieldDescriptorProto create() => FieldDescriptorProto._();
+  @$core.override
   FieldDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<FieldDescriptorProto> createRepeated() =>
       $pb.PbList<FieldDescriptorProto>();
@@ -781,10 +696,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -795,10 +707,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get extendee => $_getSZ(1);
   @$pb.TagNumber(2)
-  set extendee($core.String v) {
-    $_setString(1, v);
-  }
-
+  set extendee($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasExtendee() => $_has(1);
   @$pb.TagNumber(2)
@@ -807,10 +716,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get number => $_getIZ(2);
   @$pb.TagNumber(3)
-  set number($core.int v) {
-    $_setSignedInt32(2, v);
-  }
-
+  set number($core.int value) => $_setSignedInt32(2, value);
   @$pb.TagNumber(3)
   $core.bool hasNumber() => $_has(2);
   @$pb.TagNumber(3)
@@ -819,10 +725,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   FieldDescriptorProto_Label get label => $_getN(3);
   @$pb.TagNumber(4)
-  set label(FieldDescriptorProto_Label v) {
-    $_setField(4, v);
-  }
-
+  set label(FieldDescriptorProto_Label value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasLabel() => $_has(3);
   @$pb.TagNumber(4)
@@ -833,10 +736,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   FieldDescriptorProto_Type get type => $_getN(4);
   @$pb.TagNumber(5)
-  set type(FieldDescriptorProto_Type v) {
-    $_setField(5, v);
-  }
-
+  set type(FieldDescriptorProto_Type value) => $_setField(5, value);
   @$pb.TagNumber(5)
   $core.bool hasType() => $_has(4);
   @$pb.TagNumber(5)
@@ -850,10 +750,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.String get typeName => $_getSZ(5);
   @$pb.TagNumber(6)
-  set typeName($core.String v) {
-    $_setString(5, v);
-  }
-
+  set typeName($core.String value) => $_setString(5, value);
   @$pb.TagNumber(6)
   $core.bool hasTypeName() => $_has(5);
   @$pb.TagNumber(6)
@@ -867,10 +764,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.String get defaultValue => $_getSZ(6);
   @$pb.TagNumber(7)
-  set defaultValue($core.String v) {
-    $_setString(6, v);
-  }
-
+  set defaultValue($core.String value) => $_setString(6, value);
   @$pb.TagNumber(7)
   $core.bool hasDefaultValue() => $_has(6);
   @$pb.TagNumber(7)
@@ -879,10 +773,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   FieldOptions get options => $_getN(7);
   @$pb.TagNumber(8)
-  set options(FieldOptions v) {
-    $_setField(8, v);
-  }
-
+  set options(FieldOptions value) => $_setField(8, value);
   @$pb.TagNumber(8)
   $core.bool hasOptions() => $_has(7);
   @$pb.TagNumber(8)
@@ -895,10 +786,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(9)
   $core.int get oneofIndex => $_getIZ(8);
   @$pb.TagNumber(9)
-  set oneofIndex($core.int v) {
-    $_setSignedInt32(8, v);
-  }
-
+  set oneofIndex($core.int value) => $_setSignedInt32(8, value);
   @$pb.TagNumber(9)
   $core.bool hasOneofIndex() => $_has(8);
   @$pb.TagNumber(9)
@@ -911,10 +799,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   $core.String get jsonName => $_getSZ(9);
   @$pb.TagNumber(10)
-  set jsonName($core.String v) {
-    $_setString(9, v);
-  }
-
+  set jsonName($core.String value) => $_setString(9, value);
   @$pb.TagNumber(10)
   $core.bool hasJsonName() => $_has(9);
   @$pb.TagNumber(10)
@@ -944,10 +829,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(17)
   $core.bool get proto3Optional => $_getBF(10);
   @$pb.TagNumber(17)
-  set proto3Optional($core.bool v) {
-    $_setBool(10, v);
-  }
-
+  set proto3Optional($core.bool value) => $_setBool(10, value);
   @$pb.TagNumber(17)
   $core.bool hasProto3Optional() => $_has(10);
   @$pb.TagNumber(17)
@@ -960,22 +842,20 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
     $core.String? name,
     OneofOptions? options,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (options != null) {
-      $result.options = options;
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (options != null) result.options = options;
+    return result;
   }
-  OneofDescriptorProto._() : super();
-  factory OneofDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory OneofDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  OneofDescriptorProto._();
+
+  factory OneofDescriptorProto.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory OneofDescriptorProto.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'OneofDescriptorProto',
@@ -994,10 +874,12 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as OneofDescriptorProto))
           as OneofDescriptorProto;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static OneofDescriptorProto create() => OneofDescriptorProto._();
+  @$core.override
   OneofDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<OneofDescriptorProto> createRepeated() =>
       $pb.PbList<OneofDescriptorProto>();
@@ -1009,10 +891,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -1021,10 +900,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   OneofOptions get options => $_getN(1);
   @$pb.TagNumber(2)
-  set options(OneofOptions v) {
-    $_setField(2, v);
-  }
-
+  set options(OneofOptions value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasOptions() => $_has(1);
   @$pb.TagNumber(2)
@@ -1044,23 +920,21 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
     $core.int? start,
     $core.int? end,
   }) {
-    final $result = create();
-    if (start != null) {
-      $result.start = start;
-    }
-    if (end != null) {
-      $result.end = end;
-    }
-    return $result;
+    final result = create();
+    if (start != null) result.start = start;
+    if (end != null) result.end = end;
+    return result;
   }
-  EnumDescriptorProto_EnumReservedRange._() : super();
+
+  EnumDescriptorProto_EnumReservedRange._();
+
   factory EnumDescriptorProto_EnumReservedRange.fromBuffer(
-          $core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumDescriptorProto_EnumReservedRange.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+          $core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory EnumDescriptorProto_EnumReservedRange.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumDescriptorProto.EnumReservedRange',
@@ -1081,11 +955,13 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
               updates(message as EnumDescriptorProto_EnumReservedRange))
           as EnumDescriptorProto_EnumReservedRange;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto_EnumReservedRange create() =>
       EnumDescriptorProto_EnumReservedRange._();
+  @$core.override
   EnumDescriptorProto_EnumReservedRange createEmptyInstance() => create();
   static $pb.PbList<EnumDescriptorProto_EnumReservedRange> createRepeated() =>
       $pb.PbList<EnumDescriptorProto_EnumReservedRange>();
@@ -1098,10 +974,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get start => $_getIZ(0);
   @$pb.TagNumber(1)
-  set start($core.int v) {
-    $_setSignedInt32(0, v);
-  }
-
+  set start($core.int value) => $_setSignedInt32(0, value);
   @$pb.TagNumber(1)
   $core.bool hasStart() => $_has(0);
   @$pb.TagNumber(1)
@@ -1110,10 +983,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.int get end => $_getIZ(1);
   @$pb.TagNumber(2)
-  set end($core.int v) {
-    $_setSignedInt32(1, v);
-  }
-
+  set end($core.int value) => $_setSignedInt32(1, value);
   @$pb.TagNumber(2)
   $core.bool hasEnd() => $_has(1);
   @$pb.TagNumber(2)
@@ -1129,31 +999,23 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
     $core.Iterable<EnumDescriptorProto_EnumReservedRange>? reservedRange,
     $core.Iterable<$core.String>? reservedName,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (value != null) {
-      $result.value.addAll(value);
-    }
-    if (options != null) {
-      $result.options = options;
-    }
-    if (reservedRange != null) {
-      $result.reservedRange.addAll(reservedRange);
-    }
-    if (reservedName != null) {
-      $result.reservedName.addAll(reservedName);
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (value != null) result.value.addAll(value);
+    if (options != null) result.options = options;
+    if (reservedRange != null) result.reservedRange.addAll(reservedRange);
+    if (reservedName != null) result.reservedName.addAll(reservedName);
+    return result;
   }
-  EnumDescriptorProto._() : super();
-  factory EnumDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  EnumDescriptorProto._();
+
+  factory EnumDescriptorProto.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory EnumDescriptorProto.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumDescriptorProto',
@@ -1178,10 +1040,12 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as EnumDescriptorProto))
           as EnumDescriptorProto;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto create() => EnumDescriptorProto._();
+  @$core.override
   EnumDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumDescriptorProto> createRepeated() =>
       $pb.PbList<EnumDescriptorProto>();
@@ -1193,10 +1057,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -1208,10 +1069,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   EnumOptions get options => $_getN(2);
   @$pb.TagNumber(3)
-  set options(EnumOptions v) {
-    $_setField(3, v);
-  }
-
+  set options(EnumOptions value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
@@ -1239,25 +1097,21 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
     $core.int? number,
     EnumValueOptions? options,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (number != null) {
-      $result.number = number;
-    }
-    if (options != null) {
-      $result.options = options;
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (number != null) result.number = number;
+    if (options != null) result.options = options;
+    return result;
   }
-  EnumValueDescriptorProto._() : super();
-  factory EnumValueDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumValueDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  EnumValueDescriptorProto._();
+
+  factory EnumValueDescriptorProto.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory EnumValueDescriptorProto.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumValueDescriptorProto',
@@ -1278,10 +1132,12 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as EnumValueDescriptorProto))
           as EnumValueDescriptorProto;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static EnumValueDescriptorProto create() => EnumValueDescriptorProto._();
+  @$core.override
   EnumValueDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<EnumValueDescriptorProto> createRepeated() =>
       $pb.PbList<EnumValueDescriptorProto>();
@@ -1293,10 +1149,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -1305,10 +1158,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.int get number => $_getIZ(1);
   @$pb.TagNumber(2)
-  set number($core.int v) {
-    $_setSignedInt32(1, v);
-  }
-
+  set number($core.int value) => $_setSignedInt32(1, value);
   @$pb.TagNumber(2)
   $core.bool hasNumber() => $_has(1);
   @$pb.TagNumber(2)
@@ -1317,10 +1167,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   EnumValueOptions get options => $_getN(2);
   @$pb.TagNumber(3)
-  set options(EnumValueOptions v) {
-    $_setField(3, v);
-  }
-
+  set options(EnumValueOptions value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
@@ -1336,25 +1183,21 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
     $core.Iterable<MethodDescriptorProto>? method,
     ServiceOptions? options,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (method != null) {
-      $result.method.addAll(method);
-    }
-    if (options != null) {
-      $result.options = options;
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (method != null) result.method.addAll(method);
+    if (options != null) result.options = options;
+    return result;
   }
-  ServiceDescriptorProto._() : super();
-  factory ServiceDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ServiceDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ServiceDescriptorProto._();
+
+  factory ServiceDescriptorProto.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ServiceDescriptorProto.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ServiceDescriptorProto',
@@ -1377,10 +1220,12 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ServiceDescriptorProto))
           as ServiceDescriptorProto;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ServiceDescriptorProto create() => ServiceDescriptorProto._();
+  @$core.override
   ServiceDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<ServiceDescriptorProto> createRepeated() =>
       $pb.PbList<ServiceDescriptorProto>();
@@ -1392,10 +1237,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -1407,10 +1249,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   ServiceOptions get options => $_getN(2);
   @$pb.TagNumber(3)
-  set options(ServiceOptions v) {
-    $_setField(3, v);
-  }
-
+  set options(ServiceOptions value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasOptions() => $_has(2);
   @$pb.TagNumber(3)
@@ -1429,34 +1268,24 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
     $core.bool? clientStreaming,
     $core.bool? serverStreaming,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (inputType != null) {
-      $result.inputType = inputType;
-    }
-    if (outputType != null) {
-      $result.outputType = outputType;
-    }
-    if (options != null) {
-      $result.options = options;
-    }
-    if (clientStreaming != null) {
-      $result.clientStreaming = clientStreaming;
-    }
-    if (serverStreaming != null) {
-      $result.serverStreaming = serverStreaming;
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (inputType != null) result.inputType = inputType;
+    if (outputType != null) result.outputType = outputType;
+    if (options != null) result.options = options;
+    if (clientStreaming != null) result.clientStreaming = clientStreaming;
+    if (serverStreaming != null) result.serverStreaming = serverStreaming;
+    return result;
   }
-  MethodDescriptorProto._() : super();
-  factory MethodDescriptorProto.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory MethodDescriptorProto.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  MethodDescriptorProto._();
+
+  factory MethodDescriptorProto.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory MethodDescriptorProto.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MethodDescriptorProto',
@@ -1480,10 +1309,12 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as MethodDescriptorProto))
           as MethodDescriptorProto;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static MethodDescriptorProto create() => MethodDescriptorProto._();
+  @$core.override
   MethodDescriptorProto createEmptyInstance() => create();
   static $pb.PbList<MethodDescriptorProto> createRepeated() =>
       $pb.PbList<MethodDescriptorProto>();
@@ -1495,10 +1326,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -1509,10 +1337,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get inputType => $_getSZ(1);
   @$pb.TagNumber(2)
-  set inputType($core.String v) {
-    $_setString(1, v);
-  }
-
+  set inputType($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasInputType() => $_has(1);
   @$pb.TagNumber(2)
@@ -1521,10 +1346,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get outputType => $_getSZ(2);
   @$pb.TagNumber(3)
-  set outputType($core.String v) {
-    $_setString(2, v);
-  }
-
+  set outputType($core.String value) => $_setString(2, value);
   @$pb.TagNumber(3)
   $core.bool hasOutputType() => $_has(2);
   @$pb.TagNumber(3)
@@ -1533,10 +1355,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   MethodOptions get options => $_getN(3);
   @$pb.TagNumber(4)
-  set options(MethodOptions v) {
-    $_setField(4, v);
-  }
-
+  set options(MethodOptions value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasOptions() => $_has(3);
   @$pb.TagNumber(4)
@@ -1548,10 +1367,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool get clientStreaming => $_getBF(4);
   @$pb.TagNumber(5)
-  set clientStreaming($core.bool v) {
-    $_setBool(4, v);
-  }
-
+  set clientStreaming($core.bool value) => $_setBool(4, value);
   @$pb.TagNumber(5)
   $core.bool hasClientStreaming() => $_has(4);
   @$pb.TagNumber(5)
@@ -1561,10 +1377,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.bool get serverStreaming => $_getBF(5);
   @$pb.TagNumber(6)
-  set serverStreaming($core.bool v) {
-    $_setBool(5, v);
-  }
-
+  set serverStreaming($core.bool value) => $_setBool(5, value);
   @$pb.TagNumber(6)
   $core.bool hasServerStreaming() => $_has(5);
   @$pb.TagNumber(6)
@@ -1596,80 +1409,46 @@ class FileOptions extends $pb.GeneratedMessage {
     $core.String? rubyPackage,
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
-    final $result = create();
-    if (javaPackage != null) {
-      $result.javaPackage = javaPackage;
-    }
-    if (javaOuterClassname != null) {
-      $result.javaOuterClassname = javaOuterClassname;
-    }
-    if (optimizeFor != null) {
-      $result.optimizeFor = optimizeFor;
-    }
-    if (javaMultipleFiles != null) {
-      $result.javaMultipleFiles = javaMultipleFiles;
-    }
-    if (goPackage != null) {
-      $result.goPackage = goPackage;
-    }
-    if (ccGenericServices != null) {
-      $result.ccGenericServices = ccGenericServices;
-    }
-    if (javaGenericServices != null) {
-      $result.javaGenericServices = javaGenericServices;
-    }
-    if (pyGenericServices != null) {
-      $result.pyGenericServices = pyGenericServices;
-    }
-    if (javaGenerateEqualsAndHash != null) {
-      // ignore: deprecated_member_use_from_same_package
-      $result.javaGenerateEqualsAndHash = javaGenerateEqualsAndHash;
-    }
-    if (deprecated != null) {
-      $result.deprecated = deprecated;
-    }
-    if (javaStringCheckUtf8 != null) {
-      $result.javaStringCheckUtf8 = javaStringCheckUtf8;
-    }
-    if (ccEnableArenas != null) {
-      $result.ccEnableArenas = ccEnableArenas;
-    }
-    if (objcClassPrefix != null) {
-      $result.objcClassPrefix = objcClassPrefix;
-    }
-    if (csharpNamespace != null) {
-      $result.csharpNamespace = csharpNamespace;
-    }
-    if (swiftPrefix != null) {
-      $result.swiftPrefix = swiftPrefix;
-    }
-    if (phpClassPrefix != null) {
-      $result.phpClassPrefix = phpClassPrefix;
-    }
-    if (phpNamespace != null) {
-      $result.phpNamespace = phpNamespace;
-    }
-    if (phpGenericServices != null) {
-      $result.phpGenericServices = phpGenericServices;
-    }
-    if (phpMetadataNamespace != null) {
-      $result.phpMetadataNamespace = phpMetadataNamespace;
-    }
-    if (rubyPackage != null) {
-      $result.rubyPackage = rubyPackage;
-    }
-    if (uninterpretedOption != null) {
-      $result.uninterpretedOption.addAll(uninterpretedOption);
-    }
-    return $result;
+    final result = create();
+    if (javaPackage != null) result.javaPackage = javaPackage;
+    if (javaOuterClassname != null)
+      result.javaOuterClassname = javaOuterClassname;
+    if (optimizeFor != null) result.optimizeFor = optimizeFor;
+    if (javaMultipleFiles != null) result.javaMultipleFiles = javaMultipleFiles;
+    if (goPackage != null) result.goPackage = goPackage;
+    if (ccGenericServices != null) result.ccGenericServices = ccGenericServices;
+    if (javaGenericServices != null)
+      result.javaGenericServices = javaGenericServices;
+    if (pyGenericServices != null) result.pyGenericServices = pyGenericServices;
+    if (javaGenerateEqualsAndHash != null)
+      result.javaGenerateEqualsAndHash = javaGenerateEqualsAndHash;
+    if (deprecated != null) result.deprecated = deprecated;
+    if (javaStringCheckUtf8 != null)
+      result.javaStringCheckUtf8 = javaStringCheckUtf8;
+    if (ccEnableArenas != null) result.ccEnableArenas = ccEnableArenas;
+    if (objcClassPrefix != null) result.objcClassPrefix = objcClassPrefix;
+    if (csharpNamespace != null) result.csharpNamespace = csharpNamespace;
+    if (swiftPrefix != null) result.swiftPrefix = swiftPrefix;
+    if (phpClassPrefix != null) result.phpClassPrefix = phpClassPrefix;
+    if (phpNamespace != null) result.phpNamespace = phpNamespace;
+    if (phpGenericServices != null)
+      result.phpGenericServices = phpGenericServices;
+    if (phpMetadataNamespace != null)
+      result.phpMetadataNamespace = phpMetadataNamespace;
+    if (rubyPackage != null) result.rubyPackage = rubyPackage;
+    if (uninterpretedOption != null)
+      result.uninterpretedOption.addAll(uninterpretedOption);
+    return result;
   }
-  FileOptions._() : super();
-  factory FileOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FileOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FileOptions._();
+
+  factory FileOptions.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FileOptions.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FileOptions',
@@ -1714,10 +1493,12 @@ class FileOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FileOptions))
           as FileOptions;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FileOptions create() => FileOptions._();
+  @$core.override
   FileOptions createEmptyInstance() => create();
   static $pb.PbList<FileOptions> createRepeated() => $pb.PbList<FileOptions>();
   @$core.pragma('dart2js:noInline')
@@ -1732,10 +1513,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get javaPackage => $_getSZ(0);
   @$pb.TagNumber(1)
-  set javaPackage($core.String v) {
-    $_setString(0, v);
-  }
-
+  set javaPackage($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasJavaPackage() => $_has(0);
   @$pb.TagNumber(1)
@@ -1749,10 +1527,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   $core.String get javaOuterClassname => $_getSZ(1);
   @$pb.TagNumber(8)
-  set javaOuterClassname($core.String v) {
-    $_setString(1, v);
-  }
-
+  set javaOuterClassname($core.String value) => $_setString(1, value);
   @$pb.TagNumber(8)
   $core.bool hasJavaOuterClassname() => $_has(1);
   @$pb.TagNumber(8)
@@ -1761,10 +1536,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(9)
   FileOptions_OptimizeMode get optimizeFor => $_getN(2);
   @$pb.TagNumber(9)
-  set optimizeFor(FileOptions_OptimizeMode v) {
-    $_setField(9, v);
-  }
-
+  set optimizeFor(FileOptions_OptimizeMode value) => $_setField(9, value);
   @$pb.TagNumber(9)
   $core.bool hasOptimizeFor() => $_has(2);
   @$pb.TagNumber(9)
@@ -1779,10 +1551,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   $core.bool get javaMultipleFiles => $_getBF(3);
   @$pb.TagNumber(10)
-  set javaMultipleFiles($core.bool v) {
-    $_setBool(3, v);
-  }
-
+  set javaMultipleFiles($core.bool value) => $_setBool(3, value);
   @$pb.TagNumber(10)
   $core.bool hasJavaMultipleFiles() => $_has(3);
   @$pb.TagNumber(10)
@@ -1796,10 +1565,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(11)
   $core.String get goPackage => $_getSZ(4);
   @$pb.TagNumber(11)
-  set goPackage($core.String v) {
-    $_setString(4, v);
-  }
-
+  set goPackage($core.String value) => $_setString(4, value);
   @$pb.TagNumber(11)
   $core.bool hasGoPackage() => $_has(4);
   @$pb.TagNumber(11)
@@ -1818,10 +1584,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(16)
   $core.bool get ccGenericServices => $_getBF(5);
   @$pb.TagNumber(16)
-  set ccGenericServices($core.bool v) {
-    $_setBool(5, v);
-  }
-
+  set ccGenericServices($core.bool value) => $_setBool(5, value);
   @$pb.TagNumber(16)
   $core.bool hasCcGenericServices() => $_has(5);
   @$pb.TagNumber(16)
@@ -1830,10 +1593,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(17)
   $core.bool get javaGenericServices => $_getBF(6);
   @$pb.TagNumber(17)
-  set javaGenericServices($core.bool v) {
-    $_setBool(6, v);
-  }
-
+  set javaGenericServices($core.bool value) => $_setBool(6, value);
   @$pb.TagNumber(17)
   $core.bool hasJavaGenericServices() => $_has(6);
   @$pb.TagNumber(17)
@@ -1842,10 +1602,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(18)
   $core.bool get pyGenericServices => $_getBF(7);
   @$pb.TagNumber(18)
-  set pyGenericServices($core.bool v) {
-    $_setBool(7, v);
-  }
-
+  set pyGenericServices($core.bool value) => $_setBool(7, value);
   @$pb.TagNumber(18)
   $core.bool hasPyGenericServices() => $_has(7);
   @$pb.TagNumber(18)
@@ -1857,10 +1614,7 @@ class FileOptions extends $pb.GeneratedMessage {
   $core.bool get javaGenerateEqualsAndHash => $_getBF(8);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(20)
-  set javaGenerateEqualsAndHash($core.bool v) {
-    $_setBool(8, v);
-  }
-
+  set javaGenerateEqualsAndHash($core.bool value) => $_setBool(8, value);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(20)
   $core.bool hasJavaGenerateEqualsAndHash() => $_has(8);
@@ -1875,10 +1629,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(23)
   $core.bool get deprecated => $_getBF(9);
   @$pb.TagNumber(23)
-  set deprecated($core.bool v) {
-    $_setBool(9, v);
-  }
-
+  set deprecated($core.bool value) => $_setBool(9, value);
   @$pb.TagNumber(23)
   $core.bool hasDeprecated() => $_has(9);
   @$pb.TagNumber(23)
@@ -1893,10 +1644,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(27)
   $core.bool get javaStringCheckUtf8 => $_getBF(10);
   @$pb.TagNumber(27)
-  set javaStringCheckUtf8($core.bool v) {
-    $_setBool(10, v);
-  }
-
+  set javaStringCheckUtf8($core.bool value) => $_setBool(10, value);
   @$pb.TagNumber(27)
   $core.bool hasJavaStringCheckUtf8() => $_has(10);
   @$pb.TagNumber(27)
@@ -1907,10 +1655,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(31)
   $core.bool get ccEnableArenas => $_getB(11, true);
   @$pb.TagNumber(31)
-  set ccEnableArenas($core.bool v) {
-    $_setBool(11, v);
-  }
-
+  set ccEnableArenas($core.bool value) => $_setBool(11, value);
   @$pb.TagNumber(31)
   $core.bool hasCcEnableArenas() => $_has(11);
   @$pb.TagNumber(31)
@@ -1921,10 +1666,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(36)
   $core.String get objcClassPrefix => $_getSZ(12);
   @$pb.TagNumber(36)
-  set objcClassPrefix($core.String v) {
-    $_setString(12, v);
-  }
-
+  set objcClassPrefix($core.String value) => $_setString(12, value);
   @$pb.TagNumber(36)
   $core.bool hasObjcClassPrefix() => $_has(12);
   @$pb.TagNumber(36)
@@ -1934,10 +1676,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(37)
   $core.String get csharpNamespace => $_getSZ(13);
   @$pb.TagNumber(37)
-  set csharpNamespace($core.String v) {
-    $_setString(13, v);
-  }
-
+  set csharpNamespace($core.String value) => $_setString(13, value);
   @$pb.TagNumber(37)
   $core.bool hasCsharpNamespace() => $_has(13);
   @$pb.TagNumber(37)
@@ -1950,10 +1689,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(39)
   $core.String get swiftPrefix => $_getSZ(14);
   @$pb.TagNumber(39)
-  set swiftPrefix($core.String v) {
-    $_setString(14, v);
-  }
-
+  set swiftPrefix($core.String value) => $_setString(14, value);
   @$pb.TagNumber(39)
   $core.bool hasSwiftPrefix() => $_has(14);
   @$pb.TagNumber(39)
@@ -1964,10 +1700,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(40)
   $core.String get phpClassPrefix => $_getSZ(15);
   @$pb.TagNumber(40)
-  set phpClassPrefix($core.String v) {
-    $_setString(15, v);
-  }
-
+  set phpClassPrefix($core.String value) => $_setString(15, value);
   @$pb.TagNumber(40)
   $core.bool hasPhpClassPrefix() => $_has(15);
   @$pb.TagNumber(40)
@@ -1979,10 +1712,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(41)
   $core.String get phpNamespace => $_getSZ(16);
   @$pb.TagNumber(41)
-  set phpNamespace($core.String v) {
-    $_setString(16, v);
-  }
-
+  set phpNamespace($core.String value) => $_setString(16, value);
   @$pb.TagNumber(41)
   $core.bool hasPhpNamespace() => $_has(16);
   @$pb.TagNumber(41)
@@ -1991,10 +1721,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(42)
   $core.bool get phpGenericServices => $_getBF(17);
   @$pb.TagNumber(42)
-  set phpGenericServices($core.bool v) {
-    $_setBool(17, v);
-  }
-
+  set phpGenericServices($core.bool value) => $_setBool(17, value);
   @$pb.TagNumber(42)
   $core.bool hasPhpGenericServices() => $_has(17);
   @$pb.TagNumber(42)
@@ -2006,10 +1733,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(44)
   $core.String get phpMetadataNamespace => $_getSZ(18);
   @$pb.TagNumber(44)
-  set phpMetadataNamespace($core.String v) {
-    $_setString(18, v);
-  }
-
+  set phpMetadataNamespace($core.String value) => $_setString(18, value);
   @$pb.TagNumber(44)
   $core.bool hasPhpMetadataNamespace() => $_has(18);
   @$pb.TagNumber(44)
@@ -2021,10 +1745,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(45)
   $core.String get rubyPackage => $_getSZ(19);
   @$pb.TagNumber(45)
-  set rubyPackage($core.String v) {
-    $_setString(19, v);
-  }
-
+  set rubyPackage($core.String value) => $_setString(19, value);
   @$pb.TagNumber(45)
   $core.bool hasRubyPackage() => $_has(19);
   @$pb.TagNumber(45)
@@ -2044,31 +1765,26 @@ class MessageOptions extends $pb.GeneratedMessage {
     $core.bool? mapEntry,
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
-    final $result = create();
-    if (messageSetWireFormat != null) {
-      $result.messageSetWireFormat = messageSetWireFormat;
-    }
-    if (noStandardDescriptorAccessor != null) {
-      $result.noStandardDescriptorAccessor = noStandardDescriptorAccessor;
-    }
-    if (deprecated != null) {
-      $result.deprecated = deprecated;
-    }
-    if (mapEntry != null) {
-      $result.mapEntry = mapEntry;
-    }
-    if (uninterpretedOption != null) {
-      $result.uninterpretedOption.addAll(uninterpretedOption);
-    }
-    return $result;
+    final result = create();
+    if (messageSetWireFormat != null)
+      result.messageSetWireFormat = messageSetWireFormat;
+    if (noStandardDescriptorAccessor != null)
+      result.noStandardDescriptorAccessor = noStandardDescriptorAccessor;
+    if (deprecated != null) result.deprecated = deprecated;
+    if (mapEntry != null) result.mapEntry = mapEntry;
+    if (uninterpretedOption != null)
+      result.uninterpretedOption.addAll(uninterpretedOption);
+    return result;
   }
-  MessageOptions._() : super();
-  factory MessageOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory MessageOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  MessageOptions._();
+
+  factory MessageOptions.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory MessageOptions.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MessageOptions',
@@ -2091,10 +1807,12 @@ class MessageOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as MessageOptions))
           as MessageOptions;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static MessageOptions create() => MessageOptions._();
+  @$core.override
   MessageOptions createEmptyInstance() => create();
   static $pb.PbList<MessageOptions> createRepeated() =>
       $pb.PbList<MessageOptions>();
@@ -2124,10 +1842,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool get messageSetWireFormat => $_getBF(0);
   @$pb.TagNumber(1)
-  set messageSetWireFormat($core.bool v) {
-    $_setBool(0, v);
-  }
-
+  set messageSetWireFormat($core.bool value) => $_setBool(0, value);
   @$pb.TagNumber(1)
   $core.bool hasMessageSetWireFormat() => $_has(0);
   @$pb.TagNumber(1)
@@ -2139,10 +1854,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool get noStandardDescriptorAccessor => $_getBF(1);
   @$pb.TagNumber(2)
-  set noStandardDescriptorAccessor($core.bool v) {
-    $_setBool(1, v);
-  }
-
+  set noStandardDescriptorAccessor($core.bool value) => $_setBool(1, value);
   @$pb.TagNumber(2)
   $core.bool hasNoStandardDescriptorAccessor() => $_has(1);
   @$pb.TagNumber(2)
@@ -2155,10 +1867,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool get deprecated => $_getBF(2);
   @$pb.TagNumber(3)
-  set deprecated($core.bool v) {
-    $_setBool(2, v);
-  }
-
+  set deprecated($core.bool value) => $_setBool(2, value);
   @$pb.TagNumber(3)
   $core.bool hasDeprecated() => $_has(2);
   @$pb.TagNumber(3)
@@ -2188,10 +1897,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.bool get mapEntry => $_getBF(3);
   @$pb.TagNumber(7)
-  set mapEntry($core.bool v) {
-    $_setBool(3, v);
-  }
-
+  set mapEntry($core.bool value) => $_setBool(3, value);
   @$pb.TagNumber(7)
   $core.bool hasMapEntry() => $_has(3);
   @$pb.TagNumber(7)
@@ -2212,37 +1918,26 @@ class FieldOptions extends $pb.GeneratedMessage {
     $core.bool? weak,
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
-    final $result = create();
-    if (ctype != null) {
-      $result.ctype = ctype;
-    }
-    if (packed != null) {
-      $result.packed = packed;
-    }
-    if (deprecated != null) {
-      $result.deprecated = deprecated;
-    }
-    if (lazy != null) {
-      $result.lazy = lazy;
-    }
-    if (jstype != null) {
-      $result.jstype = jstype;
-    }
-    if (weak != null) {
-      $result.weak = weak;
-    }
-    if (uninterpretedOption != null) {
-      $result.uninterpretedOption.addAll(uninterpretedOption);
-    }
-    return $result;
+    final result = create();
+    if (ctype != null) result.ctype = ctype;
+    if (packed != null) result.packed = packed;
+    if (deprecated != null) result.deprecated = deprecated;
+    if (lazy != null) result.lazy = lazy;
+    if (jstype != null) result.jstype = jstype;
+    if (weak != null) result.weak = weak;
+    if (uninterpretedOption != null)
+      result.uninterpretedOption.addAll(uninterpretedOption);
+    return result;
   }
-  FieldOptions._() : super();
-  factory FieldOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FieldOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FieldOptions._();
+
+  factory FieldOptions.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FieldOptions.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FieldOptions',
@@ -2275,10 +1970,12 @@ class FieldOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FieldOptions))
           as FieldOptions;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FieldOptions create() => FieldOptions._();
+  @$core.override
   FieldOptions createEmptyInstance() => create();
   static $pb.PbList<FieldOptions> createRepeated() =>
       $pb.PbList<FieldOptions>();
@@ -2294,10 +1991,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   FieldOptions_CType get ctype => $_getN(0);
   @$pb.TagNumber(1)
-  set ctype(FieldOptions_CType v) {
-    $_setField(1, v);
-  }
-
+  set ctype(FieldOptions_CType value) => $_setField(1, value);
   @$pb.TagNumber(1)
   $core.bool hasCtype() => $_has(0);
   @$pb.TagNumber(1)
@@ -2311,10 +2005,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool get packed => $_getBF(1);
   @$pb.TagNumber(2)
-  set packed($core.bool v) {
-    $_setBool(1, v);
-  }
-
+  set packed($core.bool value) => $_setBool(1, value);
   @$pb.TagNumber(2)
   $core.bool hasPacked() => $_has(1);
   @$pb.TagNumber(2)
@@ -2327,10 +2018,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool get deprecated => $_getBF(2);
   @$pb.TagNumber(3)
-  set deprecated($core.bool v) {
-    $_setBool(2, v);
-  }
-
+  set deprecated($core.bool value) => $_setBool(2, value);
   @$pb.TagNumber(3)
   $core.bool hasDeprecated() => $_has(2);
   @$pb.TagNumber(3)
@@ -2367,10 +2055,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool get lazy => $_getBF(3);
   @$pb.TagNumber(5)
-  set lazy($core.bool v) {
-    $_setBool(3, v);
-  }
-
+  set lazy($core.bool value) => $_setBool(3, value);
   @$pb.TagNumber(5)
   $core.bool hasLazy() => $_has(3);
   @$pb.TagNumber(5)
@@ -2390,10 +2075,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   FieldOptions_JSType get jstype => $_getN(4);
   @$pb.TagNumber(6)
-  set jstype(FieldOptions_JSType v) {
-    $_setField(6, v);
-  }
-
+  set jstype(FieldOptions_JSType value) => $_setField(6, value);
   @$pb.TagNumber(6)
   $core.bool hasJstype() => $_has(4);
   @$pb.TagNumber(6)
@@ -2403,10 +2085,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(10)
   $core.bool get weak => $_getBF(5);
   @$pb.TagNumber(10)
-  set weak($core.bool v) {
-    $_setBool(5, v);
-  }
-
+  set weak($core.bool value) => $_setBool(5, value);
   @$pb.TagNumber(10)
   $core.bool hasWeak() => $_has(5);
   @$pb.TagNumber(10)
@@ -2421,19 +2100,20 @@ class OneofOptions extends $pb.GeneratedMessage {
   factory OneofOptions({
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
-    final $result = create();
-    if (uninterpretedOption != null) {
-      $result.uninterpretedOption.addAll(uninterpretedOption);
-    }
-    return $result;
+    final result = create();
+    if (uninterpretedOption != null)
+      result.uninterpretedOption.addAll(uninterpretedOption);
+    return result;
   }
-  OneofOptions._() : super();
-  factory OneofOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory OneofOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  OneofOptions._();
+
+  factory OneofOptions.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory OneofOptions.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'OneofOptions',
@@ -2452,10 +2132,12 @@ class OneofOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as OneofOptions))
           as OneofOptions;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static OneofOptions create() => OneofOptions._();
+  @$core.override
   OneofOptions createEmptyInstance() => create();
   static $pb.PbList<OneofOptions> createRepeated() =>
       $pb.PbList<OneofOptions>();
@@ -2475,25 +2157,22 @@ class EnumOptions extends $pb.GeneratedMessage {
     $core.bool? deprecated,
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
-    final $result = create();
-    if (allowAlias != null) {
-      $result.allowAlias = allowAlias;
-    }
-    if (deprecated != null) {
-      $result.deprecated = deprecated;
-    }
-    if (uninterpretedOption != null) {
-      $result.uninterpretedOption.addAll(uninterpretedOption);
-    }
-    return $result;
+    final result = create();
+    if (allowAlias != null) result.allowAlias = allowAlias;
+    if (deprecated != null) result.deprecated = deprecated;
+    if (uninterpretedOption != null)
+      result.uninterpretedOption.addAll(uninterpretedOption);
+    return result;
   }
-  EnumOptions._() : super();
-  factory EnumOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  EnumOptions._();
+
+  factory EnumOptions.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory EnumOptions.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumOptions',
@@ -2514,10 +2193,12 @@ class EnumOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as EnumOptions))
           as EnumOptions;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static EnumOptions create() => EnumOptions._();
+  @$core.override
   EnumOptions createEmptyInstance() => create();
   static $pb.PbList<EnumOptions> createRepeated() => $pb.PbList<EnumOptions>();
   @$core.pragma('dart2js:noInline')
@@ -2530,10 +2211,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool get allowAlias => $_getBF(0);
   @$pb.TagNumber(2)
-  set allowAlias($core.bool v) {
-    $_setBool(0, v);
-  }
-
+  set allowAlias($core.bool value) => $_setBool(0, value);
   @$pb.TagNumber(2)
   $core.bool hasAllowAlias() => $_has(0);
   @$pb.TagNumber(2)
@@ -2546,10 +2224,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool get deprecated => $_getBF(1);
   @$pb.TagNumber(3)
-  set deprecated($core.bool v) {
-    $_setBool(1, v);
-  }
-
+  set deprecated($core.bool value) => $_setBool(1, value);
   @$pb.TagNumber(3)
   $core.bool hasDeprecated() => $_has(1);
   @$pb.TagNumber(3)
@@ -2565,22 +2240,21 @@ class EnumValueOptions extends $pb.GeneratedMessage {
     $core.bool? deprecated,
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
-    final $result = create();
-    if (deprecated != null) {
-      $result.deprecated = deprecated;
-    }
-    if (uninterpretedOption != null) {
-      $result.uninterpretedOption.addAll(uninterpretedOption);
-    }
-    return $result;
+    final result = create();
+    if (deprecated != null) result.deprecated = deprecated;
+    if (uninterpretedOption != null)
+      result.uninterpretedOption.addAll(uninterpretedOption);
+    return result;
   }
-  EnumValueOptions._() : super();
-  factory EnumValueOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory EnumValueOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  EnumValueOptions._();
+
+  factory EnumValueOptions.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory EnumValueOptions.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumValueOptions',
@@ -2600,10 +2274,12 @@ class EnumValueOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as EnumValueOptions))
           as EnumValueOptions;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static EnumValueOptions create() => EnumValueOptions._();
+  @$core.override
   EnumValueOptions createEmptyInstance() => create();
   static $pb.PbList<EnumValueOptions> createRepeated() =>
       $pb.PbList<EnumValueOptions>();
@@ -2619,10 +2295,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.bool get deprecated => $_getBF(0);
   @$pb.TagNumber(1)
-  set deprecated($core.bool v) {
-    $_setBool(0, v);
-  }
-
+  set deprecated($core.bool value) => $_setBool(0, value);
   @$pb.TagNumber(1)
   $core.bool hasDeprecated() => $_has(0);
   @$pb.TagNumber(1)
@@ -2638,22 +2311,21 @@ class ServiceOptions extends $pb.GeneratedMessage {
     $core.bool? deprecated,
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
-    final $result = create();
-    if (deprecated != null) {
-      $result.deprecated = deprecated;
-    }
-    if (uninterpretedOption != null) {
-      $result.uninterpretedOption.addAll(uninterpretedOption);
-    }
-    return $result;
+    final result = create();
+    if (deprecated != null) result.deprecated = deprecated;
+    if (uninterpretedOption != null)
+      result.uninterpretedOption.addAll(uninterpretedOption);
+    return result;
   }
-  ServiceOptions._() : super();
-  factory ServiceOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ServiceOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ServiceOptions._();
+
+  factory ServiceOptions.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ServiceOptions.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ServiceOptions',
@@ -2673,10 +2345,12 @@ class ServiceOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ServiceOptions))
           as ServiceOptions;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ServiceOptions create() => ServiceOptions._();
+  @$core.override
   ServiceOptions createEmptyInstance() => create();
   static $pb.PbList<ServiceOptions> createRepeated() =>
       $pb.PbList<ServiceOptions>();
@@ -2692,10 +2366,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(33)
   $core.bool get deprecated => $_getBF(0);
   @$pb.TagNumber(33)
-  set deprecated($core.bool v) {
-    $_setBool(0, v);
-  }
-
+  set deprecated($core.bool value) => $_setBool(0, value);
   @$pb.TagNumber(33)
   $core.bool hasDeprecated() => $_has(0);
   @$pb.TagNumber(33)
@@ -2712,25 +2383,22 @@ class MethodOptions extends $pb.GeneratedMessage {
     MethodOptions_IdempotencyLevel? idempotencyLevel,
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
-    final $result = create();
-    if (deprecated != null) {
-      $result.deprecated = deprecated;
-    }
-    if (idempotencyLevel != null) {
-      $result.idempotencyLevel = idempotencyLevel;
-    }
-    if (uninterpretedOption != null) {
-      $result.uninterpretedOption.addAll(uninterpretedOption);
-    }
-    return $result;
+    final result = create();
+    if (deprecated != null) result.deprecated = deprecated;
+    if (idempotencyLevel != null) result.idempotencyLevel = idempotencyLevel;
+    if (uninterpretedOption != null)
+      result.uninterpretedOption.addAll(uninterpretedOption);
+    return result;
   }
-  MethodOptions._() : super();
-  factory MethodOptions.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory MethodOptions.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  MethodOptions._();
+
+  factory MethodOptions.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory MethodOptions.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MethodOptions',
@@ -2755,10 +2423,12 @@ class MethodOptions extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as MethodOptions))
           as MethodOptions;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static MethodOptions create() => MethodOptions._();
+  @$core.override
   MethodOptions createEmptyInstance() => create();
   static $pb.PbList<MethodOptions> createRepeated() =>
       $pb.PbList<MethodOptions>();
@@ -2774,10 +2444,7 @@ class MethodOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(33)
   $core.bool get deprecated => $_getBF(0);
   @$pb.TagNumber(33)
-  set deprecated($core.bool v) {
-    $_setBool(0, v);
-  }
-
+  set deprecated($core.bool value) => $_setBool(0, value);
   @$pb.TagNumber(33)
   $core.bool hasDeprecated() => $_has(0);
   @$pb.TagNumber(33)
@@ -2786,10 +2453,8 @@ class MethodOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(34)
   MethodOptions_IdempotencyLevel get idempotencyLevel => $_getN(1);
   @$pb.TagNumber(34)
-  set idempotencyLevel(MethodOptions_IdempotencyLevel v) {
-    $_setField(34, v);
-  }
-
+  set idempotencyLevel(MethodOptions_IdempotencyLevel value) =>
+      $_setField(34, value);
   @$pb.TagNumber(34)
   $core.bool hasIdempotencyLevel() => $_has(1);
   @$pb.TagNumber(34)
@@ -2810,22 +2475,20 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
     $core.String? namePart,
     $core.bool? isExtension,
   }) {
-    final $result = create();
-    if (namePart != null) {
-      $result.namePart = namePart;
-    }
-    if (isExtension != null) {
-      $result.isExtension = isExtension;
-    }
-    return $result;
+    final result = create();
+    if (namePart != null) result.namePart = namePart;
+    if (isExtension != null) result.isExtension = isExtension;
+    return result;
   }
-  UninterpretedOption_NamePart._() : super();
-  factory UninterpretedOption_NamePart.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory UninterpretedOption_NamePart.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  UninterpretedOption_NamePart._();
+
+  factory UninterpretedOption_NamePart.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory UninterpretedOption_NamePart.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'UninterpretedOption.NamePart',
@@ -2846,11 +2509,13 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
               (message) => updates(message as UninterpretedOption_NamePart))
           as UninterpretedOption_NamePart;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption_NamePart create() =>
       UninterpretedOption_NamePart._();
+  @$core.override
   UninterpretedOption_NamePart createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption_NamePart> createRepeated() =>
       $pb.PbList<UninterpretedOption_NamePart>();
@@ -2862,10 +2527,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get namePart => $_getSZ(0);
   @$pb.TagNumber(1)
-  set namePart($core.String v) {
-    $_setString(0, v);
-  }
-
+  set namePart($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasNamePart() => $_has(0);
   @$pb.TagNumber(1)
@@ -2874,10 +2536,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool get isExtension => $_getBF(1);
   @$pb.TagNumber(2)
-  set isExtension($core.bool v) {
-    $_setBool(1, v);
-  }
-
+  set isExtension($core.bool value) => $_setBool(1, value);
   @$pb.TagNumber(2)
   $core.bool hasIsExtension() => $_has(1);
   @$pb.TagNumber(2)
@@ -2900,37 +2559,25 @@ class UninterpretedOption extends $pb.GeneratedMessage {
     $core.List<$core.int>? stringValue,
     $core.String? aggregateValue,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name.addAll(name);
-    }
-    if (identifierValue != null) {
-      $result.identifierValue = identifierValue;
-    }
-    if (positiveIntValue != null) {
-      $result.positiveIntValue = positiveIntValue;
-    }
-    if (negativeIntValue != null) {
-      $result.negativeIntValue = negativeIntValue;
-    }
-    if (doubleValue != null) {
-      $result.doubleValue = doubleValue;
-    }
-    if (stringValue != null) {
-      $result.stringValue = stringValue;
-    }
-    if (aggregateValue != null) {
-      $result.aggregateValue = aggregateValue;
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name.addAll(name);
+    if (identifierValue != null) result.identifierValue = identifierValue;
+    if (positiveIntValue != null) result.positiveIntValue = positiveIntValue;
+    if (negativeIntValue != null) result.negativeIntValue = negativeIntValue;
+    if (doubleValue != null) result.doubleValue = doubleValue;
+    if (stringValue != null) result.stringValue = stringValue;
+    if (aggregateValue != null) result.aggregateValue = aggregateValue;
+    return result;
   }
-  UninterpretedOption._() : super();
-  factory UninterpretedOption.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory UninterpretedOption.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  UninterpretedOption._();
+
+  factory UninterpretedOption.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory UninterpretedOption.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'UninterpretedOption',
@@ -2958,10 +2605,12 @@ class UninterpretedOption extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as UninterpretedOption))
           as UninterpretedOption;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption create() => UninterpretedOption._();
+  @$core.override
   UninterpretedOption createEmptyInstance() => create();
   static $pb.PbList<UninterpretedOption> createRepeated() =>
       $pb.PbList<UninterpretedOption>();
@@ -2978,10 +2627,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get identifierValue => $_getSZ(1);
   @$pb.TagNumber(3)
-  set identifierValue($core.String v) {
-    $_setString(1, v);
-  }
-
+  set identifierValue($core.String value) => $_setString(1, value);
   @$pb.TagNumber(3)
   $core.bool hasIdentifierValue() => $_has(1);
   @$pb.TagNumber(3)
@@ -2990,10 +2636,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $fixnum.Int64 get positiveIntValue => $_getI64(2);
   @$pb.TagNumber(4)
-  set positiveIntValue($fixnum.Int64 v) {
-    $_setInt64(2, v);
-  }
-
+  set positiveIntValue($fixnum.Int64 value) => $_setInt64(2, value);
   @$pb.TagNumber(4)
   $core.bool hasPositiveIntValue() => $_has(2);
   @$pb.TagNumber(4)
@@ -3002,10 +2645,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $fixnum.Int64 get negativeIntValue => $_getI64(3);
   @$pb.TagNumber(5)
-  set negativeIntValue($fixnum.Int64 v) {
-    $_setInt64(3, v);
-  }
-
+  set negativeIntValue($fixnum.Int64 value) => $_setInt64(3, value);
   @$pb.TagNumber(5)
   $core.bool hasNegativeIntValue() => $_has(3);
   @$pb.TagNumber(5)
@@ -3014,10 +2654,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.double get doubleValue => $_getN(4);
   @$pb.TagNumber(6)
-  set doubleValue($core.double v) {
-    $_setDouble(4, v);
-  }
-
+  set doubleValue($core.double value) => $_setDouble(4, value);
   @$pb.TagNumber(6)
   $core.bool hasDoubleValue() => $_has(4);
   @$pb.TagNumber(6)
@@ -3026,10 +2663,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.List<$core.int> get stringValue => $_getN(5);
   @$pb.TagNumber(7)
-  set stringValue($core.List<$core.int> v) {
-    $_setBytes(5, v);
-  }
-
+  set stringValue($core.List<$core.int> value) => $_setBytes(5, value);
   @$pb.TagNumber(7)
   $core.bool hasStringValue() => $_has(5);
   @$pb.TagNumber(7)
@@ -3038,10 +2672,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   $core.String get aggregateValue => $_getSZ(6);
   @$pb.TagNumber(8)
-  set aggregateValue($core.String v) {
-    $_setString(6, v);
-  }
-
+  set aggregateValue($core.String value) => $_setString(6, value);
   @$pb.TagNumber(8)
   $core.bool hasAggregateValue() => $_has(6);
   @$pb.TagNumber(8)
@@ -3056,31 +2687,24 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
     $core.String? trailingComments,
     $core.Iterable<$core.String>? leadingDetachedComments,
   }) {
-    final $result = create();
-    if (path != null) {
-      $result.path.addAll(path);
-    }
-    if (span != null) {
-      $result.span.addAll(span);
-    }
-    if (leadingComments != null) {
-      $result.leadingComments = leadingComments;
-    }
-    if (trailingComments != null) {
-      $result.trailingComments = trailingComments;
-    }
-    if (leadingDetachedComments != null) {
-      $result.leadingDetachedComments.addAll(leadingDetachedComments);
-    }
-    return $result;
+    final result = create();
+    if (path != null) result.path.addAll(path);
+    if (span != null) result.span.addAll(span);
+    if (leadingComments != null) result.leadingComments = leadingComments;
+    if (trailingComments != null) result.trailingComments = trailingComments;
+    if (leadingDetachedComments != null)
+      result.leadingDetachedComments.addAll(leadingDetachedComments);
+    return result;
   }
-  SourceCodeInfo_Location._() : super();
-  factory SourceCodeInfo_Location.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory SourceCodeInfo_Location.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  SourceCodeInfo_Location._();
+
+  factory SourceCodeInfo_Location.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory SourceCodeInfo_Location.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SourceCodeInfo.Location',
@@ -3103,10 +2727,12 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as SourceCodeInfo_Location))
           as SourceCodeInfo_Location;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo_Location create() => SourceCodeInfo_Location._();
+  @$core.override
   SourceCodeInfo_Location createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo_Location> createRepeated() =>
       $pb.PbList<SourceCodeInfo_Location>();
@@ -3199,10 +2825,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get leadingComments => $_getSZ(2);
   @$pb.TagNumber(3)
-  set leadingComments($core.String v) {
-    $_setString(2, v);
-  }
-
+  set leadingComments($core.String value) => $_setString(2, value);
   @$pb.TagNumber(3)
   $core.bool hasLeadingComments() => $_has(2);
   @$pb.TagNumber(3)
@@ -3211,10 +2834,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.String get trailingComments => $_getSZ(3);
   @$pb.TagNumber(4)
-  set trailingComments($core.String v) {
-    $_setString(3, v);
-  }
-
+  set trailingComments($core.String value) => $_setString(3, value);
   @$pb.TagNumber(4)
   $core.bool hasTrailingComments() => $_has(3);
   @$pb.TagNumber(4)
@@ -3230,19 +2850,19 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   factory SourceCodeInfo({
     $core.Iterable<SourceCodeInfo_Location>? location,
   }) {
-    final $result = create();
-    if (location != null) {
-      $result.location.addAll(location);
-    }
-    return $result;
+    final result = create();
+    if (location != null) result.location.addAll(location);
+    return result;
   }
-  SourceCodeInfo._() : super();
-  factory SourceCodeInfo.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory SourceCodeInfo.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  SourceCodeInfo._();
+
+  factory SourceCodeInfo.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory SourceCodeInfo.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SourceCodeInfo',
@@ -3261,10 +2881,12 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as SourceCodeInfo))
           as SourceCodeInfo;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo create() => SourceCodeInfo._();
+  @$core.override
   SourceCodeInfo createEmptyInstance() => create();
   static $pb.PbList<SourceCodeInfo> createRepeated() =>
       $pb.PbList<SourceCodeInfo>();
@@ -3327,28 +2949,22 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
     $core.int? begin,
     $core.int? end,
   }) {
-    final $result = create();
-    if (path != null) {
-      $result.path.addAll(path);
-    }
-    if (sourceFile != null) {
-      $result.sourceFile = sourceFile;
-    }
-    if (begin != null) {
-      $result.begin = begin;
-    }
-    if (end != null) {
-      $result.end = end;
-    }
-    return $result;
+    final result = create();
+    if (path != null) result.path.addAll(path);
+    if (sourceFile != null) result.sourceFile = sourceFile;
+    if (begin != null) result.begin = begin;
+    if (end != null) result.end = end;
+    return result;
   }
-  GeneratedCodeInfo_Annotation._() : super();
-  factory GeneratedCodeInfo_Annotation.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GeneratedCodeInfo_Annotation.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GeneratedCodeInfo_Annotation._();
+
+  factory GeneratedCodeInfo_Annotation.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GeneratedCodeInfo_Annotation.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GeneratedCodeInfo.Annotation',
@@ -3371,11 +2987,13 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
               (message) => updates(message as GeneratedCodeInfo_Annotation))
           as GeneratedCodeInfo_Annotation;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo_Annotation create() =>
       GeneratedCodeInfo_Annotation._();
+  @$core.override
   GeneratedCodeInfo_Annotation createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo_Annotation> createRepeated() =>
       $pb.PbList<GeneratedCodeInfo_Annotation>();
@@ -3393,10 +3011,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get sourceFile => $_getSZ(1);
   @$pb.TagNumber(2)
-  set sourceFile($core.String v) {
-    $_setString(1, v);
-  }
-
+  set sourceFile($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasSourceFile() => $_has(1);
   @$pb.TagNumber(2)
@@ -3407,10 +3022,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get begin => $_getIZ(2);
   @$pb.TagNumber(3)
-  set begin($core.int v) {
-    $_setSignedInt32(2, v);
-  }
-
+  set begin($core.int value) => $_setSignedInt32(2, value);
   @$pb.TagNumber(3)
   $core.bool hasBegin() => $_has(2);
   @$pb.TagNumber(3)
@@ -3422,10 +3034,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get end => $_getIZ(3);
   @$pb.TagNumber(4)
-  set end($core.int v) {
-    $_setSignedInt32(3, v);
-  }
-
+  set end($core.int value) => $_setSignedInt32(3, value);
   @$pb.TagNumber(4)
   $core.bool hasEnd() => $_has(3);
   @$pb.TagNumber(4)
@@ -3439,19 +3048,19 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   factory GeneratedCodeInfo({
     $core.Iterable<GeneratedCodeInfo_Annotation>? annotation,
   }) {
-    final $result = create();
-    if (annotation != null) {
-      $result.annotation.addAll(annotation);
-    }
-    return $result;
+    final result = create();
+    if (annotation != null) result.annotation.addAll(annotation);
+    return result;
   }
-  GeneratedCodeInfo._() : super();
-  factory GeneratedCodeInfo.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory GeneratedCodeInfo.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  GeneratedCodeInfo._();
+
+  factory GeneratedCodeInfo.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory GeneratedCodeInfo.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GeneratedCodeInfo',
@@ -3470,10 +3079,12 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as GeneratedCodeInfo))
           as GeneratedCodeInfo;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo create() => GeneratedCodeInfo._();
+  @$core.override
   GeneratedCodeInfo createEmptyInstance() => create();
   static $pb.PbList<GeneratedCodeInfo> createRepeated() =>
       $pb.PbList<GeneratedCodeInfo>();
@@ -3488,6 +3099,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   $pb.PbList<GeneratedCodeInfo_Annotation> get annotation => $_getList(0);
 }
 
-const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
+const $core.bool _omitFieldNames =
+    $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames =
     $core.bool.fromEnvironment('protobuf.omit_message_names');

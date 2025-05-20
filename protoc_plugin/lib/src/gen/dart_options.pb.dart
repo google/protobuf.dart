@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -23,25 +24,21 @@ class DartMixin extends $pb.GeneratedMessage {
     $core.String? importFrom,
     $core.String? parent,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (importFrom != null) {
-      $result.importFrom = importFrom;
-    }
-    if (parent != null) {
-      $result.parent = parent;
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (importFrom != null) result.importFrom = importFrom;
+    if (parent != null) result.parent = parent;
+    return result;
   }
-  DartMixin._() : super();
-  factory DartMixin.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory DartMixin.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  DartMixin._();
+
+  factory DartMixin.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory DartMixin.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DartMixin',
@@ -58,10 +55,12 @@ class DartMixin extends $pb.GeneratedMessage {
   DartMixin copyWith(void Function(DartMixin) updates) =>
       super.copyWith((message) => updates(message as DartMixin)) as DartMixin;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static DartMixin create() => DartMixin._();
+  @$core.override
   DartMixin createEmptyInstance() => create();
   static $pb.PbList<DartMixin> createRepeated() => $pb.PbList<DartMixin>();
   @$core.pragma('dart2js:noInline')
@@ -73,10 +72,7 @@ class DartMixin extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -87,10 +83,7 @@ class DartMixin extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get importFrom => $_getSZ(1);
   @$pb.TagNumber(2)
-  set importFrom($core.String v) {
-    $_setString(1, v);
-  }
-
+  set importFrom($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasImportFrom() => $_has(1);
   @$pb.TagNumber(2)
@@ -102,10 +95,7 @@ class DartMixin extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get parent => $_getSZ(2);
   @$pb.TagNumber(3)
-  set parent($core.String v) {
-    $_setString(2, v);
-  }
-
+  set parent($core.String value) => $_setString(2, value);
   @$pb.TagNumber(3)
   $core.bool hasParent() => $_has(2);
   @$pb.TagNumber(3)
@@ -117,19 +107,19 @@ class Imports extends $pb.GeneratedMessage {
   factory Imports({
     $core.Iterable<DartMixin>? mixins,
   }) {
-    final $result = create();
-    if (mixins != null) {
-      $result.mixins.addAll(mixins);
-    }
-    return $result;
+    final result = create();
+    if (mixins != null) result.mixins.addAll(mixins);
+    return result;
   }
-  Imports._() : super();
-  factory Imports.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory Imports.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  Imports._();
+
+  factory Imports.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory Imports.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Imports',
@@ -145,10 +135,12 @@ class Imports extends $pb.GeneratedMessage {
   Imports copyWith(void Function(Imports) updates) =>
       super.copyWith((message) => updates(message as Imports)) as Imports;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static Imports create() => Imports._();
+  @$core.override
   Imports createEmptyInstance() => create();
   static $pb.PbList<Imports> createRepeated() => $pb.PbList<Imports>();
   @$core.pragma('dart2js:noInline')
@@ -223,6 +215,7 @@ class Dart_options {
   }
 }
 
-const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
+const $core.bool _omitFieldNames =
+    $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames =
     $core.bool.fromEnvironment('protobuf.omit_message_names');
