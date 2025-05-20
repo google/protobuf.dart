@@ -1,6 +1,7 @@
 ## 22.2.1-wip
 
-* Update the generated code for readability and to follow common Dart patterns.
+* Update the generated code to improve readability and to better follow common
+  Dart patterns.
 
 ## 22.2.0
 
