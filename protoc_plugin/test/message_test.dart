@@ -4,7 +4,7 @@
 
 // ignore_for_file: deprecated_member_use_from_same_package
 
-import 'package:protoc_plugin/src/generated/descriptor.pb.dart'
+import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart'
     show DescriptorProto;
 import 'package:test/test.dart';
 

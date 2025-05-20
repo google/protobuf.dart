@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: client.proto
+//  source: google/api/client.proto
 //
 // @dart = 3.3
 

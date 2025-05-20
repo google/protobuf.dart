@@ -52,7 +52,7 @@ option java_outer_classname = "PluginProtos";
 
 option go_package = "google.golang.org/protobuf/types/pluginpb";
 
-import "descriptor.proto";
+import "google/protobuf/descriptor.proto";
 
 // The version number of protocol compiler.
 message Version {

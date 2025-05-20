@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: client.proto
+//  source: google/api/client.proto
 //
 // @dart = 3.3
 
@@ -13,7 +13,9 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import '../protobuf/duration.pb.dart' as $0;
 import 'client.pbenum.dart';
+import 'launch_stage.pbenum.dart' as $1;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -123,11 +125,284 @@ class CommonLanguageSettings extends $pb.GeneratedMessage {
   SelectiveGapicGeneration ensureSelectiveGapicGeneration() => $_ensure(2);
 }
 
+/// Details about how and where to publish client libraries.
+class ClientLibrarySettings extends $pb.GeneratedMessage {
+  factory ClientLibrarySettings({
+    $core.String? version,
+    $1.LaunchStage? launchStage,
+    $core.bool? restNumericEnums,
+    JavaSettings? javaSettings,
+    CppSettings? cppSettings,
+    PhpSettings? phpSettings,
+    PythonSettings? pythonSettings,
+    NodeSettings? nodeSettings,
+    DotnetSettings? dotnetSettings,
+    RubySettings? rubySettings,
+    GoSettings? goSettings,
+  }) {
+    final $result = create();
+    if (version != null) {
+      $result.version = version;
+    }
+    if (launchStage != null) {
+      $result.launchStage = launchStage;
+    }
+    if (restNumericEnums != null) {
+      $result.restNumericEnums = restNumericEnums;
+    }
+    if (javaSettings != null) {
+      $result.javaSettings = javaSettings;
+    }
+    if (cppSettings != null) {
+      $result.cppSettings = cppSettings;
+    }
+    if (phpSettings != null) {
+      $result.phpSettings = phpSettings;
+    }
+    if (pythonSettings != null) {
+      $result.pythonSettings = pythonSettings;
+    }
+    if (nodeSettings != null) {
+      $result.nodeSettings = nodeSettings;
+    }
+    if (dotnetSettings != null) {
+      $result.dotnetSettings = dotnetSettings;
+    }
+    if (rubySettings != null) {
+      $result.rubySettings = rubySettings;
+    }
+    if (goSettings != null) {
+      $result.goSettings = goSettings;
+    }
+    return $result;
+  }
+  ClientLibrarySettings._() : super();
+  factory ClientLibrarySettings.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory ClientLibrarySettings.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ClientLibrarySettings',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'version')
+    ..e<$1.LaunchStage>(
+        2, _omitFieldNames ? '' : 'launchStage', $pb.PbFieldType.OE,
+        defaultOrMaker: $1.LaunchStage.LAUNCH_STAGE_UNSPECIFIED,
+        valueOf: $1.LaunchStage.valueOf,
+        enumValues: $1.LaunchStage.values)
+    ..aOB(3, _omitFieldNames ? '' : 'restNumericEnums')
+    ..aOM<JavaSettings>(21, _omitFieldNames ? '' : 'javaSettings',
+        subBuilder: JavaSettings.create)
+    ..aOM<CppSettings>(22, _omitFieldNames ? '' : 'cppSettings',
+        subBuilder: CppSettings.create)
+    ..aOM<PhpSettings>(23, _omitFieldNames ? '' : 'phpSettings',
+        subBuilder: PhpSettings.create)
+    ..aOM<PythonSettings>(24, _omitFieldNames ? '' : 'pythonSettings',
+        subBuilder: PythonSettings.create)
+    ..aOM<NodeSettings>(25, _omitFieldNames ? '' : 'nodeSettings',
+        subBuilder: NodeSettings.create)
+    ..aOM<DotnetSettings>(26, _omitFieldNames ? '' : 'dotnetSettings',
+        subBuilder: DotnetSettings.create)
+    ..aOM<RubySettings>(27, _omitFieldNames ? '' : 'rubySettings',
+        subBuilder: RubySettings.create)
+    ..aOM<GoSettings>(28, _omitFieldNames ? '' : 'goSettings',
+        subBuilder: GoSettings.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  ClientLibrarySettings clone() =>
+      ClientLibrarySettings()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  ClientLibrarySettings copyWith(
+          void Function(ClientLibrarySettings) updates) =>
+      super.copyWith((message) => updates(message as ClientLibrarySettings))
+          as ClientLibrarySettings;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ClientLibrarySettings create() => ClientLibrarySettings._();
+  ClientLibrarySettings createEmptyInstance() => create();
+  static $pb.PbList<ClientLibrarySettings> createRepeated() =>
+      $pb.PbList<ClientLibrarySettings>();
+  @$core.pragma('dart2js:noInline')
+  static ClientLibrarySettings getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ClientLibrarySettings>(create);
+  static ClientLibrarySettings? _defaultInstance;
+
+  /// Version of the API to apply these settings to. This is the full protobuf
+  /// package for the API, ending in the version element.
+  /// Examples: "google.cloud.speech.v1" and "google.spanner.admin.database.v1".
+  @$pb.TagNumber(1)
+  $core.String get version => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set version($core.String v) {
+    $_setString(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasVersion() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearVersion() => $_clearField(1);
+
+  /// Launch stage of this version of the API.
+  @$pb.TagNumber(2)
+  $1.LaunchStage get launchStage => $_getN(1);
+  @$pb.TagNumber(2)
+  set launchStage($1.LaunchStage v) {
+    $_setField(2, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasLaunchStage() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearLaunchStage() => $_clearField(2);
+
+  /// When using transport=rest, the client request will encode enums as
+  /// numbers rather than strings.
+  @$pb.TagNumber(3)
+  $core.bool get restNumericEnums => $_getBF(2);
+  @$pb.TagNumber(3)
+  set restNumericEnums($core.bool v) {
+    $_setBool(2, v);
+  }
+
+  @$pb.TagNumber(3)
+  $core.bool hasRestNumericEnums() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearRestNumericEnums() => $_clearField(3);
+
+  /// Settings for legacy Java features, supported in the Service YAML.
+  @$pb.TagNumber(21)
+  JavaSettings get javaSettings => $_getN(3);
+  @$pb.TagNumber(21)
+  set javaSettings(JavaSettings v) {
+    $_setField(21, v);
+  }
+
+  @$pb.TagNumber(21)
+  $core.bool hasJavaSettings() => $_has(3);
+  @$pb.TagNumber(21)
+  void clearJavaSettings() => $_clearField(21);
+  @$pb.TagNumber(21)
+  JavaSettings ensureJavaSettings() => $_ensure(3);
+
+  /// Settings for C++ client libraries.
+  @$pb.TagNumber(22)
+  CppSettings get cppSettings => $_getN(4);
+  @$pb.TagNumber(22)
+  set cppSettings(CppSettings v) {
+    $_setField(22, v);
+  }
+
+  @$pb.TagNumber(22)
+  $core.bool hasCppSettings() => $_has(4);
+  @$pb.TagNumber(22)
+  void clearCppSettings() => $_clearField(22);
+  @$pb.TagNumber(22)
+  CppSettings ensureCppSettings() => $_ensure(4);
+
+  /// Settings for PHP client libraries.
+  @$pb.TagNumber(23)
+  PhpSettings get phpSettings => $_getN(5);
+  @$pb.TagNumber(23)
+  set phpSettings(PhpSettings v) {
+    $_setField(23, v);
+  }
+
+  @$pb.TagNumber(23)
+  $core.bool hasPhpSettings() => $_has(5);
+  @$pb.TagNumber(23)
+  void clearPhpSettings() => $_clearField(23);
+  @$pb.TagNumber(23)
+  PhpSettings ensurePhpSettings() => $_ensure(5);
+
+  /// Settings for Python client libraries.
+  @$pb.TagNumber(24)
+  PythonSettings get pythonSettings => $_getN(6);
+  @$pb.TagNumber(24)
+  set pythonSettings(PythonSettings v) {
+    $_setField(24, v);
+  }
+
+  @$pb.TagNumber(24)
+  $core.bool hasPythonSettings() => $_has(6);
+  @$pb.TagNumber(24)
+  void clearPythonSettings() => $_clearField(24);
+  @$pb.TagNumber(24)
+  PythonSettings ensurePythonSettings() => $_ensure(6);
+
+  /// Settings for Node client libraries.
+  @$pb.TagNumber(25)
+  NodeSettings get nodeSettings => $_getN(7);
+  @$pb.TagNumber(25)
+  set nodeSettings(NodeSettings v) {
+    $_setField(25, v);
+  }
+
+  @$pb.TagNumber(25)
+  $core.bool hasNodeSettings() => $_has(7);
+  @$pb.TagNumber(25)
+  void clearNodeSettings() => $_clearField(25);
+  @$pb.TagNumber(25)
+  NodeSettings ensureNodeSettings() => $_ensure(7);
+
+  /// Settings for .NET client libraries.
+  @$pb.TagNumber(26)
+  DotnetSettings get dotnetSettings => $_getN(8);
+  @$pb.TagNumber(26)
+  set dotnetSettings(DotnetSettings v) {
+    $_setField(26, v);
+  }
+
+  @$pb.TagNumber(26)
+  $core.bool hasDotnetSettings() => $_has(8);
+  @$pb.TagNumber(26)
+  void clearDotnetSettings() => $_clearField(26);
+  @$pb.TagNumber(26)
+  DotnetSettings ensureDotnetSettings() => $_ensure(8);
+
+  /// Settings for Ruby client libraries.
+  @$pb.TagNumber(27)
+  RubySettings get rubySettings => $_getN(9);
+  @$pb.TagNumber(27)
+  set rubySettings(RubySettings v) {
+    $_setField(27, v);
+  }
+
+  @$pb.TagNumber(27)
+  $core.bool hasRubySettings() => $_has(9);
+  @$pb.TagNumber(27)
+  void clearRubySettings() => $_clearField(27);
+  @$pb.TagNumber(27)
+  RubySettings ensureRubySettings() => $_ensure(9);
+
+  /// Settings for Go client libraries.
+  @$pb.TagNumber(28)
+  GoSettings get goSettings => $_getN(10);
+  @$pb.TagNumber(28)
+  set goSettings(GoSettings v) {
+    $_setField(28, v);
+  }
+
+  @$pb.TagNumber(28)
+  $core.bool hasGoSettings() => $_has(10);
+  @$pb.TagNumber(28)
+  void clearGoSettings() => $_clearField(28);
+  @$pb.TagNumber(28)
+  GoSettings ensureGoSettings() => $_ensure(10);
+}
+
 /// This message configures the settings for publishing [Google Cloud Client
 /// libraries](https://cloud.google.com/apis/docs/cloud-client-libraries)
 /// generated from the service config.
 class Publishing extends $pb.GeneratedMessage {
   factory Publishing({
+    $core.Iterable<MethodSettings>? methodSettings,
     $core.String? newIssueUri,
     $core.String? documentationUri,
     $core.String? apiShortName,
@@ -135,10 +410,14 @@ class Publishing extends $pb.GeneratedMessage {
     $core.Iterable<$core.String>? codeownerGithubTeams,
     $core.String? docTagPrefix,
     ClientLibraryOrganization? organization,
+    $core.Iterable<ClientLibrarySettings>? librarySettings,
     $core.String? protoReferenceDocumentationUri,
     $core.String? restReferenceDocumentationUri,
   }) {
     final $result = create();
+    if (methodSettings != null) {
+      $result.methodSettings.addAll(methodSettings);
+    }
     if (newIssueUri != null) {
       $result.newIssueUri = newIssueUri;
     }
@@ -160,6 +439,9 @@ class Publishing extends $pb.GeneratedMessage {
     if (organization != null) {
       $result.organization = organization;
     }
+    if (librarySettings != null) {
+      $result.librarySettings.addAll(librarySettings);
+    }
     if (protoReferenceDocumentationUri != null) {
       $result.protoReferenceDocumentationUri = protoReferenceDocumentationUri;
     }
@@ -180,6 +462,9 @@ class Publishing extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'Publishing',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
       createEmptyInstance: create)
+    ..pc<MethodSettings>(
+        2, _omitFieldNames ? '' : 'methodSettings', $pb.PbFieldType.PM,
+        subBuilder: MethodSettings.create)
     ..aOS(101, _omitFieldNames ? '' : 'newIssueUri')
     ..aOS(102, _omitFieldNames ? '' : 'documentationUri')
     ..aOS(103, _omitFieldNames ? '' : 'apiShortName')
@@ -192,6 +477,9 @@ class Publishing extends $pb.GeneratedMessage {
             ClientLibraryOrganization.CLIENT_LIBRARY_ORGANIZATION_UNSPECIFIED,
         valueOf: ClientLibraryOrganization.valueOf,
         enumValues: ClientLibraryOrganization.values)
+    ..pc<ClientLibrarySettings>(
+        109, _omitFieldNames ? '' : 'librarySettings', $pb.PbFieldType.PM,
+        subBuilder: ClientLibrarySettings.create)
     ..aOS(110, _omitFieldNames ? '' : 'protoReferenceDocumentationUri')
     ..aOS(111, _omitFieldNames ? '' : 'restReferenceDocumentationUri')
     ..hasRequiredFields = false;
@@ -213,31 +501,36 @@ class Publishing extends $pb.GeneratedMessage {
       $pb.GeneratedMessage.$_defaultFor<Publishing>(create);
   static Publishing? _defaultInstance;
 
+  /// A list of API method settings, e.g. the behavior for methods that use the
+  /// long-running operation pattern.
+  @$pb.TagNumber(2)
+  $pb.PbList<MethodSettings> get methodSettings => $_getList(0);
+
   /// Link to a *public* URI where users can report issues.  Example:
   /// https://issuetracker.google.com/issues/new?component=190865&template=1161103
   @$pb.TagNumber(101)
-  $core.String get newIssueUri => $_getSZ(0);
+  $core.String get newIssueUri => $_getSZ(1);
   @$pb.TagNumber(101)
   set newIssueUri($core.String v) {
-    $_setString(0, v);
+    $_setString(1, v);
   }
 
   @$pb.TagNumber(101)
-  $core.bool hasNewIssueUri() => $_has(0);
+  $core.bool hasNewIssueUri() => $_has(1);
   @$pb.TagNumber(101)
   void clearNewIssueUri() => $_clearField(101);
 
   /// Link to product home page.  Example:
   /// https://cloud.google.com/asset-inventory/docs/overview
   @$pb.TagNumber(102)
-  $core.String get documentationUri => $_getSZ(1);
+  $core.String get documentationUri => $_getSZ(2);
   @$pb.TagNumber(102)
   set documentationUri($core.String v) {
-    $_setString(1, v);
+    $_setString(2, v);
   }
 
   @$pb.TagNumber(102)
-  $core.bool hasDocumentationUri() => $_has(1);
+  $core.bool hasDocumentationUri() => $_has(2);
   @$pb.TagNumber(102)
   void clearDocumentationUri() => $_clearField(102);
 
@@ -245,87 +538,93 @@ class Publishing extends $pb.GeneratedMessage {
   /// relations artifacts like docs, packages delivered to package managers,
   /// etc.  Example: "speech".
   @$pb.TagNumber(103)
-  $core.String get apiShortName => $_getSZ(2);
+  $core.String get apiShortName => $_getSZ(3);
   @$pb.TagNumber(103)
   set apiShortName($core.String v) {
-    $_setString(2, v);
+    $_setString(3, v);
   }
 
   @$pb.TagNumber(103)
-  $core.bool hasApiShortName() => $_has(2);
+  $core.bool hasApiShortName() => $_has(3);
   @$pb.TagNumber(103)
   void clearApiShortName() => $_clearField(103);
 
   /// GitHub label to apply to issues and pull requests opened for this API.
   @$pb.TagNumber(104)
-  $core.String get githubLabel => $_getSZ(3);
+  $core.String get githubLabel => $_getSZ(4);
   @$pb.TagNumber(104)
   set githubLabel($core.String v) {
-    $_setString(3, v);
+    $_setString(4, v);
   }
 
   @$pb.TagNumber(104)
-  $core.bool hasGithubLabel() => $_has(3);
+  $core.bool hasGithubLabel() => $_has(4);
   @$pb.TagNumber(104)
   void clearGithubLabel() => $_clearField(104);
 
   /// GitHub teams to be added to CODEOWNERS in the directory in GitHub
   /// containing source code for the client libraries for this API.
   @$pb.TagNumber(105)
-  $pb.PbList<$core.String> get codeownerGithubTeams => $_getList(4);
+  $pb.PbList<$core.String> get codeownerGithubTeams => $_getList(5);
 
   /// A prefix used in sample code when demarking regions to be included in
   /// documentation.
   @$pb.TagNumber(106)
-  $core.String get docTagPrefix => $_getSZ(5);
+  $core.String get docTagPrefix => $_getSZ(6);
   @$pb.TagNumber(106)
   set docTagPrefix($core.String v) {
-    $_setString(5, v);
+    $_setString(6, v);
   }
 
   @$pb.TagNumber(106)
-  $core.bool hasDocTagPrefix() => $_has(5);
+  $core.bool hasDocTagPrefix() => $_has(6);
   @$pb.TagNumber(106)
   void clearDocTagPrefix() => $_clearField(106);
 
   /// For whom the client library is being published.
   @$pb.TagNumber(107)
-  ClientLibraryOrganization get organization => $_getN(6);
+  ClientLibraryOrganization get organization => $_getN(7);
   @$pb.TagNumber(107)
   set organization(ClientLibraryOrganization v) {
     $_setField(107, v);
   }
 
   @$pb.TagNumber(107)
-  $core.bool hasOrganization() => $_has(6);
+  $core.bool hasOrganization() => $_has(7);
   @$pb.TagNumber(107)
   void clearOrganization() => $_clearField(107);
+
+  /// Client library settings.  If the same version string appears multiple
+  /// times in this list, then the last one wins.  Settings from earlier
+  /// settings with the same version string are discarded.
+  @$pb.TagNumber(109)
+  $pb.PbList<ClientLibrarySettings> get librarySettings => $_getList(8);
 
   /// Optional link to proto reference documentation.  Example:
   /// https://cloud.google.com/pubsub/lite/docs/reference/rpc
   @$pb.TagNumber(110)
-  $core.String get protoReferenceDocumentationUri => $_getSZ(7);
+  $core.String get protoReferenceDocumentationUri => $_getSZ(9);
   @$pb.TagNumber(110)
   set protoReferenceDocumentationUri($core.String v) {
-    $_setString(7, v);
+    $_setString(9, v);
   }
 
   @$pb.TagNumber(110)
-  $core.bool hasProtoReferenceDocumentationUri() => $_has(7);
+  $core.bool hasProtoReferenceDocumentationUri() => $_has(9);
   @$pb.TagNumber(110)
   void clearProtoReferenceDocumentationUri() => $_clearField(110);
 
   /// Optional link to REST reference documentation.  Example:
   /// https://cloud.google.com/pubsub/lite/docs/reference/rest
   @$pb.TagNumber(111)
-  $core.String get restReferenceDocumentationUri => $_getSZ(8);
+  $core.String get restReferenceDocumentationUri => $_getSZ(10);
   @$pb.TagNumber(111)
   set restReferenceDocumentationUri($core.String v) {
-    $_setString(8, v);
+    $_setString(10, v);
   }
 
   @$pb.TagNumber(111)
-  $core.bool hasRestReferenceDocumentationUri() => $_has(8);
+  $core.bool hasRestReferenceDocumentationUri() => $_has(10);
   @$pb.TagNumber(111)
   void clearRestReferenceDocumentationUri() => $_clearField(111);
 }
@@ -1101,6 +1400,261 @@ class GoSettings extends $pb.GeneratedMessage {
   ///       Publisher: TopicAdmin
   @$pb.TagNumber(2)
   $pb.PbMap<$core.String, $core.String> get renamedServices => $_getMap(1);
+}
+
+/// Describes settings to use when generating API methods that use the
+/// long-running operation pattern.
+/// All default values below are from those used in the client library
+/// generators (e.g.
+/// [Java](https://github.com/googleapis/gapic-generator-java/blob/04c2faa191a9b5a10b92392fe8482279c4404803/src/main/java/com/google/api/generator/gapic/composer/common/RetrySettingsComposer.java)).
+class MethodSettings_LongRunning extends $pb.GeneratedMessage {
+  factory MethodSettings_LongRunning({
+    $0.Duration? initialPollDelay,
+    $core.double? pollDelayMultiplier,
+    $0.Duration? maxPollDelay,
+    $0.Duration? totalPollTimeout,
+  }) {
+    final $result = create();
+    if (initialPollDelay != null) {
+      $result.initialPollDelay = initialPollDelay;
+    }
+    if (pollDelayMultiplier != null) {
+      $result.pollDelayMultiplier = pollDelayMultiplier;
+    }
+    if (maxPollDelay != null) {
+      $result.maxPollDelay = maxPollDelay;
+    }
+    if (totalPollTimeout != null) {
+      $result.totalPollTimeout = totalPollTimeout;
+    }
+    return $result;
+  }
+  MethodSettings_LongRunning._() : super();
+  factory MethodSettings_LongRunning.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MethodSettings_LongRunning.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'MethodSettings.LongRunning',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
+      createEmptyInstance: create)
+    ..aOM<$0.Duration>(1, _omitFieldNames ? '' : 'initialPollDelay',
+        subBuilder: $0.Duration.create)
+    ..a<$core.double>(
+        2, _omitFieldNames ? '' : 'pollDelayMultiplier', $pb.PbFieldType.OF)
+    ..aOM<$0.Duration>(3, _omitFieldNames ? '' : 'maxPollDelay',
+        subBuilder: $0.Duration.create)
+    ..aOM<$0.Duration>(4, _omitFieldNames ? '' : 'totalPollTimeout',
+        subBuilder: $0.Duration.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  MethodSettings_LongRunning clone() =>
+      MethodSettings_LongRunning()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  MethodSettings_LongRunning copyWith(
+          void Function(MethodSettings_LongRunning) updates) =>
+      super.copyWith(
+              (message) => updates(message as MethodSettings_LongRunning))
+          as MethodSettings_LongRunning;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static MethodSettings_LongRunning create() => MethodSettings_LongRunning._();
+  MethodSettings_LongRunning createEmptyInstance() => create();
+  static $pb.PbList<MethodSettings_LongRunning> createRepeated() =>
+      $pb.PbList<MethodSettings_LongRunning>();
+  @$core.pragma('dart2js:noInline')
+  static MethodSettings_LongRunning getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MethodSettings_LongRunning>(create);
+  static MethodSettings_LongRunning? _defaultInstance;
+
+  /// Initial delay after which the first poll request will be made.
+  /// Default value: 5 seconds.
+  @$pb.TagNumber(1)
+  $0.Duration get initialPollDelay => $_getN(0);
+  @$pb.TagNumber(1)
+  set initialPollDelay($0.Duration v) {
+    $_setField(1, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasInitialPollDelay() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearInitialPollDelay() => $_clearField(1);
+  @$pb.TagNumber(1)
+  $0.Duration ensureInitialPollDelay() => $_ensure(0);
+
+  /// Multiplier to gradually increase delay between subsequent polls until it
+  /// reaches max_poll_delay.
+  /// Default value: 1.5.
+  @$pb.TagNumber(2)
+  $core.double get pollDelayMultiplier => $_getN(1);
+  @$pb.TagNumber(2)
+  set pollDelayMultiplier($core.double v) {
+    $_setFloat(1, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasPollDelayMultiplier() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPollDelayMultiplier() => $_clearField(2);
+
+  /// Maximum time between two subsequent poll requests.
+  /// Default value: 45 seconds.
+  @$pb.TagNumber(3)
+  $0.Duration get maxPollDelay => $_getN(2);
+  @$pb.TagNumber(3)
+  set maxPollDelay($0.Duration v) {
+    $_setField(3, v);
+  }
+
+  @$pb.TagNumber(3)
+  $core.bool hasMaxPollDelay() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearMaxPollDelay() => $_clearField(3);
+  @$pb.TagNumber(3)
+  $0.Duration ensureMaxPollDelay() => $_ensure(2);
+
+  /// Total polling timeout.
+  /// Default value: 5 minutes.
+  @$pb.TagNumber(4)
+  $0.Duration get totalPollTimeout => $_getN(3);
+  @$pb.TagNumber(4)
+  set totalPollTimeout($0.Duration v) {
+    $_setField(4, v);
+  }
+
+  @$pb.TagNumber(4)
+  $core.bool hasTotalPollTimeout() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearTotalPollTimeout() => $_clearField(4);
+  @$pb.TagNumber(4)
+  $0.Duration ensureTotalPollTimeout() => $_ensure(3);
+}
+
+/// Describes the generator configuration for a method.
+class MethodSettings extends $pb.GeneratedMessage {
+  factory MethodSettings({
+    $core.String? selector,
+    MethodSettings_LongRunning? longRunning,
+    $core.Iterable<$core.String>? autoPopulatedFields,
+  }) {
+    final $result = create();
+    if (selector != null) {
+      $result.selector = selector;
+    }
+    if (longRunning != null) {
+      $result.longRunning = longRunning;
+    }
+    if (autoPopulatedFields != null) {
+      $result.autoPopulatedFields.addAll(autoPopulatedFields);
+    }
+    return $result;
+  }
+  MethodSettings._() : super();
+  factory MethodSettings.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory MethodSettings.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'MethodSettings',
+      package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
+      createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'selector')
+    ..aOM<MethodSettings_LongRunning>(2, _omitFieldNames ? '' : 'longRunning',
+        subBuilder: MethodSettings_LongRunning.create)
+    ..pPS(3, _omitFieldNames ? '' : 'autoPopulatedFields')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  MethodSettings clone() => MethodSettings()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  MethodSettings copyWith(void Function(MethodSettings) updates) =>
+      super.copyWith((message) => updates(message as MethodSettings))
+          as MethodSettings;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static MethodSettings create() => MethodSettings._();
+  MethodSettings createEmptyInstance() => create();
+  static $pb.PbList<MethodSettings> createRepeated() =>
+      $pb.PbList<MethodSettings>();
+  @$core.pragma('dart2js:noInline')
+  static MethodSettings getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<MethodSettings>(create);
+  static MethodSettings? _defaultInstance;
+
+  /// The fully qualified name of the method, for which the options below apply.
+  /// This is used to find the method to apply the options.
+  ///
+  /// Example:
+  ///
+  ///    publishing:
+  ///      method_settings:
+  ///      - selector: google.storage.control.v2.StorageControl.CreateFolder
+  ///        # method settings for CreateFolder...
+  @$pb.TagNumber(1)
+  $core.String get selector => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set selector($core.String v) {
+    $_setString(0, v);
+  }
+
+  @$pb.TagNumber(1)
+  $core.bool hasSelector() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSelector() => $_clearField(1);
+
+  /// Describes settings to use for long-running operations when generating
+  /// API methods for RPCs. Complements RPCs that use the annotations in
+  /// google/longrunning/operations.proto.
+  ///
+  /// Example of a YAML configuration::
+  ///
+  ///    publishing:
+  ///      method_settings:
+  ///      - selector: google.cloud.speech.v2.Speech.BatchRecognize
+  ///        long_running:
+  ///          initial_poll_delay: 60s # 1 minute
+  ///          poll_delay_multiplier: 1.5
+  ///          max_poll_delay: 360s # 6 minutes
+  ///          total_poll_timeout: 54000s # 90 minutes
+  @$pb.TagNumber(2)
+  MethodSettings_LongRunning get longRunning => $_getN(1);
+  @$pb.TagNumber(2)
+  set longRunning(MethodSettings_LongRunning v) {
+    $_setField(2, v);
+  }
+
+  @$pb.TagNumber(2)
+  $core.bool hasLongRunning() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearLongRunning() => $_clearField(2);
+  @$pb.TagNumber(2)
+  MethodSettings_LongRunning ensureLongRunning() => $_ensure(1);
+
+  /// List of top-level fields of the request message, that should be
+  /// automatically populated by the client libraries based on their
+  /// (google.api.field_info).format. Currently supported format: UUID4.
+  ///
+  /// Example of a YAML configuration:
+  ///
+  ///    publishing:
+  ///      method_settings:
+  ///      - selector: google.example.v1.ExampleService.CreateExample
+  ///        auto_populated_fields:
+  ///        - request_id
+  @$pb.TagNumber(3)
+  $pb.PbList<$core.String> get autoPopulatedFields => $_getList(2);
 }
 
 /// This message is used to configure the generation of a subset of the RPCs in

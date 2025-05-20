@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: plugin.proto
+//  source: google/protobuf/compiler/plugin.proto
 //
 // @dart = 3.3
 

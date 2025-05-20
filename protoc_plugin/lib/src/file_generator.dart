@@ -303,8 +303,6 @@ class FileGenerator extends ProtobufContainer {
   /// Writes the header and imports for the .pb.dart file.
   void writeMainHeader(IndentingWriter out,
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
-    _writeHeading(out);
-
     final importWriter = ImportWriter();
 
     // We only add the dart:async import if there are generic client API
@@ -355,6 +353,14 @@ class FileGenerator extends ProtobufContainer {
           config.resolveImport(protoFileUri, protoFileUri, '.pbenum.dart');
       importWriter.addExport(url.toString());
     }
+
+    // The well-known-types mixins create src/ refs into package:protobuf; we
+    // should likely refactor this so they're regular (non-src/) references.
+    //
+    // For now, we surpress the analysis warning.
+    _writeHeading(out, extraIgnores: {
+      if (importWriter.hasSrcImport) 'implementation_imports',
+    });
 
     out.println(importWriter.emit());
   }
