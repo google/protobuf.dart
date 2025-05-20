@@ -73,7 +73,9 @@ class DartMixin extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) => $_setString(0, v);
+  set name($core.String v) {
+    $_setString(0, v);
+  }
 
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
@@ -121,7 +123,7 @@ class Imports extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  Imports._();
+  Imports._() : super();
   factory Imports.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);

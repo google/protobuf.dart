@@ -213,14 +213,10 @@ class ClientLibrarySettings extends $pb.GeneratedMessage {
         subBuilder: GoSettings.create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ClientLibrarySettings clone() =>
       ClientLibrarySettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ClientLibrarySettings copyWith(
           void Function(ClientLibrarySettings) updates) =>
       super.copyWith((message) => updates(message as ClientLibrarySettings))
@@ -1455,14 +1451,10 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
         subBuilder: $0.Duration.create)
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MethodSettings_LongRunning clone() =>
       MethodSettings_LongRunning()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MethodSettings_LongRunning copyWith(
           void Function(MethodSettings_LongRunning) updates) =>
       super.copyWith(
@@ -1582,13 +1574,9 @@ class MethodSettings extends $pb.GeneratedMessage {
     ..pPS(3, _omitFieldNames ? '' : 'autoPopulatedFields')
     ..hasRequiredFields = false;
 
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MethodSettings clone() => MethodSettings()..mergeFromMessage(this);
-  @$core.Deprecated('Using this can add significant overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MethodSettings copyWith(void Function(MethodSettings) updates) =>
       super.copyWith((message) => updates(message as MethodSettings))
           as MethodSettings;
