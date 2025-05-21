@@ -17,8 +17,9 @@ This will generate the associated Dart code in `lib/src/gen/`.
 
 ## Updating the protos
 
-The protos are currently updated by hand. We should create a shell script to
-update from the source repos at specific SHAs. In the meantime:
+To update the vendored protos to the most recent versions, run:
+`dart tool/update_protos.dart`. Then, run `make update-pregenerated` to rebuild
+the Dart libraries in `lib/src/gen/`.
 
 The contents of `google/protobuf/` can be found at 
 https://github.com/protocolbuffers/protobuf/tree/main/src/google/protobuf.
