@@ -232,11 +232,11 @@ class FileGenerator extends ProtobufContainer {
     }
 
     final mainWriter = generateMainFile(config);
-    final enumWriter = generateEnumFile(config);
+    final enumWriter = hasEnums ? generateEnumFile(config) : null;
 
     final files = [
       makeFile('.pb.dart', mainWriter.toString()),
-      makeFile('.pbenum.dart', enumWriter.toString()),
+      if (enumWriter != null) makeFile('.pbenum.dart', enumWriter.toString()),
       makeFile('.pbjson.dart', generateJsonFile(config)),
     ];
 
@@ -244,8 +244,9 @@ class FileGenerator extends ProtobufContainer {
       files.addAll([
         makeFile('.pb.dart.meta',
             mainWriter.sourceLocationInfo.writeToJson().toString()),
-        makeFile('.pbenum.dart.meta',
-            enumWriter.sourceLocationInfo.writeToJson().toString())
+        if (enumWriter != null)
+          makeFile('.pbenum.dart.meta',
+              enumWriter.sourceLocationInfo.writeToJson().toString())
       ]);
     }
     if (options.useGrpc) {
@@ -253,7 +254,9 @@ class FileGenerator extends ProtobufContainer {
         files.add(makeFile('.pbgrpc.dart', generateGrpcFile(config)));
       }
     } else {
-      files.add(makeFile('.pbserver.dart', generateServerFile(config)));
+      if (serviceGenerators.isNotEmpty) {
+        files.add(makeFile('.pbserver.dart', generateServerFile(config)));
+      }
     }
     return files;
   }
@@ -457,10 +460,15 @@ class FileGenerator extends ProtobufContainer {
     return count;
   }
 
+  /// Returns whether this proto file defines any enums (either top level or
+  /// nested within messages).
+  bool get hasEnums => enumCount > 0;
+
   /// Returns the contents of the .pbserver.dart file for this .proto file.
   String generateServerFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError('not linked');
+
     final out = makeWriter();
     _writeHeading(out,
         extraIgnores: {'deprecated_member_use_from_same_package'});

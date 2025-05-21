@@ -1,3 +1,8 @@
+## 22.3.0-wip
+
+* No longer generate empty enum (`*.pbenum.dart`) files.
+* No longer generate empty server (`*.pbserver.dart`) files.
+
 ## 22.2.0
 
 * Bump `protobuf` constraint to `^4.1.0`
