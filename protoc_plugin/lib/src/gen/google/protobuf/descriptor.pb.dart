@@ -108,6 +108,9 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
       result.publicDependency.addAll(publicDependency);
     if (weakDependency != null) result.weakDependency.addAll(weakDependency);
     if (syntax != null) result.syntax = syntax;
+    if (edition != null) result.edition = edition;
+    if (optionDependency != null)
+      result.optionDependency.addAll(optionDependency);
     return result;
   }
 
@@ -269,10 +272,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(14)
   Edition get edition => $_getN(12);
   @$pb.TagNumber(14)
-  set edition(Edition v) {
-    $_setField(14, v);
-  }
-
+  set edition(Edition value) => $_setField(14, value);
   @$pb.TagNumber(14)
   $core.bool hasEdition() => $_has(12);
   @$pb.TagNumber(14)
@@ -473,6 +473,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
     if (oneofDecl != null) result.oneofDecl.addAll(oneofDecl);
     if (reservedRange != null) result.reservedRange.addAll(reservedRange);
     if (reservedName != null) result.reservedName.addAll(reservedName);
+    if (visibility != null) result.visibility = visibility;
     return result;
   }
 
@@ -592,10 +593,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(11)
   SymbolVisibility get visibility => $_getN(10);
   @$pb.TagNumber(11)
-  set visibility(SymbolVisibility v) {
-    $_setField(11, v);
-  }
-
+  set visibility(SymbolVisibility value) => $_setField(11, value);
   @$pb.TagNumber(11)
   $core.bool hasVisibility() => $_has(10);
   @$pb.TagNumber(11)
@@ -610,31 +608,24 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
     $core.bool? reserved,
     $core.bool? repeated,
   }) {
-    final $result = create();
-    if (number != null) {
-      $result.number = number;
-    }
-    if (fullName != null) {
-      $result.fullName = fullName;
-    }
-    if (type != null) {
-      $result.type = type;
-    }
-    if (reserved != null) {
-      $result.reserved = reserved;
-    }
-    if (repeated != null) {
-      $result.repeated = repeated;
-    }
-    return $result;
+    final result = create();
+    if (number != null) result.number = number;
+    if (fullName != null) result.fullName = fullName;
+    if (type != null) result.type = type;
+    if (reserved != null) result.reserved = reserved;
+    if (repeated != null) result.repeated = repeated;
+    return result;
   }
-  ExtensionRangeOptions_Declaration._() : super();
-  factory ExtensionRangeOptions_Declaration.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory ExtensionRangeOptions_Declaration.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  ExtensionRangeOptions_Declaration._();
+
+  factory ExtensionRangeOptions_Declaration.fromBuffer(
+          $core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory ExtensionRangeOptions_Declaration.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ExtensionRangeOptions.Declaration',
@@ -658,11 +649,13 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
               updates(message as ExtensionRangeOptions_Declaration))
           as ExtensionRangeOptions_Declaration;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static ExtensionRangeOptions_Declaration create() =>
       ExtensionRangeOptions_Declaration._();
+  @$core.override
   ExtensionRangeOptions_Declaration createEmptyInstance() => create();
   static $pb.PbList<ExtensionRangeOptions_Declaration> createRepeated() =>
       $pb.PbList<ExtensionRangeOptions_Declaration>();
@@ -676,10 +669,7 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get number => $_getIZ(0);
   @$pb.TagNumber(1)
-  set number($core.int v) {
-    $_setSignedInt32(0, v);
-  }
-
+  set number($core.int value) => $_setSignedInt32(0, value);
   @$pb.TagNumber(1)
   $core.bool hasNumber() => $_has(0);
   @$pb.TagNumber(1)
@@ -690,10 +680,7 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get fullName => $_getSZ(1);
   @$pb.TagNumber(2)
-  set fullName($core.String v) {
-    $_setString(1, v);
-  }
-
+  set fullName($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasFullName() => $_has(1);
   @$pb.TagNumber(2)
@@ -705,10 +692,7 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get type => $_getSZ(2);
   @$pb.TagNumber(3)
-  set type($core.String v) {
-    $_setString(2, v);
-  }
-
+  set type($core.String value) => $_setString(2, value);
   @$pb.TagNumber(3)
   $core.bool hasType() => $_has(2);
   @$pb.TagNumber(3)
@@ -720,10 +704,7 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.bool get reserved => $_getBF(3);
   @$pb.TagNumber(5)
-  set reserved($core.bool v) {
-    $_setBool(3, v);
-  }
-
+  set reserved($core.bool value) => $_setBool(3, value);
   @$pb.TagNumber(5)
   $core.bool hasReserved() => $_has(3);
   @$pb.TagNumber(5)
@@ -734,10 +715,7 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.bool get repeated => $_getBF(4);
   @$pb.TagNumber(6)
-  set repeated($core.bool v) {
-    $_setBool(4, v);
-  }
-
+  set repeated($core.bool value) => $_setBool(4, value);
   @$pb.TagNumber(6)
   $core.bool hasRepeated() => $_has(4);
   @$pb.TagNumber(6)
@@ -752,6 +730,9 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final result = create();
+    if (declaration != null) result.declaration.addAll(declaration);
+    if (verification != null) result.verification = verification;
+    if (features != null) result.features = features;
     if (uninterpretedOption != null)
       result.uninterpretedOption.addAll(uninterpretedOption);
     return result;
@@ -821,10 +802,8 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   ExtensionRangeOptions_VerificationState get verification => $_getN(1);
   @$pb.TagNumber(3)
-  set verification(ExtensionRangeOptions_VerificationState v) {
-    $_setField(3, v);
-  }
-
+  set verification(ExtensionRangeOptions_VerificationState value) =>
+      $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasVerification() => $_has(1);
   @$pb.TagNumber(3)
@@ -834,10 +813,7 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(50)
   FeatureSet get features => $_getN(2);
   @$pb.TagNumber(50)
-  set features(FeatureSet v) {
-    $_setField(50, v);
-  }
-
+  set features(FeatureSet value) => $_setField(50, value);
   @$pb.TagNumber(50)
   $core.bool hasFeatures() => $_has(2);
   @$pb.TagNumber(50)
@@ -1249,6 +1225,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
     if (options != null) result.options = options;
     if (reservedRange != null) result.reservedRange.addAll(reservedRange);
     if (reservedName != null) result.reservedName.addAll(reservedName);
+    if (visibility != null) result.visibility = visibility;
     return result;
   }
 
@@ -1342,10 +1319,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   SymbolVisibility get visibility => $_getN(5);
   @$pb.TagNumber(6)
-  set visibility(SymbolVisibility v) {
-    $_setField(6, v);
-  }
-
+  set visibility(SymbolVisibility value) => $_setField(6, value);
   @$pb.TagNumber(6)
   $core.bool hasVisibility() => $_has(5);
   @$pb.TagNumber(6)
@@ -1693,11 +1667,10 @@ class FileOptions extends $pb.GeneratedMessage {
     if (swiftPrefix != null) result.swiftPrefix = swiftPrefix;
     if (phpClassPrefix != null) result.phpClassPrefix = phpClassPrefix;
     if (phpNamespace != null) result.phpNamespace = phpNamespace;
-    // if (phpGenericServices != null)
-    //   result.phpGenericServices = phpGenericServices;
     if (phpMetadataNamespace != null)
       result.phpMetadataNamespace = phpMetadataNamespace;
     if (rubyPackage != null) result.rubyPackage = rubyPackage;
+    if (features != null) result.features = features;
     if (uninterpretedOption != null)
       result.uninterpretedOption.addAll(uninterpretedOption);
     return result;
@@ -1985,22 +1958,13 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(41)
   void clearPhpNamespace() => $_clearField(41);
 
-  @$pb.TagNumber(42)
-  $core.bool get phpGenericServices => $_getBF(17);
-  @$pb.TagNumber(42)
-  set phpGenericServices($core.bool value) => $_setBool(17, value);
-  @$pb.TagNumber(42)
-  $core.bool hasPhpGenericServices() => $_has(17);
-  @$pb.TagNumber(42)
-  void clearPhpGenericServices() => $_clearField(42);
-
   /// Use this option to change the namespace of php generated metadata classes.
   /// Default is empty. When this option is empty, the proto file name will be
   /// used for determining the namespace.
   @$pb.TagNumber(44)
   $core.String get phpMetadataNamespace => $_getSZ(17);
   @$pb.TagNumber(44)
-  set phpMetadataNamespace($core.String value) => $_setString(18, value);
+  set phpMetadataNamespace($core.String value) => $_setString(17, value);
   @$pb.TagNumber(44)
   $core.bool hasPhpMetadataNamespace() => $_has(17);
   @$pb.TagNumber(44)
@@ -2012,7 +1976,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(45)
   $core.String get rubyPackage => $_getSZ(18);
   @$pb.TagNumber(45)
-  set rubyPackage($core.String value) => $_setString(19, value);
+  set rubyPackage($core.String value) => $_setString(18, value);
   @$pb.TagNumber(45)
   $core.bool hasRubyPackage() => $_has(18);
   @$pb.TagNumber(45)
@@ -2025,10 +1989,7 @@ class FileOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(50)
   FeatureSet get features => $_getN(19);
   @$pb.TagNumber(50)
-  set features(FeatureSet v) {
-    $_setField(50, v);
-  }
-
+  set features(FeatureSet value) => $_setField(50, value);
   @$pb.TagNumber(50)
   $core.bool hasFeatures() => $_has(19);
   @$pb.TagNumber(50)
@@ -2060,6 +2021,10 @@ class MessageOptions extends $pb.GeneratedMessage {
       result.noStandardDescriptorAccessor = noStandardDescriptorAccessor;
     if (deprecated != null) result.deprecated = deprecated;
     if (mapEntry != null) result.mapEntry = mapEntry;
+    if (deprecatedLegacyJsonFieldConflicts != null)
+      result.deprecatedLegacyJsonFieldConflicts =
+          deprecatedLegacyJsonFieldConflicts;
+    if (features != null) result.features = features;
     if (uninterpretedOption != null)
       result.uninterpretedOption.addAll(uninterpretedOption);
     return result;
@@ -2209,10 +2174,8 @@ class MessageOptions extends $pb.GeneratedMessage {
   $core.bool get deprecatedLegacyJsonFieldConflicts => $_getBF(4);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(11)
-  set deprecatedLegacyJsonFieldConflicts($core.bool v) {
-    $_setBool(4, v);
-  }
-
+  set deprecatedLegacyJsonFieldConflicts($core.bool value) =>
+      $_setBool(4, value);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(11)
   $core.bool hasDeprecatedLegacyJsonFieldConflicts() => $_has(4);
@@ -2227,10 +2190,7 @@ class MessageOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(12)
   FeatureSet get features => $_getN(5);
   @$pb.TagNumber(12)
-  set features(FeatureSet v) {
-    $_setField(12, v);
-  }
-
+  set features(FeatureSet value) => $_setField(12, value);
   @$pb.TagNumber(12)
   $core.bool hasFeatures() => $_has(5);
   @$pb.TagNumber(12)
@@ -2248,22 +2208,20 @@ class FieldOptions_EditionDefault extends $pb.GeneratedMessage {
     $core.String? value,
     Edition? edition,
   }) {
-    final $result = create();
-    if (value != null) {
-      $result.value = value;
-    }
-    if (edition != null) {
-      $result.edition = edition;
-    }
-    return $result;
+    final result = create();
+    if (value != null) result.value = value;
+    if (edition != null) result.edition = edition;
+    return result;
   }
-  FieldOptions_EditionDefault._() : super();
-  factory FieldOptions_EditionDefault.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FieldOptions_EditionDefault.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FieldOptions_EditionDefault._();
+
+  factory FieldOptions_EditionDefault.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FieldOptions_EditionDefault.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FieldOptions.EditionDefault',
@@ -2287,11 +2245,13 @@ class FieldOptions_EditionDefault extends $pb.GeneratedMessage {
               (message) => updates(message as FieldOptions_EditionDefault))
           as FieldOptions_EditionDefault;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FieldOptions_EditionDefault create() =>
       FieldOptions_EditionDefault._();
+  @$core.override
   FieldOptions_EditionDefault createEmptyInstance() => create();
   static $pb.PbList<FieldOptions_EditionDefault> createRepeated() =>
       $pb.PbList<FieldOptions_EditionDefault>();
@@ -2303,10 +2263,7 @@ class FieldOptions_EditionDefault extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get value => $_getSZ(0);
   @$pb.TagNumber(2)
-  set value($core.String v) {
-    $_setString(0, v);
-  }
-
+  set value($core.String value) => $_setString(0, value);
   @$pb.TagNumber(2)
   $core.bool hasValue() => $_has(0);
   @$pb.TagNumber(2)
@@ -2315,10 +2272,7 @@ class FieldOptions_EditionDefault extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   Edition get edition => $_getN(1);
   @$pb.TagNumber(3)
-  set edition(Edition v) {
-    $_setField(3, v);
-  }
-
+  set edition(Edition value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasEdition() => $_has(1);
   @$pb.TagNumber(3)
@@ -2333,28 +2287,23 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
     $core.String? deprecationWarning,
     Edition? editionRemoved,
   }) {
-    final $result = create();
-    if (editionIntroduced != null) {
-      $result.editionIntroduced = editionIntroduced;
-    }
-    if (editionDeprecated != null) {
-      $result.editionDeprecated = editionDeprecated;
-    }
-    if (deprecationWarning != null) {
-      $result.deprecationWarning = deprecationWarning;
-    }
-    if (editionRemoved != null) {
-      $result.editionRemoved = editionRemoved;
-    }
-    return $result;
+    final result = create();
+    if (editionIntroduced != null) result.editionIntroduced = editionIntroduced;
+    if (editionDeprecated != null) result.editionDeprecated = editionDeprecated;
+    if (deprecationWarning != null)
+      result.deprecationWarning = deprecationWarning;
+    if (editionRemoved != null) result.editionRemoved = editionRemoved;
+    return result;
   }
-  FieldOptions_FeatureSupport._() : super();
-  factory FieldOptions_FeatureSupport.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FieldOptions_FeatureSupport.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FieldOptions_FeatureSupport._();
+
+  factory FieldOptions_FeatureSupport.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FieldOptions_FeatureSupport.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FieldOptions.FeatureSupport',
@@ -2388,11 +2337,13 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
               (message) => updates(message as FieldOptions_FeatureSupport))
           as FieldOptions_FeatureSupport;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FieldOptions_FeatureSupport create() =>
       FieldOptions_FeatureSupport._();
+  @$core.override
   FieldOptions_FeatureSupport createEmptyInstance() => create();
   static $pb.PbList<FieldOptions_FeatureSupport> createRepeated() =>
       $pb.PbList<FieldOptions_FeatureSupport>();
@@ -2407,10 +2358,7 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   Edition get editionIntroduced => $_getN(0);
   @$pb.TagNumber(1)
-  set editionIntroduced(Edition v) {
-    $_setField(1, v);
-  }
-
+  set editionIntroduced(Edition value) => $_setField(1, value);
   @$pb.TagNumber(1)
   $core.bool hasEditionIntroduced() => $_has(0);
   @$pb.TagNumber(1)
@@ -2421,10 +2369,7 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   Edition get editionDeprecated => $_getN(1);
   @$pb.TagNumber(2)
-  set editionDeprecated(Edition v) {
-    $_setField(2, v);
-  }
-
+  set editionDeprecated(Edition value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasEditionDeprecated() => $_has(1);
   @$pb.TagNumber(2)
@@ -2435,10 +2380,7 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get deprecationWarning => $_getSZ(2);
   @$pb.TagNumber(3)
-  set deprecationWarning($core.String v) {
-    $_setString(2, v);
-  }
-
+  set deprecationWarning($core.String value) => $_setString(2, value);
   @$pb.TagNumber(3)
   $core.bool hasDeprecationWarning() => $_has(2);
   @$pb.TagNumber(3)
@@ -2450,10 +2392,7 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   Edition get editionRemoved => $_getN(3);
   @$pb.TagNumber(4)
-  set editionRemoved(Edition v) {
-    $_setField(4, v);
-  }
-
+  set editionRemoved(Edition value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasEditionRemoved() => $_has(3);
   @$pb.TagNumber(4)
@@ -2484,6 +2423,13 @@ class FieldOptions extends $pb.GeneratedMessage {
     if (lazy != null) result.lazy = lazy;
     if (jstype != null) result.jstype = jstype;
     if (weak != null) result.weak = weak;
+    if (unverifiedLazy != null) result.unverifiedLazy = unverifiedLazy;
+    if (debugRedact != null) result.debugRedact = debugRedact;
+    if (retention != null) result.retention = retention;
+    if (targets != null) result.targets.addAll(targets);
+    if (editionDefaults != null) result.editionDefaults.addAll(editionDefaults);
+    if (features != null) result.features = features;
+    if (featureSupport != null) result.featureSupport = featureSupport;
     if (uninterpretedOption != null)
       result.uninterpretedOption.addAll(uninterpretedOption);
     return result;
@@ -2675,10 +2621,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(15)
   $core.bool get unverifiedLazy => $_getBF(6);
   @$pb.TagNumber(15)
-  set unverifiedLazy($core.bool v) {
-    $_setBool(6, v);
-  }
-
+  set unverifiedLazy($core.bool value) => $_setBool(6, value);
   @$pb.TagNumber(15)
   $core.bool hasUnverifiedLazy() => $_has(6);
   @$pb.TagNumber(15)
@@ -2689,10 +2632,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(16)
   $core.bool get debugRedact => $_getBF(7);
   @$pb.TagNumber(16)
-  set debugRedact($core.bool v) {
-    $_setBool(7, v);
-  }
-
+  set debugRedact($core.bool value) => $_setBool(7, value);
   @$pb.TagNumber(16)
   $core.bool hasDebugRedact() => $_has(7);
   @$pb.TagNumber(16)
@@ -2701,10 +2641,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(17)
   FieldOptions_OptionRetention get retention => $_getN(8);
   @$pb.TagNumber(17)
-  set retention(FieldOptions_OptionRetention v) {
-    $_setField(17, v);
-  }
-
+  set retention(FieldOptions_OptionRetention value) => $_setField(17, value);
   @$pb.TagNumber(17)
   $core.bool hasRetention() => $_has(8);
   @$pb.TagNumber(17)
@@ -2723,10 +2660,7 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(21)
   FeatureSet get features => $_getN(11);
   @$pb.TagNumber(21)
-  set features(FeatureSet v) {
-    $_setField(21, v);
-  }
-
+  set features(FeatureSet value) => $_setField(21, value);
   @$pb.TagNumber(21)
   $core.bool hasFeatures() => $_has(11);
   @$pb.TagNumber(21)
@@ -2737,10 +2671,8 @@ class FieldOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(22)
   FieldOptions_FeatureSupport get featureSupport => $_getN(12);
   @$pb.TagNumber(22)
-  set featureSupport(FieldOptions_FeatureSupport v) {
-    $_setField(22, v);
-  }
-
+  set featureSupport(FieldOptions_FeatureSupport value) =>
+      $_setField(22, value);
   @$pb.TagNumber(22)
   $core.bool hasFeatureSupport() => $_has(12);
   @$pb.TagNumber(22)
@@ -2759,6 +2691,7 @@ class OneofOptions extends $pb.GeneratedMessage {
     $core.Iterable<UninterpretedOption>? uninterpretedOption,
   }) {
     final result = create();
+    if (features != null) result.features = features;
     if (uninterpretedOption != null)
       result.uninterpretedOption.addAll(uninterpretedOption);
     return result;
@@ -2813,10 +2746,7 @@ class OneofOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   FeatureSet get features => $_getN(0);
   @$pb.TagNumber(1)
-  set features(FeatureSet v) {
-    $_setField(1, v);
-  }
-
+  set features(FeatureSet value) => $_setField(1, value);
   @$pb.TagNumber(1)
   $core.bool hasFeatures() => $_has(0);
   @$pb.TagNumber(1)
@@ -2841,6 +2771,10 @@ class EnumOptions extends $pb.GeneratedMessage {
     final result = create();
     if (allowAlias != null) result.allowAlias = allowAlias;
     if (deprecated != null) result.deprecated = deprecated;
+    if (deprecatedLegacyJsonFieldConflicts != null)
+      result.deprecatedLegacyJsonFieldConflicts =
+          deprecatedLegacyJsonFieldConflicts;
+    if (features != null) result.features = features;
     if (uninterpretedOption != null)
       result.uninterpretedOption.addAll(uninterpretedOption);
     return result;
@@ -2925,10 +2859,8 @@ class EnumOptions extends $pb.GeneratedMessage {
   $core.bool get deprecatedLegacyJsonFieldConflicts => $_getBF(2);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(6)
-  set deprecatedLegacyJsonFieldConflicts($core.bool v) {
-    $_setBool(2, v);
-  }
-
+  set deprecatedLegacyJsonFieldConflicts($core.bool value) =>
+      $_setBool(2, value);
   @$core.Deprecated('This field is deprecated.')
   @$pb.TagNumber(6)
   $core.bool hasDeprecatedLegacyJsonFieldConflicts() => $_has(2);
@@ -2943,10 +2875,7 @@ class EnumOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   FeatureSet get features => $_getN(3);
   @$pb.TagNumber(7)
-  set features(FeatureSet v) {
-    $_setField(7, v);
-  }
-
+  set features(FeatureSet value) => $_setField(7, value);
   @$pb.TagNumber(7)
   $core.bool hasFeatures() => $_has(3);
   @$pb.TagNumber(7)
@@ -2969,6 +2898,9 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   }) {
     final result = create();
     if (deprecated != null) result.deprecated = deprecated;
+    if (features != null) result.features = features;
+    if (debugRedact != null) result.debugRedact = debugRedact;
+    if (featureSupport != null) result.featureSupport = featureSupport;
     if (uninterpretedOption != null)
       result.uninterpretedOption.addAll(uninterpretedOption);
     return result;
@@ -3041,10 +2973,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   FeatureSet get features => $_getN(1);
   @$pb.TagNumber(2)
-  set features(FeatureSet v) {
-    $_setField(2, v);
-  }
-
+  set features(FeatureSet value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasFeatures() => $_has(1);
   @$pb.TagNumber(2)
@@ -3058,10 +2987,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.bool get debugRedact => $_getBF(2);
   @$pb.TagNumber(3)
-  set debugRedact($core.bool v) {
-    $_setBool(2, v);
-  }
-
+  set debugRedact($core.bool value) => $_setBool(2, value);
   @$pb.TagNumber(3)
   $core.bool hasDebugRedact() => $_has(2);
   @$pb.TagNumber(3)
@@ -3071,10 +2997,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   FieldOptions_FeatureSupport get featureSupport => $_getN(3);
   @$pb.TagNumber(4)
-  set featureSupport(FieldOptions_FeatureSupport v) {
-    $_setField(4, v);
-  }
-
+  set featureSupport(FieldOptions_FeatureSupport value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasFeatureSupport() => $_has(3);
   @$pb.TagNumber(4)
@@ -3095,6 +3018,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
   }) {
     final result = create();
     if (deprecated != null) result.deprecated = deprecated;
+    if (features != null) result.features = features;
     if (uninterpretedOption != null)
       result.uninterpretedOption.addAll(uninterpretedOption);
     return result;
@@ -3163,10 +3087,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(34)
   FeatureSet get features => $_getN(1);
   @$pb.TagNumber(34)
-  set features(FeatureSet v) {
-    $_setField(34, v);
-  }
-
+  set features(FeatureSet value) => $_setField(34, value);
   @$pb.TagNumber(34)
   $core.bool hasFeatures() => $_has(1);
   @$pb.TagNumber(34)
@@ -3189,6 +3110,7 @@ class MethodOptions extends $pb.GeneratedMessage {
     final result = create();
     if (deprecated != null) result.deprecated = deprecated;
     if (idempotencyLevel != null) result.idempotencyLevel = idempotencyLevel;
+    if (features != null) result.features = features;
     if (uninterpretedOption != null)
       result.uninterpretedOption.addAll(uninterpretedOption);
     return result;
@@ -3272,10 +3194,7 @@ class MethodOptions extends $pb.GeneratedMessage {
   @$pb.TagNumber(35)
   FeatureSet get features => $_getN(2);
   @$pb.TagNumber(35)
-  set features(FeatureSet v) {
-    $_setField(35, v);
-  }
-
+  set features(FeatureSet value) => $_setField(35, value);
   @$pb.TagNumber(35)
   $core.bool hasFeatures() => $_has(2);
   @$pb.TagNumber(35)
@@ -3504,13 +3423,15 @@ class UninterpretedOption extends $pb.GeneratedMessage {
 
 class FeatureSet_VisibilityFeature extends $pb.GeneratedMessage {
   factory FeatureSet_VisibilityFeature() => create();
-  FeatureSet_VisibilityFeature._() : super();
-  factory FeatureSet_VisibilityFeature.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FeatureSet_VisibilityFeature.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FeatureSet_VisibilityFeature._();
+
+  factory FeatureSet_VisibilityFeature.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FeatureSet_VisibilityFeature.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FeatureSet.VisibilityFeature',
@@ -3529,11 +3450,13 @@ class FeatureSet_VisibilityFeature extends $pb.GeneratedMessage {
               (message) => updates(message as FeatureSet_VisibilityFeature))
           as FeatureSet_VisibilityFeature;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FeatureSet_VisibilityFeature create() =>
       FeatureSet_VisibilityFeature._();
+  @$core.override
   FeatureSet_VisibilityFeature createEmptyInstance() => create();
   static $pb.PbList<FeatureSet_VisibilityFeature> createRepeated() =>
       $pb.PbList<FeatureSet_VisibilityFeature>();
@@ -3561,40 +3484,29 @@ class FeatureSet extends $pb.GeneratedMessage {
     FeatureSet_VisibilityFeature_DefaultSymbolVisibility?
         defaultSymbolVisibility,
   }) {
-    final $result = create();
-    if (fieldPresence != null) {
-      $result.fieldPresence = fieldPresence;
-    }
-    if (enumType != null) {
-      $result.enumType = enumType;
-    }
-    if (repeatedFieldEncoding != null) {
-      $result.repeatedFieldEncoding = repeatedFieldEncoding;
-    }
-    if (utf8Validation != null) {
-      $result.utf8Validation = utf8Validation;
-    }
-    if (messageEncoding != null) {
-      $result.messageEncoding = messageEncoding;
-    }
-    if (jsonFormat != null) {
-      $result.jsonFormat = jsonFormat;
-    }
-    if (enforceNamingStyle != null) {
-      $result.enforceNamingStyle = enforceNamingStyle;
-    }
-    if (defaultSymbolVisibility != null) {
-      $result.defaultSymbolVisibility = defaultSymbolVisibility;
-    }
-    return $result;
+    final result = create();
+    if (fieldPresence != null) result.fieldPresence = fieldPresence;
+    if (enumType != null) result.enumType = enumType;
+    if (repeatedFieldEncoding != null)
+      result.repeatedFieldEncoding = repeatedFieldEncoding;
+    if (utf8Validation != null) result.utf8Validation = utf8Validation;
+    if (messageEncoding != null) result.messageEncoding = messageEncoding;
+    if (jsonFormat != null) result.jsonFormat = jsonFormat;
+    if (enforceNamingStyle != null)
+      result.enforceNamingStyle = enforceNamingStyle;
+    if (defaultSymbolVisibility != null)
+      result.defaultSymbolVisibility = defaultSymbolVisibility;
+    return result;
   }
-  FeatureSet._() : super();
-  factory FeatureSet.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FeatureSet.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FeatureSet._();
+
+  factory FeatureSet.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FeatureSet.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FeatureSet',
@@ -3652,10 +3564,12 @@ class FeatureSet extends $pb.GeneratedMessage {
   FeatureSet copyWith(void Function(FeatureSet) updates) =>
       super.copyWith((message) => updates(message as FeatureSet)) as FeatureSet;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FeatureSet create() => FeatureSet._();
+  @$core.override
   FeatureSet createEmptyInstance() => create();
   static $pb.PbList<FeatureSet> createRepeated() => $pb.PbList<FeatureSet>();
   @$core.pragma('dart2js:noInline')
@@ -3666,10 +3580,7 @@ class FeatureSet extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   FeatureSet_FieldPresence get fieldPresence => $_getN(0);
   @$pb.TagNumber(1)
-  set fieldPresence(FeatureSet_FieldPresence v) {
-    $_setField(1, v);
-  }
-
+  set fieldPresence(FeatureSet_FieldPresence value) => $_setField(1, value);
   @$pb.TagNumber(1)
   $core.bool hasFieldPresence() => $_has(0);
   @$pb.TagNumber(1)
@@ -3678,10 +3589,7 @@ class FeatureSet extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   FeatureSet_EnumType get enumType => $_getN(1);
   @$pb.TagNumber(2)
-  set enumType(FeatureSet_EnumType v) {
-    $_setField(2, v);
-  }
-
+  set enumType(FeatureSet_EnumType value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasEnumType() => $_has(1);
   @$pb.TagNumber(2)
@@ -3690,10 +3598,8 @@ class FeatureSet extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   FeatureSet_RepeatedFieldEncoding get repeatedFieldEncoding => $_getN(2);
   @$pb.TagNumber(3)
-  set repeatedFieldEncoding(FeatureSet_RepeatedFieldEncoding v) {
-    $_setField(3, v);
-  }
-
+  set repeatedFieldEncoding(FeatureSet_RepeatedFieldEncoding value) =>
+      $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasRepeatedFieldEncoding() => $_has(2);
   @$pb.TagNumber(3)
@@ -3702,10 +3608,7 @@ class FeatureSet extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   FeatureSet_Utf8Validation get utf8Validation => $_getN(3);
   @$pb.TagNumber(4)
-  set utf8Validation(FeatureSet_Utf8Validation v) {
-    $_setField(4, v);
-  }
-
+  set utf8Validation(FeatureSet_Utf8Validation value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasUtf8Validation() => $_has(3);
   @$pb.TagNumber(4)
@@ -3714,10 +3617,7 @@ class FeatureSet extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   FeatureSet_MessageEncoding get messageEncoding => $_getN(4);
   @$pb.TagNumber(5)
-  set messageEncoding(FeatureSet_MessageEncoding v) {
-    $_setField(5, v);
-  }
-
+  set messageEncoding(FeatureSet_MessageEncoding value) => $_setField(5, value);
   @$pb.TagNumber(5)
   $core.bool hasMessageEncoding() => $_has(4);
   @$pb.TagNumber(5)
@@ -3726,10 +3626,7 @@ class FeatureSet extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   FeatureSet_JsonFormat get jsonFormat => $_getN(5);
   @$pb.TagNumber(6)
-  set jsonFormat(FeatureSet_JsonFormat v) {
-    $_setField(6, v);
-  }
-
+  set jsonFormat(FeatureSet_JsonFormat value) => $_setField(6, value);
   @$pb.TagNumber(6)
   $core.bool hasJsonFormat() => $_has(5);
   @$pb.TagNumber(6)
@@ -3738,10 +3635,8 @@ class FeatureSet extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   FeatureSet_EnforceNamingStyle get enforceNamingStyle => $_getN(6);
   @$pb.TagNumber(7)
-  set enforceNamingStyle(FeatureSet_EnforceNamingStyle v) {
-    $_setField(7, v);
-  }
-
+  set enforceNamingStyle(FeatureSet_EnforceNamingStyle value) =>
+      $_setField(7, value);
   @$pb.TagNumber(7)
   $core.bool hasEnforceNamingStyle() => $_has(6);
   @$pb.TagNumber(7)
@@ -3752,10 +3647,8 @@ class FeatureSet extends $pb.GeneratedMessage {
       get defaultSymbolVisibility => $_getN(7);
   @$pb.TagNumber(8)
   set defaultSymbolVisibility(
-      FeatureSet_VisibilityFeature_DefaultSymbolVisibility v) {
-    $_setField(8, v);
-  }
-
+          FeatureSet_VisibilityFeature_DefaultSymbolVisibility value) =>
+      $_setField(8, value);
   @$pb.TagNumber(8)
   $core.bool hasDefaultSymbolVisibility() => $_has(7);
   @$pb.TagNumber(8)
@@ -3772,26 +3665,24 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
     FeatureSet? overridableFeatures,
     FeatureSet? fixedFeatures,
   }) {
-    final $result = create();
-    if (edition != null) {
-      $result.edition = edition;
-    }
-    if (overridableFeatures != null) {
-      $result.overridableFeatures = overridableFeatures;
-    }
-    if (fixedFeatures != null) {
-      $result.fixedFeatures = fixedFeatures;
-    }
-    return $result;
+    final result = create();
+    if (edition != null) result.edition = edition;
+    if (overridableFeatures != null)
+      result.overridableFeatures = overridableFeatures;
+    if (fixedFeatures != null) result.fixedFeatures = fixedFeatures;
+    return result;
   }
-  FeatureSetDefaults_FeatureSetEditionDefault._() : super();
+
+  FeatureSetDefaults_FeatureSetEditionDefault._();
+
   factory FeatureSetDefaults_FeatureSetEditionDefault.fromBuffer(
-          $core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FeatureSetDefaults_FeatureSetEditionDefault.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+          $core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FeatureSetDefaults_FeatureSetEditionDefault.fromJson(
+          $core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FeatureSetDefaults.FeatureSetEditionDefault',
@@ -3817,11 +3708,13 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
               updates(message as FeatureSetDefaults_FeatureSetEditionDefault))
           as FeatureSetDefaults_FeatureSetEditionDefault;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FeatureSetDefaults_FeatureSetEditionDefault create() =>
       FeatureSetDefaults_FeatureSetEditionDefault._();
+  @$core.override
   FeatureSetDefaults_FeatureSetEditionDefault createEmptyInstance() => create();
   static $pb.PbList<FeatureSetDefaults_FeatureSetEditionDefault>
       createRepeated() =>
@@ -3835,10 +3728,7 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   Edition get edition => $_getN(0);
   @$pb.TagNumber(3)
-  set edition(Edition v) {
-    $_setField(3, v);
-  }
-
+  set edition(Edition value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasEdition() => $_has(0);
   @$pb.TagNumber(3)
@@ -3848,10 +3738,7 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   FeatureSet get overridableFeatures => $_getN(1);
   @$pb.TagNumber(4)
-  set overridableFeatures(FeatureSet v) {
-    $_setField(4, v);
-  }
-
+  set overridableFeatures(FeatureSet value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasOverridableFeatures() => $_has(1);
   @$pb.TagNumber(4)
@@ -3863,10 +3750,7 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   FeatureSet get fixedFeatures => $_getN(2);
   @$pb.TagNumber(5)
-  set fixedFeatures(FeatureSet v) {
-    $_setField(5, v);
-  }
-
+  set fixedFeatures(FeatureSet value) => $_setField(5, value);
   @$pb.TagNumber(5)
   $core.bool hasFixedFeatures() => $_has(2);
   @$pb.TagNumber(5)
@@ -3885,25 +3769,21 @@ class FeatureSetDefaults extends $pb.GeneratedMessage {
     Edition? minimumEdition,
     Edition? maximumEdition,
   }) {
-    final $result = create();
-    if (defaults != null) {
-      $result.defaults.addAll(defaults);
-    }
-    if (minimumEdition != null) {
-      $result.minimumEdition = minimumEdition;
-    }
-    if (maximumEdition != null) {
-      $result.maximumEdition = maximumEdition;
-    }
-    return $result;
+    final result = create();
+    if (defaults != null) result.defaults.addAll(defaults);
+    if (minimumEdition != null) result.minimumEdition = minimumEdition;
+    if (maximumEdition != null) result.maximumEdition = maximumEdition;
+    return result;
   }
-  FeatureSetDefaults._() : super();
-  factory FeatureSetDefaults.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory FeatureSetDefaults.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  FeatureSetDefaults._();
+
+  factory FeatureSetDefaults.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory FeatureSetDefaults.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FeatureSetDefaults',
@@ -3929,10 +3809,12 @@ class FeatureSetDefaults extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as FeatureSetDefaults))
           as FeatureSetDefaults;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static FeatureSetDefaults create() => FeatureSetDefaults._();
+  @$core.override
   FeatureSetDefaults createEmptyInstance() => create();
   static $pb.PbList<FeatureSetDefaults> createRepeated() =>
       $pb.PbList<FeatureSetDefaults>();
@@ -3950,10 +3832,7 @@ class FeatureSetDefaults extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   Edition get minimumEdition => $_getN(1);
   @$pb.TagNumber(4)
-  set minimumEdition(Edition v) {
-    $_setField(4, v);
-  }
-
+  set minimumEdition(Edition value) => $_setField(4, value);
   @$pb.TagNumber(4)
   $core.bool hasMinimumEdition() => $_has(1);
   @$pb.TagNumber(4)
@@ -3964,10 +3843,7 @@ class FeatureSetDefaults extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   Edition get maximumEdition => $_getN(2);
   @$pb.TagNumber(5)
-  set maximumEdition(Edition v) {
-    $_setField(5, v);
-  }
-
+  set maximumEdition(Edition value) => $_setField(5, value);
   @$pb.TagNumber(5)
   $core.bool hasMaximumEdition() => $_has(2);
   @$pb.TagNumber(5)
@@ -4250,6 +4126,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
     if (sourceFile != null) result.sourceFile = sourceFile;
     if (begin != null) result.begin = begin;
     if (end != null) result.end = end;
+    if (semantic != null) result.semantic = semantic;
     return result;
   }
 
@@ -4344,10 +4221,8 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   GeneratedCodeInfo_Annotation_Semantic get semantic => $_getN(4);
   @$pb.TagNumber(5)
-  set semantic(GeneratedCodeInfo_Annotation_Semantic v) {
-    $_setField(5, v);
-  }
-
+  set semantic(GeneratedCodeInfo_Annotation_Semantic value) =>
+      $_setField(5, value);
   @$pb.TagNumber(5)
   $core.bool hasSemantic() => $_has(4);
   @$pb.TagNumber(5)

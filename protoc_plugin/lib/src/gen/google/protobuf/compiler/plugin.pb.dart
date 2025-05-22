@@ -129,6 +129,8 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     if (parameter != null) result.parameter = parameter;
     if (compilerVersion != null) result.compilerVersion = compilerVersion;
     if (protoFile != null) result.protoFile.addAll(protoFile);
+    if (sourceFileDescriptors != null)
+      result.sourceFileDescriptors.addAll(sourceFileDescriptors);
     return result;
   }
 
@@ -400,6 +402,8 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
     final result = create();
     if (error != null) result.error = error;
     if (supportedFeatures != null) result.supportedFeatures = supportedFeatures;
+    if (minimumEdition != null) result.minimumEdition = minimumEdition;
+    if (maximumEdition != null) result.maximumEdition = maximumEdition;
     if (file != null) result.file.addAll(file);
     return result;
   }
@@ -489,10 +493,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get minimumEdition => $_getIZ(2);
   @$pb.TagNumber(3)
-  set minimumEdition($core.int v) {
-    $_setSignedInt32(2, v);
-  }
-
+  set minimumEdition($core.int value) => $_setSignedInt32(2, value);
   @$pb.TagNumber(3)
   $core.bool hasMinimumEdition() => $_has(2);
   @$pb.TagNumber(3)
@@ -505,10 +506,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get maximumEdition => $_getIZ(3);
   @$pb.TagNumber(4)
-  set maximumEdition($core.int v) {
-    $_setSignedInt32(3, v);
-  }
-
+  set maximumEdition($core.int value) => $_setSignedInt32(3, value);
   @$pb.TagNumber(4)
   $core.bool hasMaximumEdition() => $_has(3);
   @$pb.TagNumber(4)
