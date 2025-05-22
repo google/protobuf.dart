@@ -33,8 +33,6 @@ void main(List<String> args) async {
     'google/protobuf/duration.proto',
   ]);
 
-  print('');
-
   // Update from googleapis/googleapis.
   if (googleapisDir.existsSync()) {
     await git(['pull'], cwd: googleapisDir);
@@ -56,7 +54,7 @@ void main(List<String> args) async {
 }
 
 Future<void> git(List<String> args, {required Directory cwd}) async {
-  print('git ${args.join(' ')} [${cwd.path}]');
+  print('[${cwd.path}] git ${args.join(' ')}');
 
   if (!cwd.existsSync()) {
     cwd.createSync(recursive: true);
@@ -86,10 +84,12 @@ void copy(Directory from, Directory to, String fromPrefix, List<String> files) {
       target.parent.createSync(recursive: true);
     }
 
-    if (!target.existsSync() ||
-        target.readAsStringSync() != source.readAsStringSync()) {
-      print('  $file');
-      target.writeAsStringSync(source.readAsStringSync());
+    final sourceContents = source.readAsStringSync();
+    if (!target.existsSync() || target.readAsStringSync() != sourceContents) {
+      print('  => $file');
+      target.writeAsStringSync(sourceContents);
     }
   }
+
+  print('');
 }
