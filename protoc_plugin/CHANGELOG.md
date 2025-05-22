@@ -1,7 +1,10 @@
-## 22.2.1-wip
+## 22.3.0-wip
 
 * Update the generated code to improve readability and to better follow common
   Dart patterns.
+* No longer generate empty enum (`*.pbenum.dart`) files.
+* No longer generate empty server (`*.pbserver.dart`) files.
+* Ignore `implementation_imports` for some generated files.
 
 ## 22.2.0
 

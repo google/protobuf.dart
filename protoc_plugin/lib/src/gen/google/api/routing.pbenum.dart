@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: google/protobuf/duration.proto
+//  source: google/api/routing.proto
 //
 // @dart = 3.3
 

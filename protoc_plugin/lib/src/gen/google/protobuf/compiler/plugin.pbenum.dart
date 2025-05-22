@@ -21,15 +21,19 @@ class CodeGeneratorResponse_Feature extends $pb.ProtobufEnum {
   static const CodeGeneratorResponse_Feature FEATURE_PROTO3_OPTIONAL =
       CodeGeneratorResponse_Feature._(
           1, _omitEnumNames ? '' : 'FEATURE_PROTO3_OPTIONAL');
+  static const CodeGeneratorResponse_Feature FEATURE_SUPPORTS_EDITIONS =
+      CodeGeneratorResponse_Feature._(
+          2, _omitEnumNames ? '' : 'FEATURE_SUPPORTS_EDITIONS');
 
   static const $core.List<CodeGeneratorResponse_Feature> values =
       <CodeGeneratorResponse_Feature>[
     FEATURE_NONE,
     FEATURE_PROTO3_OPTIONAL,
+    FEATURE_SUPPORTS_EDITIONS,
   ];
 
   static final $core.List<CodeGeneratorResponse_Feature?> _byValue =
-      $pb.ProtobufEnum.$_initByValueList(values, 1);
+      $pb.ProtobufEnum.$_initByValueList(values, 2);
   static CodeGeneratorResponse_Feature? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
