@@ -5,8 +5,8 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/entity.pb.dart';
-import '../out/protos/nested_message.pb.dart';
+import 'gen/entity.pb.dart';
+import 'gen/nested_message.pb.dart';
 
 void main() {
   test('testFreezingNestedFields', () {

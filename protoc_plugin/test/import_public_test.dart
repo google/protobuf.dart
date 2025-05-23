@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/import_public.pb.dart';
+import 'gen/import_public.pb.dart';
 
 void main() {
   test('can reference a message type imported publicly', () {

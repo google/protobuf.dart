@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/default_value_escape.pb.dart';
+import 'gen/default_value_escape.pb.dart';
 
 void main() {
   test('default values are escaped properly', () {

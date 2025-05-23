@@ -1,7 +1,7 @@
 import 'package:protoc_plugin/testing/mixins.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/mixins.pb.dart' as pb;
+import 'gen/mixins.pb.dart' as pb;
 
 void main() {
   group('Proto with Mixin1', () {

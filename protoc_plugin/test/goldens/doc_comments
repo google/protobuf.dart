@@ -20,7 +20,15 @@ export 'doc_comments.pbenum.dart';
 
 /// This is a message.
 class HelloRequest extends $pb.GeneratedMessage {
-  factory HelloRequest() => create();
+  factory HelloRequest({
+    $core.String? name,
+  }) {
+    final $result = create();
+    if (name != null) {
+      $result.name = name;
+    }
+    return $result;
+  }
   HelloRequest._() : super();
   factory HelloRequest.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
@@ -70,7 +78,15 @@ class HelloRequest extends $pb.GeneratedMessage {
 }
 
 class HelloReply extends $pb.GeneratedMessage {
-  factory HelloReply() => create();
+  factory HelloReply({
+    $core.String? message,
+  }) {
+    final $result = create();
+    if (message != null) {
+      $result.message = message;
+    }
+    return $result;
+  }
   HelloReply._() : super();
   factory HelloReply.fromBuffer($core.List<$core.int> i,
           [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>

@@ -10,13 +10,12 @@ import 'golden_file.dart';
 
 void main() {
   test('Doc comment generation for messages', () {
-    final actual = File('out/protos/doc_comments.pb.dart').readAsStringSync();
+    final actual = File('test/gen/doc_comments.pb.dart').readAsStringSync();
     expectMatchesGoldenFile(actual, 'test/goldens/doc_comments');
   });
 
   test('Doc comment generation for enums', () {
-    final actual = File('out/protos/constructor_args/doc_comments.pbenum.dart')
-        .readAsStringSync();
+    final actual = File('test/gen/doc_comments.pbenum.dart').readAsStringSync();
     expectMatchesGoldenFile(actual, 'test/goldens/doc_comments.pbenum');
   });
 }

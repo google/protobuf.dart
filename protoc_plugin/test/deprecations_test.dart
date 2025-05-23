@@ -10,13 +10,12 @@ import 'golden_file.dart';
 
 void main() {
   test('Deprecated annotation generation for messages', () {
-    final actual = File('out/protos/deprecations.pb.dart').readAsStringSync();
+    final actual = File('test/gen/deprecations.pb.dart').readAsStringSync();
     expectMatchesGoldenFile(actual, 'test/goldens/deprecations');
   });
 
   test('Deprecated annotation generation for enums', () {
-    final actual = File('out/protos/constructor_args/deprecations.pbenum.dart')
-        .readAsStringSync();
+    final actual = File('test/gen/deprecations.pbenum.dart').readAsStringSync();
     expectMatchesGoldenFile(actual, 'test/goldens/deprecations.pbenum');
   });
 }

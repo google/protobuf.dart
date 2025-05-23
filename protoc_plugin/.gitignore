@@ -3,4 +3,7 @@
 pubspec.lock
 
 # Other generated files
+test/gen/
+
+# Legacy (can be deleted locally)
 out/

@@ -8,8 +8,8 @@ import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/foo.pb.dart';
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import 'gen/foo.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
 
 void main() {
   group('frozen and tobuilder', () {

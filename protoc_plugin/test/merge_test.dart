@@ -5,7 +5,7 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart' show expect, test;
 
-import '../out/protos/foo.pb.dart' as pb;
+import 'gen/foo.pb.dart' as pb;
 
 void main() {
   test('merges child message', () {

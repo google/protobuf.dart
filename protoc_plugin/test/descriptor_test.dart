@@ -6,9 +6,9 @@ import 'package:protobuf/protobuf.dart';
 import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/custom_option.pb.dart';
-import '../out/protos/custom_option.pbjson.dart';
-import '../out/protos/google/protobuf/unittest.pbjson.dart';
+import 'gen/custom_option.pb.dart';
+import 'gen/custom_option.pbjson.dart';
+import 'gen/google/protobuf/unittest.pbjson.dart';
 
 void main() {
   test('Can decode message descriptor', () {
