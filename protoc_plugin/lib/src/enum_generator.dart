@@ -115,10 +115,10 @@ class EnumGenerator extends ProtobufContainer {
     ], () {
       // -----------------------------------------------------------------
       // Define enum types.
+      final omitEnumNames = ConditionalConstDefinition('omit_enum_names');
       for (var i = 0; i < _canonicalValues.length; i++) {
         final val = _canonicalValues[i];
         final name = dartNames[val.name]!;
-        final omitEnumNames = ConditionalConstDefinition('omit_enum_names');
         out.addSuffix(
             omitEnumNames.constFieldName, omitEnumNames.constDefinition);
         final conditionalValName = omitEnumNames.createTernary(val.name);
@@ -206,7 +206,7 @@ class EnumGenerator extends ProtobufContainer {
 
       out.println();
 
-      out.println('const $classname._(super.v, super.n);');
+      out.println('const $classname._(super.value, super.name);');
     });
   }
 

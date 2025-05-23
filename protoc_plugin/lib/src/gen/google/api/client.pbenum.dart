@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -66,7 +67,7 @@ class ClientLibraryOrganization extends $pb.ProtobufEnum {
   static ClientLibraryOrganization? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const ClientLibraryOrganization._(super.v, super.n);
+  const ClientLibraryOrganization._(super.value, super.name);
 }
 
 /// To where should client libraries be published?
@@ -97,7 +98,8 @@ class ClientLibraryDestination extends $pb.ProtobufEnum {
       $pb.ProtobufEnum.initByValue(values);
   static ClientLibraryDestination? valueOf($core.int value) => _byValue[value];
 
-  const ClientLibraryDestination._(super.v, super.n);
+  const ClientLibraryDestination._(super.value, super.name);
 }
 
-const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
+const $core.bool _omitEnumNames =
+    $core.bool.fromEnvironment('protobuf.omit_enum_names');

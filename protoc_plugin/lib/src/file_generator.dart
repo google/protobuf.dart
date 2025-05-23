@@ -278,8 +278,8 @@ class FileGenerator extends ProtobufContainer {
       m.generate(out);
     }
 
-    // Generate code for extensions defined at top-level using a class
-    // name derived from the file name.
+    // Generate code for extensions defined at top-level using a class name
+    // derived from the file name.
     if (extensionGenerators.isNotEmpty) {
       // TODO(antonm): do not generate a class.
       final className = extensionClassName(descriptor, usedTopLevelNames);
@@ -287,9 +287,8 @@ class FileGenerator extends ProtobufContainer {
         for (final x in extensionGenerators) {
           x.generate(out);
         }
-        out.println(
-            'static void registerAllExtensions($protobufImportPrefix.ExtensionRegistry '
-            'registry) {');
+        out.println('static void registerAllExtensions('
+            '$protobufImportPrefix.ExtensionRegistry registry) {');
         for (final x in extensionGenerators) {
           out.println('  registry.add(${x.name});');
         }
@@ -339,7 +338,11 @@ class FileGenerator extends ProtobufContainer {
     }
 
     for (final target in enumImports) {
-      _addImport(importWriter, config, target, '.pbenum.dart');
+      // If we're already adding the main file (.pb.dart) as an import, we don't
+      // need to add the enums file, as that's exported from the main file.
+      if (!imports.contains(target)) {
+        _addImport(importWriter, config, target, '.pbenum.dart');
+      }
     }
 
     importWriter.addExport(_protobufImportUrl,
@@ -690,16 +693,13 @@ class FileGenerator extends ProtobufContainer {
 
 class ConditionalConstDefinition {
   final String envName;
-  late String _fieldName;
+  final String constFieldName;
 
-  ConditionalConstDefinition(this.envName) {
-    _fieldName = _convertToCamelCase(envName);
-  }
-
-  String get constFieldName => _fieldName;
+  ConditionalConstDefinition(this.envName)
+      : constFieldName = _convertToCamelCase(envName);
 
   String get constDefinition {
-    return 'const $constFieldName = '
+    return 'const $coreImportPrefix.bool $constFieldName = '
         "$coreImportPrefix.bool.fromEnvironment(${quoted('protobuf.$envName')});";
   }
 
@@ -708,7 +708,7 @@ class ConditionalConstDefinition {
   }
 
   // Convert foo_bar_baz to _fooBarBaz.
-  String _convertToCamelCase(String lowerUnderscoreCase) {
+  static String _convertToCamelCase(String lowerUnderscoreCase) {
     final parts = lowerUnderscoreCase.split('_');
     final rest = parts.skip(1).map((item) {
       return item.substring(0, 1).toUpperCase() + item.substring(1);
@@ -717,19 +717,13 @@ class ConditionalConstDefinition {
   }
 }
 
-// TODO(devoncarew): We should be able to shrink this down to just:
-//   annotate_overrides, camel_case_types, constant_identifier_names, and
-//   library_prefixes.
-
 const _fileIgnores = {
   'annotate_overrides',
   'camel_case_types',
   'comment_references',
   'constant_identifier_names',
+  'curly_braces_in_flow_control_structures',
+  'deprecated_member_use_from_same_package',
   'library_prefixes',
   'non_constant_identifier_names',
-  'prefer_final_fields',
-  'unnecessary_import',
-  'unnecessary_this',
-  'unused_import',
 };

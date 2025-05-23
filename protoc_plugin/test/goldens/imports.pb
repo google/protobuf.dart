@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -20,9 +21,11 @@ export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class M extends $pb.GeneratedMessage {
   factory M() => create();
-  M._() : super();
-  factory M.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory M.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  M._();
+
+  factory M.fromBuffer($core.List<$core.int> data, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(data, registry);
+  factory M.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'M', createEmptyInstance: create)
     ..aOM<M>(1, _omitFieldNames ? '' : 'm', subBuilder: M.create)
@@ -36,10 +39,12 @@ class M extends $pb.GeneratedMessage {
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M)) as M;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static M create() => M._();
+  @$core.override
   M createEmptyInstance() => create();
   static $pb.PbList<M> createRepeated() => $pb.PbList<M>();
   @$core.pragma('dart2js:noInline')
@@ -49,7 +54,7 @@ class M extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   M get m => $_getN(0);
   @$pb.TagNumber(1)
-  set m(M v) { $_setField(1, v); }
+  set m(M value) => $_setField(1, value);
   @$pb.TagNumber(1)
   $core.bool hasM() => $_has(0);
   @$pb.TagNumber(1)
@@ -60,7 +65,7 @@ class M extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $1.M get m1 => $_getN(1);
   @$pb.TagNumber(2)
-  set m1($1.M v) { $_setField(2, v); }
+  set m1($1.M value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasM1() => $_has(1);
   @$pb.TagNumber(2)
@@ -71,7 +76,7 @@ class M extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $2.M get m2 => $_getN(2);
   @$pb.TagNumber(3)
-  set m2($2.M v) { $_setField(3, v); }
+  set m2($2.M value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasM2() => $_has(2);
   @$pb.TagNumber(3)
@@ -81,5 +86,5 @@ class M extends $pb.GeneratedMessage {
 }
 
 
-const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

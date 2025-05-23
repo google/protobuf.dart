@@ -14,8 +14,8 @@ class PhoneNumber_PhoneType extends $pb.ProtobufEnum {
   static final $core.List<PhoneNumber_PhoneType?> _byValue = $pb.ProtobufEnum.$_initByValueList(values, 2);
   static PhoneNumber_PhoneType? valueOf($core.int value) =>  value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const PhoneNumber_PhoneType._(super.v, super.n);
+  const PhoneNumber_PhoneType._(super.value, super.name);
 }
 
 
-const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
+const $core.bool _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
