@@ -5,7 +5,7 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/timestamp.pb.dart';
+import 'gen/google/protobuf/timestamp.pb.dart';
 
 void main() {
   test('timestamp -> datetime -> timestamp', () {

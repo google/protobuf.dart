@@ -7,8 +7,8 @@ import 'package:protoc_plugin/src/gen/dart_options.pb.dart';
 import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/dart_name.pb.dart' as pb;
-import '../out/protos/json_name.pb.dart' as json_name;
+import 'gen/dart_name.pb.dart' as pb;
+import 'gen/json_name.pb.dart' as json_name;
 
 Matcher throwsMessage(String msg) => throwsA(_ToStringMatcher(equals(msg)));
 

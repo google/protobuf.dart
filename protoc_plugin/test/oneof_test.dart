@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/oneof.pb.dart';
+import 'gen/oneof.pb.dart';
 
 void main() {
   test('empty oneof', () {

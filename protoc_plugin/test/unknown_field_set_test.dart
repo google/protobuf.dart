@@ -7,7 +7,7 @@ import 'dart:typed_data';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
 import 'test_util.dart';
 
 void main() {

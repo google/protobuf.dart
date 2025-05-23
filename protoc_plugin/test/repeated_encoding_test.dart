@@ -4,8 +4,8 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/proto2_repeated.pb.dart';
-import '../out/protos/proto3_repeated.pb.dart';
+import 'gen/proto2_repeated.pb.dart';
+import 'gen/proto3_repeated.pb.dart';
 
 void main() {
   test('check proto2 and proto3 repeated field encodings', () {

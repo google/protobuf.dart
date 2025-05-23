@@ -5,13 +5,13 @@
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/ExtensionEnumNameConflict.pb.dart';
-import '../out/protos/ExtensionNameConflict.pb.dart';
-import '../out/protos/enum_extension.pb.dart';
-import '../out/protos/extend_unittest.pb.dart';
-import '../out/protos/google/protobuf/unittest.pb.dart';
-import '../out/protos/nested_extension.pb.dart';
-import '../out/protos/non_nested_extension.pb.dart';
+import 'gen/ExtensionEnumNameConflict.pb.dart';
+import 'gen/ExtensionNameConflict.pb.dart';
+import 'gen/enum_extension.pb.dart';
+import 'gen/extend_unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
+import 'gen/nested_extension.pb.dart';
+import 'gen/non_nested_extension.pb.dart';
 import 'test_util.dart';
 
 Matcher throwsArgError(String expectedMessage) =>

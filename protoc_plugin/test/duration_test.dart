@@ -5,7 +5,7 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/duration.pb.dart' as pb;
+import 'gen/google/protobuf/duration.pb.dart' as pb;
 
 void main() {
   test('core duration -> proto duration', () {

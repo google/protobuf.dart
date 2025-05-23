@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
 
 void main() {
   test('testValidationFailureMessages', () {

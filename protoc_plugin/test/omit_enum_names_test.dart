@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
 
 @pragma('dart2js:noInline')
 String constant() => 'SHOULD_BE_PRESENT';

@@ -6,9 +6,9 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/foo.pb.dart' as foo;
-import '../out/protos/google/protobuf/unittest.pb.dart';
-import '../out/protos/map_enum_value.pb.dart';
+import 'gen/foo.pb.dart' as foo;
+import 'gen/google/protobuf/unittest.pb.dart';
+import 'gen/map_enum_value.pb.dart';
 import 'test_util.dart';
 
 void main() {

@@ -5,7 +5,7 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/_leading_underscores.pb.dart';
+import 'gen/_leading_underscores.pb.dart';
 
 void main() {
   test('can set, read and clear all fields and refer to types', () {

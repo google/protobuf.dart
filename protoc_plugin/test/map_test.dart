@@ -5,8 +5,8 @@
 import 'package:test/test.dart'
     show expect, isA, predicate, same, test, throwsA, throwsArgumentError;
 
-import '../out/protos/map_api.pb.dart' as pb;
-import '../out/protos/map_api2.pb.dart' as pb2;
+import 'gen/map_api.pb.dart' as pb;
+import 'gen/map_api2.pb.dart' as pb2;
 
 void main() {
   test("message doesn't implement Map when turned off", () {
