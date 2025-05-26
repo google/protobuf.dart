@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -28,28 +29,22 @@ class Version extends $pb.GeneratedMessage {
     $core.int? patch,
     $core.String? suffix,
   }) {
-    final $result = create();
-    if (major != null) {
-      $result.major = major;
-    }
-    if (minor != null) {
-      $result.minor = minor;
-    }
-    if (patch != null) {
-      $result.patch = patch;
-    }
-    if (suffix != null) {
-      $result.suffix = suffix;
-    }
-    return $result;
+    final result = create();
+    if (major != null) result.major = major;
+    if (minor != null) result.minor = minor;
+    if (patch != null) result.patch = patch;
+    if (suffix != null) result.suffix = suffix;
+    return result;
   }
-  Version._() : super();
-  factory Version.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory Version.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  Version._();
+
+  factory Version.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory Version.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Version',
@@ -68,10 +63,12 @@ class Version extends $pb.GeneratedMessage {
   Version copyWith(void Function(Version) updates) =>
       super.copyWith((message) => updates(message as Version)) as Version;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static Version create() => Version._();
+  @$core.override
   Version createEmptyInstance() => create();
   static $pb.PbList<Version> createRepeated() => $pb.PbList<Version>();
   @$core.pragma('dart2js:noInline')
@@ -82,10 +79,7 @@ class Version extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.int get major => $_getIZ(0);
   @$pb.TagNumber(1)
-  set major($core.int v) {
-    $_setSignedInt32(0, v);
-  }
-
+  set major($core.int value) => $_setSignedInt32(0, value);
   @$pb.TagNumber(1)
   $core.bool hasMajor() => $_has(0);
   @$pb.TagNumber(1)
@@ -94,10 +88,7 @@ class Version extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.int get minor => $_getIZ(1);
   @$pb.TagNumber(2)
-  set minor($core.int v) {
-    $_setSignedInt32(1, v);
-  }
-
+  set minor($core.int value) => $_setSignedInt32(1, value);
   @$pb.TagNumber(2)
   $core.bool hasMinor() => $_has(1);
   @$pb.TagNumber(2)
@@ -106,10 +97,7 @@ class Version extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get patch => $_getIZ(2);
   @$pb.TagNumber(3)
-  set patch($core.int v) {
-    $_setSignedInt32(2, v);
-  }
-
+  set patch($core.int value) => $_setSignedInt32(2, value);
   @$pb.TagNumber(3)
   $core.bool hasPatch() => $_has(2);
   @$pb.TagNumber(3)
@@ -120,10 +108,7 @@ class Version extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.String get suffix => $_getSZ(3);
   @$pb.TagNumber(4)
-  set suffix($core.String v) {
-    $_setString(3, v);
-  }
-
+  set suffix($core.String value) => $_setString(3, value);
   @$pb.TagNumber(4)
   $core.bool hasSuffix() => $_has(3);
   @$pb.TagNumber(4)
@@ -139,31 +124,24 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     $core.Iterable<$2.FileDescriptorProto>? protoFile,
     $core.Iterable<$2.FileDescriptorProto>? sourceFileDescriptors,
   }) {
-    final $result = create();
-    if (fileToGenerate != null) {
-      $result.fileToGenerate.addAll(fileToGenerate);
-    }
-    if (parameter != null) {
-      $result.parameter = parameter;
-    }
-    if (compilerVersion != null) {
-      $result.compilerVersion = compilerVersion;
-    }
-    if (protoFile != null) {
-      $result.protoFile.addAll(protoFile);
-    }
-    if (sourceFileDescriptors != null) {
-      $result.sourceFileDescriptors.addAll(sourceFileDescriptors);
-    }
-    return $result;
+    final result = create();
+    if (fileToGenerate != null) result.fileToGenerate.addAll(fileToGenerate);
+    if (parameter != null) result.parameter = parameter;
+    if (compilerVersion != null) result.compilerVersion = compilerVersion;
+    if (protoFile != null) result.protoFile.addAll(protoFile);
+    if (sourceFileDescriptors != null)
+      result.sourceFileDescriptors.addAll(sourceFileDescriptors);
+    return result;
   }
-  CodeGeneratorRequest._() : super();
-  factory CodeGeneratorRequest.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CodeGeneratorRequest.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CodeGeneratorRequest._();
+
+  factory CodeGeneratorRequest.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CodeGeneratorRequest.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorRequest',
@@ -189,10 +167,12 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CodeGeneratorRequest))
           as CodeGeneratorRequest;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest create() => CodeGeneratorRequest._();
+  @$core.override
   CodeGeneratorRequest createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorRequest> createRepeated() =>
       $pb.PbList<CodeGeneratorRequest>();
@@ -211,10 +191,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get parameter => $_getSZ(1);
   @$pb.TagNumber(2)
-  set parameter($core.String v) {
-    $_setString(1, v);
-  }
-
+  set parameter($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasParameter() => $_has(1);
   @$pb.TagNumber(2)
@@ -224,10 +201,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   Version get compilerVersion => $_getN(2);
   @$pb.TagNumber(3)
-  set compilerVersion(Version v) {
-    $_setField(3, v);
-  }
-
+  set compilerVersion(Version value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasCompilerVersion() => $_has(2);
   @$pb.TagNumber(3)
@@ -272,28 +246,22 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
     $core.String? content,
     $2.GeneratedCodeInfo? generatedCodeInfo,
   }) {
-    final $result = create();
-    if (name != null) {
-      $result.name = name;
-    }
-    if (insertionPoint != null) {
-      $result.insertionPoint = insertionPoint;
-    }
-    if (content != null) {
-      $result.content = content;
-    }
-    if (generatedCodeInfo != null) {
-      $result.generatedCodeInfo = generatedCodeInfo;
-    }
-    return $result;
+    final result = create();
+    if (name != null) result.name = name;
+    if (insertionPoint != null) result.insertionPoint = insertionPoint;
+    if (content != null) result.content = content;
+    if (generatedCodeInfo != null) result.generatedCodeInfo = generatedCodeInfo;
+    return result;
   }
-  CodeGeneratorResponse_File._() : super();
-  factory CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CodeGeneratorResponse_File.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CodeGeneratorResponse_File._();
+
+  factory CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CodeGeneratorResponse_File.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorResponse.File',
@@ -317,10 +285,12 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
               (message) => updates(message as CodeGeneratorResponse_File))
           as CodeGeneratorResponse_File;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File._();
+  @$core.override
   CodeGeneratorResponse_File createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorResponse_File> createRepeated() =>
       $pb.PbList<CodeGeneratorResponse_File>();
@@ -343,10 +313,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) {
-    $_setString(0, v);
-  }
-
+  set name($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
@@ -392,10 +359,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get insertionPoint => $_getSZ(1);
   @$pb.TagNumber(2)
-  set insertionPoint($core.String v) {
-    $_setString(1, v);
-  }
-
+  set insertionPoint($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasInsertionPoint() => $_has(1);
   @$pb.TagNumber(2)
@@ -405,10 +369,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$pb.TagNumber(15)
   $core.String get content => $_getSZ(2);
   @$pb.TagNumber(15)
-  set content($core.String v) {
-    $_setString(2, v);
-  }
-
+  set content($core.String value) => $_setString(2, value);
   @$pb.TagNumber(15)
   $core.bool hasContent() => $_has(2);
   @$pb.TagNumber(15)
@@ -420,10 +381,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$pb.TagNumber(16)
   $2.GeneratedCodeInfo get generatedCodeInfo => $_getN(3);
   @$pb.TagNumber(16)
-  set generatedCodeInfo($2.GeneratedCodeInfo v) {
-    $_setField(16, v);
-  }
-
+  set generatedCodeInfo($2.GeneratedCodeInfo value) => $_setField(16, value);
   @$pb.TagNumber(16)
   $core.bool hasGeneratedCodeInfo() => $_has(3);
   @$pb.TagNumber(16)
@@ -441,31 +399,23 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
     $core.int? maximumEdition,
     $core.Iterable<CodeGeneratorResponse_File>? file,
   }) {
-    final $result = create();
-    if (error != null) {
-      $result.error = error;
-    }
-    if (supportedFeatures != null) {
-      $result.supportedFeatures = supportedFeatures;
-    }
-    if (minimumEdition != null) {
-      $result.minimumEdition = minimumEdition;
-    }
-    if (maximumEdition != null) {
-      $result.maximumEdition = maximumEdition;
-    }
-    if (file != null) {
-      $result.file.addAll(file);
-    }
-    return $result;
+    final result = create();
+    if (error != null) result.error = error;
+    if (supportedFeatures != null) result.supportedFeatures = supportedFeatures;
+    if (minimumEdition != null) result.minimumEdition = minimumEdition;
+    if (maximumEdition != null) result.maximumEdition = maximumEdition;
+    if (file != null) result.file.addAll(file);
+    return result;
   }
-  CodeGeneratorResponse._() : super();
-  factory CodeGeneratorResponse.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CodeGeneratorResponse.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CodeGeneratorResponse._();
+
+  factory CodeGeneratorResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CodeGeneratorResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorResponse',
@@ -494,10 +444,12 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CodeGeneratorResponse))
           as CodeGeneratorResponse;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse create() => CodeGeneratorResponse._();
+  @$core.override
   CodeGeneratorResponse createEmptyInstance() => create();
   static $pb.PbList<CodeGeneratorResponse> createRepeated() =>
       $pb.PbList<CodeGeneratorResponse>();
@@ -517,10 +469,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get error => $_getSZ(0);
   @$pb.TagNumber(1)
-  set error($core.String v) {
-    $_setString(0, v);
-  }
-
+  set error($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasError() => $_has(0);
   @$pb.TagNumber(1)
@@ -531,10 +480,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $fixnum.Int64 get supportedFeatures => $_getI64(1);
   @$pb.TagNumber(2)
-  set supportedFeatures($fixnum.Int64 v) {
-    $_setInt64(1, v);
-  }
-
+  set supportedFeatures($fixnum.Int64 value) => $_setInt64(1, value);
   @$pb.TagNumber(2)
   $core.bool hasSupportedFeatures() => $_has(1);
   @$pb.TagNumber(2)
@@ -547,10 +493,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.int get minimumEdition => $_getIZ(2);
   @$pb.TagNumber(3)
-  set minimumEdition($core.int v) {
-    $_setSignedInt32(2, v);
-  }
-
+  set minimumEdition($core.int value) => $_setSignedInt32(2, value);
   @$pb.TagNumber(3)
   $core.bool hasMinimumEdition() => $_has(2);
   @$pb.TagNumber(3)
@@ -563,10 +506,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.int get maximumEdition => $_getIZ(3);
   @$pb.TagNumber(4)
-  set maximumEdition($core.int v) {
-    $_setSignedInt32(3, v);
-  }
-
+  set maximumEdition($core.int value) => $_setSignedInt32(3, value);
   @$pb.TagNumber(4)
   $core.bool hasMaximumEdition() => $_has(3);
   @$pb.TagNumber(4)
@@ -576,6 +516,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   $pb.PbList<CodeGeneratorResponse_File> get file => $_getList(4);
 }
 
-const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
+const $core.bool _omitFieldNames =
+    $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames =
     $core.bool.fromEnvironment('protobuf.omit_message_names');

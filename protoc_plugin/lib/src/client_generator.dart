@@ -53,7 +53,8 @@ class ClientApiGenerator {
           '@$coreImportPrefix.Deprecated(\'This service is deprecated\')');
     }
     out.addBlock('class ${className}Api {', '}', () {
-      out.println('$_clientType _client;');
+      out.println('final $_clientType _client;');
+      out.println();
       out.println('${className}Api(this._client);');
       out.println();
 

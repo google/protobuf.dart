@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -23,22 +24,21 @@ class Http extends $pb.GeneratedMessage {
     $core.Iterable<HttpRule>? rules,
     $core.bool? fullyDecodeReservedExpansion,
   }) {
-    final $result = create();
-    if (rules != null) {
-      $result.rules.addAll(rules);
-    }
-    if (fullyDecodeReservedExpansion != null) {
-      $result.fullyDecodeReservedExpansion = fullyDecodeReservedExpansion;
-    }
-    return $result;
+    final result = create();
+    if (rules != null) result.rules.addAll(rules);
+    if (fullyDecodeReservedExpansion != null)
+      result.fullyDecodeReservedExpansion = fullyDecodeReservedExpansion;
+    return result;
   }
-  Http._() : super();
-  factory Http.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory Http.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  Http._();
+
+  factory Http.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory Http.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Http',
@@ -55,10 +55,12 @@ class Http extends $pb.GeneratedMessage {
   Http copyWith(void Function(Http) updates) =>
       super.copyWith((message) => updates(message as Http)) as Http;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static Http create() => Http._();
+  @$core.override
   Http createEmptyInstance() => create();
   static $pb.PbList<Http> createRepeated() => $pb.PbList<Http>();
   @$core.pragma('dart2js:noInline')
@@ -81,10 +83,7 @@ class Http extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.bool get fullyDecodeReservedExpansion => $_getBF(1);
   @$pb.TagNumber(2)
-  set fullyDecodeReservedExpansion($core.bool v) {
-    $_setBool(1, v);
-  }
-
+  set fullyDecodeReservedExpansion($core.bool value) => $_setBool(1, value);
   @$pb.TagNumber(2)
   $core.bool hasFullyDecodeReservedExpansion() => $_has(1);
   @$pb.TagNumber(2)
@@ -370,46 +369,29 @@ class HttpRule extends $pb.GeneratedMessage {
     $core.Iterable<HttpRule>? additionalBindings,
     $core.String? responseBody,
   }) {
-    final $result = create();
-    if (selector != null) {
-      $result.selector = selector;
-    }
-    if (get != null) {
-      $result.get = get;
-    }
-    if (put != null) {
-      $result.put = put;
-    }
-    if (post != null) {
-      $result.post = post;
-    }
-    if (delete != null) {
-      $result.delete = delete;
-    }
-    if (patch != null) {
-      $result.patch = patch;
-    }
-    if (body != null) {
-      $result.body = body;
-    }
-    if (custom != null) {
-      $result.custom = custom;
-    }
-    if (additionalBindings != null) {
-      $result.additionalBindings.addAll(additionalBindings);
-    }
-    if (responseBody != null) {
-      $result.responseBody = responseBody;
-    }
-    return $result;
+    final result = create();
+    if (selector != null) result.selector = selector;
+    if (get != null) result.get = get;
+    if (put != null) result.put = put;
+    if (post != null) result.post = post;
+    if (delete != null) result.delete = delete;
+    if (patch != null) result.patch = patch;
+    if (body != null) result.body = body;
+    if (custom != null) result.custom = custom;
+    if (additionalBindings != null)
+      result.additionalBindings.addAll(additionalBindings);
+    if (responseBody != null) result.responseBody = responseBody;
+    return result;
   }
-  HttpRule._() : super();
-  factory HttpRule.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory HttpRule.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  HttpRule._();
+
+  factory HttpRule.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory HttpRule.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static const $core.Map<$core.int, HttpRule_Pattern> _HttpRule_PatternByTag = {
     2: HttpRule_Pattern.get,
@@ -446,10 +428,12 @@ class HttpRule extends $pb.GeneratedMessage {
   HttpRule copyWith(void Function(HttpRule) updates) =>
       super.copyWith((message) => updates(message as HttpRule)) as HttpRule;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static HttpRule create() => HttpRule._();
+  @$core.override
   HttpRule createEmptyInstance() => create();
   static $pb.PbList<HttpRule> createRepeated() => $pb.PbList<HttpRule>();
   @$core.pragma('dart2js:noInline')
@@ -467,10 +451,7 @@ class HttpRule extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get selector => $_getSZ(0);
   @$pb.TagNumber(1)
-  set selector($core.String v) {
-    $_setString(0, v);
-  }
-
+  set selector($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasSelector() => $_has(0);
   @$pb.TagNumber(1)
@@ -481,10 +462,7 @@ class HttpRule extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get get => $_getSZ(1);
   @$pb.TagNumber(2)
-  set get($core.String v) {
-    $_setString(1, v);
-  }
-
+  set get($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasGet() => $_has(1);
   @$pb.TagNumber(2)
@@ -494,10 +472,7 @@ class HttpRule extends $pb.GeneratedMessage {
   @$pb.TagNumber(3)
   $core.String get put => $_getSZ(2);
   @$pb.TagNumber(3)
-  set put($core.String v) {
-    $_setString(2, v);
-  }
-
+  set put($core.String value) => $_setString(2, value);
   @$pb.TagNumber(3)
   $core.bool hasPut() => $_has(2);
   @$pb.TagNumber(3)
@@ -507,10 +482,7 @@ class HttpRule extends $pb.GeneratedMessage {
   @$pb.TagNumber(4)
   $core.String get post => $_getSZ(3);
   @$pb.TagNumber(4)
-  set post($core.String v) {
-    $_setString(3, v);
-  }
-
+  set post($core.String value) => $_setString(3, value);
   @$pb.TagNumber(4)
   $core.bool hasPost() => $_has(3);
   @$pb.TagNumber(4)
@@ -520,10 +492,7 @@ class HttpRule extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   $core.String get delete => $_getSZ(4);
   @$pb.TagNumber(5)
-  set delete($core.String v) {
-    $_setString(4, v);
-  }
-
+  set delete($core.String value) => $_setString(4, value);
   @$pb.TagNumber(5)
   $core.bool hasDelete() => $_has(4);
   @$pb.TagNumber(5)
@@ -533,10 +502,7 @@ class HttpRule extends $pb.GeneratedMessage {
   @$pb.TagNumber(6)
   $core.String get patch => $_getSZ(5);
   @$pb.TagNumber(6)
-  set patch($core.String v) {
-    $_setString(5, v);
-  }
-
+  set patch($core.String value) => $_setString(5, value);
   @$pb.TagNumber(6)
   $core.bool hasPatch() => $_has(5);
   @$pb.TagNumber(6)
@@ -551,10 +517,7 @@ class HttpRule extends $pb.GeneratedMessage {
   @$pb.TagNumber(7)
   $core.String get body => $_getSZ(6);
   @$pb.TagNumber(7)
-  set body($core.String v) {
-    $_setString(6, v);
-  }
-
+  set body($core.String value) => $_setString(6, value);
   @$pb.TagNumber(7)
   $core.bool hasBody() => $_has(6);
   @$pb.TagNumber(7)
@@ -567,10 +530,7 @@ class HttpRule extends $pb.GeneratedMessage {
   @$pb.TagNumber(8)
   CustomHttpPattern get custom => $_getN(7);
   @$pb.TagNumber(8)
-  set custom(CustomHttpPattern v) {
-    $_setField(8, v);
-  }
-
+  set custom(CustomHttpPattern value) => $_setField(8, value);
   @$pb.TagNumber(8)
   $core.bool hasCustom() => $_has(7);
   @$pb.TagNumber(8)
@@ -593,10 +553,7 @@ class HttpRule extends $pb.GeneratedMessage {
   @$pb.TagNumber(12)
   $core.String get responseBody => $_getSZ(9);
   @$pb.TagNumber(12)
-  set responseBody($core.String v) {
-    $_setString(9, v);
-  }
-
+  set responseBody($core.String value) => $_setString(9, value);
   @$pb.TagNumber(12)
   $core.bool hasResponseBody() => $_has(9);
   @$pb.TagNumber(12)
@@ -609,22 +566,20 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
     $core.String? kind,
     $core.String? path,
   }) {
-    final $result = create();
-    if (kind != null) {
-      $result.kind = kind;
-    }
-    if (path != null) {
-      $result.path = path;
-    }
-    return $result;
+    final result = create();
+    if (kind != null) result.kind = kind;
+    if (path != null) result.path = path;
+    return result;
   }
-  CustomHttpPattern._() : super();
-  factory CustomHttpPattern.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(i, r);
-  factory CustomHttpPattern.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(i, r);
+
+  CustomHttpPattern._();
+
+  factory CustomHttpPattern.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory CustomHttpPattern.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CustomHttpPattern',
@@ -641,10 +596,12 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as CustomHttpPattern))
           as CustomHttpPattern;
 
+  @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static CustomHttpPattern create() => CustomHttpPattern._();
+  @$core.override
   CustomHttpPattern createEmptyInstance() => create();
   static $pb.PbList<CustomHttpPattern> createRepeated() =>
       $pb.PbList<CustomHttpPattern>();
@@ -657,10 +614,7 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.String get kind => $_getSZ(0);
   @$pb.TagNumber(1)
-  set kind($core.String v) {
-    $_setString(0, v);
-  }
-
+  set kind($core.String value) => $_setString(0, value);
   @$pb.TagNumber(1)
   $core.bool hasKind() => $_has(0);
   @$pb.TagNumber(1)
@@ -670,16 +624,14 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   $core.String get path => $_getSZ(1);
   @$pb.TagNumber(2)
-  set path($core.String v) {
-    $_setString(1, v);
-  }
-
+  set path($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
   $core.bool hasPath() => $_has(1);
   @$pb.TagNumber(2)
   void clearPath() => $_clearField(2);
 }
 
-const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
+const $core.bool _omitFieldNames =
+    $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames =
     $core.bool.fromEnvironment('protobuf.omit_message_names');

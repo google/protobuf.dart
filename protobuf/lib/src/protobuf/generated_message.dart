@@ -575,7 +575,9 @@ class _SingletonMaker<T extends GeneratedMessage> {
 /// The package name of a protobuf message.
 class PackageName {
   final String name;
+
   const PackageName(this.name);
+
   String get prefix => name == '' ? '' : '$name.';
 }
 

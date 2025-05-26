@@ -5,9 +5,10 @@
 // @dart = 3.3
 
 // ignore_for_file: annotate_overrides, camel_case_types, comment_references
-// ignore_for_file: constant_identifier_names, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_final_fields
-// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -79,7 +80,7 @@ class Edition extends $pb.ProtobufEnum {
       $pb.ProtobufEnum.initByValue(values);
   static Edition? valueOf($core.int value) => _byValue[value];
 
-  const Edition._(super.v, super.n);
+  const Edition._(super.value, super.name);
 }
 
 /// Describes the 'visibility' of a symbol with respect to the proto import
@@ -106,7 +107,7 @@ class SymbolVisibility extends $pb.ProtobufEnum {
   static SymbolVisibility? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const SymbolVisibility._(super.v, super.n);
+  const SymbolVisibility._(super.value, super.name);
 }
 
 /// The verification state of the extension range.
@@ -130,7 +131,7 @@ class ExtensionRangeOptions_VerificationState extends $pb.ProtobufEnum {
   static ExtensionRangeOptions_VerificationState? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const ExtensionRangeOptions_VerificationState._(super.v, super.n);
+  const ExtensionRangeOptions_VerificationState._(super.value, super.name);
 }
 
 class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
@@ -214,7 +215,7 @@ class FieldDescriptorProto_Type extends $pb.ProtobufEnum {
   static FieldDescriptorProto_Type? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldDescriptorProto_Type._(super.v, super.n);
+  const FieldDescriptorProto_Type._(super.value, super.name);
 }
 
 class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
@@ -242,7 +243,7 @@ class FieldDescriptorProto_Label extends $pb.ProtobufEnum {
   static FieldDescriptorProto_Label? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldDescriptorProto_Label._(super.v, super.n);
+  const FieldDescriptorProto_Label._(super.value, super.name);
 }
 
 /// Generated classes can be optimized for speed or code size.
@@ -268,7 +269,7 @@ class FileOptions_OptimizeMode extends $pb.ProtobufEnum {
   static FileOptions_OptimizeMode? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FileOptions_OptimizeMode._(super.v, super.n);
+  const FileOptions_OptimizeMode._(super.value, super.name);
 }
 
 class FieldOptions_CType extends $pb.ProtobufEnum {
@@ -298,7 +299,7 @@ class FieldOptions_CType extends $pb.ProtobufEnum {
   static FieldOptions_CType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldOptions_CType._(super.v, super.n);
+  const FieldOptions_CType._(super.value, super.name);
 }
 
 class FieldOptions_JSType extends $pb.ProtobufEnum {
@@ -325,7 +326,7 @@ class FieldOptions_JSType extends $pb.ProtobufEnum {
   static FieldOptions_JSType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldOptions_JSType._(super.v, super.n);
+  const FieldOptions_JSType._(super.value, super.name);
 }
 
 /// If set to RETENTION_SOURCE, the option will be omitted from the binary.
@@ -352,7 +353,7 @@ class FieldOptions_OptionRetention extends $pb.ProtobufEnum {
   static FieldOptions_OptionRetention? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldOptions_OptionRetention._(super.v, super.n);
+  const FieldOptions_OptionRetention._(super.value, super.name);
 }
 
 /// This indicates the types of entities that the field may apply to when used
@@ -409,7 +410,7 @@ class FieldOptions_OptionTargetType extends $pb.ProtobufEnum {
   static FieldOptions_OptionTargetType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FieldOptions_OptionTargetType._(super.v, super.n);
+  const FieldOptions_OptionTargetType._(super.value, super.name);
 }
 
 /// Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
@@ -437,7 +438,7 @@ class MethodOptions_IdempotencyLevel extends $pb.ProtobufEnum {
   static MethodOptions_IdempotencyLevel? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const MethodOptions_IdempotencyLevel._(super.v, super.n);
+  const MethodOptions_IdempotencyLevel._(super.value, super.name);
 }
 
 class FeatureSet_FieldPresence extends $pb.ProtobufEnum {
@@ -464,7 +465,7 @@ class FeatureSet_FieldPresence extends $pb.ProtobufEnum {
   static FeatureSet_FieldPresence? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FeatureSet_FieldPresence._(super.v, super.n);
+  const FeatureSet_FieldPresence._(super.value, super.name);
 }
 
 class FeatureSet_EnumType extends $pb.ProtobufEnum {
@@ -486,7 +487,7 @@ class FeatureSet_EnumType extends $pb.ProtobufEnum {
   static FeatureSet_EnumType? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FeatureSet_EnumType._(super.v, super.n);
+  const FeatureSet_EnumType._(super.value, super.name);
 }
 
 class FeatureSet_RepeatedFieldEncoding extends $pb.ProtobufEnum {
@@ -510,7 +511,7 @@ class FeatureSet_RepeatedFieldEncoding extends $pb.ProtobufEnum {
   static FeatureSet_RepeatedFieldEncoding? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FeatureSet_RepeatedFieldEncoding._(super.v, super.n);
+  const FeatureSet_RepeatedFieldEncoding._(super.value, super.name);
 }
 
 class FeatureSet_Utf8Validation extends $pb.ProtobufEnum {
@@ -534,7 +535,7 @@ class FeatureSet_Utf8Validation extends $pb.ProtobufEnum {
   static FeatureSet_Utf8Validation? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FeatureSet_Utf8Validation._(super.v, super.n);
+  const FeatureSet_Utf8Validation._(super.value, super.name);
 }
 
 class FeatureSet_MessageEncoding extends $pb.ProtobufEnum {
@@ -558,7 +559,7 @@ class FeatureSet_MessageEncoding extends $pb.ProtobufEnum {
   static FeatureSet_MessageEncoding? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FeatureSet_MessageEncoding._(super.v, super.n);
+  const FeatureSet_MessageEncoding._(super.value, super.name);
 }
 
 class FeatureSet_JsonFormat extends $pb.ProtobufEnum {
@@ -581,7 +582,7 @@ class FeatureSet_JsonFormat extends $pb.ProtobufEnum {
   static FeatureSet_JsonFormat? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FeatureSet_JsonFormat._(super.v, super.n);
+  const FeatureSet_JsonFormat._(super.value, super.name);
 }
 
 class FeatureSet_EnforceNamingStyle extends $pb.ProtobufEnum {
@@ -605,7 +606,7 @@ class FeatureSet_EnforceNamingStyle extends $pb.ProtobufEnum {
   static FeatureSet_EnforceNamingStyle? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const FeatureSet_EnforceNamingStyle._(super.v, super.n);
+  const FeatureSet_EnforceNamingStyle._(super.value, super.name);
 }
 
 class FeatureSet_VisibilityFeature_DefaultSymbolVisibility
@@ -653,7 +654,7 @@ class FeatureSet_VisibilityFeature_DefaultSymbolVisibility
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
   const FeatureSet_VisibilityFeature_DefaultSymbolVisibility._(
-      super.v, super.n);
+      super.value, super.name);
 }
 
 /// Represents the identified object's effect on the element in the original
@@ -683,7 +684,8 @@ class GeneratedCodeInfo_Annotation_Semantic extends $pb.ProtobufEnum {
   static GeneratedCodeInfo_Annotation_Semantic? valueOf($core.int value) =>
       value < 0 || value >= _byValue.length ? null : _byValue[value];
 
-  const GeneratedCodeInfo_Annotation_Semantic._(super.v, super.n);
+  const GeneratedCodeInfo_Annotation_Semantic._(super.value, super.name);
 }
 
-const _omitEnumNames = $core.bool.fromEnvironment('protobuf.omit_enum_names');
+const $core.bool _omitEnumNames =
+    $core.bool.fromEnvironment('protobuf.omit_enum_names');
