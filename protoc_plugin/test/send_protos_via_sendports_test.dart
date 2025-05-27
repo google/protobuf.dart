@@ -6,8 +6,8 @@ import 'dart:isolate';
 
 import 'package:test/test.dart';
 
-import '../out/protos/foo.pb.dart';
-import '../out/protos/map_field.pb.dart' as map;
+import 'gen/foo.pb.dart';
+import 'gen/map_field.pb.dart' as map;
 
 Future<T> sendReceive<T>(T object) async {
   final rp = ReceivePort();

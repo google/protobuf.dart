@@ -8,8 +8,8 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/empty.pb.dart';
-import '../out/protos/message_set.pb.dart';
+import 'gen/google/protobuf/empty.pb.dart';
+import 'gen/message_set.pb.dart';
 
 void main() {
   // Example message with a nested message set, encoded with the C++ library.

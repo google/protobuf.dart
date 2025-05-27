@@ -5,8 +5,8 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/empty.pb.dart';
-import '../out/protos/high_tagnumber.pb.dart';
+import 'gen/google/protobuf/empty.pb.dart';
+import 'gen/high_tagnumber.pb.dart';
 
 void main() {
   test('round trip 29 bit tag number, binary encoding', () {

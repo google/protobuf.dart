@@ -2,7 +2,7 @@ PLUGIN_SRC = \
 	bin/protoc_plugin.dart \
 	lib/**/*.dart
 
-OUTPUT_DIR=out
+OUTPUT_DIR=test/gen
 PLUGIN_NAME=protoc-gen-dart
 PLUGIN_PATH=bin/$(PLUGIN_NAME)
 
@@ -67,7 +67,7 @@ TEST_PROTO_LIST = \
 	toplevel_import \
 	toplevel \
 	using_any
-TEST_PROTO_DIR=$(OUTPUT_DIR)/protos
+TEST_PROTO_DIR=$(OUTPUT_DIR)
 TEST_PROTO_LIBS=$(foreach f, $(TEST_PROTO_LIST), \
   $(TEST_PROTO_DIR)/$(f).pb.dart \
 	$(TEST_PROTO_DIR)/$(f).pbjson.dart)
@@ -81,16 +81,7 @@ $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 	mkdir -p $(TEST_PROTO_DIR)
 
 	protoc\
-		--dart_out="disable_constructor_args:$(TEST_PROTO_DIR)"\
-		-I$(TEST_PROTO_SRC_DIR)\
-		-Iprotos\
-		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
-		$(TEST_PROTO_SRCS)
-
-	mkdir -p $(TEST_PROTO_DIR)/constructor_args
-
-	protoc\
-		--dart_out="$(TEST_PROTO_DIR)/constructor_args"\
+		--dart_out="$(TEST_PROTO_DIR)"\
 		-I$(TEST_PROTO_SRC_DIR)\
 		-Iprotos\
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\

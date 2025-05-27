@@ -5,10 +5,10 @@
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/any.pb.dart';
-import '../out/protos/service.pb.dart';
-import '../out/protos/toplevel.pb.dart' as toplevel;
-import '../out/protos/using_any.pb.dart';
+import 'gen/google/protobuf/any.pb.dart';
+import 'gen/service.pb.dart';
+import 'gen/toplevel.pb.dart' as toplevel;
+import 'gen/using_any.pb.dart';
 
 void main() {
   test('pack -> unpack', () {

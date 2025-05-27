@@ -4,8 +4,8 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/foo.pb.dart' as foo;
-import '../out/protos/import_clash.pb.dart' as pb;
+import 'gen/foo.pb.dart' as foo;
+import 'gen/import_clash.pb.dart' as pb;
 
 void main() {
   test('Import prefixes in generated files do not clash with fields', () {

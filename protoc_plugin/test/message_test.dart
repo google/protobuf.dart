@@ -8,8 +8,8 @@ import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart'
     show DescriptorProto;
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
-import '../out/protos/google/protobuf/unittest.pbjson.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pbjson.dart';
 import 'test_util.dart';
 
 void main() {

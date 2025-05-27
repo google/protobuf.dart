@@ -21,7 +21,13 @@ export 'deprecations.pbenum.dart';
 
 @$core.Deprecated('This message is deprecated')
 class HelloRequest extends $pb.GeneratedMessage {
-  factory HelloRequest() => create();
+  factory HelloRequest({
+    @$core.Deprecated('This field is deprecated.') $core.String? name,
+  }) {
+    final result = create();
+    if (name != null) result.name = name;
+    return result;
+  }
 
   HelloRequest._();
 
@@ -75,7 +81,13 @@ class HelloRequest extends $pb.GeneratedMessage {
 }
 
 class HelloReply extends $pb.GeneratedMessage {
-  factory HelloReply() => create();
+  factory HelloReply({
+    $core.String? message,
+  }) {
+    final result = create();
+    if (message != null) result.message = message;
+    return result;
+  }
 
   HelloReply._();
 
