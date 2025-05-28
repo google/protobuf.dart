@@ -1,4 +1,4 @@
-## 22.3.0-wip
+## 22.3.0
 
 * Update the generated code to improve readability and to better follow common
   Dart patterns.
