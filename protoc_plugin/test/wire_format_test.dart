@@ -6,7 +6,7 @@ import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 import 'gen/google/protobuf/unittest.pb.dart';
-import 'test_util.dart';
+import 'src/test_util.dart';
 
 void main() {
   test('testSerialization', () {
