@@ -166,7 +166,7 @@ class MessageGenerator extends ProtobufContainer {
     if (usage.protoFileUri == fileGen.protoFileUri) {
       return name;
     }
-    return '$fileImportPrefix.$name';
+    return '${importPrefix(usage)}.$name';
   }
 
   /// Adds all mixins used in this message and any submessages.

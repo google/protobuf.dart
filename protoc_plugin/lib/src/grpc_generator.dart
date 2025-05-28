@@ -98,13 +98,14 @@ class GrpcServiceGenerator {
   ///
   /// Throws an exception if it can't be resolved.
   String _getDartClassName(String fqname) {
-    final mg = _deps[fqname];
-    if (mg == null) {
+    final generator = _deps[fqname];
+    if (generator == null) {
       final location = _undefinedDeps[fqname];
       // TODO(nichite): Throw more actionable error.
       throw 'FAILURE: Unknown type reference ($fqname) for $location';
     }
-    return '${mg.fileImportPrefix}.${mg.classname}';
+
+    return '${generator.importPrefix(fileGen)}.${generator.classname}';
   }
 
   void generate(IndentingWriter out) {

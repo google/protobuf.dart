@@ -15,7 +15,7 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import '../descriptor.pb.dart' as $2;
+import '../descriptor.pb.dart' as $0;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -121,8 +121,8 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     $core.Iterable<$core.String>? fileToGenerate,
     $core.String? parameter,
     Version? compilerVersion,
-    $core.Iterable<$2.FileDescriptorProto>? protoFile,
-    $core.Iterable<$2.FileDescriptorProto>? sourceFileDescriptors,
+    $core.Iterable<$0.FileDescriptorProto>? protoFile,
+    $core.Iterable<$0.FileDescriptorProto>? sourceFileDescriptors,
   }) {
     final result = create();
     if (fileToGenerate != null) result.fileToGenerate.addAll(fileToGenerate);
@@ -152,12 +152,12 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'parameter')
     ..aOM<Version>(3, _omitFieldNames ? '' : 'compilerVersion',
         subBuilder: Version.create)
-    ..pc<$2.FileDescriptorProto>(
+    ..pc<$0.FileDescriptorProto>(
         15, _omitFieldNames ? '' : 'protoFile', $pb.PbFieldType.PM,
-        subBuilder: $2.FileDescriptorProto.create)
-    ..pc<$2.FileDescriptorProto>(
+        subBuilder: $0.FileDescriptorProto.create)
+    ..pc<$0.FileDescriptorProto>(
         17, _omitFieldNames ? '' : 'sourceFileDescriptors', $pb.PbFieldType.PM,
-        subBuilder: $2.FileDescriptorProto.create);
+        subBuilder: $0.FileDescriptorProto.create);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CodeGeneratorRequest clone() =>
@@ -229,13 +229,13 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   /// Type names of fields and extensions in the FileDescriptorProto are always
   /// fully qualified.
   @$pb.TagNumber(15)
-  $pb.PbList<$2.FileDescriptorProto> get protoFile => $_getList(3);
+  $pb.PbList<$0.FileDescriptorProto> get protoFile => $_getList(3);
 
   /// File descriptors with all options, including source-retention options.
   /// These descriptors are only provided for the files listed in
   /// files_to_generate.
   @$pb.TagNumber(17)
-  $pb.PbList<$2.FileDescriptorProto> get sourceFileDescriptors => $_getList(4);
+  $pb.PbList<$0.FileDescriptorProto> get sourceFileDescriptors => $_getList(4);
 }
 
 /// Represents a single generated file.
@@ -244,7 +244,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
     $core.String? name,
     $core.String? insertionPoint,
     $core.String? content,
-    $2.GeneratedCodeInfo? generatedCodeInfo,
+    $0.GeneratedCodeInfo? generatedCodeInfo,
   }) {
     final result = create();
     if (name != null) result.name = name;
@@ -271,8 +271,8 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOS(2, _omitFieldNames ? '' : 'insertionPoint')
     ..aOS(15, _omitFieldNames ? '' : 'content')
-    ..aOM<$2.GeneratedCodeInfo>(16, _omitFieldNames ? '' : 'generatedCodeInfo',
-        subBuilder: $2.GeneratedCodeInfo.create)
+    ..aOM<$0.GeneratedCodeInfo>(16, _omitFieldNames ? '' : 'generatedCodeInfo',
+        subBuilder: $0.GeneratedCodeInfo.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -379,15 +379,15 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   /// point is used, this information will be appropriately offset and inserted
   /// into the code generation metadata for the generated files.
   @$pb.TagNumber(16)
-  $2.GeneratedCodeInfo get generatedCodeInfo => $_getN(3);
+  $0.GeneratedCodeInfo get generatedCodeInfo => $_getN(3);
   @$pb.TagNumber(16)
-  set generatedCodeInfo($2.GeneratedCodeInfo value) => $_setField(16, value);
+  set generatedCodeInfo($0.GeneratedCodeInfo value) => $_setField(16, value);
   @$pb.TagNumber(16)
   $core.bool hasGeneratedCodeInfo() => $_has(3);
   @$pb.TagNumber(16)
   void clearGeneratedCodeInfo() => $_clearField(16);
   @$pb.TagNumber(16)
-  $2.GeneratedCodeInfo ensureGeneratedCodeInfo() => $_ensure(3);
+  $0.GeneratedCodeInfo ensureGeneratedCodeInfo() => $_ensure(3);
 }
 
 /// The plugin writes an encoded CodeGeneratorResponse to stdout.
