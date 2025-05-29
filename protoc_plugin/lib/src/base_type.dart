@@ -38,9 +38,9 @@ class BaseType {
   String get package => generator == null ? '' : generator!.package;
 
   /// The Dart expression to use for this type when in a different file.
-  String get prefixed => generator == null
+  String prefixed(FileGenerator fileGen) => generator == null
       ? unprefixed
-      : '${generator!.fileImportPrefix}.$unprefixed';
+      : '${generator!.importPrefix(context: fileGen)}.$unprefixed';
 
   /// Returns the name to use in generated code for this Dart type.
   ///
@@ -51,7 +51,7 @@ class BaseType {
   String getDartType(FileGenerator fileGen) =>
       (fileGen.protoFileUri == generator?.fileGen?.protoFileUri)
           ? unprefixed
-          : prefixed;
+          : prefixed(fileGen);
 
   String getRepeatedDartType(FileGenerator fileGen) =>
       '$protobufImportPrefix.PbList<${getDartType(fileGen)}>';

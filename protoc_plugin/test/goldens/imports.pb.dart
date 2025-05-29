@@ -14,8 +14,8 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'package1.pb.dart' as $1;
-import 'package2.pb.dart' as $2;
+import 'package1.pb.dart' as $0;
+import 'package2.pb.dart' as $1;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
@@ -29,8 +29,8 @@ class M extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'M', createEmptyInstance: create)
     ..aOM<M>(1, _omitFieldNames ? '' : 'm', subBuilder: M.create)
-    ..aOM<$1.M>(2, _omitFieldNames ? '' : 'm1', subBuilder: $1.M.create)
-    ..aOM<$2.M>(3, _omitFieldNames ? '' : 'm2', subBuilder: $2.M.create)
+    ..aOM<$0.M>(2, _omitFieldNames ? '' : 'm1', subBuilder: $0.M.create)
+    ..aOM<$1.M>(3, _omitFieldNames ? '' : 'm2', subBuilder: $1.M.create)
     ..hasRequiredFields = false
   ;
 
@@ -63,26 +63,26 @@ class M extends $pb.GeneratedMessage {
   M ensureM() => $_ensure(0);
 
   @$pb.TagNumber(2)
-  $1.M get m1 => $_getN(1);
+  $0.M get m1 => $_getN(1);
   @$pb.TagNumber(2)
-  set m1($1.M value) => $_setField(2, value);
+  set m1($0.M value) => $_setField(2, value);
   @$pb.TagNumber(2)
   $core.bool hasM1() => $_has(1);
   @$pb.TagNumber(2)
   void clearM1() => $_clearField(2);
   @$pb.TagNumber(2)
-  $1.M ensureM1() => $_ensure(1);
+  $0.M ensureM1() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  $2.M get m2 => $_getN(2);
+  $1.M get m2 => $_getN(2);
   @$pb.TagNumber(3)
-  set m2($2.M value) => $_setField(3, value);
+  set m2($1.M value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasM2() => $_has(2);
   @$pb.TagNumber(3)
   void clearM2() => $_clearField(3);
   @$pb.TagNumber(3)
-  $2.M ensureM2() => $_ensure(2);
+  $1.M ensureM2() => $_ensure(2);
 }
 
 
