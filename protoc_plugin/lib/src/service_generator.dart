@@ -14,18 +14,18 @@ class ServiceGenerator {
   ///
   /// The key is the fully qualified name with a leading '.'.
   /// Populated by [resolve].
-  final _deps = <String, MessageGenerator>{};
+  final Map<String, MessageGenerator> _deps = {};
 
   /// The message types needed transitively by this service.
   ///
   /// The key is the fully qualified name with a leading '.'.
   /// Populated by [resolve].
-  final _transitiveDeps = <String, MessageGenerator>{};
+  final Map<String, MessageGenerator> _transitiveDeps = {};
 
   /// Maps each undefined type to a string describing its location.
   ///
   /// Populated by [resolve].
-  final _undefinedDeps = <String, String>{};
+  final Map<String, String> _undefinedDeps = {};
 
   final String classname;
 
@@ -118,16 +118,18 @@ class ServiceGenerator {
   /// should be prefixed unless the target file is the main file (the client
   /// generator calls this method). Otherwise, prefix everything.
   String _getDartClassName(String fqname, {bool forMainFile = false}) {
-    final mg = _deps[fqname];
-    if (mg == null) {
+    final generator = _deps[fqname];
+    if (generator == null) {
       final location = _undefinedDeps[fqname];
       throw 'FAILURE: Unknown type reference ($fqname) for $location';
     }
-    if (forMainFile && fileGen.protoFileUri == mg.fileGen.protoFileUri) {
+
+    if (forMainFile && fileGen.protoFileUri == generator.fileGen.protoFileUri) {
       // If it's the same file, we import it without using "as".
-      return mg.classname;
+      return generator.classname;
     }
-    return '${mg.fileImportPrefix}.${mg.classname}';
+
+    return '${generator.importPrefix(context: fileGen)}.${generator.classname}';
   }
 
   List<MethodDescriptorProto> get _methodDescriptors => _descriptor.method;

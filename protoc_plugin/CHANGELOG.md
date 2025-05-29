@@ -1,3 +1,10 @@
+## 22.4.0-wip
+
+* Update how we calculate import prefixes ([#1010]); import prefixes are now
+  unique per-library instead of being unique across all generated libraries.
+
+[#1010]: https://github.com/google/protobuf.dart/issues/1010
+
 ## 22.3.0
 
 * Update the generated code to improve readability and to better follow common
