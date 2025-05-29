@@ -42,14 +42,13 @@ abstract class ProtobufContainer {
   String get binaryDescriptorName =>
       '${lowerCaseFirstLetter(classname!)}Descriptor';
 
-  String importPrefix(FileGenerator referencedFrom) {
+  String importPrefix({required FileGenerator context}) {
     final protoFilePath = fileGen!.protoFileUri.toString();
-    return referencedFrom._prefixFor(protoFilePath);
+    return context._calculateImportPrefix(protoFilePath);
   }
 
-  String _prefixFor(String protoFilePath) {
-    return _prefixes.putIfAbsent(protoFilePath, () => '\$${_prefixes.length}');
-  }
+  String _calculateImportPrefix(String protoImportPath) =>
+      _prefixes.putIfAbsent(protoImportPath, () => '\$${_prefixes.length}');
 
   /// The generator of the .pb.dart file defining this entity.
   ///

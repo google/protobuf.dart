@@ -129,7 +129,7 @@ class ServiceGenerator {
       return generator.classname;
     }
 
-    return '${generator.importPrefix(fileGen)}.${generator.classname}';
+    return '${generator.importPrefix(context: fileGen)}.${generator.classname}';
   }
 
   List<MethodDescriptorProto> get _methodDescriptors => _descriptor.method;

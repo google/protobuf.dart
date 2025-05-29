@@ -677,7 +677,8 @@ class FileGenerator extends ProtobufContainer {
     // evaluate to true not just for the main .pb.dart file based off the proto
     // file, but also for the .pbserver.dart, .pbgrpc.dart files.
     if (ext == '.pb.dart' || protoFileUri != target.protoFileUri) {
-      importWriter.addImport(import, prefix: target.importPrefix(fileGen));
+      importWriter.addImport(import,
+          prefix: target.importPrefix(context: fileGen));
     } else {
       importWriter.addImport(import);
     }
