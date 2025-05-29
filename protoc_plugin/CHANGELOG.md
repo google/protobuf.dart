@@ -2,6 +2,7 @@
 
 * Update how we calculate import prefixes ([#1010]); import prefixes are now
   unique per-library instead of being unique across all generated libraries.
+* Ignore `unused_import` diagnostics for `*.pbjson.dart` files.
 
 [#1010]: https://github.com/google/protobuf.dart/issues/1010
 
