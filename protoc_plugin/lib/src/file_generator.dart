@@ -237,6 +237,7 @@ class FileGenerator extends ProtobufContainer {
     final files = [
       makeFile('.pb.dart', mainWriter.toString()),
       if (enumWriter != null) makeFile('.pbenum.dart', enumWriter.toString()),
+      // TODO(devoncarew): Consider not emitting empty json files.
       makeFile('.pbjson.dart', generateJsonFile(config)),
     ];
 
@@ -269,8 +270,8 @@ class FileGenerator extends ProtobufContainer {
   IndentingWriter generateMainFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError('not linked');
-    final out = makeWriter();
 
+    final out = makeWriter();
     writeMainHeader(out, config);
 
     // Generate code.
@@ -516,6 +517,7 @@ class FileGenerator extends ProtobufContainer {
   String generateGrpcFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError('not linked');
+
     final out = makeWriter();
     _writeHeading(out);
 
@@ -578,8 +580,9 @@ class FileGenerator extends ProtobufContainer {
   String generateJsonFile(
       [OutputConfiguration config = const DefaultOutputConfiguration()]) {
     if (!_linked) throw StateError('not linked');
+
     final out = makeWriter();
-    _writeHeading(out);
+    _writeHeading(out, extraIgnores: {'unused_import'});
 
     final importWriter = ImportWriter();
     importWriter.addImport(_convertImportUrl, prefix: _convertImportPrefix);
