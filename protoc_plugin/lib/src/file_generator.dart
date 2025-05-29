@@ -674,14 +674,16 @@ class FileGenerator extends ProtobufContainer {
   void _addImport(ImportWriter importWriter, OutputConfiguration config,
       FileGenerator target, String ext) {
     final url = config.resolveImport(target.protoFileUri, protoFileUri, ext);
+    final import = url.toString();
 
     // .pb.dart files should always be prefixed -- the protoFileUri check will
     // evaluate to true not just for the main .pb.dart file based off the proto
     // file, but also for the .pbserver.dart, .pbgrpc.dart files.
-    if ((ext == '.pb.dart') || protoFileUri != target.protoFileUri) {
-      importWriter.addImport(url.toString(), prefix: target.fileImportPrefix);
+    if (ext == '.pb.dart' || protoFileUri != target.protoFileUri) {
+      importWriter.addImport(import,
+          prefix: target.importPrefix(context: fileGen));
     } else {
-      importWriter.addImport(url.toString());
+      importWriter.addImport(import);
     }
   }
 

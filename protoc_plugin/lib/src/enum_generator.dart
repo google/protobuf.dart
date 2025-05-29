@@ -88,13 +88,15 @@ class EnumGenerator extends ProtobufContainer {
   }
 
   /// Returns a const expression that evaluates to the JSON for this message.
-  /// [usage] represents the .pb.dart file where the expression will be used.
-  String getJsonConstant(FileGenerator usage) {
+  ///
+  /// [context] represents the .pb.dart file where the expression will be used.
+  String getJsonConstant(FileGenerator context) {
     final name = '$classname\$json';
-    if (usage.protoFileUri == fileGen!.protoFileUri) {
+    if (context.protoFileUri == fileGen!.protoFileUri) {
       return name;
     }
-    return '$fileImportPrefix.$name';
+
+    return '${importPrefix(context: context)}.$name';
   }
 
   static const int _enumValueTag = 2;
