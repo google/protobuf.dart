@@ -232,11 +232,11 @@ class FileGenerator extends ProtobufContainer {
     }
 
     final mainWriter = generateMainFile(config);
-    final enumWriter = hasEnums ? generateEnumFile(config) : null;
+    final enumWriter = generateEnumFile(config);
 
     final files = [
       makeFile('.pb.dart', mainWriter.toString()),
-      if (enumWriter != null) makeFile('.pbenum.dart', enumWriter.toString()),
+      makeFile('.pbenum.dart', enumWriter.toString()),
       // TODO(devoncarew): Consider not emitting empty json files.
       makeFile('.pbjson.dart', generateJsonFile(config)),
     ];
@@ -245,9 +245,8 @@ class FileGenerator extends ProtobufContainer {
       files.addAll([
         makeFile('.pb.dart.meta',
             mainWriter.sourceLocationInfo.writeToJson().toString()),
-        if (enumWriter != null)
-          makeFile('.pbenum.dart.meta',
-              enumWriter.sourceLocationInfo.writeToJson().toString())
+        makeFile('.pbenum.dart.meta',
+            enumWriter.sourceLocationInfo.writeToJson().toString())
       ]);
     }
     if (options.useGrpc) {
@@ -355,7 +354,7 @@ class FileGenerator extends ProtobufContainer {
     }
 
     // Export enums in main file for backward compatibility.
-    if (enumCount > 0) {
+    if (hasEnums) {
       final url =
           config.resolveImport(protoFileUri, protoFileUri, '.pbenum.dart');
       importWriter.addExport(url.toString());
@@ -428,7 +427,7 @@ class FileGenerator extends ProtobufContainer {
 
     final importWriter = ImportWriter();
 
-    if (enumCount > 0) {
+    if (hasEnums) {
       // Make sure any other symbols in dart:core don't cause name conflicts
       // with enums that have the same name.
       importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
