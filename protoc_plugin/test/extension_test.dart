@@ -12,7 +12,7 @@ import 'gen/extend_unittest.pb.dart';
 import 'gen/google/protobuf/unittest.pb.dart';
 import 'gen/nested_extension.pb.dart';
 import 'gen/non_nested_extension.pb.dart';
-import 'test_util.dart';
+import 'src/test_util.dart';
 
 Matcher throwsArgError(String expectedMessage) =>
     throwsA(predicate((dynamic x) {

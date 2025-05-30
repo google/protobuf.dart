@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 import 'gen/foo.pb.dart' as foo;
 import 'gen/google/protobuf/unittest.pb.dart';
 import 'gen/map_enum_value.pb.dart';
-import 'test_util.dart';
+import 'src/test_util.dart';
 
 void main() {
   final testAllJsonTypes = '{"1":101,"2":"102","3":103,"4":"104",'

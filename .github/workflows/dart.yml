@@ -39,6 +39,128 @@ jobs:
       - name: mono_repo self validate
         run: dart pub global run mono_repo generate --validate
   job_002:
+    name: "analyze; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart analyze --fatal-infos`"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Pub hosted dependencies
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        with:
+          path: "~/.pub-cache/hosted"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:command_0-command_2-analyze_0"
+          restore-keys: |
+            os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin
+            os:ubuntu-latest;pub-cache-hosted;sdk:dev
+            os:ubuntu-latest;pub-cache-hosted
+            os:ubuntu-latest
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        with:
+          sdk: dev
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - id: protoc_plugin_pub_upgrade
+        name: protoc_plugin; dart pub upgrade
+        run: dart pub upgrade
+        if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; ./../tool/setup.sh
+        run: ./../tool/setup.sh
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; make protos
+        run: make protos
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: "protoc_plugin; dart analyze --fatal-infos"
+        run: dart analyze --fatal-infos
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+    needs:
+      - job_001
+  job_003:
+    name: "test; linux; Dart 3.6.0; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Pub hosted dependencies
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        with:
+          path: "~/.pub-cache/hosted"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.0;packages:protoc_plugin;commands:command_0-command_2-test"
+          restore-keys: |
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.0;packages:protoc_plugin
+            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.0
+            os:ubuntu-latest;pub-cache-hosted
+            os:ubuntu-latest
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        with:
+          sdk: "3.6.0"
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - id: protoc_plugin_pub_upgrade
+        name: protoc_plugin; dart pub upgrade
+        run: dart pub upgrade
+        if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; ./../tool/setup.sh
+        run: ./../tool/setup.sh
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; make protos
+        run: make protos
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; dart test
+        run: dart test
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+    needs:
+      - job_001
+      - job_002
+  job_004:
+    name: "test; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Pub hosted dependencies
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        with:
+          path: "~/.pub-cache/hosted"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:command_0-command_2-test"
+          restore-keys: |
+            os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin
+            os:ubuntu-latest;pub-cache-hosted;sdk:dev
+            os:ubuntu-latest;pub-cache-hosted
+            os:ubuntu-latest
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        with:
+          sdk: dev
+      - id: checkout
+        name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - id: protoc_plugin_pub_upgrade
+        name: protoc_plugin; dart pub upgrade
+        run: dart pub upgrade
+        if: "always() && steps.checkout.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; ./../tool/setup.sh
+        run: ./../tool/setup.sh
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; make protos
+        run: make protos
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: protoc_plugin; dart test
+        run: dart test
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+    needs:
+      - job_001
+      - job_002
+  job_005:
     name: "format_analyze; linux; Dart 3.6.0; PKG: protobuf; `dart analyze lib`, `dart analyze test`"
     runs-on: ubuntu-latest
     steps:
@@ -72,7 +194,12 @@ jobs:
         run: dart analyze test
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-  job_003:
+    needs:
+      - job_001
+      - job_002
+      - job_003
+      - job_004
+  job_006:
     name: "format_analyze; linux; Dart dev; PKG: benchmarks; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `./tool/compile_protos.sh`, `dart analyze --fatal-infos`"
     runs-on: ubuntu-latest
     steps:
@@ -114,7 +241,12 @@ jobs:
         run: dart analyze --fatal-infos
         if: "always() && steps.benchmarks_pub_upgrade.conclusion == 'success'"
         working-directory: benchmarks
-  job_004:
+    needs:
+      - job_001
+      - job_002
+      - job_003
+      - job_004
+  job_007:
     name: "format_analyze; linux; Dart dev; PKG: protobuf; `dart format --output=none --set-exit-if-changed .`, `dart analyze --fatal-infos`"
     runs-on: ubuntu-latest
     steps:
@@ -148,49 +280,12 @@ jobs:
         run: dart analyze --fatal-infos
         if: "always() && steps.protobuf_pub_upgrade.conclusion == 'success'"
         working-directory: protobuf
-  job_005:
-    name: "format_analyze; linux; Dart dev; PKG: protoc_plugin; `dart format --output=none --set-exit-if-changed .`, `./../tool/setup.sh`, `make protos`, `dart analyze --fatal-infos`"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cache Pub hosted dependencies
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
-        with:
-          path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:format-command_0-command_2-analyze_0"
-          restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin
-            os:ubuntu-latest;pub-cache-hosted;sdk:dev
-            os:ubuntu-latest;pub-cache-hosted
-            os:ubuntu-latest
-      - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
-        with:
-          sdk: dev
-      - id: checkout
-        name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - id: protoc_plugin_pub_upgrade
-        name: protoc_plugin; dart pub upgrade
-        run: dart pub upgrade
-        if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: "protoc_plugin; dart format --output=none --set-exit-if-changed ."
-        run: "dart format --output=none --set-exit-if-changed ."
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: protoc_plugin; ./../tool/setup.sh
-        run: ./../tool/setup.sh
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: protoc_plugin; make protos
-        run: make protos
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: "protoc_plugin; dart analyze --fatal-infos"
-        run: dart analyze --fatal-infos
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-  job_006:
+    needs:
+      - job_001
+      - job_002
+      - job_003
+      - job_004
+  job_008:
     name: "run_tests; linux; Dart 3.6.0; PKG: protobuf; `dart test`"
     runs-on: ubuntu-latest
     steps:
@@ -226,51 +321,9 @@ jobs:
       - job_003
       - job_004
       - job_005
-  job_007:
-    name: "run_tests; linux; Dart 3.6.0; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cache Pub hosted dependencies
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
-        with:
-          path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.6.0;packages:protoc_plugin;commands:command_0-command_2-test"
-          restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.0;packages:protoc_plugin
-            os:ubuntu-latest;pub-cache-hosted;sdk:3.6.0
-            os:ubuntu-latest;pub-cache-hosted
-            os:ubuntu-latest
-      - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
-        with:
-          sdk: "3.6.0"
-      - id: checkout
-        name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - id: protoc_plugin_pub_upgrade
-        name: protoc_plugin; dart pub upgrade
-        run: dart pub upgrade
-        if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: protoc_plugin; ./../tool/setup.sh
-        run: ./../tool/setup.sh
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: protoc_plugin; make protos
-        run: make protos
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: protoc_plugin; dart test
-        run: dart test
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-    needs:
-      - job_001
-      - job_002
-      - job_003
-      - job_004
-      - job_005
-  job_008:
+      - job_006
+      - job_007
+  job_009:
     name: "run_tests; linux; Dart dev; PKG: protobuf; `dart test`"
     runs-on: ubuntu-latest
     steps:
@@ -306,50 +359,8 @@ jobs:
       - job_003
       - job_004
       - job_005
-  job_009:
-    name: "run_tests; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cache Pub hosted dependencies
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
-        with:
-          path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:command_0-command_2-test"
-          restore-keys: |
-            os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin
-            os:ubuntu-latest;pub-cache-hosted;sdk:dev
-            os:ubuntu-latest;pub-cache-hosted
-            os:ubuntu-latest
-      - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
-        with:
-          sdk: dev
-      - id: checkout
-        name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - id: protoc_plugin_pub_upgrade
-        name: protoc_plugin; dart pub upgrade
-        run: dart pub upgrade
-        if: "always() && steps.checkout.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: protoc_plugin; ./../tool/setup.sh
-        run: ./../tool/setup.sh
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: protoc_plugin; make protos
-        run: make protos
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-      - name: protoc_plugin; dart test
-        run: dart test
-        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
-        working-directory: protoc_plugin
-    needs:
-      - job_001
-      - job_002
-      - job_003
-      - job_004
-      - job_005
+      - job_006
+      - job_007
   job_010:
     name: "run_tests; osx; Dart 3.6.0; PKG: protobuf; `dart test`"
     runs-on: macos-latest
@@ -386,6 +397,8 @@ jobs:
       - job_003
       - job_004
       - job_005
+      - job_006
+      - job_007
   job_011:
     name: "run_tests; osx; Dart dev; PKG: protobuf; `dart test`"
     runs-on: macos-latest
@@ -422,6 +435,8 @@ jobs:
       - job_003
       - job_004
       - job_005
+      - job_006
+      - job_007
   job_012:
     name: "run_tests; windows; Dart 3.6.0; PKG: protobuf; `dart test`"
     runs-on: windows-latest
@@ -448,6 +463,8 @@ jobs:
       - job_003
       - job_004
       - job_005
+      - job_006
+      - job_007
   job_013:
     name: "run_tests; windows; Dart dev; PKG: protobuf; `dart test`"
     runs-on: windows-latest
@@ -474,3 +491,5 @@ jobs:
       - job_003
       - job_004
       - job_005
+      - job_006
+      - job_007

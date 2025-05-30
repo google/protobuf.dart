@@ -6,8 +6,8 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import 'gen/google/protobuf/unittest.pb.dart';
-import 'gen/google/protobuf/unittest_import.pb.dart';
+import '../gen/google/protobuf/unittest.pb.dart';
+import '../gen/google/protobuf/unittest_import.pb.dart';
 
 final Matcher throwsATypeError = throwsA(TypeMatcher<TypeError>());
 

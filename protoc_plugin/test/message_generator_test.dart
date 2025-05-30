@@ -13,7 +13,7 @@ import 'package:protoc_plugin/src/linker.dart';
 import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
+import 'src/golden_file.dart';
 
 void main() {
   late FileDescriptorProto fd;
@@ -86,16 +86,15 @@ void main() {
 
     var writer = IndentingWriter(filename: '');
     mg.generate(writer);
-    expectMatchesGoldenFile(writer.toString(), 'test/goldens/messageGenerator');
-    expectMatchesGoldenFile(writer.sourceLocationInfo.toString(),
-        'test/goldens/messageGenerator.meta');
+    expectGolden(writer.toString(), 'messageGenerator.pb.dart');
+    expectGolden(
+        writer.sourceLocationInfo.toString(), 'messageGenerator.pb.dart.meta');
 
     writer = IndentingWriter(filename: '');
     mg.generateEnums(writer);
-    expectMatchesGoldenFile(
-        writer.toString(), 'test/goldens/messageGeneratorEnums');
-    expectMatchesGoldenFile(writer.sourceLocationInfo.toString(),
-        'test/goldens/messageGeneratorEnums.meta');
+    expectGolden(writer.toString(), 'messageGeneratorEnums.pb.dart');
+    expectGolden(writer.sourceLocationInfo.toString(),
+        'messageGeneratorEnums.pb.dart.meta');
   });
 
   test('testMetadataIndices', () {

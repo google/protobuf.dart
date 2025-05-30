@@ -24,7 +24,7 @@ import 'gen/map_field.pb.dart';
 import 'gen/nested_any.pb.dart';
 import 'gen/oneof.pb.dart';
 import 'oneof_test.dart';
-import 'test_util.dart';
+import 'src/test_util.dart';
 
 final testAllTypesJson = {
   'optionalInt32': 101,

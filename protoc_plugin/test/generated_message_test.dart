@@ -17,7 +17,7 @@ import 'gen/package3.pb.dart' as p3;
 import 'gen/reserved_names.pb.dart';
 import 'gen/reserved_names_extension.pb.dart';
 import 'gen/reserved_names_message.pb.dart';
-import 'test_util.dart';
+import 'src/test_util.dart';
 
 void main() {
   final throwsInvalidProtocolBufferException =

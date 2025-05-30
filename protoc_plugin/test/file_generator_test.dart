@@ -11,7 +11,7 @@ import 'package:protoc_plugin/src/linker.dart';
 import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
+import 'src/golden_file.dart';
 
 FileDescriptorProto buildFileDescriptor(
     {bool phoneNumber = true, bool topLevelEnum = false}) {
@@ -98,8 +98,7 @@ void main() {
         CodeGeneratorResponse())!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
-    expectMatchesGoldenFile(
-        fg.generateMainFile().toString(), 'test/goldens/oneMessage.pb');
+    expectGolden(fg.generateMainFile().toString(), 'oneMessage.pb.dart');
   });
 
   test('FileGenerator outputs a .pb.dart file for an Int64 message', () {
@@ -109,8 +108,7 @@ void main() {
         CodeGeneratorResponse())!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
-    expectMatchesGoldenFile(
-        fg.generateMainFile().toString(), 'test/goldens/int64.pb');
+    expectGolden(fg.generateMainFile().toString(), 'int64.pb.dart');
   });
 
   test(
@@ -123,8 +121,8 @@ void main() {
         CodeGeneratorResponse())!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
-    expectMatchesGoldenFile(fg.generateMainFile().sourceLocationInfo.toString(),
-        'test/goldens/oneMessage.pb.meta');
+    expectGolden(fg.generateMainFile().sourceLocationInfo.toString(),
+        'oneMessage.pb.dart.meta');
   });
 
   test('FileGenerator outputs a pbjson.dart file for a proto with one message',
@@ -135,8 +133,7 @@ void main() {
         CodeGeneratorResponse())!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
-    expectMatchesGoldenFile(
-        fg.generateJsonFile(), 'test/goldens/oneMessage.pbjson');
+    expectGolden(fg.generateJsonFile(), 'oneMessage.pbjson.dart');
   });
 
   test('FileGenerator generates files for a top-level enum', () {
@@ -147,10 +144,8 @@ void main() {
 
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
-    expectMatchesGoldenFile(
-        fg.generateMainFile().toString(), 'test/goldens/topLevelEnum.pb');
-    expectMatchesGoldenFile(
-        fg.generateEnumFile().toString(), 'test/goldens/topLevelEnum.pbenum');
+    expectGolden(fg.generateMainFile().toString(), 'topLevelEnum.pb.dart');
+    expectGolden(fg.generateEnumFile().toString(), 'topLevelEnum.pbenum.dart');
   });
 
   test('FileGenerator generates metadata files for a top-level enum', () {
@@ -162,10 +157,10 @@ void main() {
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    expectMatchesGoldenFile(fg.generateMainFile().sourceLocationInfo.toString(),
-        'test/goldens/topLevelEnum.pb.meta');
-    expectMatchesGoldenFile(fg.generateEnumFile().sourceLocationInfo.toString(),
-        'test/goldens/topLevelEnum.pbenum.meta');
+    expectGolden(fg.generateMainFile().sourceLocationInfo.toString(),
+        'topLevelEnum.pb.dart.meta');
+    expectGolden(fg.generateEnumFile().sourceLocationInfo.toString(),
+        'topLevelEnum.pbenum.dart.meta');
   });
 
   test('FileGenerator generates a .pbjson.dart file for a top-level enum', () {
@@ -176,8 +171,7 @@ void main() {
 
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
-    expectMatchesGoldenFile(
-        fg.generateJsonFile(), 'test/goldens/topLevelEnum.pbjson');
+    expectGolden(fg.generateJsonFile(), 'topLevelEnum.pbjson.dart');
   });
 
   test('FileGenerator outputs library for a .proto in a package', () {
@@ -192,8 +186,7 @@ void main() {
 
     final writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
-    expectMatchesGoldenFile(
-        writer.toString(), 'test/goldens/header_in_package.pb');
+    expectGolden(writer.toString(), 'header_in_package.pb.dart');
   });
 
   test('FileGenerator outputs a fixnum import when needed', () {
@@ -218,8 +211,7 @@ void main() {
 
     final writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
-    expectMatchesGoldenFile(
-        writer.toString(), 'test/goldens/header_with_fixnum.pb');
+    expectGolden(writer.toString(), 'header_with_fixnum.pb.dart');
   });
 
   test('FileGenerator outputs files for a service', () {
@@ -246,10 +238,8 @@ void main() {
 
     final writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
-    expectMatchesGoldenFile(
-        fg.generateMainFile().toString(), 'test/goldens/service.pb');
-    expectMatchesGoldenFile(
-        fg.generateServerFile(), 'test/goldens/service.pbserver');
+    expectGolden(fg.generateMainFile().toString(), 'service.pb.dart');
+    expectGolden(fg.generateServerFile(), 'service.pbserver.dart');
   });
 
   test('FileGenerator does not output legacy service stubs if gRPC is selected',
@@ -275,8 +265,7 @@ void main() {
 
     final writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
-    expectMatchesGoldenFile(
-        fg.generateMainFile().toString(), 'test/goldens/grpc_service.pb');
+    expectGolden(fg.generateMainFile().toString(), 'grpc_service.pb.dart');
   });
 
   test('FileGenerator outputs gRPC stubs if gRPC is selected', () {
@@ -361,8 +350,7 @@ void main() {
 
     final writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
-    expectMatchesGoldenFile(
-        fg.generateGrpcFile(), 'test/goldens/grpc_service.pbgrpc');
+    expectGolden(fg.generateGrpcFile(), 'grpc_service.pbgrpc.dart');
   });
 
   test('FileGenerator generates imports for .pb.dart files', () {
@@ -471,9 +459,7 @@ void main() {
     final fg = FileGenerator(fd, options);
     link(options,
         [fg, FileGenerator(fd1, options), FileGenerator(fd2, options)]);
-    expectMatchesGoldenFile(
-        fg.generateMainFile().toString(), 'test/goldens/imports.pb');
-    expectMatchesGoldenFile(
-        fg.generateEnumFile().toString(), 'test/goldens/imports.pbjson');
+    expectGolden(fg.generateMainFile().toString(), 'imports.pb.dart');
+    expectGolden(fg.generateEnumFile().toString(), 'imports.pbjson.dart');
   });
 }

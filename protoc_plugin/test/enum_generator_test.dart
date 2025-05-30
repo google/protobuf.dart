@@ -8,7 +8,7 @@ import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart';
 import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
+import 'src/golden_file.dart';
 
 void main() {
   test('testEnumGenerator', () {
@@ -32,8 +32,7 @@ void main() {
     final fg = FileGenerator(FileDescriptorProto(), GenerationOptions());
     final eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);
     eg.generate(writer);
-    expectMatchesGoldenFile(writer.toString(), 'test/goldens/enum');
-    expectMatchesGoldenFile(
-        writer.sourceLocationInfo.toString(), 'test/goldens/enum.meta');
+    expectGolden(writer.toString(), 'enum.pbenum.dart');
+    expectGolden(writer.sourceLocationInfo.toString(), 'enum.pbenum.dart.meta');
   });
 }

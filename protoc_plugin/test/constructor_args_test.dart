@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 import 'gen/google/protobuf/unittest.pb.dart';
 import 'gen/google/protobuf/unittest_import.pb.dart';
 import 'gen/map_field.pb.dart';
-import 'test_util.dart';
+import 'src/test_util.dart';
 
 void main() {
   group('map_field', () {

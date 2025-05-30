@@ -6,16 +6,16 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
+import 'src/golden_file.dart';
 
 void main() {
   test('Deprecated annotation generation for messages', () {
     final actual = File('test/gen/deprecations.pb.dart').readAsStringSync();
-    expectMatchesGoldenFile(actual, 'test/goldens/deprecations');
+    expectGolden(actual, 'deprecations.pb.dart');
   });
 
   test('Deprecated annotation generation for enums', () {
     final actual = File('test/gen/deprecations.pbenum.dart').readAsStringSync();
-    expectMatchesGoldenFile(actual, 'test/goldens/deprecations.pbenum');
+    expectGolden(actual, 'deprecations.pbenum.dart');
   });
 }
