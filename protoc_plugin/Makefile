@@ -18,6 +18,7 @@ TEST_PROTO_LIST = \
 	google/protobuf/timestamp \
 	google/protobuf/type \
 	google/protobuf/unittest_import \
+	google/protobuf/unittest_import_public \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest_well_known_types \
 	google/protobuf/unittest \
@@ -69,7 +70,8 @@ TEST_PROTO_LIST = \
 	using_any
 TEST_PROTO_DIR=$(OUTPUT_DIR)
 TEST_PROTO_LIBS=$(foreach f, $(TEST_PROTO_LIST), \
-  $(TEST_PROTO_DIR)/$(f).pb.dart \
+	$(TEST_PROTO_DIR)/$(f).pb.dart \
+	$(TEST_PROTO_DIR)/$(f).pbenum.dart \
 	$(TEST_PROTO_DIR)/$(f).pbjson.dart)
 TEST_PROTO_SRC_DIR=test/protos
 TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), \
