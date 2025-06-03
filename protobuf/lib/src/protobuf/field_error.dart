@@ -130,7 +130,7 @@ void _checkUnsigned32(Object? val) {
   }
 }
 
-RangeError _createFieldRangeError(val, String wantedType) =>
+RangeError _createFieldRangeError(num val, String wantedType) =>
     RangeError('Value ($val) is not $wantedType');
 
 bool _isSigned32(int value) => (-2147483648 <= value) && (value <= 2147483647);

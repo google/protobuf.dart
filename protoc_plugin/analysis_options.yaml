@@ -2,5 +2,5 @@ include: ../analysis_options.yaml
 
 analyzer:
   errors:
-    avoid_dynamic_calls: ignore
-    only_throw_errors: ignore
+    # The generated code in lib/src/gen trigger this lint.
+    unintended_html_in_doc_comment: ignore
