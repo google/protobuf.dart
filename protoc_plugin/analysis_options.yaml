@@ -6,4 +6,3 @@ analyzer:
     only_throw_errors: ignore
   exclude:
     - test/goldens/**
-    

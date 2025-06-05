@@ -36,7 +36,16 @@ void main() {
     final writer = IndentingWriter(filename: 'sample.proto');
     fileGenerator.extensionGenerators.single.generate(writer);
 
-    expectGolden(writer.toString(), 'extension.pb.dart');
+    // We wrap the output in a dummy class in order to create a valid
+    // (formattable) Dart file.
+    var actual = writer.toString();
+    actual = '''
+class Card {
+  $actual
+}
+''';
+
+    expectGolden(actual, 'extension.pb.dart');
     expectGolden(
         writer.sourceLocationInfo.toString(), 'extension.pb.dart.meta');
   });
