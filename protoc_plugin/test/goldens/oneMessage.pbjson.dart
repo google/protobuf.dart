@@ -28,4 +28,3 @@ const PhoneNumber$json = {
 final $typed_data.Uint8List phoneNumberDescriptor = $convert.base64Decode(
     'CgtQaG9uZU51bWJlchIWCgZudW1iZXIYASACKAlSBm51bWJlchIUCgR0eXBlGAIgASgFMgBSBH'
     'R5cGUSFQoEbmFtZRgDIAEoCToBJFIEbmFtZQ==');
-

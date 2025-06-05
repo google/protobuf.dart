@@ -29,4 +29,3 @@ const PhoneType$json = {
 final $typed_data.Uint8List phoneTypeDescriptor = $convert.base64Decode(
     'CglQaG9uZVR5cGUSCgoGTU9CSUxFEAASCAoESE9NRRABEggKBFdPUksQAhIMCghCVVNJTkVTUx'
     'AC');
-

@@ -22,8 +22,8 @@ const SomeRequest$json = {
 };
 
 /// Descriptor for `SomeRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List someRequestDescriptor = $convert.base64Decode(
-    'CgtTb21lUmVxdWVzdA==');
+final $typed_data.Uint8List someRequestDescriptor =
+    $convert.base64Decode('CgtTb21lUmVxdWVzdA==');
 
 @$core.Deprecated('Use someReplyDescriptor instead')
 const SomeReply$json = {
@@ -31,19 +31,24 @@ const SomeReply$json = {
 };
 
 /// Descriptor for `SomeReply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List someReplyDescriptor = $convert.base64Decode(
-    'CglTb21lUmVwbHk=');
+final $typed_data.Uint8List someReplyDescriptor =
+    $convert.base64Decode('CglTb21lUmVwbHk=');
 
 const $core.Map<$core.String, $core.dynamic> TestServiceBase$json = {
   '1': 'Test',
   '2': [
     {'1': 'AMethod', '2': '.testpkg.SomeRequest', '3': '.testpkg.SomeReply'},
-    {'1': 'AnotherMethod', '2': '.foo.bar.EmptyMessage', '3': '.foo.bar.AnotherReply'},
+    {
+      '1': 'AnotherMethod',
+      '2': '.foo.bar.EmptyMessage',
+      '3': '.foo.bar.AnotherReply'
+    },
   ],
 };
 
 @$core.Deprecated('Use testServiceDescriptor instead')
-const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> TestServiceBase$messageJson = {
+const $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>>
+    TestServiceBase$messageJson = {
   '.testpkg.SomeRequest': SomeRequest$json,
   '.testpkg.SomeReply': SomeReply$json,
   '.foo.bar.EmptyMessage': $1.EmptyMessage$json,
@@ -55,4 +60,3 @@ final $typed_data.Uint8List testServiceDescriptor = $convert.base64Decode(
     'CgRUZXN0EjMKB0FNZXRob2QSFC50ZXN0cGtnLlNvbWVSZXF1ZXN0GhIudGVzdHBrZy5Tb21lUm'
     'VwbHkSPQoNQW5vdGhlck1ldGhvZBIVLmZvby5iYXIuRW1wdHlNZXNzYWdlGhUuZm9vLmJhci5B'
     'bm90aGVyUmVwbHk=');
-

@@ -15,4 +15,3 @@ import 'dart:core' as $core;
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 export 'test.pbenum.dart';
-
