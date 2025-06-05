@@ -162,17 +162,17 @@ class FieldInfo<T> {
 
   /// Returns true if the field's value is okay to transmit.
   /// That is, it doesn't contain any required fields that aren't initialized.
-  bool _hasRequiredValues(Object? value) {
+  bool _hasRequiredValues(dynamic value) {
     if (value == null) return !isRequired; // missing is okay if optional
     if (!_isGroupOrMessage(type)) return true; // primitive and present
 
     if (!isRepeated) {
       // A required message: recurse.
-      final message = value as GeneratedMessage;
+      final GeneratedMessage message = value;
       return message._fieldSet._hasRequiredValues();
     }
 
-    final list = value as List;
+    final List<GeneratedMessage> list = value;
     if (list.isEmpty) return true;
 
     // For message types that (recursively) contain no required fields,
@@ -180,8 +180,7 @@ class FieldInfo<T> {
     if (!list[0]._fieldSet._hasRequiredFields) return true;
 
     // Recurse on each item in the list.
-    return list
-        .every((m) => (m as GeneratedMessage)._fieldSet._hasRequiredValues());
+    return list.every((GeneratedMessage m) => m._fieldSet._hasRequiredValues());
   }
 
   /// Appends the dotted path to each required field that's missing a value.
