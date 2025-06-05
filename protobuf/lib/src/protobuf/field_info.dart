@@ -162,7 +162,7 @@ class FieldInfo<T> {
 
   /// Returns true if the field's value is okay to transmit.
   /// That is, it doesn't contain any required fields that aren't initialized.
-  bool _hasRequiredValues(value) {
+  bool _hasRequiredValues(dynamic value) {
     if (value == null) return !isRequired; // missing is okay if optional
     if (!_isGroupOrMessage(type)) return true; // primitive and present
 

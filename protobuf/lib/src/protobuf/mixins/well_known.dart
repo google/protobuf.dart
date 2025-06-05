@@ -12,6 +12,7 @@ import '../json_parsing_context.dart';
 mixin AnyMixin implements GeneratedMessage {
   String get typeUrl;
   set typeUrl(String value);
+
   List<int> get value;
   set value(List<int> value);
 
@@ -349,18 +350,23 @@ mixin ValueMixin implements GeneratedMessage {
   bool hasNullValue();
   ProtobufEnum get nullValue;
   set nullValue(covariant ProtobufEnum value);
+
   bool hasNumberValue();
   double get numberValue;
   set numberValue(double v);
+
   bool hasStringValue();
   String get stringValue;
   set stringValue(String v);
+
   bool hasBoolValue();
   bool get boolValue;
   set boolValue(bool v);
+
   bool hasStructValue();
   StructMixin get structValue;
   set structValue(covariant StructMixin v);
+
   bool hasListValue();
   ListValueMixin get listValue;
   set listValue(covariant ListValueMixin v);
@@ -645,6 +651,7 @@ mixin Int32ValueMixin {
 mixin UInt32ValueMixin {
   int get value;
   set value(int value);
+
   static Object toProto3JsonHelper(
       GeneratedMessage message, TypeRegistry typeRegistry) {
     return (message as UInt32ValueMixin).value;

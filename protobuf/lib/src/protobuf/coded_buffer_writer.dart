@@ -48,8 +48,8 @@ class CodedBufferWriter {
   /// more efficiently.
   ByteData? _outputChunkAsByteData;
 
-  /// Array of pairs <Uint8List chunk, int bytesInChunk> - chunks are
-  /// pushed into this array once they are full.
+  /// Array of pairs `<Uint8List chunk, int bytesInChunk>` - chunks are pushed
+  /// into this array once they are full.
   final List<dynamic> _outputChunks = <dynamic>[];
 
   /// Total amount of bytes used in all chunks.

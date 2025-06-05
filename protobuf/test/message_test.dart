@@ -4,11 +4,10 @@
 
 // Tests for GeneratedMessage methods.
 
-import 'package:matcher/src/interfaces.dart';
 import 'package:protobuf/protobuf.dart';
-import 'package:test/test.dart' show expect, isA, test, throwsA;
+import 'package:test/test.dart';
 
-import 'mock_util.dart' show MockMessage, mockInfo;
+import 'mock_util.dart';
 
 class Rec extends MockMessage {
   @override

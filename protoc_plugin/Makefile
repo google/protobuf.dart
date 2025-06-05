@@ -75,7 +75,7 @@ TEST_PROTO_LIBS=$(foreach f, $(TEST_PROTO_LIST), \
 	$(TEST_PROTO_DIR)/$(f).pbjson.dart)
 TEST_PROTO_SRC_DIR=test/protos
 TEST_PROTO_SRCS=$(foreach proto, $(TEST_PROTO_LIST), \
-  $(TEST_PROTO_SRC_DIR)/$(proto).proto)
+	$(TEST_PROTO_SRC_DIR)/$(proto).proto)
 
 PREGENERATED_SRCS := $(shell find protos -name '*.proto')
 
@@ -93,7 +93,7 @@ $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 	protoc --dart_out=lib/src/gen \
-	  -Iprotos \
+		-Iprotos \
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
 	find lib/src/gen -name '*.pbjson.dart' -delete
 	dart format lib/src/gen

@@ -37,7 +37,7 @@ void writeJsonConst(IndentingWriter out, Object? val) {
   }
 }
 
-bool _nonEmptyListOrMap(x) {
+bool _nonEmptyListOrMap(dynamic x) {
   if (x is List && x.isNotEmpty) return true;
   if (x is Map && x.isNotEmpty) return true;
   return false;
