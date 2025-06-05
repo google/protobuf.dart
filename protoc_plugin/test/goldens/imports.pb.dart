@@ -24,20 +24,25 @@ class M extends $pb.GeneratedMessage {
 
   M._();
 
-  factory M.fromBuffer($core.List<$core.int> data, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(data, registry);
-  factory M.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(json, registry);
+  factory M.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory M.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'M', createEmptyInstance: create)
-    ..aOM<M>(1, _omitFieldNames ? '' : 'm', subBuilder: M.create)
-    ..aOM<$0.M>(2, _omitFieldNames ? '' : 'm1', subBuilder: $0.M.create)
-    ..aOM<$1.M>(3, _omitFieldNames ? '' : 'm2', subBuilder: $1.M.create)
-    ..hasRequiredFields = false
-  ;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'M', createEmptyInstance: create)
+        ..aOM<M>(1, _omitFieldNames ? '' : 'm', subBuilder: M.create)
+        ..aOM<$0.M>(2, _omitFieldNames ? '' : 'm1', subBuilder: $0.M.create)
+        ..aOM<$1.M>(3, _omitFieldNames ? '' : 'm2', subBuilder: $1.M.create)
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   M clone() => M()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  M copyWith(void Function(M) updates) => super.copyWith((message) => updates(message as M)) as M;
+  M copyWith(void Function(M) updates) =>
+      super.copyWith((message) => updates(message as M)) as M;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
@@ -48,7 +53,8 @@ class M extends $pb.GeneratedMessage {
   M createEmptyInstance() => create();
   static $pb.PbList<M> createRepeated() => $pb.PbList<M>();
   @$core.pragma('dart2js:noInline')
-  static M getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<M>(create);
+  static M getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<M>(create);
   static M? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -85,6 +91,7 @@ class M extends $pb.GeneratedMessage {
   $1.M ensureM2() => $_ensure(2);
 }
 
-
-const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames =
+    $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames =
+    $core.bool.fromEnvironment('protobuf.omit_message_names');

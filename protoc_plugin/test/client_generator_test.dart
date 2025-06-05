@@ -8,8 +8,8 @@ import 'package:protoc_plugin/src/linker.dart';
 import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
-import 'service_util.dart';
+import 'src/golden_file.dart';
+import 'src/service_util.dart';
 
 void main() {
   test('testClientGenerator', () {
@@ -29,6 +29,6 @@ void main() {
 
     final writer = IndentingWriter();
     cag.generate(writer);
-    expectMatchesGoldenFile(writer.toString(), 'test/goldens/client');
+    expectGolden(writer.toString(), 'client.pb.dart');
   });
 }

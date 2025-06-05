@@ -6,16 +6,16 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
+import 'src/golden_file.dart';
 
 void main() {
   test('Doc comment generation for messages', () {
     final actual = File('test/gen/doc_comments.pb.dart').readAsStringSync();
-    expectMatchesGoldenFile(actual, 'test/goldens/doc_comments');
+    expectGolden(actual, 'doc_comments.pb.dart');
   });
 
   test('Doc comment generation for enums', () {
     final actual = File('test/gen/doc_comments.pbenum.dart').readAsStringSync();
-    expectMatchesGoldenFile(actual, 'test/goldens/doc_comments.pbenum');
+    expectGolden(actual, 'doc_comments.pbenum.dart');
   });
 }
