@@ -68,7 +68,10 @@ class _ExtensionFieldSet {
 
   @pragma('vm:prefer-inline')
   @pragma('wasm:prefer-inline')
-  dynamic _getFieldOrNull(Extension extension) => _values[extension.tagNumber];
+  dynamic _getFieldOrNull(FieldInfo extension) {
+    assert(extension is Extension);
+    return _values[extension.tagNumber];
+  }
 
   void _clearFieldAndInfo(Extension fi) {
     _clearField(fi);

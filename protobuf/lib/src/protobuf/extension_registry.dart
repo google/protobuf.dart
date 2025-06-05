@@ -91,7 +91,7 @@ T _reparseMessage<T extends GeneratedMessage>(
   T? result;
   T ensureResult() {
     if (result == null) {
-      result ??= message.info_.createEmptyInstance!() as T;
+      result ??= downcastUnchecked<T>(message.info_.createEmptyInstance!());
       result!._fieldSet._shallowCopyValues(message._fieldSet);
     }
     return result!;

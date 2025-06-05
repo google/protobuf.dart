@@ -378,7 +378,7 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
         list.add(subMessage);
         break;
       case PbFieldType._MAP:
-        final mapFieldInfo = fi as MapFieldInfo;
+        final mapFieldInfo = downcastUnchecked<MapFieldInfo>(fi);
         final mapEntryMeta = mapFieldInfo.mapEntryBuilderInfo;
         fs
             ._ensureMapField(meta, mapFieldInfo)

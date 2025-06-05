@@ -117,7 +117,8 @@ class PbMap<K, V> extends MapBase<K, V> {
   PbMap freeze() {
     _isReadOnly = true;
     if (_isGroupOrMessage(valueFieldType)) {
-      for (final subMessage in values as Iterable<GeneratedMessage>) {
+      for (final subMessage
+          in downcastUnchecked<Iterable<GeneratedMessage>>(values)) {
         subMessage.freeze();
       }
     }
