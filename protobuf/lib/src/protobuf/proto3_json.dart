@@ -16,7 +16,7 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
       case PbFieldType._STRING_BIT:
         return key;
       case PbFieldType._UINT64_BIT:
-        return (key as Int64).toStringUnsigned();
+        return downcastUnchecked<Int64>(key).toStringUnsigned();
       case PbFieldType._INT32_BIT:
       case PbFieldType._SINT32_BIT:
       case PbFieldType._UINT32_BIT:
@@ -37,14 +37,15 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
 
     if (_isGroupOrMessage(fieldType!)) {
       return _writeToProto3Json(
-          (fieldValue as GeneratedMessage)._fieldSet, typeRegistry);
+          downcastUnchecked<GeneratedMessage>(fieldValue)._fieldSet,
+          typeRegistry);
     } else if (_isEnum(fieldType)) {
-      return (fieldValue as ProtobufEnum).name;
+      return downcastUnchecked<ProtobufEnum>(fieldValue).name;
     } else {
       final baseType = PbFieldType._baseType(fieldType);
       switch (baseType) {
         case PbFieldType._BOOL_BIT:
-          return fieldValue as bool;
+          return downcastUnchecked<bool>(fieldValue);
         case PbFieldType._STRING_BIT:
           return fieldValue;
         case PbFieldType._INT32_BIT:
@@ -72,7 +73,7 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
           }
           return value;
         case PbFieldType._UINT64_BIT:
-          return (fieldValue as Int64).toStringUnsigned();
+          return downcastUnchecked<Int64>(fieldValue).toStringUnsigned();
         case PbFieldType._BYTES_BIT:
           return base64Encode(fieldValue);
         default:
@@ -95,13 +96,13 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
     }
     dynamic jsonValue;
     if (fieldInfo.isMapField) {
-      jsonValue = (value as PbMap).map((key, entryValue) {
-        final mapEntryInfo = fieldInfo as MapFieldInfo;
+      jsonValue = downcastUnchecked<PbMap>(value).map((key, entryValue) {
+        final mapEntryInfo = downcastUnchecked<MapFieldInfo>(fieldInfo);
         return MapEntry(convertToMapKey(key, mapEntryInfo.keyFieldType),
             valueToProto3Json(entryValue, mapEntryInfo.valueFieldType));
       });
     } else if (fieldInfo.isRepeated) {
-      jsonValue = (value as PbList)
+      jsonValue = downcastUnchecked<PbList>(value)
           .map((element) => valueToProto3Json(element, fieldInfo.type))
           .toList();
     } else {
@@ -361,8 +362,8 @@ void _mergeFromProto3Json(
 
           if (_isMapField(fieldInfo.type)) {
             if (value is Map) {
-              final mapFieldInfo = fieldInfo as MapFieldInfo<dynamic, dynamic>;
-              final Map fieldValues = fieldSet._ensureMapField(meta, fieldInfo);
+              final mapFieldInfo = downcastUnchecked<MapFieldInfo>(fieldInfo);
+              final fieldValues = fieldSet._ensureMapField(meta, mapFieldInfo);
               value.forEach((subKey, subValue) {
                 if (subKey is! String) {
                   throw context.parseException('Expected a String key', subKey);
@@ -391,8 +392,8 @@ void _mergeFromProto3Json(
           } else if (_isGroupOrMessage(fieldInfo.type)) {
             // TODO(sigurdm) consider a cleaner separation between parsing and
             // merging.
-            final parsedSubMessage =
-                convertProto3JsonValue(value, fieldInfo) as GeneratedMessage;
+            final parsedSubMessage = downcastUnchecked<GeneratedMessage>(
+                convertProto3JsonValue(value, fieldInfo));
             final GeneratedMessage? original =
                 fieldSet._values[fieldInfo.index!];
             if (original == null) {

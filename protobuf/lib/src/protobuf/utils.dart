@@ -52,3 +52,8 @@ class _HashUtils {
   static int _hash2(a, b) =>
       _finish(_combine(_combine(0, a.hashCode), b.hashCode));
 }
+
+@pragma('vm:prefer-inline')
+@pragma('wasm:prefer-inline')
+@pragma('dart2js:tryInline')
+T downcastUnchecked<T>(dynamic value) => value;

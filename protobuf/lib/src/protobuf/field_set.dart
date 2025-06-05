@@ -72,7 +72,7 @@ class _FieldSet {
   /// If [_frozenState] contains a boolean, the hashCode hasn't been memoized,
   /// so it will return null.
   int? get _memoizedHashCode =>
-      _frozenState is int ? _frozenState as int : null;
+      _frozenState is int ? downcastUnchecked<int?>(_frozenState) : null;
 
   /// Maps a `oneof` field index to the tag number which is currently set. If
   /// the index is not present, the oneof field is unset.
@@ -214,7 +214,7 @@ class _FieldSet {
   /// Works for both repeated and non-repeated fields.
   dynamic _getFieldOrNull(FieldInfo fi) {
     if (fi.index != null) return _values[fi.index!];
-    return _extensions?._getFieldOrNull(fi as Extension<dynamic>);
+    return _extensions?._getFieldOrNull(fi);
   }
 
   bool _hasField(int tagNumber) {
@@ -287,8 +287,8 @@ class _FieldSet {
     assert(!fi.isRepeated);
     if (fi.index == null) {
       _ensureExtensions()
-        .._addInfoUnchecked(fi as Extension<dynamic>)
-        .._setFieldUnchecked(fi, value);
+        .._addInfoUnchecked(downcastUnchecked<Extension>(fi))
+        .._setFieldUnchecked(downcastUnchecked<Extension>(fi), value);
     } else {
       _setNonExtensionFieldUnchecked(meta, fi, value);
     }
@@ -304,7 +304,8 @@ class _FieldSet {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     if (fi.index == null) {
-      return _ensureExtensions()._ensureRepeatedField(fi as Extension<T>);
+      return _ensureExtensions()
+          ._ensureRepeatedField(downcastUnchecked<Extension<T>>(fi));
     }
     final value = _getFieldOrNull(fi);
     if (value != null) return value;
@@ -349,7 +350,7 @@ class _FieldSet {
     final value = _values[index];
     if (value != null) return value;
     if (defaultValue != null) return defaultValue;
-    return _getDefault(_nonExtensionInfoByIndex(index)) as T;
+    return _getDefault(_nonExtensionInfoByIndex(index));
   }
 
   /// The implementation of a generated getter for a default value determined by
@@ -377,7 +378,7 @@ class _FieldSet {
     final value = _values[index];
     if (value != null) return value;
 
-    final fi = _nonExtensionInfoByIndex(index) as FieldInfo<T>;
+    final fi = downcastUnchecked<FieldInfo<T>>(_nonExtensionInfoByIndex(index));
     assert(fi.isRepeated);
 
     if (_isReadOnly) {
@@ -394,7 +395,8 @@ class _FieldSet {
     final value = _values[index];
     if (value != null) return value;
 
-    final fi = _nonExtensionInfoByIndex(index) as MapFieldInfo<K, V>;
+    final fi =
+        downcastUnchecked<MapFieldInfo<K, V>>(_nonExtensionInfoByIndex(index));
     assert(fi.isMapField);
 
     if (_isReadOnly) {
@@ -752,11 +754,11 @@ class _FieldSet {
       if (fieldValue == null) {
         return;
       }
-      final MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
-      final PbMap<dynamic, dynamic> map =
-          f._ensureMapField(meta, this) as dynamic;
+      final f = downcastUnchecked<MapFieldInfo>(fi);
+      final map = downcastUnchecked<PbMap>(f._ensureMapField(meta, this));
       if (_isGroupOrMessage(f.valueFieldType)) {
-        final PbMap<dynamic, GeneratedMessage> fieldValueMap = fieldValue;
+        final fieldValueMap =
+            downcastUnchecked<PbMap<dynamic, GeneratedMessage>>(fieldValue);
         for (final entry in fieldValueMap.entries) {
           map[entry.key] = entry.value.deepCopy();
         }
@@ -769,14 +771,14 @@ class _FieldSet {
     if (fi.isRepeated) {
       if (_isGroupOrMessage(otherFi.type)) {
         // fieldValue must be a PbList of GeneratedMessage.
-        final PbList<GeneratedMessage> pbList = fieldValue;
+        final pbList = downcastUnchecked<PbList<GeneratedMessage>>(fieldValue);
         final repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
         // fieldValue must be at least a PbList.
-        final PbList pbList = fieldValue;
+        final pbList = downcastUnchecked<PbList>(fieldValue);
         fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
       return;
@@ -784,21 +786,22 @@ class _FieldSet {
 
     if (otherFi.isGroupOrMessage) {
       final currentFi = isExtension
-          ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
+          ? _ensureExtensions()
+              ._getFieldOrNull(downcastUnchecked<Extension>(fi))
           : _values[fi.index!];
 
       final GeneratedMessage msg = fieldValue;
       if (currentFi == null) {
         fieldValue = msg.deepCopy();
       } else {
-        final GeneratedMessage currentMsg = currentFi;
+        final currentMsg = downcastUnchecked<GeneratedMessage>(currentFi);
         fieldValue = currentMsg..mergeFromMessage(msg);
       }
     }
 
     if (isExtension) {
       _ensureExtensions()
-          ._setFieldAndInfo(fi as Extension<dynamic>, fieldValue);
+          ._setFieldAndInfo(downcastUnchecked<Extension>(fi), fieldValue);
     } else {
       _validateField(fi, fieldValue);
       _setNonExtensionFieldUnchecked(meta, fi, fieldValue);
@@ -866,13 +869,14 @@ class _FieldSet {
     for (var index = 0; index < info.byIndex.length; index++) {
       final fieldInfo = info.byIndex[index];
       if (fieldInfo.isMapField) {
-        final PbMap? map = _values[index];
+        final map = downcastUnchecked<PbMap?>(_values[index]);
         if (map != null) {
-          _values[index] = (fieldInfo as MapFieldInfo)._createMapField()
+          _values[index] = (downcastUnchecked<MapFieldInfo>(fieldInfo))
+              ._createMapField()
             ..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
-        final PbList? list = _values[index];
+        final list = downcastUnchecked<PbList?>(_values[index]);
         if (list != null) {
           _values[index] = fieldInfo._createRepeatedField()..addAll(list);
         }

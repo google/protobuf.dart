@@ -9,7 +9,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     final baseType = PbFieldType._baseType(fieldType);
 
     if (_isRepeated(fieldType)) {
-      final PbList list = fieldValue;
+      final list = downcastUnchecked<PbList>(fieldValue);
       return List.from(list.map((e) => convertToMap(e, baseType)));
     }
 
@@ -24,22 +24,22 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         return fieldValue;
       case PbFieldType._FLOAT_BIT:
       case PbFieldType._DOUBLE_BIT:
-        final value = fieldValue as double;
+        final value = downcastUnchecked<double>(fieldValue);
         if (value.isNaN) {
           return _nan;
         }
         if (value.isInfinite) {
           return value.isNegative ? _negativeInfinity : _infinity;
         }
-        if (fieldValue.toInt() == fieldValue) {
-          return fieldValue.toInt();
+        if (value.toInt() == fieldValue) {
+          return value.toInt();
         }
         return value;
       case PbFieldType._BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
-        return base64Encode(fieldValue as List<int>);
+        return base64Encode(fieldValue);
       case PbFieldType._ENUM_BIT:
-        final ProtobufEnum enum_ = fieldValue;
+        final enum_ = downcastUnchecked<ProtobufEnum>(fieldValue);
         return enum_.value; // assume |value| < 2^52
       case PbFieldType._INT64_BIT:
       case PbFieldType._SINT64_BIT:
@@ -51,7 +51,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
         return int_.toStringUnsigned();
       case PbFieldType._GROUP_BIT:
       case PbFieldType._MESSAGE_BIT:
-        final GeneratedMessage msg = fieldValue;
+        final msg = downcastUnchecked<GeneratedMessage>(fieldValue);
         return msg.writeToJsonMap();
       default:
         throw UnsupportedError('Unknown type $fieldType');
@@ -73,7 +73,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
     }
     if (_isMapField(fi.type)) {
       result['${fi.tagNumber}'] =
-          writeMap(value, fi as MapFieldInfo<dynamic, dynamic>);
+          writeMap(value, downcastUnchecked<MapFieldInfo>(fi));
       continue;
     }
     result['${fi.tagNumber}'] = convertToMap(value, fi.type);
@@ -116,7 +116,7 @@ void _mergeFromJsonMap(
     }
     if (fi.isMapField) {
       _appendJsonMap(
-          meta, fs, json[key], fi as MapFieldInfo<dynamic, dynamic>, registry);
+          meta, fs, json[key], downcastUnchecked<MapFieldInfo>(fi), registry);
     } else if (fi.isRepeated) {
       _appendJsonList(meta, fs, json[key], fi, registry);
     } else {
@@ -149,7 +149,7 @@ void _appendJsonMap(BuilderInfo meta, _FieldSet fs, List jsonList,
   final entryMeta = fi.mapEntryBuilderInfo;
   final map = fi._ensureMapField(meta, fs);
   for (final jsonEntryDynamic in jsonList) {
-    final jsonEntry = jsonEntryDynamic as Map<String, dynamic>;
+    final jsonEntry = downcastUnchecked<Map<String, dynamic>>(jsonEntryDynamic);
     final entryFieldSet = _FieldSet(null, entryMeta);
     final convertedKey = _convertJsonValue(
         entryMeta,
@@ -285,7 +285,7 @@ dynamic _convertJsonValue(BuilderInfo meta, _FieldSet fs, value, int tagNumber,
     case PbFieldType._GROUP_BIT:
     case PbFieldType._MESSAGE_BIT:
       if (value is Map) {
-        final messageValue = value as Map<String, dynamic>;
+        final messageValue = downcastUnchecked<Map<String, dynamic>>(value);
         final subMessage = meta._makeEmptyMessage(tagNumber, registry);
         _mergeFromJsonMap(subMessage._fieldSet, messageValue, registry);
         return subMessage;

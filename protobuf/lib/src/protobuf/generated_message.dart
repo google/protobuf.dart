@@ -595,13 +595,15 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
     if (!isFrozen) {
       throw ArgumentError('Rebuilding only works on frozen messages.');
     }
-    final t = toBuilder();
-    updates(t as T);
-    return t..freeze();
+    final newMessage = toBuilder();
+    final newMessageAsT = downcastUnchecked<T>(newMessage);
+    updates(newMessageAsT);
+    return newMessageAsT..freeze();
   }
 
   /// Returns a writable deep copy of this message.
   @UseResult('[GeneratedMessageGenericExtensions.deepCopy] '
       'does not update the message, returns a new message')
-  T deepCopy() => info_.createEmptyInstance!() as T..mergeFromMessage(this);
+  T deepCopy() => downcastUnchecked<T>(info_.createEmptyInstance!())
+    ..mergeFromMessage(this);
 }

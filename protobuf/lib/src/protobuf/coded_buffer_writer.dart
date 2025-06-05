@@ -68,7 +68,7 @@ class CodedBufferWriter {
     final valueType = PbFieldType._baseType(fieldType);
 
     if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
-      final list = fieldValue as List;
+      final list = downcastUnchecked<List>(fieldValue);
       if (list.isNotEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
@@ -81,7 +81,7 @@ class CodedBufferWriter {
     }
 
     if ((fieldType & PbFieldType._MAP_BIT) != 0) {
-      final map = fieldValue as PbMap;
+      final map = downcastUnchecked<PbMap>(fieldValue);
       final keyWireFormat = _wireTypes[_valueTypeIndex(map.keyFieldType)];
       final valueWireFormat = _wireTypes[_valueTypeIndex(map.valueFieldType)];
 
@@ -100,7 +100,7 @@ class CodedBufferWriter {
     final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
-      final list = fieldValue as List;
+      final list = downcastUnchecked<List>(fieldValue);
       for (var i = 0; i < list.length; i++) {
         _writeValue(fieldNumber, valueType, list[i], wireFormat);
       }
@@ -250,7 +250,8 @@ class CodedBufferWriter {
   }
 
   void _endLengthDelimited(int index) {
-    final writtenSizeInBytes = _bytesTotal - _splices[index] as int;
+    final writtenSizeInBytes =
+        _bytesTotal - downcastUnchecked<int>(_splices[index]);
     // Note: 0 - writtenSizeInBytes to avoid -0.0 in JavaScript.
     _splices[index] = 0 - writtenSizeInBytes;
     _bytesTotal += _varint32LengthInBytes(writtenSizeInBytes);
@@ -342,7 +343,7 @@ class CodedBufferWriter {
         _writeVarint32(value ? 1 : 0);
         break;
       case PbFieldType._BYTES_BIT:
-        final List<int> bytes = value;
+        final bytes = downcastUnchecked<List<int>>(value);
         if (bytes is Uint8List) {
           _writeBytesNoTag(bytes);
         } else if (bytes.isEmpty) {
@@ -352,7 +353,7 @@ class CodedBufferWriter {
         }
         break;
       case PbFieldType._STRING_BIT:
-        final String string = value;
+        final string = downcastUnchecked<String>(value);
         if (string.isEmpty) {
           _writeEmptyBytes();
         } else {
@@ -366,7 +367,7 @@ class CodedBufferWriter {
         _writeFloat(value);
         break;
       case PbFieldType._ENUM_BIT:
-        final ProtobufEnum enum_ = value;
+        final enum_ = downcastUnchecked<ProtobufEnum>(value);
         _writeVarint32(enum_.value & 0xffffffff);
         break;
       case PbFieldType._GROUP_BIT:
@@ -376,11 +377,10 @@ class CodedBufferWriter {
         if (value is UnknownFieldSet) {
           // Give the variable a type to not rely on type promotion to
           // eliminate the dynamic call below.
-          // ignore: omit_local_variable_types
-          final UnknownFieldSet unknownFieldSet = value;
+          final unknownFieldSet = downcastUnchecked<UnknownFieldSet>(value);
           unknownFieldSet.writeToCodedBufferWriter(this);
         } else {
-          final GeneratedMessage message = value;
+          final message = downcastUnchecked<GeneratedMessage>(value);
           message.writeToCodedBufferWriter(this);
         }
         break;
@@ -416,7 +416,7 @@ class CodedBufferWriter {
         break;
       case PbFieldType._MESSAGE_BIT:
         final mark = _startLengthDelimited();
-        final GeneratedMessage msg = value;
+        final msg = downcastUnchecked<GeneratedMessage>(value);
         msg.writeToCodedBufferWriter(this);
         _endLengthDelimited(mark);
         break;
