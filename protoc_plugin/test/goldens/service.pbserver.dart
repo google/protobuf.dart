@@ -25,19 +25,24 @@ abstract class TestServiceBase extends $pb.GeneratedService {
 
   $pb.GeneratedMessage createRequest($core.String methodName) {
     switch (methodName) {
-      case 'Ping': return $0.Empty();
-      default: throw $core.ArgumentError('Unknown method: $methodName');
+      case 'Ping':
+        return $0.Empty();
+      default:
+        throw $core.ArgumentError('Unknown method: $methodName');
     }
   }
 
-  $async.Future<$pb.GeneratedMessage> handleCall($pb.ServerContext ctx, $core.String methodName, $pb.GeneratedMessage request) {
+  $async.Future<$pb.GeneratedMessage> handleCall($pb.ServerContext ctx,
+      $core.String methodName, $pb.GeneratedMessage request) {
     switch (methodName) {
-      case 'Ping': return ping(ctx, request as $0.Empty);
-      default: throw $core.ArgumentError('Unknown method: $methodName');
+      case 'Ping':
+        return ping(ctx, request as $0.Empty);
+      default:
+        throw $core.ArgumentError('Unknown method: $methodName');
     }
   }
 
   $core.Map<$core.String, $core.dynamic> get $json => TestServiceBase$json;
-  $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>> get $messageJson => TestServiceBase$messageJson;
+  $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>>
+      get $messageJson => TestServiceBase$messageJson;
 }
-

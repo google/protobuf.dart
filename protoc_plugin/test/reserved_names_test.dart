@@ -14,7 +14,7 @@ import 'package:protobuf/src/protobuf/mixins/map_mixin.dart' show PbMapMixin;
 import 'package:protoc_plugin/mixins.dart' show findMixin;
 import 'package:test/test.dart';
 
-import 'mirror_util.dart' show findMemberNames;
+import 'src/mirror_util.dart' show findMemberNames;
 
 void main() {
   test('GeneratedMessage reserved names are up to date', () {

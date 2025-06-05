@@ -11,7 +11,7 @@ import 'package:protoc_plugin/src/linker.dart';
 import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
+import 'src/golden_file.dart';
 
 void main() {
   test('testExtensionGenerator', () {
@@ -36,8 +36,17 @@ void main() {
     final writer = IndentingWriter(filename: 'sample.proto');
     fileGenerator.extensionGenerators.single.generate(writer);
 
-    expectMatchesGoldenFile(writer.toString(), 'test/goldens/extension');
-    expectMatchesGoldenFile(
-        writer.sourceLocationInfo.toString(), 'test/goldens/extension.meta');
+    // We wrap the output in a dummy class in order to create a valid
+    // (formattable) Dart file.
+    var actual = writer.toString();
+    actual = '''
+class Card {
+  $actual
+}
+''';
+
+    expectGolden(actual, 'extension.pb.dart');
+    expectGolden(
+        writer.sourceLocationInfo.toString(), 'extension.pb.dart.meta');
   });
 }

@@ -8,8 +8,8 @@ import 'package:protoc_plugin/src/linker.dart';
 import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
-import 'service_util.dart';
+import 'src/golden_file.dart';
+import 'src/service_util.dart';
 
 void main() {
   test('testServiceGenerator', () {
@@ -27,9 +27,7 @@ void main() {
 
     final serviceWriter = IndentingWriter();
     fg.serviceGenerators[0].generate(serviceWriter);
-    expectMatchesGoldenFile(
-        serviceWriter.toString(), 'test/goldens/serviceGenerator');
-    expectMatchesGoldenFile(
-        fg.generateJsonFile(), 'test/goldens/serviceGenerator.pb.json');
+    expectGolden(serviceWriter.toString(), 'serviceGenerator.pb.dart');
+    expectGolden(fg.generateJsonFile(), 'serviceGenerator.pbjson.dart');
   });
 }
