@@ -5,7 +5,7 @@
 part of '../../protobuf.dart';
 
 // TODO(antonm): reconsider later if PbList should take care of equality.
-bool _deepEquals(lhs, rhs) {
+bool _deepEquals(Object lhs, Object rhs) {
   // Some GeneratedMessages implement Map, so test this first.
   if (lhs is GeneratedMessage) return lhs == rhs;
   if (rhs is GeneratedMessage) return false;
@@ -30,7 +30,8 @@ bool _areMapsEqual(Map lhs, Map rhs) {
 List<T> _sorted<T>(Iterable<T> list) => List.from(list)..sort();
 
 class _HashUtils {
-// Jenkins hash functions copied from https://github.com/google/quiver-dart/blob/master/lib/src/core/hash.dart.
+  // Jenkins hash functions copied from
+  // https://github.com/google/quiver-dart/blob/master/lib/src/core/hash.dart.
 
   static int _combine(int hash, int value) {
     hash = 0x1fffffff & (hash + value);
@@ -49,6 +50,6 @@ class _HashUtils {
       _finish(objects.fold(0, (h, i) => _combine(h, i.hashCode)));
 
   /// Generates a hash code for two objects.
-  static int _hash2(a, b) =>
+  static int _hash2(dynamic a, dynamic b) =>
       _finish(_combine(_combine(0, a.hashCode), b.hashCode));
 }

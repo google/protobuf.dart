@@ -6,7 +6,7 @@ description: >-
 repository: https://github.com/google/protobuf.dart/tree/master/protobuf
 
 environment:
-  sdk: '^3.6.0'
+  sdk: ^3.6.0
 
 resolution: workspace
 
@@ -16,6 +16,5 @@ dependencies:
   meta: ^1.7.0
 
 dev_dependencies:
-  dart_flutter_team_lints: ^1.0.0
-  matcher: ^0.12.11
+  lints: '>=5.0.0 <7.0.0'
   test: ^1.16.0

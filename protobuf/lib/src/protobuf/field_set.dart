@@ -539,7 +539,7 @@ class _FieldSet {
     return true;
   }
 
-  bool _equalFieldValues(left, right) {
+  bool _equalFieldValues(Object? left, Object? right) {
     if (left != null && right != null) return _deepEquals(left, right);
 
     final val = left ?? right;
