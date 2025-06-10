@@ -52,10 +52,11 @@ class GenerationOptions {
   final bool generateMetadata;
   final bool disableConstructorArgs;
 
-  GenerationOptions(
-      {this.useGrpc = false,
-      this.generateMetadata = false,
-      this.disableConstructorArgs = false});
+  GenerationOptions({
+    this.useGrpc = false,
+    this.generateMetadata = false,
+    this.disableConstructorArgs = false,
+  });
 }
 
 /// A parser for a name-value pair option. Options parsed in

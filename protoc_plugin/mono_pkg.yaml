@@ -2,7 +2,7 @@
 stages:
   - format_analyze:
     - group:
-      - format
+      - format: --output=none --set-exit-if-changed lib
       - command: ./../tool/setup.sh
       - command: make protos
       - analyze: --fatal-infos

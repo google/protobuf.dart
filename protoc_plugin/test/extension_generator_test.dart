@@ -33,18 +33,11 @@ void main() {
     final options = parseGenerationOptions(
         pb.CodeGeneratorRequest(), pb.CodeGeneratorResponse());
     link(options, [fileGenerator]);
-    final writer = IndentingWriter(filename: 'sample.proto');
+    final writer =
+        IndentingWriter(generateMetadata: true, fileName: 'sample.proto');
     fileGenerator.extensionGenerators.single.generate(writer);
 
-    // We wrap the output in a dummy class in order to create a valid
-    // (formattable) Dart file.
-    var actual = writer.toString();
-    actual = '''
-class Card {
-  $actual
-}
-''';
-
+    final actual = writer.emitSource(format: false);
     expectGolden(actual, 'extension.pb.dart');
     expectGolden(
         writer.sourceLocationInfo.toString(), 'extension.pb.dart.meta');
