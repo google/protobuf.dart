@@ -28,11 +28,12 @@ void main() {
           ..name = 'BUSINESS'
           ..number = 2
       ]);
-    final writer = IndentingWriter(filename: 'sample.proto');
+    final writer =
+        IndentingWriter(generateMetadata: true, fileName: 'sample.proto');
     final fg = FileGenerator(FileDescriptorProto(), GenerationOptions());
     final eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);
     eg.generate(writer);
-    expectGolden(writer.toString(), 'enum.pbenum.dart');
+    expectGolden(writer.emitSource(format: false), 'enum.pbenum.dart');
     expectGolden(writer.sourceLocationInfo.toString(), 'enum.pbenum.dart.meta');
   });
 }
