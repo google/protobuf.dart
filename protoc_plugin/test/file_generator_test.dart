@@ -350,6 +350,9 @@ void main() {
 
     final writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
+    // We use a '.~dart' file extension here, insead of '.dart', so that
+    // 'pub publish' won't try and validate that all the imports for this file
+    // are listed in the pubspec.
     expectGolden(fg.generateGrpcFile(), 'grpc_service.pbgrpc.~dart');
   });
 
