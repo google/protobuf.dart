@@ -658,10 +658,10 @@ class FileGenerator extends ProtobufContainer {
     }
 
     out.println('''
+// This is a generated file - do not edit.
 //
-//  Generated code. Do not modify.
-//  source: ${descriptor.name}
-//
+// Generated from ${descriptor.name}.
+
 // @dart = 3.3
 ''');
     ignorelines.forEach(out.println);
