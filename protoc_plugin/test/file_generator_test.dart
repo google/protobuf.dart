@@ -350,7 +350,7 @@ void main() {
 
     final writer = IndentingWriter(filename: '');
     fg.writeMainHeader(writer);
-    expectGolden(fg.generateGrpcFile(), 'grpc_service.pbgrpc.dart');
+    expectGolden(fg.generateGrpcFile(), 'grpc_service.pbgrpc.~dart');
   });
 
   test('FileGenerator generates imports for .pb.dart files', () {
