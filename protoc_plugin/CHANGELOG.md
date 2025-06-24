@@ -5,6 +5,7 @@
 * Ignore `unused_import` diagnostics for `*.pbjson.dart` files.
 * Revert the change to not generate empty `*.pbenum.dart` files; these can be
   exported from other enum files.
+* Improve the readablity of generated gRPC client files.
 
 [#1010]: https://github.com/google/protobuf.dart/issues/1010
 
