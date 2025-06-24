@@ -89,14 +89,11 @@ $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
 		$(TEST_PROTO_SRCS)
 
-	dart format $(TEST_PROTO_DIR)
-
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
 	protoc --dart_out=lib/src/gen \
 		-Iprotos \
 		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
 	find lib/src/gen -name '*.pbjson.dart' -delete
-	dart format lib/src/gen
 
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)
 

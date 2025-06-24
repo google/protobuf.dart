@@ -27,7 +27,8 @@ void main() {
 
     final serviceWriter = IndentingWriter();
     fg.serviceGenerators[0].generate(serviceWriter);
-    expectGolden(serviceWriter.toString(), 'serviceGenerator.pb.dart');
+    expectGolden(
+        serviceWriter.emitSource(format: true), 'serviceGenerator.pb.dart');
     expectGolden(fg.generateJsonFile(), 'serviceGenerator.pbjson.dart');
   });
 }
