@@ -356,7 +356,10 @@ void main() {
 
     final writer = IndentingWriter();
     fg.writeMainHeader(writer);
-    expectGolden(fg.generateGrpcFile(), 'grpc_service.pbgrpc.dart');
+    // We use a '.~dart' file extension here, insead of '.dart', so that
+    // 'pub publish' won't try and validate that all the imports for this file
+    // are listed in the pubspec.
+    expectGolden(fg.generateGrpcFile(), 'grpc_service.pbgrpc.~dart');
   });
 
   test('FileGenerator generates imports for .pb.dart files', () {
