@@ -1,6 +1,9 @@
-## 22.4.0
+## 22.5.0-wip
 
 * Generated files are now formatted using the Dart formatter.
+
+## 22.4.0
+
 * Update how we calculate import prefixes ([#1010]); import prefixes are now
   unique per-library instead of being unique across all generated libraries.
 * Ignore `unused_import` diagnostics for `*.pbjson.dart` files. ([#1013])
