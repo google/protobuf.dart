@@ -19,6 +19,7 @@ void main() {
   late FileDescriptorProto fd;
   EnumDescriptorProto ed;
   late DescriptorProto md;
+
   setUp(() async {
     fd = FileDescriptorProto();
     ed = EnumDescriptorProto()
@@ -72,6 +73,7 @@ void main() {
       ])
       ..enumType.add(ed);
   });
+
   test('testMessageGenerator', () {
     final options = parseGenerationOptions(
         CodeGeneratorRequest()..parameter = 'disable_constructor_args',
@@ -84,15 +86,16 @@ void main() {
     mg.register(ctx);
     mg.resolve(ctx);
 
-    var writer = IndentingWriter(filename: '');
+    var writer = IndentingWriter(generateMetadata: true, fileName: '');
     mg.generate(writer);
-    expectGolden(writer.toString(), 'messageGenerator.pb.dart');
+    expectGolden(writer.emitSource(format: false), 'messageGenerator.pb.dart');
     expectGolden(
         writer.sourceLocationInfo.toString(), 'messageGenerator.pb.dart.meta');
 
-    writer = IndentingWriter(filename: '');
+    writer = IndentingWriter(generateMetadata: true, fileName: '');
     mg.generateEnums(writer);
-    expectGolden(writer.toString(), 'messageGeneratorEnums.pb.dart');
+    expectGolden(
+        writer.emitSource(format: false), 'messageGeneratorEnums.pb.dart');
     expectGolden(writer.sourceLocationInfo.toString(),
         'messageGeneratorEnums.pb.dart.meta');
   });
@@ -108,7 +111,7 @@ void main() {
     mg.register(ctx);
     mg.resolve(ctx);
 
-    final writer = IndentingWriter(filename: '');
+    final writer = IndentingWriter(generateMetadata: true, fileName: '');
     mg.generate(writer);
 
     final eq = ListEquality();
@@ -124,7 +127,7 @@ void main() {
       'clearDeprecatedField'
     ];
 
-    final generatedContents = writer.toString();
+    final generatedContents = writer.emitSource(format: false);
     final metadata = writer.sourceLocationInfo;
     for (final annotation in metadata.annotation) {
       final annotatedName =

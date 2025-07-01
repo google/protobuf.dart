@@ -4,9 +4,7 @@
 
 import 'dart:io';
 
-import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as path;
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 /// Will test [actual] against the contests of the file at [file].
@@ -16,12 +14,6 @@ void expectGolden(String actual, String file) {
   final goldens = Directory(path.join('test', 'goldens'));
   if (!goldens.existsSync()) {
     goldens.createSync();
-  }
-
-  // TODO(devoncarew): We should move the formatting logic out of this test;
-  // perhaps into the generating code.
-  if (file.endsWith('.dart')) {
-    actual = format(actual);
   }
 
   var golden = File(path.join(goldens.path, file));
@@ -39,11 +31,4 @@ void expectGolden(String actual, String file) {
     }
     golden.writeAsStringSync(actual);
   }
-}
-
-String format(String source) {
-  // TODO(devoncarew): Move this language version to a central location.
-  // For tests, this version should match that of package:protoc_plugin.
-  final formatter = DartFormatter(languageVersion: Version(3, 6, 0));
-  return formatter.format(source);
 }
