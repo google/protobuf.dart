@@ -28,9 +28,10 @@ abstract class RpcClient {
   /// appropriate. It should merge the reply into [emptyResponse] and
   /// return it.
   Future<T> invoke<T extends GeneratedMessage>(
-      ClientContext? ctx,
-      String serviceName,
-      String methodName,
-      GeneratedMessage request,
-      T emptyResponse);
+    ClientContext? ctx,
+    String serviceName,
+    String methodName,
+    GeneratedMessage request,
+    T emptyResponse,
+  );
 }

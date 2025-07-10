@@ -50,9 +50,10 @@ void main() {
 
     test('should handle multiple package|path entries', () {
       optionParser.parse(
-          optionName,
-          'foo|bar/baz|wibble/wobble;a|b/c/d|e/f;one.two|three|four/five',
-          onError);
+        optionName,
+        'foo|bar/baz|wibble/wobble;a|b/c/d|e/f;one.two|three|four/five',
+        onError,
+      );
       expect(errors, isEmpty);
       expect(packages.length, 3);
       expect(packages['bar/baz']!.name, 'foo');
@@ -67,8 +68,11 @@ void main() {
     });
 
     test('should skip and continue past malformed entries', () {
-      optionParser.parse(optionName,
-          'foo|bar/baz|wibble/wobble;fizz;a.b|c/d|e/f;x|y|zz|y', onError);
+      optionParser.parse(
+        optionName,
+        'foo|bar/baz|wibble/wobble;fizz;a.b|c/d|e/f;x|y|zz|y',
+        onError,
+      );
       expect(errors.length, 2);
       expect(packages.length, 2);
       expect(packages['bar/baz']!.name, 'foo');
@@ -76,16 +80,22 @@ void main() {
     });
 
     test('should emit error for conflicting package names', () {
-      optionParser.parse(optionName,
-          'foo|bar/baz|wibble/wobble;flob|bar/baz|wibble/wobble', onError);
+      optionParser.parse(
+        optionName,
+        'foo|bar/baz|wibble/wobble;flob|bar/baz|wibble/wobble',
+        onError,
+      );
       expect(errors.length, 1);
       expect(packages.length, 1);
       expect(packages['bar/baz']!.name, 'foo');
     });
 
     test('should emit error for conflicting outputRoots', () {
-      optionParser.parse(optionName,
-          'foo|bar/baz|wibble/wobble;foo|bar/baz|womble/wumble', onError);
+      optionParser.parse(
+        optionName,
+        'foo|bar/baz|wibble/wobble;foo|bar/baz|womble/wumble',
+        onError,
+      );
       expect(errors.length, 1);
       expect(packages.length, 1);
       expect(packages['bar/baz']!.outputRoot, 'wibble/wobble');
@@ -93,7 +103,10 @@ void main() {
 
     test('should normalize paths', () {
       optionParser.parse(
-          optionName, 'foo|bar//baz/|quux/;a|b/|c;c|d//e/f///|g//h//', onError);
+        optionName,
+        'foo|bar//baz/|quux/;a|b/|c;c|d//e/f///|g//h//',
+        onError,
+      );
       expect(errors, isEmpty);
       expect(packages.length, 3);
       expect(packages['bar/baz']!.name, 'foo');
@@ -116,42 +129,53 @@ void main() {
       packages = {
         'foo/bar': BazelPackage('a.b.c', 'foo/bar', 'baz/flob'),
         'foo/bar/baz': BazelPackage('d.e.f', 'foo/bar/baz', 'baz/flob/foo'),
-        'wibble/wobble':
-            BazelPackage('wibble.wobble', 'wibble/wobble', 'womble/wumble'),
+        'wibble/wobble': BazelPackage(
+          'wibble.wobble',
+          'wibble/wobble',
+          'womble/wumble',
+        ),
       };
       config = BazelOutputConfiguration(packages);
     });
 
     group('outputPathForUri', () {
       test('should handle files at package root', () {
-        final p =
-            config.outputPathFor(Uri.parse('foo/bar/quux.proto'), '.pb.dart');
+        final p = config.outputPathFor(
+          Uri.parse('foo/bar/quux.proto'),
+          '.pb.dart',
+        );
         expect(p.path, 'baz/flob/quux.pb.dart');
       });
 
       test('should handle files below package root', () {
         final p = config.outputPathFor(
-            Uri.parse('foo/bar/a/b/quux.proto'), '.pb.dart');
+          Uri.parse('foo/bar/a/b/quux.proto'),
+          '.pb.dart',
+        );
         expect(p.path, 'baz/flob/a/b/quux.pb.dart');
       });
 
       test('should handle files in a nested package root', () {
         final p = config.outputPathFor(
-            Uri.parse('foo/bar/baz/quux.proto'), '.pb.dart');
+          Uri.parse('foo/bar/baz/quux.proto'),
+          '.pb.dart',
+        );
         expect(p.path, 'baz/flob/foo/quux.pb.dart');
       });
 
       test('should handle files below a nested package root', () {
         final p = config.outputPathFor(
-            Uri.parse('foo/bar/baz/a/b/quux.proto'), '.pb.dart');
+          Uri.parse('foo/bar/baz/a/b/quux.proto'),
+          '.pb.dart',
+        );
         expect(p.path, 'baz/flob/foo/a/b/quux.pb.dart');
       });
 
       test('should throw if unable to locate the package for an input', () {
         expect(
-            () =>
-                config.outputPathFor(Uri.parse('a/b/c/quux.proto'), '.pb.dart'),
-            throwsArgumentError);
+          () => config.outputPathFor(Uri.parse('a/b/c/quux.proto'), '.pb.dart'),
+          throwsArgumentError,
+        );
       });
     });
 
@@ -196,8 +220,10 @@ void main() {
       test('should throw if target is in unknown package', () {
         final target = Uri.parse('flob/flub/quux.proto');
         final source = Uri.parse('foo/bar/baz.proto');
-        expect(() => config.resolveImport(target, source, '.pb.dart'),
-            throwsA(startsWith('ERROR: cannot generate import for')));
+        expect(
+          () => config.resolveImport(target, source, '.pb.dart'),
+          throwsA(startsWith('ERROR: cannot generate import for')),
+        );
       });
     });
   });

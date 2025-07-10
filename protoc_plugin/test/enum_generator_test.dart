@@ -12,22 +12,23 @@ import 'src/golden_file.dart';
 
 void main() {
   test('testEnumGenerator', () {
-    final ed = EnumDescriptorProto()
-      ..name = 'PhoneType'
-      ..value.addAll([
-        EnumValueDescriptorProto()
-          ..name = 'MOBILE'
-          ..number = 0,
-        EnumValueDescriptorProto()
-          ..name = 'HOME'
-          ..number = 1,
-        EnumValueDescriptorProto()
-          ..name = 'WORK'
-          ..number = 2,
-        EnumValueDescriptorProto()
-          ..name = 'BUSINESS'
-          ..number = 2
-      ]);
+    final ed =
+        EnumDescriptorProto()
+          ..name = 'PhoneType'
+          ..value.addAll([
+            EnumValueDescriptorProto()
+              ..name = 'MOBILE'
+              ..number = 0,
+            EnumValueDescriptorProto()
+              ..name = 'HOME'
+              ..number = 1,
+            EnumValueDescriptorProto()
+              ..name = 'WORK'
+              ..number = 2,
+            EnumValueDescriptorProto()
+              ..name = 'BUSINESS'
+              ..number = 2,
+          ]);
     final writer = IndentingWriter(filename: 'sample.proto');
     final fg = FileGenerator(FileDescriptorProto(), GenerationOptions());
     final eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);

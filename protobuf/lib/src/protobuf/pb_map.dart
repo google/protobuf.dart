@@ -34,8 +34,8 @@ class PbMap<K, V> extends MapBase<K, V> {
   PbMap(this.keyFieldType, this.valueFieldType) : _wrappedMap = <K, V>{};
 
   PbMap.unmodifiable(this.keyFieldType, this.valueFieldType)
-      : _wrappedMap = <K, V>{},
-        _isReadOnly = true;
+    : _wrappedMap = <K, V>{},
+      _isReadOnly = true;
 
   @override
   V? operator [](Object? key) => _wrappedMap[key];
@@ -75,8 +75,10 @@ class PbMap<K, V> extends MapBase<K, V> {
   /// pairs in any order. Then, the `hashCode` is guaranteed to be the same.
   @override
   int get hashCode {
-    return _wrappedMap.entries
-        .fold(0, (h, entry) => h ^ _HashUtils._hash2(entry.key, entry.value));
+    return _wrappedMap.entries.fold(
+      0,
+      (h, entry) => h ^ _HashUtils._hash2(entry.key, entry.value),
+    );
   }
 
   @override
@@ -98,8 +100,11 @@ class PbMap<K, V> extends MapBase<K, V> {
     return _wrappedMap.remove(key);
   }
 
-  void _mergeEntry(BuilderInfo mapEntryMeta, CodedBufferReader input,
-      ExtensionRegistry registry) {
+  void _mergeEntry(
+    BuilderInfo mapEntryMeta,
+    CodedBufferReader input,
+    ExtensionRegistry registry,
+  ) {
     final length = input.readInt32();
     final oldLimit = input._currentLimit;
     input._currentLimit = input._bufferPos + length;

@@ -10,7 +10,7 @@ class Benchmark extends BenchmarkBase {
   final String _input;
 
   Benchmark(super.name, List<int> input)
-      : _input = f0.A0.fromBuffer(input).writeToJson();
+    : _input = f0.A0.fromBuffer(input).writeToJson();
 
   @override
   void run() {

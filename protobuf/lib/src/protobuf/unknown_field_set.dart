@@ -6,8 +6,8 @@ part of '../../protobuf.dart';
 
 /// A set of unknown fields in a [GeneratedMessage].
 class UnknownFieldSet {
-  static final UnknownFieldSet emptyUnknownFieldSet = UnknownFieldSet()
-    .._markReadOnly();
+  static final UnknownFieldSet emptyUnknownFieldSet =
+      UnknownFieldSet().._markReadOnly();
   final Map<int, UnknownFieldSetField> _fields = <int, UnknownFieldSetField>{};
 
   UnknownFieldSet();
@@ -271,12 +271,12 @@ class UnknownFieldSetField {
   }
 
   List get values => [
-        ...lengthDelimited,
-        ...varints,
-        ...fixed32s,
-        ...fixed64s,
-        ...groups,
-      ];
+    ...lengthDelimited,
+    ...varints,
+    ...fixed32s,
+    ...fixed64s,
+    ...groups,
+  ];
 
   void writeTo(int fieldNumber, CodedBufferWriter output) {
     void write(int type, value) {

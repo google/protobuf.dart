@@ -28,12 +28,14 @@ void main() {
   });
 
   test('non-empty frozen lists compare as equal', () {
-    final first = T()
-      ..int32s.add(1)
-      ..freeze();
-    final second = T()
-      ..int32s.add(1)
-      ..freeze();
+    final first =
+        T()
+          ..int32s.add(1)
+          ..freeze();
+    final second =
+        T()
+          ..int32s.add(1)
+          ..freeze();
     expect(first.int32s == second.int32s, isTrue);
   });
 
@@ -44,12 +46,14 @@ void main() {
   });
 
   test('different frozen lists do not compare as equal', () {
-    final first = T()
-      ..int32s.add(1)
-      ..freeze();
-    final second = T()
-      ..int32s.add(2)
-      ..freeze();
+    final first =
+        T()
+          ..int32s.add(1)
+          ..freeze();
+    final second =
+        T()
+          ..int32s.add(2)
+          ..freeze();
     expect(first.int32s == second.int32s, isFalse);
   });
 }

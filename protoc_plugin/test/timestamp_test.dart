@@ -9,9 +9,10 @@ import 'gen/google/protobuf/timestamp.pb.dart';
 
 void main() {
   test('timestamp -> datetime -> timestamp', () {
-    final timestamp = Timestamp()
-      ..seconds = Int64(1550225928)
-      ..nanos = 12345000;
+    final timestamp =
+        Timestamp()
+          ..seconds = Int64(1550225928)
+          ..nanos = 12345000;
     expect(Timestamp.fromDateTime(timestamp.toDateTime()), timestamp);
   });
 
@@ -24,13 +25,16 @@ void main() {
   });
 
   test('negative Timestamp', () {
-    final secondBeforeEpoch = Timestamp()
-      ..seconds = Int64(-1)
-      ..nanos = 1000000;
+    final secondBeforeEpoch =
+        Timestamp()
+          ..seconds = Int64(-1)
+          ..nanos = 1000000;
     final dateTime = DateTime.fromMillisecondsSinceEpoch(-999, isUtc: true);
 
-    expect(secondBeforeEpoch.toDateTime().millisecondsSinceEpoch,
-        dateTime.millisecondsSinceEpoch);
+    expect(
+      secondBeforeEpoch.toDateTime().millisecondsSinceEpoch,
+      dateTime.millisecondsSinceEpoch,
+    );
     expect(secondBeforeEpoch.toDateTime(), dateTime);
     expect(Timestamp.fromDateTime(dateTime).nanos, 1000000);
     expect(Timestamp.fromDateTime(dateTime).seconds, Int64(-1));

@@ -9,8 +9,11 @@ class JsonParsingContext {
   final bool supportNamesWithUnderscores;
   final bool permissiveEnums;
 
-  JsonParsingContext(this.ignoreUnknownFields, this.supportNamesWithUnderscores,
-      this.permissiveEnums);
+  JsonParsingContext(
+    this.ignoreUnknownFields,
+    this.supportNamesWithUnderscores,
+    this.permissiveEnums,
+  );
 
   void addMapIndex(String index) {
     _path.add(index);
@@ -28,7 +31,8 @@ class JsonParsingContext {
   Exception parseException(String message, Object? source) {
     final formattedPath = _path.map((s) => '["$s"]').join();
     return FormatException(
-        'Protobuf JSON decoding failed at: root$formattedPath. $message',
-        source);
+      'Protobuf JSON decoding failed at: root$formattedPath. $message',
+      source,
+    );
   }
 }

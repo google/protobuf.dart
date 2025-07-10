@@ -32,17 +32,17 @@ class PbList<E> extends ListBase<E> {
   bool get isFrozen => _isReadOnly;
 
   PbList({CheckFunc<E> check = _checkNotNull})
-      : _wrappedList = <E>[],
-        _check = check;
+    : _wrappedList = <E>[],
+      _check = check;
 
   PbList.unmodifiable()
-      : _wrappedList = _emptyList,
-        _check = _checkNotNull,
-        _isReadOnly = true;
+    : _wrappedList = _emptyList,
+      _check = _checkNotNull,
+      _isReadOnly = true;
 
   PbList.from(List<E> from)
-      : _wrappedList = List<E>.from(from),
-        _check = _checkNotNull;
+    : _wrappedList = List<E>.from(from),
+      _check = _checkNotNull;
 
   @override
   @pragma('dart2js:never-inline')

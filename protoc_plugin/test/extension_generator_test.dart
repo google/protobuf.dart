@@ -15,23 +15,28 @@ import 'src/golden_file.dart';
 
 void main() {
   test('testExtensionGenerator', () {
-    final extensionFieldDescriptor = pb.FieldDescriptorProto()
-      ..name = 'client_info'
-      ..jsonName = 'clientInfo'
-      ..number = 261486461
-      ..label = pb.FieldDescriptorProto_Label.LABEL_OPTIONAL
-      ..type = pb.FieldDescriptorProto_Type.TYPE_STRING
-      ..extendee = '.Card';
-    final messageDescriptor = pb.DescriptorProto()
-      ..name = 'Card'
-      ..extension.add(extensionFieldDescriptor);
-    final fileDescriptor = pb.FileDescriptorProto()
-      ..messageType.add(messageDescriptor)
-      ..extension.add(extensionFieldDescriptor);
+    final extensionFieldDescriptor =
+        pb.FieldDescriptorProto()
+          ..name = 'client_info'
+          ..jsonName = 'clientInfo'
+          ..number = 261486461
+          ..label = pb.FieldDescriptorProto_Label.LABEL_OPTIONAL
+          ..type = pb.FieldDescriptorProto_Type.TYPE_STRING
+          ..extendee = '.Card';
+    final messageDescriptor =
+        pb.DescriptorProto()
+          ..name = 'Card'
+          ..extension.add(extensionFieldDescriptor);
+    final fileDescriptor =
+        pb.FileDescriptorProto()
+          ..messageType.add(messageDescriptor)
+          ..extension.add(extensionFieldDescriptor);
 
     final fileGenerator = FileGenerator(fileDescriptor, GenerationOptions());
     final options = parseGenerationOptions(
-        pb.CodeGeneratorRequest(), pb.CodeGeneratorResponse());
+      pb.CodeGeneratorRequest(),
+      pb.CodeGeneratorResponse(),
+    );
     link(options, [fileGenerator]);
     final writer = IndentingWriter(filename: 'sample.proto');
     fileGenerator.extensionGenerators.single.generate(writer);
@@ -47,6 +52,8 @@ class Card {
 
     expectGolden(actual, 'extension.pb.dart');
     expectGolden(
-        writer.sourceLocationInfo.toString(), 'extension.pb.dart.meta');
+      writer.sourceLocationInfo.toString(),
+      'extension.pb.dart.meta',
+    );
   });
 }

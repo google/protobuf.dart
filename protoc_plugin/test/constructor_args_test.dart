@@ -16,7 +16,7 @@ void main() {
         stringToInt32Field: [
           MapEntry('a', 1),
           MapEntry('b', 2),
-          MapEntry('a', 3)
+          MapEntry('a', 3),
         ],
         int32ToStringField: {1: 'hi'}.entries,
       );
@@ -70,20 +70,20 @@ void main() {
         repeatedBytes: ['216'.codeUnits, '316'.codeUnits],
         repeatedGroup: [
           TestAllTypes_RepeatedGroup(a: 217),
-          TestAllTypes_RepeatedGroup(a: 317)
+          TestAllTypes_RepeatedGroup(a: 317),
         ],
         repeatedNestedMessage: [
           TestAllTypes_NestedMessage(bb: 218),
-          TestAllTypes_NestedMessage(bb: 318)
+          TestAllTypes_NestedMessage(bb: 318),
         ],
         repeatedForeignMessage: [
           ForeignMessage(c: 219),
-          ForeignMessage(c: 319)
+          ForeignMessage(c: 319),
         ],
         repeatedImportMessage: [ImportMessage(d: 220), ImportMessage(d: 320)],
         repeatedNestedEnum: [
           TestAllTypes_NestedEnum.BAR,
-          TestAllTypes_NestedEnum.BAZ
+          TestAllTypes_NestedEnum.BAZ,
         ],
         repeatedForeignEnum: [ForeignEnum.FOREIGN_BAR, ForeignEnum.FOREIGN_BAZ],
         repeatedImportEnum: [ImportEnum.IMPORT_BAR, ImportEnum.IMPORT_BAZ],

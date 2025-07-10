@@ -87,11 +87,17 @@ class _ExtensionFieldSet {
     final fi = _getInfoOrNull(tagNumber);
     if (fi == null) {
       throw ArgumentError(
-          'tag $tagNumber not defined in $_parent._messageName');
+        'tag $tagNumber not defined in $_parent._messageName',
+      );
     }
     if (fi.isRepeated) {
-      throw ArgumentError(_parent._setFieldFailedMessage(
-          fi, value, 'repeating field (use get + .add())'));
+      throw ArgumentError(
+        _parent._setFieldFailedMessage(
+          fi,
+          value,
+          'repeating field (use get + .add())',
+        ),
+      );
     }
     _ensureWritable();
     _parent._validateField(fi, value);
@@ -103,8 +109,13 @@ class _ExtensionFieldSet {
   void _setFieldAndInfo(Extension fi, value) {
     _ensureWritable();
     if (fi.isRepeated) {
-      throw ArgumentError(_parent._setFieldFailedMessage(
-          fi, value, 'repeating field (use get + .add())'));
+      throw ArgumentError(
+        _parent._setFieldFailedMessage(
+          fi,
+          value,
+          'repeating field (use get + .add())',
+        ),
+      );
     }
     _ensureWritable();
     _validateInfo(fi);
@@ -122,7 +133,8 @@ class _ExtensionFieldSet {
   void _validateInfo(Extension fi) {
     if (fi.extendee != _parent._messageName) {
       throw ArgumentError(
-          'Extension $fi not legal for message ${_parent._messageName}');
+        'Extension $fi not legal for message ${_parent._messageName}',
+      );
     }
   }
 
@@ -193,9 +205,10 @@ class _ExtensionFieldSet {
     final unknownFields = _parent._unknownFields;
     if (unknownFields != null && unknownFields.hasField(extension.tagNumber)) {
       throw StateError(
-          'Trying to get $extension that is present as an unknown field. '
-          'Parse the message with this extension in the extension registry or '
-          'use `ExtensionRegistry.reparseMessage`.');
+        'Trying to get $extension that is present as an unknown field. '
+        'Parse the message with this extension in the extension registry or '
+        'use `ExtensionRegistry.reparseMessage`.',
+      );
     }
   }
 }

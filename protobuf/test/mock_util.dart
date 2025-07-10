@@ -21,10 +21,14 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
     ..p<int>(4, 'int32s', PbFieldType.P3)
     ..a(5, 'int64', PbFieldType.O6)
     // 6 is reserved for extensions in other tests.
-    ..e(7, 'enm', PbFieldType.OE,
-        defaultOrMaker: mockEnumValues.first,
-        valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
-        enumValues: mockEnumValues);
+    ..e(
+      7,
+      'enm',
+      PbFieldType.OE,
+      defaultOrMaker: mockEnumValues.first,
+      valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
+      enumValues: mockEnumValues,
+    );
 }
 
 /// A minimal protobuf implementation for testing.

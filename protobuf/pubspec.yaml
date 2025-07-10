@@ -6,7 +6,7 @@ description: >-
 repository: https://github.com/google/protobuf.dart/tree/master/protobuf
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.7.0
 
 resolution: workspace
 

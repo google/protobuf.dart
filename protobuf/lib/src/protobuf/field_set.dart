@@ -6,14 +6,18 @@ part of '../../protobuf.dart';
 
 @pragma('vm:never-inline')
 @pragma('wasm:never-inline')
-void _throwFrozenMessageModificationError(String messageName,
-    [String? methodName]) {
+void _throwFrozenMessageModificationError(
+  String messageName, [
+  String? methodName,
+]) {
   if (methodName != null) {
     throw UnsupportedError(
-        'Attempted to call $methodName on a read-only message ($messageName)');
+      'Attempted to call $methodName on a read-only message ($messageName)',
+    );
   }
   throw UnsupportedError(
-      'Attempted to change a read-only message ($messageName)');
+    'Attempted to change a read-only message ($messageName)',
+  );
 }
 
 /// All the data in a [GeneratedMessage].
@@ -79,8 +83,8 @@ class _FieldSet {
   final Map<int, int>? _oneofCases;
 
   _FieldSet(this._message, BuilderInfo meta)
-      : _values = _makeValueList(meta.byIndex.length),
-        _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
+    : _values = _makeValueList(meta.byIndex.length),
+      _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
   static List _makeValueList(int length) {
     if (length == 0) return _zeroList;
@@ -272,8 +276,9 @@ class _FieldSet {
     }
 
     if (fi.isRepeated) {
-      throw ArgumentError(_setFieldFailedMessage(
-          fi, value, 'repeating field (use get + .add())'));
+      throw ArgumentError(
+        _setFieldFailedMessage(fi, value, 'repeating field (use get + .add())'),
+      );
     }
     _validateField(fi, value);
     _setNonExtensionFieldUnchecked(meta, fi, value);
@@ -629,10 +634,15 @@ class _FieldSet {
       hash = _HashUtils._combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
       final PbList list = value;
-      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(list.map((enm) {
-        final ProtobufEnum enm_ = enm;
-        return enm_.value;
-      })));
+      hash = _HashUtils._combine(
+        hash,
+        _HashUtils._hashObjects(
+          list.map((enm) {
+            final ProtobufEnum enm_ = enm;
+            return enm_.value;
+          }),
+        ),
+      );
     } else {
       final ProtobufEnum enm = value;
       hash = _HashUtils._combine(hash, enm.value);
@@ -670,17 +680,22 @@ class _FieldSet {
     }
 
     for (final fi in _infosSortedByTag) {
-      writeFieldValue(_values[fi.index!],
-          fi.name == '' ? fi.tagNumber.toString() : fi.name);
+      writeFieldValue(
+        _values[fi.index!],
+        fi.name == '' ? fi.tagNumber.toString() : fi.name,
+      );
     }
 
     final extensions = _extensions;
     if (extensions != null) {
       extensions._info.keys.toList()
         ..sort()
-        ..forEach((int tagNumber) => writeFieldValue(
+        ..forEach(
+          (int tagNumber) => writeFieldValue(
             _extensions!._values[tagNumber],
-            '[${_extensions!._info[tagNumber]!.name}]'));
+            '[${_extensions!._info[tagNumber]!.name}]',
+          ),
+        );
     }
 
     final unknownFields = _unknownFields;
@@ -728,10 +743,12 @@ class _FieldSet {
 
     final otherUnknownJsonData = other._unknownJsonData;
     if (otherUnknownJsonData != null) {
-      final newUnknownJsonData =
-          Map<String, dynamic>.from(_unknownJsonData ?? {});
-      otherUnknownJsonData
-          .forEach((key, value) => newUnknownJsonData[key] = value);
+      final newUnknownJsonData = Map<String, dynamic>.from(
+        _unknownJsonData ?? {},
+      );
+      otherUnknownJsonData.forEach(
+        (key, value) => newUnknownJsonData[key] = value,
+      );
       _unknownJsonData = newUnknownJsonData.isEmpty ? null : newUnknownJsonData;
     }
   }
@@ -783,9 +800,10 @@ class _FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      final currentFi = isExtension
-          ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
-          : _values[fi.index!];
+      final currentFi =
+          isExtension
+              ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
+              : _values[fi.index!];
 
       final GeneratedMessage msg = fieldValue;
       if (currentFi == null) {
@@ -797,8 +815,10 @@ class _FieldSet {
     }
 
     if (isExtension) {
-      _ensureExtensions()
-          ._setFieldAndInfo(fi as Extension<dynamic>, fieldValue);
+      _ensureExtensions()._setFieldAndInfo(
+        fi as Extension<dynamic>,
+        fieldValue,
+      );
     } else {
       _validateField(fi, fieldValue);
       _setNonExtensionFieldUnchecked(meta, fi, fieldValue);
@@ -868,8 +888,8 @@ class _FieldSet {
       if (fieldInfo.isMapField) {
         final PbMap? map = _values[index];
         if (map != null) {
-          _values[index] = (fieldInfo as MapFieldInfo)._createMapField()
-            ..addAll(map);
+          _values[index] =
+              (fieldInfo as MapFieldInfo)._createMapField()..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
         final PbList? list = _values[index];

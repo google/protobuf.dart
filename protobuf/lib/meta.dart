@@ -90,5 +90,5 @@ const ProtobufEnum_reservedNames = <String>[
   'hashCode',
   'noSuchMethod',
   'runtimeType',
-  'toString'
+  'toString',
 ];

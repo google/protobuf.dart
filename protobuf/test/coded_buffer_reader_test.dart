@@ -10,8 +10,9 @@ import 'package:test/test.dart';
 import 'test_util.dart';
 
 void main() {
-  final throwsInvalidProtocolBufferException =
-      throwsA(TypeMatcher<InvalidProtocolBufferException>());
+  final throwsInvalidProtocolBufferException = throwsA(
+    TypeMatcher<InvalidProtocolBufferException>(),
+  );
 
   group('testCodedBufferReader', () {
     final inputBuffer = List<int>.unmodifiable([
@@ -33,7 +34,7 @@ void main() {
       0x69, 0x6e, 0x67, // 114 string 15 optional_string
       0x9a, 0x07, 0x0e, 0x6f, 0x70, 0x74, 0x69, 0x6f,
       0x6e, 0x61, 0x6c, 0x5f, 0x62, 0x79, 0x74,
-      0x65, 0x73 // 115 bytes 14 optional_bytes
+      0x65, 0x73, // 115 bytes 14 optional_bytes
     ]);
 
     void testWithList(List<int> inputBuffer) {

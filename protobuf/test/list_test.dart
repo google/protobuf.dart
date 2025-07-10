@@ -7,8 +7,9 @@ import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
 // [ArgumentError] in production mode, [TypeError] in checked.
-final invalidArgumentException =
-    predicate((e) => e is ArgumentError || e is TypeError);
+final invalidArgumentException = predicate(
+  (e) => e is ArgumentError || e is TypeError,
+);
 final badArgument = throwsA(invalidArgumentException);
 
 // Suppress an analyzer warning for a deliberate type mismatch.
@@ -103,17 +104,25 @@ void main() {
       list.add(-2147483649);
     }, throwsArgumentError);
 
-    expect(() {
-      list.add(-2147483648);
-    }, returnsNormally, reason: 'could not add min signed int32 to a PbList');
+    expect(
+      () {
+        list.add(-2147483648);
+      },
+      returnsNormally,
+      reason: 'could not add min signed int32 to a PbList',
+    );
 
     expect(() {
       list.add(2147483648);
     }, throwsArgumentError);
 
-    expect(() {
-      list.add(2147483647);
-    }, returnsNormally, reason: 'could not add max signed int32 to a PbList');
+    expect(
+      () {
+        list.add(2147483647);
+      },
+      returnsNormally,
+      reason: 'could not add max signed int32 to a PbList',
+    );
   });
 
   test('PBList for unsigned int32 validates items', () {
@@ -123,17 +132,25 @@ void main() {
       list.add(-1);
     }, throwsArgumentError);
 
-    expect(() {
-      list.add(0);
-    }, returnsNormally, reason: 'could not add zero to a PbList');
+    expect(
+      () {
+        list.add(0);
+      },
+      returnsNormally,
+      reason: 'could not add zero to a PbList',
+    );
 
     expect(() {
       list.add(4294967296);
     }, throwsArgumentError);
 
-    expect(() {
-      list.add(4294967295);
-    }, returnsNormally, reason: 'could not add max unsigned int32 to a PbList');
+    expect(
+      () {
+        list.add(4294967295);
+      },
+      returnsNormally,
+      reason: 'could not add max unsigned int32 to a PbList',
+    );
   });
 
   test('PbList for float validates items', () {
@@ -147,13 +164,21 @@ void main() {
       list.add(-3.4028234663852886E39);
     }, throwsArgumentError);
 
-    expect(() {
-      list.add(3.4028234663852886E38);
-    }, returnsNormally, reason: 'could not add max float to a PbList');
+    expect(
+      () {
+        list.add(3.4028234663852886E38);
+      },
+      returnsNormally,
+      reason: 'could not add max float to a PbList',
+    );
 
-    expect(() {
-      list.add(-3.4028234663852886E38);
-    }, returnsNormally, reason: 'could not add min float to a PbList');
+    expect(
+      () {
+        list.add(-3.4028234663852886E38);
+      },
+      returnsNormally,
+      reason: 'could not add min float to a PbList',
+    );
   });
 
   test('PbList for signed Int64 validates items', () {
@@ -162,17 +187,29 @@ void main() {
       list.add(cast(0)); // not an Int64
     }, badArgument);
 
-    expect(() {
-      list.add(Int64(0));
-    }, returnsNormally, reason: 'could not add Int64(0) to a PbList');
+    expect(
+      () {
+        list.add(Int64(0));
+      },
+      returnsNormally,
+      reason: 'could not add Int64(0) to a PbList',
+    );
 
-    expect(() {
-      list.add(Int64.MAX_VALUE);
-    }, returnsNormally, reason: 'could not add max Int64 to a PbList');
+    expect(
+      () {
+        list.add(Int64.MAX_VALUE);
+      },
+      returnsNormally,
+      reason: 'could not add max Int64 to a PbList',
+    );
 
-    expect(() {
-      list.add(Int64.MIN_VALUE);
-    }, returnsNormally, reason: 'could not add min Int64 to PbList');
+    expect(
+      () {
+        list.add(Int64.MIN_VALUE);
+      },
+      returnsNormally,
+      reason: 'could not add min Int64 to PbList',
+    );
   });
 
   test('PbList for unsigned Int64 validates items', () {
@@ -181,23 +218,39 @@ void main() {
       list.add(cast(0)); // not an Int64
     }, badArgument);
 
-    expect(() {
-      list.add(Int64(0));
-    }, returnsNormally, reason: 'could not add Int64(0) to a PbList');
+    expect(
+      () {
+        list.add(Int64(0));
+      },
+      returnsNormally,
+      reason: 'could not add Int64(0) to a PbList',
+    );
 
     // Adding -1 should work because we are storing the bits as-is.
     // (It will be interpreted as a positive number.)
     // See: https://github.com/google/protobuf.dart/issues/44
-    expect(() {
-      list.add(Int64(-1));
-    }, returnsNormally, reason: 'could not add Int64(-1) to a PbList');
+    expect(
+      () {
+        list.add(Int64(-1));
+      },
+      returnsNormally,
+      reason: 'could not add Int64(-1) to a PbList',
+    );
 
-    expect(() {
-      list.add(Int64.MAX_VALUE);
-    }, returnsNormally, reason: 'could not add max Int64 to a PbList');
+    expect(
+      () {
+        list.add(Int64.MAX_VALUE);
+      },
+      returnsNormally,
+      reason: 'could not add max Int64 to a PbList',
+    );
 
-    expect(() {
-      list.add(Int64.MIN_VALUE);
-    }, returnsNormally, reason: 'could not add min Int64 to a PbList');
+    expect(
+      () {
+        list.add(Int64.MIN_VALUE);
+      },
+      returnsNormally,
+      reason: 'could not add min Int64 to a PbList',
+    );
   });
 }

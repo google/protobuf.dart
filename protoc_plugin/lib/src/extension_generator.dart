@@ -18,22 +18,42 @@ class ExtensionGenerator {
   /// See [ProtobufContainer]
   late final List<int> fieldPath = [..._parent.fieldPath, ..._fieldPathSegment];
 
-  ExtensionGenerator._(this._descriptor, this._parent, Set<String> usedNames,
-      int repeatedFieldIndex, int fieldIdTag)
-      : _extensionName = extensionName(_descriptor, usedNames),
-        _fieldPathSegment = [fieldIdTag, repeatedFieldIndex];
+  ExtensionGenerator._(
+    this._descriptor,
+    this._parent,
+    Set<String> usedNames,
+    int repeatedFieldIndex,
+    int fieldIdTag,
+  ) : _extensionName = extensionName(_descriptor, usedNames),
+      _fieldPathSegment = [fieldIdTag, repeatedFieldIndex];
 
   static const _topLevelFieldTag = 7;
   static const _nestedFieldTag = 6;
 
-  ExtensionGenerator.topLevel(FieldDescriptorProto descriptor,
-      ProtobufContainer parent, Set<String> usedNames, int repeatedFieldIndex)
-      : this._(descriptor, parent, usedNames, repeatedFieldIndex,
-            _topLevelFieldTag);
-  ExtensionGenerator.nested(FieldDescriptorProto descriptor,
-      ProtobufContainer parent, Set<String> usedNames, int repeatedFieldIndex)
-      : this._(
-            descriptor, parent, usedNames, repeatedFieldIndex, _nestedFieldTag);
+  ExtensionGenerator.topLevel(
+    FieldDescriptorProto descriptor,
+    ProtobufContainer parent,
+    Set<String> usedNames,
+    int repeatedFieldIndex,
+  ) : this._(
+        descriptor,
+        parent,
+        usedNames,
+        repeatedFieldIndex,
+        _topLevelFieldTag,
+      );
+  ExtensionGenerator.nested(
+    FieldDescriptorProto descriptor,
+    ProtobufContainer parent,
+    Set<String> usedNames,
+    int repeatedFieldIndex,
+  ) : this._(
+        descriptor,
+        parent,
+        usedNames,
+        repeatedFieldIndex,
+        _nestedFieldTag,
+      );
 
   void resolve(GenerationContext ctx) {
     _field = ProtobufField.extension(_descriptor, _parent, ctx);
@@ -67,7 +87,9 @@ class ExtensionGenerator {
   /// For each .pb.dart file that the generated code needs to import,
   /// add its generator.
   void addImportsTo(
-      Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
+    Set<FileGenerator> imports,
+    Set<FileGenerator> enumImports,
+  ) {
     if (!_resolved) throw StateError('resolve not called');
     final typeGen = _field.baseType.generator;
     if (typeGen is EnumGenerator) {
@@ -94,13 +116,18 @@ class ExtensionGenerator {
 
     final omitFieldNames = ConditionalConstDefinition('omit_field_names');
     out.addSuffix(
-        omitFieldNames.constFieldName, omitFieldNames.constDefinition);
+      omitFieldNames.constFieldName,
+      omitFieldNames.constDefinition,
+    );
     final conditionalName = omitFieldNames.createTernary(_extensionName);
     final omitMessageNames = ConditionalConstDefinition('omit_message_names');
     out.addSuffix(
-        omitMessageNames.constFieldName, omitMessageNames.constDefinition);
-    final conditionalExtendedName =
-        omitMessageNames.createTernary(_extendedFullName);
+      omitMessageNames.constFieldName,
+      omitMessageNames.constDefinition,
+    );
+    final conditionalExtendedName = omitMessageNames.createTernary(
+      _extendedFullName,
+    );
 
     String invocation;
     final positionals = <String>[];
@@ -134,13 +161,15 @@ class ExtensionGenerator {
     }
     final fieldDefinition = 'static final ';
     out.printAnnotated(
-        '$fieldDefinition$name = '
-        '$invocation(${ProtobufField._formatArguments(positionals, named)});\n',
-        [
-          NamedLocation(
-              name: name,
-              fieldPathSegment: List.from(fieldPath),
-              start: fieldDefinition.length)
-        ]);
+      '$fieldDefinition$name = '
+      '$invocation(${ProtobufField._formatArguments(positionals, named)});\n',
+      [
+        NamedLocation(
+          name: name,
+          fieldPathSegment: List.from(fieldPath),
+          start: fieldDefinition.length,
+        ),
+      ],
+    );
   }
 }
