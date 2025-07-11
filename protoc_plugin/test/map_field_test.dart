@@ -172,31 +172,34 @@ void main() {
   });
 
   test(
-      'PbMap` is equal to another PbMap with equal key/value pairs in any order',
-      () {
-    final t = TestMap()
-      ..int32ToStringField[2] = 'test2'
-      ..int32ToStringField[1] = 'test';
-    final t2 = TestMap()
-      ..int32ToStringField[1] = 'test'
-      ..int32ToStringField[2] = 'test2';
-    final t3 = TestMap()..int32ToStringField[1] = 'test';
+    'PbMap` is equal to another PbMap with equal key/value pairs in any order',
+    () {
+      final t =
+          TestMap()
+            ..int32ToStringField[2] = 'test2'
+            ..int32ToStringField[1] = 'test';
+      final t2 =
+          TestMap()
+            ..int32ToStringField[1] = 'test'
+            ..int32ToStringField[2] = 'test2';
+      final t3 = TestMap()..int32ToStringField[1] = 'test';
 
-    final m = t.int32ToStringField;
-    final m2 = t2.int32ToStringField;
-    final m3 = t3.int32ToStringField;
+      final m = t.int32ToStringField;
+      final m2 = t2.int32ToStringField;
+      final m3 = t3.int32ToStringField;
 
-    expect(t, t2);
-    expect(t.hashCode, t2.hashCode);
+      expect(t, t2);
+      expect(t.hashCode, t2.hashCode);
 
-    expect(m, m2);
-    expect(m == m2, isTrue);
-    expect(m.hashCode, m2.hashCode);
+      expect(m, m2);
+      expect(m == m2, isTrue);
+      expect(m.hashCode, m2.hashCode);
 
-    expect(m, isNot(m3));
-    expect(m == m3, isFalse);
-    expect(m.hashCode, isNot(m3.hashCode));
-  });
+      expect(m, isNot(m3));
+      expect(m == m3, isFalse);
+      expect(m.hashCode, isNot(m3.hashCode));
+    },
+  );
 
   test('Unitialized map field is equal to initialized', () {
     final testMap1 = TestMap();
@@ -219,11 +222,13 @@ void main() {
     other.mergeFromMessage(testMap);
     expectMapValuesSet(other);
 
-    testMap = TestMap()
-      ..int32ToMessageField[1] = (TestMap_MessageValue()..value = 42)
-      ..int32ToMessageField[2] = (TestMap_MessageValue()..value = 44);
-    other = TestMap()
-      ..int32ToMessageField[1] = (TestMap_MessageValue()..secondValue = 43);
+    testMap =
+        TestMap()
+          ..int32ToMessageField[1] = (TestMap_MessageValue()..value = 42)
+          ..int32ToMessageField[2] = (TestMap_MessageValue()..value = 44);
+    other =
+        TestMap()
+          ..int32ToMessageField[1] = (TestMap_MessageValue()..secondValue = 43);
     testMap.mergeFromMessage(other);
 
     expect(testMap.int32ToMessageField[1]!.value, 0);
@@ -235,8 +240,10 @@ void main() {
     final testMap = TestMap()..int32ToStringField[1] = 'foo';
     final testMap2 = TestMap()..int32ToStringField[1] = 'bar';
 
-    final merge = TestMap.fromBuffer(
-        [...testMap.writeToBuffer(), ...testMap2.writeToBuffer()]);
+    final merge = TestMap.fromBuffer([
+      ...testMap.writeToBuffer(),
+      ...testMap2.writeToBuffer(),
+    ]);
 
     // When parsing from the wire, if there are duplicate map keys the last key
     // seen should be used.
@@ -270,14 +277,22 @@ void main() {
     setValues(testMap);
     testMap.freeze();
 
-    expect(() => updateValues(testMap),
-        throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToMessageField[1]!.value = 42,
-        throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToStringField.remove(1),
-        throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToStringField.clear(),
-        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(
+      () => updateValues(testMap),
+      throwsA(const TypeMatcher<UnsupportedError>()),
+    );
+    expect(
+      () => testMap.int32ToMessageField[1]!.value = 42,
+      throwsA(const TypeMatcher<UnsupportedError>()),
+    );
+    expect(
+      () => testMap.int32ToStringField.remove(1),
+      throwsA(const TypeMatcher<UnsupportedError>()),
+    );
+    expect(
+      () => testMap.int32ToStringField.clear(),
+      throwsA(const TypeMatcher<UnsupportedError>()),
+    );
   });
 
   test('Values for different keys are not merged together when decoding', () {
@@ -305,10 +320,14 @@ void main() {
 
   test('Calling getField on map fields using reflective API works.', () {
     final testMap = TestMap();
-    final mapFieldInfo = testMap.info_.fieldInfo.values
-        .where((fieldInfo) =>
-            fieldInfo is MapFieldInfo && fieldInfo.name == 'int32ToBytesField')
-        .single;
+    final mapFieldInfo =
+        testMap.info_.fieldInfo.values
+            .where(
+              (fieldInfo) =>
+                  fieldInfo is MapFieldInfo &&
+                  fieldInfo.name == 'int32ToBytesField',
+            )
+            .single;
     final value = testMap.getField(mapFieldInfo.tagNumber);
     expect(value is Map<int, List<int>>, true);
   });
@@ -316,25 +335,38 @@ void main() {
   test('Parses null keys and values', () {
     // Use a desugared version of the message to create missing
     // values in the serialized form.
-    final d = Desugared()
-      ..int32ToStringField.add(Desugared_Int32ToString()
-        ..clearKey()
-        ..value = 'abc')
-      ..int32ToStringField.add(Desugared_Int32ToString()
-        ..key = 42
-        ..clearValue())
-      ..int32ToStringField.add(Desugared_Int32ToString()
-        ..key = 11
-        ..value = 'def')
-      ..stringToInt32Field.add(Desugared_StringToInt32()
-        ..clearKey()
-        ..value = 11)
-      ..stringToInt32Field.add(Desugared_StringToInt32()
-        ..key = 'abc'
-        ..clearValue())
-      ..stringToInt32Field.add(Desugared_StringToInt32()
-        ..key = 'def'
-        ..value = 42);
+    final d =
+        Desugared()
+          ..int32ToStringField.add(
+            Desugared_Int32ToString()
+              ..clearKey()
+              ..value = 'abc',
+          )
+          ..int32ToStringField.add(
+            Desugared_Int32ToString()
+              ..key = 42
+              ..clearValue(),
+          )
+          ..int32ToStringField.add(
+            Desugared_Int32ToString()
+              ..key = 11
+              ..value = 'def',
+          )
+          ..stringToInt32Field.add(
+            Desugared_StringToInt32()
+              ..clearKey()
+              ..value = 11,
+          )
+          ..stringToInt32Field.add(
+            Desugared_StringToInt32()
+              ..key = 'abc'
+              ..clearValue(),
+          )
+          ..stringToInt32Field.add(
+            Desugared_StringToInt32()
+              ..key = 'def'
+              ..value = 42,
+          );
 
     final m = TestMap.fromBuffer(d.writeToBuffer());
     expect(m.int32ToStringField[0], 'abc');
@@ -381,7 +413,9 @@ void main() {
       ];
       final message = TestMap.fromBuffer(messageBytes);
       expect(
-          message, TestMap()..int32ToMessageField[0] = TestMap_MessageValue());
+        message,
+        TestMap()..int32ToMessageField[0] = TestMap_MessageValue(),
+      );
     }
 
     {
@@ -391,7 +425,9 @@ void main() {
       ];
       final message = TestMap.fromBuffer(messageBytes);
       expect(
-          message, TestMap()..int32ToEnumField[0] = TestMap_EnumValue.DEFAULT);
+        message,
+        TestMap()..int32ToEnumField[0] = TestMap_EnumValue.DEFAULT,
+      );
     }
   });
 
@@ -406,7 +442,9 @@ void main() {
       ];
       final message = TestMap.fromBuffer(messageBytes);
       expect(
-          message, TestMap()..int32ToMessageField[1] = TestMap_MessageValue());
+        message,
+        TestMap()..int32ToMessageField[1] = TestMap_MessageValue(),
+      );
     }
 
     {
@@ -418,7 +456,9 @@ void main() {
       ];
       final message = TestMap.fromBuffer(messageBytes);
       expect(
-          message, TestMap()..int32ToEnumField[1] = TestMap_EnumValue.DEFAULT);
+        message,
+        TestMap()..int32ToEnumField[1] = TestMap_EnumValue.DEFAULT,
+      );
     }
   });
 
@@ -433,7 +473,9 @@ void main() {
       ];
       final message = TestMap.fromBuffer(messageBytes);
       expect(
-          message, TestMap()..int32ToMessageField[0] = TestMap_MessageValue());
+        message,
+        TestMap()..int32ToMessageField[0] = TestMap_MessageValue(),
+      );
     }
 
     {

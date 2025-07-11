@@ -21,61 +21,65 @@ void main() {
   late DescriptorProto md;
   setUp(() async {
     fd = FileDescriptorProto();
-    ed = EnumDescriptorProto()
-      ..name = 'PhoneType'
-      ..value.addAll([
-        EnumValueDescriptorProto()
-          ..name = 'MOBILE'
-          ..number = 0,
-        EnumValueDescriptorProto()
-          ..name = 'HOME'
-          ..number = 1,
-        EnumValueDescriptorProto()
-          ..name = 'WORK'
-          ..number = 2,
-        EnumValueDescriptorProto()
-          ..name = 'BUSINESS'
-          ..number = 2
-      ]);
-    md = DescriptorProto()
-      ..name = 'PhoneNumber'
-      ..field.addAll([
-        // optional PhoneType type = 2 [default = HOME];
-        FieldDescriptorProto()
-          ..name = 'type'
-          ..jsonName = 'type'
-          ..number = 2
-          ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
-          ..type = FieldDescriptorProto_Type.TYPE_ENUM
-          ..typeName = '.PhoneNumber.PhoneType',
-        // required string number = 1;
-        FieldDescriptorProto()
-          ..name = 'number'
-          ..jsonName = 'number'
-          ..number = 1
-          ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
-          ..type = FieldDescriptorProto_Type.TYPE_STRING,
-        FieldDescriptorProto()
-          ..name = 'name'
-          ..jsonName = 'name'
-          ..number = 3
-          ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
-          ..type = FieldDescriptorProto_Type.TYPE_STRING
-          ..defaultValue = r'$',
-        FieldDescriptorProto()
-          ..name = 'deprecated_field'
-          ..jsonName = 'deprecatedField'
-          ..number = 4
-          ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
-          ..type = FieldDescriptorProto_Type.TYPE_STRING
-          ..options = (FieldOptions()..deprecated = true),
-      ])
-      ..enumType.add(ed);
+    ed =
+        EnumDescriptorProto()
+          ..name = 'PhoneType'
+          ..value.addAll([
+            EnumValueDescriptorProto()
+              ..name = 'MOBILE'
+              ..number = 0,
+            EnumValueDescriptorProto()
+              ..name = 'HOME'
+              ..number = 1,
+            EnumValueDescriptorProto()
+              ..name = 'WORK'
+              ..number = 2,
+            EnumValueDescriptorProto()
+              ..name = 'BUSINESS'
+              ..number = 2,
+          ]);
+    md =
+        DescriptorProto()
+          ..name = 'PhoneNumber'
+          ..field.addAll([
+            // optional PhoneType type = 2 [default = HOME];
+            FieldDescriptorProto()
+              ..name = 'type'
+              ..jsonName = 'type'
+              ..number = 2
+              ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+              ..type = FieldDescriptorProto_Type.TYPE_ENUM
+              ..typeName = '.PhoneNumber.PhoneType',
+            // required string number = 1;
+            FieldDescriptorProto()
+              ..name = 'number'
+              ..jsonName = 'number'
+              ..number = 1
+              ..label = FieldDescriptorProto_Label.LABEL_REQUIRED
+              ..type = FieldDescriptorProto_Type.TYPE_STRING,
+            FieldDescriptorProto()
+              ..name = 'name'
+              ..jsonName = 'name'
+              ..number = 3
+              ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+              ..type = FieldDescriptorProto_Type.TYPE_STRING
+              ..defaultValue = r'$',
+            FieldDescriptorProto()
+              ..name = 'deprecated_field'
+              ..jsonName = 'deprecatedField'
+              ..number = 4
+              ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+              ..type = FieldDescriptorProto_Type.TYPE_STRING
+              ..options = (FieldOptions()..deprecated = true),
+          ])
+          ..enumType.add(ed);
   });
   test('testMessageGenerator', () {
-    final options = parseGenerationOptions(
-        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
-        CodeGeneratorResponse())!;
+    final options =
+        parseGenerationOptions(
+          CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+          CodeGeneratorResponse(),
+        )!;
 
     final fg = FileGenerator(fd, options);
     final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
@@ -88,19 +92,25 @@ void main() {
     mg.generate(writer);
     expectGolden(writer.toString(), 'messageGenerator.pb.dart');
     expectGolden(
-        writer.sourceLocationInfo.toString(), 'messageGenerator.pb.dart.meta');
+      writer.sourceLocationInfo.toString(),
+      'messageGenerator.pb.dart.meta',
+    );
 
     writer = IndentingWriter(filename: '');
     mg.generateEnums(writer);
     expectGolden(writer.toString(), 'messageGeneratorEnums.pb.dart');
-    expectGolden(writer.sourceLocationInfo.toString(),
-        'messageGeneratorEnums.pb.dart.meta');
+    expectGolden(
+      writer.sourceLocationInfo.toString(),
+      'messageGeneratorEnums.pb.dart.meta',
+    );
   });
 
   test('testMetadataIndices', () {
-    final options = parseGenerationOptions(
-        CodeGeneratorRequest()..parameter = 'disable_constructor_args',
-        CodeGeneratorResponse())!;
+    final options =
+        parseGenerationOptions(
+          CodeGeneratorRequest()..parameter = 'disable_constructor_args',
+          CodeGeneratorResponse(),
+        )!;
     final fg = FileGenerator(fd, options);
     final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
@@ -113,7 +123,10 @@ void main() {
 
     final eq = ListEquality();
     final fieldStringsMap = HashMap(
-        equals: eq.equals, hashCode: eq.hash, isValidKey: eq.isValidKey);
+      equals: eq.equals,
+      hashCode: eq.hash,
+      isValidKey: eq.isValidKey,
+    );
     fieldStringsMap[[4, 0]] = ['PhoneNumber'];
     fieldStringsMap[[4, 0, 2, 0]] = ['type', 'hasType', 'clearType'];
     fieldStringsMap[[4, 0, 2, 1]] = ['number', 'hasNumber', 'clearNumber'];
@@ -121,18 +134,22 @@ void main() {
     fieldStringsMap[[4, 0, 2, 3]] = [
       'deprecatedField',
       'hasDeprecatedField',
-      'clearDeprecatedField'
+      'clearDeprecatedField',
     ];
 
     final generatedContents = writer.toString();
     final metadata = writer.sourceLocationInfo;
     for (final annotation in metadata.annotation) {
-      final annotatedName =
-          generatedContents.substring(annotation.begin, annotation.end);
+      final annotatedName = generatedContents.substring(
+        annotation.begin,
+        annotation.end,
+      );
       final expectedStrings = fieldStringsMap[annotation.path];
       if (expectedStrings == null) {
-        fail('The field path ${annotation.path} '
-            'did not match any expected field path.');
+        fail(
+          'The field path ${annotation.path} '
+          'did not match any expected field path.',
+        );
       }
       expect(annotatedName, isIn(expectedStrings));
     }

@@ -38,9 +38,10 @@ void main() {
   });
 
   test('proto duration -> core duration -> proto duration', () {
-    final protoDuration = pb.Duration()
-      ..seconds = Int64(987654321)
-      ..nanos = 999999000;
+    final protoDuration =
+        pb.Duration()
+          ..seconds = Int64(987654321)
+          ..nanos = 999999000;
 
     expect(pb.Duration.fromDart(protoDuration.toDart()), protoDuration);
   });

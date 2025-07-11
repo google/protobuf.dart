@@ -40,7 +40,7 @@ void main() {
   final encodedNested = [
     10, 44, 11, 16, 200, 166, 107, 26, 19, 8, 123, 18, 7, 116, 101, 115, //
     116, 105, 110, 103, 26, 6, 40, 0, 40, 1, 40, 2, 12, 11, 16, 162, 233, //
-    111, 26, 9, 40, 219, 7, 40, 142, 5, 40, 193, 2, 12
+    111, 26, 9, 40, 219, 7, 40, 142, 5, 40, 193, 2, 12,
   ];
 
   // Example message with a top-level message set, encoded with the C++
@@ -60,13 +60,14 @@ void main() {
   // }
   final encodedTopLevel = [
     11, 16, 200, 166, 107, 26, 2, 8, 123, 12, 11, 16, 162, 233, 111, 26, 3, //
-    40, 219, 7, 12
+    40, 219, 7, 12,
   ];
 
   test('Parse message set extensions (nested)', () {
-    final registry = ExtensionRegistry()
-      ..add(TestMessage.ext1)
-      ..add(TestMessage.ext2);
+    final registry =
+        ExtensionRegistry()
+          ..add(TestMessage.ext1)
+          ..add(TestMessage.ext2);
     final msg = TestMessage.fromBuffer(encodedNested, registry);
 
     final ext1Value =
@@ -83,9 +84,10 @@ void main() {
   });
 
   test('Parse message set (top-level)', () {
-    final registry = ExtensionRegistry()
-      ..add(TestMessage.ext1)
-      ..add(TestMessage.ext2);
+    final registry =
+        ExtensionRegistry()
+          ..add(TestMessage.ext1)
+          ..add(TestMessage.ext2);
     final msg = MessageSet.fromBuffer(encodedTopLevel, registry);
 
     final ext1Value = msg.getExtension(TestMessage.ext1) as ExtensionMessage1;
@@ -106,9 +108,10 @@ void main() {
 
   test('Reparse with extensions (nested message)', () {
     final msg = TestMessage.fromBuffer(encodedNested);
-    final registry = ExtensionRegistry()
-      ..add(TestMessage.ext1)
-      ..add(TestMessage.ext2);
+    final registry =
+        ExtensionRegistry()
+          ..add(TestMessage.ext1)
+          ..add(TestMessage.ext2);
     final reparsedInfo = registry.reparseMessage(msg.info);
 
     final ext1Value =
@@ -125,9 +128,10 @@ void main() {
 
   test('Reparse with extensions (top-level message)', () {
     final msg = TestMessage.fromBuffer(encodedNested);
-    final registry = ExtensionRegistry()
-      ..add(TestMessage.ext1)
-      ..add(TestMessage.ext2);
+    final registry =
+        ExtensionRegistry()
+          ..add(TestMessage.ext1)
+          ..add(TestMessage.ext2);
     final reparsedMsg = registry.reparseMessage(msg);
 
     final ext1Value =
@@ -178,17 +182,21 @@ void main() {
 
     final messageSetUnknownFields = UnknownFieldSet();
     messageSetUnknownFields.addField(
-        2, UnknownFieldSetField()..addVarint(Int64(987)));
+      2,
+      UnknownFieldSetField()..addVarint(Int64(987)),
+    );
 
     final messageSetEncoded = CodedBufferWriter();
     messageSetUnknownFields.writeToCodedBufferWriter(messageSetEncoded);
 
-    final encoded = (Empty()
-          ..unknownFields.addField(
-              123,
-              UnknownFieldSetField()
-                ..lengthDelimited.add(messageSetEncoded.toBuffer())))
-        .writeToBuffer();
+    final encoded =
+        (Empty()
+              ..unknownFields.addField(
+                123,
+                UnknownFieldSetField()
+                  ..lengthDelimited.add(messageSetEncoded.toBuffer()),
+              ))
+            .writeToBuffer();
 
     final registry = ExtensionRegistry()..add(TestMessage.ext1);
     final msg = TestMessage.fromBuffer(encoded, registry);
@@ -201,17 +209,21 @@ void main() {
 
     final messageSetUnknownFields = UnknownFieldSet();
     messageSetUnknownFields.addField(
-        2, UnknownFieldSetField()..addVarint(Int64(987)));
+      2,
+      UnknownFieldSetField()..addVarint(Int64(987)),
+    );
 
     final messageSetEncoded = CodedBufferWriter();
     messageSetUnknownFields.writeToCodedBufferWriter(messageSetEncoded);
 
-    final encoded = (Empty()
-          ..unknownFields.addField(
-              123,
-              UnknownFieldSetField()
-                ..lengthDelimited.add(messageSetEncoded.toBuffer())))
-        .writeToBuffer();
+    final encoded =
+        (Empty()
+              ..unknownFields.addField(
+                123,
+                UnknownFieldSetField()
+                  ..lengthDelimited.add(messageSetEncoded.toBuffer()),
+              ))
+            .writeToBuffer();
 
     final registry = ExtensionRegistry()..add(TestMessage.ext1);
     final msg = TestMessage.fromBuffer(encoded, registry);
@@ -219,10 +231,7 @@ void main() {
   });
 }
 
-enum Encoding {
-  lengthDelimited,
-  group,
-}
+enum Encoding { lengthDelimited, group }
 
 /// Generate a message set encoding with one extension. Extension will have
 /// extra tags.
@@ -231,16 +240,20 @@ Uint8List encodeMessageSetWithExtraItemTags(Encoding encoding) {
 
   // Invalid field with tag 1.
   itemFieldGroup.addField(
-      1, UnknownFieldSetField()..addLengthDelimited([1, 2, 3]));
+    1,
+    UnknownFieldSetField()..addLengthDelimited([1, 2, 3]),
+  );
 
   // Extension field.
   itemFieldGroup.addField(
-      3,
-      UnknownFieldSetField()
-        ..addLengthDelimited((ExtensionMessage1()
-              ..a = 123456
-              ..b = 'test')
-            .writeToBuffer()));
+    3,
+    UnknownFieldSetField()..addLengthDelimited(
+      (ExtensionMessage1()
+            ..a = 123456
+            ..b = 'test')
+          .writeToBuffer(),
+    ),
+  );
 
   // Invalid field with tag 3.
   itemFieldGroup.addField(4, UnknownFieldSetField()..addVarint(Int64(123456)));
@@ -256,16 +269,22 @@ Uint8List encodeMessageSetWithExtraItemTags(Encoding encoding) {
       final writer = CodedBufferWriter();
       itemFieldGroup.writeToCodedBufferWriter(writer);
       messageSetUnknownFields.addField(
-          1, UnknownFieldSetField()..addLengthDelimited(writer.toBuffer()));
+        1,
+        UnknownFieldSetField()..addLengthDelimited(writer.toBuffer()),
+      );
       break;
     case Encoding.group:
       messageSetUnknownFields.addField(
-          1, UnknownFieldSetField()..addGroup(itemFieldGroup));
+        1,
+        UnknownFieldSetField()..addGroup(itemFieldGroup),
+      );
       break;
   }
 
   messageSetUnknownFields.addField(
-      1, UnknownFieldSetField()..addGroup(itemFieldGroup));
+    1,
+    UnknownFieldSetField()..addGroup(itemFieldGroup),
+  );
 
   final messageSetEncoded = CodedBufferWriter();
   messageSetUnknownFields.writeToCodedBufferWriter(messageSetEncoded);

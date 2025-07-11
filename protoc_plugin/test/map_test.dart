@@ -49,11 +49,18 @@ void main() {
 
   test('operator []= throws exception for invalid key', () {
     final rec = pb.Rec();
-    expect(() {
-      rec['unknown'] = 123;
-    },
-        throwsA(isA<ArgumentError>().having((p0) => p0.message, 'message',
-            "field 'unknown' not found in protobuf_unittest.Rec")));
+    expect(
+      () {
+        rec['unknown'] = 123;
+      },
+      throwsA(
+        isA<ArgumentError>().having(
+          (p0) => p0.message,
+          'message',
+          "field 'unknown' not found in protobuf_unittest.Rec",
+        ),
+      ),
+    );
   });
 
   test('operator []= throws exception for repeated field', () {
@@ -106,11 +113,18 @@ void main() {
   test("remove isn't supported", () {
     final rec = pb.Rec();
     rec.str = 'hello';
-    expect(() {
-      rec.remove('str');
-    },
-        throwsA(isA<UnsupportedError>().having((p0) => p0.message, 'message',
-            'remove() not supported by protobuf_unittest.Rec')));
+    expect(
+      () {
+        rec.remove('str');
+      },
+      throwsA(
+        isA<UnsupportedError>().having(
+          (p0) => p0.message,
+          'message',
+          'remove() not supported by protobuf_unittest.Rec',
+        ),
+      ),
+    );
     expect(rec.str, 'hello');
   });
 
@@ -139,7 +153,7 @@ void main() {
     final rec = pb.Rec();
     expect(() {
       rec.addAll({
-        'nums': [1, 2, 3]
+        'nums': [1, 2, 3],
       });
     }, throwsArgumentError);
   });

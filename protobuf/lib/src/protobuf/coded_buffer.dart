@@ -29,8 +29,12 @@ void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
   }
 }
 
-void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
-    CodedBufferReader input, ExtensionRegistry registry) {
+void _mergeFromCodedBufferReader(
+  BuilderInfo meta,
+  _FieldSet fs,
+  CodedBufferReader input,
+  ExtensionRegistry registry,
+) {
   fs._ensureWritable();
   while (true) {
     final tag = input.readTag();
@@ -193,7 +197,14 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
       case PbFieldType._REPEATED_ENUM:
         final list = fs._ensureRepeatedField(meta, fi);
         _readPackableToListEnum(
-            list, meta, fs, input, wireType, tagNumber, registry);
+          list,
+          meta,
+          fs,
+          input,
+          wireType,
+          tagNumber,
+          registry,
+        );
         break;
       case PbFieldType._REPEATED_GROUP:
         final subMessage = meta._makeEmptyMessage(tagNumber, registry);
@@ -391,13 +402,14 @@ void _mergeFromCodedBufferReader(BuilderInfo meta, _FieldSet fs,
 }
 
 void _readPackableToListEnum(
-    List list,
-    BuilderInfo meta,
-    _FieldSet fs,
-    CodedBufferReader input,
-    int wireType,
-    int tagNumber,
-    ExtensionRegistry registry) {
+  List list,
+  BuilderInfo meta,
+  _FieldSet fs,
+  CodedBufferReader input,
+  int wireType,
+  int tagNumber,
+  ExtensionRegistry registry,
+) {
   if (wireType == WIRETYPE_LENGTH_DELIMITED) {
     // Packed.
     input._withLimit(input.readInt32(), () {
@@ -411,8 +423,14 @@ void _readPackableToListEnum(
   }
 }
 
-void _readRepeatedEnum(List list, BuilderInfo meta, _FieldSet fs,
-    CodedBufferReader input, int tagNumber, ExtensionRegistry registry) {
+void _readRepeatedEnum(
+  List list,
+  BuilderInfo meta,
+  _FieldSet fs,
+  CodedBufferReader input,
+  int tagNumber,
+  ExtensionRegistry registry,
+) {
   final rawValue = input.readEnum();
   final value = meta._decodeEnum(tagNumber, registry, rawValue);
   if (value == null) {

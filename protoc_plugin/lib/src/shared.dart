@@ -79,9 +79,12 @@ String? toDartComment(String value) {
   if (leadingSpaces != null) {
     final prefix = leadingSpaces.group(0)!;
     if (lines.every((line) => line.isEmpty || line.startsWith(prefix))) {
-      lines = lines
-          .map((line) => line.isEmpty ? line : line.substring(prefix.length))
-          .toList();
+      lines =
+          lines
+              .map(
+                (line) => line.isEmpty ? line : line.substring(prefix.length),
+              )
+              .toList();
     }
   }
 

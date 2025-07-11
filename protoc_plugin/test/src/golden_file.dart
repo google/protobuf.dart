@@ -44,6 +44,6 @@ void expectGolden(String actual, String file) {
 String format(String source) {
   // TODO(devoncarew): Move this language version to a central location.
   // For tests, this version should match that of package:protoc_plugin.
-  final formatter = DartFormatter(languageVersion: Version(3, 6, 0));
+  final formatter = DartFormatter(languageVersion: Version(3, 7, 0));
   return formatter.format(source);
 }

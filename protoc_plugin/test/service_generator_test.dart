@@ -14,13 +14,17 @@ import 'src/service_util.dart';
 void main() {
   test('testServiceGenerator', () {
     final options = GenerationOptions();
-    final fd = buildFileDescriptor(
-        'testpkg', 'testpkg.proto', ['SomeRequest', 'SomeReply']);
+    final fd = buildFileDescriptor('testpkg', 'testpkg.proto', [
+      'SomeRequest',
+      'SomeReply',
+    ]);
     fd.service.add(buildServiceDescriptor());
     final fg = FileGenerator(fd, options);
 
-    final fd2 = buildFileDescriptor(
-        'foo.bar', 'foobar.proto', ['EmptyMessage', 'AnotherReply']);
+    final fd2 = buildFileDescriptor('foo.bar', 'foobar.proto', [
+      'EmptyMessage',
+      'AnotherReply',
+    ]);
     final fg2 = FileGenerator(fd2, options);
 
     link(GenerationOptions(), [fg, fg2]);

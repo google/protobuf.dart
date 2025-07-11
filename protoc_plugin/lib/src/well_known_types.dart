@@ -11,10 +11,11 @@ const _wellKnownImportPath =
     'package:protobuf/src/protobuf/mixins/well_known.dart';
 
 const _wellKnownMixins = {
-  'google.protobuf.Any': PbMixin('AnyMixin',
-      importFrom: _wellKnownImportPath,
-      injectedHelpers: [
-        '''
+  'google.protobuf.Any': PbMixin(
+    'AnyMixin',
+    importFrom: _wellKnownImportPath,
+    injectedHelpers: [
+      '''
 /// Creates a new [Any] encoding [message].
 ///
 /// The [typeUrl] will be [typeUrlPrefix]/`fullName` where `fullName` is
@@ -25,13 +26,15 @@ static Any pack($protobufImportPrefix.GeneratedMessage message,
   $mixinImportPrefix.AnyMixin.packIntoAny(result, message,
       typeUrlPrefix: typeUrlPrefix);
   return result;
-}'''
-      ],
-      hasProto3JsonHelpers: true),
-  'google.protobuf.Timestamp': PbMixin('TimestampMixin',
-      importFrom: _wellKnownImportPath,
-      injectedHelpers: [
-        '''
+}''',
+    ],
+    hasProto3JsonHelpers: true,
+  ),
+  'google.protobuf.Timestamp': PbMixin(
+    'TimestampMixin',
+    importFrom: _wellKnownImportPath,
+    injectedHelpers: [
+      '''
 /// Creates a new instance from [dateTime].
 ///
 /// Time zone information will not be preserved.
@@ -39,9 +42,10 @@ static Timestamp fromDateTime($coreImportPrefix.DateTime dateTime) {
   final result = create();
   $mixinImportPrefix.TimestampMixin.setFromDateTime(result, dateTime);
   return result;
-}'''
-      ],
-      hasProto3JsonHelpers: true),
+}''',
+    ],
+    hasProto3JsonHelpers: true,
+  ),
   'google.protobuf.Duration': PbMixin(
     'DurationMixin',
     importFrom: _wellKnownImportPath,
@@ -129,5 +133,5 @@ static Duration fromDart($coreImportPrefix.Duration duration) => Duration()
     'FieldMaskMixin',
     importFrom: _wellKnownImportPath,
     hasProto3JsonHelpers: true,
-  )
+  ),
 };

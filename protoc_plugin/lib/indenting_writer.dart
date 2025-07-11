@@ -13,10 +13,11 @@ class NamedLocation {
   final List<int> fieldPathSegment;
   final int start;
 
-  NamedLocation(
-      {required this.name,
-      required this.fieldPathSegment,
-      required this.start});
+  NamedLocation({
+    required this.name,
+    required this.fieldPathSegment,
+    required this.start,
+  });
 }
 
 /// A buffer for writing indented source code.
@@ -63,8 +64,11 @@ class IndentingWriter {
     final indentOffset = _needIndent ? _indent.length : 0;
     print(text);
     for (final location in namedLocations) {
-      _addAnnotation(location.fieldPathSegment, location.name,
-          location.start + indentOffset);
+      _addAnnotation(
+        location.fieldPathSegment,
+        location.name,
+        location.start + indentOffset,
+      );
     }
   }
 
@@ -74,29 +78,45 @@ class IndentingWriter {
   }
 
   /// Prints a block of text with the body indented one more level.
-  void addBlock(String start, String end, void Function() body,
-      {bool endWithNewline = true}) {
+  void addBlock(
+    String start,
+    String end,
+    void Function() body, {
+    bool endWithNewline = true,
+  }) {
     println(start);
     _addBlockBodyAndEnd(end, body, endWithNewline, '$_indent  ');
   }
 
   /// Prints a block of text with an unindented body.
   /// (For example, for triple quotes.)
-  void addUnindentedBlock(String start, String end, void Function() body,
-      {bool endWithNewline = true}) {
+  void addUnindentedBlock(
+    String start,
+    String end,
+    void Function() body, {
+    bool endWithNewline = true,
+  }) {
     println(start);
     _addBlockBodyAndEnd(end, body, endWithNewline, '');
   }
 
-  void addAnnotatedBlock(String start, String end,
-      List<NamedLocation> namedLocations, void Function() body,
-      {bool endWithNewline = true}) {
+  void addAnnotatedBlock(
+    String start,
+    String end,
+    List<NamedLocation> namedLocations,
+    void Function() body, {
+    bool endWithNewline = true,
+  }) {
     printlnAnnotated(start, namedLocations);
     _addBlockBodyAndEnd(end, body, endWithNewline, '$_indent  ');
   }
 
   void _addBlockBodyAndEnd(
-      String end, void Function() body, bool endWithNewline, String newIndent) {
+    String end,
+    void Function() body,
+    bool endWithNewline,
+    String newIndent,
+  ) {
     final oldIndent = _indent;
     _indent = newIndent;
     body();
@@ -158,11 +178,12 @@ class IndentingWriter {
     if (_sourceFile == null) {
       return;
     }
-    final annotation = GeneratedCodeInfo_Annotation()
-      ..path.addAll(fieldPath)
-      ..sourceFile = _sourceFile
-      ..begin = _previousOffset + start
-      ..end = _previousOffset + start + name.length;
+    final annotation =
+        GeneratedCodeInfo_Annotation()
+          ..path.addAll(fieldPath)
+          ..sourceFile = _sourceFile
+          ..begin = _previousOffset + start
+          ..end = _previousOffset + start + name.length;
     sourceLocationInfo.annotation.add(annotation);
   }
 }
@@ -203,9 +224,10 @@ class ImportWriter {
 
   /// And an export.
   void addExport(String url, {List<String> members = const []}) {
-    final directive = members.isNotEmpty
-        ? "export '$url' show ${members.join(', ')};"
-        : "export '$url';";
+    final directive =
+        members.isNotEmpty
+            ? "export '$url' show ${members.join(', ')};"
+            : "export '$url';";
     if (url.startsWith('package:')) {
       _packageExports.add(directive);
     } else {

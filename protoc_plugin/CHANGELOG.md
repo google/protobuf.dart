@@ -1,3 +1,9 @@
+## 22.4.1-wip
+
+* Minimum SDK dependency bumped from 3.6.0 to 3.7.0. ([#1024])
+
+[#1024]: https://github.com/google/protobuf.dart/pull/1024
+
 ## 22.4.0
 
 * Update how we calculate import prefixes ([#1010]); import prefixes are now

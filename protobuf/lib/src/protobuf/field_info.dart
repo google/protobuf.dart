@@ -98,42 +98,54 @@ class FieldInfo<T> {
   /// Only available in repeated fields.
   final CheckFunc<T>? check;
 
-  FieldInfo(this.name, this.tagNumber, this.index, this.type,
-      {dynamic defaultOrMaker,
-      this.subBuilder,
-      this.valueOf,
-      this.enumValues,
-      this.defaultEnumValue,
-      String? protoName})
-      : makeDefault = findMakeDefault(type, defaultOrMaker),
-        check = null,
-        _protoName = protoName,
-        assert(type != 0),
-        assert(!_isGroupOrMessage(type) ||
-            subBuilder != null ||
-            _isMapField(type)),
-        assert(!_isEnum(type) || valueOf != null);
+  FieldInfo(
+    this.name,
+    this.tagNumber,
+    this.index,
+    this.type, {
+    dynamic defaultOrMaker,
+    this.subBuilder,
+    this.valueOf,
+    this.enumValues,
+    this.defaultEnumValue,
+    String? protoName,
+  }) : makeDefault = findMakeDefault(type, defaultOrMaker),
+       check = null,
+       _protoName = protoName,
+       assert(type != 0),
+       assert(
+         !_isGroupOrMessage(type) || subBuilder != null || _isMapField(type),
+       ),
+       assert(!_isEnum(type) || valueOf != null);
 
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
-      : name = '<removed field>',
-        _protoName = '<removed field>',
-        tagNumber = 0,
-        type = 0,
-        makeDefault = null,
-        valueOf = null,
-        check = null,
-        enumValues = null,
-        defaultEnumValue = null,
-        subBuilder = null;
+    : name = '<removed field>',
+      _protoName = '<removed field>',
+      tagNumber = 0,
+      type = 0,
+      makeDefault = null,
+      valueOf = null,
+      check = null,
+      enumValues = null,
+      defaultEnumValue = null,
+      subBuilder = null;
 
-  FieldInfo.repeated(this.name, this.tagNumber, this.index, this.type,
-      CheckFunc<T> this.check, this.subBuilder,
-      {this.valueOf, this.enumValues, this.defaultEnumValue, String? protoName})
-      : makeDefault = (() => PbList<T>(check: check)),
-        _protoName = protoName,
-        assert(_isRepeated(type)),
-        assert(!_isEnum(type) || valueOf != null);
+  FieldInfo.repeated(
+    this.name,
+    this.tagNumber,
+    this.index,
+    this.type,
+    CheckFunc<T> this.check,
+    this.subBuilder, {
+    this.valueOf,
+    this.enumValues,
+    this.defaultEnumValue,
+    String? protoName,
+  }) : makeDefault = (() => PbList<T>(check: check)),
+       _protoName = protoName,
+       assert(_isRepeated(type)),
+       assert(!_isEnum(type) || valueOf != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
@@ -204,8 +216,10 @@ class FieldInfo<T> {
       // Recurse on each item in the list.
       var position = 0;
       for (final message in list) {
-        message._fieldSet
-            ._appendInvalidFields(problems, '$prefix$name[$position].');
+        message._fieldSet._appendInvalidFields(
+          problems,
+          '$prefix$name[$position].',
+        );
         position++;
       }
     }
@@ -237,7 +251,9 @@ final RegExp _upperCase = RegExp('[A-Z]');
 
 String _unCamelCase(String name) {
   return name.replaceAllMapped(
-      _upperCase, (match) => '_${match.group(0)!.toLowerCase()}');
+    _upperCase,
+    (match) => '_${match.group(0)!.toLowerCase()}',
+  );
 }
 
 /// A [FieldInfo] subclass for protobuf `map` fields.
@@ -262,21 +278,26 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   final BuilderInfo mapEntryBuilderInfo;
 
   MapFieldInfo(
-      String name,
-      int tagNumber,
-      int index,
-      int type,
-      this.keyFieldType,
-      this.valueFieldType,
-      this.mapEntryBuilderInfo,
-      this.valueCreator,
-      {ProtobufEnum? defaultEnumValue,
-      String? protoName})
-      : assert(_isMapField(type)),
-        super(name, tagNumber, index, type,
-            defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
-            defaultEnumValue: defaultEnumValue,
-            protoName: protoName) {
+    String name,
+    int tagNumber,
+    int index,
+    int type,
+    this.keyFieldType,
+    this.valueFieldType,
+    this.mapEntryBuilderInfo,
+    this.valueCreator, {
+    ProtobufEnum? defaultEnumValue,
+    String? protoName,
+  }) : assert(_isMapField(type)),
+       super(
+         name,
+         tagNumber,
+         index,
+         type,
+         defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
+         defaultEnumValue: defaultEnumValue,
+         protoName: protoName,
+       ) {
     assert(!_isEnum(type) || valueOf != null);
   }
 

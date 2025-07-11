@@ -14,7 +14,7 @@ Matcher throwsMessage(String msg) => throwsA(_ToStringMatcher(equals(msg)));
 
 class _ToStringMatcher extends CustomMatcher {
   _ToStringMatcher(Matcher matcher)
-      : super('object where toString() returns', 'toString()', matcher);
+    : super('object where toString() returns', 'toString()', matcher);
   @override
   String featureValueOf(dynamic actual) => actual.toString();
 }
@@ -53,39 +53,54 @@ void main() {
   });
 
   test('Throws exception for dart_name option containing a space', () {
-    final descriptor = DescriptorProto()
-      ..name = 'Example'
-      ..field.add(stringField('first', 1, 'hello world'));
-    expect(() {
-      names.messageMemberNames(descriptor, '', <String>{});
-    },
-        throwsMessage('Example.first: dart_name option is invalid: '
-            "'hello world' is not a valid Dart field name"));
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Example'
+          ..field.add(stringField('first', 1, 'hello world'));
+    expect(
+      () {
+        names.messageMemberNames(descriptor, '', <String>{});
+      },
+      throwsMessage(
+        'Example.first: dart_name option is invalid: '
+        "'hello world' is not a valid Dart field name",
+      ),
+    );
   });
 
   test('Throws exception for dart_name option set to reserved word', () {
-    final descriptor = DescriptorProto()
-      ..name = 'Example'
-      ..field.add(stringField('first', 1, 'class'));
-    expect(() {
-      names.messageMemberNames(descriptor, '', <String>{});
-    },
-        throwsMessage('Example.first: '
-            "dart_name option is invalid: 'class' is already used"));
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Example'
+          ..field.add(stringField('first', 1, 'class'));
+    expect(
+      () {
+        names.messageMemberNames(descriptor, '', <String>{});
+      },
+      throwsMessage(
+        'Example.first: '
+        "dart_name option is invalid: 'class' is already used",
+      ),
+    );
   });
 
   test('Throws exception for duplicate dart_name options', () {
-    final descriptor = DescriptorProto()
-      ..name = 'Example'
-      ..field.addAll([
-        stringField('first', 1, 'renamed'),
-        stringField('second', 2, 'renamed'),
-      ]);
-    expect(() {
-      names.messageMemberNames(descriptor, '', <String>{});
-    },
-        throwsMessage('Example.second: '
-            "dart_name option is invalid: 'renamed' is already used"));
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Example'
+          ..field.addAll([
+            stringField('first', 1, 'renamed'),
+            stringField('second', 2, 'renamed'),
+          ]);
+    expect(
+      () {
+        names.messageMemberNames(descriptor, '', <String>{});
+      },
+      throwsMessage(
+        'Example.second: '
+        "dart_name option is invalid: 'renamed' is already used",
+      ),
+    );
   });
 
   test('message classes renamed to avoid Function keyword', () {
@@ -121,9 +136,14 @@ void main() {
 
       final used = {'a_foo', 'b_foo_one'};
       expect(
-          names.disambiguateName('foo', used, oneTwoThree(),
-              generateVariants: variants),
-          'foo_two');
+        names.disambiguateName(
+          'foo',
+          used,
+          oneTwoThree(),
+          generateVariants: variants,
+        ),
+        'foo_two',
+      );
       expect(used, {'a_foo', 'b_foo_one', 'a_foo_two', 'b_foo_two'});
     }
   });
@@ -145,20 +165,29 @@ void main() {
   });
 
   test('defaultSuffixes', () {
-    expect(names.defaultSuffixes().take(5).toList(),
-        ['_', '_0', '_1', '_2', '_3']);
+    expect(names.defaultSuffixes().take(5).toList(), [
+      '_',
+      '_0',
+      '_1',
+      '_2',
+      '_3',
+    ]);
   });
 
   test('oneof names no disambiguation', () {
     final oneofDescriptor = oneofField('foo');
-    final descriptor = DescriptorProto()
-      ..name = 'Parent'
-      ..field.addAll([stringFieldOneof('first', 1, 0)])
-      ..oneofDecl.add(oneofDescriptor);
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Parent'
+          ..field.addAll([stringFieldOneof('first', 1, 0)])
+          ..oneofDecl.add(oneofDescriptor);
 
     final usedTopLevelNames = <String>{};
-    final memberNames =
-        names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
+    final memberNames = names.messageMemberNames(
+      descriptor,
+      'Parent',
+      usedTopLevelNames,
+    );
 
     expect(usedTopLevelNames.length, 1);
     expect(usedTopLevelNames, {'Parent_Foo'});
@@ -174,15 +203,19 @@ void main() {
 
   test('oneof names disambiguate method names', () {
     final oneofDescriptor = oneofField('foo');
-    final descriptor = DescriptorProto()
-      ..name = 'Parent'
-      ..field.addAll([stringFieldOneof('first', 1, 0)])
-      ..oneofDecl.add(oneofDescriptor);
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Parent'
+          ..field.addAll([stringFieldOneof('first', 1, 0)])
+          ..oneofDecl.add(oneofDescriptor);
 
     final usedTopLevelNames = <String>{};
     final memberNames = names.messageMemberNames(
-        descriptor, 'Parent', usedTopLevelNames,
-        reserved: ['clearFoo']);
+      descriptor,
+      'Parent',
+      usedTopLevelNames,
+      reserved: ['clearFoo'],
+    );
 
     expect(usedTopLevelNames.length, 1);
     expect(usedTopLevelNames, {'Parent_Foo'});
@@ -198,14 +231,18 @@ void main() {
 
   test('oneof names disambiguate top level name', () {
     final oneofDescriptor = oneofField('foo');
-    final descriptor = DescriptorProto()
-      ..name = 'Parent'
-      ..field.addAll([stringFieldOneof('first', 1, 0)])
-      ..oneofDecl.add(oneofDescriptor);
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Parent'
+          ..field.addAll([stringFieldOneof('first', 1, 0)])
+          ..oneofDecl.add(oneofDescriptor);
 
     final usedTopLevelNames = {'Parent_Foo'};
-    final memberNames =
-        names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
+    final memberNames = names.messageMemberNames(
+      descriptor,
+      'Parent',
+      usedTopLevelNames,
+    );
 
     expect(usedTopLevelNames.length, 2);
     expect(usedTopLevelNames, {'Parent_Foo', 'Parent_Foo_'});
@@ -224,8 +261,10 @@ void main() {
   });
 
   test('The proto name is set correctly', () {
-    expect(json_name.JsonNamedMessage().info_.byName['barName']!.protoName,
-        'foo_name');
+    expect(
+      json_name.JsonNamedMessage().info_.byName['barName']!.protoName,
+      'foo_name',
+    );
   });
 
   test('Invalid characters are escaped from json_name', () {

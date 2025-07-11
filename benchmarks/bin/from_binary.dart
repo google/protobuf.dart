@@ -17,11 +17,14 @@ class Benchmark extends BenchmarkBase {
   final Uint8List _message1Proto3Input;
   final Uint8List _message2Input;
 
-  Benchmark(super.name, List<int> message1Proto2Input,
-      List<int> message1Proto3Input, List<int> message2Input)
-      : _message1Proto2Input = Uint8List.fromList(message1Proto2Input),
-        _message1Proto3Input = Uint8List.fromList(message1Proto3Input),
-        _message2Input = Uint8List.fromList(message2Input);
+  Benchmark(
+    super.name,
+    List<int> message1Proto2Input,
+    List<int> message1Proto3Input,
+    List<int> message2Input,
+  ) : _message1Proto2Input = Uint8List.fromList(message1Proto2Input),
+      _message1Proto3Input = Uint8List.fromList(message1Proto3Input),
+      _message2Input = Uint8List.fromList(message2Input);
 
   @override
   void run() {
@@ -32,12 +35,17 @@ class Benchmark extends BenchmarkBase {
 }
 
 void main() {
-  final List<int> message1Proto2Input =
-      readfile('datasets/google_message1_proto2.pb');
-  final List<int> message1Proto3Input =
-      readfile('datasets/google_message1_proto3.pb');
+  final List<int> message1Proto2Input = readfile(
+    'datasets/google_message1_proto2.pb',
+  );
+  final List<int> message1Proto3Input = readfile(
+    'datasets/google_message1_proto3.pb',
+  );
   final List<int> message2Input = readfile('datasets/google_message2.pb');
-  Benchmark('from_binary', message1Proto2Input, message1Proto3Input,
-          message2Input)
-      .report();
+  Benchmark(
+    'from_binary',
+    message1Proto2Input,
+    message1Proto3Input,
+    message2Input,
+  ).report();
 }

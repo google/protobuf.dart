@@ -131,8 +131,9 @@ class CodeGenerator {
         response.file.addAll(gen.generateFiles(config));
       }
     }
-    response.supportedFeatures =
-        Int64(CodeGeneratorResponse_Feature.FEATURE_PROTO3_OPTIONAL.value);
+    response.supportedFeatures = Int64(
+      CodeGeneratorResponse_Feature.FEATURE_PROTO3_OPTIONAL.value,
+    );
     _streamOut.add(response.writeToBuffer());
   }
 }

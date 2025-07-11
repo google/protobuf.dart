@@ -20,8 +20,11 @@ void main() {
   test('Can decode enum descriptor', () {
     final descriptor = EnumDescriptorProto.fromBuffer(foreignEnumDescriptor);
     expect(descriptor.name, 'ForeignEnum');
-    expect(descriptor.value.map((v) => v.name),
-        ['FOREIGN_FOO', 'FOREIGN_BAR', 'FOREIGN_BAZ']);
+    expect(descriptor.value.map((v) => v.name), [
+      'FOREIGN_FOO',
+      'FOREIGN_BAR',
+      'FOREIGN_BAZ',
+    ]);
   });
   test('Can decode service descriptor', () {
     final descriptor = ServiceDescriptorProto.fromBuffer(testServiceDescriptor);
@@ -30,8 +33,10 @@ void main() {
   });
   test('Can read custom options', () {
     final registry = ExtensionRegistry()..add(Custom_option.myOption);
-    final descriptor =
-        DescriptorProto.fromBuffer(myMessageDescriptor, registry);
+    final descriptor = DescriptorProto.fromBuffer(
+      myMessageDescriptor,
+      registry,
+    );
     final option = descriptor.options.getExtension(Custom_option.myOption);
     expect(option, 'Hello world!');
   });

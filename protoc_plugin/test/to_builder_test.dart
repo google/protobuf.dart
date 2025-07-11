@@ -13,36 +13,51 @@ import 'gen/google/protobuf/unittest.pb.dart';
 
 void main() {
   group('frozen and tobuilder', () {
-    final original = Outer()
-      ..inner = (Inner()..value = 'foo')
-      ..inners.add(Inner()..value = 'repeatedInner')
-      ..setExtension(FooExt.inner, Inner()..value = 'extension')
-      ..getExtension(FooExt.inners).add(Inner()..value = 'repeatedExtension')
-      ..freeze();
+    final original =
+        Outer()
+          ..inner = (Inner()..value = 'foo')
+          ..inners.add(Inner()..value = 'repeatedInner')
+          ..setExtension(FooExt.inner, Inner()..value = 'extension')
+          ..getExtension(
+            FooExt.inners,
+          ).add(Inner()..value = 'repeatedExtension')
+          ..freeze();
     test('can read extensions', () {
       expect(original.getExtension(FooExt.inner).value, 'extension');
       expect(
-          original.getExtension(FooExt.inners)[0].value, 'repeatedExtension');
+        original.getExtension(FooExt.inners)[0].value,
+        'repeatedExtension',
+      );
     });
 
     test('frozen message cannot be modified', () {
-      expect(() => original.inner = (Inner()..value = 'bar'),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => original.inner..value = 'bar',
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => original.inners.add(Inner()..value = 'bar'),
-          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(
+        () => original.inner = (Inner()..value = 'bar'),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => original.inner..value = 'bar',
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => original.inners.add(Inner()..value = 'bar'),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
     });
 
     test('extensions cannot be modified', () {
-      expect(() => original.setExtension(FooExt.inner, Inner()..value = 'bar'),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => original.getExtension(FooExt.inner).value = 'bar',
-          throwsA(TypeMatcher<UnsupportedError>()));
       expect(
-          () =>
-              original.getExtension(FooExt.inners).add(Inner()..value = 'bar'),
-          throwsA(TypeMatcher<UnsupportedError>()));
+        () => original.setExtension(FooExt.inner, Inner()..value = 'bar'),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => original.getExtension(FooExt.inner).value = 'bar',
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => original.getExtension(FooExt.inners).add(Inner()..value = 'bar'),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
     });
 
     final builder = original.toBuilder() as Outer;
@@ -50,8 +65,10 @@ void main() {
       expect(builder.inner, same(original.inner));
     });
     test('builder extensions are also copied shallowly', () {
-      expect(builder.getExtension(FooExt.inner),
-          same(original.getExtension(FooExt.inner)));
+      expect(
+        builder.getExtension(FooExt.inner),
+        same(original.getExtension(FooExt.inner)),
+      );
     });
 
     test('repeated fields are cloned', () {
@@ -60,18 +77,25 @@ void main() {
     });
 
     test('repeated extensions are cloned', () {
-      expect(builder.getExtension(FooExt.inners),
-          isNot(same(original.getExtension(FooExt.inners))));
-      expect(builder.getExtension(FooExt.inners)[0],
-          same(original.getExtension(FooExt.inners)[0]));
+      expect(
+        builder.getExtension(FooExt.inners),
+        isNot(same(original.getExtension(FooExt.inners))),
+      );
+      expect(
+        builder.getExtension(FooExt.inners)[0],
+        same(original.getExtension(FooExt.inners)[0]),
+      );
     });
 
     test(
-        'the builder is only a shallow copy, the nested message is still frozen.',
-        () {
-      expect(() => builder.inner.value = 'bar',
-          throwsA(TypeMatcher<UnsupportedError>()));
-    });
+      'the builder is only a shallow copy, the nested message is still frozen.',
+      () {
+        expect(
+          () => builder.inner.value = 'bar',
+          throwsA(TypeMatcher<UnsupportedError>()),
+        );
+      },
+    );
     test('the builder is mutable', () {
       builder.inner = (Inner()..value = 'zop');
       expect(builder.inner.value, 'zop');
@@ -92,9 +116,10 @@ void main() {
     late OuterWithMap original;
     late OuterWithMap outerBuilder;
     setUp(() {
-      original = OuterWithMap()
-        ..innerMap[1] = (Inner()..value = 'mapInner')
-        ..freeze();
+      original =
+          OuterWithMap()
+            ..innerMap[1] = (Inner()..value = 'mapInner')
+            ..freeze();
       outerBuilder = original.toBuilder() as OuterWithMap;
     });
     test('map fields are cloned', () {
@@ -138,8 +163,10 @@ void main() {
       emptyMessage.freeze();
       final builder = emptyMessage.toBuilder() as TestEmptyMessage;
 
-      builder.unknownFields
-          .addField(2, UnknownFieldSetField()..fixed32s.add(42));
+      builder.unknownFields.addField(
+        2,
+        UnknownFieldSetField()..fixed32s.add(42),
+      );
       expect(builder.unknownFields.getField(2)!.fixed32s[0], 42);
     });
 
@@ -148,60 +175,93 @@ void main() {
       final builder = emptyMessage.toBuilder() as TestEmptyMessage;
 
       expect(
-          () => builder.unknownFields.getField(1)!.lengthDelimited[0] =
-              utf8.encode('alice'),
-          throwsA(TypeMatcher<UnsupportedError>()));
+        () =>
+            builder.unknownFields.getField(1)!.lengthDelimited[0] = utf8.encode(
+              'alice',
+            ),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
     });
 
     test('cannot add to a frozen UnknownFieldSetField', () {
       emptyMessage.freeze();
 
       expect(
-          () => field.addFixed32(1), throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.fixed32s.add(1),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.addFixed64(Int64(1)),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.fixed64s.add(Int64(1)),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.addLengthDelimited([1]),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.lengthDelimited.add([1]),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.addGroup(unknownFieldSet.clone()),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.groups.add(unknownFieldSet.clone()),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.addVarint(Int64(1)),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => field.varints.add(Int64(1)),
-          throwsA(TypeMatcher<UnsupportedError>()));
+        () => field.addFixed32(1),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => field.fixed32s.add(1),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => field.addFixed64(Int64(1)),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => field.fixed64s.add(Int64(1)),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => field.addLengthDelimited([1]),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => field.lengthDelimited.add([1]),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => field.addGroup(unknownFieldSet.clone()),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => field.groups.add(unknownFieldSet.clone()),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => field.addVarint(Int64(1)),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => field.varints.add(Int64(1)),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
     });
 
     test('cannot add or merge field to a frozen UnknownFieldSet', () {
       emptyMessage.freeze();
 
-      expect(() => unknownFieldSet.addField(2, field),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => unknownFieldSet.mergeField(2, field),
-          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(
+        () => unknownFieldSet.addField(2, field),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => unknownFieldSet.mergeField(2, field),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
     });
 
     test('cannot merge message into a frozen UnknownFieldSet', () {
       emptyMessage.freeze();
       final other = emptyMessage.deepCopy();
 
-      expect(() => emptyMessage.mergeFromBuffer(other.writeToBuffer()),
-          throwsA(TypeMatcher<UnsupportedError>()));
-      expect(() => emptyMessage.mergeFromMessage(other),
-          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(
+        () => emptyMessage.mergeFromBuffer(other.writeToBuffer()),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+      expect(
+        () => emptyMessage.mergeFromMessage(other),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
     });
 
     test('cannot add a field to a frozen UnknownFieldSet', () {
       emptyMessage.freeze();
 
-      expect(() => unknownFieldSet.addField(tagNumber, field),
-          throwsA(TypeMatcher<UnsupportedError>()));
+      expect(
+        () => unknownFieldSet.addField(tagNumber, field),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
     });
   });
 }

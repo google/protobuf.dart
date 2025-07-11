@@ -21,8 +21,12 @@ class TypeRegistry {
   /// TypeRegistry([Foo(), Bar()]);
   /// ```
   TypeRegistry(Iterable<GeneratedMessage> types)
-      : _mapping = Map.fromEntries(types.map((message) =>
-            MapEntry(message.info_.qualifiedMessageName, message.info_)));
+    : _mapping = Map.fromEntries(
+        types.map(
+          (message) =>
+              MapEntry(message.info_.qualifiedMessageName, message.info_),
+        ),
+      );
 
   const TypeRegistry.empty() : _mapping = const {};
 

@@ -18,10 +18,7 @@ const String _protobufImportUrl = 'package:protobuf/protobuf.dart';
 const String _typedDataImportPrefix = r'$typed_data';
 const String _typedDataImportUrl = 'dart:typed_data';
 
-enum ProtoSyntax {
-  proto2,
-  proto3,
-}
+enum ProtoSyntax { proto2, proto3 }
 
 /// Generates the Dart output files for one .proto input file.
 ///
@@ -50,11 +47,14 @@ class FileGenerator extends ProtobufContainer {
       }
       if (!mixin.name.startsWith(_dartIdentifier)) {
         throw mixinError(
-            '"${mixin.name}" is not a valid dart class identifier');
+          '"${mixin.name}" is not a valid dart class identifier',
+        );
       }
       if (mixin.hasParent() && !mixin.parent.startsWith(_dartIdentifier)) {
-        throw mixinError('Mixin parent "${mixin.parent}" of "${mixin.name}" is '
-            'not a valid dart class identifier');
+        throw mixinError(
+          'Mixin parent "${mixin.parent}" of "${mixin.name}" is '
+          'not a valid dart class identifier',
+        );
       }
       dartMixins[mixin.name] = mixin;
     }
@@ -73,8 +73,10 @@ class FileGenerator extends ProtobufContainer {
         if (internalMixin) break; // No further validation of parent chain.
 
         if (!declaredMixin) {
-          throw mixinError('Unknown mixin parent "${mixin.parent}" of '
-              '"${currentMixin.name}"');
+          throw mixinError(
+            'Unknown mixin parent "${mixin.parent}" of '
+            '"${currentMixin.name}"',
+          );
         }
 
         if (parentChain.contains(parentName)) {
@@ -92,9 +94,11 @@ class FileGenerator extends ProtobufContainer {
       if (pbMixins.containsKey(name)) return pbMixins[name];
       if (dartMixins.containsKey(name)) {
         final dartMixin = dartMixins[name]!;
-        final pbMixin = PbMixin(dartMixin.name,
-            importFrom: dartMixin.importFrom,
-            parent: resolveMixin(dartMixin.parent));
+        final pbMixin = PbMixin(
+          dartMixin.name,
+          importFrom: dartMixin.importFrom,
+          parent: resolveMixin(dartMixin.parent),
+        );
         pbMixins[name] = pbMixin;
         return pbMixin;
       }
@@ -122,16 +126,16 @@ class FileGenerator extends ProtobufContainer {
 
   /// Used to avoid collisions after names have been mangled to match the Dart
   /// style.
-  final Set<String> usedTopLevelNames = <String>{}
-    ..addAll(forbiddenTopLevelNames);
+  final Set<String> usedTopLevelNames =
+      <String>{}..addAll(forbiddenTopLevelNames);
 
   /// Used to avoid collisions in the service file after names have been mangled
   /// to match the dart style.
-  final Set<String> usedTopLevelServiceNames = <String>{}
-    ..addAll(forbiddenTopLevelNames);
+  final Set<String> usedTopLevelServiceNames =
+      <String>{}..addAll(forbiddenTopLevelNames);
 
-  final Set<String> usedExtensionNames = <String>{}
-    ..addAll(forbiddenExtensionNames);
+  final Set<String> usedExtensionNames =
+      <String>{}..addAll(forbiddenExtensionNames);
 
   /// Whether cross-references have been resolved.
   bool _linked = false;
@@ -139,10 +143,11 @@ class FileGenerator extends ProtobufContainer {
   final ProtoSyntax syntax;
 
   FileGenerator(this.descriptor, this.options)
-      : protoFileUri = Uri.file(descriptor.name),
-        syntax = descriptor.syntax == 'proto3'
-            ? ProtoSyntax.proto3
-            : ProtoSyntax.proto2 {
+    : protoFileUri = Uri.file(descriptor.name),
+      syntax =
+          descriptor.syntax == 'proto3'
+              ? ProtoSyntax.proto3
+              : ProtoSyntax.proto2 {
     if (protoFileUri.isAbsolute) {
       // protoc should never generate an import with an absolute path.
       throw 'FAILURE: Import with absolute path is not supported';
@@ -151,7 +156,7 @@ class FileGenerator extends ProtobufContainer {
     final declaredMixins = _getDeclaredMixins(descriptor);
     final defaultMixinName =
         descriptor.options.getExtension(Dart_options.defaultMixin) as String? ??
-            '';
+        '';
     final defaultMixin =
         declaredMixins[defaultMixinName] ?? findMixin(defaultMixinName);
     if (defaultMixin == null && defaultMixinName.isNotEmpty) {
@@ -161,27 +166,51 @@ class FileGenerator extends ProtobufContainer {
 
     // Load and register all enum and message types.
     for (var i = 0; i < descriptor.enumType.length; i++) {
-      enumGenerators.add(EnumGenerator.topLevel(
-          descriptor.enumType[i], this, usedTopLevelNames, i));
+      enumGenerators.add(
+        EnumGenerator.topLevel(
+          descriptor.enumType[i],
+          this,
+          usedTopLevelNames,
+          i,
+        ),
+      );
     }
     for (var i = 0; i < descriptor.messageType.length; i++) {
-      messageGenerators.add(MessageGenerator.topLevel(descriptor.messageType[i],
-          this, declaredMixins, defaultMixin, usedTopLevelNames, i));
+      messageGenerators.add(
+        MessageGenerator.topLevel(
+          descriptor.messageType[i],
+          this,
+          declaredMixins,
+          defaultMixin,
+          usedTopLevelNames,
+          i,
+        ),
+      );
     }
     for (var i = 0; i < descriptor.extension.length; i++) {
-      extensionGenerators.add(ExtensionGenerator.topLevel(
-          descriptor.extension[i], this, usedExtensionNames, i));
+      extensionGenerators.add(
+        ExtensionGenerator.topLevel(
+          descriptor.extension[i],
+          this,
+          usedExtensionNames,
+          i,
+        ),
+      );
     }
     for (var i = 0; i < descriptor.service.length; i++) {
       final service = descriptor.service[i];
       if (options.useGrpc) {
         grpcGenerators.add(GrpcServiceGenerator(service, this, i));
       } else {
-        final serviceGen =
-            ServiceGenerator(service, this, usedTopLevelServiceNames);
+        final serviceGen = ServiceGenerator(
+          service,
+          this,
+          usedTopLevelServiceNames,
+        );
         serviceGenerators.add(serviceGen);
-        clientApiGenerators
-            .add(ClientApiGenerator(serviceGen, usedTopLevelNames, i));
+        clientApiGenerators.add(
+          ClientApiGenerator(serviceGen, usedTopLevelNames, i),
+        );
       }
     }
   }
@@ -243,10 +272,14 @@ class FileGenerator extends ProtobufContainer {
 
     if (options.generateMetadata) {
       files.addAll([
-        makeFile('.pb.dart.meta',
-            mainWriter.sourceLocationInfo.writeToJson().toString()),
-        makeFile('.pbenum.dart.meta',
-            enumWriter.sourceLocationInfo.writeToJson().toString())
+        makeFile(
+          '.pb.dart.meta',
+          mainWriter.sourceLocationInfo.writeToJson().toString(),
+        ),
+        makeFile(
+          '.pbenum.dart.meta',
+          enumWriter.sourceLocationInfo.writeToJson().toString(),
+        ),
       ]);
     }
     if (options.useGrpc) {
@@ -263,11 +296,13 @@ class FileGenerator extends ProtobufContainer {
 
   /// Creates an IndentingWriter with metadata generation enabled or disabled.
   IndentingWriter makeWriter() => IndentingWriter(
-      filename: options.generateMetadata ? descriptor.name : null);
+    filename: options.generateMetadata ? descriptor.name : null,
+  );
 
   /// Returns the contents of the .pb.dart file for this .proto file.
-  IndentingWriter generateMainFile(
-      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+  IndentingWriter generateMainFile([
+    OutputConfiguration config = const DefaultOutputConfiguration(),
+  ]) {
     if (!_linked) throw StateError('not linked');
 
     final out = makeWriter();
@@ -287,8 +322,10 @@ class FileGenerator extends ProtobufContainer {
         for (final x in extensionGenerators) {
           x.generate(out);
         }
-        out.println('static void registerAllExtensions('
-            '$protobufImportPrefix.ExtensionRegistry registry) {');
+        out.println(
+          'static void registerAllExtensions('
+          '$protobufImportPrefix.ExtensionRegistry registry) {',
+        );
         for (final x in extensionGenerators) {
           out.println('  registry.add(${x.name});');
         }
@@ -303,8 +340,10 @@ class FileGenerator extends ProtobufContainer {
   }
 
   /// Writes the header and imports for the .pb.dart file.
-  void writeMainHeader(IndentingWriter out,
-      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+  void writeMainHeader(
+    IndentingWriter out, [
+    OutputConfiguration config = const DefaultOutputConfiguration(),
+  ]) {
     final importWriter = ImportWriter();
 
     // We only add the dart:async import if there are generic client API
@@ -316,8 +355,10 @@ class FileGenerator extends ProtobufContainer {
     importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
 
     if (_needsFixnumImport) {
-      importWriter.addImport('package:fixnum/fixnum.dart',
-          prefix: fixnumImportPrefix);
+      importWriter.addImport(
+        'package:fixnum/fixnum.dart',
+        prefix: fixnumImportPrefix,
+      );
     }
 
     if (_needsProtobufImport) {
@@ -345,18 +386,27 @@ class FileGenerator extends ProtobufContainer {
       }
     }
 
-    importWriter.addExport(_protobufImportUrl,
-        members: ['GeneratedMessageGenericExtensions']);
+    importWriter.addExport(
+      _protobufImportUrl,
+      members: ['GeneratedMessageGenericExtensions'],
+    );
 
     for (final publicDependency in descriptor.publicDependency) {
-      _addExport(importWriter, config,
-          Uri.file(descriptor.dependency[publicDependency]), '.pb.dart');
+      _addExport(
+        importWriter,
+        config,
+        Uri.file(descriptor.dependency[publicDependency]),
+        '.pb.dart',
+      );
     }
 
     // Export enums in main file for backward compatibility.
     if (hasEnums) {
-      final url =
-          config.resolveImport(protoFileUri, protoFileUri, '.pbenum.dart');
+      final url = config.resolveImport(
+        protoFileUri,
+        protoFileUri,
+        '.pbenum.dart',
+      );
       importWriter.addExport(url.toString());
     }
 
@@ -364,9 +414,10 @@ class FileGenerator extends ProtobufContainer {
     // should likely refactor this so they're regular (non-src/) references.
     //
     // For now, we surpress the analysis warning.
-    _writeHeading(out, extraIgnores: {
-      if (importWriter.hasSrcImport) 'implementation_imports',
-    });
+    _writeHeading(
+      out,
+      extraIgnores: {if (importWriter.hasSrcImport) 'implementation_imports'},
+    );
 
     out.println(importWriter.emit());
   }
@@ -388,7 +439,9 @@ class FileGenerator extends ProtobufContainer {
 
   /// Returns the generator for each .pb.dart file we need to import.
   void _findProtosToImport(
-      Set<FileGenerator> imports, Set<FileGenerator> enumImports) {
+    Set<FileGenerator> imports,
+    Set<FileGenerator> enumImports,
+  ) {
     for (final m in messageGenerators) {
       m.addImportsTo(imports, enumImports);
     }
@@ -411,15 +464,15 @@ class FileGenerator extends ProtobufContainer {
     }
 
     return mixins
-        .map((mixin) => mixin.importFrom)
-        .toSet()
-        .toList(growable: false)
-      ..sort();
+      .map((mixin) => mixin.importFrom)
+      .toSet()
+      .toList(growable: false)..sort();
   }
 
   /// Returns the contents of the .pbenum.dart file for this .proto file.
-  IndentingWriter generateEnumFile(
-      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+  IndentingWriter generateEnumFile([
+    OutputConfiguration config = const DefaultOutputConfiguration(),
+  ]) {
     if (!_linked) throw StateError('not linked');
 
     final out = makeWriter();
@@ -435,8 +488,12 @@ class FileGenerator extends ProtobufContainer {
     }
 
     for (final publicDependency in descriptor.publicDependency) {
-      _addExport(importWriter, config,
-          Uri.file(descriptor.dependency[publicDependency]), '.pbenum.dart');
+      _addExport(
+        importWriter,
+        config,
+        Uri.file(descriptor.dependency[publicDependency]),
+        '.pbenum.dart',
+      );
     }
 
     if (importWriter.hasImports) {
@@ -468,13 +525,16 @@ class FileGenerator extends ProtobufContainer {
   bool get hasEnums => enumCount > 0;
 
   /// Returns the contents of the .pbserver.dart file for this .proto file.
-  String generateServerFile(
-      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+  String generateServerFile([
+    OutputConfiguration config = const DefaultOutputConfiguration(),
+  ]) {
     if (!_linked) throw StateError('not linked');
 
     final out = makeWriter();
-    _writeHeading(out,
-        extraIgnores: {'deprecated_member_use_from_same_package'});
+    _writeHeading(
+      out,
+      extraIgnores: {'deprecated_member_use_from_same_package'},
+    );
 
     final importWriter = ImportWriter();
 
@@ -513,8 +573,9 @@ class FileGenerator extends ProtobufContainer {
   }
 
   /// Returns the contents of the .pbgrpc.dart file for this .proto file.
-  String generateGrpcFile(
-      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+  String generateGrpcFile([
+    OutputConfiguration config = const DefaultOutputConfiguration(),
+  ]) {
     if (!_linked) throw StateError('not linked');
 
     final out = makeWriter();
@@ -548,19 +609,29 @@ class FileGenerator extends ProtobufContainer {
     return out.toString();
   }
 
-  void writeBinaryDescriptor(IndentingWriter out, String identifierName,
-      String name, GeneratedMessage descriptor) {
+  void writeBinaryDescriptor(
+    IndentingWriter out,
+    String identifierName,
+    String name,
+    GeneratedMessage descriptor,
+  ) {
     final base64 = base64Encode(descriptor.writeToBuffer());
-    out.println('/// Descriptor for `$name`. Decode as a '
-        '`${descriptor.info_.qualifiedMessageName}`.');
+    out.println(
+      '/// Descriptor for `$name`. Decode as a '
+      '`${descriptor.info_.qualifiedMessageName}`.',
+    );
 
     const indent = '    ';
 
-    final base64Lines =
-        _splitString(base64, 74).map((s) => "'$s'").join('\n$indent');
-    out.println('final $_typedDataImportPrefix.Uint8List '
-        '$identifierName = '
-        '$_convertImportPrefix.base64Decode(\n$indent$base64Lines);');
+    final base64Lines = _splitString(
+      base64,
+      74,
+    ).map((s) => "'$s'").join('\n$indent');
+    out.println(
+      'final $_typedDataImportPrefix.Uint8List '
+      '$identifierName = '
+      '$_convertImportPrefix.base64Decode(\n$indent$base64Lines);',
+    );
   }
 
   /// Return the given [str], split into separate segments, where no segment is
@@ -576,8 +647,9 @@ class FileGenerator extends ProtobufContainer {
   }
 
   /// Returns the contents of the .pbjson.dart file for this .proto file.
-  String generateJsonFile(
-      [OutputConfiguration config = const DefaultOutputConfiguration()]) {
+  String generateJsonFile([
+    OutputConfiguration config = const DefaultOutputConfiguration(),
+  ]) {
     if (!_linked) throw StateError('not linked');
 
     final out = makeWriter();
@@ -599,19 +671,31 @@ class FileGenerator extends ProtobufContainer {
     for (final e in enumGenerators) {
       e.generateConstants(out);
       writeBinaryDescriptor(
-          out, e.binaryDescriptorName, e._descriptor.name, e._descriptor);
+        out,
+        e.binaryDescriptorName,
+        e._descriptor.name,
+        e._descriptor,
+      );
       out.println('');
     }
     for (final m in messageGenerators) {
       m.generateConstants(out);
       writeBinaryDescriptor(
-          out, m.binaryDescriptorName, m._descriptor.name, m._descriptor);
+        out,
+        m.binaryDescriptorName,
+        m._descriptor.name,
+        m._descriptor,
+      );
       out.println('');
     }
     for (final s in serviceGenerators) {
       s.generateConstants(out);
       writeBinaryDescriptor(
-          out, s.binaryDescriptorName, s._descriptor.name, s._descriptor);
+        out,
+        s.binaryDescriptorName,
+        s._descriptor.name,
+        s._descriptor,
+      );
       out.println('');
     }
 
@@ -670,8 +754,12 @@ class FileGenerator extends ProtobufContainer {
 
   /// Writes an import of a .dart file corresponding to a .proto file.
   /// (Possibly the same .proto file.)
-  void _addImport(ImportWriter importWriter, OutputConfiguration config,
-      FileGenerator target, String ext) {
+  void _addImport(
+    ImportWriter importWriter,
+    OutputConfiguration config,
+    FileGenerator target,
+    String ext,
+  ) {
     final url = config.resolveImport(target.protoFileUri, protoFileUri, ext);
     final import = url.toString();
 
@@ -679,8 +767,10 @@ class FileGenerator extends ProtobufContainer {
     // evaluate to true not just for the main .pb.dart file based off the proto
     // file, but also for the .pbserver.dart, .pbgrpc.dart files.
     if (ext == '.pb.dart' || protoFileUri != target.protoFileUri) {
-      importWriter.addImport(import,
-          prefix: target.importPrefix(context: fileGen));
+      importWriter.addImport(
+        import,
+        prefix: target.importPrefix(context: fileGen),
+      );
     } else {
       importWriter.addImport(import);
     }
@@ -688,8 +778,12 @@ class FileGenerator extends ProtobufContainer {
 
   /// Writes an export of a pb.dart file corresponding to a .proto file.
   /// (Possibly the same .proto file.)
-  void _addExport(ImportWriter importWriter, OutputConfiguration config,
-      Uri target, String ext) {
+  void _addExport(
+    ImportWriter importWriter,
+    OutputConfiguration config,
+    Uri target,
+    String ext,
+  ) {
     final url = config.resolveImport(target, protoFileUri, ext);
     importWriter.addExport(url.toString());
   }
@@ -700,7 +794,7 @@ class ConditionalConstDefinition {
   final String constFieldName;
 
   ConditionalConstDefinition(this.envName)
-      : constFieldName = _convertToCamelCase(envName);
+    : constFieldName = _convertToCamelCase(envName);
 
   String get constDefinition {
     return 'const $coreImportPrefix.bool $constFieldName = '
@@ -714,9 +808,10 @@ class ConditionalConstDefinition {
   // Convert foo_bar_baz to _fooBarBaz.
   static String _convertToCamelCase(String lowerUnderscoreCase) {
     final parts = lowerUnderscoreCase.split('_');
-    final rest = parts.skip(1).map((item) {
-      return item.substring(0, 1).toUpperCase() + item.substring(1);
-    }).join();
+    final rest =
+        parts.skip(1).map((item) {
+          return item.substring(0, 1).toUpperCase() + item.substring(1);
+        }).join();
     return '_${parts.first}$rest';
   }
 }
