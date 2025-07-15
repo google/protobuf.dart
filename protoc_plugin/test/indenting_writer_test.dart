@@ -9,14 +9,14 @@ import 'package:test/test.dart';
 void main() {
   group('IndentingWriter', () {
     test('IndentingWriter can indent a block', () {
-      final out = IndentingWriter(filename: '');
+      final out = IndentingWriter();
       out.addBlock('class test {', '}', () {
         out.println('first;');
         out.println();
         out.println('second;');
       });
 
-      expect(out.toString(), '''
+      expect(out.emitSource(format: false), '''
 class test {
   first;
 
@@ -26,7 +26,10 @@ class test {
     });
 
     test('IndentingWriter annotation tracks previous output', () {
-      final out = IndentingWriter(filename: 'sample.proto');
+      final out = IndentingWriter(
+        generateMetadata: true,
+        fileName: 'sample.proto',
+      );
       out.print('13 characters');
       out.printAnnotated('sample text', [
         NamedLocation(name: 'text', fieldPathSegment: [1, 2, 3], start: 7),
@@ -42,7 +45,7 @@ class test {
     });
 
     test('IndentingWriter annotation counts indents correctly', () {
-      final out = IndentingWriter(filename: '');
+      final out = IndentingWriter(generateMetadata: true, fileName: '');
       out.addBlock('34 characters including newline {', '}', () {
         out.printlnAnnotated('sample text', [
           NamedLocation(name: 'sample', fieldPathSegment: [], start: 0),
@@ -55,7 +58,7 @@ class test {
     });
 
     test('IndentingWriter annotations counts multiline output correctly', () {
-      final out = IndentingWriter(filename: '');
+      final out = IndentingWriter(generateMetadata: true, fileName: '');
       out.print('20 characters\ntotal\n');
       out.printlnAnnotated('20 characters before this', [
         NamedLocation(name: 'ch', fieldPathSegment: [], start: 3),

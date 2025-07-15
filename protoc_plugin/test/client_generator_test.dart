@@ -33,6 +33,6 @@ void main() {
 
     final writer = IndentingWriter();
     cag.generate(writer);
-    expectGolden(writer.toString(), 'client.pb.dart');
+    expectGolden(writer.emitSource(format: true), 'client.pb.dart');
   });
 }

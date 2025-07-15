@@ -87,9 +87,13 @@ for PKG in ${PKGS}; do
         echo 'make protos'
         make protos || EXIT_CODE=$?
         ;;
-      format)
+      format_0)
         echo 'dart format --output=none --set-exit-if-changed .'
         dart format --output=none --set-exit-if-changed . || EXIT_CODE=$?
+        ;;
+      format_1)
+        echo 'dart format --output=none --set-exit-if-changed lib'
+        dart format --output=none --set-exit-if-changed lib || EXIT_CODE=$?
         ;;
       test)
         echo 'dart test'

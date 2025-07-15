@@ -1,23 +1,24 @@
 name: protoc_plugin
-version: 22.4.1-wip
+version: 22.5.0-wip
 description: A protobuf protoc compiler plugin used to generate Dart code.
 repository: https://github.com/google/protobuf.dart/tree/master/protoc_plugin
 
 environment:
+  # Note: keep this in sync with the SDK version in lib/src/formatter.dart.
   sdk: ^3.7.0
 
 resolution: workspace
 
 dependencies:
   collection: ^1.15.0
+  dart_style: ^3.0.0
   fixnum: ^1.0.0
   path: ^1.8.0
   protobuf: ^4.1.0
+  pub_semver: ^2.2.0
 
 dev_dependencies:
-  dart_style: ^3.1.0
   lints: '>=5.0.0 <7.0.0'
-  pub_semver: ^2.2.0
   test: ^1.16.0
 
 executables:

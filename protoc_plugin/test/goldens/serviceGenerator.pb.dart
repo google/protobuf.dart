@@ -1,12 +1,8 @@
 abstract class TestServiceBase extends $pb.GeneratedService {
   $async.Future<$0.SomeReply> aMethod(
-    $pb.ServerContext ctx,
-    $0.SomeRequest request,
-  );
+      $pb.ServerContext ctx, $0.SomeRequest request);
   $async.Future<$1.AnotherReply> anotherMethod(
-    $pb.ServerContext ctx,
-    $1.EmptyMessage request,
-  );
+      $pb.ServerContext ctx, $1.EmptyMessage request);
 
   $pb.GeneratedMessage createRequest($core.String methodName) {
     switch (methodName) {
@@ -19,11 +15,8 @@ abstract class TestServiceBase extends $pb.GeneratedService {
     }
   }
 
-  $async.Future<$pb.GeneratedMessage> handleCall(
-    $pb.ServerContext ctx,
-    $core.String methodName,
-    $pb.GeneratedMessage request,
-  ) {
+  $async.Future<$pb.GeneratedMessage> handleCall($pb.ServerContext ctx,
+      $core.String methodName, $pb.GeneratedMessage request) {
     switch (methodName) {
       case 'AMethod':
         return aMethod(ctx, request as $0.SomeRequest);
@@ -36,5 +29,5 @@ abstract class TestServiceBase extends $pb.GeneratedService {
 
   $core.Map<$core.String, $core.dynamic> get $json => TestServiceBase$json;
   $core.Map<$core.String, $core.Map<$core.String, $core.dynamic>>
-  get $messageJson => TestServiceBase$messageJson;
+      get $messageJson => TestServiceBase$messageJson;
 }

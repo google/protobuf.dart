@@ -110,7 +110,10 @@ void main() {
           )!;
       final fg = FileGenerator(fd, options);
       link(options, [fg]);
-      expectGolden(fg.generateMainFile().toString(), 'oneMessage.pb.dart');
+      expectGolden(
+        fg.generateMainFile().emitSource(format: true),
+        'oneMessage.pb.dart',
+      );
     },
   );
 
@@ -123,7 +126,10 @@ void main() {
         )!;
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
-    expectGolden(fg.generateMainFile().toString(), 'int64.pb.dart');
+    expectGolden(
+      fg.generateMainFile().emitSource(format: true),
+      'int64.pb.dart',
+    );
   });
 
   test(
@@ -170,8 +176,14 @@ void main() {
 
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
-    expectGolden(fg.generateMainFile().toString(), 'topLevelEnum.pb.dart');
-    expectGolden(fg.generateEnumFile().toString(), 'topLevelEnum.pbenum.dart');
+    expectGolden(
+      fg.generateMainFile().emitSource(format: true),
+      'topLevelEnum.pb.dart',
+    );
+    expectGolden(
+      fg.generateEnumFile().emitSource(format: true),
+      'topLevelEnum.pbenum.dart',
+    );
   });
 
   test('FileGenerator generates metadata files for a top-level enum', () {
@@ -220,9 +232,9 @@ void main() {
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    final writer = IndentingWriter(filename: '');
+    final writer = IndentingWriter();
     fg.writeMainHeader(writer);
-    expectGolden(writer.toString(), 'header_in_package.pb.dart');
+    expectGolden(writer.emitSource(format: true), 'header_in_package.pb.dart');
   });
 
   test('FileGenerator outputs a fixnum import when needed', () {
@@ -250,9 +262,9 @@ void main() {
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    final writer = IndentingWriter(filename: '');
+    final writer = IndentingWriter();
     fg.writeMainHeader(writer);
-    expectGolden(writer.toString(), 'header_with_fixnum.pb.dart');
+    expectGolden(writer.emitSource(format: true), 'header_with_fixnum.pb.dart');
   });
 
   test('FileGenerator outputs files for a service', () {
@@ -283,9 +295,12 @@ void main() {
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    final writer = IndentingWriter(filename: '');
+    final writer = IndentingWriter();
     fg.writeMainHeader(writer);
-    expectGolden(fg.generateMainFile().toString(), 'service.pb.dart');
+    expectGolden(
+      fg.generateMainFile().emitSource(format: true),
+      'service.pb.dart',
+    );
     expectGolden(fg.generateServerFile(), 'service.pbserver.dart');
   });
 
@@ -315,9 +330,12 @@ void main() {
       final fg = FileGenerator(fd, options);
       link(options, [fg]);
 
-      final writer = IndentingWriter(filename: '');
+      final writer = IndentingWriter();
       fg.writeMainHeader(writer);
-      expectGolden(fg.generateMainFile().toString(), 'grpc_service.pb.dart');
+      expectGolden(
+        fg.generateMainFile().emitSource(format: true),
+        'grpc_service.pb.dart',
+      );
     },
   );
 
@@ -409,7 +427,7 @@ void main() {
     final fg = FileGenerator(fd, options);
     link(options, [fg]);
 
-    final writer = IndentingWriter(filename: '');
+    final writer = IndentingWriter();
     fg.writeMainHeader(writer);
     // We use a '.~dart' file extension here, insead of '.dart', so that
     // 'pub publish' won't try and validate that all the imports for this file
@@ -532,7 +550,13 @@ void main() {
       FileGenerator(fd1, options),
       FileGenerator(fd2, options),
     ]);
-    expectGolden(fg.generateMainFile().toString(), 'imports.pb.dart');
-    expectGolden(fg.generateEnumFile().toString(), 'imports.pbjson.dart');
+    expectGolden(
+      fg.generateMainFile().emitSource(format: true),
+      'imports.pb.dart',
+    );
+    expectGolden(
+      fg.generateEnumFile().emitSource(format: true),
+      'imports.pbjson.dart',
+    );
   });
 }

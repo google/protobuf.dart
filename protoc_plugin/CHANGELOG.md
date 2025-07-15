@@ -1,5 +1,7 @@
-## 22.4.1-wip
+## 22.5.0-wip
 
+* Generated files are now formatted using the Dart formatter. The code is
+  formatted using the min. SDK for `package:protoc_plugin`; currently `3.7.0`.
 * Minimum SDK dependency bumped from 3.6.0 to 3.7.0. ([#1024])
 
 [#1024]: https://github.com/google/protobuf.dart/pull/1024

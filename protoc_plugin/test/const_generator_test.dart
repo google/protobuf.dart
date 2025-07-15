@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 String toConst(Object? val) {
   final out = IndentingWriter();
   writeJsonConst(out, val);
-  return out.toString();
+  return out.emitSource(format: false);
 }
 
 void main() {

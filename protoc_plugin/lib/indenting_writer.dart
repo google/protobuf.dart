@@ -4,6 +4,7 @@
 
 import 'dart:collection';
 
+import 'src/formatter.dart' as formatter;
 import 'src/gen/google/protobuf/descriptor.pb.dart';
 
 /// Specifies code locations where metadata annotations should be attached and
@@ -22,6 +23,9 @@ class NamedLocation {
 
 /// A buffer for writing indented source code.
 class IndentingWriter {
+  final String? fileName;
+  final bool generateMetadata;
+
   final StringBuffer _buffer = StringBuffer();
   final GeneratedCodeInfo sourceLocationInfo = GeneratedCodeInfo();
 
@@ -30,12 +34,11 @@ class IndentingWriter {
   // After writing any chunk, _previousOffset is the size of everything that was
   // written to the buffer before the latest call to print or addBlock.
   int _previousOffset = 0;
-  final String? _sourceFile;
 
   // Named text sections to write at the end of the file.
   final Map<String, String> _suffixes = SplayTreeMap();
 
-  IndentingWriter({String? filename}) : _sourceFile = filename;
+  IndentingWriter({this.fileName, this.generateMetadata = false});
 
   /// Appends a string indented to the current level.
   /// (Indentation will be added after newline characters where needed.)
@@ -138,10 +141,11 @@ class IndentingWriter {
     _suffixes[suffixKey] = text;
   }
 
-  @override
-  String toString() {
+  /// Emit the generated source.
+  ///
+  /// This is safe to call multiple times.
+  String emitSource({required bool format}) {
     if (_suffixes.isNotEmpty) {
-      // TODO: We may want to introduce the notion of closing the writer.
       println('');
       for (final key in _suffixes.keys) {
         println(_suffixes[key]!);
@@ -149,7 +153,15 @@ class IndentingWriter {
       _suffixes.clear();
     }
 
-    return _buffer.toString();
+    var source = _buffer.toString();
+
+    // We don't always want to format the source (for example, we don't want to
+    // format if we're creating annotated locations of source elements).
+    if (format) {
+      source = formatter.format(source);
+    }
+
+    return source;
   }
 
   /// Writes part of a line of text.
@@ -175,16 +187,15 @@ class IndentingWriter {
   /// string that was passed to the previous [print]. Name should be the string
   /// that was written to file.
   void _addAnnotation(List<int> fieldPath, String name, int start) {
-    if (_sourceFile == null) {
-      return;
+    if (generateMetadata) {
+      final annotation =
+          GeneratedCodeInfo_Annotation()
+            ..path.addAll(fieldPath)
+            ..sourceFile = fileName!
+            ..begin = _previousOffset + start
+            ..end = _previousOffset + start + name.length;
+      sourceLocationInfo.annotation.add(annotation);
     }
-    final annotation =
-        GeneratedCodeInfo_Annotation()
-          ..path.addAll(fieldPath)
-          ..sourceFile = _sourceFile
-          ..begin = _previousOffset + start
-          ..end = _previousOffset + start + name.length;
-    sourceLocationInfo.annotation.add(annotation);
   }
 }
 

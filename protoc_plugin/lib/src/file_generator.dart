@@ -263,14 +263,19 @@ class FileGenerator extends ProtobufContainer {
     final mainWriter = generateMainFile(config);
     final enumWriter = generateEnumFile(config);
 
+    final generateMetadata = options.generateMetadata;
+
     final files = [
-      makeFile('.pb.dart', mainWriter.toString()),
-      makeFile('.pbenum.dart', enumWriter.toString()),
+      makeFile('.pb.dart', mainWriter.emitSource(format: !generateMetadata)),
+      makeFile(
+        '.pbenum.dart',
+        enumWriter.emitSource(format: !generateMetadata),
+      ),
       // TODO(devoncarew): Consider not emitting empty json files.
       makeFile('.pbjson.dart', generateJsonFile(config)),
     ];
 
-    if (options.generateMetadata) {
+    if (generateMetadata) {
       files.addAll([
         makeFile(
           '.pb.dart.meta',
@@ -291,13 +296,17 @@ class FileGenerator extends ProtobufContainer {
         files.add(makeFile('.pbserver.dart', generateServerFile(config)));
       }
     }
+
     return files;
   }
 
   /// Creates an IndentingWriter with metadata generation enabled or disabled.
-  IndentingWriter makeWriter() => IndentingWriter(
-    filename: options.generateMetadata ? descriptor.name : null,
-  );
+  IndentingWriter makeWriter() {
+    return IndentingWriter(
+      fileName: descriptor.name,
+      generateMetadata: options.generateMetadata,
+    );
+  }
 
   /// Returns the contents of the .pb.dart file for this .proto file.
   IndentingWriter generateMainFile([
@@ -569,7 +578,7 @@ class FileGenerator extends ProtobufContainer {
       s.generate(out);
     }
 
-    return out.toString();
+    return out.emitSource(format: true);
   }
 
   /// Returns the contents of the .pbgrpc.dart file for this .proto file.
@@ -606,7 +615,7 @@ class FileGenerator extends ProtobufContainer {
       generator.generate(out);
     }
 
-    return out.toString();
+    return out.emitSource(format: true);
   }
 
   void writeBinaryDescriptor(
@@ -699,7 +708,7 @@ class FileGenerator extends ProtobufContainer {
       out.println('');
     }
 
-    return out.toString();
+    return out.emitSource(format: true);
   }
 
   /// Returns the generator for each .pbjson.dart file the generated
