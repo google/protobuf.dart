@@ -1,6 +1,7 @@
 ## 22.5.0-wip
 
-* Generated files are now formatted using the Dart formatter.
+* Generated files are now formatted using the Dart formatter. The code is
+  formatted using the min. SDK for `package:protoc_plugin`; currently `3.6.0`.
 
 ## 22.4.0
 
