@@ -11,8 +11,11 @@ typedef OnError = void Function(String details);
 /// key-value pair ("name=value"). For each option "name", it looks up whether a
 /// [SingleOptionParser] exists in [parsers] and delegates the actual parsing of
 /// the option to it. Returns `true` if no errors were reported.
-bool genericOptionsParser(CodeGeneratorRequest request,
-    CodeGeneratorResponse response, Map<String, SingleOptionParser> parsers) {
+bool genericOptionsParser(
+  CodeGeneratorRequest request,
+  CodeGeneratorResponse response,
+  Map<String, SingleOptionParser> parsers,
+) {
   final parameter = request.parameter;
   final options = parameter.trim().split(',');
   final errors = [];
@@ -113,8 +116,10 @@ class DisableConstructorArgsParser implements SingleOptionParser {
 /// [GrpcOptionParser]) and any additional option added in [parsers]. If
 /// [parsers] has a key for `rpc`, it will be ignored.
 GenerationOptions? parseGenerationOptions(
-    CodeGeneratorRequest request, CodeGeneratorResponse response,
-    [Map<String, SingleOptionParser>? parsers]) {
+  CodeGeneratorRequest request,
+  CodeGeneratorResponse response, [
+  Map<String, SingleOptionParser>? parsers,
+]) {
   final newParsers = <String, SingleOptionParser>{};
   if (parsers != null) newParsers.addAll(parsers);
 
@@ -129,9 +134,10 @@ GenerationOptions? parseGenerationOptions(
 
   if (genericOptionsParser(request, response, newParsers)) {
     return GenerationOptions(
-        useGrpc: grpcOptionParser.grpcEnabled,
-        generateMetadata: generateMetadataParser.generateKytheInfo,
-        disableConstructorArgs: disableConstructorArgsParser.value);
+      useGrpc: grpcOptionParser.grpcEnabled,
+      generateMetadata: generateMetadataParser.generateKytheInfo,
+      disableConstructorArgs: disableConstructorArgsParser.value,
+    );
   }
   return null;
 }

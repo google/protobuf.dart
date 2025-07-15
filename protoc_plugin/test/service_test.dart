@@ -14,7 +14,9 @@ import 'gen/service3.pb.dart' as pb3;
 class SearchService extends pb.SearchServiceBase {
   @override
   Future<pb.SearchResponse> search(
-      ServerContext ctx, pb.SearchRequest request) async {
+    ServerContext ctx,
+    pb.SearchRequest request,
+  ) async {
     final out = pb.SearchResponse();
     if (request.query == 'hello' || request.query == 'world') {
       out.result.add('hello, world!');
@@ -24,12 +26,15 @@ class SearchService extends pb.SearchServiceBase {
 
   @override
   Future<pb2.SearchResponse> search2(
-      ServerContext ctx, pb2.SearchRequest request) async {
+    ServerContext ctx,
+    pb2.SearchRequest request,
+  ) async {
     final out = pb2.SearchResponse();
     if (request.query == '2') {
-      final result = pb3.SearchResult()
-        ..url = 'http://example.com/'
-        ..snippet = 'hello world (2)!';
+      final result =
+          pb3.SearchResult()
+            ..url = 'http://example.com/'
+            ..snippet = 'hello world (2)!';
       out.results.add(result);
     }
     return out;
@@ -41,7 +46,10 @@ class FakeJsonServer {
   FakeJsonServer(this.searchService);
 
   Future<String> messageHandler(
-      String serviceName, String methodName, String requestJson) async {
+    String serviceName,
+    String methodName,
+    String requestJson,
+  ) async {
     if (serviceName == 'SearchService') {
       final request = searchService.createRequest(methodName);
       request.mergeFromJson(requestJson);
@@ -61,14 +69,18 @@ class FakeJsonClient implements RpcClient {
 
   @override
   Future<T> invoke<T extends GeneratedMessage>(
-      ClientContext? ctx,
-      String serviceName,
-      String methodName,
-      GeneratedMessage request,
-      T response) async {
+    ClientContext? ctx,
+    String serviceName,
+    String methodName,
+    GeneratedMessage request,
+    T response,
+  ) async {
     final requestJson = request.writeToJson();
-    final replyJson =
-        await server.messageHandler(serviceName, methodName, requestJson);
+    final replyJson = await server.messageHandler(
+      serviceName,
+      methodName,
+      requestJson,
+    );
     response.mergeFromJson(replyJson);
     return response;
   }
@@ -94,8 +106,8 @@ void main() {
   });
 
   test('can read service descriptor from JSON', () {
-    final descriptor = ServiceDescriptorProto()
-      ..mergeFromJsonMap(service.$json);
+    final descriptor =
+        ServiceDescriptorProto()..mergeFromJsonMap(service.$json);
     expect(descriptor.name, 'SearchService');
     final methodNames = descriptor.method.map((m) => m.name).toList();
     expect(methodNames, ['Search', 'Search2']);

@@ -41,8 +41,9 @@ class DefaultOutputConfiguration extends OutputConfiguration {
   Uri resolveImport(Uri target, Uri source, String extension) {
     final targetPath = path.url.fromUri(target);
     final sourceDir = path.url.dirname(path.url.fromUri(source));
-    final base =
-        path.withoutExtension(path.url.relative(targetPath, from: sourceDir));
+    final base = path.withoutExtension(
+      path.url.relative(targetPath, from: sourceDir),
+    );
     return path.url.toUri('$base$extension');
   }
 }

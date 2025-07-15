@@ -8,8 +8,9 @@ import 'package:pub_semver/pub_semver.dart';
 // Note: keep this in sync with the SDK constraint in pubspec.yaml.
 final Version formatUsingVersion = Version(3, 6, 0);
 
-final DartFormatter _formatter =
-    DartFormatter(languageVersion: formatUsingVersion);
+final DartFormatter _formatter = DartFormatter(
+  languageVersion: formatUsingVersion,
+);
 
 /// Return the Dart formatted version of the given source.
 String format(String source) => _formatter.format(source);

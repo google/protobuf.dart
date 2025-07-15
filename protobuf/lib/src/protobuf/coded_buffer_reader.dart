@@ -25,19 +25,22 @@ class CodedBufferReader {
   final int _recursionLimit;
   final int _sizeLimit;
 
-  CodedBufferReader(List<int> buffer,
-      {int recursionLimit = DEFAULT_RECURSION_LIMIT,
-      int sizeLimit = DEFAULT_SIZE_LIMIT})
-      : _buffer = buffer is Uint8List ? buffer : Uint8List.fromList(buffer),
-        _recursionLimit = recursionLimit,
-        _sizeLimit = math.min(sizeLimit, buffer.length) {
+  CodedBufferReader(
+    List<int> buffer, {
+    int recursionLimit = DEFAULT_RECURSION_LIMIT,
+    int sizeLimit = DEFAULT_SIZE_LIMIT,
+  }) : _buffer = buffer is Uint8List ? buffer : Uint8List.fromList(buffer),
+       _recursionLimit = recursionLimit,
+       _sizeLimit = math.min(sizeLimit, buffer.length) {
     _currentLimit = _sizeLimit;
   }
 
   void _throwTruncatedMessageError(int limit) {
     if (limit > _sizeLimit && limit <= _buffer.length) {
       throw InvalidProtocolBufferException.truncatedMessageDueToSizeLimit(
-          _buffer.length, _sizeLimit);
+        _buffer.length,
+        _sizeLimit,
+      );
     }
     throw InvalidProtocolBufferException.truncatedMessage();
   }
@@ -59,8 +62,9 @@ class CodedBufferReader {
   void _withLimit(int byteLimit, Function() callback) {
     if (byteLimit < 0) {
       throw ArgumentError(
-          'CodedBufferReader encountered an embedded string or message'
-          ' which claimed to have negative size.');
+        'CodedBufferReader encountered an embedded string or message'
+        ' which claimed to have negative size.',
+      );
     }
     byteLimit += _bufferPos;
     final oldLimit = _currentLimit;
@@ -82,8 +86,11 @@ class CodedBufferReader {
     }
   }
 
-  void readGroup(int fieldNumber, GeneratedMessage message,
-      ExtensionRegistry extensionRegistry) {
+  void readGroup(
+    int fieldNumber,
+    GeneratedMessage message,
+    ExtensionRegistry extensionRegistry,
+  ) {
     if (_recursionDepth >= _recursionLimit) {
       throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
@@ -106,15 +113,18 @@ class CodedBufferReader {
   }
 
   void readMessage(
-      GeneratedMessage message, ExtensionRegistry extensionRegistry) {
+    GeneratedMessage message,
+    ExtensionRegistry extensionRegistry,
+  ) {
     final length = readInt32();
     if (_recursionDepth >= _recursionLimit) {
       throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
     if (length < 0) {
       throw ArgumentError(
-          'CodedBufferReader encountered an embedded string or message'
-          ' which claimed to have negative size.');
+        'CodedBufferReader encountered an embedded string or message'
+        ' which claimed to have negative size.',
+      );
     }
 
     final oldLimit = _currentLimit;
@@ -205,7 +215,10 @@ class CodedBufferReader {
     final length = readInt32();
     _checkLimit(length);
     return Uint8List.view(
-        _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
+      _buffer.buffer,
+      _buffer.offsetInBytes + _bufferPos - length,
+      length,
+    );
   }
 
   @pragma('vm:prefer-inline')
@@ -214,8 +227,9 @@ class CodedBufferReader {
     final length = readInt32();
     final stringPos = _bufferPos;
     _checkLimit(length);
-    return const Utf8Decoder(allowMalformed: true)
-        .convert(_buffer, stringPos, stringPos + length);
+    return const Utf8Decoder(
+      allowMalformed: true,
+    ).convert(_buffer, stringPos, stringPos + length);
   }
 
   @pragma('vm:prefer-inline')

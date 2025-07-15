@@ -1,3 +1,9 @@
+## 4.1.1-wip
+
+* Minimum SDK dependency bumped from 3.6.0 to 3.7.0. ([#1024])
+
+[#1024]: https://github.com/google/protobuf.dart/pull/1024
+
 ## 4.1.0
 
 * Improve packed field decoding performance. ([#959], [#981])

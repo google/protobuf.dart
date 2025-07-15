@@ -29,8 +29,11 @@ mixin PbMapMixin {
   void operator []=(Object? key, Object? val) {
     final tag = getTagNumber(key as String);
     if (tag == null) {
-      throw ArgumentError.value(key, 'key',
-          "field '$key' not found in ${info_.qualifiedMessageName}");
+      throw ArgumentError.value(
+        key,
+        'key',
+        "field '$key' not found in ${info_.qualifiedMessageName}",
+      );
     }
     setField(tag, val!);
   }
@@ -43,6 +46,7 @@ mixin PbMapMixin {
 
   dynamic remove(Object? key) {
     throw UnsupportedError(
-        'remove() not supported by ${info_.qualifiedMessageName}');
+      'remove() not supported by ${info_.qualifiedMessageName}',
+    );
   }
 }

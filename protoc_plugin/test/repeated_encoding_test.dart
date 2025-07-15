@@ -15,20 +15,21 @@ void main() {
     proto2.intsNotPacked.addAll([1, 2]);
     final proto2Encoded = proto2.writeToBuffer();
     expect(
-        proto2Encoded.toList(),
-        equals([
-          8, // field = 1, type = varint
-          1, // value = 1
-          8, // field = 1, type = varint
-          2, // value = 2
-          18, // field = 2, type = length delimited
-          2, // length = 2
-          1, 2, // values = [1, 2]
-          24, // field = 3, type = varint
-          1, // value = 1
-          24, // field = 3, type = varint
-          2, // value = 2
-        ]));
+      proto2Encoded.toList(),
+      equals([
+        8, // field = 1, type = varint
+        1, // value = 1
+        8, // field = 1, type = varint
+        2, // value = 2
+        18, // field = 2, type = length delimited
+        2, // length = 2
+        1, 2, // values = [1, 2]
+        24, // field = 3, type = varint
+        1, // value = 1
+        24, // field = 3, type = varint
+        2, // value = 2
+      ]),
+    );
 
     final proto3 = Proto3Repeated();
     proto3.intsDefault.addAll([1, 2]);
@@ -36,18 +37,19 @@ void main() {
     proto3.intsNotPacked.addAll([1, 2]);
     final proto3Encoded = proto3.writeToBuffer();
     expect(
-        proto3Encoded.toList(),
-        equals([
-          10, // field = 1, type = length delimited
-          2, // length = 2
-          1, 2, // values = [1, 2]
-          18, // field = 2, type = length delimited
-          2, // length = 2
-          1, 2, // values = [1, 2]
-          24, // field = 3, type = varint
-          1, // value = 1
-          24, // field = 3, type = varint
-          2, // value = 2
-        ]));
+      proto3Encoded.toList(),
+      equals([
+        10, // field = 1, type = length delimited
+        2, // length = 2
+        1, 2, // values = [1, 2]
+        18, // field = 2, type = length delimited
+        2, // length = 2
+        1, 2, // values = [1, 2]
+        24, // field = 3, type = varint
+        1, // value = 1
+        24, // field = 3, type = varint
+        2, // value = 2
+      ]),
+    );
   });
 }

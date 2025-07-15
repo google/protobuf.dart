@@ -13,7 +13,7 @@ class RepeatedBenchmark extends BenchmarkBase {
   final Uint8List _buffer;
 
   RepeatedBenchmark(super.name, GoogleMessage2 message)
-      : _buffer = message.writeToBuffer();
+    : _buffer = message.writeToBuffer();
 
   @override
   void run() => GoogleMessage2.fromBuffer(_buffer);
@@ -23,7 +23,7 @@ class RepeatedEnumBenchmark extends BenchmarkBase {
   final Uint8List _buffer;
 
   RepeatedEnumBenchmark(super.name, f12.A58 message)
-      : _buffer = message.writeToBuffer();
+    : _buffer = message.writeToBuffer();
 
   @override
   void run() => f12.A58.fromBuffer(_buffer);

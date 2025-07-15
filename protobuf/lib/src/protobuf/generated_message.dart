@@ -49,9 +49,11 @@ abstract class GeneratedMessage {
 
   /// Creates a deep copy of the fields in this message.
   /// (The generated code uses [mergeFromMessage].)
-  @Deprecated('Using this can add significant size overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-      'Will be removed in next major version')
+  @Deprecated(
+    'Using this can add significant size overhead to your binary. '
+    'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+    'Will be removed in next major version',
+  )
   GeneratedMessage clone();
 
   /// Creates an empty instance of the same message type as this.
@@ -99,9 +101,11 @@ abstract class GeneratedMessage {
   ///
   /// Makes a writable shallow copy of this message, applies the [updates] to
   /// it, and marks the copy read-only before returning it.
-  @Deprecated('Using this can add significant size overhead to your binary. '
-      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-      'Will be removed in next major version')
+  @Deprecated(
+    'Using this can add significant size overhead to your binary. '
+    'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+    'Will be removed in next major version',
+  )
   GeneratedMessage copyWith(void Function(GeneratedMessage) updates) {
     final builder = toBuilder();
     updates(builder);
@@ -188,8 +192,10 @@ abstract class GeneratedMessage {
       _writeToCodedBufferWriter(_fieldSet, output);
 
   /// Same as [mergeFromBuffer], but takes a [CodedBufferReader] input.
-  void mergeFromCodedBufferReader(CodedBufferReader input,
-      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+  void mergeFromCodedBufferReader(
+    CodedBufferReader input, [
+    ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+  ]) {
     final meta = _fieldSet._meta;
     _mergeFromCodedBufferReader(meta, _fieldSet, input, extensionRegistry);
   }
@@ -202,8 +208,10 @@ abstract class GeneratedMessage {
   /// * Else, if it's a scalar, this overwrites our field.
   /// * Else, (it's a non-repeated sub-message), this recursively merges into
   ///   the existing sub-message.
-  void mergeFromBuffer(List<int> input,
-      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+  void mergeFromBuffer(
+    List<int> input, [
+    ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+  ]) {
     final codedInput = CodedBufferReader(input);
     final meta = _fieldSet._meta;
     _mergeFromCodedBufferReader(meta, _fieldSet, codedInput, extensionRegistry);
@@ -256,9 +264,9 @@ abstract class GeneratedMessage {
   ///
   /// Unknown field data, data for which there is no metadata for the associated
   /// field, will not be included.
-  Object? toProto3Json(
-          {TypeRegistry typeRegistry = const TypeRegistry.empty()}) =>
-      _writeToProto3Json(_fieldSet, typeRegistry);
+  Object? toProto3Json({
+    TypeRegistry typeRegistry = const TypeRegistry.empty(),
+  }) => _writeToProto3Json(_fieldSet, typeRegistry);
 
   /// Merges field values from [json], a JSON object using proto3 encoding.
   ///
@@ -287,26 +295,37 @@ abstract class GeneratedMessage {
   ///
   /// Throws [FormatException] if the JSON not formatted correctly (a String
   /// where a number was expected etc.).
-  void mergeFromProto3Json(Object? json,
-          {TypeRegistry typeRegistry = const TypeRegistry.empty(),
-          bool ignoreUnknownFields = false,
-          bool supportNamesWithUnderscores = true,
-          bool permissiveEnums = false}) =>
-      _mergeFromProto3Json(json, _fieldSet, typeRegistry, ignoreUnknownFields,
-          supportNamesWithUnderscores, permissiveEnums);
+  void mergeFromProto3Json(
+    Object? json, {
+    TypeRegistry typeRegistry = const TypeRegistry.empty(),
+    bool ignoreUnknownFields = false,
+    bool supportNamesWithUnderscores = true,
+    bool permissiveEnums = false,
+  }) => _mergeFromProto3Json(
+    json,
+    _fieldSet,
+    typeRegistry,
+    ignoreUnknownFields,
+    supportNamesWithUnderscores,
+    permissiveEnums,
+  );
 
   /// Merges field values from [data], a JSON object, encoded as described by
   /// [GeneratedMessage.writeToJson].
   ///
   /// For the proto3 JSON format use: [mergeFromProto3Json].
-  void mergeFromJson(String data,
-      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+  void mergeFromJson(
+    String data, [
+    ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+  ]) {
     /// Disable lazy creation of Dart objects for a dart2js speedup.
     /// This is a slight regression on the Dart VM.
     /// TODO(skybrian) we could skip the reviver if we're running
     /// on the Dart VM for a slight speedup.
-    final Map<String, dynamic> jsonMap =
-        jsonDecode(data, reviver: _emptyReviver);
+    final Map<String, dynamic> jsonMap = jsonDecode(
+      data,
+      reviver: _emptyReviver,
+    );
     _mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry);
   }
 
@@ -315,8 +334,10 @@ abstract class GeneratedMessage {
   /// Merges field values from a JSON object represented as a Dart map.
   ///
   /// The encoding is described in [GeneratedMessage.writeToJson].
-  void mergeFromJsonMap(Map<String, dynamic> json,
-      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+  void mergeFromJsonMap(
+    Map<String, dynamic> json, [
+    ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+  ]) {
     _mergeFromJsonMap(_fieldSet, json, extensionRegistry);
   }
 
@@ -327,7 +348,8 @@ abstract class GeneratedMessage {
   void addExtension(Extension extension, Object? value) {
     if (!extension.isRepeated) {
       throw ArgumentError(
-          'Cannot add to a non-repeated field (use setExtension())');
+        'Cannot add to a non-repeated field (use setExtension())',
+      );
     }
     _fieldSet._ensureExtensions()._ensureRepeatedField(extension).add(value);
   }
@@ -397,8 +419,13 @@ abstract class GeneratedMessage {
   /// Sets the value of a non-repeated extension field to [value].
   void setExtension(Extension extension, Object value) {
     if (_isRepeated(extension.type)) {
-      throw ArgumentError(_fieldSet._setFieldFailedMessage(
-          extension, value, 'repeating field (use get + .add())'));
+      throw ArgumentError(
+        _fieldSet._setFieldFailedMessage(
+          extension,
+          value,
+          'repeating field (use get + .add())',
+        ),
+      );
     }
     _fieldSet._ensureExtensions()._setFieldAndInfo(extension, value);
   }
@@ -534,11 +561,11 @@ abstract class GeneratedMessage {
   // Support for generating a read-only default singleton instance.
 
   static final Map<Function?, _SingletonMaker<GeneratedMessage>>
-      _defaultMakers = {};
+  _defaultMakers = {};
 
   static T Function() _defaultMakerFor<T extends GeneratedMessage>(
-          T Function()? createFn) =>
-      _getSingletonMaker(createFn!)._frozenSingletonCreator;
+    T Function()? createFn,
+  ) => _getSingletonMaker(createFn!)._frozenSingletonCreator;
 
   /// For generated code only.
   /// @nodoc
@@ -546,7 +573,8 @@ abstract class GeneratedMessage {
       _getSingletonMaker(createFn)._frozenSingleton;
 
   static _SingletonMaker<T> _getSingletonMaker<T extends GeneratedMessage>(
-      T Function() fun) {
+    T Function() fun,
+  ) {
     final oldMaker = _defaultMakers[fun];
     if (oldMaker != null) {
       // The CFE will insert an implicit downcast to `_SingletonMaker<T>`. We
@@ -589,8 +617,10 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
   ///
   /// Makes a writable shallow copy of this message, applies the [updates] to
   /// it, and marks the copy read-only before returning it.
-  @UseResult('[GeneratedMessageGenericExtensions.rebuild] '
-      'does not update the message, returns a new message')
+  @UseResult(
+    '[GeneratedMessageGenericExtensions.rebuild] '
+    'does not update the message, returns a new message',
+  )
   T rebuild(void Function(T) updates) {
     if (!isFrozen) {
       throw ArgumentError('Rebuilding only works on frozen messages.');
@@ -601,7 +631,9 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
   }
 
   /// Returns a writable deep copy of this message.
-  @UseResult('[GeneratedMessageGenericExtensions.deepCopy] '
-      'does not update the message, returns a new message')
+  @UseResult(
+    '[GeneratedMessageGenericExtensions.deepCopy] '
+    'does not update the message, returns a new message',
+  )
   T deepCopy() => info_.createEmptyInstance!() as T..mergeFromMessage(this);
 }

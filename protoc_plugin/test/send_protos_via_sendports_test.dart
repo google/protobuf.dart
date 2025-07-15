@@ -16,43 +16,54 @@ Future<T> sendReceive<T>(T object) async {
 }
 
 void main() async {
-  test('Normal proto can be transferred via ports', () async {
-    final object = Outer()
-      ..inner = (Inner()..value = 'pip')
-      ..inners.add(Inner()..value = 'pop');
+  test(
+    'Normal proto can be transferred via ports',
+    () async {
+      final object =
+          Outer()
+            ..inner = (Inner()..value = 'pip')
+            ..inners.add(Inner()..value = 'pop');
 
-    final clone = await sendReceive(object);
+      final clone = await sendReceive(object);
 
-    // Ensure the clone is actually containing the same data.
-    expect(clone, equals(object));
-    expect(clone.toString(), equals(object.toString()));
-    expect(clone.toDebugString(), equals(object.toDebugString()));
-    expect(clone.writeToBuffer(), equals(object.writeToBuffer()));
+      // Ensure the clone is actually containing the same data.
+      expect(clone, equals(object));
+      expect(clone.toString(), equals(object.toString()));
+      expect(clone.toDebugString(), equals(object.toDebugString()));
+      expect(clone.writeToBuffer(), equals(object.writeToBuffer()));
 
-    // Ensure the actual objects got transitively cloned, but the metadata in
-    // the `_info_` did not get cloned.
-    expect(!identical(object, clone), true);
-    expect(!identical(object.inner, clone.inner), true);
-    expect(identical(object.info_, clone.info_), true);
-  }, onPlatform: {'js': Skip('dart:isolate only works on Dart VM')});
+      // Ensure the actual objects got transitively cloned, but the metadata in
+      // the `_info_` did not get cloned.
+      expect(!identical(object, clone), true);
+      expect(!identical(object.inner, clone.inner), true);
+      expect(identical(object.info_, clone.info_), true);
+    },
+    onPlatform: {'js': Skip('dart:isolate only works on Dart VM')},
+  );
 
-  test('Map-using proto can be transferred via ports', () async {
-    final object = map.TestMap()
-      ..int32ToMessageField[42] = (map.TestMap_MessageValue()
-        ..value = 1
-        ..secondValue = 2);
+  test(
+    'Map-using proto can be transferred via ports',
+    () async {
+      final object =
+          map.TestMap()
+            ..int32ToMessageField[42] =
+                (map.TestMap_MessageValue()
+                  ..value = 1
+                  ..secondValue = 2);
 
-    final clone = await sendReceive(object);
+      final clone = await sendReceive(object);
 
-    // Ensure the clone is actually containing the same data.
-    expect(clone, equals(object));
-    expect(clone.toString(), equals(object.toString()));
-    expect(clone.toDebugString(), equals(object.toDebugString()));
-    expect(clone.writeToBuffer(), equals(object.writeToBuffer()));
+      // Ensure the clone is actually containing the same data.
+      expect(clone, equals(object));
+      expect(clone.toString(), equals(object.toString()));
+      expect(clone.toDebugString(), equals(object.toDebugString()));
+      expect(clone.writeToBuffer(), equals(object.writeToBuffer()));
 
-    // Ensure the actual objects got transitively cloned, but the metadata in
-    // the `_info_` did not get cloned.
-    expect(!identical(object, clone), true);
-    expect(identical(object.info_, clone.info_), true);
-  }, onPlatform: {'js': Skip('dart:isolate only works on Dart VM')});
+      // Ensure the actual objects got transitively cloned, but the metadata in
+      // the `_info_` did not get cloned.
+      expect(!identical(object, clone), true);
+      expect(identical(object.info_, clone.info_), true);
+    },
+    onPlatform: {'js': Skip('dart:isolate only works on Dart VM')},
+  );
 }

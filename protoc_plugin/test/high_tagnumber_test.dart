@@ -20,8 +20,9 @@ void main() {
   test('unknown fields', () {
     final empty = Empty.fromBuffer((M()..a = 44).writeToBuffer());
     expect(empty.unknownFields.isEmpty, false);
-    expect(empty.unknownFields.getField(M().info_.tagNumber('a')!)!.varints,
-        [Int64(44)]);
+    expect(empty.unknownFields.getField(M().info_.tagNumber('a')!)!.varints, [
+      Int64(44),
+    ]);
     expect(M.fromBuffer(empty.writeToBuffer()).a, 44);
   });
 }

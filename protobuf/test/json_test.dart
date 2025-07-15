@@ -14,10 +14,11 @@ import 'package:test/test.dart';
 import 'mock_util.dart' show T, mockEnumValues;
 
 void main() {
-  final example = T()
-    ..val = 123
-    ..str = 'hello'
-    ..int32s.addAll(<int>[1, 2, 3]);
+  final example =
+      T()
+        ..val = 123
+        ..str = 'hello'
+        ..int32s.addAll(<int>[1, 2, 3]);
 
   test('testProto3JsonEnum', () {
     // No enum value specified.
@@ -31,11 +32,16 @@ void main() {
     expect((example..mergeFromProto3Json({'enm': 'b'})).enm.name, equals('b'));
     // "c" is not a legal enum value.
     expect(
-        () => example..mergeFromProto3Json({'enm': 'c'}),
-        throwsA(allOf(
-            isFormatException,
-            predicate((FormatException e) =>
-                e.message.contains('Unknown enum value')))));
+      () => example..mergeFromProto3Json({'enm': 'c'}),
+      throwsA(
+        allOf(
+          isFormatException,
+          predicate(
+            (FormatException e) => e.message.contains('Unknown enum value'),
+          ),
+        ),
+      ),
+    );
     // `example` hasn't changed.
     expect(example.hasEnm, isTrue);
     expect(example.enm.name, equals('b'));
@@ -43,20 +49,26 @@ void main() {
     // "c" is not a legal enum value, but we are ignoring unknown fields, so
     // default behavior is to unset `enm`, returning the default value "a"
     expect(
-        (example..mergeFromProto3Json({'enm': 'c'}, ignoreUnknownFields: true))
-            .enm
-            .name,
-        equals('a'));
+      (example..mergeFromProto3Json({'enm': 'c'}, ignoreUnknownFields: true))
+          .enm
+          .name,
+      equals('a'),
+    );
     expect(example.hasEnm, isFalse);
 
     // Same for index values...
     expect((example..mergeFromProto3Json({'enm': 2})).enm.name, 'b');
     expect(
-        () => example..mergeFromProto3Json({'enm': 3}),
-        throwsA(allOf(
-            isFormatException,
-            predicate((FormatException e) =>
-                e.message.contains('Unknown enum value')))));
+      () => example..mergeFromProto3Json({'enm': 3}),
+      throwsA(
+        allOf(
+          isFormatException,
+          predicate(
+            (FormatException e) => e.message.contains('Unknown enum value'),
+          ),
+        ),
+      ),
+    );
     // `example` hasn't changed.
     expect(example.hasEnm, isTrue);
     expect(example.enm.name, equals('b'));
@@ -64,10 +76,11 @@ void main() {
     // "c" is not a legal enum value, but we are ignoring unknown fields, so
     // default behavior is to unset `enm`, returning the default value "a"
     expect(
-        (example..mergeFromProto3Json({'enm': 3}, ignoreUnknownFields: true))
-            .enm
-            .name,
-        equals('a'));
+      (example..mergeFromProto3Json({'enm': 3}, ignoreUnknownFields: true))
+          .enm
+          .name,
+      equals('a'),
+    );
     expect(example.hasEnm, isFalse);
   });
 
@@ -110,9 +123,10 @@ void main() {
 
   test('testFrozentInt64JsonEncoding', () {
     final value = Int64.parseInt('1234567890123456789');
-    final frozen = T()
-      ..int64 = value
-      ..freeze();
+    final frozen =
+        T()
+          ..int64 = value
+          ..freeze();
     final encoded = frozen.writeToJsonMap();
     expect(encoded['5'], '$value');
     final decoded = T()..mergeFromJsonMap(encoded);

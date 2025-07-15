@@ -28,37 +28,44 @@ void main() {
     expect(toConst(r'hello $world'), r"'hello \$world'");
     expect(toConst("She said, 'hello.'"), r"'She said, \'hello.\''");
     expect(toConst('single: \' double: "'), r"""'single: \' double: "'""");
-    expect(toConst("""single: ' double: '' triple: '''"""),
-        r"'single: \' double: \'\' triple: \'\'\''");
-    expect(toConst("""single: ' double: " triples: ''' and \"\"\"!"""),
-        r"""'single: \' double: " triples: \'\'\' and """ '"""!\'');
+    expect(
+      toConst("""single: ' double: '' triple: '''"""),
+      r"'single: \' double: \'\' triple: \'\'\''",
+    );
+    expect(
+      toConst("""single: ' double: " triples: ''' and \"\"\"!"""),
+      r"""'single: \' double: " triples: \'\'\' and """
+      '"""!\'',
+    );
   });
 
   test('writeJsonConst list examples', () {
     expect(toConst([]), '[]');
     expect(toConst([1, 2, 3]), '[1, 2, 3]');
     expect(
-        toConst([
-          [1, 2],
-          [3, 4]
-        ]),
-        '[\n'
-        '  [1, 2],\n'
-        '  [3, 4],\n'
-        ']');
+      toConst([
+        [1, 2],
+        [3, 4],
+      ]),
+      '[\n'
+      '  [1, 2],\n'
+      '  [3, 4],\n'
+      ']',
+    );
   });
 
   test('writeJsonConst map examples', () {
     expect(toConst({}), '{}');
     expect(toConst({'a': 1, 'b': 2}), "{'a': 1, 'b': 2}");
     expect(
-        toConst({
-          'a': {'x': 1},
-          'b': {'x': 2}
-        }),
-        '{\n'
-        "  'a': {'x': 1},\n"
-        "  'b': {'x': 2},\n"
-        '}');
+      toConst({
+        'a': {'x': 1},
+        'b': {'x': 2},
+      }),
+      '{\n'
+      "  'a': {'x': 1},\n"
+      "  'b': {'x': 2},\n"
+      '}',
+    );
   });
 }

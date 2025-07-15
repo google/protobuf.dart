@@ -11,33 +11,30 @@ void main() {
   test('check properties are initialized for repeated fields', () {
     final msg = TestAllTypes();
     expect(
-        (msg.info_.byName['repeatedNestedMessage']
-                as FieldInfo<TestAllTypes_NestedMessage>)
-            .check,
-        isNotNull);
+      (msg.info_.byName['repeatedNestedMessage']
+              as FieldInfo<TestAllTypes_NestedMessage>)
+          .check,
+      isNotNull,
+    );
 
     expect(
-        (msg.info_.byName['repeatedgroup']
-                as FieldInfo<TestAllTypes_RepeatedGroup>)
-            .check,
-        isNotNull);
+      (msg.info_.byName['repeatedgroup']
+              as FieldInfo<TestAllTypes_RepeatedGroup>)
+          .check,
+      isNotNull,
+    );
 
     expect(
-        (msg.info_.byName['repeatedNestedEnum']
-                as FieldInfo<TestAllTypes_NestedEnum>)
-            .check,
-        isNotNull);
+      (msg.info_.byName['repeatedNestedEnum']
+              as FieldInfo<TestAllTypes_NestedEnum>)
+          .check,
+      isNotNull,
+    );
   });
 
   test('check read-only default list type', () {
     final msg = TestAllTypes()..freeze();
     final list = msg.repeatedInt32;
-    expect(
-      list.firstWhere(
-        (msgParam) => false,
-        orElse: () => 123,
-      ),
-      123,
-    );
+    expect(list.firstWhere((msgParam) => false, orElse: () => 123), 123);
   });
 }

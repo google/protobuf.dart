@@ -22,23 +22,22 @@ class ClientApiGenerator {
   late final List<int> _serviceDescriptorPath = [
     ...service.fileGen.fieldPath,
     fileDescriptorServiceTag,
-    _repeatedFieldIndex
+    _repeatedFieldIndex,
   ];
 
   List<int> _methodDescriptorPath(int methodIndex) {
-    return [
-      ..._serviceDescriptorPath,
-      serviceDescriptorMethodTag,
-      methodIndex,
-    ];
+    return [..._serviceDescriptorPath, serviceDescriptorMethodTag, methodIndex];
   }
 
   ClientApiGenerator(
-      this.service, Set<String> usedNames, this._repeatedFieldIndex)
-      : className = disambiguateName(
-            avoidInitialUnderscore(service._descriptor.name),
-            usedNames,
-            defaultSuffixes());
+    this.service,
+    Set<String> usedNames,
+    this._repeatedFieldIndex,
+  ) : className = disambiguateName(
+        avoidInitialUnderscore(service._descriptor.name),
+        usedNames,
+        defaultSuffixes(),
+      );
 
   // Subclasses can override this.
   String get _clientType => '$protobufImportPrefix.RpcClient';
@@ -50,7 +49,8 @@ class ClientApiGenerator {
     }
     if (service._descriptor.options.deprecated) {
       out.println(
-          '@$coreImportPrefix.Deprecated(\'This service is deprecated\')');
+        '@$coreImportPrefix.Deprecated(\'This service is deprecated\')',
+      );
     }
     out.addBlock('class ${className}Api {', '}', () {
       out.println('final $_clientType _client;');
@@ -67,30 +67,44 @@ class ClientApiGenerator {
 
   // Subclasses can override this.
   void generateMethod(
-      IndentingWriter out, MethodDescriptorProto method, int methodIndex) {
+    IndentingWriter out,
+    MethodDescriptorProto method,
+    int methodIndex,
+  ) {
     final methodName = disambiguateName(
-        avoidInitialUnderscore(service._methodName(method.name)),
-        usedMethodNames,
-        defaultSuffixes());
-    final inputType =
-        service._getDartClassName(method.inputType, forMainFile: true);
-    final outputType =
-        service._getDartClassName(method.outputType, forMainFile: true);
-    final commentBlock =
-        service.fileGen.commentBlock(_methodDescriptorPath(methodIndex));
+      avoidInitialUnderscore(service._methodName(method.name)),
+      usedMethodNames,
+      defaultSuffixes(),
+    );
+    final inputType = service._getDartClassName(
+      method.inputType,
+      forMainFile: true,
+    );
+    final outputType = service._getDartClassName(
+      method.outputType,
+      forMainFile: true,
+    );
+    final commentBlock = service.fileGen.commentBlock(
+      _methodDescriptorPath(methodIndex),
+    );
     if (commentBlock != null) {
       out.println(commentBlock);
     }
     if (method.options.deprecated) {
       out.println(
-          '@$coreImportPrefix.Deprecated(\'This method is deprecated\')');
+        '@$coreImportPrefix.Deprecated(\'This method is deprecated\')',
+      );
     }
     out.addBlock(
-        '$asyncImportPrefix.Future<$outputType> $methodName('
-            '$protobufImportPrefix.ClientContext? ctx, $inputType request) =>',
-        ';', () {
-      out.println('_client.invoke<$outputType>(ctx, \'$className\', '
-          '\'${method.name}\', request, $outputType())');
-    });
+      '$asyncImportPrefix.Future<$outputType> $methodName('
+          '$protobufImportPrefix.ClientContext? ctx, $inputType request) =>',
+      ';',
+      () {
+        out.println(
+          '_client.invoke<$outputType>(ctx, \'$className\', '
+          '\'${method.name}\', request, $outputType())',
+        );
+      },
+    );
   }
 }

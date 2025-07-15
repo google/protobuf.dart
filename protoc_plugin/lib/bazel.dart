@@ -33,8 +33,8 @@ class BazelPackage {
   final String outputRoot;
 
   BazelPackage(this.name, String inputRoot, String outputRoot)
-      : inputRoot = p.normalize(inputRoot),
-        outputRoot = p.normalize(outputRoot);
+    : inputRoot = p.normalize(inputRoot),
+      outputRoot = p.normalize(outputRoot);
 }
 
 /// Parser for the `BazelPackages` option.
@@ -55,7 +55,8 @@ class BazelOptionParser implements SingleOptionParser {
       final fields = entry.split('|');
       if (fields.length != 3) {
         onError(
-            'ERROR: expected package_name|input_root|output_root. Got: $entry');
+          'ERROR: expected package_name|input_root|output_root. Got: $entry',
+        );
         continue;
       }
       final pkg = BazelPackage(fields[0], fields[1], fields[2]);
@@ -64,13 +65,17 @@ class BazelOptionParser implements SingleOptionParser {
       } else {
         final prev = output[pkg.inputRoot]!;
         if (pkg.name != prev.name) {
-          onError('ERROR: multiple packages with input_root ${pkg.inputRoot}: '
-              '${prev.name} and ${pkg.name}');
+          onError(
+            'ERROR: multiple packages with input_root ${pkg.inputRoot}: '
+            '${prev.name} and ${pkg.name}',
+          );
           continue;
         }
         if (pkg.outputRoot != prev.outputRoot) {
-          onError('ERROR: conflicting output_roots for package ${pkg.name}: '
-              '${prev.outputRoot} and ${pkg.outputRoot}');
+          onError(
+            'ERROR: conflicting output_roots for package ${pkg.name}: '
+            '${prev.outputRoot} and ${pkg.outputRoot}',
+          );
           continue;
         }
       }

@@ -5,7 +5,7 @@ repository: https://github.com/google/protobuf.dart/tree/master/protoc_plugin
 
 environment:
   # Note: keep this in sync with the SDK version in lib/src/formatter.dart.
-  sdk: ^3.6.0
+  sdk: ^3.7.0
 
 resolution: workspace
 
