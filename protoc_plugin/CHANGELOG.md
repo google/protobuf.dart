@@ -1,4 +1,4 @@
-## 22.5.0-wip
+## 22.5.0
 
 * Generated files are now formatted using the Dart formatter. The code is
   formatted using the min. SDK for `package:protoc_plugin`; currently `3.7.0`.

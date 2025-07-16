@@ -6,7 +6,7 @@ import 'package:dart_style/dart_style.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 // Note: keep this in sync with the SDK constraint in pubspec.yaml.
-final Version formatUsingVersion = Version(3, 6, 0);
+final Version formatUsingVersion = Version(3, 7, 0);
 
 final DartFormatter _formatter = DartFormatter(
   languageVersion: formatUsingVersion,
