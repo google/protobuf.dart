@@ -4,6 +4,9 @@
 
 part of 'internal.dart';
 
+const mapKeyFieldNumber = 1;
+const mapValueFieldNumber = 2;
+
 /// A [MapBase] implementation used for protobuf `map` fields.
 class PbMap<K, V> extends MapBase<K, V> {
   /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
@@ -121,7 +124,7 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   PbMap freeze() {
     _isReadOnly = true;
-    if (_isGroupOrMessage(valueFieldType)) {
+    if (PbFieldTypeInternal.isGroupOrMessage(valueFieldType)) {
       for (final subMessage in values as Iterable<GeneratedMessage>) {
         subMessage.freeze();
       }

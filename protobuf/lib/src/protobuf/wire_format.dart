@@ -38,32 +38,32 @@ int makeTag(int fieldNumber, int tag) => (fieldNumber << _TAG_TYPE_BITS) | tag;
 
 /// Returns true if the wireType can be merged into the given fieldType.
 bool _wireTypeMatches(int fieldType, int wireType) {
-  switch (PbFieldTypeInternal._baseType(fieldType)) {
-    case PbFieldTypeInternal._BOOL_BIT:
-    case PbFieldTypeInternal._ENUM_BIT:
-    case PbFieldTypeInternal._INT32_BIT:
-    case PbFieldTypeInternal._INT64_BIT:
-    case PbFieldTypeInternal._SINT32_BIT:
-    case PbFieldTypeInternal._SINT64_BIT:
-    case PbFieldTypeInternal._UINT32_BIT:
-    case PbFieldTypeInternal._UINT64_BIT:
+  switch (PbFieldTypeInternal.baseType(fieldType)) {
+    case PbFieldTypeInternal.BOOL_BIT:
+    case PbFieldTypeInternal.ENUM_BIT:
+    case PbFieldTypeInternal.INT32_BIT:
+    case PbFieldTypeInternal.INT64_BIT:
+    case PbFieldTypeInternal.SINT32_BIT:
+    case PbFieldTypeInternal.SINT64_BIT:
+    case PbFieldTypeInternal.UINT32_BIT:
+    case PbFieldTypeInternal.UINT64_BIT:
       return wireType == WIRETYPE_VARINT ||
           wireType == WIRETYPE_LENGTH_DELIMITED;
-    case PbFieldTypeInternal._FLOAT_BIT:
-    case PbFieldTypeInternal._FIXED32_BIT:
-    case PbFieldTypeInternal._SFIXED32_BIT:
+    case PbFieldTypeInternal.FLOAT_BIT:
+    case PbFieldTypeInternal.FIXED32_BIT:
+    case PbFieldTypeInternal.SFIXED32_BIT:
       return wireType == WIRETYPE_FIXED32 ||
           wireType == WIRETYPE_LENGTH_DELIMITED;
-    case PbFieldTypeInternal._DOUBLE_BIT:
-    case PbFieldTypeInternal._FIXED64_BIT:
-    case PbFieldTypeInternal._SFIXED64_BIT:
+    case PbFieldTypeInternal.DOUBLE_BIT:
+    case PbFieldTypeInternal.FIXED64_BIT:
+    case PbFieldTypeInternal.SFIXED64_BIT:
       return wireType == WIRETYPE_FIXED64 ||
           wireType == WIRETYPE_LENGTH_DELIMITED;
-    case PbFieldTypeInternal._BYTES_BIT:
-    case PbFieldTypeInternal._STRING_BIT:
-    case PbFieldTypeInternal._MESSAGE_BIT:
+    case PbFieldTypeInternal.BYTES_BIT:
+    case PbFieldTypeInternal.STRING_BIT:
+    case PbFieldTypeInternal.MESSAGE_BIT:
       return wireType == WIRETYPE_LENGTH_DELIMITED;
-    case PbFieldTypeInternal._GROUP_BIT:
+    case PbFieldTypeInternal.GROUP_BIT:
       return wireType == WIRETYPE_START_GROUP;
     default:
       return false;

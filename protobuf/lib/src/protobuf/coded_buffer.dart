@@ -55,24 +55,24 @@ void _mergeFromCodedBufferReader(
     // Ignore required/optional packed/unpacked.
     var fieldType = fi.type;
     fieldType &=
-        ~(PbFieldTypeInternal._PACKED_BIT | PbFieldTypeInternal._REQUIRED_BIT);
+        ~(PbFieldTypeInternal.PACKED_BIT | PbFieldTypeInternal.REQUIRED_BIT);
     switch (fieldType) {
-      case PbFieldTypeInternal._OPTIONAL_BOOL:
+      case PbFieldTypeInternal.OPTIONAL_BOOL:
         fs._setFieldUnchecked(meta, fi, input.readBool());
         break;
-      case PbFieldTypeInternal._OPTIONAL_BYTES:
+      case PbFieldTypeInternal.OPTIONAL_BYTES:
         fs._setFieldUnchecked(meta, fi, input.readBytes());
         break;
-      case PbFieldTypeInternal._OPTIONAL_STRING:
+      case PbFieldTypeInternal.OPTIONAL_STRING:
         fs._setFieldUnchecked(meta, fi, input.readString());
         break;
-      case PbFieldTypeInternal._OPTIONAL_FLOAT:
+      case PbFieldTypeInternal.OPTIONAL_FLOAT:
         fs._setFieldUnchecked(meta, fi, input.readFloat());
         break;
-      case PbFieldTypeInternal._OPTIONAL_DOUBLE:
+      case PbFieldTypeInternal.OPTIONAL_DOUBLE:
         fs._setFieldUnchecked(meta, fi, input.readDouble());
         break;
-      case PbFieldTypeInternal._OPTIONAL_ENUM:
+      case PbFieldTypeInternal.OPTIONAL_ENUM:
         final rawValue = input.readEnum();
         final value = meta._decodeEnum(tagNumber, registry, rawValue);
         if (value == null) {
@@ -82,7 +82,7 @@ void _mergeFromCodedBufferReader(
           fs._setFieldUnchecked(meta, fi, value);
         }
         break;
-      case PbFieldTypeInternal._OPTIONAL_GROUP:
+      case PbFieldTypeInternal.OPTIONAL_GROUP:
         final subMessage = meta._makeEmptyMessage(tagNumber, registry);
         final oldValue = fs._getFieldOrNull(fi);
         if (oldValue != null) {
@@ -91,37 +91,37 @@ void _mergeFromCodedBufferReader(
         input.readGroup(tagNumber, subMessage, registry);
         fs._setFieldUnchecked(meta, fi, subMessage);
         break;
-      case PbFieldTypeInternal._OPTIONAL_INT32:
+      case PbFieldTypeInternal.OPTIONAL_INT32:
         fs._setFieldUnchecked(meta, fi, input.readInt32());
         break;
-      case PbFieldTypeInternal._OPTIONAL_INT64:
+      case PbFieldTypeInternal.OPTIONAL_INT64:
         fs._setFieldUnchecked(meta, fi, input.readInt64());
         break;
-      case PbFieldTypeInternal._OPTIONAL_SINT32:
+      case PbFieldTypeInternal.OPTIONAL_SINT32:
         fs._setFieldUnchecked(meta, fi, input.readSint32());
         break;
-      case PbFieldTypeInternal._OPTIONAL_SINT64:
+      case PbFieldTypeInternal.OPTIONAL_SINT64:
         fs._setFieldUnchecked(meta, fi, input.readSint64());
         break;
-      case PbFieldTypeInternal._OPTIONAL_UINT32:
+      case PbFieldTypeInternal.OPTIONAL_UINT32:
         fs._setFieldUnchecked(meta, fi, input.readUint32());
         break;
-      case PbFieldTypeInternal._OPTIONAL_UINT64:
+      case PbFieldTypeInternal.OPTIONAL_UINT64:
         fs._setFieldUnchecked(meta, fi, input.readUint64());
         break;
-      case PbFieldTypeInternal._OPTIONAL_FIXED32:
+      case PbFieldTypeInternal.OPTIONAL_FIXED32:
         fs._setFieldUnchecked(meta, fi, input.readFixed32());
         break;
-      case PbFieldTypeInternal._OPTIONAL_FIXED64:
+      case PbFieldTypeInternal.OPTIONAL_FIXED64:
         fs._setFieldUnchecked(meta, fi, input.readFixed64());
         break;
-      case PbFieldTypeInternal._OPTIONAL_SFIXED32:
+      case PbFieldTypeInternal.OPTIONAL_SFIXED32:
         fs._setFieldUnchecked(meta, fi, input.readSfixed32());
         break;
-      case PbFieldTypeInternal._OPTIONAL_SFIXED64:
+      case PbFieldTypeInternal.OPTIONAL_SFIXED64:
         fs._setFieldUnchecked(meta, fi, input.readSfixed64());
         break;
-      case PbFieldTypeInternal._OPTIONAL_MESSAGE:
+      case PbFieldTypeInternal.OPTIONAL_MESSAGE:
         final GeneratedMessage? oldValue = fs._getFieldOrNull(fi);
         if (oldValue != null) {
           input.readMessage(oldValue, registry);
@@ -131,7 +131,7 @@ void _mergeFromCodedBufferReader(
           fs._setFieldUnchecked(meta, fi, subMessage);
         }
         break;
-      case PbFieldTypeInternal._REPEATED_BOOL:
+      case PbFieldTypeInternal.REPEATED_BOOL:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -151,17 +151,17 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readBool());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_BYTES:
+      case PbFieldTypeInternal.REPEATED_BYTES:
         final list = fs._ensureRepeatedField(meta, fi);
         list._checkModifiable('add');
         list._addUnchecked(input.readBytes());
         break;
-      case PbFieldTypeInternal._REPEATED_STRING:
+      case PbFieldTypeInternal.REPEATED_STRING:
         final list = fs._ensureRepeatedField(meta, fi);
         list._checkModifiable('add');
         list._addUnchecked(input.readString());
         break;
-      case PbFieldTypeInternal._REPEATED_FLOAT:
+      case PbFieldTypeInternal.REPEATED_FLOAT:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -178,7 +178,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readFloat());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_DOUBLE:
+      case PbFieldTypeInternal.REPEATED_DOUBLE:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -195,7 +195,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readDouble());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_ENUM:
+      case PbFieldTypeInternal.REPEATED_ENUM:
         final list = fs._ensureRepeatedField(meta, fi);
         _readPackableToListEnum(
           list,
@@ -207,13 +207,13 @@ void _mergeFromCodedBufferReader(
           registry,
         );
         break;
-      case PbFieldTypeInternal._REPEATED_GROUP:
+      case PbFieldTypeInternal.REPEATED_GROUP:
         final subMessage = meta._makeEmptyMessage(tagNumber, registry);
         input.readGroup(tagNumber, subMessage, registry);
         final list = fs._ensureRepeatedField(meta, fi);
         list.add(subMessage);
         break;
-      case PbFieldTypeInternal._REPEATED_INT32:
+      case PbFieldTypeInternal.REPEATED_INT32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -230,7 +230,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readInt32());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_INT64:
+      case PbFieldTypeInternal.REPEATED_INT64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -247,7 +247,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readInt64());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_SINT32:
+      case PbFieldTypeInternal.REPEATED_SINT32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -264,7 +264,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readSint32());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_SINT64:
+      case PbFieldTypeInternal.REPEATED_SINT64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -281,7 +281,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readSint64());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_UINT32:
+      case PbFieldTypeInternal.REPEATED_UINT32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -298,7 +298,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readUint32());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_UINT64:
+      case PbFieldTypeInternal.REPEATED_UINT64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -315,7 +315,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readUint64());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_FIXED32:
+      case PbFieldTypeInternal.REPEATED_FIXED32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -332,7 +332,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readFixed32());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_FIXED64:
+      case PbFieldTypeInternal.REPEATED_FIXED64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -349,7 +349,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readFixed64());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_SFIXED32:
+      case PbFieldTypeInternal.REPEATED_SFIXED32:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -366,7 +366,7 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readSfixed32());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_SFIXED64:
+      case PbFieldTypeInternal.REPEATED_SFIXED64:
         final list = fs._ensureRepeatedField(meta, fi);
         if (wireType == WIRETYPE_LENGTH_DELIMITED) {
           final limit = input.readInt32();
@@ -383,13 +383,13 @@ void _mergeFromCodedBufferReader(
           list._addUnchecked(input.readSfixed64());
         }
         break;
-      case PbFieldTypeInternal._REPEATED_MESSAGE:
+      case PbFieldTypeInternal.REPEATED_MESSAGE:
         final subMessage = meta._makeEmptyMessage(tagNumber, registry);
         input.readMessage(subMessage, registry);
         final list = fs._ensureRepeatedField(meta, fi);
         list.add(subMessage);
         break;
-      case PbFieldTypeInternal._MAP:
+      case PbFieldTypeInternal.MAP:
         final mapFieldInfo = fi as MapFieldInfo;
         final mapEntryMeta = mapFieldInfo.mapEntryBuilderInfo;
         fs

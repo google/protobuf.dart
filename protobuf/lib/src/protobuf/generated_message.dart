@@ -418,7 +418,7 @@ abstract class GeneratedMessage {
 
   /// Sets the value of a non-repeated extension field to [value].
   void setExtension(Extension extension, Object value) {
-    if (_isRepeated(extension.type)) {
+    if (PbFieldTypeInternal.isRepeated(extension.type)) {
       throw ArgumentError(
         _fieldSet._setFieldFailedMessage(
           extension,
