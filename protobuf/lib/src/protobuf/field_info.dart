@@ -117,9 +117,11 @@ class FieldInfo<T> {
        _defaultEnumValue = defaultEnumValue,
        assert(type != 0),
        assert(
-         !_isGroupOrMessage(type) || subBuilder != null || _isMapField(type),
+         !PbFieldTypeInternal.isGroupOrMessage(type) ||
+             subBuilder != null ||
+             PbFieldTypeInternal.isMapField(type),
        ),
-       assert(!_isEnum(type) || valueOf != null);
+       assert(!PbFieldTypeInternal.isEnum(type) || valueOf != null);
 
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
@@ -150,8 +152,8 @@ class FieldInfo<T> {
        _valueOf = valueOf,
        _enumValues = enumValues,
        _defaultEnumValue = defaultEnumValue,
-       assert(_isRepeated(type)),
-       assert(!_isEnum(type) || valueOf != null);
+       assert(PbFieldTypeInternal.isRepeated(type)),
+       assert(!PbFieldTypeInternal.isEnum(type) || valueOf != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
     if (defaultOrMaker == null) return PbFieldTypeInternal.defaultForType(type);
@@ -163,11 +165,11 @@ class FieldInfo<T> {
   /// been removed by a program transformation.
   bool get _isDummy => tagNumber == 0;
 
-  bool get isRequired => _isRequired(type);
-  bool get isRepeated => _isRepeated(type);
-  bool get isGroupOrMessage => _isGroupOrMessage(type);
-  bool get isEnum => _isEnum(type);
-  bool get isMapField => _isMapField(type);
+  bool get isRequired => PbFieldTypeInternal.isRequired(type);
+  bool get isRepeated => PbFieldTypeInternal.isRepeated(type);
+  bool get isGroupOrMessage => PbFieldTypeInternal.isGroupOrMessage(type);
+  bool get isEnum => PbFieldTypeInternal.isEnum(type);
+  bool get isMapField => PbFieldTypeInternal.isMapField(type);
 
   /// Returns a read-only default value for a field. Unlike
   /// [GeneratedMessage.getField], doesn't create a repeated field.
@@ -182,7 +184,9 @@ class FieldInfo<T> {
   /// That is, it doesn't contain any required fields that aren't initialized.
   bool _hasRequiredValues(dynamic value) {
     if (value == null) return !isRequired; // missing is okay if optional
-    if (!_isGroupOrMessage(type)) return true; // primitive and present
+    if (!PbFieldTypeInternal.isGroupOrMessage(type)) {
+      return true; // primitive and present
+    }
 
     if (!isRepeated) {
       // A required message: recurse.
@@ -205,7 +209,7 @@ class FieldInfo<T> {
   void _appendInvalidFields(List<String> problems, value, String prefix) {
     if (value == null) {
       if (isRequired) problems.add('$prefix$name');
-    } else if (!_isGroupOrMessage(type)) {
+    } else if (!PbFieldTypeInternal.isGroupOrMessage(type)) {
       // primitive and present
     } else if (!isRepeated) {
       // Required message/group: recurse.
@@ -305,7 +309,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
     this.valueCreator, {
     ProtobufEnum? defaultEnumValue,
     String? protoName,
-  }) : assert(_isMapField(type)),
+  }) : assert(PbFieldTypeInternal.isMapField(type)),
        super(
          name,
          tagNumber,
@@ -315,7 +319,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
          defaultEnumValue: defaultEnumValue,
          protoName: protoName,
        ) {
-    assert(!_isEnum(type) || valueOf != null);
+    assert(!PbFieldTypeInternal.isEnum(type) || valueOf != null);
   }
 
   FieldInfo get valueFieldInfo =>
