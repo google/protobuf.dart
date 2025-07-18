@@ -2,9 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of 'internal.dart';
+import 'dart:convert' show base64Decode, base64Encode;
 
-Map<String, dynamic> _writeToJsonMap(FieldSet fs) {
+import 'package:fixnum/fixnum.dart' show Int64;
+
+import '../consts.dart';
+import '../internal.dart';
+import '../utils.dart';
+
+export 'json_vm.dart' if (dart.library.js_interop) 'json_web.dart';
+
+Map<String, dynamic> writeToJsonMap(FieldSet fs) {
   dynamic convertToMap(dynamic fieldValue, int fieldType) {
     final baseType = PbFieldTypeInternal.baseType(fieldType);
 
@@ -61,15 +69,15 @@ Map<String, dynamic> _writeToJsonMap(FieldSet fs) {
   List writeMap(PbMap fieldValue, MapFieldInfo fi) => List.from(
     fieldValue.entries.map(
       (MapEntry e) => {
-        '${PbMap._keyFieldNumber}': convertToMap(e.key, fi.keyFieldType),
-        '${PbMap._valueFieldNumber}': convertToMap(e.value, fi.valueFieldType),
+        '$mapKeyFieldNumber': convertToMap(e.key, fi.keyFieldType),
+        '$mapValueFieldNumber': convertToMap(e.value, fi.valueFieldType),
       },
     ),
   );
 
   final result = <String, dynamic>{};
-  for (final fi in fs._infosSortedByTag) {
-    final value = fs._values[fi.index!];
+  for (final fi in fs.infosSortedByTag) {
+    final value = fs.values[fi.index!];
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
     }
@@ -82,18 +90,18 @@ Map<String, dynamic> _writeToJsonMap(FieldSet fs) {
     }
     result['${fi.tagNumber}'] = convertToMap(value, fi.type);
   }
-  final extensions = fs._extensions;
+  final extensions = fs.extensions;
   if (extensions != null) {
-    for (final tagNumber in sorted(extensions._tagNumbers)) {
-      final value = extensions._values[tagNumber];
+    for (final tagNumber in sorted(extensions.tagNumbers)) {
+      final value = extensions.values[tagNumber];
       if (value is List && value.isEmpty) {
         continue; // It's repeated or an empty byte array.
       }
-      final fi = extensions._getInfoOrNull(tagNumber)!;
+      final fi = extensions.getInfoOrNull(tagNumber)!;
       result['$tagNumber'] = convertToMap(value, fi.type);
     }
   }
-  final unknownJsonData = fs._unknownJsonData;
+  final unknownJsonData = fs.unknownJsonData;
   if (unknownJsonData != null) {
     unknownJsonData.forEach((key, value) {
       result[key] = value;
@@ -104,20 +112,20 @@ Map<String, dynamic> _writeToJsonMap(FieldSet fs) {
 
 // Merge fields from a previously decoded JSON object.
 // (Called recursively on nested messages.)
-void _mergeFromJsonMap(
+void mergeFromJsonMap(
   FieldSet fs,
   Map<String, dynamic> json,
   ExtensionRegistry? registry,
 ) {
-  fs._ensureWritable();
+  fs.ensureWritable();
   final keys = json.keys;
-  final meta = fs._meta;
+  final meta = fs.meta;
   for (final key in keys) {
     var fi = meta.byTagAsString[key];
     if (fi == null) {
-      fi = registry?.getExtension(fs._messageName, int.parse(key));
+      fi = registry?.getExtension(fs.messageName, int.parse(key));
       if (fi == null) {
-        (fs._unknownJsonData ??= {})[key] = json[key];
+        (fs.unknownJsonData ??= {})[key] = json[key];
         continue;
       }
     }
@@ -144,7 +152,7 @@ void _appendJsonList(
   FieldInfo fi,
   ExtensionRegistry? registry,
 ) {
-  final repeated = fi._ensureRepeatedField(meta, fs);
+  final repeated = fi.ensureRepeatedField(meta, fs);
   // Micro optimization. Using "for in" generates the following and iterator
   // alloc:
   //   for (t1 = J.get$iterator$ax(json), t2 = fi.tagNumber, t3 = fi.type,
@@ -175,23 +183,23 @@ void _appendJsonMap(
   ExtensionRegistry? registry,
 ) {
   final entryMeta = fi.mapEntryBuilderInfo;
-  final map = fi._ensureMapField(meta, fs);
+  final map = fi.ensureMapField(meta, fs);
   for (final jsonEntryDynamic in jsonList) {
     final jsonEntry = jsonEntryDynamic as Map<String, dynamic>;
     final entryFieldSet = FieldSet(null, entryMeta);
     final convertedKey = _convertJsonValue(
       entryMeta,
       entryFieldSet,
-      jsonEntry['${PbMap._keyFieldNumber}'],
-      PbMap._keyFieldNumber,
+      jsonEntry['$mapKeyFieldNumber'],
+      mapKeyFieldNumber,
       fi.keyFieldType,
       registry,
     );
     var convertedValue = _convertJsonValue(
       entryMeta,
       entryFieldSet,
-      jsonEntry['${PbMap._valueFieldNumber}'],
-      PbMap._valueFieldNumber,
+      jsonEntry['$mapValueFieldNumber'],
+      mapValueFieldNumber,
       fi.valueFieldType,
       registry,
     );
@@ -223,10 +231,10 @@ void _setJsonField(
   // Therefore we run _validateField for debug builds only to validate
   // correctness of conversion.
   assert(() {
-    fs._validateField(fi, value);
+    fs.validateField(fi, value);
     return true;
   }());
-  fs._setFieldUnchecked(meta, fi, value);
+  fs.setFieldUnchecked(meta, fi, value);
 }
 
 /// Converts [value] from the JSON format to the Dart data type suitable for
@@ -298,7 +306,7 @@ dynamic _convertJsonValue(
         // The following call will return null if the enum value is unknown.
         // In that case, we want the caller to ignore this value, so we return
         // null from this method as well.
-        return meta._decodeEnum(tagNumber, registry, value);
+        return meta.decodeEnum(tagNumber, registry, value);
       }
       expectedType = 'int or stringified int';
       break;
@@ -333,8 +341,8 @@ dynamic _convertJsonValue(
     case PbFieldTypeInternal.MESSAGE_BIT:
       if (value is Map) {
         final messageValue = value as Map<String, dynamic>;
-        final subMessage = meta._makeEmptyMessage(tagNumber, registry);
-        _mergeFromJsonMap(subMessage._fieldSet, messageValue, registry);
+        final subMessage = meta.makeEmptyMessage(tagNumber, registry);
+        mergeFromJsonMap(subMessage.fieldSet, messageValue, registry);
         return subMessage;
       }
       expectedType = 'nested message or group';

@@ -227,7 +227,7 @@ abstract class GeneratedMessage {
   /// Unknown field data, data for which there is no metadata for the associated
   /// field, will only be included if this message was deserialized from the
   /// same wire format.
-  Map<String, dynamic> writeToJsonMap() => _writeToJsonMap(_fieldSet);
+  Map<String, dynamic> writeToJsonMap() => json_lib.writeToJsonMap(_fieldSet);
 
   /// Returns a JSON string that encodes this message.
   ///
@@ -326,7 +326,7 @@ abstract class GeneratedMessage {
       data,
       reviver: _emptyReviver,
     );
-    _mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry);
+    json_lib.mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry);
   }
 
   static Object? _emptyReviver(Object? k, Object? v) => v;
@@ -338,7 +338,7 @@ abstract class GeneratedMessage {
     Map<String, dynamic> json, [
     ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
   ]) {
-    _mergeFromJsonMap(_fieldSet, json, extensionRegistry);
+    json_lib.mergeFromJsonMap(_fieldSet, json, extensionRegistry);
   }
 
   /// Adds an extension field value to a repeated field.
