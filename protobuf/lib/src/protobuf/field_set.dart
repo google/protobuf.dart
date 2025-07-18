@@ -545,7 +545,7 @@ class FieldSet {
   }
 
   bool _equalFieldValues(Object? left, Object? right) {
-    if (left != null && right != null) return _deepEquals(left, right);
+    if (left != null && right != null) return deepEquals(left, right);
 
     final val = left ?? right;
 
@@ -584,7 +584,7 @@ class FieldSet {
     }
 
     // Hash with descriptor.
-    var hash = _HashUtils._combine(0, _meta.hashCode);
+    var hash = HashUtils.combine(0, _meta.hashCode);
 
     // Hash with non-extension fields.
     final values = _values;
@@ -597,7 +597,7 @@ class FieldSet {
     // Hash with extension fields.
     final extensions = _extensions;
     if (extensions != null) {
-      final sortedByTagNumbers = _sorted(extensions._tagNumbers);
+      final sortedByTagNumbers = sorted(extensions._tagNumbers);
       for (final tagNumber in sortedByTagNumbers) {
         final fi = extensions._getInfoOrNull(tagNumber)!;
         hash = _hashField(hash, fi, extensions._getFieldOrNull(fi));
@@ -605,7 +605,7 @@ class FieldSet {
     }
 
     // Hash with unknown fields.
-    hash = _HashUtils._combine(hash, _unknownFields?.hashCode ?? 0);
+    hash = HashUtils.combine(hash, _unknownFields?.hashCode ?? 0);
 
     // Ignore _unknownJsonData to preserve existing hashing behavior.
 
@@ -625,18 +625,18 @@ class FieldSet {
       return hash;
     }
 
-    hash = _HashUtils._combine(hash, fi.tagNumber);
+    hash = HashUtils.combine(hash, fi.tagNumber);
     if (_isBytes(fi.type)) {
       // Bytes are represented as a List<int> (Usually with byte-data).
       // We special case that to match our equality semantics.
-      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
+      hash = HashUtils.combine(hash, HashUtils.hashObjects(value));
     } else if (!_isEnum(fi.type)) {
-      hash = _HashUtils._combine(hash, value.hashCode);
+      hash = HashUtils.combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
       final PbList list = value;
-      hash = _HashUtils._combine(
+      hash = HashUtils.combine(
         hash,
-        _HashUtils._hashObjects(
+        HashUtils.hashObjects(
           list.map((enm) {
             final ProtobufEnum enm_ = enm;
             return enm_.value;
@@ -645,7 +645,7 @@ class FieldSet {
       );
     } else {
       final ProtobufEnum enm = value;
-      hash = _HashUtils._combine(hash, enm.value);
+      hash = HashUtils.combine(hash, enm.value);
     }
 
     return hash;

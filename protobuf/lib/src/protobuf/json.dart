@@ -84,7 +84,7 @@ Map<String, dynamic> _writeToJsonMap(FieldSet fs) {
   }
   final extensions = fs._extensions;
   if (extensions != null) {
-    for (final tagNumber in _sorted(extensions._tagNumbers)) {
+    for (final tagNumber in sorted(extensions._tagNumbers)) {
       final value = extensions._values[tagNumber];
       if (value is List && value.isEmpty) {
         continue; // It's repeated or an empty byte array.

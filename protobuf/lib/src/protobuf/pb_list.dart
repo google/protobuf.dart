@@ -204,10 +204,10 @@ class PbList<E> extends ListBase<E> {
 
   @override
   bool operator ==(Object other) =>
-      other is PbList && _areListsEqual(other, this);
+      other is PbList && areListsEqual(other, this);
 
   @override
-  int get hashCode => _HashUtils._hashObjects(_wrappedList);
+  int get hashCode => HashUtils.hashObjects(_wrappedList);
 
   void freeze() {
     if (_isReadOnly) {

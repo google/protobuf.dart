@@ -2,38 +2,38 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of 'internal.dart';
+import 'internal.dart';
 
 // TODO(antonm): reconsider later if PbList should take care of equality.
-bool _deepEquals(Object lhs, Object rhs) {
+bool deepEquals(Object lhs, Object rhs) {
   // Some GeneratedMessages implement Map, so test this first.
   if (lhs is GeneratedMessage) return lhs == rhs;
   if (rhs is GeneratedMessage) return false;
-  if ((lhs is List) && (rhs is List)) return _areListsEqual(lhs, rhs);
-  if ((lhs is Map) && (rhs is Map)) return _areMapsEqual(lhs, rhs);
+  if ((lhs is List) && (rhs is List)) return areListsEqual(lhs, rhs);
+  if ((lhs is Map) && (rhs is Map)) return areMapsEqual(lhs, rhs);
   return lhs == rhs;
 }
 
-bool _areListsEqual(List lhs, List rhs) {
+bool areListsEqual(List lhs, List rhs) {
   if (lhs.length != rhs.length) return false;
   for (var i = 0; i < lhs.length; i++) {
-    if (!_deepEquals(lhs[i], rhs[i])) return false;
+    if (!deepEquals(lhs[i], rhs[i])) return false;
   }
   return true;
 }
 
-bool _areMapsEqual(Map lhs, Map rhs) {
+bool areMapsEqual(Map lhs, Map rhs) {
   if (lhs.length != rhs.length) return false;
-  return lhs.keys.every((key) => _deepEquals(lhs[key], rhs[key]));
+  return lhs.keys.every((key) => deepEquals(lhs[key], rhs[key]));
 }
 
-List<T> _sorted<T>(Iterable<T> list) => List.from(list)..sort();
+List<T> sorted<T>(Iterable<T> list) => List.from(list)..sort();
 
-class _HashUtils {
+class HashUtils {
   // Jenkins hash functions copied from
   // https://github.com/google/quiver-dart/blob/master/lib/src/core/hash.dart.
 
-  static int _combine(int hash, int value) {
+  static int combine(int hash, int value) {
     hash = 0x1fffffff & (hash + value);
     hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
     return hash ^ (hash >> 6);
@@ -46,10 +46,10 @@ class _HashUtils {
   }
 
   /// Generates a hash code for multiple [objects].
-  static int _hashObjects(Iterable objects) =>
-      _finish(objects.fold(0, (h, i) => _combine(h, i.hashCode)));
+  static int hashObjects(Iterable objects) =>
+      _finish(objects.fold(0, (h, i) => combine(h, i.hashCode)));
 
   /// Generates a hash code for two objects.
-  static int _hash2(dynamic a, dynamic b) =>
-      _finish(_combine(_combine(0, a.hashCode), b.hashCode));
+  static int hash2(dynamic a, dynamic b) =>
+      _finish(combine(combine(0, a.hashCode), b.hashCode));
 }

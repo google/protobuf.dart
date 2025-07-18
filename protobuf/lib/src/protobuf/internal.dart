@@ -26,6 +26,7 @@ import 'consts.dart';
 import 'json_parsing_context.dart';
 import 'permissive_compare.dart';
 import 'type_registry.dart';
+import 'utils.dart';
 
 export 'type_registry.dart' show TypeRegistry;
 
@@ -53,7 +54,6 @@ part 'protobuf_enum.dart';
 part 'rpc_client.dart';
 part 'unknown_field_set.dart';
 part 'unpack.dart';
-part 'utils.dart';
 part 'wire_format.dart';
 
 // TODO(sra): Use `Int64.parse()` when available:

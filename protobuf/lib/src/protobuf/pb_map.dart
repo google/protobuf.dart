@@ -77,7 +77,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   int get hashCode {
     return _wrappedMap.entries.fold(
       0,
-      (h, entry) => h ^ _HashUtils._hash2(entry.key, entry.value),
+      (h, entry) => h ^ HashUtils.hash2(entry.key, entry.value),
     );
   }
 

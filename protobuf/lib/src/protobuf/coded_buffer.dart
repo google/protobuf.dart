@@ -17,7 +17,7 @@ void _writeToCodedBufferWriter(FieldSet fs, CodedBufferWriter out) {
 
   final extensions = fs._extensions;
   if (extensions != null) {
-    for (final tagNumber in _sorted(extensions._tagNumbers)) {
+    for (final tagNumber in sorted(extensions._tagNumbers)) {
       final fi = extensions._getInfoOrNull(tagNumber)!;
       out.writeField(tagNumber, fi.type, extensions._getFieldOrNull(fi));
     }

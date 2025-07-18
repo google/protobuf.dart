@@ -158,7 +158,7 @@ class ExtensionFieldSet {
   bool get _hasValues => _values.isNotEmpty;
 
   bool _equalValues(ExtensionFieldSet? other) =>
-      other != null && _areMapsEqual(_values, other._values);
+      other != null && areMapsEqual(_values, other._values);
 
   void _clearValues() => _values.clear();
 
