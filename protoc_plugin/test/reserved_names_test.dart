@@ -20,7 +20,7 @@ void main() {
   test('GeneratedMessage reserved names are up to date', () {
     final actual = Set<String>.from(GeneratedMessage_reservedNames);
     final expected = findMemberNames(
-      'package:protobuf/protobuf.dart',
+      'package:protobuf/src/protobuf/internal.dart',
       #GeneratedMessage,
     );
 
@@ -30,7 +30,7 @@ void main() {
   test('ProtobufEnum reserved names are up to date', () {
     final actual = Set<String>.from(ProtobufEnum_reservedNames);
     final expected = findMemberNames(
-      'package:protobuf/protobuf.dart',
+      'package:protobuf/src/protobuf/internal.dart',
       #ProtobufEnum,
     );
 
@@ -39,7 +39,7 @@ void main() {
 
   test("ReadonlyMessageMixin doesn't add any reserved names", () {
     final mixinNames = findMemberNames(
-      'package:protobuf/protobuf.dart',
+      'package:protobuf/src/protobuf/internal.dart',
       #ReadonlyMessageMixin,
     );
     final reservedNames = Set<String>.from(GeneratedMessage_reservedNames);

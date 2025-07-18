@@ -4,7 +4,7 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// Type of an empty message builder.
 typedef CreateBuilderFunc = GeneratedMessage Function();
@@ -25,13 +25,13 @@ typedef ValueOfFunc = ProtobufEnum? Function(int value);
 /// `GeneratedMessage_reservedNames` and should be unlikely to be used in a
 /// proto file.
 abstract class GeneratedMessage {
-  _FieldSet? __fieldSet;
+  FieldSet? __fieldSet;
 
   @pragma('dart2js:tryInline')
-  _FieldSet get _fieldSet => __fieldSet!;
+  FieldSet get _fieldSet => __fieldSet!;
 
   GeneratedMessage() {
-    __fieldSet = _FieldSet(this, info_);
+    __fieldSet = FieldSet(this, info_);
 
     // The following two returns confuse dart2js into avoiding inlining the
     // constructor *body*. A `@pragma('dart2js:never-inline')` annotation on
@@ -636,4 +636,8 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
     'does not update the message, returns a new message',
   )
   T deepCopy() => info_.createEmptyInstance!() as T..mergeFromMessage(this);
+}
+
+extension GeneratedMessageInternalExtension on GeneratedMessage {
+  FieldSet get fieldSet => _fieldSet;
 }

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// Type of a function that checks items added to a `PbList`.
 ///
@@ -204,10 +204,10 @@ class PbList<E> extends ListBase<E> {
 
   @override
   bool operator ==(Object other) =>
-      other is PbList && _areListsEqual(other, this);
+      other is PbList && areListsEqual(other, this);
 
   @override
-  int get hashCode => _HashUtils._hashObjects(_wrappedList);
+  int get hashCode => HashUtils.hashObjects(_wrappedList);
 
   void freeze() {
     if (_isReadOnly) {

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 @pragma('vm:never-inline')
 @pragma('wasm:never-inline')
@@ -25,7 +25,7 @@ void _throwFrozenMessageModificationError(
 /// These fields and methods are in a separate class to avoid polymorphic
 /// access due to inheritance. This turns out to be faster when compiled to
 /// JavaScript.
-class _FieldSet {
+class FieldSet {
   final GeneratedMessage? _message;
 
   /// The value of each non-extension field in a fixed-length array.
@@ -34,7 +34,7 @@ class _FieldSet {
   final List _values;
 
   /// Contains all the extension fields, or null if there aren't any.
-  _ExtensionFieldSet? _extensions;
+  ExtensionFieldSet? _extensions;
 
   /// Contains all the unknown fields, or null if there aren't any.
   UnknownFieldSet? _unknownFields;
@@ -53,7 +53,7 @@ class _FieldSet {
   /// code as an `int`.
   Object _frozenState = false;
 
-  /// The [BuilderInfo] for the [GeneratedMessage] this [_FieldSet] belongs to.
+  /// The [BuilderInfo] for the [GeneratedMessage] this [FieldSet] belongs to.
   ///
   /// WARNING: Avoid calling this for any performance critical code, instead
   /// obtain the [BuilderInfo] on the call site.
@@ -82,7 +82,7 @@ class _FieldSet {
   /// the index is not present, the oneof field is unset.
   final Map<int, int>? _oneofCases;
 
-  _FieldSet(this._message, BuilderInfo meta)
+  FieldSet(this._message, BuilderInfo meta)
     : _values = _makeValueList(meta.byIndex.length),
       _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
@@ -106,8 +106,8 @@ class _FieldSet {
   /// The [FieldInfo] for each non-extension field in tag order.
   Iterable<FieldInfo> get _infosSortedByTag => _meta.sortedByTag;
 
-  _ExtensionFieldSet _ensureExtensions() =>
-      _extensions ??= _ExtensionFieldSet(this);
+  ExtensionFieldSet _ensureExtensions() =>
+      _extensions ??= ExtensionFieldSet(this);
 
   UnknownFieldSet _ensureUnknownFields() {
     if (_unknownFields == null) {
@@ -510,7 +510,7 @@ class _FieldSet {
     _extensions?._clearValues();
   }
 
-  bool _equals(_FieldSet o) {
+  bool _equals(FieldSet o) {
     if (_meta != o._meta) return false;
     for (var i = 0; i < _values.length; i++) {
       if (!_equalFieldValues(_values[i], o._values[i])) return false;
@@ -545,7 +545,7 @@ class _FieldSet {
   }
 
   bool _equalFieldValues(Object? left, Object? right) {
-    if (left != null && right != null) return _deepEquals(left, right);
+    if (left != null && right != null) return deepEquals(left, right);
 
     final val = left ?? right;
 
@@ -584,7 +584,7 @@ class _FieldSet {
     }
 
     // Hash with descriptor.
-    var hash = _HashUtils._combine(0, _meta.hashCode);
+    var hash = HashUtils.combine(0, _meta.hashCode);
 
     // Hash with non-extension fields.
     final values = _values;
@@ -597,7 +597,7 @@ class _FieldSet {
     // Hash with extension fields.
     final extensions = _extensions;
     if (extensions != null) {
-      final sortedByTagNumbers = _sorted(extensions._tagNumbers);
+      final sortedByTagNumbers = sorted(extensions._tagNumbers);
       for (final tagNumber in sortedByTagNumbers) {
         final fi = extensions._getInfoOrNull(tagNumber)!;
         hash = _hashField(hash, fi, extensions._getFieldOrNull(fi));
@@ -605,7 +605,7 @@ class _FieldSet {
     }
 
     // Hash with unknown fields.
-    hash = _HashUtils._combine(hash, _unknownFields?.hashCode ?? 0);
+    hash = HashUtils.combine(hash, _unknownFields?.hashCode ?? 0);
 
     // Ignore _unknownJsonData to preserve existing hashing behavior.
 
@@ -625,18 +625,18 @@ class _FieldSet {
       return hash;
     }
 
-    hash = _HashUtils._combine(hash, fi.tagNumber);
+    hash = HashUtils.combine(hash, fi.tagNumber);
     if (_isBytes(fi.type)) {
       // Bytes are represented as a List<int> (Usually with byte-data).
       // We special case that to match our equality semantics.
-      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
+      hash = HashUtils.combine(hash, HashUtils.hashObjects(value));
     } else if (!_isEnum(fi.type)) {
-      hash = _HashUtils._combine(hash, value.hashCode);
+      hash = HashUtils.combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
       final PbList list = value;
-      hash = _HashUtils._combine(
+      hash = HashUtils.combine(
         hash,
-        _HashUtils._hashObjects(
+        HashUtils.hashObjects(
           list.map((enm) {
             final ProtobufEnum enm_ = enm;
             return enm_.value;
@@ -645,7 +645,7 @@ class _FieldSet {
       );
     } else {
       final ProtobufEnum enm = value;
-      hash = _HashUtils._combine(hash, enm.value);
+      hash = HashUtils.combine(hash, enm.value);
     }
 
     return hash;
@@ -716,7 +716,7 @@ class _FieldSet {
   /// Singular fields that are set in [other] overwrite the corresponding fields
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
-  void _mergeFromMessage(_FieldSet other) {
+  void _mergeFromMessage(FieldSet other) {
     // TODO(https://github.com/google/protobuf.dart/issues/60): Recognize
     // when `this` and [other] are the same protobuf (e.g. from cloning). In
     // this case, we can merge the non-extension fields without field lookups or
@@ -880,7 +880,7 @@ class _FieldSet {
   /// Makes a shallow copy of all values from [original] to this.
   ///
   /// Map fields and repeated fields are copied.
-  void _shallowCopyValues(_FieldSet original) {
+  void _shallowCopyValues(FieldSet original) {
     _values.setRange(0, original._values.length, original._values);
     final info = _meta;
     for (var index = 0; index < info.byIndex.length; index++) {
@@ -916,4 +916,27 @@ class _FieldSet {
 
     _oneofCases?.addAll(original._oneofCases!);
   }
+}
+
+extension FieldSetInternalExtension on FieldSet {
+  Iterable<FieldInfo> get infos => _infos;
+  Iterable<FieldInfo> get infosSortedByTag => _infosSortedByTag;
+  List get values => _values;
+  ExtensionFieldSet? get extensions => _extensions;
+  UnknownFieldSet? get unknownFields => _unknownFields;
+  Map<String, dynamic>? get unknownJsonData => _unknownJsonData;
+  set unknownJsonData(Map<String, dynamic>? value) => _unknownJsonData = value;
+  BuilderInfo get meta => _meta;
+  GeneratedMessage? get message => _message;
+  String get messageName => _messageName;
+
+  void ensureWritable() => _ensureWritable();
+  PbList<T> ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) =>
+      _ensureRepeatedField(meta, fi);
+  PbMap<K, V> ensureMapField<K, V>(BuilderInfo meta, MapFieldInfo<K, V> fi) =>
+      _ensureMapField(meta, fi);
+  void validateField(FieldInfo fi, dynamic newValue) =>
+      _validateField(fi, newValue);
+  void setFieldUnchecked(BuilderInfo meta, FieldInfo fi, dynamic value) =>
+      _setFieldUnchecked(meta, fi, value);
 }
