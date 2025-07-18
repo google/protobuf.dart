@@ -64,10 +64,10 @@ Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
         case PbFieldTypeInternal._DOUBLE_BIT:
           final double value = fieldValue;
           if (value.isNaN) {
-            return _nan;
+            return nan;
           }
           if (value.isInfinite) {
-            return value.isNegative ? _negativeInfinity : _infinity;
+            return value.isNegative ? negativeInfinity : infinity;
           }
           if (value.toInt() == fieldValue) {
             return value.toInt();
