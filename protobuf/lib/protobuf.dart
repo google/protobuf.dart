@@ -13,6 +13,7 @@ export 'src/protobuf/internal.dart'
         EnumFieldInfoExtension,
         ExtensionFieldSet,
         ExtensionFieldSetInternalExtension,
+        ExtensionRegistry,
         FieldInfoInternalExtension,
         FieldSet,
         FieldSetInternalExtension,
