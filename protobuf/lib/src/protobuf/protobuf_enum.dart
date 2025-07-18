@@ -4,7 +4,7 @@
 
 // ignore_for_file: non_constant_identifier_names
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// A base class for all proto enum types.
 ///

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
@@ -60,12 +60,12 @@ class FieldInfo<T> {
   /// `tagNumber` of `result_per_page` field is 3.
   final int tagNumber;
 
-  /// Index of the field in [_FieldSet._values] list of this field's message.
+  /// Index of the field in [FieldSet._values] list of this field's message.
   ///
   /// The value is `null` for extension fields.
   final int? index;
 
-  /// Type of this field. See [PbFieldType].
+  /// Type of this field. See [PbFieldTypeInternal].
   final int type;
 
   /// Constructs the default value of a field.
@@ -81,17 +81,17 @@ class FieldInfo<T> {
   /// List of all enum values.
   ///
   /// Only available in enum fields.
-  final List<ProtobufEnum>? enumValues;
+  final List<ProtobufEnum>? _enumValues;
 
   /// Default enum value.
   ///
   /// Only available in enum fields.
-  final ProtobufEnum? defaultEnumValue;
+  final ProtobufEnum? _defaultEnumValue;
 
   /// Mapping from enum integer values to enum values.
   ///
   /// Only available in enum fields.
-  final ValueOfFunc? valueOf;
+  final ValueOfFunc? _valueOf;
 
   /// Function to verify items when adding to a repeated field.
   ///
@@ -105,13 +105,16 @@ class FieldInfo<T> {
     this.type, {
     dynamic defaultOrMaker,
     this.subBuilder,
-    this.valueOf,
-    this.enumValues,
-    this.defaultEnumValue,
+    ValueOfFunc? valueOf,
+    List<ProtobufEnum>? enumValues,
+    ProtobufEnum? defaultEnumValue,
     String? protoName,
   }) : makeDefault = findMakeDefault(type, defaultOrMaker),
        check = null,
        _protoName = protoName,
+       _valueOf = valueOf,
+       _enumValues = enumValues,
+       _defaultEnumValue = defaultEnumValue,
        assert(type != 0),
        assert(
          !_isGroupOrMessage(type) || subBuilder != null || _isMapField(type),
@@ -125,10 +128,10 @@ class FieldInfo<T> {
       tagNumber = 0,
       type = 0,
       makeDefault = null,
-      valueOf = null,
+      _valueOf = null,
       check = null,
-      enumValues = null,
-      defaultEnumValue = null,
+      _enumValues = null,
+      _defaultEnumValue = null,
       subBuilder = null;
 
   FieldInfo.repeated(
@@ -138,17 +141,20 @@ class FieldInfo<T> {
     this.type,
     CheckFunc<T> this.check,
     this.subBuilder, {
-    this.valueOf,
-    this.enumValues,
-    this.defaultEnumValue,
+    ValueOfFunc? valueOf,
+    List<ProtobufEnum>? enumValues,
+    ProtobufEnum? defaultEnumValue,
     String? protoName,
   }) : makeDefault = (() => PbList<T>(check: check)),
        _protoName = protoName,
+       _valueOf = valueOf,
+       _enumValues = enumValues,
+       _defaultEnumValue = defaultEnumValue,
        assert(_isRepeated(type)),
        assert(!_isEnum(type) || valueOf != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
-    if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
+    if (defaultOrMaker == null) return PbFieldTypeInternal.defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
   }
@@ -238,13 +244,24 @@ class FieldInfo<T> {
   }
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
-  /// `_FieldSet._ensureRepeatedField`.
-  PbList<T> _ensureRepeatedField(BuilderInfo meta, _FieldSet fs) {
+  /// `FieldSet._ensureRepeatedField`.
+  PbList<T> _ensureRepeatedField(BuilderInfo meta, FieldSet fs) {
     return fs._ensureRepeatedField<T>(meta, this);
   }
 
   @override
   String toString() => name;
+}
+
+extension FieldInfoInternalExtension<T> on FieldInfo<T> {
+  List<T> ensureRepeatedField(BuilderInfo meta, FieldSet fs) =>
+      _ensureRepeatedField(meta, fs);
+}
+
+extension EnumFieldInfoExtension<T> on FieldInfo<T> {
+  ValueOfFunc? get valueOf => _valueOf;
+  List<ProtobufEnum>? get enumValues => _enumValues;
+  ProtobufEnum? get defaultEnumValue => _defaultEnumValue;
 }
 
 final RegExp _upperCase = RegExp('[A-Z]');
@@ -304,7 +321,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   FieldInfo get valueFieldInfo =>
       mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber]!;
 
-  PbMap<K, V> _ensureMapField(BuilderInfo meta, _FieldSet fs) {
+  PbMap<K, V> _ensureMapField(BuilderInfo meta, FieldSet fs) {
     return fs._ensureMapField<K, V>(meta, this);
   }
 
@@ -312,4 +329,9 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
     assert(isMapField);
     return PbMap<K, V>(keyFieldType, valueFieldType);
   }
+}
+
+extension MapFieldInfoInternalExtension<K, V> on MapFieldInfo<K, V> {
+  Map<K, V> ensureMapField(BuilderInfo meta, FieldSet fs) =>
+      _ensureMapField(meta, fs);
 }

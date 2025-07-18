@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 @pragma('vm:never-inline')
 @pragma('wasm:never-inline')
@@ -25,7 +25,7 @@ void _throwFrozenMessageModificationError(
 /// These fields and methods are in a separate class to avoid polymorphic
 /// access due to inheritance. This turns out to be faster when compiled to
 /// JavaScript.
-class _FieldSet {
+class FieldSet {
   final GeneratedMessage? _message;
 
   /// The value of each non-extension field in a fixed-length array.
@@ -34,7 +34,7 @@ class _FieldSet {
   final List _values;
 
   /// Contains all the extension fields, or null if there aren't any.
-  _ExtensionFieldSet? _extensions;
+  ExtensionFieldSet? _extensions;
 
   /// Contains all the unknown fields, or null if there aren't any.
   UnknownFieldSet? _unknownFields;
@@ -53,7 +53,7 @@ class _FieldSet {
   /// code as an `int`.
   Object _frozenState = false;
 
-  /// The [BuilderInfo] for the [GeneratedMessage] this [_FieldSet] belongs to.
+  /// The [BuilderInfo] for the [GeneratedMessage] this [FieldSet] belongs to.
   ///
   /// WARNING: Avoid calling this for any performance critical code, instead
   /// obtain the [BuilderInfo] on the call site.
@@ -82,7 +82,7 @@ class _FieldSet {
   /// the index is not present, the oneof field is unset.
   final Map<int, int>? _oneofCases;
 
-  _FieldSet(this._message, BuilderInfo meta)
+  FieldSet(this._message, BuilderInfo meta)
     : _values = _makeValueList(meta.byIndex.length),
       _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
@@ -106,8 +106,8 @@ class _FieldSet {
   /// The [FieldInfo] for each non-extension field in tag order.
   Iterable<FieldInfo> get _infosSortedByTag => _meta.sortedByTag;
 
-  _ExtensionFieldSet _ensureExtensions() =>
-      _extensions ??= _ExtensionFieldSet(this);
+  ExtensionFieldSet _ensureExtensions() =>
+      _extensions ??= ExtensionFieldSet(this);
 
   UnknownFieldSet _ensureUnknownFields() {
     if (_unknownFields == null) {
@@ -510,7 +510,7 @@ class _FieldSet {
     _extensions?._clearValues();
   }
 
-  bool _equals(_FieldSet o) {
+  bool _equals(FieldSet o) {
     if (_meta != o._meta) return false;
     for (var i = 0; i < _values.length; i++) {
       if (!_equalFieldValues(_values[i], o._values[i])) return false;
@@ -716,7 +716,7 @@ class _FieldSet {
   /// Singular fields that are set in [other] overwrite the corresponding fields
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
-  void _mergeFromMessage(_FieldSet other) {
+  void _mergeFromMessage(FieldSet other) {
     // TODO(https://github.com/google/protobuf.dart/issues/60): Recognize
     // when `this` and [other] are the same protobuf (e.g. from cloning). In
     // this case, we can merge the non-extension fields without field lookups or
@@ -880,7 +880,7 @@ class _FieldSet {
   /// Makes a shallow copy of all values from [original] to this.
   ///
   /// Map fields and repeated fields are copied.
-  void _shallowCopyValues(_FieldSet original) {
+  void _shallowCopyValues(FieldSet original) {
     _values.setRange(0, original._values.length, original._values);
     final info = _meta;
     for (var index = 0; index < info.byIndex.length; index++) {
@@ -916,4 +916,27 @@ class _FieldSet {
 
     _oneofCases?.addAll(original._oneofCases!);
   }
+}
+
+extension FieldSetInternalExtension on FieldSet {
+  Iterable<FieldInfo> get infos => _infos;
+  Iterable<FieldInfo> get infosSortedByTag => _infosSortedByTag;
+  List get values => _values;
+  ExtensionFieldSet? get extensions => _extensions;
+  UnknownFieldSet? get unknownFields => _unknownFields;
+  Map<String, dynamic>? get unknownJsonData => _unknownJsonData;
+  set unknownJsonData(Map<String, dynamic>? value) => _unknownJsonData = value;
+  BuilderInfo get meta => _meta;
+  GeneratedMessage? get message => _message;
+  String get messageName => _messageName;
+
+  void ensureWritable() => _ensureWritable();
+  PbList<T> ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) =>
+      _ensureRepeatedField(meta, fi);
+  PbMap<K, V> ensureMapField<K, V>(BuilderInfo meta, MapFieldInfo<K, V> fi) =>
+      _ensureMapField(meta, fi);
+  void validateField(FieldInfo fi, dynamic newValue) =>
+      _validateField(fi, newValue);
+  void setFieldUnchecked(BuilderInfo meta, FieldInfo fi, dynamic value) =>
+      _setFieldUnchecked(meta, fi, value);
 }

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// A set of unknown fields in a [GeneratedMessage].
 class UnknownFieldSet {
@@ -283,11 +283,11 @@ class UnknownFieldSetField {
       output.writeField(fieldNumber, type, value);
     }
 
-    write(PbFieldType._REPEATED_UINT64, varints);
-    write(PbFieldType._REPEATED_FIXED32, fixed32s);
-    write(PbFieldType._REPEATED_FIXED64, fixed64s);
-    write(PbFieldType._REPEATED_BYTES, lengthDelimited);
-    write(PbFieldType._REPEATED_GROUP, groups);
+    write(PbFieldTypeInternal._REPEATED_UINT64, varints);
+    write(PbFieldTypeInternal._REPEATED_FIXED32, fixed32s);
+    write(PbFieldTypeInternal._REPEATED_FIXED64, fixed64s);
+    write(PbFieldTypeInternal._REPEATED_BYTES, lengthDelimited);
+    write(PbFieldTypeInternal._REPEATED_GROUP, groups);
   }
 
   void addGroup(UnknownFieldSet value) {

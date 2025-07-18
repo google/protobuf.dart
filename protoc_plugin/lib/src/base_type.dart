@@ -12,7 +12,7 @@ class BaseType {
   /// The name of the Dart type when in the same package.
   final String unprefixed;
 
-  /// The suffix of the constant for this type in PbFieldType.
+  /// The suffix of the constant for this type in PbFieldTypeInternal.
   /// (For example, 'B' for boolean or '3' for int32.)
   final String typeConstantSuffix;
 

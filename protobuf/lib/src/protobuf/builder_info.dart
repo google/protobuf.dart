@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// Per-message type setup.
 class BuilderInfo {
@@ -28,7 +28,7 @@ class BuilderInfo {
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
 
   /// Mapping from `oneof` field [FieldInfo.tagNumber]s to the their indices in
-  /// [_FieldSet._oneofCases].
+  /// [FieldSet._oneofCases].
   final Map<int, int> oneofs = <int, int>{};
 
   /// Whether the message has extension fields.
@@ -105,7 +105,7 @@ class BuilderInfo {
         name,
         tagNumber,
         index,
-        PbFieldType.M,
+        PbFieldTypeInternal.M,
         keyFieldType,
         valueFieldType,
         mapEntryBuilderInfo,
@@ -179,13 +179,13 @@ class BuilderInfo {
     );
   }
 
-  /// Adds PbFieldType.OS String with no default value to reduce generated
+  /// Adds PbFieldTypeInternal.OS String with no default value to reduce generated
   /// code size.
   void aOS(int tagNumber, String name, {String? protoName}) {
     add<String>(
       tagNumber,
       name,
-      PbFieldType.OS,
+      PbFieldTypeInternal.OS,
       null,
       null,
       null,
@@ -194,13 +194,13 @@ class BuilderInfo {
     );
   }
 
-  /// Adds PbFieldType.PS String with no default value.
+  /// Adds PbFieldTypeInternal.PS String with no default value.
   void pPS(int tagNumber, String name, {String? protoName}) {
     addRepeated<String>(
       tagNumber,
       name,
-      PbFieldType.PS,
-      getCheckFunction(PbFieldType.PS),
+      PbFieldTypeInternal.PS,
+      getCheckFunction(PbFieldTypeInternal.PS),
       null,
       null,
       null,
@@ -208,12 +208,12 @@ class BuilderInfo {
     );
   }
 
-  /// Adds PbFieldType.QS String with no default value.
+  /// Adds PbFieldTypeInternal.QS String with no default value.
   void aQS(int tagNumber, String name, {String? protoName}) {
     add<String>(
       tagNumber,
       name,
-      PbFieldType.QS,
+      PbFieldTypeInternal.QS,
       null,
       null,
       null,
@@ -227,7 +227,7 @@ class BuilderInfo {
     add<Int64>(
       tagNumber,
       name,
-      PbFieldType.O6,
+      PbFieldTypeInternal.O6,
       Int64.ZERO,
       null,
       null,
@@ -241,7 +241,7 @@ class BuilderInfo {
     add<bool>(
       tagNumber,
       name,
-      PbFieldType.OB,
+      PbFieldTypeInternal.OB,
       null,
       null,
       null,
@@ -321,7 +321,7 @@ class BuilderInfo {
     add<T>(
       tagNumber,
       name,
-      PbFieldType.OM,
+      PbFieldTypeInternal.OM,
       GeneratedMessage._defaultMakerFor<T>(subBuilder),
       subBuilder,
       null,
@@ -339,7 +339,7 @@ class BuilderInfo {
     add<T>(
       tagNumber,
       name,
-      PbFieldType.QM,
+      PbFieldTypeInternal.QM,
       GeneratedMessage._defaultMakerFor<T>(subBuilder),
       subBuilder,
       null,
@@ -486,4 +486,17 @@ class BuilderInfo {
         ?.valueOf
         ?.call(rawValue);
   }
+}
+
+extension BuilderInfoInternalExtension on BuilderInfo {
+  GeneratedMessage makeEmptyMessage(
+    int tagNumber,
+    ExtensionRegistry? extensionRegistry,
+  ) => _makeEmptyMessage(tagNumber, extensionRegistry);
+
+  ProtobufEnum? decodeEnum(
+    int tagNumber,
+    ExtensionRegistry? registry,
+    int rawValue,
+  ) => _decodeEnum(tagNumber, registry, rawValue);
 }

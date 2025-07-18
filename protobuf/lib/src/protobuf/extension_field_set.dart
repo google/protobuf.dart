@@ -2,15 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
-class _ExtensionFieldSet {
-  final _FieldSet _parent;
+class ExtensionFieldSet {
+  final FieldSet _parent;
   final Map<int, Extension> _info = <int, Extension>{};
   final Map<int, dynamic> _values = <int, dynamic>{};
   bool _isReadOnly = false;
 
-  _ExtensionFieldSet(this._parent);
+  ExtensionFieldSet(this._parent);
 
   Extension? _getInfoOrNull(int tagNumber) => _info[tagNumber];
 
@@ -157,7 +157,7 @@ class _ExtensionFieldSet {
 
   bool get _hasValues => _values.isNotEmpty;
 
-  bool _equalValues(_ExtensionFieldSet? other) =>
+  bool _equalValues(ExtensionFieldSet? other) =>
       other != null && _areMapsEqual(_values, other._values);
 
   void _clearValues() => _values.clear();
@@ -166,7 +166,7 @@ class _ExtensionFieldSet {
   ///
   /// Repeated fields are copied.
   /// Extensions cannot contain map fields.
-  void _shallowCopyValues(_ExtensionFieldSet original) {
+  void _shallowCopyValues(ExtensionFieldSet original) {
     for (final tagNumber in original._tagNumbers) {
       final extension = original._getInfoOrNull(tagNumber)!;
       _addInfoUnchecked(extension);
@@ -211,4 +211,10 @@ class _ExtensionFieldSet {
       );
     }
   }
+}
+
+extension ExtensionFieldSetInternalExtension on ExtensionFieldSet {
+  Map<int, dynamic> get values => _values;
+  Iterable<int> get tagNumbers => _tagNumbers;
+  Extension? getInfoOrNull(int tagNumber) => _getInfoOrNull(tagNumber);
 }
