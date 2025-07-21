@@ -102,9 +102,12 @@ JSObject _writeToRawJs(FieldSet fs) {
 
       case PbFieldTypeInternal.INT64_BIT:
       case PbFieldTypeInternal.SINT64_BIT:
+      case PbFieldTypeInternal.SFIXED64_BIT:
+        final Int64 int_ = fieldValue;
+        return int_.toString().toJS;
+
       case PbFieldTypeInternal.UINT64_BIT:
       case PbFieldTypeInternal.FIXED64_BIT:
-      case PbFieldTypeInternal.SFIXED64_BIT:
         final Int64 int_ = fieldValue;
         return int_.toStringUnsigned().toJS;
 
