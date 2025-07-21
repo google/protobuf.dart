@@ -321,8 +321,6 @@ abstract class GeneratedMessage {
     json_lib.mergeFromJsonString(_fieldSet, data, extensionRegistry);
   }
 
-  static Object? _emptyReviver(Object? k, Object? v) => v;
-
   /// Merges field values from a JSON object represented as a Dart map.
   ///
   /// The encoding is described in [GeneratedMessage.writeToJson].
