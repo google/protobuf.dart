@@ -5,6 +5,7 @@ github:
   on:
     # Run CI on pushes to the master branch, and on PRs against master.
     push:
+      branches: master
     pull_request:
     schedule:
       - cron: "0 0 * * 0"
