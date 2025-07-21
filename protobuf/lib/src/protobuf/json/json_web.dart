@@ -86,8 +86,8 @@ JSObject _writeToRawJs(FieldSet fs) {
         if (value.isInfinite) {
           return value.isNegative ? negativeInfinity.toJS : infinity.toJS;
         }
-        if (fieldValue.toInt() == fieldValue) {
-          return fieldValue.toInt().toJS;
+        if (value.toInt() == value) {
+          return value.toInt().toJS;
         }
         return value.toJS;
 
