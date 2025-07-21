@@ -246,7 +246,7 @@ abstract class GeneratedMessage {
   /// Unknown field data, data for which there is no metadata for the associated
   /// field, will only be included if this message was deserialized from the
   /// same wire format.
-  String writeToJson() => jsonEncode(writeToJsonMap());
+  String writeToJson() => json_lib.writeToJsonString(_fieldSet);
 
   /// Returns an Object representing Proto3 JSON serialization of `this`.
   ///
@@ -318,15 +318,7 @@ abstract class GeneratedMessage {
     String data, [
     ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
   ]) {
-    /// Disable lazy creation of Dart objects for a dart2js speedup.
-    /// This is a slight regression on the Dart VM.
-    /// TODO(skybrian) we could skip the reviver if we're running
-    /// on the Dart VM for a slight speedup.
-    final Map<String, dynamic> jsonMap = jsonDecode(
-      data,
-      reviver: _emptyReviver,
-    );
-    json_lib.mergeFromJsonMap(_fieldSet, jsonMap, extensionRegistry);
+    json_lib.mergeFromJsonString(_fieldSet, data, extensionRegistry);
   }
 
   static Object? _emptyReviver(Object? k, Object? v) => v;
