@@ -61,17 +61,25 @@ JSObject _writeToRawJs(FieldSet fs) {
     }
 
     switch (baseType) {
-      case PbFieldTypeInternal.BOOL_BIT:
-      case PbFieldTypeInternal.STRING_BIT:
       case PbFieldTypeInternal.INT32_BIT:
       case PbFieldTypeInternal.SINT32_BIT:
       case PbFieldTypeInternal.UINT32_BIT:
       case PbFieldTypeInternal.FIXED32_BIT:
       case PbFieldTypeInternal.SFIXED32_BIT:
-        return fieldValue;
+        final int value = fieldValue;
+        return value.toJS;
+
+      case PbFieldTypeInternal.BOOL_BIT:
+        final bool value = fieldValue;
+        return value.toJS;
+
+      case PbFieldTypeInternal.STRING_BIT:
+        final String value = fieldValue;
+        return value.toJS;
+
       case PbFieldTypeInternal.FLOAT_BIT:
       case PbFieldTypeInternal.DOUBLE_BIT:
-        final value = fieldValue as double;
+        final double value = fieldValue;
         if (value.isNaN) {
           return nan.toJS;
         }
@@ -82,24 +90,29 @@ JSObject _writeToRawJs(FieldSet fs) {
           return fieldValue.toInt().toJS;
         }
         return value.toJS;
+
       case PbFieldTypeInternal.BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
-        return base64Encode(fieldValue as List<int>).toJS;
+        final List<int> value = fieldValue;
+        return base64Encode(value).toJS;
+
       case PbFieldTypeInternal.ENUM_BIT:
         final ProtobufEnum enum_ = fieldValue;
         return enum_.value.toJS; // assume |value| < 2^52
+
       case PbFieldTypeInternal.INT64_BIT:
       case PbFieldTypeInternal.SINT64_BIT:
-      case PbFieldTypeInternal.SFIXED64_BIT:
-        return fieldValue.toString().toJS;
       case PbFieldTypeInternal.UINT64_BIT:
       case PbFieldTypeInternal.FIXED64_BIT:
+      case PbFieldTypeInternal.SFIXED64_BIT:
         final Int64 int_ = fieldValue;
         return int_.toStringUnsigned().toJS;
+
       case PbFieldTypeInternal.GROUP_BIT:
       case PbFieldTypeInternal.MESSAGE_BIT:
         final GeneratedMessage msg = fieldValue;
         return _writeToRawJs(msg.fieldSet);
+
       default:
         throw UnsupportedError('Unknown type $fieldType');
     }
