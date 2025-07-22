@@ -399,7 +399,7 @@ class RoutingRule extends $pb.GeneratedMessage {
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
       createEmptyInstance: create)
     ..pc<RoutingParameter>(2, _omitFieldNames ? '' : 'routingParameters',
-        $pb.PbFieldTypeInternal.PM,
+        $pb.PbFieldType.PM,
         subBuilder: RoutingParameter.create)
     ..hasRequiredFields = false;
 
@@ -562,7 +562,7 @@ class Routing {
       _omitMessageNames ? '' : 'google.protobuf.MethodOptions',
       _omitFieldNames ? '' : 'routing',
       72295729,
-      $pb.PbFieldTypeInternal.OM,
+      $pb.PbFieldType.OM,
       defaultOrMaker: RoutingRule.getDefault,
       subBuilder: RoutingRule.create);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {

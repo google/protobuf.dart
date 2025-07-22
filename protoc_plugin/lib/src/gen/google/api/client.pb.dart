@@ -53,7 +53,7 @@ class CommonLanguageSettings extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'referenceDocsUri')
     ..pc<ClientLibraryDestination>(
-        2, _omitFieldNames ? '' : 'destinations', $pb.PbFieldTypeInternal.KE,
+        2, _omitFieldNames ? '' : 'destinations', $pb.PbFieldType.KE,
         valueOf: ClientLibraryDestination.valueOf,
         enumValues: ClientLibraryDestination.values,
         defaultEnumValue:
@@ -164,7 +164,7 @@ class ClientLibrarySettings extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'version')
     ..e<$1.LaunchStage>(
-        2, _omitFieldNames ? '' : 'launchStage', $pb.PbFieldTypeInternal.OE,
+        2, _omitFieldNames ? '' : 'launchStage', $pb.PbFieldType.OE,
         defaultOrMaker: $1.LaunchStage.LAUNCH_STAGE_UNSPECIFIED,
         valueOf: $1.LaunchStage.valueOf,
         enumValues: $1.LaunchStage.values)
@@ -389,7 +389,7 @@ class Publishing extends $pb.GeneratedMessage {
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
       createEmptyInstance: create)
     ..pc<MethodSettings>(
-        2, _omitFieldNames ? '' : 'methodSettings', $pb.PbFieldTypeInternal.PM,
+        2, _omitFieldNames ? '' : 'methodSettings', $pb.PbFieldType.PM,
         subBuilder: MethodSettings.create)
     ..aOS(101, _omitFieldNames ? '' : 'newIssueUri')
     ..aOS(102, _omitFieldNames ? '' : 'documentationUri')
@@ -398,13 +398,13 @@ class Publishing extends $pb.GeneratedMessage {
     ..pPS(105, _omitFieldNames ? '' : 'codeownerGithubTeams')
     ..aOS(106, _omitFieldNames ? '' : 'docTagPrefix')
     ..e<ClientLibraryOrganization>(
-        107, _omitFieldNames ? '' : 'organization', $pb.PbFieldTypeInternal.OE,
+        107, _omitFieldNames ? '' : 'organization', $pb.PbFieldType.OE,
         defaultOrMaker:
             ClientLibraryOrganization.CLIENT_LIBRARY_ORGANIZATION_UNSPECIFIED,
         valueOf: ClientLibraryOrganization.valueOf,
         enumValues: ClientLibraryOrganization.values)
     ..pc<ClientLibrarySettings>(109, _omitFieldNames ? '' : 'librarySettings',
-        $pb.PbFieldTypeInternal.PM,
+        $pb.PbFieldType.PM,
         subBuilder: ClientLibrarySettings.create)
     ..aOS(110, _omitFieldNames ? '' : 'protoReferenceDocumentationUri')
     ..aOS(111, _omitFieldNames ? '' : 'restReferenceDocumentationUri')
@@ -568,8 +568,8 @@ class JavaSettings extends $pb.GeneratedMessage {
     ..m<$core.String, $core.String>(
         2, _omitFieldNames ? '' : 'serviceClassNames',
         entryClassName: 'JavaSettings.ServiceClassNamesEntry',
-        keyFieldType: $pb.PbFieldTypeInternal.OS,
-        valueFieldType: $pb.PbFieldTypeInternal.OS,
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OS,
         packageName: const $pb.PackageName('google.api'))
     ..aOM<CommonLanguageSettings>(3, _omitFieldNames ? '' : 'common',
         subBuilder: CommonLanguageSettings.create)
@@ -1055,14 +1055,14 @@ class DotnetSettings extends $pb.GeneratedMessage {
         subBuilder: CommonLanguageSettings.create)
     ..m<$core.String, $core.String>(2, _omitFieldNames ? '' : 'renamedServices',
         entryClassName: 'DotnetSettings.RenamedServicesEntry',
-        keyFieldType: $pb.PbFieldTypeInternal.OS,
-        valueFieldType: $pb.PbFieldTypeInternal.OS,
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OS,
         packageName: const $pb.PackageName('google.api'))
     ..m<$core.String, $core.String>(
         3, _omitFieldNames ? '' : 'renamedResources',
         entryClassName: 'DotnetSettings.RenamedResourcesEntry',
-        keyFieldType: $pb.PbFieldTypeInternal.OS,
-        valueFieldType: $pb.PbFieldTypeInternal.OS,
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OS,
         packageName: const $pb.PackageName('google.api'))
     ..pPS(4, _omitFieldNames ? '' : 'ignoredResources')
     ..pPS(5, _omitFieldNames ? '' : 'forcedNamespaceAliases')
@@ -1229,8 +1229,8 @@ class GoSettings extends $pb.GeneratedMessage {
         subBuilder: CommonLanguageSettings.create)
     ..m<$core.String, $core.String>(2, _omitFieldNames ? '' : 'renamedServices',
         entryClassName: 'GoSettings.RenamedServicesEntry',
-        keyFieldType: $pb.PbFieldTypeInternal.OS,
-        valueFieldType: $pb.PbFieldTypeInternal.OS,
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OS,
         packageName: const $pb.PackageName('google.api'))
     ..hasRequiredFields = false;
 
@@ -1314,7 +1314,7 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
     ..aOM<$0.Duration>(1, _omitFieldNames ? '' : 'initialPollDelay',
         subBuilder: $0.Duration.create)
     ..a<$core.double>(2, _omitFieldNames ? '' : 'pollDelayMultiplier',
-        $pb.PbFieldTypeInternal.OF)
+        $pb.PbFieldType.OF)
     ..aOM<$0.Duration>(3, _omitFieldNames ? '' : 'maxPollDelay',
         subBuilder: $0.Duration.create)
     ..aOM<$0.Duration>(4, _omitFieldNames ? '' : 'totalPollTimeout',
@@ -1590,23 +1590,23 @@ class Client {
       _omitMessageNames ? '' : 'google.protobuf.MethodOptions',
       _omitFieldNames ? '' : 'methodSignature',
       1051,
-      $pb.PbFieldTypeInternal.PS,
-      check: $pb.getCheckFunction($pb.PbFieldTypeInternal.PS));
+      $pb.PbFieldType.PS,
+      check: $pb.getCheckFunction($pb.PbFieldType.PS));
   static final defaultHost = $pb.Extension<$core.String>(
       _omitMessageNames ? '' : 'google.protobuf.ServiceOptions',
       _omitFieldNames ? '' : 'defaultHost',
       1049,
-      $pb.PbFieldTypeInternal.OS);
+      $pb.PbFieldType.OS);
   static final oauthScopes = $pb.Extension<$core.String>(
       _omitMessageNames ? '' : 'google.protobuf.ServiceOptions',
       _omitFieldNames ? '' : 'oauthScopes',
       1050,
-      $pb.PbFieldTypeInternal.OS);
+      $pb.PbFieldType.OS);
   static final apiVersion = $pb.Extension<$core.String>(
       _omitMessageNames ? '' : 'google.protobuf.ServiceOptions',
       _omitFieldNames ? '' : 'apiVersion',
       525000001,
-      $pb.PbFieldTypeInternal.OS);
+      $pb.PbFieldType.OS);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
     registry.add(methodSignature);
     registry.add(defaultHost);

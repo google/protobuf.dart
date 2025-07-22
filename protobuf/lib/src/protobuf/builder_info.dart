@@ -105,7 +105,7 @@ class BuilderInfo {
         name,
         tagNumber,
         index,
-        PbFieldTypeInternal.M,
+        PbFieldType.M,
         keyFieldType,
         valueFieldType,
         mapEntryBuilderInfo,
@@ -179,13 +179,13 @@ class BuilderInfo {
     );
   }
 
-  /// Adds PbFieldTypeInternal.OS String with no default value to reduce generated
+  /// Adds PbFieldType.OS String with no default value to reduce generated
   /// code size.
   void aOS(int tagNumber, String name, {String? protoName}) {
     add<String>(
       tagNumber,
       name,
-      PbFieldTypeInternal.OS,
+      PbFieldType.OS,
       null,
       null,
       null,
@@ -194,13 +194,13 @@ class BuilderInfo {
     );
   }
 
-  /// Adds PbFieldTypeInternal.PS String with no default value.
+  /// Adds PbFieldType.PS String with no default value.
   void pPS(int tagNumber, String name, {String? protoName}) {
     addRepeated<String>(
       tagNumber,
       name,
-      PbFieldTypeInternal.PS,
-      getCheckFunction(PbFieldTypeInternal.PS),
+      PbFieldType.PS,
+      getCheckFunction(PbFieldType.PS),
       null,
       null,
       null,
@@ -208,12 +208,12 @@ class BuilderInfo {
     );
   }
 
-  /// Adds PbFieldTypeInternal.QS String with no default value.
+  /// Adds PbFieldType.QS String with no default value.
   void aQS(int tagNumber, String name, {String? protoName}) {
     add<String>(
       tagNumber,
       name,
-      PbFieldTypeInternal.QS,
+      PbFieldType.QS,
       null,
       null,
       null,
@@ -227,7 +227,7 @@ class BuilderInfo {
     add<Int64>(
       tagNumber,
       name,
-      PbFieldTypeInternal.O6,
+      PbFieldType.O6,
       Int64.ZERO,
       null,
       null,
@@ -241,7 +241,7 @@ class BuilderInfo {
     add<bool>(
       tagNumber,
       name,
-      PbFieldTypeInternal.OB,
+      PbFieldType.OB,
       null,
       null,
       null,
@@ -321,7 +321,7 @@ class BuilderInfo {
     add<T>(
       tagNumber,
       name,
-      PbFieldTypeInternal.OM,
+      PbFieldType.OM,
       GeneratedMessage._defaultMakerFor<T>(subBuilder),
       subBuilder,
       null,
@@ -339,7 +339,7 @@ class BuilderInfo {
     add<T>(
       tagNumber,
       name,
-      PbFieldTypeInternal.QM,
+      PbFieldType.QM,
       GeneratedMessage._defaultMakerFor<T>(subBuilder),
       subBuilder,
       null,

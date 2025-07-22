@@ -65,7 +65,7 @@ class FieldInfo<T> {
   /// The value is `null` for extension fields.
   final int? index;
 
-  /// Type of this field. See [PbFieldTypeInternal].
+  /// Type of this field. See [PbFieldType].
   final int type;
 
   /// Constructs the default value of a field.
@@ -148,7 +148,7 @@ class FieldInfo<T> {
        assert(!_isEnum(type) || valueOf != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
-    if (defaultOrMaker == null) return PbFieldTypeInternal.defaultForType(type);
+    if (defaultOrMaker == null) return PbFieldType.defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
   }

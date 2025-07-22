@@ -181,7 +181,7 @@ class ProtobufField {
   /// Returns the tag number of the underlying proto field.
   int get number => descriptor.number;
 
-  /// Returns the constant in PbFieldTypeInternal corresponding to this type.
+  /// Returns the constant in PbFieldType corresponding to this type.
   String get typeConstant {
     var prefix = 'O';
     if (isRequired) {
@@ -191,7 +191,7 @@ class ProtobufField {
     } else if (isRepeated) {
       prefix = 'P';
     }
-    return '$protobufImportPrefix.PbFieldTypeInternal.$prefix${baseType.typeConstantSuffix}';
+    return '$protobufImportPrefix.PbFieldType.$prefix${baseType.typeConstantSuffix}';
   }
 
   static String _formatArguments(
@@ -260,7 +260,7 @@ class ProtobufField {
             'const $protobufImportPrefix.PackageName(\'$package\')';
       }
     } else if (isRepeated) {
-      if (typeConstant == '$protobufImportPrefix.PbFieldTypeInternal.PS') {
+      if (typeConstant == '$protobufImportPrefix.PbFieldType.PS') {
         invocation = 'pPS';
       } else {
         args.add(typeConstant);
@@ -292,10 +292,10 @@ class ProtobufField {
         switch (type) {
           case '$coreImportPrefix.String':
             if (typeConstant ==
-                '$protobufImportPrefix.PbFieldTypeInternal.OS') {
+                '$protobufImportPrefix.PbFieldType.OS') {
               invocation = 'aOS';
             } else if (typeConstant ==
-                '$protobufImportPrefix.PbFieldTypeInternal.QS') {
+                '$protobufImportPrefix.PbFieldType.QS') {
               invocation = 'aQS';
             } else {
               invocation = 'a<$type>';
@@ -304,7 +304,7 @@ class ProtobufField {
             break;
           case '$coreImportPrefix.bool':
             if (typeConstant ==
-                '$protobufImportPrefix.PbFieldTypeInternal.OB') {
+                '$protobufImportPrefix.PbFieldType.OB') {
               invocation = 'aOB';
             } else {
               invocation = 'a<$type>';
@@ -319,7 +319,7 @@ class ProtobufField {
       } else {
         if (makeDefault == '$fixnumImportPrefix.Int64.ZERO' &&
             type == '$fixnumImportPrefix.Int64' &&
-            typeConstant == '$protobufImportPrefix.PbFieldTypeInternal.O6') {
+            typeConstant == '$protobufImportPrefix.PbFieldType.O6') {
           invocation = 'aInt64';
         } else {
           if (baseType.isMessage || baseType.isGroup) {

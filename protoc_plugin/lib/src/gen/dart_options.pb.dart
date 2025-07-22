@@ -126,7 +126,7 @@ class Imports extends $pb.GeneratedMessage {
       package: const $pb.PackageName(_omitMessageNames ? '' : 'dart_options'),
       createEmptyInstance: create)
     ..pc<DartMixin>(
-        1, _omitFieldNames ? '' : 'mixins', $pb.PbFieldTypeInternal.PM,
+        1, _omitFieldNames ? '' : 'mixins', $pb.PbFieldType.PM,
         subBuilder: DartMixin.create)
     ..hasRequiredFields = false;
 
@@ -166,44 +166,44 @@ class Dart_options {
       _omitMessageNames ? '' : 'google.protobuf.FileOptions',
       _omitFieldNames ? '' : 'imports',
       28125061,
-      $pb.PbFieldTypeInternal.OM,
+      $pb.PbFieldType.OM,
       defaultOrMaker: Imports.getDefault,
       subBuilder: Imports.create);
   static final defaultMixin = $pb.Extension<$core.String>(
       _omitMessageNames ? '' : 'google.protobuf.FileOptions',
       _omitFieldNames ? '' : 'defaultMixin',
       96128839,
-      $pb.PbFieldTypeInternal.OS);
+      $pb.PbFieldType.OS);
   static final mixin = $pb.Extension<$core.String>(
       _omitMessageNames ? '' : 'google.protobuf.MessageOptions',
       _omitFieldNames ? '' : 'mixin',
       96128839,
-      $pb.PbFieldTypeInternal.OS);
+      $pb.PbFieldType.OS);
   static final overrideGetter = $pb.Extension<$core.bool>(
       _omitMessageNames ? '' : 'google.protobuf.FieldOptions',
       _omitFieldNames ? '' : 'overrideGetter',
       28205290,
-      $pb.PbFieldTypeInternal.OB);
+      $pb.PbFieldType.OB);
   static final overrideSetter = $pb.Extension<$core.bool>(
       _omitMessageNames ? '' : 'google.protobuf.FieldOptions',
       _omitFieldNames ? '' : 'overrideSetter',
       28937366,
-      $pb.PbFieldTypeInternal.OB);
+      $pb.PbFieldType.OB);
   static final overrideHasMethod = $pb.Extension<$core.bool>(
       _omitMessageNames ? '' : 'google.protobuf.FieldOptions',
       _omitFieldNames ? '' : 'overrideHasMethod',
       28937461,
-      $pb.PbFieldTypeInternal.OB);
+      $pb.PbFieldType.OB);
   static final overrideClearMethod = $pb.Extension<$core.bool>(
       _omitMessageNames ? '' : 'google.protobuf.FieldOptions',
       _omitFieldNames ? '' : 'overrideClearMethod',
       28907907,
-      $pb.PbFieldTypeInternal.OB);
+      $pb.PbFieldType.OB);
   static final dartName = $pb.Extension<$core.String>(
       _omitMessageNames ? '' : 'google.protobuf.FieldOptions',
       _omitFieldNames ? '' : 'dartName',
       28700919,
-      $pb.PbFieldTypeInternal.OS);
+      $pb.PbFieldType.OS);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
     registry.add(imports);
     registry.add(defaultMixin);

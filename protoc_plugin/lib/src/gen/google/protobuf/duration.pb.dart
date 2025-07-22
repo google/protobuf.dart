@@ -106,7 +106,7 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
       fromProto3Json: $mixin.DurationMixin.fromProto3JsonHelper)
     ..aInt64(1, _omitFieldNames ? '' : 'seconds')
     ..a<$core.int>(
-        2, _omitFieldNames ? '' : 'nanos', $pb.PbFieldTypeInternal.O3)
+        2, _omitFieldNames ? '' : 'nanos', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')

@@ -52,11 +52,11 @@ class Version extends $pb.GeneratedMessage {
           _omitMessageNames ? '' : 'google.protobuf.compiler'),
       createEmptyInstance: create)
     ..a<$core.int>(
-        1, _omitFieldNames ? '' : 'major', $pb.PbFieldTypeInternal.O3)
+        1, _omitFieldNames ? '' : 'major', $pb.PbFieldType.O3)
     ..a<$core.int>(
-        2, _omitFieldNames ? '' : 'minor', $pb.PbFieldTypeInternal.O3)
+        2, _omitFieldNames ? '' : 'minor', $pb.PbFieldType.O3)
     ..a<$core.int>(
-        3, _omitFieldNames ? '' : 'patch', $pb.PbFieldTypeInternal.O3)
+        3, _omitFieldNames ? '' : 'patch', $pb.PbFieldType.O3)
     ..aOS(4, _omitFieldNames ? '' : 'suffix')
     ..hasRequiredFields = false;
 
@@ -156,12 +156,12 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     ..aOM<Version>(3, _omitFieldNames ? '' : 'compilerVersion',
         subBuilder: Version.create)
     ..pc<$0.FileDescriptorProto>(
-        15, _omitFieldNames ? '' : 'protoFile', $pb.PbFieldTypeInternal.PM,
+        15, _omitFieldNames ? '' : 'protoFile', $pb.PbFieldType.PM,
         subBuilder: $0.FileDescriptorProto.create)
     ..pc<$0.FileDescriptorProto>(
         17,
         _omitFieldNames ? '' : 'sourceFileDescriptors',
-        $pb.PbFieldTypeInternal.PM,
+        $pb.PbFieldType.PM,
         subBuilder: $0.FileDescriptorProto.create);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -429,14 +429,14 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'error')
     ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'supportedFeatures',
-        $pb.PbFieldTypeInternal.OU6,
+        $pb.PbFieldType.OU6,
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..a<$core.int>(
-        3, _omitFieldNames ? '' : 'minimumEdition', $pb.PbFieldTypeInternal.O3)
+        3, _omitFieldNames ? '' : 'minimumEdition', $pb.PbFieldType.O3)
     ..a<$core.int>(
-        4, _omitFieldNames ? '' : 'maximumEdition', $pb.PbFieldTypeInternal.O3)
+        4, _omitFieldNames ? '' : 'maximumEdition', $pb.PbFieldType.O3)
     ..pc<CodeGeneratorResponse_File>(
-        15, _omitFieldNames ? '' : 'file', $pb.PbFieldTypeInternal.PM,
+        15, _omitFieldNames ? '' : 'file', $pb.PbFieldType.PM,
         subBuilder: CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
 

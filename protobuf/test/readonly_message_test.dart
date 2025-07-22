@@ -3,11 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:protobuf/protobuf.dart'
-    show
-        BuilderInfo,
-        GeneratedMessage,
-        PbFieldTypeInternal,
-        UnknownFieldSetField;
+    show BuilderInfo, GeneratedMessage, PbFieldType, UnknownFieldSetField;
 import 'package:test/test.dart';
 
 Matcher throwsUnsupportedError(Matcher expectedMessage) => throwsA(
@@ -27,9 +23,9 @@ class Rec extends GeneratedMessage {
   @override
   BuilderInfo info_ =
       BuilderInfo('rec')
-        ..a(1, 'value', PbFieldTypeInternal.O3)
-        ..pc<Rec>(2, 'sub', PbFieldTypeInternal.PM, subBuilder: Rec.create)
-        ..p<int>(10, 'ints', PbFieldTypeInternal.P3);
+        ..a(1, 'value', PbFieldType.O3)
+        ..pc<Rec>(2, 'sub', PbFieldType.PM, subBuilder: Rec.create)
+        ..p<int>(10, 'ints', PbFieldType.P3);
 
   int get value => $_get(0, 0);
   set value(int v) {
