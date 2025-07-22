@@ -10,7 +10,6 @@ library;
 export 'src/protobuf/internal.dart'
     hide
         BuilderInfoInternalExtension,
-        EnumFieldInfoExtension,
         ExtensionFieldSet,
         ExtensionFieldSetInternalExtension,
         FieldInfoInternalExtension,
