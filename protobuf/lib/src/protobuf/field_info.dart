@@ -81,17 +81,17 @@ class FieldInfo<T> {
   /// List of all enum values.
   ///
   /// Only available in enum fields.
-  final List<ProtobufEnum>? _enumValues;
+  final List<ProtobufEnum>? enumValues;
 
   /// Default enum value.
   ///
   /// Only available in enum fields.
-  final ProtobufEnum? _defaultEnumValue;
+  final ProtobufEnum? defaultEnumValue;
 
   /// Mapping from enum integer values to enum values.
   ///
   /// Only available in enum fields.
-  final ValueOfFunc? _valueOf;
+  final ValueOfFunc? valueOf;
 
   /// Function to verify items when adding to a repeated field.
   ///
@@ -105,16 +105,13 @@ class FieldInfo<T> {
     this.type, {
     dynamic defaultOrMaker,
     this.subBuilder,
-    ValueOfFunc? valueOf,
-    List<ProtobufEnum>? enumValues,
-    ProtobufEnum? defaultEnumValue,
+    this.valueOf,
+    this.enumValues,
+    this.defaultEnumValue,
     String? protoName,
   }) : makeDefault = findMakeDefault(type, defaultOrMaker),
        check = null,
        _protoName = protoName,
-       _valueOf = valueOf,
-       _enumValues = enumValues,
-       _defaultEnumValue = defaultEnumValue,
        assert(type != 0),
        assert(
          !PbFieldTypeInternal.isGroupOrMessage(type) ||
@@ -130,10 +127,10 @@ class FieldInfo<T> {
       tagNumber = 0,
       type = 0,
       makeDefault = null,
-      _valueOf = null,
+      valueOf = null,
       check = null,
-      _enumValues = null,
-      _defaultEnumValue = null,
+      enumValues = null,
+      defaultEnumValue = null,
       subBuilder = null;
 
   FieldInfo.repeated(
@@ -143,15 +140,12 @@ class FieldInfo<T> {
     this.type,
     CheckFunc<T> this.check,
     this.subBuilder, {
-    ValueOfFunc? valueOf,
-    List<ProtobufEnum>? enumValues,
-    ProtobufEnum? defaultEnumValue,
+    this.valueOf,
+    this.enumValues,
+    this.defaultEnumValue,
     String? protoName,
   }) : makeDefault = (() => PbList<T>(check: check)),
        _protoName = protoName,
-       _valueOf = valueOf,
-       _enumValues = enumValues,
-       _defaultEnumValue = defaultEnumValue,
        assert(PbFieldTypeInternal.isRepeated(type)),
        assert(!PbFieldTypeInternal.isEnum(type) || valueOf != null);
 
@@ -260,12 +254,6 @@ class FieldInfo<T> {
 extension FieldInfoInternalExtension<T> on FieldInfo<T> {
   List<T> ensureRepeatedField(BuilderInfo meta, FieldSet fs) =>
       _ensureRepeatedField(meta, fs);
-}
-
-extension EnumFieldInfoExtension<T> on FieldInfo<T> {
-  ValueOfFunc? get valueOf => _valueOf;
-  List<ProtobufEnum>? get enumValues => _enumValues;
-  ProtobufEnum? get defaultEnumValue => _defaultEnumValue;
 }
 
 final RegExp _upperCase = RegExp('[A-Z]');
