@@ -47,9 +47,9 @@ String writeToJsonString(FieldSet fs) {
 
 JSObject _writeToRawJs(FieldSet fs) {
   JSAny convertToRawJs(dynamic fieldValue, int fieldType) {
-    final baseType = PbFieldTypeInternal.baseType(fieldType);
+    final baseType = PbFieldType.baseType(fieldType);
 
-    if (PbFieldTypeInternal.isRepeated(fieldType)) {
+    if (PbFieldType.isRepeated(fieldType)) {
       final PbList list = fieldValue;
       final length = list.length;
       final jsArray = JSArray.withLength(length);
@@ -61,24 +61,24 @@ JSObject _writeToRawJs(FieldSet fs) {
     }
 
     switch (baseType) {
-      case PbFieldTypeInternal.INT32_BIT:
-      case PbFieldTypeInternal.SINT32_BIT:
-      case PbFieldTypeInternal.UINT32_BIT:
-      case PbFieldTypeInternal.FIXED32_BIT:
-      case PbFieldTypeInternal.SFIXED32_BIT:
+      case PbFieldType.INT32_BIT:
+      case PbFieldType.SINT32_BIT:
+      case PbFieldType.UINT32_BIT:
+      case PbFieldType.FIXED32_BIT:
+      case PbFieldType.SFIXED32_BIT:
         final int value = fieldValue;
         return value.toJS;
 
-      case PbFieldTypeInternal.BOOL_BIT:
+      case PbFieldType.BOOL_BIT:
         final bool value = fieldValue;
         return value.toJS;
 
-      case PbFieldTypeInternal.STRING_BIT:
+      case PbFieldType.STRING_BIT:
         final String value = fieldValue;
         return value.toJS;
 
-      case PbFieldTypeInternal.FLOAT_BIT:
-      case PbFieldTypeInternal.DOUBLE_BIT:
+      case PbFieldType.FLOAT_BIT:
+      case PbFieldType.DOUBLE_BIT:
         final double value = fieldValue;
         if (value.isNaN) {
           return nan.toJS;
@@ -91,28 +91,28 @@ JSObject _writeToRawJs(FieldSet fs) {
         }
         return value.toJS;
 
-      case PbFieldTypeInternal.BYTES_BIT:
+      case PbFieldType.BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
         final List<int> value = fieldValue;
         return base64Encode(value).toJS;
 
-      case PbFieldTypeInternal.ENUM_BIT:
+      case PbFieldType.ENUM_BIT:
         final ProtobufEnum enum_ = fieldValue;
         return enum_.value.toJS; // assume |value| < 2^52
 
-      case PbFieldTypeInternal.INT64_BIT:
-      case PbFieldTypeInternal.SINT64_BIT:
-      case PbFieldTypeInternal.SFIXED64_BIT:
+      case PbFieldType.INT64_BIT:
+      case PbFieldType.SINT64_BIT:
+      case PbFieldType.SFIXED64_BIT:
         final Int64 int_ = fieldValue;
         return int_.toString().toJS;
 
-      case PbFieldTypeInternal.UINT64_BIT:
-      case PbFieldTypeInternal.FIXED64_BIT:
+      case PbFieldType.UINT64_BIT:
+      case PbFieldType.FIXED64_BIT:
         final Int64 int_ = fieldValue;
         return int_.toStringUnsigned().toJS;
 
-      case PbFieldTypeInternal.GROUP_BIT:
-      case PbFieldTypeInternal.MESSAGE_BIT:
+      case PbFieldType.GROUP_BIT:
+      case PbFieldType.MESSAGE_BIT:
         final GeneratedMessage msg = fieldValue;
         return _writeToRawJs(msg.fieldSet);
 
@@ -147,7 +147,7 @@ JSObject _writeToRawJs(FieldSet fs) {
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
     }
-    if (PbFieldTypeInternal.isMapField(fi.type)) {
+    if (PbFieldType.isMapField(fi.type)) {
       result.setProperty(
         fi.tagNumber.toJS,
         writeMap(value, fi as MapFieldInfo<dynamic, dynamic>),
@@ -350,8 +350,8 @@ Object? _convertRawJsValue(
   ExtensionRegistry? registry,
 ) {
   String expectedType; // for exception message
-  switch (PbFieldTypeInternal.baseType(fieldType)) {
-    case PbFieldTypeInternal.BOOL_BIT:
+  switch (PbFieldType.baseType(fieldType)) {
+    case PbFieldType.BOOL_BIT:
       if (value.isA<JSBoolean>()) {
         return value.as<JSBoolean>().toDart;
       } else if (value.isA<JSString>()) {
@@ -370,18 +370,18 @@ Object? _convertRawJsValue(
         }
       }
       expectedType = 'bool (true, false, "true", "false", 1, 0)';
-    case PbFieldTypeInternal.BYTES_BIT:
+    case PbFieldType.BYTES_BIT:
       if (value.isA<JSString>()) {
         return base64Decode(value.as<JSString>().toDart);
       }
       expectedType = 'Base64 String';
-    case PbFieldTypeInternal.STRING_BIT:
+    case PbFieldType.STRING_BIT:
       if (value.isA<JSString>()) {
         return value.as<JSString>().toDart;
       }
       expectedType = 'String';
-    case PbFieldTypeInternal.FLOAT_BIT:
-    case PbFieldTypeInternal.DOUBLE_BIT:
+    case PbFieldType.FLOAT_BIT:
+    case PbFieldType.DOUBLE_BIT:
       // Allow quoted values, although we don't emit them.
       if (value.isA<JSNumber>()) {
         final jsNum = value.as<JSNumber>();
@@ -390,7 +390,7 @@ Object? _convertRawJsValue(
         return double.parse(value.as<JSString>().toDart);
       }
       expectedType = 'num or stringified num';
-    case PbFieldTypeInternal.ENUM_BIT:
+    case PbFieldType.ENUM_BIT:
       // Allow quoted values, although we don't emit them.
       if (value.isA<JSString>()) {
         value = int.parse(value.as<JSString>().toDart).toJS;
@@ -406,9 +406,9 @@ Object? _convertRawJsValue(
         );
       }
       expectedType = 'int or stringified int';
-    case PbFieldTypeInternal.INT32_BIT:
-    case PbFieldTypeInternal.SINT32_BIT:
-    case PbFieldTypeInternal.SFIXED32_BIT:
+    case PbFieldType.INT32_BIT:
+    case PbFieldType.SINT32_BIT:
+    case PbFieldType.SFIXED32_BIT:
       if (Number.isInteger(value)) {
         return value.as<JSNumber>().toDartInt;
       }
@@ -416,8 +416,8 @@ Object? _convertRawJsValue(
         return int.parse(value.as<JSString>().toDart);
       }
       expectedType = 'int or stringified int';
-    case PbFieldTypeInternal.UINT32_BIT:
-    case PbFieldTypeInternal.FIXED32_BIT:
+    case PbFieldType.UINT32_BIT:
+    case PbFieldType.FIXED32_BIT:
       int? validatedValue;
       if (Number.isInteger(value)) {
         validatedValue = value.as<JSNumber>().toDartInt;
@@ -430,11 +430,11 @@ Object? _convertRawJsValue(
       }
       if (validatedValue != null) return validatedValue;
       expectedType = 'int or stringified int';
-    case PbFieldTypeInternal.INT64_BIT:
-    case PbFieldTypeInternal.SINT64_BIT:
-    case PbFieldTypeInternal.UINT64_BIT:
-    case PbFieldTypeInternal.FIXED64_BIT:
-    case PbFieldTypeInternal.SFIXED64_BIT:
+    case PbFieldType.INT64_BIT:
+    case PbFieldType.SINT64_BIT:
+    case PbFieldType.UINT64_BIT:
+    case PbFieldType.FIXED64_BIT:
+    case PbFieldType.SFIXED64_BIT:
       if (Number.isInteger(value)) {
         return Int64(value.as<JSNumber>().toDartInt);
       }
@@ -442,8 +442,8 @@ Object? _convertRawJsValue(
         return Int64.parseInt(value.as<JSString>().toDart);
       }
       expectedType = 'int or stringified int';
-    case PbFieldTypeInternal.GROUP_BIT:
-    case PbFieldTypeInternal.MESSAGE_BIT:
+    case PbFieldType.GROUP_BIT:
+    case PbFieldType.MESSAGE_BIT:
       if (getPrototypeOf(value).strictEquals(objectPrototype).toDart) {
         final subMessage = meta.makeEmptyMessage(tagNumber, registry);
         _mergeFromRawJsMap(subMessage.fieldSet, value.as<JSObject>(), registry);

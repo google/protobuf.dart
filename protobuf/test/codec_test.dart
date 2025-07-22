@@ -29,7 +29,7 @@ void main() {
     };
   }
 
-  final int32ToBytes = convertToBytes(PbFieldTypeInternal.O3);
+  final int32ToBytes = convertToBytes(PbFieldType.O3);
 
   test('testInt32RoundTrips', () {
     final roundtrip = roundtripTester(
@@ -60,7 +60,7 @@ void main() {
   test('testSint32', () {
     final roundtrip = roundtripTester(
       fromBytes: (CodedBufferReader reader) => reader.readSint32(),
-      toBytes: convertToBytes(PbFieldTypeInternal.OS3),
+      toBytes: convertToBytes(PbFieldType.OS3),
     );
 
     roundtrip(0, [0x00]);
@@ -72,7 +72,7 @@ void main() {
   test('testSint64', () {
     final roundtrip = roundtripTester(
       fromBytes: (CodedBufferReader reader) => reader.readSint64(),
-      toBytes: convertToBytes(PbFieldTypeInternal.OS6),
+      toBytes: convertToBytes(PbFieldType.OS6),
     );
 
     roundtrip(make64(0), [0x00]);
@@ -84,7 +84,7 @@ void main() {
   test('testFixed32', () {
     final roundtrip = roundtripTester(
       fromBytes: (CodedBufferReader reader) => reader.readFixed32(),
-      toBytes: convertToBytes(PbFieldTypeInternal.OF3),
+      toBytes: convertToBytes(PbFieldType.OF3),
     );
 
     roundtrip(0, [0x00, 0x00, 0x00, 0x00]);
@@ -96,7 +96,7 @@ void main() {
   test('testFixed64', () {
     final roundtrip = roundtripTester(
       fromBytes: (CodedBufferReader reader) => reader.readFixed64(),
-      toBytes: convertToBytes(PbFieldTypeInternal.OF6),
+      toBytes: convertToBytes(PbFieldType.OF6),
     );
 
     roundtrip(make64(0, 0), [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -126,7 +126,7 @@ void main() {
   test('testSfixed32', () {
     final roundtrip = roundtripTester(
       fromBytes: (CodedBufferReader reader) => reader.readSfixed32(),
-      toBytes: convertToBytes(PbFieldTypeInternal.OSF3),
+      toBytes: convertToBytes(PbFieldType.OSF3),
     );
 
     roundtrip(0, [0x00, 0x00, 0x00, 0x00]);
@@ -138,7 +138,7 @@ void main() {
   test('testSfixed64', () {
     final roundtrip = roundtripTester(
       fromBytes: (CodedBufferReader reader) => reader.readSfixed64(),
-      toBytes: convertToBytes(PbFieldTypeInternal.OSF6),
+      toBytes: convertToBytes(PbFieldType.OSF6),
     );
 
     roundtrip(make64(0), [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
@@ -183,7 +183,7 @@ void main() {
           : equals(expected);
 
   List<int> dataToBytes(ByteData byteData) => Uint8List.view(byteData.buffer);
-  final floatToBytes = convertToBytes(PbFieldTypeInternal.OF);
+  final floatToBytes = convertToBytes(PbFieldType.OF);
   int floatToBits(double value) =>
       makeData(floatToBytes(value)).getUint32(0, Endian.little);
 
@@ -197,7 +197,7 @@ void main() {
     expect(readFloat(bits), doubleEquals(value));
   }
 
-  final doubleToBytes = convertToBytes(PbFieldTypeInternal.OD);
+  final doubleToBytes = convertToBytes(PbFieldType.OD);
 
   void test64(List<int> hilo, double value) {
     // Encode a double to its wire format.
@@ -732,7 +732,7 @@ void main() {
   test('testVarint64', () {
     final roundtrip = roundtripTester(
       fromBytes: (CodedBufferReader reader) => reader.readUint64(),
-      toBytes: convertToBytes(PbFieldTypeInternal.OU6),
+      toBytes: convertToBytes(PbFieldType.OU6),
     );
 
     roundtrip(make64(0), [0x00]);
@@ -794,8 +794,7 @@ void main() {
   });
 
   test('testWriteTo', () {
-    final writer =
-        CodedBufferWriter()..writeField(0, PbFieldTypeInternal.O3, 1337);
+    final writer = CodedBufferWriter()..writeField(0, PbFieldType.O3, 1337);
     expect(writer.lengthInBytes, 3);
     final buffer = Uint8List(5);
     buffer[0] = 0x55;

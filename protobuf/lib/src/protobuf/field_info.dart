@@ -65,7 +65,7 @@ class FieldInfo<T> {
   /// The value is `null` for extension fields.
   final int? index;
 
-  /// Type of this field. See [PbFieldTypeInternal].
+  /// Type of this field. See [PbFieldType].
   final int type;
 
   /// Constructs the default value of a field.
@@ -114,11 +114,11 @@ class FieldInfo<T> {
        _protoName = protoName,
        assert(type != 0),
        assert(
-         !PbFieldTypeInternal.isGroupOrMessage(type) ||
+         !PbFieldType.isGroupOrMessage(type) ||
              subBuilder != null ||
-             PbFieldTypeInternal.isMapField(type),
+             PbFieldType.isMapField(type),
        ),
-       assert(!PbFieldTypeInternal.isEnum(type) || valueOf != null);
+       assert(!PbFieldType.isEnum(type) || valueOf != null);
 
   // Represents a field that has been removed by a program transformation.
   FieldInfo.dummy(this.index)
@@ -146,11 +146,11 @@ class FieldInfo<T> {
     String? protoName,
   }) : makeDefault = (() => PbList<T>(check: check)),
        _protoName = protoName,
-       assert(PbFieldTypeInternal.isRepeated(type)),
-       assert(!PbFieldTypeInternal.isEnum(type) || valueOf != null);
+       assert(PbFieldType.isRepeated(type)),
+       assert(!PbFieldType.isEnum(type) || valueOf != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
-    if (defaultOrMaker == null) return PbFieldTypeInternal.defaultForType(type);
+    if (defaultOrMaker == null) return PbFieldType.defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
   }
@@ -159,11 +159,11 @@ class FieldInfo<T> {
   /// been removed by a program transformation.
   bool get _isDummy => tagNumber == 0;
 
-  bool get isRequired => PbFieldTypeInternal.isRequired(type);
-  bool get isRepeated => PbFieldTypeInternal.isRepeated(type);
-  bool get isGroupOrMessage => PbFieldTypeInternal.isGroupOrMessage(type);
-  bool get isEnum => PbFieldTypeInternal.isEnum(type);
-  bool get isMapField => PbFieldTypeInternal.isMapField(type);
+  bool get isRequired => PbFieldType.isRequired(type);
+  bool get isRepeated => PbFieldType.isRepeated(type);
+  bool get isGroupOrMessage => PbFieldType.isGroupOrMessage(type);
+  bool get isEnum => PbFieldType.isEnum(type);
+  bool get isMapField => PbFieldType.isMapField(type);
 
   /// Returns a read-only default value for a field. Unlike
   /// [GeneratedMessage.getField], doesn't create a repeated field.
@@ -178,7 +178,7 @@ class FieldInfo<T> {
   /// That is, it doesn't contain any required fields that aren't initialized.
   bool _hasRequiredValues(dynamic value) {
     if (value == null) return !isRequired; // missing is okay if optional
-    if (!PbFieldTypeInternal.isGroupOrMessage(type)) {
+    if (!PbFieldType.isGroupOrMessage(type)) {
       return true; // primitive and present
     }
 
@@ -203,7 +203,7 @@ class FieldInfo<T> {
   void _appendInvalidFields(List<String> problems, value, String prefix) {
     if (value == null) {
       if (isRequired) problems.add('$prefix$name');
-    } else if (!PbFieldTypeInternal.isGroupOrMessage(type)) {
+    } else if (!PbFieldType.isGroupOrMessage(type)) {
       // primitive and present
     } else if (!isRepeated) {
       // Required message/group: recurse.
@@ -297,7 +297,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
     this.valueCreator, {
     ProtobufEnum? defaultEnumValue,
     String? protoName,
-  }) : assert(PbFieldTypeInternal.isMapField(type)),
+  }) : assert(PbFieldType.isMapField(type)),
        super(
          name,
          tagNumber,
@@ -307,7 +307,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
          defaultEnumValue: defaultEnumValue,
          protoName: protoName,
        ) {
-    assert(!PbFieldTypeInternal.isEnum(type) || valueOf != null);
+    assert(!PbFieldType.isEnum(type) || valueOf != null);
   }
 
   FieldInfo get valueFieldInfo =>
