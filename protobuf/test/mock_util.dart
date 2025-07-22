@@ -9,28 +9,22 @@ import 'package:protobuf/protobuf.dart'
         BuilderInfo,
         CreateBuilderFunc,
         GeneratedMessage,
-        PbFieldTypeInternal,
+        PbFieldType,
         ProtobufEnum;
 
 final mockEnumValues = [ProtobufEnum(1, 'a'), ProtobufEnum(2, 'b')];
 BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
   return BuilderInfo(className, createEmptyInstance: create)
-    ..a(1, 'val', PbFieldTypeInternal.O3, defaultOrMaker: 42)
-    ..a(2, 'str', PbFieldTypeInternal.OS)
-    ..a(
-      3,
-      'child',
-      PbFieldTypeInternal.OM,
-      defaultOrMaker: create,
-      subBuilder: create,
-    )
-    ..p<int>(4, 'int32s', PbFieldTypeInternal.P3)
-    ..a(5, 'int64', PbFieldTypeInternal.O6)
+    ..a(1, 'val', PbFieldType.O3, defaultOrMaker: 42)
+    ..a(2, 'str', PbFieldType.OS)
+    ..a(3, 'child', PbFieldType.OM, defaultOrMaker: create, subBuilder: create)
+    ..p<int>(4, 'int32s', PbFieldType.P3)
+    ..a(5, 'int64', PbFieldType.O6)
     // 6 is reserved for extensions in other tests.
     ..e(
       7,
       'enm',
-      PbFieldTypeInternal.OE,
+      PbFieldType.OE,
       defaultOrMaker: mockEnumValues.first,
       valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
       enumValues: mockEnumValues,

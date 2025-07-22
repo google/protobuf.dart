@@ -6,26 +6,24 @@
 part of 'internal.dart';
 
 /// Defines constants and functions for dealing with fieldType bits.
-class PbFieldTypeInternal {
+class PbFieldType {
   static bool isRepeated(int fieldType) =>
-      (fieldType & PbFieldTypeInternal.REPEATED_BIT) != 0;
+      (fieldType & PbFieldType.REPEATED_BIT) != 0;
 
   static bool isRequired(int fieldType) =>
-      (fieldType & PbFieldTypeInternal.REQUIRED_BIT) != 0;
+      (fieldType & PbFieldType.REQUIRED_BIT) != 0;
 
   static bool isEnum(int fieldType) =>
-      PbFieldTypeInternal.baseType(fieldType) == PbFieldTypeInternal.ENUM_BIT;
+      PbFieldType.baseType(fieldType) == PbFieldType.ENUM_BIT;
 
   static bool isBytes(int fieldType) =>
-      PbFieldTypeInternal.baseType(fieldType) == PbFieldTypeInternal.BYTES_BIT;
+      PbFieldType.baseType(fieldType) == PbFieldType.BYTES_BIT;
 
   static bool isGroupOrMessage(int fieldType) =>
-      (fieldType &
-          (PbFieldTypeInternal.GROUP_BIT | PbFieldTypeInternal.MESSAGE_BIT)) !=
-      0;
+      (fieldType & (PbFieldType.GROUP_BIT | PbFieldType.MESSAGE_BIT)) != 0;
 
   static bool isMapField(int fieldType) =>
-      (fieldType & PbFieldTypeInternal.MAP_BIT) != 0;
+      (fieldType & PbFieldType.MAP_BIT) != 0;
 
   /// Returns the base field type without any of the required, repeated
   /// and packed bits.

@@ -181,7 +181,7 @@ T _reparseMessage<T extends GeneratedMessage>(
       final messageMapDynamic = message._fieldSet._values[field.index!];
       if (messageMapDynamic == null) continue;
       final PbMap messageMap = messageMapDynamic;
-      if (PbFieldTypeInternal.isGroupOrMessage(field.valueFieldType)) {
+      if (PbFieldType.isGroupOrMessage(field.valueFieldType)) {
         for (final key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];
           final reparsedValue = _reparseMessage(value, extensionRegistry);
