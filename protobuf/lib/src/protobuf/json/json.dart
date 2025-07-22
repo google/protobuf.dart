@@ -10,7 +10,7 @@ import '../consts.dart';
 import '../internal.dart';
 import '../utils.dart';
 
-export 'json_vm.dart' if (dart.library.js_interop) 'json_web.dart';
+export 'json_vm.dart' if (dart.library.html) 'json_web.dart';
 
 Map<String, dynamic> writeToJsonMap(FieldSet fs) {
   dynamic convertToMap(dynamic fieldValue, int fieldType) {
