@@ -8,14 +8,7 @@
 library;
 
 import 'dart:collection' show ListBase, MapBase;
-import 'dart:convert'
-    show
-        Utf8Decoder,
-        Utf8Encoder,
-        base64Decode,
-        base64Encode,
-        jsonDecode,
-        jsonEncode;
+import 'dart:convert' show Utf8Decoder, Utf8Encoder, base64Decode, base64Encode;
 import 'dart:math' as math;
 import 'dart:typed_data' show ByteData, Endian, Uint8List;
 
