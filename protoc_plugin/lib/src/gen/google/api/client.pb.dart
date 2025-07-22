@@ -403,8 +403,8 @@ class Publishing extends $pb.GeneratedMessage {
             ClientLibraryOrganization.CLIENT_LIBRARY_ORGANIZATION_UNSPECIFIED,
         valueOf: ClientLibraryOrganization.valueOf,
         enumValues: ClientLibraryOrganization.values)
-    ..pc<ClientLibrarySettings>(109, _omitFieldNames ? '' : 'librarySettings',
-        $pb.PbFieldType.PM,
+    ..pc<ClientLibrarySettings>(
+        109, _omitFieldNames ? '' : 'librarySettings', $pb.PbFieldType.PM,
         subBuilder: ClientLibrarySettings.create)
     ..aOS(110, _omitFieldNames ? '' : 'protoReferenceDocumentationUri')
     ..aOS(111, _omitFieldNames ? '' : 'restReferenceDocumentationUri')
@@ -1313,8 +1313,8 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOM<$0.Duration>(1, _omitFieldNames ? '' : 'initialPollDelay',
         subBuilder: $0.Duration.create)
-    ..a<$core.double>(2, _omitFieldNames ? '' : 'pollDelayMultiplier',
-        $pb.PbFieldType.OF)
+    ..a<$core.double>(
+        2, _omitFieldNames ? '' : 'pollDelayMultiplier', $pb.PbFieldType.OF)
     ..aOM<$0.Duration>(3, _omitFieldNames ? '' : 'maxPollDelay',
         subBuilder: $0.Duration.create)
     ..aOM<$0.Duration>(4, _omitFieldNames ? '' : 'totalPollTimeout',

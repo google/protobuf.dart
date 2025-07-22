@@ -147,13 +147,12 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
         subBuilder: FileOptions.create)
     ..aOM<SourceCodeInfo>(9, _omitFieldNames ? '' : 'sourceCodeInfo',
         subBuilder: SourceCodeInfo.create)
-    ..p<$core.int>(10, _omitFieldNames ? '' : 'publicDependency',
-        $pb.PbFieldType.P3)
+    ..p<$core.int>(
+        10, _omitFieldNames ? '' : 'publicDependency', $pb.PbFieldType.P3)
     ..p<$core.int>(
         11, _omitFieldNames ? '' : 'weakDependency', $pb.PbFieldType.P3)
     ..aOS(12, _omitFieldNames ? '' : 'syntax')
-    ..e<Edition>(
-        14, _omitFieldNames ? '' : 'edition', $pb.PbFieldType.OE,
+    ..e<Edition>(14, _omitFieldNames ? '' : 'edition', $pb.PbFieldType.OE,
         defaultOrMaker: Edition.EDITION_UNKNOWN,
         valueOf: Edition.valueOf,
         enumValues: Edition.values)
@@ -312,8 +311,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create)
-    ..a<$core.int>(
-        1, _omitFieldNames ? '' : 'start', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'start', $pb.PbFieldType.O3)
     ..a<$core.int>(2, _omitFieldNames ? '' : 'end', $pb.PbFieldType.O3)
     ..aOM<ExtensionRangeOptions>(3, _omitFieldNames ? '' : 'options',
         subBuilder: ExtensionRangeOptions.create);
@@ -401,8 +399,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create)
-    ..a<$core.int>(
-        1, _omitFieldNames ? '' : 'start', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'start', $pb.PbFieldType.O3)
     ..a<$core.int>(2, _omitFieldNames ? '' : 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -635,8 +632,7 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create)
-    ..a<$core.int>(
-        1, _omitFieldNames ? '' : 'number', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'number', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'fullName')
     ..aOS(3, _omitFieldNames ? '' : 'type')
     ..aOB(5, _omitFieldNames ? '' : 'reserved')
@@ -766,8 +762,8 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
         enumValues: ExtensionRangeOptions_VerificationState.values)
     ..aOM<FeatureSet>(50, _omitFieldNames ? '' : 'features',
         subBuilder: FeatureSet.create)
-    ..pc<UninterpretedOption>(999, _omitFieldNames ? '' : 'uninterpretedOption',
-        $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -876,8 +872,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOS(2, _omitFieldNames ? '' : 'extendee')
-    ..a<$core.int>(
-        3, _omitFieldNames ? '' : 'number', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'number', $pb.PbFieldType.O3)
     ..e<FieldDescriptorProto_Label>(
         4, _omitFieldNames ? '' : 'label', $pb.PbFieldType.OE,
         defaultOrMaker: FieldDescriptorProto_Label.LABEL_OPTIONAL,
@@ -892,8 +887,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     ..aOS(7, _omitFieldNames ? '' : 'defaultValue')
     ..aOM<FieldOptions>(8, _omitFieldNames ? '' : 'options',
         subBuilder: FieldOptions.create)
-    ..a<$core.int>(
-        9, _omitFieldNames ? '' : 'oneofIndex', $pb.PbFieldType.O3)
+    ..a<$core.int>(9, _omitFieldNames ? '' : 'oneofIndex', $pb.PbFieldType.O3)
     ..aOS(10, _omitFieldNames ? '' : 'jsonName')
     ..aOB(17, _omitFieldNames ? '' : 'proto3Optional');
 
@@ -1166,8 +1160,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create)
-    ..a<$core.int>(
-        1, _omitFieldNames ? '' : 'start', $pb.PbFieldType.O3)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'start', $pb.PbFieldType.O3)
     ..a<$core.int>(2, _omitFieldNames ? '' : 'end', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -1362,8 +1355,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'name')
-    ..a<$core.int>(
-        2, _omitFieldNames ? '' : 'number', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'number', $pb.PbFieldType.O3)
     ..aOM<EnumValueOptions>(3, _omitFieldNames ? '' : 'options',
         subBuilder: EnumValueOptions.create);
 
@@ -1725,8 +1717,8 @@ class FileOptions extends $pb.GeneratedMessage {
     ..aOS(45, _omitFieldNames ? '' : 'rubyPackage')
     ..aOM<FeatureSet>(50, _omitFieldNames ? '' : 'features',
         subBuilder: FeatureSet.create)
-    ..pc<UninterpretedOption>(999, _omitFieldNames ? '' : 'uninterpretedOption',
-        $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -2059,8 +2051,8 @@ class MessageOptions extends $pb.GeneratedMessage {
     ..aOB(11, _omitFieldNames ? '' : 'deprecatedLegacyJsonFieldConflicts')
     ..aOM<FeatureSet>(12, _omitFieldNames ? '' : 'features',
         subBuilder: FeatureSet.create)
-    ..pc<UninterpretedOption>(999, _omitFieldNames ? '' : 'uninterpretedOption',
-        $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -2237,8 +2229,7 @@ class FieldOptions_EditionDefault extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create)
     ..aOS(2, _omitFieldNames ? '' : 'value')
-    ..e<Edition>(
-        3, _omitFieldNames ? '' : 'edition', $pb.PbFieldType.OE,
+    ..e<Edition>(3, _omitFieldNames ? '' : 'edition', $pb.PbFieldType.OE,
         defaultOrMaker: Edition.EDITION_UNKNOWN,
         valueOf: Edition.valueOf,
         enumValues: Edition.values)
@@ -2319,19 +2310,18 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create)
-    ..e<Edition>(1, _omitFieldNames ? '' : 'editionIntroduced',
-        $pb.PbFieldType.OE,
+    ..e<Edition>(
+        1, _omitFieldNames ? '' : 'editionIntroduced', $pb.PbFieldType.OE,
         defaultOrMaker: Edition.EDITION_UNKNOWN,
         valueOf: Edition.valueOf,
         enumValues: Edition.values)
-    ..e<Edition>(2, _omitFieldNames ? '' : 'editionDeprecated',
-        $pb.PbFieldType.OE,
+    ..e<Edition>(
+        2, _omitFieldNames ? '' : 'editionDeprecated', $pb.PbFieldType.OE,
         defaultOrMaker: Edition.EDITION_UNKNOWN,
         valueOf: Edition.valueOf,
         enumValues: Edition.values)
     ..aOS(3, _omitFieldNames ? '' : 'deprecationWarning')
-    ..e<Edition>(
-        4, _omitFieldNames ? '' : 'editionRemoved', $pb.PbFieldType.OE,
+    ..e<Edition>(4, _omitFieldNames ? '' : 'editionRemoved', $pb.PbFieldType.OE,
         defaultOrMaker: Edition.EDITION_UNKNOWN,
         valueOf: Edition.valueOf,
         enumValues: Edition.values)
@@ -2485,16 +2475,16 @@ class FieldOptions extends $pb.GeneratedMessage {
         valueOf: FieldOptions_OptionTargetType.valueOf,
         enumValues: FieldOptions_OptionTargetType.values,
         defaultEnumValue: FieldOptions_OptionTargetType.TARGET_TYPE_UNKNOWN)
-    ..pc<FieldOptions_EditionDefault>(20,
-        _omitFieldNames ? '' : 'editionDefaults', $pb.PbFieldType.PM,
+    ..pc<FieldOptions_EditionDefault>(
+        20, _omitFieldNames ? '' : 'editionDefaults', $pb.PbFieldType.PM,
         subBuilder: FieldOptions_EditionDefault.create)
     ..aOM<FeatureSet>(21, _omitFieldNames ? '' : 'features',
         subBuilder: FeatureSet.create)
     ..aOM<FieldOptions_FeatureSupport>(
         22, _omitFieldNames ? '' : 'featureSupport',
         subBuilder: FieldOptions_FeatureSupport.create)
-    ..pc<UninterpretedOption>(999, _omitFieldNames ? '' : 'uninterpretedOption',
-        $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -2723,8 +2713,8 @@ class OneofOptions extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOM<FeatureSet>(1, _omitFieldNames ? '' : 'features',
         subBuilder: FeatureSet.create)
-    ..pc<UninterpretedOption>(999, _omitFieldNames ? '' : 'uninterpretedOption',
-        $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -2809,8 +2799,8 @@ class EnumOptions extends $pb.GeneratedMessage {
     ..aOB(6, _omitFieldNames ? '' : 'deprecatedLegacyJsonFieldConflicts')
     ..aOM<FeatureSet>(7, _omitFieldNames ? '' : 'features',
         subBuilder: FeatureSet.create)
-    ..pc<UninterpretedOption>(999, _omitFieldNames ? '' : 'uninterpretedOption',
-        $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -2937,8 +2927,8 @@ class EnumValueOptions extends $pb.GeneratedMessage {
     ..aOM<FieldOptions_FeatureSupport>(
         4, _omitFieldNames ? '' : 'featureSupport',
         subBuilder: FieldOptions_FeatureSupport.create)
-    ..pc<UninterpretedOption>(999, _omitFieldNames ? '' : 'uninterpretedOption',
-        $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -3051,8 +3041,8 @@ class ServiceOptions extends $pb.GeneratedMessage {
     ..aOB(33, _omitFieldNames ? '' : 'deprecated')
     ..aOM<FeatureSet>(34, _omitFieldNames ? '' : 'features',
         subBuilder: FeatureSet.create)
-    ..pc<UninterpretedOption>(999, _omitFieldNames ? '' : 'uninterpretedOption',
-        $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -3141,15 +3131,15 @@ class MethodOptions extends $pb.GeneratedMessage {
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create)
     ..aOB(33, _omitFieldNames ? '' : 'deprecated')
-    ..e<MethodOptions_IdempotencyLevel>(34,
-        _omitFieldNames ? '' : 'idempotencyLevel', $pb.PbFieldType.OE,
+    ..e<MethodOptions_IdempotencyLevel>(
+        34, _omitFieldNames ? '' : 'idempotencyLevel', $pb.PbFieldType.OE,
         defaultOrMaker: MethodOptions_IdempotencyLevel.IDEMPOTENCY_UNKNOWN,
         valueOf: MethodOptions_IdempotencyLevel.valueOf,
         enumValues: MethodOptions_IdempotencyLevel.values)
     ..aOM<FeatureSet>(35, _omitFieldNames ? '' : 'features',
         subBuilder: FeatureSet.create)
-    ..pc<UninterpretedOption>(999, _omitFieldNames ? '' : 'uninterpretedOption',
-        $pb.PbFieldType.PM,
+    ..pc<UninterpretedOption>(
+        999, _omitFieldNames ? '' : 'uninterpretedOption', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption.create)
     ..hasExtensions = true;
 
@@ -3340,8 +3330,8 @@ class UninterpretedOption extends $pb.GeneratedMessage {
         2, _omitFieldNames ? '' : 'name', $pb.PbFieldType.PM,
         subBuilder: UninterpretedOption_NamePart.create)
     ..aOS(3, _omitFieldNames ? '' : 'identifierValue')
-    ..a<$fixnum.Int64>(4, _omitFieldNames ? '' : 'positiveIntValue',
-        $pb.PbFieldType.OU6,
+    ..a<$fixnum.Int64>(
+        4, _omitFieldNames ? '' : 'positiveIntValue', $pb.PbFieldType.OU6,
         defaultOrMaker: $fixnum.Int64.ZERO)
     ..aInt64(5, _omitFieldNames ? '' : 'negativeIntValue')
     ..a<$core.double>(
@@ -3534,9 +3524,7 @@ class FeatureSet extends $pb.GeneratedMessage {
         valueOf: FeatureSet_EnumType.valueOf,
         enumValues: FeatureSet_EnumType.values)
     ..e<FeatureSet_RepeatedFieldEncoding>(
-        3,
-        _omitFieldNames ? '' : 'repeatedFieldEncoding',
-        $pb.PbFieldType.OE,
+        3, _omitFieldNames ? '' : 'repeatedFieldEncoding', $pb.PbFieldType.OE,
         defaultOrMaker:
             FeatureSet_RepeatedFieldEncoding.REPEATED_FIELD_ENCODING_UNKNOWN,
         valueOf: FeatureSet_RepeatedFieldEncoding.valueOf,
@@ -3556,16 +3544,14 @@ class FeatureSet extends $pb.GeneratedMessage {
         defaultOrMaker: FeatureSet_JsonFormat.JSON_FORMAT_UNKNOWN,
         valueOf: FeatureSet_JsonFormat.valueOf,
         enumValues: FeatureSet_JsonFormat.values)
-    ..e<FeatureSet_EnforceNamingStyle>(7,
-        _omitFieldNames ? '' : 'enforceNamingStyle', $pb.PbFieldType.OE,
+    ..e<FeatureSet_EnforceNamingStyle>(
+        7, _omitFieldNames ? '' : 'enforceNamingStyle', $pb.PbFieldType.OE,
         defaultOrMaker:
             FeatureSet_EnforceNamingStyle.ENFORCE_NAMING_STYLE_UNKNOWN,
         valueOf: FeatureSet_EnforceNamingStyle.valueOf,
         enumValues: FeatureSet_EnforceNamingStyle.values)
     ..e<FeatureSet_VisibilityFeature_DefaultSymbolVisibility>(
-        8,
-        _omitFieldNames ? '' : 'defaultSymbolVisibility',
-        $pb.PbFieldType.OE,
+        8, _omitFieldNames ? '' : 'defaultSymbolVisibility', $pb.PbFieldType.OE,
         defaultOrMaker: FeatureSet_VisibilityFeature_DefaultSymbolVisibility
             .DEFAULT_SYMBOL_VISIBILITY_UNKNOWN,
         valueOf: FeatureSet_VisibilityFeature_DefaultSymbolVisibility.valueOf,
@@ -3703,8 +3689,7 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create)
-    ..e<Edition>(
-        3, _omitFieldNames ? '' : 'edition', $pb.PbFieldType.OE,
+    ..e<Edition>(3, _omitFieldNames ? '' : 'edition', $pb.PbFieldType.OE,
         defaultOrMaker: Edition.EDITION_UNKNOWN,
         valueOf: Edition.valueOf,
         enumValues: Edition.values)
@@ -3808,13 +3793,11 @@ class FeatureSetDefaults extends $pb.GeneratedMessage {
     ..pc<FeatureSetDefaults_FeatureSetEditionDefault>(
         1, _omitFieldNames ? '' : 'defaults', $pb.PbFieldType.PM,
         subBuilder: FeatureSetDefaults_FeatureSetEditionDefault.create)
-    ..e<Edition>(
-        4, _omitFieldNames ? '' : 'minimumEdition', $pb.PbFieldType.OE,
+    ..e<Edition>(4, _omitFieldNames ? '' : 'minimumEdition', $pb.PbFieldType.OE,
         defaultOrMaker: Edition.EDITION_UNKNOWN,
         valueOf: Edition.valueOf,
         enumValues: Edition.values)
-    ..e<Edition>(
-        5, _omitFieldNames ? '' : 'maximumEdition', $pb.PbFieldType.OE,
+    ..e<Edition>(5, _omitFieldNames ? '' : 'maximumEdition', $pb.PbFieldType.OE,
         defaultOrMaker: Edition.EDITION_UNKNOWN,
         valueOf: Edition.valueOf,
         enumValues: Edition.values);
@@ -4163,8 +4146,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..p<$core.int>(1, _omitFieldNames ? '' : 'path', $pb.PbFieldType.K3)
     ..aOS(2, _omitFieldNames ? '' : 'sourceFile')
-    ..a<$core.int>(
-        3, _omitFieldNames ? '' : 'begin', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'begin', $pb.PbFieldType.O3)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'end', $pb.PbFieldType.O3)
     ..e<GeneratedCodeInfo_Annotation_Semantic>(
         5, _omitFieldNames ? '' : 'semantic', $pb.PbFieldType.OE,

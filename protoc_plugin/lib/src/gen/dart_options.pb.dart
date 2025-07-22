@@ -125,8 +125,7 @@ class Imports extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'Imports',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'dart_options'),
       createEmptyInstance: create)
-    ..pc<DartMixin>(
-        1, _omitFieldNames ? '' : 'mixins', $pb.PbFieldType.PM,
+    ..pc<DartMixin>(1, _omitFieldNames ? '' : 'mixins', $pb.PbFieldType.PM,
         subBuilder: DartMixin.create)
     ..hasRequiredFields = false;
 

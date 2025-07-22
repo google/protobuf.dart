@@ -44,8 +44,7 @@ class Http extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'Http',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
       createEmptyInstance: create)
-    ..pc<HttpRule>(
-        1, _omitFieldNames ? '' : 'rules', $pb.PbFieldType.PM,
+    ..pc<HttpRule>(1, _omitFieldNames ? '' : 'rules', $pb.PbFieldType.PM,
         subBuilder: HttpRule.create)
     ..aOB(2, _omitFieldNames ? '' : 'fullyDecodeReservedExpansion')
     ..hasRequiredFields = false;
@@ -417,8 +416,8 @@ class HttpRule extends $pb.GeneratedMessage {
     ..aOS(7, _omitFieldNames ? '' : 'body')
     ..aOM<CustomHttpPattern>(8, _omitFieldNames ? '' : 'custom',
         subBuilder: CustomHttpPattern.create)
-    ..pc<HttpRule>(11, _omitFieldNames ? '' : 'additionalBindings',
-        $pb.PbFieldType.PM,
+    ..pc<HttpRule>(
+        11, _omitFieldNames ? '' : 'additionalBindings', $pb.PbFieldType.PM,
         subBuilder: HttpRule.create)
     ..aOS(12, _omitFieldNames ? '' : 'responseBody')
     ..hasRequiredFields = false;

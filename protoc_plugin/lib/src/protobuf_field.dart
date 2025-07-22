@@ -291,11 +291,9 @@ class ProtobufField {
       } else if (makeDefault == null) {
         switch (type) {
           case '$coreImportPrefix.String':
-            if (typeConstant ==
-                '$protobufImportPrefix.PbFieldType.OS') {
+            if (typeConstant == '$protobufImportPrefix.PbFieldType.OS') {
               invocation = 'aOS';
-            } else if (typeConstant ==
-                '$protobufImportPrefix.PbFieldType.QS') {
+            } else if (typeConstant == '$protobufImportPrefix.PbFieldType.QS') {
               invocation = 'aQS';
             } else {
               invocation = 'a<$type>';
@@ -303,8 +301,7 @@ class ProtobufField {
             }
             break;
           case '$coreImportPrefix.bool':
-            if (typeConstant ==
-                '$protobufImportPrefix.PbFieldType.OB') {
+            if (typeConstant == '$protobufImportPrefix.PbFieldType.OB') {
               invocation = 'aOB';
             } else {
               invocation = 'a<$type>';

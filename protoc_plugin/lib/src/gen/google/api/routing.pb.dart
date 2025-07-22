@@ -398,8 +398,8 @@ class RoutingRule extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'RoutingRule',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
       createEmptyInstance: create)
-    ..pc<RoutingParameter>(2, _omitFieldNames ? '' : 'routingParameters',
-        $pb.PbFieldType.PM,
+    ..pc<RoutingParameter>(
+        2, _omitFieldNames ? '' : 'routingParameters', $pb.PbFieldType.PM,
         subBuilder: RoutingParameter.create)
     ..hasRequiredFields = false;
 
