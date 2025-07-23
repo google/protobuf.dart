@@ -1,3 +1,12 @@
+## 4.2.0-wip
+
+* Internal refactoring to split the package into libraries. This allows
+  conditionally importing different libraries and improving performance by
+  using different encoding/decoding libraries based on the target platform.
+  ([#1026])
+
+[#1026]: https://github.com/google/protobuf.dart/pull/1026
+
 ## 4.1.1
 
 * Minimum SDK dependency bumped from 3.6.0 to 3.7.0. ([#1024])
