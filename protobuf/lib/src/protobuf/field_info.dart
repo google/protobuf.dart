@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// An object representing a protobuf message field.
 class FieldInfo<T> {
@@ -60,7 +60,7 @@ class FieldInfo<T> {
   /// `tagNumber` of `result_per_page` field is 3.
   final int tagNumber;
 
-  /// Index of the field in [_FieldSet._values] list of this field's message.
+  /// Index of the field in [FieldSet._values] list of this field's message.
   ///
   /// The value is `null` for extension fields.
   final int? index;
@@ -148,7 +148,7 @@ class FieldInfo<T> {
        assert(!_isEnum(type) || valueOf != null);
 
   static MakeDefaultFunc? findMakeDefault(int type, dynamic defaultOrMaker) {
-    if (defaultOrMaker == null) return PbFieldType._defaultForType(type);
+    if (defaultOrMaker == null) return PbFieldType.defaultForType(type);
     if (defaultOrMaker is MakeDefaultFunc) return defaultOrMaker;
     return () => defaultOrMaker;
   }
@@ -238,13 +238,18 @@ class FieldInfo<T> {
   }
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
-  /// `_FieldSet._ensureRepeatedField`.
-  PbList<T> _ensureRepeatedField(BuilderInfo meta, _FieldSet fs) {
+  /// `FieldSet._ensureRepeatedField`.
+  PbList<T> _ensureRepeatedField(BuilderInfo meta, FieldSet fs) {
     return fs._ensureRepeatedField<T>(meta, this);
   }
 
   @override
   String toString() => name;
+}
+
+extension FieldInfoInternalExtension<T> on FieldInfo<T> {
+  List<T> ensureRepeatedField(BuilderInfo meta, FieldSet fs) =>
+      _ensureRepeatedField(meta, fs);
 }
 
 final RegExp _upperCase = RegExp('[A-Z]');
@@ -304,7 +309,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
   FieldInfo get valueFieldInfo =>
       mapEntryBuilderInfo.fieldInfo[PbMap._valueFieldNumber]!;
 
-  PbMap<K, V> _ensureMapField(BuilderInfo meta, _FieldSet fs) {
+  PbMap<K, V> _ensureMapField(BuilderInfo meta, FieldSet fs) {
     return fs._ensureMapField<K, V>(meta, this);
   }
 
@@ -312,4 +317,9 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
     assert(isMapField);
     return PbMap<K, V>(keyFieldType, valueFieldType);
   }
+}
+
+extension MapFieldInfoInternalExtension<K, V> on MapFieldInfo<K, V> {
+  Map<K, V> ensureMapField(BuilderInfo meta, FieldSet fs) =>
+      _ensureMapField(meta, fs);
 }

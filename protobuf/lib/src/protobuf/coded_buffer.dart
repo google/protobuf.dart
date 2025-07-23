@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
-void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
+void _writeToCodedBufferWriter(FieldSet fs, CodedBufferWriter out) {
   // Sorting by tag number isn't required, but it sometimes enables
   // performance optimizations for the receiver. See:
   // https://developers.google.com/protocol-buffers/docs/encoding?hl=en#order
@@ -17,7 +17,7 @@ void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
 
   final extensions = fs._extensions;
   if (extensions != null) {
-    for (final tagNumber in _sorted(extensions._tagNumbers)) {
+    for (final tagNumber in sorted(extensions._tagNumbers)) {
       final fi = extensions._getInfoOrNull(tagNumber)!;
       out.writeField(tagNumber, fi.type, extensions._getFieldOrNull(fi));
     }
@@ -31,7 +31,7 @@ void _writeToCodedBufferWriter(_FieldSet fs, CodedBufferWriter out) {
 
 void _mergeFromCodedBufferReader(
   BuilderInfo meta,
-  _FieldSet fs,
+  FieldSet fs,
   CodedBufferReader input,
   ExtensionRegistry registry,
 ) {
@@ -404,7 +404,7 @@ void _mergeFromCodedBufferReader(
 void _readPackableToListEnum(
   List list,
   BuilderInfo meta,
-  _FieldSet fs,
+  FieldSet fs,
   CodedBufferReader input,
   int wireType,
   int tagNumber,
@@ -426,7 +426,7 @@ void _readPackableToListEnum(
 void _readRepeatedEnum(
   List list,
   BuilderInfo meta,
-  _FieldSet fs,
+  FieldSet fs,
   CodedBufferReader input,
   int tagNumber,
   ExtensionRegistry registry,

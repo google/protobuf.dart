@@ -4,7 +4,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// Writer used for converting [GeneratedMessage]s into binary
 /// representation.

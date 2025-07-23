@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
-Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
+Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
   String? convertToMapKey(dynamic key, int keyType) {
     final baseType = PbFieldType._baseType(keyType);
 
@@ -64,10 +64,10 @@ Object? _writeToProto3Json(_FieldSet fs, TypeRegistry typeRegistry) {
         case PbFieldType._DOUBLE_BIT:
           final double value = fieldValue;
           if (value.isNaN) {
-            return _nan;
+            return nan;
           }
           if (value.isInfinite) {
-            return value.isNegative ? _negativeInfinity : _infinity;
+            return value.isNegative ? negativeInfinity : infinity;
           }
           if (value.toInt() == fieldValue) {
             return value.toInt();
@@ -160,7 +160,7 @@ extension _FindFirst<E> on Iterable<E> {
 /// to [fieldSet].
 void _mergeFromProto3Json(
   Object? json,
-  _FieldSet fieldSet,
+  FieldSet fieldSet,
   TypeRegistry typeRegistry,
   bool ignoreUnknownFields,
   bool supportNamesWithUnderscores,
@@ -173,7 +173,7 @@ void _mergeFromProto3Json(
     permissiveEnums,
   );
 
-  void recursionHelper(Object? json, _FieldSet fieldSet) {
+  void recursionHelper(Object? json, FieldSet fieldSet) {
     Object? convertProto3JsonValue(Object value, FieldInfo fieldInfo) {
       final fieldType = fieldInfo.type;
       switch (PbFieldType._baseType(fieldType)) {

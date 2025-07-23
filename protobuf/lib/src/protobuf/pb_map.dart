@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// A [MapBase] implementation used for protobuf `map` fields.
 class PbMap<K, V> extends MapBase<K, V> {
@@ -77,7 +77,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   int get hashCode {
     return _wrappedMap.entries.fold(
       0,
-      (h, entry) => h ^ _HashUtils._hash2(entry.key, entry.value),
+      (h, entry) => h ^ HashUtils.hash2(entry.key, entry.value),
     );
   }
 
@@ -108,7 +108,7 @@ class PbMap<K, V> extends MapBase<K, V> {
     final length = input.readInt32();
     final oldLimit = input._currentLimit;
     input._currentLimit = input._bufferPos + length;
-    final entryFieldSet = _FieldSet(null, mapEntryMeta);
+    final entryFieldSet = FieldSet(null, mapEntryMeta);
     _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry);
     input.checkLastTagWas(0);
     input._currentLimit = oldLimit;

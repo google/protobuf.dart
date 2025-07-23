@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// A set of unknown fields in a [GeneratedMessage].
 class UnknownFieldSet {
@@ -140,7 +140,7 @@ class UnknownFieldSet {
     if (other is! UnknownFieldSet) return false;
 
     final o = other;
-    return _areMapsEqual(o._fields, _fields);
+    return areMapsEqual(o._fields, _fields);
   }
 
   @override
@@ -159,7 +159,7 @@ class UnknownFieldSet {
   String _toString(String indent) {
     final stringBuffer = StringBuffer();
 
-    for (final tag in _sorted(_fields.keys)) {
+    for (final tag in sorted(_fields.keys)) {
       final field = _fields[tag]!;
       for (final value in field.values) {
         if (value is UnknownFieldSet) {
@@ -230,14 +230,14 @@ class UnknownFieldSetField {
     final o = other;
     if (lengthDelimited.length != o.lengthDelimited.length) return false;
     for (var i = 0; i < lengthDelimited.length; i++) {
-      if (!_areListsEqual(o.lengthDelimited[i], lengthDelimited[i])) {
+      if (!areListsEqual(o.lengthDelimited[i], lengthDelimited[i])) {
         return false;
       }
     }
-    if (!_areListsEqual(o.varints, varints)) return false;
-    if (!_areListsEqual(o.fixed32s, fixed32s)) return false;
-    if (!_areListsEqual(o.fixed64s, fixed64s)) return false;
-    if (!_areListsEqual(o.groups, groups)) return false;
+    if (!areListsEqual(o.varints, varints)) return false;
+    if (!areListsEqual(o.fixed32s, fixed32s)) return false;
+    if (!areListsEqual(o.fixed64s, fixed64s)) return false;
+    if (!areListsEqual(o.groups, groups)) return false;
 
     return true;
   }

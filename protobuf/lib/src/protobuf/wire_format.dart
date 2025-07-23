@@ -4,7 +4,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 const int _TAG_TYPE_BITS = 3;
 const int _TAG_TYPE_MASK = (1 << _TAG_TYPE_BITS) - 1;

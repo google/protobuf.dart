@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // ignore_for_file: constant_identifier_names,non_constant_identifier_names
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 bool _isRepeated(int fieldType) => (fieldType & PbFieldType._REPEATED_BIT) != 0;
 
@@ -27,7 +27,7 @@ class PbFieldType {
   static int _baseType(int fieldType) =>
       fieldType & ~(_REQUIRED_BIT | _REPEATED_BIT | _PACKED_BIT | _MAP_BIT);
 
-  static MakeDefaultFunc? _defaultForType(int type) {
+  static MakeDefaultFunc? defaultForType(int type) {
     switch (type) {
       case _OPTIONAL_BOOL:
       case _REQUIRED_BOOL:

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// Per-message type setup.
 class BuilderInfo {
@@ -28,7 +28,7 @@ class BuilderInfo {
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
 
   /// Mapping from `oneof` field [FieldInfo.tagNumber]s to the their indices in
-  /// [_FieldSet._oneofCases].
+  /// [FieldSet._oneofCases].
   final Map<int, int> oneofs = <int, int>{};
 
   /// Whether the message has extension fields.
@@ -486,4 +486,17 @@ class BuilderInfo {
         ?.valueOf
         ?.call(rawValue);
   }
+}
+
+extension BuilderInfoInternalExtension on BuilderInfo {
+  GeneratedMessage makeEmptyMessage(
+    int tagNumber,
+    ExtensionRegistry? extensionRegistry,
+  ) => _makeEmptyMessage(tagNumber, extensionRegistry);
+
+  ProtobufEnum? decodeEnum(
+    int tagNumber,
+    ExtensionRegistry? registry,
+    int rawValue,
+  ) => _decodeEnum(tagNumber, registry, rawValue);
 }

@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
-Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
+Map<String, dynamic> _writeToJsonMap(FieldSet fs) {
   dynamic convertToMap(dynamic fieldValue, int fieldType) {
     final baseType = PbFieldType._baseType(fieldType);
 
@@ -26,10 +26,10 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
       case PbFieldType._DOUBLE_BIT:
         final value = fieldValue as double;
         if (value.isNaN) {
-          return _nan;
+          return nan;
         }
         if (value.isInfinite) {
-          return value.isNegative ? _negativeInfinity : _infinity;
+          return value.isNegative ? negativeInfinity : infinity;
         }
         if (fieldValue.toInt() == fieldValue) {
           return fieldValue.toInt();
@@ -84,7 +84,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
   }
   final extensions = fs._extensions;
   if (extensions != null) {
-    for (final tagNumber in _sorted(extensions._tagNumbers)) {
+    for (final tagNumber in sorted(extensions._tagNumbers)) {
       final value = extensions._values[tagNumber];
       if (value is List && value.isEmpty) {
         continue; // It's repeated or an empty byte array.
@@ -105,7 +105,7 @@ Map<String, dynamic> _writeToJsonMap(_FieldSet fs) {
 // Merge fields from a previously decoded JSON object.
 // (Called recursively on nested messages.)
 void _mergeFromJsonMap(
-  _FieldSet fs,
+  FieldSet fs,
   Map<String, dynamic> json,
   ExtensionRegistry? registry,
 ) {
@@ -139,7 +139,7 @@ void _mergeFromJsonMap(
 
 void _appendJsonList(
   BuilderInfo meta,
-  _FieldSet fs,
+  FieldSet fs,
   List jsonList,
   FieldInfo fi,
   ExtensionRegistry? registry,
@@ -169,7 +169,7 @@ void _appendJsonList(
 
 void _appendJsonMap(
   BuilderInfo meta,
-  _FieldSet fs,
+  FieldSet fs,
   List jsonList,
   MapFieldInfo fi,
   ExtensionRegistry? registry,
@@ -178,7 +178,7 @@ void _appendJsonMap(
   final map = fi._ensureMapField(meta, fs);
   for (final jsonEntryDynamic in jsonList) {
     final jsonEntry = jsonEntryDynamic as Map<String, dynamic>;
-    final entryFieldSet = _FieldSet(null, entryMeta);
+    final entryFieldSet = FieldSet(null, entryMeta);
     final convertedKey = _convertJsonValue(
       entryMeta,
       entryFieldSet,
@@ -205,7 +205,7 @@ void _appendJsonMap(
 
 void _setJsonField(
   BuilderInfo meta,
-  _FieldSet fs,
+  FieldSet fs,
   json,
   FieldInfo fi,
   ExtensionRegistry? registry,
@@ -239,7 +239,7 @@ void _setJsonField(
 /// Throws [ArgumentError] if it cannot convert the value.
 dynamic _convertJsonValue(
   BuilderInfo meta,
-  _FieldSet fs,
+  FieldSet fs,
   value,
   int tagNumber,
   int fieldType,
