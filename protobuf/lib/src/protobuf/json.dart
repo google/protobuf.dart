@@ -6,24 +6,24 @@ part of 'internal.dart';
 
 Map<String, dynamic> _writeToJsonMap(FieldSet fs) {
   dynamic convertToMap(dynamic fieldValue, int fieldType) {
-    final baseType = PbFieldType._baseType(fieldType);
+    final baseType = PbFieldType.baseType(fieldType);
 
-    if (_isRepeated(fieldType)) {
+    if (PbFieldType.isRepeated(fieldType)) {
       final PbList list = fieldValue;
       return List.from(list.map((e) => convertToMap(e, baseType)));
     }
 
     switch (baseType) {
-      case PbFieldType._BOOL_BIT:
-      case PbFieldType._STRING_BIT:
-      case PbFieldType._INT32_BIT:
-      case PbFieldType._SINT32_BIT:
-      case PbFieldType._UINT32_BIT:
-      case PbFieldType._FIXED32_BIT:
-      case PbFieldType._SFIXED32_BIT:
+      case PbFieldType.BOOL_BIT:
+      case PbFieldType.STRING_BIT:
+      case PbFieldType.INT32_BIT:
+      case PbFieldType.SINT32_BIT:
+      case PbFieldType.UINT32_BIT:
+      case PbFieldType.FIXED32_BIT:
+      case PbFieldType.SFIXED32_BIT:
         return fieldValue;
-      case PbFieldType._FLOAT_BIT:
-      case PbFieldType._DOUBLE_BIT:
+      case PbFieldType.FLOAT_BIT:
+      case PbFieldType.DOUBLE_BIT:
         final value = fieldValue as double;
         if (value.isNaN) {
           return nan;
@@ -35,22 +35,22 @@ Map<String, dynamic> _writeToJsonMap(FieldSet fs) {
           return fieldValue.toInt();
         }
         return value;
-      case PbFieldType._BYTES_BIT:
+      case PbFieldType.BYTES_BIT:
         // Encode 'bytes' as a base64-encoded string.
         return base64Encode(fieldValue as List<int>);
-      case PbFieldType._ENUM_BIT:
+      case PbFieldType.ENUM_BIT:
         final ProtobufEnum enum_ = fieldValue;
         return enum_.value; // assume |value| < 2^52
-      case PbFieldType._INT64_BIT:
-      case PbFieldType._SINT64_BIT:
-      case PbFieldType._SFIXED64_BIT:
+      case PbFieldType.INT64_BIT:
+      case PbFieldType.SINT64_BIT:
+      case PbFieldType.SFIXED64_BIT:
         return fieldValue.toString();
-      case PbFieldType._UINT64_BIT:
-      case PbFieldType._FIXED64_BIT:
+      case PbFieldType.UINT64_BIT:
+      case PbFieldType.FIXED64_BIT:
         final Int64 int_ = fieldValue;
         return int_.toStringUnsigned();
-      case PbFieldType._GROUP_BIT:
-      case PbFieldType._MESSAGE_BIT:
+      case PbFieldType.GROUP_BIT:
+      case PbFieldType.MESSAGE_BIT:
         final GeneratedMessage msg = fieldValue;
         return msg.writeToJsonMap();
       default:
@@ -73,7 +73,7 @@ Map<String, dynamic> _writeToJsonMap(FieldSet fs) {
     if (value == null || (value is List && value.isEmpty)) {
       continue; // It's missing, repeated, or an empty byte array.
     }
-    if (_isMapField(fi.type)) {
+    if (PbFieldType.isMapField(fi.type)) {
       result['${fi.tagNumber}'] = writeMap(
         value,
         fi as MapFieldInfo<dynamic, dynamic>,
@@ -246,8 +246,8 @@ dynamic _convertJsonValue(
   ExtensionRegistry? registry,
 ) {
   String expectedType; // for exception message
-  switch (PbFieldType._baseType(fieldType)) {
-    case PbFieldType._BOOL_BIT:
+  switch (PbFieldType.baseType(fieldType)) {
+    case PbFieldType.BOOL_BIT:
       if (value is bool) {
         return value;
       } else if (value is String) {
@@ -265,20 +265,20 @@ dynamic _convertJsonValue(
       }
       expectedType = 'bool (true, false, "true", "false", 1, 0)';
       break;
-    case PbFieldType._BYTES_BIT:
+    case PbFieldType.BYTES_BIT:
       if (value is String) {
         return base64Decode(value);
       }
       expectedType = 'Base64 String';
       break;
-    case PbFieldType._STRING_BIT:
+    case PbFieldType.STRING_BIT:
       if (value is String) {
         return value;
       }
       expectedType = 'String';
       break;
-    case PbFieldType._FLOAT_BIT:
-    case PbFieldType._DOUBLE_BIT:
+    case PbFieldType.FLOAT_BIT:
+    case PbFieldType.DOUBLE_BIT:
       // Allow quoted values, although we don't emit them.
       if (value is double) {
         return value;
@@ -289,7 +289,7 @@ dynamic _convertJsonValue(
       }
       expectedType = 'num or stringified num';
       break;
-    case PbFieldType._ENUM_BIT:
+    case PbFieldType.ENUM_BIT:
       // Allow quoted values, although we don't emit them.
       if (value is String) {
         value = int.parse(value);
@@ -302,15 +302,15 @@ dynamic _convertJsonValue(
       }
       expectedType = 'int or stringified int';
       break;
-    case PbFieldType._INT32_BIT:
-    case PbFieldType._SINT32_BIT:
-    case PbFieldType._SFIXED32_BIT:
+    case PbFieldType.INT32_BIT:
+    case PbFieldType.SINT32_BIT:
+    case PbFieldType.SFIXED32_BIT:
       if (value is int) return value;
       if (value is String) return int.parse(value);
       expectedType = 'int or stringified int';
       break;
-    case PbFieldType._UINT32_BIT:
-    case PbFieldType._FIXED32_BIT:
+    case PbFieldType.UINT32_BIT:
+    case PbFieldType.FIXED32_BIT:
       int? validatedValue;
       if (value is int) validatedValue = value;
       if (value is String) validatedValue = int.parse(value);
@@ -320,17 +320,17 @@ dynamic _convertJsonValue(
       if (validatedValue != null) return validatedValue;
       expectedType = 'int or stringified int';
       break;
-    case PbFieldType._INT64_BIT:
-    case PbFieldType._SINT64_BIT:
-    case PbFieldType._UINT64_BIT:
-    case PbFieldType._FIXED64_BIT:
-    case PbFieldType._SFIXED64_BIT:
+    case PbFieldType.INT64_BIT:
+    case PbFieldType.SINT64_BIT:
+    case PbFieldType.UINT64_BIT:
+    case PbFieldType.FIXED64_BIT:
+    case PbFieldType.SFIXED64_BIT:
       if (value is int) return Int64(value);
       if (value is String) return Int64.parseInt(value);
       expectedType = 'int or stringified int';
       break;
-    case PbFieldType._GROUP_BIT:
-    case PbFieldType._MESSAGE_BIT:
+    case PbFieldType.GROUP_BIT:
+    case PbFieldType.MESSAGE_BIT:
       if (value is Map) {
         final messageValue = value as Map<String, dynamic>;
         final subMessage = meta._makeEmptyMessage(tagNumber, registry);

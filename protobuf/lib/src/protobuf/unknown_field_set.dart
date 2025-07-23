@@ -283,11 +283,11 @@ class UnknownFieldSetField {
       output.writeField(fieldNumber, type, value);
     }
 
-    write(PbFieldType._REPEATED_UINT64, varints);
-    write(PbFieldType._REPEATED_FIXED32, fixed32s);
-    write(PbFieldType._REPEATED_FIXED64, fixed64s);
-    write(PbFieldType._REPEATED_BYTES, lengthDelimited);
-    write(PbFieldType._REPEATED_GROUP, groups);
+    write(PbFieldType.REPEATED_UINT64, varints);
+    write(PbFieldType.REPEATED_FIXED32, fixed32s);
+    write(PbFieldType.REPEATED_FIXED64, fixed64s);
+    write(PbFieldType.REPEATED_BYTES, lengthDelimited);
+    write(PbFieldType.REPEATED_GROUP, groups);
   }
 
   void addGroup(UnknownFieldSet value) {

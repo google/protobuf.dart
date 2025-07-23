@@ -5,7 +5,11 @@
   using different encoding/decoding libraries based on the target platform.
   ([#1026])
 
+* Some of the private `PbFieldType` members are made public, to allow using
+  them in internal libraries. This type is for internal use only. ([#1027])
+
 [#1026]: https://github.com/google/protobuf.dart/pull/1026
+[#1027]: https://github.com/google/protobuf.dart/pull/1027
 
 ## 4.1.1
 

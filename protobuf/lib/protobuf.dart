@@ -16,4 +16,6 @@ export 'src/protobuf/internal.dart'
         FieldSet,
         FieldSetInternalExtension,
         GeneratedMessageInternalExtension,
-        MapFieldInfoInternalExtension;
+        MapFieldInfoInternalExtension,
+        mapKeyFieldNumber,
+        mapValueFieldNumber;
