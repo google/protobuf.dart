@@ -95,9 +95,17 @@ for PKG in ${PKGS}; do
         echo 'dart format --output=none --set-exit-if-changed lib'
         dart format --output=none --set-exit-if-changed lib || EXIT_CODE=$?
         ;;
-      test)
+      test_0)
         echo 'dart test'
         dart test || EXIT_CODE=$?
+        ;;
+      test_1)
+        echo 'dart test -p chrome'
+        dart test -p chrome || EXIT_CODE=$?
+        ;;
+      test_2)
+        echo 'dart test -p chrome -c dart2wasm'
+        dart test -p chrome -c dart2wasm || EXIT_CODE=$?
         ;;
       *)
         echo -e "\033[31mUnknown TASK '${TASK}' - TERMINATING JOB\033[0m"

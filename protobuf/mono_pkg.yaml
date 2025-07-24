@@ -11,6 +11,9 @@ stages:
       - analyze: test
       sdk: [pubspec]
   - run_tests:
-    - group: [test]
+    - group:
+      - test
+      - test: -p chrome
+      - test: -p chrome -c dart2wasm
       sdk: [pubspec, dev]
       os: [linux, osx, windows]
