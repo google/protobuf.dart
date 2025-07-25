@@ -9,6 +9,8 @@ import 'package:test/test.dart';
 import '../gen/google/protobuf/unittest.pb.dart';
 import '../gen/google/protobuf/unittest_import.pb.dart';
 
+const bool kIsWeb = bool.fromEnvironment('dart.library.js_interop');
+
 final Matcher throwsATypeError = throwsA(TypeMatcher<TypeError>());
 
 Int64 make64(int lo, [int? hi]) {

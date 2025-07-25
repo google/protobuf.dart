@@ -7,8 +7,13 @@ import 'dart:io';
 import 'package:test/test.dart';
 
 import 'src/golden_file.dart';
+import 'src/test_util.dart';
 
 void main() {
+  if (kIsWeb) {
+    return;
+  }
+
   test('Deprecated annotation generation for messages', () {
     final actual = File('test/gen/deprecations.pb.dart').readAsStringSync();
     expectGolden(actual, 'deprecations.pb.dart');

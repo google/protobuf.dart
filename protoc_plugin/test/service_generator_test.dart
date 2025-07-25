@@ -10,8 +10,13 @@ import 'package:test/test.dart';
 
 import 'src/golden_file.dart';
 import 'src/service_util.dart';
+import 'src/test_util.dart';
 
 void main() {
+  if (kIsWeb) {
+    return;
+  }
+
   test('testServiceGenerator', () {
     final options = GenerationOptions();
     final fd = buildFileDescriptor('testpkg', 'testpkg.proto', [
