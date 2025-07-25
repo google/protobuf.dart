@@ -20,7 +20,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    continue-on-error: true
     defaults:
       run:
         working-directory: protoc_plugin
@@ -46,6 +45,8 @@ jobs:
 
       - run: dart format --output=none --set-exit-if-changed lib
         if: ${{matrix.run-tests}}
+        if: success() || failure()
 
       - run: dart test
         if: ${{matrix.run-tests}}
+        if: success() || failure()
