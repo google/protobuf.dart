@@ -42,8 +42,8 @@ jobs:
 
       - run: dart format --output=none --set-exit-if-changed .
         if: ${{matrix.run-tests}}
-        if: success() || failure()
+        if: {{ success() || failure() }}
 
       - run: dart test
         if: ${{matrix.run-tests}}
-        if: success() || failure()
+        if: {{ success() || failure() }}
