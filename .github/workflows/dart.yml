@@ -234,14 +234,14 @@ jobs:
       - job_004
       - job_005
   job_007:
-    name: "run_tests; linux; Dart 3.7.0; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
+    name: "run_tests; linux; Dart 3.7.0; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`, `dart test -p chrome`, `dart test -p chrome -c dart2wasm`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.0;packages:protoc_plugin;commands:command_0-command_2-test_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:3.7.0;packages:protoc_plugin;commands:command_0-command_2-test_0-test_1-test_2"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:3.7.0;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;sdk:3.7.0
@@ -269,6 +269,14 @@ jobs:
         working-directory: protoc_plugin
       - name: protoc_plugin; dart test
         run: dart test
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: "protoc_plugin; dart test -p chrome"
+        run: dart test -p chrome
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: "protoc_plugin; dart test -p chrome -c dart2wasm"
+        run: dart test -p chrome -c dart2wasm
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
     needs:
@@ -322,14 +330,14 @@ jobs:
       - job_004
       - job_005
   job_009:
-    name: "run_tests; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`"
+    name: "run_tests; linux; Dart dev; PKG: protoc_plugin; `./../tool/setup.sh`, `make protos`, `dart test`, `dart test -p chrome`, `dart test -p chrome -c dart2wasm`"
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pub hosted dependencies
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
         with:
           path: "~/.pub-cache/hosted"
-          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:command_0-command_2-test_0"
+          key: "os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin;commands:command_0-command_2-test_0-test_1-test_2"
           restore-keys: |
             os:ubuntu-latest;pub-cache-hosted;sdk:dev;packages:protoc_plugin
             os:ubuntu-latest;pub-cache-hosted;sdk:dev
@@ -357,6 +365,14 @@ jobs:
         working-directory: protoc_plugin
       - name: protoc_plugin; dart test
         run: dart test
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: "protoc_plugin; dart test -p chrome"
+        run: dart test -p chrome
+        if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
+        working-directory: protoc_plugin
+      - name: "protoc_plugin; dart test -p chrome -c dart2wasm"
+        run: dart test -p chrome -c dart2wasm
         if: "always() && steps.protoc_plugin_pub_upgrade.conclusion == 'success'"
         working-directory: protoc_plugin
     needs:
