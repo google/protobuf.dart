@@ -50,7 +50,7 @@ class FieldNames {
   // `null` for scalar, repeated, and map fields.
   final String? ensureMethodName;
 
-  FieldNames (
+  FieldNames(
     this.descriptor,
     this.index,
     this.sourcePosition,
