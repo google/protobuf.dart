@@ -118,7 +118,7 @@ void main() {
     expect(message.nanDouble.isNaN, isTrue);
     expect(message.infFloat, same(double.infinity));
     expect(message.negInfFloat, same(double.negativeInfinity));
-    expect(message.nanFloat, same(double.nan));
+    expect(message.nanFloat.isNaN, isTrue);
     expect(message.cppTrigraph, '? ? ?? ?? ??? ??/ ??-');
     expect(
       message.smallInt64.toRadixString(16).toUpperCase(),
