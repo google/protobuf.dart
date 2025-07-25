@@ -115,7 +115,7 @@ void main() {
     expect(message.utf8String, '\u1234');
     expect(message.infDouble, same(double.infinity));
     expect(message.negInfDouble, same(double.negativeInfinity));
-    expect(message.nanDouble, same(double.nan));
+    expect(message.nanDouble.isNaN, isTrue);
     expect(message.infFloat, same(double.infinity));
     expect(message.negInfFloat, same(double.negativeInfinity));
     expect(message.nanFloat, same(double.nan));
