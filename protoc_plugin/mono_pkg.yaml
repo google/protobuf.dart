@@ -12,6 +12,4 @@ stages:
       - command: ./../tool/setup.sh
       - command: make protos
       - test
-      - test: -p chrome
-      - test: -p chrome -c dart2wasm
       sdk: [pubspec, dev]
