@@ -44,9 +44,7 @@ jobs:
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed lib
-        if: ${{matrix.run-tests}}
-        if: {{ success() || failure() }}
+        if: ${{matrix.run-tests && (success() || failure()) }}
 
       - run: dart test
-        if: ${{matrix.run-tests}}
-        if: {{ success() || failure() }}
+        if: ${{matrix.run-tests && (success() || failure()) }}
