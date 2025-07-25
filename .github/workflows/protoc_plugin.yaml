@@ -42,12 +42,9 @@ jobs:
       - run: make protos
 
       - run: dart analyze --fatal-infos
-        if: always()
 
       - run: dart format --output=none --set-exit-if-changed lib
         if: ${{matrix.run-tests}}
-        if: always()
 
       - run: dart test
         if: ${{matrix.run-tests}}
-        if: always()

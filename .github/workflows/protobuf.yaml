@@ -39,12 +39,9 @@ jobs:
       - run: dart pub get
 
       - run: dart analyze --fatal-infos
-        if: always()
 
       - run: dart format --output=none --set-exit-if-changed .
         if: ${{matrix.run-tests}}
-        if: always()
 
       - run: dart test
         if: ${{matrix.run-tests}}
-        if: always()
