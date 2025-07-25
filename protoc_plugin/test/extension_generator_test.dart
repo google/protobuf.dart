@@ -12,8 +12,13 @@ import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
 import 'src/golden_file.dart';
+import 'src/test_util.dart';
 
 void main() {
+  if (kIsWeb) {
+    return;
+  }
+
   test('testExtensionGenerator', () {
     final extensionFieldDescriptor =
         pb.FieldDescriptorProto()

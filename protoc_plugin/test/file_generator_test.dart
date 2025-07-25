@@ -12,6 +12,7 @@ import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
 import 'src/golden_file.dart';
+import 'src/test_util.dart';
 
 FileDescriptorProto buildFileDescriptor({
   bool phoneNumber = true,
@@ -99,6 +100,10 @@ FileDescriptorProto createInt64Proto() {
 }
 
 void main() {
+  if (kIsWeb) {
+    return;
+  }
+
   test(
     'FileGenerator outputs a .pb.dart file for a proto with one message',
     () {
