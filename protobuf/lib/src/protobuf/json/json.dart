@@ -10,6 +10,9 @@ import '../consts.dart';
 import '../internal.dart';
 import '../utils.dart';
 
+// Use json_vm.dart with VM and dart2wasm, json_web.dart with dart2js.
+// json_web.dart uses JS interop for parsing, and JS interop is too slow on
+// Wasm. VM's patch performs better in Wasm.
 export 'json_vm.dart' if (dart.library.html) 'json_web.dart';
 
 Map<String, dynamic> writeToJsonMap(FieldSet fs) {
