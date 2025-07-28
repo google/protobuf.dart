@@ -4,14 +4,8 @@ permissions: read-all
 on:
   pull_request:
     branches:
-    paths:
-      - '.github/workflows/protobuf.yaml'
-      - 'protobuf/**'
   push:
     branches: [ master ]
-    paths:
-      - '.github/workflows/protobuf.yaml'
-      - 'protobuf/**'
   schedule:
     - cron: '0 0 * * 0' # weekly
 
