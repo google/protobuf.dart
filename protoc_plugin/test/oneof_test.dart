@@ -143,7 +143,7 @@ void main() {
     // the orders of keys in the JSON string. In the backends that have their
     // own map types (VM and Wasm) the key that comes later override the
     // previous one.
-    if (1 == 1.0) {
+    if (identical(1.0, 1)) {
       // In JS: '5' comes last during object key iteration.
       expectSecondSet(decoded);
     } else {
