@@ -4,16 +4,8 @@ permissions: read-all
 on:
   pull_request:
     branches:
-    paths:
-      - '.github/workflows/protoc_plugin.yaml'
-      - 'protoc_plugin/**'
-      - 'tool/setup.sh'
   push:
     branches: [ master ]
-    paths:
-      - '.github/workflows/protoc_plugin.yaml'
-      - 'protoc_plugin/**'
-      - 'tool/setup.sh'
   schedule:
     - cron: '0 0 * * 0' # weekly
 
@@ -43,3 +35,7 @@ jobs:
       - run: dart format --output=none --set-exit-if-changed lib
 
       - run: dart test
+
+      - run: dart test -p chrome -c dart2js
+
+      - run: dart test -p chrome -c dart2wasm

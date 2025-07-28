@@ -113,29 +113,43 @@ void main() {
   });
 
   test('serialize and parse concat oneof', () {
-    var foo = Foo()..first = 'oneof';
-    expectFirstSet(foo);
+    final foo1 = Foo()..first = 'oneof';
+    expectFirstSet(foo1);
 
     final foo2 = Foo()..second = 1;
     expectSecondSet(foo2);
 
-    final concat = [...foo.writeToBuffer(), ...foo2.writeToBuffer()];
-    foo = Foo.fromBuffer(concat);
-    expectSecondSet(foo);
+    final concat = [...foo1.writeToBuffer(), ...foo2.writeToBuffer()];
+    expectSecondSet(Foo.fromBuffer(concat));
   });
 
   test('JSON serialize and parse concat oneof', () {
-    var foo = Foo()..first = 'oneof';
-    expectFirstSet(foo);
+    final foo1 = Foo()..first = 'oneof';
+    expectFirstSet(foo1);
 
     final foo2 = Foo()..second = 1;
     expectSecondSet(foo2);
 
     final jsonConcat =
         '${foo2.writeToJson().substring(0, foo2.writeToJson().length - 1)}, '
-        '${foo.writeToJson().substring(1)}';
-    foo = Foo.fromJson(jsonConcat);
-    expectFirstSet(foo);
+        '${foo1.writeToJson().substring(1)}';
+
+    final decoded = Foo.fromJson(jsonConcat);
+
+    // It's unclear how to handle the input `{5:..., 1:...}` in this format. In
+    // the browsers we want to use the browser's JSON decoder, for performance.
+    // However numeric properties in JS objects are always iterated in ascending
+    // order, so that makes `5` override the previous oneof value, regardless of
+    // the orders of keys in the JSON string. In the backends that have their
+    // own map types (VM and Wasm) the key that comes later override the
+    // previous one.
+    if (identical(1.0, 1)) {
+      // In JS: '5' comes last during object key iteration.
+      expectSecondSet(decoded);
+    } else {
+      // In VM and Wasm: '1' comes last during object iteration.
+      expectFirstSet(decoded);
+    }
   });
 
   test('set and clear second oneof field', () {
