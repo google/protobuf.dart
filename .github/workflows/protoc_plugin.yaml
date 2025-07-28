@@ -4,16 +4,8 @@ permissions: read-all
 on:
   pull_request:
     branches:
-    paths:
-      - '.github/workflows/protoc_plugin.yaml'
-      - 'protoc_plugin/**'
-      - 'tool/setup.sh'
   push:
     branches: [ master ]
-    paths:
-      - '.github/workflows/protoc_plugin.yaml'
-      - 'protoc_plugin/**'
-      - 'tool/setup.sh'
   schedule:
     - cron: '0 0 * * 0' # weekly
 
