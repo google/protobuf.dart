@@ -26,9 +26,6 @@ jobs:
     strategy:
       matrix:
         sdk: [stable, dev]
-        include:
-          - sdk: stable
-            run-tests: true
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
@@ -44,7 +41,5 @@ jobs:
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed lib
-        if: ${{matrix.run-tests && (success() || failure()) }}
 
       - run: dart test
-        if: ${{matrix.run-tests && (success() || failure()) }}
