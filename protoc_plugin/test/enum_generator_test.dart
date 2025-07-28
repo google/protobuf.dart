@@ -4,36 +4,39 @@
 
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
-import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
+import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart';
 import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
+import 'src/golden_file.dart';
 
 void main() {
   test('testEnumGenerator', () {
-    var ed = EnumDescriptorProto()
-      ..name = 'PhoneType'
-      ..value.addAll([
-        EnumValueDescriptorProto()
-          ..name = 'MOBILE'
-          ..number = 0,
-        EnumValueDescriptorProto()
-          ..name = 'HOME'
-          ..number = 1,
-        EnumValueDescriptorProto()
-          ..name = 'WORK'
-          ..number = 2,
-        EnumValueDescriptorProto()
-          ..name = 'BUSINESS'
-          ..number = 2
-      ]);
-    var writer = IndentingWriter(filename: 'sample.proto');
-    var fg = FileGenerator(FileDescriptorProto(), GenerationOptions());
-    var eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);
+    final ed =
+        EnumDescriptorProto()
+          ..name = 'PhoneType'
+          ..value.addAll([
+            EnumValueDescriptorProto()
+              ..name = 'MOBILE'
+              ..number = 0,
+            EnumValueDescriptorProto()
+              ..name = 'HOME'
+              ..number = 1,
+            EnumValueDescriptorProto()
+              ..name = 'WORK'
+              ..number = 2,
+            EnumValueDescriptorProto()
+              ..name = 'BUSINESS'
+              ..number = 2,
+          ]);
+    final writer = IndentingWriter(
+      generateMetadata: true,
+      fileName: 'sample.proto',
+    );
+    final fg = FileGenerator(FileDescriptorProto(), GenerationOptions());
+    final eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);
     eg.generate(writer);
-    expectMatchesGoldenFile(writer.toString(), 'test/goldens/enum');
-    expectMatchesGoldenFile(
-        writer.sourceLocationInfo.toString(), 'test/goldens/enum.meta');
+    expectGolden(writer.emitSource(format: false), 'enum.pbenum.dart');
+    expectGolden(writer.sourceLocationInfo.toString(), 'enum.pbenum.dart.meta');
   });
 }

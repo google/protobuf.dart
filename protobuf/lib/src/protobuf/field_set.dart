@@ -2,16 +2,22 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of 'internal.dart';
 
-void _throwFrozenMessageModificationError(String messageName,
-    [String? methodName]) {
+@pragma('vm:never-inline')
+@pragma('wasm:never-inline')
+void _throwFrozenMessageModificationError(
+  String messageName, [
+  String? methodName,
+]) {
   if (methodName != null) {
     throw UnsupportedError(
-        'Attempted to call $methodName on a read-only message ($messageName)');
+      'Attempted to call $methodName on a read-only message ($messageName)',
+    );
   }
   throw UnsupportedError(
-      'Attempted to change a read-only message ($messageName)');
+    'Attempted to change a read-only message ($messageName)',
+  );
 }
 
 /// All the data in a [GeneratedMessage].
@@ -19,9 +25,8 @@ void _throwFrozenMessageModificationError(String messageName,
 /// These fields and methods are in a separate class to avoid polymorphic
 /// access due to inheritance. This turns out to be faster when compiled to
 /// JavaScript.
-class _FieldSet {
+class FieldSet {
   final GeneratedMessage? _message;
-  final EventPlugin? _eventPlugin;
 
   /// The value of each non-extension field in a fixed-length array.
   /// The index of a field can be found in [FieldInfo.index].
@@ -29,10 +34,13 @@ class _FieldSet {
   final List _values;
 
   /// Contains all the extension fields, or null if there aren't any.
-  _ExtensionFieldSet? _extensions;
+  ExtensionFieldSet? _extensions;
 
   /// Contains all the unknown fields, or null if there aren't any.
   UnknownFieldSet? _unknownFields;
+
+  /// Contains unknown data for messages deserialized from json.
+  Map<String, dynamic>? _unknownJsonData;
 
   /// Encodes whether `this` has been frozen, and if so, also memoizes the
   /// hash code.
@@ -45,7 +53,7 @@ class _FieldSet {
   /// code as an `int`.
   Object _frozenState = false;
 
-  /// The [BuilderInfo] for the [GeneratedMessage] this [_FieldSet] belongs to.
+  /// The [BuilderInfo] for the [GeneratedMessage] this [FieldSet] belongs to.
   ///
   /// WARNING: Avoid calling this for any performance critical code, instead
   /// obtain the [BuilderInfo] on the call site.
@@ -56,7 +64,7 @@ class _FieldSet {
   ///
   /// If the value is not a `bool`, then it must contain the memoized hash code
   /// value, in which case the proto must be read-only.
-  bool get _isReadOnly => _frozenState is bool ? _frozenState as bool : true;
+  bool get _isReadOnly => _frozenState is! bool || _frozenState as bool;
 
   /// Returns the value of [_frozenState] if it contains the pre-computed value
   /// of the hashCode for the frozen field sets.
@@ -70,13 +78,13 @@ class _FieldSet {
   int? get _memoizedHashCode =>
       _frozenState is int ? _frozenState as int : null;
 
-  // Maps a oneof decl index to the tag number which is currently set. If the
-  // index is not present, the oneof field is unset.
+  /// Maps a `oneof` field index to the tag number which is currently set. If
+  /// the index is not present, the oneof field is unset.
   final Map<int, int>? _oneofCases;
 
-  _FieldSet(this._message, BuilderInfo meta, this._eventPlugin)
-      : _values = _makeValueList(meta.byIndex.length),
-        _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
+  FieldSet(this._message, BuilderInfo meta)
+    : _values = _makeValueList(meta.byIndex.length),
+      _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
 
   static List _makeValueList(int length) {
     if (length == 0) return _zeroList;
@@ -92,28 +100,21 @@ class _FieldSet {
   String get _messageName => _meta.qualifiedMessageName;
   bool get _hasRequiredFields => _meta.hasRequiredFields;
 
-  /// The FieldInfo for each non-extension field.
+  /// The [FieldInfo] for each non-extension field.
   Iterable<FieldInfo> get _infos => _meta.fieldInfo.values;
 
-  /// The FieldInfo for each non-extension field in tag order.
+  /// The [FieldInfo] for each non-extension field in tag order.
   Iterable<FieldInfo> get _infosSortedByTag => _meta.sortedByTag;
 
-  /// Returns true if we should send events to the plugin.
-  bool get _hasObservers => _eventPlugin != null && _eventPlugin!.hasObservers;
-
-  bool get _hasExtensions => _extensions != null;
-  bool get _hasUnknownFields => _unknownFields != null;
-
-  _ExtensionFieldSet _ensureExtensions() {
-    if (!_hasExtensions) _extensions = _ExtensionFieldSet(this);
-    return _extensions!;
-  }
+  ExtensionFieldSet _ensureExtensions() =>
+      _extensions ??= ExtensionFieldSet(this);
 
   UnknownFieldSet _ensureUnknownFields() {
     if (_unknownFields == null) {
       if (_isReadOnly) return UnknownFieldSet.emptyUnknownFieldSet;
       _unknownFields = UnknownFieldSet();
     }
+    _unknownJsonData = null;
     return _unknownFields!;
   }
 
@@ -129,45 +130,41 @@ class _FieldSet {
   /// Returns the FieldInfo for a regular or extension field.
   /// throws ArgumentException if no info is found.
   FieldInfo _ensureInfo(int tagNumber) {
-    var fi = _getFieldInfoOrNull(tagNumber);
+    final fi = _getFieldInfoOrNull(tagNumber);
     if (fi != null) return fi;
     throw ArgumentError('tag $tagNumber not defined in $_messageName');
   }
 
   /// Returns the FieldInfo for a regular or extension field.
   FieldInfo? _getFieldInfoOrNull(int tagNumber) {
-    var fi = _nonExtensionInfo(_meta, tagNumber);
+    final fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi != null) return fi;
-    if (!_hasExtensions) return null;
-    return _extensions!._getInfoOrNull(tagNumber);
+    return _extensions?._getInfoOrNull(tagNumber);
   }
 
   void _markReadOnly() {
     if (_isReadOnly) return;
     _frozenState = true;
-    for (var field in _meta.sortedByTag) {
+    for (final field in _meta.sortedByTag) {
       if (field.isRepeated) {
-        PbList? list = _values[field.index!];
+        final PbList? list = _values[field.index!];
         if (list == null) continue;
         list.freeze();
       } else if (field.isMapField) {
-        PbMap? map = _values[field.index!];
+        final PbMap? map = _values[field.index!];
         if (map == null) continue;
         map.freeze();
       } else if (field.isGroupOrMessage) {
         final entry = _values[field.index!];
         if (entry != null) {
-          (entry as GeneratedMessage).freeze();
+          final GeneratedMessage msg = entry;
+          msg.freeze();
         }
       }
     }
-    if (_hasExtensions) {
-      _ensureExtensions()._markReadOnly();
-    }
 
-    if (_hasUnknownFields) {
-      _ensureUnknownFields()._markReadOnly();
-    }
+    _extensions?._markReadOnly();
+    _unknownFields?._markReadOnly();
   }
 
   void _ensureWritable() {
@@ -184,16 +181,17 @@ class _FieldSet {
   /// Creates repeated fields (unless read-only).
   /// Suitable for public API.
   dynamic _getField(int tagNumber) {
-    var fi = _nonExtensionInfo(_meta, tagNumber);
+    final fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi != null) {
-      var value = _values[fi.index!];
+      final value = _values[fi.index!];
       if (value != null) return value;
       return _getDefault(fi);
     }
-    if (_hasExtensions) {
-      var fi = _extensions!._getInfoOrNull(tagNumber);
+    final extensions = _extensions;
+    if (extensions != null) {
+      final fi = extensions._getInfoOrNull(tagNumber);
       if (fi != null) {
-        return _extensions!._getFieldOrDefault(fi);
+        return extensions._getFieldOrDefault(fi);
       }
     }
     throw ArgumentError('tag $tagNumber not defined in $_messageName');
@@ -203,13 +201,13 @@ class _FieldSet {
     if (!fi.isRepeated && !fi.isMapField) return fi.makeDefault!();
     if (_isReadOnly) return fi.readonlyDefault;
 
-    var value = fi.makeDefault!();
+    final value = fi.makeDefault!();
     _setNonExtensionFieldUnchecked(_meta, fi, value);
     return value;
   }
 
   dynamic _getFieldOrNullByTag(int tagNumber) {
-    var fi = _getFieldInfoOrNull(tagNumber);
+    final fi = _getFieldInfoOrNull(tagNumber);
     if (fi == null) return null;
     return _getFieldOrNull(fi);
   }
@@ -220,39 +218,39 @@ class _FieldSet {
   /// Works for both repeated and non-repeated fields.
   dynamic _getFieldOrNull(FieldInfo fi) {
     if (fi.index != null) return _values[fi.index!];
-    if (!_hasExtensions) return null;
-    return _extensions!._getFieldOrNull(fi as Extension<dynamic>);
+    return _extensions?._getFieldOrNull(fi as Extension<dynamic>);
   }
 
   bool _hasField(int tagNumber) {
-    var fi = _nonExtensionInfo(_meta, tagNumber);
+    final fi = _nonExtensionInfo(_meta, tagNumber);
     if (fi != null) return _$has(fi.index!);
-    if (!_hasExtensions) return false;
-    return _extensions!._hasField(tagNumber);
+    return _extensions?._hasField(tagNumber) ?? false;
   }
 
-  void _clearField(int? tagNumber) {
+  void _clearField(int tagNumber) {
     _ensureWritable();
     final meta = _meta;
-    var fi = _nonExtensionInfo(meta, tagNumber);
+    final fi = _nonExtensionInfo(meta, tagNumber);
+
     if (fi != null) {
-      // clear a non-extension field
-      if (_hasObservers) _eventPlugin!.beforeClearField(fi);
+      assert(tagNumber == fi.tagNumber);
+
+      // Clear a non-extension field
       _values[fi.index!] = null;
 
-      if (meta.oneofs.containsKey(fi.tagNumber)) {
-        _oneofCases!.remove(meta.oneofs[fi.tagNumber]);
+      final oneofIndex = meta.oneofs[tagNumber];
+      if (oneofIndex != null) {
+        _oneofCases![oneofIndex] = 0;
       }
 
-      var oneofIndex = meta.oneofs[fi.tagNumber];
-      if (oneofIndex != null) _oneofCases![oneofIndex] = 0;
       return;
     }
 
-    if (_hasExtensions) {
-      var fi = _extensions!._getInfoOrNull(tagNumber);
+    final extensions = _extensions;
+    if (extensions != null) {
+      final fi = extensions._getInfoOrNull(tagNumber);
       if (fi != null) {
-        _extensions!._clearField(fi);
+        extensions._clearField(fi);
         return;
       }
     }
@@ -266,21 +264,21 @@ class _FieldSet {
   /// Works for both extended and non-extended fields.
   /// Suitable for public API.
   void _setField(int tagNumber, Object value) {
-    ArgumentError.checkNotNull(value, 'value');
-
     final meta = _meta;
-    var fi = _nonExtensionInfo(meta, tagNumber);
+    final fi = _nonExtensionInfo(meta, tagNumber);
     if (fi == null) {
-      if (!_hasExtensions) {
+      final extensions = _extensions;
+      if (extensions == null) {
         throw ArgumentError('tag $tagNumber not defined in $_messageName');
       }
-      _extensions!._setField(tagNumber, value);
+      extensions._setField(tagNumber, value);
       return;
     }
 
     if (fi.isRepeated) {
-      throw ArgumentError(_setFieldFailedMessage(
-          fi, value, 'repeating field (use get + .add())'));
+      throw ArgumentError(
+        _setFieldFailedMessage(fi, value, 'repeating field (use get + .add())'),
+      );
     }
     _validateField(fi, value);
     _setNonExtensionFieldUnchecked(meta, fi, value);
@@ -291,7 +289,6 @@ class _FieldSet {
   /// Works for both extended and non-extended fields.
   /// Suitable for decoders that do their own validation.
   void _setFieldUnchecked(BuilderInfo meta, FieldInfo fi, value) {
-    ArgumentError.checkNotNull(fi, 'fi');
     assert(!fi.isRepeated);
     if (fi.index == null) {
       _ensureExtensions()
@@ -308,16 +305,16 @@ class _FieldSet {
   /// Creates and stores the repeated field if it doesn't exist.
   /// If it's an extension and the list doesn't exist, validates and stores it.
   /// Suitable for decoders.
-  List<T?> _ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) {
+  PbList<T> _ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     if (fi.index == null) {
       return _ensureExtensions()._ensureRepeatedField(fi as Extension<T>);
     }
-    var value = _getFieldOrNull(fi);
-    if (value != null) return value as List<T>;
+    final value = _getFieldOrNull(fi);
+    if (value != null) return value;
 
-    var newValue = fi._createRepeatedField(_message!);
+    final newValue = fi._createRepeatedField();
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
     return newValue;
   }
@@ -327,30 +324,26 @@ class _FieldSet {
     assert(fi.isMapField);
     assert(fi.index != null); // Map fields are not allowed to be extensions.
 
-    var value = _getFieldOrNull(fi);
-    if (value != null) return value as PbMap<K, V>;
+    final value = _getFieldOrNull(fi);
+    if (value != null) return value;
 
-    var newValue = fi._createMapField(_message!);
+    final newValue = fi._createMapField();
     _setNonExtensionFieldUnchecked(meta, fi, newValue);
-    return newValue as PbMap<K, V>;
+    return newValue;
   }
 
   /// Sets a non-extended field and fires events.
   void _setNonExtensionFieldUnchecked(BuilderInfo meta, FieldInfo fi, value) {
-    var tag = fi.tagNumber;
-    var oneofIndex = meta.oneofs[tag];
+    final tag = fi.tagNumber;
+    final oneofIndex = meta.oneofs[tag];
     if (oneofIndex != null) {
-      _clearField(_oneofCases![oneofIndex]);
-      _oneofCases![oneofIndex] = tag;
+      final currentOneofTag = _oneofCases![oneofIndex];
+      if (currentOneofTag != null) {
+        _clearField(currentOneofTag);
+      }
+      _oneofCases[oneofIndex] = tag;
     }
 
-    // It is important that the callback to the observers is not moved to the
-    // beginning of this method but happens just before the value is set.
-    // Otherwise the observers will be notified about 'clearField' and
-    // 'setField' events in an incorrect order.
-    if (_hasObservers) {
-      _eventPlugin!.beforeSetField(fi, value);
-    }
     _values[fi.index!] = value;
   }
 
@@ -358,8 +351,8 @@ class _FieldSet {
 
   /// The implementation of a generated getter.
   T _$get<T>(int index, T? defaultValue) {
-    var value = _values[index];
-    if (value != null) return value as T;
+    final value = _values[index];
+    if (value != null) return value;
     if (defaultValue != null) return defaultValue;
     return _getDefault(_nonExtensionInfoByIndex(index)) as T;
   }
@@ -368,14 +361,14 @@ class _FieldSet {
   /// the field definition value. Common case for submessages. dynamic type
   /// pushes the type check to the caller.
   dynamic _$getND(int index) {
-    var value = _values[index];
+    final value = _values[index];
     if (value != null) return value;
     return _getDefault(_nonExtensionInfoByIndex(index));
   }
 
   T _$ensure<T>(int index) {
     if (!_$has(index)) {
-      dynamic value = _nonExtensionInfoByIndex(index).subBuilder!();
+      final dynamic value = _nonExtensionInfoByIndex(index).subBuilder!();
       _$set(index, value);
       return value;
     }
@@ -385,9 +378,9 @@ class _FieldSet {
   }
 
   /// The implementation of a generated getter for repeated fields.
-  List<T> _$getList<T>(int index) {
-    var value = _values[index];
-    if (value != null) return value as List<T>;
+  PbList<T> _$getList<T>(int index) {
+    final value = _values[index];
+    if (value != null) return value;
 
     final fi = _nonExtensionInfoByIndex(index) as FieldInfo<T>;
     assert(fi.isRepeated);
@@ -396,25 +389,24 @@ class _FieldSet {
       return fi.readonlyDefault;
     }
 
-    var list = fi._createRepeatedFieldWithType<T>(_message!);
+    final list = fi._createRepeatedFieldWithType<T>();
     _setNonExtensionFieldUnchecked(_meta, fi, list);
     return list;
   }
 
   /// The implementation of a generated getter for map fields.
-  Map<K, V> _$getMap<K, V>(GeneratedMessage parentMessage, int index) {
-    var value = _values[index];
-    if (value != null) return value as Map<K, V>;
+  PbMap<K, V> _$getMap<K, V>(GeneratedMessage parentMessage, int index) {
+    final value = _values[index];
+    if (value != null) return value;
 
     final fi = _nonExtensionInfoByIndex(index) as MapFieldInfo<K, V>;
     assert(fi.isMapField);
 
     if (_isReadOnly) {
-      return PbMap<K, V>.unmodifiable(
-          PbMap<K, V>(fi.keyFieldType, fi.valueFieldType));
+      return PbMap<K, V>.unmodifiable(fi.keyFieldType, fi.valueFieldType);
     }
 
-    var map = fi._createMapField(_message!);
+    final map = fi._createMapField();
     _setNonExtensionFieldUnchecked(_meta, fi, map);
     return map;
   }
@@ -470,7 +462,7 @@ class _FieldSet {
 
   /// The implementation of a generated 'has' method.
   bool _$has(int index) {
-    var value = _values[index];
+    final value = _values[index];
     if (value == null) return false;
     if (value is List) return value.isNotEmpty;
     return true;
@@ -488,16 +480,16 @@ class _FieldSet {
     if (value == null) {
       _$check(index, value); // throw exception for null value
     }
-    if (_hasObservers) {
-      _eventPlugin!.beforeSetField(_nonExtensionInfoByIndex(index), value);
-    }
     final meta = _meta;
-    var tag = meta.byIndex[index].tagNumber;
-    var oneofIndex = meta.oneofs[tag];
+    final tag = meta.byIndex[index].tagNumber;
+    final oneofIndex = meta.oneofs[tag];
 
     if (oneofIndex != null) {
-      _clearField(_oneofCases![oneofIndex]);
-      _oneofCases![oneofIndex] = tag;
+      final currentOneofTag = _oneofCases![oneofIndex];
+      if (currentOneofTag != null) {
+        _clearField(currentOneofTag);
+      }
+      _oneofCases[oneofIndex] = tag;
     }
     _values[index] = value;
   }
@@ -514,38 +506,26 @@ class _FieldSet {
     if (_unknownFields != null) {
       _unknownFields!.clear();
     }
-
-    if (_hasObservers) {
-      for (var fi in _infos) {
-        if (_values[fi.index!] != null) {
-          _eventPlugin!.beforeClearField(fi);
-        }
-      }
-      if (_hasExtensions) {
-        for (var key in _extensions!._tagNumbers) {
-          var fi = _extensions!._getInfoOrNull(key)!;
-          _eventPlugin!.beforeClearField(fi);
-        }
-      }
-    }
     if (_values.isNotEmpty) _values.fillRange(0, _values.length, null);
-    if (_hasExtensions) _extensions!._clearValues();
+    _extensions?._clearValues();
   }
 
-  bool _equals(_FieldSet o) {
+  bool _equals(FieldSet o) {
     if (_meta != o._meta) return false;
     for (var i = 0; i < _values.length; i++) {
       if (!_equalFieldValues(_values[i], o._values[i])) return false;
     }
 
-    if (!_hasExtensions || !_extensions!._hasValues) {
+    final extensions = _extensions;
+    if (extensions == null || !extensions._hasValues) {
       // Check if other extensions are logically empty.
       // (Don't create them unnecessarily.)
-      if (o._hasExtensions && o._extensions!._hasValues) {
+      final oExtensions = o._extensions;
+      if (oExtensions != null && oExtensions._hasValues) {
         return false;
       }
     } else {
-      if (!_extensions!._equalValues(o._extensions)) return false;
+      if (!extensions._equalValues(o._extensions)) return false;
     }
 
     if (_unknownFields == null || _unknownFields!.isEmpty) {
@@ -559,13 +539,15 @@ class _FieldSet {
       if (_unknownFields != o._unknownFields) return false;
     }
 
+    // Ignore _unknownJsonData to preserve existing equality behavior.
+
     return true;
   }
 
-  bool _equalFieldValues(left, right) {
-    if (left != null && right != null) return _deepEquals(left, right);
+  bool _equalFieldValues(Object? left, Object? right) {
+    if (left != null && right != null) return deepEquals(left, right);
 
-    var val = left ?? right;
+    final val = left ?? right;
 
     // Two uninitialized fields are equal.
     if (val == null) return true;
@@ -602,7 +584,7 @@ class _FieldSet {
     }
 
     // Hash with descriptor.
-    var hash = _HashUtils._combine(0, _meta.hashCode);
+    var hash = HashUtils.combine(0, _meta.hashCode);
 
     // Hash with non-extension fields.
     final values = _values;
@@ -613,9 +595,9 @@ class _FieldSet {
     }
 
     // Hash with extension fields.
-    if (_hasExtensions) {
-      final extensions = _extensions!;
-      final sortedByTagNumbers = _sorted(extensions._tagNumbers);
+    final extensions = _extensions;
+    if (extensions != null) {
+      final sortedByTagNumbers = sorted(extensions._tagNumbers);
       for (final tagNumber in sortedByTagNumbers) {
         final fi = extensions._getInfoOrNull(tagNumber)!;
         hash = _hashField(hash, fi, extensions._getFieldOrNull(fi));
@@ -623,7 +605,9 @@ class _FieldSet {
     }
 
     // Hash with unknown fields.
-    hash = _HashUtils._combine(hash, _unknownFields?.hashCode ?? 0);
+    hash = HashUtils.combine(hash, _unknownFields?.hashCode ?? 0);
+
+    // Ignore _unknownJsonData to preserve existing hashing behavior.
 
     if (_isReadOnly) {
       _frozenState = hash;
@@ -641,22 +625,27 @@ class _FieldSet {
       return hash;
     }
 
-    hash = _HashUtils._combine(hash, fi.tagNumber);
-    if (_isBytes(fi.type)) {
+    hash = HashUtils.combine(hash, fi.tagNumber);
+    if (PbFieldType.isBytes(fi.type)) {
       // Bytes are represented as a List<int> (Usually with byte-data).
       // We special case that to match our equality semantics.
-      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(value));
-    } else if (!_isEnum(fi.type)) {
-      hash = _HashUtils._combine(hash, value.hashCode);
+      hash = HashUtils.combine(hash, HashUtils.hashObjects(value));
+    } else if (!PbFieldType.isEnum(fi.type)) {
+      hash = HashUtils.combine(hash, value.hashCode);
     } else if (fi.isRepeated) {
       final PbList list = value;
-      hash = _HashUtils._combine(hash, _HashUtils._hashObjects(list.map((enm) {
-        ProtobufEnum enm_ = enm;
-        return enm_.value;
-      })));
+      hash = HashUtils.combine(
+        hash,
+        HashUtils.hashObjects(
+          list.map((enm) {
+            final ProtobufEnum enm_ = enm;
+            return enm_.value;
+          }),
+        ),
+      );
     } else {
-      ProtobufEnum enm = value;
-      hash = _HashUtils._combine(hash, enm.value);
+      final ProtobufEnum enm = value;
+      hash = HashUtils.combine(hash, enm.value);
     }
 
     return hash;
@@ -678,11 +667,11 @@ class _FieldSet {
     void writeFieldValue(fieldValue, String name) {
       if (fieldValue == null) return;
       if (fieldValue is PbList) {
-        for (var value in fieldValue) {
+        for (final value in fieldValue) {
           renderValue(name, value);
         }
       } else if (fieldValue is PbMap) {
-        for (var entry in fieldValue.entries) {
+        for (final entry in fieldValue.entries) {
           renderValue(name, entry);
         }
       } else {
@@ -690,22 +679,35 @@ class _FieldSet {
       }
     }
 
-    for (var fi in _infosSortedByTag) {
-      writeFieldValue(_values[fi.index!],
-          fi.name == '' ? fi.tagNumber.toString() : fi.name);
+    for (final fi in _infosSortedByTag) {
+      writeFieldValue(
+        _values[fi.index!],
+        fi.name == '' ? fi.tagNumber.toString() : fi.name,
+      );
     }
 
-    if (_hasExtensions) {
-      _extensions!._info.keys.toList()
+    final extensions = _extensions;
+    if (extensions != null) {
+      extensions._info.keys.toList()
         ..sort()
-        ..forEach((int tagNumber) => writeFieldValue(
+        ..forEach(
+          (int tagNumber) => writeFieldValue(
             _extensions!._values[tagNumber],
-            '[${_extensions!._info[tagNumber]!.name}]'));
+            '[${_extensions!._info[tagNumber]!.name}]',
+          ),
+        );
     }
-    if (_hasUnknownFields) {
-      out.write(_unknownFields.toString());
+
+    final unknownFields = _unknownFields;
+    if (unknownFields != null) {
+      out.write(unknownFields.toString());
     } else {
       out.write(UnknownFieldSet().toString());
+    }
+
+    final unknownJsonData = _unknownJsonData;
+    if (unknownJsonData != null) {
+      out.write(unknownJsonData.toString());
     }
   }
 
@@ -714,27 +716,40 @@ class _FieldSet {
   /// Singular fields that are set in [other] overwrite the corresponding fields
   /// in this message. Repeated fields are appended. Singular sub-messages are
   /// recursively merged.
-  void _mergeFromMessage(_FieldSet other) {
+  void _mergeFromMessage(FieldSet other) {
     // TODO(https://github.com/google/protobuf.dart/issues/60): Recognize
     // when `this` and [other] are the same protobuf (e.g. from cloning). In
     // this case, we can merge the non-extension fields without field lookups or
     // validation checks.
-
-    for (var fi in other._infosSortedByTag) {
-      var value = other._values[fi.index!];
+    _ensureWritable();
+    for (final fi in other._infosSortedByTag) {
+      final value = other._values[fi.index!];
       if (value != null) _mergeField(fi, value, isExtension: false);
     }
-    if (other._hasExtensions) {
-      var others = other._extensions!;
-      for (var tagNumber in others._tagNumbers) {
-        var extension = others._getInfoOrNull(tagNumber)!;
-        var value = others._getFieldOrNull(extension);
+
+    final otherExtensions = other._extensions;
+    if (otherExtensions != null) {
+      for (final tagNumber in otherExtensions._tagNumbers) {
+        final extension = otherExtensions._getInfoOrNull(tagNumber)!;
+        final value = otherExtensions._getFieldOrNull(extension);
         _mergeField(extension, value, isExtension: true);
       }
     }
 
-    if (other._hasUnknownFields) {
-      _ensureUnknownFields().mergeFromUnknownFieldSet(other._unknownFields!);
+    final otherUnknownFields = other._unknownFields;
+    if (otherUnknownFields != null) {
+      _ensureUnknownFields().mergeFromUnknownFieldSet(otherUnknownFields);
+    }
+
+    final otherUnknownJsonData = other._unknownJsonData;
+    if (otherUnknownJsonData != null) {
+      final newUnknownJsonData = Map<String, dynamic>.from(
+        _unknownJsonData ?? {},
+      );
+      otherUnknownJsonData.forEach(
+        (key, value) => newUnknownJsonData[key] = value,
+      );
+      _unknownJsonData = newUnknownJsonData.isEmpty ? null : newUnknownJsonData;
     }
   }
 
@@ -757,10 +772,10 @@ class _FieldSet {
       final MapFieldInfo<dynamic, dynamic> f = fi as dynamic;
       final PbMap<dynamic, dynamic> map =
           f._ensureMapField(meta, this) as dynamic;
-      if (_isGroupOrMessage(f.valueFieldType)) {
-        PbMap fieldValueMap = fieldValue;
+      if (PbFieldType.isGroupOrMessage(f.valueFieldType)) {
+        final PbMap<dynamic, GeneratedMessage> fieldValueMap = fieldValue;
         for (final entry in fieldValueMap.entries) {
-          map[entry.key] = (entry.value as GeneratedMessage).deepCopy();
+          map[entry.key] = entry.value.deepCopy();
         }
       } else {
         map.addAll(fieldValue);
@@ -769,27 +784,28 @@ class _FieldSet {
     }
 
     if (fi.isRepeated) {
-      if (_isGroupOrMessage(otherFi.type)) {
+      if (PbFieldType.isGroupOrMessage(otherFi.type)) {
         // fieldValue must be a PbList of GeneratedMessage.
-        PbList<GeneratedMessage> pbList = fieldValue;
-        var repeatedFields = fi._ensureRepeatedField(meta, this);
+        final PbList<GeneratedMessage> pbList = fieldValue;
+        final repeatedFields = fi._ensureRepeatedField(meta, this);
         for (var i = 0; i < pbList.length; ++i) {
           repeatedFields.add(pbList[i].deepCopy());
         }
       } else {
         // fieldValue must be at least a PbList.
-        PbList pbList = fieldValue;
+        final PbList pbList = fieldValue;
         fi._ensureRepeatedField(meta, this).addAll(pbList);
       }
       return;
     }
 
     if (otherFi.isGroupOrMessage) {
-      final currentFi = isExtension
-          ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
-          : _values[fi.index!];
+      final currentFi =
+          isExtension
+              ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
+              : _values[fi.index!];
 
-      GeneratedMessage msg = fieldValue;
+      final GeneratedMessage msg = fieldValue;
       if (currentFi == null) {
         fieldValue = msg.deepCopy();
       } else {
@@ -799,8 +815,10 @@ class _FieldSet {
     }
 
     if (isExtension) {
-      _ensureExtensions()
-          ._setFieldAndInfo(fi as Extension<dynamic>, fieldValue);
+      _ensureExtensions()._setFieldAndInfo(
+        fi as Extension<dynamic>,
+        fieldValue,
+      );
     } else {
       _validateField(fi, fieldValue);
       _setNonExtensionFieldUnchecked(meta, fi, fieldValue);
@@ -818,7 +836,7 @@ class _FieldSet {
   /// type. For example, when setting a proto `string` field a Dart `int`.
   void _validateField(FieldInfo fi, var newValue) {
     _ensureWritable();
-    var message = _getFieldError(fi.type, newValue);
+    final message = _getFieldError(fi.type, newValue);
     if (message != null) {
       throw ArgumentError(_setFieldFailedMessage(fi, newValue, message));
     }
@@ -831,17 +849,18 @@ class _FieldSet {
 
   bool _hasRequiredValues() {
     if (!_hasRequiredFields) return true;
-    for (var fi in _infos) {
-      var value = _values[fi.index!];
+    for (final fi in _infos) {
+      final value = _values[fi.index!];
       if (!fi._hasRequiredValues(value)) return false;
     }
     return _hasRequiredExtensionValues();
   }
 
   bool _hasRequiredExtensionValues() {
-    if (!_hasExtensions) return true;
-    for (var fi in _extensions!._infos) {
-      var value = _extensions!._getFieldOrNull(fi);
+    final extensions = _extensions;
+    if (extensions == null) return true;
+    for (final fi in extensions._infos) {
+      final value = extensions._getFieldOrNull(fi);
       if (!fi._hasRequiredValues(value)) return false;
     }
     return true; // No problems found.
@@ -850,8 +869,8 @@ class _FieldSet {
   /// Adds the path to each uninitialized field to the list.
   void _appendInvalidFields(List<String> problems, String prefix) {
     if (!_hasRequiredFields) return;
-    for (var fi in _infos) {
-      var value = _values[fi.index!];
+    for (final fi in _infos) {
+      final value = _values[fi.index!];
       fi._appendInvalidFields(problems, value, prefix);
     }
     // TODO(skybrian): search extensions as well
@@ -861,35 +880,63 @@ class _FieldSet {
   /// Makes a shallow copy of all values from [original] to this.
   ///
   /// Map fields and repeated fields are copied.
-  void _shallowCopyValues(_FieldSet original) {
+  void _shallowCopyValues(FieldSet original) {
     _values.setRange(0, original._values.length, original._values);
     final info = _meta;
     for (var index = 0; index < info.byIndex.length; index++) {
-      var fieldInfo = info.byIndex[index];
+      final fieldInfo = info.byIndex[index];
       if (fieldInfo.isMapField) {
-        PbMap? map = _values[index];
+        final PbMap? map = _values[index];
         if (map != null) {
-          _values[index] = (fieldInfo as MapFieldInfo)
-              ._createMapField(_message!)
-            ..addAll(map);
+          _values[index] =
+              (fieldInfo as MapFieldInfo)._createMapField()..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
-        PbList? list = _values[index];
+        final PbList? list = _values[index];
         if (list != null) {
-          _values[index] = fieldInfo._createRepeatedField(_message!)
-            ..addAll(list);
+          _values[index] = fieldInfo._createRepeatedField()..addAll(list);
         }
       }
     }
 
-    if (original._hasExtensions) {
-      _ensureExtensions()._shallowCopyValues(original._extensions!);
+    final originalExtensions = original._extensions;
+    if (originalExtensions != null) {
+      _ensureExtensions()._shallowCopyValues(originalExtensions);
     }
 
-    if (original._hasUnknownFields) {
-      _ensureUnknownFields()._fields.addAll(original._unknownFields!._fields);
+    final originalUnknownFields = original._unknownFields;
+    if (originalUnknownFields != null) {
+      _ensureUnknownFields()._fields.addAll(originalUnknownFields._fields);
+    }
+
+    final unknownJsonData = original._unknownJsonData;
+    if (unknownJsonData != null) {
+      _unknownJsonData = Map.from(unknownJsonData);
     }
 
     _oneofCases?.addAll(original._oneofCases!);
   }
+}
+
+extension FieldSetInternalExtension on FieldSet {
+  Iterable<FieldInfo> get infos => _infos;
+  Iterable<FieldInfo> get infosSortedByTag => _infosSortedByTag;
+  List get values => _values;
+  ExtensionFieldSet? get extensions => _extensions;
+  UnknownFieldSet? get unknownFields => _unknownFields;
+  Map<String, dynamic>? get unknownJsonData => _unknownJsonData;
+  set unknownJsonData(Map<String, dynamic>? value) => _unknownJsonData = value;
+  BuilderInfo get meta => _meta;
+  GeneratedMessage? get message => _message;
+  String get messageName => _messageName;
+
+  void ensureWritable() => _ensureWritable();
+  PbList<T> ensureRepeatedField<T>(BuilderInfo meta, FieldInfo<T> fi) =>
+      _ensureRepeatedField(meta, fi);
+  PbMap<K, V> ensureMapField<K, V>(BuilderInfo meta, MapFieldInfo<K, V> fi) =>
+      _ensureMapField(meta, fi);
+  void validateField(FieldInfo fi, dynamic newValue) =>
+      _validateField(fi, newValue);
+  void setFieldUnchecked(BuilderInfo meta, FieldInfo fi, dynamic value) =>
+      _setFieldUnchecked(meta, fi, value);
 }

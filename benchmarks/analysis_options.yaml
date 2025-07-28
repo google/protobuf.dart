@@ -1,5 +1,1 @@
-include: package:lints/recommended.yaml
-
-linter:
-  rules:
-    - directives_ordering
+include: ../analysis_options.yaml

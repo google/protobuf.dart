@@ -1,4 +1,8 @@
-abstract class Mixin1 {
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+mixin Mixin1 {
   String get overriddenString => 'mixin1';
 
   String get interfaceString;
@@ -6,10 +10,10 @@ abstract class Mixin1 {
   bool hasInterfaceString();
 }
 
-abstract class Mixin2 {
+mixin Mixin2 {
   String get overriddenString => 'mixin2';
 
   bool hasOverriddenHasMethod() => false;
 }
 
-abstract class Mixin3 {}
+mixin Mixin3 {}

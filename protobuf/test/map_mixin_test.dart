@@ -9,15 +9,16 @@ import 'dart:collection' show MapMixin;
 
 import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/src/protobuf/mixins/map_mixin.dart';
-import 'package:test/test.dart' show expect, same, test, throwsArgumentError;
+import 'package:test/test.dart'
+    show expect, isA, same, test, throwsArgumentError;
 
 import 'mock_util.dart' show MockMessage, mockInfo;
 
 // A minimal protobuf implementation compatible with PbMapMixin.
-class Rec extends MockMessage with MapMixin, PbMapMixin {
+class Rec extends MockMessage with MapMixin<Object?, Object>, PbMapMixin {
   @override
   BuilderInfo get info_ => _info;
-  static final _info = mockInfo('Rec', () => Rec());
+  static final _info = mockInfo('Rec', Rec.new);
   @override
   Rec createEmptyInstance() => Rec();
 
@@ -27,7 +28,7 @@ class Rec extends MockMessage with MapMixin, PbMapMixin {
 
 void main() {
   test('PbMapMixin methods return default field values', () {
-    var r = Rec();
+    final r = Rec();
 
     expect(r.isEmpty, false);
     expect(r.isNotEmpty, true);
@@ -35,21 +36,21 @@ void main() {
 
     expect(r['val'], 42);
     expect(r['str'], '');
-    expect(r['child'].runtimeType, Rec);
+    expect(r['child'], isA<Rec>());
     expect(r['child'].toString(), 'Rec(42, "")');
     expect(r['int32s'], []);
 
-    var v = r.values;
+    final v = r.values;
     expect(v.length, 6);
     expect(v.first, 42);
     expect(v.toList()[1], '');
     expect(v.toList()[3].toString(), '[]');
     expect(v.toList()[4], 0);
-    expect(v.toList()[5].name, 'a');
+    expect((v.toList()[5] as ProtobufEnum).name, 'a');
   });
 
   test('operator []= sets record fields', () {
-    var r = Rec();
+    final r = Rec();
 
     r['val'] = 123;
     expect(r.val, 123);
@@ -59,24 +60,24 @@ void main() {
     expect(r.str, 'hello');
     expect(r['str'], 'hello');
 
-    var child = Rec();
+    final child = Rec();
     r['child'] = child;
     expect(r.child, same(child));
     expect(r['child'], same(child));
 
     expect(() => r['int32s'] = 123, throwsArgumentError);
-    r['int32s'].add(123);
+    (r['int32s'] as List).add(123);
     expect(r['int32s'], [123]);
     expect(r['int32s'], same(r['int32s']));
   });
 
   test('operator== and hashCode work for Map mixin', () {
-    var a = Rec();
+    final a = Rec();
     expect(a == a, true);
     expect(a == {}, false);
     expect({} == a, false);
 
-    var b = Rec();
+    final b = Rec();
     expect(a.info_ == b.info_, true, reason: 'BuilderInfo should be the same');
     expect(a == b, true);
     expect(a.hashCode, b.hashCode);
@@ -95,14 +96,14 @@ void main() {
   });
 
   test("protobuf doesn't compare equal to a map with the same values", () {
-    var a = Rec();
+    final a = Rec();
     expect(a == Map.from(a), false);
     expect(Map.from(a) == a, false);
   });
 
   test("reading protobuf values shouldn't change equality", () {
-    var a = Rec();
-    var b = Rec();
+    final a = Rec();
+    final b = Rec();
     expect(a == b, true);
     Map.from(a);
     expect(a == b, true);

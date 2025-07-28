@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+message PackedFields {
+    repeated int32 packedInt32 = 1 [packed = true];
+    repeated int64 packedInt64 = 2 [packed = true];
+    repeated uint32 packedUint32 = 3 [packed = true];
+    repeated uint64 packedUint64 = 4 [packed = true];
+    repeated sint32 packedSint32 = 5 [packed = true];
+    repeated sint64 packedSint64 = 6 [packed = true];
+    repeated bool packedBool = 7 [packed = true];
+    repeated Enum1 packedEnum1 = 8 [packed = true];
+    repeated Enum2 packedEnum2 = 9 [packed = true];
+    repeated SparseEnum sparseEnum = 10 [packed = true];
+}
+
+enum Enum1 {
+  ENUM_1_1 = 0;
+  ENUM_1_2 = 1;
+  ENUM_1_3 = 2;
+  ENUM_1_4 = 4;
+  ENUM_1_5 = 5;
+}
+
+enum Enum2 {
+  ENUM_2_1 = 0;
+  ENUM_2_2 = 1;
+  ENUM_2_3 = 2;
+  ENUM_2_4 = 4;
+  ENUM_2_5 = 5;
+}
+
+// An enum with large gaps between the known values, and with negative values.
+//
+// This will be slower to decode as the varint to enum value mapping needs to be
+// done with binary search, or map lookup etc.
+enum SparseEnum {
+    ENUM_ZERO = 0;
+    ENUM_MIN_INT = -2147483648;
+    ENUM_1 = -1000000000;
+    ENUM_2 = -100000000;
+    ENUM_3 = -10000000;
+    ENUM_4 = -1000000;
+    ENUM_5 = -100000;
+    ENUM_6 = 100000;
+    ENUM_7 = 1000000;
+    ENUM_8 = 10000000;
+    ENUM_9 = 100000000;
+    ENUM_10 = 1000000000;
+    ENUM_MAX_INT = 2147483647;
+}

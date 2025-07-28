@@ -7,24 +7,30 @@ import 'string_escape.dart';
 
 /// Writes JSON data as a Dart constant expression.
 /// Accepts null, bool, num, String, and maps and lists.
-void writeJsonConst(IndentingWriter out, val) {
+void writeJsonConst(IndentingWriter out, Object? val) {
   if (val is Map) {
     if (val.values.any(_nonEmptyListOrMap)) {
       out.addBlock(
-          'const {', '}', () => _writeMapItems(out, val, vertical: true),
-          endWithNewline: false);
+        '{',
+        '}',
+        () => _writeMapItems(out, val, vertical: true),
+        endWithNewline: false,
+      );
     } else {
-      out.print('const {');
+      out.print('{');
       _writeMapItems(out, val);
       out.print('}');
     }
   } else if (val is List) {
     if (val.any(_nonEmptyListOrMap)) {
       out.addBlock(
-          'const [', ']', () => _writeListItems(out, val, vertical: true),
-          endWithNewline: false);
+        '[',
+        ']',
+        () => _writeListItems(out, val, vertical: true),
+        endWithNewline: false,
+      );
     } else {
-      out.print('const [');
+      out.print('[');
       _writeListItems(out, val);
       out.print(']');
     }
@@ -39,7 +45,7 @@ void writeJsonConst(IndentingWriter out, val) {
   }
 }
 
-bool _nonEmptyListOrMap(x) {
+bool _nonEmptyListOrMap(dynamic x) {
   if (x is List && x.isNotEmpty) return true;
   if (x is Map && x.isNotEmpty) return true;
   return false;
@@ -51,7 +57,7 @@ void _writeString(IndentingWriter out, String val) {
 
 void _writeListItems(IndentingWriter out, List val, {bool vertical = false}) {
   var first = true;
-  for (var item in val) {
+  for (final item in val) {
     if (!first && !vertical) {
       out.print(', ');
     }
@@ -63,10 +69,13 @@ void _writeListItems(IndentingWriter out, List val, {bool vertical = false}) {
   }
 }
 
-void _writeMapItems(IndentingWriter out, Map<dynamic, dynamic> val,
-    {bool vertical = false}) {
+void _writeMapItems(
+  IndentingWriter out,
+  Map<dynamic, dynamic> val, {
+  bool vertical = false,
+}) {
   var first = true;
-  for (var key in val.keys) {
+  for (final key in val.keys) {
     if (!first && !vertical) out.print(', ');
     _writeString(out, key as String);
     out.print(': ');

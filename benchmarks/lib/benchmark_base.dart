@@ -16,7 +16,7 @@ import 'package:benchmark_harness/benchmark_harness.dart' as bh;
 ///   what the benchmarks are about in Golem UI.
 ///
 abstract class BenchmarkBase extends bh.BenchmarkBase {
-  BenchmarkBase(String name) : super(name, emitter: const _ResultPrinter());
+  BenchmarkBase(super.name) : super(emitter: const _ResultPrinter());
 
   @override
   double measure() {

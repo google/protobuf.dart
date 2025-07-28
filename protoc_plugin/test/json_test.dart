@@ -6,13 +6,14 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/foo.pb.dart' as foo;
-import '../out/protos/google/protobuf/unittest.pb.dart';
-import '../out/protos/map_enum_value.pb.dart';
-import 'test_util.dart';
+import 'gen/foo.pb.dart' as foo;
+import 'gen/google/protobuf/unittest.pb.dart';
+import 'gen/map_enum_value.pb.dart';
+import 'src/test_util.dart';
 
 void main() {
-  final testAllJsonTypes = '{"1":101,"2":"102","3":103,"4":"104",'
+  final testAllJsonTypes =
+      '{"1":101,"2":"102","3":103,"4":"104",'
       '"5":105,"6":"106","7":107,"8":"108","9":109,"10":"110","11":111,'
       '"12":112,"13":true,"14":"115","15":"MTE2","16":{"17":117},'
       '"18":{"1":118},"19":{"1":119},"20":{"1":120},"21":3,"22":6,"23":9,'
@@ -31,14 +32,15 @@ void main() {
   /// Checks that the message, once serialized to JSON, matches
   /// [testAllJsonTypes] massaged with `replaceAll(from, to)`.
   Matcher expectedJson(String from, String to) {
-    var expectedJson = testAllJsonTypes.replaceAll(from, to);
+    final expectedJson = testAllJsonTypes.replaceAll(from, to);
     return predicate(
-        (GeneratedMessage message) => message.writeToJson() == expectedJson,
-        'Incorrect output');
+      (GeneratedMessage message) => message.writeToJson() == expectedJson,
+      'Incorrect output',
+    );
   }
 
   test('testUnsignedOutput', () {
-    var message = TestAllTypes();
+    final message = TestAllTypes();
     // These values selected because:
     // (1) large enough to set the sign bit
     // (2) don't set all of the first 10 bits under the sign bit
@@ -46,7 +48,7 @@ void main() {
     message.optionalUint64 = Int64.parseHex('f0000000ffff0000');
     message.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
-    var expectedJsonValue =
+    final expectedJsonValue =
         '{"4":"17293822573397606400","8":"17293822573397606401"}';
     expect(message.writeToJson(), expectedJsonValue);
   });
@@ -55,58 +57,84 @@ void main() {
     expect(getAllSet().writeToJson(), testAllJsonTypes);
 
     // Test empty list.
-    expect(getAllSet()..repeatedBool.clear(),
-        expectedJson('"43":[true,false],', ''));
+    expect(
+      getAllSet()..repeatedBool.clear(),
+      expectedJson('"43":[true,false],', ''),
+    );
 
     // Test negative number.
-    expect(getAllSet()..optionalInt32 = -1234567,
-        expectedJson(':101,', ':-1234567,'));
+    expect(
+      getAllSet()..optionalInt32 = -1234567,
+      expectedJson(':101,', ':-1234567,'),
+    );
 
     // All 64-bit numbers are quoted.
-    expect(getAllSet()..optionalInt64 = make64(0, 0x200000),
-        expectedJson(':"102",', ':"9007199254740992",'));
-    expect(getAllSet()..optionalInt64 = make64(1, 0x200000),
-        expectedJson(':"102",', ':"9007199254740993",'));
-    expect(getAllSet()..optionalInt64 = -make64(0, 0x200000),
-        expectedJson(':"102",', ':"-9007199254740992",'));
-    expect(getAllSet()..optionalInt64 = -make64(1, 0x200000),
-        expectedJson(':"102",', ':"-9007199254740993",'));
+    expect(
+      getAllSet()..optionalInt64 = make64(0, 0x200000),
+      expectedJson(':"102",', ':"9007199254740992",'),
+    );
+    expect(
+      getAllSet()..optionalInt64 = make64(1, 0x200000),
+      expectedJson(':"102",', ':"9007199254740993",'),
+    );
+    expect(
+      getAllSet()..optionalInt64 = -make64(0, 0x200000),
+      expectedJson(':"102",', ':"-9007199254740992",'),
+    );
+    expect(
+      getAllSet()..optionalInt64 = -make64(1, 0x200000),
+      expectedJson(':"102",', ':"-9007199254740993",'),
+    );
 
     // Quotes, backslashes, and control characters in strings are quoted.
-    expect(getAllSet()..optionalString = 'a\u0000b\u0001cd\\e"fg',
-        expectedJson(':"115",', ':"a\\u0000b\\u0001cd\\\\e\\"fg",'));
+    expect(
+      getAllSet()..optionalString = 'a\u0000b\u0001cd\\e"fg',
+      expectedJson(':"115",', ':"a\\u0000b\\u0001cd\\\\e\\"fg",'),
+    );
   });
 
   test('testBase64Encode', () {
-    expect(getAllSet()..optionalBytes = 'Hello, world'.codeUnits,
-        expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'));
+    expect(
+      getAllSet()..optionalBytes = 'Hello, world'.codeUnits,
+      expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'),
+    );
 
-    expect(getAllSet()..optionalBytes = 'Hello, world!'.codeUnits,
-        expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'));
+    expect(
+      getAllSet()..optionalBytes = 'Hello, world!'.codeUnits,
+      expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'),
+    );
 
-    expect(getAllSet()..optionalBytes = 'Hello, world!!'.codeUnits,
-        expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkISE=",'));
+    expect(
+      getAllSet()..optionalBytes = 'Hello, world!!'.codeUnits,
+      expectedJson(':"MTE2",', ':"SGVsbG8sIHdvcmxkISE=",'),
+    );
 
     // An empty list should not appear in the output.
     expect(getAllSet()..optionalBytes = [], expectedJson('"15":"MTE2",', ''));
 
-    expect(getAllSet()..optionalBytes = 'a'.codeUnits,
-        expectedJson(':"MTE2",', ':"YQ==",'));
+    expect(
+      getAllSet()..optionalBytes = 'a'.codeUnits,
+      expectedJson(':"MTE2",', ':"YQ==",'),
+    );
   });
 
   test('testBase64Decode', () {
     String optionalBytes(String from, String to) {
-      var json = testAllJsonTypes.replaceAll(from, to);
+      final json = testAllJsonTypes.replaceAll(from, to);
       return String.fromCharCodes(TestAllTypes.fromJson(json).optionalBytes);
     }
 
     expect(optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxk",'), 'Hello, world');
 
     expect(
-        optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'), 'Hello, world!');
+      optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxkIQ==",'),
+      'Hello, world!',
+    );
 
-    expect(optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxkISE=",'),
-        'Hello, world!!');
+    expect(
+      optionalBytes(':"MTE2",', ':"SGVsbG8sIHdvcmxkISE=",'),
+      'Hello, world!!',
+    );
 
     // Remove optionalBytes tag, reads back as empty list, hence empty string.
     expect(optionalBytes('"15":"MTE2",', ''), isEmpty);
@@ -118,9 +146,10 @@ void main() {
   });
 
   test('testParseUnsigned', () {
-    var parsed = TestAllTypes.fromJson(
-        '{"4":"17293822573397606400","8":"17293822573397606401"}');
-    var expected = TestAllTypes();
+    final parsed = TestAllTypes.fromJson(
+      '{"4":"17293822573397606400","8":"17293822573397606401"}',
+    );
+    final expected = TestAllTypes();
     expected.optionalUint64 = Int64.parseHex('f0000000ffff0000');
     expected.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
@@ -130,37 +159,38 @@ void main() {
   group('testConvertDouble', () {
     test('WithDecimal', () {
       final json = '{"12":1.2}';
-      var proto = TestAllTypes()..optionalDouble = 1.2;
+      final proto = TestAllTypes()..optionalDouble = 1.2;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('WholeNumber', () {
       final json = '{"12":5}';
-      var proto = TestAllTypes()..optionalDouble = 5.0;
+      final proto = TestAllTypes()..optionalDouble = 5.0;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('Infinity', () {
       final json = '{"12":"Infinity"}';
-      var proto = TestAllTypes()..optionalDouble = double.infinity;
+      final proto = TestAllTypes()..optionalDouble = double.infinity;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
 
     test('NegativeInfinity', () {
       final json = '{"12":"-Infinity"}';
-      var proto = TestAllTypes()..optionalDouble = double.negativeInfinity;
+      final proto = TestAllTypes()..optionalDouble = double.negativeInfinity;
       expect(TestAllTypes.fromJson(json), proto);
       expect(proto.writeToJson(), json);
     });
   });
 
   test('testParseUnsignedLegacy', () {
-    var parsed = TestAllTypes.fromJson(
-        '{"4":"-1152921500311945216","8":"-1152921500311945215"}');
-    var expected = TestAllTypes();
+    final parsed = TestAllTypes.fromJson(
+      '{"4":"-1152921500311945216","8":"-1152921500311945215"}',
+    );
+    final expected = TestAllTypes();
     expected.optionalUint64 = Int64.parseHex('f0000000ffff0000');
     expected.optionalFixed64 = Int64.parseHex('f0000000ffff0001');
 
@@ -174,6 +204,13 @@ void main() {
     expect(message.count, 2214672939);
   });
 
+  test('testUint32Negative', () {
+    var message = foo.Inner.fromJson('{"6": -1}');
+    expect(message.countUint32, 4294967295);
+    message = foo.Inner.fromJson('{"6": -2080294357}');
+    expect(message.countUint32, 2214672939);
+  });
+
   test('testParse', () {
     expect(TestAllTypes.fromJson(testAllJsonTypes), getAllSet());
   });
@@ -183,14 +220,16 @@ void main() {
   });
 
   test('testExtensionsParse', () {
-    var registry = getExtensionRegistry();
-    expect(TestAllExtensions.fromJson(testAllJsonTypes, registry),
-        getAllExtensionsSet());
+    final registry = getExtensionRegistry();
+    expect(
+      TestAllExtensions.fromJson(testAllJsonTypes, registry),
+      getAllExtensionsSet(),
+    );
   });
 
   test('testUnknownEnumValueInOptionalField', () {
     // optional NestedEnum optional_nested_enum = 21;
-    var message = TestAllTypes.fromJson('{"21": 4}');
+    final message = TestAllTypes.fromJson('{"21": 4}');
     // 4 is an unknown value.
     expect(message.optionalNestedEnum, equals(TestAllTypes_NestedEnum.FOO));
   });
@@ -205,15 +244,16 @@ void main() {
     // the default enum value (FOO).
     message = TestAllTypes.fromJson('{"51": [1, 4, 2, 4, 1, 4]}');
     expect(
-        message.repeatedNestedEnum,
-        equals([
-          TestAllTypes_NestedEnum.FOO,
-          TestAllTypes_NestedEnum.FOO,
-          TestAllTypes_NestedEnum.BAR,
-          TestAllTypes_NestedEnum.FOO,
-          TestAllTypes_NestedEnum.FOO,
-          TestAllTypes_NestedEnum.FOO
-        ]));
+      message.repeatedNestedEnum,
+      equals([
+        TestAllTypes_NestedEnum.FOO,
+        TestAllTypes_NestedEnum.FOO,
+        TestAllTypes_NestedEnum.BAR,
+        TestAllTypes_NestedEnum.FOO,
+        TestAllTypes_NestedEnum.FOO,
+        TestAllTypes_NestedEnum.FOO,
+      ]),
+    );
   });
 
   test('testUnknownEnumValueInMapField', () {

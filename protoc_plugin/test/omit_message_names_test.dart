@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
 
 @pragma('dart2js:noInline')
 String constant() => 'SHOULD_BE_PRESENT';
@@ -12,10 +12,11 @@ String constant() => 'SHOULD_BE_PRESENT';
 Future<void> main() async {
   test('message name available depending on environment', () {
     expect(
-        TestAllTypes_NestedMessage().info_.qualifiedMessageName,
-        const bool.fromEnvironment('protobuf.omit_message_names')
-            ? ''
-            : 'protobuf_unittest.TestAllTypes.NestedMessage');
+      TestAllTypes_NestedMessage().info_.qualifiedMessageName,
+      const bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'protobuf_unittest.TestAllTypes.NestedMessage',
+    );
     expect(constant(), 'SHOULD_BE_PRESENT');
   });
 }

@@ -1,4 +1,175 @@
-## 21.0.0-dev
+## 22.5.0
+
+* Generated files are now formatted using the Dart formatter. The code is
+  formatted using the min. SDK for `package:protoc_plugin`; currently `3.7.0`.
+* Minimum SDK dependency bumped from 3.6.0 to 3.7.0. ([#1024])
+
+[#1024]: https://github.com/google/protobuf.dart/pull/1024
+
+## 22.4.0
+
+* Update how we calculate import prefixes ([#1010]); import prefixes are now
+  unique per-library instead of being unique across all generated libraries.
+* Ignore `unused_import` diagnostics for `*.pbjson.dart` files. ([#1013])
+* Revert the change to not generate empty `*.pbenum.dart` files; these can be
+  exported from other enum files. ([#1016])
+* Improve the readablity of generated gRPC client files. ([#1021])
+* Adjust the text of generated file headers ('This is a generated file...').
+  ([#1022])
+
+[#1010]: https://github.com/google/protobuf.dart/issues/1010
+[#1013]: https://github.com/google/protobuf.dart/pull/1013
+[#1016]: https://github.com/google/protobuf.dart/pull/1016
+[#1021]: https://github.com/google/protobuf.dart/pull/1021
+[#1022]: https://github.com/google/protobuf.dart/pull/1022
+
+## 22.3.0
+
+* Update the generated code to improve readability and to better follow common
+  Dart patterns.
+* No longer generate empty enum (`*.pbenum.dart`) files.
+* No longer generate empty server (`*.pbserver.dart`) files.
+* Ignore `implementation_imports` for some generated files.
+
+## 22.2.0
+
+* Bump `protobuf` constraint to `^4.1.0`
+* Read `default_host` and `oauth_scopes` options from gRPC service definitions
+  and write that information to the generated gRPC clients.
+* Adjust the deprecation messages for the message `clone()` and `copyWith()`
+  methods ([#998]).
+* Generate dartdocs for grpc services ([#973]).
+
+  We now parse and generate code cooresponding to the proto options
+  `google.api.default_host` and `google.api.oauth_scopes`:
+  
+  ```proto
+  service Firestore {
+    option (google.api.default_host) = "firestore.googleapis.com";
+    option (google.api.oauth_scopes) =
+        "https://www.googleapis.com/auth/cloud-platform,"
+        "https://www.googleapis.com/auth/datastore";
+  
+    ...
+  ```
+  
+  Will generate as:
+  
+  ```dart
+  class FirestoreClient extends $grpc.Client {
+    /// The hostname for this service.
+    static const $core.String defaultHost = 'firestore.googleapis.com';
+  
+    /// OAuth scopes needed for the client.
+    static const $core.List<$core.String> oauthScopes = [
+      'https://www.googleapis.com/auth/cloud-platform',
+      'https://www.googleapis.com/auth/datastore',
+    ];
+  
+    ...
+  ```
+* Minimum SDK dependency bumped from 3.3.0 to 3.6.0. ([#1001])
+
+[#973]: https://github.com/google/protobuf.dart/issues/973
+[#1001]: https://github.com/google/protobuf.dart/pull/1001
+
+## 22.1.0
+
+* Fix factory argument types for protobuf `Map` fields. ([#975])
+* Fix import order changes when files are passed in different order to `protoc`.
+([#952])
+* Add fromDart() and toDart() methods to convert between core Duration and proto
+  Duration ([#986])
+* Update the GRPC service generator to emit constructors that use super
+  parameters.
+
+[#975]: https://github.com/google/protobuf.dart/issues/975
+[#952]: https://github.com/google/protobuf.dart/issues/952
+[#986]: https://github.com/google/protobuf.dart/issues/986
+[#998]: https://github.com/google/protobuf.dart/issues/998
+
+## 22.0.1
+
+* Bump `protobuf` constraint to `^4.0.0`
+
+## 22.0.0
+
+* Remove `PbEventMixin` mixin. ([#738])
+* Type of repeated fields is now `PbList` (instead of `List`), type of map
+  fields is now `PbMap` (instead of `Map`). ([#903])
+
+  This change requires protobuf-4.0.0.
+* Generated files now export `GeneratedMessageGenericExtensions` from the
+  protobuf library. ([#503], [#907])
+* Generate doc comments for enum types and values, rpc services and methods.
+  ([#900], [#909])
+* `deprecated` options in messages, grpc services and methods, and enum types
+  and values are now handled to generate Dart `@deprecated` annotations.
+  ([#900], [#908])
+* `protoc_plugin` and generated files now require Dart 3.3.0. (#953)
+* Fix performance issues when handling documentation comments in protobufs.
+  ([#935], [#955])
+* Fix grpc methods with names 'call' and 'request' conflicting with other
+  methods in the generated code and causing compile-time errors. ([#963],
+  [#159])
+
+[#738]: https://github.com/google/protobuf.dart/issues/738
+[#903]: https://github.com/google/protobuf.dart/pull/903
+[#503]: https://github.com/google/protobuf.dart/issues/503
+[#907]: https://github.com/google/protobuf.dart/pull/907
+[#900]: https://github.com/google/protobuf.dart/issues/900
+[#909]: https://github.com/google/protobuf.dart/pull/909
+[#908]: https://github.com/google/protobuf.dart/pull/908
+[#953]: https://github.com/google/protobuf.dart/pull/953
+[#935]: https://github.com/google/protobuf.dart/pull/935
+[#955]: https://github.com/google/protobuf.dart/pull/955
+[#963]: https://github.com/google/protobuf.dart/issues/963
+[#159]: https://github.com/google/protobuf.dart/issues/159
+
+## 21.1.2
+
+* Fix a bug in comment parsing. ([#871], [#879])
+
+[#871]: https://github.com/google/protobuf.dart/issues/871
+[#879]: https://github.com/google/protobuf.dart/pull/879
+
+## 21.1.1
+
+* Rename a local variable used with message constructors to avoid potential
+  conflicts with protobuf field names.
+
+## 21.1.0
+
+* Generate code comments for annotated protobuf inputs. ([#161])
+* Generate message constructor arguments by default again. New flag
+  `disable_constructor_args` disables generating the arguments.
+
+  Constructor arguments were removed in 21.0.0 as they increase dart2js binary
+  sizes even when the arguments are not used.
+
+  Example usage to disable constructor arguments:
+
+  ```
+  protoc --dart_out='disable_constructor_args,<other options>:.' ...
+  ```
+
+  ([#850], [#855])
+
+[#161]: https://github.com/google/protobuf.dart/issues/161
+[#850]: https://github.com/google/protobuf.dart/issues/850
+[#855]: https://github.com/google/protobuf.dart/pull/855
+
+## 21.0.2
+
+* Fix missing protobuf import in generated grpc files. ([#844])
+
+[#844]: https://github.com/google/protobuf.dart/issues/844
+
+## 21.0.1
+
+(Bad release, retracted)
+
+## 21.0.0
 
 * Identifiers `fromBuffer`, `fromJson`, `$_defaultFor`, `initByValue` are no
   longer reserved. Proto fields with those Dart names will no longer have a
@@ -20,12 +191,31 @@
     ..a = 123
     ..b.addAll([1, 2, 3])
   ```
+* Require Dart `2.19`.
 * Export public dependencies (`import public`s in proto files) in
   `.pbenum.dart` files, same as `.pb.dart` files. ([9aad6aa])
+* Fix decoding map fields when key or value (or both) fields of a map entry is
+  missing. ([#719], [#745])
+* Generated files now split `ignore_for_file` comments across multiple lines
+  when necessary. ([#770])
+* Generated files now uses shared consts to eliminate repeated
+  `bool.fromEnvironment()` expressions. ([#772])
+* Removed accidental `///` at the top of generated Dart files to avoid new
+  `dangling_library_doc_comments` lint. ([#774])
+* Generated files now have sorted imports and have fewer import-related
+  `ignore_for_file:` analysis directives. ([#778])
+* Remove duplicated consts in generated files. ([#773])
 
 [#679]: https://github.com/google/protobuf.dart/pull/679
 [#703]: https://github.com/google/protobuf.dart/pull/703
 [9aad6aa]: https://github.com/google/protobuf.dart/commits/9aad6aa
+[#719]: https://github.com/google/protobuf.dart/issues/719
+[#745]: https://github.com/google/protobuf.dart/pull/745
+[#770]: https://github.com/google/protobuf.dart/pull/770
+[#772]: https://github.com/google/protobuf.dart/pull/772
+[#773]: https://github.com/google/protobuf.dart/pull/773
+[#774]: https://github.com/google/protobuf.dart/pull/774
+[#778]: https://github.com/google/protobuf.dart/pull/778
 
 ## 20.0.1
 
@@ -71,7 +261,7 @@
 
   If a target is built with `dart_env = {"protobuf.omit_enum_names": "true"}`
   enum names will not be present in the compiled binary.
-* Make message and field names dependenc on a fromEnvironment constants
+* Make message and field names depend on fromEnvironment constants
   `protobuf.omit_message_names` and `protobuf.omit_field_names` respectively.
 * Omit type on a left hand side of generated static fields for extensions,
   which results in stricter type (`Extension<ExtensionType>` instead of just

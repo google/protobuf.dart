@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+// ignore_for_file: non_constant_identifier_names
+
+part of 'internal.dart';
 
 /// A base class for all proto enum types.
 ///
@@ -37,24 +39,33 @@ class ProtobufEnum {
   /// Creates a new constant [ProtobufEnum] using [value] and [name].
   const ProtobufEnum(this.value, this.name);
 
-  /// Creates a Map for all of the [ProtobufEnum]s in [byIndex], mapping each
+  /// This function is for generated code.
+  ///
+  /// Creates a Map for all of the [ProtobufEnum]s in [enumValues], mapping each
   /// [ProtobufEnum]'s [value] to the [ProtobufEnum].
-  static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> byIndex) {
-    var byValue = <int, T>{};
-    for (var v in byIndex) {
-      byValue[v.value] = v;
+  ///
+  /// @nodoc
+  static Map<int, T> initByValue<T extends ProtobufEnum>(List<T> enumValues) {
+    final byValue = <int, T>{};
+    for (final enumValue in enumValues) {
+      byValue[enumValue.value] = enumValue;
     }
     return byValue;
   }
 
-  // Subclasses will typically have a private constructor and a fixed set of
-  // instances, so `Object.operator==()` will work, and does not need to
-  // be overridden explicitly.
-  @override
-  bool operator ==(Object other);
-
-  @override
-  int get hashCode => value;
+  /// This function is for generated code.
+  ///
+  /// @nodoc
+  static List<T?> $_initByValueList<T extends ProtobufEnum>(
+    List<T> enumValues,
+    int maxEnumValue,
+  ) {
+    final byValue = List<T?>.filled(maxEnumValue + 1, null);
+    for (final enumValue in enumValues) {
+      byValue[enumValue.value] = enumValue;
+    }
+    return byValue;
+  }
 
   /// Returns this enum's [name] or the [value] if names are not represented.
   @override

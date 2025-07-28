@@ -6,8 +6,8 @@ import 'dart:math' as math;
 
 import 'package:protobuf/meta.dart';
 
-import 'src/generated/dart_options.pb.dart';
-import 'src/generated/descriptor.pb.dart';
+import 'src/gen/dart_options.pb.dart';
+import 'src/gen/google/protobuf/descriptor.pb.dart';
 
 class MemberNames {
   List<FieldNames> fieldNames;
@@ -50,8 +50,15 @@ class FieldNames {
   // `null` for scalar, repeated, and map fields.
   final String? ensureMethodName;
 
-  FieldNames(this.descriptor, this.index, this.sourcePosition, this.fieldName,
-      {this.hasMethodName, this.clearMethodName, this.ensureMethodName});
+  FieldNames(
+    this.descriptor,
+    this.index,
+    this.sourcePosition,
+    this.fieldName, {
+    this.hasMethodName,
+    this.clearMethodName,
+    this.ensureMethodName,
+  });
 }
 
 /// The Dart names associated with a oneof declaration.
@@ -73,8 +80,14 @@ class OneofNames {
   /// Identifier for the _XByTag map.
   final String byTagMapName;
 
-  OneofNames(this.descriptor, this.index, this.clearMethodName,
-      this.whichOneofMethodName, this.oneofEnumName, this.byTagMapName);
+  OneofNames(
+    this.descriptor,
+    this.index,
+    this.clearMethodName,
+    this.whichOneofMethodName,
+    this.oneofEnumName,
+    this.byTagMapName,
+  );
 }
 
 // For performance reasons, use code units instead of Regex.
@@ -117,27 +130,30 @@ Iterable<String> extensionSuffixes() sync* {
   }
 }
 
-/// Replaces all characters in [imput] that are not valid in a dart identifier
+/// Replaces all characters in [input] that are not valid in a dart identifier
 /// with _.
 ///
 /// This function does not take care of leading underscores.
-String legalDartIdentifier(String imput) {
-  return imput.replaceAll(RegExp(r'[^a-zA-Z0-9$_]'), '_');
+String legalDartIdentifier(String input) {
+  return input.replaceAll(RegExp(r'[^a-zA-Z0-9$_]'), '_');
 }
 
 /// Chooses the name of the Dart class holding top-level extensions.
 String extensionClassName(
-    FileDescriptorProto descriptor, Set<String> usedNames) {
-  var s = avoidInitialUnderscore(
-      legalDartIdentifier(_fileNameWithoutExtension(descriptor)));
-  var candidate = '${s[0].toUpperCase()}${s.substring(1)}';
+  FileDescriptorProto descriptor,
+  Set<String> usedNames,
+) {
+  final s = avoidInitialUnderscore(
+    legalDartIdentifier(_fileNameWithoutExtension(descriptor)),
+  );
+  final candidate = '${s[0].toUpperCase()}${s.substring(1)}';
   return disambiguateName(candidate, usedNames, extensionSuffixes());
 }
 
 String _fileNameWithoutExtension(FileDescriptorProto descriptor) {
-  var path = Uri.file(descriptor.name);
-  var fileName = path.pathSegments.last;
-  var dot = fileName.lastIndexOf('.');
+  final path = Uri.file(descriptor.name);
+  final fileName = path.pathSegments.last;
+  final dot = fileName.lastIndexOf('.');
   return dot == -1 ? fileName : fileName.substring(0, dot);
 }
 
@@ -159,8 +175,11 @@ class DartNameOptionException implements Exception {
 /// [usedNames].
 /// The returned name is that, which will generate the accepted variants.
 String disambiguateName(
-    String name, Set<String> usedNames, Iterable<String> suffixes,
-    {List<String> Function(String candidate)? generateVariants}) {
+  String name,
+  Set<String> usedNames,
+  Iterable<String> suffixes, {
+  List<String> Function(String candidate)? generateVariants,
+}) {
   generateVariants ??= (String name) => <String>[name];
 
   bool allVariantsAvailable(List<String> variants) {
@@ -171,7 +190,7 @@ String disambiguateName(
   var candidateVariants = generateVariants(name);
 
   if (!allVariantsAvailable(candidateVariants)) {
-    for (var suffix in suffixes) {
+    for (final suffix in suffixes) {
       candidateVariants = generateVariants('$name$suffix');
       if (allVariantsAvailable(candidateVariants)) {
         usedSuffix = suffix;
@@ -188,40 +207,56 @@ Iterable<String> defaultSuffixes() sync* {
   yield '_';
   var i = 0;
   while (true) {
-    yield ('_$i');
+    yield '_$i';
     i++;
   }
 }
 
 String oneofEnumClassName(
-    String descriptorName, Set<String> usedNames, String parentName) {
+  String descriptorName,
+  Set<String> usedNames,
+  String parentName,
+) {
   descriptorName = '${parentName}_${underscoresToCamelCase(descriptorName)}';
   return disambiguateName(
-      avoidInitialUnderscore(descriptorName), usedNames, defaultSuffixes());
+    avoidInitialUnderscore(descriptorName),
+    usedNames,
+    defaultSuffixes(),
+  );
 }
 
 String oneofEnumMemberName(String fieldName) => disambiguateName(
-    fieldName, Set<String>.from(_oneofEnumMemberNames), defaultSuffixes());
+  fieldName,
+  Set<String>.from(_oneofEnumMemberNames),
+  defaultSuffixes(),
+);
 
 /// Chooses the name of the Dart class to generate for a proto message or enum.
 ///
 /// For a nested message or enum, [parent] should be provided
 /// with the name of the Dart class for the immediate parent.
-String messageOrEnumClassName(String descriptorName, Set<String> usedNames,
-    {String parent = ''}) {
+String messageOrEnumClassName(
+  String descriptorName,
+  Set<String> usedNames, {
+  String parent = '',
+}) {
   if (parent != '') {
     descriptorName = '${parent}_$descriptorName';
   }
   return disambiguateName(
-      avoidInitialUnderscore(descriptorName), usedNames, defaultSuffixes());
+    avoidInitialUnderscore(descriptorName),
+    usedNames,
+    defaultSuffixes(),
+  );
 }
 
 /// Returns the set of names reserved by the ProtobufEnum class and its
 /// generated subclasses.
-Set<String> get reservedEnumNames => <String>{}
-  ..addAll(ProtobufEnum_reservedNames)
-  ..addAll(_dartReservedWords)
-  ..addAll(_protobufEnumNames);
+Set<String> get reservedEnumNames =>
+    <String>{}
+      ..addAll(ProtobufEnum_reservedNames)
+      ..addAll(_dartReservedWords)
+      ..addAll(_protobufEnumNames);
 
 Iterable<String> enumSuffixes() sync* {
   var s = '_';
@@ -241,29 +276,33 @@ Iterable<String> enumSuffixes() sync* {
 ///
 /// Throws [DartNameOptionException] if a field has this option and
 /// it's set to an invalid name.
-MemberNames messageMemberNames(DescriptorProto descriptor,
-    String parentClassName, Set<String> usedTopLevelNames,
-    {Iterable<String> reserved = const []}) {
-  var fieldList = List<FieldDescriptorProto>.from(descriptor.field);
-  var sourcePositions =
-      fieldList.asMap().map((index, field) => MapEntry(field.name, index));
-  var sorted = fieldList
-    ..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
-      if (a.number < b.number) return -1;
-      if (a.number > b.number) return 1;
-      throw 'multiple fields defined for tag ${a.number} in ${descriptor.name}';
-    });
+MemberNames messageMemberNames(
+  DescriptorProto descriptor,
+  String parentClassName,
+  Set<String> usedTopLevelNames, {
+  Iterable<String> reserved = const [],
+}) {
+  final fieldList = List<FieldDescriptorProto>.from(descriptor.field);
+  final sourcePositions = fieldList.asMap().map(
+    (index, field) => MapEntry(field.name, index),
+  );
+  final sorted =
+      fieldList..sort((FieldDescriptorProto a, FieldDescriptorProto b) {
+        if (a.number < b.number) return -1;
+        if (a.number > b.number) return 1;
+        throw 'multiple fields defined for tag ${a.number} in ${descriptor.name}';
+      });
 
   // Choose indexes first, based on their position in the sorted list.
-  var indexes = <String, int>{};
-  for (var field in sorted) {
-    var index = indexes.length;
+  final indexes = <String, int>{};
+  for (final field in sorted) {
+    final index = indexes.length;
     indexes[field.name] = index;
   }
 
-  var existingNames = <String>{...reservedMemberNames, ...reserved};
+  final existingNames = <String>{...reservedMemberNames, ...reserved};
 
-  var fieldNames = List<FieldNames?>.filled(indexes.length, null);
+  final fieldNames = List<FieldNames?>.filled(indexes.length, null);
 
   void takeFieldNames(FieldNames chosen) {
     fieldNames[chosen.index!] = chosen;
@@ -280,25 +319,33 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
   // Handle fields with a dart_name option.
   // They have higher priority than automatically chosen names.
   // Explicitly setting a name that's already taken is a build error.
-  for (var field in sorted) {
+  for (final field in sorted) {
     if (_nameOption(field)!.isNotEmpty) {
-      takeFieldNames(_memberNamesFromOption(descriptor, field,
-          indexes[field.name]!, sourcePositions[field.name]!, existingNames));
+      takeFieldNames(
+        _memberNamesFromOption(
+          descriptor,
+          field,
+          indexes[field.name]!,
+          sourcePositions[field.name]!,
+          existingNames,
+        ),
+      );
     }
   }
 
   // Then do other fields.
   // They are automatically renamed until we find something unused.
-  for (var field in sorted) {
+  for (final field in sorted) {
     if (_nameOption(field)!.isEmpty) {
-      var index = indexes[field.name]!;
-      var sourcePosition = sourcePositions[field.name];
+      final index = indexes[field.name]!;
+      final sourcePosition = sourcePositions[field.name];
       takeFieldNames(
-          _unusedMemberNames(field, index, sourcePosition, existingNames));
+        _unusedMemberNames(field, index, sourcePosition, existingNames),
+      );
     }
   }
 
-  var oneofNames = <OneofNames>[];
+  final oneofNames = <OneofNames>[];
 
   void takeOneofNames(OneofNames chosen) {
     oneofNames.add(chosen);
@@ -313,20 +360,37 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
 
   final realOneofCount = countRealOneofs(descriptor);
   for (var i = 0; i < realOneofCount; i++) {
-    var oneof = descriptor.oneofDecl[i];
+    final oneof = descriptor.oneofDecl[i];
 
-    var oneofName = disambiguateName(
-        underscoresToCamelCase(oneof.name), existingNames, defaultSuffixes(),
-        generateVariants: oneofNameVariants);
+    final oneofName = disambiguateName(
+      underscoresToCamelCase(oneof.name),
+      existingNames,
+      defaultSuffixes(),
+      generateVariants: oneofNameVariants,
+    );
 
-    var oneofEnumName =
-        oneofEnumClassName(oneof.name, usedTopLevelNames, parentClassName);
+    final oneofEnumName = oneofEnumClassName(
+      oneof.name,
+      usedTopLevelNames,
+      parentClassName,
+    );
 
-    var enumMapName = disambiguateName(
-        '_${oneofEnumName}ByTag', existingNames, defaultSuffixes());
+    final enumMapName = disambiguateName(
+      '_${oneofEnumName}ByTag',
+      existingNames,
+      defaultSuffixes(),
+    );
 
-    takeOneofNames(OneofNames(oneof, i, _defaultClearMethodName(oneofName),
-        _defaultWhichMethodName(oneofName), oneofEnumName, enumMapName));
+    takeOneofNames(
+      OneofNames(
+        oneof,
+        i,
+        _defaultClearMethodName(oneofName),
+        _defaultWhichMethodName(oneofName),
+        oneofEnumName,
+        enumMapName,
+      ),
+    );
   }
 
   return MemberNames(fieldNames.cast<FieldNames>(), oneofNames);
@@ -337,28 +401,32 @@ MemberNames messageMemberNames(DescriptorProto descriptor,
 /// If the explicitly-set Dart name is already taken, throw an exception.
 /// (Fails the build.)
 FieldNames _memberNamesFromOption(
-    DescriptorProto message,
-    FieldDescriptorProto field,
-    int index,
-    int sourcePosition,
-    Set<String> existingNames) {
+  DescriptorProto message,
+  FieldDescriptorProto field,
+  int index,
+  int sourcePosition,
+  Set<String> existingNames,
+) {
   // TODO(skybrian): provide more context in errors (filename).
-  var where = '${message.name}.${field.name}';
+  final where = '${message.name}.${field.name}';
 
   void checkAvailable(String name) {
     if (existingNames.contains(name)) {
       throw DartNameOptionException(
-          "$where: dart_name option is invalid: '$name' is already used");
+        "$where: dart_name option is invalid: '$name' is already used",
+      );
     }
   }
 
-  var name = _nameOption(field)!;
+  final name = _nameOption(field)!;
   if (name.isEmpty) {
     throw ArgumentError("field doesn't have dart_name option");
   }
   if (!_isDartFieldName(name)) {
-    throw DartNameOptionException('$where: dart_name option is invalid: '
-        "'$name' is not a valid Dart field name");
+    throw DartNameOptionException(
+      '$where: dart_name option is invalid: '
+      "'$name' is not a valid Dart field name",
+    );
   }
   checkAvailable(name);
 
@@ -366,10 +434,10 @@ FieldNames _memberNamesFromOption(
     return FieldNames(field, index, sourcePosition, name);
   }
 
-  var hasMethod = 'has${_capitalize(name)}';
+  final hasMethod = 'has${_capitalize(name)}';
   checkAvailable(hasMethod);
 
-  var clearMethod = 'clear${_capitalize(name)}';
+  final clearMethod = 'clear${_capitalize(name)}';
   checkAvailable(clearMethod);
 
   String? ensureMethod;
@@ -378,10 +446,15 @@ FieldNames _memberNamesFromOption(
     ensureMethod = 'ensure${_capitalize(name)}';
     checkAvailable(ensureMethod);
   }
-  return FieldNames(field, index, sourcePosition, name,
-      hasMethodName: hasMethod,
-      clearMethodName: clearMethod,
-      ensureMethodName: ensureMethod);
+  return FieldNames(
+    field,
+    index,
+    sourcePosition,
+    name,
+    hasMethodName: hasMethod,
+    clearMethodName: clearMethod,
+    ensureMethodName: ensureMethod,
+  );
 }
 
 Iterable<String> _memberNamesSuffix(int number) sync* {
@@ -392,19 +465,27 @@ Iterable<String> _memberNamesSuffix(int number) sync* {
   }
 }
 
-FieldNames _unusedMemberNames(FieldDescriptorProto field, int? index,
-    int? sourcePosition, Set<String> existingNames) {
+FieldNames _unusedMemberNames(
+  FieldDescriptorProto field,
+  int? index,
+  int? sourcePosition,
+  Set<String> existingNames,
+) {
   if (_isRepeated(field)) {
     return FieldNames(
-        field,
-        index,
-        sourcePosition,
-        disambiguateName(_defaultFieldName(_fieldMethodSuffix(field)),
-            existingNames, _memberNamesSuffix(field.number)));
+      field,
+      index,
+      sourcePosition,
+      disambiguateName(
+        _defaultFieldName(_fieldMethodSuffix(field)),
+        existingNames,
+        _memberNamesSuffix(field.number),
+      ),
+    );
   }
 
   List<String> generateNameVariants(String name) {
-    var result = <String>[
+    final result = <String>[
       _defaultFieldName(name),
       _defaultHasMethodName(name),
       _defaultClearMethodName(name),
@@ -416,16 +497,23 @@ FieldNames _unusedMemberNames(FieldDescriptorProto field, int? index,
     return result;
   }
 
-  var name = disambiguateName(_fieldMethodSuffix(field), existingNames,
-      _memberNamesSuffix(field.number),
-      generateVariants: generateNameVariants);
+  final name = disambiguateName(
+    _fieldMethodSuffix(field),
+    existingNames,
+    _memberNamesSuffix(field.number),
+    generateVariants: generateNameVariants,
+  );
 
-  return FieldNames(field, index, sourcePosition,
-      avoidInitialUnderscore(_defaultFieldName(name)),
-      hasMethodName: _defaultHasMethodName(name),
-      clearMethodName: _defaultClearMethodName(name),
-      ensureMethodName:
-          _isGroupOrMessage(field) ? _defaultEnsureMethodName(name) : null);
+  return FieldNames(
+    field,
+    index,
+    sourcePosition,
+    avoidInitialUnderscore(_defaultFieldName(name)),
+    hasMethodName: _defaultHasMethodName(name),
+    clearMethodName: _defaultClearMethodName(name),
+    ensureMethodName:
+        _isGroupOrMessage(field) ? _defaultEnsureMethodName(name) : null,
+  );
 }
 
 /// The name to use by default for the Dart getter and setter.
@@ -457,7 +545,7 @@ String _fieldMethodSuffix(FieldDescriptorProto field) {
 
   // For groups, use capitalization of 'typeName' rather than 'name'.
   name = field.typeName;
-  var index = name.lastIndexOf('.');
+  final index = name.lastIndexOf('.');
   if (index != -1) {
     name = name.substring(index + 1);
   }
@@ -495,13 +583,13 @@ final List<String> forbiddenTopLevelNames = <String>[
 final List<String> reservedMemberNames = <String>[
   ..._dartReservedWords,
   ...GeneratedMessage_reservedNames,
-  ..._generatedMessageNames
+  ..._generatedMessageNames,
 ];
 
 final List<String> forbiddenExtensionNames = <String>[
   ..._dartReservedWords,
   ...GeneratedMessage_reservedNames,
-  ..._generatedMessageNames
+  ..._generatedMessageNames,
 ];
 
 // List of Dart language reserved words in names which cannot be used in a
@@ -542,7 +630,7 @@ const List<String> _dartReservedWords = [
   'var',
   'void',
   'while',
-  'with'
+  'with',
 ];
 
 // List of names used in the generated message classes.
@@ -554,18 +642,14 @@ const _generatedMessageNames = <String>[
   'createRepeated',
   'getDefault',
   'List',
-  'notSet'
+  'notSet',
 ];
 
 // List of names used in the generated enum classes.
 //
 // This is in addition to ProtobufEnum_reservedNames, which are names from the
 // base ProtobufEnum class determined by reflection.
-const _protobufEnumNames = <String>[
-  'List',
-  'valueOf',
-  'values',
-];
+const _protobufEnumNames = <String>['List', 'valueOf', 'values'];
 
 // List of names used in Dart enums, which can't be used as enum member names.
 const _oneofEnumMemberNames = <String>['default', 'index', 'values'];

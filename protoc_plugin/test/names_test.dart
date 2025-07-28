@@ -3,25 +3,25 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:protoc_plugin/names.dart' as names;
-import 'package:protoc_plugin/src/generated/dart_options.pb.dart';
-import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
+import 'package:protoc_plugin/src/gen/dart_options.pb.dart';
+import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/dart_name.pb.dart' as pb;
-import '../out/protos/json_name.pb.dart' as json_name;
+import 'gen/dart_name.pb.dart' as pb;
+import 'gen/json_name.pb.dart' as json_name;
 
 Matcher throwsMessage(String msg) => throwsA(_ToStringMatcher(equals(msg)));
 
 class _ToStringMatcher extends CustomMatcher {
   _ToStringMatcher(Matcher matcher)
-      : super('object where toString() returns', 'toString()', matcher);
+    : super('object where toString() returns', 'toString()', matcher);
   @override
-  String featureValueOf(actual) => actual.toString();
+  String featureValueOf(dynamic actual) => actual.toString();
 }
 
 void main() {
   test('Can access a field that was renamed using dart_name option', () {
-    var msg = pb.DartName();
+    final msg = pb.DartName();
     expect(msg.hasRenamedField(), false);
     msg.renamedField = 'test';
     expect(msg.hasRenamedField(), true);
@@ -31,13 +31,13 @@ void main() {
   });
 
   test('Can access a filed started with underscore and digit', () {
-    var msg = pb.UnderscoreDigitName();
+    final msg = pb.UnderscoreDigitName();
     msg.x3d = 'one';
     expect(msg.getField(1), 'one');
   });
 
   test('Can swap field names using dart_name option', () {
-    var msg = pb.SwapNames();
+    final msg = pb.SwapNames();
     msg.first = 'one';
     msg.second = 'two';
     expect(msg.getField(1), 'two');
@@ -45,7 +45,7 @@ void main() {
   });
 
   test("Can take another field's name using dart_name option", () {
-    var msg = pb.TakeExistingName();
+    final msg = pb.TakeExistingName();
     msg.first = 'one';
     expect(msg.getField(2), 'one');
     msg.first_1 = 'renamed';
@@ -53,39 +53,54 @@ void main() {
   });
 
   test('Throws exception for dart_name option containing a space', () {
-    var descriptor = DescriptorProto()
-      ..name = 'Example'
-      ..field.add(stringField('first', 1, 'hello world'));
-    expect(() {
-      names.messageMemberNames(descriptor, '', <String>{});
-    },
-        throwsMessage('Example.first: dart_name option is invalid: '
-            "'hello world' is not a valid Dart field name"));
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Example'
+          ..field.add(stringField('first', 1, 'hello world'));
+    expect(
+      () {
+        names.messageMemberNames(descriptor, '', <String>{});
+      },
+      throwsMessage(
+        'Example.first: dart_name option is invalid: '
+        "'hello world' is not a valid Dart field name",
+      ),
+    );
   });
 
   test('Throws exception for dart_name option set to reserved word', () {
-    var descriptor = DescriptorProto()
-      ..name = 'Example'
-      ..field.add(stringField('first', 1, 'class'));
-    expect(() {
-      names.messageMemberNames(descriptor, '', <String>{});
-    },
-        throwsMessage('Example.first: '
-            "dart_name option is invalid: 'class' is already used"));
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Example'
+          ..field.add(stringField('first', 1, 'class'));
+    expect(
+      () {
+        names.messageMemberNames(descriptor, '', <String>{});
+      },
+      throwsMessage(
+        'Example.first: '
+        "dart_name option is invalid: 'class' is already used",
+      ),
+    );
   });
 
   test('Throws exception for duplicate dart_name options', () {
-    var descriptor = DescriptorProto()
-      ..name = 'Example'
-      ..field.addAll([
-        stringField('first', 1, 'renamed'),
-        stringField('second', 2, 'renamed'),
-      ]);
-    expect(() {
-      names.messageMemberNames(descriptor, '', <String>{});
-    },
-        throwsMessage('Example.second: '
-            "dart_name option is invalid: 'renamed' is already used"));
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Example'
+          ..field.addAll([
+            stringField('first', 1, 'renamed'),
+            stringField('second', 2, 'renamed'),
+          ]);
+    expect(
+      () {
+        names.messageMemberNames(descriptor, '', <String>{});
+      },
+      throwsMessage(
+        'Example.second: '
+        "dart_name option is invalid: 'renamed' is already used",
+      ),
+    );
   });
 
   test('message classes renamed to avoid Function keyword', () {
@@ -116,14 +131,19 @@ void main() {
 
     {
       List<String> variants(String s) {
-        return ['a_' + s, 'b_' + s];
+        return ['a_$s', 'b_$s'];
       }
 
       final used = {'a_foo', 'b_foo_one'};
       expect(
-          names.disambiguateName('foo', used, oneTwoThree(),
-              generateVariants: variants),
-          'foo_two');
+        names.disambiguateName(
+          'foo',
+          used,
+          oneTwoThree(),
+          generateVariants: variants,
+        ),
+        'foo_two',
+      );
       expect(used, {'a_foo', 'b_foo_one', 'a_foo_two', 'b_foo_two'});
     }
   });
@@ -145,25 +165,34 @@ void main() {
   });
 
   test('defaultSuffixes', () {
-    expect(names.defaultSuffixes().take(5).toList(),
-        ['_', '_0', '_1', '_2', '_3']);
+    expect(names.defaultSuffixes().take(5).toList(), [
+      '_',
+      '_0',
+      '_1',
+      '_2',
+      '_3',
+    ]);
   });
 
   test('oneof names no disambiguation', () {
-    var oneofDescriptor = oneofField('foo');
-    var descriptor = DescriptorProto()
-      ..name = 'Parent'
-      ..field.addAll([stringFieldOneof('first', 1, 0)])
-      ..oneofDecl.add(oneofDescriptor);
+    final oneofDescriptor = oneofField('foo');
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Parent'
+          ..field.addAll([stringFieldOneof('first', 1, 0)])
+          ..oneofDecl.add(oneofDescriptor);
 
-    var usedTopLevelNames = <String>{};
-    var memberNames =
-        names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
+    final usedTopLevelNames = <String>{};
+    final memberNames = names.messageMemberNames(
+      descriptor,
+      'Parent',
+      usedTopLevelNames,
+    );
 
     expect(usedTopLevelNames.length, 1);
     expect(usedTopLevelNames, {'Parent_Foo'});
     expect(memberNames.oneofNames.length, 1);
-    var oneof = memberNames.oneofNames[0];
+    final oneof = memberNames.oneofNames[0];
     expect(oneof.descriptor, oneofDescriptor);
     expect(oneof.index, 0);
     expect(oneof.oneofEnumName, 'Parent_Foo');
@@ -173,21 +202,25 @@ void main() {
   });
 
   test('oneof names disambiguate method names', () {
-    var oneofDescriptor = oneofField('foo');
-    var descriptor = DescriptorProto()
-      ..name = 'Parent'
-      ..field.addAll([stringFieldOneof('first', 1, 0)])
-      ..oneofDecl.add(oneofDescriptor);
+    final oneofDescriptor = oneofField('foo');
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Parent'
+          ..field.addAll([stringFieldOneof('first', 1, 0)])
+          ..oneofDecl.add(oneofDescriptor);
 
-    var usedTopLevelNames = <String>{};
-    var memberNames = names.messageMemberNames(
-        descriptor, 'Parent', usedTopLevelNames,
-        reserved: ['clearFoo']);
+    final usedTopLevelNames = <String>{};
+    final memberNames = names.messageMemberNames(
+      descriptor,
+      'Parent',
+      usedTopLevelNames,
+      reserved: ['clearFoo'],
+    );
 
     expect(usedTopLevelNames.length, 1);
     expect(usedTopLevelNames, {'Parent_Foo'});
     expect(memberNames.oneofNames.length, 1);
-    var oneof = memberNames.oneofNames[0];
+    final oneof = memberNames.oneofNames[0];
     expect(oneof.descriptor, oneofDescriptor);
     expect(oneof.index, 0);
     expect(oneof.oneofEnumName, 'Parent_Foo');
@@ -197,20 +230,24 @@ void main() {
   });
 
   test('oneof names disambiguate top level name', () {
-    var oneofDescriptor = oneofField('foo');
-    var descriptor = DescriptorProto()
-      ..name = 'Parent'
-      ..field.addAll([stringFieldOneof('first', 1, 0)])
-      ..oneofDecl.add(oneofDescriptor);
+    final oneofDescriptor = oneofField('foo');
+    final descriptor =
+        DescriptorProto()
+          ..name = 'Parent'
+          ..field.addAll([stringFieldOneof('first', 1, 0)])
+          ..oneofDecl.add(oneofDescriptor);
 
-    var usedTopLevelNames = {'Parent_Foo'};
-    var memberNames =
-        names.messageMemberNames(descriptor, 'Parent', usedTopLevelNames);
+    final usedTopLevelNames = {'Parent_Foo'};
+    final memberNames = names.messageMemberNames(
+      descriptor,
+      'Parent',
+      usedTopLevelNames,
+    );
 
     expect(usedTopLevelNames.length, 2);
     expect(usedTopLevelNames, {'Parent_Foo', 'Parent_Foo_'});
     expect(memberNames.oneofNames.length, 1);
-    var oneof = memberNames.oneofNames[0];
+    final oneof = memberNames.oneofNames[0];
     expect(oneof.descriptor, oneofDescriptor);
     expect(oneof.index, 0);
     expect(oneof.oneofEnumName, 'Parent_Foo_');
@@ -224,8 +261,10 @@ void main() {
   });
 
   test('The proto name is set correctly', () {
-    expect(json_name.JsonNamedMessage().info_.byName['barName']!.protoName,
-        'foo_name');
+    expect(
+      json_name.JsonNamedMessage().info_.byName['barName']!.protoName,
+      'foo_name',
+    );
   });
 
   test('Invalid characters are escaped from json_name', () {

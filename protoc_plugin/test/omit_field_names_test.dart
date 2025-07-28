@@ -4,20 +4,21 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
 
 @pragma('dart2js:noInline')
 String constant() => 'SHOULD_BE_PRESENT';
 
 Future<void> main() async {
   test('field name available depending on environment', () {
-    var proto = TestAllTypes()..optionalForeignMessage = ForeignMessage();
+    final proto = TestAllTypes()..optionalForeignMessage = ForeignMessage();
 
     expect(
-        proto.toString(),
-        const bool.fromEnvironment('protobuf.omit_field_names')
-            ? '19: {\n}\n'
-            : 'optionalForeignMessage: {\n}\n');
+      proto.toString(),
+      const bool.fromEnvironment('protobuf.omit_field_names')
+          ? '19: {\n}\n'
+          : 'optionalForeignMessage: {\n}\n',
+    );
     expect(constant(), 'SHOULD_BE_PRESENT');
   });
 }

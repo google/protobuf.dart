@@ -1,0 +1,31 @@
+// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto3";
+
+package service1;
+
+// This is a service.
+service Greeter {
+  // This is a service method.
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// This is a message.
+message HelloRequest {
+  // This is a message field.
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}
+
+// This is an enum.
+enum A {
+  // This is an enum variant.
+  A1 = 0;
+  // This is another enum variant.
+  A2 = 1;
+}

@@ -4,7 +4,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-part of protobuf;
+part of 'internal.dart';
 
 const int _TAG_TYPE_BITS = 3;
 const int _TAG_TYPE_MASK = (1 << _TAG_TYPE_BITS) - 1;
@@ -38,32 +38,32 @@ int makeTag(int fieldNumber, int tag) => (fieldNumber << _TAG_TYPE_BITS) | tag;
 
 /// Returns true if the wireType can be merged into the given fieldType.
 bool _wireTypeMatches(int fieldType, int wireType) {
-  switch (PbFieldType._baseType(fieldType)) {
-    case PbFieldType._BOOL_BIT:
-    case PbFieldType._ENUM_BIT:
-    case PbFieldType._INT32_BIT:
-    case PbFieldType._INT64_BIT:
-    case PbFieldType._SINT32_BIT:
-    case PbFieldType._SINT64_BIT:
-    case PbFieldType._UINT32_BIT:
-    case PbFieldType._UINT64_BIT:
+  switch (PbFieldType.baseType(fieldType)) {
+    case PbFieldType.BOOL_BIT:
+    case PbFieldType.ENUM_BIT:
+    case PbFieldType.INT32_BIT:
+    case PbFieldType.INT64_BIT:
+    case PbFieldType.SINT32_BIT:
+    case PbFieldType.SINT64_BIT:
+    case PbFieldType.UINT32_BIT:
+    case PbFieldType.UINT64_BIT:
       return wireType == WIRETYPE_VARINT ||
           wireType == WIRETYPE_LENGTH_DELIMITED;
-    case PbFieldType._FLOAT_BIT:
-    case PbFieldType._FIXED32_BIT:
-    case PbFieldType._SFIXED32_BIT:
+    case PbFieldType.FLOAT_BIT:
+    case PbFieldType.FIXED32_BIT:
+    case PbFieldType.SFIXED32_BIT:
       return wireType == WIRETYPE_FIXED32 ||
           wireType == WIRETYPE_LENGTH_DELIMITED;
-    case PbFieldType._DOUBLE_BIT:
-    case PbFieldType._FIXED64_BIT:
-    case PbFieldType._SFIXED64_BIT:
+    case PbFieldType.DOUBLE_BIT:
+    case PbFieldType.FIXED64_BIT:
+    case PbFieldType.SFIXED64_BIT:
       return wireType == WIRETYPE_FIXED64 ||
           wireType == WIRETYPE_LENGTH_DELIMITED;
-    case PbFieldType._BYTES_BIT:
-    case PbFieldType._STRING_BIT:
-    case PbFieldType._MESSAGE_BIT:
+    case PbFieldType.BYTES_BIT:
+    case PbFieldType.STRING_BIT:
+    case PbFieldType.MESSAGE_BIT:
       return wireType == WIRETYPE_LENGTH_DELIMITED;
-    case PbFieldType._GROUP_BIT:
+    case PbFieldType.GROUP_BIT:
       return wireType == WIRETYPE_START_GROUP;
     default:
       return false;

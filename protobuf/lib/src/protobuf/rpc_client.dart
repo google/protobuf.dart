@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of 'internal.dart';
 
 /// Client side context for [RpcClient]s.
 class ClientContext {
@@ -28,9 +28,10 @@ abstract class RpcClient {
   /// appropriate. It should merge the reply into [emptyResponse] and
   /// return it.
   Future<T> invoke<T extends GeneratedMessage>(
-      ClientContext? ctx,
-      String serviceName,
-      String methodName,
-      GeneratedMessage request,
-      T emptyResponse);
+    ClientContext? ctx,
+    String serviceName,
+    String methodName,
+    GeneratedMessage request,
+    T emptyResponse,
+  );
 }

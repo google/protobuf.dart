@@ -14,10 +14,11 @@ import 'package:test/test.dart';
 import 'mock_util.dart' show T, mockEnumValues;
 
 void main() {
-  var example = T()
-    ..val = 123
-    ..str = 'hello'
-    ..int32s.addAll(<int>[1, 2, 3]);
+  final example =
+      T()
+        ..val = 123
+        ..str = 'hello'
+        ..int32s.addAll(<int>[1, 2, 3]);
 
   test('testProto3JsonEnum', () {
     // No enum value specified.
@@ -31,11 +32,16 @@ void main() {
     expect((example..mergeFromProto3Json({'enm': 'b'})).enm.name, equals('b'));
     // "c" is not a legal enum value.
     expect(
-        () => example..mergeFromProto3Json({'enm': 'c'}),
-        throwsA(allOf(
-            isFormatException,
-            predicate(
-                (dynamic e) => e.message.contains('Unknown enum value')))));
+      () => example..mergeFromProto3Json({'enm': 'c'}),
+      throwsA(
+        allOf(
+          isFormatException,
+          predicate(
+            (FormatException e) => e.message.contains('Unknown enum value'),
+          ),
+        ),
+      ),
+    );
     // `example` hasn't changed.
     expect(example.hasEnm, isTrue);
     expect(example.enm.name, equals('b'));
@@ -43,20 +49,26 @@ void main() {
     // "c" is not a legal enum value, but we are ignoring unknown fields, so
     // default behavior is to unset `enm`, returning the default value "a"
     expect(
-        (example..mergeFromProto3Json({'enm': 'c'}, ignoreUnknownFields: true))
-            .enm
-            .name,
-        equals('a'));
+      (example..mergeFromProto3Json({'enm': 'c'}, ignoreUnknownFields: true))
+          .enm
+          .name,
+      equals('a'),
+    );
     expect(example.hasEnm, isFalse);
 
     // Same for index values...
     expect((example..mergeFromProto3Json({'enm': 2})).enm.name, 'b');
     expect(
-        () => example..mergeFromProto3Json({'enm': 3}),
-        throwsA(allOf(
-            isFormatException,
-            predicate(
-                (dynamic e) => e.message.contains('Unknown enum value')))));
+      () => example..mergeFromProto3Json({'enm': 3}),
+      throwsA(
+        allOf(
+          isFormatException,
+          predicate(
+            (FormatException e) => e.message.contains('Unknown enum value'),
+          ),
+        ),
+      ),
+    );
     // `example` hasn't changed.
     expect(example.hasEnm, isTrue);
     expect(example.enm.name, equals('b'));
@@ -64,15 +76,16 @@ void main() {
     // "c" is not a legal enum value, but we are ignoring unknown fields, so
     // default behavior is to unset `enm`, returning the default value "a"
     expect(
-        (example..mergeFromProto3Json({'enm': 3}, ignoreUnknownFields: true))
-            .enm
-            .name,
-        equals('a'));
+      (example..mergeFromProto3Json({'enm': 3}, ignoreUnknownFields: true))
+          .enm
+          .name,
+      equals('a'),
+    );
     expect(example.hasEnm, isFalse);
   });
 
   test('testWriteToJson', () {
-    var json = example.writeToJson();
+    final json = example.writeToJson();
     checkJsonMap(jsonDecode(json));
   });
 
@@ -83,18 +96,18 @@ void main() {
   });
 
   test('writeToJsonMap', () {
-    Map m = example.writeToJsonMap();
+    final Map m = example.writeToJsonMap();
     checkJsonMap(m);
   });
 
-  test('testMergeFromJson', () {
-    var t = T();
+  test('testWriteToJsonMap', () {
+    final t = T();
     t.mergeFromJson('''{"1": 123, "2": "hello"}''');
     checkMessage(t);
   });
 
   test('testMergeFromJsonMap', () {
-    var t = T();
+    final t = T();
     t.mergeFromJsonMap({'1': 123, '2': 'hello'});
     checkMessage(t);
   });
@@ -110,21 +123,30 @@ void main() {
 
   test('testFrozentInt64JsonEncoding', () {
     final value = Int64.parseInt('1234567890123456789');
-    final frozen = T()
-      ..int64 = value
-      ..freeze();
+    final frozen =
+        T()
+          ..int64 = value
+          ..freeze();
     final encoded = frozen.writeToJsonMap();
     expect(encoded['5'], '$value');
     final decoded = T()..mergeFromJsonMap(encoded);
     expect(decoded.int64, value);
   });
+
+  test('testJsonMapWithUnknown', () {
+    final m = example.writeToJsonMap();
+    m['9999'] = 'world';
+    final t = T()..mergeFromJsonMap(m);
+    checkJsonMap(t.writeToJsonMap(), unknownFields: {'9999': 'world'});
+  });
 }
 
-void checkJsonMap(Map m) {
-  expect(m.length, 3);
+void checkJsonMap(Map m, {Map<String, dynamic>? unknownFields}) {
+  expect(m.length, 3 + (unknownFields?.length ?? 0));
   expect(m['1'], 123);
   expect(m['2'], 'hello');
   expect(m['4'], [1, 2, 3]);
+  unknownFields?.forEach((k, v) => expect(m[k], v));
 }
 
 void checkMessage(T t) {

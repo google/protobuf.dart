@@ -4,15 +4,14 @@
 
 /// Provides metadata about mixins to dart-protoc-plugin.
 /// (Experimental API; subject to change.)
+library;
+
 import 'indenting_writer.dart';
 
 /// Finds [name] in the exported mixins.
 PbMixin? findMixin(String name) {
-  const _exportedMixins = {
-    'PbMapMixin': _pbMapMixin,
-    'PbEventMixin': _pbEventMixin,
-  };
-  return _exportedMixins[name];
+  const exportedMixins = {'PbMapMixin': _pbMapMixin};
+  return exportedMixins[name];
 }
 
 /// PbMixin contains metadata needed by dart-protoc-plugin to apply a mixin.
@@ -39,7 +38,7 @@ class PbMixin {
   /// Typically used for static helpers since you cannot mix in static members.
   final List<String>? injectedHelpers;
 
-  /// If `True` the mixin should have static methods for converting to and from
+  /// Whether the mixin should have static methods for converting to and from
   /// proto3 Json.
   final bool hasProto3JsonHelpers;
 
@@ -54,7 +53,7 @@ class PbMixin {
 
   /// Returns the mixin and its ancestors, in the order they should be applied.
   Iterable<PbMixin> findMixinsToApply() {
-    var result = [this];
+    final result = [this];
     for (var p = parent; p != null; p = p.parent) {
       result.add(p);
     }
@@ -63,7 +62,7 @@ class PbMixin {
 
   /// Returns all the reserved names, including from ancestor mixins.
   Iterable<String> findReservedNames() {
-    var names = <String>{};
+    final names = <String>{};
     for (PbMixin? m = this; m != null; m = m.parent) {
       names.add(m.name);
       if (m.reservedNames != null) {
@@ -80,13 +79,11 @@ class PbMixin {
   }
 }
 
-const _pbMapMixin = PbMixin('PbMapMixin',
-    importFrom: 'package:protobuf/src/protobuf/mixins/map_mixin.dart',
-    parent: _mapMixin);
-
-const _pbEventMixin = PbMixin('PbEventMixin',
-    importFrom: 'package:protobuf/src/protobuf/mixins/event_mixin.dart',
-    reservedNames: ['changes', 'deliverChanges']);
+const _pbMapMixin = PbMixin(
+  'PbMapMixin',
+  importFrom: 'package:protobuf/src/protobuf/mixins/map_mixin.dart',
+  parent: _mapMixin,
+);
 
 const List<String> _reservedNamesForMap = [
   '[]',
@@ -112,5 +109,8 @@ const List<String> _reservedNamesForMap = [
   'values',
 ];
 
-const _mapMixin = PbMixin('MapMixin',
-    importFrom: 'dart:collection', reservedNames: _reservedNamesForMap);
+const _mapMixin = PbMixin(
+  'MapMixin',
+  importFrom: 'dart:collection',
+  reservedNames: _reservedNamesForMap,
+);

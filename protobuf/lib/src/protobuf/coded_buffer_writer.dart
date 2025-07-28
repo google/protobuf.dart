@@ -4,7 +4,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-part of protobuf;
+part of 'internal.dart';
 
 /// Writer used for converting [GeneratedMessage]s into binary
 /// representation.
@@ -22,8 +22,8 @@ part of protobuf;
 class CodedBufferWriter {
   /// Array of splices representing the data written into the writer.
   /// Each element might be one of:
-  ///   * a TypedData object - represents a sequence of bytes that need to be
-  ///                          emitted into the result as-is;
+  ///   * a [Uint8List] object - represents a sequence of bytes that need to be
+  ///                            emitted into the result as-is;
   ///   * a positive integer - a number of bytes to copy from [_outputChunks]
   ///                          into resulting buffer;
   ///   * a non-positive integer - a positive number that needs to be emitted
@@ -48,8 +48,8 @@ class CodedBufferWriter {
   /// more efficiently.
   ByteData? _outputChunkAsByteData;
 
-  /// Array of pairs <Uint8List chunk, int bytesInChunk> - chunks are
-  /// pushed into this array once they are full.
+  /// Array of pairs `<Uint8List chunk, int bytesInChunk>` - chunks are pushed
+  /// into this array once they are full.
   final List<dynamic> _outputChunks = <dynamic>[];
 
   /// Total amount of bytes used in all chunks.
@@ -64,15 +64,15 @@ class CodedBufferWriter {
     _commitChunk(true);
   }
 
-  void writeField(int fieldNumber, int fieldType, fieldValue) {
-    final valueType = PbFieldType._baseType(fieldType);
+  void writeField(int fieldNumber, int fieldType, Object? fieldValue) {
+    final valueType = PbFieldType.baseType(fieldType);
 
-    if ((fieldType & PbFieldType._PACKED_BIT) != 0) {
-      final List list = fieldValue;
+    if ((fieldType & PbFieldType.PACKED_BIT) != 0) {
+      final list = fieldValue as List;
       if (list.isNotEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
-        for (var value in list) {
+        for (final value in list) {
           _writeValueAs(valueType, value);
         }
         _endLengthDelimited(mark);
@@ -80,8 +80,8 @@ class CodedBufferWriter {
       return;
     }
 
-    if ((fieldType & PbFieldType._MAP_BIT) != 0) {
-      final PbMap map = fieldValue;
+    if ((fieldType & PbFieldType.MAP_BIT) != 0) {
+      final map = fieldValue as PbMap;
       final keyWireFormat = _wireTypes[_valueTypeIndex(map.keyFieldType)];
       final valueWireFormat = _wireTypes[_valueTypeIndex(map.valueFieldType)];
 
@@ -89,9 +89,17 @@ class CodedBufferWriter {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
         _writeValue(
-            PbMap._keyFieldNumber, map.keyFieldType, key, keyWireFormat);
-        _writeValue(PbMap._valueFieldNumber, map.valueFieldType, value,
-            valueWireFormat);
+          PbMap._keyFieldNumber,
+          map.keyFieldType,
+          key,
+          keyWireFormat,
+        );
+        _writeValue(
+          PbMap._valueFieldNumber,
+          map.valueFieldType,
+          value,
+          valueWireFormat,
+        );
         _endLengthDelimited(mark);
       });
       return;
@@ -99,8 +107,8 @@ class CodedBufferWriter {
 
     final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
-    if ((fieldType & PbFieldType._REPEATED_BIT) != 0) {
-      final List list = fieldValue;
+    if ((fieldType & PbFieldType.REPEATED_BIT) != 0) {
+      final list = fieldValue as List;
       for (var i = 0; i < list.length; i++) {
         _writeValue(fieldNumber, valueType, list[i], wireFormat);
       }
@@ -110,7 +118,7 @@ class CodedBufferWriter {
   }
 
   Uint8List toBuffer() {
-    var result = Uint8List(_bytesTotal);
+    final result = Uint8List(_bytesTotal);
     writeTo(result);
     return result;
   }
@@ -141,21 +149,25 @@ class CodedBufferWriter {
           }
           buffer[outPos++] = v;
         } else {
-          // action is an amount of bytes to copy from _outputChunks into the
-          // buffer.
+          // `action` is an amount of bytes to copy from `_outputChunks` into
+          // the buffer.
           var bytesToCopy = action;
           while (bytesToCopy > 0) {
             final Uint8List chunk = _outputChunks[chunkIndex];
             final int bytesInChunk = _outputChunks[chunkIndex + 1];
 
-            // Copy at most bytesToCopy bytes from the current chunk.
+            // Copy at most `bytesToCopy` bytes from the current chunk.
             final leftInChunk = bytesInChunk - chunkPos;
             final bytesToCopyFromChunk =
                 leftInChunk > bytesToCopy ? bytesToCopy : leftInChunk;
-            final endPos = chunkPos + bytesToCopyFromChunk;
-            while (chunkPos < endPos) {
-              buffer[outPos++] = chunk[chunkPos++];
-            }
+            buffer.setRange(
+              outPos,
+              outPos + bytesToCopyFromChunk,
+              chunk,
+              chunkPos,
+            );
+            chunkPos += bytesToCopyFromChunk;
+            outPos += bytesToCopyFromChunk;
             bytesToCopy -= bytesToCopyFromChunk;
 
             // Move to the next chunk if the current one is exhausted.
@@ -166,9 +178,12 @@ class CodedBufferWriter {
           }
         }
       } else {
-        // action is a TypedData containing bytes to emit into the output
+        // action is a `Uint8List` containing bytes to emit into the output
         // buffer.
-        outPos = _copyInto(buffer, outPos, action);
+        final Uint8List value = action;
+        final end = outPos + value.length;
+        buffer.setRange(outPos, end, value);
+        outPos = end;
       }
     }
 
@@ -210,7 +225,7 @@ class CodedBufferWriter {
   /// Record number of bytes written into output chunks since last splice.
   ///
   /// This is used before reserving space for an unknown varint splice or
-  /// adding a TypedData array splice.
+  /// adding a [Uint8List] array splice.
   void _commitSplice() {
     final pos = _bytesInChunk + _outputChunksBytes;
     final bytes = pos - _lastSplicePos;
@@ -220,12 +235,14 @@ class CodedBufferWriter {
     _lastSplicePos = pos;
   }
 
-  /// Add TypedData splice - these bytes would be directly copied into the
-  /// output buffer by [writeTo].
-  void writeRawBytes(TypedData value) {
+  /// Add a [Uint8List] splice, without copying. These bytes will be directly
+  /// copied into the output buffer by [writeTo].
+  void writeRawBytes(Uint8List value) {
+    final length = value.lengthInBytes;
+    if (length == 0) return;
     _commitSplice();
     _splices.add(value);
-    _bytesTotal += value.lengthInBytes;
+    _bytesTotal += length;
   }
 
   /// Start writing a length-delimited data.
@@ -236,7 +253,7 @@ class CodedBufferWriter {
   /// of bytes written into the reserved slice space.
   int _startLengthDelimited() {
     _commitSplice();
-    var index = _splices.length;
+    final index = _splices.length;
     // Reserve a space for a splice and use it to record the current number of
     // bytes written so that we can compute the length of data later in
     // _endLengthDelimited.
@@ -268,7 +285,7 @@ class CodedBufferWriter {
       value >>= 7;
     }
     _outputChunk![i++] = value;
-    _bytesTotal += (i - _bytesInChunk);
+    _bytesTotal += i - _bytesInChunk;
     _bytesInChunk = i;
   }
 
@@ -283,7 +300,7 @@ class CodedBufferWriter {
       hi >>= 7;
     }
     _outputChunk![i++] = lo;
-    _bytesTotal += (i - _bytesInChunk);
+    _bytesTotal += i - _bytesInChunk;
     _bytesInChunk = i;
   }
 
@@ -320,8 +337,11 @@ class CodedBufferWriter {
   void _writeInt32(int value) {
     const sizeInBytes = 4;
     _ensureBytes(sizeInBytes);
-    _outputChunkAsByteData!
-        .setInt32(_bytesInChunk, value & 0xFFFFFFFF, Endian.little);
+    _outputChunkAsByteData!.setInt32(
+      _bytesInChunk,
+      value & 0xFFFFFFFF,
+      Endian.little,
+    );
     _bytesInChunk += sizeInBytes;
     _bytesTotal += sizeInBytes;
   }
@@ -333,61 +353,83 @@ class CodedBufferWriter {
 
   void _writeValueAs(int valueType, dynamic value) {
     switch (valueType) {
-      case PbFieldType._BOOL_BIT:
+      case PbFieldType.BOOL_BIT:
         _writeVarint32(value ? 1 : 0);
         break;
-      case PbFieldType._BYTES_BIT:
-        _writeBytesNoTag(
-            value is TypedData ? value : Uint8List.fromList(value));
+      case PbFieldType.BYTES_BIT:
+        final List<int> bytes = value;
+        if (bytes is Uint8List) {
+          _writeBytesNoTag(bytes);
+        } else if (bytes.isEmpty) {
+          _writeEmptyBytes();
+        } else {
+          _writeBytesNoTag(Uint8List.fromList(bytes));
+        }
         break;
-      case PbFieldType._STRING_BIT:
-        _writeBytesNoTag(_utf8.encode(value));
+      case PbFieldType.STRING_BIT:
+        final String string = value;
+        if (string.isEmpty) {
+          _writeEmptyBytes();
+        } else {
+          _writeBytesNoTag(const Utf8Encoder().convert(string));
+        }
         break;
-      case PbFieldType._DOUBLE_BIT:
+      case PbFieldType.DOUBLE_BIT:
         _writeDouble(value);
         break;
-      case PbFieldType._FLOAT_BIT:
+      case PbFieldType.FLOAT_BIT:
         _writeFloat(value);
         break;
-      case PbFieldType._ENUM_BIT:
+      case PbFieldType.ENUM_BIT:
         final ProtobufEnum enum_ = value;
         _writeVarint32(enum_.value & 0xffffffff);
         break;
-      case PbFieldType._GROUP_BIT:
-        // value is UnknownFieldSet or GeneratedMessage
-        value.writeToCodedBufferWriter(this);
+      case PbFieldType.GROUP_BIT:
+        // `value` is `UnknownFieldSet` or `GeneratedMessage`. Test for
+        // `UnknownFieldSet` as it doesn't have subtypes, so the type test will
+        // be fast.
+        if (value is UnknownFieldSet) {
+          // Give the variable a type to not rely on type promotion to
+          // eliminate the dynamic call below.
+          // ignore: omit_local_variable_types
+          final UnknownFieldSet unknownFieldSet = value;
+          unknownFieldSet.writeToCodedBufferWriter(this);
+        } else {
+          final GeneratedMessage message = value;
+          message.writeToCodedBufferWriter(this);
+        }
         break;
-      case PbFieldType._INT32_BIT:
+      case PbFieldType.INT32_BIT:
         _writeVarint64(Int64(value));
         break;
-      case PbFieldType._INT64_BIT:
+      case PbFieldType.INT64_BIT:
         _writeVarint64(value);
         break;
-      case PbFieldType._SINT32_BIT:
+      case PbFieldType.SINT32_BIT:
         _writeVarint32(_encodeZigZag32(value));
         break;
-      case PbFieldType._SINT64_BIT:
+      case PbFieldType.SINT64_BIT:
         _writeVarint64(_encodeZigZag64(value));
         break;
-      case PbFieldType._UINT32_BIT:
+      case PbFieldType.UINT32_BIT:
         _writeVarint32(value);
         break;
-      case PbFieldType._UINT64_BIT:
+      case PbFieldType.UINT64_BIT:
         _writeVarint64(value);
         break;
-      case PbFieldType._FIXED32_BIT:
+      case PbFieldType.FIXED32_BIT:
         _writeInt32(value);
         break;
-      case PbFieldType._FIXED64_BIT:
+      case PbFieldType.FIXED64_BIT:
         _writeInt64(value);
         break;
-      case PbFieldType._SFIXED32_BIT:
+      case PbFieldType.SFIXED32_BIT:
         _writeInt32(value);
         break;
-      case PbFieldType._SFIXED64_BIT:
+      case PbFieldType.SFIXED64_BIT:
         _writeInt64(value);
         break;
-      case PbFieldType._MESSAGE_BIT:
+      case PbFieldType.MESSAGE_BIT:
         final mark = _startLengthDelimited();
         final GeneratedMessage msg = value;
         msg.writeToCodedBufferWriter(this);
@@ -396,9 +438,13 @@ class CodedBufferWriter {
     }
   }
 
-  void _writeBytesNoTag(dynamic value) {
+  void _writeBytesNoTag(Uint8List value) {
     writeInt32NoTag(value.length);
     writeRawBytes(value);
+  }
+
+  void _writeEmptyBytes() {
+    writeInt32NoTag(0);
   }
 
   void _writeTag(int fieldNumber, int wireFormat) {
@@ -406,37 +452,20 @@ class CodedBufferWriter {
   }
 
   void _writeValue(
-      int fieldNumber, int valueType, dynamic value, int wireFormat) {
+    int fieldNumber,
+    int valueType,
+    dynamic value,
+    int wireFormat,
+  ) {
     _writeTag(fieldNumber, wireFormat);
     _writeValueAs(valueType, value);
-    if (valueType == PbFieldType._GROUP_BIT) {
+    if (valueType == PbFieldType.GROUP_BIT) {
       _writeTag(fieldNumber, WIRETYPE_END_GROUP);
     }
   }
 
   void writeInt32NoTag(int value) {
     _writeVarint32(value & 0xFFFFFFFF);
-  }
-
-  /// Copy bytes from the given typed data array into the output buffer.
-  ///
-  /// Has a specialization for Uint8List for performance.
-  int _copyInto(Uint8List buffer, int pos, TypedData value) {
-    if (value is Uint8List) {
-      var len = value.length;
-      for (var j = 0; j < len; j++) {
-        buffer[pos++] = value[j];
-      }
-      return pos;
-    } else {
-      var len = value.lengthInBytes;
-      var u8 = Uint8List.view(
-          value.buffer, value.offsetInBytes, value.lengthInBytes);
-      for (var j = 0; j < len; j++) {
-        buffer[pos++] = u8[j];
-      }
-      return pos;
-    }
   }
 
   /// This function maps a power-of-2 value (2^0 .. 2^31) to a unique value
@@ -478,25 +507,26 @@ class CodedBufferWriter {
   static const _MESSAGE_BIT_INDEX = 20;
 
   /// Mapping from value types to wire-types indexed by _valueTypeIndex(...).
-  static final Uint8List _wireTypes = Uint8List(32)
-    ..[_BOOL_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_BYTES_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
-    ..[_STRING_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
-    ..[_DOUBLE_BIT_INDEX] = WIRETYPE_FIXED64
-    ..[_FLOAT_BIT_INDEX] = WIRETYPE_FIXED32
-    ..[_ENUM_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_GROUP_BIT_INDEX] = WIRETYPE_START_GROUP
-    ..[_INT32_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_INT64_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_SINT32_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_SINT64_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_UINT32_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_UINT64_BIT_INDEX] = WIRETYPE_VARINT
-    ..[_FIXED32_BIT_INDEX] = WIRETYPE_FIXED32
-    ..[_FIXED64_BIT_INDEX] = WIRETYPE_FIXED64
-    ..[_SFIXED32_BIT_INDEX] = WIRETYPE_FIXED32
-    ..[_SFIXED64_BIT_INDEX] = WIRETYPE_FIXED64
-    ..[_MESSAGE_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED;
+  static final Uint8List _wireTypes =
+      Uint8List(32)
+        ..[_BOOL_BIT_INDEX] = WIRETYPE_VARINT
+        ..[_BYTES_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
+        ..[_STRING_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
+        ..[_DOUBLE_BIT_INDEX] = WIRETYPE_FIXED64
+        ..[_FLOAT_BIT_INDEX] = WIRETYPE_FIXED32
+        ..[_ENUM_BIT_INDEX] = WIRETYPE_VARINT
+        ..[_GROUP_BIT_INDEX] = WIRETYPE_START_GROUP
+        ..[_INT32_BIT_INDEX] = WIRETYPE_VARINT
+        ..[_INT64_BIT_INDEX] = WIRETYPE_VARINT
+        ..[_SINT32_BIT_INDEX] = WIRETYPE_VARINT
+        ..[_SINT64_BIT_INDEX] = WIRETYPE_VARINT
+        ..[_UINT32_BIT_INDEX] = WIRETYPE_VARINT
+        ..[_UINT64_BIT_INDEX] = WIRETYPE_VARINT
+        ..[_FIXED32_BIT_INDEX] = WIRETYPE_FIXED32
+        ..[_FIXED64_BIT_INDEX] = WIRETYPE_FIXED64
+        ..[_SFIXED32_BIT_INDEX] = WIRETYPE_FIXED32
+        ..[_SFIXED64_BIT_INDEX] = WIRETYPE_FIXED64
+        ..[_MESSAGE_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED;
 }
 
 int _encodeZigZag32(int value) => (value << 1) ^ (value >> 31);

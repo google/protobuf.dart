@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of 'internal.dart';
 
 /// Type of a function that checks items added to a `PbList`.
 ///
@@ -11,7 +11,20 @@ typedef CheckFunc<E> = void Function(E? x);
 
 /// A [ListBase] implementation used for protobuf `repeated` fields.
 class PbList<E> extends ListBase<E> {
+  /// The actual list storing the elements.
+  ///
+  /// Note: We want only one [List] implementation class to be stored here to
+  /// make sure the list operations are monomorphic and can be inlined. In
+  /// constructors make sure initializers for this field all return the same
+  /// implementation class. (e.g. `_GrowableList` on the VM)
   final List<E> _wrappedList;
+
+  /// A growable list, to be used in `unmodifiable` constructor to avoid
+  /// allocating a list every time.
+  ///
+  /// We can't use `const []` as it makes the `_wrappedList` field polymorphic.
+  static final _emptyList = <Never>[];
+
   final CheckFunc<E> _check;
 
   bool _isReadOnly = false;
@@ -19,26 +32,35 @@ class PbList<E> extends ListBase<E> {
   bool get isFrozen => _isReadOnly;
 
   PbList({CheckFunc<E> check = _checkNotNull})
-      : _wrappedList = <E>[],
-        _check = check;
+    : _wrappedList = <E>[],
+      _check = check;
 
   PbList.unmodifiable()
-      : _wrappedList = const [],
-        _check = _checkNotNull,
-        _isReadOnly = true;
+    : _wrappedList = _emptyList,
+      _check = _checkNotNull,
+      _isReadOnly = true;
 
-  PbList.from(List from)
-      : _wrappedList = List<E>.from(from),
-        _check = _checkNotNull;
+  PbList.from(List<E> from)
+    : _wrappedList = List<E>.from(from),
+      _check = _checkNotNull;
 
   @override
+  @pragma('dart2js:never-inline')
   void add(E element) {
     _checkModifiable('add');
     _check(element);
     _wrappedList.add(element);
   }
 
+  @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  void _addUnchecked(E element) {
+    _wrappedList.add(element);
+  }
+
   @override
+  @pragma('dart2js:never-inline')
   void addAll(Iterable<E> iterable) {
     _checkModifiable('addAll');
     iterable.forEach(_check);
@@ -61,6 +83,7 @@ class PbList<E> extends ListBase<E> {
   }
 
   @override
+  @pragma('dart2js:never-inline')
   void clear() {
     _checkModifiable('clear');
     _wrappedList.clear();
@@ -151,6 +174,16 @@ class PbList<E> extends ListBase<E> {
   int get length => _wrappedList.length;
 
   @override
+  bool get isEmpty => _wrappedList.isEmpty;
+
+  @override
+  bool get isNotEmpty => _wrappedList.isNotEmpty;
+
+  @override
+  @pragma('dart2js:never-inline')
+  Iterator<E> get iterator => _wrappedList.iterator;
+
+  @override
   set length(int newLength) {
     _checkModifiable('set length');
     if (newLength > length) {
@@ -170,10 +203,11 @@ class PbList<E> extends ListBase<E> {
   }
 
   @override
-  bool operator ==(other) => other is PbList && _areListsEqual(other, this);
+  bool operator ==(Object other) =>
+      other is PbList && areListsEqual(other, this);
 
   @override
-  int get hashCode => _HashUtils._hashObjects(_wrappedList);
+  int get hashCode => HashUtils.hashObjects(_wrappedList);
 
   void freeze() {
     if (_isReadOnly) {
@@ -185,7 +219,7 @@ class PbList<E> extends ListBase<E> {
     // Per spec `repeated map<..>` and `repeated repeated ..` are not allowed
     // so we only check for messages
     if (_wrappedList.isNotEmpty && _wrappedList[0] is GeneratedMessage) {
-      for (var elem in _wrappedList as Iterable<GeneratedMessage>) {
+      for (final elem in _wrappedList as Iterable<GeneratedMessage>) {
         elem.freeze();
       }
     }

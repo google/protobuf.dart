@@ -1,0 +1,10 @@
+name: workspace
+publish_to: none
+
+environment:
+  sdk: ^3.7.0
+
+workspace:
+  - benchmarks
+  - protobuf
+  - protoc_plugin

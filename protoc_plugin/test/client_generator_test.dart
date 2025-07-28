@@ -8,27 +8,31 @@ import 'package:protoc_plugin/src/linker.dart';
 import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
-import 'golden_file.dart';
-import 'service_util.dart';
+import 'src/golden_file.dart';
+import 'src/service_util.dart';
 
 void main() {
   test('testClientGenerator', () {
-    var options = GenerationOptions();
-    var fd = buildFileDescriptor(
-        'testpkg', 'testpkg.proto', ['SomeRequest', 'SomeReply']);
+    final options = GenerationOptions();
+    final fd = buildFileDescriptor('testpkg', 'testpkg.proto', [
+      'SomeRequest',
+      'SomeReply',
+    ]);
     fd.service.add(buildServiceDescriptor());
-    var fg = FileGenerator(fd, options);
+    final fg = FileGenerator(fd, options);
 
-    var fd2 = buildFileDescriptor(
-        'foo.bar', 'foobar.proto', ['EmptyMessage', 'AnotherReply']);
-    var fg2 = FileGenerator(fd2, options);
+    final fd2 = buildFileDescriptor('foo.bar', 'foobar.proto', [
+      'EmptyMessage',
+      'AnotherReply',
+    ]);
+    final fg2 = FileGenerator(fd2, options);
 
     link(GenerationOptions(), [fg, fg2]);
 
-    var cag = fg.clientApiGenerators[0];
+    final cag = fg.clientApiGenerators[0];
 
-    var writer = IndentingWriter();
+    final writer = IndentingWriter();
     cag.generate(writer);
-    expectMatchesGoldenFile(writer.toString(), 'test/goldens/client');
+    expectGolden(writer.emitSource(format: true), 'client.pb.dart');
   });
 }

@@ -7,10 +7,10 @@ import 'dart:convert';
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/map_field.pb.dart';
+import 'gen/map_field.pb.dart';
 
 void main() {
-  void _setValues(TestMap testMap) {
+  void setValues(TestMap testMap) {
     testMap
       ..int32ToInt32Field[1] = 11
       ..int32ToInt32Field[2] = 22
@@ -32,7 +32,7 @@ void main() {
       ..stringToInt32Field['3'] = 33;
   }
 
-  void _updateValues(TestMap testMap) {
+  void updateValues(TestMap testMap) {
     testMap
       ..int32ToInt32Field[1] = 111
       ..int32ToInt32Field.remove(2)
@@ -54,7 +54,7 @@ void main() {
       ..stringToInt32Field['4'] = 44;
   }
 
-  void _expectEmpty(TestMap testMap) {
+  void expectEmpty(TestMap testMap) {
     expect(testMap.int32ToInt32Field, isEmpty);
     expect(testMap.int32ToStringField, isEmpty);
     expect(testMap.int32ToBytesField, isEmpty);
@@ -63,7 +63,7 @@ void main() {
     expect(testMap.stringToInt32Field, isEmpty);
   }
 
-  void _expectMapValuesSet(TestMap testMap) {
+  void expectMapValuesSet(TestMap testMap) {
     expect(testMap.int32ToInt32Field[1], 11);
     expect(testMap.int32ToInt32Field[2], 22);
     expect(testMap.int32ToInt32Field[3], 33);
@@ -89,7 +89,7 @@ void main() {
     expect(testMap.stringToInt32Field['3'], 33);
   }
 
-  void _expectMapValuesUpdated(TestMap testMap) {
+  void expectMapValuesUpdated(TestMap testMap) {
     expect(testMap.int32ToInt32Field.length, 3);
     expect(testMap.int32ToInt32Field[1], 111);
     expect(testMap.int32ToInt32Field[3], 33);
@@ -122,81 +122,84 @@ void main() {
   }
 
   test('set and clear values', () {
-    var testMap = TestMap();
-    _expectEmpty(testMap);
+    final testMap = TestMap();
+    expectEmpty(testMap);
 
-    _setValues(testMap);
-    _expectMapValuesSet(testMap);
+    setValues(testMap);
+    expectMapValuesSet(testMap);
 
     testMap.clear();
-    _expectEmpty(testMap);
+    expectEmpty(testMap);
   });
 
   test('update map values', () {
-    var testMap = TestMap();
-    _setValues(testMap);
-    _updateValues(testMap);
-    _expectMapValuesUpdated(testMap);
+    final testMap = TestMap();
+    setValues(testMap);
+    updateValues(testMap);
+    expectMapValuesUpdated(testMap);
   });
 
   test('Serialize and parse map', () {
     var testMap = TestMap();
-    _setValues(testMap);
+    setValues(testMap);
 
     testMap = TestMap.fromBuffer(testMap.writeToBuffer());
-    _expectMapValuesSet(testMap);
+    expectMapValuesSet(testMap);
 
-    _updateValues(testMap);
+    updateValues(testMap);
     testMap = TestMap.fromBuffer(testMap.writeToBuffer());
-    _expectMapValuesUpdated(testMap);
+    expectMapValuesUpdated(testMap);
 
     testMap.clear();
     testMap = TestMap.fromBuffer(testMap.writeToBuffer());
-    _expectEmpty(testMap);
+    expectEmpty(testMap);
   });
 
   test('json serialize map', () {
     var testMap = TestMap();
-    _setValues(testMap);
+    setValues(testMap);
 
     testMap = TestMap.fromJson(testMap.writeToJson());
-    _expectMapValuesSet(testMap);
+    expectMapValuesSet(testMap);
 
-    _updateValues(testMap);
+    updateValues(testMap);
     testMap = TestMap.fromJson(testMap.writeToJson());
-    _expectMapValuesUpdated(testMap);
+    expectMapValuesUpdated(testMap);
 
     testMap.clear();
     testMap = TestMap.fromJson(testMap.writeToJson());
-    _expectEmpty(testMap);
+    expectEmpty(testMap);
   });
 
   test(
-      'PbMap` is equal to another PbMap with equal key/value pairs in any order',
-      () {
-    var t = TestMap()
-      ..int32ToStringField[2] = 'test2'
-      ..int32ToStringField[1] = 'test';
-    var t2 = TestMap()
-      ..int32ToStringField[1] = 'test'
-      ..int32ToStringField[2] = 'test2';
-    var t3 = TestMap()..int32ToStringField[1] = 'test';
+    'PbMap` is equal to another PbMap with equal key/value pairs in any order',
+    () {
+      final t =
+          TestMap()
+            ..int32ToStringField[2] = 'test2'
+            ..int32ToStringField[1] = 'test';
+      final t2 =
+          TestMap()
+            ..int32ToStringField[1] = 'test'
+            ..int32ToStringField[2] = 'test2';
+      final t3 = TestMap()..int32ToStringField[1] = 'test';
 
-    final m = t.int32ToStringField;
-    final m2 = t2.int32ToStringField;
-    final m3 = t3.int32ToStringField;
+      final m = t.int32ToStringField;
+      final m2 = t2.int32ToStringField;
+      final m3 = t3.int32ToStringField;
 
-    expect(t, t2);
-    expect(t.hashCode, t2.hashCode);
+      expect(t, t2);
+      expect(t.hashCode, t2.hashCode);
 
-    expect(m, m2);
-    expect(m == m2, isTrue);
-    expect(m.hashCode, m2.hashCode);
+      expect(m, m2);
+      expect(m == m2, isTrue);
+      expect(m.hashCode, m2.hashCode);
 
-    expect(m, isNot(m3));
-    expect(m == m3, isFalse);
-    expect(m.hashCode, isNot(m3.hashCode));
-  });
+      expect(m, isNot(m3));
+      expect(m == m3, isFalse);
+      expect(m.hashCode, isNot(m3.hashCode));
+    },
+  );
 
   test('Unitialized map field is equal to initialized', () {
     final testMap1 = TestMap();
@@ -213,17 +216,19 @@ void main() {
 
   test('merge from other message', () {
     var testMap = TestMap();
-    _setValues(testMap);
+    setValues(testMap);
 
     var other = TestMap();
     other.mergeFromMessage(testMap);
-    _expectMapValuesSet(other);
+    expectMapValuesSet(other);
 
-    testMap = TestMap()
-      ..int32ToMessageField[1] = (TestMap_MessageValue()..value = 42)
-      ..int32ToMessageField[2] = (TestMap_MessageValue()..value = 44);
-    other = TestMap()
-      ..int32ToMessageField[1] = (TestMap_MessageValue()..secondValue = 43);
+    testMap =
+        TestMap()
+          ..int32ToMessageField[1] = (TestMap_MessageValue()..value = 42)
+          ..int32ToMessageField[2] = (TestMap_MessageValue()..value = 44);
+    other =
+        TestMap()
+          ..int32ToMessageField[1] = (TestMap_MessageValue()..secondValue = 43);
     testMap.mergeFromMessage(other);
 
     expect(testMap.int32ToMessageField[1]!.value, 0);
@@ -232,11 +237,13 @@ void main() {
   });
 
   test('parse duplicate keys', () {
-    var testMap = TestMap()..int32ToStringField[1] = 'foo';
-    var testMap2 = TestMap()..int32ToStringField[1] = 'bar';
+    final testMap = TestMap()..int32ToStringField[1] = 'foo';
+    final testMap2 = TestMap()..int32ToStringField[1] = 'bar';
 
-    var merge = TestMap.fromBuffer(
-        [...testMap.writeToBuffer(), ...testMap2.writeToBuffer()]);
+    final merge = TestMap.fromBuffer([
+      ...testMap.writeToBuffer(),
+      ...testMap2.writeToBuffer(),
+    ]);
 
     // When parsing from the wire, if there are duplicate map keys the last key
     // seen should be used.
@@ -245,43 +252,51 @@ void main() {
   });
 
   test('Deep merge from other message', () {
-    var i1 = Inner()..innerMap['a'] = 'a';
-    var i2 = Inner()..innerMap['b'] = 'b';
+    final i1 = Inner()..innerMap['a'] = 'a';
+    final i2 = Inner()..innerMap['b'] = 'b';
 
-    var o1 = Outer()..i = i1;
-    var o2 = Outer()..i = i2;
+    final o1 = Outer()..i = i1;
+    final o2 = Outer()..i = i2;
 
     o1.mergeFromMessage(o2);
     expect(o1.i.innerMap.length, 2);
   });
 
   test('retain explicit default values of sub-messages', () {
-    var testMap = TestMap()..int32ToMessageField[1] = TestMap_MessageValue();
+    final testMap = TestMap()..int32ToMessageField[1] = TestMap_MessageValue();
     expect(testMap.int32ToMessageField[1]!.secondValue, 42);
 
-    var testMap2 = TestMap()..int32ToMessageField[2] = TestMap_MessageValue();
+    final testMap2 = TestMap()..int32ToMessageField[2] = TestMap_MessageValue();
 
     testMap.mergeFromBuffer(testMap2.writeToBuffer());
     expect(testMap.int32ToMessageField[2]!.secondValue, 42);
   });
 
   test('Freeze message with map field', () {
-    var testMap = TestMap();
-    _setValues(testMap);
+    final testMap = TestMap();
+    setValues(testMap);
     testMap.freeze();
 
-    expect(() => _updateValues(testMap),
-        throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToMessageField[1]!.value = 42,
-        throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToStringField.remove(1),
-        throwsA(const TypeMatcher<UnsupportedError>()));
-    expect(() => testMap.int32ToStringField.clear(),
-        throwsA(const TypeMatcher<UnsupportedError>()));
+    expect(
+      () => updateValues(testMap),
+      throwsA(const TypeMatcher<UnsupportedError>()),
+    );
+    expect(
+      () => testMap.int32ToMessageField[1]!.value = 42,
+      throwsA(const TypeMatcher<UnsupportedError>()),
+    );
+    expect(
+      () => testMap.int32ToStringField.remove(1),
+      throwsA(const TypeMatcher<UnsupportedError>()),
+    );
+    expect(
+      () => testMap.int32ToStringField.clear(),
+      throwsA(const TypeMatcher<UnsupportedError>()),
+    );
   });
 
   test('Values for different keys are not merged together when decoding', () {
-    var testMap = TestMap();
+    final testMap = TestMap();
     testMap.int32ToMessageField[1] = (TestMap_MessageValue()..value = 11);
     testMap.int32ToMessageField[2] = (TestMap_MessageValue()..secondValue = 12);
 
@@ -305,10 +320,14 @@ void main() {
 
   test('Calling getField on map fields using reflective API works.', () {
     final testMap = TestMap();
-    final mapFieldInfo = testMap.info_.fieldInfo.values
-        .where((fieldInfo) =>
-            fieldInfo is MapFieldInfo && fieldInfo.name == 'int32ToBytesField')
-        .single;
+    final mapFieldInfo =
+        testMap.info_.fieldInfo.values
+            .where(
+              (fieldInfo) =>
+                  fieldInfo is MapFieldInfo &&
+                  fieldInfo.name == 'int32ToBytesField',
+            )
+            .single;
     final value = testMap.getField(mapFieldInfo.tagNumber);
     expect(value is Map<int, List<int>>, true);
   });
@@ -316,25 +335,38 @@ void main() {
   test('Parses null keys and values', () {
     // Use a desugared version of the message to create missing
     // values in the serialized form.
-    final d = Desugared()
-      ..int32ToStringField.add(Desugared_Int32ToString()
-        ..clearKey()
-        ..value = 'abc')
-      ..int32ToStringField.add(Desugared_Int32ToString()
-        ..key = 42
-        ..clearValue())
-      ..int32ToStringField.add(Desugared_Int32ToString()
-        ..key = 11
-        ..value = 'def')
-      ..stringToInt32Field.add(Desugared_StringToInt32()
-        ..clearKey()
-        ..value = 11)
-      ..stringToInt32Field.add(Desugared_StringToInt32()
-        ..key = 'abc'
-        ..clearValue())
-      ..stringToInt32Field.add(Desugared_StringToInt32()
-        ..key = 'def'
-        ..value = 42);
+    final d =
+        Desugared()
+          ..int32ToStringField.add(
+            Desugared_Int32ToString()
+              ..clearKey()
+              ..value = 'abc',
+          )
+          ..int32ToStringField.add(
+            Desugared_Int32ToString()
+              ..key = 42
+              ..clearValue(),
+          )
+          ..int32ToStringField.add(
+            Desugared_Int32ToString()
+              ..key = 11
+              ..value = 'def',
+          )
+          ..stringToInt32Field.add(
+            Desugared_StringToInt32()
+              ..clearKey()
+              ..value = 11,
+          )
+          ..stringToInt32Field.add(
+            Desugared_StringToInt32()
+              ..key = 'abc'
+              ..clearValue(),
+          )
+          ..stringToInt32Field.add(
+            Desugared_StringToInt32()
+              ..key = 'def'
+              ..value = 42,
+          );
 
     final m = TestMap.fromBuffer(d.writeToBuffer());
     expect(m.int32ToStringField[0], 'abc');
@@ -358,16 +390,110 @@ void main() {
   test('getField and \$_getMap are in sync', () {
     final msg1 = TestMap();
     expect(msg1.hasField(1), false);
-    var map1 = msg1.getField(1) as Map<int, int>;
+    final map1 = msg1.getField(1) as Map<int, int>;
     expect(msg1.hasField(1), true);
     map1[1] = 2;
     expect(msg1.int32ToInt32Field[1], 2);
 
     final msg2 = TestMap();
     expect(msg2.hasField(1), false);
-    var map2 = msg2.$_getMap(0) as Map<int, int>;
+    final map2 = msg2.$_getMap(0) as Map<int, int>;
     expect(msg2.hasField(1), true);
     map2[1] = 2;
     expect(msg2.int32ToInt32Field[1], 2);
+  });
+
+  test('Parses empty map fields', () {
+    // Map fields are encoded as messages (as length-delimited fields). Check
+    // that we handle 0 length fields. (#719)
+    {
+      final messageBytes = <int>[
+        (5 << 3) | 2, // tag = 5, wire type = 2 (length delimited)
+        0, // length = 0
+      ];
+      final message = TestMap.fromBuffer(messageBytes);
+      expect(
+        message,
+        TestMap()..int32ToMessageField[0] = TestMap_MessageValue(),
+      );
+    }
+
+    {
+      final messageBytes = <int>[
+        (4 << 3) | 2, // tag = 4, wire type = 2 (length delimited)
+        0, // length = 0
+      ];
+      final message = TestMap.fromBuffer(messageBytes);
+      expect(
+        message,
+        TestMap()..int32ToEnumField[0] = TestMap_EnumValue.DEFAULT,
+      );
+    }
+  });
+
+  test('Parses map field with just key', () {
+    // Similar to the case above, but the field just has key (no value)
+    {
+      final messageBytes = <int>[
+        (5 << 3) | 2, // tag = 5, wire type = 2 (length delimited)
+        2, // length = 2
+        (1 << 3) | 0, // tag = 1 (map key), wire type = 0 (varint)
+        1, // key = 1
+      ];
+      final message = TestMap.fromBuffer(messageBytes);
+      expect(
+        message,
+        TestMap()..int32ToMessageField[1] = TestMap_MessageValue(),
+      );
+    }
+
+    {
+      final messageBytes = <int>[
+        (4 << 3) | 2, // tag = 4, wire type = 2 (length delimited)
+        2, // length = 2
+        (1 << 3) | 0, // tag = 1 (map key), wire type = 0 (varint)
+        1, // key = 1
+      ];
+      final message = TestMap.fromBuffer(messageBytes);
+      expect(
+        message,
+        TestMap()..int32ToEnumField[1] = TestMap_EnumValue.DEFAULT,
+      );
+    }
+  });
+
+  test('Parses map field with just key', () {
+    // Similar to the case above, but the field just has value (no key)
+    {
+      final messageBytes = <int>[
+        (5 << 3) | 2, // tag = 5, wire type = 2 (length delimited)
+        2, // length = 2
+        (2 << 3) | 2, // tag = 2 (map value), wire type = 2 (length delimited)
+        0, // length = 0 (empty message)
+      ];
+      final message = TestMap.fromBuffer(messageBytes);
+      expect(
+        message,
+        TestMap()..int32ToMessageField[0] = TestMap_MessageValue(),
+      );
+    }
+
+    {
+      final messageBytes = <int>[
+        (4 << 3) | 2, // tag = 4, wire type = 2 (length delimited)
+        2, // length = 2
+        (2 << 3) | 2, // tag = 2 (map value), wire type = 2 (length delimited)
+        1, // enum value = 1
+      ];
+      final message = TestMap.fromBuffer(messageBytes);
+      expect(message, TestMap()..int32ToEnumField[0] = TestMap_EnumValue.BAR);
+    }
+  });
+
+  test('Read-only message uninitialized map field value is read-only', () {
+    final msg = TestMap()..freeze();
+    expect(() {
+      msg.int32ToInt32Field[0] = 1;
+    }, throwsA(const TypeMatcher<UnsupportedError>()));
   });
 }

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of protobuf;
+part of 'internal.dart';
 
 /// Unpacks the message in [value] into [instance].
 ///
@@ -13,8 +13,11 @@ part of protobuf;
 ///
 /// @nodoc
 void unpackIntoHelper<T extends GeneratedMessage>(
-    List<int> value, T instance, String typeUrl,
-    {ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY}) {
+  List<int> value,
+  T instance,
+  String typeUrl, {
+  ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+}) {
   // From "google/protobuf/any.proto":
   //
   //   The pack methods provided by protobuf library will by default use
@@ -23,9 +26,11 @@ void unpackIntoHelper<T extends GeneratedMessage>(
   //   in the type URL, for example "foo.bar.com/x/y.z" will yield type
   //   name "y.z".
   if (!canUnpackIntoHelper(instance, typeUrl)) {
-    var typeName = instance.info_.qualifiedMessageName;
+    final typeName = instance.info_.qualifiedMessageName;
     throw InvalidProtocolBufferException.wrongAnyMessage(
-        _typeNameFromUrl(typeUrl), typeName);
+      _typeNameFromUrl(typeUrl),
+      typeName,
+    );
   }
   instance.mergeFromBuffer(value, extensionRegistry);
 }
@@ -41,6 +46,6 @@ bool canUnpackIntoHelper(GeneratedMessage instance, String typeUrl) {
 }
 
 String _typeNameFromUrl(String typeUrl) {
-  var index = typeUrl.lastIndexOf('/');
+  final index = typeUrl.lastIndexOf('/');
   return index == -1 ? '' : typeUrl.substring(index + 1);
 }

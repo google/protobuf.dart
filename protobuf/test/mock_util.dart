@@ -21,10 +21,14 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
     ..p<int>(4, 'int32s', PbFieldType.P3)
     ..a(5, 'int64', PbFieldType.O6)
     // 6 is reserved for extensions in other tests.
-    ..e(7, 'enm', PbFieldType.OE,
-        defaultOrMaker: mockEnumValues.first,
-        valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
-        enumValues: mockEnumValues);
+    ..e(
+      7,
+      'enm',
+      PbFieldType.OE,
+      defaultOrMaker: mockEnumValues.first,
+      valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
+      enumValues: mockEnumValues,
+    );
 }
 
 /// A minimal protobuf implementation for testing.
@@ -34,25 +38,25 @@ abstract class MockMessage extends GeneratedMessage {
   BuilderInfo get info_;
 
   int get val => $_get(0, 42);
-  set val(x) => setField(1, x);
+  set val(Object x) => setField(1, x);
 
   String get str => $_getS(1, '');
-  set str(x) => $_setString(1, x);
+  set str(String x) => $_setString(1, x);
 
   MockMessage get child => $_getN(2);
-  set child(x) => setField(3, x);
+  set child(Object x) => setField(3, x);
 
   List<int> get int32s => $_getList(3);
 
   Int64 get int64 => $_get(4, Int64(0));
-  set int64(x) => setField(5, x);
+  set int64(Object x) => setField(5, x);
 
   ProtobufEnum get enm => $_getN(5);
   bool get hasEnm => $_has(5);
 
   @override
   GeneratedMessage clone() {
-    var create = info_.byName['child']!.subBuilder!;
+    final create = info_.byName['child']!.subBuilder!;
     return create()..mergeFromMessage(this);
   }
 }
@@ -60,7 +64,7 @@ abstract class MockMessage extends GeneratedMessage {
 class T extends MockMessage {
   @override
   BuilderInfo get info_ => _info;
-  static final _info = mockInfo('T', () => T());
+  static final _info = mockInfo('T', T.new);
   @override
   T createEmptyInstance() => T();
 }
