@@ -35,3 +35,7 @@ jobs:
       - run: dart format --output=none --set-exit-if-changed lib
 
       - run: dart test
+
+      - run: dart test -p chrome -c dart2js
+
+      - run: dart test -p chrome -c dart2wasm
