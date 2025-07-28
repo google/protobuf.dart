@@ -13,36 +13,40 @@ import '../internal.dart';
 import '../utils.dart';
 
 @JS('JSON')
-extension type JSON._(JSObject _) implements JSObject {
-  external static JSString stringify(JSObject value);
-  external static JSAny? parse(JSString text);
+extension type _JSON._(JSObject _) implements JSObject {
+  @JS('JSON.stringify')
+  external static JSString _stringify(JSObject value);
+
+  @JS('JSON.parse')
+  external static JSAny? _parse(JSString text);
 }
 
 @JS('Number')
-extension type Number._(JSObject _) implements JSObject {
-  external static bool isInteger(JSAny value);
+extension type _Number._(JSObject _) implements JSObject {
+  @JS('Number.isInteger')
+  external static bool _isInteger(JSAny value);
 }
 
 @JS('Object.keys')
-external JSArray<JSString> objectKeys(JSObject obj);
+external JSArray<JSString> _objectKeys(JSObject obj);
 
 @JS('Object.prototype')
-external JSObject get objectPrototype;
+external JSObject get _objectPrototype;
 
 @JS('Object.getPrototypeOf')
-external JSObject getPrototypeOf(JSAny obj);
+external JSObject _getPrototypeOf(JSAny obj);
 
 extension on JSAny {
   /// Returns this typed as [T] while omitting the `as` cast. For use after an
   /// `isA` check.
   @pragma('dart2js:as:trust')
   @pragma('dart2js:prefer-inline')
-  T as<T extends JSAny>() => this as T;
+  T _as<T extends JSAny>() => this as T;
 }
 
 String writeToJsonString(FieldSet fs) {
   final rawJs = _writeToRawJs(fs);
-  return JSON.stringify(rawJs).toDart;
+  return _JSON._stringify(rawJs).toDart;
 }
 
 JSObject _writeToRawJs(FieldSet fs) {
@@ -184,14 +188,14 @@ void mergeFromJsonString(
 ) {
   final JSAny? parsed;
   try {
-    parsed = JSON.parse(json.toJS);
+    parsed = _JSON._parse(json.toJS);
   } catch (e) {
     throw FormatException(e.toString());
   }
   if (parsed == null || !parsed.isA<JSObject>()) {
     throw ArgumentError.value(json, 'json', 'Does not parse to a JSON object.');
   }
-  _mergeFromRawJsMap(fs, parsed.as<JSObject>(), registry);
+  _mergeFromRawJsMap(fs, parsed._as<JSObject>(), registry);
 }
 
 void _mergeFromRawJsMap(
@@ -202,7 +206,7 @@ void _mergeFromRawJsMap(
   fs.ensureWritable();
 
   final meta = fs.meta;
-  final keys = objectKeys(json);
+  final keys = _objectKeys(json);
   final length = keys.length;
   for (var i = 0; i < length; i++) {
     final jsKey = keys[i];
@@ -353,16 +357,16 @@ Object? _convertRawJsValue(
   switch (PbFieldType.baseType(fieldType)) {
     case PbFieldType.BOOL_BIT:
       if (value.isA<JSBoolean>()) {
-        return value.as<JSBoolean>().toDart;
+        return value._as<JSBoolean>().toDart;
       } else if (value.isA<JSString>()) {
-        final dartStr = value.as<JSString>().toDart;
+        final dartStr = value._as<JSString>().toDart;
         if (dartStr == 'true') {
           return true;
         } else if (dartStr == 'false') {
           return false;
         }
       } else if (value.isA<JSNumber>()) {
-        final dartNum = value.as<JSNumber>().toDartDouble;
+        final dartNum = value._as<JSNumber>().toDartDouble;
         if (dartNum == 1) {
           return true;
         } else if (dartNum == 0) {
@@ -372,58 +376,58 @@ Object? _convertRawJsValue(
       expectedType = 'bool (true, false, "true", "false", 1, 0)';
     case PbFieldType.BYTES_BIT:
       if (value.isA<JSString>()) {
-        return base64Decode(value.as<JSString>().toDart);
+        return base64Decode(value._as<JSString>().toDart);
       }
       expectedType = 'Base64 String';
     case PbFieldType.STRING_BIT:
       if (value.isA<JSString>()) {
-        return value.as<JSString>().toDart;
+        return value._as<JSString>().toDart;
       }
       expectedType = 'String';
     case PbFieldType.FLOAT_BIT:
     case PbFieldType.DOUBLE_BIT:
       // Allow quoted values, although we don't emit them.
       if (value.isA<JSNumber>()) {
-        final jsNum = value.as<JSNumber>();
-        return Number.isInteger(jsNum) ? jsNum.toDartInt : jsNum.toDartDouble;
+        final jsNum = value._as<JSNumber>();
+        return _Number._isInteger(jsNum) ? jsNum.toDartInt : jsNum.toDartDouble;
       } else if (value.isA<JSString>()) {
-        return double.parse(value.as<JSString>().toDart);
+        return double.parse(value._as<JSString>().toDart);
       }
       expectedType = 'num or stringified num';
     case PbFieldType.ENUM_BIT:
       // Allow quoted values, although we don't emit them.
       if (value.isA<JSString>()) {
-        value = int.parse(value.as<JSString>().toDart).toJS;
+        value = int.parse(value._as<JSString>().toDart).toJS;
       }
-      if (Number.isInteger(value)) {
+      if (_Number._isInteger(value)) {
         // The following call will return null if the enum value is unknown.
         // In that case, we want the caller to ignore this value, so we return
         // null from this method as well.
         return meta.decodeEnum(
           tagNumber,
           registry,
-          value.as<JSNumber>().toDartInt,
+          value._as<JSNumber>().toDartInt,
         );
       }
       expectedType = 'int or stringified int';
     case PbFieldType.INT32_BIT:
     case PbFieldType.SINT32_BIT:
     case PbFieldType.SFIXED32_BIT:
-      if (Number.isInteger(value)) {
-        return value.as<JSNumber>().toDartInt;
+      if (_Number._isInteger(value)) {
+        return value._as<JSNumber>().toDartInt;
       }
       if (value.isA<JSString>()) {
-        return int.parse(value.as<JSString>().toDart);
+        return int.parse(value._as<JSString>().toDart);
       }
       expectedType = 'int or stringified int';
     case PbFieldType.UINT32_BIT:
     case PbFieldType.FIXED32_BIT:
       int? validatedValue;
-      if (Number.isInteger(value)) {
-        validatedValue = value.as<JSNumber>().toDartInt;
+      if (_Number._isInteger(value)) {
+        validatedValue = value._as<JSNumber>().toDartInt;
       }
       if (value.isA<JSString>()) {
-        validatedValue = int.parse(value.as<JSString>().toDart);
+        validatedValue = int.parse(value._as<JSString>().toDart);
       }
       if (validatedValue != null && validatedValue < 0) {
         validatedValue += 2 * (1 << 31);
@@ -435,18 +439,22 @@ Object? _convertRawJsValue(
     case PbFieldType.UINT64_BIT:
     case PbFieldType.FIXED64_BIT:
     case PbFieldType.SFIXED64_BIT:
-      if (Number.isInteger(value)) {
-        return Int64(value.as<JSNumber>().toDartInt);
+      if (_Number._isInteger(value)) {
+        return Int64(value._as<JSNumber>().toDartInt);
       }
       if (value.isA<JSString>()) {
-        return Int64.parseInt(value.as<JSString>().toDart);
+        return Int64.parseInt(value._as<JSString>().toDart);
       }
       expectedType = 'int or stringified int';
     case PbFieldType.GROUP_BIT:
     case PbFieldType.MESSAGE_BIT:
-      if (getPrototypeOf(value).strictEquals(objectPrototype).toDart) {
+      if (_getPrototypeOf(value).strictEquals(_objectPrototype).toDart) {
         final subMessage = meta.makeEmptyMessage(tagNumber, registry);
-        _mergeFromRawJsMap(subMessage.fieldSet, value.as<JSObject>(), registry);
+        _mergeFromRawJsMap(
+          subMessage.fieldSet,
+          value._as<JSObject>(),
+          registry,
+        );
         return subMessage;
       }
       expectedType = 'nested message or group';
