@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@TestOn('vm')
+library;
+
 import 'package:protoc_plugin/indenting_writer.dart';
 import 'package:protoc_plugin/protoc.dart';
 import 'package:protoc_plugin/src/linker.dart';
@@ -10,13 +13,8 @@ import 'package:test/test.dart';
 
 import 'src/golden_file.dart';
 import 'src/service_util.dart';
-import 'src/test_util.dart';
 
 void main() {
-  if (kIsWeb) {
-    return;
-  }
-
   test('testServiceGenerator', () {
     final options = GenerationOptions();
     final fd = buildFileDescriptor('testpkg', 'testpkg.proto', [

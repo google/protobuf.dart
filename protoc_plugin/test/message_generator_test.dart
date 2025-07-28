@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@TestOn('vm')
+library;
+
 import 'dart:collection';
 
 import 'package:collection/collection.dart';
@@ -14,7 +17,6 @@ import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
 import 'src/golden_file.dart';
-import 'src/test_util.dart';
 
 void main() {
   late FileDescriptorProto fd;
@@ -78,10 +80,6 @@ void main() {
   });
 
   test('testMessageGenerator', () {
-    if (kIsWeb) {
-      return;
-    }
-
     final options =
         parseGenerationOptions(
           CodeGeneratorRequest()..parameter = 'disable_constructor_args',
