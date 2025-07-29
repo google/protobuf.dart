@@ -8,12 +8,13 @@ on:
   schedule:
     - cron: "0 0 * * 0" # weekly
 
+defaults:
+  run:
+    working-directory: benchmarks
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: benchmarks
     strategy:
       fail-fast: false
       matrix:
@@ -25,15 +26,15 @@ jobs:
         with:
           sdk: ${{matrix.sdk}}
 
+      - run: ../tool/setup.sh
+
       - run: dart pub get
+
+      - run: ./tool/compile_protos.sh
 
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed .
         if: ${{ matrix.sdk == 'dev' }}
-
-      - run: ./../tool/setup.sh
-
-      - run: ./tool/compile_protos.sh
 
       - run: dart tool/compile_benchmarks.dart

@@ -8,12 +8,13 @@ on:
   schedule:
     - cron: "0 0 * * 0" # weekly
 
+defaults:
+  run:
+    working-directory: protoc_plugin
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: protoc_plugin
     strategy:
       fail-fast: false
       matrix:
@@ -24,9 +25,9 @@ jobs:
         with:
           sdk: ${{matrix.sdk}}
 
-      - run: dart pub get
+      - run: ../tool/setup.sh
 
-      - run: ./../tool/setup.sh
+      - run: dart pub get
 
       - run: make protos
 
