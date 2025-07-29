@@ -3,11 +3,10 @@ permissions: read-all
 
 on:
   pull_request:
-    branches:
   push:
-    branches: [ master ]
+    branches: [master]
   schedule:
-    - cron: '0 0 * * 0' # weekly
+    - cron: "0 0 * * 0" # weekly
 
 jobs:
   validate-protobuf:
@@ -15,6 +14,7 @@ jobs:
       run:
         working-directory: protobuf
     strategy:
+      fail-fast: false
       matrix:
         sdk: [stable, dev]
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -32,9 +32,8 @@ jobs:
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed .
+        if: ${{ matrix.sdk == 'dev' }}
 
       - run: dart test
-
       - run: dart test -p chrome -c dart2js
-
       - run: dart test -p chrome -c dart2wasm

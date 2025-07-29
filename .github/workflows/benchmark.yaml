@@ -3,11 +3,10 @@ permissions: read-all
 
 on:
   pull_request:
-    branches:
   push:
-    branches: [ master ]
+    branches: [master]
   schedule:
-    - cron: '0 0 * * 0' # weekly
+    - cron: "0 0 * * 0" # weekly
 
 jobs:
   build:
@@ -16,8 +15,9 @@ jobs:
       run:
         working-directory: benchmarks
     strategy:
+      fail-fast: false
       matrix:
-        sdk: dev
+        sdk: [dev]
 
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
@@ -30,6 +30,7 @@ jobs:
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed .
+        if: ${{ matrix.sdk == 'dev' }}
 
       - run: ./../tool/setup.sh
 

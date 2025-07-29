@@ -3,11 +3,10 @@ permissions: read-all
 
 on:
   pull_request:
-    branches:
   push:
-    branches: [ master ]
+    branches: [master]
   schedule:
-    - cron: '0 0 * * 0' # weekly
+    - cron: "0 0 * * 0" # weekly
 
 jobs:
   build:
@@ -16,6 +15,7 @@ jobs:
       run:
         working-directory: protoc_plugin
     strategy:
+      fail-fast: false
       matrix:
         sdk: [stable, dev]
     steps:
@@ -33,9 +33,8 @@ jobs:
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed lib
+        if: ${{ matrix.sdk == 'dev' }}
 
       - run: dart test
-
       - run: dart test -p chrome -c dart2js
-
       - run: dart test -p chrome -c dart2wasm
