@@ -45,4 +45,16 @@ void main() {
       );
     });
   });
+
+  group('which', () {
+    test('can locate a command', () {
+      final actual = which('dart');
+      expect(actual, isNotNull);
+    });
+
+    test('missing command returns null', () {
+      final actual = which('foo-bar-command');
+      expect(actual, isNull);
+    });
+  });
 }

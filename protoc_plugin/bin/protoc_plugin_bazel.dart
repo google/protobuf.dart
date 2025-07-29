@@ -8,9 +8,10 @@ import 'dart:io';
 import 'package:protoc_plugin/bazel.dart';
 import 'package:protoc_plugin/protoc.dart';
 
-void main() {
+void main() async {
   final packages = <String, BazelPackage>{};
-  CodeGenerator(stdin, stdout).generate(
+  final generator = CodeGenerator(stdin, stdout);
+  await generator.generate(
     optionParsers: {bazelOptionId: BazelOptionParser(packages)},
     config: BazelOutputConfiguration(packages),
   );

@@ -82,17 +82,13 @@ PREGENERATED_SRCS := $(shell find protos -name '*.proto')
 $(TEST_PROTO_LIBS): $(PLUGIN_SRC) $(TEST_PROTO_SRCS)
 	mkdir -p $(TEST_PROTO_DIR)
 
-	protoc\
-		--dart_out="$(TEST_PROTO_DIR)"\
-		-I$(TEST_PROTO_SRC_DIR)\
-		-Iprotos\
-		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH))\
+	dart run protoc_plugin:generate \
+	  --out="$(TEST_PROTO_DIR)" \
+		--proto-path=$(TEST_PROTO_SRC_DIR) \
 		$(TEST_PROTO_SRCS)
 
 update-pregenerated: $(PLUGIN_PATH) $(PREGENERATED_SRCS)
-	protoc --dart_out=lib/src/gen \
-		-Iprotos \
-		--plugin=protoc-gen-dart=$(realpath $(PLUGIN_PATH)) $(PREGENERATED_SRCS)
+	dart run protoc_plugin:generate
 	find lib/src/gen -name '*.pbjson.dart' -delete
 
 protos: $(PLUGIN_PATH) $(TEST_PROTO_LIBS)

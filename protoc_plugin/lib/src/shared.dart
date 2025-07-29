@@ -102,3 +102,10 @@ String? toDartComment(String value) {
 }
 
 final _leadingSpaces = RegExp('^ +');
+
+/// Use the platform dependent 'which' command to locate a binary.
+String? which(String commandName) {
+  final cmd = Platform.isWindows ? 'where' : 'which';
+  final result = Process.runSync(cmd, [commandName]);
+  return result.exitCode == 0 ? (result.stdout as String).trim() : null;
+}
