@@ -3,19 +3,20 @@ permissions: read-all
 
 on:
   pull_request:
-    branches:
   push:
-    branches: [ master ]
+    branches: [master]
   schedule:
-    - cron: '0 0 * * 0' # weekly
+    - cron: "0 0 * * 0" # weekly
+
+defaults:
+  run:
+    working-directory: protoc_plugin
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: protoc_plugin
     strategy:
+      fail-fast: false
       matrix:
         sdk: [stable, dev]
     steps:
@@ -24,18 +25,17 @@ jobs:
         with:
           sdk: ${{matrix.sdk}}
 
-      - run: dart pub get
+      - run: ../tool/setup.sh
 
-      - run: ./../tool/setup.sh
+      - run: dart pub get
 
       - run: make protos
 
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed lib
+        if: ${{ matrix.sdk == 'dev' }}
 
       - run: dart test
-
       - run: dart test -p chrome -c dart2js
-
       - run: dart test -p chrome -c dart2wasm
