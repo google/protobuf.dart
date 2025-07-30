@@ -27,5 +27,3 @@ protoc --dart_out=lib/generated --plugin=protoc-gen-dart=tool/run_protoc_plugin.
 protoc --dart_out=lib/generated --plugin=protoc-gen-dart=tool/run_protoc_plugin.sh \
     -I$BENCHMARK_DIR/protos/query_benchmark \
     $BENCHMARK_DIR/protos/query_benchmark/*.proto
-
-dart format lib/generated
