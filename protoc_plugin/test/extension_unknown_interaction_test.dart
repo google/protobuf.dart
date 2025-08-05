@@ -5,18 +5,24 @@
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
 
 void main() {
   test('setExtension clears unknown field with same tag number', () {
     final m = TestAllExtensions();
-    m.unknownFields.addField(Unittest.optionalInt32Extension.tagNumber,
-        UnknownFieldSetField()..addFixed32(33));
-    expect(m.unknownFields.hasField(Unittest.optionalInt32Extension.tagNumber),
-        isTrue);
+    m.unknownFields.addField(
+      Unittest.optionalInt32Extension.tagNumber,
+      UnknownFieldSetField()..addFixed32(33),
+    );
+    expect(
+      m.unknownFields.hasField(Unittest.optionalInt32Extension.tagNumber),
+      isTrue,
+    );
     m.setExtension(Unittest.optionalInt32Extension, 42);
     expect(m.getExtension(Unittest.optionalInt32Extension), 42);
-    expect(m.unknownFields.hasField(Unittest.optionalInt32Extension.tagNumber),
-        isFalse);
+    expect(
+      m.unknownFields.hasField(Unittest.optionalInt32Extension.tagNumber),
+      isFalse,
+    );
   });
 }

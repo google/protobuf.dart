@@ -1,20 +1,16 @@
-.children
 .dart_tool/
-.idea
-.packages
 .pub
 build/
-**/lib/generated/**
-packages
 pubspec.lock
-benchmarks/out
 doc/
 
 # `dart compile exe` outputs
 *.exe
 
 # `dart compile js` outputs
-*.js*
+*.js
+*.js.deps
+*.js.map
 
 # `dart compile wasm` outputs
 *.wasm

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// A collection of [Extension] objects, organized by the message type they
 /// extend.
@@ -15,8 +15,10 @@ class ExtensionRegistry {
 
   /// Stores an [extension] in the registry.
   void add(Extension extension) {
-    final map =
-        _extensions.putIfAbsent(extension.extendee, () => <int, Extension>{});
+    final map = _extensions.putIfAbsent(
+      extension.extendee,
+      () => <int, Extension>{},
+    );
     map[extension.tagNumber] = extension;
   }
 
@@ -87,7 +89,9 @@ class ExtensionRegistry {
 }
 
 T _reparseMessage<T extends GeneratedMessage>(
-    T message, ExtensionRegistry extensionRegistry) {
+  T message,
+  ExtensionRegistry extensionRegistry,
+) {
   T? result;
   T ensureResult() {
     if (result == null) {
@@ -116,7 +120,9 @@ T _reparseMessage<T extends GeneratedMessage>(
           final typeId =
               group._fields[_messageSetItemTypeIdTag]!.varints[0].toInt();
           if (extensionRegistry.getExtension(
-                  message.info_.qualifiedMessageName, typeId) ==
+                message.info_.qualifiedMessageName,
+                typeId,
+              ) ==
               null) {
             unparsedItemList.addGroup(group);
           } else {
@@ -135,12 +141,12 @@ T _reparseMessage<T extends GeneratedMessage>(
     } else {
       extensionRegistry._extensions[message.info_.qualifiedMessageName]
           ?.forEach((tagNumber, extension) {
-        final unknownField = messageUnknownFields._fields[tagNumber];
-        if (unknownField != null) {
-          unknownField.writeTo(tagNumber, codedBufferWriter);
-          ensureUnknownFields()._fields.remove(tagNumber);
-        }
-      });
+            final unknownField = messageUnknownFields._fields[tagNumber];
+            if (unknownField != null) {
+              unknownField.writeTo(tagNumber, codedBufferWriter);
+              ensureUnknownFields()._fields.remove(tagNumber);
+            }
+          });
     }
 
     final buffer = codedBufferWriter.toBuffer();
@@ -175,7 +181,7 @@ T _reparseMessage<T extends GeneratedMessage>(
       final messageMapDynamic = message._fieldSet._values[field.index!];
       if (messageMapDynamic == null) continue;
       final PbMap messageMap = messageMapDynamic;
-      if (_isGroupOrMessage(field.valueFieldType)) {
+      if (PbFieldType.isGroupOrMessage(field.valueFieldType)) {
         for (final key in messageMap.keys) {
           final GeneratedMessage value = messageMap[key];
           final reparsedValue = _reparseMessage(value, extensionRegistry);
@@ -187,8 +193,10 @@ T _reparseMessage<T extends GeneratedMessage>(
     } else if (field.isGroupOrMessage) {
       final messageSubField = message._fieldSet._values[field.index!];
       if (messageSubField == null) continue;
-      final reparsedSubField =
-          _reparseMessage<GeneratedMessage>(messageSubField, extensionRegistry);
+      final reparsedSubField = _reparseMessage<GeneratedMessage>(
+        messageSubField,
+        extensionRegistry,
+      );
       if (!identical(messageSubField, reparsedSubField)) {
         ensureResult()._fieldSet._values[field.index!] = reparsedSubField;
       }

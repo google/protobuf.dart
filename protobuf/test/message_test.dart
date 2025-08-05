@@ -4,11 +4,10 @@
 
 // Tests for GeneratedMessage methods.
 
-import 'package:matcher/src/interfaces.dart';
 import 'package:protobuf/protobuf.dart';
-import 'package:test/test.dart' show expect, isA, test, throwsA;
+import 'package:test/test.dart';
 
-import 'mock_util.dart' show MockMessage, mockInfo;
+import 'mock_util.dart';
 
 class Rec extends MockMessage {
   @override
@@ -18,8 +17,9 @@ class Rec extends MockMessage {
   Rec createEmptyInstance() => Rec();
 }
 
-Matcher throwsError(String expectedMessage) => throwsA(isA<ArgumentError>()
-    .having((p0) => p0.message, 'message', expectedMessage));
+Matcher throwsError(String expectedMessage) => throwsA(
+  isA<ArgumentError>().having((p0) => p0.message, 'message', expectedMessage),
+);
 
 void main() {
   test('getField with invalid tag throws exception', () {
@@ -37,13 +37,15 @@ void main() {
   });
 
   test('operator== and hashCode works for frozen message', () {
-    final a = Rec()
-      ..val = 123
-      ..int32s.addAll([1, 2, 3])
-      ..freeze();
-    final b = Rec()
-      ..val = 123
-      ..int32s.addAll([1, 2, 3]);
+    final a =
+        Rec()
+          ..val = 123
+          ..int32s.addAll([1, 2, 3])
+          ..freeze();
+    final b =
+        Rec()
+          ..val = 123
+          ..int32s.addAll([1, 2, 3]);
 
     expect(a.hashCode, b.hashCode);
     expect(a == b, true);
@@ -51,10 +53,11 @@ void main() {
   });
 
   test('isFrozen works', () {
-    final a = Rec()
-      ..val = 123
-      ..int32s.addAll([1, 2, 3])
-      ..child = (Rec()..val = 100);
+    final a =
+        Rec()
+          ..val = 123
+          ..int32s.addAll([1, 2, 3])
+          ..child = (Rec()..val = 100);
     expect(a.isFrozen, false);
     a.child.freeze();
     expect(a.child.isFrozen, true);

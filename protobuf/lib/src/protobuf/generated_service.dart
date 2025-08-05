@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// Server side context.
 class ServerContext {
@@ -19,5 +19,8 @@ abstract class GeneratedService {
 
   /// Dispatches the call. The request object should come from [createRequest].
   Future<GeneratedMessage> handleCall(
-      ServerContext ctx, String methodName, GeneratedMessage request);
+    ServerContext ctx,
+    String methodName,
+    GeneratedMessage request,
+  );
 }

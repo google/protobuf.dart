@@ -4,7 +4,8 @@
 
 /// Provides metadata about GeneratedMessage and ProtobufEnum to
 /// dart-protoc-plugin. (Experimental API; subject to change.)
-library protobuf.meta;
+/// @nodoc
+library;
 
 // ignore_for_file: constant_identifier_names
 
@@ -21,9 +22,6 @@ const GeneratedMessage_reservedNames = <String>[
   'clone',
   'copyWith',
   'createEmptyInstance',
-  'createMapField',
-  'createRepeatedField',
-  'eventPlugin',
   'extensionsAreInitialized',
   'freeze',
   'getDefaultForField',
@@ -58,6 +56,7 @@ const GeneratedMessage_reservedNames = <String>[
   'writeToCodedBufferWriter',
   'writeToJson',
   'writeToJsonMap',
+  r'$_clearField',
   r'$_ensure',
   r'$_get',
   r'$_getI64',
@@ -74,6 +73,7 @@ const GeneratedMessage_reservedNames = <String>[
   r'$_setBool',
   r'$_setBytes',
   r'$_setDouble',
+  r'$_setField',
   r'$_setFloat',
   r'$_setInt64',
   r'$_setSignedInt32',
@@ -90,5 +90,5 @@ const ProtobufEnum_reservedNames = <String>[
   'hashCode',
   'noSuchMethod',
   'runtimeType',
-  'toString'
+  'toString',
 ];

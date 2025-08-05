@@ -15,13 +15,14 @@ void main() {
   ByteData makeData(Uint8List bytes) => ByteData.view(bytes.buffer);
 
   Uint8List Function(dynamic) convertToBytes(fieldType) => (value) {
-        final writer = CodedBufferWriter()..writeField(0, fieldType, value);
-        return writer.toBuffer().sublist(1);
-      };
+    final writer = CodedBufferWriter()..writeField(0, fieldType, value);
+    return writer.toBuffer().sublist(1);
+  };
 
-  RoundtripTester<T> roundtripTester<T>(
-      {T Function(CodedBufferReader bytes)? fromBytes,
-      List<int> Function(T value)? toBytes}) {
+  RoundtripTester<T> roundtripTester<T>({
+    T Function(CodedBufferReader bytes)? fromBytes,
+    List<int> Function(T value)? toBytes,
+  }) {
     return (T value, List<int> bytes) {
       expect(fromBytes!(CodedBufferReader(bytes)), equals(value));
       expect(toBytes!(value), bytes);
@@ -32,23 +33,35 @@ void main() {
 
   test('testInt32RoundTrips', () {
     final roundtrip = roundtripTester(
-        fromBytes: (CodedBufferReader reader) => reader.readInt32(),
-        toBytes: int32ToBytes);
+      fromBytes: (CodedBufferReader reader) => reader.readInt32(),
+      toBytes: int32ToBytes,
+    );
     roundtrip(0, [0x00]);
     roundtrip(1, [0x01]);
     roundtrip(206, [0xce, 0x01]);
     roundtrip(300, [0xac, 0x02]);
     roundtrip(2147483647, [0xff, 0xff, 0xff, 0xff, 0x07]);
-    roundtrip(-2147483648,
-        [0x80, 0x80, 0x80, 0x80, 0xf8, 0xff, 0xff, 0xff, 0xff, 0x01]);
+    roundtrip(-2147483648, [
+      0x80,
+      0x80,
+      0x80,
+      0x80,
+      0xf8,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0x01,
+    ]);
     roundtrip(-1, [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
     roundtrip(-2, [0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
   });
 
   test('testSint32', () {
     final roundtrip = roundtripTester(
-        fromBytes: (CodedBufferReader reader) => reader.readSint32(),
-        toBytes: convertToBytes(PbFieldType.OS3));
+      fromBytes: (CodedBufferReader reader) => reader.readSint32(),
+      toBytes: convertToBytes(PbFieldType.OS3),
+    );
 
     roundtrip(0, [0x00]);
     roundtrip(-1, [0x01]);
@@ -58,8 +71,9 @@ void main() {
 
   test('testSint64', () {
     final roundtrip = roundtripTester(
-        fromBytes: (CodedBufferReader reader) => reader.readSint64(),
-        toBytes: convertToBytes(PbFieldType.OS6));
+      fromBytes: (CodedBufferReader reader) => reader.readSint64(),
+      toBytes: convertToBytes(PbFieldType.OS6),
+    );
 
     roundtrip(make64(0), [0x00]);
     roundtrip(make64(-1), [0x01]);
@@ -69,8 +83,9 @@ void main() {
 
   test('testFixed32', () {
     final roundtrip = roundtripTester(
-        fromBytes: (CodedBufferReader reader) => reader.readFixed32(),
-        toBytes: convertToBytes(PbFieldType.OF3));
+      fromBytes: (CodedBufferReader reader) => reader.readFixed32(),
+      toBytes: convertToBytes(PbFieldType.OF3),
+    );
 
     roundtrip(0, [0x00, 0x00, 0x00, 0x00]);
     roundtrip(1, [0x01, 0x00, 0x00, 0x00]);
@@ -80,21 +95,39 @@ void main() {
 
   test('testFixed64', () {
     final roundtrip = roundtripTester(
-        fromBytes: (CodedBufferReader reader) => reader.readFixed64(),
-        toBytes: convertToBytes(PbFieldType.OF6));
+      fromBytes: (CodedBufferReader reader) => reader.readFixed64(),
+      toBytes: convertToBytes(PbFieldType.OF6),
+    );
 
     roundtrip(make64(0, 0), [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
     roundtrip(make64(1, 0), [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
-    roundtrip(make64(0xffffffff, 0xffffffff),
-        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
-    roundtrip(make64(0x00000001, 0x40000000),
-        [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40]);
+    roundtrip(make64(0xffffffff, 0xffffffff), [
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+    ]);
+    roundtrip(make64(0x00000001, 0x40000000), [
+      0x01,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x40,
+    ]);
   });
 
   test('testSfixed32', () {
     final roundtrip = roundtripTester(
-        fromBytes: (CodedBufferReader reader) => reader.readSfixed32(),
-        toBytes: convertToBytes(PbFieldType.OSF3));
+      fromBytes: (CodedBufferReader reader) => reader.readSfixed32(),
+      toBytes: convertToBytes(PbFieldType.OSF3),
+    );
 
     roundtrip(0, [0x00, 0x00, 0x00, 0x00]);
     roundtrip(1, [0x01, 0x00, 0x00, 0x00]);
@@ -104,17 +137,34 @@ void main() {
 
   test('testSfixed64', () {
     final roundtrip = roundtripTester(
-        fromBytes: (CodedBufferReader reader) => reader.readSfixed64(),
-        toBytes: convertToBytes(PbFieldType.OSF6));
+      fromBytes: (CodedBufferReader reader) => reader.readSfixed64(),
+      toBytes: convertToBytes(PbFieldType.OSF6),
+    );
 
     roundtrip(make64(0), [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
     roundtrip(make64(-1), [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
     roundtrip(make64(1), [0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
     roundtrip(make64(-2), [0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]);
-    roundtrip(make64(0xffffffff, 0x7fffffff),
-        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]);
-    roundtrip(make64(0x00000000, 0x80000000),
-        [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80]);
+    roundtrip(make64(0xffffffff, 0x7fffffff), [
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0x7f,
+    ]);
+    roundtrip(make64(0x00000000, 0x80000000), [
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x00,
+      0x80,
+    ]);
   });
 
   test('testBool', () {
@@ -127,9 +177,10 @@ void main() {
 
   // Compare two doubles, where NaNs and same-sign inifinities compare equal.
   // For normal values, use equals.
-  Matcher doubleEquals(double expected) => expected.isNaN
-      ? predicate<double>((x) => x.isNaN, 'NaN expected')
-      : equals(expected);
+  Matcher doubleEquals(double expected) =>
+      expected.isNaN
+          ? predicate<double>((x) => x.isNaN, 'NaN expected')
+          : equals(expected);
 
   List<int> dataToBytes(ByteData byteData) => Uint8List.view(byteData.buffer);
   final floatToBytes = convertToBytes(PbFieldType.OF);
@@ -153,7 +204,7 @@ void main() {
     final data = makeData(doubleToBytes(value));
     final actualHilo = [
       data.getUint32(4, Endian.little),
-      data.getUint32(0, Endian.little)
+      data.getUint32(0, Endian.little),
     ];
     //int encoded = data.getUint64(0, Endian.little);
     expect(actualHilo, hilo);
@@ -680,8 +731,9 @@ void main() {
 
   test('testVarint64', () {
     final roundtrip = roundtripTester(
-        fromBytes: (CodedBufferReader reader) => reader.readUint64(),
-        toBytes: convertToBytes(PbFieldType.OU6));
+      fromBytes: (CodedBufferReader reader) => reader.readUint64(),
+      toBytes: convertToBytes(PbFieldType.OU6),
+    );
 
     roundtrip(make64(0), [0x00]);
     roundtrip(make64(3), [0x03]);
@@ -694,14 +746,51 @@ void main() {
     roundtrip(make64(0x9e5301), [0x81, 0xa6, 0xf9, 0x04]);
     roundtrip(make64(0x7fffffff), [0xff, 0xff, 0xff, 0xff, 0x07]);
     roundtrip(make64(0xffffffff), [0xff, 0xff, 0xff, 0xff, 0x0f]);
-    roundtrip(make64(0xffffffff, 0xffffff),
-        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f]);
-    roundtrip(make64(0xffffffff, 0xffffffff),
-        [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]);
-    roundtrip(make64(0xffff2f34, 0xffffffff),
-        [180, 222, 252, 255, 255, 255, 255, 255, 255, 1]);
-    roundtrip(make64(0x00000001, 0x40000000),
-        [0x81, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x40]);
+    roundtrip(make64(0xffffffff, 0xffffff), [
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0x7f,
+    ]);
+    roundtrip(make64(0xffffffff, 0xffffffff), [
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0xff,
+      0x01,
+    ]);
+    roundtrip(make64(0xffff2f34, 0xffffffff), [
+      180,
+      222,
+      252,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      1,
+    ]);
+    roundtrip(make64(0x00000001, 0x40000000), [
+      0x81,
+      0x80,
+      0x80,
+      0x80,
+      0x80,
+      0x80,
+      0x80,
+      0x80,
+      0x40,
+    ]);
   });
 
   test('testWriteTo', () {

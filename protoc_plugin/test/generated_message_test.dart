@@ -5,27 +5,30 @@
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/duplicate_names_import.pb.dart';
-import '../out/protos/google/protobuf/unittest.pb.dart';
-import '../out/protos/google/protobuf/unittest_import.pb.dart';
-import '../out/protos/google/protobuf/unittest_optimize_for.pb.dart';
-import '../out/protos/multiple_files_test.pb.dart';
-import '../out/protos/package1.pb.dart' as p1;
-import '../out/protos/package2.pb.dart' as p2;
-import '../out/protos/package3.pb.dart' as p3;
-import '../out/protos/reserved_names.pb.dart';
-import '../out/protos/reserved_names_extension.pb.dart';
-import '../out/protos/reserved_names_message.pb.dart';
-import 'test_util.dart';
+import 'gen/duplicate_names_import.pb.dart';
+import 'gen/enums.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest_import.pb.dart';
+import 'gen/google/protobuf/unittest_optimize_for.pb.dart';
+import 'gen/multiple_files_test.pb.dart';
+import 'gen/package1.pb.dart' as p1;
+import 'gen/package2.pb.dart' as p2;
+import 'gen/package3.pb.dart' as p3;
+import 'gen/reserved_names.pb.dart';
+import 'gen/reserved_names_extension.pb.dart';
+import 'gen/reserved_names_message.pb.dart';
+import 'src/test_util.dart';
 
 void main() {
-  final throwsInvalidProtocolBufferException =
-      throwsA(TypeMatcher<InvalidProtocolBufferException>());
+  final throwsInvalidProtocolBufferException = throwsA(
+    TypeMatcher<InvalidProtocolBufferException>(),
+  );
   test('testProtosShareRepeatedArraysIfDidntChange', () {
-    final value1 = TestAllTypes()
-      ..repeatedInt32.add(100)
-      ..repeatedImportEnum.add(ImportEnum.IMPORT_BAR)
-      ..repeatedForeignMessage.add(ForeignMessage());
+    final value1 =
+        TestAllTypes()
+          ..repeatedInt32.add(100)
+          ..repeatedImportEnum.add(ImportEnum.IMPORT_BAR)
+          ..repeatedForeignMessage.add(ForeignMessage());
 
     final value2 = value1.deepCopy();
 
@@ -36,8 +39,10 @@ void main() {
 
   test('testDefaultMessageIsReadOnly', () {
     var message = TestAllTypes();
-    expect(message.optionalNestedMessage,
-        same(TestAllTypes_NestedMessage.getDefault()));
+    expect(
+      message.optionalNestedMessage,
+      same(TestAllTypes_NestedMessage.getDefault()),
+    );
     expect(() {
       message.optionalNestedMessage.bb = 123;
     }, throwsUnsupportedError);
@@ -70,10 +75,11 @@ void main() {
   });
 
   test('testRepeatedAppend', () {
-    final message = TestAllTypes()
-      ..repeatedInt32.addAll([1, 2, 3, 4])
-      ..repeatedForeignEnum.addAll([ForeignEnum.FOREIGN_BAZ])
-      ..repeatedForeignMessage.addAll([ForeignMessage()..c = 12]);
+    final message =
+        TestAllTypes()
+          ..repeatedInt32.addAll([1, 2, 3, 4])
+          ..repeatedForeignEnum.addAll([ForeignEnum.FOREIGN_BAZ])
+          ..repeatedForeignMessage.addAll([ForeignMessage()..c = 12]);
 
     expect(message.repeatedInt32, [1, 2, 3, 4]);
     expect(message.repeatedForeignEnum, [ForeignEnum.FOREIGN_BAZ]);
@@ -82,21 +88,21 @@ void main() {
   });
 
   test('testSettingForeignMessage', () {
-    final message = TestAllTypes()
-      ..optionalForeignMessage = (ForeignMessage()..c = 123);
+    final message =
+        TestAllTypes()..optionalForeignMessage = (ForeignMessage()..c = 123);
 
-    final expectedMessage = TestAllTypes()
-      ..optionalForeignMessage = (ForeignMessage()..c = 123);
+    final expectedMessage =
+        TestAllTypes()..optionalForeignMessage = (ForeignMessage()..c = 123);
 
     expect(message, expectedMessage);
   });
 
   test('testSettingRepeatedForeignMessage', () {
-    final message = TestAllTypes()
-      ..repeatedForeignMessage.add(ForeignMessage()..c = 456);
+    final message =
+        TestAllTypes()..repeatedForeignMessage.add(ForeignMessage()..c = 456);
 
-    final expectedMessage = TestAllTypes()
-      ..repeatedForeignMessage.add(ForeignMessage()..c = 456);
+    final expectedMessage =
+        TestAllTypes()..repeatedForeignMessage.add(ForeignMessage()..c = 456);
 
     expect(message, expectedMessage);
   });
@@ -109,13 +115,15 @@ void main() {
     expect(message.utf8String, '\u1234');
     expect(message.infDouble, same(double.infinity));
     expect(message.negInfDouble, same(double.negativeInfinity));
-    expect(message.nanDouble, same(double.nan));
+    expect(message.nanDouble.isNaN, isTrue);
     expect(message.infFloat, same(double.infinity));
     expect(message.negInfFloat, same(double.negativeInfinity));
-    expect(message.nanFloat, same(double.nan));
+    expect(message.nanFloat.isNaN, isTrue);
     expect(message.cppTrigraph, '? ? ?? ?? ??? ??/ ??-');
-    expect(message.smallInt64.toRadixString(16).toUpperCase(),
-        '-7FFFFFFFFFFFFFFF');
+    expect(
+      message.smallInt64.toRadixString(16).toUpperCase(),
+      '-7FFFFFFFFFFFFFFF',
+    );
   });
 
   test('testClear', () {
@@ -153,25 +161,28 @@ void main() {
   });
 
   test('testParsePackedToUnpacked', () {
-    final message =
-        TestUnpackedTypes.fromBuffer(getPackedSet().writeToBuffer());
+    final message = TestUnpackedTypes.fromBuffer(
+      getPackedSet().writeToBuffer(),
+    );
     assertUnpackedFieldsSet(message);
   });
 
   test('testParseUnpackedToPacked', () {
-    final message =
-        TestPackedTypes.fromBuffer(getUnpackedSet().writeToBuffer());
+    final message = TestPackedTypes.fromBuffer(
+      getUnpackedSet().writeToBuffer(),
+    );
     assertPackedFieldsSet(message);
   });
 
   test('testIgnoreJavaMultipleFilesOption', () {
     // UNSUPPORTED getFile
     // We mostly just want to check that things compile.
-    final message = MessageWithNoOuter()
-      ..nested = (MessageWithNoOuter_NestedMessage()..i = 1)
-      ..foreign.add(TestAllTypes()..optionalInt32 = 1)
-      ..nestedEnum = MessageWithNoOuter_NestedEnum.BAZ
-      ..foreignEnum = EnumWithNoOuter.BAR;
+    final message =
+        MessageWithNoOuter()
+          ..nested = (MessageWithNoOuter_NestedMessage()..i = 1)
+          ..foreign.add(TestAllTypes()..optionalInt32 = 1)
+          ..nestedEnum = MessageWithNoOuter_NestedEnum.BAZ
+          ..foreignEnum = EnumWithNoOuter.BAR;
 
     expect(MessageWithNoOuter.fromBuffer(message.writeToBuffer()), message);
 
@@ -187,24 +198,26 @@ void main() {
     //        MultipleFilesTestProto.getDescriptor());
 
     expect(
-        TestAllExtensions()
-            .hasExtension(Multiple_files_test.extensionWithOuter),
-        isFalse);
+      TestAllExtensions().hasExtension(Multiple_files_test.extensionWithOuter),
+      isFalse,
+    );
   });
 
   test('testOptionalFieldWithRequiredSubfieldsOptimizedForSize', () {
     expect(TestOptionalOptimizedForSize().isInitialized(), isTrue);
 
     expect(
-        (TestOptionalOptimizedForSize()..o = TestRequiredOptimizedForSize())
-            .isInitialized(),
-        isFalse);
+      (TestOptionalOptimizedForSize()..o = TestRequiredOptimizedForSize())
+          .isInitialized(),
+      isFalse,
+    );
 
     expect(
-        (TestOptionalOptimizedForSize()
-              ..o = (TestRequiredOptimizedForSize()..x = 5))
-            .isInitialized(),
-        isTrue);
+      (TestOptionalOptimizedForSize()
+            ..o = (TestRequiredOptimizedForSize()..x = 5))
+          .isInitialized(),
+      isTrue,
+    );
   });
 
   test('testSetAllFieldsAndClone', () {
@@ -289,7 +302,7 @@ void main() {
     expect(TestAllTypes_NestedEnum.values, [
       TestAllTypes_NestedEnum.FOO,
       TestAllTypes_NestedEnum.BAR,
-      TestAllTypes_NestedEnum.BAZ
+      TestAllTypes_NestedEnum.BAZ,
     ]);
     expect(TestAllTypes_NestedEnum.FOO.value, 1);
     expect(TestAllTypes_NestedEnum.BAR.value, 2);
@@ -339,7 +352,7 @@ void main() {
       0x00, 0x00, 0x00, 0x00, 0xc0, 0x79, 0x40, 0xc8, 0x04, 0x00, 0xd2, 0x04,
       0x03, 0x34, 0x31, 0x35, 0xda, 0x04, 0x03, 0x34, 0x31, 0x36, 0x88, 0x05,
       0x01, 0x90, 0x05, 0x04, 0x98, 0x05, 0x07, 0xa2, 0x05, 0x03, 0x34, 0x32,
-      0x34, 0xaa, 0x05, 0x03, 0x34, 0x32, 0x35
+      0x34, 0xaa, 0x05, 0x03, 0x34, 0x32, 0x35,
     ];
     expect(getAllSet().writeToBuffer(), goldenMessage);
   });
@@ -358,18 +371,24 @@ void main() {
       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xa2, 0x06, 0x08, 0x00, 0xc0, 0x18,
       0x44, 0x00, 0xc0, 0x31, 0x44, 0xaa, 0x06, 0x10, 0x00, 0x00, 0x00, 0x00,
       0x00, 0x20, 0x83, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x86, 0x40,
-      0xb2, 0x06, 0x02, 0x01, 0x00, 0xba, 0x06, 0x02, 0x05, 0x06
+      0xb2, 0x06, 0x02, 0x01, 0x00, 0xba, 0x06, 0x02, 0x05, 0x06,
     ];
     expect(getPackedSet().writeToBuffer(), goldenPackedMessage);
   });
 
   test('testWriteMessageWithNegativeEnumValue', () {
     final message = SparseEnumMessage()..sparseEnum = TestSparseEnum.SPARSE_E;
-    expect(message.sparseEnum.value < 0, isTrue,
-        reason: 'enum.value should be -53452');
+    expect(
+      message.sparseEnum.value < 0,
+      isTrue,
+      reason: 'enum.value should be -53452',
+    );
     final message2 = SparseEnumMessage.fromBuffer(message.writeToBuffer());
-    expect(message2.sparseEnum, TestSparseEnum.SPARSE_E,
-        reason: 'should resolve back to SPARSE_E');
+    expect(
+      message2.sparseEnum,
+      TestSparseEnum.SPARSE_E,
+      reason: 'should resolve back to SPARSE_E',
+    );
   });
 
   test('testReservedNamesOptional', () {
@@ -738,13 +757,15 @@ void main() {
   });
 
   test('rebuild updates value', () {
-    final value1 = TestAllTypes()
-      ..optionalForeignMessage = (ForeignMessage()..c = 18)
-      ..freeze();
+    final value1 =
+        TestAllTypes()
+          ..optionalForeignMessage = (ForeignMessage()..c = 18)
+          ..freeze();
     final value2 = value1.rebuild((v) {
       v.optionalFloat = 50.1;
-      v.optionalForeignMessage =
-          v.optionalForeignMessage.rebuild((o) => o.c = 10);
+      v.optionalForeignMessage = v.optionalForeignMessage.rebuild(
+        (o) => o.c = 10,
+      );
     });
     expect(value2.isFrozen, true);
     expect(value2.optionalFloat, 50.1);
@@ -757,9 +778,10 @@ void main() {
   });
 
   test('rebuild shares structure', () {
-    final value1 = TestAllTypes()
-      ..optionalForeignMessage = (ForeignMessage()..c = 18)
-      ..freeze();
+    final value1 =
+        TestAllTypes()
+          ..optionalForeignMessage = (ForeignMessage()..c = 18)
+          ..freeze();
     final value2 = value1.rebuild((v) {
       v.optionalFloat = 50.1;
     });
@@ -774,8 +796,10 @@ void main() {
     final value2 = value1.deepCopy();
     assertAllFieldsSet(value2);
     expect(value2, isNot(same(value1)));
-    expect(value2.optionalForeignMessage,
-        isNot(same(value1.optionalForeignMessage)));
+    expect(
+      value2.optionalForeignMessage,
+      isNot(same(value1.optionalForeignMessage)),
+    );
   });
 
   test('deepCopy extensions', () {
@@ -783,5 +807,28 @@ void main() {
     setAllExtensions(value1);
     final value2 = value1.deepCopy();
     assertAllExtensionsSet(value2);
+  });
+
+  test('Handling enums defined out of order', () {
+    final message = MessageWithEnums();
+    for (final enum_ in DenseEnum.values) {
+      message.denseEnums.add(enum_);
+    }
+    for (final enum_ in DenseEnumOutOfOrder.values) {
+      message.denseOutOfOrderEnums.add(enum_);
+    }
+    for (final enum_ in SparseEnum.values) {
+      message.sparseEnums.add(enum_);
+    }
+    for (final enum_ in SparseEnumOutOfOrder.values) {
+      message.sparseOutOfOrderEnums.add(enum_);
+    }
+
+    final encoded = message.writeToBuffer();
+    final decoded = MessageWithEnums.fromBuffer(encoded);
+    expect(decoded.denseEnums, DenseEnum.values);
+    expect(decoded.denseOutOfOrderEnums, DenseEnumOutOfOrder.values);
+    expect(decoded.sparseEnums, SparseEnum.values);
+    expect(decoded.sparseOutOfOrderEnums, SparseEnumOutOfOrder.values);
   });
 }

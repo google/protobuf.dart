@@ -1,4 +1,90 @@
-## 3.0.1-dev
+## 4.2.0-wip
+
+* Internal refactoring to split the package into libraries. This allows
+  conditionally importing different libraries and improving performance by
+  using different encoding/decoding libraries based on the target platform.
+  ([#1026])
+
+* Some of the private `PbFieldType` members are made public, to allow using
+  them in internal libraries. This type is for internal use only. ([#1027])
+
+* Improve performance of `GeneratedMessage` members: `writeToJsonMap`,
+  `writeToJson`, `mergeFromJson`, `mergeFromJsonMap`. ([#1028])
+
+[#1026]: https://github.com/google/protobuf.dart/pull/1026
+[#1027]: https://github.com/google/protobuf.dart/pull/1027
+[#1028]: https://github.com/google/protobuf.dart/pull/1028
+
+## 4.1.1
+
+* Minimum SDK dependency bumped from 3.6.0 to 3.7.0. ([#1024])
+
+[#1024]: https://github.com/google/protobuf.dart/pull/1024
+
+## 4.1.0
+
+* Improve packed field decoding performance. ([#959], [#981])
+* Minimum SDK dependency bumped from 3.3.0 to 3.6.0. ([#1001])
+
+[#959]: https://github.com/google/protobuf.dart/pull/959
+[#981]: https://github.com/google/protobuf.dart/pull/981
+[#1001]: https://github.com/google/protobuf.dart/pull/1001
+
+## 4.0.0
+
+* **Breaking:** The following types and members are now removed:
+
+  - `PbEventMixin`
+  - `PbFieldChange`
+  - `EventBuffer`
+  - `GeneratedMessage.createRepeatedField`
+  - `GeneratedMessage.createMapField`
+
+  These were used to implement events, which are unused internally. To keep API
+  surface small (to make it easier to change the library or migrate to another
+  library) these types and members are removed. ([#738])
+
+* **Breaking:** `CodedBufferWriter.writeRawBytes` now takes a `Uint8List`
+  argument (instead of `TypedData`).
+
+* `GeneratedMessageGenericExtensions.deepCopy` is now annotated with
+  `@useResult` and will generate a warning when its result is not used.
+  ([#896])
+
+* **Breaking:** `PbMap.unmodifiable` now takes key and value field types as
+  arguments, instead of another `PbMap`.
+
+  To migrate, use `PbMap.unmodifiable(map.keyFieldType, map.valueFieldType)`
+  instead of `PbMap.unmodifiable(map)`. ([#902])
+
+* Messages deserialized from JSON now generate the unknown fields when
+  serialized as JSON.
+
+  Note that, as before, unknown fields in JSON messages are not stored in the
+  `unknownFields` of the message. They are only used by the JSON serializers to
+  support roundtripping.
+
+  ([#49], [#918])
+
+* Minimum SDK dependency bumped from 2.19.0 to 3.3.0. (#953)
+
+[#738]: https://github.com/google/protobuf.dart/issues/738
+[#896]: https://github.com/google/protobuf.dart/issues/896
+[#902]: https://github.com/google/protobuf.dart/issues/902
+[#49]: https://github.com/google/protobuf.dart/issues/49
+[#918]: https://github.com/google/protobuf.dart/pulls/918
+[#953]: https://github.com/google/protobuf.dart/pull/953
+
+## 3.1.0
+
+* `CodedBufferReader` `readBytes` now copies the returned bytes to avoid
+  accidental sharing of the input buffer with the returned `Uint8List`. New
+  member `readBytesAsView` added with the old behavior. ([#863])
+
+* Avoid sharing the input buffer in unknown length-delimited fields using the
+  new `readBytes`. ([#863])
+
+[#863]: https://github.com/google/protobuf.dart/pull/863
 
 ## 3.0.0
 

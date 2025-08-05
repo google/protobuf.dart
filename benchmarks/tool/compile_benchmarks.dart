@@ -1,4 +1,9 @@
 #!/usr/bin/env dart
+// Copyright (c) 2022, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+// ignore_for_file: only_throw_errors
 
 import 'dart:io' show Directory, Platform, Process, ProcessResult, exit;
 
@@ -7,10 +12,14 @@ import 'package:path/path.dart' as path;
 import 'package:pool/pool.dart' show Pool;
 
 Future<void> main(List<String> args) async {
-  final argParser = ArgParser()
-    ..addOption('target',
-        mandatory: false, defaultsTo: 'aot,exe,jit,js,js-production')
-    ..addOption('jobs', abbr: 'j', mandatory: false);
+  final argParser =
+      ArgParser()
+        ..addOption(
+          'target',
+          mandatory: false,
+          defaultsTo: 'aot,exe,jit,js,js-production',
+        )
+        ..addOption('jobs', abbr: 'j', mandatory: false);
 
   final parsedArgs = argParser.parse(args);
 
@@ -42,9 +51,15 @@ Future<void> main(List<String> args) async {
         targets.add(jsProductionTarget);
         break;
 
+      case 'wasm':
+        targets.add(wasmTarget);
+        break;
+
       default:
         print(
-            'Unsupported target: $targetStr. Supported targets: aot, exe, jit, js, js-production');
+          'Unsupported target: $targetStr. Supported targets: aot, exe, '
+          'jit, js, js-production, wasm, wasm-omit-checks',
+        );
         exit(1);
     }
   }
@@ -53,11 +68,12 @@ Future<void> main(List<String> args) async {
 
   if (sourceFiles.isEmpty) {
     // Compile all files in bin/
-    sourceFiles = Directory('bin')
-        .listSync(recursive: false)
-        .where((dirFile) => path.extension(dirFile.path) == '.dart')
-        .map((dirFile) => dirFile.path)
-        .toList();
+    sourceFiles =
+        Directory('bin')
+            .listSync(recursive: false)
+            .where((dirFile) => path.extension(dirFile.path) == '.dart')
+            .map((dirFile) => dirFile.path)
+            .toList();
   }
 
   final commands = <List<String>>[];
@@ -79,8 +95,9 @@ Future<void> main(List<String> args) async {
 
   final pool = Pool(jobs);
 
-  final stream = pool.forEach<List<String>, CompileProcess>(commands,
-      (List<String> command) async {
+  final stream = pool.forEach<List<String>, CompileProcess>(commands, (
+    List<String> command,
+  ) async {
     final commandStr = command.join(' ');
     print(commandStr);
     final result = await Process.run(command[0], command.sublist(1));
@@ -93,13 +110,16 @@ Future<void> main(List<String> args) async {
       print('Process exited with $exitCode');
       print('Command: ${compileProcess.command}');
       print(
-          'Process stdout ---------------------------------------------------');
+        'Process stdout ---------------------------------------------------',
+      );
       print(compileProcess.result.stdout);
       print(
-          'Process stderr ---------------------------------------------------');
+        'Process stderr ---------------------------------------------------',
+      );
       print(compileProcess.result.stderr);
       print(
-          '------------------------------------------------------------------');
+        '------------------------------------------------------------------',
+      );
       exit(1);
     }
   }
@@ -135,6 +155,7 @@ const exeTarget = Target('exe', exeProcessArgs);
 const jitTarget = Target('jit', jitProcessArgs);
 const jsTarget = Target('js', jsProcessArgs);
 const jsProductionTarget = Target('js-production', jsProductionProcessArgs);
+const wasmTarget = Target('wasm', wasmProcessArgs);
 
 List<String> aotProcessArgs(String sourceFile) {
   final baseName = path.basename(sourceFile);
@@ -145,7 +166,7 @@ List<String> aotProcessArgs(String sourceFile) {
     'aot-snapshot',
     sourceFile,
     '-o',
-    'out/$baseNameNoExt.aot'
+    'out/$baseNameNoExt.aot',
   ];
 }
 
@@ -162,7 +183,7 @@ List<String> jitProcessArgs(String sourceFile) {
     'dart',
     '--snapshot-kind=kernel',
     '--snapshot=out/$baseNameNoExt.dill',
-    sourceFile
+    sourceFile,
   ];
 }
 
@@ -182,6 +203,20 @@ List<String> jsProductionProcessArgs(String sourceFile) {
     sourceFile,
     '-O4',
     '-o',
-    'out/$baseNameNoExt.production.js'
+    'out/$baseNameNoExt.production.js',
+  ];
+}
+
+List<String> wasmProcessArgs(String sourceFile) {
+  final baseName = path.basename(sourceFile);
+  final baseNameNoExt = path.withoutExtension(baseName);
+  return [
+    'dart',
+    'compile',
+    'wasm',
+    sourceFile,
+    '-O4',
+    '-o',
+    'out/$baseNameNoExt.wasm',
   ];
 }

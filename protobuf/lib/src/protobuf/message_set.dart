@@ -1,8 +1,8 @@
-// Copyright (c) 2011, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 const _messageSetItemsTag = 1;
 const _messageSetItemTypeIdTag = 2;
@@ -48,20 +48,21 @@ abstract class $_MessageSet extends GeneratedMessage {
   }
 
   @override
-  void mergeFromCodedBufferReader(CodedBufferReader input,
-      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+  void mergeFromCodedBufferReader(
+    CodedBufferReader input, [
+    ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+  ]) {
     // Parse items. The field for the items looks like:
     //
-    //   repeated Item items = 1;
+    //   repeated group Item items = 1;
     //
     // Since message sets are compatible with proto1 items can't be packed.
-    outer:
     while (true) {
       final tag = input.readTag();
       final tagNumber = getTagFieldNumber(tag);
 
       if (tag == 0) {
-        break;
+        break; // End of input.
       }
 
       if (tagNumber != _messageSetItemsTag) {
@@ -81,13 +82,13 @@ abstract class $_MessageSet extends GeneratedMessage {
       //
       // We can see the fields in any order, so loop until parsing both fields.
       int? typeId;
-      List<int>? message;
+      Uint8List? message;
       while (true) {
         final tag = input.readTag();
         final tagNumber = getTagFieldNumber(tag);
 
         if (tag == 0) {
-          break;
+          break; // End of input.
         }
 
         if (tagNumber == _messageSetItemTypeIdTag) {
@@ -96,20 +97,19 @@ abstract class $_MessageSet extends GeneratedMessage {
             _parseExtension(typeId, message, extensionRegistry);
             typeId = null;
             message = null;
-            continue outer;
           }
         } else if (tagNumber == _messageSetItemMessageTag) {
-          message = input.readBytes();
+          message = input.readBytesAsView();
           if (typeId != null) {
             _parseExtension(typeId, message, extensionRegistry);
             typeId = null;
             message = null;
-            continue outer;
           }
         } else {
-          // Skip unknown tags.
+          // Skip unknown tags. If we're at the end of the group consume the
+          // EGROUP tag.
           if (!input.skipField(tag)) {
-            break outer; // End of group.
+            break; // End of group.
           }
         }
       }
@@ -117,30 +117,43 @@ abstract class $_MessageSet extends GeneratedMessage {
   }
 
   @override
-  void mergeFromBuffer(List<int> input,
-      [ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY]) {
+  void mergeFromBuffer(
+    List<int> input, [
+    ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+  ]) {
     mergeFromCodedBufferReader(CodedBufferReader(input), extensionRegistry);
   }
 
   void _parseExtension(
-      int typeId, List<int> message, ExtensionRegistry extensionRegistry) {
-    final ext =
-        extensionRegistry.getExtension(info_.qualifiedMessageName, typeId);
+    int typeId,
+    Uint8List message,
+    ExtensionRegistry extensionRegistry,
+  ) {
+    final ext = extensionRegistry.getExtension(
+      info_.qualifiedMessageName,
+      typeId,
+    );
     if (ext == null) {
       final messageItem = UnknownFieldSet();
-      messageItem.addField(_messageSetItemTypeIdTag,
-          UnknownFieldSetField()..varints.add(Int64(typeId)));
-      messageItem.addField(_messageSetItemMessageTag,
-          UnknownFieldSetField()..lengthDelimited.add(message));
+      messageItem.addField(
+        _messageSetItemTypeIdTag,
+        UnknownFieldSetField()..varints.add(Int64(typeId)),
+      );
+      messageItem.addField(
+        _messageSetItemMessageTag,
+        UnknownFieldSetField()
+          ..lengthDelimited.add(Uint8List.fromList(message)),
+      );
 
       final itemListField =
           _fieldSet._ensureUnknownFields().getField(_messageSetItemsTag) ??
-              UnknownFieldSetField();
+          UnknownFieldSetField();
       itemListField.addGroup(messageItem);
 
-      _fieldSet
-          ._ensureUnknownFields()
-          .addField(_messageSetItemsTag, itemListField);
+      _fieldSet._ensureUnknownFields().addField(
+        _messageSetItemsTag,
+        itemListField,
+      );
     } else {
       setExtension(ext, ext.subBuilder!()..mergeFromBuffer(message));
     }

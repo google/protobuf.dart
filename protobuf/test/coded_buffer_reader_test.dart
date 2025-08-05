@@ -10,8 +10,9 @@ import 'package:test/test.dart';
 import 'test_util.dart';
 
 void main() {
-  final throwsInvalidProtocolBufferException =
-      throwsA(TypeMatcher<InvalidProtocolBufferException>());
+  final throwsInvalidProtocolBufferException = throwsA(
+    TypeMatcher<InvalidProtocolBufferException>(),
+  );
 
   group('testCodedBufferReader', () {
     final inputBuffer = List<int>.unmodifiable([
@@ -33,7 +34,7 @@ void main() {
       0x69, 0x6e, 0x67, // 114 string 15 optional_string
       0x9a, 0x07, 0x0e, 0x6f, 0x70, 0x74, 0x69, 0x6f,
       0x6e, 0x61, 0x6c, 0x5f, 0x62, 0x79, 0x74,
-      0x65, 0x73 // 115 bytes 14 optional_bytes
+      0x65, 0x73, // 115 bytes 14 optional_bytes
     ]);
 
     void testWithList(List<int> inputBuffer) {
@@ -76,7 +77,7 @@ void main() {
       expect(cis.readString(), 'optional_string');
 
       expect(cis.readTag(), makeTag(115, WIRETYPE_LENGTH_DELIMITED));
-      expect(cis.readBytes(), 'optional_bytes'.codeUnits);
+      expect(cis.readBytesAsView(), 'optional_bytes'.codeUnits);
     }
 
     test('normal-list', () {
@@ -84,7 +85,7 @@ void main() {
     });
 
     test('unmodifiable-uint8-list-view', () {
-      testWithList(UnmodifiableUint8ListView(Uint8List.fromList(inputBuffer)));
+      testWithList(Uint8List.fromList(inputBuffer).asUnmodifiableView());
     });
 
     test('uint8-list-view', () {
@@ -113,7 +114,7 @@ void main() {
     final input = CodedBufferReader(output.toBuffer());
     expect(input.readTag(), tag);
 
-    expect(input.readBytes, throwsInvalidProtocolBufferException);
+    expect(input.readBytesAsView, throwsInvalidProtocolBufferException);
   });
 
   /// Tests that if we read a string that contains invalid UTF-8, no exception

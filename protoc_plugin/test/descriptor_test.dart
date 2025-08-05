@@ -3,12 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:protobuf/protobuf.dart';
-import 'package:protoc_plugin/src/generated/descriptor.pb.dart';
+import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/custom_option.pb.dart';
-import '../out/protos/custom_option.pbjson.dart';
-import '../out/protos/google/protobuf/unittest.pbjson.dart';
+import 'gen/custom_option.pb.dart';
+import 'gen/custom_option.pbjson.dart';
+import 'gen/google/protobuf/unittest.pbjson.dart';
 
 void main() {
   test('Can decode message descriptor', () {
@@ -20,8 +20,11 @@ void main() {
   test('Can decode enum descriptor', () {
     final descriptor = EnumDescriptorProto.fromBuffer(foreignEnumDescriptor);
     expect(descriptor.name, 'ForeignEnum');
-    expect(descriptor.value.map((v) => v.name),
-        ['FOREIGN_FOO', 'FOREIGN_BAR', 'FOREIGN_BAZ']);
+    expect(descriptor.value.map((v) => v.name), [
+      'FOREIGN_FOO',
+      'FOREIGN_BAR',
+      'FOREIGN_BAZ',
+    ]);
   });
   test('Can decode service descriptor', () {
     final descriptor = ServiceDescriptorProto.fromBuffer(testServiceDescriptor);
@@ -30,8 +33,10 @@ void main() {
   });
   test('Can read custom options', () {
     final registry = ExtensionRegistry()..add(Custom_option.myOption);
-    final descriptor =
-        DescriptorProto.fromBuffer(myMessageDescriptor, registry);
+    final descriptor = DescriptorProto.fromBuffer(
+      myMessageDescriptor,
+      registry,
+    );
     final option = descriptor.options.getExtension(Custom_option.myOption);
     expect(option, 'Hello world!');
   });

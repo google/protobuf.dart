@@ -10,16 +10,18 @@ class GrpcServiceGenerator {
   /// The generator of the .pb.dart file that will contain this service.
   final FileGenerator fileGen;
 
+  final int _serviceIndex;
+
   /// The message types needed directly by this service.
   ///
   /// The key is the fully qualified name.
   /// Populated by [resolve].
-  final _deps = <String, MessageGenerator>{};
+  final Map<String, MessageGenerator> _deps = {};
 
   /// Maps each undefined type to a string describing its location.
   ///
   /// Populated by [resolve].
-  final _undefinedDeps = <String, String>{};
+  final Map<String, String> _undefinedDeps = {};
 
   /// Fully-qualified gRPC service name.
   late final String _fullServiceName;
@@ -31,9 +33,15 @@ class GrpcServiceGenerator {
   late final String _serviceClassname;
 
   /// List of gRPC methods.
-  final _methods = <_GrpcMethod>[];
+  final List<_GrpcMethod> _methods = [];
 
-  GrpcServiceGenerator(this._descriptor, this.fileGen) {
+  late final List<int> _serviceDescriptorPath = [
+    ...fileGen.fieldPath,
+    ClientApiGenerator.fileDescriptorServiceTag,
+    _serviceIndex,
+  ];
+
+  GrpcServiceGenerator(this._descriptor, this.fileGen, this._serviceIndex) {
     final name = _descriptor.name;
     final package = fileGen.package;
 
@@ -89,14 +97,15 @@ class GrpcServiceGenerator {
   /// Returns the Dart class name to use for a message type.
   ///
   /// Throws an exception if it can't be resolved.
-  String _getDartClassName(String fqname) {
-    final mg = _deps[fqname];
-    if (mg == null) {
-      final location = _undefinedDeps[fqname];
+  String _getDartClassName(String fqName) {
+    final generator = _deps[fqName];
+    if (generator == null) {
+      final location = _undefinedDeps[fqName];
       // TODO(nichite): Throw more actionable error.
-      throw 'FAILURE: Unknown type reference ($fqname) for $location';
+      throw 'FAILURE: Unknown type reference ($fqName) for $location';
     }
-    return '${mg.fileImportPrefix}.${mg.classname}';
+
+    return '${generator.importPrefix(context: fileGen)}.${generator.classname}';
   }
 
   void generate(IndentingWriter out) {
@@ -106,53 +115,93 @@ class GrpcServiceGenerator {
   }
 
   void _generateClient(IndentingWriter out) {
-    out.println(
-        '@$protobufImportPrefix.GrpcServiceName(\'$_fullServiceName\')');
-    out.addBlock('class $_clientClassname extends $_client {', '}', () {
-      for (final method in _methods) {
-        method.generateClientMethodDescriptor(out);
-      }
-      out.println();
-      out.println('$_clientClassname($_clientChannel channel,');
-      out.println('    {$_callOptions? options,');
+    final commentBlock = fileGen.commentBlock(_serviceDescriptorPath);
+    if (commentBlock != null) {
+      out.println(commentBlock);
+    }
+    if (_descriptor.options.deprecated) {
       out.println(
-          '    $coreImportPrefix.Iterable<$_interceptor>? interceptors})');
-      out.println('    : super(channel, options: options,');
-      out.println('      interceptors: interceptors);');
-      for (final method in _methods) {
-        method.generateClientStub(out);
+        "@$coreImportPrefix.Deprecated('This service is deprecated')",
+      );
+    }
+    out.println("@$protobufImportPrefix.GrpcServiceName('$_fullServiceName')");
+    out.addBlock('class $_clientClassname extends $_client {', '}', () {
+      // Look for and generate default_host info.
+      final defaultHost = _descriptor.options.defaultHost;
+      if (defaultHost != null) {
+        out.println('/// The hostname for this service.');
+        out.println("static const $_string defaultHost = '$defaultHost';");
+        out.println();
+      }
+
+      // Look for and generate oauth_scopes info.
+      final oauthScopes = _descriptor.options.oauthScopes;
+      if (oauthScopes != null) {
+        out.println('/// OAuth scopes needed for the client.');
+        out.println('static const $_list<$_string> oauthScopes = [');
+        for (final scope in oauthScopes.split(',')) {
+          out.println("  '$scope',");
+        }
+        out.println('];');
+        out.println();
+      }
+
+      // generate the constructor
+      out.println(
+        '$_clientClassname(super.channel, {super.options, super.interceptors});',
+      );
+
+      // generate the service call methods
+      for (var i = 0; i < _methods.length; i++) {
+        _methods[i].generateClientStub(out, this, i);
+      }
+
+      // generate the method descriptors
+      out.println();
+      if (_methods.isNotEmpty) {
+        out.println('  // method descriptors');
+        out.println();
+
+        for (final method in _methods) {
+          method.generateClientMethodDescriptor(out);
+        }
       }
     });
   }
 
   void _generateService(IndentingWriter out) {
-    out.println(
-        '@$protobufImportPrefix.GrpcServiceName(\'$_fullServiceName\')');
-    out.addBlock('abstract class $_serviceClassname extends $_service {', '}',
-        () {
-      out.println(
-          '$coreImportPrefix.String get \$name => \'$_fullServiceName\';');
-      out.println();
-      out.addBlock('$_serviceClassname() {', '}', () {
+    out.println("@$protobufImportPrefix.GrpcServiceName('$_fullServiceName')");
+    out.addBlock(
+      'abstract class $_serviceClassname extends $_service {',
+      '}',
+      () {
+        out.println(
+          "$coreImportPrefix.String get \$name => '$_fullServiceName';",
+        );
+        out.println();
+        out.addBlock('$_serviceClassname() {', '}', () {
+          for (final method in _methods) {
+            method.generateServiceMethodRegistration(out);
+          }
+        });
+        out.println();
         for (final method in _methods) {
-          method.generateServiceMethodRegistration(out);
+          if (!method._clientStreaming) {
+            method.generateServiceMethodPreamble(out);
+            out.println();
+          }
+          method.generateServiceMethodStub(out);
+          out.println();
         }
-      });
-      out.println();
-      for (final method in _methods) {
-        method.generateServiceMethodPreamble(out);
-      }
-      for (final method in _methods) {
-        method.generateServiceMethodStub(out);
-      }
-    });
+      },
+    );
   }
 
   static final String _callOptions = '$grpcImportPrefix.CallOptions';
-  static final String _interceptor = '$grpcImportPrefix.ClientInterceptor';
   static final String _client = '$grpcImportPrefix.Client';
-  static final String _clientChannel = '$grpcImportPrefix.ClientChannel';
   static final String _service = '$grpcImportPrefix.Service';
+  static final String _list = '$coreImportPrefix.List';
+  static final String _string = '$coreImportPrefix.String';
 }
 
 class _GrpcMethod {
@@ -170,20 +219,27 @@ class _GrpcMethod {
   final String _clientReturnType;
   final String _serverReturnType;
 
-  _GrpcMethod._(
-      this._grpcName,
-      this._dartName,
-      this._serviceName,
-      this._clientStreaming,
-      this._serverStreaming,
-      this._requestType,
-      this._responseType,
-      this._argumentType,
-      this._clientReturnType,
-      this._serverReturnType);
+  final bool _deprecated;
 
-  factory _GrpcMethod(GrpcServiceGenerator service, GenerationContext ctx,
-      MethodDescriptorProto method) {
+  _GrpcMethod._(
+    this._grpcName,
+    this._dartName,
+    this._serviceName,
+    this._clientStreaming,
+    this._serverStreaming,
+    this._requestType,
+    this._responseType,
+    this._argumentType,
+    this._clientReturnType,
+    this._serverReturnType,
+    this._deprecated,
+  );
+
+  factory _GrpcMethod(
+    GrpcServiceGenerator service,
+    GenerationContext ctx,
+    MethodDescriptorProto method,
+  ) {
     final grpcName = method.name;
     final dartName = lowerCaseFirstLetter(grpcName);
 
@@ -198,53 +254,87 @@ class _GrpcMethod {
 
     final argumentType =
         clientStreaming ? '$_stream<$requestType>' : requestType;
-    final clientReturnType = serverStreaming
-        ? '$_responseStream<$responseType>'
-        : '$_responseFuture<$responseType>';
+    final clientReturnType =
+        serverStreaming
+            ? '$_responseStream<$responseType>'
+            : '$_responseFuture<$responseType>';
     final serverReturnType =
         serverStreaming ? '$_stream<$responseType>' : '$_future<$responseType>';
 
+    final deprecated = method.options.deprecated;
+
     return _GrpcMethod._(
-        grpcName,
-        dartName,
-        service._fullServiceName,
-        clientStreaming,
-        serverStreaming,
-        requestType,
-        responseType,
-        argumentType,
-        clientReturnType,
-        serverReturnType);
+      grpcName,
+      dartName,
+      service._fullServiceName,
+      clientStreaming,
+      serverStreaming,
+      requestType,
+      responseType,
+      argumentType,
+      clientReturnType,
+      serverReturnType,
+      deprecated,
+    );
   }
 
   void generateClientMethodDescriptor(IndentingWriter out) {
     out.println(
-        'static final _\$$_dartName = $_clientMethod<$_requestType, $_responseType>(');
+      'static final _\$$_dartName = $_clientMethod<$_requestType, $_responseType>(',
+    );
     out.println('    \'/$_serviceName/$_grpcName\',');
     out.println('    ($_requestType value) => value.writeToBuffer(),');
-    out.println(
-        '    ($coreImportPrefix.List<$coreImportPrefix.int> value) => $_responseType.fromBuffer(value));');
+    out.println('    $_responseType.fromBuffer);');
   }
 
-  void generateClientStub(IndentingWriter out) {
+  List<int> _methodDescriptorPath(GrpcServiceGenerator generator, int index) {
+    return [
+      ...generator._serviceDescriptorPath,
+      ClientApiGenerator.serviceDescriptorMethodTag,
+      index,
+    ];
+  }
+
+  void generateClientStub(
+    IndentingWriter out,
+    GrpcServiceGenerator serviceGenerator,
+    int methodIndex,
+  ) {
     out.println();
+    final commentBlock = serviceGenerator.fileGen.commentBlock(
+      _methodDescriptorPath(serviceGenerator, methodIndex),
+    );
+    if (commentBlock != null) {
+      out.println(commentBlock);
+    }
+    if (_deprecated) {
+      out.println(
+        '@$coreImportPrefix.Deprecated(\'This method is deprecated\')',
+      );
+    }
     out.addBlock(
-        '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions}? options}) {',
-        '}', () {
-      if (_clientStreaming && _serverStreaming) {
-        out.println(
-            'return \$createStreamingCall(_\$$_dartName, request, options: options);');
-      } else if (_clientStreaming && !_serverStreaming) {
-        out.println(
-            'return \$createStreamingCall(_\$$_dartName, request, options: options).single;');
-      } else if (!_clientStreaming && _serverStreaming) {
-        out.println(
-            'return \$createStreamingCall(_\$$_dartName, $_stream.fromIterable([request]), options: options);');
-      } else {
-        out.println(
-            'return \$createUnaryCall(_\$$_dartName, request, options: options);');
-      }
-    });
+      '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions}? options,}) {',
+      '}',
+      () {
+        if (_clientStreaming && _serverStreaming) {
+          out.println(
+            'return \$createStreamingCall(_\$$_dartName, request, options: options);',
+          );
+        } else if (_clientStreaming && !_serverStreaming) {
+          out.println(
+            'return \$createStreamingCall(_\$$_dartName, request, options: options).single;',
+          );
+        } else if (!_clientStreaming && _serverStreaming) {
+          out.println(
+            'return \$createStreamingCall(_\$$_dartName, $_stream.fromIterable([request]), options: options);',
+          );
+        } else {
+          out.println(
+            'return \$createUnaryCall(_\$$_dartName, request, options: options);',
+          );
+        }
+      },
+    );
   }
 
   void generateServiceMethodRegistration(IndentingWriter out) {
@@ -254,28 +344,29 @@ class _GrpcMethod {
     out.println('    $_clientStreaming,');
     out.println('    $_serverStreaming,');
     out.println(
-        '    ($coreImportPrefix.List<$coreImportPrefix.int> value) => $_requestType.fromBuffer(value),');
+      '    ($coreImportPrefix.List<$coreImportPrefix.int> value) => $_requestType.fromBuffer(value),',
+    );
     out.println('    ($_responseType value) => value.writeToBuffer()));');
   }
 
   void generateServiceMethodPreamble(IndentingWriter out) {
-    if (_clientStreaming) return;
-
     out.addBlock(
-        '$_serverReturnType ${_dartName}_Pre($_serviceCall call, $_future<$_requestType> request) async${_serverStreaming ? '*' : ''} {',
-        '}', () {
-      if (_serverStreaming) {
-        out.println('yield* $_dartName(call, await request);');
-      } else {
-        out.println('return $_dartName(call, await request);');
-      }
-    });
-    out.println();
+      '$_serverReturnType ${_dartName}_Pre($_serviceCall \$call, $_future<$_requestType> \$request) async${_serverStreaming ? '*' : ''} {',
+      '}',
+      () {
+        if (_serverStreaming) {
+          out.println('yield* $_dartName(\$call, await \$request);');
+        } else {
+          out.println('return $_dartName(\$call, await \$request);');
+        }
+      },
+    );
   }
 
   void generateServiceMethodStub(IndentingWriter out) {
     out.println(
-        '$_serverReturnType $_dartName($_serviceCall call, $_argumentType request);');
+      '$_serverReturnType $_dartName($_serviceCall call, $_argumentType request);',
+    );
   }
 
   static final String _serviceCall = '$grpcImportPrefix.ServiceCall';
@@ -285,4 +376,10 @@ class _GrpcMethod {
   static final String _stream = '$asyncImportPrefix.Stream';
   static final String _responseFuture = '$grpcImportPrefix.ResponseFuture';
   static final String _responseStream = '$grpcImportPrefix.ResponseStream';
+}
+
+extension on ServiceOptions {
+  String? get defaultHost => getExtension(Client.defaultHost) as String?;
+
+  String? get oauthScopes => getExtension(Client.oauthScopes) as String?;
 }

@@ -5,17 +5,22 @@
 part of '../protoc.dart';
 
 class ProtobufField {
-  static final RegExp _hexLiteralRegex =
-      RegExp(r'^0x[0-9a-f]+$', multiLine: false, caseSensitive: false);
+  static final RegExp _hexLiteralRegex = RegExp(
+    r'^0x[0-9a-f]+$',
+    multiLine: false,
+    caseSensitive: false,
+  );
   static final RegExp _integerLiteralRegex = RegExp(r'^[+-]?[0-9]+$');
   static final RegExp _decimalLiteralRegexA = RegExp(
-      r'^[+-]?([0-9]*)\.[0-9]+(e[+-]?[0-9]+)?$',
-      multiLine: false,
-      caseSensitive: false);
+    r'^[+-]?([0-9]*)\.[0-9]+(e[+-]?[0-9]+)?$',
+    multiLine: false,
+    caseSensitive: false,
+  );
   static final RegExp _decimalLiteralRegexB = RegExp(
-      r'^[+-]?[0-9]+e[+-]?[0-9]+$',
-      multiLine: false,
-      caseSensitive: false);
+    r'^[+-]?[0-9]+e[+-]?[0-9]+$',
+    multiLine: false,
+    caseSensitive: false,
+  );
 
   final FieldDescriptorProto descriptor;
 
@@ -27,18 +32,25 @@ class ProtobufField {
   final ProtobufContainer parent;
 
   ProtobufField.message(
-      FieldNames names, ProtobufContainer parent, GenerationContext ctx)
-      : this._(names.descriptor, names, parent, ctx);
+    FieldNames names,
+    ProtobufContainer parent,
+    GenerationContext ctx,
+  ) : this._(names.descriptor, names, parent, ctx);
 
-  ProtobufField.extension(FieldDescriptorProto descriptor,
-      ProtobufContainer parent, GenerationContext ctx)
-      : this._(descriptor, null, parent, ctx);
+  ProtobufField.extension(
+    FieldDescriptorProto descriptor,
+    ProtobufContainer parent,
+    GenerationContext ctx,
+  ) : this._(descriptor, null, parent, ctx);
 
-  ProtobufField._(this.descriptor, FieldNames? dartNames, this.parent,
-      GenerationContext ctx)
-      : memberNames = dartNames,
-        fullName = '${parent.fullName}.${descriptor.name}',
-        baseType = BaseType(descriptor, ctx);
+  ProtobufField._(
+    this.descriptor,
+    FieldNames? dartNames,
+    this.parent,
+    GenerationContext ctx,
+  ) : memberNames = dartNames,
+      fullName = '${parent.fullName}.${descriptor.name}',
+      baseType = BaseType(descriptor, ctx);
 
   /// The index of this field in MessageGenerator.fieldList.
   ///
@@ -111,7 +123,7 @@ class ProtobufField {
 
   /// Whether this field uses the Int64 from the fixnum package.
   bool get needsFixnumImport =>
-      baseType.unprefixed == '$_fixnumImportPrefix.Int64';
+      baseType.unprefixed == '$fixnumImportPrefix.Int64';
 
   /// Whether this field is a map field definition:
   /// `map<key_type, value_type> map_field = N`.
@@ -140,16 +152,30 @@ class ProtobufField {
     // for example in package:protobuf/src/protobuf/mixins/well_known.dart.
   }
 
-  /// Returns the expression to use for the Dart type.
+  /// Returns the type to use for the Dart field type.
   String getDartType() {
     if (isMapField) {
-      final d = baseType.generator as MessageGenerator;
-      final keyType = d._fieldList[0].baseType.getDartType(parent.fileGen!);
-      final valueType = d._fieldList[1].baseType.getDartType(parent.fileGen!);
-      return '$coreImportPrefix.Map<$keyType, $valueType>';
+      final keyType = getDartMapKeyType();
+      final valueType = getDartMapValueType();
+      return '$protobufImportPrefix.PbMap<$keyType, $valueType>';
     }
     if (isRepeated) return baseType.getRepeatedDartType(parent.fileGen!);
     return baseType.getDartType(parent.fileGen!);
+  }
+
+  /// Only for map fields: returns the type to use for Dart map field key type.
+  String getDartMapKeyType() {
+    assert(isMapField);
+    return (baseType.generator as MessageGenerator)._fieldList[0].baseType
+        .getDartType(parent.fileGen!);
+  }
+
+  /// Only for map fields: returns the type to use for Dart map field value
+  /// type.
+  String getDartMapValueType() {
+    assert(isMapField);
+    return (baseType.generator as MessageGenerator)._fieldList[1].baseType
+        .getDartType(parent.fileGen!);
   }
 
   /// Returns the tag number of the underlying proto field.
@@ -169,7 +195,9 @@ class ProtobufField {
   }
 
   static String _formatArguments(
-      List<String> positionals, Map<String, String?> named) {
+    List<String> positionals,
+    Map<String, String?> named,
+  ) {
     final args = positionals.toList();
     named.forEach((key, value) {
       if (value != null) {
@@ -186,7 +214,9 @@ class ProtobufField {
 
     final omitFieldNames = ConditionalConstDefinition('omit_field_names');
     out.addSuffix(
-        omitFieldNames.constFieldName, omitFieldNames.constDefinition);
+      omitFieldNames.constFieldName,
+      omitFieldNames.constDefinition,
+    );
     final quotedName = omitFieldNames.createTernary(descriptor.jsonName);
 
     final type = baseType.getDartType(parent.fileGen!);
@@ -284,8 +314,8 @@ class ProtobufField {
             break;
         }
       } else {
-        if (makeDefault == '$_fixnumImportPrefix.Int64.ZERO' &&
-            type == '$_fixnumImportPrefix.Int64' &&
+        if (makeDefault == '$fixnumImportPrefix.Int64.ZERO' &&
+            type == '$fixnumImportPrefix.Int64' &&
             typeConstant == '$protobufImportPrefix.PbFieldType.O6') {
           invocation = 'aInt64';
         } else {
@@ -370,7 +400,7 @@ class ProtobufField {
       case FieldDescriptorProto_Type.TYPE_SFIXED64:
         var value = '0';
         if (descriptor.hasDefaultValue()) value = descriptor.defaultValue;
-        if (value == '0') return '$_fixnumImportPrefix.Int64.ZERO';
+        if (value == '0') return '$fixnumImportPrefix.Int64.ZERO';
         return "$protobufImportPrefix.parseLongInt('$value')";
       case FieldDescriptorProto_Type.TYPE_STRING:
         return _getDefaultAsStringExpr(null);
@@ -425,11 +455,13 @@ class ProtobufField {
   bool _hasBooleanOption(Extension extension) =>
       descriptor.options.getExtension(extension) as bool? ?? false;
 
-  String get _invalidDefaultValue => 'dart-protoc-plugin:'
+  String get _invalidDefaultValue =>
+      'dart-protoc-plugin:'
       ' invalid default value (${descriptor.defaultValue})'
       ' found in field $fullName';
 
-  String _typeNotImplemented(String methodName) => 'dart-protoc-plugin:'
+  String _typeNotImplemented(String methodName) =>
+      'dart-protoc-plugin:'
       ' $methodName not implemented for type (${descriptor.type})'
       ' found in field $fullName';
 
@@ -437,6 +469,8 @@ class ProtobufField {
 
   static String _unCamelCase(String name) {
     return name.replaceAllMapped(
-        _upperCase, (match) => '_${match.group(0)!.toLowerCase()}');
+      _upperCase,
+      (match) => '_${match.group(0)!.toLowerCase()}',
+    );
   }
 }

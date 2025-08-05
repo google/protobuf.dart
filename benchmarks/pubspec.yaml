@@ -3,11 +3,13 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: protobuf_benchmarks
-description: Benchmarks various protobuf functions
+description: Benchmarks for various protobuf functions.
 publish_to: none
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: ^3.7.0
+
+resolution: workspace
 
 dependencies:
   # NB. When bumping benchmark_harness check if `benchmark_base.BenchmarkBase`
@@ -19,12 +21,8 @@ dependencies:
 
 dev_dependencies:
   args: ^2.3.1
-  dart_flutter_team_lints: ^1.0.0
+  lints: '>=5.0.0 <7.0.0'
   path: ^1.8.2
   pool: ^1.5.1
-  protoc_plugin:
-    path: '../protoc_plugin'
-
-dependency_overrides:
-  protobuf:
-    path: "../protobuf"
+  # Used from the workspace.
+  protoc_plugin: any

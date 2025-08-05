@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// Reader used for converting binary-encoded protobufs into
 /// [GeneratedMessage]s.
@@ -13,6 +13,11 @@ class CodedBufferReader {
   static const int DEFAULT_SIZE_LIMIT = 64 << 20;
 
   final Uint8List _buffer;
+
+  /// [ByteData] of [_buffer], created once to be able to decode fixed-size
+  /// integers and floats without having to allocate a [ByteData] every time.
+  late final ByteData _byteData = ByteData.sublistView(_buffer);
+
   int _bufferPos = 0;
   int _currentLimit = -1;
   int _lastTag = 0;
@@ -20,36 +25,46 @@ class CodedBufferReader {
   final int _recursionLimit;
   final int _sizeLimit;
 
-  CodedBufferReader(List<int> buffer,
-      {int recursionLimit = DEFAULT_RECURSION_LIMIT,
-      int sizeLimit = DEFAULT_SIZE_LIMIT})
-      : _buffer = buffer is Uint8List ? buffer : Uint8List.fromList(buffer),
-        _recursionLimit = recursionLimit,
-        _sizeLimit = math.min(sizeLimit, buffer.length) {
+  CodedBufferReader(
+    List<int> buffer, {
+    int recursionLimit = DEFAULT_RECURSION_LIMIT,
+    int sizeLimit = DEFAULT_SIZE_LIMIT,
+  }) : _buffer = buffer is Uint8List ? buffer : Uint8List.fromList(buffer),
+       _recursionLimit = recursionLimit,
+       _sizeLimit = math.min(sizeLimit, buffer.length) {
     _currentLimit = _sizeLimit;
   }
 
   void _throwTruncatedMessageError(int limit) {
     if (limit > _sizeLimit && limit <= _buffer.length) {
       throw InvalidProtocolBufferException.truncatedMessageDueToSizeLimit(
-          _buffer.length, _sizeLimit);
+        _buffer.length,
+        _sizeLimit,
+      );
     }
     throw InvalidProtocolBufferException.truncatedMessage();
   }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   void checkLastTagWas(int value) {
     if (_lastTag != value) {
       throw InvalidProtocolBufferException.invalidEndTag();
     }
   }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   bool isAtEnd() => _bufferPos >= _currentLimit;
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   void _withLimit(int byteLimit, Function() callback) {
     if (byteLimit < 0) {
       throw ArgumentError(
-          'CodedBufferReader encountered an embedded string or message'
-          ' which claimed to have negative size.');
+        'CodedBufferReader encountered an embedded string or message'
+        ' which claimed to have negative size.',
+      );
     }
     byteLimit += _bufferPos;
     final oldLimit = _currentLimit;
@@ -61,6 +76,8 @@ class CodedBufferReader {
     _currentLimit = oldLimit;
   }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   void _checkLimit(int increment) {
     assert(_currentLimit != -1);
     _bufferPos += increment;
@@ -69,8 +86,11 @@ class CodedBufferReader {
     }
   }
 
-  void readGroup(int fieldNumber, GeneratedMessage message,
-      ExtensionRegistry extensionRegistry) {
+  void readGroup(
+    int fieldNumber,
+    GeneratedMessage message,
+    ExtensionRegistry extensionRegistry,
+  ) {
     if (_recursionDepth >= _recursionLimit) {
       throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
@@ -93,15 +113,18 @@ class CodedBufferReader {
   }
 
   void readMessage(
-      GeneratedMessage message, ExtensionRegistry extensionRegistry) {
+    GeneratedMessage message,
+    ExtensionRegistry extensionRegistry,
+  ) {
     final length = readInt32();
     if (_recursionDepth >= _recursionLimit) {
       throw InvalidProtocolBufferException.recursionLimitExceeded();
     }
     if (length < 0) {
       throw ArgumentError(
-          'CodedBufferReader encountered an embedded string or message'
-          ' which claimed to have negative size.');
+        'CodedBufferReader encountered an embedded string or message'
+        ' which claimed to have negative size.',
+      );
     }
 
     final oldLimit = _currentLimit;
@@ -116,34 +139,117 @@ class CodedBufferReader {
     _currentLimit = oldLimit;
   }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readEnum() => readInt32();
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readInt32() => _readRawVarint32(true);
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readInt64() => _readRawVarint64();
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readUint32() => _readRawVarint32(false);
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readUint64() => _readRawVarint64();
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readSint32() => _decodeZigZag32(readUint32());
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readSint64() => _decodeZigZag64(readUint64());
-  int readFixed32() => _readByteData(4).getUint32(0, Endian.little);
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  int readFixed32() {
+    final pos = _bufferPos;
+    _checkLimit(4);
+    return _byteData.getUint32(pos, Endian.little);
+  }
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readFixed64() => readSfixed64();
-  int readSfixed32() => _readByteData(4).getInt32(0, Endian.little);
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  int readSfixed32() {
+    final pos = _bufferPos;
+    _checkLimit(4);
+    return _byteData.getInt32(pos, Endian.little);
+  }
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   Int64 readSfixed64() {
-    final data = _readByteData(8);
-    final view = Uint8List.view(data.buffer, data.offsetInBytes, 8);
+    final pos = _bufferPos;
+    _checkLimit(8);
+    final view = Uint8List.sublistView(_buffer, pos, pos + 8);
     return Int64.fromBytes(view);
   }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   bool readBool() => _readRawVarint32(true) != 0;
-  List<int> readBytes() {
+
+  /// Read a length-delimited field as bytes.
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  Uint8List readBytes() => Uint8List.fromList(readBytesAsView());
+
+  /// Read a length-delimited field as a view of the [CodedBufferReader]'s
+  /// buffer. When storing the returned value directly (instead of e.g. parsing
+  /// it as a UTF-8 string and copying) use [readBytes] instead to avoid
+  /// holding on to the whole message, or copy the returned view.
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  Uint8List readBytesAsView() {
     final length = readInt32();
     _checkLimit(length);
     return Uint8List.view(
-        _buffer.buffer, _buffer.offsetInBytes + _bufferPos - length, length);
+      _buffer.buffer,
+      _buffer.offsetInBytes + _bufferPos - length,
+      length,
+    );
   }
 
-  String readString() => _utf8.decode(readBytes());
-  double readFloat() => _readByteData(4).getFloat32(0, Endian.little);
-  double readDouble() => _readByteData(8).getFloat64(0, Endian.little);
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  String readString() {
+    final length = readInt32();
+    final stringPos = _bufferPos;
+    _checkLimit(length);
+    return const Utf8Decoder(
+      allowMalformed: true,
+    ).convert(_buffer, stringPos, stringPos + length);
+  }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  double readFloat() {
+    final pos = _bufferPos;
+    _checkLimit(4);
+    return _byteData.getFloat32(pos, Endian.little);
+  }
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  double readDouble() {
+    final pos = _bufferPos;
+    _checkLimit(8);
+    return _byteData.getFloat64(pos, Endian.little);
+  }
+
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int readTag() {
     if (isAtEnd()) {
       _lastTag = 0;
@@ -172,7 +278,8 @@ class CodedBufferReader {
         readFixed64();
         return true;
       case WIRETYPE_LENGTH_DELIMITED:
-        readBytes();
+        final length = readInt32();
+        _checkLimit(length);
         return true;
       case WIRETYPE_FIXED32:
         readFixed32();
@@ -185,6 +292,8 @@ class CodedBufferReader {
     }
   }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   static int _decodeZigZag32(int value) {
     if ((value & 0x1) == 1) {
       return -(value >> 1) - 1;
@@ -193,11 +302,15 @@ class CodedBufferReader {
     }
   }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   static Int64 _decodeZigZag64(Int64 value) {
     if ((value & 0x1) == 1) value = -value;
     return value >> 1;
   }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   int _readRawVarintByte() {
     _checkLimit(1);
     return _buffer[_bufferPos - 1];
@@ -251,11 +364,5 @@ class CodedBufferReader {
       if ((byte & 0x80) == 0) return Int64.fromInts(hi, lo);
     }
     throw InvalidProtocolBufferException.malformedVarint();
-  }
-
-  ByteData _readByteData(int sizeInBytes) {
-    _checkLimit(sizeInBytes);
-    return ByteData.view(_buffer.buffer,
-        _buffer.offsetInBytes + _bufferPos - sizeInBytes, sizeInBytes);
   }
 }

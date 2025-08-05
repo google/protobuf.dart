@@ -2,33 +2,55 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// An object representing an extension field.
 class Extension<T> extends FieldInfo<T> {
   final String extendee;
 
-  Extension(this.extendee, String name, int tagNumber, int fieldType,
-      {dynamic defaultOrMaker,
-      CreateBuilderFunc? subBuilder,
-      ValueOfFunc? valueOf,
-      List<ProtobufEnum>? enumValues,
-      String? protoName})
-      : super(name, tagNumber, null, fieldType,
-            defaultOrMaker: defaultOrMaker,
-            subBuilder: subBuilder,
-            valueOf: valueOf,
-            enumValues: enumValues,
-            protoName: protoName);
+  Extension(
+    this.extendee,
+    String name,
+    int tagNumber,
+    int fieldType, {
+    dynamic defaultOrMaker,
+    CreateBuilderFunc? subBuilder,
+    ValueOfFunc? valueOf,
+    List<ProtobufEnum>? enumValues,
+    String? protoName,
+  }) : super(
+         name,
+         tagNumber,
+         null,
+         fieldType,
+         defaultOrMaker: defaultOrMaker,
+         subBuilder: subBuilder,
+         valueOf: valueOf,
+         enumValues: enumValues,
+         protoName: protoName,
+       );
 
-  Extension.repeated(this.extendee, String name, int tagNumber, int fieldType,
-      {CheckFunc<T>? check,
-      CreateBuilderFunc? subBuilder,
-      ValueOfFunc? valueOf,
-      List<ProtobufEnum>? enumValues,
-      String? protoName})
-      : super.repeated(name, tagNumber, null, fieldType, check, subBuilder,
-            valueOf: valueOf, enumValues: enumValues, protoName: protoName);
+  Extension.repeated(
+    this.extendee,
+    String name,
+    int tagNumber,
+    int fieldType, {
+    required CheckFunc<T> check,
+    CreateBuilderFunc? subBuilder,
+    ValueOfFunc? valueOf,
+    List<ProtobufEnum>? enumValues,
+    String? protoName,
+  }) : super.repeated(
+         name,
+         tagNumber,
+         null,
+         fieldType,
+         check,
+         subBuilder,
+         valueOf: valueOf,
+         enumValues: enumValues,
+         protoName: protoName,
+       );
 
   @override
   int get hashCode => extendee.hashCode * 31 + tagNumber;

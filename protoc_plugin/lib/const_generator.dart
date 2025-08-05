@@ -10,8 +10,12 @@ import 'string_escape.dart';
 void writeJsonConst(IndentingWriter out, Object? val) {
   if (val is Map) {
     if (val.values.any(_nonEmptyListOrMap)) {
-      out.addBlock('{', '}', () => _writeMapItems(out, val, vertical: true),
-          endWithNewline: false);
+      out.addBlock(
+        '{',
+        '}',
+        () => _writeMapItems(out, val, vertical: true),
+        endWithNewline: false,
+      );
     } else {
       out.print('{');
       _writeMapItems(out, val);
@@ -19,8 +23,12 @@ void writeJsonConst(IndentingWriter out, Object? val) {
     }
   } else if (val is List) {
     if (val.any(_nonEmptyListOrMap)) {
-      out.addBlock('[', ']', () => _writeListItems(out, val, vertical: true),
-          endWithNewline: false);
+      out.addBlock(
+        '[',
+        ']',
+        () => _writeListItems(out, val, vertical: true),
+        endWithNewline: false,
+      );
     } else {
       out.print('[');
       _writeListItems(out, val);
@@ -37,7 +45,7 @@ void writeJsonConst(IndentingWriter out, Object? val) {
   }
 }
 
-bool _nonEmptyListOrMap(x) {
+bool _nonEmptyListOrMap(dynamic x) {
   if (x is List && x.isNotEmpty) return true;
   if (x is Map && x.isNotEmpty) return true;
   return false;
@@ -61,8 +69,11 @@ void _writeListItems(IndentingWriter out, List val, {bool vertical = false}) {
   }
 }
 
-void _writeMapItems(IndentingWriter out, Map<dynamic, dynamic> val,
-    {bool vertical = false}) {
+void _writeMapItems(
+  IndentingWriter out,
+  Map<dynamic, dynamic> val, {
+  bool vertical = false,
+}) {
   var first = true;
   for (final key in val.keys) {
     if (!first && !vertical) out.print(', ');

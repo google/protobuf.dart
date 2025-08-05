@@ -1,0 +1,41 @@
+name: protoc_plugin
+permissions: read-all
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  schedule:
+    - cron: "0 0 * * 0" # weekly
+
+defaults:
+  run:
+    working-directory: protoc_plugin
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [stable, dev]
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        with:
+          sdk: ${{matrix.sdk}}
+
+      - run: ../tool/setup.sh
+
+      - run: dart pub get
+
+      - run: make protos
+
+      - run: dart analyze --fatal-infos
+
+      - run: dart format --output=none --set-exit-if-changed lib
+        if: ${{ matrix.sdk == 'dev' }}
+
+      - run: dart test
+      - run: dart test -p chrome -c dart2js
+      - run: dart test -p chrome -c dart2wasm

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
 /// Unpacks the message in [value] into [instance].
 ///
@@ -13,8 +13,11 @@ part of '../../protobuf.dart';
 ///
 /// @nodoc
 void unpackIntoHelper<T extends GeneratedMessage>(
-    List<int> value, T instance, String typeUrl,
-    {ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY}) {
+  List<int> value,
+  T instance,
+  String typeUrl, {
+  ExtensionRegistry extensionRegistry = ExtensionRegistry.EMPTY,
+}) {
   // From "google/protobuf/any.proto":
   //
   //   The pack methods provided by protobuf library will by default use
@@ -25,7 +28,9 @@ void unpackIntoHelper<T extends GeneratedMessage>(
   if (!canUnpackIntoHelper(instance, typeUrl)) {
     final typeName = instance.info_.qualifiedMessageName;
     throw InvalidProtocolBufferException.wrongAnyMessage(
-        _typeNameFromUrl(typeUrl), typeName);
+      _typeNameFromUrl(typeUrl),
+      typeName,
+    );
   }
   instance.mergeFromBuffer(value, extensionRegistry);
 }

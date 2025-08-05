@@ -12,6 +12,7 @@ SIMPLE_PROTOS=(
     "protos/google_message1_proto2.proto"
     "protos/google_message1_proto3.proto"
     "protos/google_message2.proto"
+    "protos/packed_fields.proto"
 )
 
 set -x
@@ -26,5 +27,3 @@ protoc --dart_out=lib/generated --plugin=protoc-gen-dart=tool/run_protoc_plugin.
 protoc --dart_out=lib/generated --plugin=protoc-gen-dart=tool/run_protoc_plugin.sh \
     -I$BENCHMARK_DIR/protos/query_benchmark \
     $BENCHMARK_DIR/protos/query_benchmark/*.proto
-
-dart format lib/generated

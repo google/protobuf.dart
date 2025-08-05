@@ -4,37 +4,40 @@
 
 // ignore_for_file: deprecated_member_use_from_same_package
 
-import 'package:protoc_plugin/src/generated/descriptor.pb.dart'
+import 'package:protoc_plugin/src/gen/google/protobuf/descriptor.pb.dart'
     show DescriptorProto;
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
-import '../out/protos/google/protobuf/unittest.pbjson.dart';
-import 'test_util.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pbjson.dart';
+import 'src/test_util.dart';
 
 void main() {
   final testRequiredUninitialized = TestRequired();
 
-  final testRequiredInitialized = TestRequired()
-    ..a = 1
-    ..b = 2
-    ..c = 3;
+  final testRequiredInitialized =
+      TestRequired()
+        ..a = 1
+        ..b = 2
+        ..c = 3;
 
   test('testMergeFrom', () {
-    final mergeSource = TestAllTypes()
-      ..optionalInt32 = 1
-      ..optionalString = 'foo'
-      ..optionalForeignMessage = ForeignMessage()
-      ..optionalNestedMessage = (TestAllTypes_NestedMessage()..i = 42)
-      ..repeatedString.add('bar');
+    final mergeSource =
+        TestAllTypes()
+          ..optionalInt32 = 1
+          ..optionalString = 'foo'
+          ..optionalForeignMessage = ForeignMessage()
+          ..optionalNestedMessage = (TestAllTypes_NestedMessage()..i = 42)
+          ..repeatedString.add('bar');
 
-    final mergeDest = TestAllTypes()
-      ..optionalInt64 = make64(2)
-      ..optionalString = 'baz'
-      ..optionalForeignMessage = ForeignMessage()
-      ..optionalForeignMessage = (ForeignMessage()..c = 3)
-      ..optionalNestedMessage = (TestAllTypes_NestedMessage()..bb = 43)
-      ..repeatedString.add('qux');
+    final mergeDest =
+        TestAllTypes()
+          ..optionalInt64 = make64(2)
+          ..optionalString = 'baz'
+          ..optionalForeignMessage = ForeignMessage()
+          ..optionalForeignMessage = (ForeignMessage()..c = 3)
+          ..optionalNestedMessage = (TestAllTypes_NestedMessage()..bb = 43)
+          ..repeatedString.add('qux');
 
     final mergeResultExpected = '''
 optionalInt32: 1
@@ -51,9 +54,10 @@ repeatedString: bar
 repeatedString: qux
 ''';
 
-    final result = TestAllTypes()
-      ..mergeFromMessage(mergeSource)
-      ..mergeFromMessage(mergeDest);
+    final result =
+        TestAllTypes()
+          ..mergeFromMessage(mergeSource)
+          ..mergeFromMessage(mergeDest);
 
     expect(result.toString(), mergeResultExpected);
   });
@@ -63,11 +67,17 @@ repeatedString: qux
 
     expect(message.isInitialized(), isFalse, reason: 'no required fields set');
     message.a = 1;
-    expect(message.isInitialized(), isFalse,
-        reason: 'single required field set');
+    expect(
+      message.isInitialized(),
+      isFalse,
+      reason: 'single required field set',
+    );
     message.b = 1;
-    expect(message.isInitialized(), isFalse,
-        reason: 'all but one required field set');
+    expect(
+      message.isInitialized(),
+      isFalse,
+      reason: 'all but one required field set',
+    );
     message.c = 1;
     expect(message.isInitialized(), isTrue, reason: 'required fields set');
   });

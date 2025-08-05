@@ -3,12 +3,12 @@ syntax = "proto2";
 
 package dart_options;
 
-// This file must be modified for Google internal use,
-// because custom options only work when the package name
-// agrees with the version of protoc we are using.
-// (The import statement and "google.protobuf." prefix need to be changed.)
+// This file must be modified for Google internal use, because custom options
+// only work when the package name agrees with the version of protoc we are
+// using (the import statement and "google.protobuf." prefix need to be
+// changed).
 
-import "descriptor.proto";
+import "google/protobuf/descriptor.proto";
 
 // A mixin that can be used in the 'with' clause of the generated Dart class
 // for a proto message.
@@ -28,7 +28,6 @@ message DartMixin {
 
 // Defines additional Dart imports to be used with messages in this file.
 message Imports {
-
   // Mixins to be used on messages in this file.
   // These mixins are in addition to internally defined mixins (e.g PbMapMixin)
   // and may override them.
@@ -41,7 +40,6 @@ message Imports {
 }
 
 extend google.protobuf.FileOptions {
-
   optional Imports imports = 28125061;
 
   // Applies the named mixin to all messages in this file.
@@ -51,7 +49,6 @@ extend google.protobuf.FileOptions {
 }
 
 extend google.protobuf.MessageOptions {
-
   // Applies the named mixin.
   // For now, "PbMapMixin" is the only available mixin.
   // The empty string can be used to turn off mixins for this message.

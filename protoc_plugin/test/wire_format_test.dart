@@ -5,8 +5,8 @@
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
-import 'test_util.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
+import 'src/test_util.dart';
 
 void main() {
   test('testSerialization', () {
@@ -15,17 +15,21 @@ void main() {
 
   test('testSerializationPacked', () {
     assertPackedFieldsSet(
-        TestPackedTypes.fromBuffer(getPackedSet().writeToBuffer()));
+      TestPackedTypes.fromBuffer(getPackedSet().writeToBuffer()),
+    );
   });
 
   test('testSerializeExtensions', () {
     assertAllFieldsSet(
-        TestAllTypes.fromBuffer(getAllExtensionsSet().writeToBuffer()));
+      TestAllTypes.fromBuffer(getAllExtensionsSet().writeToBuffer()),
+    );
   });
 
   test('testSerializePackedExtensions', () {
-    expect(getPackedExtensionsSet().writeToBuffer(),
-        getPackedSet().writeToBuffer());
+    expect(
+      getPackedExtensionsSet().writeToBuffer(),
+      getPackedSet().writeToBuffer(),
+    );
   });
 
   test('testParseExtensions', () {
@@ -44,7 +48,8 @@ void main() {
     final registry = getExtensionRegistry();
 
     assertPackedExtensionsSet(
-        TestPackedExtensions.fromBuffer(rawBytes, registry));
+      TestPackedExtensions.fromBuffer(rawBytes, registry),
+    );
   });
 
   test('testExtensionsSerialized', () {
@@ -54,19 +59,23 @@ void main() {
   test('testParseMultipleExtensionRanges', () {
     // Make sure we can parse a message that contains multiple extensions
     // ranges.
-    final source = TestFieldOrderings()
-      ..myInt = make64(1)
-      ..myString = 'foo'
-      ..myFloat = 1.0
-      ..setExtension(Unittest.myExtensionInt, 23)
-      ..setExtension(Unittest.myExtensionString, 'bar');
+    final source =
+        TestFieldOrderings()
+          ..myInt = make64(1)
+          ..myString = 'foo'
+          ..myFloat = 1.0
+          ..setExtension(Unittest.myExtensionInt, 23)
+          ..setExtension(Unittest.myExtensionString, 'bar');
 
-    final registry = ExtensionRegistry()
-      ..add(Unittest.myExtensionInt)
-      ..add(Unittest.myExtensionString);
+    final registry =
+        ExtensionRegistry()
+          ..add(Unittest.myExtensionInt)
+          ..add(Unittest.myExtensionString);
 
-    final dest =
-        TestFieldOrderings.fromBuffer(source.writeToBuffer(), registry);
+    final dest = TestFieldOrderings.fromBuffer(
+      source.writeToBuffer(),
+      registry,
+    );
 
     expect(dest, source);
   });

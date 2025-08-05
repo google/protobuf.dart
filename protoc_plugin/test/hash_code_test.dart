@@ -5,7 +5,7 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:test/test.dart';
 
-import '../out/protos/google/protobuf/unittest.pb.dart';
+import 'gen/google/protobuf/unittest.pb.dart';
 
 void main() {
   test('testHashCodeEmptyMessage', () {
@@ -133,16 +133,18 @@ void main() {
   });
 
   test('testHashCodeCombined', () {
-    final m1 = TestAllTypes()
-      ..optionalInt32 = 42
-      ..optionalInt64 = Int64(42)
-      ..optionalString = 'Dart'
-      ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
-    final m2 = TestAllTypes()
-      ..optionalInt32 = 42
-      ..optionalInt64 = Int64(42)
-      ..optionalString = 'Dart'
-      ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
+    final m1 =
+        TestAllTypes()
+          ..optionalInt32 = 42
+          ..optionalInt64 = Int64(42)
+          ..optionalString = 'Dart'
+          ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
+    final m2 =
+        TestAllTypes()
+          ..optionalInt32 = 42
+          ..optionalInt64 = Int64(42)
+          ..optionalString = 'Dart'
+          ..optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
     expect(m1.hashCode, m2.hashCode);
 
     m1.repeatedInt32

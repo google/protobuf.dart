@@ -14,18 +14,18 @@ class ServiceGenerator {
   ///
   /// The key is the fully qualified name with a leading '.'.
   /// Populated by [resolve].
-  final _deps = <String, MessageGenerator>{};
+  final Map<String, MessageGenerator> _deps = {};
 
   /// The message types needed transitively by this service.
   ///
   /// The key is the fully qualified name with a leading '.'.
   /// Populated by [resolve].
-  final _transitiveDeps = <String, MessageGenerator>{};
+  final Map<String, MessageGenerator> _transitiveDeps = {};
 
   /// Maps each undefined type to a string describing its location.
   ///
   /// Populated by [resolve].
-  final _undefinedDeps = <String, String>{};
+  final Map<String, String> _undefinedDeps = {};
 
   final String classname;
 
@@ -38,10 +38,11 @@ class ServiceGenerator {
   }
 
   ServiceGenerator(this._descriptor, this.fileGen, Set<String> usedNames)
-      : classname = disambiguateName(
-            serviceBaseName(avoidInitialUnderscore(_descriptor.name)),
-            usedNames,
-            defaultSuffixes());
+    : classname = disambiguateName(
+        serviceBaseName(avoidInitialUnderscore(_descriptor.name)),
+        usedNames,
+        defaultSuffixes(),
+      );
 
   /// Finds all message types used by this service.
   ///
@@ -86,7 +87,9 @@ class ServiceGenerator {
     for (final field in mg._fieldList) {
       if (field.baseType.isGroup || field.baseType.isMessage) {
         _addDepsRecursively(
-            field.baseType.generator as MessageGenerator, depth + 1);
+          field.baseType.generator as MessageGenerator,
+          depth + 1,
+        );
       }
     }
   }
@@ -118,16 +121,18 @@ class ServiceGenerator {
   /// should be prefixed unless the target file is the main file (the client
   /// generator calls this method). Otherwise, prefix everything.
   String _getDartClassName(String fqname, {bool forMainFile = false}) {
-    final mg = _deps[fqname];
-    if (mg == null) {
+    final generator = _deps[fqname];
+    if (generator == null) {
       final location = _undefinedDeps[fqname];
       throw 'FAILURE: Unknown type reference ($fqname) for $location';
     }
-    if (forMainFile && fileGen.protoFileUri == mg.fileGen.protoFileUri) {
+
+    if (forMainFile && fileGen.protoFileUri == generator.fileGen.protoFileUri) {
       // If it's the same file, we import it without using "as".
-      return mg.classname;
+      return generator.classname;
     }
-    return '${mg.fileImportPrefix}.${mg.classname}';
+
+    return '${generator.importPrefix(context: fileGen)}.${generator.classname}';
   }
 
   List<MethodDescriptorProto> get _methodDescriptors => _descriptor.method;
@@ -141,8 +146,10 @@ class ServiceGenerator {
     final inputClass = _getDartClassName(m.inputType);
     final outputClass = _getDartClassName(m.outputType);
 
-    out.println('$_future<$outputClass> $methodName('
-        '$_serverContext ctx, $inputClass request);');
+    out.println(
+      '$_future<$outputClass> $methodName('
+      '$_serverContext ctx, $inputClass request);',
+    );
   }
 
   void _generateStubs(IndentingWriter out) {
@@ -154,36 +161,46 @@ class ServiceGenerator {
 
   void _generateRequestMethod(IndentingWriter out) {
     out.addBlock(
-        '$_generatedMessage createRequest($coreImportPrefix.String methodName) {',
-        '}', () {
-      out.addBlock('switch (methodName) {', '}', () {
-        for (final m in _methodDescriptors) {
-          final inputClass = _getDartClassName(m.inputType);
-          out.println("case '${m.name}': return $inputClass();");
-        }
-        out.println('default: '
-            "throw $coreImportPrefix.ArgumentError('Unknown method: \$methodName');");
-      });
-    });
+      '$_generatedMessage createRequest($coreImportPrefix.String methodName) {',
+      '}',
+      () {
+        out.addBlock('switch (methodName) {', '}', () {
+          for (final m in _methodDescriptors) {
+            final inputClass = _getDartClassName(m.inputType);
+            out.println("case '${m.name}': return $inputClass();");
+          }
+          out.println(
+            'default: '
+            "throw $coreImportPrefix.ArgumentError('Unknown method: \$methodName');",
+          );
+        });
+      },
+    );
     out.println();
   }
 
   void _generateDispatchMethod(IndentingWriter out) {
     out.addBlock(
-        '$_future<$_generatedMessage> handleCall($_serverContext ctx, '
-            '$coreImportPrefix.String methodName, $_generatedMessage request) {',
-        '}', () {
-      out.addBlock('switch (methodName) {', '}', () {
-        for (final m in _methodDescriptors) {
-          final methodName = _methodName(m.name);
-          final inputClass = _getDartClassName(m.inputType);
-          out.println("case '${m.name}': return this.$methodName"
-              '(ctx, request as $inputClass);');
-        }
-        out.println('default: '
-            "throw $coreImportPrefix.ArgumentError('Unknown method: \$methodName');");
-      });
-    });
+      '$_future<$_generatedMessage> handleCall($_serverContext ctx, '
+          '$coreImportPrefix.String methodName, $_generatedMessage request) {',
+      '}',
+      () {
+        out.addBlock('switch (methodName) {', '}', () {
+          for (final m in _methodDescriptors) {
+            final methodName = _methodName(m.name);
+            final inputClass = _getDartClassName(m.inputType);
+            out.println(
+              "case '${m.name}': "
+              'return $methodName(ctx, request as $inputClass);',
+            );
+          }
+          out.println(
+            'default: throw $coreImportPrefix.ArgumentError('
+            "'Unknown method: \$methodName');",
+          );
+        });
+      },
+    );
     out.println();
   }
 
@@ -192,19 +209,23 @@ class ServiceGenerator {
 
   void generate(IndentingWriter out) {
     out.addBlock(
-        'abstract class $classname extends '
-            '$_parentClass {',
-        '}', () {
-      _generateStubs(out);
-      _generateRequestMethod(out);
-      _generateDispatchMethod(out);
-      _generateMoreClassMembers(out);
-      out.println(
-          '$coreImportPrefix.Map<$coreImportPrefix.String, $coreImportPrefix.dynamic> get \$json => $jsonConstant;');
-      out.println(
+      'abstract class $classname extends '
+          '$_parentClass {',
+      '}',
+      () {
+        _generateStubs(out);
+        _generateRequestMethod(out);
+        _generateDispatchMethod(out);
+        _generateMoreClassMembers(out);
+        out.println(
+          '$coreImportPrefix.Map<$coreImportPrefix.String, $coreImportPrefix.dynamic> get \$json => $jsonConstant;',
+        );
+        out.println(
           '$coreImportPrefix.Map<$coreImportPrefix.String, $coreImportPrefix.Map<$coreImportPrefix.String,'
-          ' $coreImportPrefix.dynamic>> get \$messageJson => $messageJsonConstant;');
-    });
+          ' $coreImportPrefix.dynamic>> get \$messageJson => $messageJsonConstant;',
+        );
+      },
+    );
     out.println();
   }
 
@@ -216,8 +237,10 @@ class ServiceGenerator {
   /// The map includes an entry for every message type that might need
   /// to be read or written (assuming the type name resolved).
   void generateConstants(IndentingWriter out) {
-    out.print('const $coreImportPrefix.Map<$coreImportPrefix.String,'
-        ' $coreImportPrefix.dynamic> $jsonConstant = ');
+    out.print(
+      'const $coreImportPrefix.Map<$coreImportPrefix.String,'
+      ' $coreImportPrefix.dynamic> $jsonConstant = ',
+    );
     writeJsonConst(out, _descriptor.writeToJsonMap());
     out.println(';');
     out.println();
@@ -227,18 +250,22 @@ class ServiceGenerator {
       typeConstants[key] = _transitiveDeps[key]!.getJsonConstant(fileGen);
     }
 
-    out.println('@$coreImportPrefix.Deprecated'
-        '(\'Use $binaryDescriptorName instead\')');
+    out.println(
+      '@$coreImportPrefix.Deprecated'
+      '(\'Use $binaryDescriptorName instead\')',
+    );
     out.addBlock(
-        'const $coreImportPrefix.Map<$coreImportPrefix.String,'
-            ' $coreImportPrefix.Map<$coreImportPrefix.String,'
-            ' $coreImportPrefix.dynamic>> $messageJsonConstant = {',
-        '};', () {
-      for (final key in typeConstants.keys) {
-        final typeConst = typeConstants[key];
-        out.println("'$key': $typeConst,");
-      }
-    });
+      'const $coreImportPrefix.Map<$coreImportPrefix.String,'
+          ' $coreImportPrefix.Map<$coreImportPrefix.String,'
+          ' $coreImportPrefix.dynamic>> $messageJsonConstant = {',
+      '};',
+      () {
+        for (final key in typeConstants.keys) {
+          final typeConst = typeConstants[key];
+          out.println("'$key': $typeConst,");
+        }
+      },
+    );
     out.println();
 
     if (_undefinedDeps.isNotEmpty) {

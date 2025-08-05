@@ -1,3 +1,7 @@
+// Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:convert';
 
 import 'package:protobuf/protobuf.dart';
@@ -7,9 +11,10 @@ import 'indenting_writer.dart';
 import 'mixins.dart';
 import 'names.dart';
 import 'src/code_generator.dart';
-import 'src/generated/dart_options.pb.dart';
-import 'src/generated/descriptor.pb.dart';
-import 'src/generated/plugin.pb.dart';
+import 'src/gen/dart_options.pb.dart';
+import 'src/gen/google/api/client.pb.dart';
+import 'src/gen/google/protobuf/compiler/plugin.pb.dart';
+import 'src/gen/google/protobuf/descriptor.pb.dart';
 import 'src/linker.dart';
 import 'src/options.dart';
 import 'src/output_config.dart';

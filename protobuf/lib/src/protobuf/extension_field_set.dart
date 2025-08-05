@@ -2,15 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../../protobuf.dart';
+part of 'internal.dart';
 
-class _ExtensionFieldSet {
-  final _FieldSet _parent;
+class ExtensionFieldSet {
+  final FieldSet _parent;
   final Map<int, Extension> _info = <int, Extension>{};
   final Map<int, dynamic> _values = <int, dynamic>{};
   bool _isReadOnly = false;
 
-  _ExtensionFieldSet(this._parent);
+  ExtensionFieldSet(this._parent);
 
   Extension? _getInfoOrNull(int tagNumber) => _info[tagNumber];
 
@@ -39,7 +39,7 @@ class _ExtensionFieldSet {
   ///
   /// If it doesn't exist, creates the list and saves the extension.
   /// Suitable for public API and decoders.
-  List<T> _ensureRepeatedField<T>(Extension<T> fi) {
+  PbList<T> _ensureRepeatedField<T>(Extension<T> fi) {
     assert(!_isReadOnly);
     assert(fi.isRepeated);
     assert(fi.extendee == '' || fi.extendee == _parent._messageName);
@@ -50,22 +50,24 @@ class _ExtensionFieldSet {
     return _addInfoAndCreateList(fi);
   }
 
-  List<T> _getList<T>(Extension<T> fi) {
+  PbList<T> _getList<T>(Extension<T> fi) {
     final value = _values[fi.tagNumber];
     if (value != null) return value;
     _checkNotInUnknown(fi);
-    if (_isReadOnly) return List<T>.unmodifiable(const []);
+    if (_isReadOnly) return PbList<T>.unmodifiable();
     return _addInfoAndCreateList<T>(fi);
   }
 
-  List<T> _addInfoAndCreateList<T>(Extension<T> fi) {
+  PbList<T> _addInfoAndCreateList<T>(Extension<T> fi) {
     _validateInfo(fi);
-    final newList = fi._createRepeatedField(_parent._message!);
+    final newList = fi._createRepeatedField();
     _addInfoUnchecked(fi);
     _setFieldUnchecked(fi, newList);
     return newList;
   }
 
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   dynamic _getFieldOrNull(Extension extension) => _values[extension.tagNumber];
 
   void _clearFieldAndInfo(Extension fi) {
@@ -76,10 +78,6 @@ class _ExtensionFieldSet {
   void _clearField(Extension fi) {
     _ensureWritable();
     _validateInfo(fi);
-    final eventPlugin = _parent._eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeClearField(fi);
-    }
     _values.remove(fi.tagNumber);
   }
 
@@ -89,11 +87,17 @@ class _ExtensionFieldSet {
     final fi = _getInfoOrNull(tagNumber);
     if (fi == null) {
       throw ArgumentError(
-          'tag $tagNumber not defined in $_parent._messageName');
+        'tag $tagNumber not defined in $_parent._messageName',
+      );
     }
     if (fi.isRepeated) {
-      throw ArgumentError(_parent._setFieldFailedMessage(
-          fi, value, 'repeating field (use get + .add())'));
+      throw ArgumentError(
+        _parent._setFieldFailedMessage(
+          fi,
+          value,
+          'repeating field (use get + .add())',
+        ),
+      );
     }
     _ensureWritable();
     _parent._validateField(fi, value);
@@ -105,8 +109,13 @@ class _ExtensionFieldSet {
   void _setFieldAndInfo(Extension fi, value) {
     _ensureWritable();
     if (fi.isRepeated) {
-      throw ArgumentError(_parent._setFieldFailedMessage(
-          fi, value, 'repeating field (use get + .add())'));
+      throw ArgumentError(
+        _parent._setFieldFailedMessage(
+          fi,
+          value,
+          'repeating field (use get + .add())',
+        ),
+      );
     }
     _ensureWritable();
     _validateInfo(fi);
@@ -124,7 +133,8 @@ class _ExtensionFieldSet {
   void _validateInfo(Extension fi) {
     if (fi.extendee != _parent._messageName) {
       throw ArgumentError(
-          'Extension $fi not legal for message ${_parent._messageName}');
+        'Extension $fi not legal for message ${_parent._messageName}',
+      );
     }
   }
 
@@ -134,10 +144,6 @@ class _ExtensionFieldSet {
   }
 
   void _setFieldUnchecked(Extension fi, value) {
-    final eventPlugin = _parent._eventPlugin;
-    if (eventPlugin != null && eventPlugin.hasObservers) {
-      eventPlugin.beforeSetField(fi, value);
-    }
     // If there was already an unknown field with the same tag number,
     // overwrite it.
     _parent._unknownFields?.clearField(fi.tagNumber);
@@ -151,8 +157,8 @@ class _ExtensionFieldSet {
 
   bool get _hasValues => _values.isNotEmpty;
 
-  bool _equalValues(_ExtensionFieldSet? other) =>
-      other != null && _areMapsEqual(_values, other._values);
+  bool _equalValues(ExtensionFieldSet? other) =>
+      other != null && areMapsEqual(_values, other._values);
 
   void _clearValues() => _values.clear();
 
@@ -160,7 +166,7 @@ class _ExtensionFieldSet {
   ///
   /// Repeated fields are copied.
   /// Extensions cannot contain map fields.
-  void _shallowCopyValues(_ExtensionFieldSet original) {
+  void _shallowCopyValues(ExtensionFieldSet original) {
     for (final tagNumber in original._tagNumbers) {
       final extension = original._getInfoOrNull(tagNumber)!;
       _addInfoUnchecked(extension);
@@ -199,9 +205,16 @@ class _ExtensionFieldSet {
     final unknownFields = _parent._unknownFields;
     if (unknownFields != null && unknownFields.hasField(extension.tagNumber)) {
       throw StateError(
-          'Trying to get $extension that is present as an unknown field. '
-          'Parse the message with this extension in the extension registry or '
-          'use `ExtensionRegistry.reparseMessage`.');
+        'Trying to get $extension that is present as an unknown field. '
+        'Parse the message with this extension in the extension registry or '
+        'use `ExtensionRegistry.reparseMessage`.',
+      );
     }
   }
+}
+
+extension ExtensionFieldSetInternalExtension on ExtensionFieldSet {
+  Map<int, dynamic> get values => _values;
+  Iterable<int> get tagNumbers => _tagNumbers;
+  Extension? getInfoOrNull(int tagNumber) => _getInfoOrNull(tagNumber);
 }

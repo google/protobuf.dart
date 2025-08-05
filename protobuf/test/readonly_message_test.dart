@@ -7,9 +7,12 @@ import 'package:protobuf/protobuf.dart'
 import 'package:test/test.dart';
 
 Matcher throwsUnsupportedError(Matcher expectedMessage) => throwsA(
-      isA<UnsupportedError>()
-          .having((p0) => p0.message, 'message', expectedMessage),
-    );
+  isA<UnsupportedError>().having(
+    (p0) => p0.message,
+    'message',
+    expectedMessage,
+  ),
+);
 
 class Rec extends GeneratedMessage {
   static Rec getDefault() => Rec()..freeze();
@@ -18,10 +21,11 @@ class Rec extends GeneratedMessage {
   Rec createEmptyInstance() => Rec();
 
   @override
-  BuilderInfo info_ = BuilderInfo('rec')
-    ..a(1, 'value', PbFieldType.O3)
-    ..pc<Rec>(2, 'sub', PbFieldType.PM, subBuilder: Rec.create)
-    ..p<int>(10, 'ints', PbFieldType.P3);
+  BuilderInfo info_ =
+      BuilderInfo('rec')
+        ..a(1, 'value', PbFieldType.O3)
+        ..pc<Rec>(2, 'sub', PbFieldType.PM, subBuilder: Rec.create)
+        ..p<int>(10, 'ints', PbFieldType.P3);
 
   int get value => $_get(0, 0);
   set value(int v) {
@@ -53,77 +57,107 @@ void main() {
 
   test("can't merge to a read-only message", () {
     expect(
-        () => Rec.getDefault().mergeFromJson('{"1":1}'),
-        throwsUnsupportedError(
-            equals('Attempted to change a read-only message (rec)')));
+      () => Rec.getDefault().mergeFromJson('{"1":1}'),
+      throwsUnsupportedError(
+        equals('Attempted to change a read-only message (rec)'),
+      ),
+    );
   });
 
   test("can't set a field on a read-only message", () {
     expect(
-        () => Rec.getDefault().setField(1, 456),
-        throwsUnsupportedError(
-            equals('Attempted to change a read-only message (rec)')));
+      () => Rec.getDefault().setField(1, 456),
+      throwsUnsupportedError(
+        equals('Attempted to change a read-only message (rec)'),
+      ),
+    );
   });
 
   test("can't clear a read-only message", () {
     expect(
-        () => Rec.getDefault().clear(),
-        throwsUnsupportedError(
-            equals('Attempted to change a read-only message (rec)')));
+      () => Rec.getDefault().clear(),
+      throwsUnsupportedError(
+        equals('Attempted to change a read-only message (rec)'),
+      ),
+    );
   });
 
   test("can't clear a field on a read-only message", () {
     expect(
-        () => Rec.getDefault().clearField(1),
-        throwsUnsupportedError(
-            equals('Attempted to change a read-only message (rec)')));
+      () => Rec.getDefault().clearField(1),
+      throwsUnsupportedError(
+        equals('Attempted to change a read-only message (rec)'),
+      ),
+    );
   });
 
   test("can't modify repeated fields on a read-only message", () {
-    expect(() => Rec.getDefault().sub.add(Rec.create()),
-        throwsUnsupportedError(contains('add')));
-    var r = Rec.create()
-      ..ints.add(10)
-      ..freeze();
-    expect(() => r.ints.clear(),
-        throwsUnsupportedError(equals("'clear' on a read-only list")));
-    expect(() => r.ints[0] = 2,
-        throwsUnsupportedError(equals("'set element' on a read-only list")));
-    expect(() => r.sub.add(Rec.create()),
-        throwsUnsupportedError(equals("'add' on a read-only list")));
-
-    r = Rec.create()
-      ..sub.add(Rec.create())
-      ..freeze();
-    expect(() => r.sub.add(Rec.create()),
-        throwsUnsupportedError(equals("'add' on a read-only list")));
     expect(
-        () => r.ints.length = 20, throwsUnsupportedError(contains('length')));
+      () => Rec.getDefault().sub.add(Rec.create()),
+      throwsUnsupportedError(contains('add')),
+    );
+    var r =
+        Rec.create()
+          ..ints.add(10)
+          ..freeze();
+    expect(
+      () => r.ints.clear(),
+      throwsUnsupportedError(equals("'clear' on a read-only list")),
+    );
+    expect(
+      () => r.ints[0] = 2,
+      throwsUnsupportedError(equals("'set element' on a read-only list")),
+    );
+    expect(
+      () => r.sub.add(Rec.create()),
+      throwsUnsupportedError(equals("'add' on a read-only list")),
+    );
+
+    r =
+        Rec.create()
+          ..sub.add(Rec.create())
+          ..freeze();
+    expect(
+      () => r.sub.add(Rec.create()),
+      throwsUnsupportedError(equals("'add' on a read-only list")),
+    );
+    expect(
+      () => r.ints.length = 20,
+      throwsUnsupportedError(contains('length')),
+    );
   });
 
   test("can't modify sub-messages on a read-only message", () {
     final subMessage = Rec.create()..value = 1;
-    final r = Rec.create()
-      ..sub.add(Rec.create()..sub.add(subMessage))
-      ..freeze();
+    final r =
+        Rec.create()
+          ..sub.add(Rec.create()..sub.add(subMessage))
+          ..freeze();
     expect(r.sub[0].sub[0].value, 1);
     expect(
-        () => subMessage.value = 2,
-        throwsUnsupportedError(
-            equals('Attempted to change a read-only message (rec)')));
+      () => subMessage.value = 2,
+      throwsUnsupportedError(
+        equals('Attempted to change a read-only message (rec)'),
+      ),
+    );
   });
 
   test("can't modify unknown fields on a read-only message", () {
     expect(
-        () => Rec.getDefault().unknownFields.clear(),
-        throwsUnsupportedError(equals(
-            'Attempted to call clear on a read-only message (UnknownFieldSet)')));
+      () => Rec.getDefault().unknownFields.clear(),
+      throwsUnsupportedError(
+        equals(
+          'Attempted to call clear on a read-only message (UnknownFieldSet)',
+        ),
+      ),
+    );
   });
 
   test('can rebuild a frozen message with merge', () {
-    final orig = Rec.create()
-      ..value = 10
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..value = 10
+          ..freeze();
     final rebuilt = orig.copyWith((m) => m.mergeFromJson('{"1": 7}'));
     expect(identical(orig, rebuilt), false);
     expect(orig.value, 10);
@@ -131,9 +165,10 @@ void main() {
   });
 
   test('can set a field while rebuilding a frozen message', () {
-    final orig = Rec.create()
-      ..value = 10
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..value = 10
+          ..freeze();
     final rebuilt = orig.copyWith((m) => m.value = 7);
     expect(identical(orig, rebuilt), false);
     expect(orig.value, 10);
@@ -141,9 +176,10 @@ void main() {
   });
 
   test('can clear while rebuilding a frozen message', () {
-    final orig = Rec.create()
-      ..value = 10
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..value = 10
+          ..freeze();
     final rebuilt = orig.copyWith((m) => m.clear());
     expect(identical(orig, rebuilt), false);
     expect(orig.value, 10);
@@ -152,9 +188,10 @@ void main() {
   });
 
   test('can clear a field while rebuilding a frozen message', () {
-    final orig = Rec.create()
-      ..value = 10
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..value = 10
+          ..freeze();
     final rebuilt = orig.copyWith((m) => m.clearField(1));
     expect(identical(orig, rebuilt), false);
     expect(orig.value, 10);
@@ -163,9 +200,10 @@ void main() {
   });
 
   test('can modify repeated fields while rebuilding a frozen message', () {
-    var orig = Rec.create()
-      ..ints.add(10)
-      ..freeze();
+    var orig =
+        Rec.create()
+          ..ints.add(10)
+          ..freeze();
     var rebuilt = orig.copyWith((m) => m.ints.add(12));
     expect(identical(orig, rebuilt), false);
     expect(orig.ints, [10]);
@@ -179,9 +217,10 @@ void main() {
     expect(orig.ints, [10]);
     expect(rebuilt.ints, [2]);
 
-    orig = Rec.create()
-      ..sub.add(Rec.create())
-      ..freeze();
+    orig =
+        Rec.create()
+          ..sub.add(Rec.create())
+          ..freeze();
     rebuilt = orig.copyWith((m) => m.sub.add(Rec.create()));
     expect(orig.sub.length, 1);
     expect(rebuilt.sub.length, 2);
@@ -189,21 +228,27 @@ void main() {
 
   test('cannot modify sub-messages while rebuilding a frozen message', () {
     final subMessage = Rec.create()..value = 1;
-    final orig = Rec.create()
-      ..sub.add(Rec.create()..sub.add(subMessage))
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..sub.add(Rec.create()..sub.add(subMessage))
+          ..freeze();
 
     final rebuilt = orig.copyWith((m) {
       expect(
-          () => subMessage.value = 5,
-          throwsUnsupportedError(
-              equals('Attempted to change a read-only message (rec)')));
+        () => subMessage.value = 5,
+        throwsUnsupportedError(
+          equals('Attempted to change a read-only message (rec)'),
+        ),
+      );
       expect(
-          () => m.sub[0].sub[0].value = 2,
-          throwsUnsupportedError(
-              equals('Attempted to change a read-only message (rec)')));
+        () => m.sub[0].sub[0].value = 2,
+        throwsUnsupportedError(
+          equals('Attempted to change a read-only message (rec)'),
+        ),
+      );
       m.sub[0] = m.sub[0].copyWith(
-          (m2) => m2.sub[0] = m2.sub[0].copyWith((m3) => m3.value = 2));
+        (m2) => m2.sub[0] = m2.sub[0].copyWith((m3) => m3.value = 2),
+      );
     });
     expect(identical(subMessage, orig.sub[0].sub[0]), true);
     expect(identical(subMessage, rebuilt.sub[0].sub[0]), false);
@@ -212,8 +257,9 @@ void main() {
   });
 
   test('can modify unknown fields while rebuilding a frozen message', () {
-    final orig = Rec.create()
-      ..unknownFields.addField(20, UnknownFieldSetField()..fixed32s.add(1));
+    final orig =
+        Rec.create()
+          ..unknownFields.addField(20, UnknownFieldSetField()..fixed32s.add(1));
     final rebuilt = orig.copyWith((m) => m.unknownFields.clear());
     expect(orig.unknownFields.hasField(20), true);
     expect(rebuilt.unknownFields.hasField(20), false);
