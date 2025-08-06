@@ -1,3 +1,7 @@
+## 23.0.0
+
+* Update generated code for protobuf-5.0.0.
+
 ## 22.5.0
 
 * Generated files are now formatted using the Dart formatter. The code is
