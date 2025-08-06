@@ -3,9 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:test/test.dart';
-import 'package:collection/collection.dart';
 
-import 'gen/enum_test.pb.dart';
+import '../out/protos/enum_test.pb.dart';
 
 void main() {
   group('Enum parsing in maps, lists, messages', () {
@@ -33,12 +32,9 @@ void main() {
       final msg = Message();
       msg.enumField = A.Y;
       msg.mergeFromProto3Json(json, ignoreUnknownFields: true);
-      expect(msg.enumField, A.X); // unknown value defaults the enum value
-      expect(msg.mapValueField.values.toList()..sortBy((e) => e.value), [
-        A.X,
-        A.Y,
-      ]);
-      expect(msg.repeatedEnumField..sortBy((e) => e.value), [A.X, A.Y]);
+      expect(msg.enumField, A.Y);
+      expect(msg.mapValueField.values.toList(), [A.X, A.Y]);
+      expect(msg.repeatedEnumField, [A.X, A.Y]);
     });
   });
 }

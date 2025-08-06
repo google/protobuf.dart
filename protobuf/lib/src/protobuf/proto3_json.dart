@@ -452,11 +452,15 @@ void _mergeFromProto3Json(
               original.mergeFromMessage(parsedSubMessage);
             }
           } else {
-            fieldSet._setFieldUnchecked(
-              meta,
-              fieldInfo,
-              convertProto3JsonValue(value, fieldInfo),
-            );
+            final parsedValue = convertProto3JsonValue(value, fieldInfo);
+            if (parsedValue == null) {
+              // Unknown enum
+              if (!ignoreUnknownFields) {
+                throw context.parseException('Unknown enum value', value);
+              }
+            } else {
+              fieldSet._setFieldUnchecked(meta, fieldInfo, parsedValue);
+            }
           }
           context.popIndex();
         });
