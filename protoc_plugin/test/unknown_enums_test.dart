@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-import '../out/protos/enum_test.pb.dart';
+import 'gen/enum_test.pb.dart';
 
 void main() {
   group('Enum parsing in maps, lists, messages', () {
