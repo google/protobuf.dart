@@ -1,4 +1,4 @@
-// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2025, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -7,6 +7,7 @@ import 'package:test/test.dart';
 import 'gen/enum_test.pb.dart';
 
 void main() {
+  // 'Z' below is an unknown enum value. Known values are 'X' and 'Y'.
   group('Enum parsing in maps, lists, messages', () {
     test('Parse known fields', () {
       final json = {
