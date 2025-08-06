@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 import 'mock_util.dart' show T, mockEnumValues;
 
 void main() {
-  test('mergeFromProto3Json unknown fields with names', () {
+  test('mergeFromProto3Json unknown enum fields with names', () {
     final example = T();
 
     // No enum value specified.
@@ -57,7 +57,7 @@ void main() {
     expect(example.hasEnm, isTrue);
   });
 
-  test('mergeFromProto3Json unknown fields with indices', () {
+  test('mergeFromProto3Json unknown enum fields with indices', () {
     // Similar to above, but with indices.
     final example = T();
 
