@@ -869,8 +869,8 @@ void testCopy(TestAllTypes value1, TestAllTypes value2) {
   value2.optionalNestedMessage.i += 1;
   value2.optionalImportMessage.d += 1;
   value2.optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
-  value2.optionalForeignEnum = ForeignEnum.FOREIGN_BAZ;
-  value2.optionalImportEnum = ImportEnum.IMPORT_BAZ;
+  value2.optionalForeignEnum = ForeignEnum.FOREIGN_BAR;
+  value2.optionalImportEnum = ImportEnum.IMPORT_BAR;
   value2.optionalStringPiece = "hi 2";
   value2.optionalCord = "hi 3";
   modifyRepeatedFields(value2);
