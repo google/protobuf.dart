@@ -46,6 +46,7 @@ void main(List<String> args) async {
   }
 
   copy(googleapisDir, destDir, '', [
+    'google/api/annotations.proto',
     'google/api/client.proto',
     'google/api/http.proto',
     'google/api/launch_stage.proto',

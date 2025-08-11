@@ -205,6 +205,8 @@ class GrpcServiceGenerator {
 }
 
 class _GrpcMethod {
+  final MethodDescriptorProto methodDescriptor;
+
   final String _grpcName;
   final String _dartName;
   final String _serviceName;
@@ -222,6 +224,7 @@ class _GrpcMethod {
   final bool _deprecated;
 
   _GrpcMethod._(
+    this.methodDescriptor,
     this._grpcName,
     this._dartName,
     this._serviceName,
@@ -264,6 +267,7 @@ class _GrpcMethod {
     final deprecated = method.options.deprecated;
 
     return _GrpcMethod._(
+      method,
       grpcName,
       dartName,
       service._fullServiceName,
@@ -312,10 +316,46 @@ class _GrpcMethod {
         '@$coreImportPrefix.Deprecated(\'This method is deprecated\')',
       );
     }
+
+    final routingOption = methodDescriptor.options.routing;
+    final httpRules = methodDescriptor.options.httpRules;
+
     out.addBlock(
       '$_clientReturnType $_dartName($_argumentType request, {${GrpcServiceGenerator._callOptions}? options,}) {',
       '}',
       () {
+        // Handle `routing` and `http` annotations.
+        //
+        // `routing` annotations provide explicit information about what
+        // 'x-goog-request-params' header to send. `http` annotations provide
+        // implicit information about what 'x-goog-request-params' header to
+        // send.
+        //
+        // `routing` annotations should be used in preference to `http` ones if
+        // provided.
+        //
+        // See https://google.aip.dev/client-libraries/4222 for details.
+        if (routingOption != null) {
+          if (routingOption.routingParameters.isNotEmpty) {
+            // TODO(devoncarew): Handle routing annotations.
+            out.println(
+              '// TODO: Parse and use routing annotation information.',
+            );
+          }
+        } else if (httpRules.isNotEmpty) {
+          // handle an http annotation
+
+          // todo:
+
+          // options = $_callOptions(metadata: {'foo': 'bar'}).mergedWith(options);
+
+          final pathTemplates = PathTemplate.parseRules(httpRules);
+
+          for (final template in pathTemplates) {
+            out.println('// todo: $template');
+          }
+        }
+
         if (_clientStreaming && _serverStreaming) {
           out.println(
             'return \$createStreamingCall(_\$$_dartName, request, options: options);',
@@ -382,4 +422,39 @@ extension on ServiceOptions {
   String? get defaultHost => getExtension(Client.defaultHost) as String?;
 
   String? get oauthScopes => getExtension(Client.oauthScopes) as String?;
+}
+
+extension on MethodOptions {
+  bool get hasHttpOption => hasExtension(Annotations.http);
+  List<HttpRule> get httpRules {
+    if (!hasHttpOption) return [];
+
+    final rule = getExtension(Annotations.http) as HttpRule;
+
+    final result = [rule];
+    result.addAll(rule.additionalBindings);
+    return result;
+  }
+
+  bool get hasRountingOption => hasExtension(Routing.routing);
+  RoutingRule? get routing =>
+      hasRountingOption ? getExtension(Routing.routing) : null;
+}
+
+extension on PathVariable {
+  // todo: test
+  String createRegexMatcher() {
+    return segments
+        .map((string) {
+          switch (string) {
+            case '*':
+              return '[^/]*:';
+            case '**':
+              return '.*';
+            default:
+              return string;
+          }
+        })
+        .join('/');
+  }
 }

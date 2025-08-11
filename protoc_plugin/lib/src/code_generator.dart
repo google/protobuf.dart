@@ -12,7 +12,9 @@ import 'package:protobuf/protobuf.dart';
 import '../names.dart' show lowerCaseFirstLetter;
 import '../protoc.dart' show FileGenerator;
 import 'gen/dart_options.pb.dart';
+import 'gen/google/api/annotations.pb.dart';
 import 'gen/google/api/client.pb.dart';
+import 'gen/google/api/routing.pb.dart';
 import 'gen/google/protobuf/compiler/plugin.pb.dart';
 import 'linker.dart';
 import 'options.dart';
@@ -90,6 +92,11 @@ class CodeGenerator {
 
     Dart_options.registerAllExtensions(extensions);
     Client.registerAllExtensions(extensions);
+    // The 'http' annotation.
+    Annotations.registerAllExtensions(extensions);
+    // todo: firestore might not use the 'routing' annotation
+    // The 'routing' annotation.
+    Routing.registerAllExtensions(extensions);
 
     final builder = await _streamIn.fold(
       BytesBuilder(),
