@@ -794,12 +794,14 @@ void main() {
   test('deepCopy', () {
     final value1 = getAllSet();
     final value2 = value1.deepCopy();
-    assertAllFieldsSet(value2);
-    expect(value2, isNot(same(value1)));
-    expect(
-      value2.optionalForeignMessage,
-      isNot(same(value1.optionalForeignMessage)),
-    );
+    testCopy(value1, value2);
+  });
+
+  test('clone', () {
+    final value1 = getAllSet();
+    // ignore: deprecated_member_use_from_same_package
+    final value2 = value1.clone();
+    testCopy(value1, value2);
   });
 
   test('deepCopy extensions', () {
@@ -831,4 +833,47 @@ void main() {
     expect(decoded.sparseEnums, SparseEnum.values);
     expect(decoded.sparseOutOfOrderEnums, SparseEnumOutOfOrder.values);
   });
+}
+
+/// Shared test function to test `clone` and `deepCopy`.
+///
+/// `value2` should be the clone of `value1`, either with `clone` or `deepCopy`.
+void testCopy(TestAllTypes value1, TestAllTypes value2) {
+  assertAllFieldsSet(value2);
+  expect(value2, isNot(same(value1)));
+
+  // Check that updates to value2 does not update value1.
+  value2.optionalInt32 += 1;
+  value2.optionalInt64 += 1;
+  value2.optionalUint32 += 1;
+  value2.optionalUint64 += 1;
+  value2.optionalSint32 += 1;
+  value2.optionalSint64 += 1;
+  value2.optionalFixed32 += 1;
+  value2.optionalFixed64 += 1;
+  value2.optionalSfixed32 += 1;
+  value2.optionalSfixed64 += 1;
+  value2.optionalFloat += 1;
+  value2.optionalDouble += 1;
+  value2.optionalBool = !value2.optionalBool;
+  value2.optionalString = "hi 1";
+
+  // Don't test `bytes` fields: the semantics here depends on the field value:
+  // - If the value is `Uint8List` or a non-growable list, this will throw.
+  // - Otherwise it will update both messages as the library assumes `bytes`
+  //   fields are immutable and can be shared.
+  // value2.optionalBytes.add(123);
+
+  value2.optionalGroup.a += 1;
+  value2.optionalNestedMessage.bb += 1;
+  value2.optionalNestedMessage.i += 1;
+  value2.optionalImportMessage.d += 1;
+  value2.optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
+  value2.optionalForeignEnum = ForeignEnum.FOREIGN_BAZ;
+  value2.optionalImportEnum = ImportEnum.IMPORT_BAZ;
+  value2.optionalStringPiece = "hi 2";
+  value2.optionalCord = "hi 3";
+  modifyRepeatedFields(value2);
+
+  assertAllFieldsSet(value1);
 }
