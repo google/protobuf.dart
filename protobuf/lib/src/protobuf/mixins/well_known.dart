@@ -6,8 +6,29 @@ import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
 
-import '../../../protobuf.dart';
+import '../internal.dart';
 import '../json_parsing_context.dart';
+
+/// The set of well known protobuf message types which may have customized
+/// serialization logic.
+enum WellKnownType {
+  any,
+  timestamp,
+  duration,
+  struct,
+  value,
+  listValue,
+  fieldMask,
+  doubleValue,
+  floatValue,
+  int64Value,
+  uint64Value,
+  int32Value,
+  uint32Value,
+  boolValue,
+  stringValue,
+  bytesValue,
+}
 
 mixin AnyMixin implements GeneratedMessage {
   String get typeUrl;
@@ -98,14 +119,7 @@ mixin AnyMixin implements GeneratedMessage {
       );
     }
     final unpacked = info.createEmptyInstance!()..mergeFromBuffer(any.value);
-    final proto3Json = unpacked.toProto3Json(typeRegistry: typeRegistry);
-    if (info.toProto3Json == null) {
-      final map = proto3Json as Map<String, dynamic>;
-      map['@type'] = any.typeUrl;
-      return map;
-    } else {
-      return {'@type': any.typeUrl, 'value': proto3Json};
-    }
+    return writeToProto3JsonAny(unpacked.fieldSet, any.typeUrl, typeRegistry);
   }
 
   static void fromProto3JsonHelper(
@@ -133,21 +147,13 @@ mixin AnyMixin implements GeneratedMessage {
         );
       }
 
-      final Object? subJson =
-          info.fromProto3Json == null
-              // TODO(sigurdm): avoid cloning [object] here.
-              ? (Map<String, dynamic>.from(object)..remove('@type'))
-              : object['value'];
-      // TODO(sigurdm): We lose [context.path].
-      final packedMessage =
-          info.createEmptyInstance!()..mergeFromProto3Json(
-            subJson,
-            typeRegistry: typeRegistry,
-            supportNamesWithUnderscores: context.supportNamesWithUnderscores,
-            ignoreUnknownFields: context.ignoreUnknownFields,
-            permissiveEnums: context.permissiveEnums,
-          );
-
+      final packedMessage = info.createEmptyInstance!();
+      mergeFromProto3JsonAny(
+        json,
+        packedMessage.fieldSet,
+        typeRegistry,
+        context,
+      );
       any.value = packedMessage.writeToBuffer();
       any.typeUrl = typeUrl;
     } else {

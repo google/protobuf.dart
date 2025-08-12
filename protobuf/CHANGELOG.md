@@ -1,3 +1,5 @@
+## 5.0.0-wip
+
 ## 4.2.0
 
 * Internal refactoring to split the package into libraries. This allows
@@ -10,6 +12,9 @@
 
 * Improve performance of `GeneratedMessage` members: `writeToJsonMap`,
   `writeToJson`, `mergeFromJson`, `mergeFromJsonMap`. ([#1028])
+
+* Remove `BuilderInfo.fromProto3Json` and `BuilderInfo.toProto3Json` as a part
+  of an internal refactoring.
 
 [#1026]: https://github.com/google/protobuf.dart/pull/1026
 [#1027]: https://github.com/google/protobuf.dart/pull/1027
