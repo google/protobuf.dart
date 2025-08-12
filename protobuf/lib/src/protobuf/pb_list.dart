@@ -234,4 +234,8 @@ class PbList<E> extends ListBase<E> {
   static Never _readOnlyError(String methodName) {
     throw UnsupportedError("'$methodName' on a read-only list");
   }
+
+  PbList<E> deepCopy() {
+    throw 'TODO';
+  }
 }

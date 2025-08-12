@@ -8,11 +8,15 @@ part of 'internal.dart';
 class UnknownFieldSet {
   static final UnknownFieldSet emptyUnknownFieldSet =
       UnknownFieldSet().._markReadOnly();
-  final Map<int, UnknownFieldSetField> _fields = <int, UnknownFieldSetField>{};
 
-  UnknownFieldSet();
+  final Map<int, UnknownFieldSetField> _fields;
 
-  UnknownFieldSet._clone(UnknownFieldSet unknownFieldSet) {
+  UnknownFieldSet() : _fields = <int, UnknownFieldSetField>{};
+
+  UnknownFieldSet._(this._fields);
+
+  UnknownFieldSet._clone(UnknownFieldSet unknownFieldSet)
+    : _fields = <int, UnknownFieldSetField>{} {
     mergeFromUnknownFieldSet(unknownFieldSet);
   }
 
@@ -195,6 +199,16 @@ class UnknownFieldSet {
       _throwFrozenMessageModificationError('UnknownFieldSet', methodName);
     }
   }
+
+  UnknownFieldSet deepCopy() {
+    Map<int, UnknownFieldSetField> newFields = {};
+    for (final entry in _fields.entries) {
+      final key = entry.key;
+      final value = entry.value;
+      newFields[key] = value.deepCopy();
+    }
+    return UnknownFieldSet._(newFields);
+  }
 }
 
 /// An unknown field in a [UnknownFieldSet].
@@ -210,6 +224,21 @@ class UnknownFieldSetField {
   List<int> get fixed32s => _fixed32s;
   List<Int64> get fixed64s => _fixed64s;
   List<UnknownFieldSet> get groups => _groups;
+
+  UnknownFieldSetField()
+    : _lengthDelimited = <List<int>>[],
+      _varints = <Int64>[],
+      _fixed32s = <int>[],
+      _fixed64s = <Int64>[],
+      _groups = <UnknownFieldSet>[];
+
+  UnknownFieldSetField._(
+    this._lengthDelimited,
+    this._varints,
+    this._fixed32s,
+    this._fixed64s,
+    this._groups,
+  );
 
   bool _isReadOnly = false;
 
@@ -308,5 +337,25 @@ class UnknownFieldSetField {
 
   void addVarint(Int64 value) {
     varints.add(value);
+  }
+
+  UnknownFieldSetField deepCopy() {
+    final List<List<int>> newLengthDelimited = List.from(_lengthDelimited);
+    final List<Int64> newVarints = List.from(_varints);
+    final List<int> newFixed32s = List.from(_fixed32s);
+    final List<Int64> newFixed64s = List.from(_fixed64s);
+
+    final List<UnknownFieldSet> newGroups = [];
+    for (final group in _groups) {
+      newGroups.add(group.deepCopy());
+    }
+
+    return UnknownFieldSetField._(
+      newLengthDelimited,
+      newVarints,
+      newFixed32s,
+      newFixed64s,
+      newGroups,
+    );
   }
 }

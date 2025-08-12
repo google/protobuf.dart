@@ -131,4 +131,8 @@ class PbMap<K, V> extends MapBase<K, V> {
     }
     return this;
   }
+
+  PbMap<K, V> deepCopy() {
+    throw 'TODO';
+  }
 }

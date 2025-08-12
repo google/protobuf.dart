@@ -916,6 +916,62 @@ class FieldSet {
 
     _oneofCases?.addAll(original._oneofCases!);
   }
+
+  // This assumes that [this] is fresh, i.e. no extensions, no values set.
+  //
+  // The reason why this updates [this] instead of returning a new [FieldSet] is
+  // that to start cloning we need to create an empty instance via
+  // `createEmptyInstance`, which already creates an empty [FieldSet], which we
+  // reuse here.
+  void _deepCopyFrom(FieldSet original) {
+    final info = _meta;
+
+    assert(_values.length == original._values.length);
+
+    // memcpy the original's values to avoid redundant bounds checks below by
+    // copying scalar fields one by one.
+    _values.setAll(0, original._values);
+
+    for (var index = 0; index < info.byIndex.length; index++) {
+      final fieldInfo = info.byIndex[index];
+      if (fieldInfo.isMapField) {
+        final PbMap? map = original._values[index];
+        _values[index] = map?.deepCopy();
+      } else if (fieldInfo.isRepeated) {
+        final PbList? list = original._values[index];
+        _values[index] = list?.deepCopy();
+      } else if (fieldInfo.isGroupOrMessage) {
+        final GeneratedMessage? message = original._values[index];
+        _values[index] = message?.deepCopy();
+      }
+
+      // Scalar fields are already copied above with `setAll`.
+    }
+
+    assert(_extensions == null);
+    final originalExtensions = original._extensions;
+    if (originalExtensions != null) {
+      _extensions = originalExtensions.deepCopy(this);
+    }
+
+    assert(_unknownFields == null);
+    final originalUnknownFields = original._unknownFields;
+    if (originalUnknownFields != null) {
+      _unknownFields = originalUnknownFields.deepCopy();
+    }
+
+    assert(_unknownJsonData == null);
+    final originalUnknownJsonData = original._unknownJsonData;
+    if (originalUnknownJsonData != null) {
+      _unknownJsonData = Map.from(originalUnknownJsonData);
+    }
+
+    assert(_oneofCases == null || _oneofCases.isEmpty);
+    final originalOneofCases = _oneofCases;
+    if (originalOneofCases != null) {
+      _oneofCases!.addAll(originalOneofCases);
+    }
+  }
 }
 
 extension FieldSetInternalExtension on FieldSet {

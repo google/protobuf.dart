@@ -625,7 +625,11 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
     '[GeneratedMessageGenericExtensions.deepCopy] '
     'does not update the message, returns a new message',
   )
-  T deepCopy() => info_.createEmptyInstance!() as T..mergeFromMessage(this);
+  T deepCopy() {
+    final newMessage = info_.createEmptyInstance!();
+    newMessage._fieldSet._deepCopyFrom(_fieldSet);
+    return newMessage as T;
+  }
 }
 
 extension GeneratedMessageInternalExtension on GeneratedMessage {

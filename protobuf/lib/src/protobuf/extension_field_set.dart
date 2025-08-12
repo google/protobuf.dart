@@ -6,11 +6,15 @@ part of 'internal.dart';
 
 class ExtensionFieldSet {
   final FieldSet _parent;
-  final Map<int, Extension> _info = <int, Extension>{};
-  final Map<int, dynamic> _values = <int, dynamic>{};
+  final Map<int, Extension> _info;
+  final Map<int, dynamic> _values;
   bool _isReadOnly = false;
 
-  ExtensionFieldSet(this._parent);
+  ExtensionFieldSet(this._parent)
+    : _info = <int, Extension>{},
+      _values = <int, dynamic>{};
+
+  ExtensionFieldSet._(this._parent, this._info, this._values);
 
   Extension? _getInfoOrNull(int tagNumber) => _info[tagNumber];
 
@@ -210,6 +214,32 @@ class ExtensionFieldSet {
         'use `ExtensionRegistry.reparseMessage`.',
       );
     }
+  }
+
+  ExtensionFieldSet deepCopy(FieldSet parent) {
+    final newExtensionFieldSet = ExtensionFieldSet._(
+      parent,
+      Map.from(_info),
+      Map.from(_values),
+    );
+
+    for (final entry in _values.entries) {
+      final tag = entry.key;
+      final value = entry.value;
+      final fieldInfo = _info[tag]!;
+      if (fieldInfo.isMapField) {
+        final PbMap? map = value;
+        _values[tag] = map?.deepCopy();
+      } else if (fieldInfo.isRepeated) {
+        final PbList? list = value;
+        _values[tag] = list?.deepCopy();
+      } else if (fieldInfo.isGroupOrMessage) {
+        final GeneratedMessage? message = value;
+        _values[tag] = message?.deepCopy();
+      }
+    }
+
+    return newExtensionFieldSet;
   }
 }
 
