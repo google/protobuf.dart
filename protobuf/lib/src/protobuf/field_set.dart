@@ -969,7 +969,7 @@ class FieldSet {
     }
 
     assert(_oneofCases == null || _oneofCases.isEmpty);
-    final originalOneofCases = _oneofCases;
+    final originalOneofCases = original._oneofCases;
     if (originalOneofCases != null) {
       _oneofCases!.addAll(originalOneofCases);
     }
