@@ -1,4 +1,4 @@
-## 4.2.0-wip
+## 4.2.0
 
 * Internal refactoring to split the package into libraries. This allows
   conditionally importing different libraries and improving performance by
