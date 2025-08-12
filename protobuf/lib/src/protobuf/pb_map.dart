@@ -133,6 +133,17 @@ class PbMap<K, V> extends MapBase<K, V> {
   }
 
   PbMap<K, V> deepCopy() {
-    throw 'TODO';
+    final newMap = PbMap<K, V>(keyFieldType, valueFieldType);
+    final wrappedMap = _wrappedMap;
+    final newWrappedMap = newMap._wrappedMap;
+    if (PbFieldType.isGroupOrMessage(valueFieldType)) {
+      for (final entry in wrappedMap.entries) {
+        newWrappedMap[entry.key] =
+            (entry.value as GeneratedMessage).deepCopy() as V;
+      }
+    } else {
+      newWrappedMap.addAll(wrappedMap);
+    }
+    return newMap;
   }
 }

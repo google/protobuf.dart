@@ -236,6 +236,18 @@ class PbList<E> extends ListBase<E> {
   }
 
   PbList<E> deepCopy() {
-    throw 'TODO';
+    final newList = PbList<E>(check: _check);
+    final wrappedList = _wrappedList;
+    final newWrappedList = newList._wrappedList;
+    if (wrappedList.isNotEmpty) {
+      if (wrappedList[0] is GeneratedMessage) {
+        for (final message in wrappedList) {
+          newWrappedList.add((message as GeneratedMessage).deepCopy() as E);
+        }
+      } else {
+        newWrappedList.addAll(wrappedList);
+      }
+    }
+    return newList;
   }
 }

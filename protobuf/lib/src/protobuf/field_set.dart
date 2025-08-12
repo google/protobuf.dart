@@ -935,11 +935,13 @@ class FieldSet {
     for (var index = 0; index < info.byIndex.length; index++) {
       final fieldInfo = info.byIndex[index];
       if (fieldInfo.isMapField) {
-        final PbMap? map = original._values[index];
-        _values[index] = map?.deepCopy();
+        final PbMap? originalMap = original._values[index];
+        if (originalMap == null) continue;
+        _values[index] = originalMap.deepCopy();
       } else if (fieldInfo.isRepeated) {
-        final PbList? list = original._values[index];
-        _values[index] = list?.deepCopy();
+        final PbList? originalList = original._values[index];
+        if (originalList == null) continue;
+        _values[index] = originalList.deepCopy();
       } else if (fieldInfo.isGroupOrMessage) {
         final GeneratedMessage? message = original._values[index];
         _values[index] = message?.deepCopy();
