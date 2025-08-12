@@ -18,4 +18,6 @@ export 'src/protobuf/internal.dart'
         GeneratedMessageInternalExtension,
         MapFieldInfoInternalExtension,
         mapKeyFieldNumber,
-        mapValueFieldNumber;
+        mapValueFieldNumber,
+        mergeFromProto3JsonAny,
+        writeToProto3JsonAny;

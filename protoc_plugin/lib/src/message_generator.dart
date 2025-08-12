@@ -356,9 +356,8 @@ class MessageGenerator extends ProtobufContainer {
     final packageClause =
         package == '' ? '' : ', package: $conditionalPackageName';
     final proto3JsonClause =
-        (mixin?.hasProto3JsonHelpers ?? false)
-            ? ', toProto3Json: $mixinImportPrefix.${mixin!.name}.toProto3JsonHelper, '
-                'fromProto3Json: $mixinImportPrefix.${mixin!.name}.fromProto3JsonHelper'
+        (mixin?.wellKnownType != null)
+            ? ', wellKnownType: $mixinImportPrefix.WellKnownType.${mixin!.wellKnownType}'
             : '';
 
     final String extendedClass;

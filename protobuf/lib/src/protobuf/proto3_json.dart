@@ -4,6 +4,40 @@
 
 part of 'internal.dart';
 
+// Public because this is called from the mixins library.
+Object writeToProto3JsonAny(
+  FieldSet fs,
+  String typeUrl,
+  TypeRegistry typeRegistry,
+) {
+  final result = _writeToProto3Json(fs, typeRegistry);
+  final wellKnownType = fs._meta._wellKnownType;
+  if (wellKnownType != null) {
+    switch (wellKnownType) {
+      case WellKnownType.any:
+      case WellKnownType.timestamp:
+      case WellKnownType.duration:
+      case WellKnownType.struct:
+      case WellKnownType.value:
+      case WellKnownType.listValue:
+      case WellKnownType.fieldMask:
+      case WellKnownType.doubleValue:
+      case WellKnownType.floatValue:
+      case WellKnownType.int64Value:
+      case WellKnownType.uint64Value:
+      case WellKnownType.int32Value:
+      case WellKnownType.uint32Value:
+      case WellKnownType.boolValue:
+      case WellKnownType.stringValue:
+      case WellKnownType.bytesValue:
+        return {'@type': typeUrl, 'value': result};
+    }
+  }
+
+  (result as Map<String, dynamic>)['@type'] = typeUrl;
+  return result;
+}
+
 Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
   String? convertToMapKey(dynamic key, int keyType) {
     final baseType = PbFieldType.baseType(keyType);
@@ -86,8 +120,46 @@ Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
   }
 
   final meta = fs._meta;
-  if (meta.toProto3Json != null) {
-    return meta.toProto3Json!(fs._message!, typeRegistry);
+  final wellKnownType = meta._wellKnownType;
+  if (wellKnownType != null) {
+    switch (wellKnownType) {
+      case WellKnownType.any:
+        return AnyMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.timestamp:
+        return TimestampMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.duration:
+        return DurationMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.struct:
+        return StructMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.value:
+        return ValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.listValue:
+        return ListValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.fieldMask:
+        return FieldMaskMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.doubleValue:
+        return DoubleValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.floatValue:
+        return FloatValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.int64Value:
+        return Int64ValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.uint64Value:
+        return UInt64ValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.int32Value:
+        return Int32ValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.uint32Value:
+        return UInt32ValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.boolValue:
+        return BoolValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.stringValue:
+        return StringValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+      case WellKnownType.bytesValue:
+        return BytesValueMixin.toProto3JsonHelper(fs._message!, typeRegistry);
+    }
+    // [WellKnownType] could be used to for messages which have special
+    // encodings in other codecs. The set of messages which special encodings in
+    // proto3json is handled here, so we intentionally fall through to the
+    // default message handling rather than throwing.
   }
 
   final result = <String, dynamic>{};
@@ -156,6 +228,56 @@ extension _FindFirst<E> on Iterable<E> {
   }
 }
 
+// Public because this is called from the mixins library.
+void mergeFromProto3JsonAny(
+  Object? json,
+  FieldSet fieldSet,
+  TypeRegistry typeRegistry,
+  JsonParsingContext context,
+) {
+  if (json is! Map<String, dynamic>) {
+    throw context.parseException('Expected JSON object', json);
+  }
+
+  final wellKnownType = fieldSet._meta._wellKnownType;
+  if (wellKnownType != null) {
+    switch (wellKnownType) {
+      case WellKnownType.any:
+      case WellKnownType.timestamp:
+      case WellKnownType.duration:
+      case WellKnownType.struct:
+      case WellKnownType.value:
+      case WellKnownType.listValue:
+      case WellKnownType.fieldMask:
+      case WellKnownType.doubleValue:
+      case WellKnownType.floatValue:
+      case WellKnownType.int64Value:
+      case WellKnownType.uint64Value:
+      case WellKnownType.int32Value:
+      case WellKnownType.uint32Value:
+      case WellKnownType.boolValue:
+      case WellKnownType.stringValue:
+      case WellKnownType.bytesValue:
+        final value = json['value'];
+        return _mergeFromProto3JsonWithContext(
+          value,
+          fieldSet,
+          typeRegistry,
+          context,
+        );
+    }
+  }
+
+  // TODO(sigurdm): avoid cloning [object] here.
+  final withoutType = Map<String, dynamic>.from(json)..remove('@type');
+  return _mergeFromProto3JsonWithContext(
+    withoutType,
+    fieldSet,
+    typeRegistry,
+    context,
+  );
+}
+
 /// Merge a JSON object representing a message in proto3 JSON format ([json])
 /// to [fieldSet].
 void _mergeFromProto3Json(
@@ -166,12 +288,23 @@ void _mergeFromProto3Json(
   bool supportNamesWithUnderscores,
   bool permissiveEnums,
 ) {
-  fieldSet._ensureWritable();
   final context = JsonParsingContext(
     ignoreUnknownFields,
     supportNamesWithUnderscores,
     permissiveEnums,
   );
+  return _mergeFromProto3JsonWithContext(json, fieldSet, typeRegistry, context);
+}
+
+/// Merge a JSON object representing a message in proto3 JSON format ([json])
+/// to [fieldSet].
+void _mergeFromProto3JsonWithContext(
+  Object? json,
+  FieldSet fieldSet,
+  TypeRegistry typeRegistry,
+  JsonParsingContext context,
+) {
+  fieldSet._ensureWritable();
 
   void recursionHelper(Object? json, FieldSet fieldSet) {
     Object? convertProto3JsonValue(Object value, FieldInfo fieldInfo) {
@@ -225,16 +358,16 @@ void _mergeFromProto3Json(
           if (value is String) {
             // TODO(sigurdm): Do we want to avoid linear search here? Measure...
             final result =
-                permissiveEnums
+                context.permissiveEnums
                     ? fieldInfo.enumValues!.findFirst(
                       (e) => permissiveCompare(e.name, value),
                     )
                     : fieldInfo.enumValues!.findFirst((e) => e.name == value);
-            if ((result != null) || ignoreUnknownFields) return result;
+            if ((result != null) || context.ignoreUnknownFields) return result;
             throw context.parseException('Unknown enum value', value);
           } else if (value is int) {
             return fieldInfo.valueOf!(value) ??
-                (ignoreUnknownFields
+                (context.ignoreUnknownFields
                     ? null
                     : (throw context.parseException(
                       'Unknown enum value',
@@ -368,99 +501,227 @@ void _mergeFromProto3Json(
     }
 
     final meta = fieldSet._meta;
-    final wellKnownConverter = meta.fromProto3Json;
-    if (wellKnownConverter != null) {
-      wellKnownConverter(fieldSet._message!, json, typeRegistry, context);
-    } else {
-      if (json is Map) {
-        final byName = meta.byName;
+    final wellKnownType = meta._wellKnownType;
+    if (wellKnownType != null) {
+      switch (wellKnownType) {
+        case WellKnownType.any:
+          AnyMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.timestamp:
+          TimestampMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.duration:
+          DurationMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.struct:
+          StructMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.value:
+          ValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.listValue:
+          ListValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.fieldMask:
+          FieldMaskMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.doubleValue:
+          DoubleValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.floatValue:
+          FloatValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.int64Value:
+          Int64ValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.uint64Value:
+          UInt64ValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.int32Value:
+          Int32ValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.uint32Value:
+          UInt32ValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.boolValue:
+          BoolValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.stringValue:
+          StringValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+        case WellKnownType.bytesValue:
+          BytesValueMixin.fromProto3JsonHelper(
+            fieldSet._message!,
+            json,
+            typeRegistry,
+            context,
+          );
+          return;
+      }
 
-        json.forEach((key, Object? value) {
-          if (value == null) {
+      // [WellKnownType] could be used to for messages which have special
+      // encodings in other codecs. The set of messages which special encodings
+      // in proto3json is handled here, so we intentionally fall through to the
+      // default message handling rather than throwing.
+    }
+
+    if (json is Map) {
+      final byName = meta.byName;
+
+      json.forEach((key, Object? value) {
+        if (value == null) {
+          return;
+        }
+        if (key is! String) {
+          throw context.parseException('Key was not a String', key);
+        }
+        context.addMapIndex(key);
+
+        var fieldInfo = byName[key];
+        if (fieldInfo == null && context.supportNamesWithUnderscores) {
+          // We don't optimize for field names with underscores, instead do a
+          // linear search for the index.
+          fieldInfo = byName.values.findFirst(
+            (FieldInfo info) => info.protoName == key,
+          );
+        }
+        if (fieldInfo == null) {
+          if (context.ignoreUnknownFields) {
             return;
+          } else {
+            throw context.parseException('Unknown field name \'$key\'', key);
           }
-          if (key is! String) {
-            throw context.parseException('Key was not a String', key);
-          }
-          context.addMapIndex(key);
+        }
 
-          var fieldInfo = byName[key];
-          if (fieldInfo == null && supportNamesWithUnderscores) {
-            // We don't optimize for field names with underscores, instead do a
-            // linear search for the index.
-            fieldInfo = byName.values.findFirst(
-              (FieldInfo info) => info.protoName == key,
-            );
-          }
-          if (fieldInfo == null) {
-            if (ignoreUnknownFields) {
-              return;
-            } else {
-              throw context.parseException('Unknown field name \'$key\'', key);
-            }
-          }
-
-          if (PbFieldType.isMapField(fieldInfo.type)) {
-            if (value is Map) {
-              final mapFieldInfo = fieldInfo as MapFieldInfo<dynamic, dynamic>;
-              final Map fieldValues = fieldSet._ensureMapField(meta, fieldInfo);
-              value.forEach((subKey, subValue) {
-                if (subKey is! String) {
-                  throw context.parseException('Expected a String key', subKey);
-                }
-                context.addMapIndex(subKey);
-                fieldValues[decodeMapKey(
-                  subKey,
-                  mapFieldInfo.keyFieldType,
-                )] = convertProto3JsonValue(
-                  subValue,
-                  mapFieldInfo.valueFieldInfo,
-                );
-                context.popIndex();
-              });
-            } else {
-              throw context.parseException('Expected a map', value);
-            }
-          } else if (PbFieldType.isRepeated(fieldInfo.type)) {
-            if (value is List) {
-              final values = fieldSet._ensureRepeatedField(meta, fieldInfo);
-              for (var i = 0; i < value.length; i++) {
-                final entry = value[i];
-                context.addListIndex(i);
-                values.add(convertProto3JsonValue(entry, fieldInfo));
-                context.popIndex();
+        if (PbFieldType.isMapField(fieldInfo.type)) {
+          if (value is Map) {
+            final mapFieldInfo = fieldInfo as MapFieldInfo<dynamic, dynamic>;
+            final Map fieldValues = fieldSet._ensureMapField(meta, fieldInfo);
+            value.forEach((subKey, subValue) {
+              if (subKey is! String) {
+                throw context.parseException('Expected a String key', subKey);
               }
-            } else {
-              throw context.parseException('Expected a list', value);
-            }
-          } else if (PbFieldType.isGroupOrMessage(fieldInfo.type)) {
-            // TODO(sigurdm) consider a cleaner separation between parsing and
-            // merging.
-            final parsedSubMessage =
-                convertProto3JsonValue(value, fieldInfo) as GeneratedMessage;
-            final GeneratedMessage? original =
-                fieldSet._values[fieldInfo.index!];
-            if (original == null) {
-              fieldSet._setNonExtensionFieldUnchecked(
-                meta,
-                fieldInfo,
-                parsedSubMessage,
-              );
-            } else {
-              original.mergeFromMessage(parsedSubMessage);
+              context.addMapIndex(subKey);
+              fieldValues[decodeMapKey(subKey, mapFieldInfo.keyFieldType)] =
+                  convertProto3JsonValue(subValue, mapFieldInfo.valueFieldInfo);
+              context.popIndex();
+            });
+          } else {
+            throw context.parseException('Expected a map', value);
+          }
+        } else if (PbFieldType.isRepeated(fieldInfo.type)) {
+          if (value is List) {
+            final values = fieldSet._ensureRepeatedField(meta, fieldInfo);
+            for (var i = 0; i < value.length; i++) {
+              final entry = value[i];
+              context.addListIndex(i);
+              values.add(convertProto3JsonValue(entry, fieldInfo));
+              context.popIndex();
             }
           } else {
-            fieldSet._setFieldUnchecked(
+            throw context.parseException('Expected a list', value);
+          }
+        } else if (PbFieldType.isGroupOrMessage(fieldInfo.type)) {
+          // TODO(sigurdm) consider a cleaner separation between parsing and
+          // merging.
+          final parsedSubMessage =
+              convertProto3JsonValue(value, fieldInfo) as GeneratedMessage;
+          final GeneratedMessage? original = fieldSet._values[fieldInfo.index!];
+          if (original == null) {
+            fieldSet._setNonExtensionFieldUnchecked(
               meta,
               fieldInfo,
-              convertProto3JsonValue(value, fieldInfo),
+              parsedSubMessage,
             );
+          } else {
+            original.mergeFromMessage(parsedSubMessage);
           }
-          context.popIndex();
-        });
-      } else {
-        throw context.parseException('Expected JSON object', json);
-      }
+        } else {
+          fieldSet._setFieldUnchecked(
+            meta,
+            fieldInfo,
+            convertProto3JsonValue(value, fieldInfo),
+          );
+        }
+        context.popIndex();
+      });
+    } else {
+      throw context.parseException('Expected JSON object', json);
     }
   }
 

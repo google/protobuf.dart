@@ -102,8 +102,7 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
       createEmptyInstance: create,
-      toProto3Json: $mixin.DurationMixin.toProto3JsonHelper,
-      fromProto3Json: $mixin.DurationMixin.fromProto3JsonHelper)
+      wellKnownType: $mixin.WellKnownType.duration)
     ..aInt64(1, _omitFieldNames ? '' : 'seconds')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'nanos', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;

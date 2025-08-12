@@ -18,6 +18,7 @@ import 'package:meta/meta.dart' show UseResult;
 import 'consts.dart';
 import 'json/json.dart' as json_lib;
 import 'json_parsing_context.dart';
+import 'mixins/well_known.dart';
 import 'permissive_compare.dart';
 import 'type_registry.dart';
 import 'utils.dart';
