@@ -223,19 +223,21 @@ class ExtensionFieldSet {
       Map.from(_values),
     );
 
+    final newValues = newExtensionFieldSet._values;
+
     for (final entry in _values.entries) {
       final tag = entry.key;
       final value = entry.value;
       final fieldInfo = _info[tag]!;
       if (fieldInfo.isMapField) {
         final PbMap? map = value;
-        _values[tag] = map?.deepCopy();
+        newValues[tag] = map?.deepCopy();
       } else if (fieldInfo.isRepeated) {
         final PbList? list = value;
-        _values[tag] = list?.deepCopy();
+        newValues[tag] = list?.deepCopy();
       } else if (fieldInfo.isGroupOrMessage) {
         final GeneratedMessage? message = value;
-        _values[tag] = message?.deepCopy();
+        newValues[tag] = message?.deepCopy();
       }
     }
 

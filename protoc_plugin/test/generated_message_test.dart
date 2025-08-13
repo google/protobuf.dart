@@ -4,6 +4,7 @@
 
 import 'package:protobuf/protobuf.dart';
 import 'package:test/test.dart';
+import 'package:fixnum/fixnum.dart';
 
 import 'gen/duplicate_names_import.pb.dart';
 import 'gen/enums.pb.dart';
@@ -876,4 +877,107 @@ void testCopy(TestAllTypes value1, TestAllTypes value2) {
   modifyRepeatedFields(value2);
 
   assertAllFieldsSet(value1);
+}
+
+/// Same as `testCopy`, but tests extension fields.
+///
+/// `value2` should be the clone of `value1`, either with `clone` or `deepCopy`.
+void testCopyExtensions(TestAllExtensions value1, TestAllExtensions value2) {
+  assertAllExtensionsSet(value2);
+  expect(value2, isNot(same(value1)));
+
+  value2.setExtension(
+    Unittest.optionalInt32Extension,
+    value2.getExtension(Unittest.optionalInt32Extension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalInt64Extension,
+    value2.getExtension(Unittest.optionalInt64Extension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalUint32Extension,
+    value2.getExtension(Unittest.optionalUint32Extension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalUint64Extension,
+    value2.getExtension(Unittest.optionalUint64Extension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalSint32Extension,
+    value2.getExtension(Unittest.optionalSint32Extension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalSint64Extension,
+    value2.getExtension(Unittest.optionalSint64Extension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalFixed32Extension,
+    value2.getExtension(Unittest.optionalFixed32Extension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalFixed64Extension,
+    value2.getExtension(Unittest.optionalFixed64Extension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalFloatExtension,
+    value2.getExtension(Unittest.optionalFloatExtension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalDoubleExtension,
+    value2.getExtension(Unittest.optionalDoubleExtension) + 1,
+  );
+  value2.setExtension(
+    Unittest.optionalBoolExtension,
+    !value2.getExtension(Unittest.optionalBoolExtension),
+  );
+  value2.setExtension(Unittest.optionalStringExtension, "hi 1");
+
+  // Same as `testCopy`, don't test `bytes` fields.
+  // value2.getExtension(Unittest.optionalBytesExtension).add(987);
+
+  value2.getExtension(Unittest.optionalGroupExtension).a += 1;
+  value2.getExtension(Unittest.optionalNestedMessageExtension).bb += 1;
+  value2.getExtension(Unittest.optionalForeignMessageExtension).c += 1;
+  value2.getExtension(Unittest.optionalImportMessageExtension).d += 1;
+  value2.setExtension(
+    Unittest.optionalNestedEnumExtension,
+    TestAllTypes_NestedEnum.BAR,
+  );
+  value2.setExtension(
+    Unittest.optionalForeignEnumExtension,
+    ForeignEnum.FOREIGN_BAR,
+  );
+  value2.setExtension(
+    Unittest.optionalImportEnumExtension,
+    ImportEnum.IMPORT_BAR,
+  );
+  value2.setExtension(Unittest.optionalStringPieceExtension, "hi 2");
+  value2.setExtension(Unittest.optionalCordExtension, "hi 3");
+
+  value2.getExtension(Unittest.repeatedInt32Extension).add(123);
+  value2.getExtension(Unittest.repeatedInt64Extension).add(Int64(123));
+  value2.getExtension(Unittest.repeatedUint32Extension).add(123);
+  value2.getExtension(Unittest.repeatedUint64Extension).add(Int64(123));
+  value2.getExtension(Unittest.repeatedSint32Extension).add(123);
+  value2.getExtension(Unittest.repeatedSint64Extension).add(Int64(123));
+  value2.getExtension(Unittest.repeatedFixed32Extension).add(123);
+  value2.getExtension(Unittest.repeatedFixed64Extension).add(Int64(123));
+  value2.getExtension(Unittest.repeatedSfixed32Extension).add(123);
+  value2.getExtension(Unittest.repeatedSfixed64Extension).add(Int64(123));
+  value2.getExtension(Unittest.repeatedFloatExtension).add(123);
+  value2.getExtension(Unittest.repeatedDoubleExtension).add(123);
+  value2.getExtension(Unittest.repeatedDoubleExtension).add(true);
+  value2.getExtension(Unittest.repeatedStringExtension).add("hi 4");
+  value2.getExtension(Unittest.repeatedBytesExtension).add(<int>[1, 2, 3]);
+  value2.getExtension(Unittest.repeatedGroupExtension).add(RepeatedGroup_extension());
+  value2.getExtension(Unittest.repeatedNestedMessageExtension).add(TestAllTypes_NestedMessage());
+  value2.getExtension(Unittest.repeatedForeignMessageExtension).add(ForeignMessage());
+  value2.getExtension(Unittest.repeatedImportMessageExtension).add(ImportMessage());
+  value2.getExtension(Unittest.repeatedNestedEnumExtension).add(TestAllTypes_NestedEnum.BAR);
+  value2.getExtension(Unittest.repeatedForeignEnumExtension).add(ForeignEnum.FOREIGN_BAR);
+  value2.getExtension(Unittest.repeatedImportEnumExtension).add(ImportEnum.IMPORT_BAR);
+  value2.getExtension(Unittest.repeatedStringPieceExtension).add("hi 5");
+  value2.getExtension(Unittest.repeatedCordExtension).add("hi 6");
+
+  assertAllExtensionsSet(value1);
 }
