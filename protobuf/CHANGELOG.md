@@ -1,5 +1,9 @@
 ## 5.0.0-wip
 
+* Improve performance of `GeneratedMessage.deepCopy`. ([#742])
+
+[#742]: https://github.com/google/protobuf.dart/pull/742
+
 ## 4.2.0
 
 * Internal refactoring to split the package into libraries. This allows
