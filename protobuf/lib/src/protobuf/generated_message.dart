@@ -48,7 +48,6 @@ abstract class GeneratedMessage {
   BuilderInfo get info_;
 
   /// Creates a deep copy of the fields in this message.
-  /// (The generated code uses [mergeFromMessage].)
   @Deprecated(
     'Using this can add significant size overhead to your binary. '
     'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '

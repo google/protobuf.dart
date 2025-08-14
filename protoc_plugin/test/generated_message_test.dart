@@ -812,6 +812,27 @@ void main() {
     assertAllExtensionsSet(value2);
   });
 
+  test('clone extensions', () {
+    final value1 = TestAllExtensions();
+    setAllExtensions(value1);
+    // ignore: deprecated_member_use_from_same_package
+    final value2 = value1.clone();
+    assertAllExtensionsSet(value2);
+  });
+
+  test('mergeFromMessage', () {
+    final value1 = getAllSet();
+    final value2 = TestAllTypes()..mergeFromMessage(value1);
+    testCopy(value1, value2);
+  });
+
+  test('mergeFromMessage extensions', () {
+    final value1 = TestAllExtensions();
+    setAllExtensions(value1);
+    final value2 = TestAllExtensions()..mergeFromMessage(value1);
+    assertAllExtensionsSet(value2);
+  });
+
   test('Handling enums defined out of order', () {
     final message = MessageWithEnums();
     for (final enum_ in DenseEnum.values) {
@@ -969,13 +990,27 @@ void testCopyExtensions(TestAllExtensions value1, TestAllExtensions value2) {
   value2.getExtension(Unittest.repeatedDoubleExtension).add(true);
   value2.getExtension(Unittest.repeatedStringExtension).add("hi 4");
   value2.getExtension(Unittest.repeatedBytesExtension).add(<int>[1, 2, 3]);
-  value2.getExtension(Unittest.repeatedGroupExtension).add(RepeatedGroup_extension());
-  value2.getExtension(Unittest.repeatedNestedMessageExtension).add(TestAllTypes_NestedMessage());
-  value2.getExtension(Unittest.repeatedForeignMessageExtension).add(ForeignMessage());
-  value2.getExtension(Unittest.repeatedImportMessageExtension).add(ImportMessage());
-  value2.getExtension(Unittest.repeatedNestedEnumExtension).add(TestAllTypes_NestedEnum.BAR);
-  value2.getExtension(Unittest.repeatedForeignEnumExtension).add(ForeignEnum.FOREIGN_BAR);
-  value2.getExtension(Unittest.repeatedImportEnumExtension).add(ImportEnum.IMPORT_BAR);
+  value2
+      .getExtension(Unittest.repeatedGroupExtension)
+      .add(RepeatedGroup_extension());
+  value2
+      .getExtension(Unittest.repeatedNestedMessageExtension)
+      .add(TestAllTypes_NestedMessage());
+  value2
+      .getExtension(Unittest.repeatedForeignMessageExtension)
+      .add(ForeignMessage());
+  value2
+      .getExtension(Unittest.repeatedImportMessageExtension)
+      .add(ImportMessage());
+  value2
+      .getExtension(Unittest.repeatedNestedEnumExtension)
+      .add(TestAllTypes_NestedEnum.BAR);
+  value2
+      .getExtension(Unittest.repeatedForeignEnumExtension)
+      .add(ForeignEnum.FOREIGN_BAR);
+  value2
+      .getExtension(Unittest.repeatedImportEnumExtension)
+      .add(ImportEnum.IMPORT_BAR);
   value2.getExtension(Unittest.repeatedStringPieceExtension).add("hi 5");
   value2.getExtension(Unittest.repeatedCordExtension).add("hi 6");
 
