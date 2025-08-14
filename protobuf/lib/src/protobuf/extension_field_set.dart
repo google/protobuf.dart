@@ -216,7 +216,7 @@ class ExtensionFieldSet {
     }
   }
 
-  ExtensionFieldSet deepCopy(FieldSet parent) {
+  ExtensionFieldSet _deepCopy(FieldSet parent) {
     final newExtensionFieldSet = ExtensionFieldSet._(
       parent,
       Map.from(_info),
@@ -231,10 +231,10 @@ class ExtensionFieldSet {
       final fieldInfo = _info[tag]!;
       if (fieldInfo.isMapField) {
         final PbMap? map = value;
-        newValues[tag] = map?.deepCopy();
+        newValues[tag] = map?._deepCopy();
       } else if (fieldInfo.isRepeated) {
         final PbList? list = value;
-        newValues[tag] = list?.deepCopy();
+        newValues[tag] = list?._deepCopy();
       } else if (fieldInfo.isGroupOrMessage) {
         final GeneratedMessage? message = value;
         newValues[tag] = message?.deepCopy();

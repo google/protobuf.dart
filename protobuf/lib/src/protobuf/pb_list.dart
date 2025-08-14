@@ -235,7 +235,7 @@ class PbList<E> extends ListBase<E> {
     throw UnsupportedError("'$methodName' on a read-only list");
   }
 
-  PbList<E> deepCopy() {
+  PbList<E> _deepCopy() {
     final newList = PbList<E>(check: _check);
     final wrappedList = _wrappedList;
     final newWrappedList = newList._wrappedList;

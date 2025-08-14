@@ -937,11 +937,11 @@ class FieldSet {
       if (fieldInfo.isMapField) {
         final PbMap? originalMap = original._values[index];
         if (originalMap == null) continue;
-        _values[index] = originalMap.deepCopy();
+        _values[index] = originalMap._deepCopy();
       } else if (fieldInfo.isRepeated) {
         final PbList? originalList = original._values[index];
         if (originalList == null) continue;
-        _values[index] = originalList.deepCopy();
+        _values[index] = originalList._deepCopy();
       } else if (fieldInfo.isGroupOrMessage) {
         final GeneratedMessage? message = original._values[index];
         _values[index] = message?.deepCopy();
@@ -953,13 +953,13 @@ class FieldSet {
     assert(_extensions == null);
     final originalExtensions = original._extensions;
     if (originalExtensions != null) {
-      _extensions = originalExtensions.deepCopy(this);
+      _extensions = originalExtensions._deepCopy(this);
     }
 
     assert(_unknownFields == null);
     final originalUnknownFields = original._unknownFields;
     if (originalUnknownFields != null) {
-      _unknownFields = originalUnknownFields.deepCopy();
+      _unknownFields = originalUnknownFields._deepCopy();
     }
 
     assert(_unknownJsonData == null);

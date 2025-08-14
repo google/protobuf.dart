@@ -132,7 +132,7 @@ class PbMap<K, V> extends MapBase<K, V> {
     return this;
   }
 
-  PbMap<K, V> deepCopy() {
+  PbMap<K, V> _deepCopy() {
     final newMap = PbMap<K, V>(keyFieldType, valueFieldType);
     final wrappedMap = _wrappedMap;
     final newWrappedMap = newMap._wrappedMap;

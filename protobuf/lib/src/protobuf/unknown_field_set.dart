@@ -200,12 +200,12 @@ class UnknownFieldSet {
     }
   }
 
-  UnknownFieldSet deepCopy() {
+  UnknownFieldSet _deepCopy() {
     Map<int, UnknownFieldSetField> newFields = {};
     for (final entry in _fields.entries) {
       final key = entry.key;
       final value = entry.value;
-      newFields[key] = value.deepCopy();
+      newFields[key] = value._deepCopy();
     }
     return UnknownFieldSet._(newFields);
   }
@@ -339,7 +339,7 @@ class UnknownFieldSetField {
     varints.add(value);
   }
 
-  UnknownFieldSetField deepCopy() {
+  UnknownFieldSetField _deepCopy() {
     final List<List<int>> newLengthDelimited = List.from(_lengthDelimited);
     final List<Int64> newVarints = List.from(_varints);
     final List<int> newFixed32s = List.from(_fixed32s);
@@ -347,7 +347,7 @@ class UnknownFieldSetField {
 
     final List<UnknownFieldSet> newGroups = [];
     for (final group in _groups) {
-      newGroups.add(group.deepCopy());
+      newGroups.add(group._deepCopy());
     }
 
     return UnknownFieldSetField._(
