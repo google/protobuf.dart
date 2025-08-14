@@ -36,7 +36,7 @@ class Int64 extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Int64 clone() => Int64()..mergeFromMessage(this);
+  Int64 clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Int64 copyWith(void Function(Int64) updates) =>
       super.copyWith((message) => updates(message as Int64)) as Int64;

@@ -404,7 +404,7 @@ class RoutingRule extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  RoutingRule clone() => RoutingRule()..mergeFromMessage(this);
+  RoutingRule clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   RoutingRule copyWith(void Function(RoutingRule) updates) =>
       super.copyWith((message) => updates(message as RoutingRule))
@@ -463,7 +463,7 @@ class RoutingParameter extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  RoutingParameter clone() => RoutingParameter()..mergeFromMessage(this);
+  RoutingParameter clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   RoutingParameter copyWith(void Function(RoutingParameter) updates) =>
       super.copyWith((message) => updates(message as RoutingParameter))

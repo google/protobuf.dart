@@ -58,7 +58,7 @@ class Version extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Version clone() => Version()..mergeFromMessage(this);
+  Version clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Version copyWith(void Function(Version) updates) =>
       super.copyWith((message) => updates(message as Version)) as Version;
@@ -160,8 +160,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
         subBuilder: $0.FileDescriptorProto.create);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CodeGeneratorRequest clone() =>
-      CodeGeneratorRequest()..mergeFromMessage(this);
+  CodeGeneratorRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CodeGeneratorRequest copyWith(void Function(CodeGeneratorRequest) updates) =>
       super.copyWith((message) => updates(message as CodeGeneratorRequest))
@@ -276,8 +275,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CodeGeneratorResponse_File clone() =>
-      CodeGeneratorResponse_File()..mergeFromMessage(this);
+  CodeGeneratorResponse_File clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CodeGeneratorResponse_File copyWith(
           void Function(CodeGeneratorResponse_File) updates) =>
@@ -436,8 +434,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CodeGeneratorResponse clone() =>
-      CodeGeneratorResponse()..mergeFromMessage(this);
+  CodeGeneratorResponse clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CodeGeneratorResponse copyWith(
           void Function(CodeGeneratorResponse) updates) =>

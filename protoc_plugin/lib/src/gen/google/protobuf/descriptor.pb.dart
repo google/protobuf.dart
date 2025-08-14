@@ -52,7 +52,7 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FileDescriptorSet clone() => FileDescriptorSet()..mergeFromMessage(this);
+  FileDescriptorSet clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FileDescriptorSet copyWith(void Function(FileDescriptorSet) updates) =>
       super.copyWith((message) => updates(message as FileDescriptorSet))
@@ -159,7 +159,7 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
     ..pPS(15, _omitFieldNames ? '' : 'optionDependency');
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FileDescriptorProto clone() => FileDescriptorProto()..mergeFromMessage(this);
+  FileDescriptorProto clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FileDescriptorProto copyWith(void Function(FileDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as FileDescriptorProto))
@@ -317,8 +317,7 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
         subBuilder: ExtensionRangeOptions.create);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  DescriptorProto_ExtensionRange clone() =>
-      DescriptorProto_ExtensionRange()..mergeFromMessage(this);
+  DescriptorProto_ExtensionRange clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   DescriptorProto_ExtensionRange copyWith(
           void Function(DescriptorProto_ExtensionRange) updates) =>
@@ -404,8 +403,7 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  DescriptorProto_ReservedRange clone() =>
-      DescriptorProto_ReservedRange()..mergeFromMessage(this);
+  DescriptorProto_ReservedRange clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   DescriptorProto_ReservedRange copyWith(
           void Function(DescriptorProto_ReservedRange) updates) =>
@@ -523,7 +521,7 @@ class DescriptorProto extends $pb.GeneratedMessage {
         enumValues: SymbolVisibility.values);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  DescriptorProto clone() => DescriptorProto()..mergeFromMessage(this);
+  DescriptorProto clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   DescriptorProto copyWith(void Function(DescriptorProto) updates) =>
       super.copyWith((message) => updates(message as DescriptorProto))
@@ -640,8 +638,7 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ExtensionRangeOptions_Declaration clone() =>
-      ExtensionRangeOptions_Declaration()..mergeFromMessage(this);
+  ExtensionRangeOptions_Declaration clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ExtensionRangeOptions_Declaration copyWith(
           void Function(ExtensionRangeOptions_Declaration) updates) =>
@@ -768,8 +765,7 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ExtensionRangeOptions clone() =>
-      ExtensionRangeOptions()..mergeFromMessage(this);
+  ExtensionRangeOptions clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ExtensionRangeOptions copyWith(
           void Function(ExtensionRangeOptions) updates) =>
@@ -892,8 +888,7 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
     ..aOB(17, _omitFieldNames ? '' : 'proto3Optional');
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FieldDescriptorProto clone() =>
-      FieldDescriptorProto()..mergeFromMessage(this);
+  FieldDescriptorProto clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FieldDescriptorProto copyWith(void Function(FieldDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as FieldDescriptorProto))
@@ -1086,8 +1081,7 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
         subBuilder: OneofOptions.create);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  OneofDescriptorProto clone() =>
-      OneofDescriptorProto()..mergeFromMessage(this);
+  OneofDescriptorProto clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   OneofDescriptorProto copyWith(void Function(OneofDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as OneofDescriptorProto))
@@ -1165,8 +1159,7 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  EnumDescriptorProto_EnumReservedRange clone() =>
-      EnumDescriptorProto_EnumReservedRange()..mergeFromMessage(this);
+  EnumDescriptorProto_EnumReservedRange clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   EnumDescriptorProto_EnumReservedRange copyWith(
           void Function(EnumDescriptorProto_EnumReservedRange) updates) =>
@@ -1260,7 +1253,7 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
         enumValues: SymbolVisibility.values);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  EnumDescriptorProto clone() => EnumDescriptorProto()..mergeFromMessage(this);
+  EnumDescriptorProto clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   EnumDescriptorProto copyWith(void Function(EnumDescriptorProto) updates) =>
       super.copyWith((message) => updates(message as EnumDescriptorProto))
@@ -1360,8 +1353,7 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
         subBuilder: EnumValueOptions.create);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  EnumValueDescriptorProto clone() =>
-      EnumValueDescriptorProto()..mergeFromMessage(this);
+  EnumValueDescriptorProto clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   EnumValueDescriptorProto copyWith(
           void Function(EnumValueDescriptorProto) updates) =>
@@ -1448,8 +1440,7 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
         subBuilder: ServiceOptions.create);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ServiceDescriptorProto clone() =>
-      ServiceDescriptorProto()..mergeFromMessage(this);
+  ServiceDescriptorProto clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ServiceDescriptorProto copyWith(
           void Function(ServiceDescriptorProto) updates) =>
@@ -1537,8 +1528,7 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
     ..aOB(6, _omitFieldNames ? '' : 'serverStreaming');
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MethodDescriptorProto clone() =>
-      MethodDescriptorProto()..mergeFromMessage(this);
+  MethodDescriptorProto clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MethodDescriptorProto copyWith(
           void Function(MethodDescriptorProto) updates) =>
@@ -1723,7 +1713,7 @@ class FileOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FileOptions clone() => FileOptions()..mergeFromMessage(this);
+  FileOptions clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FileOptions copyWith(void Function(FileOptions) updates) =>
       super.copyWith((message) => updates(message as FileOptions))
@@ -2057,7 +2047,7 @@ class MessageOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MessageOptions clone() => MessageOptions()..mergeFromMessage(this);
+  MessageOptions clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MessageOptions copyWith(void Function(MessageOptions) updates) =>
       super.copyWith((message) => updates(message as MessageOptions))
@@ -2236,8 +2226,7 @@ class FieldOptions_EditionDefault extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FieldOptions_EditionDefault clone() =>
-      FieldOptions_EditionDefault()..mergeFromMessage(this);
+  FieldOptions_EditionDefault clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FieldOptions_EditionDefault copyWith(
           void Function(FieldOptions_EditionDefault) updates) =>
@@ -2328,8 +2317,7 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FieldOptions_FeatureSupport clone() =>
-      FieldOptions_FeatureSupport()..mergeFromMessage(this);
+  FieldOptions_FeatureSupport clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FieldOptions_FeatureSupport copyWith(
           void Function(FieldOptions_FeatureSupport) updates) =>
@@ -2489,7 +2477,7 @@ class FieldOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FieldOptions clone() => FieldOptions()..mergeFromMessage(this);
+  FieldOptions clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FieldOptions copyWith(void Function(FieldOptions) updates) =>
       super.copyWith((message) => updates(message as FieldOptions))
@@ -2719,7 +2707,7 @@ class OneofOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  OneofOptions clone() => OneofOptions()..mergeFromMessage(this);
+  OneofOptions clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   OneofOptions copyWith(void Function(OneofOptions) updates) =>
       super.copyWith((message) => updates(message as OneofOptions))
@@ -2805,7 +2793,7 @@ class EnumOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  EnumOptions clone() => EnumOptions()..mergeFromMessage(this);
+  EnumOptions clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   EnumOptions copyWith(void Function(EnumOptions) updates) =>
       super.copyWith((message) => updates(message as EnumOptions))
@@ -2933,7 +2921,7 @@ class EnumValueOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  EnumValueOptions clone() => EnumValueOptions()..mergeFromMessage(this);
+  EnumValueOptions clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   EnumValueOptions copyWith(void Function(EnumValueOptions) updates) =>
       super.copyWith((message) => updates(message as EnumValueOptions))
@@ -3047,7 +3035,7 @@ class ServiceOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ServiceOptions clone() => ServiceOptions()..mergeFromMessage(this);
+  ServiceOptions clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ServiceOptions copyWith(void Function(ServiceOptions) updates) =>
       super.copyWith((message) => updates(message as ServiceOptions))
@@ -3144,7 +3132,7 @@ class MethodOptions extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MethodOptions clone() => MethodOptions()..mergeFromMessage(this);
+  MethodOptions clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MethodOptions copyWith(void Function(MethodOptions) updates) =>
       super.copyWith((message) => updates(message as MethodOptions))
@@ -3242,8 +3230,7 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
         2, _omitFieldNames ? '' : 'isExtension', $pb.PbFieldType.QB);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  UninterpretedOption_NamePart clone() =>
-      UninterpretedOption_NamePart()..mergeFromMessage(this);
+  UninterpretedOption_NamePart clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   UninterpretedOption_NamePart copyWith(
           void Function(UninterpretedOption_NamePart) updates) =>
@@ -3341,7 +3328,7 @@ class UninterpretedOption extends $pb.GeneratedMessage {
     ..aOS(8, _omitFieldNames ? '' : 'aggregateValue');
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  UninterpretedOption clone() => UninterpretedOption()..mergeFromMessage(this);
+  UninterpretedOption clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   UninterpretedOption copyWith(void Function(UninterpretedOption) updates) =>
       super.copyWith((message) => updates(message as UninterpretedOption))
@@ -3441,8 +3428,7 @@ class FeatureSet_VisibilityFeature extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FeatureSet_VisibilityFeature clone() =>
-      FeatureSet_VisibilityFeature()..mergeFromMessage(this);
+  FeatureSet_VisibilityFeature clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FeatureSet_VisibilityFeature copyWith(
           void Function(FeatureSet_VisibilityFeature) updates) =>
@@ -3559,7 +3545,7 @@ class FeatureSet extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FeatureSet clone() => FeatureSet()..mergeFromMessage(this);
+  FeatureSet clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FeatureSet copyWith(void Function(FeatureSet) updates) =>
       super.copyWith((message) => updates(message as FeatureSet)) as FeatureSet;
@@ -3699,8 +3685,7 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
         subBuilder: FeatureSet.create);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FeatureSetDefaults_FeatureSetEditionDefault clone() =>
-      FeatureSetDefaults_FeatureSetEditionDefault()..mergeFromMessage(this);
+  FeatureSetDefaults_FeatureSetEditionDefault clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FeatureSetDefaults_FeatureSetEditionDefault copyWith(
           void Function(FeatureSetDefaults_FeatureSetEditionDefault) updates) =>
@@ -3803,7 +3788,7 @@ class FeatureSetDefaults extends $pb.GeneratedMessage {
         enumValues: Edition.values);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  FeatureSetDefaults clone() => FeatureSetDefaults()..mergeFromMessage(this);
+  FeatureSetDefaults clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   FeatureSetDefaults copyWith(void Function(FeatureSetDefaults) updates) =>
       super.copyWith((message) => updates(message as FeatureSetDefaults))
@@ -3890,8 +3875,7 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  SourceCodeInfo_Location clone() =>
-      SourceCodeInfo_Location()..mergeFromMessage(this);
+  SourceCodeInfo_Location clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SourceCodeInfo_Location copyWith(
           void Function(SourceCodeInfo_Location) updates) =>
@@ -4046,7 +4030,7 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
     ..hasExtensions = true;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  SourceCodeInfo clone() => SourceCodeInfo()..mergeFromMessage(this);
+  SourceCodeInfo clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SourceCodeInfo copyWith(void Function(SourceCodeInfo) updates) =>
       super.copyWith((message) => updates(message as SourceCodeInfo))
@@ -4156,8 +4140,7 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GeneratedCodeInfo_Annotation clone() =>
-      GeneratedCodeInfo_Annotation()..mergeFromMessage(this);
+  GeneratedCodeInfo_Annotation clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GeneratedCodeInfo_Annotation copyWith(
           void Function(GeneratedCodeInfo_Annotation) updates) =>
@@ -4261,7 +4244,7 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GeneratedCodeInfo clone() => GeneratedCodeInfo()..mergeFromMessage(this);
+  GeneratedCodeInfo clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GeneratedCodeInfo copyWith(void Function(GeneratedCodeInfo) updates) =>
       super.copyWith((message) => updates(message as GeneratedCodeInfo))

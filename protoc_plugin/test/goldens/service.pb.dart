@@ -35,7 +35,7 @@ class Empty extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Empty clone() => Empty()..mergeFromMessage(this);
+  Empty clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Empty copyWith(void Function(Empty) updates) =>
       super.copyWith((message) => updates(message as Empty)) as Empty;

@@ -39,7 +39,7 @@ class M extends $pb.GeneratedMessage {
         ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  M clone() => M()..mergeFromMessage(this);
+  M clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   M copyWith(void Function(M) updates) =>
       super.copyWith((message) => updates(message as M)) as M;

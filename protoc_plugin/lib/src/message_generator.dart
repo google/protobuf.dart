@@ -474,7 +474,7 @@ class MessageGenerator extends ProtobufContainer {
           "'See https://github.com/google/protobuf.dart/issues/998.')",
         );
         out.println(
-          '$classname clone() => $classname()..mergeFromMessage(this);',
+          '$classname clone() => deepCopy();',
         );
         out.println(
           '@$coreImportPrefix.Deprecated('
