@@ -46,7 +46,7 @@ class HelloRequest extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  HelloRequest clone() => HelloRequest()..mergeFromMessage(this);
+  HelloRequest clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   HelloRequest copyWith(void Function(HelloRequest) updates) =>
       super.copyWith((message) => updates(message as HelloRequest))
@@ -106,7 +106,7 @@ class HelloReply extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  HelloReply clone() => HelloReply()..mergeFromMessage(this);
+  HelloReply clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   HelloReply copyWith(void Function(HelloReply) updates) =>
       super.copyWith((message) => updates(message as HelloReply)) as HelloReply;

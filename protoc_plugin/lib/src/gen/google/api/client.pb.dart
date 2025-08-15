@@ -64,8 +64,7 @@ class CommonLanguageSettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CommonLanguageSettings clone() =>
-      CommonLanguageSettings()..mergeFromMessage(this);
+  CommonLanguageSettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CommonLanguageSettings copyWith(
           void Function(CommonLanguageSettings) updates) =>
@@ -188,8 +187,7 @@ class ClientLibrarySettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  ClientLibrarySettings clone() =>
-      ClientLibrarySettings()..mergeFromMessage(this);
+  ClientLibrarySettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   ClientLibrarySettings copyWith(
           void Function(ClientLibrarySettings) updates) =>
@@ -411,7 +409,7 @@ class Publishing extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Publishing clone() => Publishing()..mergeFromMessage(this);
+  Publishing clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Publishing copyWith(void Function(Publishing) updates) =>
       super.copyWith((message) => updates(message as Publishing)) as Publishing;
@@ -576,7 +574,7 @@ class JavaSettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  JavaSettings clone() => JavaSettings()..mergeFromMessage(this);
+  JavaSettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   JavaSettings copyWith(void Function(JavaSettings) updates) =>
       super.copyWith((message) => updates(message as JavaSettings))
@@ -674,7 +672,7 @@ class CppSettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CppSettings clone() => CppSettings()..mergeFromMessage(this);
+  CppSettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CppSettings copyWith(void Function(CppSettings) updates) =>
       super.copyWith((message) => updates(message as CppSettings))
@@ -734,7 +732,7 @@ class PhpSettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  PhpSettings clone() => PhpSettings()..mergeFromMessage(this);
+  PhpSettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PhpSettings copyWith(void Function(PhpSettings) updates) =>
       super.copyWith((message) => updates(message as PhpSettings))
@@ -805,8 +803,7 @@ class PythonSettings_ExperimentalFeatures extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  PythonSettings_ExperimentalFeatures clone() =>
-      PythonSettings_ExperimentalFeatures()..mergeFromMessage(this);
+  PythonSettings_ExperimentalFeatures clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PythonSettings_ExperimentalFeatures copyWith(
           void Function(PythonSettings_ExperimentalFeatures) updates) =>
@@ -904,7 +901,7 @@ class PythonSettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  PythonSettings clone() => PythonSettings()..mergeFromMessage(this);
+  PythonSettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PythonSettings copyWith(void Function(PythonSettings) updates) =>
       super.copyWith((message) => updates(message as PythonSettings))
@@ -979,7 +976,7 @@ class NodeSettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  NodeSettings clone() => NodeSettings()..mergeFromMessage(this);
+  NodeSettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   NodeSettings copyWith(void Function(NodeSettings) updates) =>
       super.copyWith((message) => updates(message as NodeSettings))
@@ -1070,7 +1067,7 @@ class DotnetSettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  DotnetSettings clone() => DotnetSettings()..mergeFromMessage(this);
+  DotnetSettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   DotnetSettings copyWith(void Function(DotnetSettings) updates) =>
       super.copyWith((message) => updates(message as DotnetSettings))
@@ -1166,7 +1163,7 @@ class RubySettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  RubySettings clone() => RubySettings()..mergeFromMessage(this);
+  RubySettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   RubySettings copyWith(void Function(RubySettings) updates) =>
       super.copyWith((message) => updates(message as RubySettings))
@@ -1235,7 +1232,7 @@ class GoSettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  GoSettings clone() => GoSettings()..mergeFromMessage(this);
+  GoSettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   GoSettings copyWith(void Function(GoSettings) updates) =>
       super.copyWith((message) => updates(message as GoSettings)) as GoSettings;
@@ -1322,8 +1319,7 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MethodSettings_LongRunning clone() =>
-      MethodSettings_LongRunning()..mergeFromMessage(this);
+  MethodSettings_LongRunning clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MethodSettings_LongRunning copyWith(
           void Function(MethodSettings_LongRunning) updates) =>
@@ -1432,7 +1428,7 @@ class MethodSettings extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MethodSettings clone() => MethodSettings()..mergeFromMessage(this);
+  MethodSettings clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   MethodSettings copyWith(void Function(MethodSettings) updates) =>
       super.copyWith((message) => updates(message as MethodSettings))
@@ -1542,8 +1538,7 @@ class SelectiveGapicGeneration extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  SelectiveGapicGeneration clone() =>
-      SelectiveGapicGeneration()..mergeFromMessage(this);
+  SelectiveGapicGeneration clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   SelectiveGapicGeneration copyWith(
           void Function(SelectiveGapicGeneration) updates) =>
