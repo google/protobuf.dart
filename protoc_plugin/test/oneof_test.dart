@@ -174,15 +174,11 @@ void main() {
   test('copyWith preserves oneof state', () {
     final foo = Foo();
     expectOneofNotSet(foo);
-    // `ignore` below to work around https://github.com/dart-lang/sdk/issues/48879
-    final copy1 =
-        foo.deepCopy().freeze().rebuild((_) {}) as Foo; // ignore: unused_result
+    final copy1 = foo.deepCopy().freeze().rebuild((_) {}) as Foo;
     expectOneofNotSet(copy1);
     foo.first = 'oneof';
     expectFirstSet(foo);
-    // `ignore` below to work around https://github.com/dart-lang/sdk/issues/48879
-    final copy2 =
-        foo.deepCopy().freeze().rebuild((_) {}) as Foo; // ignore: unused_result
+    final copy2 = foo.deepCopy();
     expectFirstSet(copy2);
   });
 

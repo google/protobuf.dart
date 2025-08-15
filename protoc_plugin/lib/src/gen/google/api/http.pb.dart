@@ -50,7 +50,7 @@ class Http extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Http clone() => Http()..mergeFromMessage(this);
+  Http clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Http copyWith(void Function(Http) updates) =>
       super.copyWith((message) => updates(message as Http)) as Http;
@@ -423,7 +423,7 @@ class HttpRule extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  HttpRule clone() => HttpRule()..mergeFromMessage(this);
+  HttpRule clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   HttpRule copyWith(void Function(HttpRule) updates) =>
       super.copyWith((message) => updates(message as HttpRule)) as HttpRule;
@@ -590,7 +590,7 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CustomHttpPattern clone() => CustomHttpPattern()..mergeFromMessage(this);
+  CustomHttpPattern clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CustomHttpPattern copyWith(void Function(CustomHttpPattern) updates) =>
       super.copyWith((message) => updates(message as CustomHttpPattern))

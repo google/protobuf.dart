@@ -108,7 +108,7 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Duration clone() => Duration()..mergeFromMessage(this);
+  Duration clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Duration copyWith(void Function(Duration) updates) =>
       super.copyWith((message) => updates(message as Duration)) as Duration;
