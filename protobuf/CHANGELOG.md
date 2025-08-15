@@ -1,8 +1,11 @@
 ## 5.0.0-wip
 
 * Improve performance of `GeneratedMessage.deepCopy`. ([#742])
+* Fix unknown enum handling in `GeneratedMessage.mergeFromProto3Json` when
+  `ignoreUnknownFields` optional arguments is `true`. ([#853])
 
 [#742]: https://github.com/google/protobuf.dart/pull/742
+[#853]: https://github.com/google/protobuf.dart/pull/853
 
 ## 4.2.0
 
