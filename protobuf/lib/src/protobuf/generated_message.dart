@@ -48,7 +48,6 @@ abstract class GeneratedMessage {
   BuilderInfo get info_;
 
   /// Creates a deep copy of the fields in this message.
-  /// (The generated code uses [mergeFromMessage].)
   @Deprecated(
     'Using this can add significant size overhead to your binary. '
     'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -625,7 +624,11 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
     '[GeneratedMessageGenericExtensions.deepCopy] '
     'does not update the message, returns a new message',
   )
-  T deepCopy() => info_.createEmptyInstance!() as T..mergeFromMessage(this);
+  T deepCopy() {
+    final newMessage = info_.createEmptyInstance!();
+    newMessage._fieldSet._deepCopyFrom(_fieldSet);
+    return newMessage as T;
+  }
 }
 
 extension GeneratedMessageInternalExtension on GeneratedMessage {

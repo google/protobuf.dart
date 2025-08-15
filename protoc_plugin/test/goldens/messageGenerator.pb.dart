@@ -14,7 +14,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   ;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  PhoneNumber clone() => PhoneNumber()..mergeFromMessage(this);
+  PhoneNumber clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber)) as PhoneNumber;
 

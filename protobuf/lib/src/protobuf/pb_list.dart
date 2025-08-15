@@ -234,4 +234,20 @@ class PbList<E> extends ListBase<E> {
   static Never _readOnlyError(String methodName) {
     throw UnsupportedError("'$methodName' on a read-only list");
   }
+
+  PbList<E> _deepCopy() {
+    final newList = PbList<E>(check: _check);
+    final wrappedList = _wrappedList;
+    final newWrappedList = newList._wrappedList;
+    if (wrappedList.isNotEmpty) {
+      if (wrappedList[0] is GeneratedMessage) {
+        for (final message in wrappedList) {
+          newWrappedList.add((message as GeneratedMessage).deepCopy() as E);
+        }
+      } else {
+        newWrappedList.addAll(wrappedList);
+      }
+    }
+    return newList;
+  }
 }
