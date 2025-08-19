@@ -307,6 +307,8 @@ void _mergeFromProto3JsonWithContext(
   fieldSet._ensureWritable();
 
   void recursionHelper(Object? json, FieldSet fieldSet) {
+    // Convert a JSON object to proto object. Returns `null` on unknown enum
+    // values when [ignoreUnknownFields] is [true].
     Object? convertProto3JsonValue(Object value, FieldInfo fieldInfo) {
       final fieldType = fieldInfo.type;
       switch (PbFieldType.baseType(fieldType)) {
@@ -317,16 +319,14 @@ void _mergeFromProto3JsonWithContext(
           throw context.parseException('Expected bool value', json);
         case PbFieldType.BYTES_BIT:
           if (value is String) {
-            Uint8List result;
             try {
-              result = base64Decode(value);
+              return base64Decode(value);
             } on FormatException {
               throw context.parseException(
                 'Expected bytes encoded as base64 String',
                 json,
               );
             }
-            return result;
           }
           throw context.parseException(
             'Expected bytes encoded as base64 String',
@@ -427,16 +427,14 @@ void _mergeFromProto3JsonWithContext(
         case PbFieldType.SFIXED64_BIT:
           if (value is int) return Int64(value);
           if (value is String) {
-            Int64 result;
             try {
-              result = Int64.parseInt(value);
+              return Int64.parseInt(value);
             } on FormatException {
               throw context.parseException(
                 'Expected int or stringified int',
                 value,
               );
             }
-            return result;
           }
           throw context.parseException(
             'Expected int or stringified int',
@@ -677,8 +675,14 @@ void _mergeFromProto3JsonWithContext(
                 throw context.parseException('Expected a String key', subKey);
               }
               context.addMapIndex(subKey);
-              fieldValues[decodeMapKey(subKey, mapFieldInfo.keyFieldType)] =
-                  convertProto3JsonValue(subValue, mapFieldInfo.valueFieldInfo);
+              final key = decodeMapKey(subKey, mapFieldInfo.keyFieldType);
+              final value = convertProto3JsonValue(
+                subValue,
+                mapFieldInfo.valueFieldInfo,
+              );
+              if (value != null) {
+                fieldValues[key] = value;
+              }
               context.popIndex();
             });
           } else {
@@ -690,7 +694,10 @@ void _mergeFromProto3JsonWithContext(
             for (var i = 0; i < value.length; i++) {
               final entry = value[i];
               context.addListIndex(i);
-              values.add(convertProto3JsonValue(entry, fieldInfo));
+              final parsedValue = convertProto3JsonValue(entry, fieldInfo);
+              if (parsedValue != null) {
+                values.add(parsedValue);
+              }
               context.popIndex();
             }
           } else {
@@ -712,11 +719,15 @@ void _mergeFromProto3JsonWithContext(
             original.mergeFromMessage(parsedSubMessage);
           }
         } else {
-          fieldSet._setFieldUnchecked(
-            meta,
-            fieldInfo,
-            convertProto3JsonValue(value, fieldInfo),
-          );
+          final parsedValue = convertProto3JsonValue(value, fieldInfo);
+          if (parsedValue == null) {
+            // Unknown enum
+            if (!context.ignoreUnknownFields) {
+              throw context.parseException('Unknown enum value', value);
+            }
+          } else {
+            fieldSet._setFieldUnchecked(meta, fieldInfo, parsedValue);
+          }
         }
         context.popIndex();
       });
