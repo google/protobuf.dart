@@ -3,3 +3,4 @@
 pubspec.lock
 
 lib/generated/
+out/
