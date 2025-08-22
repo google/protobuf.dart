@@ -11,6 +11,11 @@ import 'package:protobuf_benchmarks/generated/google_message1_proto3.pb.dart'
     as p3;
 import 'package:protobuf_benchmarks/generated/google_message2.pb.dart';
 import 'package:protobuf_benchmarks/readfile.dart';
+import 'package:protobuf/protobuf.dart';
+
+GeneratedMessage? sink1;
+GeneratedMessage? sink2;
+GeneratedMessage? sink3;
 
 class Benchmark extends BenchmarkBase {
   final Uint8List _message1Proto2Input;
@@ -28,9 +33,9 @@ class Benchmark extends BenchmarkBase {
 
   @override
   void run() {
-    p2.GoogleMessage1.fromBuffer(_message1Proto2Input);
-    p3.GoogleMessage1.fromBuffer(_message1Proto3Input);
-    GoogleMessage2.fromBuffer(_message2Input);
+    sink1 = p2.GoogleMessage1.fromBuffer(_message1Proto2Input);
+    sink2 = p3.GoogleMessage1.fromBuffer(_message1Proto3Input);
+    sink3 = GoogleMessage2.fromBuffer(_message2Input);
   }
 }
 
@@ -48,4 +53,10 @@ void main() {
     message1Proto3Input,
     message2Input,
   ).report();
+
+  if (int.parse('1') == 0) {
+    print(sink1);
+    print(sink2);
+    print(sink3);
+  }
 }
