@@ -6,6 +6,8 @@ import 'package:protobuf_benchmarks/benchmark_base.dart';
 import 'package:protobuf_benchmarks/generated/f0.pb.dart' as f0;
 import 'package:protobuf_benchmarks/readfile.dart';
 
+String? sink;
+
 class Benchmark extends BenchmarkBase {
   final f0.A0 _input;
 
@@ -13,11 +15,15 @@ class Benchmark extends BenchmarkBase {
 
   @override
   void run() {
-    _input.writeToJson();
+    sink = _input.writeToJson();
   }
 }
 
 void main() {
   final List<int> encoded = readfile('datasets/query_benchmark.pb');
   Benchmark('query_encode_json', encoded).report();
+
+  if (int.parse('1') == 0) {
+    print(sink);
+  }
 }
