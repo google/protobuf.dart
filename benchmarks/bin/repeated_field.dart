@@ -8,6 +8,9 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf_benchmarks/benchmark_base.dart';
 import 'package:protobuf_benchmarks/generated/f12.pb.dart' as f12;
 import 'package:protobuf_benchmarks/generated/google_message2.pb.dart';
+import 'package:protobuf/protobuf.dart';
+
+GeneratedMessage? sink;
 
 class RepeatedBenchmark extends BenchmarkBase {
   final Uint8List _buffer;
@@ -16,7 +19,9 @@ class RepeatedBenchmark extends BenchmarkBase {
     : _buffer = message.writeToBuffer();
 
   @override
-  void run() => GoogleMessage2.fromBuffer(_buffer);
+  void run() {
+    sink = GoogleMessage2.fromBuffer(_buffer);
+  }
 }
 
 class RepeatedEnumBenchmark extends BenchmarkBase {
@@ -26,7 +31,9 @@ class RepeatedEnumBenchmark extends BenchmarkBase {
     : _buffer = message.writeToBuffer();
 
   @override
-  void run() => f12.A58.fromBuffer(_buffer);
+  void run() {
+    sink = f12.A58.fromBuffer(_buffer);
+  }
 }
 
 void main() {
@@ -46,4 +53,8 @@ void main() {
     'repeated_enum',
     f12.A58(a306: List<f12.A322>.generate(kSize, (_) => f12.A322.A324)),
   ).report();
+
+  if (int.parse('1') == 0) {
+    print(sink);
+  }
 }

@@ -9,6 +9,8 @@ import 'package:protobuf_benchmarks/generated/f19.pb.dart' as f19;
 import 'package:protobuf_benchmarks/generated/f2.pb.dart' as f2;
 import 'package:protobuf_benchmarks/readfile.dart';
 
+GeneratedMessage? sink;
+
 class Benchmark extends BenchmarkBase {
   final f0.A0 _input;
 
@@ -17,8 +19,7 @@ class Benchmark extends BenchmarkBase {
 
   @override
   void run() {
-    // ignore: unused_result
-    _input.rebuild((f0.A0 a0Builder) {
+    sink = _input.rebuild((f0.A0 a0Builder) {
       a0Builder.a4.last = a0Builder.a4.last.rebuild((f2.A1 a1builder) {
         a1builder.a378 = a1builder.a378.rebuild(
           (f19.A220 a220builder) => a220builder.a234 = 'new_value',
@@ -31,4 +32,8 @@ class Benchmark extends BenchmarkBase {
 void main() {
   final List<int> encoded = readfile('datasets/query_benchmark.pb');
   Benchmark('query_set_nested_value', encoded).report();
+
+  if (int.parse('1') == 0) {
+    print(sink);
+  }
 }
