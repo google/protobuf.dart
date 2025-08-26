@@ -14,16 +14,16 @@ import '../utils.dart';
 
 @JS('JSON')
 extension type _JSON._(JSObject _) implements JSObject {
-  @JS('JSON.stringify')
+  @JS('stringify')
   external static JSString _stringify(JSObject value);
 
-  @JS('JSON.parse')
+  @JS('parse')
   external static JSAny? _parse(JSString text);
 }
 
 @JS('Number')
 extension type _Number._(JSObject _) implements JSObject {
-  @JS('Number.isInteger')
+  @JS('isInteger')
   external static bool _isInteger(JSAny value);
 }
 
