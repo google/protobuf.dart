@@ -216,6 +216,7 @@ List<String> wasmProcessArgs(String sourceFile) {
     'wasm',
     sourceFile,
     '-O2',
+    '--no-strip-wasm',
     '-o',
     'out/$baseNameNoExt.wasm',
   ];
