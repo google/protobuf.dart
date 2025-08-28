@@ -3,12 +3,9 @@
 * Improve performance of `GeneratedMessage.deepCopy`. ([#742])
 * Fix unknown enum handling in `GeneratedMessage.mergeFromProto3Json` when
   the `ignoreUnknownFields` optional argument is `true`. ([#853])
-* Fix decoding doubles in `GeneratedMessage.mergeFromJson` and
-  `GeneratedMessage.mergeFromJsonMap` with dart2wasm. ([#1043])
 
 [#742]: https://github.com/google/protobuf.dart/pull/742
 [#853]: https://github.com/google/protobuf.dart/pull/853
-[#1043]: https://github.com/google/protobuf.dart/pull/1043
 
 ## 4.2.0
 
