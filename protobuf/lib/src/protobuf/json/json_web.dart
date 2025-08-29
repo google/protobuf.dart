@@ -389,7 +389,7 @@ Object? _convertRawJsValue(
       // Allow quoted values, although we don't emit them.
       if (value.isA<JSNumber>()) {
         final jsNum = value._as<JSNumber>();
-        return _Number._isInteger(jsNum) ? jsNum.toDartInt : jsNum.toDartDouble;
+        return jsNum.toDartDouble;
       } else if (value.isA<JSString>()) {
         return double.parse(value._as<JSString>().toDart);
       }
