@@ -64,22 +64,29 @@ class BuilderInfo {
     List<ProtobufEnum>? enumValues, {
     String? protoName,
   }) {
+    if (tagNumber == 0) {
+      addUnused();
+    } else {
+      final index = byIndex.length;
+      final fieldInfo = FieldInfo<T>(
+        name,
+        tagNumber,
+        index,
+        fieldType!,
+        defaultOrMaker: defaultOrMaker,
+        subBuilder: subBuilder,
+        valueOf: valueOf,
+        enumValues: enumValues,
+        protoName: protoName,
+      );
+      _addField(fieldInfo);
+    }
+  }
+
+  // Support for tree-shaking of unused fields.
+  void addUnused() {
     final index = byIndex.length;
-    final fieldInfo =
-        (tagNumber == 0)
-            ? FieldInfo.dummy(index)
-            : FieldInfo<T>(
-              name,
-              tagNumber,
-              index,
-              fieldType!,
-              defaultOrMaker: defaultOrMaker,
-              subBuilder: subBuilder,
-              valueOf: valueOf,
-              enumValues: enumValues,
-              protoName: protoName,
-            );
-    _addField(fieldInfo);
+    _addField(FieldInfo.dummy(index));
   }
 
   void addMapField<K, V>(
@@ -243,6 +250,46 @@ class BuilderInfo {
     );
   }
 
+  /// Adds a double field.
+  void aD(
+    int tagNumber,
+    String name, {
+    int fieldType = PbFieldType.OD,
+    dynamic defaultOrMaker,
+    String? protoName,
+  }) {
+    add<double>(
+      tagNumber,
+      name,
+      fieldType,
+      defaultOrMaker,
+      null,
+      null,
+      null,
+      protoName: protoName,
+    );
+  }
+
+  /// Adds an int field.
+  void aI(
+    int tagNumber,
+    String name, {
+    int fieldType = PbFieldType.O3,
+    dynamic defaultOrMaker,
+    String? protoName,
+  }) {
+    add<int>(
+      tagNumber,
+      name,
+      fieldType,
+      defaultOrMaker,
+      null,
+      null,
+      null,
+      protoName: protoName,
+    );
+  }
+
   // Enum.
   void e<T>(
     int tagNumber,
@@ -254,6 +301,30 @@ class BuilderInfo {
     String? protoName,
   }) {
     add<T>(
+      tagNumber,
+      name,
+      fieldType,
+      defaultOrMaker,
+      null,
+      valueOf,
+      enumValues,
+      protoName: protoName,
+    );
+  }
+
+  // Enum, updated version.
+  void aE<E extends ProtobufEnum>(
+    int tagNumber,
+    String name, {
+    int fieldType = PbFieldType.OE,
+    dynamic defaultOrMaker,
+    ValueOfFunc? valueOf,
+    required List<E> enumValues,
+    String? protoName,
+  }) {
+    defaultOrMaker ??= enumValues.first;
+    valueOf ??= _findValueOfEnumFunction<E>(enumValues);
+    add<E>(
       tagNumber,
       name,
       fieldType,
@@ -310,6 +381,33 @@ class BuilderInfo {
     );
   }
 
+  // Repeated enum.
+  void pPE<E extends ProtobufEnum>(
+    int tagNumber,
+    String name, {
+    int fieldType = PbFieldType.PE,
+    ValueOfFunc? valueOf,
+    required List<E> enumValues,
+    ProtobufEnum? defaultEnumValue,
+    String? protoName,
+  }) {
+    assert(PbFieldType.isEnum(fieldType));
+    defaultEnumValue ??= enumValues.first;
+    valueOf ??= _findValueOfEnumFunction<E>(enumValues);
+    addRepeated<E>(
+      tagNumber,
+      name,
+      fieldType,
+      _checkNotNull,
+      null,
+      valueOf,
+      enumValues,
+      defaultEnumValue: defaultEnumValue,
+      protoName: protoName,
+    );
+  }
+
+  // Optional Message.
   void aOM<T extends GeneratedMessage>(
     int tagNumber,
     String name, {
@@ -328,6 +426,7 @@ class BuilderInfo {
     );
   }
 
+  // reQuried Message.
   void aQM<T extends GeneratedMessage>(
     int tagNumber,
     String name, {
@@ -339,6 +438,25 @@ class BuilderInfo {
       name,
       PbFieldType.QM,
       GeneratedMessage._defaultMakerFor<T>(subBuilder),
+      subBuilder,
+      null,
+      null,
+      protoName: protoName,
+    );
+  }
+
+  // rePeated Message, specialization of pc<T>.
+  void pPM<T extends GeneratedMessage>(
+    int tagNumber,
+    String name, {
+    required T Function() subBuilder,
+    String? protoName,
+  }) {
+    addRepeated<T>(
+      tagNumber,
+      name,
+      PbFieldType.PM,
+      _checkNotNull,
       subBuilder,
       null,
       null,
@@ -370,17 +488,9 @@ class BuilderInfo {
   }) {
     final mapEntryBuilderInfo =
         BuilderInfo(entryClassName, package: packageName)
+          ..add(mapKeyFieldNumber, 'key', keyFieldType, null, null, null, null)
           ..add(
-            PbMap._keyFieldNumber,
-            'key',
-            keyFieldType,
-            null,
-            null,
-            null,
-            null,
-          )
-          ..add(
-            PbMap._valueFieldNumber,
+            mapValueFieldNumber,
             'value',
             valueFieldType,
             valueDefaultOrMaker,
@@ -497,4 +607,36 @@ extension BuilderInfoInternalExtension on BuilderInfo {
     ExtensionRegistry? registry,
     int rawValue,
   ) => _decodeEnum(tagNumber, registry, rawValue);
+}
+
+E? Function(int) _findValueOfEnumFunction<E extends ProtobufEnum>(
+  List<E> enumValues,
+) {
+  final function = _valueOfFunctions[enumValues];
+  if (function != null) {
+    // 'as dynamic' causes an implicit downcast to `E? Function(int)`, which is
+    // removed by dart2js at `-O3`.
+    return function as dynamic;
+  }
+  return _valueOfFunctions[enumValues] = _makeValueOfEnumFunction<E>(
+    enumValues,
+  );
+}
+
+/// Map for finding 'valueOf' functions for enums. An identity map is used since
+/// the `const` 'values' list for the enum is canonicalized and distinct for
+/// each enum.
+final _valueOfFunctions =
+    Map<List<ProtobufEnum>, ProtobufEnum? Function(int)>.identity();
+
+E? Function(int) _makeValueOfEnumFunction<E extends ProtobufEnum>(
+  List<E> values,
+) {
+  Map<int, E>? map;
+
+  E? intToEnumValue(int value) {
+    return (map ??= ProtobufEnum.initByValue(values))[value];
+  }
+
+  return intToEnumValue;
 }
