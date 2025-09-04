@@ -30,6 +30,7 @@ part 'src/extension_generator.dart';
 part 'src/file_generator.dart';
 part 'src/grpc_generator.dart';
 part 'src/message_generator.dart';
+part 'src/paths.dart';
 part 'src/protobuf_field.dart';
 part 'src/service_generator.dart';
 part 'src/well_known_types.dart';
