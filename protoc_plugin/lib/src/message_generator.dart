@@ -11,16 +11,35 @@ part of '../protoc.dart';
 class OneofEnumGenerator {
   static void generate(
     IndentingWriter out,
-    String classname,
+    OneofNames oneof,
     List<ProtobufField> fields,
+    List<int> parentPath,
   ) {
-    out.addBlock('enum $classname {', '}\n', () {
-      for (final field in fields) {
-        final name = oneofEnumMemberName(field.memberNames!.fieldName);
-        out.println('$name, ');
-      }
-      out.println('notSet');
-    });
+    final enumName = oneof.oneofEnumName;
+    out.addAnnotatedBlock(
+      'enum $enumName {',
+      '}\n',
+      [
+        NamedLocation(
+          name: enumName,
+          fieldPathSegment: Paths.buildOneofPath(parentPath, oneof),
+          start: 'enum '.length,
+        ),
+      ],
+      () {
+        for (final field in fields) {
+          final name = oneofEnumMemberName(field.memberNames!.fieldName);
+          out.printlnAnnotated('$name, ', [
+            NamedLocation(
+              name: name,
+              fieldPathSegment: Paths.buildFieldPath(parentPath, field),
+              start: 0,
+            ),
+          ]);
+        }
+        out.println('notSet');
+      },
+    );
   }
 }
 
@@ -55,7 +74,7 @@ class MessageGenerator extends ProtobufContainer {
   PbMixin? mixin;
 
   @override
-  final ProtobufContainer? parent;
+  final ProtobufContainer parent;
 
   final DescriptorProto _descriptor;
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
@@ -68,10 +87,8 @@ class MessageGenerator extends ProtobufContainer {
   final List<List<ProtobufField>> _oneofFields;
   late List<OneofNames> _oneofNames;
 
-  final List<int> _fieldPathSegment;
-
   @override
-  late final List<int> fieldPath = [...parent!.fieldPath, ..._fieldPathSegment];
+  final List<int> fieldPath;
 
   // populated by resolve()
   late List<ProtobufField> _fieldList;
@@ -85,18 +102,15 @@ class MessageGenerator extends ProtobufContainer {
     Map<String, PbMixin> declaredMixins,
     PbMixin? defaultMixin,
     this._usedTopLevelNames,
-    int repeatedFieldIndex,
-    int fieldIdTag,
+    this.fieldPath,
   ) : _descriptor = descriptor,
-      _fieldPathSegment = [fieldIdTag, repeatedFieldIndex],
       classname = messageOrEnumClassName(
         descriptor.name,
         _usedTopLevelNames,
-        parent: parent?.classname ?? '',
+        parent: parent.classname ?? '',
       ),
-      assert(parent != null),
       fullName =
-          parent!.fullName == ''
+          parent.fullName == ''
               ? descriptor.name
               : '${parent.fullName}.${descriptor.name}',
       _oneofFields = List.generate(
@@ -134,15 +148,6 @@ class MessageGenerator extends ProtobufContainer {
     }
   }
 
-  /// Tag of `FileDescriptorProto.message_type`.
-  static const _topLevelMessageTag = 4;
-
-  /// Tag of `DescriptorProto.nested_type`.
-  static const _nestedMessageTag = 3;
-
-  /// Tag of `DescriptorProto.field`.
-  static const _messageFieldTag = 2;
-
   MessageGenerator.topLevel(
     DescriptorProto descriptor,
     ProtobufContainer parent,
@@ -156,8 +161,7 @@ class MessageGenerator extends ProtobufContainer {
         declaredMixins,
         defaultMixin,
         usedNames,
-        repeatedFieldIndex,
-        _topLevelMessageTag,
+        Paths.buildTopLevelMessagePath(parent.fieldPath, repeatedFieldIndex),
       );
 
   MessageGenerator.nested(
@@ -173,16 +177,15 @@ class MessageGenerator extends ProtobufContainer {
         declaredMixins,
         defaultMixin,
         usedNames,
-        repeatedFieldIndex,
-        _nestedMessageTag,
+        Paths.buildNestedMessagePath(parent.fieldPath, repeatedFieldIndex),
       );
 
   @override
-  String get package => parent!.package;
+  String get package => parent.package;
 
   /// The generator of the .pb.dart file that will declare this type.
   @override
-  FileGenerator get fileGen => parent!.fileGen!;
+  FileGenerator get fileGen => parent.fileGen!;
 
   /// Throws an exception if [resolve] hasn't been called yet.
   void checkResolved() {
@@ -330,8 +333,9 @@ class MessageGenerator extends ProtobufContainer {
     for (final oneof in _oneofNames) {
       OneofEnumGenerator.generate(
         out,
-        oneof.oneofEnumName,
+        oneof,
         _oneofFields[oneof.index],
+        fieldPath,
       );
     }
 
@@ -618,21 +622,43 @@ class MessageGenerator extends ProtobufContainer {
 
     for (final field in _fieldList) {
       out.println();
-      final memberFieldPath = List<int>.from(fieldPath)
-        ..addAll([_messageFieldTag, field.sourcePosition!]);
-      generateFieldAccessorsMutators(field, out, memberFieldPath);
+      generateFieldAccessorsMutators(
+        field,
+        out,
+        Paths.buildFieldPath(fieldPath, field),
+      );
     }
   }
 
   void generateOneofAccessors(IndentingWriter out, OneofNames oneof) {
     out.println();
-    out.println(
+    for (final field in _oneofFields[oneof.index]) {
+      _emitIndexAnnotation(field.number, out);
+    }
+    out.printlnAnnotated(
       '${oneof.oneofEnumName} ${oneof.whichOneofMethodName}() '
       '=> ${oneof.byTagMapName}[\$_whichOneof(${oneof.index})]!;',
+      [
+        NamedLocation(
+          name: oneof.whichOneofMethodName,
+          fieldPathSegment: Paths.buildOneofPath(fieldPath, oneof),
+          start: '${oneof.oneofEnumName} '.length,
+        ),
+      ],
     );
-    out.println(
+    for (final field in _oneofFields[oneof.index]) {
+      _emitIndexAnnotation(field.number, out);
+    }
+    out.printlnAnnotated(
       'void ${oneof.clearMethodName}() '
       '=> \$_clearField(\$_whichOneof(${oneof.index}));',
+      [
+        NamedLocation(
+          name: oneof.clearMethodName,
+          fieldPathSegment: Paths.buildOneofPath(fieldPath, oneof),
+          start: 'void '.length,
+        ),
+      ],
     );
   }
 
@@ -894,7 +920,7 @@ class MessageGenerator extends ProtobufContainer {
     if (name.isEmpty) return null; // don't use any mixins (override default)
     final mixin = declaredMixins[name] ?? findMixin(name);
     if (mixin == null) {
-      throw '${_descriptor.name} in ${parent!.fileGen!.descriptor.name}: mixin "$name" not found';
+      throw '${_descriptor.name} in ${parent.fileGen!.descriptor.name}: mixin "$name" not found';
     }
     return mixin;
   }
