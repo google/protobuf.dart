@@ -669,3 +669,75 @@ int countRealOneofs(DescriptorProto descriptor) {
 
 String lowerCaseFirstLetter(String input) =>
     input[0].toLowerCase() + input.substring(1);
+
+/// Converts a TitleCase or camelCase enum name to UPPER_SNAKE_CASE.
+/// Examples: 'PhoneType' -> 'PHONE_TYPE', 'HTTPStatus' -> 'HTTP_STATUS'
+String titleCaseToUpperSnakeCase(String input) {
+  if (input.isEmpty) return input;
+
+  final buffer = StringBuffer();
+  bool previousWasLower = false;
+
+  for (var i = 0; i < input.length; i++) {
+    final char = input[i];
+    final isUpper = char == char.toUpperCase();
+    final isLower = char == char.toLowerCase();
+
+    if (i > 0 &&
+        isUpper &&
+        (previousWasLower ||
+            (i + 1 < input.length &&
+                input[i + 1] == input[i + 1].toLowerCase()))) {
+      buffer.write('_');
+    }
+
+    buffer.write(char.toUpperCase());
+    previousWasLower = isLower;
+  }
+
+  return buffer.toString();
+}
+
+/// Strips the enum name prefix from a protobuf-style enum value name and converts
+/// the result to camelCase following Dart enum naming conventions.
+/// Examples:
+/// - enumName='PhoneType', valueName='PHONE_TYPE_MOBILE' -> 'mobile'
+/// - enumName='PhoneType', valueName='PHONE_TYPE_UNSPECIFIED' -> 'unspecified'
+/// - enumName='HTTPStatus', valueName='HTTP_STATUS_NOT_FOUND' -> 'notFound'
+/// - enumName='HTTPStatus', valueName='HTTP_STATUS_OK' -> 'ok'
+String stripEnumPrefix(String enumName, String valueName) {
+  final enumPrefix = titleCaseToUpperSnakeCase(enumName);
+  final prefixWithUnderscore = '${enumPrefix}_';
+
+  String strippedName;
+  if (valueName.startsWith(prefixWithUnderscore)) {
+    strippedName = valueName.substring(prefixWithUnderscore.length);
+  } else {
+    // If the value name doesn't start with the expected prefix, use as-is
+    strippedName = valueName;
+  }
+
+  // Convert UPPER_SNAKE_CASE to camelCase
+  return upperSnakeCaseToCamelCase(strippedName);
+}
+
+/// Converts UPPER_SNAKE_CASE to camelCase.
+/// Examples:
+/// - 'MOBILE' -> 'mobile'
+/// - 'NOT_FOUND' -> 'notFound'
+/// - 'UNSPECIFIED' -> 'unspecified'
+String upperSnakeCaseToCamelCase(String input) {
+  if (input.isEmpty) return input;
+
+  final parts = input.toLowerCase().split('_');
+  if (parts.isEmpty) return input.toLowerCase();
+
+  final buffer = StringBuffer(parts[0]);
+  for (var i = 1; i < parts.length; i++) {
+    if (parts[i].isNotEmpty) {
+      buffer.write(parts[i][0].toUpperCase() + parts[i].substring(1));
+    }
+  }
+
+  return buffer.toString();
+}
