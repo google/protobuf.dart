@@ -1,5 +1,7 @@
 ## 23.0.0-wip
 
+Note: this version requires protobuf 5.0.0.
+
 * Update generated code for protobuf 5.0.0.
 * Update generated `clone` members to take advantage of faster `deepCopy`
   implementation in protobuf 5.0.0. ([#742])
