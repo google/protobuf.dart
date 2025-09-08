@@ -262,6 +262,16 @@ class ProtobufField {
     } else if (isRepeated) {
       if (typeConstant == '$protobufImportPrefix.PbFieldType.PS') {
         invocation = 'pPS';
+      } else if (typeConstant == '$protobufImportPrefix.PbFieldType.PE') {
+        invocation = 'pPE<$type>';
+        named['enumValues'] = '$type.values';
+        final makeDefault = generateDefaultFunction(omitIfFirstEnumValue: true);
+        if (makeDefault != null) {
+          named['defaultEnumValue'] = makeDefault;
+        }
+      } else if (typeConstant == '$protobufImportPrefix.PbFieldType.PM') {
+        invocation = 'pPM<$type>';
+        named['subBuilder'] = '$type.create';
       } else {
         args.add(typeConstant);
         if (baseType.isMessage || baseType.isGroup || baseType.isEnum) {
@@ -280,14 +290,27 @@ class ProtobufField {
       }
     } else {
       // Singular field.
-      final makeDefault = generateDefaultFunction();
+      final makeDefault = generateDefaultFunction(omitIfFirstEnumValue: true);
 
       if (baseType.isEnum) {
-        args.add(typeConstant);
-        named['defaultOrMaker'] = makeDefault;
-        named['valueOf'] = '$type.valueOf';
+        invocation = 'aE<$type>';
+        if (typeConstant != '$protobufImportPrefix.PbFieldType.OE') {
+          named['fieldType'] = typeConstant;
+        }
+        if (makeDefault != null) named['defaultOrMaker'] = makeDefault;
         named['enumValues'] = '$type.values';
-        invocation = 'e<$type>';
+      } else if (type == '$coreImportPrefix.int') {
+        invocation = 'aI';
+        if (typeConstant != '$protobufImportPrefix.PbFieldType.O3') {
+          named['fieldType'] = typeConstant;
+        }
+        if (makeDefault != null) named['defaultOrMaker'] = makeDefault;
+      } else if (type == '$coreImportPrefix.double') {
+        invocation = 'aD';
+        if (typeConstant != '$protobufImportPrefix.PbFieldType.OD') {
+          named['fieldType'] = typeConstant;
+        }
+        if (makeDefault != null) named['defaultOrMaker'] = makeDefault;
       } else if (makeDefault == null) {
         switch (type) {
           case '$coreImportPrefix.String':
@@ -360,7 +383,7 @@ class ProtobufField {
   }
 
   /// Returns a function expression that returns the field's default value.
-  String? generateDefaultFunction() {
+  String? generateDefaultFunction({bool omitIfFirstEnumValue = false}) {
     assert(!isRepeated);
     switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
@@ -422,6 +445,7 @@ class ProtobufField {
             descriptor.defaultValue.isNotEmpty) {
           return '$className.${descriptor.defaultValue}';
         } else if (gen._canonicalValues.isNotEmpty) {
+          if (omitIfFirstEnumValue) return null;
           return '$className.${gen.dartNames[gen._canonicalValues[0].name]}';
         }
         return null;

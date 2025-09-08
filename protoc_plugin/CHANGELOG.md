@@ -1,10 +1,14 @@
-## 23.0.0
+## 23.0.0-wip
+
+Note: this version requires protobuf 5.0.0.
 
 * Update generated code for protobuf 5.0.0.
 * Update generated `clone` members to take advantage of faster `deepCopy`
   implementation in protobuf 5.0.0. ([#742])
+* Code size improvements for enum fields. ([#1047])
 
 [#742]: https://github.com/google/protobuf.dart/pull/742
+[#1047]: https://github.com/google/protobuf.dart/pull/1047
 
 ## 22.5.0
 
