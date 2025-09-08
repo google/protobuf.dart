@@ -283,7 +283,6 @@ class ProtobufField {
         if (baseType.isMessage || baseType.isGroup) {
           named['subBuilder'] = '$type.create';
         } else if (baseType.isEnum) {
-          // TODO: remove this branch.
           named['valueOf'] = '$type.valueOf';
           named['enumValues'] = '$type.values';
           named['defaultEnumValue'] = generateDefaultFunction();
