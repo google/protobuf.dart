@@ -30,27 +30,47 @@ class ProtobufField {
   final String fullName;
   final BaseType baseType;
   final ProtobufContainer parent;
+  final FeatureSet features;
 
   ProtobufField.message(
     FieldNames names,
     ProtobufContainer parent,
+    FeatureSet inheritFeatures,
     GenerationContext ctx,
-  ) : this._(names.descriptor, names, parent, ctx);
+  ) : this._(names.descriptor, names, parent, inheritFeatures, ctx);
 
   ProtobufField.extension(
     FieldDescriptorProto descriptor,
     ProtobufContainer parent,
     GenerationContext ctx,
-  ) : this._(descriptor, null, parent, ctx);
+  ) : this._(descriptor, null, parent, parent.features, ctx);
 
   ProtobufField._(
+    FieldDescriptorProto descriptor,
+    FieldNames? dartNames,
+    ProtobufContainer parent,
+    FeatureSet inheritFeatures,
+    GenerationContext ctx,
+  ) : this._features(
+        descriptor,
+        resolveFeatures(
+          inheritFeatures,
+          _inferLegacyProtoFeatures(descriptor, parent.fileGen!.edition),
+        ),
+        dartNames,
+        parent,
+        ctx,
+      );
+
+  ProtobufField._features(
     this.descriptor,
+    this.features,
     FieldNames? dartNames,
     this.parent,
     GenerationContext ctx,
   ) : memberNames = dartNames,
       fullName = '${parent.fullName}.${descriptor.name}',
-      baseType = BaseType(descriptor, ctx);
+      baseType = BaseType(descriptor, features, ctx);
 
   /// The index of this field in MessageGenerator.fieldList.
   ///
@@ -71,8 +91,9 @@ class ProtobufField {
   /// Whether the field is to be encoded with [deprecated = true] encoding.
   bool get isDeprecated => descriptor.options.deprecated;
 
-  bool get isRequired =>
-      descriptor.label == FieldDescriptorProto_Label.LABEL_REQUIRED;
+  bool get isRequired {
+    return features.fieldPresence == FeatureSet_FieldPresence.LEGACY_REQUIRED;
+  }
 
   bool get isRepeated =>
       descriptor.label == FieldDescriptorProto_Label.LABEL_REPEATED;
@@ -91,20 +112,8 @@ class ProtobufField {
       return false;
     }
 
-    switch (parent.fileGen!.syntax) {
-      case ProtoSyntax.proto3:
-        if (!descriptor.hasOptions()) {
-          return true; // packed by default in proto3
-        } else {
-          return !descriptor.options.hasPacked() || descriptor.options.packed;
-        }
-      case ProtoSyntax.proto2:
-        if (!descriptor.hasOptions()) {
-          return false; // not packed by default in proto3
-        } else {
-          return descriptor.options.packed;
-        }
-    }
+    return features.repeatedFieldEncoding ==
+        FeatureSet_RepeatedFieldEncoding.PACKED;
   }
 
   /// Whether the field has the `overrideGetter` annotation set to true.
@@ -166,7 +175,7 @@ class ProtobufField {
   /// Only for map fields: returns the type to use for Dart map field key type.
   String getDartMapKeyType() {
     assert(isMapField);
-    return (baseType.generator as MessageGenerator)._fieldList[0].baseType
+    return (baseType.generator as MessageGenerator).fieldList[0].baseType
         .getDartType(parent.fileGen!);
   }
 
@@ -174,7 +183,7 @@ class ProtobufField {
   /// type.
   String getDartMapValueType() {
     assert(isMapField);
-    return (baseType.generator as MessageGenerator)._fieldList[1].baseType
+    return (baseType.generator as MessageGenerator).fieldList[1].baseType
         .getDartType(parent.fileGen!);
   }
 
@@ -230,8 +239,8 @@ class ProtobufField {
 
     if (isMapField) {
       final generator = baseType.generator as MessageGenerator;
-      final key = generator._fieldList[0];
-      final value = generator._fieldList[1];
+      final key = generator.fieldList[0];
+      final value = generator.fieldList[1];
 
       // Key type is an integer type or string. No need to specify the default
       // value as the library knows the defaults for integer and string fields.
@@ -497,4 +506,29 @@ class ProtobufField {
       (match) => '_${match.group(0)!.toLowerCase()}',
     );
   }
+}
+
+FeatureSet _inferLegacyProtoFeatures(
+  FieldDescriptorProto descriptor,
+  Edition edition,
+) {
+  if (edition.value >= Edition.EDITION_2023.value) {
+    return descriptor.options.features;
+  }
+  final features = FeatureSet();
+  if (descriptor.label == FieldDescriptorProto_Label.LABEL_REQUIRED) {
+    features.fieldPresence = FeatureSet_FieldPresence.LEGACY_REQUIRED;
+  }
+  if (descriptor.type == FieldDescriptorProto_Type.TYPE_GROUP) {
+    features.messageEncoding = FeatureSet_MessageEncoding.DELIMITED;
+  }
+  if (descriptor.options.packed) {
+    features.repeatedFieldEncoding = FeatureSet_RepeatedFieldEncoding.PACKED;
+  }
+  if (edition.value == Edition.EDITION_PROTO3.value &&
+      descriptor.options.hasPacked() &&
+      !descriptor.options.packed) {
+    features.repeatedFieldEncoding = FeatureSet_RepeatedFieldEncoding.EXPANDED;
+  }
+  return features;
 }

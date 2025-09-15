@@ -15,6 +15,7 @@ import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
 import 'src/golden_file.dart';
+import 'src/test_features.dart';
 
 FileDescriptorProto buildFileDescriptor({
   bool phoneNumber = true,
@@ -111,7 +112,7 @@ void main() {
             CodeGeneratorRequest()..parameter = 'disable_constructor_args',
             CodeGeneratorResponse(),
           )!;
-      final fg = FileGenerator(fd, options);
+      final fg = FileGenerator(testEditionDefaults, fd, options);
       link(options, [fg]);
       expectGolden(
         fg.generateMainFile().emitSource(format: true),
@@ -127,7 +128,7 @@ void main() {
           CodeGeneratorRequest()..parameter = 'disable_constructor_args',
           CodeGeneratorResponse(),
         )!;
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     link(options, [fg]);
     expectGolden(
       fg.generateMainFile().emitSource(format: true),
@@ -145,7 +146,7 @@ void main() {
               ..parameter = 'generate_kythe_info,disable_constructor_args',
             CodeGeneratorResponse(),
           )!;
-      final fg = FileGenerator(fd, options);
+      final fg = FileGenerator(testEditionDefaults, fd, options);
       link(options, [fg]);
       expectGolden(
         fg.generateMainFile().sourceLocationInfo.toString(),
@@ -163,7 +164,7 @@ void main() {
             CodeGeneratorRequest()..parameter = 'disable_constructor_args',
             CodeGeneratorResponse(),
           )!;
-      final fg = FileGenerator(fd, options);
+      final fg = FileGenerator(testEditionDefaults, fd, options);
       link(options, [fg]);
       expectGolden(fg.generateJsonFile(), 'oneMessage.pbjson.dart');
     },
@@ -177,7 +178,7 @@ void main() {
           CodeGeneratorResponse(),
         )!;
 
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     link(options, [fg]);
     expectGolden(
       fg.generateMainFile().emitSource(format: true),
@@ -197,7 +198,7 @@ void main() {
             ..parameter = 'generate_kythe_info,disable_constructor_args',
           CodeGeneratorResponse(),
         )!;
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     link(options, [fg]);
 
     expectGolden(
@@ -218,7 +219,7 @@ void main() {
           CodeGeneratorResponse(),
         )!;
 
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     link(options, [fg]);
     expectGolden(fg.generateJsonFile(), 'topLevelEnum.pbjson.dart');
   });
@@ -232,7 +233,7 @@ void main() {
           CodeGeneratorResponse(),
         )!;
 
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     link(options, [fg]);
 
     final writer = IndentingWriter();
@@ -262,7 +263,7 @@ void main() {
           CodeGeneratorResponse(),
         )!;
 
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     link(options, [fg]);
 
     final writer = IndentingWriter();
@@ -295,7 +296,7 @@ void main() {
           CodeGeneratorResponse(),
         )!;
 
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     link(options, [fg]);
 
     final writer = IndentingWriter();
@@ -330,7 +331,7 @@ void main() {
 
       final options = GenerationOptions(useGrpc: true);
 
-      final fg = FileGenerator(fd, options);
+      final fg = FileGenerator(testEditionDefaults, fd, options);
       link(options, [fg]);
 
       final writer = IndentingWriter();
@@ -427,7 +428,7 @@ void main() {
 
     final options = GenerationOptions(useGrpc: true);
 
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     link(options, [fg]);
 
     final writer = IndentingWriter();
@@ -547,11 +548,11 @@ void main() {
     final response = CodeGeneratorResponse();
     final options = parseGenerationOptions(request, response)!;
 
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     link(options, [
       fg,
-      FileGenerator(fd1, options),
-      FileGenerator(fd2, options),
+      FileGenerator(testEditionDefaults, fd1, options),
+      FileGenerator(testEditionDefaults, fd2, options),
     ]);
     expectGolden(
       fg.generateMainFile().emitSource(format: true),
@@ -561,5 +562,115 @@ void main() {
       fg.generateEnumFile().emitSource(format: true),
       'imports.pbjson.dart',
     );
+  });
+
+  test('FileGenerator rejects files without valid edition defaults', () {
+    final fd = buildFileDescriptor();
+    final editionDefaults =
+        FeatureSetDefaults()
+          ..defaults.add(
+            FeatureSetDefaults_FeatureSetEditionDefault()
+              ..edition = Edition.EDITION_2023
+              ..overridableFeatures =
+                  testEditionDefaults.defaults[0].overridableFeatures,
+          )
+          ..minimumEdition = Edition.EDITION_PROTO2
+          ..maximumEdition = Edition.EDITION_2023;
+
+    expect(
+      () => FileGenerator(editionDefaults, fd, GenerationOptions()),
+      throwsA(
+        const TypeMatcher<ArgumentError>().having(
+          (e) => e.message,
+          'message',
+          allOf(contains('No default found'), contains('EDITION_PROTO2')),
+        ),
+      ),
+    );
+  });
+
+  test('FileGenerator rejects files before the minimum supported edition', () {
+    final fd = buildFileDescriptor();
+    final editionDefaults =
+        FeatureSetDefaults()
+          ..defaults.addAll(testEditionDefaults.defaults.sublist(1))
+          ..minimumEdition = Edition.EDITION_PROTO3
+          ..maximumEdition = Edition.EDITION_2023;
+
+    expect(
+      () => FileGenerator(editionDefaults, fd, GenerationOptions()),
+      throwsA(
+        const TypeMatcher<ArgumentError>().having(
+          (e) => e.message,
+          'message',
+          contains('earlier than the minimum'),
+        ),
+      ),
+    );
+  });
+
+  test('FileGenerator rejects files after the maximum supported edition', () {
+    final fd = buildFileDescriptor()..edition = Edition.EDITION_2023;
+    final editionDefaults =
+        FeatureSetDefaults()
+          ..defaults.addAll(testEditionDefaults.defaults)
+          ..minimumEdition = Edition.EDITION_PROTO2
+          ..maximumEdition = Edition.EDITION_PROTO3;
+
+    expect(
+      () => FileGenerator(editionDefaults, fd, GenerationOptions()),
+      throwsA(
+        const TypeMatcher<ArgumentError>().having(
+          (e) => e.message,
+          'message',
+          contains('later than the maximum'),
+        ),
+      ),
+    );
+  });
+
+  test('FileGenerator initializes the file-level edition defaults', () {
+    final fd = buildFileDescriptor();
+    final editionDefaults = testEditionDefaults.clone();
+    setTestFeature(editionDefaults.defaults[0].overridableFeatures, 1);
+
+    final fg = FileGenerator(editionDefaults, fd, GenerationOptions());
+    expect(fg.features.enumType, FeatureSet_EnumType.CLOSED);
+    expect(fg.features.fieldPresence, FeatureSet_FieldPresence.EXPLICIT);
+    expect(
+      fg.features.messageEncoding,
+      FeatureSet_MessageEncoding.LENGTH_PREFIXED,
+    );
+    expect(fg.features.utf8Validation, FeatureSet_Utf8Validation.NONE);
+    expect(
+      fg.features.repeatedFieldEncoding,
+      FeatureSet_RepeatedFieldEncoding.EXPANDED,
+    );
+    expect(fg.features.jsonFormat, FeatureSet_JsonFormat.LEGACY_BEST_EFFORT);
+    expect(getTestFeature(fg.features), 1);
+  });
+
+  test('FileGenerator uses file-level overrides', () {
+    final fd = setTestFeature(
+      buildFileDescriptor()..edition = Edition.EDITION_2023,
+      2,
+    );
+    final editionDefaults = testEditionDefaults.clone();
+    setTestFeature(editionDefaults.defaults[0].overridableFeatures, 1);
+
+    final fg = FileGenerator(editionDefaults, fd, GenerationOptions());
+    expect(fg.features.enumType, FeatureSet_EnumType.OPEN);
+    expect(fg.features.fieldPresence, FeatureSet_FieldPresence.EXPLICIT);
+    expect(
+      fg.features.messageEncoding,
+      FeatureSet_MessageEncoding.LENGTH_PREFIXED,
+    );
+    expect(fg.features.utf8Validation, FeatureSet_Utf8Validation.VERIFY);
+    expect(
+      fg.features.repeatedFieldEncoding,
+      FeatureSet_RepeatedFieldEncoding.PACKED,
+    );
+    expect(fg.features.jsonFormat, FeatureSet_JsonFormat.ALLOW);
+    expect(getTestFeature(fg.features), 2);
   });
 }

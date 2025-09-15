@@ -39,6 +39,7 @@ TEST_PROTO_LIST = \
 	foo \
 	high_tagnumber \
 	import_clash \
+	import_option \
 	import_public \
 	json_name \
 	map_api \

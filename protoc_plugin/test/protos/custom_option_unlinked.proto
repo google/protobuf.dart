@@ -1,0 +1,15 @@
+// Copyright (c) 2020, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+// This file defines an option that is not linked into the test, to verify that
+// it ends up in unknown fields as expected.
+syntax = "proto2";
+
+package custom_option;
+
+import "google/protobuf/descriptor.proto";
+
+extend proto2.MessageOptions {
+  optional int32 unlinked_option = 51235;
+}

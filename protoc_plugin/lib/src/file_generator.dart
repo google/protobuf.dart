@@ -18,8 +18,6 @@ const String _protobufImportUrl = 'package:protobuf/protobuf.dart';
 const String _typedDataImportPrefix = r'$typed_data';
 const String _typedDataImportUrl = 'dart:typed_data';
 
-enum ProtoSyntax { proto2, proto3 }
-
 /// Generates the Dart output files for one .proto input file.
 ///
 /// Outputs include .pb.dart, pbenum.dart, and .pbjson.dart.
@@ -140,14 +138,21 @@ class FileGenerator extends ProtobufContainer {
   /// Whether cross-references have been resolved.
   bool _linked = false;
 
-  final ProtoSyntax syntax;
+  final Edition edition;
 
-  FileGenerator(this.descriptor, this.options)
-    : protoFileUri = Uri.file(descriptor.name),
-      syntax =
-          descriptor.syntax == 'proto3'
-              ? ProtoSyntax.proto3
-              : ProtoSyntax.proto2 {
+  @override
+  final FeatureSet features;
+
+  FileGenerator(
+    FeatureSetDefaults editionDefaults,
+    this.descriptor,
+    this.options,
+  ) : protoFileUri = Uri.file(descriptor.name),
+      edition = _getEdition(descriptor),
+      features = resolveFeatures(
+        _getEditionDefaults(editionDefaults, _getEdition(descriptor)),
+        descriptor.options.features,
+      ) {
     if (protoFileUri.isAbsolute) {
       // protoc should never generate an import with an absolute path.
       throw 'FAILURE: Import with absolute path is not supported';
@@ -823,6 +828,51 @@ class ConditionalConstDefinition {
         }).join();
     return '_${parts.first}$rest';
   }
+}
+
+Edition _getEdition(FileDescriptorProto file) {
+  if (file.edition != Edition.EDITION_UNKNOWN) {
+    return file.edition;
+  }
+  if (file.syntax == 'proto3') {
+    return Edition.EDITION_PROTO3;
+  }
+  return Edition.EDITION_PROTO2;
+}
+
+FeatureSet resolveFeatures(FeatureSet parent, FeatureSet child) {
+  final result = parent.clone();
+  result.mergeFromMessage(child);
+  return result;
+}
+
+FeatureSet _getEditionDefaults(
+  FeatureSetDefaults editionDefaults,
+  Edition edition,
+) {
+  if (edition.value < editionDefaults.minimumEdition.value) {
+    throw ArgumentError(
+      'Edition $edition is earlier than the minimum supported edition ${editionDefaults.minimumEdition}!',
+    );
+  }
+  if (edition.value > editionDefaults.maximumEdition.value) {
+    throw ArgumentError(
+      'Edition $edition is later than the maximum supported edition ${editionDefaults.maximumEdition}!',
+    );
+  }
+  FeatureSetDefaults_FeatureSetEditionDefault? found;
+  for (final d in editionDefaults.defaults) {
+    if (d.edition.value > edition.value) {
+      break;
+    }
+    found = d;
+  }
+  if (found == null) {
+    throw ArgumentError('No default found for edition $edition!');
+  }
+  final defaults = found.fixedFeatures.clone();
+  defaults.mergeFromMessage(found.overridableFeatures);
+  return defaults;
 }
 
 const _fileIgnores = {

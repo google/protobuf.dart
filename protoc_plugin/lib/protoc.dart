@@ -34,3 +34,10 @@ part 'src/paths.dart';
 part 'src/protobuf_field.dart';
 part 'src/service_generator.dart';
 part 'src/well_known_types.dart';
+
+const _protobufInternalDartEditionDefaults =
+    'ChcYhAciACoQCAEQAhgCIAMoATACOAJAAQoXGOcHIgAqEAgCEAEYASACKAEwATgCQAEKFxjoByIMCAEQARgBIAIoATABKgQ4AkABChcY6QciEAgBEAEYASACKAEwATgBQAIqACDmByjpBw==';
+
+FeatureSetDefaults pluginFeatureSetDefaults = FeatureSetDefaults.fromBuffer(
+  base64Decode(_protobufInternalDartEditionDefaults),
+);

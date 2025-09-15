@@ -13,6 +13,7 @@ import 'package:test/test.dart';
 
 import 'src/golden_file.dart';
 import 'src/service_util.dart';
+import 'src/test_features.dart';
 
 void main() {
   test('testClientGenerator', () {
@@ -22,13 +23,13 @@ void main() {
       'SomeReply',
     ]);
     fd.service.add(buildServiceDescriptor());
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
 
     final fd2 = buildFileDescriptor('foo.bar', 'foobar.proto', [
       'EmptyMessage',
       'AnotherReply',
     ]);
-    final fg2 = FileGenerator(fd2, options);
+    final fg2 = FileGenerator(testEditionDefaults, fd2, options);
 
     link(GenerationOptions(), [fg, fg2]);
 

@@ -17,6 +17,7 @@ import 'package:protoc_plugin/src/options.dart';
 import 'package:test/test.dart';
 
 import 'src/golden_file.dart';
+import 'src/test_features.dart';
 
 void main() {
   late FileDescriptorProto fd;
@@ -86,7 +87,7 @@ void main() {
           CodeGeneratorResponse(),
         )!;
 
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
     final ctx = GenerationContext(options);
@@ -119,7 +120,7 @@ void main() {
           CodeGeneratorRequest()..parameter = 'disable_constructor_args',
           CodeGeneratorResponse(),
         )!;
-    final fg = FileGenerator(fd, options);
+    final fg = FileGenerator(testEditionDefaults, fd, options);
     final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
 
     final ctx = GenerationContext(options);
@@ -161,5 +162,192 @@ void main() {
       }
       expect(annotatedName, isIn(expectedStrings));
     }
+  });
+
+  test('MessageGenerator inherits from a parent file', () {
+    setTestFeature(fd, 1);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+
+    expect(getTestFeature(mg.features), 1);
+  });
+
+  test('MessageGenerator can override parent file features', () {
+    setTestFeature(fd, 1);
+    setTestFeature(md, 2);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+
+    expect(getTestFeature(mg.features), 2);
+  });
+
+  test('MessageGenerator inherits from a parent message', () {
+    final mdParent = setTestFeature(md.clone(), 1);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mgParent = MessageGenerator.topLevel(
+      mdParent,
+      fg,
+      {},
+      null,
+      <String>{},
+      0,
+    );
+    final mg = MessageGenerator.nested(md, mgParent, {}, null, <String>{}, 0);
+
+    expect(getTestFeature(mg.features), 1);
+  });
+
+  test('MessageGenerator can override parent message features', () {
+    final mdParent = setTestFeature(md.clone(), 1);
+    setTestFeature(md, 2);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mgParent = MessageGenerator.topLevel(
+      mdParent,
+      fg,
+      {},
+      null,
+      <String>{},
+      0,
+    );
+    final mg = MessageGenerator.nested(md, mgParent, {}, null, <String>{}, 0);
+
+    expect(getTestFeature(mg.features), 2);
+  });
+
+  test('MessageGenerator fields inherit from a parent message', () {
+    fd.edition = Edition.EDITION_2023;
+    (md.field..clear()).add(
+      FieldDescriptorProto()
+        ..name = 'number'
+        ..jsonName = 'number'
+        ..number = 1
+        ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+        ..type = FieldDescriptorProto_Type.TYPE_STRING,
+    );
+    setTestFeature(md, 1);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+
+    final ctx = GenerationContext(GenerationOptions());
+    mg.register(ctx);
+    mg.resolve(ctx);
+
+    expect(getTestFeature(mg.fieldList[0].features), 1);
+  });
+
+  test('MessageGenerator fields can override parent message features', () {
+    fd.edition = Edition.EDITION_2023;
+    (md.field..clear()).add(
+      FieldDescriptorProto()
+        ..name = 'number'
+        ..jsonName = 'number'
+        ..number = 1
+        ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+        ..type = FieldDescriptorProto_Type.TYPE_STRING,
+    );
+    setTestFeature(md, 1);
+    setTestFeature(md.field[0], 2);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+
+    final ctx = GenerationContext(GenerationOptions());
+    mg.register(ctx);
+    mg.resolve(ctx);
+
+    expect(getTestFeature(mg.fieldList[0].features), 2);
+  });
+
+  test('MessageGenerator fields inherit from a parent oneof', () {
+    fd.edition = Edition.EDITION_2023;
+    md.oneofDecl.add(OneofDescriptorProto()..name = 'oneof');
+    (md.field..clear()).add(
+      FieldDescriptorProto()
+        ..name = 'number'
+        ..jsonName = 'number'
+        ..number = 1
+        ..oneofIndex = 0
+        ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+        ..type = FieldDescriptorProto_Type.TYPE_STRING,
+    );
+    setTestFeature(md.oneofDecl[0], 1);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+
+    final ctx = GenerationContext(GenerationOptions());
+    mg.register(ctx);
+    mg.resolve(ctx);
+
+    expect(getTestFeature(mg.fieldList[0].features), 1);
+  });
+
+  test('MessageGenerator fields can override parent oneof', () {
+    fd.edition = Edition.EDITION_2023;
+    md.oneofDecl.add(OneofDescriptorProto()..name = 'oneof');
+    (md.field..clear()).add(
+      FieldDescriptorProto()
+        ..name = 'number'
+        ..jsonName = 'number'
+        ..number = 1
+        ..oneofIndex = 0
+        ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+        ..type = FieldDescriptorProto_Type.TYPE_STRING,
+    );
+    setTestFeature(md.oneofDecl[0], 1);
+    setTestFeature(md.field[0], 2);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+
+    final ctx = GenerationContext(GenerationOptions());
+    mg.register(ctx);
+    mg.resolve(ctx);
+
+    expect(getTestFeature(mg.fieldList[0].features), 2);
+  });
+
+  test('MessageGenerator oneof inherits from a parent message', () {
+    fd.edition = Edition.EDITION_2023;
+    md.oneofDecl.add(OneofDescriptorProto()..name = 'oneof');
+    (md.field..clear()).add(
+      FieldDescriptorProto()
+        ..name = 'number'
+        ..jsonName = 'number'
+        ..number = 1
+        ..oneofIndex = 0
+        ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+        ..type = FieldDescriptorProto_Type.TYPE_STRING,
+    );
+    setTestFeature(md, 1);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+
+    final ctx = GenerationContext(GenerationOptions());
+    mg.register(ctx);
+    mg.resolve(ctx);
+
+    expect(getTestFeature(mg.fieldList[0].features), 1);
+  });
+
+  test('MessageGenerator oneof can override parent message', () {
+    fd.edition = Edition.EDITION_2023;
+    md.oneofDecl.add(OneofDescriptorProto()..name = 'oneof');
+    (md.field..clear()).add(
+      FieldDescriptorProto()
+        ..name = 'number'
+        ..jsonName = 'number'
+        ..number = 1
+        ..oneofIndex = 0
+        ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+        ..type = FieldDescriptorProto_Type.TYPE_STRING,
+    );
+    setTestFeature(md, 1);
+    setTestFeature(md.oneofDecl[0], 2);
+    final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
+    final mg = MessageGenerator.topLevel(md, fg, {}, null, <String>{}, 0);
+
+    final ctx = GenerationContext(GenerationOptions());
+    mg.register(ctx);
+    mg.resolve(ctx);
+
+    expect(getTestFeature(mg.fieldList[0].features), 2);
   });
 }
