@@ -841,7 +841,7 @@ Edition _getEdition(FileDescriptorProto file) {
 }
 
 FeatureSet resolveFeatures(FeatureSet parent, FeatureSet child) {
-  final result = parent.clone();
+  final result = parent.deepCopy();
   result.mergeFromMessage(child);
   return result;
 }
@@ -870,7 +870,7 @@ FeatureSet _getEditionDefaults(
   if (found == null) {
     throw ArgumentError('No default found for edition $edition!');
   }
-  final defaults = found.fixedFeatures.clone();
+  final defaults = found.fixedFeatures.deepCopy();
   defaults.mergeFromMessage(found.overridableFeatures);
   return defaults;
 }

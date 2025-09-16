@@ -182,7 +182,7 @@ void main() {
   });
 
   test('MessageGenerator inherits from a parent message', () {
-    final mdParent = setTestFeature(md.clone(), 1);
+    final mdParent = setTestFeature(md.deepCopy(), 1);
     final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
     final mgParent = MessageGenerator.topLevel(
       mdParent,
@@ -198,7 +198,7 @@ void main() {
   });
 
   test('MessageGenerator can override parent message features', () {
-    final mdParent = setTestFeature(md.clone(), 1);
+    final mdParent = setTestFeature(md.deepCopy(), 1);
     setTestFeature(md, 2);
     final fg = FileGenerator(testEditionDefaults, fd, GenerationOptions());
     final mgParent = MessageGenerator.topLevel(
