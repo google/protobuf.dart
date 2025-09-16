@@ -10,6 +10,6 @@ package custom_option;
 
 import "google/protobuf/descriptor.proto";
 
-extend proto2.MessageOptions {
+extend google.protobuf.MessageOptions {
   optional int32 unlinked_option = 51235;
 }
