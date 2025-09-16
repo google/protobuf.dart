@@ -54,11 +54,13 @@ class GenerationOptions {
   final bool useGrpc;
   final bool generateMetadata;
   final bool disableConstructorArgs;
+  final bool protobufEnumStyle;
 
   GenerationOptions({
     this.useGrpc = false,
     this.generateMetadata = false,
     this.disableConstructorArgs = false,
+    this.protobufEnumStyle = false,
   });
 }
 
@@ -112,6 +114,19 @@ class DisableConstructorArgsParser implements SingleOptionParser {
   }
 }
 
+class ProtobufEnumStyleParser implements SingleOptionParser {
+  bool protobufEnumStyleEnabled = false;
+
+  @override
+  void parse(String name, String? value, OnError onError) {
+    if (value != null) {
+      onError('Invalid protobuf-enum-style option. No value expected.');
+      return;
+    }
+    protobufEnumStyleEnabled = true;
+  }
+}
+
 /// Parser used by the compiler, which supports the `rpc` option (see
 /// [GrpcOptionParser]) and any additional option added in [parsers]. If
 /// [parsers] has a key for `rpc`, it will be ignored.
@@ -132,11 +147,15 @@ GenerationOptions? parseGenerationOptions(
   final disableConstructorArgsParser = DisableConstructorArgsParser();
   newParsers['disable_constructor_args'] = disableConstructorArgsParser;
 
+  final protobufEnumStyleParser = ProtobufEnumStyleParser();
+  newParsers['protobuf-enum-style'] = protobufEnumStyleParser;
+
   if (genericOptionsParser(request, response, newParsers)) {
     return GenerationOptions(
       useGrpc: grpcOptionParser.grpcEnabled,
       generateMetadata: generateMetadataParser.generateKytheInfo,
       disableConstructorArgs: disableConstructorArgsParser.value,
+      protobufEnumStyle: protobufEnumStyleParser.protobufEnumStyleEnabled,
     );
   }
   return null;

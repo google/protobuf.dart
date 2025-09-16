@@ -64,8 +64,21 @@ class EnumGenerator extends ProtobufContainer {
         _aliases.add(EnumAlias(value, canonicalValue));
         _originalAliasIndices.add(i);
       }
+      // Generate Dart name for the enum value
+      String dartName;
+      final isProtobufEnumStyle =
+          parent.fileGen?.options.protobufEnumStyle ?? false;
+      if (isProtobufEnumStyle) {
+        // Strip enum prefix from protobuf-style enum values
+        final strippedName = stripEnumPrefix(descriptor.name, value.name);
+        dartName = avoidInitialUnderscore(strippedName);
+      } else {
+        // Use original style
+        dartName = avoidInitialUnderscore(value.name);
+      }
+
       dartNames[value.name] = disambiguateName(
-        avoidInitialUnderscore(value.name),
+        dartName,
         usedNames,
         enumSuffixes(),
       );
