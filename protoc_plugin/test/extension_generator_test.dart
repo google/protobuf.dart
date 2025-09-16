@@ -55,7 +55,7 @@ void main() {
     );
     fileGenerator.extensionGenerators.single.generate(writer);
 
-    expectGolden(writer.toString(), 'extension');
+    expectGolden(writer.emitSource(format: false), 'extension');
     expectGolden(writer.sourceLocationInfo.toString(), 'extension.meta');
   });
 

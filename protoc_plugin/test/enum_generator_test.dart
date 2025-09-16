@@ -53,7 +53,7 @@ void main() {
     );
     final eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);
     eg.generate(writer);
-    expectGolden(writer.toString(), 'enum');
+    expectGolden(writer.emitSource(format: false), 'enum');
     expectGolden(writer.sourceLocationInfo.toString(), 'enum.meta');
   });
 
