@@ -31,6 +31,7 @@ void main(List<String> args) async {
     'google/protobuf/compiler/plugin.proto',
     'google/protobuf/descriptor.proto',
     'google/protobuf/duration.proto',
+    'google/protobuf/unittest_features.proto',
   ]);
 
   // Update from googleapis/googleapis.
