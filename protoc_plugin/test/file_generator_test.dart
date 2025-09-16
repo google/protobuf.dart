@@ -631,7 +631,7 @@ void main() {
 
   test('FileGenerator initializes the file-level edition defaults', () {
     final fd = buildFileDescriptor();
-    final editionDefaults = testEditionDefaults.clone();
+    final editionDefaults = testEditionDefaults.deepCopy();
     setTestFeature(editionDefaults.defaults[0].overridableFeatures, 1);
 
     final fg = FileGenerator(editionDefaults, fd, GenerationOptions());
@@ -655,7 +655,7 @@ void main() {
       buildFileDescriptor()..edition = Edition.EDITION_2023,
       2,
     );
-    final editionDefaults = testEditionDefaults.clone();
+    final editionDefaults = testEditionDefaults.deepCopy();
     setTestFeature(editionDefaults.defaults[0].overridableFeatures, 1);
 
     final fg = FileGenerator(editionDefaults, fd, GenerationOptions());
