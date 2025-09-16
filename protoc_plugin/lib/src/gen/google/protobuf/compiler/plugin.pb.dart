@@ -51,9 +51,9 @@ class Version extends $pb.GeneratedMessage {
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'google.protobuf.compiler'),
       createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'major', $pb.PbFieldType.O3)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'minor', $pb.PbFieldType.O3)
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'patch', $pb.PbFieldType.O3)
+    ..aI(1, _omitFieldNames ? '' : 'major')
+    ..aI(2, _omitFieldNames ? '' : 'minor')
+    ..aI(3, _omitFieldNames ? '' : 'patch')
     ..aOS(4, _omitFieldNames ? '' : 'suffix')
     ..hasRequiredFields = false;
 
@@ -152,11 +152,10 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'parameter')
     ..aOM<Version>(3, _omitFieldNames ? '' : 'compilerVersion',
         subBuilder: Version.create)
-    ..pc<$0.FileDescriptorProto>(
-        15, _omitFieldNames ? '' : 'protoFile', $pb.PbFieldType.PM,
+    ..pPM<$0.FileDescriptorProto>(15, _omitFieldNames ? '' : 'protoFile',
         subBuilder: $0.FileDescriptorProto.create)
-    ..pc<$0.FileDescriptorProto>(
-        17, _omitFieldNames ? '' : 'sourceFileDescriptors', $pb.PbFieldType.PM,
+    ..pPM<$0.FileDescriptorProto>(
+        17, _omitFieldNames ? '' : 'sourceFileDescriptors',
         subBuilder: $0.FileDescriptorProto.create);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -424,12 +423,9 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
     ..a<$fixnum.Int64>(
         2, _omitFieldNames ? '' : 'supportedFeatures', $pb.PbFieldType.OU6,
         defaultOrMaker: $fixnum.Int64.ZERO)
-    ..a<$core.int>(
-        3, _omitFieldNames ? '' : 'minimumEdition', $pb.PbFieldType.O3)
-    ..a<$core.int>(
-        4, _omitFieldNames ? '' : 'maximumEdition', $pb.PbFieldType.O3)
-    ..pc<CodeGeneratorResponse_File>(
-        15, _omitFieldNames ? '' : 'file', $pb.PbFieldType.PM,
+    ..aI(3, _omitFieldNames ? '' : 'minimumEdition')
+    ..aI(4, _omitFieldNames ? '' : 'maximumEdition')
+    ..pPM<CodeGeneratorResponse_File>(15, _omitFieldNames ? '' : 'file',
         subBuilder: CodeGeneratorResponse_File.create)
     ..hasRequiredFields = false;
 

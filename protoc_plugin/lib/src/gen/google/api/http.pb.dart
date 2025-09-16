@@ -44,7 +44,7 @@ class Http extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'Http',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
       createEmptyInstance: create)
-    ..pc<HttpRule>(1, _omitFieldNames ? '' : 'rules', $pb.PbFieldType.PM,
+    ..pPM<HttpRule>(1, _omitFieldNames ? '' : 'rules',
         subBuilder: HttpRule.create)
     ..aOB(2, _omitFieldNames ? '' : 'fullyDecodeReservedExpansion')
     ..hasRequiredFields = false;
@@ -416,8 +416,7 @@ class HttpRule extends $pb.GeneratedMessage {
     ..aOS(7, _omitFieldNames ? '' : 'body')
     ..aOM<CustomHttpPattern>(8, _omitFieldNames ? '' : 'custom',
         subBuilder: CustomHttpPattern.create)
-    ..pc<HttpRule>(
-        11, _omitFieldNames ? '' : 'additionalBindings', $pb.PbFieldType.PM,
+    ..pPM<HttpRule>(11, _omitFieldNames ? '' : 'additionalBindings',
         subBuilder: HttpRule.create)
     ..aOS(12, _omitFieldNames ? '' : 'responseBody')
     ..hasRequiredFields = false;
@@ -441,7 +440,19 @@ class HttpRule extends $pb.GeneratedMessage {
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HttpRule>(create);
   static HttpRule? _defaultInstance;
 
+  @$pb.TagNumber(2)
+  @$pb.TagNumber(3)
+  @$pb.TagNumber(4)
+  @$pb.TagNumber(5)
+  @$pb.TagNumber(6)
+  @$pb.TagNumber(8)
   HttpRule_Pattern whichPattern() => _HttpRule_PatternByTag[$_whichOneof(0)]!;
+  @$pb.TagNumber(2)
+  @$pb.TagNumber(3)
+  @$pb.TagNumber(4)
+  @$pb.TagNumber(5)
+  @$pb.TagNumber(6)
+  @$pb.TagNumber(8)
   void clearPattern() => $_clearField($_whichOneof(0));
 
   /// Selects a method to which this rule applies.

@@ -162,10 +162,7 @@ class ClientLibrarySettings extends $pb.GeneratedMessage {
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'version')
-    ..e<$1.LaunchStage>(
-        2, _omitFieldNames ? '' : 'launchStage', $pb.PbFieldType.OE,
-        defaultOrMaker: $1.LaunchStage.LAUNCH_STAGE_UNSPECIFIED,
-        valueOf: $1.LaunchStage.valueOf,
+    ..aE<$1.LaunchStage>(2, _omitFieldNames ? '' : 'launchStage',
         enumValues: $1.LaunchStage.values)
     ..aOB(3, _omitFieldNames ? '' : 'restNumericEnums')
     ..aOM<JavaSettings>(21, _omitFieldNames ? '' : 'javaSettings',
@@ -386,8 +383,7 @@ class Publishing extends $pb.GeneratedMessage {
       _omitMessageNames ? '' : 'Publishing',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
       createEmptyInstance: create)
-    ..pc<MethodSettings>(
-        2, _omitFieldNames ? '' : 'methodSettings', $pb.PbFieldType.PM,
+    ..pPM<MethodSettings>(2, _omitFieldNames ? '' : 'methodSettings',
         subBuilder: MethodSettings.create)
     ..aOS(101, _omitFieldNames ? '' : 'newIssueUri')
     ..aOS(102, _omitFieldNames ? '' : 'documentationUri')
@@ -395,14 +391,9 @@ class Publishing extends $pb.GeneratedMessage {
     ..aOS(104, _omitFieldNames ? '' : 'githubLabel')
     ..pPS(105, _omitFieldNames ? '' : 'codeownerGithubTeams')
     ..aOS(106, _omitFieldNames ? '' : 'docTagPrefix')
-    ..e<ClientLibraryOrganization>(
-        107, _omitFieldNames ? '' : 'organization', $pb.PbFieldType.OE,
-        defaultOrMaker:
-            ClientLibraryOrganization.CLIENT_LIBRARY_ORGANIZATION_UNSPECIFIED,
-        valueOf: ClientLibraryOrganization.valueOf,
+    ..aE<ClientLibraryOrganization>(107, _omitFieldNames ? '' : 'organization',
         enumValues: ClientLibraryOrganization.values)
-    ..pc<ClientLibrarySettings>(
-        109, _omitFieldNames ? '' : 'librarySettings', $pb.PbFieldType.PM,
+    ..pPM<ClientLibrarySettings>(109, _omitFieldNames ? '' : 'librarySettings',
         subBuilder: ClientLibrarySettings.create)
     ..aOS(110, _omitFieldNames ? '' : 'protoReferenceDocumentationUri')
     ..aOS(111, _omitFieldNames ? '' : 'restReferenceDocumentationUri')
@@ -1310,8 +1301,8 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
       createEmptyInstance: create)
     ..aOM<$0.Duration>(1, _omitFieldNames ? '' : 'initialPollDelay',
         subBuilder: $0.Duration.create)
-    ..a<$core.double>(
-        2, _omitFieldNames ? '' : 'pollDelayMultiplier', $pb.PbFieldType.OF)
+    ..aD(2, _omitFieldNames ? '' : 'pollDelayMultiplier',
+        fieldType: $pb.PbFieldType.OF)
     ..aOM<$0.Duration>(3, _omitFieldNames ? '' : 'maxPollDelay',
         subBuilder: $0.Duration.create)
     ..aOM<$0.Duration>(4, _omitFieldNames ? '' : 'totalPollTimeout',
