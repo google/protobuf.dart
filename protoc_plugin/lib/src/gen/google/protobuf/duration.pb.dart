@@ -104,7 +104,7 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
       createEmptyInstance: create,
       wellKnownType: $mixin.WellKnownType.duration)
     ..aInt64(1, _omitFieldNames ? '' : 'seconds')
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'nanos', $pb.PbFieldType.O3)
+    ..aI(2, _omitFieldNames ? '' : 'nanos')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
