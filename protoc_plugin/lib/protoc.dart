@@ -15,6 +15,7 @@ import 'src/gen/dart_options.pb.dart';
 import 'src/gen/google/api/client.pb.dart';
 import 'src/gen/google/protobuf/compiler/plugin.pb.dart';
 import 'src/gen/google/protobuf/descriptor.pb.dart';
+import 'src/gen/google/protobuf/dart_edition_defaults.pb.dart';
 import 'src/linker.dart';
 import 'src/options.dart';
 import 'src/output_config.dart';
@@ -35,9 +36,6 @@ part 'src/protobuf_field.dart';
 part 'src/service_generator.dart';
 part 'src/well_known_types.dart';
 
-const _protobufInternalDartEditionDefaults =
-    'ChcYhAciACoQCAEQAhgCIAMoATACOAJAAQoXGOcHIgAqEAgCEAEYASACKAEwATgCQAEKFxjoByIMCAEQARgBIAIoATABKgQ4AkABChcY6QciEAgBEAEYASACKAEwATgBQAIqACDmByjpBw==';
-
 FeatureSetDefaults pluginFeatureSetDefaults = FeatureSetDefaults.fromBuffer(
-  base64Decode(_protobufInternalDartEditionDefaults),
+  base64Decode(ProtobufInternalDartEditionDefaults),
 );
