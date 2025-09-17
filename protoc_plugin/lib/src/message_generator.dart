@@ -76,6 +76,9 @@ class MessageGenerator extends ProtobufContainer {
   @override
   final ProtobufContainer parent;
 
+  @override
+  final FeatureSet features;
+
   final DescriptorProto _descriptor;
   final List<EnumGenerator> _enumGenerators = <EnumGenerator>[];
   final List<MessageGenerator> _messageGenerators = <MessageGenerator>[];
@@ -85,13 +88,14 @@ class MessageGenerator extends ProtobufContainer {
   /// by the index in the containing types's oneof_decl list.
   /// Only contains the 'real' oneofs.
   final List<List<ProtobufField>> _oneofFields;
+  final List<FeatureSet> _oneofFeatures;
   late List<OneofNames> _oneofNames;
 
   @override
   final List<int> fieldPath;
 
   // populated by resolve()
-  late List<ProtobufField> _fieldList;
+  late List<ProtobufField> fieldList;
   bool _resolved = false;
 
   Set<String> _usedTopLevelNames;
@@ -116,7 +120,12 @@ class MessageGenerator extends ProtobufContainer {
       _oneofFields = List.generate(
         countRealOneofs(descriptor),
         (int index) => [],
-      ) {
+      ),
+      _oneofFeatures = List.generate(
+        countRealOneofs(descriptor),
+        (int index) => FeatureSet(),
+      ),
+      features = resolveFeatures(parent.features, descriptor.options.features) {
     mixin = _getMixin(declaredMixins, defaultMixin);
     for (var i = 0; i < _descriptor.enumType.length; i++) {
       final e = _descriptor.enumType[i];
@@ -134,6 +143,13 @@ class MessageGenerator extends ProtobufContainer {
           _usedTopLevelNames,
           i,
         ),
+      );
+    }
+
+    for (var oneof = 0; oneof < _oneofFeatures.length; oneof++) {
+      _oneofFeatures[oneof] = resolveFeatures(
+        features,
+        descriptor.oneofDecl[oneof].options.features,
       );
     }
 
@@ -237,16 +253,25 @@ class MessageGenerator extends ProtobufContainer {
       classname,
       _usedTopLevelNames,
       reserved: reserved,
+      lowercaseGroupNames: false,
     );
 
-    _fieldList = <ProtobufField>[];
+    fieldList = <ProtobufField>[];
     for (final names in members.fieldNames) {
-      final field = ProtobufField.message(names, this, ctx);
-      if (field.descriptor.hasOneofIndex() &&
-          !field.descriptor.proto3Optional) {
+      final descriptor = names.descriptor;
+      ProtobufField field;
+      if (descriptor.hasOneofIndex() && !descriptor.proto3Optional) {
+        field = ProtobufField.message(
+          names,
+          this,
+          _oneofFeatures[descriptor.oneofIndex],
+          ctx,
+        );
         _oneofFields[field.descriptor.oneofIndex].add(field);
+      } else {
+        field = ProtobufField.message(names, this, features, ctx);
       }
-      _fieldList.add(field);
+      fieldList.add(field);
     }
     _oneofNames = members.oneofNames;
 
@@ -260,7 +285,7 @@ class MessageGenerator extends ProtobufContainer {
 
   bool get needsFixnumImport {
     checkResolved();
-    for (final field in _fieldList) {
+    for (final field in fieldList) {
       if (field.needsFixnumImport) return true;
     }
     for (final m in _messageGenerators) {
@@ -281,7 +306,7 @@ class MessageGenerator extends ProtobufContainer {
     Set<FileGenerator> enumImports,
   ) {
     checkResolved();
-    for (final field in _fieldList) {
+    for (final field in fieldList) {
       final typeGen = field.baseType.generator;
       if (typeGen is EnumGenerator) {
         enumImports.add(typeGen.fileGen!);
@@ -455,7 +480,7 @@ class MessageGenerator extends ProtobufContainer {
               out.println('..oo($oneof, $tags)');
             }
 
-            for (final field in _fieldList) {
+            for (final field in fieldList) {
               field.generateBuilderInfoCall(out, package);
             }
 
@@ -520,9 +545,9 @@ class MessageGenerator extends ProtobufContainer {
   }
 
   void _generateFactory(IndentingWriter out) {
-    if (!fileGen.options.disableConstructorArgs && _fieldList.isNotEmpty) {
+    if (!fileGen.options.disableConstructorArgs && fieldList.isNotEmpty) {
       out.println('factory $classname({');
-      for (final field in _fieldList) {
+      for (final field in fieldList) {
         _emitDeprecatedIf(field.isDeprecated, out);
         if (field.isRepeated && !field.isMapField) {
           out.println(
@@ -543,14 +568,14 @@ class MessageGenerator extends ProtobufContainer {
       }
       out.print('}) ');
 
-      final names = _fieldList.map((f) => f.memberNames!.fieldName).toSet();
+      final names = fieldList.map((f) => f.memberNames!.fieldName).toSet();
       var result = 'result';
       if (names.contains(result)) {
         result += r'$';
       }
       out.addBlock('{', '}', () {
         out.println('final $result = create();');
-        for (final field in _fieldList) {
+        for (final field in fieldList) {
           out.print('if (${field.memberNames!.fieldName} != null) ');
           if (field.isRepeated && !field.isMapField) {
             out.println(
@@ -601,7 +626,7 @@ class MessageGenerator extends ProtobufContainer {
       return true;
     }
 
-    for (final field in type._fieldList) {
+    for (final field in type.fieldList) {
       if (field.isRequired) {
         return true;
       }
@@ -620,7 +645,7 @@ class MessageGenerator extends ProtobufContainer {
       generateOneofAccessors(out, oneof);
     }
 
-    for (final field in _fieldList) {
+    for (final field in fieldList) {
       out.println();
       generateFieldAccessorsMutators(
         field,

@@ -117,8 +117,18 @@ String singleQuote(String input) {
 }
 
 /// Chooses the Dart name of an extension.
-String extensionName(FieldDescriptorProto descriptor, Set<String> usedNames) {
-  return _unusedMemberNames(descriptor, null, null, usedNames).fieldName;
+String extensionName(
+  FieldDescriptorProto descriptor,
+  Set<String> usedNames,
+  bool lowercaseGroupNames,
+) {
+  return _unusedMemberNames(
+    descriptor,
+    null,
+    null,
+    usedNames,
+    lowercaseGroupNames,
+  ).fieldName;
 }
 
 Iterable<String> extensionSuffixes() sync* {
@@ -281,6 +291,7 @@ MemberNames messageMemberNames(
   String parentClassName,
   Set<String> usedTopLevelNames, {
   Iterable<String> reserved = const [],
+  bool lowercaseGroupNames = false,
 }) {
   final fieldList = List<FieldDescriptorProto>.from(descriptor.field);
   final sourcePositions = fieldList.asMap().map(
@@ -340,7 +351,13 @@ MemberNames messageMemberNames(
       final index = indexes[field.name]!;
       final sourcePosition = sourcePositions[field.name];
       takeFieldNames(
-        _unusedMemberNames(field, index, sourcePosition, existingNames),
+        _unusedMemberNames(
+          field,
+          index,
+          sourcePosition,
+          existingNames,
+          lowercaseGroupNames,
+        ),
       );
     }
   }
@@ -470,6 +487,7 @@ FieldNames _unusedMemberNames(
   int? index,
   int? sourcePosition,
   Set<String> existingNames,
+  bool lowercaseGroupNames,
 ) {
   if (_isRepeated(field)) {
     return FieldNames(
@@ -477,7 +495,7 @@ FieldNames _unusedMemberNames(
       index,
       sourcePosition,
       disambiguateName(
-        _defaultFieldName(_fieldMethodSuffix(field)),
+        _defaultFieldName(_fieldMethodSuffix(field, lowercaseGroupNames)),
         existingNames,
         _memberNamesSuffix(field.number),
       ),
@@ -498,7 +516,7 @@ FieldNames _unusedMemberNames(
   }
 
   final name = disambiguateName(
-    _fieldMethodSuffix(field),
+    _fieldMethodSuffix(field, lowercaseGroupNames),
     existingNames,
     _memberNamesSuffix(field.number),
     generateVariants: generateNameVariants,
@@ -535,11 +553,15 @@ String _defaultEnsureMethodName(String fieldMethodSuffix) =>
 
 /// The suffix to use for this field in Dart method names.
 /// (It should be camelcase and begin with an uppercase letter.)
-String _fieldMethodSuffix(FieldDescriptorProto field) {
+String _fieldMethodSuffix(
+  FieldDescriptorProto field,
+  bool lowercaseGroupNames,
+) {
   var name = _nameOption(field)!;
   if (name.isNotEmpty) return _capitalize(name);
 
-  if (field.type != FieldDescriptorProto_Type.TYPE_GROUP) {
+  if (field.type != FieldDescriptorProto_Type.TYPE_GROUP ||
+      lowercaseGroupNames) {
     return underscoresToCamelCase(field.name);
   }
 

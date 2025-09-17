@@ -10,10 +10,11 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 import '../names.dart' show lowerCaseFirstLetter;
-import '../protoc.dart' show FileGenerator;
+import '../protoc.dart' show FileGenerator, pluginFeatureSetDefaults;
 import 'gen/dart_options.pb.dart';
 import 'gen/google/api/client.pb.dart';
 import 'gen/google/protobuf/compiler/plugin.pb.dart';
+import 'gen/google/protobuf/descriptor.pb.dart';
 import 'linker.dart';
 import 'options.dart';
 import 'output_config.dart';
@@ -58,6 +59,8 @@ abstract class ProtobufContainer {
   // The generator containing this entity.
   ProtobufContainer? get parent;
 
+  FeatureSet get features;
+
   /// The top-level parent of this entity, or itself if it is a top-level
   /// entity.
   ProtobufContainer? get toplevelParent {
@@ -86,8 +89,8 @@ class CodeGenerator {
     Map<String, SingleOptionParser>? optionParsers,
     OutputConfiguration config = const DefaultOutputConfiguration(),
   }) async {
+    final editionDefaults = pluginFeatureSetDefaults;
     final extensions = ExtensionRegistry();
-
     Dart_options.registerAllExtensions(extensions);
     Client.registerAllExtensions(extensions);
 
@@ -118,7 +121,7 @@ class CodeGenerator {
     // (We may import it even if we don't generate the .pb.dart file.)
     final generators = <FileGenerator>[];
     for (final file in request.protoFile) {
-      generators.add(FileGenerator(file, options));
+      generators.add(FileGenerator(editionDefaults, file, options));
     }
 
     // Collect field types and importable files.
@@ -131,9 +134,19 @@ class CodeGenerator {
         response.file.addAll(gen.generateFiles(config));
       }
     }
-    response.supportedFeatures = Int64(
-      CodeGeneratorResponse_Feature.FEATURE_PROTO3_OPTIONAL.value,
-    );
+    response.supportedFeatures =
+        Int64(CodeGeneratorResponse_Feature.FEATURE_PROTO3_OPTIONAL.value) |
+        Int64(CodeGeneratorResponse_Feature.FEATURE_SUPPORTS_EDITIONS.value);
+    response.minimumEdition = Edition.EDITION_PROTO2.value;
+    response.maximumEdition = Edition.EDITION_2024.value;
+
+    // The edition defaults should always stay synchronized with the
+    // supported edition range we report to protoc.  It's not clear that
+    // the BUILD file definitions are load-bearing though, so we
+    // explicitly set them above and assert that the two are equal.
+    assert(response.minimumEdition == editionDefaults.minimumEdition.value);
+    assert(response.maximumEdition == editionDefaults.maximumEdition.value);
+
     _streamOut.add(response.writeToBuffer());
   }
 }

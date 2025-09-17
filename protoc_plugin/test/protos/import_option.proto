@@ -1,0 +1,13 @@
+edition = "2024";
+
+package import_option;
+
+import option "custom_option.proto";
+import option "custom_option_unlinked.proto";
+
+message MessageWithOptions {
+  option (custom_option.my_option) = "Hello world!";
+  option (custom_option.unlinked_option) = 99;
+
+  string a = 1;
+}
