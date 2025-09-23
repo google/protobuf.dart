@@ -7,28 +7,26 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
-/// Will test [actual] against the contests of the file at [file].
+/// Test [actual] against the contests of the file at [file].
 ///
-/// If the file doesn't exist, the file is instead created containing [actual].
+/// When the `PROTOC_UPDATE_GOLDENS` environment variable is set, the [file]
+/// will be crated (overwritten if already exists) with the [actual] as the
+/// contents. This can be used to automatically update golden test expectations.
 void expectGolden(String actual, String file) {
-  final goldens = Directory(path.join('test', 'goldens'));
-  if (!goldens.existsSync()) {
-    goldens.createSync();
-  }
-
-  var golden = File(path.join(goldens.path, file));
-  if (golden.existsSync()) {
-    expect(
-      actual,
-      equals(golden.readAsStringSync()),
-      reason: 'golden: "${golden.path}"',
-    );
-  } else {
-    // Writing the updated file if none exists.
+  var goldenFilePath = path.join('test', 'goldens', file);
+  if (Platform.environment.containsKey('PROTOC_UPDATE_GOLDENS')) {
     final workspace = Platform.environment['BUILD_WORKSPACE_DIRECTORY'];
     if (workspace != null) {
-      golden = File(path.join(workspace, 'test', 'goldens', file));
+      goldenFilePath = path.join(workspace, goldenFilePath);
     }
-    golden.writeAsStringSync(actual);
+    File(goldenFilePath)
+      ..createSync(recursive: true)
+      ..writeAsStringSync(actual);
+  } else {
+    expect(
+      actual,
+      equals(File(goldenFilePath).readAsStringSync()),
+      reason: 'golden: "$goldenFilePath"',
+    );
   }
 }
