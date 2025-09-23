@@ -53,8 +53,8 @@ void main() {
     );
     final eg = EnumGenerator.topLevel(ed, fg, <String>{}, 0);
     eg.generate(writer);
-    expectGolden(writer.emitSource(format: false), 'enum');
-    expectGolden(writer.sourceLocationInfo.toString(), 'enum.meta');
+    expectGolden(writer.emitSource(format: false), 'enum.pbenum.dart');
+    expectGolden(writer.sourceLocationInfo.toString(), 'enum.pbenum.dart.meta');
   });
 
   test('EnumGenerator inherits from a parent file', () {

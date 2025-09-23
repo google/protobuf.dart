@@ -55,8 +55,11 @@ void main() {
     );
     fileGenerator.extensionGenerators.single.generate(writer);
 
-    expectGolden(writer.emitSource(format: false), 'extension');
-    expectGolden(writer.sourceLocationInfo.toString(), 'extension.meta');
+    expectGolden(writer.emitSource(format: false), 'extension.pb.dart');
+    expectGolden(
+      writer.sourceLocationInfo.toString(),
+      'extension.pb.dart.meta',
+    );
   });
 
   test('ExtensionGenerator inherits from a parent file', () {
