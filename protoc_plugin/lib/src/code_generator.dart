@@ -10,7 +10,12 @@ import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 import '../names.dart' show lowerCaseFirstLetter;
-import '../protoc.dart' show FileGenerator, pluginFeatureSetDefaults;
+import '../protoc.dart'
+    show
+        FileGenerator,
+        pluginFeatureSetDefaults,
+        pluginMinSupportedEdition,
+        pluginMaxSupportedEdition;
 import 'gen/dart_options.pb.dart';
 import 'gen/google/api/client.pb.dart';
 import 'gen/google/protobuf/compiler/plugin.pb.dart';
@@ -137,15 +142,8 @@ class CodeGenerator {
     response.supportedFeatures =
         Int64(CodeGeneratorResponse_Feature.FEATURE_PROTO3_OPTIONAL.value) |
         Int64(CodeGeneratorResponse_Feature.FEATURE_SUPPORTS_EDITIONS.value);
-    response.minimumEdition = Edition.EDITION_PROTO2.value;
-    response.maximumEdition = Edition.EDITION_2024.value;
-
-    // The edition defaults should always stay synchronized with the
-    // supported edition range we report to protoc.  It's not clear that
-    // the BUILD file definitions are load-bearing though, so we
-    // explicitly set them above and assert that the two are equal.
-    assert(response.minimumEdition == editionDefaults.minimumEdition.value);
-    assert(response.maximumEdition == editionDefaults.maximumEdition.value);
+    response.minimumEdition = pluginMinSupportedEdition;
+    response.maximumEdition = pluginMaxSupportedEdition;
 
     _streamOut.add(response.writeToBuffer());
   }

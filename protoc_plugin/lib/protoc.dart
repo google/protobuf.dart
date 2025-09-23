@@ -36,6 +36,29 @@ part 'src/protobuf_field.dart';
 part 'src/service_generator.dart';
 part 'src/well_known_types.dart';
 
-FeatureSetDefaults pluginFeatureSetDefaults = FeatureSetDefaults.fromBuffer(
-  base64Decode(ProtobufInternalDartEditionDefaults),
-);
+final FeatureSetDefaults pluginFeatureSetDefaults =
+    FeatureSetDefaults.fromBuffer(
+      base64Decode(ProtobufInternalDartEditionDefaults),
+    );
+
+int get pluginMinSupportedEdition {
+  final minSupportedEdition = Edition.EDITION_PROTO2;
+
+  // The edition defaults should always stay synchronized with the supported
+  // edition range we report to protoc. It's not clear that the BUILD file
+  // definitions are load-bearing though, so we explicitly set them above and
+  // assert that the two are equal.
+  assert(minSupportedEdition == pluginFeatureSetDefaults.minimumEdition);
+
+  return Edition.EDITION_PROTO2.value;
+}
+
+int get pluginMaxSupportedEdition {
+  final maxSupportedEdition = Edition.EDITION_2024;
+
+  // Same as above, check that the plugin support is in sync with the feature
+  // set defaults constant.
+  assert(maxSupportedEdition == pluginFeatureSetDefaults.minimumEdition);
+
+  return maxSupportedEdition.value;
+}
