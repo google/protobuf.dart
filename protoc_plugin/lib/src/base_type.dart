@@ -65,8 +65,13 @@ class BaseType {
   String getRepeatedDartTypeIterable(FileGenerator fileGen) =>
       '$coreImportPrefix.Iterable<${getDartType(fileGen)}>';
 
-  factory BaseType(FieldDescriptorProto field, GenerationContext ctx) {
+  factory BaseType(
+    FieldDescriptorProto field,
+    FeatureSet features,
+    GenerationContext ctx,
+  ) {
     String constSuffix;
+    FieldDescriptorProto_Type type;
 
     switch (field.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
@@ -191,14 +196,17 @@ class BaseType {
         );
 
       case FieldDescriptorProto_Type.TYPE_GROUP:
-        constSuffix = 'G';
-        break;
       case FieldDescriptorProto_Type.TYPE_MESSAGE:
-        constSuffix = 'M';
-        break;
+        if (features.messageEncoding == FeatureSet_MessageEncoding.DELIMITED) {
+          constSuffix = 'G';
+          type = FieldDescriptorProto_Type.TYPE_GROUP;
+        } else {
+          constSuffix = 'M';
+          type = FieldDescriptorProto_Type.TYPE_MESSAGE;
+        }
       case FieldDescriptorProto_Type.TYPE_ENUM:
         constSuffix = 'E';
-        break;
+        type = FieldDescriptorProto_Type.TYPE_ENUM;
 
       default:
         throw ArgumentError('unimplemented type: ${field.type.name}');
@@ -210,7 +218,7 @@ class BaseType {
     }
 
     return BaseType._raw(
-      field.type,
+      type,
       constSuffix,
       generator.classname!,
       null,

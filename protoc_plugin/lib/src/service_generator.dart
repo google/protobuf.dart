@@ -84,7 +84,7 @@ class ServiceGenerator {
     mg.checkResolved();
     if (depth == 0) _deps[mg.dottedName] = mg;
     _transitiveDeps[mg.dottedName] = mg;
-    for (final field in mg._fieldList) {
+    for (final field in mg.fieldList) {
       if (field.baseType.isGroup || field.baseType.isMessage) {
         _addDepsRecursively(
           field.baseType.generator as MessageGenerator,

@@ -2,6 +2,7 @@
 
 Note: this version requires protobuf 5.0.0.
 
+* Support protobuf editions. ([#1052])
 * Update generated code for protobuf 5.0.0.
 * Update generated `clone` members to take advantage of faster `deepCopy`
   implementation in protobuf 5.0.0. ([#742])
@@ -9,6 +10,7 @@ Note: this version requires protobuf 5.0.0.
 
 [#742]: https://github.com/google/protobuf.dart/pull/742
 [#1047]: https://github.com/google/protobuf.dart/pull/1047
+[#1052]: https://github.com/google/protobuf.dart/pull/1052
 
 ## 22.5.0
 

@@ -24,7 +24,7 @@ class ExtensionGenerator {
     Set<String> usedNames,
     int repeatedFieldIndex,
     int fieldIdTag,
-  ) : _extensionName = extensionName(_descriptor, usedNames),
+  ) : _extensionName = extensionName(_descriptor, usedNames, false),
       _fieldPathSegment = [fieldIdTag, repeatedFieldIndex];
 
   static const _topLevelFieldTag = 7;
@@ -70,6 +70,8 @@ class ExtensionGenerator {
 
   /// The generator of the .pb.dart file where this extension will be defined.
   FileGenerator? get fileGen => _parent.fileGen;
+
+  FeatureSet get features => _field.features;
 
   String get name {
     if (!_resolved) throw StateError('resolve not called');
