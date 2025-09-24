@@ -142,8 +142,8 @@ class CodeGenerator {
     response.supportedFeatures =
         Int64(CodeGeneratorResponse_Feature.FEATURE_PROTO3_OPTIONAL.value) |
         Int64(CodeGeneratorResponse_Feature.FEATURE_SUPPORTS_EDITIONS.value);
-    response.minimumEdition = pluginMinSupportedEdition;
-    response.maximumEdition = pluginMaxSupportedEdition;
+    response.minimumEdition = pluginMinSupportedEdition.value;
+    response.maximumEdition = pluginMaxSupportedEdition.value;
 
     _streamOut.add(response.writeToBuffer());
   }
