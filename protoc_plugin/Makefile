@@ -3,7 +3,7 @@ PLUGIN_SRC = \
 	lib/**/*.dart
 
 OUTPUT_DIR=test/gen
-PLUGIN_NAME=protoc-gen-dart
+PLUGIN_NAME=protoc-gen-dart-debug
 PLUGIN_PATH=bin/$(PLUGIN_NAME)
 
 TEST_PROTO_LIST = \

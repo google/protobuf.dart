@@ -393,7 +393,6 @@ class ProtobufField {
 
   /// Returns a function expression that returns the field's default value.
   String? generateDefaultFunction({bool omitIfFirstEnumValue = false}) {
-    assert(!isRepeated);
     switch (descriptor.type) {
       case FieldDescriptorProto_Type.TYPE_BOOL:
         return _getDefaultAsBoolExpr(null);
