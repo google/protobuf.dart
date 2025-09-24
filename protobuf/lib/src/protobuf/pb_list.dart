@@ -40,8 +40,8 @@ class PbList<E> extends ListBase<E> {
       _check = _checkNotNull,
       _isReadOnly = true;
 
-  PbList.from(List<E> from)
-    : _wrappedList = List<E>.from(from),
+  PbList.from(Iterable<E> from)
+    : _wrappedList = List<E>.of(from),
       _check = _checkNotNull;
 
   @override
