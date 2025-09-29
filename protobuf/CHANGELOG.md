@@ -1,4 +1,4 @@
-## 5.0.0-wip
+## 5.0.0
 
 * Improve performance of `GeneratedMessage.deepCopy`. ([#742])
 * Fix unknown enum handling in `GeneratedMessage.mergeFromProto3Json` when
