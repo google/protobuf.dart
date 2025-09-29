@@ -93,6 +93,12 @@ void main() {
 
     foo.clearFirst();
     expectOneofNotSet(foo);
+
+    foo.first = 'oneof';
+    expectFirstSet(foo);
+
+    foo.clear();
+    expectOneofNotSet(foo);
   });
 
   test('serialize and parse oneof', () {
