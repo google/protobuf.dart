@@ -355,7 +355,6 @@ class CodedBufferWriter {
     switch (valueType) {
       case PbFieldType.BOOL_BIT:
         _writeVarint32(value ? 1 : 0);
-        break;
       case PbFieldType.BYTES_BIT:
         final List<int> bytes = value;
         if (bytes is Uint8List) {
@@ -365,7 +364,6 @@ class CodedBufferWriter {
         } else {
           _writeBytesNoTag(Uint8List.fromList(bytes));
         }
-        break;
       case PbFieldType.STRING_BIT:
         final String string = value;
         if (string.isEmpty) {
@@ -373,17 +371,13 @@ class CodedBufferWriter {
         } else {
           _writeBytesNoTag(const Utf8Encoder().convert(string));
         }
-        break;
       case PbFieldType.DOUBLE_BIT:
         _writeDouble(value);
-        break;
       case PbFieldType.FLOAT_BIT:
         _writeFloat(value);
-        break;
       case PbFieldType.ENUM_BIT:
         final ProtobufEnum enum_ = value;
         _writeVarint32(enum_.value & 0xffffffff);
-        break;
       case PbFieldType.GROUP_BIT:
         // `value` is `UnknownFieldSet` or `GeneratedMessage`. Test for
         // `UnknownFieldSet` as it doesn't have subtypes, so the type test will
@@ -398,43 +392,31 @@ class CodedBufferWriter {
           final GeneratedMessage message = value;
           message.writeToCodedBufferWriter(this);
         }
-        break;
       case PbFieldType.INT32_BIT:
         _writeVarint64(Int64(value));
-        break;
       case PbFieldType.INT64_BIT:
         _writeVarint64(value);
-        break;
       case PbFieldType.SINT32_BIT:
         _writeVarint32(_encodeZigZag32(value));
-        break;
       case PbFieldType.SINT64_BIT:
         _writeVarint64(_encodeZigZag64(value));
-        break;
       case PbFieldType.UINT32_BIT:
         _writeVarint32(value);
-        break;
       case PbFieldType.UINT64_BIT:
         _writeVarint64(value);
-        break;
       case PbFieldType.FIXED32_BIT:
         _writeInt32(value);
-        break;
       case PbFieldType.FIXED64_BIT:
         _writeInt64(value);
-        break;
       case PbFieldType.SFIXED32_BIT:
         _writeInt32(value);
-        break;
       case PbFieldType.SFIXED64_BIT:
         _writeInt64(value);
-        break;
       case PbFieldType.MESSAGE_BIT:
         final mark = _startLengthDelimited();
         final GeneratedMessage msg = value;
         msg.writeToCodedBufferWriter(this);
         _endLengthDelimited(mark);
-        break;
     }
   }
 
