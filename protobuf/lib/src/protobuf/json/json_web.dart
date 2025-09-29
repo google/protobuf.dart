@@ -174,7 +174,7 @@ JSObject _writeToRawJs(FieldSet fs) {
   final unknownJsonData = fs.unknownJsonData;
   if (unknownJsonData != null) {
     unknownJsonData.forEach((key, value) {
-      result.setProperty(key.toJS, value);
+      result.setProperty(key.toJS, value.jsify());
     });
   }
   return result;
@@ -215,7 +215,8 @@ void _mergeFromRawJsMap(
     if (fi == null) {
       fi = registry?.getExtension(fs.messageName, int.parse(key));
       if (fi == null) {
-        (fs.unknownJsonData ??= {})[key] = json.getProperty<JSAny>(jsKey);
+        (fs.unknownJsonData ??= {})[key] =
+            json.getProperty<JSAny>(jsKey).dartify();
         continue;
       }
     }
