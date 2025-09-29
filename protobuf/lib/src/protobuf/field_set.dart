@@ -508,6 +508,7 @@ class FieldSet {
     _unknownJsonData = null;
     if (_values.isNotEmpty) _values.fillRange(0, _values.length, null);
     _extensions?._clearValues();
+    _oneofCases?.clear();
   }
 
   bool _equals(FieldSet o) {
