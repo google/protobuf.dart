@@ -1,4 +1,4 @@
-## 23.0.0-wip
+## 23.0.0
 
 Note: this version requires protobuf 5.0.0.
 
