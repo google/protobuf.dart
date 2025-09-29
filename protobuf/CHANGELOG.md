@@ -6,12 +6,13 @@
 * Add `BuilderInfo` methods to support protoc-plugin 23.0.0. ([#1047])
 * Generalize argument type of `PbList.from` from `List<T>` to `Iterable<T>`.
   ([#1054])
-* Fix clearing oneof fields with `GeneratedMessage.clear`.
+* Fix clearing oneof fields with `GeneratedMessage.clear`. ([#1057])
 
 [#742]: https://github.com/google/protobuf.dart/pull/742
 [#853]: https://github.com/google/protobuf.dart/pull/853
 [#1047]: https://github.com/google/protobuf.dart/pull/1047
 [#1054]: https://github.com/google/protobuf.dart/pull/1054
+[#1057]: https://github.com/google/protobuf.dart/pull/1057
 
 ## 4.2.0
 
