@@ -40,7 +40,7 @@ class FieldSet {
   UnknownFieldSet? _unknownFields;
 
   /// Contains unknown data for messages deserialized from json.
-  Map<String, dynamic>? _unknownJsonData;
+  Map<String, Object?>? _unknownJsonData;
 
   /// Encodes whether `this` has been frozen, and if so, also memoizes the
   /// hash code.
@@ -114,7 +114,6 @@ class FieldSet {
       if (_isReadOnly) return UnknownFieldSet.emptyUnknownFieldSet;
       _unknownFields = UnknownFieldSet();
     }
-    _unknownJsonData = null;
     return _unknownFields!;
   }
 
@@ -506,6 +505,7 @@ class FieldSet {
     if (_unknownFields != null) {
       _unknownFields!.clear();
     }
+    _unknownJsonData = null;
     if (_values.isNotEmpty) _values.fillRange(0, _values.length, null);
     _extensions?._clearValues();
     _oneofCases?.clear();
@@ -540,7 +540,17 @@ class FieldSet {
       if (_unknownFields != o._unknownFields) return false;
     }
 
-    // Ignore _unknownJsonData to preserve existing equality behavior.
+    if (_unknownJsonData != null || o._unknownJsonData != null) {
+      if ((_unknownJsonData == null) != (o._unknownJsonData == null)) {
+        return false;
+      }
+      if (!DeepCollectionEquality().equals(
+        _unknownJsonData,
+        o._unknownJsonData,
+      )) {
+        return false;
+      }
+    }
 
     return true;
   }
@@ -608,7 +618,12 @@ class FieldSet {
     // Hash with unknown fields.
     hash = HashUtils.combine(hash, _unknownFields?.hashCode ?? 0);
 
-    // Ignore _unknownJsonData to preserve existing hashing behavior.
+    if (_unknownJsonData != null) {
+      hash = HashUtils.combine(
+        hash,
+        DeepCollectionEquality().hash(_unknownJsonData),
+      );
+    }
 
     if (_isReadOnly) {
       _frozenState = hash;
@@ -983,7 +998,7 @@ extension FieldSetInternalExtension on FieldSet {
   List get values => _values;
   ExtensionFieldSet? get extensions => _extensions;
   UnknownFieldSet? get unknownFields => _unknownFields;
-  Map<String, dynamic>? get unknownJsonData => _unknownJsonData;
+  Map<String, Object?>? get unknownJsonData => _unknownJsonData;
   set unknownJsonData(Map<String, dynamic>? value) => _unknownJsonData = value;
   BuilderInfo get meta => _meta;
   GeneratedMessage? get message => _message;

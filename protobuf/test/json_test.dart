@@ -95,7 +95,7 @@ void main() {
   });
 
   test('testWriteFrozenToJson', () {
-    final frozen = makeTestJson().clone()..freeze();
+    final frozen = makeTestJson()..freeze();
     final json = frozen.writeToJson();
     checkJsonMap(jsonDecode(json));
   });
@@ -143,6 +143,47 @@ void main() {
     m['9999'] = 'world';
     final t = T()..mergeFromJsonMap(m);
     checkJsonMap(t.writeToJsonMap(), unknownFields: {'9999': 'world'});
+  });
+
+  test('testJspbLite2WithUnknown', () {
+    final m = makeTestJson().writeToJson();
+    final decoded = jsonDecode(m);
+    decoded['9999'] = 'world';
+    final encoded = jsonEncode(decoded);
+    final t = T()..mergeFromJson(encoded);
+    checkJsonMap(t.writeToJsonMap(), unknownFields: {'9999': 'world'});
+  });
+
+  test('mergeFromJspbLite2 unknown data should be converted to Dart', () {
+    // Testing here is a bit indirect (via `toDebugString`) because
+    // `unknownJsonData` is not exposed to the users.
+    final decoded = {
+      '9999': {
+        '1': ['a', 'b', 'c'],
+      },
+    };
+    final encoded = jsonEncode(decoded);
+    final t = T()..mergeFromJson(encoded);
+    // Without converting JS data to Dart we get `[object Object]` here for the
+    // field value.
+    expect(t.toDebugString(), '{9999: {1: [a, b, c]}}');
+  });
+
+  test('writeToJspbLite unknown data should be converted to JS', () {
+    final m = makeTestJson().writeToJson();
+    final decoded = jsonDecode(m);
+    decoded['9999'] = {
+      '1': ['a', 'b', 'c'],
+    };
+    final encoded = jsonEncode(decoded);
+    final t = T()..mergeFromJson(encoded);
+    // Without converting unknown data (converted to Dart when decoding) to JS,
+    // the unknown field values in the output get weird as JS representation of
+    // Dart data are serialized directly by the browser's `JSON.stringify`.
+    expect(
+      t.writeToJson(),
+      '{"1":123,"2":"hello","4":[1,2,3],"9999":{"1":["a","b","c"]}}',
+    );
   });
 }
 

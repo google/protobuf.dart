@@ -12,6 +12,7 @@ import 'dart:convert' show Utf8Decoder, Utf8Encoder, base64Decode, base64Encode;
 import 'dart:math' as math;
 import 'dart:typed_data' show ByteData, Endian, Uint8List;
 
+import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:meta/meta.dart' show UseResult;
 
