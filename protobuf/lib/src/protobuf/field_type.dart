@@ -7,23 +7,18 @@ part of 'internal.dart';
 
 /// Defines constants and functions for dealing with fieldType bits.
 class PbFieldType {
-  static bool isRepeated(int fieldType) =>
-      (fieldType & PbFieldType.REPEATED_BIT) != 0;
+  static bool isRepeated(int fieldType) => (fieldType & REPEATED_BIT) != 0;
 
-  static bool isRequired(int fieldType) =>
-      (fieldType & PbFieldType.REQUIRED_BIT) != 0;
+  static bool isRequired(int fieldType) => (fieldType & REQUIRED_BIT) != 0;
 
-  static bool isEnum(int fieldType) =>
-      PbFieldType.baseType(fieldType) == PbFieldType.ENUM_BIT;
+  static bool isEnum(int fieldType) => baseType(fieldType) == ENUM_BIT;
 
-  static bool isBytes(int fieldType) =>
-      PbFieldType.baseType(fieldType) == PbFieldType.BYTES_BIT;
+  static bool isBytes(int fieldType) => baseType(fieldType) == BYTES_BIT;
 
   static bool isGroupOrMessage(int fieldType) =>
-      (fieldType & (PbFieldType.GROUP_BIT | PbFieldType.MESSAGE_BIT)) != 0;
+      (fieldType & (GROUP_BIT | MESSAGE_BIT)) != 0;
 
-  static bool isMapField(int fieldType) =>
-      (fieldType & PbFieldType.MAP_BIT) != 0;
+  static bool isMapField(int fieldType) => (fieldType & MAP_BIT) != 0;
 
   /// Returns the base field type without any of the required, repeated
   /// and packed bits.
@@ -176,6 +171,7 @@ class PbFieldType {
   static const int PACKED_SFIXED64 = REPEATED_BIT | PACKED_BIT | SFIXED64_BIT;
 
   static const int MAP = MAP_BIT | MESSAGE_BIT;
+
   // Short names for use in generated code.
 
   // _O_ptional.

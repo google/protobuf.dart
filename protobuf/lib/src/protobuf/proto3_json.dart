@@ -191,33 +191,6 @@ Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
   return result;
 }
 
-int _tryParse32BitProto3(String s, JsonParsingContext context) {
-  return int.tryParse(s) ??
-      (throw context.parseException('expected integer', s));
-}
-
-int _check32BitSignedProto3(int n, JsonParsingContext context) {
-  if (n < -2147483648 || n > 2147483647) {
-    throw context.parseException('expected 32 bit signed integer', n);
-  }
-  return n;
-}
-
-int _check32BitUnsignedProto3(int n, JsonParsingContext context) {
-  if (n < 0 || n > 0xFFFFFFFF) {
-    throw context.parseException('expected 32 bit unsigned integer', n);
-  }
-  return n;
-}
-
-Int64 _tryParse64BitProto3(Object? json, String s, JsonParsingContext context) {
-  try {
-    return Int64.parseInt(s);
-  } on FormatException {
-    throw context.parseException('expected integer', json);
-  }
-}
-
 /// TODO(paulberry): find a better home for this?
 extension _FindFirst<E> on Iterable<E> {
   E? findFirst(bool Function(E) test) {
@@ -384,14 +357,14 @@ void _mergeFromProto3JsonWithContext(
           if (value is int) {
             result = value;
           } else if (value is String) {
-            result = _tryParse32BitProto3(value, context);
+            result = Proto3ParseUtils.tryParse32Bit(value, context);
           } else {
             throw context.parseException(
               'Expected int or stringified int',
               value,
             );
           }
-          return _check32BitUnsignedProto3(result, context);
+          return Proto3ParseUtils.check32BitUnsigned(result, context);
         case PbFieldType.INT32_BIT:
         case PbFieldType.SINT32_BIT:
         case PbFieldType.SFIXED32_BIT:
@@ -399,21 +372,21 @@ void _mergeFromProto3JsonWithContext(
           if (value is int) {
             result = value;
           } else if (value is String) {
-            result = _tryParse32BitProto3(value, context);
+            result = Proto3ParseUtils.tryParse32Bit(value, context);
           } else {
             throw context.parseException(
               'Expected int or stringified int',
               value,
             );
           }
-          _check32BitSignedProto3(result, context);
+          Proto3ParseUtils.check32BitSigned(result, context);
           return result;
         case PbFieldType.UINT64_BIT:
           Int64 result;
           if (value is int) {
             result = Int64(value);
           } else if (value is String) {
-            result = _tryParse64BitProto3(json, value, context);
+            result = Proto3ParseUtils.tryParse64Bit(json, value, context);
           } else {
             throw context.parseException(
               'Expected int or stringified int',
@@ -469,23 +442,23 @@ void _mergeFromProto3JsonWithContext(
         case PbFieldType.UINT64_BIT:
           // TODO(sigurdm): We do not throw on negative values here.
           // That would probably require going via bignum.
-          return _tryParse64BitProto3(json, key, context);
+          return Proto3ParseUtils.tryParse64Bit(json, key, context);
         case PbFieldType.INT64_BIT:
         case PbFieldType.SINT64_BIT:
         case PbFieldType.SFIXED64_BIT:
         case PbFieldType.FIXED64_BIT:
-          return _tryParse64BitProto3(json, key, context);
+          return Proto3ParseUtils.tryParse64Bit(json, key, context);
         case PbFieldType.INT32_BIT:
         case PbFieldType.SINT32_BIT:
         case PbFieldType.FIXED32_BIT:
         case PbFieldType.SFIXED32_BIT:
-          return _check32BitSignedProto3(
-            _tryParse32BitProto3(key, context),
+          return Proto3ParseUtils.check32BitSigned(
+            Proto3ParseUtils.tryParse32Bit(key, context),
             context,
           );
         case PbFieldType.UINT32_BIT:
-          return _check32BitUnsignedProto3(
-            _tryParse32BitProto3(key, context),
+          return Proto3ParseUtils.check32BitUnsigned(
+            Proto3ParseUtils.tryParse32Bit(key, context),
             context,
           );
         default:

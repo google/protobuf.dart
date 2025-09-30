@@ -2,7 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:fixnum/fixnum.dart' show Int64;
+
 import 'internal.dart';
+import 'json_parsing_context.dart';
 
 // TODO(antonm): reconsider later if PbList should take care of equality.
 bool deepEquals(Object lhs, Object rhs) {
@@ -52,4 +55,37 @@ class HashUtils {
   /// Generates a hash code for two objects.
   static int hash2(dynamic a, dynamic b) =>
       _finish(combine(combine(0, a.hashCode), b.hashCode));
+}
+
+class Proto3ParseUtils {
+  static int tryParse32Bit(String s, JsonParsingContext context) {
+    return int.tryParse(s) ??
+        (throw context.parseException('expected integer', s));
+  }
+
+  static int check32BitSigned(int n, JsonParsingContext context) {
+    if (n < -2147483648 || n > 2147483647) {
+      throw context.parseException('expected 32 bit signed integer', n);
+    }
+    return n;
+  }
+
+  static int check32BitUnsigned(int n, JsonParsingContext context) {
+    if (n < 0 || n > 0xFFFFFFFF) {
+      throw context.parseException('expected 32 bit unsigned integer', n);
+    }
+    return n;
+  }
+
+  static Int64 tryParse64Bit(
+    Object? json,
+    String s,
+    JsonParsingContext context,
+  ) {
+    try {
+      return Int64.parseInt(s);
+    } on FormatException {
+      throw context.parseException('expected integer', json);
+    }
+  }
 }

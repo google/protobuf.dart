@@ -8,9 +8,10 @@ part of 'internal.dart';
 /// [GeneratedMessage]s.
 class CodedBufferReader {
   // ignore: constant_identifier_names
-  static const int DEFAULT_RECURSION_LIMIT = 64;
+  static const int DEFAULT_RECURSION_LIMIT = 100;
+  // Maximum value of a 32-bit signed integer.
   // ignore: constant_identifier_names
-  static const int DEFAULT_SIZE_LIMIT = 64 << 20;
+  static const int DEFAULT_SIZE_LIMIT = (1 << 31) - 1;
 
   final Uint8List _buffer;
 

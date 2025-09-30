@@ -64,11 +64,11 @@ class CodedBufferWriter {
     _commitChunk(true);
   }
 
-  void writeField(int fieldNumber, int fieldType, Object? fieldValue) {
+  void writeField(int fieldNumber, int fieldType, dynamic fieldValue) {
     final valueType = PbFieldType.baseType(fieldType);
 
     if ((fieldType & PbFieldType.PACKED_BIT) != 0) {
-      final list = fieldValue as List;
+      final List list = fieldValue;
       if (list.isNotEmpty) {
         _writeTag(fieldNumber, WIRETYPE_LENGTH_DELIMITED);
         final mark = _startLengthDelimited();
@@ -81,7 +81,7 @@ class CodedBufferWriter {
     }
 
     if ((fieldType & PbFieldType.MAP_BIT) != 0) {
-      final map = fieldValue as PbMap;
+      final PbMap map = fieldValue;
       final keyWireFormat = _wireTypes[_valueTypeIndex(map.keyFieldType)];
       final valueWireFormat = _wireTypes[_valueTypeIndex(map.valueFieldType)];
 
@@ -108,7 +108,7 @@ class CodedBufferWriter {
     final wireFormat = _wireTypes[_valueTypeIndex(valueType)];
 
     if ((fieldType & PbFieldType.REPEATED_BIT) != 0) {
-      final list = fieldValue as List;
+      final List list = fieldValue;
       for (var i = 0; i < list.length; i++) {
         _writeValue(fieldNumber, valueType, list[i], wireFormat);
       }
