@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@TestOn('vm')
+library;
+
 import 'package:protoc_plugin/src/shared.dart';
 import 'package:test/test.dart';
 
@@ -43,6 +46,18 @@ void main() {
 ///
 /// This is indented.''',
       );
+    });
+  });
+
+  group('which', () {
+    test('can locate a command', () {
+      final actual = which('dart');
+      expect(actual, isNotNull);
+    });
+
+    test('missing command returns null', () {
+      final actual = which('foo-bar-command');
+      expect(actual, isNull);
     });
   });
 }
