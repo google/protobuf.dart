@@ -268,16 +268,27 @@ void main() {
       }
     }
 
-    final List<int> data64 = makeRecursiveMessage(64).writeToBuffer();
-    final List<int> data65 = makeRecursiveMessage(65).writeToBuffer();
+    // Message with exactly `DEFAULT_RECURSION_LIMIT` levels of nesting.
+    final List<int> dataShallow =
+        makeRecursiveMessage(
+          CodedBufferReader.DEFAULT_RECURSION_LIMIT,
+        ).writeToBuffer();
+    // Message with more than `DEFAULT_RECURSION_LIMIT` levels of nesting.
+    final List<int> dataDeep =
+        makeRecursiveMessage(
+          CodedBufferReader.DEFAULT_RECURSION_LIMIT + 1,
+        ).writeToBuffer();
 
-    assertMessageDepth(TestRecursiveMessage.fromBuffer(data64), 64);
+    assertMessageDepth(
+      TestRecursiveMessage.fromBuffer(dataShallow),
+      CodedBufferReader.DEFAULT_RECURSION_LIMIT,
+    );
 
     expect(() {
-      TestRecursiveMessage.fromBuffer(data65);
+      TestRecursiveMessage.fromBuffer(dataDeep);
     }, throwsInvalidProtocolBufferException);
 
-    final input = CodedBufferReader(data64, recursionLimit: 8);
+    final input = CodedBufferReader(dataShallow, recursionLimit: 8);
     expect(() {
       // Uncomfortable alternative to below...
       TestRecursiveMessage().mergeFromCodedBufferReader(input);

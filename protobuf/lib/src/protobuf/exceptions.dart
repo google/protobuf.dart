@@ -35,7 +35,8 @@ class InvalidProtocolBufferException implements Exception {
   InvalidProtocolBufferException.recursionLimitExceeded()
     : this._('''
 Protocol message had too many levels of nesting. May be malicious.
-Use CodedBufferReader.setRecursionLimit() to increase the depth limit.
+Use a CodedBufferReader with a defined recursion depth limit if you need to
+parse deeply nested messages.
 ''');
 
   InvalidProtocolBufferException.truncatedMessage()
