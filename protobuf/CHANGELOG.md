@@ -1,3 +1,12 @@
+## 5.1.0-wip
+
+* Update default size limit of `CodedBufferReader` from 67,108,864 bytes to
+  2,147,483,647 bytes, and default recursion limit from 64 to 100.
+
+  The new limits are consistent with the Java and C++ implementations. ([#1060])
+
+[#1060]: https://github.com/google/protobuf.dart/pull/1060
+
 ## 5.0.0
 
 * Improve performance of `GeneratedMessage.deepCopy`. ([#742])
