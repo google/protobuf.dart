@@ -151,9 +151,24 @@ class GrpcServiceGenerator {
         '$_clientClassname(super.channel, {super.options, super.interceptors});',
       );
 
-      // generate the service call methods
+      final collectRegexps = <String>{};
+
+      // generate the service call methods; any regexs that are referenced are
+      // collected in collectRegexps
       for (var i = 0; i < _methods.length; i++) {
-        _methods[i].generateClientStub(out, this, i);
+        _methods[i].generateClientStub(out, this, i, collectRegexps);
+      }
+
+      // write out any regexps that were referenced
+      if (collectRegexps.isNotEmpty) {
+        out.println();
+
+        final items = collectRegexps.toList();
+        for (int i = 0; i < items.length; i++) {
+          out.println(
+            "final \$core.RegExp _regexp$i = \$core.RegExp('${items[i]}');",
+          );
+        }
       }
 
       // generate the method descriptors
@@ -303,6 +318,7 @@ class _GrpcMethod {
     IndentingWriter out,
     GrpcServiceGenerator serviceGenerator,
     int methodIndex,
+    Set<String> collectRegexps,
   ) {
     out.println();
     final commentBlock = serviceGenerator.fileGen.commentBlock(
@@ -344,16 +360,8 @@ class _GrpcMethod {
           }
         } else if (httpRules.isNotEmpty) {
           // handle an http annotation
-
-          // todo:
-
-          // options = $_callOptions(metadata: {'foo': 'bar'}).mergedWith(options);
-
           final pathTemplates = PathTemplate.parseRules(httpRules);
-
-          for (final template in pathTemplates) {
-            out.println('// todo: $template');
-          }
+          _generateHttpAnnotations(out, pathTemplates, collectRegexps);
         }
 
         if (_clientStreaming && _serverStreaming) {
@@ -375,6 +383,68 @@ class _GrpcMethod {
         }
       },
     );
+  }
+
+  // TODO(devoncarew): This code correctly handles unary requests but does not
+  // generate correct code for streaming requests. For those, we need to update
+  // the grpc library so that we can examine the first request, and use that
+  // info to modify the headers that are sent.
+
+  void _generateHttpAnnotations(
+    IndentingWriter out,
+    List<PathTemplate> pathTemplates,
+    Set<String> collectRegexps,
+  ) {
+    // Build a map from a variable reference to all the matchers for it.
+    final variables = <String, List<PathVariable>>{};
+    for (final template in pathTemplates) {
+      for (final segment
+          in template.segments.whereType<PathVariablePathSegment>()) {
+        final variable = segment.variable;
+        variables.putIfAbsent(variable.name, () => []).add(variable);
+      }
+    }
+
+    out.addBlock('{', '}\n', () {
+      out.println('final results = <\$core.String>[];');
+      out.println();
+
+      for (final varName in variables.keys) {
+        final items = variables[varName]!;
+        final first = items.first;
+
+        final condition = first.protoRequestPath('request');
+
+        out.addBlock('if ($condition) {', '}', () {
+          out.println('final value = request.${first.fieldPathCamelCase};');
+
+          out.println('final regexps = [');
+          // Convert to and from a set for uniqueness. Iterate in reverse order
+          // as the spec calls for last matching entry wins.
+          final refs = <String>[];
+          for (final variable in items.toSet().toList().reversed) {
+            final regexp = variable.createRegexMatcher();
+            collectRegexps.add(regexp);
+
+            final regexpIndex = collectRegexps.toList().indexOf(regexp);
+            refs.add('_regexp$regexpIndex');
+          }
+          out.println('${refs.join(', ')}];');
+
+          out.println('if (regexps.any((r) => r.hasMatch(value))) {');
+          out.println("  results.add('$varName=\$value');");
+          out.println('}');
+        });
+      }
+
+      // If necessary, merge our new call options in with any existing ones.
+      out.println();
+      out.println('if (results.isNotEmpty) {');
+      out.println('  options = \$grpc.CallOptions(metadata: {');
+      out.println("    'x-goog-request-params': results.join('&'),");
+      out.println('}).mergedWith(options);');
+      out.println('}');
+    });
   }
 
   void generateServiceMethodRegistration(IndentingWriter out) {
@@ -439,22 +509,4 @@ extension on MethodOptions {
   bool get hasRountingOption => hasExtension(Routing.routing);
   RoutingRule? get routing =>
       hasRountingOption ? getExtension(Routing.routing) : null;
-}
-
-extension on PathVariable {
-  // todo: test
-  String createRegexMatcher() {
-    return segments
-        .map((string) {
-          switch (string) {
-            case '*':
-              return '[^/]*:';
-            case '**':
-              return '.*';
-            default:
-              return string;
-          }
-        })
-        .join('/');
-  }
 }

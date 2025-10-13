@@ -137,6 +137,9 @@ class PathVariable {
     }
   }
 
+  /// A dot-concanenated version of the field path.
+  String get name => fieldPath.join('.');
+
   @override
   bool operator ==(Object other) {
     return other is PathVariable &&
@@ -180,4 +183,65 @@ List<String> _findSegments(String str) {
   }
 
   return result;
+}
+
+extension PathVariableExt on PathVariable {
+  /// Create a regex definition to match this path variable.
+  String createRegexMatcher() {
+    return segments
+        .map((string) {
+          switch (string) {
+            case '*':
+              return '[^/]*';
+            case '**':
+              return '.*';
+            default:
+              return string;
+          }
+        })
+        .join('/');
+  }
+
+  /// Return the field path in camel-case format.
+  String get fieldPathCamelCase {
+    return fieldPath.map((str) => snakeToCamelCase(str)).join('.');
+  }
+
+  /// Generate a condition which we can use to know whether a field in a proto
+  /// is populated.
+  String protoRequestPath(String prefix) {
+    // Generate something like:
+    //
+    //     request.hasDocument() && request.document.hasName()
+
+    final result = <String>[];
+
+    for (int i = 0; i < fieldPath.length; i++) {
+      final path = fieldPath.sublist(0, i + 1);
+
+      final accessor = path
+          .sublist(0, path.length - 1)
+          .map((str) => snakeToCamelCase(str))
+          .join('.');
+      final hazzor = '.has${snakeToCamelCase(path.last.titleCase)}()';
+
+      result.add('$prefix${accessor.isEmpty ? '' : '.$accessor'}$hazzor');
+    }
+
+    return result.join(' && ');
+  }
+}
+
+extension StringExt on String {
+  String get titleCase => substring(0, 1).toUpperCase() + substring(1);
+}
+
+/// Convert snake case to camel case (`foo_bar` => `fooBar`).
+String snakeToCamelCase(String str) {
+  final items = str.split('_');
+  return items.first +
+      items
+          .skip(1)
+          .map((str) => str[0].toUpperCase() + str.substring(1))
+          .join('');
 }

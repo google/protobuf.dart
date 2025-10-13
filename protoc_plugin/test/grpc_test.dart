@@ -39,6 +39,53 @@ void main() {
     });
   });
 
+  group('PathVariableExt createRegexMatcher', () {
+    test('generation', () {
+      var pathVariable = PathVariable(fieldPath: ['foo'], segments: ['*']);
+      expect(pathVariable.createRegexMatcher(), '[^/]*');
+
+      pathVariable = PathVariable(fieldPath: ['foo'], segments: ['**']);
+      expect(pathVariable.createRegexMatcher(), '.*');
+
+      pathVariable = PathVariable(fieldPath: ['foo'], segments: ['foo', 'bar']);
+      expect(pathVariable.createRegexMatcher(), 'foo/bar');
+
+      pathVariable = PathVariable(fieldPath: ['foo'], segments: ['foo', '**']);
+      expect(pathVariable.createRegexMatcher(), 'foo/.*');
+    });
+
+    test('regex match', () {
+      // .*
+      var pathVariable = PathVariable(fieldPath: ['foo'], segments: ['*']);
+      var regex = RegExp(pathVariable.createRegexMatcher());
+      expect(regex.hasMatch('foo'), isTrue);
+
+      // .*/project
+      pathVariable = PathVariable(
+        fieldPath: ['*/project'],
+        segments: ['*', 'project'],
+      );
+      regex = RegExp(pathVariable.createRegexMatcher());
+      expect(regex.hasMatch('foo/project'), isTrue);
+
+      // project./.*
+      pathVariable = PathVariable(
+        fieldPath: ['project/*'],
+        segments: ['project', '*'],
+      );
+      regex = RegExp(pathVariable.createRegexMatcher());
+      expect(regex.hasMatch('project/foo'), isTrue);
+
+      // project/.*/resource/.*
+      pathVariable = PathVariable(
+        fieldPath: ['project/*/resource/*'],
+        segments: ['project', '*', 'resource', '*'],
+      );
+      regex = RegExp(pathVariable.createRegexMatcher());
+      expect(regex.hasMatch('project/foo/resource/bar'), isTrue);
+    });
+  });
+
   group('PathTemplate', () {
     test('simple', () {
       final actual = PathTemplate.parse(
@@ -180,5 +227,18 @@ void main() {
         ),
       );
     });
+  });
+
+  group('StringExt', () {
+    test('titleCase', () {
+      expect('a'.titleCase, 'A');
+      expect('fooBar'.titleCase, 'FooBar');
+      expect('FooBar'.titleCase, 'FooBar');
+    });
+  });
+
+  test('snakeToCamelCase', () {
+    expect(snakeToCamelCase('foo'), 'foo');
+    expect(snakeToCamelCase('foo_bar'), 'fooBar');
   });
 }
