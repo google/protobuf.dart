@@ -42,3 +42,7 @@ extend InnerMost {
 extend protobuf_unittest.TestAllExtensions {
   optional Outer outer = 104;
 }
+
+extend Outer {
+    repeated string extension_repeated = 6;
+}

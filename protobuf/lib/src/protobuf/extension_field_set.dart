@@ -121,7 +121,6 @@ class ExtensionFieldSet {
         ),
       );
     }
-    _ensureWritable();
     _validateInfo(fi);
     _parent._validateField(fi, value);
     _addInfoUnchecked(fi);
