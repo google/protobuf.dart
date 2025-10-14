@@ -746,4 +746,15 @@ void main() {
       expect(() => ext.add('hi'), throwsUnsupportedError);
     },
   );
+
+  test(
+    'getExtension repeated value turns frozen when the parent message is frozen',
+    () {
+      final m = Outer();
+      final List ext = m.getExtension(Extend_unittest.extensionRepeated);
+      ext.add('hi');
+      m.freeze();
+      expect(() => ext.add('bye'), throwsUnsupportedError);
+    },
+  );
 }
