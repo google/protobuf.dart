@@ -5,7 +5,12 @@
 
   The new limits are consistent with the Java and C++ implementations. ([#1060])
 
+* Fix `GeneratedMessage.addExtension` returning non-frozen and
+  `GeneratedMessage.getExtension` allowing modifying an extension when the
+  message is frozen before initializing the extension field set. ([#1062])
+
 [#1060]: https://github.com/google/protobuf.dart/pull/1060
+[#1062]: https://github.com/google/protobuf.dart/pull/1062
 
 ## 5.0.0
 
