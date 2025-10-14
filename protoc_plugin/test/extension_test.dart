@@ -701,7 +701,7 @@ void main() {
     final m = Outer();
     m.addExtension(Extend_unittest.extensionRepeated, 'hi');
     expect(() {
-      m.setExtension(Extend_unittest.extensionRepeated, "bye");
+      m.setExtension(Extend_unittest.extensionRepeated, 'bye');
     }, throwsArgumentError);
   });
 
