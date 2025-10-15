@@ -9,6 +9,10 @@
   `GeneratedMessage.getExtension` allowing modifying an extension when the
   message is frozen before initializing the extension field set. ([#1062])
 
+* Fix `GeneratedMessage.getExtension` returning differently typed lists when the
+  message extension field set is initialized and frozen and initialized but not
+  frozen. ([#1062])
+
 [#1060]: https://github.com/google/protobuf.dart/pull/1060
 [#1062]: https://github.com/google/protobuf.dart/pull/1062
 

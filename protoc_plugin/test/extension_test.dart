@@ -757,4 +757,21 @@ void main() {
       expect(() => ext.add('bye'), throwsUnsupportedError);
     },
   );
+
+  test(
+    'getExtension repeated value type is right when the field set is frozen',
+    () {
+      {
+        final m = Outer();
+        final ext = m.getExtension(Extend_unittest.extensionRepeated);
+        expect(ext, isA<PbList<String>>());
+      }
+
+      {
+        final m = Outer().freeze();
+        final ext = m.getExtension(Extend_unittest.extensionRepeated);
+        expect(ext, isA<PbList<String>>());
+      }
+    },
+  );
 }

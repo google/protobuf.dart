@@ -58,7 +58,7 @@ class ExtensionFieldSet {
     final value = _values[fi.tagNumber];
     if (value != null) return value;
     _checkNotInUnknown(fi);
-    if (_isReadOnly) return PbList<T>.unmodifiable();
+    if (_isReadOnly) return fi._createRepeatedField()..freeze();
     return _addInfoAndCreateList<T>(fi);
   }
 
