@@ -334,19 +334,12 @@ abstract class GeneratedMessage {
   ///
   /// The backing [List] will be created if necessary.
   /// If the list already exists, the old extension won't be overwritten.
-  void addExtension(Extension extension, Object? value) {
-    if (!extension.isRepeated) {
-      throw ArgumentError(
-        'Cannot add to a non-repeated field (use setExtension())',
-      );
-    }
-    _fieldSet._ensureExtensions()._ensureRepeatedField(extension).add(value);
-  }
+  void addExtension(Extension extension, Object? value) =>
+      _fieldSet.addExtension(extension, value);
 
   /// Clears an extension field and also removes the extension.
-  void clearExtension(Extension extension) {
-    _fieldSet._extensions?._clearFieldAndInfo(extension);
-  }
+  void clearExtension(Extension extension) =>
+      _fieldSet.clearExtension(extension);
 
   /// Clears the contents of a given field.
   ///
@@ -364,7 +357,7 @@ abstract class GeneratedMessage {
   ///
   /// If not set, returns the extension's default value.
   dynamic getExtension(Extension extension) =>
-      _fieldSet._ensureExtensions()._getFieldOrDefault(extension);
+      _fieldSet.getExtension(extension);
 
   /// Returns the value of the field associated with [tagNumber], or the
   /// default value if it is not set.
@@ -386,8 +379,7 @@ abstract class GeneratedMessage {
       _fieldSet._ensureInfo(tagNumber).readonlyDefault;
 
   /// Returns `true` if a value of [extension] is present.
-  bool hasExtension(Extension extension) =>
-      _fieldSet._extensions?._getFieldOrNull(extension) != null;
+  bool hasExtension(Extension extension) => _fieldSet.hasExtension(extension);
 
   /// Whether this message has a field associated with [tagNumber].
   bool hasField(int tagNumber) => _fieldSet._hasField(tagNumber);
@@ -406,18 +398,8 @@ abstract class GeneratedMessage {
       .mergeFromUnknownFieldSet(unknownFieldSet);
 
   /// Sets the value of a non-repeated extension field to [value].
-  void setExtension(Extension extension, Object value) {
-    if (PbFieldType.isRepeated(extension.type)) {
-      throw ArgumentError(
-        _fieldSet._setFieldFailedMessage(
-          extension,
-          value,
-          'repeating field (use get + .add())',
-        ),
-      );
-    }
-    _fieldSet._ensureExtensions()._setFieldAndInfo(extension, value);
-  }
+  void setExtension(Extension extension, Object value) =>
+      _fieldSet.setExtension(extension, value);
 
   /// Sets the value of a field by its [tagNumber].
   ///

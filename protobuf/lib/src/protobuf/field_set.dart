@@ -106,8 +106,18 @@ class FieldSet {
   /// The [FieldInfo] for each non-extension field in tag order.
   Iterable<FieldInfo> get _infosSortedByTag => _meta.sortedByTag;
 
-  ExtensionFieldSet _ensureExtensions() =>
-      _extensions ??= ExtensionFieldSet(this);
+  ExtensionFieldSet _ensureExtensions() {
+    var extensions = _extensions;
+    if (extensions != null) {
+      return extensions;
+    }
+    extensions = ExtensionFieldSet(this);
+    _extensions = extensions;
+    if (_isReadOnly) {
+      extensions._markReadOnly();
+    }
+    return extensions;
+  }
 
   UnknownFieldSet _ensureUnknownFields() {
     if (_unknownFields == null) {
@@ -989,6 +999,30 @@ class FieldSet {
     if (originalOneofCases != null) {
       _oneofCases!.addAll(originalOneofCases);
     }
+  }
+
+  bool hasExtension(Extension extension) =>
+      _extensions?._getFieldOrNull(extension) != null;
+
+  dynamic getExtension(Extension extension) =>
+      _ensureExtensions()._getFieldOrDefault(extension);
+
+  void setExtension(Extension extension, Object value) =>
+      _ensureExtensions()._setFieldAndInfo(extension, value);
+
+  void addExtension(Extension extension, Object? value) {
+    _ensureWritable();
+    if (!extension.isRepeated) {
+      throw ArgumentError(
+        'Cannot add to a non-repeated field (use setExtension())',
+      );
+    }
+    _ensureExtensions()._ensureRepeatedField(extension).add(value);
+  }
+
+  void clearExtension(Extension extension) {
+    _ensureWritable();
+    _extensions?._clearFieldAndInfo(extension);
   }
 }
 
