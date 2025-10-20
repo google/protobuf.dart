@@ -235,7 +235,7 @@ class ExtensionFieldSet {
         newValues[tag] = map?._deepCopy();
       } else if (fieldInfo.isRepeated) {
         final PbList? list = value;
-        newValues[tag] = list?._deepCopy();
+        newValues[tag] = list?.deepCopy();
       } else if (fieldInfo.isGroupOrMessage) {
         final GeneratedMessage? message = value;
         newValues[tag] = message?.deepCopy();

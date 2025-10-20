@@ -89,7 +89,7 @@ CheckFunc getCheckFunction(int fieldType) {
       // We always use the full range of the same Dart type.
       // It's up to the caller to treat the Int64 as signed or unsigned.
       // See: https://github.com/google/protobuf.dart/issues/44
-      return _checkNotNull;
+      return checkNotNull;
 
     case PbFieldType.FLOAT_BIT:
       return _checkFloat;
@@ -108,7 +108,7 @@ CheckFunc getCheckFunction(int fieldType) {
 
 // check functions for repeated fields
 
-void _checkNotNull(Object? val) {
+void checkNotNull(Object? val) {
   if (val == null) {
     throw ArgumentError("Can't add a null to a repeated field");
   }

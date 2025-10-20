@@ -957,7 +957,7 @@ class FieldSet {
       } else if (fieldInfo.isRepeated) {
         final PbList? originalList = original._values[index];
         if (originalList == null) continue;
-        _values[index] = originalList._deepCopy();
+        _values[index] = originalList.deepCopy();
       } else if (fieldInfo.isGroupOrMessage) {
         final GeneratedMessage? message = original._values[index];
         _values[index] = message?.deepCopy();

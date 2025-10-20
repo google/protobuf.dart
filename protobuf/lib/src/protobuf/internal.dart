@@ -7,7 +7,7 @@
 /// [1]: https://developers.google.com/protocol-buffers
 library;
 
-import 'dart:collection' show ListBase, MapBase;
+import 'dart:collection' show MapBase;
 import 'dart:convert' show Utf8Decoder, Utf8Encoder, base64Decode, base64Encode;
 import 'dart:math' as math;
 import 'dart:typed_data' show ByteData, Endian, Uint8List;
@@ -20,10 +20,12 @@ import 'consts.dart';
 import 'json/json.dart' as json_lib;
 import 'json_parsing_context.dart';
 import 'mixins/well_known.dart';
+import 'pb_list.dart';
 import 'permissive_compare.dart';
 import 'type_registry.dart';
 import 'utils.dart';
 
+export 'pb_list.dart' show PbList;
 export 'type_registry.dart' show TypeRegistry;
 
 part 'annotations.dart';
@@ -42,7 +44,6 @@ part 'field_type.dart';
 part 'generated_message.dart';
 part 'generated_service.dart';
 part 'message_set.dart';
-part 'pb_list.dart';
 part 'pb_map.dart';
 part 'proto3_json.dart';
 part 'protobuf_enum.dart';
