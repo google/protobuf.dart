@@ -8,13 +8,15 @@ class ExtensionFieldSet {
   final FieldSet _parent;
   final Map<int, Extension> _info;
   final Map<int, dynamic> _values;
-  bool _isReadOnly = false;
+  bool _isReadOnly;
 
-  ExtensionFieldSet(this._parent)
+  ExtensionFieldSet(this._parent, {required bool readOnly})
     : _info = <int, Extension>{},
-      _values = <int, dynamic>{};
+      _values = <int, dynamic>{},
+      _isReadOnly = readOnly;
 
-  ExtensionFieldSet._(this._parent, this._info, this._values);
+  ExtensionFieldSet._(this._parent, this._info, this._values)
+    : _isReadOnly = false;
 
   Extension? _getInfoOrNull(int tagNumber) => _info[tagNumber];
 

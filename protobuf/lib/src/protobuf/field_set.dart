@@ -106,18 +106,8 @@ class FieldSet {
   /// The [FieldInfo] for each non-extension field in tag order.
   Iterable<FieldInfo> get _infosSortedByTag => _meta.sortedByTag;
 
-  ExtensionFieldSet _ensureExtensions() {
-    var extensions = _extensions;
-    if (extensions != null) {
-      return extensions;
-    }
-    extensions = ExtensionFieldSet(this);
-    _extensions = extensions;
-    if (_isReadOnly) {
-      extensions._markReadOnly();
-    }
-    return extensions;
-  }
+  ExtensionFieldSet _ensureExtensions() =>
+      _extensions ??= ExtensionFieldSet(this, readOnly: _isReadOnly);
 
   UnknownFieldSet _ensureUnknownFields() {
     if (_unknownFields == null) {
