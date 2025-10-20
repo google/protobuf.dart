@@ -696,4 +696,82 @@ void main() {
     final d = r.reparseMessage(c);
     expect(m.hashCode, d.hashCode);
   });
+
+  test('setExtension throws when the extension field is repeated', () {
+    final m = Outer();
+    m.addExtension(Extend_unittest.extensionRepeated, 'hi');
+    expect(() {
+      m.setExtension(Extend_unittest.extensionRepeated, 'bye');
+    }, throwsArgumentError);
+  });
+
+  test('addExtension throws when the extension field is not repeated', () {
+    final m = Outer();
+    m.setExtension(Extend_unittest.extensionInner, Inner());
+    expect(() {
+      m.addExtension(Extend_unittest.extensionInner, Inner());
+    }, throwsArgumentError);
+  });
+
+  test('addExtension throws when the message is frozen', () {
+    final m = Outer()..freeze();
+    expect(
+      () => m.addExtension(Extend_unittest.extensionRepeated, 'hi'),
+      throwsUnsupportedError,
+    );
+  });
+
+  test('setExtension throws when the message is frozen', () {
+    final m = Outer()..freeze();
+    expect(
+      () => m.setExtension(Extend_unittest.extensionInner, Inner()),
+      throwsUnsupportedError,
+    );
+  });
+
+  test(
+    'getExtension returns frozen non-repeated value when the parent message is frozen',
+    () {
+      final m = Outer()..freeze();
+      final Inner ext = m.getExtension(Extend_unittest.extensionInner);
+      expect(() => ext.value = 'hi', throwsUnsupportedError);
+    },
+  );
+
+  test(
+    'getExtension returns frozen repeated value when the parent message is frozen',
+    () {
+      final m = Outer()..freeze();
+      final List ext = m.getExtension(Extend_unittest.extensionRepeated);
+      expect(() => ext.add('hi'), throwsUnsupportedError);
+    },
+  );
+
+  test(
+    'getExtension repeated value turns frozen when the parent message is frozen',
+    () {
+      final m = Outer();
+      final List ext = m.getExtension(Extend_unittest.extensionRepeated);
+      ext.add('hi');
+      m.freeze();
+      expect(() => ext.add('bye'), throwsUnsupportedError);
+    },
+  );
+
+  test(
+    'getExtension repeated value type is right when the field set is frozen',
+    () {
+      {
+        final m = Outer();
+        final ext = m.getExtension(Extend_unittest.extensionRepeated);
+        expect(ext, isA<PbList<String>>());
+      }
+
+      {
+        final m = Outer().freeze();
+        final ext = m.getExtension(Extend_unittest.extensionRepeated);
+        expect(ext, isA<PbList<String>>());
+      }
+    },
+  );
 }

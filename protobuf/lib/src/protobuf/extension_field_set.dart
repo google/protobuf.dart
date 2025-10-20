@@ -8,13 +8,15 @@ class ExtensionFieldSet {
   final FieldSet _parent;
   final Map<int, Extension> _info;
   final Map<int, dynamic> _values;
-  bool _isReadOnly = false;
+  bool _isReadOnly;
 
-  ExtensionFieldSet(this._parent)
+  ExtensionFieldSet(this._parent, {required bool readOnly})
     : _info = <int, Extension>{},
-      _values = <int, dynamic>{};
+      _values = <int, dynamic>{},
+      _isReadOnly = readOnly;
 
-  ExtensionFieldSet._(this._parent, this._info, this._values);
+  ExtensionFieldSet._(this._parent, this._info, this._values)
+    : _isReadOnly = false;
 
   Extension? _getInfoOrNull(int tagNumber) => _info[tagNumber];
 
@@ -58,7 +60,7 @@ class ExtensionFieldSet {
     final value = _values[fi.tagNumber];
     if (value != null) return value;
     _checkNotInUnknown(fi);
-    if (_isReadOnly) return PbList<T>.unmodifiable();
+    if (_isReadOnly) return fi._createRepeatedField()..freeze();
     return _addInfoAndCreateList<T>(fi);
   }
 
@@ -121,7 +123,6 @@ class ExtensionFieldSet {
         ),
       );
     }
-    _ensureWritable();
     _validateInfo(fi);
     _parent._validateField(fi, value);
     _addInfoUnchecked(fi);
