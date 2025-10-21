@@ -953,7 +953,7 @@ class FieldSet {
       if (fieldInfo.isMapField) {
         final PbMap? originalMap = original._values[index];
         if (originalMap == null) continue;
-        _values[index] = originalMap._deepCopy();
+        _values[index] = originalMap.deepCopy();
       } else if (fieldInfo.isRepeated) {
         final PbList? originalList = original._values[index];
         if (originalList == null) continue;

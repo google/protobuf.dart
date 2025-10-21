@@ -10,6 +10,7 @@ import 'package:fixnum/fixnum.dart' show Int64;
 
 import '../consts.dart';
 import '../internal.dart';
+import '../pb_map.dart';
 import '../utils.dart';
 
 @JS('JSON')

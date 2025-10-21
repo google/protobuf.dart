@@ -2,7 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of 'internal.dart';
+import 'dart:collection' show MapBase;
+
+import 'internal.dart';
+import 'utils.dart';
 
 const mapKeyFieldNumber = 1;
 const mapValueFieldNumber = 2;
@@ -20,9 +23,6 @@ class PbMap<K, V> extends MapBase<K, V> {
   ///
   /// The `int` value is interpreted the same way as [FieldInfo.type].
   final int valueFieldType;
-
-  static const int _keyFieldNumber = 1;
-  static const int _valueFieldNumber = 2;
 
   /// The actual list storing the elements.
   ///
@@ -103,25 +103,6 @@ class PbMap<K, V> extends MapBase<K, V> {
     return _wrappedMap.remove(key);
   }
 
-  void _mergeEntry(
-    BuilderInfo mapEntryMeta,
-    CodedBufferReader input,
-    ExtensionRegistry registry,
-  ) {
-    final length = input.readInt32();
-    final oldLimit = input._currentLimit;
-    input._currentLimit = input._bufferPos + length;
-    final entryFieldSet = FieldSet(null, mapEntryMeta);
-    _mergeFromCodedBufferReader(mapEntryMeta, entryFieldSet, input, registry);
-    input.checkLastTagWas(0);
-    input._currentLimit = oldLimit;
-    final key =
-        entryFieldSet._values[0] ?? mapEntryMeta.byIndex[0].makeDefault!();
-    final value =
-        entryFieldSet._values[1] ?? mapEntryMeta.byIndex[1].makeDefault!();
-    _wrappedMap[key] = value;
-  }
-
   PbMap freeze() {
     _isReadOnly = true;
     if (PbFieldType.isGroupOrMessage(valueFieldType)) {
@@ -146,4 +127,11 @@ class PbMap<K, V> extends MapBase<K, V> {
     }
     return newMap;
   }
+}
+
+extension PbMapInternalExtension<K, V> on PbMap<K, V> {
+  @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  PbMap<K, V> deepCopy() => _deepCopy();
 }
