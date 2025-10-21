@@ -73,6 +73,31 @@ void main() {
     expect(message.hasExtension(Unittest.optionalInt32Extension), isFalse);
   });
 
+  test(
+    'clearing extension throws when the message is frozen, without extension field set',
+    () {
+      final message = TestAllExtensions()..freeze();
+      expect(
+        () => message.clearExtension(Unittest.optionalInt32Extension),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+    },
+  );
+
+  test(
+    'clearing extension throws when the message is frozen, with extension field set',
+    () {
+      final message =
+          TestAllExtensions()
+            ..setExtension(Unittest.optionalInt32Extension, 1)
+            ..freeze();
+      expect(
+        () => message.clearExtension(Unittest.optionalInt32Extension),
+        throwsA(TypeMatcher<UnsupportedError>()),
+      );
+    },
+  );
+
   test('can clear a repeated extension', () {
     final message = TestAllExtensions();
     message.addExtension(Unittest.repeatedInt32Extension, 1);
