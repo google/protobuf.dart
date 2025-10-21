@@ -232,7 +232,7 @@ class ExtensionFieldSet {
       final fieldInfo = _info[tag]!;
       if (fieldInfo.isMapField) {
         final PbMap? map = value;
-        newValues[tag] = map?._deepCopy();
+        newValues[tag] = map?.deepCopy();
       } else if (fieldInfo.isRepeated) {
         final PbList? list = value;
         newValues[tag] = list?.deepCopy();

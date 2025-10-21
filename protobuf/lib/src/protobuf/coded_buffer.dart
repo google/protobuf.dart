@@ -355,13 +355,30 @@ void _mergeFromCodedBufferReader(
       case PbFieldType.MAP:
         final mapFieldInfo = fi as MapFieldInfo;
         final mapEntryMeta = mapFieldInfo.mapEntryBuilderInfo;
-        fs
-            ._ensureMapField(meta, mapFieldInfo)
-            ._mergeEntry(mapEntryMeta, input, registry);
+        final map = fs._ensureMapField(meta, mapFieldInfo);
+        _readMapEntry(map, mapEntryMeta, input, registry);
       default:
         throw UnsupportedError('Unknown field type $fieldType');
     }
   }
+}
+
+void _readMapEntry(
+  PbMap map,
+  BuilderInfo meta,
+  CodedBufferReader input,
+  ExtensionRegistry registry,
+) {
+  final length = input.readInt32();
+  final oldLimit = input._currentLimit;
+  input._currentLimit = input._bufferPos + length;
+  final entryFieldSet = FieldSet(null, meta);
+  _mergeFromCodedBufferReader(meta, entryFieldSet, input, registry);
+  input.checkLastTagWas(0);
+  input._currentLimit = oldLimit;
+  final key = entryFieldSet._values[0] ?? meta.byIndex[0].makeDefault!();
+  final value = entryFieldSet._values[1] ?? meta.byIndex[1].makeDefault!();
+  map[key] = value;
 }
 
 void _readPackableToListEnum(

@@ -8,6 +8,7 @@ import 'package:fixnum/fixnum.dart' show Int64;
 
 import '../consts.dart';
 import '../internal.dart';
+import '../pb_map.dart';
 import '../utils.dart';
 
 // Use json_vm.dart with VM and dart2wasm, json_web.dart with dart2js.
