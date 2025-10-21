@@ -2,7 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of 'internal.dart';
+import 'dart:collection' show ListBase;
+import 'dart:math' as math;
+
+import 'internal.dart';
+import 'utils.dart';
 
 /// Type of a function that checks items added to a `PbList`.
 ///
@@ -31,18 +35,18 @@ class PbList<E> extends ListBase<E> {
 
   bool get isFrozen => _isReadOnly;
 
-  PbList({CheckFunc<E> check = _checkNotNull})
+  PbList({CheckFunc<E> check = checkNotNull})
     : _wrappedList = <E>[],
       _check = check;
 
   PbList.unmodifiable()
     : _wrappedList = _emptyList,
-      _check = _checkNotNull,
+      _check = checkNotNull,
       _isReadOnly = true;
 
   PbList.from(Iterable<E> from)
     : _wrappedList = List<E>.of(from),
-      _check = _checkNotNull;
+      _check = checkNotNull;
 
   @override
   @pragma('dart2js:never-inline')
@@ -250,4 +254,21 @@ class PbList<E> extends ListBase<E> {
     }
     return newList;
   }
+}
+
+extension PbListInternalExtension<E> on PbList<E> {
+  @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  void checkModifiable(String methodName) => _checkModifiable(methodName);
+
+  @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  void addUnchecked(E element) => _addUnchecked(element);
+
+  @pragma('dart2js:tryInline')
+  @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  PbList<E> deepCopy() => _deepCopy();
 }
