@@ -72,8 +72,8 @@ String? _getFieldError(int fieldType, var value) {
 /// unsigned 32 bit ints where there also is a range check.
 ///
 /// @nodoc
-CheckFunc getCheckFunction(int fieldType) {
-  switch (fieldType & ~0x7) {
+CheckFunc? getCheckFunction(int fieldType) {
+  switch (PbFieldType.baseType(fieldType)) {
     case PbFieldType.BOOL_BIT:
     case PbFieldType.BYTES_BIT:
     case PbFieldType.STRING_BIT:
@@ -89,7 +89,7 @@ CheckFunc getCheckFunction(int fieldType) {
       // We always use the full range of the same Dart type.
       // It's up to the caller to treat the Int64 as signed or unsigned.
       // See: https://github.com/google/protobuf.dart/issues/44
-      return checkNotNull;
+      return null;
 
     case PbFieldType.FLOAT_BIT:
       return _checkFloat;

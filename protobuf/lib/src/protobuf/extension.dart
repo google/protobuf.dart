@@ -35,7 +35,7 @@ class Extension<T> extends FieldInfo<T> {
     String name,
     int tagNumber,
     int fieldType, {
-    required CheckFunc<T> check,
+    required CheckFunc<T>? check,
     CreateBuilderFunc? subBuilder,
     ValueOfFunc? valueOf,
     List<ProtobufEnum>? enumValues,

@@ -29,15 +29,13 @@ class PbList<E> extends ListBase<E> {
   /// We can't use `const []` as it makes the `_wrappedList` field polymorphic.
   static final _emptyList = <Never>[];
 
-  final CheckFunc<E> _check;
+  final CheckFunc<E>? _check;
 
   bool _isReadOnly = false;
 
   bool get isFrozen => _isReadOnly;
 
-  PbList({CheckFunc<E> check = checkNotNull})
-    : _wrappedList = <E>[],
-      _check = check;
+  PbList({CheckFunc<E>? check}) : _wrappedList = <E>[], _check = check;
 
   PbList.unmodifiable()
     : _wrappedList = _emptyList,
@@ -52,7 +50,9 @@ class PbList<E> extends ListBase<E> {
   @pragma('dart2js:never-inline')
   void add(E element) {
     _checkModifiable('add');
-    _check(element);
+    if (_check != null) {
+      _check(element);
+    }
     _wrappedList.add(element);
   }
 
@@ -67,7 +67,9 @@ class PbList<E> extends ListBase<E> {
   @pragma('dart2js:never-inline')
   void addAll(Iterable<E> iterable) {
     _checkModifiable('addAll');
-    iterable.forEach(_check);
+    if (_check != null) {
+      iterable.forEach(_check);
+    }
     _wrappedList.addAll(iterable);
   }
 
@@ -96,21 +98,27 @@ class PbList<E> extends ListBase<E> {
   @override
   void insert(int index, E element) {
     _checkModifiable('insert');
-    _check(element);
+    if (_check != null) {
+      _check(element);
+    }
     _wrappedList.insert(index, element);
   }
 
   @override
   void insertAll(int index, Iterable<E> iterable) {
     _checkModifiable('insertAll');
-    iterable.forEach(_check);
+    if (_check != null) {
+      iterable.forEach(_check);
+    }
     _wrappedList.insertAll(index, iterable);
   }
 
   @override
   void setAll(int index, Iterable<E> iterable) {
     _checkModifiable('setAll');
-    iterable.forEach(_check);
+    if (_check != null) {
+      iterable.forEach(_check);
+    }
     _wrappedList.setAll(index, iterable);
   }
 
@@ -149,7 +157,9 @@ class PbList<E> extends ListBase<E> {
     _checkModifiable('setRange');
     // NOTE: In case `take()` returns less than `end - start` elements, the
     // _wrappedList will fail with a `StateError`.
-    iterable.skip(skipCount).take(end - start).forEach(_check);
+    if (_check != null) {
+      iterable.skip(skipCount).take(end - start).forEach(_check);
+    }
     _wrappedList.setRange(start, end, iterable, skipCount);
   }
 
@@ -162,7 +172,9 @@ class PbList<E> extends ListBase<E> {
   @override
   void fillRange(int start, int end, [E? fill]) {
     _checkModifiable('fillRange');
-    _check(fill);
+    if (_check != null) {
+      _check(fill);
+    }
     _wrappedList.fillRange(start, end, fill);
   }
 
@@ -170,7 +182,9 @@ class PbList<E> extends ListBase<E> {
   void replaceRange(int start, int end, Iterable<E> newContents) {
     _checkModifiable('replaceRange');
     final values = newContents.toList();
-    newContents.forEach(_check);
+    if (_check != null) {
+      newContents.forEach(_check);
+    }
     _wrappedList.replaceRange(start, end, values);
   }
 
@@ -202,7 +216,9 @@ class PbList<E> extends ListBase<E> {
   @override
   void operator []=(int index, E value) {
     _checkModifiable('set element');
-    _check(value);
+    if (_check != null) {
+      _check(value);
+    }
     _wrappedList[index] = value;
   }
 
