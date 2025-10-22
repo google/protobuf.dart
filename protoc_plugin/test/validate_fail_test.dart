@@ -17,8 +17,30 @@ const List<double> invalidFloats = [
   3.4028234663852886E39,
 ];
 
+const isTypeError = TypeMatcher<TypeError>();
+
+// ignore: deprecated_member_use
+const Matcher throwsTypeError = Throws(isTypeError);
+
 void main() {
   test('Fields validate values', () {
+    // Nullability and type checks
+    expect(() {
+      (TestAllTypes() as dynamic).optionalNestedMessage = null;
+    }, throwsTypeError);
+
+    expect(() {
+      (TestAllTypes() as dynamic).optionalBool = null;
+    }, throwsTypeError);
+
+    expect(() {
+      (TestAllTypes() as dynamic).optionalNestedMessage = 123;
+    }, throwsTypeError);
+
+    expect(() {
+      (TestAllTypes() as dynamic).optionalBool = 123;
+    }, throwsTypeError);
+
     // int32
     TestAllTypes().optionalInt32 = minI32;
     TestAllTypes().optionalInt32 = -123;
@@ -96,6 +118,23 @@ void main() {
   });
 
   test('Repeated fields validate values', () {
+    // Nullability and type checks
+    expect(() {
+      (TestAllTypes() as dynamic).repeatedNestedMessage.add(null);
+    }, throwsTypeError);
+
+    expect(() {
+      (TestAllTypes() as dynamic).repeatedBool.add(null);
+    }, throwsTypeError);
+
+    expect(() {
+      (TestAllTypes() as dynamic).repeatedNestedMessage.add(123);
+    }, throwsTypeError);
+
+    expect(() {
+      (TestAllTypes() as dynamic).repeatedBool.add(123);
+    }, throwsTypeError);
+
     // int32
     TestAllTypes().repeatedInt32.add(minI32);
     TestAllTypes().repeatedInt32.add(-123);
@@ -173,6 +212,18 @@ void main() {
   });
 
   test('Extension fields validate values', () {
+    // Type checks
+    expect(() {
+      TestAllExtensions().setExtension(
+        Unittest.optionalNestedMessageExtension,
+        123,
+      );
+    }, throwsArgumentError);
+
+    expect(() {
+      TestAllExtensions().setExtension(Unittest.optionalBoolExtension, 123);
+    }, throwsArgumentError);
+
     // int32
     TestAllExtensions().setExtension(Unittest.optionalInt32Extension, minI32);
     TestAllExtensions().setExtension(Unittest.optionalInt32Extension, -123);
@@ -282,7 +333,30 @@ void main() {
     }
   });
 
-  test('Repetaed extension fields validate values', () {
+  test('Repeated extension fields validate values', () {
+    // Nullability and type checks
+    expect(() {
+      TestAllExtensions().addExtension(
+        Unittest.repeatedNestedMessageExtension,
+        null,
+      );
+    }, throwsTypeError);
+
+    expect(() {
+      TestAllExtensions().addExtension(
+        Unittest.repeatedNestedMessageExtension,
+        123,
+      );
+    }, throwsTypeError);
+
+    expect(() {
+      TestAllExtensions().addExtension(Unittest.repeatedBoolExtension, null);
+    }, throwsTypeError);
+
+    expect(() {
+      TestAllExtensions().addExtension(Unittest.repeatedBoolExtension, 123);
+    }, throwsTypeError);
+
     // int32
     TestAllExtensions().addExtension(Unittest.repeatedInt32Extension, minI32);
     TestAllExtensions().addExtension(Unittest.repeatedInt32Extension, -123);
