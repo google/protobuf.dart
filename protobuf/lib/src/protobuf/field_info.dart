@@ -138,7 +138,7 @@ class FieldInfo<T> {
     this.tagNumber,
     this.index,
     this.type,
-    CheckFunc<T> this.check,
+    this.check,
     this.subBuilder, {
     this.valueOf,
     this.enumValues,
@@ -232,13 +232,13 @@ class FieldInfo<T> {
   /// Creates a repeated field.
   PbList<T> _createRepeatedField() {
     assert(isRepeated);
-    return PbList<T>(check: check!);
+    return PbList<T>(check: check);
   }
 
   /// Same as above, but allow a tighter typed [PbList] to be created.
   PbList<S> _createRepeatedFieldWithType<S extends T>() {
     assert(isRepeated);
-    return PbList<S>(check: check!);
+    return PbList<S>(check: check);
   }
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
