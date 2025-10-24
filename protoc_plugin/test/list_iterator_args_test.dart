@@ -11,7 +11,7 @@ void main() {
   // `PbList`, and half of the tests below can be removed.
   test("PbList checks value validity", () {
     expect(() {
-      TestAllTypes().repeatedInt32.add(1 << 40);
+      TestAllTypes().repeatedInt32.add(2147483647 + 1);
     }, throwsArgumentError);
   });
 
