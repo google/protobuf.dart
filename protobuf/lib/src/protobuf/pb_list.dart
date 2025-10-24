@@ -177,9 +177,7 @@ class PbList<E> extends ListBase<E> {
       _wrappedList.setRange(
         start,
         end,
-        // Note: In case `take()` returns less than `end - start` elements, the
-        // `_wrappedList` will fail with a `StateError`.
-        iterable.skip(skipCount).take(end - start).map((E e) {
+        iterable.skip(skipCount).map((E e) {
           _check(e);
           return e;
         }),
