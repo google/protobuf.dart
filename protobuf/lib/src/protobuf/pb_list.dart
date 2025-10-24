@@ -68,9 +68,13 @@ class PbList<E> extends ListBase<E> {
   void addAll(Iterable<E> iterable) {
     _checkModifiable('addAll');
     if (_check != null) {
-      iterable.forEach(_check);
+      for (final e in iterable) {
+        _check(e);
+        _addUnchecked(e);
+      }
+    } else {
+      _wrappedList.addAll(iterable);
     }
-    _wrappedList.addAll(iterable);
   }
 
   @override
@@ -108,18 +112,32 @@ class PbList<E> extends ListBase<E> {
   void insertAll(int index, Iterable<E> iterable) {
     _checkModifiable('insertAll');
     if (_check != null) {
-      iterable.forEach(_check);
+      _wrappedList.insertAll(
+        index,
+        iterable.map((E e) {
+          _check(e);
+          return e;
+        }),
+      );
+    } else {
+      _wrappedList.insertAll(index, iterable);
     }
-    _wrappedList.insertAll(index, iterable);
   }
 
   @override
   void setAll(int index, Iterable<E> iterable) {
     _checkModifiable('setAll');
     if (_check != null) {
-      iterable.forEach(_check);
+      _wrappedList.setAll(
+        index,
+        iterable.map((E e) {
+          _check(e);
+          return e;
+        }),
+      );
+    } else {
+      _wrappedList.setAll(index, iterable);
     }
-    _wrappedList.setAll(index, iterable);
   }
 
   @override
@@ -155,12 +173,21 @@ class PbList<E> extends ListBase<E> {
   @override
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
     _checkModifiable('setRange');
-    // NOTE: In case `take()` returns less than `end - start` elements, the
-    // _wrappedList will fail with a `StateError`.
     if (_check != null) {
-      iterable.skip(skipCount).take(end - start).forEach(_check);
+      _wrappedList.setRange(
+        start,
+        end,
+        // Note: In case `take()` returns less than `end - start` elements, the
+        // `_wrappedList` will fail with a `StateError`.
+        iterable.skip(skipCount).take(end - start).map((E e) {
+          _check(e);
+          return e;
+        }),
+        0,
+      );
+    } else {
+      _wrappedList.setRange(start, end, iterable, skipCount);
     }
-    _wrappedList.setRange(start, end, iterable, skipCount);
   }
 
   @override
@@ -181,11 +208,18 @@ class PbList<E> extends ListBase<E> {
   @override
   void replaceRange(int start, int end, Iterable<E> newContents) {
     _checkModifiable('replaceRange');
-    final values = newContents.toList();
     if (_check != null) {
-      newContents.forEach(_check);
+      _wrappedList.replaceRange(
+        start,
+        end,
+        newContents.map((E e) {
+          _check(e);
+          return e;
+        }),
+      );
+    } else {
+      _wrappedList.replaceRange(start, end, newContents);
     }
-    _wrappedList.replaceRange(start, end, values);
   }
 
   @override
