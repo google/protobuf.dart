@@ -16,6 +16,7 @@ import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:meta/meta.dart' show UseResult;
 
 import 'consts.dart';
+import 'exceptions.dart';
 import 'json/json.dart' as json_lib;
 import 'json_parsing_context.dart';
 import 'mixins/well_known.dart';
@@ -25,16 +26,16 @@ import 'permissive_compare.dart';
 import 'type_registry.dart';
 import 'utils.dart';
 
+export 'annotations.dart' show TagNumber, GrpcServiceName;
 export 'pb_list.dart' show PbList;
 export 'pb_map.dart' show PbMap;
 export 'type_registry.dart' show TypeRegistry;
+export 'exceptions.dart' show InvalidProtocolBufferException;
 
-part 'annotations.dart';
 part 'builder_info.dart';
 part 'coded_buffer.dart';
 part 'coded_buffer_reader.dart';
 part 'coded_buffer_writer.dart';
-part 'exceptions.dart';
 part 'extension.dart';
 part 'extension_field_set.dart';
 part 'extension_registry.dart';
