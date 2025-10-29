@@ -144,7 +144,7 @@ class FieldInfo<T> {
     this.enumValues,
     this.defaultEnumValue,
     String? protoName,
-  }) : makeDefault = (() => PbList<T>(check: check)),
+  }) : makeDefault = (() => newPbList<T>(check: check)),
        _protoName = protoName,
        assert(PbFieldType.isRepeated(type)),
        assert(!PbFieldType.isEnum(type) || valueOf != null);
@@ -169,7 +169,7 @@ class FieldInfo<T> {
   /// [GeneratedMessage.getField], doesn't create a repeated field.
   dynamic get readonlyDefault {
     if (isRepeated) {
-      return _emptyList ??= PbList.unmodifiable();
+      return _emptyList ??= newUnmodifiablePbList();
     }
     return makeDefault!();
   }
@@ -232,13 +232,13 @@ class FieldInfo<T> {
   /// Creates a repeated field.
   PbList<T> _createRepeatedField() {
     assert(isRepeated);
-    return PbList<T>(check: check);
+    return newPbList<T>(check: check);
   }
 
   /// Same as above, but allow a tighter typed [PbList] to be created.
   PbList<S> _createRepeatedFieldWithType<S extends T>() {
     assert(isRepeated);
-    return PbList<S>(check: check);
+    return newPbList<S>(check: check);
   }
 
   /// Convenience method to thread this FieldInfo's reified type parameter to
@@ -303,7 +303,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
          tagNumber,
          index,
          type,
-         defaultOrMaker: () => PbMap<K, V>(keyFieldType, valueFieldType),
+         defaultOrMaker: () => newPbMap<K, V>(keyFieldType, valueFieldType),
          defaultEnumValue: defaultEnumValue,
          protoName: protoName,
        ) {
@@ -319,7 +319,7 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
 
   PbMap<K, V> _createMapField() {
     assert(isMapField);
-    return PbMap<K, V>(keyFieldType, valueFieldType);
+    return newPbMap<K, V>(keyFieldType, valueFieldType);
   }
 }
 

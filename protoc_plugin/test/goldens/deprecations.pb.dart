@@ -59,8 +59,6 @@ class HelloRequest extends $pb.GeneratedMessage {
   static HelloRequest create() => HelloRequest._();
   @$core.override
   HelloRequest createEmptyInstance() => create();
-  static $pb.PbList<HelloRequest> createRepeated() =>
-      $pb.PbList<HelloRequest>();
   @$core.pragma('dart2js:noInline')
   static HelloRequest getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<HelloRequest>(create);
@@ -118,7 +116,6 @@ class HelloReply extends $pb.GeneratedMessage {
   static HelloReply create() => HelloReply._();
   @$core.override
   HelloReply createEmptyInstance() => create();
-  static $pb.PbList<HelloReply> createRepeated() => $pb.PbList<HelloReply>();
   @$core.pragma('dart2js:noInline')
   static HelloReply getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<HelloReply>(create);

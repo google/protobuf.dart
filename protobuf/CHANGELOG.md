@@ -1,4 +1,4 @@
-## 5.1.0-wip
+## 6.0.0-wip
 
 * Update default size limit of `CodedBufferReader` from 67,108,864 bytes to
   2,147,483,647 bytes, and default recursion limit from 64 to 100.
@@ -12,6 +12,13 @@
 * Fix `GeneratedMessage.getExtension` returning differently typed lists when the
   message extension field set is initialized and frozen and initialized but not
   frozen. ([#1062])
+
+* **Breaking:** Hide `PbList` and `PbMap` constructors. It is not possible to
+  construct these values correctly in user code, so the constructors are now
+  private. Existing uses of `PbList` can be replaced by `List` and `PbMap` can
+  be replaced by `Map`.
+
+  For immutable lists and maps, you can use `built_value`.
 
 [#1060]: https://github.com/google/protobuf.dart/pull/1060
 [#1062]: https://github.com/google/protobuf.dart/pull/1062
