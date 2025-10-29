@@ -1,4 +1,4 @@
-## 6.0.0-wip
+## 6.0.0
 
 * Update default size limit of `CodedBufferReader` from 67,108,864 bytes to
   2,147,483,647 bytes, and default recursion limit from 64 to 100.
