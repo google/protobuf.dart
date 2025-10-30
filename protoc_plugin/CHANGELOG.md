@@ -1,9 +1,11 @@
 ## 24.0.0
 
-* Don't generate `createRepeated` methods.
+* **Breaking:** Don't generate `createRepeated` methods.
 
-  These methods were mostly useless and unused as there isn't much you can do
-  with a `PbList` that you can't do with a `List`.
+  These methods are not too useful as there isn't much you can do with a
+  `PbList` that you can't do with a `List`.
+
+  To migrate, replace `MyMessage.createRepeated()` with `<MyMessage>[]`.
 
 ## 23.0.0
 
