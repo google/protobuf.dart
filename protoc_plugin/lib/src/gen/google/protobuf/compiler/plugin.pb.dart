@@ -70,7 +70,6 @@ class Version extends $pb.GeneratedMessage {
   static Version create() => Version._();
   @$core.override
   Version createEmptyInstance() => create();
-  static $pb.PbList<Version> createRepeated() => $pb.PbList<Version>();
   @$core.pragma('dart2js:noInline')
   static Version getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Version>(create);
@@ -172,8 +171,6 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   static CodeGeneratorRequest create() => CodeGeneratorRequest._();
   @$core.override
   CodeGeneratorRequest createEmptyInstance() => create();
-  static $pb.PbList<CodeGeneratorRequest> createRepeated() =>
-      $pb.PbList<CodeGeneratorRequest>();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorRequest>(create);
@@ -289,8 +286,6 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File._();
   @$core.override
   CodeGeneratorResponse_File createEmptyInstance() => create();
-  static $pb.PbList<CodeGeneratorResponse_File> createRepeated() =>
-      $pb.PbList<CodeGeneratorResponse_File>();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse_File>(create);
@@ -444,8 +439,6 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   static CodeGeneratorResponse create() => CodeGeneratorResponse._();
   @$core.override
   CodeGeneratorResponse createEmptyInstance() => create();
-  static $pb.PbList<CodeGeneratorResponse> createRepeated() =>
-      $pb.PbList<CodeGeneratorResponse>();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse>(create);

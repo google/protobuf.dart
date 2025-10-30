@@ -1,3 +1,12 @@
+## 24.0.0
+
+* **Breaking:** Don't generate `createRepeated` methods.
+
+  These methods are not too useful as there isn't much you can do with a
+  `PbList` that you can't do with a `List`.
+
+  To migrate, replace `MyMessage.createRepeated()` with `<MyMessage>[]`.
+
 ## 23.0.0
 
 Note: this version requires protobuf 5.0.0.

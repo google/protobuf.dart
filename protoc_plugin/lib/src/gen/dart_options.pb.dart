@@ -62,7 +62,6 @@ class DartMixin extends $pb.GeneratedMessage {
   static DartMixin create() => DartMixin._();
   @$core.override
   DartMixin createEmptyInstance() => create();
-  static $pb.PbList<DartMixin> createRepeated() => $pb.PbList<DartMixin>();
   @$core.pragma('dart2js:noInline')
   static DartMixin getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DartMixin>(create);
@@ -142,7 +141,6 @@ class Imports extends $pb.GeneratedMessage {
   static Imports create() => Imports._();
   @$core.override
   Imports createEmptyInstance() => create();
-  static $pb.PbList<Imports> createRepeated() => $pb.PbList<Imports>();
   @$core.pragma('dart2js:noInline')
   static Imports getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Imports>(create);

@@ -51,7 +51,6 @@ class M extends $pb.GeneratedMessage {
   static M create() => M._();
   @$core.override
   M createEmptyInstance() => create();
-  static $pb.PbList<M> createRepeated() => $pb.PbList<M>();
   @$core.pragma('dart2js:noInline')
   static M getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<M>(create);

@@ -78,8 +78,6 @@ class CommonLanguageSettings extends $pb.GeneratedMessage {
   static CommonLanguageSettings create() => CommonLanguageSettings._();
   @$core.override
   CommonLanguageSettings createEmptyInstance() => create();
-  static $pb.PbList<CommonLanguageSettings> createRepeated() =>
-      $pb.PbList<CommonLanguageSettings>();
   @$core.pragma('dart2js:noInline')
   static CommonLanguageSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CommonLanguageSettings>(create);
@@ -198,8 +196,6 @@ class ClientLibrarySettings extends $pb.GeneratedMessage {
   static ClientLibrarySettings create() => ClientLibrarySettings._();
   @$core.override
   ClientLibrarySettings createEmptyInstance() => create();
-  static $pb.PbList<ClientLibrarySettings> createRepeated() =>
-      $pb.PbList<ClientLibrarySettings>();
   @$core.pragma('dart2js:noInline')
   static ClientLibrarySettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ClientLibrarySettings>(create);
@@ -412,7 +408,6 @@ class Publishing extends $pb.GeneratedMessage {
   static Publishing create() => Publishing._();
   @$core.override
   Publishing createEmptyInstance() => create();
-  static $pb.PbList<Publishing> createRepeated() => $pb.PbList<Publishing>();
   @$core.pragma('dart2js:noInline')
   static Publishing getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<Publishing>(create);
@@ -578,8 +573,6 @@ class JavaSettings extends $pb.GeneratedMessage {
   static JavaSettings create() => JavaSettings._();
   @$core.override
   JavaSettings createEmptyInstance() => create();
-  static $pb.PbList<JavaSettings> createRepeated() =>
-      $pb.PbList<JavaSettings>();
   @$core.pragma('dart2js:noInline')
   static JavaSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<JavaSettings>(create);
@@ -676,7 +669,6 @@ class CppSettings extends $pb.GeneratedMessage {
   static CppSettings create() => CppSettings._();
   @$core.override
   CppSettings createEmptyInstance() => create();
-  static $pb.PbList<CppSettings> createRepeated() => $pb.PbList<CppSettings>();
   @$core.pragma('dart2js:noInline')
   static CppSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CppSettings>(create);
@@ -736,7 +728,6 @@ class PhpSettings extends $pb.GeneratedMessage {
   static PhpSettings create() => PhpSettings._();
   @$core.override
   PhpSettings createEmptyInstance() => create();
-  static $pb.PbList<PhpSettings> createRepeated() => $pb.PbList<PhpSettings>();
   @$core.pragma('dart2js:noInline')
   static PhpSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<PhpSettings>(create);
@@ -810,8 +801,6 @@ class PythonSettings_ExperimentalFeatures extends $pb.GeneratedMessage {
       PythonSettings_ExperimentalFeatures._();
   @$core.override
   PythonSettings_ExperimentalFeatures createEmptyInstance() => create();
-  static $pb.PbList<PythonSettings_ExperimentalFeatures> createRepeated() =>
-      $pb.PbList<PythonSettings_ExperimentalFeatures>();
   @$core.pragma('dart2js:noInline')
   static PythonSettings_ExperimentalFeatures getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<
@@ -905,8 +894,6 @@ class PythonSettings extends $pb.GeneratedMessage {
   static PythonSettings create() => PythonSettings._();
   @$core.override
   PythonSettings createEmptyInstance() => create();
-  static $pb.PbList<PythonSettings> createRepeated() =>
-      $pb.PbList<PythonSettings>();
   @$core.pragma('dart2js:noInline')
   static PythonSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<PythonSettings>(create);
@@ -980,8 +967,6 @@ class NodeSettings extends $pb.GeneratedMessage {
   static NodeSettings create() => NodeSettings._();
   @$core.override
   NodeSettings createEmptyInstance() => create();
-  static $pb.PbList<NodeSettings> createRepeated() =>
-      $pb.PbList<NodeSettings>();
   @$core.pragma('dart2js:noInline')
   static NodeSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<NodeSettings>(create);
@@ -1071,8 +1056,6 @@ class DotnetSettings extends $pb.GeneratedMessage {
   static DotnetSettings create() => DotnetSettings._();
   @$core.override
   DotnetSettings createEmptyInstance() => create();
-  static $pb.PbList<DotnetSettings> createRepeated() =>
-      $pb.PbList<DotnetSettings>();
   @$core.pragma('dart2js:noInline')
   static DotnetSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DotnetSettings>(create);
@@ -1167,8 +1150,6 @@ class RubySettings extends $pb.GeneratedMessage {
   static RubySettings create() => RubySettings._();
   @$core.override
   RubySettings createEmptyInstance() => create();
-  static $pb.PbList<RubySettings> createRepeated() =>
-      $pb.PbList<RubySettings>();
   @$core.pragma('dart2js:noInline')
   static RubySettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<RubySettings>(create);
@@ -1235,7 +1216,6 @@ class GoSettings extends $pb.GeneratedMessage {
   static GoSettings create() => GoSettings._();
   @$core.override
   GoSettings createEmptyInstance() => create();
-  static $pb.PbList<GoSettings> createRepeated() => $pb.PbList<GoSettings>();
   @$core.pragma('dart2js:noInline')
   static GoSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GoSettings>(create);
@@ -1325,8 +1305,6 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
   static MethodSettings_LongRunning create() => MethodSettings_LongRunning._();
   @$core.override
   MethodSettings_LongRunning createEmptyInstance() => create();
-  static $pb.PbList<MethodSettings_LongRunning> createRepeated() =>
-      $pb.PbList<MethodSettings_LongRunning>();
   @$core.pragma('dart2js:noInline')
   static MethodSettings_LongRunning getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MethodSettings_LongRunning>(create);
@@ -1432,8 +1410,6 @@ class MethodSettings extends $pb.GeneratedMessage {
   static MethodSettings create() => MethodSettings._();
   @$core.override
   MethodSettings createEmptyInstance() => create();
-  static $pb.PbList<MethodSettings> createRepeated() =>
-      $pb.PbList<MethodSettings>();
   @$core.pragma('dart2js:noInline')
   static MethodSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MethodSettings>(create);
@@ -1543,8 +1519,6 @@ class SelectiveGapicGeneration extends $pb.GeneratedMessage {
   static SelectiveGapicGeneration create() => SelectiveGapicGeneration._();
   @$core.override
   SelectiveGapicGeneration createEmptyInstance() => create();
-  static $pb.PbList<SelectiveGapicGeneration> createRepeated() =>
-      $pb.PbList<SelectiveGapicGeneration>();
   @$core.pragma('dart2js:noInline')
   static SelectiveGapicGeneration getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SelectiveGapicGeneration>(create);
