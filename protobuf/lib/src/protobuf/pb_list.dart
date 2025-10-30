@@ -138,17 +138,53 @@ class PbList<E> extends ListBase<E> {
   @override
   void setAll(int index, Iterable<E> iterable) {
     _checkModifiable('setAll');
-    if (_check != null) {
-      _wrappedList.setAll(
-        index,
-        iterable.map((E e) {
-          _check(e);
-          return e;
-        }),
-      );
+
+    // Unlike `insertAll`, the standard library won't be converting the iterable
+    // to a list as `setAll` doesn't shift elements at inserted locations.
+    //
+    // However, when the iterable is already a list we want to avoid converting
+    // it to a non-list as the standard library can do a `memmove` when the
+    // iterable is a list.
+    //
+    // So when the iterable is a list we check the elements in a separate pass
+    // and then pass the list to the standard library `setAll`.
+    //
+    // To have the same exception behavior when checking the elements and the
+    // iterable is not a list, we also need to check elements of the iterable in
+    // a separate pass (without modifying the wrapped list). So we convert the
+    // non-list iterables to list first, check the elements, then pass to the
+    // standard library.
+    final List<E> iterableList;
+    if (iterable is List<E>) {
+      if (iterable is PbList<E>) {
+        if (_check != null) {
+          for (E e in iterable._wrappedList) {
+            _check(e);
+          }
+        }
+        iterableList = iterable._wrappedList;
+      } else {
+        if (_check != null) {
+          for (E e in iterable) {
+            _check(e);
+          }
+        }
+        iterableList = iterable;
+      }
     } else {
-      _wrappedList.setAll(index, iterable);
+      if (_check != null) {
+        // Iterate and check one element at a time, to be consistent with the
+        // previous version of this function.
+        iterableList = <E>[];
+        for (E e in iterable) {
+          _check(e);
+          iterableList.add(e);
+        }
+      } else {
+        iterableList = List.of(iterable);
+      }
     }
+    _wrappedList.setAll(index, iterableList);
   }
 
   @override
