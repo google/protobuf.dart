@@ -278,18 +278,27 @@ class PbList<E> extends ListBase<E> {
   @override
   void replaceRange(int start, int end, Iterable<E> newContents) {
     _checkModifiable('replaceRange');
-    if (_check != null) {
-      _wrappedList.replaceRange(
-        start,
-        end,
-        newContents.map((E e) {
-          _check(e);
-          return e;
-        }),
-      );
+
+    // Similar to `insertAll`, the standard library will convert the iterable to
+    // a list anyway. Do it here to be able to check efficiently.
+    final List<E> newContentsList;
+    if (newContents is List<E>) {
+      if (newContents is PbList<E>) {
+        newContentsList = newContents._wrappedList;
+      } else {
+        newContentsList = newContents;
+      }
     } else {
-      _wrappedList.replaceRange(start, end, newContents);
+      newContentsList = List.of(newContents);
     }
+
+    if (_check != null) {
+      for (E e in newContentsList) {
+        _check(e);
+      }
+    }
+
+    _wrappedList.replaceRange(start, end, newContentsList);
   }
 
   @override
