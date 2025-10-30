@@ -67,13 +67,38 @@ class PbList<E> extends ListBase<E> {
   @pragma('dart2js:never-inline')
   void addAll(Iterable<E> iterable) {
     _checkModifiable('addAll');
-    if (_check != null) {
-      for (final e in iterable) {
-        _check(e);
-        _addUnchecked(e);
+    // Defer the adding to the standard library `addAll` when possible as
+    // standard library can do it faster with low level operations.
+    if (iterable is List<E>) {
+      if (iterable is PbList<E>) {
+        if (_check != null) {
+          for (final e in iterable._wrappedList) {
+            _check(e);
+          }
+        }
+        _wrappedList.addAll(iterable._wrappedList);
+      } else {
+        if (_check != null) {
+          for (final e in iterable) {
+            _check(e);
+          }
+        }
+        _wrappedList.addAll(iterable);
       }
     } else {
-      _wrappedList.addAll(iterable);
+      if (_check != null) {
+        // To have the consistent exception behavior when the iterable is a list
+        // and not a list whiel also calling the standard library `addAll`, we
+        // have to collect the elements into a list here.
+        final iterableList = <E>[];
+        for (E e in iterable) {
+          _check(e);
+          iterableList.add(e);
+        }
+        _wrappedList.addAll(iterableList);
+      } else {
+        _wrappedList.addAll(iterable);
+      }
     }
   }
 
