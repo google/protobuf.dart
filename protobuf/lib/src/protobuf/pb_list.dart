@@ -111,17 +111,28 @@ class PbList<E> extends ListBase<E> {
   @override
   void insertAll(int index, Iterable<E> iterable) {
     _checkModifiable('insertAll');
-    if (_check != null) {
-      _wrappedList.insertAll(
-        index,
-        iterable.map((E e) {
-          _check(e);
-          return e;
-        }),
-      );
+
+    // The standard library will convert the iterable to list to be able to find
+    // the number of elements added and shift the elements the right amount, so
+    // it's not extra work to convert it here.
+    final List<E> iterableList;
+    if (iterable is List<E>) {
+      if (iterable is PbList<E>) {
+        iterableList = iterable._wrappedList;
+      } else {
+        iterableList = iterable;
+      }
     } else {
-      _wrappedList.insertAll(index, iterable);
+      iterableList = List.of(iterable);
     }
+
+    if (_check != null) {
+      for (E e in iterableList) {
+        _check(e);
+      }
+    }
+
+    _wrappedList.insertAll(index, iterableList);
   }
 
   @override
