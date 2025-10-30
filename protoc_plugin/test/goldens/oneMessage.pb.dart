@@ -50,7 +50,6 @@ class PhoneNumber extends $pb.GeneratedMessage {
   static PhoneNumber create() => PhoneNumber._();
   @$core.override
   PhoneNumber createEmptyInstance() => create();
-  static $pb.PbList<PhoneNumber> createRepeated() => $pb.PbList<PhoneNumber>();
   @$core.pragma('dart2js:noInline')
   static PhoneNumber getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(create);

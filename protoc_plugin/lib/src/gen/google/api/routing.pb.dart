@@ -416,7 +416,6 @@ class RoutingRule extends $pb.GeneratedMessage {
   static RoutingRule create() => RoutingRule._();
   @$core.override
   RoutingRule createEmptyInstance() => create();
-  static $pb.PbList<RoutingRule> createRepeated() => $pb.PbList<RoutingRule>();
   @$core.pragma('dart2js:noInline')
   static RoutingRule getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<RoutingRule>(create);
@@ -475,8 +474,6 @@ class RoutingParameter extends $pb.GeneratedMessage {
   static RoutingParameter create() => RoutingParameter._();
   @$core.override
   RoutingParameter createEmptyInstance() => create();
-  static $pb.PbList<RoutingParameter> createRepeated() =>
-      $pb.PbList<RoutingParameter>();
   @$core.pragma('dart2js:noInline')
   static RoutingParameter getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<RoutingParameter>(create);

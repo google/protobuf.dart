@@ -1,3 +1,10 @@
+## 24.0.0
+
+* Don't generate `createRepeated` methods.
+
+  These methods were mostly useless and unused as there isn't much you can do
+  with a `PbList` that you can't do with a `List`.
+
 ## 23.0.0
 
 Note: this version requires protobuf 5.0.0.
