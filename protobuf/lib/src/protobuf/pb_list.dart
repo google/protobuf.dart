@@ -67,38 +67,13 @@ class PbList<E> extends ListBase<E> {
   @pragma('dart2js:never-inline')
   void addAll(Iterable<E> iterable) {
     _checkModifiable('addAll');
-    // Defer the adding to the standard library `addAll` when possible as
-    // standard library can do it faster with low level operations.
-    if (iterable is List<E>) {
-      if (iterable is PbList<E>) {
-        if (_check != null) {
-          for (final e in iterable._wrappedList) {
-            _check(e);
-          }
-        }
-        _wrappedList.addAll(iterable._wrappedList);
-      } else {
-        if (_check != null) {
-          for (final e in iterable) {
-            _check(e);
-          }
-        }
-        _wrappedList.addAll(iterable);
+    if (_check != null) {
+      for (final e in iterable) {
+        _check(e);
+        _addUnchecked(e);
       }
     } else {
-      if (_check != null) {
-        // To have the consistent exception behavior when the iterable is a list
-        // and not a list whiel also calling the standard library `addAll`, we
-        // have to collect the elements into a list here.
-        final iterableList = <E>[];
-        for (E e in iterable) {
-          _check(e);
-          iterableList.add(e);
-        }
-        _wrappedList.addAll(iterableList);
-      } else {
-        _wrappedList.addAll(iterable);
-      }
+      _wrappedList.addAll(iterable);
     }
   }
 
@@ -136,80 +111,33 @@ class PbList<E> extends ListBase<E> {
   @override
   void insertAll(int index, Iterable<E> iterable) {
     _checkModifiable('insertAll');
-
-    // The standard library will convert the iterable to list to be able to find
-    // the number of elements added and shift the elements the right amount, so
-    // it's not extra work to convert it here.
-    final List<E> iterableList;
-    if (iterable is List<E>) {
-      if (iterable is PbList<E>) {
-        iterableList = iterable._wrappedList;
-      } else {
-        iterableList = iterable;
-      }
-    } else {
-      iterableList = List.of(iterable);
-    }
-
     if (_check != null) {
-      for (E e in iterableList) {
-        _check(e);
-      }
+      _wrappedList.insertAll(
+        index,
+        iterable.map((E e) {
+          _check(e);
+          return e;
+        }),
+      );
+    } else {
+      _wrappedList.insertAll(index, iterable);
     }
-
-    _wrappedList.insertAll(index, iterableList);
   }
 
   @override
   void setAll(int index, Iterable<E> iterable) {
     _checkModifiable('setAll');
-
-    // Unlike `insertAll`, the standard library won't be converting the iterable
-    // to a list as `setAll` doesn't shift elements at inserted locations.
-    //
-    // However, when the iterable is already a list we want to avoid converting
-    // it to a non-list as the standard library can do a `memmove` when the
-    // iterable is a list.
-    //
-    // So when the iterable is a list we check the elements in a separate pass
-    // and then pass the list to the standard library `setAll`.
-    //
-    // To have the same exception behavior when checking the elements and the
-    // iterable is not a list, we also need to check elements of the iterable in
-    // a separate pass (without modifying the wrapped list). So we convert the
-    // non-list iterables to list first, check the elements, then pass to the
-    // standard library.
-    final List<E> iterableList;
-    if (iterable is List<E>) {
-      if (iterable is PbList<E>) {
-        if (_check != null) {
-          for (E e in iterable._wrappedList) {
-            _check(e);
-          }
-        }
-        iterableList = iterable._wrappedList;
-      } else {
-        if (_check != null) {
-          for (E e in iterable) {
-            _check(e);
-          }
-        }
-        iterableList = iterable;
-      }
-    } else {
-      if (_check != null) {
-        // Iterate and check one element at a time, to be consistent with the
-        // previous version of this function.
-        iterableList = <E>[];
-        for (E e in iterable) {
+    if (_check != null) {
+      _wrappedList.setAll(
+        index,
+        iterable.map((E e) {
           _check(e);
-          iterableList.add(e);
-        }
-      } else {
-        iterableList = List.of(iterable);
-      }
+          return e;
+        }),
+      );
+    } else {
+      _wrappedList.setAll(index, iterable);
     }
-    _wrappedList.setAll(index, iterableList);
   }
 
   @override
@@ -278,27 +206,18 @@ class PbList<E> extends ListBase<E> {
   @override
   void replaceRange(int start, int end, Iterable<E> newContents) {
     _checkModifiable('replaceRange');
-
-    // Similar to `insertAll`, the standard library will convert the iterable to
-    // a list anyway. Do it here to be able to check efficiently.
-    final List<E> newContentsList;
-    if (newContents is List<E>) {
-      if (newContents is PbList<E>) {
-        newContentsList = newContents._wrappedList;
-      } else {
-        newContentsList = newContents;
-      }
-    } else {
-      newContentsList = List.of(newContents);
-    }
-
     if (_check != null) {
-      for (E e in newContentsList) {
-        _check(e);
-      }
+      _wrappedList.replaceRange(
+        start,
+        end,
+        newContents.map((E e) {
+          _check(e);
+          return e;
+        }),
+      );
+    } else {
+      _wrappedList.replaceRange(start, end, newContents);
     }
-
-    _wrappedList.replaceRange(start, end, newContentsList);
   }
 
   @override
