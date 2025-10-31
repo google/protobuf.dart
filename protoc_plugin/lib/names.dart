@@ -661,7 +661,6 @@ const List<String> _dartReservedWords = [
 // the base GeneratedMessage class determined by reflection.
 const _generatedMessageNames = <String>[
   'create',
-  'createRepeated',
   'getDefault',
   'List',
   'notSet',

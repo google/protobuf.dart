@@ -59,8 +59,6 @@ class TestMessage_Nested extends $pb.GeneratedMessage {
   static TestMessage_Nested create() => TestMessage_Nested._();
   @$core.override
   TestMessage_Nested createEmptyInstance() => create();
-  static $pb.PbList<TestMessage_Nested> createRepeated() =>
-      $pb.PbList<TestMessage_Nested>();
   @$core.pragma('dart2js:noInline')
   static TestMessage_Nested getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<TestMessage_Nested>(create);
@@ -106,7 +104,6 @@ class TestMessage extends $pb.GeneratedMessage {
   static TestMessage create() => TestMessage._();
   @$core.override
   TestMessage createEmptyInstance() => create();
-  static $pb.PbList<TestMessage> createRepeated() => $pb.PbList<TestMessage>();
   @$core.pragma('dart2js:noInline')
   static TestMessage getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<TestMessage>(create);
@@ -219,8 +216,6 @@ class TestFeatures extends $pb.GeneratedMessage {
   static TestFeatures create() => TestFeatures._();
   @$core.override
   TestFeatures createEmptyInstance() => create();
-  static $pb.PbList<TestFeatures> createRepeated() =>
-      $pb.PbList<TestFeatures>();
   @$core.pragma('dart2js:noInline')
   static TestFeatures getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<TestFeatures>(create);

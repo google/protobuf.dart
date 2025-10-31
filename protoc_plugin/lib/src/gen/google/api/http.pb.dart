@@ -62,7 +62,6 @@ class Http extends $pb.GeneratedMessage {
   static Http create() => Http._();
   @$core.override
   Http createEmptyInstance() => create();
-  static $pb.PbList<Http> createRepeated() => $pb.PbList<Http>();
   @$core.pragma('dart2js:noInline')
   static Http getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Http>(create);
@@ -434,7 +433,6 @@ class HttpRule extends $pb.GeneratedMessage {
   static HttpRule create() => HttpRule._();
   @$core.override
   HttpRule createEmptyInstance() => create();
-  static $pb.PbList<HttpRule> createRepeated() => $pb.PbList<HttpRule>();
   @$core.pragma('dart2js:noInline')
   static HttpRule getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HttpRule>(create);
@@ -614,8 +612,6 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
   static CustomHttpPattern create() => CustomHttpPattern._();
   @$core.override
   CustomHttpPattern createEmptyInstance() => create();
-  static $pb.PbList<CustomHttpPattern> createRepeated() =>
-      $pb.PbList<CustomHttpPattern>();
   @$core.pragma('dart2js:noInline')
   static CustomHttpPattern getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CustomHttpPattern>(create);

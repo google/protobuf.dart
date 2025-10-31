@@ -64,8 +64,6 @@ class FileDescriptorSet extends $pb.GeneratedMessage {
   static FileDescriptorSet create() => FileDescriptorSet._();
   @$core.override
   FileDescriptorSet createEmptyInstance() => create();
-  static $pb.PbList<FileDescriptorSet> createRepeated() =>
-      $pb.PbList<FileDescriptorSet>();
   @$core.pragma('dart2js:noInline')
   static FileDescriptorSet getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FileDescriptorSet>(create);
@@ -165,8 +163,6 @@ class FileDescriptorProto extends $pb.GeneratedMessage {
   static FileDescriptorProto create() => FileDescriptorProto._();
   @$core.override
   FileDescriptorProto createEmptyInstance() => create();
-  static $pb.PbList<FileDescriptorProto> createRepeated() =>
-      $pb.PbList<FileDescriptorProto>();
   @$core.pragma('dart2js:noInline')
   static FileDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FileDescriptorProto>(create);
@@ -326,8 +322,6 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
       DescriptorProto_ExtensionRange._();
   @$core.override
   DescriptorProto_ExtensionRange createEmptyInstance() => create();
-  static $pb.PbList<DescriptorProto_ExtensionRange> createRepeated() =>
-      $pb.PbList<DescriptorProto_ExtensionRange>();
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ExtensionRange getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ExtensionRange>(create);
@@ -412,8 +406,6 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
       DescriptorProto_ReservedRange._();
   @$core.override
   DescriptorProto_ReservedRange createEmptyInstance() => create();
-  static $pb.PbList<DescriptorProto_ReservedRange> createRepeated() =>
-      $pb.PbList<DescriptorProto_ReservedRange>();
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ReservedRange getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ReservedRange>(create);
@@ -519,8 +511,6 @@ class DescriptorProto extends $pb.GeneratedMessage {
   static DescriptorProto create() => DescriptorProto._();
   @$core.override
   DescriptorProto createEmptyInstance() => create();
-  static $pb.PbList<DescriptorProto> createRepeated() =>
-      $pb.PbList<DescriptorProto>();
   @$core.pragma('dart2js:noInline')
   static DescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DescriptorProto>(create);
@@ -639,8 +629,6 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
       ExtensionRangeOptions_Declaration._();
   @$core.override
   ExtensionRangeOptions_Declaration createEmptyInstance() => create();
-  static $pb.PbList<ExtensionRangeOptions_Declaration> createRepeated() =>
-      $pb.PbList<ExtensionRangeOptions_Declaration>();
   @$core.pragma('dart2js:noInline')
   static ExtensionRangeOptions_Declaration getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ExtensionRangeOptions_Declaration>(
@@ -763,8 +751,6 @@ class ExtensionRangeOptions extends $pb.GeneratedMessage {
   static ExtensionRangeOptions create() => ExtensionRangeOptions._();
   @$core.override
   ExtensionRangeOptions createEmptyInstance() => create();
-  static $pb.PbList<ExtensionRangeOptions> createRepeated() =>
-      $pb.PbList<ExtensionRangeOptions>();
   @$core.pragma('dart2js:noInline')
   static ExtensionRangeOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ExtensionRangeOptions>(create);
@@ -879,8 +865,6 @@ class FieldDescriptorProto extends $pb.GeneratedMessage {
   static FieldDescriptorProto create() => FieldDescriptorProto._();
   @$core.override
   FieldDescriptorProto createEmptyInstance() => create();
-  static $pb.PbList<FieldDescriptorProto> createRepeated() =>
-      $pb.PbList<FieldDescriptorProto>();
   @$core.pragma('dart2js:noInline')
   static FieldDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FieldDescriptorProto>(create);
@@ -1072,8 +1056,6 @@ class OneofDescriptorProto extends $pb.GeneratedMessage {
   static OneofDescriptorProto create() => OneofDescriptorProto._();
   @$core.override
   OneofDescriptorProto createEmptyInstance() => create();
-  static $pb.PbList<OneofDescriptorProto> createRepeated() =>
-      $pb.PbList<OneofDescriptorProto>();
   @$core.pragma('dart2js:noInline')
   static OneofDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<OneofDescriptorProto>(create);
@@ -1153,8 +1135,6 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
       EnumDescriptorProto_EnumReservedRange._();
   @$core.override
   EnumDescriptorProto_EnumReservedRange createEmptyInstance() => create();
-  static $pb.PbList<EnumDescriptorProto_EnumReservedRange> createRepeated() =>
-      $pb.PbList<EnumDescriptorProto_EnumReservedRange>();
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto_EnumReservedRange getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<
@@ -1240,8 +1220,6 @@ class EnumDescriptorProto extends $pb.GeneratedMessage {
   static EnumDescriptorProto create() => EnumDescriptorProto._();
   @$core.override
   EnumDescriptorProto createEmptyInstance() => create();
-  static $pb.PbList<EnumDescriptorProto> createRepeated() =>
-      $pb.PbList<EnumDescriptorProto>();
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumDescriptorProto>(create);
@@ -1341,8 +1319,6 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   static EnumValueDescriptorProto create() => EnumValueDescriptorProto._();
   @$core.override
   EnumValueDescriptorProto createEmptyInstance() => create();
-  static $pb.PbList<EnumValueDescriptorProto> createRepeated() =>
-      $pb.PbList<EnumValueDescriptorProto>();
   @$core.pragma('dart2js:noInline')
   static EnumValueDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumValueDescriptorProto>(create);
@@ -1427,8 +1403,6 @@ class ServiceDescriptorProto extends $pb.GeneratedMessage {
   static ServiceDescriptorProto create() => ServiceDescriptorProto._();
   @$core.override
   ServiceDescriptorProto createEmptyInstance() => create();
-  static $pb.PbList<ServiceDescriptorProto> createRepeated() =>
-      $pb.PbList<ServiceDescriptorProto>();
   @$core.pragma('dart2js:noInline')
   static ServiceDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ServiceDescriptorProto>(create);
@@ -1515,8 +1489,6 @@ class MethodDescriptorProto extends $pb.GeneratedMessage {
   static MethodDescriptorProto create() => MethodDescriptorProto._();
   @$core.override
   MethodDescriptorProto createEmptyInstance() => create();
-  static $pb.PbList<MethodDescriptorProto> createRepeated() =>
-      $pb.PbList<MethodDescriptorProto>();
   @$core.pragma('dart2js:noInline')
   static MethodDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MethodDescriptorProto>(create);
@@ -1697,7 +1669,6 @@ class FileOptions extends $pb.GeneratedMessage {
   static FileOptions create() => FileOptions._();
   @$core.override
   FileOptions createEmptyInstance() => create();
-  static $pb.PbList<FileOptions> createRepeated() => $pb.PbList<FileOptions>();
   @$core.pragma('dart2js:noInline')
   static FileOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FileOptions>(create);
@@ -2031,8 +2002,6 @@ class MessageOptions extends $pb.GeneratedMessage {
   static MessageOptions create() => MessageOptions._();
   @$core.override
   MessageOptions createEmptyInstance() => create();
-  static $pb.PbList<MessageOptions> createRepeated() =>
-      $pb.PbList<MessageOptions>();
   @$core.pragma('dart2js:noInline')
   static MessageOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MessageOptions>(create);
@@ -2211,8 +2180,6 @@ class FieldOptions_EditionDefault extends $pb.GeneratedMessage {
       FieldOptions_EditionDefault._();
   @$core.override
   FieldOptions_EditionDefault createEmptyInstance() => create();
-  static $pb.PbList<FieldOptions_EditionDefault> createRepeated() =>
-      $pb.PbList<FieldOptions_EditionDefault>();
   @$core.pragma('dart2js:noInline')
   static FieldOptions_EditionDefault getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FieldOptions_EditionDefault>(create);
@@ -2294,8 +2261,6 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
       FieldOptions_FeatureSupport._();
   @$core.override
   FieldOptions_FeatureSupport createEmptyInstance() => create();
-  static $pb.PbList<FieldOptions_FeatureSupport> createRepeated() =>
-      $pb.PbList<FieldOptions_FeatureSupport>();
   @$core.pragma('dart2js:noInline')
   static FieldOptions_FeatureSupport getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FieldOptions_FeatureSupport>(create);
@@ -2441,8 +2406,6 @@ class FieldOptions extends $pb.GeneratedMessage {
   static FieldOptions create() => FieldOptions._();
   @$core.override
   FieldOptions createEmptyInstance() => create();
-  static $pb.PbList<FieldOptions> createRepeated() =>
-      $pb.PbList<FieldOptions>();
   @$core.pragma('dart2js:noInline')
   static FieldOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FieldOptions>(create);
@@ -2676,8 +2639,6 @@ class OneofOptions extends $pb.GeneratedMessage {
   static OneofOptions create() => OneofOptions._();
   @$core.override
   OneofOptions createEmptyInstance() => create();
-  static $pb.PbList<OneofOptions> createRepeated() =>
-      $pb.PbList<OneofOptions>();
   @$core.pragma('dart2js:noInline')
   static OneofOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<OneofOptions>(create);
@@ -2762,7 +2723,6 @@ class EnumOptions extends $pb.GeneratedMessage {
   static EnumOptions create() => EnumOptions._();
   @$core.override
   EnumOptions createEmptyInstance() => create();
-  static $pb.PbList<EnumOptions> createRepeated() => $pb.PbList<EnumOptions>();
   @$core.pragma('dart2js:noInline')
   static EnumOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumOptions>(create);
@@ -2890,8 +2850,6 @@ class EnumValueOptions extends $pb.GeneratedMessage {
   static EnumValueOptions create() => EnumValueOptions._();
   @$core.override
   EnumValueOptions createEmptyInstance() => create();
-  static $pb.PbList<EnumValueOptions> createRepeated() =>
-      $pb.PbList<EnumValueOptions>();
   @$core.pragma('dart2js:noInline')
   static EnumValueOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumValueOptions>(create);
@@ -3004,8 +2962,6 @@ class ServiceOptions extends $pb.GeneratedMessage {
   static ServiceOptions create() => ServiceOptions._();
   @$core.override
   ServiceOptions createEmptyInstance() => create();
-  static $pb.PbList<ServiceOptions> createRepeated() =>
-      $pb.PbList<ServiceOptions>();
   @$core.pragma('dart2js:noInline')
   static ServiceOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ServiceOptions>(create);
@@ -3100,8 +3056,6 @@ class MethodOptions extends $pb.GeneratedMessage {
   static MethodOptions create() => MethodOptions._();
   @$core.override
   MethodOptions createEmptyInstance() => create();
-  static $pb.PbList<MethodOptions> createRepeated() =>
-      $pb.PbList<MethodOptions>();
   @$core.pragma('dart2js:noInline')
   static MethodOptions getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MethodOptions>(create);
@@ -3201,8 +3155,6 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
       UninterpretedOption_NamePart._();
   @$core.override
   UninterpretedOption_NamePart createEmptyInstance() => create();
-  static $pb.PbList<UninterpretedOption_NamePart> createRepeated() =>
-      $pb.PbList<UninterpretedOption_NamePart>();
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption_NamePart getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<UninterpretedOption_NamePart>(create);
@@ -3294,8 +3246,6 @@ class UninterpretedOption extends $pb.GeneratedMessage {
   static UninterpretedOption create() => UninterpretedOption._();
   @$core.override
   UninterpretedOption createEmptyInstance() => create();
-  static $pb.PbList<UninterpretedOption> createRepeated() =>
-      $pb.PbList<UninterpretedOption>();
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<UninterpretedOption>(create);
@@ -3397,8 +3347,6 @@ class FeatureSet_VisibilityFeature extends $pb.GeneratedMessage {
       FeatureSet_VisibilityFeature._();
   @$core.override
   FeatureSet_VisibilityFeature createEmptyInstance() => create();
-  static $pb.PbList<FeatureSet_VisibilityFeature> createRepeated() =>
-      $pb.PbList<FeatureSet_VisibilityFeature>();
   @$core.pragma('dart2js:noInline')
   static FeatureSet_VisibilityFeature getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FeatureSet_VisibilityFeature>(create);
@@ -3487,7 +3435,6 @@ class FeatureSet extends $pb.GeneratedMessage {
   static FeatureSet create() => FeatureSet._();
   @$core.override
   FeatureSet createEmptyInstance() => create();
-  static $pb.PbList<FeatureSet> createRepeated() => $pb.PbList<FeatureSet>();
   @$core.pragma('dart2js:noInline')
   static FeatureSet getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FeatureSet>(create);
@@ -3629,9 +3576,6 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
       FeatureSetDefaults_FeatureSetEditionDefault._();
   @$core.override
   FeatureSetDefaults_FeatureSetEditionDefault createEmptyInstance() => create();
-  static $pb.PbList<FeatureSetDefaults_FeatureSetEditionDefault>
-      createRepeated() =>
-          $pb.PbList<FeatureSetDefaults_FeatureSetEditionDefault>();
   @$core.pragma('dart2js:noInline')
   static FeatureSetDefaults_FeatureSetEditionDefault getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<
@@ -3725,8 +3669,6 @@ class FeatureSetDefaults extends $pb.GeneratedMessage {
   static FeatureSetDefaults create() => FeatureSetDefaults._();
   @$core.override
   FeatureSetDefaults createEmptyInstance() => create();
-  static $pb.PbList<FeatureSetDefaults> createRepeated() =>
-      $pb.PbList<FeatureSetDefaults>();
   @$core.pragma('dart2js:noInline')
   static FeatureSetDefaults getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FeatureSetDefaults>(create);
@@ -3813,8 +3755,6 @@ class SourceCodeInfo_Location extends $pb.GeneratedMessage {
   static SourceCodeInfo_Location create() => SourceCodeInfo_Location._();
   @$core.override
   SourceCodeInfo_Location createEmptyInstance() => create();
-  static $pb.PbList<SourceCodeInfo_Location> createRepeated() =>
-      $pb.PbList<SourceCodeInfo_Location>();
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo_Location getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SourceCodeInfo_Location>(create);
@@ -3966,8 +3906,6 @@ class SourceCodeInfo extends $pb.GeneratedMessage {
   static SourceCodeInfo create() => SourceCodeInfo._();
   @$core.override
   SourceCodeInfo createEmptyInstance() => create();
-  static $pb.PbList<SourceCodeInfo> createRepeated() =>
-      $pb.PbList<SourceCodeInfo>();
   @$core.pragma('dart2js:noInline')
   static SourceCodeInfo getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SourceCodeInfo>(create);
@@ -4077,8 +4015,6 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
       GeneratedCodeInfo_Annotation._();
   @$core.override
   GeneratedCodeInfo_Annotation createEmptyInstance() => create();
-  static $pb.PbList<GeneratedCodeInfo_Annotation> createRepeated() =>
-      $pb.PbList<GeneratedCodeInfo_Annotation>();
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo_Annotation getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GeneratedCodeInfo_Annotation>(create);
@@ -4177,8 +4113,6 @@ class GeneratedCodeInfo extends $pb.GeneratedMessage {
   static GeneratedCodeInfo create() => GeneratedCodeInfo._();
   @$core.override
   GeneratedCodeInfo createEmptyInstance() => create();
-  static $pb.PbList<GeneratedCodeInfo> createRepeated() =>
-      $pb.PbList<GeneratedCodeInfo>();
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GeneratedCodeInfo>(create);
