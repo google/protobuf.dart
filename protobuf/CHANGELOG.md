@@ -20,8 +20,13 @@
 
   For immutable lists and maps, you can use `built_value`.
 
+* Fix `PbList` methods `addAll`, `insertAll`, `replaceRange`, `setAll`,
+  `setRange` iterating the `Iterable` argument twice. ([#730], [#1070])
+
 [#1060]: https://github.com/google/protobuf.dart/pull/1060
 [#1062]: https://github.com/google/protobuf.dart/pull/1062
+[#730]: https://github.com/google/protobuf.dart/issues/730
+[#1070]: https://github.com/google/protobuf.dart/pull/1070
 
 ## 5.0.0
 
