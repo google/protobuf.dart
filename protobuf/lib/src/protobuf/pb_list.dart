@@ -8,11 +8,6 @@ import 'dart:math' as math;
 import 'internal.dart';
 import 'utils.dart';
 
-/// Type of a function that checks items added to a `PbList`.
-///
-/// Throws [ArgumentError] or [RangeError] when the item is not valid.
-typedef CheckFunc<E> = void Function(E? x);
-
 @pragma('dart2js:tryInline')
 @pragma('vm:prefer-inline')
 @pragma('wasm:prefer-inline')
@@ -50,7 +45,7 @@ class PbList<E> extends ListBase<E> {
 
   PbList._unmodifiable()
     : _wrappedList = _emptyList,
-      _check = checkNotNull,
+      _check = null,
       _isReadOnly = true;
 
   @override
