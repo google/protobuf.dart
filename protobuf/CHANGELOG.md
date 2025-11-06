@@ -16,10 +16,17 @@
 * Fix `PbList` methods `addAll`, `insertAll`, `replaceRange`, `setAll`,
   `setRange` iterating the `Iterable` argument twice. ([#730], [#1070])
 
+* Fix `GeneratedMessage.==` throwing a type error when comparing `map` fields in
+  some cases. ([#1075], [#1077])
+
+  This bug was introduced with protobuf-5.0.0.
+
 [#1060]: https://github.com/google/protobuf.dart/pull/1060
 [#1062]: https://github.com/google/protobuf.dart/pull/1062
 [#730]: https://github.com/google/protobuf.dart/issues/730
 [#1070]: https://github.com/google/protobuf.dart/pull/1070
+[#1075]: https://github.com/google/protobuf.dart/issues/1075
+[#1077]: https://github.com/google/protobuf.dart/pull/1077
 
 ## 5.0.0
 
