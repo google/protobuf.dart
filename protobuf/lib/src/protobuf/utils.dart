@@ -8,7 +8,7 @@ import 'internal.dart';
 import 'json_parsing_context.dart';
 
 // TODO(antonm): reconsider later if PbList should take care of equality.
-bool deepEquals(Object lhs, Object rhs) {
+bool deepEquals(Object? lhs, Object? rhs) {
   // Some GeneratedMessages implement Map, so test this first.
   if (lhs is GeneratedMessage) return lhs == rhs;
   if (rhs is GeneratedMessage) return false;

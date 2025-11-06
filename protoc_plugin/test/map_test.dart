@@ -7,6 +7,7 @@ import 'package:test/test.dart'
 
 import 'gen/map_api.pb.dart' as pb;
 import 'gen/map_api2.pb.dart' as pb2;
+import 'gen/map_field.pb.dart';
 
 void main() {
   test("message doesn't implement Map when turned off", () {
@@ -157,4 +158,23 @@ void main() {
       });
     }, throwsArgumentError);
   });
+
+  test(
+    "Map equality check handles missing keys without type errors, bug #1075",
+    () {
+      final message1 = TestMap();
+      final message2 = TestMap();
+      expect(message1, message2);
+
+      message1.int32ToInt32Field[1] = 2;
+      expect(message1 == message2, false);
+
+      message2.int32ToInt32Field[3] = 4;
+      expect(message1 == message2, false);
+
+      message1.int32ToInt32Field[3] = 4;
+      message2.int32ToInt32Field[1] = 2;
+      expect(message1, message2);
+    },
+  );
 }
