@@ -17,7 +17,7 @@ bool deepEquals(Object? lhs, Object? rhs) {
   return lhs == rhs;
 }
 
-bool areListsEqual(List lhs, List rhs) {
+bool areListsEqual(List<Object?> lhs, List<Object?> rhs) {
   if (lhs.length != rhs.length) return false;
   for (var i = 0; i < lhs.length; i++) {
     if (!deepEquals(lhs[i], rhs[i])) return false;
@@ -25,7 +25,7 @@ bool areListsEqual(List lhs, List rhs) {
   return true;
 }
 
-bool areMapsEqual(Map lhs, Map rhs) {
+bool areMapsEqual(Map<Object?, Object?> lhs, Map<Object?, Object?> rhs) {
   if (lhs.length != rhs.length) return false;
   return lhs.keys.every((key) => deepEquals(lhs[key], rhs[key]));
 }
