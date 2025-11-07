@@ -33,6 +33,7 @@ TEST_PROTO_LIST = \
 	enum_name \
 	enum_test \
 	enums \
+	extend_unittest \
 	ExtensionEnumNameConflict \
 	ExtensionNameConflict \
 	foo \
