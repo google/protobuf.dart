@@ -129,12 +129,7 @@ void main() {
           ..mergeFromMessage(mergeSource)
           ..mergeFromMessage(mergeDest);
 
-    expect(
-      result
-          .getExtension(Unittest.optionalNestedMessageExtension)
-          .repetaedInt32Extension,
-      [123, 456],
-    );
+    expect(result.getExtension(Unittest.repeatedInt32Extension), [123, 456]);
   });
 
   test("throws if field number isn't allowed for extension", () {
@@ -434,8 +429,8 @@ void main() {
   test('ExtensionRegistry.reparseMessage will throw on malformed buffers', () {
     final r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
-    final r2 = ExtensionRegistry();
 
+    final r2 = ExtensionRegistry();
     Extend_unittest.registerAllExtensions(r2);
 
     // The message encoded in this buffer has an encoding error in the
@@ -705,7 +700,7 @@ void main() {
     },
   );
 
-  test('consistent hashcode for reparsed messages with extensions', () {
+  test('consistent hashCode for reparsed messages with extensions', () {
     final r = ExtensionRegistry()..add(Extend_unittest.outer);
     final m =
         TestAllExtensions()..setExtension(
