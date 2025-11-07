@@ -82,7 +82,7 @@ void main() {
     expect(group.hasField(tagNumberA), isTrue);
     expect(
       group.getField(tagNumberA)!.varints[0],
-      expect64(testAllTypes.optionalGroup.a),
+      expect64(testAllTypes.optionalgroup.a),
     );
   });
 
