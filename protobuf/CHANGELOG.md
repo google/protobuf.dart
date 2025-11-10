@@ -1,3 +1,14 @@
+## 6.0.0
+
+* **Breaking:** Hide `PbList` and `PbMap` constructors. It is not possible to
+  construct these values correctly in user code, so the constructors are now
+  private. Existing uses of `PbList` can be replaced by `List` and `PbMap` can
+  be replaced by `Map`.
+
+  For immutable lists and maps, you can use `built_value`. ([#1072])
+
+[#1072]: https://github.com/google/protobuf.dart/pull/1072
+
 ## 5.1.0
 
 * Update default size limit of `CodedBufferReader` from 67,108,864 bytes to
