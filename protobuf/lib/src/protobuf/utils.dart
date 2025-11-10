@@ -13,7 +13,7 @@ import 'json_parsing_context.dart';
 typedef CheckFunc<E> = void Function(E? x);
 
 // TODO(antonm): reconsider later if PbList should take care of equality.
-bool deepEquals(Object lhs, Object rhs) {
+bool deepEquals(Object? lhs, Object? rhs) {
   // Some GeneratedMessages implement Map, so test this first.
   if (lhs is GeneratedMessage) return lhs == rhs;
   if (rhs is GeneratedMessage) return false;
@@ -22,7 +22,7 @@ bool deepEquals(Object lhs, Object rhs) {
   return lhs == rhs;
 }
 
-bool areListsEqual(List lhs, List rhs) {
+bool areListsEqual(List<Object?> lhs, List<Object?> rhs) {
   if (lhs.length != rhs.length) return false;
   for (var i = 0; i < lhs.length; i++) {
     if (!deepEquals(lhs[i], rhs[i])) return false;
@@ -30,7 +30,7 @@ bool areListsEqual(List lhs, List rhs) {
   return true;
 }
 
-bool areMapsEqual(Map lhs, Map rhs) {
+bool areMapsEqual(Map<Object?, Object?> lhs, Map<Object?, Object?> rhs) {
   if (lhs.length != rhs.length) return false;
   return lhs.keys.every((key) => deepEquals(lhs[key], rhs[key]));
 }
