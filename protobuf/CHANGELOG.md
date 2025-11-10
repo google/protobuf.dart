@@ -1,5 +1,16 @@
 ## 6.0.0
 
+* **Breaking:** Hide `PbList` and `PbMap` constructors. It is not possible to
+  construct these values correctly in user code, so the constructors are now
+  private. Existing uses of `PbList` can be replaced by `List` and `PbMap` can
+  be replaced by `Map`.
+
+  For immutable lists and maps, you can use `built_value`. ([#1072])
+
+[#1072]: https://github.com/google/protobuf.dart/pull/1072
+
+## 5.1.0
+
 * Update default size limit of `CodedBufferReader` from 67,108,864 bytes to
   2,147,483,647 bytes, and default recursion limit from 64 to 100.
 
@@ -13,20 +24,20 @@
   message extension field set is initialized and frozen and initialized but not
   frozen. ([#1062])
 
-* **Breaking:** Hide `PbList` and `PbMap` constructors. It is not possible to
-  construct these values correctly in user code, so the constructors are now
-  private. Existing uses of `PbList` can be replaced by `List` and `PbMap` can
-  be replaced by `Map`.
-
-  For immutable lists and maps, you can use `built_value`.
-
 * Fix `PbList` methods `addAll`, `insertAll`, `replaceRange`, `setAll`,
   `setRange` iterating the `Iterable` argument twice. ([#730], [#1070])
+
+* Fix `GeneratedMessage.==` throwing a type error when comparing `map` fields in
+  some cases. ([#1075], [#1077])
+
+  This bug was introduced with protobuf-5.0.0.
 
 [#1060]: https://github.com/google/protobuf.dart/pull/1060
 [#1062]: https://github.com/google/protobuf.dart/pull/1062
 [#730]: https://github.com/google/protobuf.dart/issues/730
 [#1070]: https://github.com/google/protobuf.dart/pull/1070
+[#1075]: https://github.com/google/protobuf.dart/issues/1075
+[#1077]: https://github.com/google/protobuf.dart/pull/1077
 
 ## 5.0.0
 
