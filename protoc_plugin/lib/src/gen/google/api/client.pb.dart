@@ -13,8 +13,9 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
+import 'package:protobuf/well_known_types/google/protobuf/duration.pb.dart'
+    as $0;
 
-import '../protobuf/duration.pb.dart' as $0;
 import 'client.pbenum.dart';
 import 'launch_stage.pbenum.dart' as $1;
 
