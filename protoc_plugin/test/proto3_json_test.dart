@@ -313,7 +313,7 @@ void main() {
           TestAllTypes()..optionalFixed64 = Int64(100),
         ).toProto3Json(typeRegistry: TypeRegistry([TestAllTypes()])),
         {
-          '@type': 'type.googleapis.com/protobuf_unittest.TestAllTypes',
+          '@type': 'type.googleapis.com/proto2_unittest.TestAllTypes',
           'optionalFixed64': '100',
         },
       );
@@ -920,8 +920,7 @@ void main() {
       expect(
         () =>
             Any()..mergeFromProto3Json({
-              '@type':
-                  'type.googleapis.com/protobuf_unittest.SparseEnumMessage',
+              '@type': 'type.googleapis.com/proto2_unittest.SparseEnumMessage',
               'sparseEnum': 'SPARSEB',
             }, typeRegistry: TypeRegistry([SparseEnumMessage()])),
         parseFailure(['sparseEnum']),
@@ -929,7 +928,7 @@ void main() {
       expect(
         Any()..mergeFromProto3Json(
           {
-            '@type': 'type.googleapis.com/protobuf_unittest.SparseEnumMessage',
+            '@type': 'type.googleapis.com/proto2_unittest.SparseEnumMessage',
             'sparseEnum': 'SPARSEB',
           },
           typeRegistry: TypeRegistry([SparseEnumMessage()]),
@@ -1106,7 +1105,7 @@ void main() {
     test('Any', () {
       final m1 =
           Any()..mergeFromProto3Json({
-            '@type': 'type.googleapis.com/protobuf_unittest.TestAllTypes',
+            '@type': 'type.googleapis.com/proto2_unittest.TestAllTypes',
             'optionalFixed64': '100',
           }, typeRegistry: TypeRegistry([TestAllTypes()]));
 

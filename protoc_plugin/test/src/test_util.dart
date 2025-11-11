@@ -40,7 +40,7 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.optionalStringExtension), isTrue);
   expect(message.hasExtension(Unittest.optionalBytesExtension), isTrue);
 
-  expect(message.hasExtension(Unittest.optionalGroupExtension), isTrue);
+  expect(message.hasExtension(Unittest.optionalgroupExtension), isTrue);
   expect(message.hasExtension(Unittest.optionalNestedMessageExtension), isTrue);
   expect(
     message.hasExtension(Unittest.optionalForeignMessageExtension),
@@ -48,7 +48,7 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   );
   expect(message.hasExtension(Unittest.optionalImportMessageExtension), isTrue);
 
-  expect(message.getExtension(Unittest.optionalGroupExtension).hasA(), isTrue);
+  expect(message.getExtension(Unittest.optionalgroupExtension).hasA(), isTrue);
   expect(
     message.getExtension(Unittest.optionalNestedMessageExtension).hasBb(),
     isTrue,
@@ -94,7 +94,7 @@ void assertAllExtensionsSet(TestAllExtensions message) {
     '116'.codeUnits,
   );
 
-  expect(message.getExtension(Unittest.optionalGroupExtension).a, 117);
+  expect(message.getExtension(Unittest.optionalgroupExtension).a, 117);
   expect(message.getExtension(Unittest.optionalNestedMessageExtension).bb, 118);
   expect(message.getExtension(Unittest.optionalForeignMessageExtension).c, 119);
   expect(message.getExtension(Unittest.optionalImportMessageExtension).d, 120);
@@ -133,7 +133,7 @@ void assertAllExtensionsSet(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedStringExtension).length, 2);
   expect(message.getExtension(Unittest.repeatedBytesExtension).length, 2);
 
-  expect(message.getExtension(Unittest.repeatedGroupExtension).length, 2);
+  expect(message.getExtension(Unittest.repeatedgroupExtension).length, 2);
   expect(
     message.getExtension(Unittest.repeatedNestedMessageExtension).length,
     2,
@@ -187,7 +187,7 @@ void assertAllExtensionsSet(TestAllExtensions message) {
     '216'.codeUnits,
   );
 
-  expect(message.getExtension(Unittest.repeatedGroupExtension)[0].a, 217);
+  expect(message.getExtension(Unittest.repeatedgroupExtension)[0].a, 217);
   expect(
     message.getExtension(Unittest.repeatedNestedMessageExtension)[0].bb,
     218,
@@ -251,7 +251,7 @@ void assertAllExtensionsSet(TestAllExtensions message) {
     '316'.codeUnits,
   );
 
-  expect(message.getExtension(Unittest.repeatedGroupExtension)[1].a, 317);
+  expect(message.getExtension(Unittest.repeatedgroupExtension)[1].a, 317);
   expect(
     message.getExtension(Unittest.repeatedNestedMessageExtension)[1].bb,
     318,
@@ -358,12 +358,12 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.hasOptionalString(), isTrue);
   expect(message.hasOptionalBytes(), isTrue);
 
-  expect(message.hasOptionalGroup(), isTrue);
+  expect(message.hasOptionalgroup(), isTrue);
   expect(message.hasOptionalNestedMessage(), isTrue);
   expect(message.hasOptionalForeignMessage(), isTrue);
   expect(message.hasOptionalImportMessage(), isTrue);
 
-  expect(message.optionalGroup.hasA(), isTrue);
+  expect(message.optionalgroup.hasA(), isTrue);
   expect(message.optionalNestedMessage.hasBb(), isTrue);
   expect(message.optionalForeignMessage.hasC(), isTrue);
   expect(message.optionalImportMessage.hasD(), isTrue);
@@ -391,7 +391,7 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.optionalString, '115');
   expect(message.optionalBytes, '116'.codeUnits);
 
-  expect(message.optionalGroup.a, 117);
+  expect(message.optionalgroup.a, 117);
   expect(message.optionalNestedMessage.bb, 118);
   expect(message.optionalForeignMessage.c, 119);
   expect(message.optionalImportMessage.d, 120);
@@ -421,7 +421,7 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.repeatedString.length, 2);
   expect(message.repeatedBytes.length, 2);
 
-  expect(message.repeatedGroup.length, 2);
+  expect(message.repeatedgroup.length, 2);
   expect(message.repeatedNestedMessage.length, 2);
   expect(message.repeatedForeignMessage.length, 2);
   expect(message.repeatedImportMessage.length, 2);
@@ -448,7 +448,7 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.repeatedString[0], '215');
   expect(message.repeatedBytes[0], '216'.codeUnits);
 
-  expect(message.repeatedGroup[0].a, 217);
+  expect(message.repeatedgroup[0].a, 217);
   expect(message.repeatedNestedMessage[0].bb, 218);
   expect(message.repeatedForeignMessage[0].c, 219);
   expect(message.repeatedImportMessage[0].d, 220);
@@ -476,7 +476,7 @@ void assertAllFieldsSet(TestAllTypes message) {
   expect(message.repeatedString[1], '315');
   expect(message.repeatedBytes[1], '316'.codeUnits);
 
-  expect(message.repeatedGroup[1].a, 317);
+  expect(message.repeatedgroup[1].a, 317);
   expect(message.repeatedNestedMessage[1].bb, 318);
   expect(message.repeatedForeignMessage[1].c, 319);
   expect(message.repeatedImportMessage[1].d, 320);
@@ -555,7 +555,7 @@ void assertClear(TestAllTypes message) {
   expect(message.hasOptionalString(), isFalse);
   expect(message.hasOptionalBytes(), isFalse);
 
-  expect(message.hasOptionalGroup(), isFalse);
+  expect(message.hasOptionalgroup(), isFalse);
   expect(message.hasOptionalNestedMessage(), isFalse);
   expect(message.hasOptionalForeignMessage(), isFalse);
   expect(message.hasOptionalImportMessage(), isFalse);
@@ -585,12 +585,12 @@ void assertClear(TestAllTypes message) {
   expect(message.optionalBytes, <int>[]);
 
   // Embedded messages should also be clear.
-  expect(message.optionalGroup.hasA(), isFalse);
+  expect(message.optionalgroup.hasA(), isFalse);
   expect(message.optionalNestedMessage.hasBb(), isFalse);
   expect(message.optionalForeignMessage.hasC(), isFalse);
   expect(message.optionalImportMessage.hasD(), isFalse);
 
-  expect(message.optionalGroup.a, 0);
+  expect(message.optionalgroup.a, 0);
   expect(message.optionalNestedMessage.bb, 0);
   expect(message.optionalForeignMessage.c, 0);
   expect(message.optionalImportMessage.d, 0);
@@ -620,7 +620,7 @@ void assertClear(TestAllTypes message) {
   expect(message.repeatedString.length, 0);
   expect(message.repeatedBytes.length, 0);
 
-  expect(message.repeatedGroup.length, 0);
+  expect(message.repeatedgroup.length, 0);
   expect(message.repeatedNestedMessage.length, 0);
   expect(message.repeatedForeignMessage.length, 0);
   expect(message.repeatedImportMessage.length, 0);
@@ -698,7 +698,7 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.optionalStringExtension), isFalse);
   expect(message.hasExtension(Unittest.optionalBytesExtension), isFalse);
 
-  expect(message.hasExtension(Unittest.optionalGroupExtension), isFalse);
+  expect(message.hasExtension(Unittest.optionalgroupExtension), isFalse);
   expect(
     message.hasExtension(Unittest.optionalNestedMessageExtension),
     isFalse,
@@ -737,7 +737,7 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.getExtension(Unittest.optionalBytesExtension), <int>[]);
 
   // Embedded messages should also be clear.
-  expect(message.getExtension(Unittest.optionalGroupExtension).hasA(), isFalse);
+  expect(message.getExtension(Unittest.optionalgroupExtension).hasA(), isFalse);
   expect(
     message.getExtension(Unittest.optionalNestedMessageExtension).hasBb(),
     isFalse,
@@ -751,7 +751,7 @@ void assertExtensionsClear(TestAllExtensions message) {
     isFalse,
   );
 
-  expect(message.getExtension(Unittest.optionalGroupExtension).a, 0);
+  expect(message.getExtension(Unittest.optionalgroupExtension).a, 0);
   expect(message.getExtension(Unittest.optionalNestedMessageExtension).bb, 0);
   expect(message.getExtension(Unittest.optionalForeignMessageExtension).c, 0);
   expect(message.getExtension(Unittest.optionalImportMessageExtension).d, 0);
@@ -790,7 +790,7 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedStringExtension).length, 0);
   expect(message.getExtension(Unittest.repeatedBytesExtension).length, 0);
 
-  expect(message.getExtension(Unittest.repeatedGroupExtension).length, 0);
+  expect(message.getExtension(Unittest.repeatedgroupExtension).length, 0);
   expect(
     message.getExtension(Unittest.repeatedNestedMessageExtension).length,
     0,
@@ -827,7 +827,7 @@ void assertExtensionsClear(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedStringExtension).length, 0);
   expect(message.getExtension(Unittest.repeatedBytesExtension).length, 0);
 
-  expect(message.getExtension(Unittest.repeatedGroupExtension).length, 0);
+  expect(message.getExtension(Unittest.repeatedgroupExtension).length, 0);
   expect(
     message.getExtension(Unittest.repeatedNestedMessageExtension).length,
     0,
@@ -1050,7 +1050,7 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.hasExtension(Unittest.optionalStringExtension), isTrue);
   expect(message.hasExtension(Unittest.optionalBytesExtension), isTrue);
 
-  expect(message.hasExtension(Unittest.optionalGroupExtension), isTrue);
+  expect(message.hasExtension(Unittest.optionalgroupExtension), isTrue);
   expect(message.hasExtension(Unittest.optionalNestedMessageExtension), isTrue);
   expect(
     message.hasExtension(Unittest.optionalForeignMessageExtension),
@@ -1058,7 +1058,7 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   );
   expect(message.hasExtension(Unittest.optionalImportMessageExtension), isTrue);
 
-  expect(message.getExtension(Unittest.optionalGroupExtension).hasA(), isTrue);
+  expect(message.getExtension(Unittest.optionalgroupExtension).hasA(), isTrue);
   expect(
     message.getExtension(Unittest.optionalNestedMessageExtension).hasBb(),
     isTrue,
@@ -1104,7 +1104,7 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
     '116'.codeUnits,
   );
 
-  expect(message.getExtension(Unittest.optionalGroupExtension).a, 117);
+  expect(message.getExtension(Unittest.optionalgroupExtension).a, 117);
   expect(message.getExtension(Unittest.optionalNestedMessageExtension).bb, 118);
   expect(message.getExtension(Unittest.optionalForeignMessageExtension).c, 119);
   expect(message.getExtension(Unittest.optionalImportMessageExtension).d, 120);
@@ -1143,7 +1143,7 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
   expect(message.getExtension(Unittest.repeatedStringExtension).length, 2);
   expect(message.getExtension(Unittest.repeatedBytesExtension).length, 2);
 
-  expect(message.getExtension(Unittest.repeatedGroupExtension).length, 2);
+  expect(message.getExtension(Unittest.repeatedgroupExtension).length, 2);
   expect(
     message.getExtension(Unittest.repeatedNestedMessageExtension).length,
     2,
@@ -1197,7 +1197,7 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
     '216'.codeUnits,
   );
 
-  expect(message.getExtension(Unittest.repeatedGroupExtension)[0].a, 217);
+  expect(message.getExtension(Unittest.repeatedgroupExtension)[0].a, 217);
   expect(
     message.getExtension(Unittest.repeatedNestedMessageExtension)[0].bb,
     218,
@@ -1261,7 +1261,7 @@ void assertRepeatedExtensionsModified(TestAllExtensions message) {
     '516'.codeUnits,
   );
 
-  expect(message.getExtension(Unittest.repeatedGroupExtension)[1].a, 517);
+  expect(message.getExtension(Unittest.repeatedgroupExtension)[1].a, 517);
   expect(
     message.getExtension(Unittest.repeatedNestedMessageExtension)[1].bb,
     518,
@@ -1372,7 +1372,7 @@ void assertRepeatedFieldsModified(TestAllTypes message) {
   expect(message.repeatedString.length, 2);
   expect(message.repeatedBytes.length, 2);
 
-  expect(message.repeatedGroup.length, 2);
+  expect(message.repeatedgroup.length, 2);
   expect(message.repeatedNestedMessage.length, 2);
   expect(message.repeatedForeignMessage.length, 2);
   expect(message.repeatedImportMessage.length, 2);
@@ -1399,7 +1399,7 @@ void assertRepeatedFieldsModified(TestAllTypes message) {
   expect(message.repeatedString[0], '215');
   expect(message.repeatedBytes[0], '216'.codeUnits);
 
-  expect(message.repeatedGroup[0].a, 217);
+  expect(message.repeatedgroup[0].a, 217);
   expect(message.repeatedNestedMessage[0].bb, 218);
   expect(message.repeatedForeignMessage[0].c, 219);
   expect(message.repeatedImportMessage[0].d, 220);
@@ -1428,7 +1428,7 @@ void assertRepeatedFieldsModified(TestAllTypes message) {
   expect(message.repeatedString[1], '515');
   expect(message.repeatedBytes[1], '516'.codeUnits);
 
-  expect(message.repeatedGroup[1].a, 517);
+  expect(message.repeatedgroup[1].a, 517);
   expect(message.repeatedNestedMessage[1].bb, 518);
   expect(message.repeatedForeignMessage[1].c, 519);
   expect(message.repeatedImportMessage[1].d, 520);
@@ -1547,7 +1547,7 @@ void modifyRepeatedExtensions(TestAllExtensions message) {
 
   msg = RepeatedGroup_extension();
   msg.a = 517;
-  message.getExtension(Unittest.repeatedGroupExtension)[1] = msg;
+  message.getExtension(Unittest.repeatedgroupExtension)[1] = msg;
 
   msg = TestAllTypes_NestedMessage();
   msg.bb = 518;
@@ -1593,7 +1593,7 @@ void modifyRepeatedFields(TestAllTypes message) {
 
   final repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 517;
-  message.repeatedGroup[1] = repeatedGroup;
+  message.repeatedgroup[1] = repeatedGroup;
 
   final optionalNestedMessage = TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 518;
@@ -1638,7 +1638,7 @@ void setAllExtensions(TestAllExtensions message) {
 
   final msg = OptionalGroup_extension();
   msg.a = 117;
-  message.setExtension(Unittest.optionalGroupExtension, msg);
+  message.setExtension(Unittest.optionalgroupExtension, msg);
 
   final msg2 = TestAllTypes_NestedMessage();
   msg2.bb = 118;
@@ -1688,7 +1688,7 @@ void setAllExtensions(TestAllExtensions message) {
 
   final msg5 = RepeatedGroup_extension();
   msg5.a = 217;
-  message.addExtension(Unittest.repeatedGroupExtension, msg5);
+  message.addExtension(Unittest.repeatedgroupExtension, msg5);
 
   final msg6 = TestAllTypes_NestedMessage();
   msg6.bb = 218;
@@ -1737,7 +1737,7 @@ void setAllExtensions(TestAllExtensions message) {
 
   final msg9 = RepeatedGroup_extension();
   msg9.a = 317;
-  message.addExtension(Unittest.repeatedGroupExtension, msg9);
+  message.addExtension(Unittest.repeatedgroupExtension, msg9);
 
   final msg10 = TestAllTypes_NestedMessage();
   msg10.bb = 318;
@@ -1821,9 +1821,9 @@ void setAllFields(TestAllTypes message) {
   message.optionalString = '115';
   message.optionalBytes = '116'.codeUnits;
 
-  final optionalGroup = TestAllTypes_OptionalGroup();
-  optionalGroup.a = 117;
-  message.optionalGroup = optionalGroup;
+  final optionalgroup = TestAllTypes_OptionalGroup();
+  optionalgroup.a = 117;
+  message.optionalgroup = optionalgroup;
 
   final optionalNestedMessage = TestAllTypes_NestedMessage();
   optionalNestedMessage.bb = 118;
@@ -1864,7 +1864,7 @@ void setAllFields(TestAllTypes message) {
 
   var repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 217;
-  message.repeatedGroup.add(repeatedGroup);
+  message.repeatedgroup.add(repeatedGroup);
 
   var repeatedNested = TestAllTypes_NestedMessage();
   repeatedNested.bb = 218;
@@ -1904,7 +1904,7 @@ void setAllFields(TestAllTypes message) {
 
   repeatedGroup = TestAllTypes_RepeatedGroup();
   repeatedGroup.a = 317;
-  message.repeatedGroup.add(repeatedGroup);
+  message.repeatedgroup.add(repeatedGroup);
 
   repeatedNested = TestAllTypes_NestedMessage();
   repeatedNested.bb = 318;

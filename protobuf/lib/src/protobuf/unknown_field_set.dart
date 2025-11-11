@@ -180,6 +180,70 @@ class UnknownFieldSet {
     return stringBuffer.toString();
   }
 
+  void writeTextFormat(StringSink out, int indentLevel) {
+    for (final tag in sorted(_fields.keys)) {
+      final field = _fields[tag]!;
+      _writeUnknownFieldSetField(out, tag, field, indentLevel);
+    }
+  }
+
+  void _writeUnknownFieldSetField(
+    StringSink out,
+    int tag,
+    UnknownFieldSetField field,
+    int indentLevel,
+  ) {
+    void writeIndent(StringSink out, int indentLevel) {
+      for (var i = 0; i < indentLevel; i++) {
+        out.writeCharCode(32);
+        out.writeCharCode(32);
+      }
+    }
+
+    for (final value in field.varints) {
+      writeIndent(out, indentLevel);
+      out.write('$tag: ');
+      final bi = value.toInt64();
+      out.write(bi.toStringUnsigned());
+      out.write('\n');
+    }
+    for (final value in field.fixed32s) {
+      writeIndent(out, indentLevel);
+      out.write(
+        '$tag: 0x${value.toUnsigned(32).toRadixString(16).padLeft(8, '0')}\n',
+      );
+    }
+    for (final value in field.fixed64s) {
+      writeIndent(out, indentLevel);
+      out.write('$tag: ');
+      out.write('0x${value.toRadixStringUnsigned(16).padLeft(16, '0')}\n');
+    }
+    for (final value in field.lengthDelimited) {
+      writeIndent(out, indentLevel);
+      out.write('$tag: ');
+      try {
+        final ufs =
+            UnknownFieldSet()
+              ..mergeFromCodedBufferReader(CodedBufferReader(value));
+        out.write('{\n');
+        ufs.writeTextFormat(out, indentLevel + 1);
+        writeIndent(out, indentLevel);
+        out.write('}\n');
+      } on InvalidProtocolBufferException {
+        out.write('"');
+        escapeBytes(value, out);
+        out.write('"\n');
+      }
+    }
+    for (final value in field.groups) {
+      writeIndent(out, indentLevel);
+      out.write('$tag {\n');
+      value.writeTextFormat(out, indentLevel + 1);
+      writeIndent(out, indentLevel);
+      out.write('}\n');
+    }
+  }
+
   void writeToCodedBufferWriter(CodedBufferWriter output) {
     for (final entry in _fields.entries) {
       entry.value.writeTo(entry.key, output);

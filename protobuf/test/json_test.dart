@@ -11,7 +11,7 @@ import 'dart:convert';
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:test/test.dart';
 
-import 'mock_util.dart' show T, mockEnumValues;
+import 'mock_util.dart' show MockEnum, T;
 
 void main() {
   test('mergeFromProto3Json unknown enum fields with names', () {
@@ -21,7 +21,7 @@ void main() {
     expect(example.hasEnm, isFalse);
 
     // Defaults to first when it doesn't exist.
-    expect(example.enm, equals(mockEnumValues.first));
+    expect(example.enm, equals(MockEnum.values.first));
     expect((example..mergeFromProto3Json({'enm': 'a'})).enm.name, equals('a'));
 
     // Now it's explicitly set after merging.
