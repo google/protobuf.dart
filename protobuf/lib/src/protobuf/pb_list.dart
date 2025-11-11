@@ -13,6 +13,17 @@ import 'utils.dart';
 /// Throws [ArgumentError] or [RangeError] when the item is not valid.
 typedef CheckFunc<E> = void Function(E? x);
 
+@pragma('dart2js:tryInline')
+@pragma('vm:prefer-inline')
+@pragma('wasm:prefer-inline')
+PbList<E> newPbList<E>({CheckFunc<E>? check}) => PbList._(check: check);
+
+@pragma('dart2js:tryInline')
+@pragma('vm:prefer-inline')
+@pragma('wasm:prefer-inline')
+PbList<E> newUnmodifiablePbList<E>({CheckFunc<E>? check}) =>
+    PbList._unmodifiable();
+
 /// A [ListBase] implementation used for protobuf `repeated` fields.
 class PbList<E> extends ListBase<E> {
   /// The actual list storing the elements.
@@ -35,16 +46,12 @@ class PbList<E> extends ListBase<E> {
 
   bool get isFrozen => _isReadOnly;
 
-  PbList({CheckFunc<E>? check}) : _wrappedList = <E>[], _check = check;
+  PbList._({CheckFunc<E>? check}) : _wrappedList = <E>[], _check = check;
 
-  PbList.unmodifiable()
+  PbList._unmodifiable()
     : _wrappedList = _emptyList,
       _check = checkNotNull,
       _isReadOnly = true;
-
-  PbList.from(Iterable<E> from)
-    : _wrappedList = List<E>.of(from),
-      _check = checkNotNull;
 
   @override
   @pragma('dart2js:never-inline')
@@ -288,7 +295,7 @@ class PbList<E> extends ListBase<E> {
   }
 
   PbList<E> _deepCopy() {
-    final newList = PbList<E>(check: _check);
+    final newList = PbList<E>._(check: _check);
     final wrappedList = _wrappedList;
     final newWrappedList = newList._wrappedList;
     if (wrappedList.isNotEmpty) {

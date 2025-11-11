@@ -10,6 +10,18 @@ import 'utils.dart';
 const mapKeyFieldNumber = 1;
 const mapValueFieldNumber = 2;
 
+@pragma('dart2js:tryInline')
+@pragma('vm:prefer-inline')
+@pragma('wasm:prefer-inline')
+PbMap<K, V> newPbMap<K, V>(int keyFieldType, int valueFieldType) =>
+    PbMap<K, V>._(keyFieldType, valueFieldType);
+
+@pragma('dart2js:tryInline')
+@pragma('vm:prefer-inline')
+@pragma('wasm:prefer-inline')
+PbMap<K, V> newUnmodifiablePbMap<K, V>(int keyFieldType, int valueFieldType) =>
+    PbMap<K, V>._unmodifiable(keyFieldType, valueFieldType);
+
 /// A [MapBase] implementation used for protobuf `map` fields.
 class PbMap<K, V> extends MapBase<K, V> {
   /// Key type of the map. Per proto2 and proto3 specs, this needs to be an
@@ -34,9 +46,9 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   bool _isReadOnly = false;
 
-  PbMap(this.keyFieldType, this.valueFieldType) : _wrappedMap = <K, V>{};
+  PbMap._(this.keyFieldType, this.valueFieldType) : _wrappedMap = <K, V>{};
 
-  PbMap.unmodifiable(this.keyFieldType, this.valueFieldType)
+  PbMap._unmodifiable(this.keyFieldType, this.valueFieldType)
     : _wrappedMap = <K, V>{},
       _isReadOnly = true;
 
@@ -114,7 +126,7 @@ class PbMap<K, V> extends MapBase<K, V> {
   }
 
   PbMap<K, V> _deepCopy() {
-    final newMap = PbMap<K, V>(keyFieldType, valueFieldType);
+    final newMap = PbMap<K, V>._(keyFieldType, valueFieldType);
     final wrappedMap = _wrappedMap;
     final newWrappedMap = newMap._wrappedMap;
     if (PbFieldType.isGroupOrMessage(valueFieldType)) {
