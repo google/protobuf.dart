@@ -7,19 +7,19 @@ import 'dart:core' hide Duration;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/well_known_types/google/protobuf/any.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/duration.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/empty.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/field_mask.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/struct.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/timestamp.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/wrappers.pb.dart';
 import 'package:test/test.dart';
 
 import 'gen/entity.pb.dart';
 import 'gen/enum_name.pb.dart';
-import 'gen/google/protobuf/any.pb.dart';
-import 'gen/google/protobuf/duration.pb.dart';
-import 'gen/google/protobuf/empty.pb.dart';
-import 'gen/google/protobuf/field_mask.pb.dart';
-import 'gen/google/protobuf/struct.pb.dart';
-import 'gen/google/protobuf/timestamp.pb.dart';
 import 'gen/google/protobuf/unittest.pb.dart';
 import 'gen/google/protobuf/unittest_well_known_types.pb.dart';
-import 'gen/google/protobuf/wrappers.pb.dart';
 import 'gen/map_field.pb.dart';
 import 'gen/nested_any.pb.dart';
 import 'gen/oneof.pb.dart';
