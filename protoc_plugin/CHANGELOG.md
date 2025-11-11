@@ -2,7 +2,7 @@
 
 Note: this version requires protobuf 5.2.0.
 
-* Handle importing [well-known protos]. ([#1081])
+* Handle importing [well-known protos][wkts]. ([#1081])
 
 [wkts]: https://protobuf.dev/reference/protobuf/google.protobuf
 [#1081]: https://github.com/google/protobuf.dart/pull/1081
