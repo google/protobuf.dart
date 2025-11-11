@@ -5,7 +5,6 @@
 // Tests for GeneratedMessage methods.
 
 import 'package:fixnum/fixnum.dart' show Int64;
-import 'package:matcher/matcher.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:protobuf/src/protobuf/internal.dart';
 import 'package:test/test.dart' show Matcher, expect, isA, test, throwsA;
@@ -144,7 +143,7 @@ void main() {
   });
 
   test('toTextFormatString works', () {
-    expect(recProto.toTextFormat(), _EXPECTED_TEXT_PROTO);
+    expect(recProto.toTextFormat(), _expectedTextProto);
   });
 
   test('toTextFormatString handles unknown JSON data', () {
@@ -156,13 +155,13 @@ void main() {
       // since we don't know if it's a string or bytes.
       '''AAECh/8="}''',
     );
-    expect(a.toTextFormat(), _TEXT_FORMAT_PROTO_WITH_UNKNOWN_JSON_FIELDS);
+    expect(a.toTextFormat(), _textFormatProtoWithUnknownJsonFields);
   });
 
   test('toTextFormatString handles unknown fields', () {
     final buffer = recProto.writeToBuffer();
     final emptyRec = EmptyRec()..mergeFromBuffer(buffer);
-    expect(emptyRec.toTextFormat(), _TEXT_FORMAT_PROTO_WITH_UNKNOWN_FIELDS);
+    expect(emptyRec.toTextFormat(), _textFormatProtoWithUnknownFields);
   });
 
   test('toTextFormatString handles extensions fields', () {
@@ -174,11 +173,11 @@ void main() {
           ..addExtension(Ext.items, 'b"c')
           ..setExtension(Ext.data, [0, 1, 2, 127, 128, 255]);
 
-    expect(a.toTextFormat(), _EXPECTED_TEXT_PROTO_WITH_EXTENSIONS);
+    expect(a.toTextFormat(), _expectedTextProtoWithExtensions);
   });
 }
 
-const _EXPECTED_TEXT_PROTO = '''
+const _expectedTextProto = '''
 val: 123
 str: "a\\n\r\t\\"\\\\b"
 child {
@@ -199,7 +198,7 @@ string_map {
 bytes: "\\000\\001\\002\\177\\200\\377"
 ''';
 
-const _EXPECTED_TEXT_PROTO_WITH_EXTENSIONS = '''
+const _expectedTextProtoWithExtensions = '''
 val: 42
 [count]: 123
 [items]: "a"
@@ -207,7 +206,7 @@ val: 42
 [data]: "\\000\\001\\002\\177\\200\\377"
 ''';
 
-const _TEXT_FORMAT_PROTO_WITH_UNKNOWN_FIELDS = '''
+const _textFormatProtoWithUnknownFields = '''
 1: 123
 2: "a\\n\\r\\t\\"\\\\b"
 3: {
@@ -228,7 +227,7 @@ const _TEXT_FORMAT_PROTO_WITH_UNKNOWN_FIELDS = '''
 12: "\\000\\001\\002\\177\\200\\377"
 ''';
 
-const _TEXT_FORMAT_PROTO_WITH_UNKNOWN_JSON_FIELDS = '''
+const _textFormatProtoWithUnknownJsonFields = '''
 val: 123
 str: "hello"
 9: 456

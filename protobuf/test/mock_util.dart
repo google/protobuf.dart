@@ -18,7 +18,7 @@ class MockEnum extends ProtobufEnum {
   static MockEnum? valueOf(int value) =>
       values.firstWhereOrNull((e) => e.value == value);
 
-  const MockEnum(int value, String name) : super(value, name);
+  const MockEnum(super.value, super.name);
 }
 
 BuilderInfo mockEmptyInfo(String className, CreateBuilderFunc create) {
