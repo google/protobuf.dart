@@ -1,3 +1,13 @@
+## 5.2.0
+
+* New `GeneratedMessage` extension methods `toTextFormat` and `writeTextFormat`
+  added to convert the message into the [official protocol buffers text
+  format][text format]. ([#1080], [#125])
+
+[text format]: https://protobuf.dev/reference/protobuf/textformat-spec/
+[#1080]: https://github.com/google/protobuf.dart/pull/1080
+[#125]: https://github.com/google/protobuf.dart/issues/125
+
 ## 5.1.0
 
 * Update default size limit of `CodedBufferReader` from 67,108,864 bytes to
