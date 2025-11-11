@@ -616,3 +616,21 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
 extension GeneratedMessageInternalExtension on GeneratedMessage {
   FieldSet get fieldSet => _fieldSet;
 }
+
+extension TextFormatExtension on GeneratedMessage {
+  /// Returns a TextFormat [String] representation of this message.
+  ///
+  /// Spec: https://protobuf.dev/reference/protobuf/textformat-spec/
+  String toTextFormat() {
+    final out = StringBuffer();
+    writeTextFormat(out);
+    return out.toString();
+  }
+
+  /// Writes a TextFormat [String] representation of this message to [sink].
+  ///
+  /// Spec: https://protobuf.dev/reference/protobuf/textformat-spec/
+  void writeTextFormat(StringSink sink) {
+    _fieldSet.writeTextFormat(sink);
+  }
+}

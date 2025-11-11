@@ -12,7 +12,19 @@ import 'package:protobuf/protobuf.dart'
         PbFieldType,
         ProtobufEnum;
 
-final mockEnumValues = [ProtobufEnum(1, 'a'), ProtobufEnum(2, 'b')];
+class MockEnum extends ProtobufEnum {
+  static const values = [MockEnum(1, 'a'), MockEnum(2, 'b')];
+
+  static MockEnum? valueOf(int value) =>
+      values.firstWhereOrNull((e) => e.value == value);
+
+  const MockEnum(int value, String name) : super(value, name);
+}
+
+BuilderInfo mockEmptyInfo(String className, CreateBuilderFunc create) {
+  return BuilderInfo(className, createEmptyInstance: create);
+}
+
 BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
   return BuilderInfo(className, createEmptyInstance: create)
     ..a(1, 'val', PbFieldType.O3, defaultOrMaker: 42)
@@ -20,15 +32,24 @@ BuilderInfo mockInfo(String className, CreateBuilderFunc create) {
     ..a(3, 'child', PbFieldType.OM, defaultOrMaker: create, subBuilder: create)
     ..p<int>(4, 'int32s', PbFieldType.P3)
     ..a(5, 'int64', PbFieldType.O6)
-    // 6 is reserved for extensions in other tests.
-    ..e(
+    // 6 is reserved for extensions in tests.
+    ..e<MockEnum>(
       7,
       'enm',
       PbFieldType.OE,
-      defaultOrMaker: mockEnumValues.first,
-      valueOf: (i) => mockEnumValues.firstWhereOrNull((e) => e.value == i),
-      enumValues: mockEnumValues,
-    );
+      defaultOrMaker: MockEnum.values.first,
+      valueOf: MockEnum.valueOf,
+      enumValues: MockEnum.values,
+    )
+    ..m<String, String>(
+      8,
+      'stringMap',
+      keyFieldType: PbFieldType.OS,
+      valueFieldType: PbFieldType.OS,
+    )
+    // 9, 10, 11 are reserved for unknown fields in tests.
+    ..a(12, 'bytes', PbFieldType.OY);
+  // 13 is reserved for unknown bytes fields in tests.
 }
 
 /// A minimal protobuf implementation for testing.
@@ -51,8 +72,12 @@ abstract class MockMessage extends GeneratedMessage {
   Int64 get int64 => $_get(4, Int64(0));
   set int64(Object x) => setField(5, x);
 
-  ProtobufEnum get enm => $_getN(5);
+  MockEnum get enm => $_getN(5);
   bool get hasEnm => $_has(5);
+
+  Map<String, String> get stringMap => $_getMap(6);
+
+  set bytes(List<int> x) => $_setBytes(7, x);
 
   @override
   GeneratedMessage clone() {

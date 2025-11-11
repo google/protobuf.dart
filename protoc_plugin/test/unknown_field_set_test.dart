@@ -385,4 +385,48 @@ void main() {
     bytes.setRange(2, 8, [10, 11, 12, 13, 14, 15]);
     expect(parsed.getField(1)!.lengthDelimited[0], newBytes);
   });
+
+  test('WriteTextFormat', () {
+    final nestedFieldSet =
+        UnknownFieldSet()
+          ..addField(2, UnknownFieldSetField()..addVarint(make64(2)))
+          ..addField(3, UnknownFieldSetField()..addVarint(make64(-3)))
+          ..addField(4, UnknownFieldSetField()..addFixed32(1))
+          ..addField(5, UnknownFieldSetField()..addFixed64(make64(1)))
+          ..addField(6, UnknownFieldSetField()..addVarint(make64(1)))
+          ..addField(7, UnknownFieldSetField()..addLengthDelimited([1, 2, 3]))
+          ..addField(8, UnknownFieldSetField()..addFixed64(make64(-5)))
+          ..addField(9, UnknownFieldSetField()..addFixed32(-6));
+    final fieldSet =
+        UnknownFieldSet()
+          ..addField(8, UnknownFieldSetField()..addVarint(make64(3)))
+          ..addField(9, UnknownFieldSetField()..addVarint(make64(-4)))
+          ..addField(10, UnknownFieldSetField()..addFixed32(2))
+          ..addField(11, UnknownFieldSetField()..addFixed64(make64(5)))
+          ..addField(12, UnknownFieldSetField()..addVarint(make64(6)))
+          ..addField(13, UnknownFieldSetField()..addLengthDelimited([7, 8, 9]))
+          ..addField(14, UnknownFieldSetField()..addGroup(nestedFieldSet));
+
+    final out = StringBuffer();
+    fieldSet.writeTextFormat(out, 0);
+    expect(out.toString(), EXPECTED_TEXT_FORMAT);
+  });
 }
+
+const EXPECTED_TEXT_FORMAT = '''8: 3
+9: 18446744073709551612
+10: 0x00000002
+11: 0x0000000000000005
+12: 6
+13: "\\a\\b\\t"
+14 {
+  2: 2
+  3: 18446744073709551613
+  4: 0x00000001
+  5: 0x0000000000000001
+  6: 1
+  7: "\\001\\002\\003"
+  8: 0xfffffffffffffffb
+  9: 0xfffffffa
+}
+''';

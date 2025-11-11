@@ -1,3 +1,11 @@
+## 5.2.0
+
+* New `GeneratedMessage` extension methods `toTextFormat` and `writeTextFormat`
+  added to convert the message into the [official protocol buffers text
+  format][text format].
+
+[text format]: https://protobuf.dev/reference/protobuf/textformat-spec/
+
 ## 5.1.0
 
 * Update default size limit of `CodedBufferReader` from 67,108,864 bytes to
