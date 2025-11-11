@@ -24,6 +24,8 @@ void main() {
       'FOREIGN_FOO',
       'FOREIGN_BAR',
       'FOREIGN_BAZ',
+      'FOREIGN_BAX',
+      'FOREIGN_LARGE',
     ]);
   });
   test('Can decode service descriptor', () {

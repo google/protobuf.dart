@@ -27,7 +27,7 @@ void main() {
           ..optionalInt32 = 1
           ..optionalString = 'foo'
           ..optionalForeignMessage = ForeignMessage()
-          ..optionalNestedMessage = (TestAllTypes_NestedMessage()..i = 42)
+          ..optionalNestedMessage = (TestAllTypes_NestedMessage()..bb = 42)
           ..repeatedString.add('bar');
 
     final mergeDest =
@@ -45,7 +45,6 @@ optionalInt64: 2
 optionalString: baz
 optionalNestedMessage: {
   bb: 43
-  i: 42
 }
 optionalForeignMessage: {
   c: 3

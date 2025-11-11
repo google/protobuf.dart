@@ -15,7 +15,7 @@ Future<void> main() async {
       TestAllTypes_NestedMessage().info_.qualifiedMessageName,
       const bool.fromEnvironment('protobuf.omit_message_names')
           ? ''
-          : 'protobuf_unittest.TestAllTypes.NestedMessage',
+          : 'proto2_unittest.TestAllTypes.NestedMessage',
     );
     expect(constant(), 'SHOULD_BE_PRESENT');
   });
