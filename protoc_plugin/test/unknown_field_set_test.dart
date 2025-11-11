@@ -409,11 +409,11 @@ void main() {
 
     final out = StringBuffer();
     fieldSet.writeTextFormat(out, 0);
-    expect(out.toString(), EXPECTED_TEXT_FORMAT);
+    expect(out.toString(), expectedTextFormat);
   });
 }
 
-const EXPECTED_TEXT_FORMAT = '''8: 3
+const expectedTextFormat = '''8: 3
 9: 18446744073709551612
 10: 0x00000002
 11: 0x0000000000000005
