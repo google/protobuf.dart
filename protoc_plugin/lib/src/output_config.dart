@@ -40,10 +40,42 @@ class DefaultOutputConfiguration extends OutputConfiguration {
   @override
   Uri resolveImport(Uri target, Uri source, String extension) {
     final targetPath = path.url.fromUri(target);
+    final wellKnownImports = wellKnownTypeImportPaths[targetPath];
+    if (wellKnownImports != null) {
+      return path.url.toUri(wellKnownImports.first); // TODO FIXME
+    }
     final sourceDir = path.url.dirname(path.url.fromUri(source));
     final base = path.withoutExtension(
       path.url.relative(targetPath, from: sourceDir),
     );
     return path.url.toUri('$base$extension');
   }
+}
+
+Map<String, List<String>> wellKnownTypeImportPaths = Map.fromEntries(
+  wellKnownTypeProtoPaths.map(
+    (String path) => MapEntry(path, wellKnownProtoPathToImports(path)),
+  ),
+);
+
+List<String> wellKnownTypeProtoPaths = [
+  'google/protobuf/any.proto',
+  'google/protobuf/api.proto',
+  'google/protobuf/duration.proto',
+  'google/protobuf/empty.proto',
+  'google/protobuf/field_mask.proto',
+  'google/protobuf/source_context.proto',
+  'google/protobuf/struct.proto',
+  'google/protobuf/timestamp.proto',
+  'google/protobuf/type.proto',
+  'google/protobuf/wrappers.proto',
+];
+
+List<String> wellKnownProtoPathToImports(String importPath) {
+  final importPathWithoutExtension = path.withoutExtension(importPath);
+  return [
+    'package:protobuf/well_known_types/$importPathWithoutExtension.pb.dart',
+    'package:protobuf/well_known_types/$importPathWithoutExtension.pbenum.dart',
+    'package:protobuf/well_known_types/$importPathWithoutExtension.pbjson.dart',
+  ];
 }
