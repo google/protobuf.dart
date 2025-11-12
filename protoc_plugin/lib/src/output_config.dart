@@ -40,9 +40,9 @@ class DefaultOutputConfiguration extends OutputConfiguration {
   @override
   Uri resolveImport(Uri target, Uri source, String extension) {
     final targetPath = path.url.fromUri(target);
-    final wellKnownImports = wellKnownTypeImportPaths[targetPath];
-    if (wellKnownImports != null) {
-      return path.url.toUri(wellKnownImports.first); // TODO FIXME
+    final wellKnownImport = wellKnownTypeImportPaths[targetPath];
+    if (wellKnownImport != null) {
+      return path.url.toUri(wellKnownImport);
     }
     final sourceDir = path.url.dirname(path.url.fromUri(source));
     final base = path.withoutExtension(
@@ -52,7 +52,7 @@ class DefaultOutputConfiguration extends OutputConfiguration {
   }
 }
 
-Map<String, List<String>> wellKnownTypeImportPaths = Map.fromEntries(
+Map<String, String> wellKnownTypeImportPaths = Map.fromEntries(
   wellKnownTypeProtoPaths.map(
     (String path) => MapEntry(path, wellKnownProtoPathToImports(path)),
   ),
@@ -71,11 +71,7 @@ List<String> wellKnownTypeProtoPaths = [
   'google/protobuf/wrappers.proto',
 ];
 
-List<String> wellKnownProtoPathToImports(String importPath) {
+String wellKnownProtoPathToImports(String importPath) {
   final importPathWithoutExtension = path.withoutExtension(importPath);
-  return [
-    'package:protobuf/well_known_types/$importPathWithoutExtension.pb.dart',
-    'package:protobuf/well_known_types/$importPathWithoutExtension.pbenum.dart',
-    'package:protobuf/well_known_types/$importPathWithoutExtension.pbjson.dart',
-  ];
+  return 'package:protobuf/well_known_types/$importPathWithoutExtension.pb.dart';
 }
