@@ -39,8 +39,9 @@ class DefaultOutputConfiguration extends OutputConfiguration {
 
   @override
   Uri resolveImport(Uri target, Uri source, String extension) {
+    assert(extension.startsWith('.'));
     final targetPath = path.url.fromUri(target);
-    final wellKnownImport = wellKnownTypeImportPaths[targetPath];
+    final wellKnownImport = _wellKnownProtoImport(targetPath, extension);
     if (wellKnownImport != null) {
       return path.url.toUri(wellKnownImport);
     }
@@ -52,26 +53,25 @@ class DefaultOutputConfiguration extends OutputConfiguration {
   }
 }
 
-Map<String, String> wellKnownTypeImportPaths = Map.fromEntries(
-  wellKnownTypeProtoPaths.map(
-    (String path) => MapEntry(path, wellKnownProtoPathToImports(path)),
-  ),
-);
+const _wktImportPrefix = 'google/protobuf/';
 
-List<String> wellKnownTypeProtoPaths = [
-  'google/protobuf/any.proto',
-  'google/protobuf/api.proto',
-  'google/protobuf/duration.proto',
-  'google/protobuf/empty.proto',
-  'google/protobuf/field_mask.proto',
-  'google/protobuf/source_context.proto',
-  'google/protobuf/struct.proto',
-  'google/protobuf/timestamp.proto',
-  'google/protobuf/type.proto',
-  'google/protobuf/wrappers.proto',
-];
+Set<String> _wellKnownTypeProtoPaths = {
+  '${_wktImportPrefix}any.proto',
+  '${_wktImportPrefix}api.proto',
+  '${_wktImportPrefix}duration.proto',
+  '${_wktImportPrefix}empty.proto',
+  '${_wktImportPrefix}field_mask.proto',
+  '${_wktImportPrefix}source_context.proto',
+  '${_wktImportPrefix}struct.proto',
+  '${_wktImportPrefix}timestamp.proto',
+  '${_wktImportPrefix}type.proto',
+  '${_wktImportPrefix}wrappers.proto',
+};
 
-String wellKnownProtoPathToImports(String importPath) {
+String? _wellKnownProtoImport(String importPath, String extension) {
+  if (!_wellKnownTypeProtoPaths.contains(importPath)) {
+    return null;
+  }
   final importPathWithoutExtension = path.withoutExtension(importPath);
-  return 'package:protobuf/well_known_types/$importPathWithoutExtension.pb.dart';
+  return 'package:protobuf/well_known_types/$importPathWithoutExtension$extension';
 }
