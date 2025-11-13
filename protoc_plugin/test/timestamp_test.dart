@@ -3,9 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:fixnum/fixnum.dart';
+import 'package:protobuf/well_known_types/google/protobuf/timestamp.pb.dart';
 import 'package:test/test.dart';
-
-import 'gen/google/protobuf/timestamp.pb.dart';
 
 void main() {
   test('timestamp -> datetime -> timestamp', () {

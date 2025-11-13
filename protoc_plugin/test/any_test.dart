@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/well_known_types/google/protobuf/any.pb.dart';
 import 'package:test/test.dart';
 
-import 'gen/google/protobuf/any.pb.dart';
 import 'gen/service.pb.dart';
 import 'gen/toplevel.pb.dart' as toplevel;
 import 'gen/using_any.pb.dart';

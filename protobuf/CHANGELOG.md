@@ -4,9 +4,14 @@
   added to convert the message into the [official protocol buffers text
   format][text format]. ([#1080], [#125])
 
+* Add [well-known proto types][wkts] as libraries. This change is required for
+  protoc_plugin-25.0.0. ([#1081])
+
 [text format]: https://protobuf.dev/reference/protobuf/textformat-spec/
 [#1080]: https://github.com/google/protobuf.dart/pull/1080
 [#125]: https://github.com/google/protobuf.dart/issues/125
+[wkts]: https://protobuf.dev/reference/protobuf/google.protobuf
+[#1081]: https://github.com/google/protobuf.dart/pull/1081
 
 ## 5.1.0
 

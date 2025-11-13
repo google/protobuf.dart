@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:fixnum/fixnum.dart';
+import 'package:protobuf/well_known_types/google/protobuf/empty.pb.dart';
 import 'package:test/test.dart';
 
-import 'gen/google/protobuf/empty.pb.dart';
 import 'gen/high_tagnumber.pb.dart';
 
 void main() {

@@ -32,21 +32,17 @@ syntax = "proto3";
 
 package google.protobuf;
 
-option csharp_namespace = "Google.Protobuf.WellKnownTypes";
-option go_package = "github.com/golang/protobuf/ptypes/empty";
 option java_package = "com.google.protobuf";
-option java_outer_classname = "EmptyProto";
+option java_outer_classname = "SourceContextProto";
 option java_multiple_files = true;
 option objc_class_prefix = "GPB";
-option cc_enable_arenas = true;
+option csharp_namespace = "Google.Protobuf.WellKnownTypes";
+option go_package = "google.golang.org/protobuf/types/known/sourcecontextpb";
 
-// A generic empty message that you can re-use to avoid defining duplicated
-// empty messages in your APIs. A typical example is to use it as the request
-// or the response type of an API method. For instance:
-//
-//     service Foo {
-//       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
-//     }
-//
-// The JSON representation for `Empty` is empty JSON object `{}`.
-message Empty {}
+// `SourceContext` represents information about the source of a
+// protobuf element, like the file in which it is defined.
+message SourceContext {
+  // The path-qualified name of the .proto file that contained the associated
+  // protobuf element.  For example: `"google/protobuf/source_context.proto"`.
+  string file_name = 1;
+}

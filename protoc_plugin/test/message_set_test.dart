@@ -6,9 +6,9 @@ import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/well_known_types/google/protobuf/empty.pb.dart';
 import 'package:test/test.dart';
 
-import 'gen/google/protobuf/empty.pb.dart';
 import 'gen/message_set.pb.dart';
 
 void main() {
