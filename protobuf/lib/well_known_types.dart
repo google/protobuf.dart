@@ -1,3 +1,7 @@
+/// Contains the well-known protobuf types listed in
+/// https://protobuf.dev/reference/protobuf/google.protobuf.
+library;
+
 export 'well_known_types/google/protobuf/any.pb.dart';
 export 'well_known_types/google/protobuf/any.pbenum.dart';
 export 'well_known_types/google/protobuf/any.pbjson.dart';
