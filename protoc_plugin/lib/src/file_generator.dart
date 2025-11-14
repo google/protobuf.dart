@@ -22,93 +22,6 @@ const String _typedDataImportUrl = 'dart:typed_data';
 ///
 /// Outputs include .pb.dart, pbenum.dart, and .pbjson.dart.
 class FileGenerator extends ProtobufContainer {
-  /// Reads and the declared mixins in the file, keyed by name.
-  ///
-  /// Performs some basic validation on declared mixins, e.g. whether names
-  /// are valid dart identifiers and whether there are cycles in the `parent`
-  /// hierarchy.
-  /// Does not check for existence of import files or classes.
-  static Map<String, PbMixin> _getDeclaredMixins(FileDescriptorProto desc) {
-    String mixinError(String error) =>
-        'Option "mixins" in ${desc.name}: $error';
-
-    if (!desc.hasOptions() ||
-        !desc.options.hasExtension(Dart_options.imports)) {
-      return <String, PbMixin>{};
-    }
-    final dartMixins = <String, DartMixin>{};
-    final importedMixins =
-        desc.options.getExtension(Dart_options.imports) as Imports;
-    for (final mixin in importedMixins.mixins) {
-      if (dartMixins.containsKey(mixin.name)) {
-        throw mixinError('Duplicate mixin name: "${mixin.name}"');
-      }
-      if (!mixin.name.startsWith(_dartIdentifier)) {
-        throw mixinError(
-          '"${mixin.name}" is not a valid dart class identifier',
-        );
-      }
-      if (mixin.hasParent() && !mixin.parent.startsWith(_dartIdentifier)) {
-        throw mixinError(
-          'Mixin parent "${mixin.parent}" of "${mixin.name}" is '
-          'not a valid dart class identifier',
-        );
-      }
-      dartMixins[mixin.name] = mixin;
-    }
-
-    // Detect cycles and unknown parents.
-    for (final mixin in dartMixins.values) {
-      if (!mixin.hasParent()) continue;
-      var currentMixin = mixin;
-      final parentChain = <String>[];
-      while (currentMixin.hasParent()) {
-        final parentName = currentMixin.parent;
-
-        final declaredMixin = dartMixins.containsKey(parentName);
-        final internalMixin = !declaredMixin && findMixin(parentName) != null;
-
-        if (internalMixin) break; // No further validation of parent chain.
-
-        if (!declaredMixin) {
-          throw mixinError(
-            'Unknown mixin parent "${mixin.parent}" of '
-            '"${currentMixin.name}"',
-          );
-        }
-
-        if (parentChain.contains(parentName)) {
-          final cycle = '${parentChain.join('->')}->$parentName';
-          throw mixinError('Cycle in parent chain: $cycle');
-        }
-        parentChain.add(parentName);
-        currentMixin = dartMixins[parentName]!;
-      }
-    }
-
-    // Turn DartMixins into PbMixins.
-    final pbMixins = <String, PbMixin>{};
-    PbMixin? resolveMixin(String name) {
-      if (pbMixins.containsKey(name)) return pbMixins[name];
-      if (dartMixins.containsKey(name)) {
-        final dartMixin = dartMixins[name]!;
-        final pbMixin = PbMixin(
-          dartMixin.name,
-          importFrom: dartMixin.importFrom,
-          parent: resolveMixin(dartMixin.parent),
-        );
-        pbMixins[name] = pbMixin;
-        return pbMixin;
-      }
-      return findMixin(name);
-    }
-
-    for (final mixin in dartMixins.values) {
-      resolveMixin(mixin.name);
-    }
-    return pbMixins;
-  }
-
   final FileDescriptorProto descriptor;
   final GenerationOptions options;
 
@@ -124,16 +37,15 @@ class FileGenerator extends ProtobufContainer {
 
   /// Used to avoid collisions after names have been mangled to match the Dart
   /// style.
-  final Set<String> usedTopLevelNames =
-      <String>{}..addAll(forbiddenTopLevelNames);
+  final Set<String> usedTopLevelNames = <String>{...forbiddenTopLevelNames};
 
   /// Used to avoid collisions in the service file after names have been mangled
   /// to match the dart style.
-  final Set<String> usedTopLevelServiceNames =
-      <String>{}..addAll(forbiddenTopLevelNames);
+  final Set<String> usedTopLevelServiceNames = <String>{
+    ...forbiddenTopLevelNames,
+  };
 
-  final Set<String> usedExtensionNames =
-      <String>{}..addAll(forbiddenExtensionNames);
+  final Set<String> usedExtensionNames = <String>{...forbiddenExtensionNames};
 
   /// Whether cross-references have been resolved.
   bool _linked = false;
@@ -873,6 +785,89 @@ FeatureSet _getEditionDefaults(
   final defaults = found.fixedFeatures.deepCopy();
   defaults.mergeFromMessage(found.overridableFeatures);
   return defaults;
+}
+
+/// Reads and the declared mixins in the file, keyed by name.
+///
+/// Performs some basic validation on declared mixins, e.g. whether names
+/// are valid dart identifiers and whether there are cycles in the `parent`
+/// hierarchy.
+/// Does not check for existence of import files or classes.
+Map<String, PbMixin> _getDeclaredMixins(FileDescriptorProto desc) {
+  String mixinError(String error) => 'Option "mixins" in ${desc.name}: $error';
+
+  if (!desc.hasOptions() || !desc.options.hasExtension(Dart_options.imports)) {
+    return <String, PbMixin>{};
+  }
+  final dartMixins = <String, DartMixin>{};
+  final importedMixins =
+      desc.options.getExtension(Dart_options.imports) as Imports;
+  for (final mixin in importedMixins.mixins) {
+    if (dartMixins.containsKey(mixin.name)) {
+      throw mixinError('Duplicate mixin name: "${mixin.name}"');
+    }
+    if (!mixin.name.startsWith(_dartIdentifier)) {
+      throw mixinError('"${mixin.name}" is not a valid dart class identifier');
+    }
+    if (mixin.hasParent() && !mixin.parent.startsWith(_dartIdentifier)) {
+      throw mixinError(
+        'Mixin parent "${mixin.parent}" of "${mixin.name}" is '
+        'not a valid dart class identifier',
+      );
+    }
+    dartMixins[mixin.name] = mixin;
+  }
+
+  // Detect cycles and unknown parents.
+  for (final mixin in dartMixins.values) {
+    if (!mixin.hasParent()) continue;
+    var currentMixin = mixin;
+    final parentChain = <String>[];
+    while (currentMixin.hasParent()) {
+      final parentName = currentMixin.parent;
+
+      final declaredMixin = dartMixins.containsKey(parentName);
+      final internalMixin = !declaredMixin && findMixin(parentName) != null;
+
+      if (internalMixin) break; // No further validation of parent chain.
+
+      if (!declaredMixin) {
+        throw mixinError(
+          'Unknown mixin parent "${mixin.parent}" of '
+          '"${currentMixin.name}"',
+        );
+      }
+
+      if (parentChain.contains(parentName)) {
+        final cycle = '${parentChain.join('->')}->$parentName';
+        throw mixinError('Cycle in parent chain: $cycle');
+      }
+      parentChain.add(parentName);
+      currentMixin = dartMixins[parentName]!;
+    }
+  }
+
+  // Turn DartMixins into PbMixins.
+  final pbMixins = <String, PbMixin>{};
+  PbMixin? resolveMixin(String name) {
+    if (pbMixins.containsKey(name)) return pbMixins[name];
+    if (dartMixins.containsKey(name)) {
+      final dartMixin = dartMixins[name]!;
+      final pbMixin = PbMixin(
+        dartMixin.name,
+        importFrom: dartMixin.importFrom,
+        parent: resolveMixin(dartMixin.parent),
+      );
+      pbMixins[name] = pbMixin;
+      return pbMixin;
+    }
+    return findMixin(name);
+  }
+
+  for (final mixin in dartMixins.values) {
+    resolveMixin(mixin.name);
+  }
+  return pbMixins;
 }
 
 const _fileIgnores = {

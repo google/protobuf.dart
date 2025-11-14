@@ -11,6 +11,8 @@ class EnumAlias {
 }
 
 class EnumGenerator extends ProtobufContainer {
+  /// For top-level enums: [FileGenerator]. For nested enums:
+  /// [MessageGenerator].
   @override
   final ProtobufContainer parent;
 
@@ -24,14 +26,19 @@ class EnumGenerator extends ProtobufContainer {
   final String fullName;
 
   final EnumDescriptorProto _descriptor;
+
   final List<EnumValueDescriptorProto> _canonicalValues =
       <EnumValueDescriptorProto>[];
+
   final List<int> _originalCanonicalIndices = <int>[];
+
   final List<EnumAlias> _aliases = <EnumAlias>[];
 
   /// Maps the name of an enum value to the Dart name we will use for it.
   final Map<String, String> dartNames = <String, String>{};
+
   final List<int> _originalAliasIndices = <int>[];
+
   final List<int> _fieldPathSegment;
 
   @override
@@ -160,8 +167,11 @@ class EnumGenerator extends ProtobufContainer {
             omitEnumNames.constDefinition,
           );
           final conditionalValName = omitEnumNames.createTernary(val.name);
-          final fieldPathSegment = List<int>.from(fieldPath)
-            ..addAll([_enumValueTag, _originalCanonicalIndices[i]]);
+          final fieldPathSegment = <int>[
+            ...fieldPath,
+            _enumValueTag,
+            _originalCanonicalIndices[i],
+          ];
 
           final commentBlock = fileGen?.commentBlock(fieldPathSegment);
           if (commentBlock != null) {
@@ -263,7 +273,7 @@ class EnumGenerator extends ProtobufContainer {
     );
   }
 
-  /// Writes a Dart constant containing the JSON for the EnumProtoDescriptor.
+  /// Writes a Dart constant containing the JSON for the [EnumDescriptorProto].
   void generateConstants(IndentingWriter out) {
     final name = getJsonConstant(fileGen!);
     final json = _descriptor.writeToJsonMap();

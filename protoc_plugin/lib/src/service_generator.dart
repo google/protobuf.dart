@@ -139,8 +139,6 @@ class ServiceGenerator {
 
   String _methodName(String name) => lowerCaseFirstLetter(name);
 
-  String get _parentClass => _generatedService;
-
   void _generateStub(IndentingWriter out, MethodDescriptorProto m) {
     final methodName = _methodName(m.name);
     final inputClass = _getDartClassName(m.inputType);
@@ -210,7 +208,7 @@ class ServiceGenerator {
   void generate(IndentingWriter out) {
     out.addBlock(
       'abstract class $classname extends '
-          '$_parentClass {',
+          '$_generatedService {',
       '}',
       () {
         _generateStubs(out);
