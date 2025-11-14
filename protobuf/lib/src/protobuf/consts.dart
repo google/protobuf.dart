@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 /// Constant string value of `double.infinity.toString()` and the infinity
 /// value recognized by `double.parse(..)`.
 const infinity = 'Infinity';

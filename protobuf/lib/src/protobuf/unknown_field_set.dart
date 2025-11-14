@@ -2,12 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 part of 'internal.dart';
 
 /// A set of unknown fields in a [GeneratedMessage].
 class UnknownFieldSet {
-  static final UnknownFieldSet emptyUnknownFieldSet =
-      UnknownFieldSet().._markReadOnly();
+  static final UnknownFieldSet emptyUnknownFieldSet = UnknownFieldSet()
+    .._markReadOnly();
 
   final Map<int, UnknownFieldSetField> _fields;
 
@@ -222,9 +224,8 @@ class UnknownFieldSet {
       writeIndent(out, indentLevel);
       out.write('$tag: ');
       try {
-        final ufs =
-            UnknownFieldSet()
-              ..mergeFromCodedBufferReader(CodedBufferReader(value));
+        final ufs = UnknownFieldSet()
+          ..mergeFromCodedBufferReader(CodedBufferReader(value));
         out.write('{\n');
         ufs.writeTextFormat(out, indentLevel + 1);
         writeIndent(out, indentLevel);
@@ -265,7 +266,7 @@ class UnknownFieldSet {
   }
 
   UnknownFieldSet _deepCopy() {
-    Map<int, UnknownFieldSetField> newFields = {};
+    final newFields = <int, UnknownFieldSetField>{};
     for (final entry in _fields.entries) {
       final key = entry.key;
       final value = entry.value;
@@ -404,12 +405,12 @@ class UnknownFieldSetField {
   }
 
   UnknownFieldSetField _deepCopy() {
-    final List<List<int>> newLengthDelimited = List.from(_lengthDelimited);
-    final List<Int64> newVarints = List.from(_varints);
-    final List<int> newFixed32s = List.from(_fixed32s);
-    final List<Int64> newFixed64s = List.from(_fixed64s);
+    final newLengthDelimited = List<List<int>>.from(_lengthDelimited);
+    final newVarints = List<Int64>.from(_varints);
+    final newFixed32s = List<int>.from(_fixed32s);
+    final newFixed64s = List<Int64>.from(_fixed64s);
 
-    final List<UnknownFieldSet> newGroups = [];
+    final newGroups = <UnknownFieldSet>[];
     for (final group in _groups) {
       newGroups.add(group._deepCopy());
     }

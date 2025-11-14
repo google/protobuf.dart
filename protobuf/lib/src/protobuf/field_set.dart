@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 part of 'internal.dart';
 
 @pragma('vm:never-inline')
@@ -910,10 +912,9 @@ class FieldSet {
     }
 
     if (otherFi.isGroupOrMessage) {
-      final currentFi =
-          isExtension
-              ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
-              : _values[fi.index!];
+      final currentFi = isExtension
+          ? _ensureExtensions()._getFieldOrNull(fi as Extension<dynamic>)
+          : _values[fi.index!];
 
       final GeneratedMessage msg = fieldValue;
       if (currentFi == null) {
@@ -998,8 +999,8 @@ class FieldSet {
       if (fieldInfo.isMapField) {
         final PbMap? map = _values[index];
         if (map != null) {
-          _values[index] =
-              (fieldInfo as MapFieldInfo)._createMapField()..addAll(map);
+          _values[index] = (fieldInfo as MapFieldInfo)._createMapField()
+            ..addAll(map);
         }
       } else if (fieldInfo.isRepeated) {
         final PbList? list = _values[index];

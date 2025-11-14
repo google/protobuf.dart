@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 import 'dart:typed_data';
 
 import 'package:protobuf/protobuf.dart';
@@ -177,10 +179,9 @@ void main() {
 
   // Compare two doubles, where NaNs and same-sign inifinities compare equal.
   // For normal values, use equals.
-  Matcher doubleEquals(double expected) =>
-      expected.isNaN
-          ? predicate<double>((x) => x.isNaN, 'NaN expected')
-          : equals(expected);
+  Matcher doubleEquals(double expected) => expected.isNaN
+      ? predicate<double>((x) => x.isNaN, 'NaN expected')
+      : equals(expected);
 
   List<int> dataToBytes(ByteData byteData) => Uint8List.view(byteData.buffer);
   final floatToBytes = convertToBytes(PbFieldType.OF);

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 // Test for ensuring that protobuf lists compare using value semantics.
 
 import 'package:test/test.dart';
@@ -28,14 +30,12 @@ void main() {
   });
 
   test('non-empty frozen lists compare as equal', () {
-    final first =
-        T()
-          ..int32s.add(1)
-          ..freeze();
-    final second =
-        T()
-          ..int32s.add(1)
-          ..freeze();
+    final first = T()
+      ..int32s.add(1)
+      ..freeze();
+    final second = T()
+      ..int32s.add(1)
+      ..freeze();
     expect(first.int32s == second.int32s, isTrue);
   });
 
@@ -46,14 +46,12 @@ void main() {
   });
 
   test('different frozen lists do not compare as equal', () {
-    final first =
-        T()
-          ..int32s.add(1)
-          ..freeze();
-    final second =
-        T()
-          ..int32s.add(2)
-          ..freeze();
+    final first = T()
+      ..int32s.add(1)
+      ..freeze();
+    final second = T()
+      ..int32s.add(2)
+      ..freeze();
     expect(first.int32s == second.int32s, isFalse);
   });
 }

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 part of 'internal.dart';
 
 /// Per-message type setup.
@@ -561,10 +563,12 @@ class BuilderInfo {
   }
 
   List<FieldInfo> _computeSortedByTag() =>
-  // Code generator inserts fields in tag order, but it's possible for
-  // user-written code to insert unordered.
-  List<FieldInfo>.from(fieldInfo.values, growable: false)
-    ..sort((FieldInfo a, FieldInfo b) => a.tagNumber.compareTo(b.tagNumber));
+      // Code generator inserts fields in tag order, but it's possible for
+      // user-written code to insert unordered.
+      List<FieldInfo>.from(
+        fieldInfo.values,
+        growable: false,
+      )..sort((FieldInfo a, FieldInfo b) => a.tagNumber.compareTo(b.tagNumber));
 
   GeneratedMessage _makeEmptyMessage(
     int tagNumber,
@@ -572,10 +576,9 @@ class BuilderInfo {
   ) {
     var subBuilderFunc = subBuilder(tagNumber);
     if (subBuilderFunc == null && extensionRegistry != null) {
-      subBuilderFunc =
-          extensionRegistry
-              .getExtension(qualifiedMessageName, tagNumber)!
-              .subBuilder;
+      subBuilderFunc = extensionRegistry
+          .getExtension(qualifiedMessageName, tagNumber)!
+          .subBuilder;
     }
     return subBuilderFunc!();
   }

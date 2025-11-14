@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 import 'dart:convert' show base64Decode, base64Encode;
 
 import 'package:fixnum/fixnum.dart' show Int64;
@@ -276,19 +278,16 @@ dynamic _convertJsonValue(
         }
       }
       expectedType = 'bool (true, false, "true", "false", 1, 0)';
-      break;
     case PbFieldType.BYTES_BIT:
       if (value is String) {
         return base64Decode(value);
       }
       expectedType = 'Base64 String';
-      break;
     case PbFieldType.STRING_BIT:
       if (value is String) {
         return value;
       }
       expectedType = 'String';
-      break;
     case PbFieldType.FLOAT_BIT:
     case PbFieldType.DOUBLE_BIT:
       // Allow quoted values, although we don't emit them.
@@ -300,7 +299,6 @@ dynamic _convertJsonValue(
         return double.parse(value);
       }
       expectedType = 'num or stringified num';
-      break;
     case PbFieldType.ENUM_BIT:
       // Allow quoted values, although we don't emit them.
       if (value is String) {
@@ -313,14 +311,12 @@ dynamic _convertJsonValue(
         return meta.decodeEnum(tagNumber, registry, value);
       }
       expectedType = 'int or stringified int';
-      break;
     case PbFieldType.INT32_BIT:
     case PbFieldType.SINT32_BIT:
     case PbFieldType.SFIXED32_BIT:
       if (value is int) return value;
       if (value is String) return int.parse(value);
       expectedType = 'int or stringified int';
-      break;
     case PbFieldType.UINT32_BIT:
     case PbFieldType.FIXED32_BIT:
       int? validatedValue;
@@ -331,7 +327,6 @@ dynamic _convertJsonValue(
       }
       if (validatedValue != null) return validatedValue;
       expectedType = 'int or stringified int';
-      break;
     case PbFieldType.INT64_BIT:
     case PbFieldType.SINT64_BIT:
     case PbFieldType.UINT64_BIT:
@@ -340,7 +335,6 @@ dynamic _convertJsonValue(
       if (value is int) return Int64(value);
       if (value is String) return Int64.parseInt(value);
       expectedType = 'int or stringified int';
-      break;
     case PbFieldType.GROUP_BIT:
     case PbFieldType.MESSAGE_BIT:
       if (value is Map) {
@@ -350,7 +344,6 @@ dynamic _convertJsonValue(
         return subMessage;
       }
       expectedType = 'nested message or group';
-      break;
     default:
       throw ArgumentError('Unknown type $fieldType');
   }
