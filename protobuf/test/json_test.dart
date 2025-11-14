@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 // Basic smoke tests for the GeneratedMessage JSON API.
 //
 // There are more JSON tests in the dart-protoc-plugin package.
@@ -128,10 +130,9 @@ void main() {
 
   test('testFrozentInt64JsonEncoding', () {
     final value = Int64.parseInt('1234567890123456789');
-    final frozen =
-        T()
-          ..int64 = value
-          ..freeze();
+    final frozen = T()
+      ..int64 = value
+      ..freeze();
     final encoded = frozen.writeToJsonMap();
     expect(encoded['5'], '$value');
     final decoded = T()..mergeFromJsonMap(encoded);
@@ -187,11 +188,10 @@ void main() {
   });
 }
 
-T makeTestJson() =>
-    T()
-      ..val = 123
-      ..str = 'hello'
-      ..int32s.addAll(<int>[1, 2, 3]);
+T makeTestJson() => T()
+  ..val = 123
+  ..str = 'hello'
+  ..int32s.addAll(<int>[1, 2, 3]);
 
 void checkJsonMap(Map m, {Map<String, dynamic>? unknownFields}) {
   expect(m.length, 3 + (unknownFields?.length ?? 0));
