@@ -25,9 +25,6 @@ import 'options.dart';
 import 'output_config.dart';
 
 abstract class ProtobufContainer {
-  // A map of proto file paths to import prefix aliases.
-  final Map<String, String> _prefixes = {};
-
   String get package;
   String? get classname;
   String get fullName;
@@ -47,18 +44,6 @@ abstract class ProtobufContainer {
 
   String get binaryDescriptorName =>
       '${lowerCaseFirstLetter(classname!)}Descriptor';
-
-  /// Import prefix of this container's .pb.dart file, in [context].
-  ///
-  /// Note that just calling this does not automatically import the container in
-  /// [context], this just returns the prefix.
-  String importPrefix({required FileGenerator context}) {
-    final protoFilePath = fileGen!.protoFileUri.toString();
-    return context._calculateImportPrefix(protoFilePath);
-  }
-
-  String _calculateImportPrefix(String protoImportPath) =>
-      _prefixes.putIfAbsent(protoImportPath, () => '\$${_prefixes.length}');
 
   /// The generator of the .pb.dart file defining this entity.
   ///

@@ -131,8 +131,7 @@ class EnumGenerator extends ProtobufContainer {
     if (context.protoFileUri == fileGen!.protoFileUri) {
       return name;
     }
-
-    return '${importPrefix(context: context)}.$name';
+    return '${context.importAlias(this)}.$name';
   }
 
   static const int _enumValueTag = 2;

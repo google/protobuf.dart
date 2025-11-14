@@ -55,6 +55,23 @@ class FileGenerator extends ProtobufContainer {
   @override
   final FeatureSet features;
 
+  /// Maps imports in the current file to their import aliases.
+  /// E.g. in `import 'x/y/z.pb.dart' as $1` this maps `x/y/z.pb.dart` to `$1`.
+  final Map<String, String> _importAliases = {};
+
+  /// Get the import alias of `container` in the current file generator.
+  ///
+  /// Note that just calling this does not import the `container` in the current
+  /// file. This just assigns an alias to the container in the current file
+  /// generator.
+  String importAlias(ProtobufContainer container) {
+    final protoFilePath = container.fileGen!.protoFileUri.toString();
+    return _importAliases.putIfAbsent(
+      protoFilePath,
+      () => '\$${_importAliases.length}',
+    );
+  }
+
   FileGenerator(
     FeatureSetDefaults editionDefaults,
     this.descriptor,
@@ -693,10 +710,7 @@ class FileGenerator extends ProtobufContainer {
     // evaluate to true not just for the main .pb.dart file based off the proto
     // file, but also for the .pbserver.dart, .pbgrpc.dart files.
     if (ext == '.pb.dart' || protoFileUri != target.protoFileUri) {
-      importWriter.addImport(
-        import,
-        prefix: target.importPrefix(context: fileGen),
-      );
+      importWriter.addImport(import, prefix: fileGen.importAlias(target));
     } else {
       importWriter.addImport(import);
     }
