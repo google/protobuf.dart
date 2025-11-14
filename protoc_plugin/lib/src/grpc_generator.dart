@@ -105,7 +105,7 @@ class GrpcServiceGenerator {
       throw 'FAILURE: Unknown type reference ($fqName) for $location';
     }
 
-    return '${generator.importPrefix(context: fileGen)}.${generator.classname}';
+    return '${fileGen.importAlias(generator)}.${generator.classname}';
   }
 
   void generate(IndentingWriter out) {

@@ -262,11 +262,11 @@ String messageOrEnumClassName(
 
 /// Returns the set of names reserved by the ProtobufEnum class and its
 /// generated subclasses.
-Set<String> get reservedEnumNames =>
-    <String>{}
-      ..addAll(ProtobufEnum_reservedNames)
-      ..addAll(_dartReservedWords)
-      ..addAll(_protobufEnumNames);
+final Set<String> reservedEnumNames = <String>{
+  ...ProtobufEnum_reservedNames,
+  ..._dartReservedWords,
+  ..._protobufEnumNames,
+};
 
 Iterable<String> enumSuffixes() sync* {
   var s = '_';
