@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 // ignore_for_file: constant_identifier_names
 
 part of 'internal.dart';
@@ -153,8 +155,9 @@ class CodedBufferWriter {
 
             // Copy at most `bytesToCopy` bytes from the current chunk.
             final leftInChunk = bytesInChunk - chunkPos;
-            final bytesToCopyFromChunk =
-                leftInChunk > bytesToCopy ? bytesToCopy : leftInChunk;
+            final bytesToCopyFromChunk = leftInChunk > bytesToCopy
+                ? bytesToCopy
+                : leftInChunk;
             buffer.setRange(
               outPos,
               outPos + bytesToCopyFromChunk,
@@ -484,26 +487,25 @@ class CodedBufferWriter {
   static const _MESSAGE_BIT_INDEX = 20;
 
   /// Mapping from value types to wire-types indexed by _valueTypeIndex(...).
-  static final Uint8List _wireTypes =
-      Uint8List(32)
-        ..[_BOOL_BIT_INDEX] = WIRETYPE_VARINT
-        ..[_BYTES_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
-        ..[_STRING_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
-        ..[_DOUBLE_BIT_INDEX] = WIRETYPE_FIXED64
-        ..[_FLOAT_BIT_INDEX] = WIRETYPE_FIXED32
-        ..[_ENUM_BIT_INDEX] = WIRETYPE_VARINT
-        ..[_GROUP_BIT_INDEX] = WIRETYPE_START_GROUP
-        ..[_INT32_BIT_INDEX] = WIRETYPE_VARINT
-        ..[_INT64_BIT_INDEX] = WIRETYPE_VARINT
-        ..[_SINT32_BIT_INDEX] = WIRETYPE_VARINT
-        ..[_SINT64_BIT_INDEX] = WIRETYPE_VARINT
-        ..[_UINT32_BIT_INDEX] = WIRETYPE_VARINT
-        ..[_UINT64_BIT_INDEX] = WIRETYPE_VARINT
-        ..[_FIXED32_BIT_INDEX] = WIRETYPE_FIXED32
-        ..[_FIXED64_BIT_INDEX] = WIRETYPE_FIXED64
-        ..[_SFIXED32_BIT_INDEX] = WIRETYPE_FIXED32
-        ..[_SFIXED64_BIT_INDEX] = WIRETYPE_FIXED64
-        ..[_MESSAGE_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED;
+  static final Uint8List _wireTypes = Uint8List(32)
+    ..[_BOOL_BIT_INDEX] = WIRETYPE_VARINT
+    ..[_BYTES_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
+    ..[_STRING_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED
+    ..[_DOUBLE_BIT_INDEX] = WIRETYPE_FIXED64
+    ..[_FLOAT_BIT_INDEX] = WIRETYPE_FIXED32
+    ..[_ENUM_BIT_INDEX] = WIRETYPE_VARINT
+    ..[_GROUP_BIT_INDEX] = WIRETYPE_START_GROUP
+    ..[_INT32_BIT_INDEX] = WIRETYPE_VARINT
+    ..[_INT64_BIT_INDEX] = WIRETYPE_VARINT
+    ..[_SINT32_BIT_INDEX] = WIRETYPE_VARINT
+    ..[_SINT64_BIT_INDEX] = WIRETYPE_VARINT
+    ..[_UINT32_BIT_INDEX] = WIRETYPE_VARINT
+    ..[_UINT64_BIT_INDEX] = WIRETYPE_VARINT
+    ..[_FIXED32_BIT_INDEX] = WIRETYPE_FIXED32
+    ..[_FIXED64_BIT_INDEX] = WIRETYPE_FIXED64
+    ..[_SFIXED32_BIT_INDEX] = WIRETYPE_FIXED32
+    ..[_SFIXED64_BIT_INDEX] = WIRETYPE_FIXED64
+    ..[_MESSAGE_BIT_INDEX] = WIRETYPE_LENGTH_DELIMITED;
 }
 
 int _encodeZigZag32(int value) => (value << 1) ^ (value >> 31);

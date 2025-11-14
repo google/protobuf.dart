@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 import 'dart:convert' show base64Decode, base64Encode;
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
@@ -174,7 +176,7 @@ JSObject _writeToRawJs(FieldSet fs) {
   }
   final unknownJsonData = fs.unknownJsonData;
   if (unknownJsonData != null) {
-    unknownJsonData.forEach((key, value) {
+    unknownJsonData.forEach((String key, Object? value) {
       result.setProperty(key.toJS, value.jsify());
     });
   }
@@ -216,8 +218,9 @@ void _mergeFromRawJsMap(
     if (fi == null) {
       fi = registry?.getExtension(fs.messageName, int.parse(key));
       if (fi == null) {
-        (fs.unknownJsonData ??= {})[key] =
-            json.getProperty<JSAny>(jsKey).dartify();
+        (fs.unknownJsonData ??= {})[key] = json
+            .getProperty<JSAny>(jsKey)
+            .dartify();
         continue;
       }
     }

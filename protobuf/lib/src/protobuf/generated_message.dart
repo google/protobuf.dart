@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.10
+
 // ignore_for_file: non_constant_identifier_names
 
 part of 'internal.dart';
@@ -25,10 +27,19 @@ typedef ValueOfFunc = ProtobufEnum? Function(int value);
 /// `GeneratedMessage_reservedNames` and should be unlikely to be used in a
 /// proto file.
 abstract class GeneratedMessage {
-  FieldSet? __fieldSet;
+  // The pragma tells dart2js that the late checks for `__fieldSet` are
+  // unnecessary. The field is always initialized before use, but dart2js can't
+  // see that. One problem is that `this.info_` is called before the
+  // initializing assignment, and potentially one of the many overrides for
+  // `get:info_` could access the field before it is initialized, or call one of
+  // the methods that accesses the field. The code generated for the `get:info_`
+  // methods does not do this, but it is hard to determine from first
+  // principles.
+  @pragma('dart2js:late:trust')
+  late final FieldSet __fieldSet;
 
-  @pragma('dart2js:tryInline')
-  FieldSet get _fieldSet => __fieldSet!;
+  @pragma('dart2js:prefer-inline')
+  FieldSet get _fieldSet => __fieldSet;
 
   GeneratedMessage() {
     __fieldSet = FieldSet(this, info_);
