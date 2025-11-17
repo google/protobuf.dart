@@ -29,10 +29,10 @@ import 'type_registry.dart';
 import 'utils.dart';
 
 export 'annotations.dart' show GrpcServiceName, TagNumber;
+export 'exceptions.dart' show InvalidProtocolBufferException;
 export 'pb_list.dart' show PbList;
 export 'pb_map.dart' show PbMap;
 export 'type_registry.dart' show TypeRegistry;
-export 'exceptions.dart' show InvalidProtocolBufferException;
 
 part 'builder_info.dart';
 part 'coded_buffer.dart';
