@@ -266,40 +266,31 @@ class FileGenerator extends ProtobufContainer {
     }
 
     final mainWriter = generateMainFile(config);
-    final enumWriter = hasEnums ? generateEnumFile(config) : null;
+    final enumWriter = generateEnumFile(config);
 
     final generateMetadata = options.generateMetadata;
 
     final files = [
       makeFile('.pb.dart', mainWriter.emitSource(format: !generateMetadata)),
+      makeFile(
+        '.pbenum.dart',
+        enumWriter.emitSource(format: !generateMetadata),
+      ),
       // TODO(devoncarew): Consider not emitting empty json files.
       makeFile('.pbjson.dart', generateJsonFile(config)),
     ];
 
-    if (enumWriter != null) {
-      files.add(
-        makeFile(
-          '.pbenum.dart',
-          enumWriter.emitSource(format: !generateMetadata),
-        ),
-      );
-    }
-
     if (generateMetadata) {
-      files.add(
+      files.addAll([
         makeFile(
           '.pb.dart.meta',
           mainWriter.sourceLocationInfo.writeToJson().toString(),
         ),
-      );
-      if (enumWriter != null) {
-        files.add(
-          makeFile(
-            '.pbenum.dart.meta',
-            enumWriter.sourceLocationInfo.writeToJson().toString(),
-          ),
-        );
-      }
+        makeFile(
+          '.pbenum.dart.meta',
+          enumWriter.sourceLocationInfo.writeToJson().toString(),
+        ),
+      ]);
     }
     if (options.useGrpc) {
       if (grpcGenerators.isNotEmpty) {
@@ -496,8 +487,6 @@ class FileGenerator extends ProtobufContainer {
   IndentingWriter generateEnumFile([
     OutputConfiguration config = const DefaultOutputConfiguration(),
   ]) {
-    assert(hasEnums);
-
     if (!_linked) throw StateError('not linked');
 
     final out = makeWriter();
@@ -505,10 +494,12 @@ class FileGenerator extends ProtobufContainer {
 
     final importWriter = ImportWriter();
 
-    // Make sure any other symbols in dart:core don't cause name conflicts
-    // with enums that have the same name.
-    importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
-    importWriter.addImport(_protobufImportUrl, prefix: protobufImportPrefix);
+    if (hasEnums) {
+      // Make sure any other symbols in dart:core don't cause name conflicts
+      // with enums that have the same name.
+      importWriter.addImport(_coreImportUrl, prefix: coreImportPrefix);
+      importWriter.addImport(_protobufImportUrl, prefix: protobufImportPrefix);
+    }
 
     for (final publicDependency in descriptor.publicDependency) {
       _addExport(
