@@ -55,7 +55,7 @@ class FileGenerator extends ProtobufContainer {
   @override
   final FeatureSet features;
 
-  /// Maps imports in the current file to their import aliases.
+  /// Maps imports in the current file to their import prefixes.
   /// E.g. in `import 'x/y/z.pb.dart' as $1` this maps `x/y/z.pb.dart` to `$1`.
   final Map<String, String> _importPrefixes = {};
 
