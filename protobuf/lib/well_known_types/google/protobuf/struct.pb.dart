@@ -15,12 +15,10 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 import 'package:protobuf/src/protobuf/mixins/well_known.dart' as $mixin;
-
-import 'struct.pbenum.dart';
+import 'package:protobuf/well_known_types/google/protobuf/struct.pbenum.dart';
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
-
-export 'struct.pbenum.dart';
+export 'package:protobuf/well_known_types/google/protobuf/struct.pbenum.dart';
 
 /// `Struct` represents a structured data value, consisting of fields
 /// which map to dynamically typed values. In some languages, `Struct`

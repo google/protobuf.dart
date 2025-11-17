@@ -13,14 +13,13 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
-
-import 'any.pb.dart' as $1;
-import 'source_context.pb.dart' as $0;
-import 'type.pbenum.dart';
+import 'package:protobuf/well_known_types/google/protobuf/any.pb.dart' as $1;
+import 'package:protobuf/well_known_types/google/protobuf/source_context.pb.dart'
+    as $0;
+import 'package:protobuf/well_known_types/google/protobuf/type.pbenum.dart';
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
-
-export 'type.pbenum.dart';
+export 'package:protobuf/well_known_types/google/protobuf/type.pbenum.dart';
 
 /// A protocol buffer message type.
 ///

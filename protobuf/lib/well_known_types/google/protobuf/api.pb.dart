@@ -13,9 +13,9 @@
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
-
-import 'source_context.pb.dart' as $1;
-import 'type.pb.dart' as $0;
+import 'package:protobuf/well_known_types/google/protobuf/source_context.pb.dart'
+    as $1;
+import 'package:protobuf/well_known_types/google/protobuf/type.pb.dart' as $0;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 

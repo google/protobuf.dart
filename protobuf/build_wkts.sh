@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This scripts generates the classes for well-known protobuf types which are
+# included in the package.
+
 set -e
 set -x
 
