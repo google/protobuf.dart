@@ -39,11 +39,39 @@ class DefaultOutputConfiguration extends OutputConfiguration {
 
   @override
   Uri resolveImport(Uri target, Uri source, String extension) {
+    assert(extension.startsWith('.'));
     final targetPath = path.url.fromUri(target);
+    final wellKnownImport = _wellKnownProtoImport(targetPath, extension);
+    if (wellKnownImport != null) {
+      return path.url.toUri(wellKnownImport);
+    }
     final sourceDir = path.url.dirname(path.url.fromUri(source));
     final base = path.withoutExtension(
       path.url.relative(targetPath, from: sourceDir),
     );
     return path.url.toUri('$base$extension');
   }
+}
+
+const _wktImportPrefix = 'google/protobuf/';
+
+Set<String> _wellKnownTypeProtoPaths = {
+  '${_wktImportPrefix}any.proto',
+  '${_wktImportPrefix}api.proto',
+  '${_wktImportPrefix}duration.proto',
+  '${_wktImportPrefix}empty.proto',
+  '${_wktImportPrefix}field_mask.proto',
+  '${_wktImportPrefix}source_context.proto',
+  '${_wktImportPrefix}struct.proto',
+  '${_wktImportPrefix}timestamp.proto',
+  '${_wktImportPrefix}type.proto',
+  '${_wktImportPrefix}wrappers.proto',
+};
+
+String? _wellKnownProtoImport(String importPath, String extension) {
+  if (!_wellKnownTypeProtoPaths.contains(importPath)) {
+    return null;
+  }
+  final importPathWithoutExtension = path.withoutExtension(importPath);
+  return 'package:protobuf/well_known_types/$importPathWithoutExtension$extension';
 }
