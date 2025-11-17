@@ -59,10 +59,10 @@ class FileGenerator extends ProtobufContainer {
   /// E.g. in `import 'x/y/z.pb.dart' as $1` this maps `x/y/z.pb.dart` to `$1`.
   final Map<String, String> _importPrefixes = {};
 
-  /// Get the import alias of `container` in the current file generator.
+  /// Get the import prefix of `container` in the current file generator.
   ///
   /// Note that just calling this does not import the `container` in the current
-  /// file. This just assigns an alias to the container in the current file
+  /// file. This just assigns an prefix to the container in the current file
   /// generator.
   String importPrefix(ProtobufContainer container) {
     final protoFilePath = container.fileGen!.protoFileUri.toString();
