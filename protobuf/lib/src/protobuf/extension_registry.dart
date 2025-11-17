@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=3.10
+// @dart=3.7
 
 part of 'internal.dart';
 
@@ -119,8 +119,8 @@ T _reparseMessage<T extends GeneratedMessage>(
 
       if (itemList != null) {
         for (final group in itemList.groups) {
-          final typeId = group._fields[_messageSetItemTypeIdTag]!.varints[0]
-              .toInt();
+          final typeId =
+              group._fields[_messageSetItemTypeIdTag]!.varints[0].toInt();
           if (extensionRegistry.getExtension(
                 message.info_.qualifiedMessageName,
                 typeId,

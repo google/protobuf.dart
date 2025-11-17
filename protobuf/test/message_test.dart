@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=3.10
+// @dart=3.7
 
 // Tests for GeneratedMessage methods.
 
@@ -67,15 +67,16 @@ Matcher throwsError(String expectedMessage) => throwsA(
 );
 
 void main() {
-  final recProto = Rec()
-    ..val = 123
-    ..str = 'a\n\r\t"\\b'
-    ..bytes = [0, 1, 2, 127, 128, 255]
-    ..child = (Rec()..val = 456)
-    ..int32s.addAll([1, 2, 3])
-    ..int64 = Int64.MAX_VALUE
-    ..stringMap['key "1"'] = '''value\n1'''
-    ..stringMap['key 2'] = 'value 2';
+  final recProto =
+      Rec()
+        ..val = 123
+        ..str = 'a\n\r\t"\\b'
+        ..bytes = [0, 1, 2, 127, 128, 255]
+        ..child = (Rec()..val = 456)
+        ..int32s.addAll([1, 2, 3])
+        ..int64 = Int64.MAX_VALUE
+        ..stringMap['key "1"'] = '''value\n1'''
+        ..stringMap['key 2'] = 'value 2';
 
   test('getField with invalid tag throws exception', () {
     final r = Rec();
@@ -92,13 +93,15 @@ void main() {
   });
 
   test('operator== and hashCode works for frozen message', () {
-    final a = Rec()
-      ..val = 123
-      ..int32s.addAll([1, 2, 3])
-      ..freeze();
-    final b = Rec()
-      ..val = 123
-      ..int32s.addAll([1, 2, 3]);
+    final a =
+        Rec()
+          ..val = 123
+          ..int32s.addAll([1, 2, 3])
+          ..freeze();
+    final b =
+        Rec()
+          ..val = 123
+          ..int32s.addAll([1, 2, 3]);
 
     expect(a.hashCode, b.hashCode);
     expect(a == b, true);
@@ -106,10 +109,11 @@ void main() {
   });
 
   test('isFrozen works', () {
-    final a = Rec()
-      ..val = 123
-      ..int32s.addAll([1, 2, 3])
-      ..child = (Rec()..val = 100);
+    final a =
+        Rec()
+          ..val = 123
+          ..int32s.addAll([1, 2, 3])
+          ..child = (Rec()..val = 100);
     expect(a.isFrozen, false);
     a.child.freeze();
     expect(a.child.isFrozen, true);
@@ -163,12 +167,13 @@ void main() {
   });
 
   test('toTextFormatString handles extensions fields', () {
-    final a = Rec()
-      ..val = 42
-      ..setExtension(Ext.count, 123)
-      ..addExtension(Ext.items, 'a')
-      ..addExtension(Ext.items, 'b"c')
-      ..setExtension(Ext.data, [0, 1, 2, 127, 128, 255]);
+    final a =
+        Rec()
+          ..val = 42
+          ..setExtension(Ext.count, 123)
+          ..addExtension(Ext.items, 'a')
+          ..addExtension(Ext.items, 'b"c')
+          ..setExtension(Ext.data, [0, 1, 2, 127, 128, 255]);
 
     expect(a.toTextFormat(), _expectedTextProtoWithExtensions);
   });

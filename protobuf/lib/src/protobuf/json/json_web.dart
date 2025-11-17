@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=3.10
+// @dart=3.7
 
 import 'dart:convert' show base64Decode, base64Encode;
 import 'dart:js_interop';
@@ -218,9 +218,8 @@ void _mergeFromRawJsMap(
     if (fi == null) {
       fi = registry?.getExtension(fs.messageName, int.parse(key));
       if (fi == null) {
-        (fs.unknownJsonData ??= {})[key] = json
-            .getProperty<JSAny>(jsKey)
-            .dartify();
+        (fs.unknownJsonData ??= {})[key] =
+            json.getProperty<JSAny>(jsKey).dartify();
         continue;
       }
     }

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=3.10
+// @dart=3.7
 
 part of 'internal.dart';
 
@@ -180,9 +180,10 @@ Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
         );
       });
     } else if (fieldInfo.isRepeated) {
-      jsonValue = (value as PbList)
-          .map((element) => valueToProto3Json(element, fieldInfo.type))
-          .toList();
+      jsonValue =
+          (value as PbList)
+              .map((element) => valueToProto3Json(element, fieldInfo.type))
+              .toList();
     } else {
       jsonValue = valueToProto3Json(value, fieldInfo.type);
     }
@@ -331,11 +332,12 @@ void _mergeFromProto3JsonWithContext(
         case PbFieldType.ENUM_BIT:
           if (value is String) {
             // TODO(sigurdm): Do we want to avoid linear search here? Measure...
-            final result = context.permissiveEnums
-                ? fieldInfo.enumValues!.findFirst(
-                    (e) => permissiveCompare(e.name, value),
-                  )
-                : fieldInfo.enumValues!.findFirst((e) => e.name == value);
+            final result =
+                context.permissiveEnums
+                    ? fieldInfo.enumValues!.findFirst(
+                      (e) => permissiveCompare(e.name, value),
+                    )
+                    : fieldInfo.enumValues!.findFirst((e) => e.name == value);
             if ((result != null) || context.ignoreUnknownFields) return result;
             throw context.parseException('Unknown enum value', value);
           } else if (value is int) {
@@ -343,9 +345,9 @@ void _mergeFromProto3JsonWithContext(
                 (context.ignoreUnknownFields
                     ? null
                     : (throw context.parseException(
-                        'Unknown enum value',
-                        value,
-                      )));
+                      'Unknown enum value',
+                      value,
+                    )));
           }
           throw context.parseException(
             'Expected enum as a string or integer',

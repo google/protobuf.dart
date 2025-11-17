@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// @dart=3.10
+// @dart=3.7
 
 import 'package:protobuf/protobuf.dart'
     show BuilderInfo, GeneratedMessage, PbFieldType, UnknownFieldSetField;
@@ -23,10 +23,11 @@ class Rec extends GeneratedMessage {
   Rec createEmptyInstance() => Rec();
 
   @override
-  BuilderInfo info_ = BuilderInfo('rec')
-    ..a(1, 'value', PbFieldType.O3)
-    ..pc<Rec>(2, 'sub', PbFieldType.PM, subBuilder: Rec.create)
-    ..p<int>(10, 'ints', PbFieldType.P3);
+  BuilderInfo info_ =
+      BuilderInfo('rec')
+        ..a(1, 'value', PbFieldType.O3)
+        ..pc<Rec>(2, 'sub', PbFieldType.PM, subBuilder: Rec.create)
+        ..p<int>(10, 'ints', PbFieldType.P3);
 
   int get value => $_get(0, 0);
   set value(int v) {
@@ -97,9 +98,10 @@ void main() {
       () => Rec.getDefault().sub.add(Rec.create()),
       throwsUnsupportedError(contains('add')),
     );
-    var r = Rec.create()
-      ..ints.add(10)
-      ..freeze();
+    var r =
+        Rec.create()
+          ..ints.add(10)
+          ..freeze();
     expect(
       () => r.ints.clear(),
       throwsUnsupportedError(equals("'clear' on a read-only list")),
@@ -113,9 +115,10 @@ void main() {
       throwsUnsupportedError(equals("'add' on a read-only list")),
     );
 
-    r = Rec.create()
-      ..sub.add(Rec.create())
-      ..freeze();
+    r =
+        Rec.create()
+          ..sub.add(Rec.create())
+          ..freeze();
     expect(
       () => r.sub.add(Rec.create()),
       throwsUnsupportedError(equals("'add' on a read-only list")),
@@ -128,9 +131,10 @@ void main() {
 
   test("can't modify sub-messages on a read-only message", () {
     final subMessage = Rec.create()..value = 1;
-    final r = Rec.create()
-      ..sub.add(Rec.create()..sub.add(subMessage))
-      ..freeze();
+    final r =
+        Rec.create()
+          ..sub.add(Rec.create()..sub.add(subMessage))
+          ..freeze();
     expect(r.sub[0].sub[0].value, 1);
     expect(
       () => subMessage.value = 2,
@@ -152,9 +156,10 @@ void main() {
   });
 
   test('can rebuild a frozen message with merge', () {
-    final orig = Rec.create()
-      ..value = 10
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..value = 10
+          ..freeze();
     final rebuilt = orig.copyWith((m) => m.mergeFromJson('{"1": 7}'));
     expect(identical(orig, rebuilt), false);
     expect(orig.value, 10);
@@ -162,9 +167,10 @@ void main() {
   });
 
   test('can set a field while rebuilding a frozen message', () {
-    final orig = Rec.create()
-      ..value = 10
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..value = 10
+          ..freeze();
     final rebuilt = orig.copyWith((m) => m.value = 7);
     expect(identical(orig, rebuilt), false);
     expect(orig.value, 10);
@@ -172,9 +178,10 @@ void main() {
   });
 
   test('can clear while rebuilding a frozen message', () {
-    final orig = Rec.create()
-      ..value = 10
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..value = 10
+          ..freeze();
     final rebuilt = orig.copyWith((m) => m.clear());
     expect(identical(orig, rebuilt), false);
     expect(orig.value, 10);
@@ -183,9 +190,10 @@ void main() {
   });
 
   test('can clear a field while rebuilding a frozen message', () {
-    final orig = Rec.create()
-      ..value = 10
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..value = 10
+          ..freeze();
     final rebuilt = orig.copyWith((m) => m.clearField(1));
     expect(identical(orig, rebuilt), false);
     expect(orig.value, 10);
@@ -194,9 +202,10 @@ void main() {
   });
 
   test('can modify repeated fields while rebuilding a frozen message', () {
-    var orig = Rec.create()
-      ..ints.add(10)
-      ..freeze();
+    var orig =
+        Rec.create()
+          ..ints.add(10)
+          ..freeze();
     var rebuilt = orig.copyWith((m) => m.ints.add(12));
     expect(identical(orig, rebuilt), false);
     expect(orig.ints, [10]);
@@ -210,9 +219,10 @@ void main() {
     expect(orig.ints, [10]);
     expect(rebuilt.ints, [2]);
 
-    orig = Rec.create()
-      ..sub.add(Rec.create())
-      ..freeze();
+    orig =
+        Rec.create()
+          ..sub.add(Rec.create())
+          ..freeze();
     rebuilt = orig.copyWith((m) => m.sub.add(Rec.create()));
     expect(orig.sub.length, 1);
     expect(rebuilt.sub.length, 2);
@@ -220,9 +230,10 @@ void main() {
 
   test('cannot modify sub-messages while rebuilding a frozen message', () {
     final subMessage = Rec.create()..value = 1;
-    final orig = Rec.create()
-      ..sub.add(Rec.create()..sub.add(subMessage))
-      ..freeze();
+    final orig =
+        Rec.create()
+          ..sub.add(Rec.create()..sub.add(subMessage))
+          ..freeze();
 
     final rebuilt = orig.copyWith((m) {
       expect(
@@ -248,8 +259,9 @@ void main() {
   });
 
   test('can modify unknown fields while rebuilding a frozen message', () {
-    final orig = Rec.create()
-      ..unknownFields.addField(20, UnknownFieldSetField()..fixed32s.add(1));
+    final orig =
+        Rec.create()
+          ..unknownFields.addField(20, UnknownFieldSetField()..fixed32s.add(1));
     final rebuilt = orig.copyWith((m) => m.unknownFields.clear());
     expect(orig.unknownFields.hasField(20), true);
     expect(rebuilt.unknownFields.hasField(20), false);
