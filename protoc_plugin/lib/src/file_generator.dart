@@ -893,4 +893,5 @@ const _fileIgnores = {
   'deprecated_member_use_from_same_package',
   'library_prefixes',
   'non_constant_identifier_names',
+  'prefer_relative_imports',
 };

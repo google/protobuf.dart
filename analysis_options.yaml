@@ -4,3 +4,4 @@ linter:
   rules:
   - avoid_bool_literals_in_conditional_expressions
   - comment_references
+  - prefer_relative_imports
