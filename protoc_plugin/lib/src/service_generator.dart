@@ -132,14 +132,12 @@ class ServiceGenerator {
       return generator.classname;
     }
 
-    return '${generator.importPrefix(context: fileGen)}.${generator.classname}';
+    return '${fileGen.importPrefix(generator)}.${generator.classname}';
   }
 
   List<MethodDescriptorProto> get _methodDescriptors => _descriptor.method;
 
   String _methodName(String name) => lowerCaseFirstLetter(name);
-
-  String get _parentClass => _generatedService;
 
   void _generateStub(IndentingWriter out, MethodDescriptorProto m) {
     final methodName = _methodName(m.name);
@@ -210,7 +208,7 @@ class ServiceGenerator {
   void generate(IndentingWriter out) {
     out.addBlock(
       'abstract class $classname extends '
-          '$_parentClass {',
+          '$_generatedService {',
       '}',
       () {
         _generateStubs(out);
