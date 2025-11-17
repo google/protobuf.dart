@@ -25,9 +25,6 @@ import 'options.dart';
 import 'output_config.dart';
 
 abstract class ProtobufContainer {
-  // A map of proto file paths to import prefix aliases.
-  final Map<String, String> _prefixes = {};
-
   String get package;
   String? get classname;
   String get fullName;
@@ -48,14 +45,6 @@ abstract class ProtobufContainer {
   String get binaryDescriptorName =>
       '${lowerCaseFirstLetter(classname!)}Descriptor';
 
-  String importPrefix({required FileGenerator context}) {
-    final protoFilePath = fileGen!.protoFileUri.toString();
-    return context._calculateImportPrefix(protoFilePath);
-  }
-
-  String _calculateImportPrefix(String protoImportPath) =>
-      _prefixes.putIfAbsent(protoImportPath, () => '\$${_prefixes.length}');
-
   /// The generator of the .pb.dart file defining this entity.
   ///
   /// (Represents the .pb.dart file that we need to import in order to use it.)
@@ -69,9 +58,6 @@ abstract class ProtobufContainer {
   /// The top-level parent of this entity, or itself if it is a top-level
   /// entity.
   ProtobufContainer? get toplevelParent {
-    if (parent == null) {
-      return null;
-    }
     if (parent is FileGenerator) {
       return this;
     }
@@ -87,9 +73,9 @@ class CodeGenerator {
 
   /// Runs the code generator. The optional [optionParsers] can be used to
   /// change how command line options are parsed (see [parseGenerationOptions]
-  /// for details), and [config] can be used to override where
-  /// generated files are created and how imports between generated files are
-  /// constructed (see [OutputConfiguration] for details).
+  /// for details), and [config] can be used to override where generated files
+  /// are created and how imports between generated files are constructed (see
+  /// [OutputConfiguration] for details).
   Future<void> generate({
     Map<String, SingleOptionParser>? optionParsers,
     OutputConfiguration config = const DefaultOutputConfiguration(),
