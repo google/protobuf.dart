@@ -537,7 +537,7 @@ mixin ListValueMixin implements GeneratedMessage {
     if (json is List) {
       final subBuilder = message.info_.subBuilder(_valueFieldTagNumber)!;
       for (var i = 0; i < json.length; i++) {
-        final Object element = json[i];
+        final Object? element = json[i];
         final v = subBuilder() as ValueMixin;
         context.addListIndex(i);
         ValueMixin.fromProto3JsonHelper(v, element, typeRegistry, context);
