@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.7
+
 class JsonParsingContext {
   // A list of indices into maps and lists pointing to the current root.
   final List<String> _path = <String>[];

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.7
+
 part of 'internal.dart';
 
 /// A set of unknown fields in a [GeneratedMessage].
@@ -265,7 +267,7 @@ class UnknownFieldSet {
   }
 
   UnknownFieldSet _deepCopy() {
-    Map<int, UnknownFieldSetField> newFields = {};
+    final newFields = <int, UnknownFieldSetField>{};
     for (final entry in _fields.entries) {
       final key = entry.key;
       final value = entry.value;

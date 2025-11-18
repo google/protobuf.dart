@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.7
+
 import '../../protobuf.dart';
 
 /// A TypeRegistry is used to resolve Any messages in the proto3 JSON conversion.

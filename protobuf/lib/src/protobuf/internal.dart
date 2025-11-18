@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.7
+
 /// Runtime library for Dart implementation of [protobufs][1].
 ///
 /// [1]: https://developers.google.com/protocol-buffers
@@ -26,7 +28,7 @@ import 'permissive_compare.dart';
 import 'type_registry.dart';
 import 'utils.dart';
 
-export 'annotations.dart' show TagNumber, GrpcServiceName;
+export 'annotations.dart' show GrpcServiceName, TagNumber;
 export 'exceptions.dart' show InvalidProtocolBufferException;
 export 'pb_list.dart' show PbList;
 export 'pb_map.dart' show PbMap;

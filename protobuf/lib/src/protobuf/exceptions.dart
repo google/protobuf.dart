@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// @dart=3.7
+
 const _truncatedMessageText = '''
 While parsing a protocol message, the input ended unexpectedly
 in the middle of a field. This could either mean that the input
