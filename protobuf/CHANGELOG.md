@@ -1,4 +1,4 @@
-## 5.2.0
+## 6.0.0
 
 * New `GeneratedMessage` extension methods `toTextFormat` and `writeTextFormat`
   added to convert the message into the [official protocol buffers text
@@ -7,11 +7,19 @@
 * Add [well-known proto types][wkts] as libraries. This change is required for
   protoc_plugin-25.0.0. ([#1081])
 
+* **Breaking:** Hide `PbList` and `PbMap` constructors. It is not possible to
+  construct these values correctly in user code, so the constructors are now
+  private. Existing uses of `PbList` can be replaced by `List` and `PbMap` can
+  be replaced by `Map`.
+
+  For immutable lists and maps, you can use `built_value`. ([#1072])
+
 [text format]: https://protobuf.dev/reference/protobuf/textformat-spec/
 [#1080]: https://github.com/google/protobuf.dart/pull/1080
 [#125]: https://github.com/google/protobuf.dart/issues/125
 [wkts]: https://protobuf.dev/reference/protobuf/google.protobuf
 [#1081]: https://github.com/google/protobuf.dart/pull/1081
+[#1072]: https://github.com/google/protobuf.dart/pull/1072
 
 ## 5.1.0
 
