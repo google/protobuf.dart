@@ -174,7 +174,7 @@ JSObject _writeToRawJs(FieldSet fs) {
   }
   final unknownJsonData = fs.unknownJsonData;
   if (unknownJsonData != null) {
-    unknownJsonData.forEach((key, value) {
+    unknownJsonData.forEach((String key, Object? value) {
       result.setProperty(key.toJS, value.jsify());
     });
   }

@@ -404,12 +404,12 @@ class UnknownFieldSetField {
   }
 
   UnknownFieldSetField _deepCopy() {
-    final List<List<int>> newLengthDelimited = List.from(_lengthDelimited);
-    final List<Int64> newVarints = List.from(_varints);
-    final List<int> newFixed32s = List.from(_fixed32s);
-    final List<Int64> newFixed64s = List.from(_fixed64s);
+    final newLengthDelimited = List<List<int>>.from(_lengthDelimited);
+    final newVarints = List<Int64>.from(_varints);
+    final newFixed32s = List<int>.from(_fixed32s);
+    final newFixed64s = List<Int64>.from(_fixed64s);
 
-    final List<UnknownFieldSet> newGroups = [];
+    final newGroups = <UnknownFieldSet>[];
     for (final group in _groups) {
       newGroups.add(group._deepCopy());
     }

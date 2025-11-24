@@ -8,21 +8,11 @@ PLUGIN_PATH=bin/$(PLUGIN_NAME)
 
 TEST_PROTO_LIST = \
 	_leading_underscores \
-	google/protobuf/any \
-	google/protobuf/api \
-	google/protobuf/duration \
-	google/protobuf/empty \
-	google/protobuf/field_mask \
-	google/protobuf/source_context \
-	google/protobuf/struct \
-	google/protobuf/timestamp \
-	google/protobuf/type \
 	google/protobuf/unittest_import \
 	google/protobuf/unittest_import_public \
 	google/protobuf/unittest_optimize_for \
 	google/protobuf/unittest_well_known_types \
 	google/protobuf/unittest \
-	google/protobuf/wrappers \
 	custom_option \
 	dart_name \
 	deprecations \
