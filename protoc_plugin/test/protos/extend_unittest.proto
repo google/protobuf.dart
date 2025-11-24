@@ -39,7 +39,7 @@ extend InnerMost {
   optional string inner_most_extension_string = 2;
 }
 
-extend protobuf_unittest.TestAllExtensions {
+extend proto2_unittest.TestAllExtensions {
   optional Outer outer = 104;
 }
 

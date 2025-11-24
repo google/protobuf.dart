@@ -315,6 +315,7 @@ void main() {
       TestAllTypes_NestedEnum.FOO,
       TestAllTypes_NestedEnum.BAR,
       TestAllTypes_NestedEnum.BAZ,
+      TestAllTypes_NestedEnum.NEG,
     ]);
     expect(TestAllTypes_NestedEnum.FOO.value, 1);
     expect(TestAllTypes_NestedEnum.BAR.value, 2);
@@ -897,9 +898,8 @@ void testCopy(TestAllTypes value1, TestAllTypes value2) {
   //   fields are immutable and can be shared.
   // value2.optionalBytes.add(123);
 
-  value2.optionalGroup.a += 1;
+  value2.optionalgroup.a += 1;
   value2.optionalNestedMessage.bb += 1;
-  value2.optionalNestedMessage.i += 1;
   value2.optionalImportMessage.d += 1;
   value2.optionalNestedEnum = TestAllTypes_NestedEnum.BAR;
   value2.optionalForeignEnum = ForeignEnum.FOREIGN_BAR;
@@ -967,7 +967,7 @@ void testCopyExtensions(TestAllExtensions value1, TestAllExtensions value2) {
   // Same as `testCopy`, don't test `bytes` fields.
   // value2.getExtension(Unittest.optionalBytesExtension).add(987);
 
-  value2.getExtension(Unittest.optionalGroupExtension).a += 1;
+  value2.getExtension(Unittest.optionalgroupExtension).a += 1;
   value2.getExtension(Unittest.optionalNestedMessageExtension).bb += 1;
   value2.getExtension(Unittest.optionalForeignMessageExtension).c += 1;
   value2.getExtension(Unittest.optionalImportMessageExtension).d += 1;
@@ -1002,7 +1002,7 @@ void testCopyExtensions(TestAllExtensions value1, TestAllExtensions value2) {
   value2.getExtension(Unittest.repeatedStringExtension).add("hi 4");
   value2.getExtension(Unittest.repeatedBytesExtension).add(<int>[1, 2, 3]);
   value2
-      .getExtension(Unittest.repeatedGroupExtension)
+      .getExtension(Unittest.repeatedgroupExtension)
       .add(RepeatedGroup_extension());
   value2
       .getExtension(Unittest.repeatedNestedMessageExtension)

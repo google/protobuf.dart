@@ -727,6 +727,100 @@ class FieldSet {
     }
   }
 
+  /// Writes the text proto string representation of the message.
+  /// Spec: https://protobuf.dev/reference/protobuf/textformat-spec/
+  void writeTextFormat(StringSink out) {
+    _writeTextFormat(out, 0);
+  }
+
+  void _writeTextFormat(StringSink out, int initialIndentLevel) {
+    void writeIndent(int indentLevel) {
+      for (var i = 0; i < indentLevel; i++) {
+        out.writeCharCode(32);
+        out.writeCharCode(32);
+      }
+    }
+
+    void renderValue(String key, dynamic value, int indentLevel) {
+      writeIndent(indentLevel);
+      if (value is GeneratedMessage) {
+        out.write('$key {\n');
+        value._fieldSet._writeTextFormat(out, indentLevel + 1);
+        writeIndent(indentLevel);
+        out.write('}\n');
+      } else if (value is MapEntry) {
+        out.write('$key {\n');
+        renderValue('key', value.key, indentLevel + 1);
+        renderValue('value', value.value, indentLevel + 1);
+        writeIndent(indentLevel);
+        out.write('}\n');
+      } else if (value is String) {
+        out.write('$key: "${escapeString(value)}"\n');
+      } else if (value is Map) {
+        out.write('$key {\n');
+        for (final entry in value.entries) {
+          renderValue(entry.key, entry.value, indentLevel + 1);
+        }
+        writeIndent(indentLevel);
+        out.write('}\n');
+        // Bytes are represented as a List<int> in Dart protobuf.
+      } else if (value is List<int>) {
+        out.write('$key: "');
+        escapeBytes(value, out);
+        out.write('"\n');
+      } else {
+        // Writes the primitive value as a string.
+        out.write('$key: $value\n');
+      }
+    }
+
+    void writeFieldValue(String name, dynamic fieldValue) {
+      if (fieldValue is PbList) {
+        for (final value in fieldValue) {
+          renderValue(name, value, initialIndentLevel);
+        }
+      } else if (fieldValue is PbMap) {
+        for (final entry in fieldValue.entries) {
+          renderValue(name, entry, initialIndentLevel);
+        }
+      } else {
+        renderValue(name, fieldValue, initialIndentLevel);
+      }
+    }
+
+    for (final fi in _infosSortedByTag) {
+      if (_hasField(fi.tagNumber)) {
+        writeFieldValue(
+          fi.name == '' ? fi.tagNumber.toString() : fi.protoName,
+          _values[fi.index!],
+        );
+      }
+    }
+
+    final extensions = _extensions;
+    if (extensions != null) {
+      extensions._info.keys.toList()
+        ..sort()
+        ..forEach((int tagNumber) {
+          if (_hasField(tagNumber)) {
+            writeFieldValue(
+              '[${extensions._info[tagNumber]!.name}]',
+              extensions._values[tagNumber],
+            );
+          }
+        });
+    }
+
+    _unknownFields?.writeTextFormat(out, initialIndentLevel);
+
+    final unknownJsonData = _unknownJsonData;
+    if (unknownJsonData != null) {
+      for (final entry in unknownJsonData.entries) {
+        renderValue(entry.key, entry.value, initialIndentLevel);
+      }
+    }
+  }
+
   /// Merges the contents of the [other] into this message.
   ///
   /// Singular fields that are set in [other] overwrite the corresponding fields

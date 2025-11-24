@@ -118,27 +118,18 @@ void main() {
   });
 
   test('can merge extension', () {
-    final nestedMessage = TestAllTypes_NestedMessage()..i = 42;
     final mergeSource =
-        TestAllExtensions()..setExtension(
-          Unittest.optionalNestedMessageExtension,
-          nestedMessage,
-        );
+        TestAllExtensions()..addExtension(Unittest.repeatedInt32Extension, 123);
 
-    final nestedMessage2 = TestAllTypes_NestedMessage()..bb = 43;
     final mergeDest =
-        TestAllExtensions()..setExtension(
-          Unittest.optionalNestedMessageExtension,
-          nestedMessage2,
-        );
+        TestAllExtensions()..addExtension(Unittest.repeatedInt32Extension, 456);
 
     final result =
         TestAllExtensions()
           ..mergeFromMessage(mergeSource)
           ..mergeFromMessage(mergeDest);
 
-    expect(result.getExtension(Unittest.optionalNestedMessageExtension).i, 42);
-    expect(result.getExtension(Unittest.optionalNestedMessageExtension).bb, 43);
+    expect(result.getExtension(Unittest.repeatedInt32Extension), [123, 456]);
   });
 
   test("throws if field number isn't allowed for extension", () {
@@ -148,7 +139,7 @@ void main() {
         message.setExtension(Unittest.optionalInt32Extension, 0);
       },
       throwsArgError(
-        'Extension optionalInt32Extension not legal for message protobuf_unittest.TestAllTypes',
+        'Extension optionalInt32Extension not legal for message proto2_unittest.TestAllTypes',
       ),
     );
 
@@ -157,7 +148,7 @@ void main() {
         message.getExtension(Unittest.optionalInt32Extension);
       },
       throwsArgError(
-        'Extension optionalInt32Extension not legal for message protobuf_unittest.TestAllTypes',
+        'Extension optionalInt32Extension not legal for message proto2_unittest.TestAllTypes',
       ),
     );
   });
@@ -169,7 +160,7 @@ void main() {
         message.setExtension(Unittest.optionalInt32Extension, 'hello');
       },
       throwsArgError(
-        'Illegal to set field optionalInt32Extension (1) of protobuf_unittest.TestAllExtensions'
+        'Illegal to set field optionalInt32Extension (1) of proto2_unittest.TestAllExtensions'
         ' to value (hello): not type int',
       ),
     );
@@ -182,7 +173,7 @@ void main() {
         message.setExtension(Unittest.optionalInt64Extension, 123);
       },
       throwsArgError(
-        'Illegal to set field optionalInt64Extension (2) of protobuf_unittest.TestAllExtensions'
+        'Illegal to set field optionalInt64Extension (2) of proto2_unittest.TestAllExtensions'
         ' to value (123): not Int64',
       ),
     );
@@ -198,7 +189,7 @@ void main() {
       },
       throwsArgError(
         'Illegal to set field optionalNestedMessageExtension (18)'
-        ' of protobuf_unittest.TestAllExtensions to value (123): not a GeneratedMessage',
+        ' of proto2_unittest.TestAllExtensions to value (123): not a GeneratedMessage',
       ),
     );
 
@@ -221,7 +212,7 @@ void main() {
       },
       throwsArgError(
         'Illegal to set field optionalNestedEnumExtension (21)'
-        ' of protobuf_unittest.TestAllExtensions to value (123): not type ProtobufEnum',
+        ' of proto2_unittest.TestAllExtensions to value (123): not type ProtobufEnum',
       ),
     );
 
@@ -272,7 +263,7 @@ void main() {
           ..addExtension(Unittest.repeatedStringExtension, 'world')
           ..setExtension(
             Unittest.optionalNestedMessageExtension,
-            TestAllTypes_NestedMessage()..i = 42,
+            TestAllTypes_NestedMessage()..bb = 42,
           )
           ..setExtension(
             Unittest.optionalNestedEnumExtension,
@@ -282,7 +273,7 @@ void main() {
     final expected =
         '[optionalInt32Extension]: 1\n'
         '[optionalNestedMessageExtension]: {\n'
-        '  i: 42\n'
+        '  bb: 42\n'
         '}\n'
         '[optionalNestedEnumExtension]: BAR\n'
         '[repeatedStringExtension]: hello\n'
@@ -438,8 +429,8 @@ void main() {
   test('ExtensionRegistry.reparseMessage will throw on malformed buffers', () {
     final r = ExtensionRegistry();
     Unittest.registerAllExtensions(r);
-    final r2 = ExtensionRegistry();
 
+    final r2 = ExtensionRegistry();
     Extend_unittest.registerAllExtensions(r2);
 
     // The message encoded in this buffer has an encoding error in the
@@ -709,7 +700,7 @@ void main() {
     },
   );
 
-  test('consistent hashcode for reparsed messages with extensions', () {
+  test('consistent hashCode for reparsed messages with extensions', () {
     final r = ExtensionRegistry()..add(Extend_unittest.outer);
     final m =
         TestAllExtensions()..setExtension(

@@ -7,19 +7,19 @@ import 'dart:core' hide Duration;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/well_known_types/google/protobuf/any.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/duration.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/empty.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/field_mask.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/struct.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/timestamp.pb.dart';
+import 'package:protobuf/well_known_types/google/protobuf/wrappers.pb.dart';
 import 'package:test/test.dart';
 
 import 'gen/entity.pb.dart';
 import 'gen/enum_name.pb.dart';
-import 'gen/google/protobuf/any.pb.dart';
-import 'gen/google/protobuf/duration.pb.dart';
-import 'gen/google/protobuf/empty.pb.dart';
-import 'gen/google/protobuf/field_mask.pb.dart';
-import 'gen/google/protobuf/struct.pb.dart';
-import 'gen/google/protobuf/timestamp.pb.dart';
 import 'gen/google/protobuf/unittest.pb.dart';
 import 'gen/google/protobuf/unittest_well_known_types.pb.dart';
-import 'gen/google/protobuf/wrappers.pb.dart';
 import 'gen/map_field.pb.dart';
 import 'gen/nested_any.pb.dart';
 import 'gen/oneof.pb.dart';
@@ -313,7 +313,7 @@ void main() {
           TestAllTypes()..optionalFixed64 = Int64(100),
         ).toProto3Json(typeRegistry: TypeRegistry([TestAllTypes()])),
         {
-          '@type': 'type.googleapis.com/protobuf_unittest.TestAllTypes',
+          '@type': 'type.googleapis.com/proto2_unittest.TestAllTypes',
           'optionalFixed64': '100',
         },
       );
@@ -398,25 +398,25 @@ void main() {
     test('wrapper types', () {
       final t =
           TestWellKnownTypes()
-            ..doubleField = (DoubleValue()..value = 10.01)
-            ..floatField = (FloatValue()..value = 3.0)
-            ..int64Field = (Int64Value()..value = Int64.MIN_VALUE)
-            ..uint64Field = (UInt64Value()..value = Int64.MIN_VALUE)
-            ..int32Field = (Int32Value()..value = 101)
-            ..uint32Field = (UInt32Value()..value = 102)
-            ..boolField = (BoolValue()..value = false)
-            ..stringField = (StringValue()..value = 'Pop')
-            ..bytesField = (BytesValue()..value = [8, 9, 10]);
+            ..doubleValueField = (DoubleValue()..value = 10.01)
+            ..floatValueField = (FloatValue()..value = 3.0)
+            ..int64ValueField = (Int64Value()..value = Int64.MIN_VALUE)
+            ..uint64ValueField = (UInt64Value()..value = Int64.MIN_VALUE)
+            ..int32ValueField = (Int32Value()..value = 101)
+            ..uint32ValueField = (UInt32Value()..value = 102)
+            ..boolValueField = (BoolValue()..value = false)
+            ..stringValueField = (StringValue()..value = 'Pop')
+            ..bytesValueField = (BytesValue()..value = [8, 9, 10]);
       expect(t.toProto3Json(), {
-        'doubleField': 10.01,
-        'floatField': 3,
-        'int64Field': '-9223372036854775808',
-        'uint64Field': '9223372036854775808',
-        'int32Field': 101,
-        'uint32Field': 102,
-        'boolField': false,
-        'stringField': 'Pop',
-        'bytesField': 'CAkK',
+        'doubleValueField': 10.01,
+        'floatValueField': 3,
+        'int64ValueField': '-9223372036854775808',
+        'uint64ValueField': '9223372036854775808',
+        'int32ValueField': 101,
+        'uint32ValueField': 102,
+        'boolValueField': false,
+        'stringValueField': 'Pop',
+        'bytesValueField': 'CAkK',
       });
     });
 
@@ -920,8 +920,7 @@ void main() {
       expect(
         () =>
             Any()..mergeFromProto3Json({
-              '@type':
-                  'type.googleapis.com/protobuf_unittest.SparseEnumMessage',
+              '@type': 'type.googleapis.com/proto2_unittest.SparseEnumMessage',
               'sparseEnum': 'SPARSEB',
             }, typeRegistry: TypeRegistry([SparseEnumMessage()])),
         parseFailure(['sparseEnum']),
@@ -929,7 +928,7 @@ void main() {
       expect(
         Any()..mergeFromProto3Json(
           {
-            '@type': 'type.googleapis.com/protobuf_unittest.SparseEnumMessage',
+            '@type': 'type.googleapis.com/proto2_unittest.SparseEnumMessage',
             'sparseEnum': 'SPARSEB',
           },
           typeRegistry: TypeRegistry([SparseEnumMessage()]),
@@ -1106,7 +1105,7 @@ void main() {
     test('Any', () {
       final m1 =
           Any()..mergeFromProto3Json({
-            '@type': 'type.googleapis.com/protobuf_unittest.TestAllTypes',
+            '@type': 'type.googleapis.com/proto2_unittest.TestAllTypes',
             'optionalFixed64': '100',
           }, typeRegistry: TypeRegistry([TestAllTypes()]));
 
@@ -1320,130 +1319,156 @@ void main() {
     test('wrapper types', () {
       expect(
         TestWellKnownTypes()..mergeFromProto3Json({
-          'doubleField': 10.01,
-          'floatField': 3,
-          'int64Field': '-9223372036854775808',
-          'uint64Field': '9223372036854775808',
-          'int32Field': 101,
-          'uint32Field': 102,
-          'boolField': false,
-          'stringField': 'Pop',
-          'bytesField': 'CAkK',
+          'doubleValueField': 10.01,
+          'floatValueField': 3,
+          'int64ValueField': '-9223372036854775808',
+          'uint64ValueField': '9223372036854775808',
+          'int32ValueField': 101,
+          'uint32ValueField': 102,
+          'boolValueField': false,
+          'stringValueField': 'Pop',
+          'bytesValueField': 'CAkK',
         }),
         TestWellKnownTypes()
-          ..doubleField = (DoubleValue()..value = 10.01)
-          ..floatField = (FloatValue()..value = 3.0)
-          ..int64Field = (Int64Value()..value = Int64.MIN_VALUE)
-          ..uint64Field = (UInt64Value()..value = Int64.MIN_VALUE)
-          ..int32Field = (Int32Value()..value = 101)
-          ..uint32Field = (UInt32Value()..value = 102)
-          ..boolField = (BoolValue()..value = false)
-          ..stringField = (StringValue()..value = 'Pop')
-          ..bytesField = (BytesValue()..value = [8, 9, 10]),
+          ..doubleValueField = (DoubleValue()..value = 10.01)
+          ..floatValueField = (FloatValue()..value = 3.0)
+          ..int64ValueField = (Int64Value()..value = Int64.MIN_VALUE)
+          ..uint64ValueField = (UInt64Value()..value = Int64.MIN_VALUE)
+          ..int32ValueField = (Int32Value()..value = 101)
+          ..uint32ValueField = (UInt32Value()..value = 102)
+          ..boolValueField = (BoolValue()..value = false)
+          ..stringValueField = (StringValue()..value = 'Pop')
+          ..bytesValueField = (BytesValue()..value = [8, 9, 10]),
       );
 
       expect(
         TestWellKnownTypes()..mergeFromProto3Json({
-          'doubleField': '10.01',
-          'floatField': '3',
-          'int64Field': -854775808,
-          'uint64Field': 854775808,
-          'int32Field': '101',
-          'uint32Field': '102',
-          'boolField': false,
+          'doubleValueField': '10.01',
+          'floatValueField': '3',
+          'int64ValueField': -854775808,
+          'uint64ValueField': 854775808,
+          'int32ValueField': '101',
+          'uint32ValueField': '102',
+          'boolValueField': false,
         }),
         TestWellKnownTypes()
-          ..doubleField = (DoubleValue()..value = 10.01)
-          ..floatField = (FloatValue()..value = 3.0)
-          ..int64Field = (Int64Value()..value = Int64(-854775808))
-          ..uint64Field = (UInt64Value()..value = Int64(854775808))
-          ..int32Field = (Int32Value()..value = 101)
-          ..uint32Field = (UInt32Value()..value = 102)
-          ..boolField = (BoolValue()..value = false),
+          ..doubleValueField = (DoubleValue()..value = 10.01)
+          ..floatValueField = (FloatValue()..value = 3.0)
+          ..int64ValueField = (Int64Value()..value = Int64(-854775808))
+          ..uint64ValueField = (UInt64Value()..value = Int64(854775808))
+          ..int32ValueField = (Int32Value()..value = 101)
+          ..uint32ValueField = (UInt32Value()..value = 102)
+          ..boolValueField = (BoolValue()..value = false),
         reason: 'alternative representations should be accepted',
       );
 
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'doubleField': 'a'}),
-        parseFailure(['doubleField']),
+        () =>
+            TestWellKnownTypes()
+              ..mergeFromProto3Json({'doubleValueField': 'a'}),
+        parseFailure(['doubleValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'doubleField': {}}),
-        parseFailure(['doubleField']),
+        () =>
+            TestWellKnownTypes()..mergeFromProto3Json({'doubleValueField': {}}),
+        parseFailure(['doubleValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'floatField': 'a'}),
-        parseFailure(['floatField']),
+        () =>
+            TestWellKnownTypes()..mergeFromProto3Json({'floatValueField': 'a'}),
+        parseFailure(['floatValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'floatField': {}}),
-        parseFailure(['floatField']),
+        () =>
+            TestWellKnownTypes()..mergeFromProto3Json({'floatValueField': {}}),
+        parseFailure(['floatValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'int64Field': 'a'}),
-        parseFailure(['int64Field']),
+        () =>
+            TestWellKnownTypes()..mergeFromProto3Json({'int64ValueField': 'a'}),
+        parseFailure(['int64ValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'int64Field': {}}),
-        parseFailure(['int64Field']),
+        () =>
+            TestWellKnownTypes()..mergeFromProto3Json({'int64ValueField': {}}),
+        parseFailure(['int64ValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'int64Field': 10.4}),
-        parseFailure(['int64Field']),
+        () =>
+            TestWellKnownTypes()
+              ..mergeFromProto3Json({'int64ValueField': 10.4}),
+        parseFailure(['int64ValueField']),
       );
 
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'uint64Field': 'a'}),
-        parseFailure(['uint64Field']),
+        () =>
+            TestWellKnownTypes()
+              ..mergeFromProto3Json({'uint64ValueField': 'a'}),
+        parseFailure(['uint64ValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'uint64Field': 10.4}),
-        parseFailure(['uint64Field']),
+        () =>
+            TestWellKnownTypes()
+              ..mergeFromProto3Json({'uint64ValueField': 10.4}),
+        parseFailure(['uint64ValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'int32Field': 'a'}),
-        parseFailure(['int32Field']),
+        () =>
+            TestWellKnownTypes()..mergeFromProto3Json({'int32ValueField': 'a'}),
+        parseFailure(['int32ValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'int32Field': 10.4}),
-        parseFailure(['int32Field']),
+        () =>
+            TestWellKnownTypes()
+              ..mergeFromProto3Json({'int32ValueField': 10.4}),
+        parseFailure(['int32ValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'uint32Field': 'a'}),
-        parseFailure(['uint32Field']),
+        () =>
+            TestWellKnownTypes()
+              ..mergeFromProto3Json({'uint32ValueField': 'a'}),
+        parseFailure(['uint32ValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'uint32Field': 10.4}),
-        parseFailure(['uint32Field']),
+        () =>
+            TestWellKnownTypes()
+              ..mergeFromProto3Json({'uint32ValueField': 10.4}),
+        parseFailure(['uint32ValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'boolField': 'false'}),
-        parseFailure(['boolField']),
+        () =>
+            TestWellKnownTypes()
+              ..mergeFromProto3Json({'boolValueField': 'false'}),
+        parseFailure(['boolValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'stringField': 22}),
-        parseFailure(['stringField']),
+        () =>
+            TestWellKnownTypes()..mergeFromProto3Json({'stringValueField': 22}),
+        parseFailure(['stringValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'bytesField': 22}),
-        parseFailure(['bytesField']),
+        () =>
+            TestWellKnownTypes()..mergeFromProto3Json({'bytesValueField': 22}),
+        parseFailure(['bytesValueField']),
       );
       expect(
-        () => TestWellKnownTypes()..mergeFromProto3Json({'bytesField': '()'}),
-        parseFailure(['bytesField']),
+        () =>
+            TestWellKnownTypes()
+              ..mergeFromProto3Json({'bytesValueField': '()'}),
+        parseFailure(['bytesValueField']),
       );
 
       expect(
         TestWellKnownTypes()..mergeFromProto3Json({
-          'doubleField': null,
-          'floatField': null,
-          'int64Field': null,
-          'uint64Field': null,
-          'int32Field': null,
-          'uint32Field': null,
-          'boolField': null,
-          'stringField': null,
-          'bytesField': null,
+          'doubleValueField': null,
+          'floatValueField': null,
+          'int64ValueField': null,
+          'uint64ValueField': null,
+          'int32ValueField': null,
+          'uint32ValueField': null,
+          'boolValueField': null,
+          'stringValueField': null,
+          'bytesValueField': null,
         }),
         TestWellKnownTypes(),
         reason:

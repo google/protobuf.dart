@@ -25,10 +25,19 @@ typedef ValueOfFunc = ProtobufEnum? Function(int value);
 /// `GeneratedMessage_reservedNames` and should be unlikely to be used in a
 /// proto file.
 abstract class GeneratedMessage {
-  FieldSet? __fieldSet;
+  // The pragma tells dart2js that the late checks for `__fieldSet` are
+  // unnecessary. The field is always initialized before use, but dart2js can't
+  // see that. One problem is that `this.info_` is called before the
+  // initializing assignment, and potentially one of the many overrides for
+  // `get:info_` could access the field before it is initialized, or call one of
+  // the methods that accesses the field. The code generated for the `get:info_`
+  // methods does not do this, but it is hard to determine from first
+  // principles.
+  @pragma('dart2js:late:trust')
+  late final FieldSet __fieldSet;
 
-  @pragma('dart2js:tryInline')
-  FieldSet get _fieldSet => __fieldSet!;
+  @pragma('dart2js:prefer-inline')
+  FieldSet get _fieldSet => __fieldSet;
 
   GeneratedMessage() {
     __fieldSet = FieldSet(this, info_);
@@ -615,4 +624,22 @@ extension GeneratedMessageGenericExtensions<T extends GeneratedMessage> on T {
 
 extension GeneratedMessageInternalExtension on GeneratedMessage {
   FieldSet get fieldSet => _fieldSet;
+}
+
+extension TextFormatExtension on GeneratedMessage {
+  /// Returns a TextFormat [String] representation of this message.
+  ///
+  /// Spec: https://protobuf.dev/reference/protobuf/textformat-spec/
+  String toTextFormat() {
+    final out = StringBuffer();
+    writeTextFormat(out);
+    return out.toString();
+  }
+
+  /// Writes a TextFormat [String] representation of this message to [sink].
+  ///
+  /// Spec: https://protobuf.dev/reference/protobuf/textformat-spec/
+  void writeTextFormat(StringSink sink) {
+    _fieldSet.writeTextFormat(sink);
+  }
 }

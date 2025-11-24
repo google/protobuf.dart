@@ -32,21 +32,34 @@ void main() {
 
     expect(r.isEmpty, false);
     expect(r.isNotEmpty, true);
-    expect(r.keys, ['val', 'str', 'child', 'int32s', 'int64', 'enm']);
+    expect(r.keys, [
+      'val',
+      'str',
+      'child',
+      'int32s',
+      'int64',
+      'enm',
+      'stringMap',
+      'bytes',
+    ]);
 
     expect(r['val'], 42);
     expect(r['str'], '');
     expect(r['child'], isA<Rec>());
     expect(r['child'].toString(), 'Rec(42, "")');
     expect(r['int32s'], []);
+    expect(r['stringMap'], {});
+    expect(r['bytes'], []);
 
     final v = r.values;
-    expect(v.length, 6);
+    expect(v.length, 8);
     expect(v.first, 42);
     expect(v.toList()[1], '');
     expect(v.toList()[3].toString(), '[]');
     expect(v.toList()[4], 0);
     expect((v.toList()[5] as ProtobufEnum).name, 'a');
+    expect(v.toList()[6], {});
+    expect(v.toList()[7], []);
   });
 
   test('operator []= sets record fields', () {

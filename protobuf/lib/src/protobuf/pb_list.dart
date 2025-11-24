@@ -19,6 +19,17 @@ PbList<E> newPbList<E>({CheckFunc<E>? check}) => PbList._(check: check);
 PbList<E> newUnmodifiablePbList<E>({CheckFunc<E>? check}) =>
     PbList._unmodifiable();
 
+@pragma('dart2js:tryInline')
+@pragma('vm:prefer-inline')
+@pragma('wasm:prefer-inline')
+PbList<E> newPbList<E>({CheckFunc<E>? check}) => PbList._(check: check);
+
+@pragma('dart2js:tryInline')
+@pragma('vm:prefer-inline')
+@pragma('wasm:prefer-inline')
+PbList<E> newUnmodifiablePbList<E>({CheckFunc<E>? check}) =>
+    PbList._unmodifiable();
+
 /// A [ListBase] implementation used for protobuf `repeated` fields.
 class PbList<E> extends ListBase<E> {
   /// The actual list storing the elements.

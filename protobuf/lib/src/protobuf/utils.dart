@@ -37,6 +37,57 @@ bool areMapsEqual(Map<Object?, Object?> lhs, Map<Object?, Object?> rhs) {
 
 List<T> sorted<T>(Iterable<T> list) => List.from(list)..sort();
 
+/// Escapes slash, double quotes, and newlines in [s] with \ as needed
+/// for a TextFormat string.
+///
+/// This is a copy of the official Java implementation: https://github.com/protocolbuffers/protobuf/blob/main/java/core/src/main/java/com/google/protobuf/TextFormat.java#L632
+String escapeString(String s) {
+  return s
+      .replaceAll('\\', '\\\\')
+      .replaceAll('"', '\\"')
+      .replaceAll('\n', '\\n');
+}
+
+/// Appends the characters of [bytes] to [out] while escaping them as needed
+/// for a TextFormat string.
+///
+/// See TextFormat spec in https://protobuf.dev/reference/protobuf/textformat-spec/
+/// This is a copy of the official Java implementation: https://github.com/protocolbuffers/protobuf/blob/main/java/core/src/main/java/com/google/protobuf/TextFormatEscaper.java#L40
+void escapeBytes(List<int> bytes, StringSink out) {
+  for (final byte in bytes) {
+    // Only ASCII characters between 0x20 (space) and 0x7e (tilde) are
+    // printable.  Other byte values must be escaped.
+    switch (byte) {
+      case 0x07:
+        out.write(r'\a');
+      case 0x08:
+        out.write(r'\b');
+      case 0x0c:
+        out.write(r'\f');
+      case 0x0a:
+        out.write(r'\n');
+      case 0x0d:
+        out.write(r'\r');
+      case 0x09:
+        out.write(r'\t');
+      case 0x0b:
+        out.write(r'\v');
+      default:
+        if (byte >= 0x20 && byte < 0x7f) {
+          if (byte == 0x22 /* " */ || byte == 0x5c /* \ */ ) {
+            out.write(r'\');
+          }
+          out.writeCharCode(byte);
+        } else {
+          out.write(r'\');
+          out.write(((byte >> 6) & 3).toString());
+          out.write(((byte >> 3) & 7).toString());
+          out.write((byte & 7).toString());
+        }
+    }
+  }
+}
+
 class HashUtils {
   // Jenkins hash functions copied from
   // https://github.com/google/quiver-dart/blob/master/lib/src/core/hash.dart.

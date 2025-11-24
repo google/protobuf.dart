@@ -44,7 +44,7 @@ void main() {
         optionalBool: true,
         optionalString: '115',
         optionalBytes: '116'.codeUnits,
-        optionalGroup: TestAllTypes_OptionalGroup(a: 117),
+        optionalgroup: TestAllTypes_OptionalGroup(a: 117),
         optionalNestedMessage: TestAllTypes_NestedMessage(bb: 118),
         optionalForeignMessage: ForeignMessage(c: 119),
         optionalImportMessage: ImportMessage(d: 120),
@@ -68,7 +68,7 @@ void main() {
         repeatedBool: [true, false],
         repeatedString: ['215', '315'],
         repeatedBytes: ['216'.codeUnits, '316'.codeUnits],
-        repeatedGroup: [
+        repeatedgroup: [
           TestAllTypes_RepeatedGroup(a: 217),
           TestAllTypes_RepeatedGroup(a: 317),
         ],
