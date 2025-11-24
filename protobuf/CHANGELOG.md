@@ -13,6 +13,9 @@
   be replaced by `Map`.
 
   For immutable lists and maps, you can use `built_value`. ([#1072])
+  
+* Map fields now check key and value validity when adding elements. ([#1065],
+  [#1076])
 
 [text format]: https://protobuf.dev/reference/protobuf/textformat-spec/
 [#1080]: https://github.com/google/protobuf.dart/pull/1080
@@ -20,6 +23,8 @@
 [wkts]: https://protobuf.dev/reference/protobuf/google.protobuf
 [#1081]: https://github.com/google/protobuf.dart/pull/1081
 [#1072]: https://github.com/google/protobuf.dart/pull/1072
+[#1065]: https://github.com/google/protobuf.dart/issues/1065
+[#1076]: https://github.com/google/protobuf.dart/pull/1076
 
 ## 5.1.0
 
