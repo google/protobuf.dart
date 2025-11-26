@@ -14,7 +14,12 @@ const mapValueFieldNumber = 2;
 @pragma('vm:prefer-inline')
 @pragma('wasm:prefer-inline')
 PbMap<K, V> newPbMap<K, V>(int keyFieldType, int valueFieldType) =>
-    PbMap<K, V>._(keyFieldType, valueFieldType);
+    PbMap<K, V>._(
+      keyFieldType,
+      valueFieldType,
+      getCheckFunction(keyFieldType),
+      getCheckFunction(valueFieldType),
+    );
 
 @pragma('dart2js:tryInline')
 @pragma('vm:prefer-inline')
@@ -46,11 +51,21 @@ class PbMap<K, V> extends MapBase<K, V> {
 
   bool _isReadOnly = false;
 
-  PbMap._(this.keyFieldType, this.valueFieldType) : _wrappedMap = <K, V>{};
+  final CheckFunc<K>? _checkKey;
+  final CheckFunc<V>? _checkValue;
+
+  PbMap._(
+    this.keyFieldType,
+    this.valueFieldType,
+    this._checkKey,
+    this._checkValue,
+  ) : _wrappedMap = <K, V>{};
 
   PbMap._unmodifiable(this.keyFieldType, this.valueFieldType)
     : _wrappedMap = <K, V>{},
-      _isReadOnly = true;
+      _isReadOnly = true,
+      _checkKey = null,
+      _checkValue = null;
 
   @override
   V? operator [](Object? key) => _wrappedMap[key];
@@ -60,13 +75,17 @@ class PbMap<K, V> extends MapBase<K, V> {
     if (_isReadOnly) {
       throw UnsupportedError('Attempted to change a read-only map field');
     }
-    ArgumentError.checkNotNull(key, 'key');
-    ArgumentError.checkNotNull(value, 'value');
+    if (_checkKey != null) {
+      _checkKey(key);
+    }
+    if (_checkValue != null) {
+      _checkValue(value);
+    }
     _wrappedMap[key] = value;
   }
 
-  /// A [PbMap] is equal to another [PbMap] with equal key/value
-  /// pairs in any order.
+  /// A [PbMap] is equal to another [PbMap] with equal key/value pairs in any
+  /// order.
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) {
@@ -86,8 +105,8 @@ class PbMap<K, V> extends MapBase<K, V> {
     return true;
   }
 
-  /// A [PbMap] is equal to another [PbMap] with equal key/value
-  /// pairs in any order. Then, the `hashCode` is guaranteed to be the same.
+  /// A [PbMap] is equal to another [PbMap] with equal key/value pairs in any
+  /// order. Then, the `hashCode` is guaranteed to be the same.
   @override
   int get hashCode {
     return _wrappedMap.entries.fold(
@@ -126,7 +145,12 @@ class PbMap<K, V> extends MapBase<K, V> {
   }
 
   PbMap<K, V> _deepCopy() {
-    final newMap = PbMap<K, V>._(keyFieldType, valueFieldType);
+    final newMap = PbMap<K, V>._(
+      keyFieldType,
+      valueFieldType,
+      _checkKey,
+      _checkValue,
+    );
     final wrappedMap = _wrappedMap;
     final newWrappedMap = newMap._wrappedMap;
     if (PbFieldType.isGroupOrMessage(valueFieldType)) {

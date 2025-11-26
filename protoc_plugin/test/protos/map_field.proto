@@ -20,14 +20,34 @@ message TestMap {
     }
 
     map<int32, int32>        int32_to_int32_field = 1;
-    map<int32, string>       int32_to_string_field = 2;
-    map<int32, bytes>        int32_to_bytes_field = 3;
-    map<int32, EnumValue>    int32_to_enum_field = 4;
-    map<int32, MessageValue> int32_to_message_field = 5;
-    map<string, int32>       string_to_int32_field = 6;
-    map<uint32, int32>       uint32_to_int32_field = 7;
-    map<int64, int32>        int64_to_int32_field = 8;
-    map<uint64, int32>       uint64_to_int32_field = 9;
+    map<int32, int64>        int32_to_int64_field = 2;
+    map<int32, uint32>       int32_to_uint32_field = 3;
+    map<int32, uint64>       int32_to_uint64_field = 4;
+    map<int32, sint32>       int32_to_sint32_field = 5;
+    map<int32, sint64>       int32_to_sint64_field = 6;
+    map<int32, fixed32>      int32_to_fixed32_field = 7;
+    map<int32, fixed64>      int32_to_fixed64_field = 8;
+    map<int32, sfixed32>     int32_to_sfixed32_field = 9;
+    map<int32, sfixed64>     int32_to_sfixed64_field = 10;
+    map<int32, float>        int32_to_float_field = 11;
+    map<int32, double>       int32_to_double_field = 12;
+    map<int32, bool>         int32_to_bool_field = 13;
+    map<int32, string>       int32_to_string_field = 14;
+    map<int32, bytes>        int32_to_bytes_field = 15;
+    map<int32, EnumValue>    int32_to_enum_field = 16;
+    map<int32, MessageValue> int32_to_message_field = 17;
+
+    map<int64, int32>        int64_to_int32_field = 18;
+    map<uint32, int32>       uint32_to_int32_field = 19;
+    map<uint64, int32>       uint64_to_int32_field = 20;
+    map<sint32, int32>       sint32_to_int32_field = 21;
+    map<sint64, int32>       sint64_to_int32_field = 22;
+    map<fixed32, int32>      fixed32_to_int32_field = 23;
+    map<fixed64, int32>      fixed64_to_int32_field = 24;
+    map<sfixed32, int32>     sfixed32_to_int32_field = 25;
+    map<sfixed64, int32>     sfixed64_to_int32_field = 26;
+    map<bool, int32>         bool_to_int32_field = 27;
+    map<string, int32>       string_to_int32_field = 28;
 }
 
 message Inner  {
@@ -47,6 +67,6 @@ message Desugared {
         optional string key = 1;
         optional int32 value = 2;
     }
-    repeated Int32ToString int32_to_string_field = 2;
-    repeated StringToInt32 string_to_int32_field = 6;
+    repeated Int32ToString int32_to_string_field = 14;
+    repeated StringToInt32 string_to_int32_field = 28;
 }

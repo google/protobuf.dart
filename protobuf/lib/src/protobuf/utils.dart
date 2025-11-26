@@ -7,6 +7,11 @@ import 'package:fixnum/fixnum.dart' show Int64;
 import 'internal.dart';
 import 'json_parsing_context.dart';
 
+/// Type of a function that checks items added to `PbList` and `PbMap`.
+///
+/// Throws [ArgumentError] or [RangeError] when the item is not valid.
+typedef CheckFunc<E> = void Function(E? x);
+
 // TODO(antonm): reconsider later if PbList should take care of equality.
 bool deepEquals(Object? lhs, Object? rhs) {
   // Some GeneratedMessages implement Map, so test this first.

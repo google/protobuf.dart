@@ -10,6 +10,11 @@ import 'package:test/test.dart';
 import 'gen/map_field.pb.dart';
 
 void main() {
+  int int32ToEnumFieldTag =
+      TestMap().info_.byName['int32ToEnumField']!.tagNumber;
+  int int32ToMessageFieldTag =
+      TestMap().info_.byName['int32ToMessageField']!.tagNumber;
+
   void setValues(TestMap testMap) {
     testMap
       ..int32ToInt32Field[1] = 11
@@ -408,7 +413,9 @@ void main() {
     // that we handle 0 length fields. (#719)
     {
       final messageBytes = <int>[
-        (5 << 3) | 2, // tag = 5, wire type = 2 (length delimited)
+        ...varint32Bytes(
+          (int32ToMessageFieldTag << 3) | 2, // wire type = 2 (length delimited)
+        ),
         0, // length = 0
       ];
       final message = TestMap.fromBuffer(messageBytes);
@@ -420,7 +427,9 @@ void main() {
 
     {
       final messageBytes = <int>[
-        (4 << 3) | 2, // tag = 4, wire type = 2 (length delimited)
+        ...varint32Bytes(
+          (int32ToEnumFieldTag << 3) | 2, // wire type = 2 (length delimited)
+        ),
         0, // length = 0
       ];
       final message = TestMap.fromBuffer(messageBytes);
@@ -435,7 +444,9 @@ void main() {
     // Similar to the case above, but the field just has key (no value)
     {
       final messageBytes = <int>[
-        (5 << 3) | 2, // tag = 5, wire type = 2 (length delimited)
+        ...varint32Bytes(
+          (int32ToMessageFieldTag << 3) | 2, // wire type = 2 (length delimited)
+        ),
         2, // length = 2
         (1 << 3) | 0, // tag = 1 (map key), wire type = 0 (varint)
         1, // key = 1
@@ -449,7 +460,9 @@ void main() {
 
     {
       final messageBytes = <int>[
-        (4 << 3) | 2, // tag = 4, wire type = 2 (length delimited)
+        ...varint32Bytes(
+          (int32ToEnumFieldTag << 3) | 2, // wire type = 2 (length delimited)
+        ),
         2, // length = 2
         (1 << 3) | 0, // tag = 1 (map key), wire type = 0 (varint)
         1, // key = 1
@@ -466,7 +479,9 @@ void main() {
     // Similar to the case above, but the field just has value (no key)
     {
       final messageBytes = <int>[
-        (5 << 3) | 2, // tag = 5, wire type = 2 (length delimited)
+        ...varint32Bytes(
+          (int32ToMessageFieldTag << 3) | 2, // wire type = 2 (length delimited)
+        ),
         2, // length = 2
         (2 << 3) | 2, // tag = 2 (map value), wire type = 2 (length delimited)
         0, // length = 0 (empty message)
@@ -480,7 +495,9 @@ void main() {
 
     {
       final messageBytes = <int>[
-        (4 << 3) | 2, // tag = 4, wire type = 2 (length delimited)
+        ...varint32Bytes(
+          (int32ToEnumFieldTag << 3) | 2, // wire type = 2 (length delimited)
+        ),
         2, // length = 2
         (2 << 3) | 2, // tag = 2 (map value), wire type = 2 (length delimited)
         1, // enum value = 1
@@ -496,4 +513,14 @@ void main() {
       msg.int32ToInt32Field[0] = 1;
     }, throwsA(const TypeMatcher<UnsupportedError>()));
   });
+}
+
+List<int> varint32Bytes(int value) {
+  List<int> output = [];
+  while (value >= 0x80) {
+    output.add(0x80 | (value & 0x7f));
+    value >>= 7;
+  }
+  output.add(value);
+  return output;
 }

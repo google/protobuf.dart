@@ -5,6 +5,7 @@
 import 'package:test/test.dart';
 
 import 'gen/google/protobuf/unittest.pb.dart';
+import 'gen/map_field.pb.dart';
 
 const int minI32 = -2147483648;
 
@@ -464,5 +465,159 @@ void main() {
         );
       }, throwsArgumentError);
     }
+  });
+
+  test('Maps validate keys', () {
+    // Nullability and type checks
+    expect(() {
+      (TestMap() as dynamic).int32ToInt32Field[null] = 0;
+    }, throwsTypeError);
+
+    expect(() {
+      (TestMap() as dynamic).boolToInt32Field[null] = 0;
+    }, throwsTypeError);
+
+    // int32
+    TestMap().int32ToInt32Field[minI32] = 0;
+    TestMap().int32ToInt32Field[-123] = 0;
+    TestMap().int32ToInt32Field[maxI32] = 0;
+    TestMap().int32ToInt32Field[123] = 0;
+
+    expect(() {
+      TestMap().int32ToInt32Field[minI32 - 1] = 0;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().int32ToInt32Field[maxI32 + 1] = 0;
+    }, throwsArgumentError);
+
+    // sint32
+    TestMap().sint32ToInt32Field[minI32] = 0;
+    TestMap().sint32ToInt32Field[-123] = 0;
+    TestMap().sint32ToInt32Field[maxI32] = 0;
+    TestMap().sint32ToInt32Field[123] = 0;
+
+    expect(() {
+      TestMap().sint32ToInt32Field[minI32 - 1] = 0;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().sint32ToInt32Field[maxI32 + 1] = 0;
+    }, throwsArgumentError);
+
+    // sfixed32
+    TestMap().sfixed32ToInt32Field[minI32] = 0;
+    TestMap().sfixed32ToInt32Field[-123] = 0;
+    TestMap().sfixed32ToInt32Field[maxI32] = 0;
+    TestMap().sfixed32ToInt32Field[123] = 0;
+
+    expect(() {
+      TestMap().sfixed32ToInt32Field[minI32 - 1] = 0;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().sfixed32ToInt32Field[maxI32 + 1] = 0;
+    }, throwsArgumentError);
+
+    // uint32
+    TestMap().uint32ToInt32Field[maxU32] = 0;
+    TestMap().uint32ToInt32Field[123] = 0;
+
+    expect(() {
+      TestMap().uint32ToInt32Field[-1] = 0;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().uint32ToInt32Field[maxU32 + 1] = 0;
+    }, throwsArgumentError);
+
+    // fixed32
+    TestMap().fixed32ToInt32Field[maxU32] = 0;
+    TestMap().fixed32ToInt32Field[123] = 0;
+
+    expect(() {
+      TestMap().fixed32ToInt32Field[-1] = 0;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().fixed32ToInt32Field[maxU32 + 1] = 0;
+    }, throwsArgumentError);
+  });
+
+  test('Maps validate values', () {
+    // Nullability and type checks
+    expect(() {
+      (TestMap() as dynamic).int32ToInt32Field[0] = null;
+    }, throwsTypeError);
+
+    expect(() {
+      (TestMap() as dynamic).int32ToBoolField[0] = null;
+    }, throwsTypeError);
+
+    // int32
+    TestMap().int32ToInt32Field[0] = minI32;
+    TestMap().int32ToInt32Field[0] = -123;
+    TestMap().int32ToInt32Field[0] = maxI32;
+    TestMap().int32ToInt32Field[0] = 123;
+
+    expect(() {
+      TestMap().int32ToInt32Field[0] = minI32 - 1;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().int32ToInt32Field[0] = maxI32 + 1;
+    }, throwsArgumentError);
+
+    // sint32
+    TestMap().int32ToSint32Field[0] = minI32;
+    TestMap().int32ToSint32Field[0] = -123;
+    TestMap().int32ToSint32Field[0] = maxI32;
+    TestMap().int32ToSint32Field[0] = 123;
+
+    expect(() {
+      TestMap().int32ToSint32Field[0] = minI32 - 1;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().int32ToSint32Field[0] = maxI32 + 1;
+    }, throwsArgumentError);
+
+    // sfixed32
+    TestMap().int32ToSfixed32Field[0] = minI32;
+    TestMap().int32ToSfixed32Field[0] = -123;
+    TestMap().int32ToSfixed32Field[0] = maxI32;
+    TestMap().int32ToSfixed32Field[0] = 123;
+
+    expect(() {
+      TestMap().int32ToSfixed32Field[0] = minI32 - 1;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().int32ToSfixed32Field[0] = maxI32 + 1;
+    }, throwsArgumentError);
+
+    // uint32
+    TestMap().int32ToUint32Field[0] = maxU32;
+    TestMap().int32ToUint32Field[0] = 123;
+
+    expect(() {
+      TestMap().int32ToUint32Field[0] = -1;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().int32ToUint32Field[0] = maxU32 + 1;
+    }, throwsArgumentError);
+
+    // fixed32
+    TestMap().int32ToFixed32Field[0] = maxU32;
+    TestMap().int32ToFixed32Field[0] = 123;
+
+    expect(() {
+      TestMap().int32ToFixed32Field[0] = -1;
+    }, throwsArgumentError);
+
+    expect(() {
+      TestMap().int32ToFixed32Field[0] = maxU32 + 1;
+    }, throwsArgumentError);
   });
 }
