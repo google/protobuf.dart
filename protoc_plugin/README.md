@@ -9,26 +9,26 @@ Dart files for working with data in protocol buffers format.
 ## Requirements
 
 To compile a .proto file, you must use the `protoc` command which is [installed
-separately][1]. protoc 3.0.0 or above is required.
+separately][2]. protoc 3.0.0 or above is required.
 
 The generated files are pure Dart code that run either in the Dart VM or in a
-browser (using [dart2js][2]). They depend on the [protobuf Dart package][3]. A
+browser (using [dart2js][3]). They depend on the [protobuf Dart package][4]. A
 Dart project that includes generated files should add `protobuf` as a
 dependency in the `pubspec.yaml` file.
 
-[1]: https://developers.google.com/protocol-buffers/docs/downloads
-[2]: https://dart.dev/tools/dart2js
-[3]: https://pub.dev/packages/protobuf
+[2]: https://developers.google.com/protocol-buffers/docs/downloads
+[3]: https://dart.dev/tools/dart2js
+[4]: https://pub.dev/packages/protobuf
 
 ## How to build
 
 Make sure you have `dart` executable in your `PATH`. See the [Dart installation
-instructions][1] for details.
+instructions][5] for details.
 
 If you encounter any issues while following the instructions below, please make
 sure you have the latest version of Dart installed.
 
-[1]: https://dart.dev/get-dart
+[5]: https://dart.dev/get-dart
 
 **The recommended way** is to activate the latest published version of the
 plugin:
