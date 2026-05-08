@@ -82,7 +82,7 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
     $fixnum.Int64? seconds,
     $core.int? nanos,
   }) {
-    final result = create();
+    final result = Duration._();
     if (seconds != null) result.seconds = seconds;
     if (nanos != null) result.nanos = nanos;
     return result;
@@ -92,10 +92,10 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
 
   factory Duration.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Duration._()..mergeFromBuffer(data, registry);
   factory Duration.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Duration._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Duration',
@@ -117,9 +117,9 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Duration create() => Duration._();
+  static $pb.GeneratedMessage create() => Duration._();
   @$core.override
-  Duration createEmptyInstance() => create();
+  Duration createEmptyInstance() => Duration._();
   @$core.pragma('dart2js:noInline')
   static Duration getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Duration>(create);

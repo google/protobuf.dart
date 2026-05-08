@@ -29,7 +29,7 @@ class Version extends $pb.GeneratedMessage {
     $core.int? patch,
     $core.String? suffix,
   }) {
-    final result = create();
+    final result = Version._();
     if (major != null) result.major = major;
     if (minor != null) result.minor = minor;
     if (patch != null) result.patch = patch;
@@ -41,10 +41,10 @@ class Version extends $pb.GeneratedMessage {
 
   factory Version.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Version._()..mergeFromBuffer(data, registry);
   factory Version.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Version._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Version',
@@ -67,9 +67,9 @@ class Version extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Version create() => Version._();
+  static $pb.GeneratedMessage create() => Version._();
   @$core.override
-  Version createEmptyInstance() => create();
+  Version createEmptyInstance() => Version._();
   @$core.pragma('dart2js:noInline')
   static Version getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Version>(create);
@@ -123,7 +123,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     $core.Iterable<$0.FileDescriptorProto>? protoFile,
     $core.Iterable<$0.FileDescriptorProto>? sourceFileDescriptors,
   }) {
-    final result = create();
+    final result = CodeGeneratorRequest._();
     if (fileToGenerate != null) result.fileToGenerate.addAll(fileToGenerate);
     if (parameter != null) result.parameter = parameter;
     if (compilerVersion != null) result.compilerVersion = compilerVersion;
@@ -137,10 +137,10 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
 
   factory CodeGeneratorRequest.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CodeGeneratorRequest._()..mergeFromBuffer(data, registry);
   factory CodeGeneratorRequest.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CodeGeneratorRequest._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorRequest',
@@ -168,9 +168,9 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CodeGeneratorRequest create() => CodeGeneratorRequest._();
+  static $pb.GeneratedMessage create() => CodeGeneratorRequest._();
   @$core.override
-  CodeGeneratorRequest createEmptyInstance() => create();
+  CodeGeneratorRequest createEmptyInstance() => CodeGeneratorRequest._();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorRequest>(create);
@@ -241,7 +241,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
     $core.String? content,
     $0.GeneratedCodeInfo? generatedCodeInfo,
   }) {
-    final result = create();
+    final result = CodeGeneratorResponse_File._();
     if (name != null) result.name = name;
     if (insertionPoint != null) result.insertionPoint = insertionPoint;
     if (content != null) result.content = content;
@@ -253,10 +253,10 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
 
   factory CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CodeGeneratorResponse_File._()..mergeFromBuffer(data, registry);
   factory CodeGeneratorResponse_File.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CodeGeneratorResponse_File._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorResponse.File',
@@ -283,9 +283,9 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File._();
+  static $pb.GeneratedMessage create() => CodeGeneratorResponse_File._();
   @$core.override
-  CodeGeneratorResponse_File createEmptyInstance() => create();
+  CodeGeneratorResponse_File createEmptyInstance() => CodeGeneratorResponse_File._();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse_File>(create);
@@ -391,7 +391,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
     $core.int? maximumEdition,
     $core.Iterable<CodeGeneratorResponse_File>? file,
   }) {
-    final result = create();
+    final result = CodeGeneratorResponse._();
     if (error != null) result.error = error;
     if (supportedFeatures != null) result.supportedFeatures = supportedFeatures;
     if (minimumEdition != null) result.minimumEdition = minimumEdition;
@@ -404,10 +404,10 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
 
   factory CodeGeneratorResponse.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CodeGeneratorResponse._()..mergeFromBuffer(data, registry);
   factory CodeGeneratorResponse.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CodeGeneratorResponse._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorResponse',
@@ -436,9 +436,9 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CodeGeneratorResponse create() => CodeGeneratorResponse._();
+  static $pb.GeneratedMessage create() => CodeGeneratorResponse._();
   @$core.override
-  CodeGeneratorResponse createEmptyInstance() => create();
+  CodeGeneratorResponse createEmptyInstance() => CodeGeneratorResponse._();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse>(create);

@@ -379,7 +379,7 @@ class RoutingRule extends $pb.GeneratedMessage {
   factory RoutingRule({
     $core.Iterable<RoutingParameter>? routingParameters,
   }) {
-    final result = create();
+    final result = RoutingRule._();
     if (routingParameters != null)
       result.routingParameters.addAll(routingParameters);
     return result;
@@ -389,10 +389,10 @@ class RoutingRule extends $pb.GeneratedMessage {
 
   factory RoutingRule.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      RoutingRule._()..mergeFromBuffer(data, registry);
   factory RoutingRule.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      RoutingRule._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'RoutingRule',
@@ -413,9 +413,9 @@ class RoutingRule extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static RoutingRule create() => RoutingRule._();
+  static $pb.GeneratedMessage create() => RoutingRule._();
   @$core.override
-  RoutingRule createEmptyInstance() => create();
+  RoutingRule createEmptyInstance() => RoutingRule._();
   @$core.pragma('dart2js:noInline')
   static RoutingRule getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<RoutingRule>(create);
@@ -437,7 +437,7 @@ class RoutingParameter extends $pb.GeneratedMessage {
     $core.String? field_1,
     $core.String? pathTemplate,
   }) {
-    final result = create();
+    final result = RoutingParameter._();
     if (field_1 != null) result.field_1 = field_1;
     if (pathTemplate != null) result.pathTemplate = pathTemplate;
     return result;
@@ -447,10 +447,10 @@ class RoutingParameter extends $pb.GeneratedMessage {
 
   factory RoutingParameter.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      RoutingParameter._()..mergeFromBuffer(data, registry);
   factory RoutingParameter.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      RoutingParameter._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'RoutingParameter',
@@ -471,9 +471,9 @@ class RoutingParameter extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static RoutingParameter create() => RoutingParameter._();
+  static $pb.GeneratedMessage create() => RoutingParameter._();
   @$core.override
-  RoutingParameter createEmptyInstance() => create();
+  RoutingParameter createEmptyInstance() => RoutingParameter._();
   @$core.pragma('dart2js:noInline')
   static RoutingParameter getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<RoutingParameter>(create);

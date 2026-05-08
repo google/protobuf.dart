@@ -16,7 +16,7 @@ Matcher throwsUnsupportedError(Matcher expectedMessage) => throwsA(
 
 class Rec extends GeneratedMessage {
   static Rec getDefault() => Rec()..freeze();
-  static Rec create() => Rec();
+  static GeneratedMessage create() => Rec();
   @override
   Rec createEmptyInstance() => Rec();
 
@@ -93,11 +93,11 @@ void main() {
 
   test("can't modify repeated fields on a read-only message", () {
     expect(
-      () => Rec.getDefault().sub.add(Rec.create()),
+      () => Rec.getDefault().sub.add(Rec()),
       throwsUnsupportedError(contains('add')),
     );
     var r =
-        Rec.create()
+        Rec()
           ..ints.add(10)
           ..freeze();
     expect(
@@ -109,16 +109,16 @@ void main() {
       throwsUnsupportedError(equals("'set element' on a read-only list")),
     );
     expect(
-      () => r.sub.add(Rec.create()),
+      () => r.sub.add(Rec()),
       throwsUnsupportedError(equals("'add' on a read-only list")),
     );
 
     r =
-        Rec.create()
-          ..sub.add(Rec.create())
+        Rec()
+          ..sub.add(Rec())
           ..freeze();
     expect(
-      () => r.sub.add(Rec.create()),
+      () => r.sub.add(Rec()),
       throwsUnsupportedError(equals("'add' on a read-only list")),
     );
     expect(
@@ -128,10 +128,10 @@ void main() {
   });
 
   test("can't modify sub-messages on a read-only message", () {
-    final subMessage = Rec.create()..value = 1;
+    final subMessage = Rec()..value = 1;
     final r =
-        Rec.create()
-          ..sub.add(Rec.create()..sub.add(subMessage))
+        Rec()
+          ..sub.add(Rec()..sub.add(subMessage))
           ..freeze();
     expect(r.sub[0].sub[0].value, 1);
     expect(
@@ -155,7 +155,7 @@ void main() {
 
   test('can rebuild a frozen message with merge', () {
     final orig =
-        Rec.create()
+        Rec()
           ..value = 10
           ..freeze();
     final rebuilt = orig.copyWith((m) => m.mergeFromJson('{"1": 7}'));
@@ -166,7 +166,7 @@ void main() {
 
   test('can set a field while rebuilding a frozen message', () {
     final orig =
-        Rec.create()
+        Rec()
           ..value = 10
           ..freeze();
     final rebuilt = orig.copyWith((m) => m.value = 7);
@@ -177,7 +177,7 @@ void main() {
 
   test('can clear while rebuilding a frozen message', () {
     final orig =
-        Rec.create()
+        Rec()
           ..value = 10
           ..freeze();
     final rebuilt = orig.copyWith((m) => m.clear());
@@ -189,7 +189,7 @@ void main() {
 
   test('can clear a field while rebuilding a frozen message', () {
     final orig =
-        Rec.create()
+        Rec()
           ..value = 10
           ..freeze();
     final rebuilt = orig.copyWith((m) => m.clearField(1));
@@ -201,7 +201,7 @@ void main() {
 
   test('can modify repeated fields while rebuilding a frozen message', () {
     var orig =
-        Rec.create()
+        Rec()
           ..ints.add(10)
           ..freeze();
     var rebuilt = orig.copyWith((m) => m.ints.add(12));
@@ -218,19 +218,19 @@ void main() {
     expect(rebuilt.ints, [2]);
 
     orig =
-        Rec.create()
-          ..sub.add(Rec.create())
+        Rec()
+          ..sub.add(Rec())
           ..freeze();
-    rebuilt = orig.copyWith((m) => m.sub.add(Rec.create()));
+    rebuilt = orig.copyWith((m) => m.sub.add(Rec()));
     expect(orig.sub.length, 1);
     expect(rebuilt.sub.length, 2);
   });
 
   test('cannot modify sub-messages while rebuilding a frozen message', () {
-    final subMessage = Rec.create()..value = 1;
+    final subMessage = Rec()..value = 1;
     final orig =
-        Rec.create()
-          ..sub.add(Rec.create()..sub.add(subMessage))
+        Rec()
+          ..sub.add(Rec()..sub.add(subMessage))
           ..freeze();
 
     final rebuilt = orig.copyWith((m) {
@@ -258,7 +258,7 @@ void main() {
 
   test('can modify unknown fields while rebuilding a frozen message', () {
     final orig =
-        Rec.create()
+        Rec()
           ..unknownFields.addField(20, UnknownFieldSetField()..fixed32s.add(1));
     final rebuilt = orig.copyWith((m) => m.unknownFields.clear());
     expect(orig.unknownFields.hasField(20), true);

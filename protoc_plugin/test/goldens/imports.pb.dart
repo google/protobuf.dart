@@ -20,16 +20,16 @@ import 'package2.pb.dart' as $1;
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class M extends $pb.GeneratedMessage {
-  factory M() => create();
+  factory M() => M._();
 
   M._();
 
   factory M.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      M._()..mergeFromBuffer(data, registry);
   factory M.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      M._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i =
       $pb.BuilderInfo(_omitMessageNames ? '' : 'M', createEmptyInstance: create)
@@ -48,9 +48,9 @@ class M extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static M create() => M._();
+  static $pb.GeneratedMessage create() => M._();
   @$core.override
-  M createEmptyInstance() => create();
+  M createEmptyInstance() => M._();
   @$core.pragma('dart2js:noInline')
   static M getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<M>(create);

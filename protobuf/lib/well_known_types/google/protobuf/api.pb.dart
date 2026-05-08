@@ -44,7 +44,7 @@ class Api extends $pb.GeneratedMessage {
     $0.Syntax? syntax,
     $core.String? edition,
   }) {
-    final result = create();
+    final result = Api._();
     if (name != null) result.name = name;
     if (methods != null) result.methods.addAll(methods);
     if (options != null) result.options.addAll(options);
@@ -60,10 +60,10 @@ class Api extends $pb.GeneratedMessage {
 
   factory Api.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Api._()..mergeFromBuffer(data, registry);
   factory Api.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Api._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Api',
@@ -94,9 +94,9 @@ class Api extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Api create() => Api._();
+  static $pb.GeneratedMessage create() => Api._();
   @$core.override
-  Api createEmptyInstance() => create();
+  Api createEmptyInstance() => Api._();
   @$core.pragma('dart2js:noInline')
   static Api getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Api>(create);
@@ -204,7 +204,7 @@ class Method extends $pb.GeneratedMessage {
     @$core.Deprecated('This field is deprecated.') $0.Syntax? syntax,
     @$core.Deprecated('This field is deprecated.') $core.String? edition,
   }) {
-    final result = create();
+    final result = Method._();
     if (name != null) result.name = name;
     if (requestTypeUrl != null) result.requestTypeUrl = requestTypeUrl;
     if (requestStreaming != null) result.requestStreaming = requestStreaming;
@@ -220,10 +220,10 @@ class Method extends $pb.GeneratedMessage {
 
   factory Method.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Method._()..mergeFromBuffer(data, registry);
   factory Method.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Method._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Method',
@@ -252,9 +252,9 @@ class Method extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Method create() => Method._();
+  static $pb.GeneratedMessage create() => Method._();
   @$core.override
-  Method createEmptyInstance() => create();
+  Method createEmptyInstance() => Method._();
   @$core.pragma('dart2js:noInline')
   static Method getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Method>(create);
@@ -432,7 +432,7 @@ class Mixin extends $pb.GeneratedMessage {
     $core.String? name,
     $core.String? root,
   }) {
-    final result = create();
+    final result = Mixin._();
     if (name != null) result.name = name;
     if (root != null) result.root = root;
     return result;
@@ -442,10 +442,10 @@ class Mixin extends $pb.GeneratedMessage {
 
   factory Mixin.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Mixin._()..mergeFromBuffer(data, registry);
   factory Mixin.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Mixin._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Mixin',
@@ -466,9 +466,9 @@ class Mixin extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Mixin create() => Mixin._();
+  static $pb.GeneratedMessage create() => Mixin._();
   @$core.override
-  Mixin createEmptyInstance() => create();
+  Mixin createEmptyInstance() => Mixin._();
   @$core.pragma('dart2js:noInline')
   static Mixin getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Mixin>(create);

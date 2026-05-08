@@ -29,7 +29,7 @@ class DoubleValue extends $pb.GeneratedMessage with $mixin.DoubleValueMixin {
   factory DoubleValue({
     $core.double? value,
   }) {
-    final result = create();
+    final result = DoubleValue._();
     if (value != null) result.value = value;
     return result;
   }
@@ -38,10 +38,10 @@ class DoubleValue extends $pb.GeneratedMessage with $mixin.DoubleValueMixin {
 
   factory DoubleValue.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      DoubleValue._()..mergeFromBuffer(data, registry);
   factory DoubleValue.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      DoubleValue._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DoubleValue',
@@ -63,9 +63,9 @@ class DoubleValue extends $pb.GeneratedMessage with $mixin.DoubleValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static DoubleValue create() => DoubleValue._();
+  static $pb.GeneratedMessage create() => DoubleValue._();
   @$core.override
-  DoubleValue createEmptyInstance() => create();
+  DoubleValue createEmptyInstance() => DoubleValue._();
   @$core.pragma('dart2js:noInline')
   static DoubleValue getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DoubleValue>(create);
@@ -92,7 +92,7 @@ class FloatValue extends $pb.GeneratedMessage with $mixin.FloatValueMixin {
   factory FloatValue({
     $core.double? value,
   }) {
-    final result = create();
+    final result = FloatValue._();
     if (value != null) result.value = value;
     return result;
   }
@@ -101,10 +101,10 @@ class FloatValue extends $pb.GeneratedMessage with $mixin.FloatValueMixin {
 
   factory FloatValue.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      FloatValue._()..mergeFromBuffer(data, registry);
   factory FloatValue.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      FloatValue._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FloatValue',
@@ -125,9 +125,9 @@ class FloatValue extends $pb.GeneratedMessage with $mixin.FloatValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static FloatValue create() => FloatValue._();
+  static $pb.GeneratedMessage create() => FloatValue._();
   @$core.override
-  FloatValue createEmptyInstance() => create();
+  FloatValue createEmptyInstance() => FloatValue._();
   @$core.pragma('dart2js:noInline')
   static FloatValue getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FloatValue>(create);
@@ -154,7 +154,7 @@ class Int64Value extends $pb.GeneratedMessage with $mixin.Int64ValueMixin {
   factory Int64Value({
     $fixnum.Int64? value,
   }) {
-    final result = create();
+    final result = Int64Value._();
     if (value != null) result.value = value;
     return result;
   }
@@ -163,10 +163,10 @@ class Int64Value extends $pb.GeneratedMessage with $mixin.Int64ValueMixin {
 
   factory Int64Value.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Int64Value._()..mergeFromBuffer(data, registry);
   factory Int64Value.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Int64Value._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Int64Value',
@@ -187,9 +187,9 @@ class Int64Value extends $pb.GeneratedMessage with $mixin.Int64ValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Int64Value create() => Int64Value._();
+  static $pb.GeneratedMessage create() => Int64Value._();
   @$core.override
-  Int64Value createEmptyInstance() => create();
+  Int64Value createEmptyInstance() => Int64Value._();
   @$core.pragma('dart2js:noInline')
   static Int64Value getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<Int64Value>(create);
@@ -216,7 +216,7 @@ class UInt64Value extends $pb.GeneratedMessage with $mixin.UInt64ValueMixin {
   factory UInt64Value({
     $fixnum.Int64? value,
   }) {
-    final result = create();
+    final result = UInt64Value._();
     if (value != null) result.value = value;
     return result;
   }
@@ -225,10 +225,10 @@ class UInt64Value extends $pb.GeneratedMessage with $mixin.UInt64ValueMixin {
 
   factory UInt64Value.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      UInt64Value._()..mergeFromBuffer(data, registry);
   factory UInt64Value.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      UInt64Value._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'UInt64Value',
@@ -251,9 +251,9 @@ class UInt64Value extends $pb.GeneratedMessage with $mixin.UInt64ValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static UInt64Value create() => UInt64Value._();
+  static $pb.GeneratedMessage create() => UInt64Value._();
   @$core.override
-  UInt64Value createEmptyInstance() => create();
+  UInt64Value createEmptyInstance() => UInt64Value._();
   @$core.pragma('dart2js:noInline')
   static UInt64Value getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<UInt64Value>(create);
@@ -280,7 +280,7 @@ class Int32Value extends $pb.GeneratedMessage with $mixin.Int32ValueMixin {
   factory Int32Value({
     $core.int? value,
   }) {
-    final result = create();
+    final result = Int32Value._();
     if (value != null) result.value = value;
     return result;
   }
@@ -289,10 +289,10 @@ class Int32Value extends $pb.GeneratedMessage with $mixin.Int32ValueMixin {
 
   factory Int32Value.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Int32Value._()..mergeFromBuffer(data, registry);
   factory Int32Value.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Int32Value._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Int32Value',
@@ -313,9 +313,9 @@ class Int32Value extends $pb.GeneratedMessage with $mixin.Int32ValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Int32Value create() => Int32Value._();
+  static $pb.GeneratedMessage create() => Int32Value._();
   @$core.override
-  Int32Value createEmptyInstance() => create();
+  Int32Value createEmptyInstance() => Int32Value._();
   @$core.pragma('dart2js:noInline')
   static Int32Value getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<Int32Value>(create);
@@ -342,7 +342,7 @@ class UInt32Value extends $pb.GeneratedMessage with $mixin.UInt32ValueMixin {
   factory UInt32Value({
     $core.int? value,
   }) {
-    final result = create();
+    final result = UInt32Value._();
     if (value != null) result.value = value;
     return result;
   }
@@ -351,10 +351,10 @@ class UInt32Value extends $pb.GeneratedMessage with $mixin.UInt32ValueMixin {
 
   factory UInt32Value.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      UInt32Value._()..mergeFromBuffer(data, registry);
   factory UInt32Value.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      UInt32Value._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'UInt32Value',
@@ -376,9 +376,9 @@ class UInt32Value extends $pb.GeneratedMessage with $mixin.UInt32ValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static UInt32Value create() => UInt32Value._();
+  static $pb.GeneratedMessage create() => UInt32Value._();
   @$core.override
-  UInt32Value createEmptyInstance() => create();
+  UInt32Value createEmptyInstance() => UInt32Value._();
   @$core.pragma('dart2js:noInline')
   static UInt32Value getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<UInt32Value>(create);
@@ -405,7 +405,7 @@ class BoolValue extends $pb.GeneratedMessage with $mixin.BoolValueMixin {
   factory BoolValue({
     $core.bool? value,
   }) {
-    final result = create();
+    final result = BoolValue._();
     if (value != null) result.value = value;
     return result;
   }
@@ -414,10 +414,10 @@ class BoolValue extends $pb.GeneratedMessage with $mixin.BoolValueMixin {
 
   factory BoolValue.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      BoolValue._()..mergeFromBuffer(data, registry);
   factory BoolValue.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      BoolValue._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'BoolValue',
@@ -438,9 +438,9 @@ class BoolValue extends $pb.GeneratedMessage with $mixin.BoolValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static BoolValue create() => BoolValue._();
+  static $pb.GeneratedMessage create() => BoolValue._();
   @$core.override
-  BoolValue createEmptyInstance() => create();
+  BoolValue createEmptyInstance() => BoolValue._();
   @$core.pragma('dart2js:noInline')
   static BoolValue getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BoolValue>(create);
@@ -467,7 +467,7 @@ class StringValue extends $pb.GeneratedMessage with $mixin.StringValueMixin {
   factory StringValue({
     $core.String? value,
   }) {
-    final result = create();
+    final result = StringValue._();
     if (value != null) result.value = value;
     return result;
   }
@@ -476,10 +476,10 @@ class StringValue extends $pb.GeneratedMessage with $mixin.StringValueMixin {
 
   factory StringValue.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      StringValue._()..mergeFromBuffer(data, registry);
   factory StringValue.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      StringValue._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'StringValue',
@@ -501,9 +501,9 @@ class StringValue extends $pb.GeneratedMessage with $mixin.StringValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static StringValue create() => StringValue._();
+  static $pb.GeneratedMessage create() => StringValue._();
   @$core.override
-  StringValue createEmptyInstance() => create();
+  StringValue createEmptyInstance() => StringValue._();
   @$core.pragma('dart2js:noInline')
   static StringValue getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<StringValue>(create);
@@ -530,7 +530,7 @@ class BytesValue extends $pb.GeneratedMessage with $mixin.BytesValueMixin {
   factory BytesValue({
     $core.List<$core.int>? value,
   }) {
-    final result = create();
+    final result = BytesValue._();
     if (value != null) result.value = value;
     return result;
   }
@@ -539,10 +539,10 @@ class BytesValue extends $pb.GeneratedMessage with $mixin.BytesValueMixin {
 
   factory BytesValue.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      BytesValue._()..mergeFromBuffer(data, registry);
   factory BytesValue.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      BytesValue._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'BytesValue',
@@ -564,9 +564,9 @@ class BytesValue extends $pb.GeneratedMessage with $mixin.BytesValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static BytesValue create() => BytesValue._();
+  static $pb.GeneratedMessage create() => BytesValue._();
   @$core.override
-  BytesValue createEmptyInstance() => create();
+  BytesValue createEmptyInstance() => BytesValue._();
   @$core.pragma('dart2js:noInline')
   static BytesValue getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<BytesValue>(create);

@@ -108,7 +108,7 @@ class Any extends $pb.GeneratedMessage with $mixin.AnyMixin {
     $core.String? typeUrl,
     $core.List<$core.int>? value,
   }) {
-    final result = create();
+    final result = Any._();
     if (typeUrl != null) result.typeUrl = typeUrl;
     if (value != null) result.value = value;
     return result;
@@ -118,10 +118,10 @@ class Any extends $pb.GeneratedMessage with $mixin.AnyMixin {
 
   factory Any.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Any._()..mergeFromBuffer(data, registry);
   factory Any.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Any._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Any',
@@ -144,9 +144,9 @@ class Any extends $pb.GeneratedMessage with $mixin.AnyMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Any create() => Any._();
+  static $pb.GeneratedMessage create() => Any._();
   @$core.override
-  Any createEmptyInstance() => create();
+  Any createEmptyInstance() => Any._();
   @$core.pragma('dart2js:noInline')
   static Any getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Any>(create);
@@ -205,7 +205,7 @@ class Any extends $pb.GeneratedMessage with $mixin.AnyMixin {
   /// the fully qualified name of the type of [message].
   static Any pack($pb.GeneratedMessage message,
       {$core.String typeUrlPrefix = 'type.googleapis.com'}) {
-    final result = create();
+    final result = Any._();
     $mixin.AnyMixin.packIntoAny(result, message, typeUrlPrefix: typeUrlPrefix);
     return result;
   }

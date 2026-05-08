@@ -1,10 +1,10 @@
 class PhoneNumber extends $pb.GeneratedMessage {
-  factory PhoneNumber() => create();
+  factory PhoneNumber() => PhoneNumber._();
 
   PhoneNumber._();
 
-  factory PhoneNumber.fromBuffer($core.List<$core.int> data, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(data, registry);
-  factory PhoneNumber.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(json, registry);
+  factory PhoneNumber.fromBuffer($core.List<$core.int> data, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => PhoneNumber._()..mergeFromBuffer(data, registry);
+  factory PhoneNumber.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => PhoneNumber._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PhoneNumber', createEmptyInstance: create)
     ..aQS(1, _omitFieldNames ? '' : 'number')
@@ -22,9 +22,9 @@ class PhoneNumber extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static PhoneNumber create() => PhoneNumber._();
+  static $pb.GeneratedMessage create() => PhoneNumber._();
   @$core.override
-  PhoneNumber createEmptyInstance() => create();
+  PhoneNumber createEmptyInstance() => PhoneNumber._();
   @$core.pragma('dart2js:noInline')
   static PhoneNumber getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(create);
   static PhoneNumber? _defaultInstance;

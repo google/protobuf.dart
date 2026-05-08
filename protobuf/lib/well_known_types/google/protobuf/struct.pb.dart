@@ -32,7 +32,7 @@ class Struct extends $pb.GeneratedMessage with $mixin.StructMixin {
   factory Struct({
     $core.Iterable<$core.MapEntry<$core.String, Value>>? fields,
   }) {
-    final result = create();
+    final result = Struct._();
     if (fields != null) result.fields.addEntries(fields);
     return result;
   }
@@ -41,10 +41,10 @@ class Struct extends $pb.GeneratedMessage with $mixin.StructMixin {
 
   factory Struct.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Struct._()..mergeFromBuffer(data, registry);
   factory Struct.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Struct._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Struct',
@@ -71,9 +71,9 @@ class Struct extends $pb.GeneratedMessage with $mixin.StructMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Struct create() => Struct._();
+  static $pb.GeneratedMessage create() => Struct._();
   @$core.override
-  Struct createEmptyInstance() => create();
+  Struct createEmptyInstance() => Struct._();
   @$core.pragma('dart2js:noInline')
   static Struct getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Struct>(create);
@@ -109,7 +109,7 @@ class Value extends $pb.GeneratedMessage with $mixin.ValueMixin {
     Struct? structValue,
     ListValue? listValue,
   }) {
-    final result = create();
+    final result = Value._();
     if (nullValue != null) result.nullValue = nullValue;
     if (numberValue != null) result.numberValue = numberValue;
     if (stringValue != null) result.stringValue = stringValue;
@@ -123,10 +123,10 @@ class Value extends $pb.GeneratedMessage with $mixin.ValueMixin {
 
   factory Value.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Value._()..mergeFromBuffer(data, registry);
   factory Value.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Value._()..mergeFromJson(json, registry);
 
   static const $core.Map<$core.int, Value_Kind> _Value_KindByTag = {
     1: Value_Kind.nullValue,
@@ -165,9 +165,9 @@ class Value extends $pb.GeneratedMessage with $mixin.ValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Value create() => Value._();
+  static $pb.GeneratedMessage create() => Value._();
   @$core.override
-  Value createEmptyInstance() => create();
+  Value createEmptyInstance() => Value._();
   @$core.pragma('dart2js:noInline')
   static Value getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Value>(create);
@@ -260,7 +260,7 @@ class ListValue extends $pb.GeneratedMessage with $mixin.ListValueMixin {
   factory ListValue({
     $core.Iterable<Value>? values,
   }) {
-    final result = create();
+    final result = ListValue._();
     if (values != null) result.values.addAll(values);
     return result;
   }
@@ -269,10 +269,10 @@ class ListValue extends $pb.GeneratedMessage with $mixin.ListValueMixin {
 
   factory ListValue.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      ListValue._()..mergeFromBuffer(data, registry);
   factory ListValue.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      ListValue._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ListValue',
@@ -293,9 +293,9 @@ class ListValue extends $pb.GeneratedMessage with $mixin.ListValueMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static ListValue create() => ListValue._();
+  static $pb.GeneratedMessage create() => ListValue._();
   @$core.override
-  ListValue createEmptyInstance() => create();
+  ListValue createEmptyInstance() => ListValue._();
   @$core.pragma('dart2js:noInline')
   static ListValue getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListValue>(create);

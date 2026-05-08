@@ -37,7 +37,7 @@ class Type extends $pb.GeneratedMessage {
     Syntax? syntax,
     $core.String? edition,
   }) {
-    final result = create();
+    final result = Type._();
     if (name != null) result.name = name;
     if (fields != null) result.fields.addAll(fields);
     if (oneofs != null) result.oneofs.addAll(oneofs);
@@ -52,10 +52,10 @@ class Type extends $pb.GeneratedMessage {
 
   factory Type.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Type._()..mergeFromBuffer(data, registry);
   factory Type.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Type._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Type',
@@ -83,9 +83,9 @@ class Type extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Type create() => Type._();
+  static $pb.GeneratedMessage create() => Type._();
   @$core.override
-  Type createEmptyInstance() => create();
+  Type createEmptyInstance() => Type._();
   @$core.pragma('dart2js:noInline')
   static Type getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Type>(create);
@@ -165,7 +165,7 @@ class Field extends $pb.GeneratedMessage {
     $core.String? jsonName,
     $core.String? defaultValue,
   }) {
-    final result = create();
+    final result = Field._();
     if (kind != null) result.kind = kind;
     if (cardinality != null) result.cardinality = cardinality;
     if (number != null) result.number = number;
@@ -183,10 +183,10 @@ class Field extends $pb.GeneratedMessage {
 
   factory Field.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Field._()..mergeFromBuffer(data, registry);
   factory Field.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Field._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Field',
@@ -218,9 +218,9 @@ class Field extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Field create() => Field._();
+  static $pb.GeneratedMessage create() => Field._();
   @$core.override
-  Field createEmptyInstance() => create();
+  Field createEmptyInstance() => Field._();
   @$core.pragma('dart2js:noInline')
   static Field getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Field>(create);
@@ -338,7 +338,7 @@ class Enum extends $pb.GeneratedMessage {
     Syntax? syntax,
     $core.String? edition,
   }) {
-    final result = create();
+    final result = Enum._();
     if (name != null) result.name = name;
     if (enumvalue != null) result.enumvalue.addAll(enumvalue);
     if (options != null) result.options.addAll(options);
@@ -352,10 +352,10 @@ class Enum extends $pb.GeneratedMessage {
 
   factory Enum.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Enum._()..mergeFromBuffer(data, registry);
   factory Enum.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Enum._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Enum',
@@ -383,9 +383,9 @@ class Enum extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Enum create() => Enum._();
+  static $pb.GeneratedMessage create() => Enum._();
   @$core.override
-  Enum createEmptyInstance() => create();
+  Enum createEmptyInstance() => Enum._();
   @$core.pragma('dart2js:noInline')
   static Enum getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Enum>(create);
@@ -454,7 +454,7 @@ class EnumValue extends $pb.GeneratedMessage {
     $core.int? number,
     $core.Iterable<Option>? options,
   }) {
-    final result = create();
+    final result = EnumValue._();
     if (name != null) result.name = name;
     if (number != null) result.number = number;
     if (options != null) result.options.addAll(options);
@@ -465,10 +465,10 @@ class EnumValue extends $pb.GeneratedMessage {
 
   factory EnumValue.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      EnumValue._()..mergeFromBuffer(data, registry);
   factory EnumValue.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      EnumValue._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumValue',
@@ -491,9 +491,9 @@ class EnumValue extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static EnumValue create() => EnumValue._();
+  static $pb.GeneratedMessage create() => EnumValue._();
   @$core.override
-  EnumValue createEmptyInstance() => create();
+  EnumValue createEmptyInstance() => EnumValue._();
   @$core.pragma('dart2js:noInline')
   static EnumValue getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<EnumValue>(create);
@@ -535,7 +535,7 @@ class Option extends $pb.GeneratedMessage {
     $core.String? name,
     $1.Any? value,
   }) {
-    final result = create();
+    final result = Option._();
     if (name != null) result.name = name;
     if (value != null) result.value = value;
     return result;
@@ -545,10 +545,10 @@ class Option extends $pb.GeneratedMessage {
 
   factory Option.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Option._()..mergeFromBuffer(data, registry);
   factory Option.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Option._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Option',
@@ -569,9 +569,9 @@ class Option extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Option create() => Option._();
+  static $pb.GeneratedMessage create() => Option._();
   @$core.override
-  Option createEmptyInstance() => create();
+  Option createEmptyInstance() => Option._();
   @$core.pragma('dart2js:noInline')
   static Option getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Option>(create);

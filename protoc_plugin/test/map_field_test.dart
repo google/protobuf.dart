@@ -383,8 +383,8 @@ void main() {
   });
 
   test('Map field reads should not affect equality or hash of message', () {
-    final m1 = TestMap.create();
-    final m2 = TestMap.create();
+    final m1 = TestMap();
+    final m2 = TestMap();
     expect(m1, equals(m2));
     expect(m1.hashCode, equals(m2.hashCode));
     m1.int32ToStringField; // read a map field
