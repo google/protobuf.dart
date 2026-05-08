@@ -40,8 +40,7 @@ class Benchmark extends BenchmarkBase {
     sink2 =
         p3.GoogleMessage1()
           ..mergeFromProto3Json(_message1Proto3Proto3JsonObject);
-    sink3 =
-        GoogleMessage2()..mergeFromProto3Json(_message2Proto3JsonObject);
+    sink3 = GoogleMessage2()..mergeFromProto3Json(_message2Proto3JsonObject);
   }
 }
 

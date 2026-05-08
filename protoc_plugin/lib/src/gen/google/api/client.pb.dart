@@ -801,7 +801,8 @@ class PythonSettings_ExperimentalFeatures extends $pb.GeneratedMessage {
   static $pb.GeneratedMessage create() =>
       PythonSettings_ExperimentalFeatures._();
   @$core.override
-  PythonSettings_ExperimentalFeatures createEmptyInstance() => PythonSettings_ExperimentalFeatures._();
+  PythonSettings_ExperimentalFeatures createEmptyInstance() =>
+      PythonSettings_ExperimentalFeatures._();
   @$core.pragma('dart2js:noInline')
   static PythonSettings_ExperimentalFeatures getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<
@@ -1305,7 +1306,8 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static $pb.GeneratedMessage create() => MethodSettings_LongRunning._();
   @$core.override
-  MethodSettings_LongRunning createEmptyInstance() => MethodSettings_LongRunning._();
+  MethodSettings_LongRunning createEmptyInstance() =>
+      MethodSettings_LongRunning._();
   @$core.pragma('dart2js:noInline')
   static MethodSettings_LongRunning getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MethodSettings_LongRunning>(create);
@@ -1519,7 +1521,8 @@ class SelectiveGapicGeneration extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static $pb.GeneratedMessage create() => SelectiveGapicGeneration._();
   @$core.override
-  SelectiveGapicGeneration createEmptyInstance() => SelectiveGapicGeneration._();
+  SelectiveGapicGeneration createEmptyInstance() =>
+      SelectiveGapicGeneration._();
   @$core.pragma('dart2js:noInline')
   static SelectiveGapicGeneration getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SelectiveGapicGeneration>(create);

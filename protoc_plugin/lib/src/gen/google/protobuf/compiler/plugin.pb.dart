@@ -285,7 +285,8 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static $pb.GeneratedMessage create() => CodeGeneratorResponse_File._();
   @$core.override
-  CodeGeneratorResponse_File createEmptyInstance() => CodeGeneratorResponse_File._();
+  CodeGeneratorResponse_File createEmptyInstance() =>
+      CodeGeneratorResponse_File._();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse_File>(create);

@@ -318,10 +318,10 @@ class DescriptorProto_ExtensionRange extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static $pb.GeneratedMessage create() =>
-      DescriptorProto_ExtensionRange._();
+  static $pb.GeneratedMessage create() => DescriptorProto_ExtensionRange._();
   @$core.override
-  DescriptorProto_ExtensionRange createEmptyInstance() => DescriptorProto_ExtensionRange._();
+  DescriptorProto_ExtensionRange createEmptyInstance() =>
+      DescriptorProto_ExtensionRange._();
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ExtensionRange getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ExtensionRange>(create);
@@ -402,10 +402,10 @@ class DescriptorProto_ReservedRange extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static $pb.GeneratedMessage create() =>
-      DescriptorProto_ReservedRange._();
+  static $pb.GeneratedMessage create() => DescriptorProto_ReservedRange._();
   @$core.override
-  DescriptorProto_ReservedRange createEmptyInstance() => DescriptorProto_ReservedRange._();
+  DescriptorProto_ReservedRange createEmptyInstance() =>
+      DescriptorProto_ReservedRange._();
   @$core.pragma('dart2js:noInline')
   static DescriptorProto_ReservedRange getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DescriptorProto_ReservedRange>(create);
@@ -625,10 +625,10 @@ class ExtensionRangeOptions_Declaration extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static $pb.GeneratedMessage create() =>
-      ExtensionRangeOptions_Declaration._();
+  static $pb.GeneratedMessage create() => ExtensionRangeOptions_Declaration._();
   @$core.override
-  ExtensionRangeOptions_Declaration createEmptyInstance() => ExtensionRangeOptions_Declaration._();
+  ExtensionRangeOptions_Declaration createEmptyInstance() =>
+      ExtensionRangeOptions_Declaration._();
   @$core.pragma('dart2js:noInline')
   static ExtensionRangeOptions_Declaration getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ExtensionRangeOptions_Declaration>(
@@ -1104,7 +1104,8 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   factory EnumDescriptorProto_EnumReservedRange.fromBuffer(
           $core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      EnumDescriptorProto_EnumReservedRange._()..mergeFromBuffer(data, registry);
+      EnumDescriptorProto_EnumReservedRange._()
+        ..mergeFromBuffer(data, registry);
   factory EnumDescriptorProto_EnumReservedRange.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       EnumDescriptorProto_EnumReservedRange._()..mergeFromJson(json, registry);
@@ -1134,7 +1135,8 @@ class EnumDescriptorProto_EnumReservedRange extends $pb.GeneratedMessage {
   static $pb.GeneratedMessage create() =>
       EnumDescriptorProto_EnumReservedRange._();
   @$core.override
-  EnumDescriptorProto_EnumReservedRange createEmptyInstance() => EnumDescriptorProto_EnumReservedRange._();
+  EnumDescriptorProto_EnumReservedRange createEmptyInstance() =>
+      EnumDescriptorProto_EnumReservedRange._();
   @$core.pragma('dart2js:noInline')
   static EnumDescriptorProto_EnumReservedRange getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<
@@ -1318,7 +1320,8 @@ class EnumValueDescriptorProto extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static $pb.GeneratedMessage create() => EnumValueDescriptorProto._();
   @$core.override
-  EnumValueDescriptorProto createEmptyInstance() => EnumValueDescriptorProto._();
+  EnumValueDescriptorProto createEmptyInstance() =>
+      EnumValueDescriptorProto._();
   @$core.pragma('dart2js:noInline')
   static EnumValueDescriptorProto getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<EnumValueDescriptorProto>(create);
@@ -2176,10 +2179,10 @@ class FieldOptions_EditionDefault extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static $pb.GeneratedMessage create() =>
-      FieldOptions_EditionDefault._();
+  static $pb.GeneratedMessage create() => FieldOptions_EditionDefault._();
   @$core.override
-  FieldOptions_EditionDefault createEmptyInstance() => FieldOptions_EditionDefault._();
+  FieldOptions_EditionDefault createEmptyInstance() =>
+      FieldOptions_EditionDefault._();
   @$core.pragma('dart2js:noInline')
   static FieldOptions_EditionDefault getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FieldOptions_EditionDefault>(create);
@@ -2257,10 +2260,10 @@ class FieldOptions_FeatureSupport extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static $pb.GeneratedMessage create() =>
-      FieldOptions_FeatureSupport._();
+  static $pb.GeneratedMessage create() => FieldOptions_FeatureSupport._();
   @$core.override
-  FieldOptions_FeatureSupport createEmptyInstance() => FieldOptions_FeatureSupport._();
+  FieldOptions_FeatureSupport createEmptyInstance() =>
+      FieldOptions_FeatureSupport._();
   @$core.pragma('dart2js:noInline')
   static FieldOptions_FeatureSupport getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FieldOptions_FeatureSupport>(create);
@@ -3151,10 +3154,10 @@ class UninterpretedOption_NamePart extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static $pb.GeneratedMessage create() =>
-      UninterpretedOption_NamePart._();
+  static $pb.GeneratedMessage create() => UninterpretedOption_NamePart._();
   @$core.override
-  UninterpretedOption_NamePart createEmptyInstance() => UninterpretedOption_NamePart._();
+  UninterpretedOption_NamePart createEmptyInstance() =>
+      UninterpretedOption_NamePart._();
   @$core.pragma('dart2js:noInline')
   static UninterpretedOption_NamePart getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<UninterpretedOption_NamePart>(create);
@@ -3343,10 +3346,10 @@ class FeatureSet_VisibilityFeature extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static $pb.GeneratedMessage create() =>
-      FeatureSet_VisibilityFeature._();
+  static $pb.GeneratedMessage create() => FeatureSet_VisibilityFeature._();
   @$core.override
-  FeatureSet_VisibilityFeature createEmptyInstance() => FeatureSet_VisibilityFeature._();
+  FeatureSet_VisibilityFeature createEmptyInstance() =>
+      FeatureSet_VisibilityFeature._();
   @$core.pragma('dart2js:noInline')
   static FeatureSet_VisibilityFeature getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<FeatureSet_VisibilityFeature>(create);
@@ -3541,11 +3544,13 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
   factory FeatureSetDefaults_FeatureSetEditionDefault.fromBuffer(
           $core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      FeatureSetDefaults_FeatureSetEditionDefault._()..mergeFromBuffer(data, registry);
+      FeatureSetDefaults_FeatureSetEditionDefault._()
+        ..mergeFromBuffer(data, registry);
   factory FeatureSetDefaults_FeatureSetEditionDefault.fromJson(
           $core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      FeatureSetDefaults_FeatureSetEditionDefault._()..mergeFromJson(json, registry);
+      FeatureSetDefaults_FeatureSetEditionDefault._()
+        ..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FeatureSetDefaults.FeatureSetEditionDefault',
@@ -3575,7 +3580,8 @@ class FeatureSetDefaults_FeatureSetEditionDefault extends $pb.GeneratedMessage {
   static $pb.GeneratedMessage create() =>
       FeatureSetDefaults_FeatureSetEditionDefault._();
   @$core.override
-  FeatureSetDefaults_FeatureSetEditionDefault createEmptyInstance() => FeatureSetDefaults_FeatureSetEditionDefault._();
+  FeatureSetDefaults_FeatureSetEditionDefault createEmptyInstance() =>
+      FeatureSetDefaults_FeatureSetEditionDefault._();
   @$core.pragma('dart2js:noInline')
   static FeatureSetDefaults_FeatureSetEditionDefault getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<
@@ -4011,10 +4017,10 @@ class GeneratedCodeInfo_Annotation extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static $pb.GeneratedMessage create() =>
-      GeneratedCodeInfo_Annotation._();
+  static $pb.GeneratedMessage create() => GeneratedCodeInfo_Annotation._();
   @$core.override
-  GeneratedCodeInfo_Annotation createEmptyInstance() => GeneratedCodeInfo_Annotation._();
+  GeneratedCodeInfo_Annotation createEmptyInstance() =>
+      GeneratedCodeInfo_Annotation._();
   @$core.pragma('dart2js:noInline')
   static GeneratedCodeInfo_Annotation getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GeneratedCodeInfo_Annotation>(create);
