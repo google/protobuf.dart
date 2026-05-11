@@ -113,7 +113,7 @@ class Timestamp extends $pb.GeneratedMessage with $mixin.TimestampMixin {
     $fixnum.Int64? seconds,
     $core.int? nanos,
   }) {
-    final result = create();
+    final result = Timestamp._();
     if (seconds != null) result.seconds = seconds;
     if (nanos != null) result.nanos = nanos;
     return result;
@@ -123,10 +123,10 @@ class Timestamp extends $pb.GeneratedMessage with $mixin.TimestampMixin {
 
   factory Timestamp.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Timestamp._()..mergeFromBuffer(data, registry);
   factory Timestamp.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Timestamp._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Timestamp',
@@ -148,9 +148,9 @@ class Timestamp extends $pb.GeneratedMessage with $mixin.TimestampMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Timestamp create() => Timestamp._();
+  static $pb.GeneratedMessage create() => Timestamp._();
   @$core.override
-  Timestamp createEmptyInstance() => create();
+  Timestamp createEmptyInstance() => Timestamp._();
   @$core.pragma('dart2js:noInline')
   static Timestamp getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Timestamp>(create);
@@ -186,7 +186,7 @@ class Timestamp extends $pb.GeneratedMessage with $mixin.TimestampMixin {
   ///
   /// Time zone information will not be preserved.
   static Timestamp fromDateTime($core.DateTime dateTime) {
-    final result = create();
+    final result = Timestamp._();
     $mixin.TimestampMixin.setFromDateTime(result, dateTime);
     return result;
   }

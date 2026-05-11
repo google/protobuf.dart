@@ -1,3 +1,13 @@
+## 26.0.0
+
+* **Breaking:** Make `create` methods have `GeneratedMessage` return type
+
+  These methods methods are intended to be only used by protoc generated message
+  classes code: The tear-offs of those `create` methods are used in
+  `BuilderInfo` calls.
+
+  Using this generator requires using `package:protobuf` 6.1.0
+
 ## 25.0.0
 
 Note: this version requires protobuf 5.2.0.

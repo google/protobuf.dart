@@ -31,7 +31,7 @@ class CommonLanguageSettings extends $pb.GeneratedMessage {
     $core.Iterable<ClientLibraryDestination>? destinations,
     SelectiveGapicGeneration? selectiveGapicGeneration,
   }) {
-    final result = create();
+    final result = CommonLanguageSettings._();
     if (referenceDocsUri != null) result.referenceDocsUri = referenceDocsUri;
     if (destinations != null) result.destinations.addAll(destinations);
     if (selectiveGapicGeneration != null)
@@ -43,10 +43,10 @@ class CommonLanguageSettings extends $pb.GeneratedMessage {
 
   factory CommonLanguageSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CommonLanguageSettings._()..mergeFromBuffer(data, registry);
   factory CommonLanguageSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CommonLanguageSettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CommonLanguageSettings',
@@ -76,9 +76,9 @@ class CommonLanguageSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CommonLanguageSettings create() => CommonLanguageSettings._();
+  static $pb.GeneratedMessage create() => CommonLanguageSettings._();
   @$core.override
-  CommonLanguageSettings createEmptyInstance() => create();
+  CommonLanguageSettings createEmptyInstance() => CommonLanguageSettings._();
   @$core.pragma('dart2js:noInline')
   static CommonLanguageSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CommonLanguageSettings>(create);
@@ -132,7 +132,7 @@ class ClientLibrarySettings extends $pb.GeneratedMessage {
     RubySettings? rubySettings,
     GoSettings? goSettings,
   }) {
-    final result = create();
+    final result = ClientLibrarySettings._();
     if (version != null) result.version = version;
     if (launchStage != null) result.launchStage = launchStage;
     if (restNumericEnums != null) result.restNumericEnums = restNumericEnums;
@@ -151,10 +151,10 @@ class ClientLibrarySettings extends $pb.GeneratedMessage {
 
   factory ClientLibrarySettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      ClientLibrarySettings._()..mergeFromBuffer(data, registry);
   factory ClientLibrarySettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      ClientLibrarySettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ClientLibrarySettings',
@@ -194,9 +194,9 @@ class ClientLibrarySettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static ClientLibrarySettings create() => ClientLibrarySettings._();
+  static $pb.GeneratedMessage create() => ClientLibrarySettings._();
   @$core.override
-  ClientLibrarySettings createEmptyInstance() => create();
+  ClientLibrarySettings createEmptyInstance() => ClientLibrarySettings._();
   @$core.pragma('dart2js:noInline')
   static ClientLibrarySettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<ClientLibrarySettings>(create);
@@ -349,7 +349,7 @@ class Publishing extends $pb.GeneratedMessage {
     $core.String? protoReferenceDocumentationUri,
     $core.String? restReferenceDocumentationUri,
   }) {
-    final result = create();
+    final result = Publishing._();
     if (methodSettings != null) result.methodSettings.addAll(methodSettings);
     if (newIssueUri != null) result.newIssueUri = newIssueUri;
     if (documentationUri != null) result.documentationUri = documentationUri;
@@ -371,10 +371,10 @@ class Publishing extends $pb.GeneratedMessage {
 
   factory Publishing.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Publishing._()..mergeFromBuffer(data, registry);
   factory Publishing.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Publishing._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Publishing',
@@ -406,9 +406,9 @@ class Publishing extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Publishing create() => Publishing._();
+  static $pb.GeneratedMessage create() => Publishing._();
   @$core.override
-  Publishing createEmptyInstance() => create();
+  Publishing createEmptyInstance() => Publishing._();
   @$core.pragma('dart2js:noInline')
   static Publishing getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<Publishing>(create);
@@ -528,7 +528,7 @@ class JavaSettings extends $pb.GeneratedMessage {
         serviceClassNames,
     CommonLanguageSettings? common,
   }) {
-    final result = create();
+    final result = JavaSettings._();
     if (libraryPackage != null) result.libraryPackage = libraryPackage;
     if (serviceClassNames != null)
       result.serviceClassNames.addEntries(serviceClassNames);
@@ -540,10 +540,10 @@ class JavaSettings extends $pb.GeneratedMessage {
 
   factory JavaSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      JavaSettings._()..mergeFromBuffer(data, registry);
   factory JavaSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      JavaSettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'JavaSettings',
@@ -571,9 +571,9 @@ class JavaSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static JavaSettings create() => JavaSettings._();
+  static $pb.GeneratedMessage create() => JavaSettings._();
   @$core.override
-  JavaSettings createEmptyInstance() => create();
+  JavaSettings createEmptyInstance() => JavaSettings._();
   @$core.pragma('dart2js:noInline')
   static JavaSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<JavaSettings>(create);
@@ -634,7 +634,7 @@ class CppSettings extends $pb.GeneratedMessage {
   factory CppSettings({
     CommonLanguageSettings? common,
   }) {
-    final result = create();
+    final result = CppSettings._();
     if (common != null) result.common = common;
     return result;
   }
@@ -643,10 +643,10 @@ class CppSettings extends $pb.GeneratedMessage {
 
   factory CppSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CppSettings._()..mergeFromBuffer(data, registry);
   factory CppSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CppSettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CppSettings',
@@ -667,9 +667,9 @@ class CppSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CppSettings create() => CppSettings._();
+  static $pb.GeneratedMessage create() => CppSettings._();
   @$core.override
-  CppSettings createEmptyInstance() => create();
+  CppSettings createEmptyInstance() => CppSettings._();
   @$core.pragma('dart2js:noInline')
   static CppSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CppSettings>(create);
@@ -693,7 +693,7 @@ class PhpSettings extends $pb.GeneratedMessage {
   factory PhpSettings({
     CommonLanguageSettings? common,
   }) {
-    final result = create();
+    final result = PhpSettings._();
     if (common != null) result.common = common;
     return result;
   }
@@ -702,10 +702,10 @@ class PhpSettings extends $pb.GeneratedMessage {
 
   factory PhpSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      PhpSettings._()..mergeFromBuffer(data, registry);
   factory PhpSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      PhpSettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'PhpSettings',
@@ -726,9 +726,9 @@ class PhpSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static PhpSettings create() => PhpSettings._();
+  static $pb.GeneratedMessage create() => PhpSettings._();
   @$core.override
-  PhpSettings createEmptyInstance() => create();
+  PhpSettings createEmptyInstance() => PhpSettings._();
   @$core.pragma('dart2js:noInline')
   static PhpSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<PhpSettings>(create);
@@ -756,7 +756,7 @@ class PythonSettings_ExperimentalFeatures extends $pb.GeneratedMessage {
     $core.bool? protobufPythonicTypesEnabled,
     $core.bool? unversionedPackageDisabled,
   }) {
-    final result = create();
+    final result = PythonSettings_ExperimentalFeatures._();
     if (restAsyncIoEnabled != null)
       result.restAsyncIoEnabled = restAsyncIoEnabled;
     if (protobufPythonicTypesEnabled != null)
@@ -771,10 +771,10 @@ class PythonSettings_ExperimentalFeatures extends $pb.GeneratedMessage {
   factory PythonSettings_ExperimentalFeatures.fromBuffer(
           $core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      PythonSettings_ExperimentalFeatures._()..mergeFromBuffer(data, registry);
   factory PythonSettings_ExperimentalFeatures.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      PythonSettings_ExperimentalFeatures._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'PythonSettings.ExperimentalFeatures',
@@ -798,10 +798,11 @@ class PythonSettings_ExperimentalFeatures extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static PythonSettings_ExperimentalFeatures create() =>
+  static $pb.GeneratedMessage create() =>
       PythonSettings_ExperimentalFeatures._();
   @$core.override
-  PythonSettings_ExperimentalFeatures createEmptyInstance() => create();
+  PythonSettings_ExperimentalFeatures createEmptyInstance() =>
+      PythonSettings_ExperimentalFeatures._();
   @$core.pragma('dart2js:noInline')
   static PythonSettings_ExperimentalFeatures getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<
@@ -854,7 +855,7 @@ class PythonSettings extends $pb.GeneratedMessage {
     CommonLanguageSettings? common,
     PythonSettings_ExperimentalFeatures? experimentalFeatures,
   }) {
-    final result = create();
+    final result = PythonSettings._();
     if (common != null) result.common = common;
     if (experimentalFeatures != null)
       result.experimentalFeatures = experimentalFeatures;
@@ -865,10 +866,10 @@ class PythonSettings extends $pb.GeneratedMessage {
 
   factory PythonSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      PythonSettings._()..mergeFromBuffer(data, registry);
   factory PythonSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      PythonSettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'PythonSettings',
@@ -892,9 +893,9 @@ class PythonSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static PythonSettings create() => PythonSettings._();
+  static $pb.GeneratedMessage create() => PythonSettings._();
   @$core.override
-  PythonSettings createEmptyInstance() => create();
+  PythonSettings createEmptyInstance() => PythonSettings._();
   @$core.pragma('dart2js:noInline')
   static PythonSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<PythonSettings>(create);
@@ -932,7 +933,7 @@ class NodeSettings extends $pb.GeneratedMessage {
   factory NodeSettings({
     CommonLanguageSettings? common,
   }) {
-    final result = create();
+    final result = NodeSettings._();
     if (common != null) result.common = common;
     return result;
   }
@@ -941,10 +942,10 @@ class NodeSettings extends $pb.GeneratedMessage {
 
   factory NodeSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      NodeSettings._()..mergeFromBuffer(data, registry);
   factory NodeSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      NodeSettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'NodeSettings',
@@ -965,9 +966,9 @@ class NodeSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static NodeSettings create() => NodeSettings._();
+  static $pb.GeneratedMessage create() => NodeSettings._();
   @$core.override
-  NodeSettings createEmptyInstance() => create();
+  NodeSettings createEmptyInstance() => NodeSettings._();
   @$core.pragma('dart2js:noInline')
   static NodeSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<NodeSettings>(create);
@@ -997,7 +998,7 @@ class DotnetSettings extends $pb.GeneratedMessage {
     $core.Iterable<$core.String>? forcedNamespaceAliases,
     $core.Iterable<$core.String>? handwrittenSignatures,
   }) {
-    final result = create();
+    final result = DotnetSettings._();
     if (common != null) result.common = common;
     if (renamedServices != null)
       result.renamedServices.addEntries(renamedServices);
@@ -1016,10 +1017,10 @@ class DotnetSettings extends $pb.GeneratedMessage {
 
   factory DotnetSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      DotnetSettings._()..mergeFromBuffer(data, registry);
   factory DotnetSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      DotnetSettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DotnetSettings',
@@ -1054,9 +1055,9 @@ class DotnetSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static DotnetSettings create() => DotnetSettings._();
+  static $pb.GeneratedMessage create() => DotnetSettings._();
   @$core.override
-  DotnetSettings createEmptyInstance() => create();
+  DotnetSettings createEmptyInstance() => DotnetSettings._();
   @$core.pragma('dart2js:noInline')
   static DotnetSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<DotnetSettings>(create);
@@ -1115,7 +1116,7 @@ class RubySettings extends $pb.GeneratedMessage {
   factory RubySettings({
     CommonLanguageSettings? common,
   }) {
-    final result = create();
+    final result = RubySettings._();
     if (common != null) result.common = common;
     return result;
   }
@@ -1124,10 +1125,10 @@ class RubySettings extends $pb.GeneratedMessage {
 
   factory RubySettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      RubySettings._()..mergeFromBuffer(data, registry);
   factory RubySettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      RubySettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'RubySettings',
@@ -1148,9 +1149,9 @@ class RubySettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static RubySettings create() => RubySettings._();
+  static $pb.GeneratedMessage create() => RubySettings._();
   @$core.override
-  RubySettings createEmptyInstance() => create();
+  RubySettings createEmptyInstance() => RubySettings._();
   @$core.pragma('dart2js:noInline')
   static RubySettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<RubySettings>(create);
@@ -1175,7 +1176,7 @@ class GoSettings extends $pb.GeneratedMessage {
     CommonLanguageSettings? common,
     $core.Iterable<$core.MapEntry<$core.String, $core.String>>? renamedServices,
   }) {
-    final result = create();
+    final result = GoSettings._();
     if (common != null) result.common = common;
     if (renamedServices != null)
       result.renamedServices.addEntries(renamedServices);
@@ -1186,10 +1187,10 @@ class GoSettings extends $pb.GeneratedMessage {
 
   factory GoSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      GoSettings._()..mergeFromBuffer(data, registry);
   factory GoSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      GoSettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GoSettings',
@@ -1214,9 +1215,9 @@ class GoSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GoSettings create() => GoSettings._();
+  static $pb.GeneratedMessage create() => GoSettings._();
   @$core.override
-  GoSettings createEmptyInstance() => create();
+  GoSettings createEmptyInstance() => GoSettings._();
   @$core.pragma('dart2js:noInline')
   static GoSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<GoSettings>(create);
@@ -1258,7 +1259,7 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
     $0.Duration? maxPollDelay,
     $0.Duration? totalPollTimeout,
   }) {
-    final result = create();
+    final result = MethodSettings_LongRunning._();
     if (initialPollDelay != null) result.initialPollDelay = initialPollDelay;
     if (pollDelayMultiplier != null)
       result.pollDelayMultiplier = pollDelayMultiplier;
@@ -1271,10 +1272,10 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
 
   factory MethodSettings_LongRunning.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      MethodSettings_LongRunning._()..mergeFromBuffer(data, registry);
   factory MethodSettings_LongRunning.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      MethodSettings_LongRunning._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MethodSettings.LongRunning',
@@ -1303,9 +1304,10 @@ class MethodSettings_LongRunning extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static MethodSettings_LongRunning create() => MethodSettings_LongRunning._();
+  static $pb.GeneratedMessage create() => MethodSettings_LongRunning._();
   @$core.override
-  MethodSettings_LongRunning createEmptyInstance() => create();
+  MethodSettings_LongRunning createEmptyInstance() =>
+      MethodSettings_LongRunning._();
   @$core.pragma('dart2js:noInline')
   static MethodSettings_LongRunning getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MethodSettings_LongRunning>(create);
@@ -1370,7 +1372,7 @@ class MethodSettings extends $pb.GeneratedMessage {
     MethodSettings_LongRunning? longRunning,
     $core.Iterable<$core.String>? autoPopulatedFields,
   }) {
-    final result = create();
+    final result = MethodSettings._();
     if (selector != null) result.selector = selector;
     if (longRunning != null) result.longRunning = longRunning;
     if (autoPopulatedFields != null)
@@ -1382,10 +1384,10 @@ class MethodSettings extends $pb.GeneratedMessage {
 
   factory MethodSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      MethodSettings._()..mergeFromBuffer(data, registry);
   factory MethodSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      MethodSettings._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MethodSettings',
@@ -1408,9 +1410,9 @@ class MethodSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static MethodSettings create() => MethodSettings._();
+  static $pb.GeneratedMessage create() => MethodSettings._();
   @$core.override
-  MethodSettings createEmptyInstance() => create();
+  MethodSettings createEmptyInstance() => MethodSettings._();
   @$core.pragma('dart2js:noInline')
   static MethodSettings getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<MethodSettings>(create);
@@ -1481,7 +1483,7 @@ class SelectiveGapicGeneration extends $pb.GeneratedMessage {
     $core.Iterable<$core.String>? methods,
     $core.bool? generateOmittedAsInternal,
   }) {
-    final result = create();
+    final result = SelectiveGapicGeneration._();
     if (methods != null) result.methods.addAll(methods);
     if (generateOmittedAsInternal != null)
       result.generateOmittedAsInternal = generateOmittedAsInternal;
@@ -1492,10 +1494,10 @@ class SelectiveGapicGeneration extends $pb.GeneratedMessage {
 
   factory SelectiveGapicGeneration.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      SelectiveGapicGeneration._()..mergeFromBuffer(data, registry);
   factory SelectiveGapicGeneration.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      SelectiveGapicGeneration._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SelectiveGapicGeneration',
@@ -1517,9 +1519,10 @@ class SelectiveGapicGeneration extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static SelectiveGapicGeneration create() => SelectiveGapicGeneration._();
+  static $pb.GeneratedMessage create() => SelectiveGapicGeneration._();
   @$core.override
-  SelectiveGapicGeneration createEmptyInstance() => create();
+  SelectiveGapicGeneration createEmptyInstance() =>
+      SelectiveGapicGeneration._();
   @$core.pragma('dart2js:noInline')
   static SelectiveGapicGeneration getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SelectiveGapicGeneration>(create);

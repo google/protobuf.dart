@@ -1,3 +1,8 @@
+## 6.1.0
+
+* Make `BuilderInfo` methods accept `GeneratedMessage Function()` typed
+  closures.
+
 ## 6.0.0
 
 * New `GeneratedMessage` extension methods `toTextFormat` and `writeTextFormat`

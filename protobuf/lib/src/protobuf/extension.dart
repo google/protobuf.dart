@@ -13,22 +13,12 @@ class Extension<T> extends FieldInfo<T> {
     String name,
     int tagNumber,
     int fieldType, {
-    dynamic defaultOrMaker,
-    CreateBuilderFunc? subBuilder,
-    ValueOfFunc? valueOf,
-    List<ProtobufEnum>? enumValues,
-    String? protoName,
-  }) : super(
-         name,
-         tagNumber,
-         null,
-         fieldType,
-         defaultOrMaker: defaultOrMaker,
-         subBuilder: subBuilder,
-         valueOf: valueOf,
-         enumValues: enumValues,
-         protoName: protoName,
-       );
+    super.defaultOrMaker,
+    super.subBuilder,
+    super.valueOf,
+    super.enumValues,
+    super.protoName,
+  }) : super(name, tagNumber, null, fieldType);
 
   Extension.repeated(
     this.extendee,
@@ -37,20 +27,10 @@ class Extension<T> extends FieldInfo<T> {
     int fieldType, {
     required CheckFunc<T>? check,
     CreateBuilderFunc? subBuilder,
-    ValueOfFunc? valueOf,
-    List<ProtobufEnum>? enumValues,
-    String? protoName,
-  }) : super.repeated(
-         name,
-         tagNumber,
-         null,
-         fieldType,
-         check,
-         subBuilder,
-         valueOf: valueOf,
-         enumValues: enumValues,
-         protoName: protoName,
-       );
+    super.valueOf,
+    super.enumValues,
+    super.protoName,
+  }) : super.repeated(name, tagNumber, null, fieldType, check, subBuilder);
 
   @override
   int get hashCode => extendee.hashCode * 31 + tagNumber;

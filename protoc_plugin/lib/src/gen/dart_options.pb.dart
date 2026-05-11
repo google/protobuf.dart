@@ -24,7 +24,7 @@ class DartMixin extends $pb.GeneratedMessage {
     $core.String? importFrom,
     $core.String? parent,
   }) {
-    final result = create();
+    final result = DartMixin._();
     if (name != null) result.name = name;
     if (importFrom != null) result.importFrom = importFrom;
     if (parent != null) result.parent = parent;
@@ -35,10 +35,10 @@ class DartMixin extends $pb.GeneratedMessage {
 
   factory DartMixin.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      DartMixin._()..mergeFromBuffer(data, registry);
   factory DartMixin.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      DartMixin._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DartMixin',
@@ -59,9 +59,9 @@ class DartMixin extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static DartMixin create() => DartMixin._();
+  static $pb.GeneratedMessage create() => DartMixin._();
   @$core.override
-  DartMixin createEmptyInstance() => create();
+  DartMixin createEmptyInstance() => DartMixin._();
   @$core.pragma('dart2js:noInline')
   static DartMixin getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DartMixin>(create);
@@ -106,7 +106,7 @@ class Imports extends $pb.GeneratedMessage {
   factory Imports({
     $core.Iterable<DartMixin>? mixins,
   }) {
-    final result = create();
+    final result = Imports._();
     if (mixins != null) result.mixins.addAll(mixins);
     return result;
   }
@@ -115,10 +115,10 @@ class Imports extends $pb.GeneratedMessage {
 
   factory Imports.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Imports._()..mergeFromBuffer(data, registry);
   factory Imports.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Imports._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Imports',
@@ -138,9 +138,9 @@ class Imports extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Imports create() => Imports._();
+  static $pb.GeneratedMessage create() => Imports._();
   @$core.override
-  Imports createEmptyInstance() => create();
+  Imports createEmptyInstance() => Imports._();
   @$core.pragma('dart2js:noInline')
   static Imports getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Imports>(create);

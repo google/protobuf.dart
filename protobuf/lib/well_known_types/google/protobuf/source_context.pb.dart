@@ -22,7 +22,7 @@ class SourceContext extends $pb.GeneratedMessage {
   factory SourceContext({
     $core.String? fileName,
   }) {
-    final result = create();
+    final result = SourceContext._();
     if (fileName != null) result.fileName = fileName;
     return result;
   }
@@ -31,10 +31,10 @@ class SourceContext extends $pb.GeneratedMessage {
 
   factory SourceContext.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      SourceContext._()..mergeFromBuffer(data, registry);
   factory SourceContext.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      SourceContext._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SourceContext',
@@ -55,9 +55,9 @@ class SourceContext extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static SourceContext create() => SourceContext._();
+  static $pb.GeneratedMessage create() => SourceContext._();
   @$core.override
-  SourceContext createEmptyInstance() => create();
+  SourceContext createEmptyInstance() => SourceContext._();
   @$core.pragma('dart2js:noInline')
   static SourceContext getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<SourceContext>(create);

@@ -24,16 +24,16 @@ export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 ///       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
 ///     }
 class Empty extends $pb.GeneratedMessage {
-  factory Empty() => create();
+  factory Empty() => Empty._();
 
   Empty._();
 
   factory Empty.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Empty._()..mergeFromBuffer(data, registry);
   factory Empty.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Empty._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Empty',
@@ -52,9 +52,9 @@ class Empty extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Empty create() => Empty._();
+  static $pb.GeneratedMessage create() => Empty._();
   @$core.override
-  Empty createEmptyInstance() => create();
+  Empty createEmptyInstance() => Empty._();
   @$core.pragma('dart2js:noInline')
   static Empty getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Empty>(create);

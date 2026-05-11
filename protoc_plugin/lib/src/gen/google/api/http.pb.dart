@@ -24,7 +24,7 @@ class Http extends $pb.GeneratedMessage {
     $core.Iterable<HttpRule>? rules,
     $core.bool? fullyDecodeReservedExpansion,
   }) {
-    final result = create();
+    final result = Http._();
     if (rules != null) result.rules.addAll(rules);
     if (fullyDecodeReservedExpansion != null)
       result.fullyDecodeReservedExpansion = fullyDecodeReservedExpansion;
@@ -35,10 +35,10 @@ class Http extends $pb.GeneratedMessage {
 
   factory Http.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Http._()..mergeFromBuffer(data, registry);
   factory Http.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Http._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Http',
@@ -59,9 +59,9 @@ class Http extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Http create() => Http._();
+  static $pb.GeneratedMessage create() => Http._();
   @$core.override
-  Http createEmptyInstance() => create();
+  Http createEmptyInstance() => Http._();
   @$core.pragma('dart2js:noInline')
   static Http getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Http>(create);
@@ -368,7 +368,7 @@ class HttpRule extends $pb.GeneratedMessage {
     $core.Iterable<HttpRule>? additionalBindings,
     $core.String? responseBody,
   }) {
-    final result = create();
+    final result = HttpRule._();
     if (selector != null) result.selector = selector;
     if (get != null) result.get = get;
     if (put != null) result.put = put;
@@ -387,10 +387,10 @@ class HttpRule extends $pb.GeneratedMessage {
 
   factory HttpRule.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      HttpRule._()..mergeFromBuffer(data, registry);
   factory HttpRule.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      HttpRule._()..mergeFromJson(json, registry);
 
   static const $core.Map<$core.int, HttpRule_Pattern> _HttpRule_PatternByTag = {
     2: HttpRule_Pattern.get,
@@ -430,9 +430,9 @@ class HttpRule extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static HttpRule create() => HttpRule._();
+  static $pb.GeneratedMessage create() => HttpRule._();
   @$core.override
-  HttpRule createEmptyInstance() => create();
+  HttpRule createEmptyInstance() => HttpRule._();
   @$core.pragma('dart2js:noInline')
   static HttpRule getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HttpRule>(create);
@@ -575,7 +575,7 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
     $core.String? kind,
     $core.String? path,
   }) {
-    final result = create();
+    final result = CustomHttpPattern._();
     if (kind != null) result.kind = kind;
     if (path != null) result.path = path;
     return result;
@@ -585,10 +585,10 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
 
   factory CustomHttpPattern.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CustomHttpPattern._()..mergeFromBuffer(data, registry);
   factory CustomHttpPattern.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CustomHttpPattern._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CustomHttpPattern',
@@ -609,9 +609,9 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CustomHttpPattern create() => CustomHttpPattern._();
+  static $pb.GeneratedMessage create() => CustomHttpPattern._();
   @$core.override
-  CustomHttpPattern createEmptyInstance() => create();
+  CustomHttpPattern createEmptyInstance() => CustomHttpPattern._();
   @$core.pragma('dart2js:noInline')
   static CustomHttpPattern getDefault() => _defaultInstance ??=
       $pb.GeneratedMessage.$_defaultFor<CustomHttpPattern>(create);

@@ -40,13 +40,13 @@ class Benchmark extends BenchmarkBase {
   @override
   void run() {
     sink1 =
-        p2.GoogleMessage1.create()
+        p2.GoogleMessage1()
           ..mergeFromProto3Json(jsonDecode(_message1Proto2Proto3JsonString));
     sink2 =
-        p3.GoogleMessage1.create()
+        p3.GoogleMessage1()
           ..mergeFromProto3Json(jsonDecode(_message1Proto3Proto3JsonString));
     sink3 =
-        GoogleMessage2.create()
+        GoogleMessage2()
           ..mergeFromProto3Json(jsonDecode(_message2Proto3JsonString));
   }
 }

@@ -221,7 +221,7 @@ class FieldMask extends $pb.GeneratedMessage with $mixin.FieldMaskMixin {
   factory FieldMask({
     $core.Iterable<$core.String>? paths,
   }) {
-    final result = create();
+    final result = FieldMask._();
     if (paths != null) result.paths.addAll(paths);
     return result;
   }
@@ -230,10 +230,10 @@ class FieldMask extends $pb.GeneratedMessage with $mixin.FieldMaskMixin {
 
   factory FieldMask.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      FieldMask._()..mergeFromBuffer(data, registry);
   factory FieldMask.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      FieldMask._()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FieldMask',
@@ -254,9 +254,9 @@ class FieldMask extends $pb.GeneratedMessage with $mixin.FieldMaskMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static FieldMask create() => FieldMask._();
+  static $pb.GeneratedMessage create() => FieldMask._();
   @$core.override
-  FieldMask createEmptyInstance() => create();
+  FieldMask createEmptyInstance() => FieldMask._();
   @$core.pragma('dart2js:noInline')
   static FieldMask getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FieldMask>(create);

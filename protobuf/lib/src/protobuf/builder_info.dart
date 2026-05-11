@@ -411,7 +411,7 @@ class BuilderInfo {
   void aOM<T extends GeneratedMessage>(
     int tagNumber,
     String name, {
-    required T Function() subBuilder,
+    required GeneratedMessage Function() subBuilder,
     String? protoName,
   }) {
     add<T>(
@@ -430,7 +430,7 @@ class BuilderInfo {
   void aQM<T extends GeneratedMessage>(
     int tagNumber,
     String name, {
-    required T Function() subBuilder,
+    required GeneratedMessage Function() subBuilder,
     String? protoName,
   }) {
     add<T>(
@@ -449,7 +449,7 @@ class BuilderInfo {
   void pPM<T extends GeneratedMessage>(
     int tagNumber,
     String name, {
-    required T Function() subBuilder,
+    required GeneratedMessage Function() subBuilder,
     String? protoName,
   }) {
     addRepeated<T>(
