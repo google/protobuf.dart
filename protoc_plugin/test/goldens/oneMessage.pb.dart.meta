@@ -9,8 +9,8 @@ annotation: {
   path: 4
   path: 0
   sourceFile: test
-  begin: 673
-  end: 684
+  begin: 680
+  end: 691
 }
 annotation: {
   path: 4
@@ -18,8 +18,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 2106
-  end: 2112
+  begin: 2143
+  end: 2149
 }
 annotation: {
   path: 4
@@ -27,8 +27,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 2154
-  end: 2160
+  begin: 2191
+  end: 2197
 }
 annotation: {
   path: 4
@@ -36,8 +36,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 2240
-  end: 2249
+  begin: 2277
+  end: 2286
 }
 annotation: {
   path: 4
@@ -45,17 +45,8 @@ annotation: {
   path: 2
   path: 0
   sourceFile: test
-  begin: 2292
-  end: 2303
-}
-annotation: {
-  path: 4
-  path: 0
-  path: 2
-  path: 1
-  sourceFile: test
-  begin: 2363
-  end: 2367
+  begin: 2329
+  end: 2340
 }
 annotation: {
   path: 4
@@ -63,8 +54,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 2409
-  end: 2413
+  begin: 2400
+  end: 2404
 }
 annotation: {
   path: 4
@@ -72,8 +63,8 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 2495
-  end: 2502
+  begin: 2446
+  end: 2450
 }
 annotation: {
   path: 4
@@ -81,8 +72,17 @@ annotation: {
   path: 2
   path: 1
   sourceFile: test
-  begin: 2545
-  end: 2554
+  begin: 2532
+  end: 2539
+}
+annotation: {
+  path: 4
+  path: 0
+  path: 2
+  path: 1
+  sourceFile: test
+  begin: 2582
+  end: 2591
 }
 annotation: {
   path: 4
@@ -90,8 +90,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 2617
-  end: 2621
+  begin: 2654
+  end: 2658
 }
 annotation: {
   path: 4
@@ -99,8 +99,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 2668
-  end: 2672
+  begin: 2705
+  end: 2709
 }
 annotation: {
   path: 4
@@ -108,8 +108,8 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 2752
-  end: 2759
+  begin: 2789
+  end: 2796
 }
 annotation: {
   path: 4
@@ -117,6 +117,6 @@ annotation: {
   path: 2
   path: 2
   sourceFile: test
-  begin: 2802
-  end: 2811
+  begin: 2839
+  end: 2848
 }

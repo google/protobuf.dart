@@ -3,40 +3,20 @@ class PhoneNumber extends $pb.GeneratedMessage {
 
   PhoneNumber._();
 
-  factory PhoneNumber.fromBuffer(
-    $core.List<$core.int> data, [
-    $pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY,
-  ]) => PhoneNumber._()..mergeFromBuffer(data, registry);
-  factory PhoneNumber.fromJson(
-    $core.String json, [
-    $pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY,
-  ]) => PhoneNumber._()..mergeFromJson(json, registry);
+  factory PhoneNumber.fromBuffer($core.List<$core.int> data, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => PhoneNumber._()..mergeFromBuffer(data, registry);
+  factory PhoneNumber.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => PhoneNumber._()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i =
-      $pb.BuilderInfo(
-          _omitMessageNames ? '' : 'PhoneNumber',
-          createEmptyInstance: create,
-        )
-        ..aQS(1, _omitFieldNames ? '' : 'number')
-        ..aE<PhoneNumber_PhoneType>(
-          2,
-          _omitFieldNames ? '' : 'type',
-          enumValues: PhoneNumber_PhoneType.values,
-        )
-        ..a<$core.String>(
-          3,
-          _omitFieldNames ? '' : 'name',
-          $pb.PbFieldType.OS,
-          defaultOrMaker: '\$',
-        )
-        ..aOS(4, _omitFieldNames ? '' : 'deprecatedField');
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PhoneNumber', createEmptyInstance: create)
+    ..aQS(1, _omitFieldNames ? '' : 'number')
+    ..aE<PhoneNumber_PhoneType>(2, _omitFieldNames ? '' : 'type', enumValues: PhoneNumber_PhoneType.values)
+    ..a<$core.String>(3, _omitFieldNames ? '' : 'name', $pb.PbFieldType.OS, defaultOrMaker: '\$')
+    ..aOS(4, _omitFieldNames ? '' : 'deprecatedField')
+  ;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   PhoneNumber clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  PhoneNumber copyWith(void Function(PhoneNumber) updates) =>
-      super.copyWith((message) => updates(message as PhoneNumber))
-          as PhoneNumber;
+  PhoneNumber copyWith(void Function(PhoneNumber) updates) => super.copyWith((message) => updates(message as PhoneNumber)) as PhoneNumber;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
@@ -46,10 +26,7 @@ class PhoneNumber extends $pb.GeneratedMessage {
   @$core.override
   PhoneNumber createEmptyInstance() => PhoneNumber._();
   @$core.pragma('dart2js:noInline')
-  static PhoneNumber getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(
-        create,
-      );
+  static PhoneNumber getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(create);
   static PhoneNumber? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -93,9 +70,6 @@ class PhoneNumber extends $pb.GeneratedMessage {
   void clearDeprecatedField() => $_clearField(4);
 }
 
-const $core.bool _omitFieldNames = $core.bool.fromEnvironment(
-  'protobuf.omit_field_names',
-);
-const $core.bool _omitMessageNames = $core.bool.fromEnvironment(
-  'protobuf.omit_message_names',
-);
+
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');
