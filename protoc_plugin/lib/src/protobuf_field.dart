@@ -255,7 +255,7 @@ class ProtobufField {
       named['keyFieldType'] = key.typeConstant;
       named['valueFieldType'] = value.typeConstant;
       if (value.baseType.isMessage || value.baseType.isGroup) {
-        named['valueCreator'] = '$valueType.create';
+        named['valueCreator'] = '$valueType.\$_createMessage';
         named['valueDefaultOrMaker'] = value.generateDefaultFunction();
       }
       if (value.baseType.isEnum) {
@@ -280,7 +280,7 @@ class ProtobufField {
         }
       } else if (typeConstant == '$protobufImportPrefix.PbFieldType.PM') {
         invocation = 'pPM<$type>';
-        named['subBuilder'] = '$type.create';
+        named['subBuilder'] = '$type.\$_createMessage';
       } else {
         args.add(typeConstant);
         if (baseType.isMessage || baseType.isGroup || baseType.isEnum) {
@@ -290,7 +290,7 @@ class ProtobufField {
         }
 
         if (baseType.isMessage || baseType.isGroup) {
-          named['subBuilder'] = '$type.create';
+          named['subBuilder'] = '$type.\$_createMessage';
         } else if (baseType.isEnum) {
           named['valueOf'] = '$type.valueOf';
           named['enumValues'] = '$type.values';
@@ -352,7 +352,7 @@ class ProtobufField {
           invocation = 'aInt64';
         } else {
           if (baseType.isMessage || baseType.isGroup) {
-            named['subBuilder'] = '$type.create';
+            named['subBuilder'] = '$type.\$_createMessage';
           }
           if (baseType.isMessage) {
             invocation = isRequired ? 'aQM<$type>' : 'aOM<$type>';

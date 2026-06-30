@@ -544,16 +544,17 @@ abstract class GeneratedMessage {
   _defaultMakers = {};
 
   static T Function() _defaultMakerFor<T extends GeneratedMessage>(
-    T Function()? createFn,
-  ) => _getSingletonMaker(createFn!)._frozenSingletonCreator;
+    GeneratedMessage Function()? createFn,
+  ) => _getSingletonMaker<T>(createFn!)._frozenSingletonCreator;
 
   /// For generated code only.
   /// @nodoc
-  static T $_defaultFor<T extends GeneratedMessage>(T Function() createFn) =>
-      _getSingletonMaker(createFn)._frozenSingleton;
+  static T $_defaultFor<T extends GeneratedMessage>(
+    GeneratedMessage Function() createFn,
+  ) => _getSingletonMaker<T>(createFn)._frozenSingleton;
 
   static _SingletonMaker<T> _getSingletonMaker<T extends GeneratedMessage>(
-    T Function() fun,
+    GeneratedMessage Function() fun,
   ) {
     final oldMaker = _defaultMakers[fun];
     if (oldMaker != null) {
@@ -571,11 +572,11 @@ abstract class GeneratedMessage {
 // A downcast to a generic interface type is much easier to perform at runtime
 // than a downcast to a generic function type.
 class _SingletonMaker<T extends GeneratedMessage> {
-  final T Function() _creator;
+  final GeneratedMessage Function() _creator;
 
   _SingletonMaker(this._creator);
 
-  late final T _frozenSingleton = _creator()..freeze();
+  late final T _frozenSingleton = (_creator() as T)..freeze();
   // ignore: prefer_function_declarations_over_variables
   late final T Function() _frozenSingletonCreator = () => _frozenSingleton;
 }

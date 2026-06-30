@@ -429,12 +429,12 @@ class MessageGenerator extends ProtobufContainer {
         out.println(
           'factory $classname.fromBuffer($coreImportPrefix.List<$coreImportPrefix.int> data,'
           ' [$protobufImportPrefix.ExtensionRegistry registry = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' => create()..mergeFromBuffer(data, registry);',
+          ' => $classname()..mergeFromBuffer(data, registry);',
         );
         out.println(
           'factory $classname.fromJson($coreImportPrefix.String json,'
           ' [$protobufImportPrefix.ExtensionRegistry registry = $protobufImportPrefix.ExtensionRegistry.EMPTY])'
-          ' => create()..mergeFromJson(json, registry);',
+          ' => $classname()..mergeFromJson(json, registry);',
         );
 
         out.println();
@@ -468,7 +468,7 @@ class MessageGenerator extends ProtobufContainer {
           'static final $protobufImportPrefix.BuilderInfo _i = '
               '$protobufImportPrefix.BuilderInfo(${omitMessageNames.createTernary(messageName)}'
               '$packageClause'
-              ', createEmptyInstance: create'
+              ', createEmptyInstance: $classname.\$_createMessage'
               '$proto3JsonClause)',
           ';',
           () {
@@ -520,16 +520,22 @@ class MessageGenerator extends ProtobufContainer {
         // Factory functions which can be used as default value closures.
         out.println();
         out.println("@$coreImportPrefix.pragma('dart2js:noInline')");
+        out.println(
+          "@$coreImportPrefix.Deprecated('Use $classname() / $classname.new instead')",
+        );
         out.println('static $classname create() => $classname._();');
+        out.println(
+          'static $protobufImportPrefix.GeneratedMessage \$_createMessage() => $classname._();',
+        );
         out.println('@$coreImportPrefix.override');
-        out.println('$classname createEmptyInstance() => create();');
+        out.println('$classname createEmptyInstance() => $classname._();');
 
         out.println("@$coreImportPrefix.pragma('dart2js:noInline')");
         out.println(
           'static $classname getDefault() =>'
           ' _defaultInstance ??='
           ' $protobufImportPrefix.GeneratedMessage.\$_defaultFor<$classname>'
-          '(create);',
+          '($classname.\$_createMessage);',
         );
         out.println('static $classname? _defaultInstance;');
 
@@ -570,7 +576,7 @@ class MessageGenerator extends ProtobufContainer {
         result += r'$';
       }
       out.addBlock('{', '}', () {
-        out.println('final $result = create();');
+        out.println('final $result = $classname._();');
         for (final field in fieldList) {
           out.print('if (${field.memberNames!.fieldName} != null) ');
           if (field.isRepeated && !field.isMapField) {
@@ -590,7 +596,7 @@ class MessageGenerator extends ProtobufContainer {
         out.println('return $result;');
       });
     } else {
-      out.println('factory $classname() => create();');
+      out.println('factory $classname() => $classname._();');
     }
   }
 
