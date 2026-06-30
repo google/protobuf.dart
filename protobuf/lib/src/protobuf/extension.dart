@@ -18,12 +18,7 @@ class Extension<T> extends FieldInfo<T> {
     super.valueOf,
     super.enumValues,
     super.protoName,
-  }) : super(
-         name,
-         tagNumber,
-         null,
-         fieldType,
-       );
+  }) : super(name, tagNumber, null, fieldType);
 
   Extension.repeated(
     this.extendee,
@@ -35,14 +30,7 @@ class Extension<T> extends FieldInfo<T> {
     super.valueOf,
     super.enumValues,
     super.protoName,
-  }) : super.repeated(
-         name,
-         tagNumber,
-         null,
-         fieldType,
-         check,
-         subBuilder,
-       );
+  }) : super.repeated(name, tagNumber, null, fieldType, check, subBuilder);
 
   @override
   int get hashCode => extendee.hashCode * 31 + tagNumber;
