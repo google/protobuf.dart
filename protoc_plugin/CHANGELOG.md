@@ -1,3 +1,14 @@
+## 25.1.0
+
+* Deprecate `create` method. Users should use constructor or constructor
+  tear-off instead.
+
+* Introduce `$_createMessage` method that will return `GeneratedMessage`. Users
+  shouldn't use this method, it is intended to be used by other generated proto
+  message classes in `BuilderInfo` method calls.
+
+  Using this generator requires using `package:protobuf` 6.1.0
+
 ## 25.0.0
 
 Note: this version requires protobuf 5.2.0.
