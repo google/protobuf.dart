@@ -221,7 +221,7 @@ class FieldMask extends $pb.GeneratedMessage with $mixin.FieldMaskMixin {
   factory FieldMask({
     $core.Iterable<$core.String>? paths,
   }) {
-    final result = create();
+    final result = FieldMask._();
     if (paths != null) result.paths.addAll(paths);
     return result;
   }
@@ -230,16 +230,16 @@ class FieldMask extends $pb.GeneratedMessage with $mixin.FieldMaskMixin {
 
   factory FieldMask.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      FieldMask()..mergeFromBuffer(data, registry);
   factory FieldMask.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      FieldMask()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FieldMask',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create,
+      createEmptyInstance: FieldMask.$_createMessage,
       wellKnownType: $mixin.WellKnownType.fieldMask)
     ..pPS(1, _omitFieldNames ? '' : 'paths')
     ..hasRequiredFields = false;
@@ -254,12 +254,14 @@ class FieldMask extends $pb.GeneratedMessage with $mixin.FieldMaskMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use FieldMask() / FieldMask.new instead')
   static FieldMask create() => FieldMask._();
+  static $pb.GeneratedMessage $_createMessage() => FieldMask._();
   @$core.override
-  FieldMask createEmptyInstance() => create();
+  FieldMask createEmptyInstance() => FieldMask._();
   @$core.pragma('dart2js:noInline')
-  static FieldMask getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FieldMask>(create);
+  static FieldMask getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<FieldMask>(FieldMask.$_createMessage);
   static FieldMask? _defaultInstance;
 
   /// The set of field mask paths.

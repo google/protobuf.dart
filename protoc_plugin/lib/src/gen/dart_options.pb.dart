@@ -24,7 +24,7 @@ class DartMixin extends $pb.GeneratedMessage {
     $core.String? importFrom,
     $core.String? parent,
   }) {
-    final result = create();
+    final result = DartMixin._();
     if (name != null) result.name = name;
     if (importFrom != null) result.importFrom = importFrom;
     if (parent != null) result.parent = parent;
@@ -35,15 +35,15 @@ class DartMixin extends $pb.GeneratedMessage {
 
   factory DartMixin.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      DartMixin()..mergeFromBuffer(data, registry);
   factory DartMixin.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      DartMixin()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DartMixin',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'dart_options'),
-      createEmptyInstance: create)
+      createEmptyInstance: DartMixin.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOS(2, _omitFieldNames ? '' : 'importFrom')
     ..aOS(3, _omitFieldNames ? '' : 'parent')
@@ -59,12 +59,14 @@ class DartMixin extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use DartMixin() / DartMixin.new instead')
   static DartMixin create() => DartMixin._();
+  static $pb.GeneratedMessage $_createMessage() => DartMixin._();
   @$core.override
-  DartMixin createEmptyInstance() => create();
+  DartMixin createEmptyInstance() => DartMixin._();
   @$core.pragma('dart2js:noInline')
-  static DartMixin getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DartMixin>(create);
+  static DartMixin getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<DartMixin>(DartMixin.$_createMessage);
   static DartMixin? _defaultInstance;
 
   /// The name of the mixin class.
@@ -106,7 +108,7 @@ class Imports extends $pb.GeneratedMessage {
   factory Imports({
     $core.Iterable<DartMixin>? mixins,
   }) {
-    final result = create();
+    final result = Imports._();
     if (mixins != null) result.mixins.addAll(mixins);
     return result;
   }
@@ -115,17 +117,17 @@ class Imports extends $pb.GeneratedMessage {
 
   factory Imports.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Imports()..mergeFromBuffer(data, registry);
   factory Imports.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Imports()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Imports',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'dart_options'),
-      createEmptyInstance: create)
+      createEmptyInstance: Imports.$_createMessage)
     ..pPM<DartMixin>(1, _omitFieldNames ? '' : 'mixins',
-        subBuilder: DartMixin.create)
+        subBuilder: DartMixin.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -138,12 +140,14 @@ class Imports extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Imports() / Imports.new instead')
   static Imports create() => Imports._();
+  static $pb.GeneratedMessage $_createMessage() => Imports._();
   @$core.override
-  Imports createEmptyInstance() => create();
+  Imports createEmptyInstance() => Imports._();
   @$core.pragma('dart2js:noInline')
-  static Imports getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Imports>(create);
+  static Imports getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Imports>(Imports.$_createMessage);
   static Imports? _defaultInstance;
 
   /// Mixins to be used on messages in this file.

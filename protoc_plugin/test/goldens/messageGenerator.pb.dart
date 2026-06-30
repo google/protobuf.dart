@@ -1,12 +1,12 @@
 class PhoneNumber extends $pb.GeneratedMessage {
-  factory PhoneNumber() => create();
+  factory PhoneNumber() => PhoneNumber._();
 
   PhoneNumber._();
 
-  factory PhoneNumber.fromBuffer($core.List<$core.int> data, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(data, registry);
-  factory PhoneNumber.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(json, registry);
+  factory PhoneNumber.fromBuffer($core.List<$core.int> data, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => PhoneNumber()..mergeFromBuffer(data, registry);
+  factory PhoneNumber.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) => PhoneNumber()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PhoneNumber', createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PhoneNumber', createEmptyInstance: PhoneNumber.$_createMessage)
     ..aQS(1, _omitFieldNames ? '' : 'number')
     ..aE<PhoneNumber_PhoneType>(2, _omitFieldNames ? '' : 'type', enumValues: PhoneNumber_PhoneType.values)
     ..a<$core.String>(3, _omitFieldNames ? '' : 'name', $pb.PbFieldType.OS, defaultOrMaker: '\$')
@@ -22,11 +22,13 @@ class PhoneNumber extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use PhoneNumber() / PhoneNumber.new instead')
   static PhoneNumber create() => PhoneNumber._();
+  static $pb.GeneratedMessage $_createMessage() => PhoneNumber._();
   @$core.override
-  PhoneNumber createEmptyInstance() => create();
+  PhoneNumber createEmptyInstance() => PhoneNumber._();
   @$core.pragma('dart2js:noInline')
-  static PhoneNumber getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(create);
+  static PhoneNumber getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(PhoneNumber.$_createMessage);
   static PhoneNumber? _defaultInstance;
 
   @$pb.TagNumber(1)

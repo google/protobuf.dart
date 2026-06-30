@@ -20,23 +20,26 @@ import 'package2.pb.dart' as $1;
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class M extends $pb.GeneratedMessage {
-  factory M() => create();
+  factory M() => M._();
 
   M._();
 
   factory M.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      M()..mergeFromBuffer(data, registry);
   factory M.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      M()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i =
-      $pb.BuilderInfo(_omitMessageNames ? '' : 'M', createEmptyInstance: create)
-        ..aOM<M>(1, _omitFieldNames ? '' : 'm', subBuilder: M.create)
-        ..aOM<$0.M>(2, _omitFieldNames ? '' : 'm1', subBuilder: $0.M.create)
-        ..aOM<$1.M>(3, _omitFieldNames ? '' : 'm2', subBuilder: $1.M.create)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'M',
+      createEmptyInstance: M.$_createMessage)
+    ..aOM<M>(1, _omitFieldNames ? '' : 'm', subBuilder: M.$_createMessage)
+    ..aOM<$0.M>(2, _omitFieldNames ? '' : 'm1',
+        subBuilder: $0.M.$_createMessage)
+    ..aOM<$1.M>(3, _omitFieldNames ? '' : 'm2',
+        subBuilder: $1.M.$_createMessage)
+    ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   M clone() => deepCopy();
@@ -48,12 +51,14 @@ class M extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use M() / M.new instead')
   static M create() => M._();
+  static $pb.GeneratedMessage $_createMessage() => M._();
   @$core.override
-  M createEmptyInstance() => create();
+  M createEmptyInstance() => M._();
   @$core.pragma('dart2js:noInline')
-  static M getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<M>(create);
+  static M getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<M>(M.$_createMessage);
   static M? _defaultInstance;
 
   @$pb.TagNumber(1)

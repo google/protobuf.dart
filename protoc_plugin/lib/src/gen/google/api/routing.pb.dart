@@ -379,7 +379,7 @@ class RoutingRule extends $pb.GeneratedMessage {
   factory RoutingRule({
     $core.Iterable<RoutingParameter>? routingParameters,
   }) {
-    final result = create();
+    final result = RoutingRule._();
     if (routingParameters != null)
       result.routingParameters.addAll(routingParameters);
     return result;
@@ -389,17 +389,17 @@ class RoutingRule extends $pb.GeneratedMessage {
 
   factory RoutingRule.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      RoutingRule()..mergeFromBuffer(data, registry);
   factory RoutingRule.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      RoutingRule()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'RoutingRule',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
-      createEmptyInstance: create)
+      createEmptyInstance: RoutingRule.$_createMessage)
     ..pPM<RoutingParameter>(2, _omitFieldNames ? '' : 'routingParameters',
-        subBuilder: RoutingParameter.create)
+        subBuilder: RoutingParameter.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -413,12 +413,15 @@ class RoutingRule extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use RoutingRule() / RoutingRule.new instead')
   static RoutingRule create() => RoutingRule._();
+  static $pb.GeneratedMessage $_createMessage() => RoutingRule._();
   @$core.override
-  RoutingRule createEmptyInstance() => create();
+  RoutingRule createEmptyInstance() => RoutingRule._();
   @$core.pragma('dart2js:noInline')
-  static RoutingRule getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<RoutingRule>(create);
+  static RoutingRule getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RoutingRule>(
+          RoutingRule.$_createMessage);
   static RoutingRule? _defaultInstance;
 
   /// A collection of Routing Parameter specifications.
@@ -437,7 +440,7 @@ class RoutingParameter extends $pb.GeneratedMessage {
     $core.String? field_1,
     $core.String? pathTemplate,
   }) {
-    final result = create();
+    final result = RoutingParameter._();
     if (field_1 != null) result.field_1 = field_1;
     if (pathTemplate != null) result.pathTemplate = pathTemplate;
     return result;
@@ -447,15 +450,15 @@ class RoutingParameter extends $pb.GeneratedMessage {
 
   factory RoutingParameter.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      RoutingParameter()..mergeFromBuffer(data, registry);
   factory RoutingParameter.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      RoutingParameter()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'RoutingParameter',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
-      createEmptyInstance: create)
+      createEmptyInstance: RoutingParameter.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'field')
     ..aOS(2, _omitFieldNames ? '' : 'pathTemplate')
     ..hasRequiredFields = false;
@@ -471,12 +474,15 @@ class RoutingParameter extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use RoutingParameter() / RoutingParameter.new instead')
   static RoutingParameter create() => RoutingParameter._();
+  static $pb.GeneratedMessage $_createMessage() => RoutingParameter._();
   @$core.override
-  RoutingParameter createEmptyInstance() => create();
+  RoutingParameter createEmptyInstance() => RoutingParameter._();
   @$core.pragma('dart2js:noInline')
-  static RoutingParameter getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<RoutingParameter>(create);
+  static RoutingParameter getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RoutingParameter>(
+          RoutingParameter.$_createMessage);
   static RoutingParameter? _defaultInstance;
 
   /// A request field to extract the header key-value pair from.

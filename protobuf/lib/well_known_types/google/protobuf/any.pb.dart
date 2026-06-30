@@ -108,7 +108,7 @@ class Any extends $pb.GeneratedMessage with $mixin.AnyMixin {
     $core.String? typeUrl,
     $core.List<$core.int>? value,
   }) {
-    final result = create();
+    final result = Any._();
     if (typeUrl != null) result.typeUrl = typeUrl;
     if (value != null) result.value = value;
     return result;
@@ -118,16 +118,16 @@ class Any extends $pb.GeneratedMessage with $mixin.AnyMixin {
 
   factory Any.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Any()..mergeFromBuffer(data, registry);
   factory Any.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Any()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Any',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create,
+      createEmptyInstance: Any.$_createMessage,
       wellKnownType: $mixin.WellKnownType.any)
     ..aOS(1, _omitFieldNames ? '' : 'typeUrl')
     ..a<$core.List<$core.int>>(
@@ -144,12 +144,14 @@ class Any extends $pb.GeneratedMessage with $mixin.AnyMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Any() / Any.new instead')
   static Any create() => Any._();
+  static $pb.GeneratedMessage $_createMessage() => Any._();
   @$core.override
-  Any createEmptyInstance() => create();
+  Any createEmptyInstance() => Any._();
   @$core.pragma('dart2js:noInline')
-  static Any getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Any>(create);
+  static Any getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Any>(Any.$_createMessage);
   static Any? _defaultInstance;
 
   /// A URL/resource name that uniquely identifies the type of the serialized

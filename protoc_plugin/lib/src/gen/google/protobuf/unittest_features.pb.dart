@@ -21,21 +21,21 @@ export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 export 'unittest_features.pbenum.dart';
 
 class TestMessage_Nested extends $pb.GeneratedMessage {
-  factory TestMessage_Nested() => create();
+  factory TestMessage_Nested() => TestMessage_Nested._();
 
   TestMessage_Nested._();
 
   factory TestMessage_Nested.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      TestMessage_Nested()..mergeFromBuffer(data, registry);
   factory TestMessage_Nested.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      TestMessage_Nested()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'TestMessage.Nested',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'pb'),
-      createEmptyInstance: create)
+      createEmptyInstance: TestMessage_Nested.$_createMessage)
     ..hasRequiredFields = false;
   static final testNested = $pb.Extension<TestFeatures>(
       _omitMessageNames ? '' : 'google.protobuf.FeatureSet',
@@ -56,31 +56,34 @@ class TestMessage_Nested extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use TestMessage_Nested() / TestMessage_Nested.new instead')
   static TestMessage_Nested create() => TestMessage_Nested._();
+  static $pb.GeneratedMessage $_createMessage() => TestMessage_Nested._();
   @$core.override
-  TestMessage_Nested createEmptyInstance() => create();
+  TestMessage_Nested createEmptyInstance() => TestMessage_Nested._();
   @$core.pragma('dart2js:noInline')
   static TestMessage_Nested getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<TestMessage_Nested>(create);
+      $pb.GeneratedMessage.$_defaultFor<TestMessage_Nested>(
+          TestMessage_Nested.$_createMessage);
   static TestMessage_Nested? _defaultInstance;
 }
 
 class TestMessage extends $pb.GeneratedMessage {
-  factory TestMessage() => create();
+  factory TestMessage() => TestMessage._();
 
   TestMessage._();
 
   factory TestMessage.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      TestMessage()..mergeFromBuffer(data, registry);
   factory TestMessage.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      TestMessage()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'TestMessage',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'pb'),
-      createEmptyInstance: create)
+      createEmptyInstance: TestMessage.$_createMessage)
     ..hasRequiredFields = false;
   static final testMessage = $pb.Extension<TestFeatures>(
       _omitMessageNames ? '' : 'google.protobuf.FeatureSet',
@@ -101,12 +104,15 @@ class TestMessage extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use TestMessage() / TestMessage.new instead')
   static TestMessage create() => TestMessage._();
+  static $pb.GeneratedMessage $_createMessage() => TestMessage._();
   @$core.override
-  TestMessage createEmptyInstance() => create();
+  TestMessage createEmptyInstance() => TestMessage._();
   @$core.pragma('dart2js:noInline')
-  static TestMessage getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<TestMessage>(create);
+  static TestMessage getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TestMessage>(
+          TestMessage.$_createMessage);
   static TestMessage? _defaultInstance;
 }
 
@@ -130,7 +136,7 @@ class TestFeatures extends $pb.GeneratedMessage {
     EnumFeature? legacyFeature,
     ValueLifetimeFeature? valueLifetimeFeature,
   }) {
-    final result = create();
+    final result = TestFeatures._();
     if (fileFeature != null) result.fileFeature = fileFeature;
     if (extensionRangeFeature != null)
       result.extensionRangeFeature = extensionRangeFeature;
@@ -157,15 +163,15 @@ class TestFeatures extends $pb.GeneratedMessage {
 
   factory TestFeatures.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      TestFeatures()..mergeFromBuffer(data, registry);
   factory TestFeatures.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      TestFeatures()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'TestFeatures',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'pb'),
-      createEmptyInstance: create)
+      createEmptyInstance: TestFeatures.$_createMessage)
     ..aE<EnumFeature>(1, _omitFieldNames ? '' : 'fileFeature',
         enumValues: EnumFeature.values)
     ..aE<EnumFeature>(2, _omitFieldNames ? '' : 'extensionRangeFeature',
@@ -213,12 +219,15 @@ class TestFeatures extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use TestFeatures() / TestFeatures.new instead')
   static TestFeatures create() => TestFeatures._();
+  static $pb.GeneratedMessage $_createMessage() => TestFeatures._();
   @$core.override
-  TestFeatures createEmptyInstance() => create();
+  TestFeatures createEmptyInstance() => TestFeatures._();
   @$core.pragma('dart2js:noInline')
-  static TestFeatures getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<TestFeatures>(create);
+  static TestFeatures getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TestFeatures>(
+          TestFeatures.$_createMessage);
   static TestFeatures? _defaultInstance;
 
   @$pb.TagNumber(1)

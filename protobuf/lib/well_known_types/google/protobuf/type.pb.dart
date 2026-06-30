@@ -37,7 +37,7 @@ class Type extends $pb.GeneratedMessage {
     Syntax? syntax,
     $core.String? edition,
   }) {
-    final result = create();
+    final result = Type._();
     if (name != null) result.name = name;
     if (fields != null) result.fields.addAll(fields);
     if (oneofs != null) result.oneofs.addAll(oneofs);
@@ -52,23 +52,24 @@ class Type extends $pb.GeneratedMessage {
 
   factory Type.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Type()..mergeFromBuffer(data, registry);
   factory Type.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Type()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Type',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: Type.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
-    ..pPM<Field>(2, _omitFieldNames ? '' : 'fields', subBuilder: Field.create)
+    ..pPM<Field>(2, _omitFieldNames ? '' : 'fields',
+        subBuilder: Field.$_createMessage)
     ..pPS(3, _omitFieldNames ? '' : 'oneofs')
     ..pPM<Option>(4, _omitFieldNames ? '' : 'options',
-        subBuilder: Option.create)
+        subBuilder: Option.$_createMessage)
     ..aOM<$0.SourceContext>(5, _omitFieldNames ? '' : 'sourceContext',
-        subBuilder: $0.SourceContext.create)
+        subBuilder: $0.SourceContext.$_createMessage)
     ..aE<Syntax>(6, _omitFieldNames ? '' : 'syntax', enumValues: Syntax.values)
     ..aOS(7, _omitFieldNames ? '' : 'edition')
     ..hasRequiredFields = false;
@@ -83,12 +84,14 @@ class Type extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Type() / Type.new instead')
   static Type create() => Type._();
+  static $pb.GeneratedMessage $_createMessage() => Type._();
   @$core.override
-  Type createEmptyInstance() => create();
+  Type createEmptyInstance() => Type._();
   @$core.pragma('dart2js:noInline')
-  static Type getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Type>(create);
+  static Type getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Type>(Type.$_createMessage);
   static Type? _defaultInstance;
 
   /// The fully qualified message name.
@@ -165,7 +168,7 @@ class Field extends $pb.GeneratedMessage {
     $core.String? jsonName,
     $core.String? defaultValue,
   }) {
-    final result = create();
+    final result = Field._();
     if (kind != null) result.kind = kind;
     if (cardinality != null) result.cardinality = cardinality;
     if (number != null) result.number = number;
@@ -183,16 +186,16 @@ class Field extends $pb.GeneratedMessage {
 
   factory Field.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Field()..mergeFromBuffer(data, registry);
   factory Field.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Field()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Field',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: Field.$_createMessage)
     ..aE<Field_Kind>(1, _omitFieldNames ? '' : 'kind',
         enumValues: Field_Kind.values)
     ..aE<Field_Cardinality>(2, _omitFieldNames ? '' : 'cardinality',
@@ -203,7 +206,7 @@ class Field extends $pb.GeneratedMessage {
     ..aI(7, _omitFieldNames ? '' : 'oneofIndex')
     ..aOB(8, _omitFieldNames ? '' : 'packed')
     ..pPM<Option>(9, _omitFieldNames ? '' : 'options',
-        subBuilder: Option.create)
+        subBuilder: Option.$_createMessage)
     ..aOS(10, _omitFieldNames ? '' : 'jsonName')
     ..aOS(11, _omitFieldNames ? '' : 'defaultValue')
     ..hasRequiredFields = false;
@@ -218,12 +221,14 @@ class Field extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Field() / Field.new instead')
   static Field create() => Field._();
+  static $pb.GeneratedMessage $_createMessage() => Field._();
   @$core.override
-  Field createEmptyInstance() => create();
+  Field createEmptyInstance() => Field._();
   @$core.pragma('dart2js:noInline')
-  static Field getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Field>(create);
+  static Field getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Field>(Field.$_createMessage);
   static Field? _defaultInstance;
 
   /// The field type.
@@ -338,7 +343,7 @@ class Enum extends $pb.GeneratedMessage {
     Syntax? syntax,
     $core.String? edition,
   }) {
-    final result = create();
+    final result = Enum._();
     if (name != null) result.name = name;
     if (enumvalue != null) result.enumvalue.addAll(enumvalue);
     if (options != null) result.options.addAll(options);
@@ -352,23 +357,23 @@ class Enum extends $pb.GeneratedMessage {
 
   factory Enum.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Enum()..mergeFromBuffer(data, registry);
   factory Enum.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Enum()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Enum',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: Enum.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..pPM<EnumValue>(2, _omitFieldNames ? '' : 'enumvalue',
-        subBuilder: EnumValue.create)
+        subBuilder: EnumValue.$_createMessage)
     ..pPM<Option>(3, _omitFieldNames ? '' : 'options',
-        subBuilder: Option.create)
+        subBuilder: Option.$_createMessage)
     ..aOM<$0.SourceContext>(4, _omitFieldNames ? '' : 'sourceContext',
-        subBuilder: $0.SourceContext.create)
+        subBuilder: $0.SourceContext.$_createMessage)
     ..aE<Syntax>(5, _omitFieldNames ? '' : 'syntax', enumValues: Syntax.values)
     ..aOS(6, _omitFieldNames ? '' : 'edition')
     ..hasRequiredFields = false;
@@ -383,12 +388,14 @@ class Enum extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Enum() / Enum.new instead')
   static Enum create() => Enum._();
+  static $pb.GeneratedMessage $_createMessage() => Enum._();
   @$core.override
-  Enum createEmptyInstance() => create();
+  Enum createEmptyInstance() => Enum._();
   @$core.pragma('dart2js:noInline')
-  static Enum getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Enum>(create);
+  static Enum getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Enum>(Enum.$_createMessage);
   static Enum? _defaultInstance;
 
   /// Enum type name.
@@ -454,7 +461,7 @@ class EnumValue extends $pb.GeneratedMessage {
     $core.int? number,
     $core.Iterable<Option>? options,
   }) {
-    final result = create();
+    final result = EnumValue._();
     if (name != null) result.name = name;
     if (number != null) result.number = number;
     if (options != null) result.options.addAll(options);
@@ -465,20 +472,20 @@ class EnumValue extends $pb.GeneratedMessage {
 
   factory EnumValue.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      EnumValue()..mergeFromBuffer(data, registry);
   factory EnumValue.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      EnumValue()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'EnumValue',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: EnumValue.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aI(2, _omitFieldNames ? '' : 'number')
     ..pPM<Option>(3, _omitFieldNames ? '' : 'options',
-        subBuilder: Option.create)
+        subBuilder: Option.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -491,12 +498,14 @@ class EnumValue extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use EnumValue() / EnumValue.new instead')
   static EnumValue create() => EnumValue._();
+  static $pb.GeneratedMessage $_createMessage() => EnumValue._();
   @$core.override
-  EnumValue createEmptyInstance() => create();
+  EnumValue createEmptyInstance() => EnumValue._();
   @$core.pragma('dart2js:noInline')
-  static EnumValue getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<EnumValue>(create);
+  static EnumValue getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<EnumValue>(EnumValue.$_createMessage);
   static EnumValue? _defaultInstance;
 
   /// Enum value name.
@@ -535,7 +544,7 @@ class Option extends $pb.GeneratedMessage {
     $core.String? name,
     $1.Any? value,
   }) {
-    final result = create();
+    final result = Option._();
     if (name != null) result.name = name;
     if (value != null) result.value = value;
     return result;
@@ -545,18 +554,19 @@ class Option extends $pb.GeneratedMessage {
 
   factory Option.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Option()..mergeFromBuffer(data, registry);
   factory Option.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Option()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Option',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: Option.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
-    ..aOM<$1.Any>(2, _omitFieldNames ? '' : 'value', subBuilder: $1.Any.create)
+    ..aOM<$1.Any>(2, _omitFieldNames ? '' : 'value',
+        subBuilder: $1.Any.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -569,12 +579,14 @@ class Option extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Option() / Option.new instead')
   static Option create() => Option._();
+  static $pb.GeneratedMessage $_createMessage() => Option._();
   @$core.override
-  Option createEmptyInstance() => create();
+  Option createEmptyInstance() => Option._();
   @$core.pragma('dart2js:noInline')
-  static Option getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Option>(create);
+  static Option getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Option>(Option.$_createMessage);
   static Option? _defaultInstance;
 
   /// The option's name. For protobuf built-in options (options defined in

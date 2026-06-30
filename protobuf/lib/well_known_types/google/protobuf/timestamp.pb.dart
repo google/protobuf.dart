@@ -113,7 +113,7 @@ class Timestamp extends $pb.GeneratedMessage with $mixin.TimestampMixin {
     $fixnum.Int64? seconds,
     $core.int? nanos,
   }) {
-    final result = create();
+    final result = Timestamp._();
     if (seconds != null) result.seconds = seconds;
     if (nanos != null) result.nanos = nanos;
     return result;
@@ -123,16 +123,16 @@ class Timestamp extends $pb.GeneratedMessage with $mixin.TimestampMixin {
 
   factory Timestamp.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Timestamp()..mergeFromBuffer(data, registry);
   factory Timestamp.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Timestamp()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Timestamp',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create,
+      createEmptyInstance: Timestamp.$_createMessage,
       wellKnownType: $mixin.WellKnownType.timestamp)
     ..aInt64(1, _omitFieldNames ? '' : 'seconds')
     ..aI(2, _omitFieldNames ? '' : 'nanos')
@@ -148,12 +148,14 @@ class Timestamp extends $pb.GeneratedMessage with $mixin.TimestampMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Timestamp() / Timestamp.new instead')
   static Timestamp create() => Timestamp._();
+  static $pb.GeneratedMessage $_createMessage() => Timestamp._();
   @$core.override
-  Timestamp createEmptyInstance() => create();
+  Timestamp createEmptyInstance() => Timestamp._();
   @$core.pragma('dart2js:noInline')
-  static Timestamp getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Timestamp>(create);
+  static Timestamp getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Timestamp>(Timestamp.$_createMessage);
   static Timestamp? _defaultInstance;
 
   /// Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must

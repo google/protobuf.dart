@@ -24,7 +24,7 @@ class HelloRequest extends $pb.GeneratedMessage {
   factory HelloRequest({
     $core.String? name,
   }) {
-    final result = create();
+    final result = HelloRequest._();
     if (name != null) result.name = name;
     return result;
   }
@@ -33,15 +33,15 @@ class HelloRequest extends $pb.GeneratedMessage {
 
   factory HelloRequest.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      HelloRequest()..mergeFromBuffer(data, registry);
   factory HelloRequest.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      HelloRequest()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'HelloRequest',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'service1'),
-      createEmptyInstance: create)
+      createEmptyInstance: HelloRequest.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..hasRequiredFields = false;
 
@@ -56,12 +56,15 @@ class HelloRequest extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use HelloRequest() / HelloRequest.new instead')
   static HelloRequest create() => HelloRequest._();
+  static $pb.GeneratedMessage $_createMessage() => HelloRequest._();
   @$core.override
-  HelloRequest createEmptyInstance() => create();
+  HelloRequest createEmptyInstance() => HelloRequest._();
   @$core.pragma('dart2js:noInline')
-  static HelloRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<HelloRequest>(create);
+  static HelloRequest getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HelloRequest>(
+          HelloRequest.$_createMessage);
   static HelloRequest? _defaultInstance;
 
   /// This is a message field.
@@ -79,7 +82,7 @@ class HelloReply extends $pb.GeneratedMessage {
   factory HelloReply({
     $core.String? message,
   }) {
-    final result = create();
+    final result = HelloReply._();
     if (message != null) result.message = message;
     return result;
   }
@@ -88,15 +91,15 @@ class HelloReply extends $pb.GeneratedMessage {
 
   factory HelloReply.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      HelloReply()..mergeFromBuffer(data, registry);
   factory HelloReply.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      HelloReply()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'HelloReply',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'service1'),
-      createEmptyInstance: create)
+      createEmptyInstance: HelloReply.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'message')
     ..hasRequiredFields = false;
 
@@ -110,12 +113,14 @@ class HelloReply extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use HelloReply() / HelloReply.new instead')
   static HelloReply create() => HelloReply._();
+  static $pb.GeneratedMessage $_createMessage() => HelloReply._();
   @$core.override
-  HelloReply createEmptyInstance() => create();
+  HelloReply createEmptyInstance() => HelloReply._();
   @$core.pragma('dart2js:noInline')
   static HelloReply getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<HelloReply>(create);
+      $pb.GeneratedMessage.$_defaultFor<HelloReply>(HelloReply.$_createMessage);
   static HelloReply? _defaultInstance;
 
   @$pb.TagNumber(1)

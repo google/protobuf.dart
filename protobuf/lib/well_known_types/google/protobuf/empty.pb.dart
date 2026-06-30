@@ -24,22 +24,22 @@ export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 ///       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);
 ///     }
 class Empty extends $pb.GeneratedMessage {
-  factory Empty() => create();
+  factory Empty() => Empty._();
 
   Empty._();
 
   factory Empty.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Empty()..mergeFromBuffer(data, registry);
   factory Empty.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Empty()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Empty',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: Empty.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -52,12 +52,14 @@ class Empty extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Empty() / Empty.new instead')
   static Empty create() => Empty._();
+  static $pb.GeneratedMessage $_createMessage() => Empty._();
   @$core.override
-  Empty createEmptyInstance() => create();
+  Empty createEmptyInstance() => Empty._();
   @$core.pragma('dart2js:noInline')
-  static Empty getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Empty>(create);
+  static Empty getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Empty>(Empty.$_createMessage);
   static Empty? _defaultInstance;
 }
 

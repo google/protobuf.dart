@@ -82,7 +82,7 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
     $fixnum.Int64? seconds,
     $core.int? nanos,
   }) {
-    final result = create();
+    final result = Duration._();
     if (seconds != null) result.seconds = seconds;
     if (nanos != null) result.nanos = nanos;
     return result;
@@ -92,16 +92,16 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
 
   factory Duration.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Duration()..mergeFromBuffer(data, registry);
   factory Duration.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Duration()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Duration',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create,
+      createEmptyInstance: Duration.$_createMessage,
       wellKnownType: $mixin.WellKnownType.duration)
     ..aInt64(1, _omitFieldNames ? '' : 'seconds')
     ..aI(2, _omitFieldNames ? '' : 'nanos')
@@ -117,12 +117,14 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Duration() / Duration.new instead')
   static Duration create() => Duration._();
+  static $pb.GeneratedMessage $_createMessage() => Duration._();
   @$core.override
-  Duration createEmptyInstance() => create();
+  Duration createEmptyInstance() => Duration._();
   @$core.pragma('dart2js:noInline')
-  static Duration getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Duration>(create);
+  static Duration getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Duration>(Duration.$_createMessage);
   static Duration? _defaultInstance;
 
   /// Signed seconds of the span of time. Must be from -315,576,000,000

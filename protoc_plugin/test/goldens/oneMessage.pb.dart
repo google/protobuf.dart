@@ -17,20 +17,20 @@ import 'package:protobuf/protobuf.dart' as $pb;
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class PhoneNumber extends $pb.GeneratedMessage {
-  factory PhoneNumber() => create();
+  factory PhoneNumber() => PhoneNumber._();
 
   PhoneNumber._();
 
   factory PhoneNumber.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      PhoneNumber()..mergeFromBuffer(data, registry);
   factory PhoneNumber.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      PhoneNumber()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'PhoneNumber',
-      createEmptyInstance: create)
+      createEmptyInstance: PhoneNumber.$_createMessage)
     ..aQS(1, _omitFieldNames ? '' : 'number')
     ..aI(2, _omitFieldNames ? '' : 'type')
     ..a<$core.String>(3, _omitFieldNames ? '' : 'name', $pb.PbFieldType.OS,
@@ -47,12 +47,15 @@ class PhoneNumber extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use PhoneNumber() / PhoneNumber.new instead')
   static PhoneNumber create() => PhoneNumber._();
+  static $pb.GeneratedMessage $_createMessage() => PhoneNumber._();
   @$core.override
-  PhoneNumber createEmptyInstance() => create();
+  PhoneNumber createEmptyInstance() => PhoneNumber._();
   @$core.pragma('dart2js:noInline')
-  static PhoneNumber getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(create);
+  static PhoneNumber getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PhoneNumber>(
+          PhoneNumber.$_createMessage);
   static PhoneNumber? _defaultInstance;
 
   @$pb.TagNumber(1)

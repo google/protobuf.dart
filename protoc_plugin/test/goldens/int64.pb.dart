@@ -18,20 +18,20 @@ import 'package:protobuf/protobuf.dart' as $pb;
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class Int64 extends $pb.GeneratedMessage {
-  factory Int64() => create();
+  factory Int64() => Int64._();
 
   Int64._();
 
   factory Int64.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Int64()..mergeFromBuffer(data, registry);
   factory Int64.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Int64()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Int64',
-      createEmptyInstance: create)
+      createEmptyInstance: Int64.$_createMessage)
     ..aInt64(1, _omitFieldNames ? '' : 'value')
     ..hasRequiredFields = false;
 
@@ -45,12 +45,14 @@ class Int64 extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Int64() / Int64.new instead')
   static Int64 create() => Int64._();
+  static $pb.GeneratedMessage $_createMessage() => Int64._();
   @$core.override
-  Int64 createEmptyInstance() => create();
+  Int64 createEmptyInstance() => Int64._();
   @$core.pragma('dart2js:noInline')
-  static Int64 getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Int64>(create);
+  static Int64 getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Int64>(Int64.$_createMessage);
   static Int64? _defaultInstance;
 
   @$pb.TagNumber(1)

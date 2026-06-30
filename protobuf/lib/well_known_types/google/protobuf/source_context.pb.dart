@@ -22,7 +22,7 @@ class SourceContext extends $pb.GeneratedMessage {
   factory SourceContext({
     $core.String? fileName,
   }) {
-    final result = create();
+    final result = SourceContext._();
     if (fileName != null) result.fileName = fileName;
     return result;
   }
@@ -31,16 +31,16 @@ class SourceContext extends $pb.GeneratedMessage {
 
   factory SourceContext.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      SourceContext()..mergeFromBuffer(data, registry);
   factory SourceContext.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      SourceContext()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SourceContext',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: SourceContext.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'fileName')
     ..hasRequiredFields = false;
 
@@ -55,12 +55,15 @@ class SourceContext extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use SourceContext() / SourceContext.new instead')
   static SourceContext create() => SourceContext._();
+  static $pb.GeneratedMessage $_createMessage() => SourceContext._();
   @$core.override
-  SourceContext createEmptyInstance() => create();
+  SourceContext createEmptyInstance() => SourceContext._();
   @$core.pragma('dart2js:noInline')
-  static SourceContext getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<SourceContext>(create);
+  static SourceContext getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SourceContext>(
+          SourceContext.$_createMessage);
   static SourceContext? _defaultInstance;
 
   /// The path-qualified name of the .proto file that contained the associated

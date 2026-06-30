@@ -29,7 +29,7 @@ class Version extends $pb.GeneratedMessage {
     $core.int? patch,
     $core.String? suffix,
   }) {
-    final result = create();
+    final result = Version._();
     if (major != null) result.major = major;
     if (minor != null) result.minor = minor;
     if (patch != null) result.patch = patch;
@@ -41,16 +41,16 @@ class Version extends $pb.GeneratedMessage {
 
   factory Version.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Version()..mergeFromBuffer(data, registry);
   factory Version.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Version()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Version',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'google.protobuf.compiler'),
-      createEmptyInstance: create)
+      createEmptyInstance: Version.$_createMessage)
     ..aI(1, _omitFieldNames ? '' : 'major')
     ..aI(2, _omitFieldNames ? '' : 'minor')
     ..aI(3, _omitFieldNames ? '' : 'patch')
@@ -67,12 +67,14 @@ class Version extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Version() / Version.new instead')
   static Version create() => Version._();
+  static $pb.GeneratedMessage $_createMessage() => Version._();
   @$core.override
-  Version createEmptyInstance() => create();
+  Version createEmptyInstance() => Version._();
   @$core.pragma('dart2js:noInline')
-  static Version getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Version>(create);
+  static Version getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Version>(Version.$_createMessage);
   static Version? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -123,7 +125,7 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
     $core.Iterable<$0.FileDescriptorProto>? protoFile,
     $core.Iterable<$0.FileDescriptorProto>? sourceFileDescriptors,
   }) {
-    final result = create();
+    final result = CodeGeneratorRequest._();
     if (fileToGenerate != null) result.fileToGenerate.addAll(fileToGenerate);
     if (parameter != null) result.parameter = parameter;
     if (compilerVersion != null) result.compilerVersion = compilerVersion;
@@ -137,25 +139,25 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
 
   factory CodeGeneratorRequest.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CodeGeneratorRequest()..mergeFromBuffer(data, registry);
   factory CodeGeneratorRequest.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CodeGeneratorRequest()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorRequest',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'google.protobuf.compiler'),
-      createEmptyInstance: create)
+      createEmptyInstance: CodeGeneratorRequest.$_createMessage)
     ..pPS(1, _omitFieldNames ? '' : 'fileToGenerate')
     ..aOS(2, _omitFieldNames ? '' : 'parameter')
     ..aOM<Version>(3, _omitFieldNames ? '' : 'compilerVersion',
-        subBuilder: Version.create)
+        subBuilder: Version.$_createMessage)
     ..pPM<$0.FileDescriptorProto>(15, _omitFieldNames ? '' : 'protoFile',
-        subBuilder: $0.FileDescriptorProto.create)
+        subBuilder: $0.FileDescriptorProto.$_createMessage)
     ..pPM<$0.FileDescriptorProto>(
         17, _omitFieldNames ? '' : 'sourceFileDescriptors',
-        subBuilder: $0.FileDescriptorProto.create);
+        subBuilder: $0.FileDescriptorProto.$_createMessage);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   CodeGeneratorRequest clone() => deepCopy();
@@ -168,12 +170,16 @@ class CodeGeneratorRequest extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use CodeGeneratorRequest() / CodeGeneratorRequest.new instead')
   static CodeGeneratorRequest create() => CodeGeneratorRequest._();
+  static $pb.GeneratedMessage $_createMessage() => CodeGeneratorRequest._();
   @$core.override
-  CodeGeneratorRequest createEmptyInstance() => create();
+  CodeGeneratorRequest createEmptyInstance() => CodeGeneratorRequest._();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<CodeGeneratorRequest>(create);
+      $pb.GeneratedMessage.$_defaultFor<CodeGeneratorRequest>(
+          CodeGeneratorRequest.$_createMessage);
   static CodeGeneratorRequest? _defaultInstance;
 
   /// The .proto files that were explicitly listed on the command-line.  The
@@ -241,7 +247,7 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
     $core.String? content,
     $0.GeneratedCodeInfo? generatedCodeInfo,
   }) {
-    final result = create();
+    final result = CodeGeneratorResponse_File._();
     if (name != null) result.name = name;
     if (insertionPoint != null) result.insertionPoint = insertionPoint;
     if (content != null) result.content = content;
@@ -253,21 +259,21 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
 
   factory CodeGeneratorResponse_File.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CodeGeneratorResponse_File()..mergeFromBuffer(data, registry);
   factory CodeGeneratorResponse_File.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CodeGeneratorResponse_File()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorResponse.File',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'google.protobuf.compiler'),
-      createEmptyInstance: create)
+      createEmptyInstance: CodeGeneratorResponse_File.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOS(2, _omitFieldNames ? '' : 'insertionPoint')
     ..aOS(15, _omitFieldNames ? '' : 'content')
     ..aOM<$0.GeneratedCodeInfo>(16, _omitFieldNames ? '' : 'generatedCodeInfo',
-        subBuilder: $0.GeneratedCodeInfo.create)
+        subBuilder: $0.GeneratedCodeInfo.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -283,12 +289,18 @@ class CodeGeneratorResponse_File extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use CodeGeneratorResponse_File() / CodeGeneratorResponse_File.new instead')
   static CodeGeneratorResponse_File create() => CodeGeneratorResponse_File._();
+  static $pb.GeneratedMessage $_createMessage() =>
+      CodeGeneratorResponse_File._();
   @$core.override
-  CodeGeneratorResponse_File createEmptyInstance() => create();
+  CodeGeneratorResponse_File createEmptyInstance() =>
+      CodeGeneratorResponse_File._();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse_File getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse_File>(create);
+      $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse_File>(
+          CodeGeneratorResponse_File.$_createMessage);
   static CodeGeneratorResponse_File? _defaultInstance;
 
   /// The file name, relative to the output directory.  The name must not
@@ -391,7 +403,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
     $core.int? maximumEdition,
     $core.Iterable<CodeGeneratorResponse_File>? file,
   }) {
-    final result = create();
+    final result = CodeGeneratorResponse._();
     if (error != null) result.error = error;
     if (supportedFeatures != null) result.supportedFeatures = supportedFeatures;
     if (minimumEdition != null) result.minimumEdition = minimumEdition;
@@ -404,16 +416,16 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
 
   factory CodeGeneratorResponse.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CodeGeneratorResponse()..mergeFromBuffer(data, registry);
   factory CodeGeneratorResponse.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CodeGeneratorResponse()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CodeGeneratorResponse',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'google.protobuf.compiler'),
-      createEmptyInstance: create)
+      createEmptyInstance: CodeGeneratorResponse.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'error')
     ..a<$fixnum.Int64>(
         2, _omitFieldNames ? '' : 'supportedFeatures', $pb.PbFieldType.OU6,
@@ -421,7 +433,7 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
     ..aI(3, _omitFieldNames ? '' : 'minimumEdition')
     ..aI(4, _omitFieldNames ? '' : 'maximumEdition')
     ..pPM<CodeGeneratorResponse_File>(15, _omitFieldNames ? '' : 'file',
-        subBuilder: CodeGeneratorResponse_File.create)
+        subBuilder: CodeGeneratorResponse_File.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -436,12 +448,16 @@ class CodeGeneratorResponse extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use CodeGeneratorResponse() / CodeGeneratorResponse.new instead')
   static CodeGeneratorResponse create() => CodeGeneratorResponse._();
+  static $pb.GeneratedMessage $_createMessage() => CodeGeneratorResponse._();
   @$core.override
-  CodeGeneratorResponse createEmptyInstance() => create();
+  CodeGeneratorResponse createEmptyInstance() => CodeGeneratorResponse._();
   @$core.pragma('dart2js:noInline')
   static CodeGeneratorResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse>(create);
+      $pb.GeneratedMessage.$_defaultFor<CodeGeneratorResponse>(
+          CodeGeneratorResponse.$_createMessage);
   static CodeGeneratorResponse? _defaultInstance;
 
   /// Error message.  If non-empty, code generation failed.  The plugin process

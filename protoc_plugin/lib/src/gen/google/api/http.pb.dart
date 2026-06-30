@@ -24,7 +24,7 @@ class Http extends $pb.GeneratedMessage {
     $core.Iterable<HttpRule>? rules,
     $core.bool? fullyDecodeReservedExpansion,
   }) {
-    final result = create();
+    final result = Http._();
     if (rules != null) result.rules.addAll(rules);
     if (fullyDecodeReservedExpansion != null)
       result.fullyDecodeReservedExpansion = fullyDecodeReservedExpansion;
@@ -35,17 +35,17 @@ class Http extends $pb.GeneratedMessage {
 
   factory Http.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Http()..mergeFromBuffer(data, registry);
   factory Http.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Http()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Http',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
-      createEmptyInstance: create)
+      createEmptyInstance: Http.$_createMessage)
     ..pPM<HttpRule>(1, _omitFieldNames ? '' : 'rules',
-        subBuilder: HttpRule.create)
+        subBuilder: HttpRule.$_createMessage)
     ..aOB(2, _omitFieldNames ? '' : 'fullyDecodeReservedExpansion')
     ..hasRequiredFields = false;
 
@@ -59,12 +59,14 @@ class Http extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Http() / Http.new instead')
   static Http create() => Http._();
+  static $pb.GeneratedMessage $_createMessage() => Http._();
   @$core.override
-  Http createEmptyInstance() => create();
+  Http createEmptyInstance() => Http._();
   @$core.pragma('dart2js:noInline')
-  static Http getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Http>(create);
+  static Http getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Http>(Http.$_createMessage);
   static Http? _defaultInstance;
 
   /// A list of HTTP configuration rules that apply to individual API methods.
@@ -368,7 +370,7 @@ class HttpRule extends $pb.GeneratedMessage {
     $core.Iterable<HttpRule>? additionalBindings,
     $core.String? responseBody,
   }) {
-    final result = create();
+    final result = HttpRule._();
     if (selector != null) result.selector = selector;
     if (get != null) result.get = get;
     if (put != null) result.put = put;
@@ -387,10 +389,10 @@ class HttpRule extends $pb.GeneratedMessage {
 
   factory HttpRule.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      HttpRule()..mergeFromBuffer(data, registry);
   factory HttpRule.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      HttpRule()..mergeFromJson(json, registry);
 
   static const $core.Map<$core.int, HttpRule_Pattern> _HttpRule_PatternByTag = {
     2: HttpRule_Pattern.get,
@@ -404,7 +406,7 @@ class HttpRule extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'HttpRule',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
-      createEmptyInstance: create)
+      createEmptyInstance: HttpRule.$_createMessage)
     ..oo(0, [2, 3, 4, 5, 6, 8])
     ..aOS(1, _omitFieldNames ? '' : 'selector')
     ..aOS(2, _omitFieldNames ? '' : 'get')
@@ -414,9 +416,9 @@ class HttpRule extends $pb.GeneratedMessage {
     ..aOS(6, _omitFieldNames ? '' : 'patch')
     ..aOS(7, _omitFieldNames ? '' : 'body')
     ..aOM<CustomHttpPattern>(8, _omitFieldNames ? '' : 'custom',
-        subBuilder: CustomHttpPattern.create)
+        subBuilder: CustomHttpPattern.$_createMessage)
     ..pPM<HttpRule>(11, _omitFieldNames ? '' : 'additionalBindings',
-        subBuilder: HttpRule.create)
+        subBuilder: HttpRule.$_createMessage)
     ..aOS(12, _omitFieldNames ? '' : 'responseBody')
     ..hasRequiredFields = false;
 
@@ -430,12 +432,14 @@ class HttpRule extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use HttpRule() / HttpRule.new instead')
   static HttpRule create() => HttpRule._();
+  static $pb.GeneratedMessage $_createMessage() => HttpRule._();
   @$core.override
-  HttpRule createEmptyInstance() => create();
+  HttpRule createEmptyInstance() => HttpRule._();
   @$core.pragma('dart2js:noInline')
-  static HttpRule getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HttpRule>(create);
+  static HttpRule getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<HttpRule>(HttpRule.$_createMessage);
   static HttpRule? _defaultInstance;
 
   @$pb.TagNumber(2)
@@ -575,7 +579,7 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
     $core.String? kind,
     $core.String? path,
   }) {
-    final result = create();
+    final result = CustomHttpPattern._();
     if (kind != null) result.kind = kind;
     if (path != null) result.path = path;
     return result;
@@ -585,15 +589,15 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
 
   factory CustomHttpPattern.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CustomHttpPattern()..mergeFromBuffer(data, registry);
   factory CustomHttpPattern.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CustomHttpPattern()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CustomHttpPattern',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'google.api'),
-      createEmptyInstance: create)
+      createEmptyInstance: CustomHttpPattern.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'kind')
     ..aOS(2, _omitFieldNames ? '' : 'path')
     ..hasRequiredFields = false;
@@ -609,12 +613,15 @@ class CustomHttpPattern extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use CustomHttpPattern() / CustomHttpPattern.new instead')
   static CustomHttpPattern create() => CustomHttpPattern._();
+  static $pb.GeneratedMessage $_createMessage() => CustomHttpPattern._();
   @$core.override
-  CustomHttpPattern createEmptyInstance() => create();
+  CustomHttpPattern createEmptyInstance() => CustomHttpPattern._();
   @$core.pragma('dart2js:noInline')
-  static CustomHttpPattern getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<CustomHttpPattern>(create);
+  static CustomHttpPattern getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CustomHttpPattern>(
+          CustomHttpPattern.$_createMessage);
   static CustomHttpPattern? _defaultInstance;
 
   /// The name of this custom HTTP verb.

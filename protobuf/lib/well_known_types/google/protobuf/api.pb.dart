@@ -44,7 +44,7 @@ class Api extends $pb.GeneratedMessage {
     $0.Syntax? syntax,
     $core.String? edition,
   }) {
-    final result = create();
+    final result = Api._();
     if (name != null) result.name = name;
     if (methods != null) result.methods.addAll(methods);
     if (options != null) result.options.addAll(options);
@@ -60,25 +60,26 @@ class Api extends $pb.GeneratedMessage {
 
   factory Api.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Api()..mergeFromBuffer(data, registry);
   factory Api.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Api()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Api',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: Api.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..pPM<Method>(2, _omitFieldNames ? '' : 'methods',
-        subBuilder: Method.create)
+        subBuilder: Method.$_createMessage)
     ..pPM<$0.Option>(3, _omitFieldNames ? '' : 'options',
-        subBuilder: $0.Option.create)
+        subBuilder: $0.Option.$_createMessage)
     ..aOS(4, _omitFieldNames ? '' : 'version')
     ..aOM<$1.SourceContext>(5, _omitFieldNames ? '' : 'sourceContext',
-        subBuilder: $1.SourceContext.create)
-    ..pPM<Mixin>(6, _omitFieldNames ? '' : 'mixins', subBuilder: Mixin.create)
+        subBuilder: $1.SourceContext.$_createMessage)
+    ..pPM<Mixin>(6, _omitFieldNames ? '' : 'mixins',
+        subBuilder: Mixin.$_createMessage)
     ..aE<$0.Syntax>(7, _omitFieldNames ? '' : 'syntax',
         enumValues: $0.Syntax.values)
     ..aOS(8, _omitFieldNames ? '' : 'edition')
@@ -94,12 +95,14 @@ class Api extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Api() / Api.new instead')
   static Api create() => Api._();
+  static $pb.GeneratedMessage $_createMessage() => Api._();
   @$core.override
-  Api createEmptyInstance() => create();
+  Api createEmptyInstance() => Api._();
   @$core.pragma('dart2js:noInline')
-  static Api getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Api>(create);
+  static Api getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Api>(Api.$_createMessage);
   static Api? _defaultInstance;
 
   /// The fully qualified name of this interface, including package name
@@ -204,7 +207,7 @@ class Method extends $pb.GeneratedMessage {
     @$core.Deprecated('This field is deprecated.') $0.Syntax? syntax,
     @$core.Deprecated('This field is deprecated.') $core.String? edition,
   }) {
-    final result = create();
+    final result = Method._();
     if (name != null) result.name = name;
     if (requestTypeUrl != null) result.requestTypeUrl = requestTypeUrl;
     if (requestStreaming != null) result.requestStreaming = requestStreaming;
@@ -220,23 +223,23 @@ class Method extends $pb.GeneratedMessage {
 
   factory Method.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Method()..mergeFromBuffer(data, registry);
   factory Method.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Method()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Method',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: Method.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOS(2, _omitFieldNames ? '' : 'requestTypeUrl')
     ..aOB(3, _omitFieldNames ? '' : 'requestStreaming')
     ..aOS(4, _omitFieldNames ? '' : 'responseTypeUrl')
     ..aOB(5, _omitFieldNames ? '' : 'responseStreaming')
     ..pPM<$0.Option>(6, _omitFieldNames ? '' : 'options',
-        subBuilder: $0.Option.create)
+        subBuilder: $0.Option.$_createMessage)
     ..aE<$0.Syntax>(7, _omitFieldNames ? '' : 'syntax',
         enumValues: $0.Syntax.values)
     ..aOS(8, _omitFieldNames ? '' : 'edition')
@@ -252,12 +255,14 @@ class Method extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Method() / Method.new instead')
   static Method create() => Method._();
+  static $pb.GeneratedMessage $_createMessage() => Method._();
   @$core.override
-  Method createEmptyInstance() => create();
+  Method createEmptyInstance() => Method._();
   @$core.pragma('dart2js:noInline')
-  static Method getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Method>(create);
+  static Method getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Method>(Method.$_createMessage);
   static Method? _defaultInstance;
 
   /// The simple name of this method.
@@ -432,7 +437,7 @@ class Mixin extends $pb.GeneratedMessage {
     $core.String? name,
     $core.String? root,
   }) {
-    final result = create();
+    final result = Mixin._();
     if (name != null) result.name = name;
     if (root != null) result.root = root;
     return result;
@@ -442,16 +447,16 @@ class Mixin extends $pb.GeneratedMessage {
 
   factory Mixin.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      Mixin()..mergeFromBuffer(data, registry);
   factory Mixin.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      Mixin()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Mixin',
       package:
           const $pb.PackageName(_omitMessageNames ? '' : 'google.protobuf'),
-      createEmptyInstance: create)
+      createEmptyInstance: Mixin.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'name')
     ..aOS(2, _omitFieldNames ? '' : 'root')
     ..hasRequiredFields = false;
@@ -466,12 +471,14 @@ class Mixin extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use Mixin() / Mixin.new instead')
   static Mixin create() => Mixin._();
+  static $pb.GeneratedMessage $_createMessage() => Mixin._();
   @$core.override
-  Mixin createEmptyInstance() => create();
+  Mixin createEmptyInstance() => Mixin._();
   @$core.pragma('dart2js:noInline')
-  static Mixin getDefault() =>
-      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Mixin>(create);
+  static Mixin getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<Mixin>(Mixin.$_createMessage);
   static Mixin? _defaultInstance;
 
   /// The fully qualified name of the interface which is included.
