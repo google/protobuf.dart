@@ -295,8 +295,8 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
     this.valueFieldType,
     this.mapEntryBuilderInfo,
     this.valueCreator, {
-    ProtobufEnum? defaultEnumValue,
-    String? protoName,
+    super.defaultEnumValue,
+    super.protoName,
   }) : assert(PbFieldType.isMapField(type)),
        super(
          name,
@@ -304,8 +304,6 @@ class MapFieldInfo<K, V> extends FieldInfo<PbMap<K, V>?> {
          index,
          type,
          defaultOrMaker: () => newPbMap<K, V>(keyFieldType, valueFieldType),
-         defaultEnumValue: defaultEnumValue,
-         protoName: protoName,
        ) {
     assert(!PbFieldType.isEnum(type) || valueOf != null);
   }
