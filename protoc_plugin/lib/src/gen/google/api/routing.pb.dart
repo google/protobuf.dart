@@ -566,7 +566,7 @@ class Routing {
       72295729,
       $pb.PbFieldType.OM,
       defaultOrMaker: RoutingRule.getDefault,
-      subBuilder: RoutingRule.create);
+      subBuilder: RoutingRule.$_createMessage);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
     registry.add(routing);
   }

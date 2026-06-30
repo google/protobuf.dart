@@ -169,7 +169,7 @@ class Dart_options {
       28125061,
       $pb.PbFieldType.OM,
       defaultOrMaker: Imports.getDefault,
-      subBuilder: Imports.create);
+      subBuilder: Imports.$_createMessage);
   static final defaultMixin = $pb.Extension<$core.String>(
       _omitMessageNames ? '' : 'google.protobuf.FileOptions',
       _omitFieldNames ? '' : 'defaultMixin',

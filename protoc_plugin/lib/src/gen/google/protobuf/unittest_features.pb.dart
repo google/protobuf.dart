@@ -43,7 +43,7 @@ class TestMessage_Nested extends $pb.GeneratedMessage {
       9997,
       $pb.PbFieldType.OM,
       defaultOrMaker: TestFeatures.getDefault,
-      subBuilder: TestFeatures.create);
+      subBuilder: TestFeatures.$_createMessage);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   TestMessage_Nested clone() => deepCopy();
@@ -91,7 +91,7 @@ class TestMessage extends $pb.GeneratedMessage {
       9998,
       $pb.PbFieldType.OM,
       defaultOrMaker: TestFeatures.getDefault,
-      subBuilder: TestFeatures.create);
+      subBuilder: TestFeatures.$_createMessage);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   TestMessage clone() => deepCopy();
@@ -391,7 +391,7 @@ class Unittest_features {
       9999,
       $pb.PbFieldType.OM,
       defaultOrMaker: TestFeatures.getDefault,
-      subBuilder: TestFeatures.create);
+      subBuilder: TestFeatures.$_createMessage);
   static void registerAllExtensions($pb.ExtensionRegistry registry) {
     registry.add(test);
   }

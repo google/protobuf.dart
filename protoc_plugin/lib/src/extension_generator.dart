@@ -145,7 +145,7 @@ class ExtensionGenerator {
       named['check'] =
           '$protobufImportPrefix.getCheckFunction(${_field.typeConstant})';
       if (type.isMessage || type.isGroup) {
-        named['subBuilder'] = '$dartType.create';
+        named['subBuilder'] = '$dartType.\$_createMessage';
       } else if (type.isEnum) {
         named['valueOf'] = '$dartType.valueOf';
         named['enumValues'] = '$dartType.values';
@@ -154,7 +154,7 @@ class ExtensionGenerator {
       invocation = '$protobufImportPrefix.Extension<$dartType>';
       named['defaultOrMaker'] = _field.generateDefaultFunction();
       if (type.isMessage || type.isGroup) {
-        named['subBuilder'] = '$dartType.create';
+        named['subBuilder'] = '$dartType.\$_createMessage';
       } else if (type.isEnum) {
         final dartEnum = type.getDartType(fileGen!);
         named['valueOf'] = '$dartEnum.valueOf';
