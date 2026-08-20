@@ -56,7 +56,7 @@ class BuilderInfo {
 
   void add<T>(
     int tagNumber,
-    String name,
+    String? name,
     int? fieldType,
     dynamic defaultOrMaker,
     CreateBuilderFunc? subBuilder,
@@ -69,7 +69,7 @@ class BuilderInfo {
     } else {
       final index = byIndex.length;
       final fieldInfo = FieldInfo<T>(
-        name,
+        name!,
         tagNumber,
         index,
         fieldType!,
