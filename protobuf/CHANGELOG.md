@@ -2,6 +2,7 @@
 
 * Make `BuilderInfo` methods accept `GeneratedMessage Function()` typed
   closures.
+* Make `BuilderInfo.add` accept nullable name (for tree shaking purposes).
 
 ## 6.0.0
 
