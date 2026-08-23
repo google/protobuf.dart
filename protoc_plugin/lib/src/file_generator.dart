@@ -4,7 +4,7 @@
 
 part of '../protoc.dart';
 
-final RegExp _dartIdentifier = RegExp(r'^\w+$');
+final RegExp _dartIdentifier = RegExp(r'^[a-zA-Z_]\w*$');
 
 const String _asyncImportUrl = 'dart:async';
 

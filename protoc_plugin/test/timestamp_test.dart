@@ -37,6 +37,7 @@ void main() {
     expect(secondBeforeEpoch.toDateTime(), dateTime);
     expect(Timestamp.fromDateTime(dateTime).nanos, 1000000);
     expect(Timestamp.fromDateTime(dateTime).seconds, Int64(-1));
+
   });
 
   test('local datetime -> timestamp -> datetime', () {
@@ -45,5 +46,36 @@ void main() {
 
     expect(fromProto.isUtc, true, reason: '$fromProto is not a UTC time.');
     expect(fromProto, dateTime.toUtc());
+
+    // Maximum valid DateTime is 100_000_000 days from epoch.
+    // This is one microsecond before.
+    final maximumDateTime = DateTime.utc(1970, 1, 1 + 100_000_000);
+    expect(
+      Timestamp.fromDateTime(maximumDateTime).toDateTime(),
+      maximumDateTime,
+    );
+
+    final almostMaximumDateTime = maximumDateTime.subtract(
+      const Duration(microseconds: 1),
+    );
+    expect(
+      Timestamp.fromDateTime(almostMaximumDateTime).toDateTime(),
+      almostMaximumDateTime,
+    );
+
+    final minimumDateTime = DateTime.utc(1970, 1, 1 - 100_000_000);
+    expect(
+      Timestamp.fromDateTime(minimumDateTime).toDateTime(),
+      minimumDateTime,
+    );
+
+    final almostMinimumDateTime = minimumDateTime.add(
+      const Duration(microseconds: 1),
+    );
+    expect(
+      Timestamp.fromDateTime(almostMinimumDateTime).toDateTime(),
+      almostMinimumDateTime,
+    );
+
   });
 }

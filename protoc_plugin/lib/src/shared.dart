@@ -71,25 +71,25 @@ String? toDartComment(String value) {
 
   if (value.isEmpty) return null;
 
-  var lines = LineSplitter.split(value).toList();
+  var lines = LineSplitter.split(value)
+      .map((line) => line.trimRight())
+      .toList();
 
   // Find any leading spaces in the first line. If all of the lines have the
   // same leading spaces, remove them all.
   final leadingSpaces = _leadingSpaces.firstMatch(lines.first);
   if (leadingSpaces != null) {
-    final prefix = leadingSpaces.group(0)!;
+    final prefix = leadingSpaces[0]!;
     if (lines.every((line) => line.isEmpty || line.startsWith(prefix))) {
-      lines =
-          lines
-              .map(
-                (line) => line.isEmpty ? line : line.substring(prefix.length),
-              )
-              .toList();
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (line.isNotEmpty) lines[i] = line.substring(prefix.length);
+      }
     }
   }
 
   // Remove empty, trailing lines.
-  while (lines.isNotEmpty && lines.last.trim().isEmpty) {
+  while (lines.isNotEmpty && lines.last.isEmpty) {
     lines.removeLast();
   }
 
@@ -98,7 +98,7 @@ String? toDartComment(String value) {
     return null;
   }
 
-  return lines.map((e) => '/// $e'.trimRight()).join('\n');
+  return lines.map((e) => e.isEmpty ? '///' : '/// $e').join('\n');
 }
 
 final _leadingSpaces = RegExp('^ +');

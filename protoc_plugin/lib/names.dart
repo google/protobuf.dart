@@ -145,7 +145,7 @@ Iterable<String> extensionSuffixes() sync* {
 ///
 /// This function does not take care of leading underscores.
 String legalDartIdentifier(String input) {
-  return input.replaceAll(RegExp(r'[^a-zA-Z0-9$_]'), '_');
+  return input.replaceAll(RegExp(r'[^\w$]'), '_');
 }
 
 /// Chooses the name of the Dart class holding top-level extensions.
@@ -592,7 +592,7 @@ String? _nameOption(FieldDescriptorProto field) =>
 
 bool _isDartFieldName(String name) => name.startsWith(_dartFieldNameExpr);
 
-final _dartFieldNameExpr = RegExp(r'^[a-z]\w+$');
+final _dartFieldNameExpr = RegExp(r'^[a-z]\w*$');
 
 /// Names that would collide as top-level identifiers.
 final List<String> forbiddenTopLevelNames = <String>[

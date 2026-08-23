@@ -168,7 +168,7 @@ String _typeNameFromUrl(String typeUrl) {
 }
 
 mixin TimestampMixin {
-  static final RegExp finalGroupsOfThreeZeroes = RegExp(r'(?:000)*$');
+  static final RegExp finalGroupsOfThreeZeroes = RegExp(r'(?:000)+$');
 
   Int64 get seconds;
   set seconds(Int64 value);
@@ -192,9 +192,15 @@ mixin TimestampMixin {
   ///
   /// Time zone information will not be preserved.
   static void setFromDateTime(TimestampMixin target, DateTime dateTime) {
-    final micros = dateTime.microsecondsSinceEpoch;
-    target.seconds = Int64((micros / Duration.microsecondsPerSecond).floor());
-    target.nanos = (micros % Duration.microsecondsPerSecond).toInt() * 1000;
+    var micros = dateTime.microsecondsSinceEpoch;
+    var seconds = micros ~/ Duration.microsecondsPerSecond;
+    micros = micros.remainder(Duration.microsecondsPerSecond);
+    if (micros < 0) {
+      seconds -= 1;
+      micros += Duration.microsecondsPerSecond;
+    }
+    target.seconds = Int64(seconds);
+    target.nanos = micros * 1000;
   }
 
   static String _twoDigits(int n) {
@@ -268,10 +274,10 @@ mixin TimestampMixin {
     JsonParsingContext context,
   ) {
     if (json is String) {
-      var jsonWithoutFracSec = json;
       var nanos = 0;
-      final Match? fracSecsMatch = RegExp(r'\.(\d+)').firstMatch(json);
-      if (fracSecsMatch != null) {
+      var jsonWithoutFracSec = json.replaceFirstMapped(RegExp(r'\.(\d+)'), (
+        fracSecsMatch,
+      ) {
         final fracSecs = fracSecsMatch[1]!;
         if (fracSecs.length > 9) {
           throw context.parseException(
@@ -280,12 +286,8 @@ mixin TimestampMixin {
           );
         }
         nanos = int.parse(fracSecs.padRight(9, '0'));
-        jsonWithoutFracSec = json.replaceRange(
-          fracSecsMatch.start,
-          fracSecsMatch.end,
-          '',
-        );
-      }
+        return '';
+      });
       final dateTimeWithoutFractionalSeconds =
           DateTime.tryParse(jsonWithoutFracSec) ??
           (throw context.parseException(
@@ -319,16 +321,30 @@ mixin DurationMixin {
     TypeRegistry typeRegistry,
   ) {
     final duration = message as DurationMixin;
-    final secFrac = duration.nanos
-        // nanos and seconds should always have the same sign.
+    final seconds = duration.seconds;
+    final nanos = duration.nanos;
+    // Extra sign needed if `seconds` is zero and nanos is negative.
+    final sign = seconds.isZero && nanos < 0 ? '-' : '';
+
+    return '$sign$seconds${_toNanosString(nanos)}s';
+  }
+
+  /// Nanoseconds as fractional seconds.
+  ///
+  /// Is empty if [nanos] is zero, otherwise the digits of
+  /// (absolute value) of `nanos` as billionths of seconds
+  /// with no trailing zeros.
+  static String _toNanosString(int nanos) {
+    if (nanos == 0) return '';
+    final digits = nanos
         .abs()
         .toString()
         .padLeft(9, '0')
         .replaceFirst(finalZeroes, '');
-    final secPart = secFrac == '' ? '' : '.$secFrac';
-    return '${duration.seconds}${secPart}s';
+    return '.$digits';
   }
 
+  // Matches `-?\d*\.?\d*s$`, grouping is only to control captures.
   static final RegExp durationPattern = RegExp(r'(-?\d*)(?:\.(\d*))?s$');
 
   static void fromProto3JsonHelper(
@@ -340,25 +356,33 @@ mixin DurationMixin {
     final duration = message as DurationMixin;
     if (json is String) {
       final match = durationPattern.matchAsPrefix(json);
-      if (match == null) {
-        throw context.parseException(
-          'Expected a String of the form `<seconds>.<nanos>s`',
-          json,
-        );
-      } else {
+      if (match != null) {
         final secondsString = match[1]!;
-        final seconds =
-            secondsString == '' ? Int64.ZERO : Int64.parseInt(secondsString);
-        duration.seconds = seconds;
-        final nanos = int.parse((match[2] ?? '').padRight(9, '0'));
-        duration.nanos = seconds < 0 ? -nanos : nanos;
+        final isNegative = secondsString.startsWith('-');
+        duration.seconds =
+            (secondsString.length == (isNegative ? 1 : 0))
+                ? Int64.ZERO
+                : Int64.parseInt(secondsString);
+        var fractionalSeconds = match[2];
+        var nanos = 0;
+        if (fractionalSeconds != null) {
+          if (fractionalSeconds.length > 9) {
+            // Shouldn't happen for valid input.
+            fractionalSeconds = fractionalSeconds.substring(0, 9);
+          } else {
+            fractionalSeconds = fractionalSeconds.padRight(9, '0');
+          }
+          nanos = int.parse(fractionalSeconds);
+          if (isNegative) nanos = -nanos;
+        }
+        duration.nanos = nanos;
+        return;
       }
-    } else {
-      throw context.parseException(
-        'Expected a String of the form `<seconds>.<nanos>s`',
-        json,
-      );
     }
+    throw context.parseException(
+      'Expected a String of the form `<seconds>.<nanos>s`',
+      json,
+    );
   }
 }
 
@@ -565,7 +589,7 @@ mixin FieldMaskMixin {
   ) {
     final fieldMask = message as FieldMaskMixin;
     for (final path in fieldMask.paths) {
-      if (path.contains(RegExp('[A-Z]|_[^a-z]'))) {
+      if (path.contains(RegExp(r'[A-Z]|_[^a-z]'))) {
         throw ArgumentError(
           'Bad fieldmask $path. Does not round-trip to json.',
         );
@@ -587,7 +611,7 @@ mixin FieldMaskMixin {
           json,
         );
       }
-      if (json == '') {
+      if (json.isEmpty) {
         // The empty string splits to a single value. So this is a special case.
         return;
       }
@@ -604,15 +628,15 @@ mixin FieldMaskMixin {
 
   static String _toCamelCase(String name) {
     return name.replaceAllMapped(
-      RegExp('_([a-z])'),
-      (Match m) => m.group(1)!.toUpperCase(),
+      RegExp(r'_[a-z]'),
+      (Match m) => name[m.start + 1].toUpperCase(),
     );
   }
 
   static String _fromCamelCase(String name) {
     return name.replaceAllMapped(
-      RegExp('[A-Z]'),
-      (Match m) => '_${m.group(0)!.toLowerCase()}',
+      RegExp(r'[A-Z]'),
+      (Match m) => '_${m[0]!.toLowerCase()}',
     );
   }
 }

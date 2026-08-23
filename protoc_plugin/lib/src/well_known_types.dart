@@ -64,7 +64,10 @@ $coreImportPrefix.Duration toDart() =>
 /// Creates a new instance from [$coreImportPrefix.Duration].
 static Duration fromDart($coreImportPrefix.Duration duration) => Duration()
   ..seconds = $fixnumImportPrefix.Int64(duration.inSeconds)
-  ..nanos = (duration.inMicroseconds % $coreImportPrefix.Duration.microsecondsPerSecond) * 1000;
+  ..nanos =
+      duration.inMicroseconds
+          .remainder($coreImportPrefix.Duration.microsecondsPerSecond) *
+      1000;
 ''',
     ],
     wellKnownType: 'duration',

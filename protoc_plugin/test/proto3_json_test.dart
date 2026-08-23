@@ -450,7 +450,7 @@ void main() {
       predicate((e) {
         if (e is FormatException) {
           final pathExpression =
-              RegExp(r'root(\["[^"]*"]*\])*').firstMatch(e.message)![0]!;
+              RegExp(r'root(?:\["[^"]*"\])*').firstMatch(e.message)![0]!;
           final actualPath =
               RegExp(
                 r'\["([^"]*)"\]',
@@ -1231,6 +1231,12 @@ void main() {
           ..nanos = 10,
       );
       expect(
+        Duration()..mergeFromProto3Json('10.000000001999s'),
+        Duration()
+          ..seconds = Int64(10)
+          ..nanos = 1,
+      );
+      expect(
         Duration()..mergeFromProto3Json('-1.000099s'),
         Duration()
           ..seconds = -Int64(1)
@@ -1256,6 +1262,18 @@ void main() {
           ..nanos = 500000000,
       );
       expect(
+        Duration()..mergeFromProto3Json('-.5s'),
+        Duration()
+          ..seconds = Int64(0)
+          ..nanos = -500000000,
+      );
+      expect(
+        Duration()..mergeFromProto3Json('-0.0s'),
+        Duration()
+          ..seconds = Int64(0)
+          ..nanos = 0,
+      );
+      expect(
         Duration()..mergeFromProto3Json('5.s'),
         Duration()
           ..seconds = Int64(5)
@@ -1263,6 +1281,18 @@ void main() {
       );
       expect(
         Duration()..mergeFromProto3Json('.s'),
+        Duration()
+          ..seconds = Int64(0)
+          ..nanos = 0,
+      );
+      expect(
+        Duration()..mergeFromProto3Json('-s'),
+        Duration()
+          ..seconds = Int64(0)
+          ..nanos = 0,
+      );
+      expect(
+        Duration()..mergeFromProto3Json('s'),
         Duration()
           ..seconds = Int64(0)
           ..nanos = 0,

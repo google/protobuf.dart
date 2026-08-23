@@ -6,20 +6,10 @@ part of '../protoc.dart';
 
 class ProtobufField {
   static final RegExp _hexLiteralRegex = RegExp(
-    r'^0x[0-9a-f]+$',
-    multiLine: false,
-    caseSensitive: false,
+    r'^0x[\da-fA-F]+$',
   );
-  static final RegExp _integerLiteralRegex = RegExp(r'^[+-]?[0-9]+$');
-  static final RegExp _decimalLiteralRegexA = RegExp(
-    r'^[+-]?([0-9]*)\.[0-9]+(e[+-]?[0-9]+)?$',
-    multiLine: false,
-    caseSensitive: false,
-  );
-  static final RegExp _decimalLiteralRegexB = RegExp(
-    r'^[+-]?[0-9]+e[+-]?[0-9]+$',
-    multiLine: false,
-    caseSensitive: false,
+  static final RegExp _decimalLiteralRegex = RegExp(
+    r'^[+\-]?(\d*\.)?\d+([eE][+\-]?\d+)?$',
   );
 
   final FieldDescriptorProto descriptor;
@@ -411,10 +401,12 @@ class ProtobufField {
           return '$coreImportPrefix.double.nan';
         } else if (_hexLiteralRegex.hasMatch(descriptor.defaultValue)) {
           return '(${descriptor.defaultValue}).toDouble()';
-        } else if (_integerLiteralRegex.hasMatch(descriptor.defaultValue)) {
-          return '${descriptor.defaultValue}.0';
-        } else if (_decimalLiteralRegexA.hasMatch(descriptor.defaultValue) ||
-            _decimalLiteralRegexB.hasMatch(descriptor.defaultValue)) {
+        } else if (_decimalLiteralRegex.matchAsPrefix(descriptor.defaultValue)
+            case final match?) {
+          if (match[1] == null && match[2] == null) {
+            // Integer literal, no `.` or `e` parts.
+            return '${descriptor.defaultValue}.0';
+          }
           return descriptor.defaultValue;
         }
         throw _invalidDefaultValue;
@@ -502,7 +494,7 @@ class ProtobufField {
   static String _unCamelCase(String name) {
     return name.replaceAllMapped(
       _upperCase,
-      (match) => '_${match.group(0)!.toLowerCase()}',
+      (match) => '_${match[0]!.toLowerCase()}',
     );
   }
 }
