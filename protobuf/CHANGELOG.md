@@ -3,6 +3,7 @@
 * Make `BuilderInfo` methods accept `GeneratedMessage Function()` typed
   closures.
 * Make `BuilderInfo.add` accept nullable name (for tree shaking purposes).
+* Remove use of legacy `dart.library.html` conditional import.
 
 ## 6.0.0
 
