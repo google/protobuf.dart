@@ -11,10 +11,32 @@ import '../internal.dart';
 import '../pb_map.dart';
 import '../utils.dart';
 
+import 'json_vm.dart' as vm;
+import 'json_vm.dart' if (dart.library.js_interop) 'json_web.dart' as web;
+
 // Use json_vm.dart with VM and dart2wasm, json_web.dart with dart2js.
 // json_web.dart uses JS interop for parsing, and JS interop is too slow on
 // Wasm. VM's patch performs better in Wasm.
-export 'json_vm.dart' if (dart.library.html) 'json_web.dart';
+String writeToJsonString(FieldSet fs) {
+  if (const bool.fromEnvironment('dart.tool.dart2js')) {
+    return web.writeToJsonString(fs);
+  } else {
+    return vm.writeToJsonString(fs);
+  }
+}
+
+/// Merge fields from a [json] string.
+void mergeFromJsonString(
+  FieldSet fs,
+  String json,
+  ExtensionRegistry? registry,
+) {
+  if (const bool.fromEnvironment('dart.tool.dart2js')) {
+    web.mergeFromJsonString(fs, json, registry);
+  } else {
+    vm.mergeFromJsonString(fs, json, registry);
+  }
+}
 
 Map<String, dynamic> writeToJsonMap(FieldSet fs) {
   dynamic convertToMap(dynamic fieldValue, int fieldType) {
