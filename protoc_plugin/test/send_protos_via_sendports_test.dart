@@ -11,6 +11,7 @@ import 'package:test/test.dart';
 
 import 'gen/foo.pb.dart';
 import 'gen/map_field.pb.dart' as map;
+import 'gen/oneof.pb.dart' as oneof;
 
 Future<T> sendReceive<T>(T object) async {
   final rp = ReceivePort();
@@ -60,5 +61,38 @@ void main() async {
     // the `_info_` did not get cloned.
     expect(!identical(object, clone), true);
     expect(identical(object.info_, clone.info_), true);
+  }, onPlatform: {'js': Skip('dart:isolate only works on Dart VM')});
+
+  test('Oneof state survives transfer via ports', () async {
+    final object =
+        oneof.Foo()
+          ..index = (oneof.Bar()..i = 1)
+          ..green = 'g';
+
+    final clone = await sendReceive(object);
+
+    expect(clone, equals(object));
+    expect(clone.whichOneofField(), oneof.Foo_OneofField.index_);
+    expect(clone.whichColors(), oneof.Foo_Colors.green);
+
+    clone.first = 'a';
+    expect(clone.hasIndex(), isFalse);
+    expect(object.whichOneofField(), oneof.Foo_OneofField.index_);
+  }, onPlatform: {'js': Skip('dart:isolate only works on Dart VM')});
+
+  test('Oneof state is derived the same way in another isolate', () async {
+    final buffer =
+        (oneof.Foo()
+              ..first = 'a'
+              ..second = 2
+              ..red = 'r')
+            .writeToBuffer();
+
+    // The other isolate builds its own copy of the oneof metadata.
+    final cases = await Isolate.run(() {
+      final foo = oneof.Foo.fromBuffer(buffer);
+      return [foo.whichOneofField().name, foo.whichColors().name];
+    });
+    expect(cases, ['second', 'red']);
   }, onPlatform: {'js': Skip('dart:isolate only works on Dart VM')});
 }

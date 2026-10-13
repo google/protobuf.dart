@@ -358,7 +358,7 @@ abstract class GeneratedMessage {
 
   /// For generated code only.
   /// @nodoc
-  int $_whichOneof(int oneofIndex) => _fieldSet._oneofCases![oneofIndex] ?? 0;
+  int $_whichOneof(int oneofIndex) => _fieldSet._whichOneof(oneofIndex);
 
   bool extensionsAreInitialized() => _fieldSet._hasRequiredExtensionValues();
 

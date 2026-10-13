@@ -1,3 +1,13 @@
+## 6.1.1-wip
+
+* Reduce the memory used by messages that have `oneof` fields. Messages no
+  longer keep a map from each `oneof` to its active member. The active member
+  is the member whose field is set, and setting a member still clears the
+  others.
+* Clearing a `oneof` member that is not the active member (for example with a
+  generated `clearX()` method or `clearField`) no longer makes the `oneof`
+  report that no member is set. The active member stays set.
+
 ## 6.1.0
 
 * Make `BuilderInfo` methods accept `GeneratedMessage Function()` typed

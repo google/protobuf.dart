@@ -78,13 +78,35 @@ class FieldSet {
   int? get _memoizedHashCode =>
       _frozenState is int ? _frozenState as int : null;
 
-  /// Maps a `oneof` field index to the tag number which is currently set. If
-  /// the index is not present, the oneof field is unset.
-  final Map<int, int>? _oneofCases;
-
   FieldSet(this._message, BuilderInfo meta)
-    : _values = _makeValueList(meta.byIndex.length),
-      _oneofCases = meta.oneofs.isEmpty ? null : <int, int>{};
+    : _values = _makeValueList(meta.byIndex.length);
+
+  // `oneof` state is not stored separately: at most one member of a `oneof`
+  // has a non-null slot in [_values], and that member is the active one.
+  // Setters keep this invariant by clearing the other members of the `oneof`
+  // (see [_clearOtherOneofMembers]).
+
+  /// Returns the tag number of the active member of the `oneof` with index
+  /// [oneofIndex], or 0 if no member is set.
+  int _whichOneof(int oneofIndex) {
+    final meta = _meta;
+    for (final index in meta._oneofMemberIndices[oneofIndex]) {
+      if (_values[index] != null) return meta.byIndex[index].tagNumber;
+    }
+    return 0;
+  }
+
+  /// Clears every member of the `oneof` with index [oneofIndex] except the
+  /// field with index [keepIndex].
+  void _clearOtherOneofMembers(
+    BuilderInfo meta,
+    int oneofIndex,
+    int keepIndex,
+  ) {
+    for (final index in meta._oneofMemberIndices[oneofIndex]) {
+      if (index != keepIndex) _values[index] = null;
+    }
+  }
 
   static List _makeValueList(int length) {
     if (length == 0) return _zeroList;
@@ -236,12 +258,6 @@ class FieldSet {
 
       // Clear a non-extension field
       _values[fi.index!] = null;
-
-      final oneofIndex = meta.oneofs[tagNumber];
-      if (oneofIndex != null) {
-        _oneofCases![oneofIndex] = 0;
-      }
-
       return;
     }
 
@@ -336,11 +352,7 @@ class FieldSet {
     final tag = fi.tagNumber;
     final oneofIndex = meta.oneofs[tag];
     if (oneofIndex != null) {
-      final currentOneofTag = _oneofCases![oneofIndex];
-      if (currentOneofTag != null) {
-        _clearField(currentOneofTag);
-      }
-      _oneofCases[oneofIndex] = tag;
+      _clearOtherOneofMembers(meta, oneofIndex, fi.index!);
     }
 
     _values[fi.index!] = value;
@@ -484,11 +496,7 @@ class FieldSet {
     final oneofIndex = meta.oneofs[tag];
 
     if (oneofIndex != null) {
-      final currentOneofTag = _oneofCases![oneofIndex];
-      if (currentOneofTag != null) {
-        _clearField(currentOneofTag);
-      }
-      _oneofCases[oneofIndex] = tag;
+      _clearOtherOneofMembers(meta, oneofIndex, index);
     }
     _values[index] = value;
   }
@@ -508,7 +516,6 @@ class FieldSet {
     _unknownJsonData = null;
     if (_values.isNotEmpty) _values.fillRange(0, _values.length, null);
     _extensions?._clearValues();
-    _oneofCases?.clear();
   }
 
   bool _equals(FieldSet o) {
@@ -1023,8 +1030,6 @@ class FieldSet {
     if (unknownJsonData != null) {
       _unknownJsonData = Map.from(unknownJsonData);
     }
-
-    _oneofCases?.addAll(original._oneofCases!);
   }
 
   // This assumes that [this] is fresh, i.e. no extensions, no values set.
@@ -1076,12 +1081,6 @@ class FieldSet {
     final originalUnknownJsonData = original._unknownJsonData;
     if (originalUnknownJsonData != null) {
       _unknownJsonData = Map.from(originalUnknownJsonData);
-    }
-
-    assert(_oneofCases == null || _oneofCases.isEmpty);
-    final originalOneofCases = original._oneofCases;
-    if (originalOneofCases != null) {
-      _oneofCases!.addAll(originalOneofCases);
     }
   }
 

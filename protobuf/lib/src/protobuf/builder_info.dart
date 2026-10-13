@@ -27,9 +27,44 @@ class BuilderInfo {
   /// Mapping from [FieldInfo.name]s to [FieldInfo]s.
   final Map<String, FieldInfo> byName = <String, FieldInfo>{};
 
-  /// Mapping from `oneof` field [FieldInfo.tagNumber]s to the their indices in
-  /// [FieldSet._oneofCases].
+  /// Mapping from `oneof` field [FieldInfo.tagNumber]s to the index of the
+  /// `oneof` they belong to.
   final Map<int, int> oneofs = <int, int>{};
+
+  /// [FieldInfo.index]es of the members of each `oneof`, indexed by `oneof`
+  /// index.
+  ///
+  /// The active member of a `oneof` is not stored separately: it is the only
+  /// member whose slot in [FieldSet._values] is non-null. This list is what
+  /// [FieldSet] scans to find it, and to clear the other members when one is
+  /// set.
+  ///
+  /// Generated code declares the `oneof`s (with [oo]) before it adds the
+  /// fields, so this is computed on first use and reset when the `oneof`s or
+  /// fields change.
+  List<List<int>>? _oneofMemberIndicesCache;
+
+  List<List<int>> get _oneofMemberIndices =>
+      _oneofMemberIndicesCache ??= _computeOneofMemberIndices();
+
+  List<List<int>> _computeOneofMemberIndices() {
+    var oneofCount = 0;
+    for (final oneofIndex in oneofs.values) {
+      if (oneofIndex >= oneofCount) oneofCount = oneofIndex + 1;
+    }
+    final members = List<List<int>>.generate(
+      oneofCount,
+      (_) => <int>[],
+      growable: false,
+    );
+    oneofs.forEach((tagNumber, oneofIndex) {
+      // A tag without a field can never be set, so it can't be the active
+      // member.
+      final index = fieldInfo[tagNumber]?.index;
+      if (index != null) members[oneofIndex].add(index);
+    });
+    return members;
+  }
 
   /// Whether the message has extension fields.
   bool hasExtensions = false;
@@ -145,6 +180,7 @@ class BuilderInfo {
   }
 
   void _addField(FieldInfo fi) {
+    _oneofMemberIndicesCache = null;
     byIndex.add(fi);
     assert(byIndex[fi.index!] == fi);
     // Fields with tag number 0 are considered dummy fields added to avoid
@@ -466,6 +502,7 @@ class BuilderInfo {
 
   // oneof declarations.
   void oo(int oneofIndex, List<int> tags) {
+    _oneofMemberIndicesCache = null;
     for (final tag in tags) {
       oneofs[tag] = oneofIndex;
     }
