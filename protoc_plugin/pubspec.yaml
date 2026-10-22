@@ -18,6 +18,7 @@ dependencies:
   pub_semver: ^2.2.0
 
 dev_dependencies:
+  analyzer: '>=13.1.0 <15.0.0'
   lints: '>=5.0.0 <7.0.0'
   test: ^1.16.0
 
