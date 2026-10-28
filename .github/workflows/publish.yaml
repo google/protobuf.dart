@@ -1,4 +1,4 @@
-# A CI configuration to auto-publish pub packages.
+# A CI configuration to auto-publish pub packages via OSS Exit Gate (b/576683920, b/576678670).
 
 name: Publish
 
@@ -8,12 +8,105 @@ on:
   push:
     tags: ['[A-z]+-v[0-9]+.[0-9]+.[0-9]+*']
 
+permissions: {}
+
 jobs:
-  publish:
-    if: ${{ github.repository_owner == 'google' }}
-    uses: dart-lang/ecosystem/.github/workflows/publish.yaml@main
+  validate_pr:
+    if: ${{ github.repository_owner == 'google' && github.event_name == 'pull_request' }}
+    uses: dart-lang/ecosystem/.github/workflows/publish.yaml@24b9ba8d8a04ae53cccaa574046bf76774e24001 # main
     permissions:
       id-token: write
       pull-requests: write
     with:
       write-comments: false
+
+  publish_exit_gate:
+    if: ${{ github.repository_owner == 'google' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      WIF_PROVIDER: 'projects/305452601764/locations/global/workloadIdentityPools/builders/providers/github'
+      EXIT_GATE_AR_REPO: 'protobuf-dart--pubdev'
+      EXIT_GATE_MANIFEST_GCS: 'gs://oss-exit-gate-prod-projects-bucket/protobuf-dart/pubdev/manifests'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+
+      - name: Set up Dart SDK
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
+        with:
+          sdk: stable
+
+      - name: Parse package name and version from tag
+        id: meta
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          PKG="${TAG%-v*}"
+          VERSION="${TAG##*-v}"
+          echo "pkg=${PKG}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Resolved package=${PKG}, version=${VERSION} from tag=${TAG}"
+
+      - name: Validate and package Dart archive
+        working-directory: ${{ steps.meta.outputs.pkg }}
+        env:
+          PKG: ${{ steps.meta.outputs.pkg }}
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          set -euo pipefail
+          dart pub get
+          dart pub publish --dry-run
+          tar -czf "${GITHUB_WORKSPACE}/${PKG}-${VERSION}.tar.gz" .
+
+      - name: Authenticate to Google Cloud (OSS Exit Gate WIF)
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
+
+      - name: Stage pub package in OSS Exit Gate Artifact Registry
+        env:
+          PKG: ${{ steps.meta.outputs.pkg }}
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          set -euo pipefail
+          gcloud artifacts generic upload \
+            --project=oss-exit-gate-prod \
+            --location=us \
+            --repository="${EXIT_GATE_AR_REPO}" \
+            --package="${PKG}" \
+            --version="${VERSION}" \
+            --source="${GITHUB_WORKSPACE}/${PKG}-${VERSION}.tar.gz"
+
+      - name: Trigger OSS Exit Gate Pub.dev release
+        env:
+          PKG: ${{ steps.meta.outputs.pkg }}
+          VERSION: ${{ steps.meta.outputs.version }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          cat << EOF > manifest.json
+          {
+            "publish_all": false,
+            "publishing_groups": [
+              {
+                "packages": [
+                  {
+                    "name": "${PKG}",
+                    "version": "${VERSION}"
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          gcloud storage cp manifest.json \
+            "${EXIT_GATE_MANIFEST_GCS}/manifest-${RUN_ID}-${RUN_ATTEMPT}.json"
