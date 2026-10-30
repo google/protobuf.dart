@@ -35,6 +35,9 @@ void main() {
     );
 
     expect(pb.Duration.fromDart(coreDuration).toDart(), coreDuration);
+
+    final coreDuration2 = Duration(milliseconds: -500);
+    expect(pb.Duration.fromDart(coreDuration2).toDart(), coreDuration2);
   });
 
   test('proto duration -> core duration -> proto duration', () {

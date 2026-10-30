@@ -167,7 +167,9 @@ class Duration extends $pb.GeneratedMessage with $mixin.DurationMixin {
   static Duration fromDart($core.Duration duration) => Duration()
     ..seconds = $fixnum.Int64(duration.inSeconds)
     ..nanos =
-        (duration.inMicroseconds % $core.Duration.microsecondsPerSecond) * 1000;
+        duration.inMicroseconds
+            .remainder($core.Duration.microsecondsPerSecond) *
+        1000;
 }
 
 const $core.bool _omitFieldNames =
