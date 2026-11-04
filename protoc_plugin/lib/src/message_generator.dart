@@ -684,6 +684,7 @@ class MessageGenerator extends ProtobufContainer {
           name: oneof.clearMethodName,
           fieldPathSegment: Paths.buildOneofPath(fieldPath, oneof),
           start: 'void '.length,
+          semantic: GeneratedCodeInfo_Annotation_Semantic.SET,
         ),
       ],
     );
@@ -752,6 +753,7 @@ class MessageGenerator extends ProtobufContainer {
               name: names.fieldName,
               fieldPathSegment: memberFieldPath,
               start: 'set '.length,
+              semantic: GeneratedCodeInfo_Annotation_Semantic.SET,
             ),
           ],
         );
@@ -764,6 +766,7 @@ class MessageGenerator extends ProtobufContainer {
               name: names.fieldName,
               fieldPathSegment: memberFieldPath,
               start: 'set '.length,
+              semantic: GeneratedCodeInfo_Annotation_Semantic.SET,
             ),
           ],
         );
@@ -795,6 +798,7 @@ class MessageGenerator extends ProtobufContainer {
             name: names.clearMethodName!,
             fieldPathSegment: memberFieldPath,
             start: 'void '.length,
+            semantic: GeneratedCodeInfo_Annotation_Semantic.SET,
           ),
         ],
       );
@@ -809,6 +813,7 @@ class MessageGenerator extends ProtobufContainer {
               name: names.ensureMethodName!,
               fieldPathSegment: memberFieldPath,
               start: '$fieldTypeString '.length,
+              semantic: GeneratedCodeInfo_Annotation_Semantic.SET,
             ),
           ],
         );

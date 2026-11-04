@@ -1,5 +1,10 @@
 ## 25.1.1-wip
 
+* Import the declared dependency for types re-exported via `import public` and
+  re-export `publicDependency` targets from `.pbjson.dart`.
+* Populate `GeneratedCodeInfo_Annotation_Semantic.SET` on mutator annotations
+  (`set`, `clear`, and `ensure` methods) in `.pb.dart.meta` metadata files.
+
 ## 25.1.0
 
 * Deprecate `create` method. Users should use constructor or constructor
