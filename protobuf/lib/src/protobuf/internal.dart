@@ -26,7 +26,7 @@ import 'permissive_compare.dart';
 import 'type_registry.dart';
 import 'utils.dart';
 
-export 'annotations.dart' show TagNumber, GrpcServiceName;
+export 'annotations.dart' show GrpcServiceName, TagNumber;
 export 'exceptions.dart' show InvalidProtocolBufferException;
 export 'pb_list.dart' show PbList;
 export 'pb_map.dart' show PbMap;
