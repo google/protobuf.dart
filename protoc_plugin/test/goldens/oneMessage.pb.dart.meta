@@ -29,6 +29,7 @@ annotation: {
   sourceFile: test
   begin: 2355
   end: 2361
+  semantic: SET
 }
 annotation: {
   path: 4
@@ -47,6 +48,7 @@ annotation: {
   sourceFile: test
   begin: 2493
   end: 2504
+  semantic: SET
 }
 annotation: {
   path: 4
@@ -65,6 +67,7 @@ annotation: {
   sourceFile: test
   begin: 2610
   end: 2614
+  semantic: SET
 }
 annotation: {
   path: 4
@@ -83,6 +86,7 @@ annotation: {
   sourceFile: test
   begin: 2746
   end: 2755
+  semantic: SET
 }
 annotation: {
   path: 4
@@ -101,6 +105,7 @@ annotation: {
   sourceFile: test
   begin: 2869
   end: 2873
+  semantic: SET
 }
 annotation: {
   path: 4
@@ -119,4 +124,5 @@ annotation: {
   sourceFile: test
   begin: 3003
   end: 3012
+  semantic: SET
 }
