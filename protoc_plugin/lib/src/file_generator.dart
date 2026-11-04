@@ -50,6 +50,14 @@ class FileGenerator extends ProtobufContainer {
   /// Whether cross-references have been resolved.
   bool _linked = false;
 
+  /// The context this file was resolved in; set by [resolve].
+  GenerationContext? _ctx;
+
+  Set<String>? _publicImportClosureCache;
+
+  /// Memo for [importTargetFor], keyed by the defining file's name.
+  final _importTargets = <String, FileGenerator>{};
+
   final Edition edition;
 
   @override
@@ -65,7 +73,8 @@ class FileGenerator extends ProtobufContainer {
   /// file. This just assigns an prefix to the container in the current file
   /// generator.
   String importPrefix(ProtobufContainer container) {
-    final protoFilePath = container.fileGen!.protoFileUri.toString();
+    final target = importTargetFor(container.fileGen!);
+    final protoFilePath = target.protoFileUri.toString();
     return _importPrefixes.putIfAbsent(
       protoFilePath,
       () => '\$${_importPrefixes.length}',
@@ -154,6 +163,7 @@ class FileGenerator extends ProtobufContainer {
   void resolve(GenerationContext ctx) {
     if (_linked) throw StateError('cross references already resolved');
 
+    _ctx = ctx;
     for (final m in messageGenerators) {
       m.resolve(ctx);
     }
@@ -162,6 +172,47 @@ class FileGenerator extends ProtobufContainer {
     }
 
     _linked = true;
+  }
+
+  /// The names of the files this file `import public`s, transitively.
+  Set<String> get _publicImportClosure {
+    return _publicImportClosureCache ??= {
+      for (final index in descriptor.publicDependency) ...{
+        descriptor.dependency[index],
+        ...?_ctx
+            ?.getImportedProtoFile(descriptor.dependency[index])
+            ?._publicImportClosure,
+      },
+    };
+  }
+
+  /// Returns the file whose generated libraries this file imports in order to
+  /// use the types [defining] declares.
+  ///
+  /// protoc lets a file reference types declared by itself, by a file it
+  /// imports, or by a file that one of its imports `import public`s
+  /// (transitively). In the last case the generated libraries of the import
+  /// `export` those of [defining], so the generated code imports the declared
+  /// dependency instead of reaching past it. This keeps the generated imports
+  /// aligned with the .proto file's own, so an importer is unaffected when a
+  /// type moves to another file behind an `import public`.
+  ///
+  /// Returns [defining] itself when it is this file or a declared dependency,
+  /// or when no declared dependency re-exports it (which protoc does not
+  /// accept, but the plugin's inputs are not always protoc's).
+  FileGenerator importTargetFor(FileGenerator defining) {
+    if (identical(defining, this)) return this;
+    return _importTargets.putIfAbsent(defining.descriptor.name, () {
+      final name = defining.descriptor.name;
+      if (descriptor.dependency.contains(name)) return defining;
+      for (final dependency in descriptor.dependency) {
+        final dep = _ctx?.getImportedProtoFile(dependency);
+        if (dep != null && dep._publicImportClosure.contains(name)) {
+          return dep;
+        }
+      }
+      return defining;
+    });
   }
 
   @override
@@ -609,6 +660,15 @@ class FileGenerator extends ProtobufContainer {
       _addImport(importWriter, config, target, '.pbjson.dart');
     }
 
+    for (final publicDependency in descriptor.publicDependency) {
+      _addExport(
+        importWriter,
+        config,
+        Uri.file(descriptor.dependency[publicDependency]),
+        '.pbjson.dart',
+      );
+    }
+
     out.println(importWriter.emit());
 
     for (final e in enumGenerators) {
@@ -697,12 +757,16 @@ class FileGenerator extends ProtobufContainer {
 
   /// Writes an import of a .dart file corresponding to a .proto file.
   /// (Possibly the same .proto file.)
+  ///
+  /// [defining] is the file declaring the referenced entities; the import is
+  /// of the declared dependency that provides them, see [importTargetFor].
   void _addImport(
     ImportWriter importWriter,
     OutputConfiguration config,
-    FileGenerator target,
+    FileGenerator defining,
     String ext,
   ) {
+    final target = importTargetFor(defining);
     final url = config.resolveImport(target.protoFileUri, protoFileUri, ext);
     final import = url.toString();
 
