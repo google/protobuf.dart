@@ -1,6 +1,7 @@
 ## 6.1.1-wip
 
 * Use `json_web.dart` on DDC (`dartdevc`) in addition to `dart2js`.
+* Ignore null extension values when merging messages.
 
 ## 6.1.0
 

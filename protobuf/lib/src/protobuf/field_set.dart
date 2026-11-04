@@ -842,7 +842,7 @@ class FieldSet {
       for (final tagNumber in otherExtensions._tagNumbers) {
         final extension = otherExtensions._getInfoOrNull(tagNumber)!;
         final value = otherExtensions._getFieldOrNull(extension);
-        _mergeField(extension, value, isExtension: true);
+        if (value != null) _mergeField(extension, value, isExtension: true);
       }
     }
 
