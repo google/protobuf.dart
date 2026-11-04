@@ -564,6 +564,134 @@ void main() {
     );
   });
 
+  test('FileGenerator imports the declared dependency for public imports', () {
+    // This defines three .proto files with the following content:
+    //
+    // defining.proto:
+    // ---------------
+    // package d;
+    // enum E { E_UNKNOWN = 0; }
+    // message M {}
+    //
+    // shim.proto:
+    // -----------
+    // package s;
+    // import public "defining.proto";
+    // service S { rpc Get(d.M) returns (d.M); }
+    //
+    // consumer.proto:
+    // ---------------
+    // package c;
+    // import "shim.proto";
+    // message C {
+    //   optional d.M m = 1;
+    //   optional d.E e = 2;
+    // }
+    // service S { rpc Get(d.M) returns (d.M); }
+    //
+    // consumer.proto only declares a dependency on shim.proto, so its generated
+    // libraries must only import shim's, which re-export defining's. This keeps
+    // the generated code from depending on where a type is actually declared,
+    // which changes when a type is moved to another file behind an
+    // `import public`.
+    final defining =
+        FileDescriptorProto()
+          ..package = 'd'
+          ..name = 'defining.proto'
+          ..enumType.add(
+            EnumDescriptorProto()
+              ..name = 'E'
+              ..value.add(
+                EnumValueDescriptorProto()
+                  ..name = 'E_UNKNOWN'
+                  ..number = 0,
+              ),
+          )
+          ..messageType.add(DescriptorProto()..name = 'M');
+
+    MethodDescriptorProto get() =>
+        MethodDescriptorProto()
+          ..name = 'Get'
+          ..inputType = '.d.M'
+          ..outputType = '.d.M';
+    final shim =
+        FileDescriptorProto()
+          ..package = 's'
+          ..name = 'shim.proto'
+          ..dependency.add('defining.proto')
+          ..publicDependency.add(0)
+          ..service.add(
+            ServiceDescriptorProto()
+              ..name = 'S'
+              ..method.add(get()),
+          );
+
+    final consumer =
+        FileDescriptorProto()
+          ..package = 'c'
+          ..name = 'consumer.proto'
+          ..dependency.add('shim.proto')
+          ..messageType.add(
+            DescriptorProto()
+              ..name = 'C'
+              ..field.addAll([
+                FieldDescriptorProto()
+                  ..name = 'm'
+                  ..jsonName = 'm'
+                  ..number = 1
+                  ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+                  ..type = FieldDescriptorProto_Type.TYPE_MESSAGE
+                  ..typeName = '.d.M',
+                FieldDescriptorProto()
+                  ..name = 'e'
+                  ..jsonName = 'e'
+                  ..number = 2
+                  ..label = FieldDescriptorProto_Label.LABEL_OPTIONAL
+                  ..type = FieldDescriptorProto_Type.TYPE_ENUM
+                  ..typeName = '.d.E',
+              ]),
+          )
+          ..service.add(
+            ServiceDescriptorProto()
+              ..name = 'S'
+              ..method.add(get()),
+          );
+
+    final request =
+        CodeGeneratorRequest()..parameter = 'disable_constructor_args';
+    final response = CodeGeneratorResponse();
+    final options = parseGenerationOptions(request, response)!;
+
+    final consumerFg = FileGenerator(testEditionDefaults, consumer, options);
+    final shimFg = FileGenerator(testEditionDefaults, shim, options);
+    link(options, [
+      consumerFg,
+      shimFg,
+      FileGenerator(testEditionDefaults, defining, options),
+    ]);
+
+    // Everything consumer.proto uses is reached through shim.proto.
+    for (final (out, ext) in [
+      (consumerFg.generateMainFile().emitSource(format: true), '.pb.dart'),
+      (consumerFg.generateJsonFile(), '.pbjson.dart'),
+      (consumerFg.generateServerFile(), '.pbserver.dart'),
+    ]) {
+      expectGolden(out, 'import_public_consumer$ext');
+      expect(out, isNot(contains('defining')));
+    }
+
+    // shim.proto declares a dependency on defining.proto, so its own uses of
+    // d.M import defining's libraries directly, and it re-exports them.
+    for (final (out, ext) in [
+      (shimFg.generateMainFile().emitSource(format: true), '.pb.dart'),
+      (shimFg.generateEnumFile().emitSource(format: true), '.pbenum.dart'),
+      (shimFg.generateJsonFile(), '.pbjson.dart'),
+      (shimFg.generateServerFile(), '.pbserver.dart'),
+    ]) {
+      expectGolden(out, 'import_public_shim$ext');
+    }
+  });
+
   test('FileGenerator rejects files without valid edition defaults', () {
     final fd = buildFileDescriptor();
     final editionDefaults =
