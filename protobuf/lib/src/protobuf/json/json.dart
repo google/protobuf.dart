@@ -17,11 +17,15 @@ import 'json_vm.dart' if (dart.library.js_interop) 'json_web.dart' as web;
 // Use json_vm.dart with VM and dart2wasm, json_web.dart with dart2js and ddc.
 // json_web.dart uses JS interop for parsing, and JS interop is too slow on
 // Wasm. VM's patch performs better in Wasm.
+const _useWebJson =
+    bool.fromEnvironment('dart.library.js_interop') &&
+    !bool.fromEnvironment('dart.tool.dart2wasm');
+
 String writeToJsonString(FieldSet fs) {
-  if (const bool.fromEnvironment('dart.tool.dart2wasm')) {
-    return vm.writeToJsonString(fs);
-  } else {
+  if (_useWebJson) {
     return web.writeToJsonString(fs);
+  } else {
+    return vm.writeToJsonString(fs);
   }
 }
 
@@ -31,10 +35,10 @@ void mergeFromJsonString(
   String json,
   ExtensionRegistry? registry,
 ) {
-  if (const bool.fromEnvironment('dart.tool.dart2wasm')) {
-    vm.mergeFromJsonString(fs, json, registry);
-  } else {
+  if (_useWebJson) {
     web.mergeFromJsonString(fs, json, registry);
+  } else {
+    vm.mergeFromJsonString(fs, json, registry);
   }
 }
 
