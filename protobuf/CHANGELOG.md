@@ -1,3 +1,7 @@
+## 6.1.1-wip
+
+* Use `json_web.dart` on DDC (`dartdevc`) in addition to `dart2js`.
+
 ## 6.1.0
 
 * Make `BuilderInfo` methods accept `GeneratedMessage Function()` typed
