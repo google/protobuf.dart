@@ -1,6 +1,11 @@
 ## 6.1.1-wip
 
 * Use `json_web.dart` on DDC (`dartdevc`) in addition to `dart2js`.
+* Fix proto3 JSON encoding of `fixed64` values and map keys, which were written
+  as signed integers, and decoding of `fixed32` map keys, which were checked as
+  signed integers. ([#1111])
+
+[#1111]: https://github.com/google/protobuf.dart/issues/1111
 
 ## 6.1.0
 

@@ -50,6 +50,7 @@ Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
       case PbFieldType.STRING_BIT:
         return key;
       case PbFieldType.UINT64_BIT:
+      case PbFieldType.FIXED64_BIT:
         return (key as Int64).toStringUnsigned();
       case PbFieldType.INT32_BIT:
       case PbFieldType.SINT32_BIT:
@@ -59,7 +60,6 @@ Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
       case PbFieldType.INT64_BIT:
       case PbFieldType.SINT64_BIT:
       case PbFieldType.SFIXED64_BIT:
-      case PbFieldType.FIXED64_BIT:
         return key.toString();
       default:
         throw StateError('Not a valid key type $keyType');
@@ -92,7 +92,6 @@ Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
         case PbFieldType.INT64_BIT:
         case PbFieldType.SINT64_BIT:
         case PbFieldType.SFIXED64_BIT:
-        case PbFieldType.FIXED64_BIT:
           return fieldValue.toString();
         case PbFieldType.FLOAT_BIT:
         case PbFieldType.DOUBLE_BIT:
@@ -108,6 +107,7 @@ Object? _writeToProto3Json(FieldSet fs, TypeRegistry typeRegistry) {
           }
           return value;
         case PbFieldType.UINT64_BIT:
+        case PbFieldType.FIXED64_BIT:
           return (fieldValue as Int64).toStringUnsigned();
         case PbFieldType.BYTES_BIT:
           return base64Encode(fieldValue);
@@ -450,13 +450,13 @@ void _mergeFromProto3JsonWithContext(
           return Proto3ParseUtils.tryParse64Bit(json, key, context);
         case PbFieldType.INT32_BIT:
         case PbFieldType.SINT32_BIT:
-        case PbFieldType.FIXED32_BIT:
         case PbFieldType.SFIXED32_BIT:
           return Proto3ParseUtils.check32BitSigned(
             Proto3ParseUtils.tryParse32Bit(key, context),
             context,
           );
         case PbFieldType.UINT32_BIT:
+        case PbFieldType.FIXED32_BIT:
           return Proto3ParseUtils.check32BitUnsigned(
             Proto3ParseUtils.tryParse32Bit(key, context),
             context,

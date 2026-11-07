@@ -151,7 +151,7 @@ void main() {
 
       expect(message.toProto3Json(), {
         'optionalUint64': '17293822573397606400',
-        'optionalFixed64': '-1152921500311945215',
+        'optionalFixed64': '17293822573397606401',
       });
     });
 
@@ -195,7 +195,10 @@ void main() {
             ..int64ToInt32Field[-Int64.ONE] = -1
             ..int64ToInt32Field[Int64.MIN_VALUE] = -2
             ..int64ToInt32Field[Int64.MAX_VALUE] = 2
-            ..uint64ToInt32Field[Int64.MIN_VALUE] = -2;
+            ..uint64ToInt32Field[Int64.MIN_VALUE] = -2
+            ..fixed32ToInt32Field[0xFFFFFFFF] = 3
+            ..fixed64ToInt32Field[Int64.MIN_VALUE] = -2
+            ..fixed64ToInt32Field[-Int64.ONE] = 3;
       expect(message.toProto3Json(), {
         'int32ToInt32Field': {'32': 32},
         'int32ToStringField': {'0': 'foo', '1': 'bar'},
@@ -214,6 +217,11 @@ void main() {
           '9223372036854775807': 2,
         },
         'uint64ToInt32Field': {'9223372036854775808': -2},
+        'fixed32ToInt32Field': {'4294967295': 3},
+        'fixed64ToInt32Field': {
+          '9223372036854775808': -2,
+          '18446744073709551615': 3,
+        },
       });
     });
 
@@ -958,7 +966,10 @@ void main() {
             ..int64ToInt32Field[-Int64.ONE] = -1
             ..int64ToInt32Field[Int64.MIN_VALUE] = -2
             ..int64ToInt32Field[Int64.MAX_VALUE] = 2
-            ..uint64ToInt32Field[Int64.MIN_VALUE] = -2;
+            ..uint64ToInt32Field[Int64.MIN_VALUE] = -2
+            ..fixed32ToInt32Field[0xFFFFFFFF] = 3
+            ..fixed64ToInt32Field[Int64.MIN_VALUE] = -2
+            ..fixed64ToInt32Field[-Int64.ONE] = 3;
       expect(
         TestMap()..mergeFromProto3Json({
           'int32ToInt32Field': {'32': 32},
@@ -978,6 +989,11 @@ void main() {
             '9223372036854775807': 2,
           },
           'uint64ToInt32Field': {'9223372036854775808': -2},
+          'fixed32ToInt32Field': {'4294967295': 3},
+          'fixed64ToInt32Field': {
+            '9223372036854775808': -2,
+            '18446744073709551615': 3,
+          },
         }),
         expected,
       );
