@@ -1,6 +1,12 @@
 ## 6.1.1-wip
 
 * Use `json_web.dart` on DDC (`dartdevc`) in addition to `dart2js`.
+* Fix decoding of map entries that omit a 64-bit integer key or value, such as
+  `map<string, int64>` values of 0 sent by encoders that skip default values.
+  The default for 64-bit integer fields without an explicit default is now
+  `Int64.ZERO` instead of the `int` 0. ([#1091])
+
+[#1091]: https://github.com/google/protobuf.dart/issues/1091
 
 ## 6.1.0
 

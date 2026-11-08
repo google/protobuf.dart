@@ -43,25 +43,26 @@ class PbFieldType {
         return DOUBLE_ZERO;
       case OPTIONAL_INT32:
       case REQUIRED_INT32:
-      case OPTIONAL_INT64:
-      case REQUIRED_INT64:
       case OPTIONAL_SINT32:
       case REQUIRED_SINT32:
-      case OPTIONAL_SINT64:
-      case REQUIRED_SINT64:
       case OPTIONAL_UINT32:
       case REQUIRED_UINT32:
-      case OPTIONAL_UINT64:
-      case REQUIRED_UINT64:
       case OPTIONAL_FIXED32:
       case REQUIRED_FIXED32:
-      case OPTIONAL_FIXED64:
-      case REQUIRED_FIXED64:
       case OPTIONAL_SFIXED32:
       case REQUIRED_SFIXED32:
+        return INT_ZERO;
+      case OPTIONAL_INT64:
+      case REQUIRED_INT64:
+      case OPTIONAL_SINT64:
+      case REQUIRED_SINT64:
+      case OPTIONAL_UINT64:
+      case REQUIRED_UINT64:
+      case OPTIONAL_FIXED64:
+      case REQUIRED_FIXED64:
       case OPTIONAL_SFIXED64:
       case REQUIRED_SFIXED64:
-        return INT_ZERO;
+        return INT64_ZERO;
       default:
         return null;
     }
@@ -72,6 +73,7 @@ class PbFieldType {
   static List<int> BYTES_EMPTY() => <int>[];
   static bool BOOL_FALSE() => false;
   static int INT_ZERO() => 0;
+  static Int64 INT64_ZERO() => Int64.ZERO;
   static double DOUBLE_ZERO() => 0.0;
 
   static const int REQUIRED_BIT = 0x1;
