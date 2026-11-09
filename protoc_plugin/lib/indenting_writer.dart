@@ -13,11 +13,13 @@ class NamedLocation {
   final String name;
   final List<int> fieldPathSegment;
   final int start;
+  final GeneratedCodeInfo_Annotation_Semantic semantic;
 
   NamedLocation({
     required this.name,
     required this.fieldPathSegment,
     required this.start,
+    this.semantic = GeneratedCodeInfo_Annotation_Semantic.NONE,
   });
 }
 
@@ -71,6 +73,7 @@ class IndentingWriter {
         location.fieldPathSegment,
         location.name,
         location.start + indentOffset,
+        location.semantic,
       );
     }
   }
@@ -186,7 +189,12 @@ class IndentingWriter {
   /// [start] should be the location of the identifier as it appears in the
   /// string that was passed to the previous [print]. Name should be the string
   /// that was written to file.
-  void _addAnnotation(List<int> fieldPath, String name, int start) {
+  void _addAnnotation(
+    List<int> fieldPath,
+    String name,
+    int start,
+    GeneratedCodeInfo_Annotation_Semantic semantic,
+  ) {
     if (generateMetadata) {
       final annotation =
           GeneratedCodeInfo_Annotation()
@@ -194,6 +202,9 @@ class IndentingWriter {
             ..sourceFile = fileName!
             ..begin = _previousOffset + start
             ..end = _previousOffset + start + name.length;
+      if (semantic != GeneratedCodeInfo_Annotation_Semantic.NONE) {
+        annotation.semantic = semantic;
+      }
       sourceLocationInfo.annotation.add(annotation);
     }
   }
