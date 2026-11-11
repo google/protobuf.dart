@@ -6,8 +6,13 @@
 
 import 'package:fixnum/fixnum.dart' show Int64;
 import 'package:protobuf/protobuf.dart';
-import 'package:protobuf/src/protobuf/internal.dart';
-import 'package:test/test.dart' show Matcher, expect, isA, test, throwsA;
+import 'package:protobuf/src/protobuf/internal.dart'
+    show
+        ExtensionFieldSetInternalExtension,
+        FieldSetInternalExtension,
+        GeneratedMessageInternalExtension;
+import 'package:test/test.dart'
+    show Matcher, expect, isA, isFalse, test, throwsA;
 
 import 'mock_util.dart' show MockMessage, mockEmptyInfo, mockInfo;
 
@@ -57,6 +62,24 @@ class Ext extends MockMessage {
     'data',
     103,
     PbFieldType.OY,
+  );
+
+  static final Extension<Rec> nested = Extension(
+    'Rec',
+    'nested',
+    104,
+    PbFieldType.OM,
+    defaultOrMaker: Rec.new,
+    subBuilder: Rec.new,
+  );
+
+  static final Extension<Rec> nestedItems = Extension.repeated(
+    'Rec',
+    'nestedItems',
+    105,
+    PbFieldType.PM,
+    check: (value) => value is Rec,
+    subBuilder: Rec.new,
   );
 }
 
@@ -174,6 +197,56 @@ void main() {
           ..setExtension(Ext.data, [0, 1, 2, 127, 128, 255]);
 
     expect(a.toTextFormat(), _expectedTextProtoWithExtensions);
+  });
+
+  test('mergeFromMessage ignores null extension values', () {
+    final other =
+        Rec()
+          ..setExtension(Ext.count, 99)
+          ..addExtension(Ext.items, 'drop')
+          ..setExtension(Ext.nested, Rec()..val = 99)
+          ..addExtension(Ext.nestedItems, Rec()..val = 99);
+    final otherValues = other.fieldSet.extensions!.values;
+    otherValues[Ext.count.tagNumber] = null;
+    otherValues[Ext.items.tagNumber] = null;
+    otherValues[Ext.nested.tagNumber] = null;
+    otherValues[Ext.nestedItems.tagNumber] = null;
+
+    final target = Rec()..mergeFromMessage(other);
+
+    expect(target.hasExtension(Ext.count), isFalse);
+    expect(target.hasExtension(Ext.items), isFalse);
+    expect(target.hasExtension(Ext.nested), isFalse);
+    expect(target.hasExtension(Ext.nestedItems), isFalse);
+  });
+
+  test('mergeFromMessage with null extensions preserves target values', () {
+    final original =
+        Rec()
+          ..setExtension(Ext.count, 10)
+          ..addExtension(Ext.items, 'keep')
+          ..setExtension(Ext.nested, Rec()..val = 20)
+          ..addExtension(Ext.nestedItems, Rec()..val = 30);
+
+    final other =
+        Rec()
+          ..setExtension(Ext.count, 99)
+          ..addExtension(Ext.items, 'drop')
+          ..setExtension(Ext.data, [1, 2])
+          ..setExtension(Ext.nested, Rec()..val = 99)
+          ..addExtension(Ext.nestedItems, Rec()..val = 99);
+    final otherValues = other.fieldSet.extensions!.values;
+    otherValues[Ext.count.tagNumber] = null;
+    otherValues[Ext.items.tagNumber] = null;
+    otherValues[Ext.nested.tagNumber] = null;
+    otherValues[Ext.nestedItems.tagNumber] = null;
+
+    final merged = original.deepCopy()..mergeFromMessage(other);
+    expect(merged.getExtension(Ext.count), 10);
+    expect(merged.getExtension(Ext.items), ['keep']);
+    expect(merged.getExtension(Ext.data), [1, 2]);
+    expect(merged.getExtension(Ext.nested), Rec()..val = 20);
+    expect(merged.getExtension(Ext.nestedItems), [Rec()..val = 30]);
   });
 }
 
